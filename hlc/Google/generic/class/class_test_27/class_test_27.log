@@ -116,7 +116,7 @@ Design name:unnamed:
           vpiParameter (2 items):
             Parameter name:A start:17:35 end:17:36:
               vpiParent: ClassDefn name:Bar #(.A(), .B())
-              vpiTypespec RefTypespec start:17:35 end:17:35:
+              vpiTypespec RefTypespec:
                 vpiParent: Parameter name:A
                 vpiFullName: Package::Bar #(.A(), .B())::A
                 vpiActual: LogicTypespec
@@ -124,7 +124,7 @@ Design name:unnamed:
               vpiFullName: Package::Bar #(.A(), .B())::A
             Parameter name:B start:17:38 end:17:39:
               vpiParent: ClassDefn name:Bar #(.A(), .B())
-              vpiTypespec RefTypespec start:17:35 end:17:35:
+              vpiTypespec RefTypespec:
                 vpiParent: Parameter name:B
                 vpiFullName: Package::Bar #(.A(), .B())::B
                 vpiActual: LogicTypespec
@@ -163,39 +163,31 @@ Design name:unnamed:
       vpiName Identifier name:Foo start:20:7 end:20:10:
       vpiFullName: Foo
       vpiTypespec (1 items):
-        UnsupportedTypespec start:20:22 end:20:34:
+        UnsupportedTypespec name:Bar start:20:31 end:20:34:
           vpiParent: ClassDefn name:Foo
-          vpiPathElem (2 items):
-            RefTypespec name:Package start:20:22 end:20:29:
-              vpiParent: UnsupportedTypespec
-              vpiName: Package
-              vpiFullName: Foo::Package
-            RefTypespec name:Bar start:20:31 end:20:34:
-              vpiParent: UnsupportedTypespec
-              vpiName: Bar
-              vpiFullName: Foo::Bar
+          vpiName Identifier name:Bar:
           vpiParamAssign (2 items):
             ParamAssign start:20:36 end:20:37:
-              vpiParent: UnsupportedTypespec
+              vpiParent: UnsupportedTypespec name:Bar
               vpiOverridden: true
               vpiRhs Constant start:20:36 end:20:37:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: Foo
+                  vpiFullName: Foo::Bar
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
             ParamAssign start:20:39 end:20:40:
-              vpiParent: UnsupportedTypespec
+              vpiParent: UnsupportedTypespec name:Bar
               vpiOverridden: true
               vpiRhs Constant start:20:39 end:20:40:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: Foo
+                  vpiFullName: Foo::Bar
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -207,10 +199,22 @@ Design name:unnamed:
       vpiImplements Implements start:20:11 end:20:21:
         vpiParent: ClassDefn name:Foo
         vpiInterfaceTypespec (1 items):
-          RefTypespec start:20:22 end:20:41:
+          RefTypespec name:Package::Bar start:20:22 end:20:34:
             vpiParent: Implements
-            vpiFullName: Foo
-            vpiActual: UnsupportedTypespec
+            vpiName: Package::Bar
+            vpiFullName: Foo::Package::Bar
+            vpiPathElem (2 items):
+              RefObj name:Package start:20:22 end:20:29:
+                vpiParent: RefTypespec name:Package::Bar
+                vpiName: Package
+                vpiFullName: Foo::Package
+                vpiActual: Package name:Package
+              RefTypespec name:Bar start:20:31 end:20:34:
+                vpiParent: RefTypespec name:Package::Bar
+                vpiName: Bar
+                vpiFullName: Foo::Package::Bar::Bar
+                vpiActual: UnsupportedTypespec name:Bar
+            vpiActual: ClassTypespec name:Bar
       vpiLibrary RefObj name:work start:20:7 end:20:10:
         vpiParent: ClassDefn name:Foo
         vpiName: work
@@ -290,7 +294,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_27/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              41      41       0         0
+Others                              42      42       0         0
 ----------------------------------------------------------------
-                                    41      41       0         0
+                                    42      42       0         0
 ===================== END REDUCTION RESULT =====================

@@ -54,10 +54,10 @@ COMMAND: -wd ../../../tests/SimpleParserTest another_arbiter.v dff.v encoder.v m
 [ERR:CP5835] Colliding compilation unit name: "arbiter".
 [ERR:CP5835] Colliding compilation unit name: "encoder_using_case".
 [INF:CM5028] Using global timescale: "1ps/1ps".
-[ERR:LN7701] Invalid name: id:3980, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3983, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3986, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3989, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:4098, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:4101, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:4104, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:4107, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1427,7 +1427,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1447,7 +1447,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1469,7 +1469,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1487,7 +1487,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1509,7 +1509,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1527,7 +1527,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1592,24 +1592,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -2139,9 +2137,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:prio start:19:27 end:19:31:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [ADDRESSWIDTH-1:0] [NUMUNITS-1:0] start:19:2 end:19:26:
             vpiParent: Variable name:prio
-            vpiFullName: arbiter.prio
+            vpiName: logic [ADDRESSWIDTH-1:0] [NUMUNITS-1:0]
+            vpiFullName: arbiter.prio.logic [ADDRESSWIDTH-1:0] [NUMUNITS-1:0]
             vpiActual: ArrayTypespec
           vpiName: prio
           vpiFullName: arbiter.prio
@@ -2184,9 +2183,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:scan start:34:27 end:34:31:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [ADDRESSWIDTH-1:0] [NUMUNITS-1:0] start:34:2 end:34:26:
             vpiParent: Variable name:scan
-            vpiFullName: arbiter.scan
+            vpiName: logic [ADDRESSWIDTH-1:0] [NUMUNITS-1:0]
+            vpiFullName: arbiter.scan.logic [ADDRESSWIDTH-1:0] [NUMUNITS-1:0]
             vpiActual: ArrayTypespec
           vpiName: scan
           vpiFullName: arbiter.scan
@@ -2202,9 +2202,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:selectPrio start:38:27 end:38:37:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [ADDRESSWIDTH-1:0] [NUMUNITS-1:0] start:38:2 end:38:26:
             vpiParent: Variable name:selectPrio
-            vpiFullName: arbiter.selectPrio
+            vpiName: logic [ADDRESSWIDTH-1:0] [NUMUNITS-1:0]
+            vpiFullName: arbiter.selectPrio.logic [ADDRESSWIDTH-1:0] [NUMUNITS-1:0]
             vpiActual: ArrayTypespec
           vpiName: selectPrio
           vpiFullName: arbiter.selectPrio
@@ -2239,7 +2240,7 @@ Design name:unnamed:
       vpiParameter (2 items):
         Parameter name:NUMUNITS start:7:12 end:7:20:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:7:12 end:7:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NUMUNITS
             vpiFullName: arbiter.NUMUNITS
             vpiActual: LogicTypespec
@@ -2247,7 +2248,7 @@ Design name:unnamed:
           vpiFullName: arbiter.NUMUNITS
         Parameter name:ADDRESSWIDTH start:8:12 end:8:24:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:8:12 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:ADDRESSWIDTH
             vpiFullName: arbiter.ADDRESSWIDTH
             vpiActual: LogicTypespec
@@ -2288,7 +2289,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "3"
             vpiValue: 3
-      vpiTypespec (21 items):
+      vpiTypespec (20 items):
         IntegerTypespec:
           vpiParent: Module name:arbiter
           vpiSigned: true
@@ -2363,41 +2364,6 @@ Design name:unnamed:
                     vpiDecompile: "1"
                     vpiValue: 1
               vpiRightRange Constant start:16:35 end:16:36:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: arbiter
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:arbiter
-          vpiRange (1 items):
-            Range start:17:9 end:17:25:
-              vpiParent: LogicTypespec
-              vpiLeftRange Operation start:17:10 end:17:20:
-                vpiParent: Range
-                vpiOpType: subtract (11)
-                vpiOperand (2 items):
-                  RefObj name:NUMUNITS start:17:10 end:17:18:
-                    vpiParent: Operation
-                    vpiName: NUMUNITS
-                    vpiFullName: arbiter.NUMUNITS
-                    vpiActual: Parameter name:NUMUNITS
-                  Constant start:17:19 end:17:20:
-                    vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: arbiter
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "1"
-                    vpiValue: 1
-              vpiRightRange Constant start:17:23 end:17:24:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
@@ -2987,7 +2953,7 @@ Design name:unnamed:
       vpiNet (6 items):
         Net name:clock start:12:8 end:12:13:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:12:8 end:12:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clock
             vpiFullName: arbiter.clock
             vpiActual: LogicTypespec
@@ -2997,7 +2963,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:reset start:13:8 end:13:13:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:13:8 end:13:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:reset
             vpiFullName: arbiter.reset
             vpiActual: LogicTypespec
@@ -3007,7 +2973,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:roundORpriority start:14:8 end:14:23:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:14:8 end:14:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:roundORpriority
             vpiFullName: arbiter.roundORpriority
             vpiActual: LogicTypespec
@@ -3056,7 +3022,7 @@ Design name:unnamed:
             vpiName: clock
             vpiFullName: arbiter.clock.clock
             vpiActual: Net name:clock
-          vpiTypespec RefTypespec start:12:8 end:12:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clock
             vpiFullName: arbiter.clock
             vpiActual: LogicTypespec
@@ -3069,7 +3035,7 @@ Design name:unnamed:
             vpiName: reset
             vpiFullName: arbiter.reset.reset
             vpiActual: Net name:reset
-          vpiTypespec RefTypespec start:13:8 end:13:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:reset
             vpiFullName: arbiter.reset
             vpiActual: LogicTypespec
@@ -3082,7 +3048,7 @@ Design name:unnamed:
             vpiName: roundORpriority
             vpiFullName: arbiter.roundORpriority.roundORpriority
             vpiActual: Net name:roundORpriority
-          vpiTypespec RefTypespec start:14:8 end:14:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:roundORpriority
             vpiFullName: arbiter.roundORpriority
             vpiActual: LogicTypespec
@@ -5623,7 +5589,7 @@ Design name:unnamed:
       vpiNet (3 items):
         Net name:data start:15:7 end:15:11:
           vpiParent: Module name:dff_async_reset
-          vpiTypespec RefTypespec start:15:7 end:15:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:data
             vpiFullName: dff_async_reset.data
             vpiActual: LogicTypespec
@@ -5633,7 +5599,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:clk start:15:13 end:15:16:
           vpiParent: Module name:dff_async_reset
-          vpiTypespec RefTypespec start:15:7 end:15:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: dff_async_reset.clk
             vpiActual: LogicTypespec
@@ -5643,7 +5609,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:reset start:15:18 end:15:23:
           vpiParent: Module name:dff_async_reset
-          vpiTypespec RefTypespec start:15:7 end:15:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:reset
             vpiFullName: dff_async_reset.reset
             vpiActual: LogicTypespec
@@ -5661,7 +5627,7 @@ Design name:unnamed:
             vpiName: data
             vpiFullName: dff_async_reset.data.data
             vpiActual: Net name:data
-          vpiTypespec RefTypespec start:15:7 end:15:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:data
             vpiFullName: dff_async_reset.data
             vpiActual: LogicTypespec
@@ -5674,7 +5640,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: dff_async_reset.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:15:7 end:15:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: dff_async_reset.clk
             vpiActual: LogicTypespec
@@ -5687,7 +5653,7 @@ Design name:unnamed:
             vpiName: reset
             vpiFullName: dff_async_reset.reset.reset
             vpiActual: Net name:reset
-          vpiTypespec RefTypespec start:15:7 end:15:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:reset
             vpiFullName: dff_async_reset.reset
             vpiActual: LogicTypespec
@@ -5793,33 +5759,7 @@ Design name:unnamed:
           vpiName: binary_out
           vpiFullName: encoder_using_case.binary_out
           vpiVector: true
-      vpiTypespec (4 items):
-        LogicTypespec:
-          vpiParent: Module name:encoder_using_case
-          vpiRange (1 items):
-            Range start:12:8 end:12:13:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:12:9 end:12:10:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: encoder_using_case
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "3"
-                vpiValue: 3
-              vpiRightRange Constant start:12:11 end:12:12:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: encoder_using_case
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:encoder_using_case
         LogicTypespec:
@@ -5884,7 +5824,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:enable start:13:8 end:13:14:
           vpiParent: Module name:encoder_using_case
-          vpiTypespec RefTypespec start:13:8 end:13:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:enable
             vpiFullName: encoder_using_case.enable
             vpiActual: LogicTypespec
@@ -5934,7 +5874,7 @@ Design name:unnamed:
             vpiName: enable
             vpiFullName: encoder_using_case.enable.enable
             vpiActual: Net name:enable
-          vpiTypespec RefTypespec start:13:8 end:13:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:enable
             vpiFullName: encoder_using_case.enable
             vpiActual: LogicTypespec
@@ -6554,7 +6494,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:out2 start:5:8 end:5:12:
           vpiParent: Module name:case1
-          vpiTypespec RefTypespec start:5:8 end:5:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:out2
             vpiFullName: case1.out2
             vpiActual: LogicTypespec
@@ -6598,7 +6538,7 @@ Design name:unnamed:
             vpiName: out2
             vpiFullName: case1.out2.out2
             vpiActual: Net name:out2
-          vpiTypespec RefTypespec start:5:8 end:5:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:out2
             vpiFullName: case1.out2
             vpiActual: LogicTypespec
@@ -8030,7 +7970,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:B start:53:8 end:53:9:
           vpiParent: Module name:pri_encooder
-          vpiTypespec RefTypespec start:53:8 end:53:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:B
             vpiFullName: pri_encooder.B
             vpiActual: LogicTypespec
@@ -8087,7 +8027,7 @@ Design name:unnamed:
             vpiName: B
             vpiFullName: pri_encooder.B.B
             vpiActual: Net name:B
-          vpiTypespec RefTypespec start:53:8 end:53:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:B
             vpiFullName: pri_encooder.B
             vpiActual: LogicTypespec
@@ -8428,7 +8368,7 @@ Design name:unnamed:
       vpiParameter (3 items):
         Parameter name:DATA_WIDTH start:22:11 end:22:21:
           vpiParent: Module name:syn_fifo
-          vpiTypespec RefTypespec start:22:11 end:22:11:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:DATA_WIDTH
             vpiFullName: syn_fifo.DATA_WIDTH
             vpiActual: LogicTypespec
@@ -8436,7 +8376,7 @@ Design name:unnamed:
           vpiFullName: syn_fifo.DATA_WIDTH
         Parameter name:ADDR_WIDTH start:23:11 end:23:21:
           vpiParent: Module name:syn_fifo
-          vpiTypespec RefTypespec start:23:11 end:23:11:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:ADDR_WIDTH
             vpiFullName: syn_fifo.ADDR_WIDTH
             vpiActual: LogicTypespec
@@ -8444,7 +8384,7 @@ Design name:unnamed:
           vpiFullName: syn_fifo.ADDR_WIDTH
         Parameter name:RAM_DEPTH start:24:11 end:24:20:
           vpiParent: Module name:syn_fifo
-          vpiTypespec RefTypespec start:24:11 end:24:11:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:RAM_DEPTH
             vpiFullName: syn_fifo.RAM_DEPTH
             vpiActual: LogicTypespec
@@ -8511,7 +8451,7 @@ Design name:unnamed:
                 vpiName: ADDR_WIDTH
                 vpiFullName: syn_fifo.ADDR_WIDTH
                 vpiActual: Parameter name:ADDR_WIDTH
-      vpiTypespec (10 items):
+      vpiTypespec (9 items):
         LogicTypespec:
           vpiParent: Module name:syn_fifo
         LogicTypespec:
@@ -8539,41 +8479,6 @@ Design name:unnamed:
                     vpiDecompile: "1"
                     vpiValue: 1
               vpiRightRange Constant start:32:21 end:32:22:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: syn_fifo
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:syn_fifo
-          vpiRange (1 items):
-            Range start:35:8 end:35:24:
-              vpiParent: LogicTypespec
-              vpiLeftRange Operation start:35:9 end:35:21:
-                vpiParent: Range
-                vpiOpType: subtract (11)
-                vpiOperand (2 items):
-                  RefObj name:DATA_WIDTH start:35:9 end:35:19:
-                    vpiParent: Operation
-                    vpiName: DATA_WIDTH
-                    vpiFullName: syn_fifo.DATA_WIDTH
-                    vpiActual: Parameter name:DATA_WIDTH
-                  Constant start:35:20 end:35:21:
-                    vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: syn_fifo
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "1"
-                    vpiValue: 1
-              vpiRightRange Constant start:35:22 end:35:23:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
@@ -8777,7 +8682,7 @@ Design name:unnamed:
       vpiNet (10 items):
         Net name:clk start:26:7 end:26:10:
           vpiParent: Module name:syn_fifo
-          vpiTypespec RefTypespec start:26:7 end:26:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: syn_fifo.clk
             vpiActual: LogicTypespec
@@ -8787,7 +8692,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rst start:27:7 end:27:10:
           vpiParent: Module name:syn_fifo
-          vpiTypespec RefTypespec start:27:7 end:27:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:rst
             vpiFullName: syn_fifo.rst
             vpiActual: LogicTypespec
@@ -8797,7 +8702,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:wr_cs start:28:7 end:28:12:
           vpiParent: Module name:syn_fifo
-          vpiTypespec RefTypespec start:28:7 end:28:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:wr_cs
             vpiFullName: syn_fifo.wr_cs
             vpiActual: LogicTypespec
@@ -8807,7 +8712,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rd_cs start:29:7 end:29:12:
           vpiParent: Module name:syn_fifo
-          vpiTypespec RefTypespec start:29:7 end:29:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:rd_cs
             vpiFullName: syn_fifo.rd_cs
             vpiActual: LogicTypespec
@@ -8817,7 +8722,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rd_en start:30:7 end:30:12:
           vpiParent: Module name:syn_fifo
-          vpiTypespec RefTypespec start:30:7 end:30:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:rd_en
             vpiFullName: syn_fifo.rd_en
             vpiActual: LogicTypespec
@@ -8827,7 +8732,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:wr_en start:31:7 end:31:12:
           vpiParent: Module name:syn_fifo
-          vpiTypespec RefTypespec start:31:7 end:31:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:wr_en
             vpiFullName: syn_fifo.wr_en
             vpiActual: LogicTypespec
@@ -8847,7 +8752,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:full start:33:8 end:33:12:
           vpiParent: Module name:syn_fifo
-          vpiTypespec RefTypespec start:33:8 end:33:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:full
             vpiFullName: syn_fifo.full
             vpiActual: LogicTypespec
@@ -8857,7 +8762,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:empty start:34:8 end:34:13:
           vpiParent: Module name:syn_fifo
-          vpiTypespec RefTypespec start:34:8 end:34:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:empty
             vpiFullName: syn_fifo.empty
             vpiActual: LogicTypespec
@@ -8886,7 +8791,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: syn_fifo.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:26:7 end:26:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: syn_fifo.clk
             vpiActual: LogicTypespec
@@ -8899,7 +8804,7 @@ Design name:unnamed:
             vpiName: rst
             vpiFullName: syn_fifo.rst.rst
             vpiActual: Net name:rst
-          vpiTypespec RefTypespec start:27:7 end:27:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:rst
             vpiFullName: syn_fifo.rst
             vpiActual: LogicTypespec
@@ -8912,7 +8817,7 @@ Design name:unnamed:
             vpiName: wr_cs
             vpiFullName: syn_fifo.wr_cs.wr_cs
             vpiActual: Net name:wr_cs
-          vpiTypespec RefTypespec start:28:7 end:28:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:wr_cs
             vpiFullName: syn_fifo.wr_cs
             vpiActual: LogicTypespec
@@ -8925,7 +8830,7 @@ Design name:unnamed:
             vpiName: rd_cs
             vpiFullName: syn_fifo.rd_cs.rd_cs
             vpiActual: Net name:rd_cs
-          vpiTypespec RefTypespec start:29:7 end:29:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:rd_cs
             vpiFullName: syn_fifo.rd_cs
             vpiActual: LogicTypespec
@@ -8951,7 +8856,7 @@ Design name:unnamed:
             vpiName: rd_en
             vpiFullName: syn_fifo.rd_en.rd_en
             vpiActual: Net name:rd_en
-          vpiTypespec RefTypespec start:30:7 end:30:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:rd_en
             vpiFullName: syn_fifo.rd_en
             vpiActual: LogicTypespec
@@ -8964,7 +8869,7 @@ Design name:unnamed:
             vpiName: wr_en
             vpiFullName: syn_fifo.wr_en.wr_en
             vpiActual: Net name:wr_en
-          vpiTypespec RefTypespec start:31:7 end:31:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:wr_en
             vpiFullName: syn_fifo.wr_en
             vpiActual: LogicTypespec
@@ -8986,7 +8891,7 @@ Design name:unnamed:
             vpiName: empty
             vpiFullName: syn_fifo.empty.empty
             vpiActual: Net name:empty
-          vpiTypespec RefTypespec start:34:8 end:34:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:empty
             vpiFullName: syn_fifo.empty
             vpiActual: LogicTypespec
@@ -8999,7 +8904,7 @@ Design name:unnamed:
             vpiName: full
             vpiFullName: syn_fifo.full.full
             vpiActual: Net name:full
-          vpiTypespec RefTypespec start:33:8 end:33:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:full
             vpiFullName: syn_fifo.full
             vpiActual: LogicTypespec
@@ -9877,7 +9782,7 @@ Design name:unnamed:
           vpiName: rx_busy
           vpiFullName: uart.rx_busy
           vpiScalar: true
-      vpiTypespec (9 items):
+      vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:uart
         LogicTypespec:
@@ -9896,32 +9801,6 @@ Design name:unnamed:
                 vpiDecompile: "7"
                 vpiValue: 7
               vpiRightRange Constant start:27:11 end:27:12:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: uart
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:uart
-          vpiRange (1 items):
-            Range start:33:8 end:33:13:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:33:9 end:33:10:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: uart
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "7"
-                vpiValue: 7
-              vpiRightRange Constant start:33:11 end:33:12:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
@@ -10098,7 +9977,7 @@ Design name:unnamed:
       vpiNet (9 items):
         Net name:reset start:24:14 end:24:19:
           vpiParent: Module name:uart
-          vpiTypespec RefTypespec start:24:14 end:24:14:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:reset
             vpiFullName: uart.reset
             vpiActual: LogicTypespec
@@ -10108,7 +9987,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:txclk start:25:14 end:25:19:
           vpiParent: Module name:uart
-          vpiTypespec RefTypespec start:25:14 end:25:14:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:txclk
             vpiFullName: uart.txclk
             vpiActual: LogicTypespec
@@ -10118,7 +9997,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:ld_tx_data start:26:14 end:26:24:
           vpiParent: Module name:uart
-          vpiTypespec RefTypespec start:26:14 end:26:14:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:ld_tx_data
             vpiFullName: uart.ld_tx_data
             vpiActual: LogicTypespec
@@ -10138,7 +10017,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:tx_enable start:28:14 end:28:23:
           vpiParent: Module name:uart
-          vpiTypespec RefTypespec start:28:14 end:28:14:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:tx_enable
             vpiFullName: uart.tx_enable
             vpiActual: LogicTypespec
@@ -10148,7 +10027,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rxclk start:31:14 end:31:19:
           vpiParent: Module name:uart
-          vpiTypespec RefTypespec start:31:14 end:31:14:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:rxclk
             vpiFullName: uart.rxclk
             vpiActual: LogicTypespec
@@ -10158,7 +10037,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:uld_rx_data start:32:14 end:32:25:
           vpiParent: Module name:uart
-          vpiTypespec RefTypespec start:32:14 end:32:14:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:uld_rx_data
             vpiFullName: uart.uld_rx_data
             vpiActual: LogicTypespec
@@ -10168,7 +10047,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rx_enable start:34:14 end:34:23:
           vpiParent: Module name:uart
-          vpiTypespec RefTypespec start:34:14 end:34:14:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:rx_enable
             vpiFullName: uart.rx_enable
             vpiActual: LogicTypespec
@@ -10178,7 +10057,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rx_in start:35:14 end:35:19:
           vpiParent: Module name:uart
-          vpiTypespec RefTypespec start:35:14 end:35:14:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:rx_in
             vpiFullName: uart.rx_in
             vpiActual: LogicTypespec
@@ -10196,7 +10075,7 @@ Design name:unnamed:
             vpiName: reset
             vpiFullName: uart.reset.reset
             vpiActual: Net name:reset
-          vpiTypespec RefTypespec start:24:14 end:24:14:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:reset
             vpiFullName: uart.reset
             vpiActual: LogicTypespec
@@ -10209,7 +10088,7 @@ Design name:unnamed:
             vpiName: txclk
             vpiFullName: uart.txclk.txclk
             vpiActual: Net name:txclk
-          vpiTypespec RefTypespec start:25:14 end:25:14:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:txclk
             vpiFullName: uart.txclk
             vpiActual: LogicTypespec
@@ -10222,7 +10101,7 @@ Design name:unnamed:
             vpiName: ld_tx_data
             vpiFullName: uart.ld_tx_data.ld_tx_data
             vpiActual: Net name:ld_tx_data
-          vpiTypespec RefTypespec start:26:14 end:26:14:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:ld_tx_data
             vpiFullName: uart.ld_tx_data
             vpiActual: LogicTypespec
@@ -10248,7 +10127,7 @@ Design name:unnamed:
             vpiName: tx_enable
             vpiFullName: uart.tx_enable.tx_enable
             vpiActual: Net name:tx_enable
-          vpiTypespec RefTypespec start:28:14 end:28:14:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:tx_enable
             vpiFullName: uart.tx_enable
             vpiActual: LogicTypespec
@@ -10279,7 +10158,7 @@ Design name:unnamed:
             vpiName: rxclk
             vpiFullName: uart.rxclk.rxclk
             vpiActual: Net name:rxclk
-          vpiTypespec RefTypespec start:31:14 end:31:14:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:rxclk
             vpiFullName: uart.rxclk
             vpiActual: LogicTypespec
@@ -10292,7 +10171,7 @@ Design name:unnamed:
             vpiName: uld_rx_data
             vpiFullName: uart.uld_rx_data.uld_rx_data
             vpiActual: Net name:uld_rx_data
-          vpiTypespec RefTypespec start:32:14 end:32:14:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:uld_rx_data
             vpiFullName: uart.uld_rx_data
             vpiActual: LogicTypespec
@@ -10314,7 +10193,7 @@ Design name:unnamed:
             vpiName: rx_enable
             vpiFullName: uart.rx_enable.rx_enable
             vpiActual: Net name:rx_enable
-          vpiTypespec RefTypespec start:34:14 end:34:14:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:rx_enable
             vpiFullName: uart.rx_enable
             vpiActual: LogicTypespec
@@ -10327,7 +10206,7 @@ Design name:unnamed:
             vpiName: rx_in
             vpiFullName: uart.rx_in.rx_in
             vpiActual: Net name:rx_in
-          vpiTypespec RefTypespec start:35:14 end:35:14:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:rx_in
             vpiFullName: uart.rx_in
             vpiActual: LogicTypespec
@@ -11765,7 +11644,7 @@ Design name:unnamed:
       vpiNet (15 items):
         Net name:clk start:19:17 end:19:20:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:19:17 end:19:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: arbiter.clk
             vpiActual: LogicTypespec
@@ -11775,7 +11654,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rst start:20:17 end:20:20:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:20:17 end:20:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:rst
             vpiFullName: arbiter.rst
             vpiActual: LogicTypespec
@@ -11785,7 +11664,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:req3 start:21:17 end:21:21:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:21:17 end:21:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:req3
             vpiFullName: arbiter.req3
             vpiActual: LogicTypespec
@@ -11795,7 +11674,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:req2 start:22:17 end:22:21:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:22:17 end:22:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:req2
             vpiFullName: arbiter.req2
             vpiActual: LogicTypespec
@@ -11805,7 +11684,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:req1 start:23:17 end:23:21:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:23:17 end:23:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:req1
             vpiFullName: arbiter.req1
             vpiActual: LogicTypespec
@@ -11815,7 +11694,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:req0 start:24:17 end:24:21:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:24:17 end:24:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:req0
             vpiFullName: arbiter.req0
             vpiActual: LogicTypespec
@@ -11825,7 +11704,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:gnt3 start:25:17 end:25:21:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:25:17 end:25:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:gnt3
             vpiFullName: arbiter.gnt3
             vpiActual: LogicTypespec
@@ -11835,7 +11714,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:gnt2 start:26:17 end:26:21:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:26:17 end:26:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:gnt2
             vpiFullName: arbiter.gnt2
             vpiActual: LogicTypespec
@@ -11845,7 +11724,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:gnt1 start:27:17 end:27:21:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:27:17 end:27:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:gnt1
             vpiFullName: arbiter.gnt1
             vpiActual: LogicTypespec
@@ -11855,7 +11734,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:gnt0 start:28:17 end:28:21:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:28:17 end:28:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:gnt0
             vpiFullName: arbiter.gnt0
             vpiActual: LogicTypespec
@@ -11876,7 +11755,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:comreq start:32:17 end:32:23:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:32:17 end:32:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:comreq
             vpiFullName: arbiter.comreq
             vpiActual: LogicTypespec
@@ -11887,7 +11766,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:beg start:33:17 end:33:20:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:33:17 end:33:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:beg
             vpiFullName: arbiter.beg
             vpiActual: LogicTypespec
@@ -11909,7 +11788,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:lcomreq start:35:17 end:35:24:
           vpiParent: Module name:arbiter
-          vpiTypespec RefTypespec start:35:17 end:35:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:lcomreq
             vpiFullName: arbiter.lcomreq
             vpiActual: LogicTypespec
@@ -11928,7 +11807,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: arbiter.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:19:17 end:19:17:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: arbiter.clk
             vpiActual: LogicTypespec
@@ -11941,7 +11820,7 @@ Design name:unnamed:
             vpiName: rst
             vpiFullName: arbiter.rst.rst
             vpiActual: Net name:rst
-          vpiTypespec RefTypespec start:20:17 end:20:17:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:rst
             vpiFullName: arbiter.rst
             vpiActual: LogicTypespec
@@ -11954,7 +11833,7 @@ Design name:unnamed:
             vpiName: req3
             vpiFullName: arbiter.req3.req3
             vpiActual: Net name:req3
-          vpiTypespec RefTypespec start:21:17 end:21:17:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:req3
             vpiFullName: arbiter.req3
             vpiActual: LogicTypespec
@@ -11967,7 +11846,7 @@ Design name:unnamed:
             vpiName: req2
             vpiFullName: arbiter.req2.req2
             vpiActual: Net name:req2
-          vpiTypespec RefTypespec start:22:17 end:22:17:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:req2
             vpiFullName: arbiter.req2
             vpiActual: LogicTypespec
@@ -11980,7 +11859,7 @@ Design name:unnamed:
             vpiName: req1
             vpiFullName: arbiter.req1.req1
             vpiActual: Net name:req1
-          vpiTypespec RefTypespec start:23:17 end:23:17:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:req1
             vpiFullName: arbiter.req1
             vpiActual: LogicTypespec
@@ -11993,7 +11872,7 @@ Design name:unnamed:
             vpiName: req0
             vpiFullName: arbiter.req0.req0
             vpiActual: Net name:req0
-          vpiTypespec RefTypespec start:24:17 end:24:17:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:req0
             vpiFullName: arbiter.req0
             vpiActual: LogicTypespec
@@ -12006,7 +11885,7 @@ Design name:unnamed:
             vpiName: gnt3
             vpiFullName: arbiter.gnt3.gnt3
             vpiActual: Net name:gnt3
-          vpiTypespec RefTypespec start:25:17 end:25:17:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:gnt3
             vpiFullName: arbiter.gnt3
             vpiActual: LogicTypespec
@@ -12019,7 +11898,7 @@ Design name:unnamed:
             vpiName: gnt2
             vpiFullName: arbiter.gnt2.gnt2
             vpiActual: Net name:gnt2
-          vpiTypespec RefTypespec start:26:17 end:26:17:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:gnt2
             vpiFullName: arbiter.gnt2
             vpiActual: LogicTypespec
@@ -12032,7 +11911,7 @@ Design name:unnamed:
             vpiName: gnt1
             vpiFullName: arbiter.gnt1.gnt1
             vpiActual: Net name:gnt1
-          vpiTypespec RefTypespec start:27:17 end:27:17:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:gnt1
             vpiFullName: arbiter.gnt1
             vpiActual: LogicTypespec
@@ -12045,7 +11924,7 @@ Design name:unnamed:
             vpiName: gnt0
             vpiFullName: arbiter.gnt0.gnt0
             vpiActual: Net name:gnt0
-          vpiTypespec RefTypespec start:28:17 end:28:17:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:gnt0
             vpiFullName: arbiter.gnt0
             vpiActual: LogicTypespec
@@ -13834,7 +13713,7 @@ Design name:unnamed:
       vpiNet (4 items):
         Net name:gnt3 start:11:17 end:11:21:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:11:17 end:11:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:gnt3
             vpiFullName: top.gnt3
             vpiActual: LogicTypespec
@@ -13845,7 +13724,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:gnt2 start:12:17 end:12:21:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:12:17 end:12:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:gnt2
             vpiFullName: top.gnt2
             vpiActual: LogicTypespec
@@ -13856,7 +13735,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:gnt1 start:13:17 end:13:21:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:13:17 end:13:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:gnt1
             vpiFullName: top.gnt1
             vpiActual: LogicTypespec
@@ -13867,7 +13746,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:gnt0 start:14:17 end:14:21:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:14:17 end:14:17:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:gnt0
             vpiFullName: top.gnt0
             vpiActual: LogicTypespec
@@ -14575,33 +14454,7 @@ Design name:unnamed:
           vpiName: binary_out
           vpiFullName: encoder_using_case.binary_out
           vpiVector: true
-      vpiTypespec (4 items):
-        LogicTypespec:
-          vpiParent: Module name:encoder_using_case
-          vpiRange (1 items):
-            Range start:13:8 end:13:13:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:13:9 end:13:10:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: encoder_using_case
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "3"
-                vpiValue: 3
-              vpiRightRange Constant start:13:11 end:13:12:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: encoder_using_case
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:encoder_using_case
         LogicTypespec:
@@ -14666,7 +14519,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:enable start:14:8 end:14:14:
           vpiParent: Module name:encoder_using_case
-          vpiTypespec RefTypespec start:14:8 end:14:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:enable
             vpiFullName: encoder_using_case.enable
             vpiActual: LogicTypespec
@@ -14716,7 +14569,7 @@ Design name:unnamed:
             vpiName: enable
             vpiFullName: encoder_using_case.enable.enable
             vpiActual: Net name:enable
-          vpiTypespec RefTypespec start:14:8 end:14:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:enable
             vpiFullName: encoder_using_case.enable
             vpiActual: LogicTypespec
@@ -15264,7 +15117,7 @@ Design name:unnamed:
       vpiNet (9 items):
         Net name:x start:8:7 end:8:8:
           vpiParent: Module name:full_adder_gates
-          vpiTypespec RefTypespec start:8:7 end:8:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:x
             vpiFullName: full_adder_gates.x
             vpiActual: LogicTypespec
@@ -15274,7 +15127,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:y start:8:9 end:8:10:
           vpiParent: Module name:full_adder_gates
-          vpiTypespec RefTypespec start:8:7 end:8:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:y
             vpiFullName: full_adder_gates.y
             vpiActual: LogicTypespec
@@ -15284,7 +15137,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:z start:8:11 end:8:12:
           vpiParent: Module name:full_adder_gates
-          vpiTypespec RefTypespec start:8:7 end:8:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:z
             vpiFullName: full_adder_gates.z
             vpiActual: LogicTypespec
@@ -15294,7 +15147,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:sum start:9:8 end:9:11:
           vpiParent: Module name:full_adder_gates
-          vpiTypespec RefTypespec start:9:8 end:9:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:sum
             vpiFullName: full_adder_gates.sum
             vpiActual: LogicTypespec
@@ -15304,7 +15157,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:carry start:9:12 end:9:17:
           vpiParent: Module name:full_adder_gates
-          vpiTypespec RefTypespec start:9:8 end:9:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:carry
             vpiFullName: full_adder_gates.carry
             vpiActual: LogicTypespec
@@ -15314,7 +15167,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:and1 start:10:6 end:10:10:
           vpiParent: Module name:full_adder_gates
-          vpiTypespec RefTypespec start:10:6 end:10:6:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:and1
             vpiFullName: full_adder_gates.and1
             vpiActual: LogicTypespec
@@ -15325,7 +15178,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:and2 start:10:11 end:10:15:
           vpiParent: Module name:full_adder_gates
-          vpiTypespec RefTypespec start:10:6 end:10:6:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:and2
             vpiFullName: full_adder_gates.and2
             vpiActual: LogicTypespec
@@ -15336,7 +15189,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:and3 start:10:16 end:10:20:
           vpiParent: Module name:full_adder_gates
-          vpiTypespec RefTypespec start:10:6 end:10:6:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:and3
             vpiFullName: full_adder_gates.and3
             vpiActual: LogicTypespec
@@ -15347,7 +15200,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:sum1 start:10:21 end:10:25:
           vpiParent: Module name:full_adder_gates
-          vpiTypespec RefTypespec start:10:6 end:10:6:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:sum1
             vpiFullName: full_adder_gates.sum1
             vpiActual: LogicTypespec
@@ -15366,7 +15219,7 @@ Design name:unnamed:
             vpiName: x
             vpiFullName: full_adder_gates.x.x
             vpiActual: Net name:x
-          vpiTypespec RefTypespec start:8:7 end:8:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:x
             vpiFullName: full_adder_gates.x
             vpiActual: LogicTypespec
@@ -15379,7 +15232,7 @@ Design name:unnamed:
             vpiName: y
             vpiFullName: full_adder_gates.y.y
             vpiActual: Net name:y
-          vpiTypespec RefTypespec start:8:7 end:8:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:y
             vpiFullName: full_adder_gates.y
             vpiActual: LogicTypespec
@@ -15392,7 +15245,7 @@ Design name:unnamed:
             vpiName: z
             vpiFullName: full_adder_gates.z.z
             vpiActual: Net name:z
-          vpiTypespec RefTypespec start:8:7 end:8:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:z
             vpiFullName: full_adder_gates.z
             vpiActual: LogicTypespec
@@ -15405,7 +15258,7 @@ Design name:unnamed:
             vpiName: sum
             vpiFullName: full_adder_gates.sum.sum
             vpiActual: Net name:sum
-          vpiTypespec RefTypespec start:9:8 end:9:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:sum
             vpiFullName: full_adder_gates.sum
             vpiActual: LogicTypespec
@@ -15418,7 +15271,7 @@ Design name:unnamed:
             vpiName: carry
             vpiFullName: full_adder_gates.carry.carry
             vpiActual: Net name:carry
-          vpiTypespec RefTypespec start:9:8 end:9:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:carry
             vpiFullName: full_adder_gates.carry
             vpiActual: LogicTypespec
@@ -15681,7 +15534,7 @@ Design name:unnamed:
             vpiSize: 8
             vpiDecompile: "8'b10101110"
             vpiValue: "10101110"
-      vpiTypespec (6 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:LFSR_TASK
         LogicTypespec:
@@ -15700,32 +15553,6 @@ Design name:unnamed:
                 vpiDecompile: "7"
                 vpiValue: 7
               vpiRightRange Constant start:4:10 end:4:11:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: LFSR_TASK
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:LFSR_TASK
-          vpiRange (1 items):
-            Range start:5:8 end:5:13:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:5:9 end:5:10:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: LFSR_TASK
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "7"
-                vpiValue: 7
-              vpiRightRange Constant start:5:11 end:5:12:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
@@ -16326,7 +16153,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:clock start:3:7 end:3:12:
           vpiParent: Module name:LFSR_TASK
-          vpiTypespec RefTypespec start:3:7 end:3:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clock
             vpiFullName: LFSR_TASK.clock
             vpiActual: LogicTypespec
@@ -16354,7 +16181,7 @@ Design name:unnamed:
             vpiName: clock
             vpiFullName: LFSR_TASK.clock.clock
             vpiActual: Net name:clock
-          vpiTypespec RefTypespec start:3:7 end:3:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clock
             vpiFullName: LFSR_TASK.clock
             vpiActual: LogicTypespec
@@ -16555,7 +16382,7 @@ Design name:unnamed:
       vpiNet (7 items):
         Net name:out start:9:11 end:9:14:
           vpiParent: Module name:mux21_switch
-          vpiTypespec RefTypespec start:9:11 end:9:11:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:out
             vpiFullName: mux21_switch.out
             vpiActual: LogicTypespec
@@ -16565,7 +16392,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:ctrl start:10:11 end:10:15:
           vpiParent: Module name:mux21_switch
-          vpiTypespec RefTypespec start:10:11 end:10:11:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:ctrl
             vpiFullName: mux21_switch.ctrl
             vpiActual: LogicTypespec
@@ -16575,7 +16402,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:in1 start:10:17 end:10:20:
           vpiParent: Module name:mux21_switch
-          vpiTypespec RefTypespec start:10:11 end:10:11:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:in1
             vpiFullName: mux21_switch.in1
             vpiActual: LogicTypespec
@@ -16585,7 +16412,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:in2 start:10:22 end:10:25:
           vpiParent: Module name:mux21_switch
-          vpiTypespec RefTypespec start:10:11 end:10:11:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:in2
             vpiFullName: mux21_switch.in2
             vpiActual: LogicTypespec
@@ -16595,7 +16422,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:e start:11:18 end:11:19:
           vpiParent: Module name:mux21_switch
-          vpiTypespec RefTypespec start:11:18 end:11:18:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:e
             vpiFullName: mux21_switch.e
             vpiActual: LogicTypespec
@@ -16606,7 +16433,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:power start:13:12 end:13:17:
           vpiParent: Module name:mux21_switch
-          vpiTypespec RefTypespec start:13:12 end:13:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:power
             vpiFullName: mux21_switch.power
             vpiActual: LogicTypespec
@@ -16617,7 +16444,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:ground start:14:12 end:14:18:
           vpiParent: Module name:mux21_switch
-          vpiTypespec RefTypespec start:14:12 end:14:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:ground
             vpiFullName: mux21_switch.ground
             vpiActual: LogicTypespec
@@ -16636,7 +16463,7 @@ Design name:unnamed:
             vpiName: out
             vpiFullName: mux21_switch.out.out
             vpiActual: Net name:out
-          vpiTypespec RefTypespec start:9:11 end:9:11:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:out
             vpiFullName: mux21_switch.out
             vpiActual: LogicTypespec
@@ -16649,7 +16476,7 @@ Design name:unnamed:
             vpiName: ctrl
             vpiFullName: mux21_switch.ctrl.ctrl
             vpiActual: Net name:ctrl
-          vpiTypespec RefTypespec start:10:11 end:10:11:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:ctrl
             vpiFullName: mux21_switch.ctrl
             vpiActual: LogicTypespec
@@ -16662,7 +16489,7 @@ Design name:unnamed:
             vpiName: in1
             vpiFullName: mux21_switch.in1.in1
             vpiActual: Net name:in1
-          vpiTypespec RefTypespec start:10:11 end:10:11:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:in1
             vpiFullName: mux21_switch.in1
             vpiActual: LogicTypespec
@@ -16675,7 +16502,7 @@ Design name:unnamed:
             vpiName: in2
             vpiFullName: mux21_switch.in2.in2
             vpiActual: Net name:in2
-          vpiTypespec RefTypespec start:10:11 end:10:11:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:in2
             vpiFullName: mux21_switch.in2
             vpiActual: LogicTypespec
@@ -16952,59 +16779,59 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/SimpleParserTest/SimpleParserTest/mounts.json
 
 
-{'result': {'coverage': 99.44,
+{'result': {'coverage': 99.17,
             'error_count': 0,
             'file_count': 13,
-            'files': {'$Output/lib/work/another_arbiter.v': {'post_len': 5,
+            'files': {'$Output/lib/work/another_arbiter.v': {'post_len': 17,
                                                              'pre_len': 2533},
                       '$Output/lib/work/arbiter_tb.v': {'post_len': 0,
                                                         'pre_len': 3062},
                       '$Output/lib/work/dff.v': {'post_len': 1, 'pre_len': 192},
-                      '$Output/lib/work/encoder.v': {'post_len': 10,
+                      '$Output/lib/work/encoder.v': {'post_len': 13,
                                                      'pre_len': 649},
-                      '$Output/lib/work/encoder_case.v': {'post_len': 10,
+                      '$Output/lib/work/encoder_case.v': {'post_len': 13,
                                                           'pre_len': 649},
                       '$Output/lib/work/full_adder.v': {'post_len': 0,
                                                         'pre_len': 218},
                       '$Output/lib/work/jkff_udp.v': {'post_len': 1,
                                                       'pre_len': 358},
-                      '$Output/lib/work/lfsr_task.v': {'post_len': 15,
+                      '$Output/lib/work/lfsr_task.v': {'post_len': 18,
                                                        'pre_len': 747},
                       '$Output/lib/work/m_input_mult.v': {'post_len': 0,
                                                           'pre_len': 1301},
                       '$Output/lib/work/mux21.v': {'post_len': 0,
                                                    'pre_len': 236},
-                      '$Output/lib/work/synfifo.v': {'post_len': 8,
+                      '$Output/lib/work/synfifo.v': {'post_len': 22,
                                                      'pre_len': 1679},
                       '$Output/lib/work/top.v': {'post_len': 0, 'pre_len': 0},
-                      '$Output/lib/work/uart.v': {'post_len': 29,
+                      '$Output/lib/work/uart.v': {'post_len': 32,
                                                   'pre_len': 2487}},
-            'post_len': 79,
+            'post_len': 117,
             'pre_len': 14111,
             'test_name': 'SimpleParserTest/SimpleParserTest'}}
 
 +------------------------------------+----------+-----------+
 | INPUT                              |   PRELEN |   POSTLEN |
 +====================================+==========+===========+
-| $Output/lib/work/another_arbiter.v |     2533 |         5 |
+| $Output/lib/work/another_arbiter.v |     2533 |        17 |
 | $Output/lib/work/dff.v             |      192 |         1 |
-| $Output/lib/work/encoder.v         |      649 |        10 |
+| $Output/lib/work/encoder.v         |      649 |        13 |
 | $Output/lib/work/m_input_mult.v    |     1301 |         0 |
-| $Output/lib/work/synfifo.v         |     1679 |         8 |
-| $Output/lib/work/uart.v            |     2487 |        29 |
+| $Output/lib/work/synfifo.v         |     1679 |        22 |
+| $Output/lib/work/uart.v            |     2487 |        32 |
 | $Output/lib/work/arbiter_tb.v      |     3062 |         0 |
-| $Output/lib/work/encoder_case.v    |      649 |        10 |
+| $Output/lib/work/encoder_case.v    |      649 |        13 |
 | $Output/lib/work/full_adder.v      |      218 |         0 |
-| $Output/lib/work/lfsr_task.v       |      747 |        15 |
+| $Output/lib/work/lfsr_task.v       |      747 |        18 |
 | $Output/lib/work/mux21.v           |      236 |         0 |
 | $Output/lib/work/top.v             |        0 |         0 |
 | $Output/lib/work/jkff_udp.v        |      358 |         1 |
 +====================================+==========+===========+
-|                                    |    14111 |        79 |
+|                                    |    14111 |       117 |
 +------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.44
+[COVERAGE] : 99.17
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -17014,12 +16841,12 @@ COMMAND: ${HLC_DIR}/regression/SimpleParserTest/SimpleParserTest/design.hldb ${H
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                           470     467      33        36
-Operation                          371     337       0        34
-RefObj                             847     816       0        31
-RefTypespec                        874     868      30        36
+Constant                           458     455      31        34
+Operation                          369     337       0        32
+RefObj                             845     816       0        29
+RefTypespec                        862     856      28        34
 ----------------------------------------------------------------
-Others                            1595    1595       0         0
+Others                            1581    1581       0         0
 ----------------------------------------------------------------
-                                  4157    4083      63       137
+                                  4115    4045      59       129
 ===================== END REDUCTION RESULT =====================

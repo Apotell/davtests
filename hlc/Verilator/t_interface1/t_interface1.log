@@ -337,8 +337,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface1.v:12:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface1.v:36:1: Compile module "sub".
 [WRN:CP5811] $Source01/t_interface1.v:38:8: Port "isub" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/t_interface1.v:28:10: Failed to bind "id:76, name:i_value".
-[WRN:CP5851] $Source01/t_interface1.v:29:12: Failed to bind "id:86, name:value".
+[ERR:CP5824] $Source01/t_interface1.v:36:1: Multiply defined typedef "ifc".
+[WRN:CP5851] $Source01/t_interface1.v:28:10: Failed to bind "id:73, name:i_value".
+[WRN:CP5851] $Source01/t_interface1.v:29:12: Failed to bind "id:83, name:value".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -356,17 +357,14 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:value start:9:16 end:9:21:
           vpiParent: Interface name:ifc
-          vpiTypespec RefTypespec name:logic start:9:4 end:9:15:
+          vpiTypespec RefTypespec name:logic [3:0] start:9:4 end:9:15:
             vpiParent: Variable name:value
-            vpiName: logic
-            vpiFullName: ifc.value.logic
+            vpiName: logic [3:0]
+            vpiFullName: ifc.value.logic [3:0]
             vpiActual: ArrayTypespec
           vpiName: value
           vpiFullName: ifc.value
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:logic start:9:4 end:9:9:
-          vpiParent: Interface name:ifc
-          vpiName Identifier name:logic start:9:4 end:9:9:
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Interface name:ifc
           vpiArrayType: static (1)
@@ -393,11 +391,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:9:4 end:9:15:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: ifc.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiDefName: ifc
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:11 end:8:14:
@@ -450,7 +447,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:17:10 end:17:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:17:10 end:17:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -468,7 +465,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:17:10 end:17:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -676,15 +673,12 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub start:36:8 end:36:11:
       vpiFullName: sub
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         InterfaceTypespec name:ifc start:38:4 end:38:7:
           vpiParent: Module name:sub
           vpiName Identifier name:ifc start:38:4 end:38:7:
           vpiDefName: ifc
           vpiInterface: Interface name:ifc
-        UnsupportedTypespec name:logic start:39:10 end:39:15:
-          vpiParent: Module name:sub
-          vpiName Identifier name:logic start:39:10 end:39:15:
         ArrayTypespec:
           vpiParent: Module name:sub
           vpiArrayType: static (1)
@@ -711,11 +705,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:39:10 end:39:21:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: sub.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiDefName: sub
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:36:8 end:36:11:
@@ -736,10 +729,10 @@ Design name:unnamed:
           vpiNetType: wire (1)
         Net name:i_value start:39:22 end:39:29:
           vpiParent: Module name:sub
-          vpiTypespec RefTypespec name:logic start:39:10 end:39:15:
+          vpiTypespec RefTypespec name:logic [3:0] start:39:10 end:39:21:
             vpiParent: Net name:i_value
-            vpiName: logic
-            vpiFullName: sub.i_value.logic
+            vpiName: logic [3:0]
+            vpiFullName: sub.i_value.logic [3:0]
             vpiActual: ArrayTypespec
           vpiName: i_value
           vpiFullName: sub.i_value
@@ -768,10 +761,10 @@ Design name:unnamed:
             vpiName: i_value
             vpiFullName: sub.i_value.i_value
             vpiActual: Net name:i_value
-          vpiTypespec RefTypespec name:logic start:39:10 end:39:15:
+          vpiTypespec RefTypespec name:logic [3:0] start:39:10 end:39:21:
             vpiParent: Port name:i_value
-            vpiName: logic
-            vpiFullName: sub.i_value.logic
+            vpiName: logic [3:0]
+            vpiFullName: sub.i_value.logic [3:0]
             vpiActual: ArrayTypespec
       vpiProcess (1 items):
         Always start:42:4 end:44:7:
@@ -834,7 +827,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
@@ -883,7 +876,7 @@ Operation                            5       3       0         2
 RefObj                              23      21       0         2
 RefTypespec                         23      23       2         2
 ----------------------------------------------------------------
-Others                              64      64       0         0
+Others                              60      60       0         0
 ----------------------------------------------------------------
-                                   126     122       4         8
+                                   122     118       4         8
 ===================== END REDUCTION RESULT =====================

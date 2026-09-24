@@ -30,9 +30,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:2:9 end:5:2:
           vpiParent: Package name:aes_pkg
-          vpiBaseTypespec RefTypespec start:2:14 end:2:19:
+          vpiBaseTypespec RefTypespec name:logic start:2:14 end:2:19:
             vpiParent: Enum
-            vpiFullName: aes_pkg
+            vpiName: logic
+            vpiFullName: aes_pkg::logic
             vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:CIPH_FWD start:3:3 end:3:18:
@@ -94,22 +95,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mix_columns start:8:8 end:8:19:
       vpiFullName: mix_columns
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:aes_pkg start:9:10 end:9:17:
-          vpiParent: Module name:mix_columns
-          vpiName Identifier name:aes_pkg start:9:10 end:9:17:
-        UnsupportedTypespec name:aes_pkg::ciph_op_e start:9:10 end:9:28:
-          vpiParent: Module name:mix_columns
-          vpiPathElem (2 items):
-            RefTypespec start:9:10 end:9:19:
-              vpiParent: UnsupportedTypespec name:aes_pkg::ciph_op_e
-              vpiFullName: mix_columns.aes_pkg::ciph_op_e
-              vpiActual: UnsupportedTypespec name:aes_pkg
-            RefTypespec name:ciph_op_e start:9:19 end:9:28:
-              vpiParent: UnsupportedTypespec name:aes_pkg::ciph_op_e
-              vpiName: ciph_op_e
-              vpiFullName: mix_columns.aes_pkg::ciph_op_e.ciph_op_e
-          vpiName Identifier name:aes_pkg::ciph_op_e start:9:10 end:9:28:
       vpiDefName: mix_columns
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:8 end:8:19:
@@ -120,11 +105,26 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:op_i start:9:32 end:9:36:
           vpiParent: Module name:mix_columns
-          vpiTypespec RefTypespec name:ciph_op_e start:9:19 end:9:28:
+          vpiTypespec RefTypespec name:aes_pkg::ciph_op_e start:9:10 end:9:28:
             vpiParent: Net name:op_i
-            vpiName: ciph_op_e
-            vpiFullName: mix_columns.op_i.ciph_op_e
-            vpiActual: UnsupportedTypespec name:aes_pkg::ciph_op_e
+            vpiName: aes_pkg::ciph_op_e
+            vpiFullName: mix_columns.op_i.aes_pkg::ciph_op_e
+            vpiPathElem (2 items):
+              RefTypespec name:aes_pkg start:9:10 end:9:17:
+                vpiParent: RefTypespec name:aes_pkg::ciph_op_e
+                vpiName: aes_pkg
+                vpiFullName: mix_columns.op_i.aes_pkg::ciph_op_e.aes_pkg
+                vpiPathElem (1 items):
+                  RefObj name:aes_pkg start:9:10 end:9:17:
+                    vpiParent: RefTypespec name:aes_pkg
+                    vpiName: aes_pkg
+                    vpiFullName: mix_columns.op_i.aes_pkg::ciph_op_e.aes_pkg
+                    vpiActual: Package name:aes_pkg
+              RefTypespec name:ciph_op_e start:9:19 end:9:28:
+                vpiParent: RefTypespec name:aes_pkg::ciph_op_e
+                vpiName: ciph_op_e
+                vpiFullName: mix_columns.op_i.aes_pkg::ciph_op_e.ciph_op_e
+            vpiActual: TypedefTypespec name:ciph_op_e
           vpiName: op_i
           vpiFullName: mix_columns.op_i
           vpiNetType: wire (1)
@@ -138,11 +138,26 @@ Design name:unnamed:
             vpiName: op_i
             vpiFullName: mix_columns.op_i.op_i
             vpiActual: Net name:op_i
-          vpiTypespec RefTypespec name:ciph_op_e start:9:19 end:9:28:
+          vpiTypespec RefTypespec name:aes_pkg::ciph_op_e start:9:10 end:9:28:
             vpiParent: Port name:op_i
-            vpiName: ciph_op_e
-            vpiFullName: mix_columns.op_i.ciph_op_e
-            vpiActual: UnsupportedTypespec name:aes_pkg::ciph_op_e
+            vpiName: aes_pkg::ciph_op_e
+            vpiFullName: mix_columns.op_i.aes_pkg::ciph_op_e
+            vpiPathElem (2 items):
+              RefTypespec name:aes_pkg start:9:10 end:9:17:
+                vpiParent: RefTypespec name:aes_pkg::ciph_op_e
+                vpiName: aes_pkg
+                vpiFullName: mix_columns.op_i.aes_pkg::ciph_op_e.aes_pkg
+                vpiPathElem (1 items):
+                  RefObj name:aes_pkg start:9:10 end:9:17:
+                    vpiParent: RefTypespec name:aes_pkg
+                    vpiName: aes_pkg
+                    vpiFullName: mix_columns.op_i.aes_pkg::ciph_op_e.aes_pkg
+                    vpiActual: Package name:aes_pkg
+              RefTypespec name:ciph_op_e start:9:19 end:9:28:
+                vpiParent: RefTypespec name:aes_pkg::ciph_op_e
+                vpiName: ciph_op_e
+                vpiFullName: mix_columns.op_i.aes_pkg::ciph_op_e.ciph_op_e
+            vpiActual: TypedefTypespec name:ciph_op_e
     Module name:cipher_core file:$Source01/dut.sv start:13:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:cipher_core start:13:8 end:13:19:
@@ -166,10 +181,27 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:op_i start:14:32 end:14:36:
           vpiParent: Module name:cipher_core
-          vpiTypespec RefTypespec name:ciph_op_e start:14:19 end:14:28:
+          vpiTypespec RefTypespec name:aes_pkg::ciph_op_e start:14:10 end:14:28:
             vpiParent: Net name:op_i
-            vpiName: ciph_op_e
-            vpiFullName: cipher_core.op_i.ciph_op_e
+            vpiName: aes_pkg::ciph_op_e
+            vpiFullName: cipher_core.op_i.aes_pkg::ciph_op_e
+            vpiPathElem (2 items):
+              RefTypespec name:aes_pkg start:14:10 end:14:17:
+                vpiParent: RefTypespec name:aes_pkg::ciph_op_e
+                vpiName: aes_pkg
+                vpiFullName: cipher_core.op_i.aes_pkg::ciph_op_e.aes_pkg
+                vpiPathElem (1 items):
+                  RefObj name:aes_pkg start:14:10 end:14:17:
+                    vpiParent: RefTypespec name:aes_pkg
+                    vpiName: aes_pkg
+                    vpiFullName: cipher_core.op_i.aes_pkg::ciph_op_e.aes_pkg
+                    vpiActual: Package name:aes_pkg
+                vpiActual: ImportTypespec name:aes_pkg
+              RefTypespec name:ciph_op_e start:14:19 end:14:28:
+                vpiParent: RefTypespec name:aes_pkg::ciph_op_e
+                vpiName: ciph_op_e
+                vpiFullName: cipher_core.op_i.aes_pkg::ciph_op_e.ciph_op_e
+                vpiActual: TypedefTypespec name:ciph_op_e
             vpiActual: TypedefTypespec name:ciph_op_e
           vpiName: op_i
           vpiFullName: cipher_core.op_i
@@ -184,10 +216,27 @@ Design name:unnamed:
             vpiName: op_i
             vpiFullName: cipher_core.op_i.op_i
             vpiActual: Net name:op_i
-          vpiTypespec RefTypespec name:ciph_op_e start:14:19 end:14:28:
+          vpiTypespec RefTypespec name:aes_pkg::ciph_op_e start:14:10 end:14:28:
             vpiParent: Port name:op_i
-            vpiName: ciph_op_e
-            vpiFullName: cipher_core.op_i.ciph_op_e
+            vpiName: aes_pkg::ciph_op_e
+            vpiFullName: cipher_core.op_i.aes_pkg::ciph_op_e
+            vpiPathElem (2 items):
+              RefTypespec name:aes_pkg start:14:10 end:14:17:
+                vpiParent: RefTypespec name:aes_pkg::ciph_op_e
+                vpiName: aes_pkg
+                vpiFullName: cipher_core.op_i.aes_pkg::ciph_op_e.aes_pkg
+                vpiPathElem (1 items):
+                  RefObj name:aes_pkg start:14:10 end:14:17:
+                    vpiParent: RefTypespec name:aes_pkg
+                    vpiName: aes_pkg
+                    vpiFullName: cipher_core.op_i.aes_pkg::ciph_op_e.aes_pkg
+                    vpiActual: Package name:aes_pkg
+                vpiActual: ImportTypespec name:aes_pkg
+              RefTypespec name:ciph_op_e start:14:19 end:14:28:
+                vpiParent: RefTypespec name:aes_pkg::ciph_op_e
+                vpiName: ciph_op_e
+                vpiFullName: cipher_core.op_i.aes_pkg::ciph_op_e.ciph_op_e
+                vpiActual: TypedefTypespec name:ciph_op_e
             vpiActual: TypedefTypespec name:ciph_op_e
       vpiRefInstance (1 items):
         RefInstance name:key_mix_columns start:17:15 end:17:30:
@@ -241,25 +290,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/ConstPort/ConstPort/mounts.json
 
 
-{'result': {'coverage': 97.64,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 7,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
                                                   'pre_len': 296}},
-            'post_len': 7,
+            'post_len': 0,
             'pre_len': 296,
             'test_name': 'ConstPort/ConstPort'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      296 |         7 |
+| $Output/lib/work/dut.sv |      296 |         0 |
 +=========================+==========+===========+
-|                         |      296 |         7 |
+|                         |      296 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 97.64
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -270,7 +319,7 @@ COMMAND: ${HLC_DIR}/regression/ConstPort/ConstPort/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              58      58       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    58      58       0         0
+                                    64      64       0         0
 ===================== END REDUCTION RESULT =====================

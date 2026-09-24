@@ -778,15 +778,13 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/10--error_rules.sv:88:1: Compile module "r317_m".
 [INF:CP5804] $Source01/10--error_rules.sv:98:1: Compile module "r322_m".
 [INF:CP5804] $Source01/10--error_rules.sv:107:1: Compile module "r323_m".
-[ERR:LN7713] $Source01/10--error_rules.sv:1:1: Found 2 orphan node(s).
-[ERR:LN7714] Found 6 weak node(s).
+[ERR:LN7713] $Source01/10--error_rules.sv:1:1: Found 1 orphan node(s).
+[ERR:LN7714] Found 1 weak node(s).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:CP5927] $Source01/10--error_rules.sv:37:11: Illegal left-hand side of assignment: r302_m.
 [ERR:CP5927] $Source01/10--error_rules.sv:38:11: Illegal left-hand side of assignment: r302_m.
 [ERR:CP5927] $Source01/10--error_rules.sv:52:5: Illegal left-hand side of assignment: r303_m.
 [ERR:CP5927] $Source01/10--error_rules.sv:53:5: Illegal left-hand side of assignment: r303_m.
-[ERR:LN7701] Invalid name: id:224, type:RefTypespec, name:, relation:vpiTypespec.
-[ERR:LN7701] Invalid name: id:225, type:RefTypespec, name:, relation:vpiTypespec.
 [ERR:CP5927] $Source01/10--error_rules.sv:91:11: Illegal left-hand side of assignment: r317_m.
 ====== HLDB =======
 Design name:unnamed:
@@ -1327,6 +1325,9 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r309_m start:72:8 end:72:14:
       vpiFullName: r309_m
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:r309_m
       vpiDefName: r309_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:72:8 end:72:14:
@@ -1335,14 +1336,16 @@ Design name:unnamed:
         vpiFullName: r309_m.work
       vpiCell: r309_m
       vpiNet (1 items):
-        Net name:p start:72:17 end:72:28:
+        Net name:p start:72:18 end:72:19:
           vpiParent: Module name:r309_m
           vpiTypespec RefTypespec:
             vpiParent: Net name:p
             vpiFullName: r309_m.p
+            vpiActual: LogicTypespec
           vpiName: p
           vpiFullName: r309_m.p
           vpiNetType: net (36)
+          vpiScalar: true
       vpiPort (1 items):
         Port name:p start:72:18 end:72:19:
           vpiParent: Module name:r309_m
@@ -1353,9 +1356,32 @@ Design name:unnamed:
             vpiName: p
             vpiFullName: r309_m.p.p
             vpiActual: Net name:p
+          vpiHighConn Operation start:72:20 end:72:27:
+            vpiParent: Port name:p
+            vpiTypespec RefTypespec start:72:20 end:72:23:
+              vpiParent: Operation
+              vpiFullName: r309_m.p
+              vpiActual: IntTypespec
+            vpiOpType: cast (81)
+            vpiOperand (1 items):
+              Operation start:72:24 end:72:27:
+                vpiParent: Operation
+                vpiOpType: concatenation (33)
+                vpiOperand (1 items):
+                  Constant start:72:25 end:72:26:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: r309_m.p
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
           vpiTypespec RefTypespec:
             vpiParent: Port name:p
             vpiFullName: r309_m.p
+            vpiActual: LogicTypespec
     Module name:r316_m file:$Source01/10--error_rules.sv start:78:1 end:81:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r316_m start:78:8 end:78:14:
@@ -1426,9 +1452,10 @@ Design name:unnamed:
       vpiVariable (3 items):
         Variable name:assoc start:89:7 end:89:12:
           vpiParent: Module name:r317_m
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:int [string] start:89:3 end:89:6:
             vpiParent: Variable name:assoc
-            vpiFullName: r317_m.assoc
+            vpiName: int [string]
+            vpiFullName: r317_m.assoc.int [string]
             vpiActual: ArrayTypespec
           vpiName: assoc
           vpiFullName: r317_m.assoc
@@ -1452,7 +1479,7 @@ Design name:unnamed:
         ArrayTypespec:
           vpiParent: Module name:r317_m
           vpiArrayType: associative (3)
-          vpiIndexTypespec RefTypespec:
+          vpiIndexTypespec RefTypespec start:89:13 end:89:19:
             vpiParent: ArrayTypespec
             vpiFullName: r317_m
             vpiActual: StringTypespec
@@ -1499,9 +1526,10 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:A9 start:99:7 end:99:9:
           vpiParent: Module name:r322_m
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:int [1:9] start:99:3 end:99:6:
             vpiParent: Variable name:A9
-            vpiFullName: r322_m.A9
+            vpiName: int [1:9]
+            vpiFullName: r322_m.A9.int [1:9]
             vpiActual: ArrayTypespec
           vpiName: A9
           vpiFullName: r322_m.A9
@@ -1589,9 +1617,10 @@ Design name:unnamed:
         Typedef name:T_SQ start:108:3 end:108:26:
           vpiParent: Module name:r323_m
           vpiName Identifier name:T_SQ start:108:18 end:108:22:
-          vpiTypedefAlias RefTypespec start:108:11 end:108:17:
+          vpiTypedefAlias RefTypespec name:string [$] start:108:11 end:108:17:
             vpiParent: Typedef name:T_SQ
-            vpiFullName: r323_m.T_SQ
+            vpiName: string [$]
+            vpiFullName: r323_m.T_SQ.string [$]
             vpiActual: ArrayTypespec
       vpiVariable (3 items):
         Variable name:SQ start:109:8 end:109:10:
@@ -1605,19 +1634,17 @@ Design name:unnamed:
           vpiFullName: r323_m.SQ
         Variable name:S1 start:110:10 end:110:12:
           vpiParent: Module name:r323_m
-          vpiTypespec RefTypespec name:string start:110:3 end:110:9:
+          vpiTypespec RefTypespec start:110:3 end:110:9:
             vpiParent: Variable name:S1
-            vpiName: string
-            vpiFullName: r323_m.S1.string
+            vpiFullName: r323_m.S1
             vpiActual: StringTypespec
           vpiName: S1
           vpiFullName: r323_m.S1
         Variable name:S2 start:110:14 end:110:16:
           vpiParent: Module name:r323_m
-          vpiTypespec RefTypespec name:string start:110:3 end:110:9:
+          vpiTypespec RefTypespec start:110:3 end:110:9:
             vpiParent: Variable name:S2
-            vpiName: string
-            vpiFullName: r323_m.S2.string
+            vpiFullName: r323_m.S2
             vpiActual: StringTypespec
           vpiName: S2
           vpiFullName: r323_m.S2
@@ -1685,7 +1712,7 @@ Design name:unnamed:
                       vpiName: S1
                       vpiFullName: r323_m.S1
                       vpiActual: Variable name:S1
-  vpiTypespec (19 items):
+  vpiTypespec (17 items):
     ModuleTypespec name:r290_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r290_m start:12:8 end:12:14:
@@ -1722,9 +1749,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r298_T start:23:21 end:23:27:
       vpiTypedef: Typedef name:r298_T
-    UnsupportedTypespec name:r298_T start:24:9 end:24:15:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:r298_T start:24:9 end:24:15:
     ModuleTypespec name:r298_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r298_m start:25:8 end:25:14:
@@ -1765,9 +1789,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r303_T start:46:21 end:46:27:
       vpiTypedef: Typedef name:r303_T
-    UnsupportedTypespec name:r303_T start:47:9 end:47:15:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:r303_T start:47:9 end:47:15:
     ModuleTypespec name:r303_m:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r303_m start:48:8 end:48:14:
@@ -1816,10 +1837,11 @@ Design name:unnamed:
     Typedef name:r298_myNet start:24:1 end:24:27:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r298_myNet start:24:16 end:24:26:
-      vpiTypedefAlias RefTypespec start:24:9 end:24:15:
+      vpiTypedefAlias RefTypespec name:r298_T start:24:9 end:24:15:
         vpiParent: Typedef name:r298_myNet
-        vpiFullName: r298_myNet
-        vpiActual: UnsupportedTypespec name:r298_T
+        vpiName: r298_T
+        vpiFullName: r298_myNet.r298_T
+        vpiActual: TypedefTypespec name:r298_T
       vpiIsNettype: true
     Typedef name:r303_T start:46:1 end:46:28:
       vpiParent: Design name:unnamed
@@ -1831,15 +1853,16 @@ Design name:unnamed:
     Typedef name:r303_myNet start:47:1 end:47:27:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r303_myNet start:47:16 end:47:26:
-      vpiTypedefAlias RefTypespec start:47:9 end:47:15:
+      vpiTypedefAlias RefTypespec name:r303_T start:47:9 end:47:15:
         vpiParent: Typedef name:r303_myNet
-        vpiFullName: r303_myNet
-        vpiActual: UnsupportedTypespec name:r303_T
+        vpiName: r303_T
+        vpiFullName: r303_myNet.r303_T
+        vpiActual: TypedefTypespec name:r303_T
       vpiIsNettype: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
-[  ERROR] : 9
+[  ERROR] : 7
 [WARNING] : 0
 [   NOTE] : 1
 ********************************************************************************
@@ -1883,11 +1906,11 @@ COMMAND: ${HLC_DIR}/regression/ErrorCatalog/chapter-10/10--error_rules/design.hl
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            32      31       1         2
-Operation                            8       6       0         2
-RefTypespec                         64      62       0         2
+Constant                            33      32       2         3
+Operation                           10       6       0         4
+RefTypespec                         66      62       0         4
 ----------------------------------------------------------------
-Others                             169     169       0         0
+Others                             166     166       0         0
 ----------------------------------------------------------------
-                                   273     268       1         6
+                                   275     266       2        11
 ===================== END REDUCTION RESULT =====================

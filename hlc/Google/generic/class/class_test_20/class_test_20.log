@@ -60,20 +60,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Foo start:6:7 end:6:10:
       vpiFullName: Foo
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:Package::Bar start:6:19 end:6:48:
-          vpiParent: ClassDefn name:Foo
-          vpiPathElem (2 items):
-            RefTypespec name:Package start:6:19 end:6:26:
-              vpiParent: UnsupportedTypespec name:Package::Bar
-              vpiName: Package
-              vpiFullName: Foo::Package::Bar::Package
-            RefTypespec name:Bar start:6:28 end:6:31:
-              vpiParent: UnsupportedTypespec name:Package::Bar
-              vpiName: Bar
-              vpiFullName: Foo::Package::Bar::Bar
-              vpiActual: UnsupportedTypespec name:Bar
-          vpiName Identifier name:Package::Bar:
+      vpiTypespec (1 items):
         UnsupportedTypespec name:Bar start:6:28 end:6:48:
           vpiParent: ClassDefn name:Foo
           vpiName Identifier name:Bar start:6:28 end:6:31:
@@ -112,7 +99,16 @@ Design name:unnamed:
             vpiParent: Extends
             vpiName: Package::Bar
             vpiFullName: Foo::Package::Bar
-            vpiActual: UnsupportedTypespec name:Package::Bar
+            vpiPathElem (2 items):
+              RefTypespec name:Package start:6:19 end:6:26:
+                vpiParent: RefTypespec name:Package::Bar
+                vpiName: Package
+                vpiFullName: Foo::Package::Bar::Package
+              RefTypespec name:Bar start:6:28 end:6:31:
+                vpiParent: RefTypespec name:Package::Bar
+                vpiName: Bar
+                vpiFullName: Foo::Package::Bar::Bar
+                vpiActual: UnsupportedTypespec name:Bar
       vpiLibrary RefObj name:work start:6:7 end:6:10:
         vpiParent: ClassDefn name:Foo
         vpiName: work
@@ -172,7 +168,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_20/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              21      21       0         0
+Others                              19      19       0         0
 ----------------------------------------------------------------
-                                    21      21       0         0
+                                    19      19       0         0
 ===================== END REDUCTION RESULT =====================

@@ -598,10 +598,11 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_parameter_access.v:55:1: Compile module "testmod".
 [WRN:CP5811] $Source01/t_interface_parameter_access.v:58:15: Port "intf" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/t_interface_parameter_access.v:59:12: Port "intf_no_mp" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/t_interface_parameter_access.v:43:43: Failed to bind "id:76, name:FOO".
-[WRN:CP5851] $Source01/t_interface_parameter_access.v:62:30: Failed to bind "id:123, name:FOO".
-[WRN:CP5851] $Source01/t_interface_parameter_access.v:74:16: Failed to bind "id:173, name:FOO".
-[WRN:CP5851] $Source01/t_interface_parameter_access.v:75:51: Failed to bind "id:184, name:FOO".
+[ERR:CP5824] $Source01/t_interface_parameter_access.v:55:1: Multiply defined typedef "test_if".
+[WRN:CP5851] $Source01/t_interface_parameter_access.v:43:43: Failed to bind "id:82, name:FOO".
+[WRN:CP5851] $Source01/t_interface_parameter_access.v:62:30: Failed to bind "id:130, name:FOO".
+[WRN:CP5851] $Source01/t_interface_parameter_access.v:74:16: Failed to bind "id:181, name:FOO".
+[WRN:CP5851] $Source01/t_interface_parameter_access.v:75:51: Failed to bind "id:192, name:FOO".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -702,7 +703,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:THE_TOP_FOO start:43:15 end:43:26:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:43:15 end:43:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:THE_TOP_FOO
             vpiFullName: t.THE_TOP_FOO
             vpiActual: LogicTypespec
@@ -731,9 +732,58 @@ Design name:unnamed:
                 vpiParent: RefObj name:the_interface.FOO
                 vpiName: FOO
                 vpiFullName: t.FOO
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
+        UnsupportedTypespec start:36:4 end:36:35:
+          vpiParent: Module name:t
+          vpiParamAssign (2 items):
+            ParamAssign start:36:15 end:36:33:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:FOO start:36:16 end:36:19:
+                vpiParent: ParamAssign
+                vpiName: FOO
+                vpiFullName: t.FOO
+              vpiRhs FuncCall name:identity start:36:21 end:36:32:
+                vpiParent: ParamAssign
+                vpiName Identifier name:identity start:36:21 end:36:29:
+                vpiTaskFunc: Function name:identity
+                vpiArgument (1 items):
+                  Constant start:36:30 end:36:31:
+                    vpiParent: FuncCall name:identity
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "5"
+                    vpiValue: 5
+            ParamAssign start:36:15 end:36:33:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:FOO start:36:16 end:36:19:
+                vpiParent: ParamAssign
+                vpiName: FOO
+                vpiFullName: t.FOO
+              vpiRhs FuncCall name:identity start:36:21 end:36:32:
+                vpiParent: ParamAssign
+                vpiName Identifier name:identity start:36:21 end:36:29:
+                vpiTaskFunc: Function name:identity
+                vpiArgument (1 items):
+                  Constant start:36:30 end:36:31:
+                    vpiParent: FuncCall name:identity
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "5"
+                    vpiValue: 5
         ModuleTypespec name:testmod start:38:4 end:38:11:
           vpiParent: Module name:t
           vpiName Identifier name:testmod start:38:4 end:38:11:
@@ -749,7 +799,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:34:10 end:34:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:34:10 end:34:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -767,7 +817,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:34:10 end:34:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -829,11 +879,10 @@ Design name:unnamed:
         RefInstance name:the_interface start:36:36 end:36:49:
           vpiParent: Module name:t
           vpiName: the_interface
-          vpiTypespec RefTypespec name:test_if start:36:4 end:36:11:
+          vpiTypespec RefTypespec start:36:4 end:36:11:
             vpiParent: RefInstance name:the_interface
-            vpiName: test_if
-            vpiFullName: t.the_interface.test_if
-            vpiActual: InterfaceTypespec name:test_if
+            vpiFullName: t.the_interface
+            vpiActual: UnsupportedTypespec
         RefInstance name:testmod_i start:38:12 end:38:21:
           vpiParent: Module name:t
           vpiName: testmod_i
@@ -886,7 +935,7 @@ Design name:unnamed:
       vpiParameter (2 items):
         Parameter name:THE_FOO start:62:15 end:62:22:
           vpiParent: Module name:testmod
-          vpiTypespec RefTypespec start:62:15 end:62:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:THE_FOO
             vpiFullName: testmod.THE_FOO
             vpiActual: LogicTypespec
@@ -895,7 +944,7 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:THE_OTHER_FOO start:63:15 end:63:28:
           vpiParent: Module name:testmod
-          vpiTypespec RefTypespec start:63:15 end:63:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:THE_OTHER_FOO
             vpiFullName: testmod.THE_OTHER_FOO
             vpiActual: LogicTypespec
@@ -946,21 +995,9 @@ Design name:unnamed:
                 vpiName: FOO
                 vpiFullName: testmod.FOO
                 vpiActual: Parameter name:FOO
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:testmod
-        UnsupportedTypespec name:test_if::mp start:58:4 end:58:14:
-          vpiParent: Module name:testmod
-          vpiPathElem (2 items):
-            RefObj name:test_if start:58:4 end:58:11:
-              vpiParent: UnsupportedTypespec name:test_if::mp
-              vpiName: test_if
-              vpiFullName: testmod.test_if::mp.test_if
-            RefObj name:mp start:58:12 end:58:14:
-              vpiParent: UnsupportedTypespec name:test_if::mp
-              vpiName: mp
-              vpiFullName: testmod.test_if::mp.mp
-          vpiName Identifier name:test_if::mp:
         InterfaceTypespec name:test_if start:59:4 end:59:11:
           vpiParent: Module name:testmod
           vpiName Identifier name:test_if start:59:4 end:59:11:
@@ -976,7 +1013,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:clk start:57:10 end:57:13:
           vpiParent: Module name:testmod
-          vpiTypespec RefTypespec start:57:4 end:57:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: testmod.clk
             vpiActual: LogicTypespec
@@ -1004,7 +1041,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: testmod.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:57:4 end:57:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: testmod.clk
             vpiActual: LogicTypespec
@@ -1017,10 +1054,19 @@ Design name:unnamed:
             vpiName: intf
             vpiFullName: testmod.intf.intf
             vpiActual: Port name:intf
-          vpiTypespec RefTypespec start:58:4 end:58:14:
+          vpiTypespec RefTypespec name:test_if::mp start:58:4 end:58:14:
             vpiParent: Port name:intf
-            vpiFullName: testmod.intf
-            vpiActual: UnsupportedTypespec name:test_if::mp
+            vpiName: test_if::mp
+            vpiFullName: testmod.intf.test_if::mp
+            vpiPathElem (2 items):
+              RefObj name:test_if start:58:4 end:58:11:
+                vpiParent: RefTypespec name:test_if::mp
+                vpiName: test_if
+                vpiFullName: testmod.intf.test_if
+              RefTypespec name:mp start:58:12 end:58:14:
+                vpiParent: RefTypespec name:test_if::mp
+                vpiName: mp
+                vpiFullName: testmod.intf.test_if::mp.mp
         Port name:intf_no_mp start:59:12 end:59:22:
           vpiParent: Module name:testmod
           vpiName: intf_no_mp
@@ -1351,7 +1397,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
@@ -1367,25 +1413,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/mounts.json
 
 
-{'result': {'coverage': 98.17,
+{'result': {'coverage': 99.45,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_parameter_access.v': {'post_len': 20,
+            'files': {'$Output/lib/work/t_interface_parameter_access.v': {'post_len': 6,
                                                                           'pre_len': 1094}},
-            'post_len': 20,
+            'post_len': 6,
             'pre_len': 1094,
             'test_name': 'Verilator/t_interface_parameter_access'}}
 
 +-------------------------------------------------+----------+-----------+
 | INPUT                                           |   PRELEN |   POSTLEN |
 +=================================================+==========+===========+
-| $Output/lib/work/t_interface_parameter_access.v |     1094 |        20 |
+| $Output/lib/work/t_interface_parameter_access.v |     1094 |         6 |
 +=================================================+==========+===========+
-|                                                 |     1094 |        20 |
+|                                                 |     1094 |         6 |
 +-------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.17
+[COVERAGE] : 99.45
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1396,7 +1442,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             193     193       0         0
+Others                             204     204       0         0
 ----------------------------------------------------------------
-                                   193     193       0         0
+                                   204     204       0         0
 ===================== END REDUCTION RESULT =====================

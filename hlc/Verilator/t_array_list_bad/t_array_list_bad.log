@@ -326,7 +326,6 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:t1
                 vpiName: logic
                 vpiFullName: pkg::t1::logic
-                vpiActual: UnsupportedTypespec name:logic
             TypespecMember name:t2 start:9:19 end:9:21:
               vpiParent: Struct
               vpiName: t2
@@ -334,7 +333,6 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:t2
                 vpiName: logic
                 vpiFullName: pkg::t2::logic
-                vpiActual: UnsupportedTypespec name:logic
             TypespecMember name:t3 start:10:19 end:10:21:
               vpiParent: Struct
               vpiName: t3
@@ -342,7 +340,6 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:t3
                 vpiName: logic
                 vpiFullName: pkg::t3::logic
-                vpiActual: UnsupportedTypespec name:logic
       vpiTypedef (1 items):
         Typedef name:type_t start:7:4 end:11:13:
           vpiParent: Package name:pkg
@@ -351,16 +348,7 @@ Design name:unnamed:
             vpiParent: Typedef name:type_t
             vpiFullName: pkg::type_t
             vpiActual: StructTypespec
-      vpiTypespec (5 items):
-        UnsupportedTypespec name:logic start:8:7 end:8:12:
-          vpiParent: Package name:pkg
-          vpiName Identifier name:logic start:8:7 end:8:12:
-        UnsupportedTypespec name:logic start:9:7 end:9:12:
-          vpiParent: Package name:pkg
-          vpiName Identifier name:logic start:9:7 end:9:12:
-        UnsupportedTypespec name:logic start:10:7 end:10:12:
-          vpiParent: Package name:pkg
-          vpiName Identifier name:logic start:10:7 end:10:12:
+      vpiTypespec (2 items):
         StructTypespec start:7:12 end:11:5:
           vpiParent: Package name:pkg
           vpiStruct: Struct
@@ -385,23 +373,31 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:test_out start:21:28 end:21:36:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec name:type_t start:21:21 end:21:27:
+          vpiTypespec RefTypespec name:pkg::type_t start:21:16 end:21:27:
             vpiParent: Variable name:test_out
-            vpiName: type_t
-            vpiFullName: t.test_out.type_t
+            vpiName: pkg::type_t
+            vpiFullName: t.test_out.pkg::type_t
+            vpiPathElem (2 items):
+              RefTypespec name:pkg start:21:16 end:21:19:
+                vpiParent: RefTypespec name:pkg::type_t
+                vpiName: pkg
+                vpiFullName: t.test_out.pkg::type_t.pkg
+                vpiPathElem (1 items):
+                  RefObj name:pkg start:21:16 end:21:19:
+                    vpiParent: RefTypespec name:pkg
+                    vpiName: pkg
+                    vpiFullName: t.test_out.pkg::type_t.pkg
+                    vpiActual: Package name:pkg
+                vpiActual: ImportTypespec name:pkg
+              RefTypespec name:type_t start:21:21 end:21:27:
+                vpiParent: RefTypespec name:pkg::type_t
+                vpiName: type_t
+                vpiFullName: t.test_out.pkg::type_t.type_t
+                vpiActual: TypedefTypespec name:type_t
             vpiActual: TypedefTypespec name:type_t
           vpiName: test_out
           vpiFullName: t.test_out
-      vpiTypespec (4 items):
-        UnsupportedTypespec name:logic start:16:10 end:16:15:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:16:10 end:16:15:
-        UnsupportedTypespec name:logic start:17:10 end:17:15:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:17:10 end:17:15:
-        UnsupportedTypespec name:logic start:18:10 end:18:15:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:18:10 end:18:15:
+      vpiTypespec (1 items):
         ImportTypespec name:pkg start:24:11 end:24:17:
           vpiParent: Module name:t
           vpiName Identifier name:pkg start:24:11 end:24:14:
@@ -419,7 +415,6 @@ Design name:unnamed:
             vpiParent: Net name:sys_clk
             vpiName: logic
             vpiFullName: t.sys_clk.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: sys_clk
           vpiFullName: t.sys_clk
           vpiNetType: wire (1)
@@ -429,7 +424,6 @@ Design name:unnamed:
             vpiParent: Net name:sys_rst_n
             vpiName: logic
             vpiFullName: t.sys_rst_n.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: sys_rst_n
           vpiFullName: t.sys_rst_n
           vpiNetType: wire (1)
@@ -439,16 +433,32 @@ Design name:unnamed:
             vpiParent: Net name:sys_ena
             vpiName: logic
             vpiFullName: t.sys_ena.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: sys_ena
           vpiFullName: t.sys_ena
           vpiNetType: wire (1)
         Net name:test_in start:20:28 end:20:35:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec name:type_t start:20:21 end:20:27:
+          vpiTypespec RefTypespec name:pkg::type_t start:20:16 end:20:27:
             vpiParent: Net name:test_in
-            vpiName: type_t
-            vpiFullName: t.test_in.type_t
+            vpiName: pkg::type_t
+            vpiFullName: t.test_in.pkg::type_t
+            vpiPathElem (2 items):
+              RefTypespec name:pkg start:20:16 end:20:19:
+                vpiParent: RefTypespec name:pkg::type_t
+                vpiName: pkg
+                vpiFullName: t.test_in.pkg::type_t.pkg
+                vpiPathElem (1 items):
+                  RefObj name:pkg start:20:16 end:20:19:
+                    vpiParent: RefTypespec name:pkg
+                    vpiName: pkg
+                    vpiFullName: t.test_in.pkg::type_t.pkg
+                    vpiActual: Package name:pkg
+                vpiActual: ImportTypespec name:pkg
+              RefTypespec name:type_t start:20:21 end:20:27:
+                vpiParent: RefTypespec name:pkg::type_t
+                vpiName: type_t
+                vpiFullName: t.test_in.pkg::type_t.type_t
+                vpiActual: TypedefTypespec name:type_t
             vpiActual: TypedefTypespec name:type_t
           vpiName: test_in
           vpiFullName: t.test_in
@@ -467,7 +477,6 @@ Design name:unnamed:
             vpiParent: Port name:sys_clk
             vpiName: logic
             vpiFullName: t.sys_clk.logic
-            vpiActual: UnsupportedTypespec name:logic
         Port name:sys_rst_n start:17:16 end:17:25:
           vpiParent: Module name:t
           vpiName: sys_rst_n
@@ -481,7 +490,6 @@ Design name:unnamed:
             vpiParent: Port name:sys_rst_n
             vpiName: logic
             vpiFullName: t.sys_rst_n.logic
-            vpiActual: UnsupportedTypespec name:logic
         Port name:sys_ena start:18:16 end:18:23:
           vpiParent: Module name:t
           vpiName: sys_ena
@@ -495,7 +503,6 @@ Design name:unnamed:
             vpiParent: Port name:sys_ena
             vpiName: logic
             vpiFullName: t.sys_ena.logic
-            vpiActual: UnsupportedTypespec name:logic
         Port name:test_in start:20:28 end:20:35:
           vpiParent: Module name:t
           vpiName: test_in
@@ -505,10 +512,27 @@ Design name:unnamed:
             vpiName: test_in
             vpiFullName: t.test_in.test_in
             vpiActual: Net name:test_in
-          vpiTypespec RefTypespec name:type_t start:20:21 end:20:27:
+          vpiTypespec RefTypespec name:pkg::type_t start:20:16 end:20:27:
             vpiParent: Port name:test_in
-            vpiName: type_t
-            vpiFullName: t.test_in.type_t
+            vpiName: pkg::type_t
+            vpiFullName: t.test_in.pkg::type_t
+            vpiPathElem (2 items):
+              RefTypespec name:pkg start:20:16 end:20:19:
+                vpiParent: RefTypespec name:pkg::type_t
+                vpiName: pkg
+                vpiFullName: t.test_in.pkg::type_t.pkg
+                vpiPathElem (1 items):
+                  RefObj name:pkg start:20:16 end:20:19:
+                    vpiParent: RefTypespec name:pkg
+                    vpiName: pkg
+                    vpiFullName: t.test_in.pkg::type_t.pkg
+                    vpiActual: Package name:pkg
+                vpiActual: ImportTypespec name:pkg
+              RefTypespec name:type_t start:20:21 end:20:27:
+                vpiParent: RefTypespec name:pkg::type_t
+                vpiName: type_t
+                vpiFullName: t.test_in.pkg::type_t.type_t
+                vpiActual: TypedefTypespec name:type_t
             vpiActual: TypedefTypespec name:type_t
         Port name:test_out start:21:28 end:21:36:
           vpiParent: Module name:t
@@ -519,10 +543,27 @@ Design name:unnamed:
             vpiName: test_out
             vpiFullName: t.test_out.test_out
             vpiActual: Variable name:test_out
-          vpiTypespec RefTypespec name:type_t start:21:21 end:21:27:
+          vpiTypespec RefTypespec name:pkg::type_t start:21:16 end:21:27:
             vpiParent: Port name:test_out
-            vpiName: type_t
-            vpiFullName: t.test_out.type_t
+            vpiName: pkg::type_t
+            vpiFullName: t.test_out.pkg::type_t
+            vpiPathElem (2 items):
+              RefTypespec name:pkg start:21:16 end:21:19:
+                vpiParent: RefTypespec name:pkg::type_t
+                vpiName: pkg
+                vpiFullName: t.test_out.pkg::type_t.pkg
+                vpiPathElem (1 items):
+                  RefObj name:pkg start:21:16 end:21:19:
+                    vpiParent: RefTypespec name:pkg
+                    vpiName: pkg
+                    vpiFullName: t.test_out.pkg::type_t.pkg
+                    vpiActual: Package name:pkg
+                vpiActual: ImportTypespec name:pkg
+              RefTypespec name:type_t start:21:21 end:21:27:
+                vpiParent: RefTypespec name:pkg::type_t
+                vpiName: type_t
+                vpiFullName: t.test_out.pkg::type_t.type_t
+                vpiActual: TypedefTypespec name:type_t
             vpiActual: TypedefTypespec name:type_t
       vpiProcess (1 items):
         Always start:26:4 end:40:7:
@@ -802,25 +843,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_array_list_bad/mounts.json
 
 
-{'result': {'coverage': 98.86,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_array_list_bad.v': {'post_len': 6,
+            'files': {'$Output/lib/work/t_array_list_bad.v': {'post_len': 0,
                                                               'pre_len': 525}},
-            'post_len': 6,
+            'post_len': 0,
             'pre_len': 525,
             'test_name': 'Verilator/t_array_list_bad'}}
 
 +-------------------------------------+----------+-----------+
 | INPUT                               |   PRELEN |   POSTLEN |
 +=====================================+==========+===========+
-| $Output/lib/work/t_array_list_bad.v |      525 |         6 |
+| $Output/lib/work/t_array_list_bad.v |      525 |         0 |
 +=====================================+==========+===========+
-|                                     |      525 |         6 |
+|                                     |      525 |         0 |
 +-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.86
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**

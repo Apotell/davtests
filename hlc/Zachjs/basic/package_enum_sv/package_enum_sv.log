@@ -111,7 +111,6 @@ n<$Source01/basic/package_enum.sv> u<96> t<Top_level_rule> c<1> l<1:1> el<13:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/basic/package_enum.sv:1:1: Compile package "foo_pkg".
 [INF:CP5804] $Source01/basic/package_enum.sv:8:1: Compile module "top".
-[WRN:CP5851] $Source01/basic/package_enum.sv:10:28: Failed to bind "id:50, name:AccessAck".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -129,9 +128,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:2:13 end:5:6:
           vpiParent: Package name:foo_pkg
-          vpiBaseTypespec RefTypespec start:2:18 end:2:29:
+          vpiBaseTypespec RefTypespec name:logic [2:0] start:2:18 end:2:29:
             vpiParent: Enum
-            vpiFullName: foo_pkg
+            vpiName: logic [2:0]
+            vpiFullName: foo_pkg::logic [2:0]
             vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:AccessAck start:3:9 end:3:29:
@@ -222,13 +222,24 @@ Design name:unnamed:
             vpiParent: Variable name:test
             vpiName: foo_pkg::inp_t
             vpiFullName: top.test.foo_pkg::inp_t
+            vpiPathElem (2 items):
+              RefTypespec name:foo_pkg start:9:5 end:9:12:
+                vpiParent: RefTypespec name:foo_pkg::inp_t
+                vpiName: foo_pkg
+                vpiFullName: top.test.foo_pkg::inp_t.foo_pkg
+                vpiPathElem (1 items):
+                  RefObj name:foo_pkg start:9:5 end:9:12:
+                    vpiParent: RefTypespec name:foo_pkg
+                    vpiName: foo_pkg
+                    vpiFullName: top.test.foo_pkg::inp_t.foo_pkg
+                    vpiActual: Package name:foo_pkg
+              RefTypespec name:inp_t start:9:14 end:9:19:
+                vpiParent: RefTypespec name:foo_pkg::inp_t
+                vpiName: inp_t
+                vpiFullName: top.test.foo_pkg::inp_t.inp_t
             vpiActual: TypedefTypespec name:inp_t
           vpiName: test
           vpiFullName: top.test
-      vpiTypespec (1 items):
-        UnsupportedTypespec name:foo_pkg start:10:19 end:10:26:
-          vpiParent: Module name:top
-          vpiName Identifier name:foo_pkg start:10:19 end:10:26:
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:8 end:8:11:
@@ -261,14 +272,16 @@ Design name:unnamed:
             vpiName: foo_pkg::AccessAck
             vpiFullName: top.foo_pkg::AccessAck
             vpiPathElem (2 items):
-              RefTypespec start:10:19 end:10:28:
+              RefObj name:foo_pkg start:10:19 end:10:26:
                 vpiParent: RefObj name:foo_pkg::AccessAck
-                vpiFullName: top.foo_pkg::AccessAck
-                vpiActual: UnsupportedTypespec name:foo_pkg
+                vpiName: foo_pkg
+                vpiFullName: top.foo_pkg
+                vpiActual: Package name:foo_pkg
               RefObj name:AccessAck start:10:28 end:10:37:
                 vpiParent: RefObj name:foo_pkg::AccessAck
                 vpiName: AccessAck
                 vpiFullName: top.AccessAck
+                vpiActual: EnumConst name:AccessAck
   vpiTypespec (2 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -282,7 +295,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -326,7 +339,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/basic/package_enum_sv/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              46      46       0         0
+Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    46      46       0         0
+                                    47      47       0         0
 ===================== END REDUCTION RESULT =====================

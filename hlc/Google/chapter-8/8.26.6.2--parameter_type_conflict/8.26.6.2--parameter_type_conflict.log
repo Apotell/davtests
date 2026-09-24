@@ -296,10 +296,11 @@ Design name:unnamed:
             Typedef name:T start:25:3 end:25:18:
               vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
               vpiName Identifier name:T start:25:16 end:25:17:
-              vpiTypedefAlias RefTypespec start:25:11 end:25:15:
+              vpiTypedefAlias RefTypespec name:TYPE start:25:11 end:25:15:
                 vpiParent: Typedef name:T
-                vpiFullName: class_tb::ic3 #(.TYPE(logic))::T
-                vpiActual: UnsupportedTypespec name:TYPE
+                vpiName: TYPE
+                vpiFullName: class_tb::ic3 #(.TYPE(logic))::T::TYPE
+                vpiActual: TypeParameter name:TYPE
           vpiParameter (1 items):
             TypeParameter name:TYPE start:24:28 end:24:32:
               vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
@@ -317,16 +318,32 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiFullName: class_tb::ic3 #(.TYPE(logic))
                 vpiActual: LogicTypespec
-          vpiTypespec (4 items):
+          vpiTypespec (5 items):
             LogicTypespec:
               vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
-            UnsupportedTypespec name:TYPE start:25:11 end:25:15:
+            UnsupportedTypespec start:24:50 end:24:60:
               vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
-              vpiName Identifier name:TYPE start:25:11 end:25:15:
+              vpiParamAssign (1 items):
+                ParamAssign start:24:55 end:24:59:
+                  vpiParent: UnsupportedTypespec
+                  vpiOverridden: true
+                  vpiRhs RefObj name:TYPE start:24:55 end:24:59:
+                    vpiParent: ParamAssign
+                    vpiName: TYPE
+                    vpiFullName: class_tb::ic3 #(.TYPE(logic))::TYPE
+            UnsupportedTypespec start:24:62 end:24:72:
+              vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
+              vpiParamAssign (1 items):
+                ParamAssign start:24:67 end:24:71:
+                  vpiParent: UnsupportedTypespec
+                  vpiOverridden: true
+                  vpiRhs RefObj name:TYPE start:24:67 end:24:71:
+                    vpiParent: ParamAssign
+                    vpiName: TYPE
+                    vpiFullName: class_tb::ic3 #(.TYPE(logic))::TYPE
             TypedefTypespec name:T start:25:3 end:25:18:
               vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
               vpiName Identifier name:T start:25:16 end:25:17:
-              vpiTypedefKind: unsupported (7)
               vpiTypedef: Typedef name:T
             TypeParameter name:TYPE:
           vpiDefName: ic3
@@ -336,16 +353,36 @@ Design name:unnamed:
           vpiExtends Extends start:24:42 end:24:49:
             vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
             vpiClassTypespec (2 items):
-              RefTypespec name:ic1 start:24:50 end:24:60:
+              "RefTypespec name:ic1:: start:24:50 end:24:60":
                 vpiParent: Extends
-                vpiName: ic1
+                vpiName: ic1::
                 vpiFullName: class_tb::ic3 #(.TYPE(logic))::ic1
-                vpiActual: ClassTypespec name:ic1
-              RefTypespec name:ic2 start:24:62 end:24:72:
+                vpiPathElem (2 items):
+                  RefTypespec name:ic1 start:24:50 end:24:53:
+                    vpiParent: RefTypespec name:ic1::
+                    vpiName: ic1
+                    vpiFullName: class_tb::ic3 #(.TYPE(logic))::ic1::::ic1
+                    vpiActual: ClassTypespec name:ic1
+                  RefTypespec start:24:50 end:24:60:
+                    vpiParent: RefTypespec name:ic1::
+                    vpiFullName: class_tb::ic3 #(.TYPE(logic))::ic1
+                    vpiActual: UnsupportedTypespec
+                vpiActual: LogicTypespec
+              "RefTypespec name:ic2:: start:24:62 end:24:72":
                 vpiParent: Extends
-                vpiName: ic2
+                vpiName: ic2::
                 vpiFullName: class_tb::ic3 #(.TYPE(logic))::ic2
-                vpiActual: ClassTypespec name:ic2
+                vpiPathElem (2 items):
+                  RefTypespec name:ic2 start:24:62 end:24:65:
+                    vpiParent: RefTypespec name:ic2::
+                    vpiName: ic2
+                    vpiFullName: class_tb::ic3 #(.TYPE(logic))::ic2::::ic2
+                    vpiActual: ClassTypespec name:ic2
+                  RefTypespec start:24:62 end:24:72:
+                    vpiParent: RefTypespec name:ic2::
+                    vpiFullName: class_tb::ic3 #(.TYPE(logic))::ic2
+                    vpiActual: UnsupportedTypespec
+                vpiActual: LogicTypespec
           vpiLibrary RefObj name:work start:24:18 end:24:21:
             vpiParent: ClassDefn name:ic3 #(.TYPE(logic))
             vpiName: work
@@ -357,7 +394,7 @@ Design name:unnamed:
       vpiName Identifier name:class_tb start:15:8 end:15:16:
       vpiDefName: class_tb
       vpiModule: Module name:class_tb
-    VoidTypespec start:17:25 end:17:29:
+    VoidTypespec:
       vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
@@ -407,7 +444,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.26.6.2--parameter_type_conflic
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              58      58       0         0
+Others                              66      66       0         0
 ----------------------------------------------------------------
-                                    58      58       0         0
+                                    66      66       0         0
 ===================== END REDUCTION RESULT =====================

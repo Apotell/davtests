@@ -759,11 +759,6 @@ AST_DEBUG_END
 [ERR:CP5824] $Source01/basic/package.sv:18:1: Multiply defined typedef "D".
 [INF:CP5802] $Source01/basic/package.sv:22:1: Compile package "F".
 [INF:CP5804] $Source01/basic/package.sv:26:1: Compile module "top".
-[WRN:CP5851] $Source01/basic/package.sv:15:26: Failed to bind "id:91, name:pack_t".
-[WRN:CP5851] $Source01/basic/package.sv:36:27: Failed to bind "id:178, name:pack".
-[WRN:CP5851] $Source01/basic/package.sv:37:27: Failed to bind "id:192, name:pack".
-[WRN:CP5851] $Source01/basic/package.sv:38:27: Failed to bind "id:206, name:pack".
-[WRN:CP5851] $Source01/basic/package.sv:39:27: Failed to bind "id:220, name:pack".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -781,7 +776,7 @@ Design name:unnamed:
       vpiParameter (2 items):
         Parameter name:FOO start:2:16 end:2:19:
           vpiParent: Package name:A
-          vpiTypespec RefTypespec start:2:16 end:2:16:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:FOO
             vpiFullName: A::FOO
             vpiActual: LogicTypespec
@@ -790,7 +785,7 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:BAR start:3:16 end:3:19:
           vpiParent: Package name:A
-          vpiTypespec RefTypespec start:3:16 end:3:16:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:BAR
             vpiFullName: A::BAR
             vpiActual: LogicTypespec
@@ -849,7 +844,7 @@ Design name:unnamed:
       vpiParameter (2 items):
         Parameter name:FOO start:6:16 end:6:19:
           vpiParent: Package name:B
-          vpiTypespec RefTypespec start:6:16 end:6:16:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:FOO
             vpiFullName: B::FOO
             vpiActual: LogicTypespec
@@ -858,7 +853,7 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:BAR start:7:16 end:7:19:
           vpiParent: Package name:B
-          vpiTypespec RefTypespec start:7:16 end:7:16:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:BAR
             vpiFullName: B::BAR
             vpiActual: LogicTypespec
@@ -1005,27 +1000,9 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:pack
             vpiFullName: D::pack
-            vpiTypespec (4 items):
-              UnsupportedTypespec name:C start:13:14 end:13:15:
-                vpiParent: Begin
-                vpiName Identifier name:C start:13:14 end:13:15:
-              UnsupportedTypespec name:C::pack_t start:13:14 end:13:23:
-                vpiParent: Begin
-                vpiPathElem (2 items):
-                  RefTypespec start:13:14 end:13:17:
-                    vpiParent: UnsupportedTypespec name:C::pack_t
-                    vpiFullName: D::pack::C::pack_t
-                    vpiActual: UnsupportedTypespec name:C
-                  RefTypespec name:pack_t start:13:17 end:13:23:
-                    vpiParent: UnsupportedTypespec name:C::pack_t
-                    vpiName: pack_t
-                    vpiFullName: D::pack::C::pack_t::pack_t
-                vpiName Identifier name:C::pack_t start:13:14 end:13:23:
+            vpiTypespec (1 items):
               LogicTypespec:
                 vpiParent: Begin
-              UnsupportedTypespec name:C start:15:23 end:15:24:
-                vpiParent: Begin
-                vpiName Identifier name:C start:15:23 end:15:24:
             vpiStmt (1 items):
               Assignment start:15:9 end:15:37:
                 vpiParent: Begin
@@ -1048,14 +1025,16 @@ Design name:unnamed:
                           vpiName: C::pack_t
                           vpiFullName: D::pack::C::pack_t
                           vpiPathElem (2 items):
-                            RefTypespec start:15:23 end:15:26:
+                            RefObj name:C start:15:23 end:15:24:
                               vpiParent: RefObj name:C::pack_t
-                              vpiFullName: D::pack::C::pack_t
-                              vpiActual: UnsupportedTypespec name:C
+                              vpiName: C
+                              vpiFullName: D::pack::C
+                              vpiActual: Package name:C
                             RefObj name:pack_t start:15:26 end:15:32:
                               vpiParent: RefObj name:C::pack_t
                               vpiName: pack_t
                               vpiFullName: D::pack::pack_t
+                              vpiActual: Typedef name:pack_t
                     Operation start:15:33 end:15:36:
                       vpiParent: Operation
                       vpiOpType: concatenation (33)
@@ -1065,10 +1044,26 @@ Design name:unnamed:
                           vpiName: x
                           vpiFullName: D::pack::x
                           vpiActual: IODecl name:x
-          vpiReturn RefTypespec start:13:14 end:13:23:
+          vpiReturn RefTypespec name:C::pack_t start:13:14 end:13:23:
             vpiParent: Function name:pack
-            vpiFullName: D::pack
-            vpiActual: UnsupportedTypespec name:C::pack_t
+            vpiName: C::pack_t
+            vpiFullName: D::pack::C::pack_t
+            vpiPathElem (2 items):
+              RefTypespec name:C start:13:14 end:13:15:
+                vpiParent: RefTypespec name:C::pack_t
+                vpiName: C
+                vpiFullName: D::pack::C::pack_t::C
+                vpiPathElem (1 items):
+                  RefObj name:C start:13:14 end:13:15:
+                    vpiParent: RefTypespec name:C
+                    vpiName: C
+                    vpiFullName: D::pack::C::pack_t::C
+                    vpiActual: Package name:C
+              RefTypespec name:pack_t start:13:17 end:13:23:
+                vpiParent: RefTypespec name:C::pack_t
+                vpiName: pack_t
+                vpiFullName: D::pack::C::pack_t::pack_t
+            vpiActual: TypedefTypespec name:pack_t
     Package name:E file:$Source01/basic/package.sv start:18:1 end:21:11:
       vpiParent: Design name:unnamed
       vpiName Identifier name:E start:18:9 end:18:10:
@@ -1094,7 +1089,7 @@ Design name:unnamed:
       vpiParameter (2 items):
         Parameter name:MAGIC start:23:16 end:23:21:
           vpiParent: Package name:F
-          vpiTypespec RefTypespec start:23:16 end:23:16:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:MAGIC
             vpiFullName: F::MAGIC
             vpiActual: LogicTypespec
@@ -1103,7 +1098,7 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:PIZZAZZ start:24:16 end:24:23:
           vpiParent: Package name:F
-          vpiTypespec RefTypespec start:24:16 end:24:16:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:PIZZAZZ
             vpiFullName: F::PIZZAZZ
             vpiActual: LogicTypespec
@@ -1171,7 +1166,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:PIZZAZZ start:53:16 end:53:23:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:53:16 end:53:16:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:PIZZAZZ
             vpiFullName: top.PIZZAZZ
             vpiActual: LogicTypespec
@@ -1245,31 +1240,6 @@ Design name:unnamed:
           vpiStmt Begin start:29:13 end:40:8:
             vpiParent: Initial
             vpiFullName: top
-            vpiTypespec (8 items):
-              UnsupportedTypespec name:A start:30:18 end:30:19:
-                vpiParent: Begin
-                vpiName Identifier name:A start:30:18 end:30:19:
-              UnsupportedTypespec name:A start:31:18 end:31:19:
-                vpiParent: Begin
-                vpiName Identifier name:A start:31:18 end:31:19:
-              UnsupportedTypespec name:B start:32:18 end:32:19:
-                vpiParent: Begin
-                vpiName Identifier name:B start:32:18 end:32:19:
-              UnsupportedTypespec name:B start:33:18 end:33:19:
-                vpiParent: Begin
-                vpiName Identifier name:B start:33:18 end:33:19:
-              UnsupportedTypespec name:D start:36:24 end:36:25:
-                vpiParent: Begin
-                vpiName Identifier name:D start:36:24 end:36:25:
-              UnsupportedTypespec name:D start:37:24 end:37:25:
-                vpiParent: Begin
-                vpiName Identifier name:D start:37:24 end:37:25:
-              UnsupportedTypespec name:E start:38:24 end:38:25:
-                vpiParent: Begin
-                vpiName Identifier name:E start:38:24 end:38:25:
-              UnsupportedTypespec name:E start:39:24 end:39:25:
-                vpiParent: Begin
-                vpiName Identifier name:E start:39:24 end:39:25:
             vpiStmt (10 items):
               SysTaskCall name:$display start:30:9 end:30:25:
                 vpiParent: Begin
@@ -1280,10 +1250,11 @@ Design name:unnamed:
                     vpiName: A::FOO
                     vpiFullName: top.A::FOO
                     vpiPathElem (2 items):
-                      RefTypespec start:30:18 end:30:21:
+                      RefObj name:A start:30:18 end:30:19:
                         vpiParent: RefObj name:A::FOO
-                        vpiFullName: top.A::FOO
-                        vpiActual: UnsupportedTypespec name:A
+                        vpiName: A
+                        vpiFullName: top.A
+                        vpiActual: Package name:A
                       RefObj name:FOO start:30:21 end:30:24:
                         vpiParent: RefObj name:A::FOO
                         vpiName: FOO
@@ -1298,10 +1269,11 @@ Design name:unnamed:
                     vpiName: A::BAR
                     vpiFullName: top.A::BAR
                     vpiPathElem (2 items):
-                      RefTypespec start:31:18 end:31:21:
+                      RefObj name:A start:31:18 end:31:19:
                         vpiParent: RefObj name:A::BAR
-                        vpiFullName: top.A::BAR
-                        vpiActual: UnsupportedTypespec name:A
+                        vpiName: A
+                        vpiFullName: top.A
+                        vpiActual: Package name:A
                       RefObj name:BAR start:31:21 end:31:24:
                         vpiParent: RefObj name:A::BAR
                         vpiName: BAR
@@ -1316,10 +1288,11 @@ Design name:unnamed:
                     vpiName: B::FOO
                     vpiFullName: top.B::FOO
                     vpiPathElem (2 items):
-                      RefTypespec start:32:18 end:32:21:
+                      RefObj name:B start:32:18 end:32:19:
                         vpiParent: RefObj name:B::FOO
-                        vpiFullName: top.B::FOO
-                        vpiActual: UnsupportedTypespec name:B
+                        vpiName: B
+                        vpiFullName: top.B
+                        vpiActual: Package name:B
                       RefObj name:FOO start:32:21 end:32:24:
                         vpiParent: RefObj name:B::FOO
                         vpiName: FOO
@@ -1334,10 +1307,11 @@ Design name:unnamed:
                     vpiName: B::BAR
                     vpiFullName: top.B::BAR
                     vpiPathElem (2 items):
-                      RefTypespec start:33:18 end:33:21:
+                      RefObj name:B start:33:18 end:33:19:
                         vpiParent: RefObj name:B::BAR
-                        vpiFullName: top.B::BAR
-                        vpiActual: UnsupportedTypespec name:B
+                        vpiName: B
+                        vpiFullName: top.B
+                        vpiActual: Package name:B
                       RefObj name:BAR start:33:21 end:33:24:
                         vpiParent: RefObj name:B::BAR
                         vpiName: BAR
@@ -1380,19 +1354,21 @@ Design name:unnamed:
                     vpiName: D::pack(0)
                     vpiFullName: top.D::pack(0)
                     vpiPathElem (2 items):
-                      RefTypespec start:36:24 end:36:27:
+                      RefObj name:D start:36:24 end:36:25:
                         vpiParent: RefObj name:D::pack(0)
-                        vpiFullName: top.D::pack(0)
-                        vpiActual: UnsupportedTypespec name:D
-                      SubroutineCall name:pack start:36:27 end:36:34:
+                        vpiName: D
+                        vpiFullName: top.D
+                        vpiActual: Package name:D
+                      FuncCall name:pack start:36:27 end:36:34:
                         vpiParent: RefObj name:D::pack(0)
                         vpiName Identifier name:pack start:36:27 end:36:31:
+                        vpiTaskFunc: Function name:pack
                         vpiArgument (1 items):
                           Constant start:36:32 end:36:33:
-                            vpiParent: SubroutineCall name:pack
+                            vpiParent: FuncCall name:pack
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: top.D::pack(0).pack
+                              vpiFullName: top.D::pack(0)
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -1417,19 +1393,21 @@ Design name:unnamed:
                     vpiName: D::pack(1)
                     vpiFullName: top.D::pack(1)
                     vpiPathElem (2 items):
-                      RefTypespec start:37:24 end:37:27:
+                      RefObj name:D start:37:24 end:37:25:
                         vpiParent: RefObj name:D::pack(1)
-                        vpiFullName: top.D::pack(1)
-                        vpiActual: UnsupportedTypespec name:D
-                      SubroutineCall name:pack start:37:27 end:37:34:
+                        vpiName: D
+                        vpiFullName: top.D
+                        vpiActual: Package name:D
+                      FuncCall name:pack start:37:27 end:37:34:
                         vpiParent: RefObj name:D::pack(1)
                         vpiName Identifier name:pack start:37:27 end:37:31:
+                        vpiTaskFunc: Function name:pack
                         vpiArgument (1 items):
                           Constant start:37:32 end:37:33:
-                            vpiParent: SubroutineCall name:pack
+                            vpiParent: FuncCall name:pack
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: top.D::pack(1).pack
+                              vpiFullName: top.D::pack(1)
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -1454,19 +1432,21 @@ Design name:unnamed:
                     vpiName: E::pack(0)
                     vpiFullName: top.E::pack(0)
                     vpiPathElem (2 items):
-                      RefTypespec start:38:24 end:38:27:
+                      RefObj name:E start:38:24 end:38:25:
                         vpiParent: RefObj name:E::pack(0)
-                        vpiFullName: top.E::pack(0)
-                        vpiActual: UnsupportedTypespec name:E
-                      SubroutineCall name:pack start:38:27 end:38:34:
+                        vpiName: E
+                        vpiFullName: top.E
+                        vpiActual: Package name:E
+                      FuncCall name:pack start:38:27 end:38:34:
                         vpiParent: RefObj name:E::pack(0)
                         vpiName Identifier name:pack start:38:27 end:38:31:
+                        vpiTaskFunc: Function name:pack
                         vpiArgument (1 items):
                           Constant start:38:32 end:38:33:
-                            vpiParent: SubroutineCall name:pack
+                            vpiParent: FuncCall name:pack
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: top.E::pack(0).pack
+                              vpiFullName: top.E::pack(0)
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -1491,19 +1471,21 @@ Design name:unnamed:
                     vpiName: E::pack(1)
                     vpiFullName: top.E::pack(1)
                     vpiPathElem (2 items):
-                      RefTypespec start:39:24 end:39:27:
+                      RefObj name:E start:39:24 end:39:25:
                         vpiParent: RefObj name:E::pack(1)
-                        vpiFullName: top.E::pack(1)
-                        vpiActual: UnsupportedTypespec name:E
-                      SubroutineCall name:pack start:39:27 end:39:34:
+                        vpiName: E
+                        vpiFullName: top.E
+                        vpiActual: Package name:E
+                      FuncCall name:pack start:39:27 end:39:34:
                         vpiParent: RefObj name:E::pack(1)
                         vpiName Identifier name:pack start:39:27 end:39:31:
+                        vpiTaskFunc: Function name:pack
                         vpiArgument (1 items):
                           Constant start:39:32 end:39:33:
-                            vpiParent: SubroutineCall name:pack
+                            vpiParent: FuncCall name:pack
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: top.E::pack(1).pack
+                              vpiFullName: top.E::pack(1)
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
@@ -1514,13 +1496,6 @@ Design name:unnamed:
           vpiStmt Begin start:42:13 end:52:8:
             vpiParent: Initial
             vpiFullName: top
-            vpiTypespec (2 items):
-              UnsupportedTypespec name:F start:44:39 end:44:40:
-                vpiParent: Begin
-                vpiName Identifier name:F start:44:39 end:44:40:
-              UnsupportedTypespec name:F start:51:39 end:51:40:
-                vpiParent: Begin
-                vpiName Identifier name:F start:51:39 end:51:40:
             vpiStmt (5 items):
               SysTaskCall name:$display start:43:9 end:43:45:
                 vpiParent: Begin
@@ -1560,10 +1535,11 @@ Design name:unnamed:
                     vpiName: F::MAGIC
                     vpiFullName: top.F::MAGIC
                     vpiPathElem (2 items):
-                      RefTypespec start:44:39 end:44:42:
+                      RefObj name:F start:44:39 end:44:40:
                         vpiParent: RefObj name:F::MAGIC
-                        vpiFullName: top.F::MAGIC
-                        vpiActual: UnsupportedTypespec name:F
+                        vpiName: F
+                        vpiFullName: top.F
+                        vpiActual: Package name:F
                       RefObj name:MAGIC start:44:42 end:44:47:
                         vpiParent: RefObj name:F::MAGIC
                         vpiName: MAGIC
@@ -1575,7 +1551,7 @@ Design name:unnamed:
                 vpiParameter (1 items):
                   Parameter name:MAGIC start:46:24 end:46:29:
                     vpiParent: Begin
-                    vpiTypespec RefTypespec start:46:24 end:46:24:
+                    vpiTypespec RefTypespec:
                       vpiParent: Parameter name:MAGIC
                       vpiFullName: top.MAGIC
                       vpiActual: LogicTypespec
@@ -1600,12 +1576,9 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "42"
                       vpiValue: 42
-                vpiTypespec (2 items):
+                vpiTypespec (1 items):
                   LogicTypespec:
                     vpiParent: Begin
-                  UnsupportedTypespec name:F start:48:43 end:48:44:
-                    vpiParent: Begin
-                    vpiName Identifier name:F start:48:43 end:48:44:
                 vpiStmt (2 items):
                   SysTaskCall name:$display start:47:13 end:47:46:
                     vpiParent: Begin
@@ -1645,10 +1618,11 @@ Design name:unnamed:
                         vpiName: F::MAGIC
                         vpiFullName: top.F::MAGIC
                         vpiPathElem (2 items):
-                          RefTypespec start:48:43 end:48:46:
+                          RefObj name:F start:48:43 end:48:44:
                             vpiParent: RefObj name:F::MAGIC
-                            vpiFullName: top.F::MAGIC
-                            vpiActual: UnsupportedTypespec name:F
+                            vpiName: F
+                            vpiFullName: top.F
+                            vpiActual: Package name:F
                           RefObj name:MAGIC start:48:46 end:48:51:
                             vpiParent: RefObj name:F::MAGIC
                             vpiName: MAGIC
@@ -1692,10 +1666,11 @@ Design name:unnamed:
                     vpiName: F::MAGIC
                     vpiFullName: top.F::MAGIC
                     vpiPathElem (2 items):
-                      RefTypespec start:51:39 end:51:42:
+                      RefObj name:F start:51:39 end:51:40:
                         vpiParent: RefObj name:F::MAGIC
-                        vpiFullName: top.F::MAGIC
-                        vpiActual: UnsupportedTypespec name:F
+                        vpiName: F
+                        vpiFullName: top.F
+                        vpiActual: Package name:F
                       RefObj name:MAGIC start:51:42 end:51:47:
                         vpiParent: RefObj name:F::MAGIC
                         vpiName: MAGIC
@@ -1706,13 +1681,6 @@ Design name:unnamed:
           vpiStmt Begin start:54:13 end:64:8:
             vpiParent: Initial
             vpiFullName: top
-            vpiTypespec (2 items):
-              UnsupportedTypespec name:F start:56:41 end:56:42:
-                vpiParent: Begin
-                vpiName Identifier name:F start:56:41 end:56:42:
-              UnsupportedTypespec name:F start:63:41 end:63:42:
-                vpiParent: Begin
-                vpiName Identifier name:F start:63:41 end:63:42:
             vpiStmt (5 items):
               SysTaskCall name:$display start:55:9 end:55:46:
                 vpiParent: Begin
@@ -1752,10 +1720,11 @@ Design name:unnamed:
                     vpiName: F::PIZZAZZ
                     vpiFullName: top.F::PIZZAZZ
                     vpiPathElem (2 items):
-                      RefTypespec start:56:41 end:56:44:
+                      RefObj name:F start:56:41 end:56:42:
                         vpiParent: RefObj name:F::PIZZAZZ
-                        vpiFullName: top.F::PIZZAZZ
-                        vpiActual: UnsupportedTypespec name:F
+                        vpiName: F
+                        vpiFullName: top.F
+                        vpiActual: Package name:F
                       RefObj name:PIZZAZZ start:56:44 end:56:51:
                         vpiParent: RefObj name:F::PIZZAZZ
                         vpiName: PIZZAZZ
@@ -1767,7 +1736,7 @@ Design name:unnamed:
                 vpiParameter (1 items):
                   Parameter name:PIZZAZZ start:58:24 end:58:31:
                     vpiParent: Begin
-                    vpiTypespec RefTypespec start:58:24 end:58:24:
+                    vpiTypespec RefTypespec:
                       vpiParent: Parameter name:PIZZAZZ
                       vpiFullName: top.PIZZAZZ
                       vpiActual: LogicTypespec
@@ -1796,12 +1765,9 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "7"
                           vpiValue: 7
-                vpiTypespec (2 items):
+                vpiTypespec (1 items):
                   LogicTypespec:
                     vpiParent: Begin
-                  UnsupportedTypespec name:F start:60:45 end:60:46:
-                    vpiParent: Begin
-                    vpiName Identifier name:F start:60:45 end:60:46:
                 vpiStmt (2 items):
                   SysTaskCall name:$display start:59:13 end:59:59:
                     vpiParent: Begin
@@ -1841,10 +1807,11 @@ Design name:unnamed:
                         vpiName: F::PIZZAZZ
                         vpiFullName: top.F::PIZZAZZ
                         vpiPathElem (2 items):
-                          RefTypespec start:60:45 end:60:48:
+                          RefObj name:F start:60:45 end:60:46:
                             vpiParent: RefObj name:F::PIZZAZZ
-                            vpiFullName: top.F::PIZZAZZ
-                            vpiActual: UnsupportedTypespec name:F
+                            vpiName: F
+                            vpiFullName: top.F
+                            vpiActual: Package name:F
                           RefObj name:PIZZAZZ start:60:48 end:60:55:
                             vpiParent: RefObj name:F::PIZZAZZ
                             vpiName: PIZZAZZ
@@ -1888,10 +1855,11 @@ Design name:unnamed:
                     vpiName: F::PIZZAZZ
                     vpiFullName: top.F::PIZZAZZ
                     vpiPathElem (2 items):
-                      RefTypespec start:63:41 end:63:44:
+                      RefObj name:F start:63:41 end:63:42:
                         vpiParent: RefObj name:F::PIZZAZZ
-                        vpiFullName: top.F::PIZZAZZ
-                        vpiActual: UnsupportedTypespec name:F
+                        vpiName: F
+                        vpiFullName: top.F
+                        vpiActual: Package name:F
                       RefObj name:PIZZAZZ start:63:44 end:63:51:
                         vpiParent: RefObj name:F::PIZZAZZ
                         vpiName: PIZZAZZ
@@ -1912,7 +1880,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 5
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1957,9 +1925,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            33      33       6         6
 Operation                            8       2       0         6
-RefTypespec                         63      63       6         6
+RefTypespec                         48      48       6         6
 ----------------------------------------------------------------
-Others                             215     215       0         0
+Others                             197     197       0         0
 ----------------------------------------------------------------
-                                   319     313      12        18
+                                   286     280      12        18
 ===================== END REDUCTION RESULT =====================

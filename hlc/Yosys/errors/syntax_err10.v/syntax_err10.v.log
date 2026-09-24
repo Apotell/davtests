@@ -67,9 +67,7 @@ n<$Source01/errors/syntax_err10.v> u<44> t<Top_level_rule> c<1> l<1:1> el<4:1>
         n<> u<40> t<ENDMODULE> p<41> l<3:1> el<3:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/errors/syntax_err10.v:1:1: Compile module "a".
-[ERR:LN7713] $Source01/errors/syntax_err10.v:1:1: Found 1 orphan node(s).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7701] Invalid name: id:17, type:RefTypespec, name:, relation:vpiElemTypespec.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -86,10 +84,11 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter:
           vpiParent: Module name:a
-          vpiTypespec RefTypespec start:2:11 end:2:18:
+          vpiTypespec RefTypespec name:integer [2:0] start:2:11 end:2:18:
             vpiParent: Parameter
-            vpiFullName: a
-            vpiActual: IntegerTypespec
+            vpiName: integer [2:0]
+            vpiFullName: a.integer [2:0]
+            vpiActual: ArrayTypespec
           vpiFullName: a
       vpiParamAssign (1 items):
         ParamAssign start:2:19 end:2:24:
@@ -99,9 +98,6 @@ Design name:unnamed:
             vpiFullName: a
             vpiActual: Parameter
       vpiTypespec (2 items):
-        IntegerTypespec:
-          vpiParent: Module name:a
-          vpiSigned: true
         ArrayTypespec:
           vpiParent: Module name:a
           vpiArrayType: static (1)
@@ -127,9 +123,13 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec start:2:11 end:2:18:
             vpiParent: ArrayTypespec
             vpiFullName: a
+            vpiActual: IntegerTypespec
+        IntegerTypespec:
+          vpiParent: Module name:a
+          vpiSigned: true
       vpiDefName: a
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:8 end:1:9:
@@ -149,7 +149,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 3
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

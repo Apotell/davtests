@@ -624,6 +624,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/top.v:57:1: Compile module "memory_ctrl1".
 [WRN:CP5811] $Source01/top.v:57:29: Port "sif1" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/top.v:57:49: Port "sif2" definition missing its direction (input, output, inout).
+[ERR:CP5824] $Source01/top.v:57:1: Multiply defined typedef "mem_if".
 [WRN:PA5506] $Source01/top.v:3:1: No timescale set for "tb_operators".
 [WRN:PA5506] $Source01/top.v:40:1: No timescale set for "top".
 [WRN:PA5506] $Source01/top.v:57:1: No timescale set for "memory_ctrl1".
@@ -667,7 +668,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:47:30 end:47:33:
           vpiParent: Interface name:mem_if
-          vpiTypespec RefTypespec start:47:19 end:47:29:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: mem_if.clk
             vpiActual: LogicTypespec
@@ -704,7 +705,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: mem_if.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:47:19 end:47:29:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: mem_if.clk
             vpiActual: LogicTypespec
@@ -1293,7 +1294,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:i start:40:19 end:40:20:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:40:13 end:40:18:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i
             vpiFullName: top.i
             vpiActual: LogicTypespec
@@ -1304,7 +1305,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:o start:40:29 end:40:30:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:40:22 end:40:28:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:o
             vpiFullName: top.o
             vpiActual: LogicTypespec
@@ -1322,7 +1323,7 @@ Design name:unnamed:
             vpiName: i
             vpiFullName: top.i.i
             vpiActual: Net name:i
-          vpiTypespec RefTypespec start:40:13 end:40:18:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i
             vpiFullName: top.i
             vpiActual: LogicTypespec
@@ -1335,7 +1336,7 @@ Design name:unnamed:
             vpiName: o
             vpiFullName: top.o.o
             vpiActual: Net name:o
-          vpiTypespec RefTypespec start:40:22 end:40:28:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:o
             vpiFullName: top.o
             vpiActual: LogicTypespec
@@ -1383,25 +1384,12 @@ Design name:unnamed:
           vpiName: o1
           vpiFullName: memory_ctrl1.o1
           vpiScalar: true
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         InterfaceTypespec name:mem_if start:57:22 end:57:28:
           vpiParent: Module name:memory_ctrl1
           vpiName Identifier name:mem_if start:57:22 end:57:28:
           vpiDefName: mem_if
           vpiInterface: Interface name:mem_if
-        UnsupportedTypespec name:mem_if::system start:57:35 end:57:48:
-          vpiParent: Module name:memory_ctrl1
-          vpiPathElem (2 items):
-            RefObj name:mem_if start:57:35 end:57:41:
-              vpiParent: UnsupportedTypespec name:mem_if::system
-              vpiName: mem_if
-              vpiFullName: memory_ctrl1.mem_if::system.mem_if
-              vpiActual: Interface name:mem_if
-            RefObj name:system start:57:42 end:57:48:
-              vpiParent: UnsupportedTypespec name:mem_if::system
-              vpiName: system
-              vpiFullName: memory_ctrl1.mem_if::system.system
-          vpiName Identifier name:mem_if::system:
         ClassTypespec name:DD2 start:61:1 end:61:4:
           vpiParent: Module name:memory_ctrl1
           vpiName Identifier name:DD2 start:61:1 end:61:4:
@@ -1429,7 +1417,7 @@ Design name:unnamed:
           vpiNetType: wire (1)
         Net name:i1 start:63:6 end:63:8:
           vpiParent: Module name:memory_ctrl1
-          vpiTypespec RefTypespec start:63:6 end:63:6:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i1
             vpiFullName: memory_ctrl1.i1
             vpiActual: LogicTypespec
@@ -1462,10 +1450,20 @@ Design name:unnamed:
             vpiName: sif2
             vpiFullName: memory_ctrl1.sif2.sif2
             vpiActual: Port name:sif2
-          vpiTypespec RefTypespec start:57:35 end:57:48:
+          vpiTypespec RefTypespec name:mem_if::system start:57:35 end:57:48:
             vpiParent: Port name:sif2
-            vpiFullName: memory_ctrl1.sif2
-            vpiActual: UnsupportedTypespec name:mem_if::system
+            vpiName: mem_if::system
+            vpiFullName: memory_ctrl1.sif2.mem_if::system
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:57:35 end:57:41:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: mem_if
+                vpiFullName: memory_ctrl1.sif2.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:system start:57:42 end:57:48:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: system
+                vpiFullName: memory_ctrl1.sif2.mem_if::system.system
   vpiTypespec (8 items):
     ModuleTypespec name:tb_operators:
       vpiParent: Design name:unnamed
@@ -1502,7 +1500,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 6
 [   NOTE] : 1
 ********************************************************************************
@@ -1548,9 +1546,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            20      16       2         6
 Operation                           16      12       0         4
-RefTypespec                         36      32       2         6
+RefTypespec                         37      33       2         6
 ----------------------------------------------------------------
-Others                             139     139       0         0
+Others                             136     136       0         0
 ----------------------------------------------------------------
-                                   211     199       4        16
+                                   209     197       4        16
 ===================== END REDUCTION RESULT =====================

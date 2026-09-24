@@ -139,9 +139,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:2:11 end:5:4:
           vpiParent: Package name:lc_ctrl_pkg
-          vpiBaseTypespec RefTypespec start:2:16 end:2:27:
+          vpiBaseTypespec RefTypespec name:logic [3:0] start:2:16 end:2:27:
             vpiParent: Enum
-            vpiFullName: lc_ctrl_pkg
+            vpiName: logic [3:0]
+            vpiFullName: lc_ctrl_pkg::logic [3:0]
             vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:On start:3:5 end:3:18:
@@ -181,11 +182,12 @@ Design name:unnamed:
         Typedef name:lc_tx_t start:7:3 end:7:27:
           vpiParent: Package name:lc_ctrl_pkg
           vpiName Identifier name:lc_tx_t start:7:19 end:7:26:
-          vpiTypedefAlias RefTypespec start:7:11 end:7:18:
+          vpiTypedefAlias RefTypespec name:lc_tx_e start:7:11 end:7:18:
             vpiParent: Typedef name:lc_tx_t
-            vpiFullName: lc_ctrl_pkg::lc_tx_t
-            vpiActual: UnsupportedTypespec name:lc_tx_e
-      vpiTypespec (5 items):
+            vpiName: lc_tx_e
+            vpiFullName: lc_ctrl_pkg::lc_tx_t::lc_tx_e
+            vpiActual: TypedefTypespec name:lc_tx_e
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Package name:lc_ctrl_pkg
           vpiRange (1 items):
@@ -220,13 +222,9 @@ Design name:unnamed:
           vpiName Identifier name:lc_tx_e start:5:5 end:5:12:
           vpiTypedefKind: enum (2)
           vpiTypedef: Typedef name:lc_tx_e
-        UnsupportedTypespec name:lc_tx_e start:7:11 end:7:18:
-          vpiParent: Package name:lc_ctrl_pkg
-          vpiName Identifier name:lc_tx_e start:7:11 end:7:18:
         TypedefTypespec name:lc_tx_t start:7:3 end:7:27:
           vpiParent: Package name:lc_ctrl_pkg
           vpiName Identifier name:lc_tx_t start:7:19 end:7:26:
-          vpiTypedefKind: unsupported (7)
           vpiTypedef: Typedef name:lc_tx_t
       vpiDefName: lc_ctrl_pkg
       vpiDefNetType: wire (1)
@@ -244,14 +242,29 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:lc_en_o start:12:31 end:12:38:
           vpiParent: Module name:prim_lc_sender
-          vpiTypespec RefTypespec name:lc_tx_t start:12:23 end:12:30:
+          vpiTypespec RefTypespec name:lc_ctrl_pkg::lc_tx_t start:12:10 end:12:30:
             vpiParent: Variable name:lc_en_o
-            vpiName: lc_tx_t
-            vpiFullName: prim_lc_sender.lc_en_o.lc_tx_t
-            vpiActual: UnsupportedTypespec name:lc_ctrl_pkg::lc_tx_t
+            vpiName: lc_ctrl_pkg::lc_tx_t
+            vpiFullName: prim_lc_sender.lc_en_o.lc_ctrl_pkg::lc_tx_t
+            vpiPathElem (2 items):
+              RefTypespec name:lc_ctrl_pkg start:12:10 end:12:21:
+                vpiParent: RefTypespec name:lc_ctrl_pkg::lc_tx_t
+                vpiName: lc_ctrl_pkg
+                vpiFullName: prim_lc_sender.lc_en_o.lc_ctrl_pkg::lc_tx_t.lc_ctrl_pkg
+                vpiPathElem (1 items):
+                  RefObj name:lc_ctrl_pkg start:12:10 end:12:21:
+                    vpiParent: RefTypespec name:lc_ctrl_pkg
+                    vpiName: lc_ctrl_pkg
+                    vpiFullName: prim_lc_sender.lc_en_o.lc_ctrl_pkg::lc_tx_t.lc_ctrl_pkg
+                    vpiActual: Package name:lc_ctrl_pkg
+              RefTypespec name:lc_tx_t start:12:23 end:12:30:
+                vpiParent: RefTypespec name:lc_ctrl_pkg::lc_tx_t
+                vpiName: lc_tx_t
+                vpiFullName: prim_lc_sender.lc_en_o.lc_ctrl_pkg::lc_tx_t.lc_tx_t
+            vpiActual: TypedefTypespec name:lc_tx_t
           vpiName: lc_en_o
           vpiFullName: prim_lc_sender.lc_en_o
-      vpiTypespec (3 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:prim_lc_sender
           vpiRange (1 items):
@@ -278,21 +291,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        UnsupportedTypespec name:lc_ctrl_pkg start:12:10 end:12:21:
-          vpiParent: Module name:prim_lc_sender
-          vpiName Identifier name:lc_ctrl_pkg start:12:10 end:12:21:
-        UnsupportedTypespec name:lc_ctrl_pkg::lc_tx_t start:12:10 end:12:30:
-          vpiParent: Module name:prim_lc_sender
-          vpiPathElem (2 items):
-            RefTypespec start:12:10 end:12:23:
-              vpiParent: UnsupportedTypespec name:lc_ctrl_pkg::lc_tx_t
-              vpiFullName: prim_lc_sender.lc_ctrl_pkg::lc_tx_t
-              vpiActual: UnsupportedTypespec name:lc_ctrl_pkg
-            RefTypespec name:lc_tx_t start:12:23 end:12:30:
-              vpiParent: UnsupportedTypespec name:lc_ctrl_pkg::lc_tx_t
-              vpiName: lc_tx_t
-              vpiFullName: prim_lc_sender.lc_ctrl_pkg::lc_tx_t.lc_tx_t
-          vpiName Identifier name:lc_ctrl_pkg::lc_tx_t start:12:10 end:12:30:
       vpiDefName: prim_lc_sender
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:10:8 end:10:22:
@@ -303,7 +301,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:lc_en_i start:11:16 end:11:23:
           vpiParent: Module name:prim_lc_sender
-          vpiTypespec RefTypespec start:11:3 end:11:15:
+          vpiTypespec RefTypespec start:11:10 end:11:15:
             vpiParent: Net name:lc_en_i
             vpiFullName: prim_lc_sender.lc_en_i
             vpiActual: LogicTypespec
@@ -321,7 +319,7 @@ Design name:unnamed:
             vpiName: lc_en_i
             vpiFullName: prim_lc_sender.lc_en_i.lc_en_i
             vpiActual: Net name:lc_en_i
-          vpiTypespec RefTypespec start:11:3 end:11:15:
+          vpiTypespec RefTypespec start:11:10 end:11:15:
             vpiParent: Port name:lc_en_i
             vpiFullName: prim_lc_sender.lc_en_i
             vpiActual: LogicTypespec
@@ -334,11 +332,26 @@ Design name:unnamed:
             vpiName: lc_en_o
             vpiFullName: prim_lc_sender.lc_en_o.lc_en_o
             vpiActual: Variable name:lc_en_o
-          vpiTypespec RefTypespec name:lc_tx_t start:12:23 end:12:30:
+          vpiTypespec RefTypespec name:lc_ctrl_pkg::lc_tx_t start:12:10 end:12:30:
             vpiParent: Port name:lc_en_o
-            vpiName: lc_tx_t
-            vpiFullName: prim_lc_sender.lc_en_o.lc_tx_t
-            vpiActual: UnsupportedTypespec name:lc_ctrl_pkg::lc_tx_t
+            vpiName: lc_ctrl_pkg::lc_tx_t
+            vpiFullName: prim_lc_sender.lc_en_o.lc_ctrl_pkg::lc_tx_t
+            vpiPathElem (2 items):
+              RefTypespec name:lc_ctrl_pkg start:12:10 end:12:21:
+                vpiParent: RefTypespec name:lc_ctrl_pkg::lc_tx_t
+                vpiName: lc_ctrl_pkg
+                vpiFullName: prim_lc_sender.lc_en_o.lc_ctrl_pkg::lc_tx_t.lc_ctrl_pkg
+                vpiPathElem (1 items):
+                  RefObj name:lc_ctrl_pkg start:12:10 end:12:21:
+                    vpiParent: RefTypespec name:lc_ctrl_pkg
+                    vpiName: lc_ctrl_pkg
+                    vpiFullName: prim_lc_sender.lc_en_o.lc_ctrl_pkg::lc_tx_t.lc_ctrl_pkg
+                    vpiActual: Package name:lc_ctrl_pkg
+              RefTypespec name:lc_tx_t start:12:23 end:12:30:
+                vpiParent: RefTypespec name:lc_ctrl_pkg::lc_tx_t
+                vpiName: lc_tx_t
+                vpiFullName: prim_lc_sender.lc_en_o.lc_ctrl_pkg::lc_tx_t.lc_tx_t
+            vpiActual: TypedefTypespec name:lc_tx_t
       vpiContAssign (1 items):
         ContAssign start:14:10 end:14:50:
           vpiParent: Module name:prim_lc_sender
@@ -353,6 +366,16 @@ Design name:unnamed:
               vpiParent: Operation
               vpiName: lc_ctrl_pkg::lc_tx_t
               vpiFullName: prim_lc_sender.lc_ctrl_pkg::lc_tx_t
+              vpiPathElem (2 items):
+                RefObj name:lc_ctrl_pkg start:14:20 end:14:33:
+                  vpiParent: RefTypespec name:lc_ctrl_pkg::lc_tx_t
+                  vpiName: lc_ctrl_pkg
+                  vpiFullName: prim_lc_sender.lc_ctrl_pkg
+                  vpiActual: Package name:lc_ctrl_pkg
+                RefTypespec name:lc_tx_t start:14:33 end:14:40:
+                  vpiParent: RefTypespec name:lc_ctrl_pkg::lc_tx_t
+                  vpiName: lc_tx_t
+                  vpiFullName: prim_lc_sender.lc_ctrl_pkg::lc_tx_t.lc_tx_t
               vpiActual: TypedefTypespec name:lc_tx_t
             vpiOpType: cast (81)
             vpiOperand (1 items):

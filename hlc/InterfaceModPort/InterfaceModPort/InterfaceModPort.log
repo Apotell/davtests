@@ -929,9 +929,10 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/top.v:78:25: Failed to bind "id:884, name:we_mem".
 [WRN:CP5851] $Source01/top.v:79:8: Failed to bind "id:890, name:datao_mem".
 [WRN:CP5851] $Source01/top.v:79:29: Failed to bind "id:893, name:addr_mem".
-[WRN:CP5851] $Source01/top.v:102:11: Failed to bind "id:938, name:reset".
+[WRN:CP5851] $Source01/top.v:102:11: Failed to bind "id:934, name:reset".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:CP5867] $Source01/top.v:1:35: Illegal data type for net clock.
+[ERR:LN7701] Invalid name: id:962, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2249,7 +2250,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -2269,7 +2270,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -2291,7 +2292,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -2309,7 +2310,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -2331,7 +2332,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -2349,7 +2350,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -2414,24 +2415,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -2588,7 +2587,7 @@ Design name:unnamed:
       vpiParameter (2 items):
         Parameter name:setup_time start:3:14 end:3:24:
           vpiParent: Interface name:mem_interface
-          vpiTypespec RefTypespec start:3:14 end:3:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:setup_time
             vpiFullName: mem_interface.setup_time
             vpiActual: LogicTypespec
@@ -2596,7 +2595,7 @@ Design name:unnamed:
           vpiFullName: mem_interface.setup_time
         Parameter name:hold_time start:4:14 end:4:23:
           vpiParent: Interface name:mem_interface
-          vpiTypespec RefTypespec start:4:14 end:4:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:hold_time
             vpiFullName: mem_interface.hold_time
             vpiActual: LogicTypespec
@@ -2704,7 +2703,7 @@ Design name:unnamed:
       vpiNet (5 items):
         Net name:clock start:1:35 end:1:40:
           vpiParent: Interface name:mem_interface
-          vpiTypespec RefTypespec start:1:25 end:1:34:
+          vpiTypespec RefTypespec start:1:31 end:1:34:
             vpiParent: Net name:clock
             vpiFullName: mem_interface.clock
             vpiActual: BitTypespec
@@ -2736,7 +2735,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:mem_en start:8:15 end:8:21:
           vpiParent: Interface name:mem_interface
-          vpiTypespec RefTypespec start:8:15 end:8:15:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:mem_en
             vpiFullName: mem_interface.mem_en
             vpiActual: LogicTypespec
@@ -2747,7 +2746,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:mem_rd_wr start:9:15 end:9:24:
           vpiParent: Interface name:mem_interface
-          vpiTypespec RefTypespec start:9:15 end:9:15:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:mem_rd_wr
             vpiFullName: mem_interface.mem_rd_wr
             vpiActual: LogicTypespec
@@ -2827,7 +2826,7 @@ Design name:unnamed:
             vpiName: clock
             vpiFullName: mem_interface.clock.clock
             vpiActual: Net name:clock
-          vpiTypespec RefTypespec start:1:25 end:1:34:
+          vpiTypespec RefTypespec start:1:31 end:1:34:
             vpiParent: Port name:clock
             vpiFullName: mem_interface.clock
             vpiActual: BitTypespec
@@ -3079,7 +3078,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:26:30 end:26:33:
           vpiParent: Interface name:mem_if
-          vpiTypespec RefTypespec start:26:19 end:26:29:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: mem_if.clk
             vpiActual: LogicTypespec
@@ -3217,7 +3216,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: mem_if.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:26:19 end:26:29:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: mem_if.clk
             vpiActual: LogicTypespec
@@ -3226,20 +3225,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:99:9 end:99:13:
       vpiFullName: test
-      vpiTypespec (1 items):
-        UnsupportedTypespec name:mem_if::tb start:99:14 end:99:23:
-          vpiParent: Program name:test
-          vpiPathElem (2 items):
-            RefObj name:mem_if start:99:14 end:99:20:
-              vpiParent: UnsupportedTypespec name:mem_if::tb
-              vpiName: mem_if
-              vpiFullName: test.mem_if::tb.mem_if
-              vpiActual: Interface name:mem_if
-            RefObj name:tb start:99:21 end:99:23:
-              vpiParent: UnsupportedTypespec name:mem_if::tb
-              vpiName: tb
-              vpiFullName: test.mem_if::tb.tb
-          vpiName Identifier name:mem_if::tb:
       vpiDefName: test
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:99:9 end:99:13:
@@ -3305,10 +3290,20 @@ Design name:unnamed:
             vpiName: tif
             vpiFullName: test.tif.tif
             vpiActual: Port name:tif
-          vpiTypespec RefTypespec start:99:14 end:99:23:
+          vpiTypespec RefTypespec name:mem_if::tb start:99:14 end:99:23:
             vpiParent: Port name:tif
-            vpiFullName: test.tif
-            vpiActual: UnsupportedTypespec name:mem_if::tb
+            vpiName: mem_if::tb
+            vpiFullName: test.tif.mem_if::tb
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:99:14 end:99:20:
+                vpiParent: RefTypespec name:mem_if::tb
+                vpiName: mem_if
+                vpiFullName: test.tif.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:tb start:99:21 end:99:23:
+                vpiParent: RefTypespec name:mem_if::tb
+                vpiName: tb
+                vpiFullName: test.tif.mem_if::tb.tb
   vpiAllModules (3 items):
     Module name:memory_model file:$Source01/top.v start:62:1 end:82:10:
       vpiParent: Design name:unnamed
@@ -3317,27 +3312,15 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:mem start:64:13 end:64:16:
           vpiParent: Module name:memory_model
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [7:0] [0:255] start:64:1 end:64:12:
             vpiParent: Variable name:mem
-            vpiFullName: memory_model.mem
+            vpiName: logic [7:0] [0:255]
+            vpiFullName: memory_model.mem.logic [7:0] [0:255]
             vpiActual: ArrayTypespec
           vpiName: mem
           vpiFullName: memory_model.mem
           vpiVector: true
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:mem_if::memory start:62:22 end:62:35:
-          vpiParent: Module name:memory_model
-          vpiPathElem (2 items):
-            RefObj name:mem_if start:62:22 end:62:28:
-              vpiParent: UnsupportedTypespec name:mem_if::memory
-              vpiName: mem_if
-              vpiFullName: memory_model.mem_if::memory.mem_if
-              vpiActual: Interface name:mem_if
-            RefObj name:memory start:62:29 end:62:35:
-              vpiParent: UnsupportedTypespec name:mem_if::memory
-              vpiName: memory
-              vpiFullName: memory_model.mem_if::memory.memory
-          vpiName Identifier name:mem_if::memory:
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:memory_model
           vpiRange (1 items):
@@ -3410,10 +3393,20 @@ Design name:unnamed:
             vpiName: mif
             vpiFullName: memory_model.mif.mif
             vpiActual: Port name:mif
-          vpiTypespec RefTypespec start:62:22 end:62:35:
+          vpiTypespec RefTypespec name:mem_if::memory start:62:22 end:62:35:
             vpiParent: Port name:mif
-            vpiFullName: memory_model.mif
-            vpiActual: UnsupportedTypespec name:mem_if::memory
+            vpiName: mem_if::memory
+            vpiFullName: memory_model.mif.mem_if::memory
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:62:22 end:62:28:
+                vpiParent: RefTypespec name:mem_if::memory
+                vpiName: mem_if
+                vpiFullName: memory_model.mif.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:memory start:62:29 end:62:35:
+                vpiParent: RefTypespec name:mem_if::memory
+                vpiName: memory
+                vpiFullName: memory_model.mif.mem_if::memory.memory
       vpiProcess (2 items):
         Always start:69:1 end:72:5:
           vpiParent: Module name:memory_model
@@ -3657,20 +3650,7 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:fsm_t
           vpiName: state
           vpiFullName: memory_ctrl.state
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:mem_if::system start:87:21 end:87:34:
-          vpiParent: Module name:memory_ctrl
-          vpiPathElem (2 items):
-            RefObj name:mem_if start:87:21 end:87:27:
-              vpiParent: UnsupportedTypespec name:mem_if::system
-              vpiName: mem_if
-              vpiFullName: memory_ctrl.mem_if::system.mem_if
-              vpiActual: Interface name:mem_if
-            RefObj name:system start:87:28 end:87:34:
-              vpiParent: UnsupportedTypespec name:mem_if::system
-              vpiName: system
-              vpiFullName: memory_ctrl.mem_if::system.system
-          vpiName Identifier name:mem_if::system:
+      vpiTypespec (2 items):
         EnumTypespec start:89:10 end:89:37:
           vpiParent: Module name:memory_ctrl
           vpiEnum: Enum
@@ -3696,10 +3676,20 @@ Design name:unnamed:
             vpiName: sif
             vpiFullName: memory_ctrl.sif.sif
             vpiActual: Port name:sif
-          vpiTypespec RefTypespec start:87:21 end:87:34:
+          vpiTypespec RefTypespec name:mem_if::system start:87:21 end:87:34:
             vpiParent: Port name:sif
-            vpiFullName: memory_ctrl.sif
-            vpiActual: UnsupportedTypespec name:mem_if::system
+            vpiName: mem_if::system
+            vpiFullName: memory_ctrl.sif.mem_if::system
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:87:21 end:87:27:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: mem_if
+                vpiFullName: memory_ctrl.sif.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:system start:87:28 end:87:34:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: system
+                vpiFullName: memory_ctrl.sif.mem_if::system.system
     Module name:interface_modports file:$Source01/top.v start:112:1 end:124:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:interface_modports start:112:8 end:112:26:
@@ -3786,11 +3776,9 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:119:13 end:119:16:
               vpiParent: RefInstance name:miff
-              vpiLowConn RefObj name:clk:
+              vpiLowConn RefObj:
                 vpiParent: Port
-                vpiName: clk
-                vpiFullName: interface_modports.miff.clk
-                vpiActual: Port name:clk
+                vpiFullName: interface_modports.miff
               vpiHighConn RefObj name:clk start:119:13 end:119:16:
                 vpiParent: Port
                 vpiName: clk
@@ -3921,7 +3909,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 2
 [WARNING] : 14
 [   NOTE] : 2
 ********************************************************************************
@@ -3967,10 +3955,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            31      32       1         0
 Operation                            7       6       0         1
-RefObj                              66      65       0         1
-RefTypespec                        244     245       1         0
+RefObj                              63      62       0         1
+RefTypespec                        247     248       1         0
 ----------------------------------------------------------------
-Others                             617     617       0         0
+Others                             609     609       0         0
 ----------------------------------------------------------------
-                                   965     965       2         2
+                                   957     957       2         2
 ===================== END REDUCTION RESULT =====================

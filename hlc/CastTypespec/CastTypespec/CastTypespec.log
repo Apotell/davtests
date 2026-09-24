@@ -467,8 +467,8 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:2:1: Compile package "top_pkg".
 [INF:CP5804] $Source01/dut.sv:14:3: Compile module "tlul_adapter_host".
 [INF:CP5804] $Source01/dut.sv:25:3: Compile module "top".
-[WRN:CP5851] $Source01/dut.sv:38:20: Failed to bind "id:826, name:dmcontrol_q".
-[WRN:CP5851] $Source01/dut.sv:38:32: Failed to bind "id:827, name:resumereq".
+[WRN:CP5851] $Source01/dut.sv:38:20: Failed to bind "id:827, name:dmcontrol_q".
+[WRN:CP5851] $Source01/dut.sv:38:32: Failed to bind "id:828, name:resumereq".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/dut.sv:2:1: No timescale set for "top_pkg".
 [WRN:PA5506] $Source01/dut.sv:14:3: No timescale set for "tlul_adapter_host".
@@ -2011,7 +2011,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -2031,7 +2031,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -2053,7 +2053,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -2071,7 +2071,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -2093,7 +2093,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -2111,7 +2111,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -2176,24 +2176,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -2347,20 +2345,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:tlul_adapter_host start:14:10 end:14:27:
       vpiFullName: tlul_adapter_host
-      vpiTypespec (1 items):
-        UnsupportedTypespec name:top_pkg::TL_SZW start:18:18 end:18:33:
-          vpiParent: Module name:tlul_adapter_host
-          vpiPathElem (2 items):
-            RefObj name:top_pkg start:18:18 end:18:27:
-              vpiParent: UnsupportedTypespec name:top_pkg::TL_SZW
-              vpiName: top_pkg
-              vpiFullName: tlul_adapter_host.top_pkg::TL_SZW.top_pkg
-              vpiActual: Package name:top_pkg
-            RefTypespec name:TL_SZW start:18:27 end:18:33:
-              vpiParent: UnsupportedTypespec name:top_pkg::TL_SZW
-              vpiName: TL_SZW
-              vpiFullName: tlul_adapter_host.top_pkg::TL_SZW.TL_SZW
-          vpiName Identifier name:top_pkg::TL_SZW:
       vpiDefName: tlul_adapter_host
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:14:10 end:14:27:
@@ -2407,7 +2391,16 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName: top_pkg::TL_SZW
                     vpiFullName: tlul_adapter_host.top_pkg::TL_SZW
-                    vpiActual: UnsupportedTypespec name:top_pkg::TL_SZW
+                    vpiPathElem (2 items):
+                      RefObj name:top_pkg start:18:18 end:18:27:
+                        vpiParent: RefTypespec name:top_pkg::TL_SZW
+                        vpiName: top_pkg
+                        vpiFullName: tlul_adapter_host.top_pkg
+                        vpiActual: Package name:top_pkg
+                      RefTypespec name:TL_SZW start:18:27 end:18:33:
+                        vpiParent: RefTypespec name:top_pkg::TL_SZW
+                        vpiName: TL_SZW
+                        vpiFullName: tlul_adapter_host.top_pkg::TL_SZW.TL_SZW
                   vpiOpType: cast (81)
                   vpiOperand (1 items):
                     RefObj name:WordSize start:18:35 end:18:43:
@@ -2456,9 +2449,10 @@ Design name:unnamed:
             TypespecMember name:b start:27:27 end:27:28:
               vpiParent: Struct
               vpiName: b
-              vpiTypespec RefTypespec start:27:21 end:27:24:
+              vpiTypespec RefTypespec name:int [4] start:27:21 end:27:24:
                 vpiParent: TypespecMember name:b
-                vpiFullName: top.b
+                vpiName: int [4]
+                vpiFullName: top.b.int [4]
                 vpiActual: ArrayTypespec
       vpiTypedef (1 items):
         Typedef name:ab_t start:27:5 end:27:39:
@@ -2528,7 +2522,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:HartSelLen start:35:14 end:35:24:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:35:14 end:35:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:HartSelLen
             vpiFullName: top.HartSelLen
             vpiActual: LogicTypespec
@@ -2606,42 +2600,14 @@ Design name:unnamed:
             vpiVariable (1 items):
               Variable name:v1 start:31:12 end:31:14:
                 vpiParent: Begin
-                vpiTypespec RefTypespec:
+                vpiTypespec RefTypespec name:ab_t [1:0][2:0] start:31:7 end:31:11:
                   vpiParent: Variable name:v1
-                  vpiFullName: top.v1
+                  vpiName: ab_t [1:0][2:0]
+                  vpiFullName: top.v1.ab_t [1:0][2:0]
                   vpiActual: ArrayTypespec
                 vpiName: v1
                 vpiFullName: top.v1
             vpiTypespec (2 items):
-              ArrayTypespec:
-                vpiParent: Begin
-                vpiArrayType: static (1)
-                vpiRange Range start:31:14 end:31:19:
-                  vpiParent: ArrayTypespec
-                  vpiLeftRange Constant start:31:15 end:31:16:
-                    vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "1"
-                    vpiValue: 1
-                  vpiRightRange Constant start:31:17 end:31:18:
-                    vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "0"
-                    vpiValue: 0
-                vpiElemTypespec RefTypespec:
-                  vpiParent: ArrayTypespec
-                  vpiFullName: top
-                  vpiActual: ArrayTypespec
               ArrayTypespec:
                 vpiParent: Begin
                 vpiArrayType: static (1)
@@ -2672,6 +2638,35 @@ Design name:unnamed:
                   vpiName: ab_t
                   vpiFullName: top.ab_t
                   vpiActual: TypedefTypespec name:ab_t
+              ArrayTypespec:
+                vpiParent: Begin
+                vpiArrayType: static (1)
+                vpiRange Range start:31:14 end:31:19:
+                  vpiParent: ArrayTypespec
+                  vpiLeftRange Constant start:31:15 end:31:16:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: top
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                  vpiRightRange Constant start:31:17 end:31:18:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: top
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                vpiElemTypespec RefTypespec:
+                  vpiParent: ArrayTypespec
+                  vpiFullName: top
+                  vpiActual: ArrayTypespec
             vpiStmt (1 items):
               Assignment start:32:7 end:32:38:
                 vpiParent: Begin
@@ -2896,13 +2891,13 @@ COMMAND: ${HLC_DIR}/regression/CastTypespec/CastTypespec/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            27      27       3         3
-Identifier                         215     213       0         2
+Identifier                         213     211       0         2
 Operation                           13      10       0         3
 RefObj                              29      26       0         3
 RefTypespec                        231     230       2         3
 SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
-Others                             289     289       0         0
+Others                             287     287       0         0
 ----------------------------------------------------------------
-                                   806     795       5        16
+                                   802     791       5        16
 ===================== END REDUCTION RESULT =====================

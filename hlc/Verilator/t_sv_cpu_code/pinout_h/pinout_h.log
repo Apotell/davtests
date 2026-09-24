@@ -415,13 +415,7 @@ Design name:unnamed:
           vpiParent: SourceFile name:pinout_h.sv
           vpiName Identifier name:_PINOUT_H_SV_ start:9:10 end:9:23:
           vpiPMDType: define (1)
-  vpiTypespec (10 items):
-    UnsupportedTypespec name:t_pinid start:20:2 end:20:9:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:t_pinid start:20:2 end:20:9:
-    UnsupportedTypespec name:t_padtype start:21:2 end:21:11:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:t_padtype start:21:2 end:21:11:
+  vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -510,9 +504,10 @@ Design name:unnamed:
   vpiParameter (3 items):
     Parameter name:pinout start:33:3 end:33:9:
       vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:32:12 end:32:28:
+      vpiTypespec RefTypespec name:t_pin_descriptor [1:6] start:32:12 end:32:28:
         vpiParent: Parameter name:pinout
-        vpiFullName: pinout
+        vpiName: t_pin_descriptor [1:6]
+        vpiFullName: pinout.t_pin_descriptor [1:6]
         vpiActual: ArrayTypespec
       vpiName: pinout
       vpiFullName: pinout
@@ -528,9 +523,10 @@ Design name:unnamed:
       vpiLocalParam: true
     Parameter name:pinout_wa start:53:16 end:53:25:
       vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:53:12 end:53:15:
+      vpiTypespec RefTypespec name:int [1:pinout_size][pinout_wa_id:pinout_wa_aux] start:53:12 end:53:15:
         vpiParent: Parameter name:pinout_wa
-        vpiFullName: pinout_wa
+        vpiName: int [1:pinout_size][pinout_wa_id:pinout_wa_aux]
+        vpiFullName: pinout_wa.int [1:pinout_size][pinout_wa_id:pinout_wa_aux]
         vpiActual: ArrayTypespec
       vpiName: pinout_wa
       vpiFullName: pinout_wa
@@ -952,8 +948,10 @@ Design name:unnamed:
   vpiEnum (1 items):
     Enum start:45:9 end:50:3:
       vpiParent: Design name:unnamed
-      vpiBaseTypespec RefTypespec start:45:14 end:45:17:
+      vpiBaseTypespec RefTypespec name:int start:45:14 end:45:17:
         vpiParent: Enum
+        vpiName: int
+        vpiFullName: int
         vpiActual: IntTypespec
       vpiEnumConst (3 items):
         EnumConst name:pinout_wa_id start:47:2 end:47:18:
@@ -987,7 +985,6 @@ Design name:unnamed:
             vpiParent: TypespecMember name:id
             vpiName: t_pinid
             vpiFullName: id.t_pinid
-            vpiActual: UnsupportedTypespec name:t_pinid
         TypespecMember name:padtype start:21:12 end:21:19:
           vpiParent: Struct
           vpiName: padtype
@@ -995,7 +992,6 @@ Design name:unnamed:
             vpiParent: TypespecMember name:padtype
             vpiName: t_padtype
             vpiFullName: padtype.t_padtype
-            vpiActual: UnsupportedTypespec name:t_padtype
         TypespecMember name:aux start:22:12 end:22:15:
           vpiParent: Struct
           vpiName: aux
@@ -1066,7 +1062,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/pinout_h/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             172     172       0         0
+Others                             168     168       0         0
 ----------------------------------------------------------------
-                                   172     172       0         0
+                                   168     168       0         0
 ===================== END REDUCTION RESULT =====================

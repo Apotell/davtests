@@ -130,7 +130,8 @@ n<$Source01/t_interface_param_another_bad.v> u<115> t<Top_level_rule> c<1> l<6:1
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_param_another_bad.v:6:1: Compile module "t".
 [INF:CP5805] $Source01/t_interface_param_another_bad.v:15:1: Compile interface "simple_bus".
-[WRN:CP5851] $Source01/t_interface_param_another_bad.v:8:42: Failed to bind "id:19, name:dummy".
+[WRN:CP5851] $Source01/t_interface_param_another_bad.v:8:42: Failed to bind "id:15, name:dummy".
+[WRN:CP5851] $Source01/t_interface_param_another_bad.v:8:42: Failed to bind "id:25, name:dummy".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -189,6 +190,62 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:6:8 end:6:9:
       vpiFullName: t
+      vpiTypespec (1 items):
+        UnsupportedTypespec start:8:4 end:8:50:
+          vpiParent: Module name:t
+          vpiParamAssign (2 items):
+            ParamAssign start:8:17 end:8:49:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:PARAMETER start:8:18 end:8:27:
+                vpiParent: ParamAssign
+                vpiName: PARAMETER
+                vpiFullName: t.PARAMETER
+              vpiRhs SysFuncCall name:$bits start:8:28 end:8:48:
+                vpiParent: ParamAssign
+                vpiName Identifier name:$bits start:8:28 end:8:33:
+                vpiArgument (1 items):
+                  RefObj name:sb_intf.dummy start:8:34 end:8:47:
+                    vpiParent: SysFuncCall name:$bits
+                    vpiName: sb_intf.dummy
+                    vpiFullName: t.sb_intf.dummy
+                    vpiPathElem (2 items):
+                      RefObj name:sb_intf start:8:34 end:8:41:
+                        vpiParent: RefObj name:sb_intf.dummy
+                        vpiName: sb_intf
+                        vpiFullName: t.sb_intf
+                        vpiActual: RefInstance name:sb_intf
+                      RefObj name:dummy start:8:42 end:8:47:
+                        vpiParent: RefObj name:sb_intf.dummy
+                        vpiName: dummy
+                        vpiFullName: t.dummy
+            ParamAssign start:8:17 end:8:49:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:PARAMETER start:8:18 end:8:27:
+                vpiParent: ParamAssign
+                vpiName: PARAMETER
+                vpiFullName: t.PARAMETER
+              vpiRhs SysFuncCall name:$bits start:8:28 end:8:48:
+                vpiParent: ParamAssign
+                vpiName Identifier name:$bits start:8:28 end:8:33:
+                vpiArgument (1 items):
+                  RefObj name:sb_intf.dummy start:8:34 end:8:47:
+                    vpiParent: SysFuncCall name:$bits
+                    vpiName: sb_intf.dummy
+                    vpiFullName: t.sb_intf.dummy
+                    vpiPathElem (2 items):
+                      RefObj name:sb_intf start:8:34 end:8:41:
+                        vpiParent: RefObj name:sb_intf.dummy
+                        vpiName: sb_intf
+                        vpiFullName: t.sb_intf
+                        vpiActual: RefInstance name:sb_intf
+                      RefObj name:dummy start:8:42 end:8:47:
+                        vpiParent: RefObj name:sb_intf.dummy
+                        vpiName: dummy
+                        vpiFullName: t.dummy
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:6:8 end:6:9:
@@ -232,11 +289,10 @@ Design name:unnamed:
         RefInstance name:simple start:8:51 end:8:57:
           vpiParent: Module name:t
           vpiName: simple
-          vpiTypespec RefTypespec name:simple_bus start:8:4 end:8:14:
+          vpiTypespec RefTypespec start:8:4 end:8:14:
             vpiParent: RefInstance name:simple
-            vpiName: simple_bus
-            vpiFullName: t.simple.simple_bus
-            vpiActual: InterfaceTypespec name:simple_bus
+            vpiFullName: t.simple
+            vpiActual: UnsupportedTypespec
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -257,7 +313,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -272,25 +328,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_param_another_bad/mounts.json
 
 
-{'result': {'coverage': 86.64,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_param_another_bad.v': {'post_len': 29,
+            'files': {'$Output/lib/work/t_interface_param_another_bad.v': {'post_len': 0,
                                                                            'pre_len': 217}},
-            'post_len': 29,
+            'post_len': 0,
             'pre_len': 217,
             'test_name': 'Verilator/t_interface_param_another_bad'}}
 
 +--------------------------------------------------+----------+-----------+
 | INPUT                                            |   PRELEN |   POSTLEN |
 +==================================================+==========+===========+
-| $Output/lib/work/t_interface_param_another_bad.v |      217 |        29 |
+| $Output/lib/work/t_interface_param_another_bad.v |      217 |         0 |
 +==================================================+==========+===========+
-|                                                  |      217 |        29 |
+|                                                  |      217 |         0 |
 +--------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 86.64
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -301,7 +357,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_param_another_bad/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              33      33       0         0
+Others                              48      48       0         0
 ----------------------------------------------------------------
-                                    33      33       0         0
+                                    48      48       0         0
 ===================== END REDUCTION RESULT =====================

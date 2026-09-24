@@ -1539,7 +1539,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1559,7 +1559,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1581,7 +1581,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1599,7 +1599,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1621,7 +1621,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1639,7 +1639,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1704,24 +1704,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -1882,10 +1880,9 @@ Design name:unnamed:
             vpiParent: Variable name:d
             vpiName: DD
             vpiFullName: toto.d.DD
-            vpiActual: UnsupportedTypespec name:DD
           vpiName: d
           vpiFullName: toto.d
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         ClassTypespec name:c2:
           vpiParent: Module name:toto
           vpiName Identifier name:c2:
@@ -1901,9 +1898,6 @@ Design name:unnamed:
           vpiName Identifier name:c1:
           vpiDefName: c1
           vpiClassDefn: ClassDefn name:c1
-        UnsupportedTypespec name:DD start:50:2 end:50:4:
-          vpiParent: Module name:toto
-          vpiName Identifier name:DD start:50:2 end:50:4:
       vpiDefName: toto
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:6:8 end:6:12:
@@ -1970,9 +1964,10 @@ Design name:unnamed:
           vpiEnum (1 items):
             Enum start:21:9 end:27:2:
               vpiParent: ClassDefn name:c1
-              vpiBaseTypespec RefTypespec start:21:14 end:21:23:
+              vpiBaseTypespec RefTypespec name:bit [1:0] start:21:14 end:21:23:
                 vpiParent: Enum
-                vpiFullName: toto::c1
+                vpiName: bit [1:0]
+                vpiFullName: toto::c1::bit [1:0]
                 vpiActual: ArrayTypespec
               vpiEnumConst (4 items):
                 EnumConst name:UVM_INFO start:23:3 end:23:11:
@@ -2005,15 +2000,12 @@ Design name:unnamed:
                 vpiParent: Typedef name:uvm_severity
                 vpiFullName: toto::c1::uvm_severity
                 vpiActual: EnumTypespec
-          vpiTypespec (5 items):
+          vpiTypespec (4 items):
             ClassTypespec name:c3 start:18:18 end:18:20:
               vpiParent: ClassDefn name:c1
               vpiName Identifier name:c3 start:18:18 end:18:20:
               vpiDefName: c3
               vpiClassDefn: ClassDefn name:c3
-            UnsupportedTypespec name:bit start:21:14 end:21:17:
-              vpiParent: ClassDefn name:c1
-              vpiName Identifier name:bit start:21:14 end:21:17:
             ArrayTypespec:
               vpiParent: ClassDefn name:c1
               vpiArrayType: static (1)
@@ -2040,11 +2032,10 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              vpiElemTypespec RefTypespec name:bit:
+              vpiElemTypespec RefTypespec name:bit start:21:14 end:21:23:
                 vpiParent: ArrayTypespec
                 vpiName: bit
                 vpiFullName: toto::c1::bit
-                vpiActual: UnsupportedTypespec name:bit
             EnumTypespec start:21:9 end:27:2:
               vpiParent: ClassDefn name:c1
               vpiEnum: Enum
@@ -2081,23 +2072,15 @@ Design name:unnamed:
                     vpiParent: Variable name:t
                     vpiName: REQ
                     vpiFullName: toto::c1::get_current_item::t::REQ
-                    vpiActual: UnsupportedTypespec name:REQ
                   vpiName: t
                   vpiFullName: toto::c1::get_current_item::t
-              vpiTypespec (2 items):
-                UnsupportedTypespec name:REQ start:30:10 end:30:13:
-                  vpiParent: Function name:get_current_item
-                  vpiName Identifier name:REQ start:30:10 end:30:13:
-                UnsupportedTypespec name:REQ start:31:5 end:31:8:
-                  vpiParent: Function name:get_current_item
-                  vpiName Identifier name:REQ start:31:5 end:31:8:
               vpiMethod: true
               vpiVisibility: public (1)
               vpiStmt: Variable name:t
-              vpiReturn RefTypespec start:30:10 end:30:13:
+              vpiReturn RefTypespec name:REQ start:30:10 end:30:13:
                 vpiParent: Function name:get_current_item
-                vpiFullName: toto::c1::get_current_item
-                vpiActual: UnsupportedTypespec name:REQ
+                vpiName: REQ
+                vpiFullName: toto::c1::get_current_item::REQ
             Function name:connect start:35:2 end:36:12:
               vpiParent: ClassDefn name:c1
               vpiName Identifier name:connect start:35:16 end:35:23:
@@ -2122,10 +2105,7 @@ Design name:unnamed:
               vpiParent: ClassDefn name:c1
               vpiName Identifier name:get_verbosity_level start:38:17 end:38:36:
               vpiFullName: toto::c1::get_verbosity_level
-              vpiTypespec (2 items):
-                UnsupportedTypespec name:uvm_reg start:38:71 end:38:78:
-                  vpiParent: Function name:get_verbosity_level
-                  vpiName Identifier name:uvm_reg start:38:71 end:38:78:
+              vpiTypespec (1 items):
                 ArrayTypespec:
                   vpiParent: Function name:get_verbosity_level
                   vpiArrayType: dynamic (2)
@@ -2135,7 +2115,6 @@ Design name:unnamed:
                     vpiParent: ArrayTypespec
                     vpiName: uvm_reg
                     vpiFullName: toto::c1::get_verbosity_level::uvm_reg
-                    vpiActual: UnsupportedTypespec name:uvm_reg
               vpiMethod: true
               vpiVisibility: public (1)
               vpiIODecl (2 items):
@@ -2157,10 +2136,10 @@ Design name:unnamed:
                   vpiParent: Function name:get_verbosity_level
                   vpiName: reg_a
                   vpiDirection: input (1)
-                  vpiTypespec RefTypespec name:uvm_reg start:38:71 end:38:78:
+                  vpiTypespec RefTypespec name:uvm_reg [] start:38:71 end:38:78:
                     vpiParent: IODecl name:reg_a
-                    vpiName: uvm_reg
-                    vpiFullName: toto::c1::get_verbosity_level::reg_a::uvm_reg
+                    vpiName: uvm_reg []
+                    vpiFullName: toto::c1::get_verbosity_level::reg_a::uvm_reg []
                     vpiActual: ArrayTypespec
               vpiReturn RefTypespec start:38:13 end:38:16:
                 vpiParent: Function name:get_verbosity_level
@@ -2170,10 +2149,7 @@ Design name:unnamed:
               vpiParent: ClassDefn name:c1
               vpiName Identifier name:set_verbosity_level start:41:15 end:41:34:
               vpiFullName: toto::c1::set_verbosity_level
-              vpiTypespec (2 items):
-                UnsupportedTypespec name:uvm_reg start:41:71 end:41:78:
-                  vpiParent: Function name:set_verbosity_level
-                  vpiName Identifier name:uvm_reg start:41:71 end:41:78:
+              vpiTypespec (1 items):
                 ArrayTypespec:
                   vpiParent: Function name:set_verbosity_level
                   vpiArrayType: dynamic (2)
@@ -2183,7 +2159,6 @@ Design name:unnamed:
                     vpiParent: ArrayTypespec
                     vpiName: uvm_reg
                     vpiFullName: toto::c1::set_verbosity_level::uvm_reg
-                    vpiActual: UnsupportedTypespec name:uvm_reg
               vpiMethod: true
               vpiVisibility: public (1)
               vpiIODecl (2 items):
@@ -2205,10 +2180,10 @@ Design name:unnamed:
                   vpiParent: Function name:set_verbosity_level
                   vpiName: reg_a
                   vpiDirection: input (1)
-                  vpiTypespec RefTypespec name:uvm_reg start:41:71 end:41:78:
+                  vpiTypespec RefTypespec name:uvm_reg [] start:41:71 end:41:78:
                     vpiParent: IODecl name:reg_a
-                    vpiName: uvm_reg
-                    vpiFullName: toto::c1::set_verbosity_level::reg_a::uvm_reg
+                    vpiName: uvm_reg []
+                    vpiFullName: toto::c1::set_verbosity_level::reg_a::uvm_reg []
                     vpiActual: ArrayTypespec
               vpiReturn RefTypespec start:41:11 end:41:14:
                 vpiParent: Function name:set_verbosity_level
@@ -2339,7 +2314,7 @@ COMMAND: ${HLC_DIR}/regression/ClassFuncProto/ClassFuncProto/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             746     746       0         0
+Others                             732     732       0         0
 ----------------------------------------------------------------
-                                   746     746       0         0
+                                   732     732       0         0
 ===================== END REDUCTION RESULT =====================

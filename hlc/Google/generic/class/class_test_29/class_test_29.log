@@ -147,23 +147,12 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Foo start:23:7 end:23:10:
       vpiFullName: Foo
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         ClassTypespec name:Base start:23:19 end:23:23:
           vpiParent: ClassDefn name:Foo
           vpiName Identifier name:Base start:23:19 end:23:23:
           vpiDefName: Base
           vpiClassDefn: ClassDefn name:Base
-        UnsupportedTypespec start:23:35 end:23:43:
-          vpiParent: ClassDefn name:Foo
-          vpiPathElem (2 items):
-            RefTypespec name:Pkg start:23:35 end:23:38:
-              vpiParent: UnsupportedTypespec
-              vpiName: Pkg
-              vpiFullName: Foo::Pkg
-            RefTypespec name:Bar start:23:40 end:23:43:
-              vpiParent: UnsupportedTypespec
-              vpiName: Bar
-              vpiFullName: Foo::Bar
       vpiDefName: Foo
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -178,10 +167,21 @@ Design name:unnamed:
       vpiImplements Implements start:23:24 end:23:34:
         vpiParent: ClassDefn name:Foo
         vpiInterfaceTypespec (2 items):
-          RefTypespec start:23:35 end:23:43:
+          RefTypespec name:Pkg::Bar start:23:35 end:23:43:
             vpiParent: Implements
-            vpiFullName: Foo
-            vpiActual: UnsupportedTypespec
+            vpiName: Pkg::Bar
+            vpiFullName: Foo::Pkg::Bar
+            vpiPathElem (2 items):
+              RefObj name:Pkg start:23:35 end:23:38:
+                vpiParent: RefTypespec name:Pkg::Bar
+                vpiName: Pkg
+                vpiFullName: Foo::Pkg
+                vpiActual: Package name:Pkg
+              RefTypespec name:Bar start:23:40 end:23:43:
+                vpiParent: RefTypespec name:Pkg::Bar
+                vpiName: Bar
+                vpiFullName: Foo::Pkg::Bar::Bar
+            vpiActual: ClassTypespec name:Bar
           RefTypespec name:Baz start:23:45 end:23:48:
             vpiParent: Implements
             vpiName: Baz
@@ -273,7 +273,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_29/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              39      39       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    39      39       0         0
 ===================== END REDUCTION RESULT =====================

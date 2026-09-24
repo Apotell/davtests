@@ -682,8 +682,8 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/t_mod_interface_array.v:28:19: Implicit port type (wire) for "a_out".
 [WRN:CP5811] $Source01/t_mod_interface_array.v:29:14: Port "i_intf_sink" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_mod_interface_array.v:38:1: Compile module "t".
-[WRN:CP5851] $Source01/t_mod_interface_array.v:21:27: Failed to bind "id:98, name:long_name".
-[WRN:CP5851] $Source01/t_mod_interface_array.v:33:36: Failed to bind "id:158, name:long_name".
+[WRN:CP5851] $Source01/t_mod_interface_array.v:21:27: Failed to bind "id:103, name:long_name".
+[WRN:CP5851] $Source01/t_mod_interface_array.v:33:36: Failed to bind "id:171, name:long_name".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -705,13 +705,12 @@ Design name:unnamed:
             vpiParent: Variable name:long_name
             vpiName: logic
             vpiFullName: a_if #(.PARAM(0)).long_name.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: long_name
           vpiFullName: a_if #(.PARAM(0)).long_name
       vpiParameter (1 items):
         Parameter name:PARAM start:8:28 end:8:33:
           vpiParent: Interface name:a_if #(.PARAM(0))
-          vpiTypespec RefTypespec start:8:28 end:8:28:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:PARAM
             vpiFullName: a_if #(.PARAM(0)).PARAM
             vpiActual: LogicTypespec
@@ -735,12 +734,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:a_if #(.PARAM(0))
-        UnsupportedTypespec name:logic start:9:4 end:9:9:
-          vpiParent: Interface name:a_if #(.PARAM(0))
-          vpiName Identifier name:logic start:9:4 end:9:9:
       vpiDefName: a_if
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:11 end:8:15:
@@ -772,10 +768,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:intf_source start:14:8 end:14:19:
       vpiFullName: intf_source
-      vpiTypespec (4 items):
-        UnsupportedTypespec name:logic start:16:10 end:16:15:
-          vpiParent: Module name:intf_source
-          vpiName Identifier name:logic start:16:10 end:16:15:
+      vpiTypespec (2 items):
         ArrayTypespec:
           vpiParent: Module name:intf_source
           vpiArrayType: static (1)
@@ -811,23 +804,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:16:10 end:16:23:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: intf_source.logic
-            vpiActual: UnsupportedTypespec name:logic
-        UnsupportedTypespec name:a_if::source start:17:4 end:17:15:
-          vpiParent: Module name:intf_source
-          vpiPathElem (2 items):
-            RefObj name:a_if start:17:4 end:17:8:
-              vpiParent: UnsupportedTypespec name:a_if::source
-              vpiName: a_if
-              vpiFullName: intf_source.a_if::source.a_if
-            RefObj name:source start:17:9 end:17:15:
-              vpiParent: UnsupportedTypespec name:a_if::source
-              vpiName: source
-              vpiFullName: intf_source.a_if::source.source
-          vpiName Identifier name:a_if::source:
         ArrayTypespec:
           vpiParent: Module name:intf_source
           vpiArrayType: static (1)
@@ -866,7 +846,15 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: a_if::source
             vpiFullName: intf_source.a_if::source
-            vpiActual: UnsupportedTypespec name:a_if::source
+            vpiPathElem (2 items):
+              RefObj name:a_if start:17:4 end:17:8:
+                vpiParent: RefTypespec name:a_if::source
+                vpiName: a_if
+                vpiFullName: intf_source.a_if
+              RefTypespec name:source start:17:9 end:17:15:
+                vpiParent: RefTypespec name:a_if::source
+                vpiName: source
+                vpiFullName: intf_source.a_if::source.source
       vpiDefName: intf_source
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:14:8 end:14:19:
@@ -877,10 +865,10 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:intf_input start:16:24 end:16:34:
           vpiParent: Module name:intf_source
-          vpiTypespec RefTypespec name:logic start:16:10 end:16:15:
+          vpiTypespec RefTypespec name:logic [N-1:0] start:16:10 end:16:23:
             vpiParent: Net name:intf_input
-            vpiName: logic
-            vpiFullName: intf_source.intf_input.logic
+            vpiName: logic [N-1:0]
+            vpiFullName: intf_source.intf_input.logic [N-1:0]
             vpiActual: ArrayTypespec
           vpiName: intf_input
           vpiFullName: intf_source.intf_input
@@ -895,10 +883,10 @@ Design name:unnamed:
             vpiName: intf_input
             vpiFullName: intf_source.intf_input.intf_input
             vpiActual: Net name:intf_input
-          vpiTypespec RefTypespec name:logic start:16:10 end:16:15:
+          vpiTypespec RefTypespec name:logic [N-1:0] start:16:10 end:16:23:
             vpiParent: Port name:intf_input
-            vpiName: logic
-            vpiFullName: intf_source.intf_input.logic
+            vpiName: logic [N-1:0]
+            vpiFullName: intf_source.intf_input.logic [N-1:0]
             vpiActual: ArrayTypespec
         Port name:i_intf_source start:17:16 end:17:29:
           vpiParent: Module name:intf_source
@@ -909,9 +897,10 @@ Design name:unnamed:
             vpiName: i_intf_source
             vpiFullName: intf_source.i_intf_source.i_intf_source
             vpiActual: Port name:i_intf_source
-          vpiTypespec RefTypespec start:17:4 end:17:15:
+          vpiTypespec RefTypespec name:a_if::source [N-1:0] start:17:4 end:17:15:
             vpiParent: Port name:i_intf_source
-            vpiFullName: intf_source.i_intf_source
+            vpiName: a_if::source [N-1:0]
+            vpiFullName: intf_source.i_intf_source.a_if::source [N-1:0]
             vpiActual: ArrayTypespec
       vpiGenStmt (1 items):
         GenRegion start:19:4 end:23:15:
@@ -1010,7 +999,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:intf_sink start:26:8 end:26:17:
       vpiFullName: intf_sink
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:intf_sink
           vpiRange (1 items):
@@ -1046,18 +1035,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        UnsupportedTypespec name:a_if::sink start:29:4 end:29:13:
-          vpiParent: Module name:intf_sink
-          vpiPathElem (2 items):
-            RefObj name:a_if start:29:4 end:29:8:
-              vpiParent: UnsupportedTypespec name:a_if::sink
-              vpiName: a_if
-              vpiFullName: intf_sink.a_if::sink.a_if
-            RefObj name:sink start:29:9 end:29:13:
-              vpiParent: UnsupportedTypespec name:a_if::sink
-              vpiName: sink
-              vpiFullName: intf_sink.a_if::sink.sink
-          vpiName Identifier name:a_if::sink:
         ArrayTypespec:
           vpiParent: Module name:intf_sink
           vpiArrayType: static (1)
@@ -1096,7 +1073,15 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: a_if::sink
             vpiFullName: intf_sink.a_if::sink
-            vpiActual: UnsupportedTypespec name:a_if::sink
+            vpiPathElem (2 items):
+              RefObj name:a_if start:29:4 end:29:8:
+                vpiParent: RefTypespec name:a_if::sink
+                vpiName: a_if
+                vpiFullName: intf_sink.a_if
+              RefTypespec name:sink start:29:9 end:29:13:
+                vpiParent: RefTypespec name:a_if::sink
+                vpiName: sink
+                vpiFullName: intf_sink.a_if::sink.sink
       vpiDefName: intf_sink
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:26:8 end:26:17:
@@ -1107,7 +1092,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:a_out start:28:19 end:28:24:
           vpiParent: Module name:intf_sink
-          vpiTypespec RefTypespec start:28:4 end:28:18:
+          vpiTypespec RefTypespec start:28:11 end:28:18:
             vpiParent: Net name:a_out
             vpiFullName: intf_sink.a_out
             vpiActual: LogicTypespec
@@ -1125,7 +1110,7 @@ Design name:unnamed:
             vpiName: a_out
             vpiFullName: intf_sink.a_out.a_out
             vpiActual: Net name:a_out
-          vpiTypespec RefTypespec start:28:4 end:28:18:
+          vpiTypespec RefTypespec start:28:11 end:28:18:
             vpiParent: Port name:a_out
             vpiFullName: intf_sink.a_out
             vpiActual: LogicTypespec
@@ -1138,9 +1123,10 @@ Design name:unnamed:
             vpiName: i_intf_sink
             vpiFullName: intf_sink.i_intf_sink.i_intf_sink
             vpiActual: Port name:i_intf_sink
-          vpiTypespec RefTypespec start:29:4 end:29:13:
+          vpiTypespec RefTypespec name:a_if::sink [N-1:0] start:29:4 end:29:13:
             vpiParent: Port name:i_intf_sink
-            vpiFullName: intf_sink.i_intf_sink
+            vpiName: a_if::sink [N-1:0]
+            vpiFullName: intf_sink.i_intf_sink.a_if::sink [N-1:0]
             vpiActual: ArrayTypespec
       vpiGenStmt (1 items):
         GenRegion start:31:4 end:35:15:
@@ -1242,37 +1228,34 @@ Design name:unnamed:
       vpiVariable (3 items):
         Variable name:a_in start:43:18 end:43:22:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:43:4 end:43:17:
+          vpiTypespec RefTypespec name:logic [N-1:0] start:43:4 end:43:17:
             vpiParent: Variable name:a_in
-            vpiName: logic
-            vpiFullName: t.a_in.logic
+            vpiName: logic [N-1:0]
+            vpiFullName: t.a_in.logic [N-1:0]
             vpiActual: ArrayTypespec
           vpiName: a_in
           vpiFullName: t.a_in
         Variable name:a_out start:44:18 end:44:23:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:44:4 end:44:17:
+          vpiTypespec RefTypespec name:logic [N-1:0] start:44:4 end:44:17:
             vpiParent: Variable name:a_out
-            vpiName: logic
-            vpiFullName: t.a_out.logic
+            vpiName: logic [N-1:0]
+            vpiFullName: t.a_out.logic [N-1:0]
             vpiActual: ArrayTypespec
           vpiName: a_out
           vpiFullName: t.a_out
         Variable name:ack_out start:45:18 end:45:25:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:45:4 end:45:17:
+          vpiTypespec RefTypespec name:logic [N-1:0] start:45:4 end:45:17:
             vpiParent: Variable name:ack_out
-            vpiName: logic
-            vpiFullName: t.ack_out.logic
+            vpiName: logic [N-1:0]
+            vpiFullName: t.ack_out.logic [N-1:0]
             vpiActual: ArrayTypespec
           vpiName: ack_out
           vpiFullName: t.ack_out
-      vpiTypespec (11 items):
+      vpiTypespec (9 items):
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:logic start:43:4 end:43:9:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:43:4 end:43:9:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -1308,14 +1291,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:43:4 end:43:17:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-            vpiActual: UnsupportedTypespec name:logic
-        UnsupportedTypespec name:logic start:44:4 end:44:9:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:44:4 end:44:9:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -1351,14 +1330,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:44:4 end:44:17:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-            vpiActual: UnsupportedTypespec name:logic
-        UnsupportedTypespec name:logic start:45:4 end:45:9:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:45:4 end:45:9:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -1394,11 +1369,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:45:4 end:45:17:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-            vpiActual: UnsupportedTypespec name:logic
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -1433,11 +1407,49 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:a_if start:46:4 end:46:8:
+          vpiElemTypespec RefTypespec start:46:4 end:46:8:
             vpiParent: ArrayTypespec
-            vpiName: a_if
-            vpiFullName: t.a_if
-            vpiActual: InterfaceTypespec name:a_if
+            vpiFullName: t
+            vpiActual: UnsupportedTypespec
+        UnsupportedTypespec start:46:4 end:46:21:
+          vpiParent: Module name:t
+          vpiParamAssign (2 items):
+            ParamAssign start:46:11 end:46:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:PARAM start:46:12 end:46:17:
+                vpiParent: ParamAssign
+                vpiName: PARAM
+                vpiFullName: t.PARAM
+              vpiRhs Constant start:46:18 end:46:19:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
+            ParamAssign start:46:11 end:46:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:PARAM start:46:12 end:46:17:
+                vpiParent: ParamAssign
+                vpiName: PARAM
+                vpiFullName: t.PARAM
+              vpiRhs Constant start:46:18 end:46:19:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
         ModuleTypespec name:intf_source start:47:4 end:47:15:
           vpiParent: Module name:t
           vpiName Identifier name:intf_source start:47:4 end:47:15:
@@ -1460,7 +1472,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:42:10 end:42:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:42:10 end:42:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -1478,7 +1490,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:42:10 end:42:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -1717,10 +1729,10 @@ Design name:unnamed:
         RefInstance name:tl_intf start:46:22 end:46:29:
           vpiParent: Module name:t
           vpiName: tl_intf
-          vpiTypespec RefTypespec name:a_if start:46:4 end:46:8:
+          "vpiTypespec RefTypespec name: [N-1:0] start:46:4 end:46:8":
             vpiParent: RefInstance name:tl_intf
-            vpiName: a_if
-            vpiFullName: t.tl_intf.a_if
+            vpiName: " [N-1:0]"
+            vpiFullName: t.tl_intf. [N-1:0]
             vpiActual: ArrayTypespec
         RefInstance name:source start:47:16 end:47:22:
           vpiParent: Module name:t
@@ -1789,11 +1801,11 @@ Design name:unnamed:
                 vpiFullName: t.sink.tl_intf
                 vpiActual: RefInstance name:tl_intf
   vpiTypespec (7 items):
-    LogicTypespec:
-      vpiParent: Design name:unnamed
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    LogicTypespec:
+      vpiParent: Design name:unnamed
     InterfaceTypespec name:a_if:
       vpiParent: Design name:unnamed
       vpiName Identifier name:a_if start:8:11 end:8:15:
@@ -1819,7 +1831,7 @@ Design name:unnamed:
   vpiParameter (1 items):
     Parameter name:N start:6:11 end:6:12:
       vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:6:11 end:6:11:
+      vpiTypespec RefTypespec:
         vpiParent: Parameter name:N
         vpiFullName: N
         vpiActual: LogicTypespec
@@ -1861,25 +1873,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_mod_interface_array/mounts.json
 
 
-{'result': {'coverage': 99.26,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_mod_interface_array.v': {'post_len': 7,
+            'files': {'$Output/lib/work/t_mod_interface_array.v': {'post_len': 0,
                                                                    'pre_len': 948}},
-            'post_len': 7,
+            'post_len': 0,
             'pre_len': 948,
             'test_name': 'Verilator/t_mod_interface_array'}}
 
 +------------------------------------------+----------+-----------+
 | INPUT                                    |   PRELEN |   POSTLEN |
 +==========================================+==========+===========+
-| $Output/lib/work/t_mod_interface_array.v |      948 |         7 |
+| $Output/lib/work/t_mod_interface_array.v |      948 |         0 |
 +==========================================+==========+===========+
-|                                          |      948 |         7 |
+|                                          |      948 |         0 |
 +------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.26
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1889,11 +1901,11 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_mod_interface_array/design.hldb ${HLC
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            28      26       0         2
+Constant                            30      28       0         2
 Operation                           25      23       0         2
-RefTypespec                         52      50       0         2
+RefTypespec                         56      54       0         2
 ----------------------------------------------------------------
-Others                             181     181       0         0
+Others                             170     170       0         0
 ----------------------------------------------------------------
-                                   286     280       0         6
+                                   281     275       0         6
 ===================== END REDUCTION RESULT =====================

@@ -124,6 +124,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_lint_unused_iface_bad.v:6:1: Compile interface "dummy_if".
 [INF:CP5804] $Source01/t_lint_unused_iface_bad.v:11:1: Compile module "sub".
 [WRN:CP5811] $Source01/t_lint_unused_iface_bad.v:13:13: Port "dummy" definition missing its direction (input, output, inout).
+[ERR:CP5824] $Source01/t_lint_unused_iface_bad.v:11:1: Multiply defined typedef "dummy_if".
 [INF:CP5804] $Source01/t_lint_unused_iface_bad.v:20:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -146,7 +147,6 @@ Design name:unnamed:
             vpiParent: Variable name:sig_udrv
             vpiName: logic
             vpiFullName: dummy_if.sig_udrv.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: sig_udrv
           vpiFullName: dummy_if.sig_udrv
         Variable name:sig_uusd start:8:10 end:8:18:
@@ -155,16 +155,8 @@ Design name:unnamed:
             vpiParent: Variable name:sig_uusd
             vpiName: logic
             vpiFullName: dummy_if.sig_uusd.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: sig_uusd
           vpiFullName: dummy_if.sig_uusd
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:logic start:7:4 end:7:9:
-          vpiParent: Interface name:dummy_if
-          vpiName Identifier name:logic start:7:4 end:7:9:
-        UnsupportedTypespec name:logic start:8:4 end:8:9:
-          vpiParent: Interface name:dummy_if
-          vpiName Identifier name:logic start:8:4 end:8:9:
       vpiDefName: dummy_if
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:6:11 end:6:19:
@@ -332,7 +324,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -377,7 +369,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_unused_iface_bad/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              53      53       0         0
+Others                              49      49       0         0
 ----------------------------------------------------------------
-                                    53      53       0         0
+                                    49      49       0         0
 ===================== END REDUCTION RESULT =====================

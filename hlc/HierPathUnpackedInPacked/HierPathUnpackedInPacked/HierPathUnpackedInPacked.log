@@ -344,9 +344,10 @@ Design name:unnamed:
             TypespecMember name:pair start:10:17 end:10:21:
               vpiParent: Struct
               vpiName: pair
-              vpiTypespec RefTypespec start:10:4 end:10:16:
+              vpiTypespec RefTypespec name:logic [31:0] [2] start:10:4 end:10:16:
                 vpiParent: TypespecMember name:pair
-                vpiFullName: keymgr_pkg::pair
+                vpiName: logic [31:0] [2]
+                vpiFullName: keymgr_pkg::pair::logic [31:0] [2]
                 vpiActual: ArrayTypespec
       vpiTypedef (2 items):
         Typedef name:hw_key_req_t start:5:4 end:7:19:
@@ -490,6 +491,29 @@ Design name:unnamed:
           vpiName Identifier name:hw_key_req_t start:7:6 end:7:18:
           vpiTypedefKind: struct (4)
           vpiTypedef: Typedef name:hw_key_req_t
+        ArrayTypespec:
+          vpiParent: Package name:keymgr_pkg
+          vpiArrayType: static (1)
+          vpiRange Range start:10:21 end:10:24:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Operation:
+              vpiParent: Range
+              vpiOpType: subtract (11)
+              vpiOperand (1 items):
+                Constant start:10:22 end:10:23:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: keymgr_pkg
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "2"
+                  vpiValue: 2
+          vpiElemTypespec RefTypespec start:10:4 end:10:16:
+            vpiParent: ArrayTypespec
+            vpiFullName: keymgr_pkg
+            vpiActual: LogicTypespec
         LogicTypespec:
           vpiParent: Package name:keymgr_pkg
           vpiRange (1 items):
@@ -516,29 +540,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        ArrayTypespec:
-          vpiParent: Package name:keymgr_pkg
-          vpiArrayType: static (1)
-          vpiRange Range start:10:21 end:10:24:
-            vpiParent: ArrayTypespec
-            vpiLeftRange Operation:
-              vpiParent: Range
-              vpiOpType: subtract (11)
-              vpiOperand (1 items):
-                Constant start:10:22 end:10:23:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: keymgr_pkg
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "2"
-                  vpiValue: 2
-          vpiElemTypespec RefTypespec start:10:4 end:10:16:
-            vpiParent: ArrayTypespec
-            vpiFullName: keymgr_pkg
-            vpiActual: LogicTypespec
         StructTypespec start:9:9 end:11:2:
           vpiParent: Package name:keymgr_pkg
           vpiStruct: Struct
@@ -573,7 +574,7 @@ Design name:unnamed:
       vpiVariable (3 items):
         Variable name:o start:19:23 end:19:24:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:19:12 end:19:22:
+          vpiTypespec RefTypespec start:19:19 end:19:22:
             vpiParent: Variable name:o
             vpiFullName: top.o
             vpiActual: IntTypespec
@@ -585,6 +586,21 @@ Design name:unnamed:
             vpiParent: Variable name:keymgr_key_i
             vpiName: keymgr_pkg::hw_key_req_t
             vpiFullName: top.keymgr_key_i.keymgr_pkg::hw_key_req_t
+            vpiPathElem (2 items):
+              RefTypespec name:keymgr_pkg start:20:4 end:20:14:
+                vpiParent: RefTypespec name:keymgr_pkg::hw_key_req_t
+                vpiName: keymgr_pkg
+                vpiFullName: top.keymgr_key_i.keymgr_pkg::hw_key_req_t.keymgr_pkg
+                vpiPathElem (1 items):
+                  RefObj name:keymgr_pkg start:20:4 end:20:14:
+                    vpiParent: RefTypespec name:keymgr_pkg
+                    vpiName: keymgr_pkg
+                    vpiFullName: top.keymgr_key_i.keymgr_pkg::hw_key_req_t.keymgr_pkg
+                    vpiActual: Package name:keymgr_pkg
+              RefTypespec name:hw_key_req_t start:20:16 end:20:28:
+                vpiParent: RefTypespec name:keymgr_pkg::hw_key_req_t
+                vpiName: hw_key_req_t
+                vpiFullName: top.keymgr_key_i.keymgr_pkg::hw_key_req_t.hw_key_req_t
             vpiActual: TypedefTypespec name:hw_key_req_t
           vpiName: keymgr_key_i
           vpiFullName: top.keymgr_key_i
@@ -594,13 +610,28 @@ Design name:unnamed:
             vpiParent: Variable name:a
             vpiName: keymgr_pkg::foo_t
             vpiFullName: top.a.keymgr_pkg::foo_t
+            vpiPathElem (2 items):
+              RefTypespec name:keymgr_pkg start:21:5 end:21:15:
+                vpiParent: RefTypespec name:keymgr_pkg::foo_t
+                vpiName: keymgr_pkg
+                vpiFullName: top.a.keymgr_pkg::foo_t.keymgr_pkg
+                vpiPathElem (1 items):
+                  RefObj name:keymgr_pkg start:21:5 end:21:15:
+                    vpiParent: RefTypespec name:keymgr_pkg
+                    vpiName: keymgr_pkg
+                    vpiFullName: top.a.keymgr_pkg::foo_t.keymgr_pkg
+                    vpiActual: Package name:keymgr_pkg
+              RefTypespec name:foo_t start:21:17 end:21:22:
+                vpiParent: RefTypespec name:keymgr_pkg::foo_t
+                vpiName: foo_t
+                vpiFullName: top.a.keymgr_pkg::foo_t.foo_t
             vpiActual: TypedefTypespec name:foo_t
           vpiName: a
           vpiFullName: top.a
       vpiParameter (2 items):
         Parameter name:p1 start:23:13 end:23:15:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:23:13 end:23:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:p1
             vpiFullName: top.p1
             vpiActual: LogicTypespec
@@ -608,7 +639,7 @@ Design name:unnamed:
           vpiFullName: top.p1
         Parameter name:p2 start:24:13 end:24:15:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:24:13 end:24:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:p2
             vpiFullName: top.p2
             vpiActual: LogicTypespec
@@ -715,7 +746,7 @@ Design name:unnamed:
             vpiName: o
             vpiFullName: top.o.o
             vpiActual: Variable name:o
-          vpiTypespec RefTypespec start:19:12 end:19:22:
+          vpiTypespec RefTypespec start:19:19 end:19:22:
             vpiParent: Port name:o
             vpiFullName: top.o
             vpiActual: IntTypespec
@@ -861,10 +892,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            13      13       2         2
 Operation                            5       3       0         2
-RefObj                              18      16       0         2
-RefTypespec                         28      28       2         2
+RefObj                              20      18       0         2
+RefTypespec                         32      32       2         2
 ----------------------------------------------------------------
 Others                              63      63       0         0
 ----------------------------------------------------------------
-                                   127     123       4         8
+                                   133     129       4         8
 ===================== END REDUCTION RESULT =====================

@@ -714,9 +714,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_package.v:27:1: Compile module "t".
 [INF:CP5804] $Source01/t_package.v:54:1: Compile module "t2".
 [ERR:CP5824] $Source01/t_package.v:54:1: Multiply defined typedef "p2".
-[WRN:CP5851] $Source01/t_package.v:41:14: Failed to bind "id:192, name:plusone".
-[WRN:CP5851] $Source01/t_package.v:43:14: Failed to bind "id:212, name:pi".
-[WRN:CP5851] $Source01/t_package.v:50:14: Failed to bind "id:246, name:pi".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1016,7 +1013,16 @@ Design name:unnamed:
             vpiParent: Variable name:vdu
             vpiName: "$unit::unit_type_t"
             vpiFullName: t.vdu.$unit::unit_type_t
-            vpiActual: UnsupportedTypespec name:$unit::unit_type_t
+            vpiPathElem (2 items):
+              RefTypespec name:$unit start:33:4 end:33:9:
+                vpiParent: RefTypespec name:$unit::unit_type_t
+                vpiName: "$unit"
+                vpiFullName: t.vdu.$unit::unit_type_t.$unit
+              RefTypespec name:unit_type_t start:33:11 end:33:22:
+                vpiParent: RefTypespec name:$unit::unit_type_t
+                vpiName: unit_type_t
+                vpiFullName: t.vdu.$unit::unit_type_t.unit_type_t
+                vpiActual: TypedefTypespec name:unit_type_t
           vpiName: vdu
           vpiFullName: t.vdu
         Variable name:vp start:34:22 end:34:24:
@@ -1025,28 +1031,27 @@ Design name:unnamed:
             vpiParent: Variable name:vp
             vpiName: p::package_type_t
             vpiFullName: t.vp.p::package_type_t
+            vpiPathElem (2 items):
+              RefTypespec name:p start:34:4 end:34:5:
+                vpiParent: RefTypespec name:p::package_type_t
+                vpiName: p
+                vpiFullName: t.vp.p::package_type_t.p
+                vpiPathElem (1 items):
+                  RefObj name:p start:34:4 end:34:5:
+                    vpiParent: RefTypespec name:p
+                    vpiName: p
+                    vpiFullName: t.vp.p::package_type_t.p
+                    vpiActual: Package name:p
+              RefTypespec name:package_type_t start:34:7 end:34:21:
+                vpiParent: RefTypespec name:p::package_type_t
+                vpiName: package_type_t
+                vpiFullName: t.vp.p::package_type_t.package_type_t
             vpiActual: TypedefTypespec name:package_type_t
           vpiName: vp
           vpiFullName: t.vp
-      vpiTypespec (4 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:$unit start:33:4 end:33:9:
-          vpiParent: Module name:t
-          vpiName Identifier name:$unit start:33:4 end:33:9:
-        UnsupportedTypespec name:$unit::unit_type_t start:33:4 end:33:22:
-          vpiParent: Module name:t
-          vpiPathElem (2 items):
-            RefTypespec start:33:4 end:33:11:
-              vpiParent: UnsupportedTypespec name:$unit::unit_type_t
-              vpiFullName: t.$unit::unit_type_t
-              vpiActual: UnsupportedTypespec name:$unit
-            RefTypespec name:unit_type_t start:33:11 end:33:22:
-              vpiParent: UnsupportedTypespec name:$unit::unit_type_t
-              vpiName: unit_type_t
-              vpiFullName: t.$unit::unit_type_t.unit_type_t
-              vpiActual: TypedefTypespec name:unit_type_t
-          vpiName Identifier name:$unit::unit_type_t start:33:4 end:33:22:
         ModuleTypespec name:t2 start:36:4 end:36:6:
           vpiParent: Module name:t
           vpiName Identifier name:t2 start:36:4 end:36:6:
@@ -1062,7 +1067,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:31:10 end:31:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:31:10 end:31:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -1080,7 +1085,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:31:10 end:31:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -1090,16 +1095,6 @@ Design name:unnamed:
           vpiStmt Begin start:38:12 end:47:7:
             vpiParent: Initial
             vpiFullName: t
-            vpiTypespec (3 items):
-              UnsupportedTypespec name:$unit start:40:11 end:40:16:
-                vpiParent: Begin
-                vpiName Identifier name:$unit start:40:11 end:40:16:
-              UnsupportedTypespec name:p start:41:11 end:41:12:
-                vpiParent: Begin
-                vpiName Identifier name:p start:41:11 end:41:12:
-              UnsupportedTypespec name:p start:43:11 end:43:12:
-                vpiParent: Begin
-                vpiName Identifier name:p start:43:11 end:43:12:
             vpiStmt (7 items):
               IfStmt start:39:7 end:39:40:
                 vpiParent: Begin
@@ -1146,10 +1141,10 @@ Design name:unnamed:
                       vpiName: "$unit::unit_plusone(1)"
                       vpiFullName: t.$unit::unit_plusone(1)
                       vpiPathElem (2 items):
-                        RefTypespec start:40:11 end:40:18:
+                        RefTypespec name:$unit start:40:11 end:40:16:
                           vpiParent: RefObj name:$unit::unit_plusone(1)
-                          vpiFullName: t.$unit::unit_plusone(1)
-                          vpiActual: UnsupportedTypespec name:$unit
+                          vpiName: "$unit"
+                          vpiFullName: t.$unit::unit_plusone(1).$unit
                         FuncCall name:unit_plusone start:40:18 end:40:33:
                           vpiParent: RefObj name:$unit::unit_plusone(1)
                           vpiName Identifier name:unit_plusone start:40:18 end:40:30:
@@ -1189,19 +1184,21 @@ Design name:unnamed:
                       vpiName: p::plusone(1)
                       vpiFullName: t.p::plusone(1)
                       vpiPathElem (2 items):
-                        RefTypespec start:41:11 end:41:14:
+                        RefObj name:p start:41:11 end:41:12:
                           vpiParent: RefObj name:p::plusone(1)
-                          vpiFullName: t.p::plusone(1)
-                          vpiActual: UnsupportedTypespec name:p
-                        SubroutineCall name:plusone start:41:14 end:41:24:
+                          vpiName: p
+                          vpiFullName: t.p
+                          vpiActual: Package name:p
+                        FuncCall name:plusone start:41:14 end:41:24:
                           vpiParent: RefObj name:p::plusone(1)
                           vpiName Identifier name:plusone start:41:14 end:41:21:
+                          vpiTaskFunc: Function name:plusone
                           vpiArgument (1 items):
                             Constant start:41:22 end:41:23:
-                              vpiParent: SubroutineCall name:plusone
+                              vpiParent: FuncCall name:plusone
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: t.p::plusone(1).plusone
+                                vpiFullName: t.p::plusone(1)
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
@@ -1259,14 +1256,16 @@ Design name:unnamed:
                       vpiName: p::pi
                       vpiFullName: t.p::pi
                       vpiPathElem (2 items):
-                        RefTypespec start:43:11 end:43:14:
+                        RefObj name:p start:43:11 end:43:12:
                           vpiParent: RefObj name:p::pi
-                          vpiFullName: t.p::pi
-                          vpiActual: UnsupportedTypespec name:p
+                          vpiName: p
+                          vpiFullName: t.p
+                          vpiActual: Package name:p
                         RefObj name:pi start:43:14 end:43:16:
                           vpiParent: RefObj name:p::pi
                           vpiName: pi
                           vpiFullName: t.pi
+                          vpiActual: Variable name:pi
                     Constant start:43:21 end:43:24:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -1313,10 +1312,6 @@ Design name:unnamed:
             vpiStmt Begin start:48:27 end:51:7:
               vpiParent: EventControl
               vpiFullName: t
-              vpiTypespec (1 items):
-                UnsupportedTypespec name:p start:50:11 end:50:12:
-                  vpiParent: Begin
-                  vpiName Identifier name:p start:50:11 end:50:12:
               vpiStmt (2 items):
                 Assignment start:49:7 end:49:17:
                   vpiParent: Begin
@@ -1376,14 +1371,16 @@ Design name:unnamed:
                         vpiName: p::pi
                         vpiFullName: t.p::pi
                         vpiPathElem (2 items):
-                          RefTypespec start:50:11 end:50:14:
+                          RefObj name:p start:50:11 end:50:12:
                             vpiParent: RefObj name:p::pi
-                            vpiFullName: t.p::pi
-                            vpiActual: UnsupportedTypespec name:p
+                            vpiName: p
+                            vpiFullName: t.p
+                            vpiActual: Package name:p
                           RefObj name:pi start:50:14 end:50:16:
                             vpiParent: RefObj name:p::pi
                             vpiName: pi
                             vpiFullName: t.pi
+                            vpiActual: Variable name:pi
                       Constant start:50:19 end:50:22:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1473,13 +1470,6 @@ Design name:unnamed:
           vpiStmt Begin start:60:12 end:64:7:
             vpiParent: Initial
             vpiFullName: t2
-            vpiTypespec (2 items):
-              UnsupportedTypespec name:p start:63:11 end:63:12:
-                vpiParent: Begin
-                vpiName Identifier name:p start:63:11 end:63:12:
-              UnsupportedTypespec name:p start:63:28 end:63:29:
-                vpiParent: Begin
-                vpiName Identifier name:p start:63:28 end:63:29:
             vpiStmt (3 items):
               IfStmt start:61:7 end:61:35:
                 vpiParent: Begin
@@ -1564,10 +1554,11 @@ Design name:unnamed:
                           vpiName: p::pi
                           vpiFullName: t2.p::pi
                           vpiPathElem (2 items):
-                            RefTypespec start:63:11 end:63:14:
+                            RefObj name:p start:63:11 end:63:12:
                               vpiParent: RefObj name:p::pi
-                              vpiFullName: t2.p::pi
-                              vpiActual: UnsupportedTypespec name:p
+                              vpiName: p
+                              vpiFullName: t2.p
+                              vpiActual: Package name:p
                             RefObj name:pi start:63:14 end:63:16:
                               vpiParent: RefObj name:p::pi
                               vpiName: pi
@@ -1592,10 +1583,11 @@ Design name:unnamed:
                           vpiName: p::pi
                           vpiFullName: t2.p::pi
                           vpiPathElem (2 items):
-                            RefTypespec start:63:28 end:63:31:
+                            RefObj name:p start:63:28 end:63:29:
                               vpiParent: RefObj name:p::pi
-                              vpiFullName: t2.p::pi
-                              vpiActual: UnsupportedTypespec name:p
+                              vpiName: p
+                              vpiFullName: t2.p
+                              vpiActual: Package name:p
                             RefObj name:pi start:63:31 end:63:33:
                               vpiParent: RefObj name:p::pi
                               vpiName: pi
@@ -1745,7 +1737,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 3
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1789,7 +1781,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_package/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             276     276       0         0
+Others                             263     263       0         0
 ----------------------------------------------------------------
-                                   276     276       0         0
+                                   263     263       0         0
 ===================== END REDUCTION RESULT =====================

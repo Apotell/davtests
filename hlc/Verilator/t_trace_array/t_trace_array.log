@@ -233,10 +233,10 @@ Design name:unnamed:
             TypespecMember name:d start:13:27 end:13:28:
               vpiParent: Struct
               vpiName: d
-              vpiTypespec RefTypespec name:logic start:13:7 end:13:26:
+              vpiTypespec RefTypespec name:logic [1024*1024:0] start:13:7 end:13:26:
                 vpiParent: TypespecMember name:d
-                vpiName: logic
-                vpiFullName: t.d.logic
+                vpiName: logic [1024*1024:0]
+                vpiFullName: t.d.logic [1024*1024:0]
                 vpiActual: ArrayTypespec
       vpiTypedef (1 items):
         Typedef name:s1_t start:12:4 end:14:11:
@@ -274,15 +274,12 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:s1_t
           vpiName: biggie
           vpiFullName: t.biggie
-      vpiTypespec (6 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
-        UnsupportedTypespec name:logic start:13:7 end:13:12:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:13:7 end:13:12:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -323,11 +320,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:13:7 end:13:26:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-            vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:12:12 end:14:5:
           vpiParent: Module name:t
           vpiStruct: Struct
@@ -346,7 +342,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:7:10 end:7:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:7:10 end:7:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -364,7 +360,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:7:10 end:7:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -557,7 +553,7 @@ Operation                            4       1       0         3
 RefObj                               8       6       0         2
 RefTypespec                         16      15       3         4
 ----------------------------------------------------------------
-Others                              38      38       0         0
+Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    75      68       6        13
+                                    73      66       6        13
 ===================== END REDUCTION RESULT =====================

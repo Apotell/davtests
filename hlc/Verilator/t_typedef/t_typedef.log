@@ -792,23 +792,26 @@ Design name:unnamed:
         Typedef name:vec_bit_t start:12:4 end:12:38:
           vpiParent: Program name:t
           vpiName Identifier name:vec_bit_t start:12:27 end:12:36:
-          vpiTypedefAlias RefTypespec start:12:12 end:12:26:
+          vpiTypedefAlias RefTypespec name:bit [SIZE-1:0] start:12:12 end:12:26:
             vpiParent: Typedef name:vec_bit_t
-            vpiFullName: t.vec_bit_t
+            vpiName: bit [SIZE-1:0]
+            vpiFullName: t.vec_bit_t.bit [SIZE-1:0]
             vpiActual: ArrayTypespec
         Typedef name:array start:15:4 end:15:26:
           vpiParent: Program name:t
           vpiName Identifier name:array start:15:16 end:15:21:
-          vpiTypedefAlias RefTypespec start:15:12 end:15:15:
+          vpiTypedefAlias RefTypespec name:int [3] start:15:12 end:15:15:
             vpiParent: Typedef name:array
-            vpiFullName: t.array
+            vpiName: int [3]
+            vpiFullName: t.array.int [3]
             vpiActual: ArrayTypespec
         Typedef name:array2 start:16:4 end:16:29:
           vpiParent: Program name:t
           vpiName Identifier name:array2 start:16:18 end:16:24:
-          vpiTypedefAlias RefTypespec start:16:12 end:16:17:
+          vpiTypedefAlias RefTypespec name:array [2] start:16:12 end:16:17:
             vpiParent: Typedef name:array2
-            vpiFullName: t.array2
+            vpiName: array [2]
+            vpiFullName: t.array2.array [2]
             vpiActual: ArrayTypespec
       vpiVariable (4 items):
         Variable name:a start:10:10 end:10:11:
@@ -831,9 +834,10 @@ Design name:unnamed:
           vpiFullName: t.b
         Variable name:ar start:17:11 end:17:13:
           vpiParent: Program name:t
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:array2 [1] start:17:4 end:17:10:
             vpiParent: Variable name:ar
-            vpiFullName: t.ar
+            vpiName: array2 [1]
+            vpiFullName: t.ar.array2 [1]
             vpiActual: ArrayTypespec
           vpiName: ar
           vpiFullName: t.ar
@@ -848,7 +852,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:SIZE start:7:14 end:7:18:
           vpiParent: Program name:t
-          vpiTypespec RefTypespec start:7:14 end:7:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:SIZE
             vpiFullName: t.SIZE
             vpiActual: LogicTypespec
@@ -872,7 +876,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "5"
             vpiValue: 5
-      vpiTypespec (12 items):
+      vpiTypespec (11 items):
         LogicTypespec:
           vpiParent: Program name:t
         LogicTypespec:
@@ -914,9 +918,6 @@ Design name:unnamed:
           vpiParent: Program name:t
           vpiName Identifier name:vec_t start:9:27 end:9:32:
           vpiTypedef: Typedef name:vec_t
-        UnsupportedTypespec name:bit start:12:12 end:12:15:
-          vpiParent: Program name:t
-          vpiName Identifier name:bit start:12:12 end:12:15:
         ArrayTypespec:
           vpiParent: Program name:t
           vpiArrayType: static (1)
@@ -952,11 +953,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:bit:
+          vpiElemTypespec RefTypespec name:bit start:12:12 end:12:26:
             vpiParent: ArrayTypespec
             vpiName: bit
             vpiFullName: t.bit
-            vpiActual: UnsupportedTypespec name:bit
         TypedefTypespec name:vec_bit_t start:12:4 end:12:38:
           vpiParent: Program name:t
           vpiName Identifier name:vec_bit_t start:12:27 end:12:36:
@@ -1015,7 +1015,6 @@ Design name:unnamed:
         TypedefTypespec name:array2 start:16:4 end:16:29:
           vpiParent: Program name:t
           vpiName Identifier name:array2 start:16:18 end:16:24:
-          vpiTypedefKind: unsupported (7)
           vpiTypedef: Typedef name:array2
         ArrayTypespec:
           vpiParent: Program name:t
@@ -1101,9 +1100,10 @@ Design name:unnamed:
               Typedef name:instr_mem_t start:29:7 end:29:44:
                 vpiParent: Begin
                 vpiName Identifier name:instr_mem_t start:29:32 end:29:43:
-                vpiTypedefAlias RefTypespec start:29:15 end:29:31:
+                vpiTypedefAlias RefTypespec name:logic [7:0] [3:0] start:29:15 end:29:31:
                   vpiParent: Typedef name:instr_mem_t
-                  vpiFullName: t.instr_mem_t
+                  vpiName: logic [7:0] [3:0]
+                  vpiFullName: t.instr_mem_t.logic [7:0] [3:0]
                   vpiActual: ArrayTypespec
             vpiVariable (1 items):
               Variable name:a start:30:19 end:30:20:
@@ -1115,10 +1115,7 @@ Design name:unnamed:
                   vpiActual: TypedefTypespec name:instr_mem_t
                 vpiName: a
                 vpiFullName: t.a
-            vpiTypespec (4 items):
-              UnsupportedTypespec name:logic start:29:15 end:29:20:
-                vpiParent: Begin
-                vpiName Identifier name:logic start:29:15 end:29:20:
+            vpiTypespec (3 items):
               ArrayTypespec:
                 vpiParent: Begin
                 vpiArrayType: static (1)
@@ -1175,11 +1172,10 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-                vpiElemTypespec RefTypespec name:logic:
+                vpiElemTypespec RefTypespec name:logic start:29:15 end:29:26:
                   vpiParent: ArrayTypespec
                   vpiName: logic
                   vpiFullName: t.logic
-                  vpiActual: UnsupportedTypespec name:logic
               TypedefTypespec name:instr_mem_t start:29:7 end:29:44:
                 vpiParent: Begin
                 vpiName Identifier name:instr_mem_t start:29:32 end:29:43:
@@ -2077,7 +2073,7 @@ Operation                           17      14       0         3
 RefObj                              29      26       0         3
 RefTypespec                         77      77       3         3
 ----------------------------------------------------------------
-Others                             132     132       0         0
+Others                             128     128       0         0
 ----------------------------------------------------------------
-                                   315     309       6        12
+                                   311     305       6        12
 ===================== END REDUCTION RESULT =====================

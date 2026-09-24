@@ -220,8 +220,8 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_mismodport_bad.v:12:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface_mismodport_bad.v:27:1: Compile module "counter_ansi".
 [WRN:CP5811] $Source01/t_interface_mismodport_bad.v:29:20: Port "isub" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/t_interface_mismodport_bad.v:34:12: Failed to bind "id:82, name:ok".
-[WRN:CP5851] $Source01/t_interface_mismodport_bad.v:35:12: Failed to bind "id:87, name:bad".
+[WRN:CP5851] $Source01/t_interface_mismodport_bad.v:34:12: Failed to bind "id:86, name:ok".
+[WRN:CP5851] $Source01/t_interface_mismodport_bad.v:35:12: Failed to bind "id:91, name:bad".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -319,7 +319,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:17:10 end:17:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:17:10 end:17:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -337,7 +337,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:17:10 end:17:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -392,23 +392,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:counter_ansi start:27:8 end:27:20:
       vpiFullName: counter_ansi
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:ifc::out_modport start:29:4 end:29:19:
-          vpiParent: Module name:counter_ansi
-          vpiPathElem (2 items):
-            RefObj name:ifc start:29:4 end:29:7:
-              vpiParent: UnsupportedTypespec name:ifc::out_modport
-              vpiName: ifc
-              vpiFullName: counter_ansi.ifc::out_modport.ifc
-              vpiActual: Interface name:ifc
-            RefObj name:out_modport start:29:8 end:29:19:
-              vpiParent: UnsupportedTypespec name:ifc::out_modport
-              vpiName: out_modport
-              vpiFullName: counter_ansi.ifc::out_modport.out_modport
-          vpiName Identifier name:ifc::out_modport:
-        UnsupportedTypespec name:logic start:30:10 end:30:15:
-          vpiParent: Module name:counter_ansi
-          vpiName Identifier name:logic start:30:10 end:30:15:
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:counter_ansi
           vpiArrayType: static (1)
@@ -435,11 +419,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:30:10 end:30:21:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: counter_ansi.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiDefName: counter_ansi
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:27:8 end:27:20:
@@ -450,10 +433,10 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:i_value start:30:22 end:30:29:
           vpiParent: Module name:counter_ansi
-          vpiTypespec RefTypespec name:logic start:30:10 end:30:15:
+          vpiTypespec RefTypespec name:logic [3:0] start:30:10 end:30:21:
             vpiParent: Net name:i_value
-            vpiName: logic
-            vpiFullName: counter_ansi.i_value.logic
+            vpiName: logic [3:0]
+            vpiFullName: counter_ansi.i_value.logic [3:0]
             vpiActual: ArrayTypespec
           vpiName: i_value
           vpiFullName: counter_ansi.i_value
@@ -468,10 +451,20 @@ Design name:unnamed:
             vpiName: isub
             vpiFullName: counter_ansi.isub.isub
             vpiActual: Port name:isub
-          vpiTypespec RefTypespec start:29:4 end:29:19:
+          vpiTypespec RefTypespec name:ifc::out_modport start:29:4 end:29:19:
             vpiParent: Port name:isub
-            vpiFullName: counter_ansi.isub
-            vpiActual: UnsupportedTypespec name:ifc::out_modport
+            vpiName: ifc::out_modport
+            vpiFullName: counter_ansi.isub.ifc::out_modport
+            vpiPathElem (2 items):
+              RefObj name:ifc start:29:4 end:29:7:
+                vpiParent: RefTypespec name:ifc::out_modport
+                vpiName: ifc
+                vpiFullName: counter_ansi.isub.ifc
+                vpiActual: Interface name:ifc
+              RefTypespec name:out_modport start:29:8 end:29:19:
+                vpiParent: RefTypespec name:ifc::out_modport
+                vpiName: out_modport
+                vpiFullName: counter_ansi.isub.ifc::out_modport.out_modport
         Port name:i_value start:30:22 end:30:29:
           vpiParent: Module name:counter_ansi
           vpiName: i_value
@@ -481,10 +474,10 @@ Design name:unnamed:
             vpiName: i_value
             vpiFullName: counter_ansi.i_value.i_value
             vpiActual: Net name:i_value
-          vpiTypespec RefTypespec name:logic start:30:10 end:30:15:
+          vpiTypespec RefTypespec name:logic [3:0] start:30:10 end:30:21:
             vpiParent: Port name:i_value
-            vpiName: logic
-            vpiFullName: counter_ansi.i_value.logic
+            vpiName: logic [3:0]
+            vpiFullName: counter_ansi.i_value.logic [3:0]
             vpiActual: ArrayTypespec
       vpiProcess (1 items):
         Always start:33:4 end:36:7:
@@ -610,7 +603,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_mismodport_bad/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              81      81       0         0
 ----------------------------------------------------------------
-                                    85      85       0         0
+                                    81      81       0         0
 ===================== END REDUCTION RESULT =====================

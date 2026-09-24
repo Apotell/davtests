@@ -661,8 +661,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_clk_concat5.v:74:1: Compile module "t".
 [NTE:CP5810] $Source01/t_clk_concat5.v:77:3: Implicit port type (wire) for "clk".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7701] Invalid name: id:275, type:RefTypespec, name:, relation:vpiTypespec.
-[ERR:LN7701] Invalid name: id:276, type:RefTypespec, name:, relation:vpiTypespec.
+[ERR:LN7701] Invalid name: id:302, type:RefTypespec, name:, relation:vpiTypespec.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -684,23 +683,23 @@ Design name:unnamed:
       vpiVariable (2 items):
         Variable name:some_state start:11:22 end:11:32:
           vpiParent: Module name:some_module
-          vpiTypespec RefTypespec name:logic start:11:4 end:11:19:
+          vpiTypespec RefTypespec name:logic [1:0] start:11:4 end:11:19:
             vpiParent: Variable name:some_state
-            vpiName: logic
-            vpiFullName: some_module.some_state.logic
+            vpiName: logic [1:0]
+            vpiFullName: some_module.some_state.logic [1:0]
             vpiActual: ArrayTypespec
           vpiName: some_state
           vpiFullName: some_module.some_state
         Variable name:some_other_state start:12:19 end:12:35:
           vpiParent: Module name:some_module
-          vpiTypespec RefTypespec name:logic start:12:4 end:12:15:
+          vpiTypespec RefTypespec name:logic [1:0] start:12:4 end:12:15:
             vpiParent: Variable name:some_other_state
-            vpiName: logic
-            vpiFullName: some_module.some_other_state.logic
+            vpiName: logic [1:0]
+            vpiFullName: some_module.some_other_state.logic [1:0]
             vpiActual: ArrayTypespec
           vpiName: some_other_state
           vpiFullName: some_module.some_other_state
-      vpiTypespec (5 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:some_module
           vpiRange (1 items):
@@ -727,9 +726,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        UnsupportedTypespec name:logic start:11:4 end:11:9:
-          vpiParent: Module name:some_module
-          vpiName Identifier name:logic start:11:4 end:11:9:
         ArrayTypespec:
           vpiParent: Module name:some_module
           vpiArrayType: static (1)
@@ -756,14 +752,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:11:4 end:11:19:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: some_module.logic
-            vpiActual: UnsupportedTypespec name:logic
-        UnsupportedTypespec name:logic start:12:4 end:12:9:
-          vpiParent: Module name:some_module
-          vpiName Identifier name:logic start:12:4 end:12:9:
         ArrayTypespec:
           vpiParent: Module name:some_module
           vpiArrayType: static (1)
@@ -790,11 +782,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:12:4 end:12:15:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: some_module.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiDefName: some_module
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:7:8 end:7:19:
@@ -805,7 +796,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:i_clks start:8:19 end:8:25:
           vpiParent: Module name:some_module
-          vpiTypespec RefTypespec start:8:7 end:8:18:
+          vpiTypespec RefTypespec start:8:13 end:8:18:
             vpiParent: Net name:i_clks
             vpiFullName: some_module.i_clks
             vpiActual: LogicTypespec
@@ -823,7 +814,7 @@ Design name:unnamed:
             vpiName: i_clks
             vpiFullName: some_module.i_clks.i_clks
             vpiActual: Net name:i_clks
-          vpiTypespec RefTypespec start:8:7 end:8:18:
+          vpiTypespec RefTypespec start:8:13 end:8:18:
             vpiParent: Port name:i_clks
             vpiFullName: some_module.i_clks
             vpiActual: LogicTypespec
@@ -1039,7 +1030,7 @@ Design name:unnamed:
       vpiNet (3 items):
         Net name:i_clks start:35:16 end:35:22:
           vpiParent: Module name:t1
-          vpiTypespec RefTypespec start:35:4 end:35:15:
+          vpiTypespec RefTypespec start:35:10 end:35:15:
             vpiParent: Net name:i_clks
             vpiFullName: t1.i_clks
             vpiActual: LogicTypespec
@@ -1049,7 +1040,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_clk0 start:36:16 end:36:22:
           vpiParent: Module name:t1
-          vpiTypespec RefTypespec start:36:4 end:36:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk0
             vpiFullName: t1.i_clk0
             vpiActual: LogicTypespec
@@ -1059,7 +1050,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_clk1 start:37:16 end:37:22:
           vpiParent: Module name:t1
-          vpiTypespec RefTypespec start:37:4 end:37:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk1
             vpiFullName: t1.i_clk1
             vpiActual: LogicTypespec
@@ -1077,7 +1068,7 @@ Design name:unnamed:
             vpiName: i_clks
             vpiFullName: t1.i_clks.i_clks
             vpiActual: Net name:i_clks
-          vpiTypespec RefTypespec start:35:4 end:35:15:
+          vpiTypespec RefTypespec start:35:10 end:35:15:
             vpiParent: Port name:i_clks
             vpiFullName: t1.i_clks
             vpiActual: LogicTypespec
@@ -1090,7 +1081,7 @@ Design name:unnamed:
             vpiName: i_clk0
             vpiFullName: t1.i_clk0.i_clk0
             vpiActual: Net name:i_clk0
-          vpiTypespec RefTypespec start:36:4 end:36:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk0
             vpiFullName: t1.i_clk0
             vpiActual: LogicTypespec
@@ -1103,7 +1094,7 @@ Design name:unnamed:
             vpiName: i_clk1
             vpiFullName: t1.i_clk1.i_clk1
             vpiActual: Net name:i_clk1
-          vpiTypespec RefTypespec start:37:4 end:37:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk1
             vpiFullName: t1.i_clk1
             vpiActual: LogicTypespec
@@ -1136,10 +1127,10 @@ Design name:unnamed:
       vpiVariable (2 items):
         Variable name:the_clks start:54:23 end:54:31:
           vpiParent: Module name:t2
-          vpiTypespec RefTypespec name:logic start:54:4 end:54:15:
+          vpiTypespec RefTypespec name:logic [3:0] start:54:4 end:54:15:
             vpiParent: Variable name:the_clks
-            vpiName: logic
-            vpiFullName: t2.the_clks.logic
+            vpiName: logic [3:0]
+            vpiFullName: t2.the_clks.logic [3:0]
             vpiActual: ArrayTypespec
           vpiName: the_clks
           vpiFullName: t2.the_clks
@@ -1151,7 +1142,7 @@ Design name:unnamed:
             vpiFullName: t2.data_q.logic
           vpiName: data_q
           vpiFullName: t2.data_q
-      vpiTypespec (5 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t2
           vpiRange (1 items):
@@ -1180,9 +1171,6 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:t2
-        UnsupportedTypespec name:logic start:54:4 end:54:9:
-          vpiParent: Module name:t2
-          vpiName Identifier name:logic start:54:4 end:54:9:
         ArrayTypespec:
           vpiParent: Module name:t2
           vpiArrayType: static (1)
@@ -1209,11 +1197,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:54:4 end:54:15:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t2.logic
-            vpiActual: UnsupportedTypespec name:logic
         ModuleTypespec name:t1 start:66:4 end:66:6:
           vpiParent: Module name:t2
           vpiName Identifier name:t1 start:66:4 end:66:6:
@@ -1229,7 +1216,7 @@ Design name:unnamed:
       vpiNet (5 items):
         Net name:i_clks start:48:16 end:48:22:
           vpiParent: Module name:t2
-          vpiTypespec RefTypespec start:48:4 end:48:15:
+          vpiTypespec RefTypespec start:48:10 end:48:15:
             vpiParent: Net name:i_clks
             vpiFullName: t2.i_clks
             vpiActual: LogicTypespec
@@ -1239,7 +1226,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_clk0 start:49:16 end:49:22:
           vpiParent: Module name:t2
-          vpiTypespec RefTypespec start:49:4 end:49:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk0
             vpiFullName: t2.i_clk0
             vpiActual: LogicTypespec
@@ -1249,7 +1236,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_clk1 start:50:16 end:50:22:
           vpiParent: Module name:t2
-          vpiTypespec RefTypespec start:50:4 end:50:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk1
             vpiFullName: t2.i_clk1
             vpiActual: LogicTypespec
@@ -1259,7 +1246,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_clk2 start:51:16 end:51:22:
           vpiParent: Module name:t2
-          vpiTypespec RefTypespec start:51:4 end:51:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk2
             vpiFullName: t2.i_clk2
             vpiActual: LogicTypespec
@@ -1269,7 +1256,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_data start:52:16 end:52:22:
           vpiParent: Module name:t2
-          vpiTypespec RefTypespec start:52:4 end:52:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_data
             vpiFullName: t2.i_data
             vpiActual: LogicTypespec
@@ -1287,7 +1274,7 @@ Design name:unnamed:
             vpiName: i_clks
             vpiFullName: t2.i_clks.i_clks
             vpiActual: Net name:i_clks
-          vpiTypespec RefTypespec start:48:4 end:48:15:
+          vpiTypespec RefTypespec start:48:10 end:48:15:
             vpiParent: Port name:i_clks
             vpiFullName: t2.i_clks
             vpiActual: LogicTypespec
@@ -1300,7 +1287,7 @@ Design name:unnamed:
             vpiName: i_clk0
             vpiFullName: t2.i_clk0.i_clk0
             vpiActual: Net name:i_clk0
-          vpiTypespec RefTypespec start:49:4 end:49:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk0
             vpiFullName: t2.i_clk0
             vpiActual: LogicTypespec
@@ -1313,7 +1300,7 @@ Design name:unnamed:
             vpiName: i_clk1
             vpiFullName: t2.i_clk1.i_clk1
             vpiActual: Net name:i_clk1
-          vpiTypespec RefTypespec start:50:4 end:50:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk1
             vpiFullName: t2.i_clk1
             vpiActual: LogicTypespec
@@ -1326,7 +1313,7 @@ Design name:unnamed:
             vpiName: i_clk2
             vpiFullName: t2.i_clk2.i_clk2
             vpiActual: Net name:i_clk2
-          vpiTypespec RefTypespec start:51:4 end:51:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk2
             vpiFullName: t2.i_clk2
             vpiActual: LogicTypespec
@@ -1339,7 +1326,7 @@ Design name:unnamed:
             vpiName: i_data
             vpiFullName: t2.i_data.i_data
             vpiActual: Net name:i_data
-          vpiTypespec RefTypespec start:52:4 end:52:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_data
             vpiFullName: t2.i_data
             vpiActual: LogicTypespec
@@ -1532,19 +1519,16 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:clks start:86:16 end:86:20:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:86:4 end:86:15:
+          vpiTypespec RefTypespec name:logic [2:0] start:86:4 end:86:15:
             vpiParent: Variable name:clks
-            vpiName: logic
-            vpiFullName: t.clks.logic
+            vpiName: logic [2:0]
+            vpiFullName: t.clks.logic [2:0]
             vpiActual: ArrayTypespec
           vpiName: clks
           vpiFullName: t.clks
-      vpiTypespec (5 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:logic start:86:4 end:86:9:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:86:4 end:86:9:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -1571,11 +1555,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:86:4 end:86:15:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-            vpiActual: UnsupportedTypespec name:logic
         BitTypespec:
           vpiParent: Module name:t
         ModuleTypespec name:t2 start:90:4 end:90:6:
@@ -1593,7 +1576,7 @@ Design name:unnamed:
       vpiNet (5 items):
         Net name:clk0 start:78:9 end:78:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:78:3 end:78:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk0
             vpiFullName: t.clk0
             vpiActual: LogicTypespec
@@ -1603,7 +1586,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:clk1 start:79:9 end:79:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:79:3 end:79:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk1
             vpiFullName: t.clk1
             vpiActual: LogicTypespec
@@ -1613,7 +1596,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:clk2 start:80:9 end:80:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:80:3 end:80:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk2
             vpiFullName: t.clk2
             vpiActual: LogicTypespec
@@ -1623,7 +1606,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:data_in start:81:9 end:81:16:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:81:3 end:81:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:data_in
             vpiFullName: t.data_in
             vpiActual: LogicTypespec
@@ -1649,9 +1632,6 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec:
-            vpiParent: Port name:clk
-            vpiFullName: t.clk
         Port name:clk0 start:78:9 end:78:13:
           vpiParent: Module name:t
           vpiName: clk0
@@ -1661,7 +1641,7 @@ Design name:unnamed:
             vpiName: clk0
             vpiFullName: t.clk0.clk0
             vpiActual: Net name:clk0
-          vpiTypespec RefTypespec start:78:3 end:78:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk0
             vpiFullName: t.clk0
             vpiActual: LogicTypespec
@@ -1674,7 +1654,7 @@ Design name:unnamed:
             vpiName: clk1
             vpiFullName: t.clk1.clk1
             vpiActual: Net name:clk1
-          vpiTypespec RefTypespec start:79:3 end:79:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk1
             vpiFullName: t.clk1
             vpiActual: LogicTypespec
@@ -1687,7 +1667,7 @@ Design name:unnamed:
             vpiName: clk2
             vpiFullName: t.clk2.clk2
             vpiActual: Net name:clk2
-          vpiTypespec RefTypespec start:80:3 end:80:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk2
             vpiFullName: t.clk2
             vpiActual: LogicTypespec
@@ -1700,7 +1680,7 @@ Design name:unnamed:
             vpiName: data_in
             vpiFullName: t.data_in.data_in
             vpiActual: Net name:data_in
-          vpiTypespec RefTypespec start:81:3 end:81:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:data_in
             vpiFullName: t.data_in
             vpiActual: LogicTypespec
@@ -1837,7 +1817,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 1
 ********************************************************************************
@@ -1882,7 +1862,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_clk_concat5/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             285     285       0         0
+Others                             276     276       0         0
 ----------------------------------------------------------------
-                                   285     285       0         0
+                                   276     276       0         0
 ===================== END REDUCTION RESULT =====================

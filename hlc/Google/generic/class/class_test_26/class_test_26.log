@@ -99,7 +99,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:N start:15:33 end:15:34:
           vpiParent: ClassDefn name:Bar #(.N())
-          vpiTypespec RefTypespec start:15:33 end:15:33:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:N
             vpiFullName: Bar #(.N())::N
             vpiActual: LogicTypespec
@@ -129,17 +129,39 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Foo start:18:7 end:18:10:
       vpiFullName: Foo
+      vpiTypespec (1 items):
+        UnsupportedTypespec start:18:22 end:18:29:
+          vpiParent: ClassDefn name:Foo
+          vpiParamAssign (1 items):
+            ParamAssign start:18:27 end:18:28:
+              vpiParent: UnsupportedTypespec
+              vpiOverridden: true
+              vpiRhs RefObj name:N start:18:27 end:18:28:
+                vpiParent: ParamAssign
+                vpiName: N
+                vpiFullName: Foo::N
+                vpiActual: Parameter name:N
       vpiDefName: Foo
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
       vpiImplements Implements start:18:11 end:18:21:
         vpiParent: ClassDefn name:Foo
         vpiInterfaceTypespec (1 items):
-          RefTypespec name:Bar start:18:22 end:18:29:
+          "RefTypespec name:Bar:: start:18:22 end:18:29":
             vpiParent: Implements
-            vpiName: Bar
+            vpiName: Bar::
             vpiFullName: Foo::Bar
-            vpiActual: ClassTypespec name:Bar
+            vpiPathElem (2 items):
+              RefTypespec name:Bar start:18:22 end:18:25:
+                vpiParent: RefTypespec name:Bar::
+                vpiName: Bar
+                vpiFullName: Foo::Bar::::Bar
+                vpiActual: ClassTypespec name:Bar
+              RefTypespec start:18:22 end:18:29:
+                vpiParent: RefTypespec name:Bar::
+                vpiFullName: Foo::Bar
+                vpiActual: UnsupportedTypespec
+            vpiActual: LogicTypespec
       vpiLibrary RefObj name:work start:18:7 end:18:10:
         vpiParent: ClassDefn name:Foo
         vpiName: work
@@ -250,7 +272,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_26/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              31      31       0         0
+Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    31      31       0         0
+                                    36      36       0         0
 ===================== END REDUCTION RESULT =====================

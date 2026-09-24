@@ -39,9 +39,10 @@ Design name:unnamed:
         Typedef name:id_t start:12:3 end:12:43:
           vpiParent: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
           vpiName Identifier name:id_t start:12:38 end:12:42:
-          vpiTypedefAlias RefTypespec start:12:11 end:12:35:
+          vpiTypedefAlias RefTypespec name:logic [AXI_ID_WIDTH-1:0] start:12:11 end:12:35:
             vpiParent: Typedef name:id_t
-            vpiFullName: AXI_BUS #(.AXI_ID_WIDTH(-1)).id_t
+            vpiName: logic [AXI_ID_WIDTH-1:0]
+            vpiFullName: AXI_BUS #(.AXI_ID_WIDTH(-1)).id_t.logic [AXI_ID_WIDTH-1:0]
             vpiActual: ArrayTypespec
       vpiVariable (2 items):
         Variable name:aw_id start:14:15 end:14:20:
@@ -64,7 +65,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:AXI_ID_WIDTH start:9:12 end:9:24:
           vpiParent: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
-          vpiTypespec RefTypespec start:9:12 end:9:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:AXI_ID_WIDTH
             vpiFullName: AXI_BUS #(.AXI_ID_WIDTH(-1)).AXI_ID_WIDTH
             vpiActual: LogicTypespec
@@ -92,12 +93,9 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
-        UnsupportedTypespec name:logic start:12:11 end:12:16:
-          vpiParent: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
-          vpiName Identifier name:logic start:12:11 end:12:16:
         ArrayTypespec:
           vpiParent: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
           vpiArrayType: static (1)
@@ -133,11 +131,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:12:11 end:12:35:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: AXI_BUS #(.AXI_ID_WIDTH(-1)).logic
-            vpiActual: UnsupportedTypespec name:logic
         TypedefTypespec name:id_t start:12:3 end:12:43:
           vpiParent: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
           vpiName Identifier name:id_t start:12:38 end:12:42:
@@ -185,7 +182,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:29:30 end:29:33:
           vpiParent: Interface name:mem_if
-          vpiTypespec RefTypespec start:29:19 end:29:29:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: mem_if.clk
             vpiActual: LogicTypespec
@@ -222,7 +219,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: mem_if.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:29:19 end:29:29:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: mem_if.clk
             vpiActual: LogicTypespec
@@ -323,20 +320,7 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:fsm_t
           vpiName: state
           vpiFullName: memory_ctrl1.state
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:mem_if::system1 start:36:22 end:36:36:
-          vpiParent: Module name:memory_ctrl1
-          vpiPathElem (2 items):
-            RefObj name:mem_if start:36:22 end:36:28:
-              vpiParent: UnsupportedTypespec name:mem_if::system1
-              vpiName: mem_if
-              vpiFullName: memory_ctrl1.mem_if::system1.mem_if
-              vpiActual: Interface name:mem_if
-            RefObj name:system1 start:36:29 end:36:36:
-              vpiParent: UnsupportedTypespec name:mem_if::system1
-              vpiName: system1
-              vpiFullName: memory_ctrl1.mem_if::system1.system1
-          vpiName Identifier name:mem_if::system1:
+      vpiTypespec (2 items):
         EnumTypespec start:38:10 end:38:37:
           vpiParent: Module name:memory_ctrl1
           vpiEnum: Enum
@@ -362,10 +346,20 @@ Design name:unnamed:
             vpiName: sif
             vpiFullName: memory_ctrl1.sif.sif
             vpiActual: Port name:sif
-          vpiTypespec RefTypespec start:36:22 end:36:36:
+          vpiTypespec RefTypespec name:mem_if::system1 start:36:22 end:36:36:
             vpiParent: Port name:sif
-            vpiFullName: memory_ctrl1.sif
-            vpiActual: UnsupportedTypespec name:mem_if::system1
+            vpiName: mem_if::system1
+            vpiFullName: memory_ctrl1.sif.mem_if::system1
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:36:22 end:36:28:
+                vpiParent: RefTypespec name:mem_if::system1
+                vpiName: mem_if
+                vpiFullName: memory_ctrl1.sif.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:system1 start:36:29 end:36:36:
+                vpiParent: RefTypespec name:mem_if::system1
+                vpiName: system1
+                vpiFullName: memory_ctrl1.sif.mem_if::system1.system1
     Module name:memory_ctrl2 file:$Source01/top.v start:45:1 end:53:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:memory_ctrl2 start:45:8 end:45:20:
@@ -412,20 +406,7 @@ Design name:unnamed:
             vpiFullName: memory_ctrl2.t.DD
           vpiName: t
           vpiFullName: memory_ctrl2.t
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:mem_if::system start:45:22 end:45:35:
-          vpiParent: Module name:memory_ctrl2
-          vpiPathElem (2 items):
-            RefObj name:mem_if start:45:22 end:45:28:
-              vpiParent: UnsupportedTypespec name:mem_if::system
-              vpiName: mem_if
-              vpiFullName: memory_ctrl2.mem_if::system.mem_if
-              vpiActual: Interface name:mem_if
-            RefObj name:system start:45:29 end:45:35:
-              vpiParent: UnsupportedTypespec name:mem_if::system
-              vpiName: system
-              vpiFullName: memory_ctrl2.mem_if::system.system
-          vpiName Identifier name:mem_if::system:
+      vpiTypespec (2 items):
         EnumTypespec start:47:10 end:47:37:
           vpiParent: Module name:memory_ctrl2
           vpiEnum: Enum
@@ -451,10 +432,20 @@ Design name:unnamed:
             vpiName: sif
             vpiFullName: memory_ctrl2.sif.sif
             vpiActual: Port name:sif
-          vpiTypespec RefTypespec start:45:22 end:45:35:
+          vpiTypespec RefTypespec name:mem_if::system start:45:22 end:45:35:
             vpiParent: Port name:sif
-            vpiFullName: memory_ctrl2.sif
-            vpiActual: UnsupportedTypespec name:mem_if::system
+            vpiName: mem_if::system
+            vpiFullName: memory_ctrl2.sif.mem_if::system
+            vpiPathElem (2 items):
+              RefObj name:mem_if start:45:22 end:45:28:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: mem_if
+                vpiFullName: memory_ctrl2.sif.mem_if
+                vpiActual: Interface name:mem_if
+              RefTypespec name:system start:45:29 end:45:35:
+                vpiParent: RefTypespec name:mem_if::system
+                vpiName: system
+                vpiFullName: memory_ctrl2.sif.mem_if::system.system
   vpiTypespec (6 items):
     ModuleTypespec name:dff0_test:
       vpiParent: Design name:unnamed
@@ -533,10 +524,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       5       2         2
 Operation                            2       0       0         2
-RefObj                              15      14       0         1
-RefTypespec                         20      20       2         2
+RefObj                              13      12       0         1
+RefTypespec                         22      22       2         2
 ----------------------------------------------------------------
-Others                              92      92       0         0
+Others                              86      86       0         0
 ----------------------------------------------------------------
-                                   134     131       4         7
+                                   128     125       4         7
 ===================== END REDUCTION RESULT =====================

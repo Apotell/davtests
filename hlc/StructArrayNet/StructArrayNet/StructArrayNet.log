@@ -235,22 +235,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mod start:6:8 end:6:11:
       vpiFullName: mod
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:pkg start:6:18 end:6:21:
-          vpiParent: Module name:mod
-          vpiName Identifier name:pkg start:6:18 end:6:21:
-        UnsupportedTypespec name:pkg::Struct start:6:18 end:6:29:
-          vpiParent: Module name:mod
-          vpiPathElem (2 items):
-            RefTypespec start:6:18 end:6:23:
-              vpiParent: UnsupportedTypespec name:pkg::Struct
-              vpiFullName: mod.pkg::Struct
-              vpiActual: UnsupportedTypespec name:pkg
-            RefTypespec name:Struct start:6:23 end:6:29:
-              vpiParent: UnsupportedTypespec name:pkg::Struct
-              vpiName: Struct
-              vpiFullName: mod.pkg::Struct.Struct
-          vpiName Identifier name:pkg::Struct start:6:18 end:6:29:
       vpiDefName: mod
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:6:8 end:6:11:
@@ -261,11 +245,26 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:struct_i start:6:30 end:6:38:
           vpiParent: Module name:mod
-          vpiTypespec RefTypespec name:Struct start:6:23 end:6:29:
+          vpiTypespec RefTypespec name:pkg::Struct start:6:18 end:6:29:
             vpiParent: Net name:struct_i
-            vpiName: Struct
-            vpiFullName: mod.struct_i.Struct
-            vpiActual: UnsupportedTypespec name:pkg::Struct
+            vpiName: pkg::Struct
+            vpiFullName: mod.struct_i.pkg::Struct
+            vpiPathElem (2 items):
+              RefTypespec name:pkg start:6:18 end:6:21:
+                vpiParent: RefTypespec name:pkg::Struct
+                vpiName: pkg
+                vpiFullName: mod.struct_i.pkg::Struct.pkg
+                vpiPathElem (1 items):
+                  RefObj name:pkg start:6:18 end:6:21:
+                    vpiParent: RefTypespec name:pkg
+                    vpiName: pkg
+                    vpiFullName: mod.struct_i.pkg::Struct.pkg
+                    vpiActual: Package name:pkg
+              RefTypespec name:Struct start:6:23 end:6:29:
+                vpiParent: RefTypespec name:pkg::Struct
+                vpiName: Struct
+                vpiFullName: mod.struct_i.pkg::Struct.Struct
+            vpiActual: TypedefTypespec name:Struct
           vpiName: struct_i
           vpiFullName: mod.struct_i
           vpiNetType: wire (1)
@@ -279,11 +278,26 @@ Design name:unnamed:
             vpiName: struct_i
             vpiFullName: mod.struct_i.struct_i
             vpiActual: Net name:struct_i
-          vpiTypespec RefTypespec name:Struct start:6:23 end:6:29:
+          vpiTypespec RefTypespec name:pkg::Struct start:6:18 end:6:29:
             vpiParent: Port name:struct_i
-            vpiName: Struct
-            vpiFullName: mod.struct_i.Struct
-            vpiActual: UnsupportedTypespec name:pkg::Struct
+            vpiName: pkg::Struct
+            vpiFullName: mod.struct_i.pkg::Struct
+            vpiPathElem (2 items):
+              RefTypespec name:pkg start:6:18 end:6:21:
+                vpiParent: RefTypespec name:pkg::Struct
+                vpiName: pkg
+                vpiFullName: mod.struct_i.pkg::Struct.pkg
+                vpiPathElem (1 items):
+                  RefObj name:pkg start:6:18 end:6:21:
+                    vpiParent: RefTypespec name:pkg
+                    vpiName: pkg
+                    vpiFullName: mod.struct_i.pkg::Struct.pkg
+                    vpiActual: Package name:pkg
+              RefTypespec name:Struct start:6:23 end:6:29:
+                vpiParent: RefTypespec name:pkg::Struct
+                vpiName: Struct
+                vpiFullName: mod.struct_i.pkg::Struct.Struct
+            vpiActual: TypedefTypespec name:Struct
     Module name:dut file:$Source01/dut.sv start:9:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:9:8 end:9:11:
@@ -291,17 +305,14 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:struct_array start:10:32 end:10:44:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec name:pkg::Struct start:10:4 end:10:28:
+          "vpiTypespec RefTypespec name: [pkg.N-1:0] start:10:4 end:10:28":
             vpiParent: Variable name:struct_array
-            vpiName: pkg::Struct
-            vpiFullName: dut.struct_array.pkg::Struct
-            vpiActual: TypedefTypespec name:Struct
+            vpiName: " [pkg.N-1:0]"
+            vpiFullName: dut.struct_array. [pkg.N-1:0]
+            vpiActual: ArrayTypespec
           vpiName: struct_array
           vpiFullName: dut.struct_array
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:Struct start:10:9 end:10:28:
-          vpiParent: Module name:dut
-          vpiName Identifier name:Struct:
+      vpiTypespec (2 items):
         ArrayTypespec:
           vpiParent: Module name:dut
           vpiArrayType: static (1)
@@ -347,10 +358,24 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec start:10:4 end:10:28:
             vpiParent: ArrayTypespec
             vpiFullName: dut
-            vpiActual: UnsupportedTypespec name:Struct
+            vpiPathElem (2 items):
+              RefTypespec name:pkg start:10:4 end:10:7:
+                vpiParent: RefTypespec
+                vpiName: pkg
+                vpiFullName: dut.pkg
+                vpiPathElem (1 items):
+                  RefObj name:pkg start:10:4 end:10:7:
+                    vpiParent: RefTypespec name:pkg
+                    vpiName: pkg
+                    vpiFullName: dut.pkg
+                    vpiActual: Package name:pkg
+              RefTypespec name:Struct start:10:9 end:10:15:
+                vpiParent: RefTypespec
+                vpiName: Struct
+                vpiFullName: dut.Struct
         ModuleTypespec name:mod start:12:4 end:12:7:
           vpiParent: Module name:dut
           vpiName Identifier name:mod start:12:4 end:12:7:
@@ -366,7 +391,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:sel start:9:22 end:9:25:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:9:12 end:9:21:
+          vpiTypespec RefTypespec start:9:18 end:9:21:
             vpiParent: Net name:sel
             vpiFullName: dut.sel
             vpiActual: IntTypespec
@@ -383,7 +408,7 @@ Design name:unnamed:
             vpiName: sel
             vpiFullName: dut.sel.sel
             vpiActual: Net name:sel
-          vpiTypespec RefTypespec start:9:12 end:9:21:
+          vpiTypespec RefTypespec start:9:18 end:9:21:
             vpiParent: Port name:sel
             vpiFullName: dut.sel
             vpiActual: IntTypespec
@@ -480,7 +505,7 @@ COMMAND: ${HLC_DIR}/regression/StructArrayNet/StructArrayNet/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              73      73       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    73      73       0         0
 ===================== END REDUCTION RESULT =====================

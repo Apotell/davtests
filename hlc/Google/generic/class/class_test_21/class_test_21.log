@@ -267,20 +267,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Foo start:20:7 end:20:10:
       vpiFullName: Foo
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:Package::Bar #(x, y, z) start:20:19 end:20:40:
-          vpiParent: ClassDefn name:Foo
-          vpiPathElem (2 items):
-            RefTypespec name:Package start:20:19 end:20:26:
-              vpiParent: UnsupportedTypespec name:Package::Bar #(x, y, z)
-              vpiName: Package
-              vpiFullName: Foo::Package::Bar #(x, y, z)::Package
-            RefTypespec name:Bar start:20:28 end:20:31:
-              vpiParent: UnsupportedTypespec name:Package::Bar #(x, y, z)
-              vpiName: Bar
-              vpiFullName: Foo::Package::Bar #(x, y, z)::Bar
-              vpiActual: ClassTypespec name:Bar #(x, y, z)
-          vpiName Identifier name:Package::Bar #(x, y, z):
+      vpiTypespec (1 items):
         ClassTypespec name:Bar #(x, y, z) start:20:28 end:20:40:
           vpiParent: ClassDefn name:Foo
           vpiName Identifier name:Bar #(x, y, z) start:20:28 end:20:31:
@@ -321,7 +308,16 @@ Design name:unnamed:
             vpiParent: Extends
             vpiName: Package::Bar #(x, y, z)
             vpiFullName: Foo::Package::Bar #(x, y, z)
-            vpiActual: UnsupportedTypespec name:Package::Bar #(x, y, z)
+            vpiPathElem (2 items):
+              RefTypespec name:Package start:20:19 end:20:26:
+                vpiParent: RefTypespec name:Package::Bar #(x, y, z)
+                vpiName: Package
+                vpiFullName: Foo::Package::Bar #(x, y, z)::Package
+              RefTypespec name:Bar start:20:28 end:20:31:
+                vpiParent: RefTypespec name:Package::Bar #(x, y, z)
+                vpiName: Bar
+                vpiFullName: Foo::Package::Bar #(x, y, z)::Bar
+                vpiActual: ClassTypespec name:Bar #(x, y, z)
       vpiLibrary RefObj name:work start:20:7 end:20:10:
         vpiParent: ClassDefn name:Foo
         vpiName: work
@@ -358,7 +354,7 @@ Design name:unnamed:
   vpiParameter (3 items):
     Parameter name:x start:18:12 end:18:13:
       vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:18:12 end:18:12:
+      vpiTypespec RefTypespec:
         vpiParent: Parameter name:x
         vpiFullName: x
         vpiActual: LogicTypespec
@@ -367,7 +363,7 @@ Design name:unnamed:
       vpiLocalParam: true
     Parameter name:y start:18:17 end:18:18:
       vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:18:12 end:18:12:
+      vpiTypespec RefTypespec:
         vpiParent: Parameter name:y
         vpiFullName: y
         vpiActual: LogicTypespec
@@ -376,7 +372,7 @@ Design name:unnamed:
       vpiLocalParam: true
     Parameter name:z start:18:22 end:18:23:
       vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:18:12 end:18:12:
+      vpiTypespec RefTypespec:
         vpiParent: Parameter name:z
         vpiFullName: z
         vpiActual: LogicTypespec
@@ -480,7 +476,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_21/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              70      70       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    70      70       0         0
 ===================== END REDUCTION RESULT =====================

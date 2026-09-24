@@ -356,10 +356,10 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_interface_modport_export.v:47:18: Port "ie" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface_modport_export.v:58:1: Compile module "testmod_caller".
 [WRN:CP5811] $Source01/t_interface_modport_export.v:61:18: Port "ii" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/t_interface_modport_export.v:39:44: Failed to bind "id:47, name:mp_e".
-[WRN:CP5851] $Source01/t_interface_modport_export.v:41:16: Failed to bind "id:59, name:mp_i".
-[WRN:CP5851] $Source01/t_interface_modport_export.v:65:10: Failed to bind "id:114, name:data".
-[WRN:CP5851] $Source01/t_interface_modport_export.v:66:14: Failed to bind "id:124, name:myfunc".
+[WRN:CP5851] $Source01/t_interface_modport_export.v:39:44: Failed to bind "id:44, name:mp_e".
+[WRN:CP5851] $Source01/t_interface_modport_export.v:41:16: Failed to bind "id:56, name:mp_i".
+[WRN:CP5851] $Source01/t_interface_modport_export.v:65:10: Failed to bind "id:104, name:data".
+[WRN:CP5851] $Source01/t_interface_modport_export.v:66:14: Failed to bind "id:114, name:myfunc".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -383,12 +383,9 @@ Design name:unnamed:
             vpiFullName: test_if.data.logic
           vpiName: data
           vpiFullName: test_if.data
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec start:11:20 end:11:20:
           vpiParent: Interface name:test_if
-        UnsupportedTypespec name:logic start:11:34 end:11:39:
-          vpiParent: Interface name:test_if
-          vpiName Identifier name:logic start:11:34 end:11:39:
       vpiDefName: test_if
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:11 end:8:18:
@@ -410,7 +407,6 @@ Design name:unnamed:
                 vpiParent: IODecl name:val
                 vpiName: logic
                 vpiFullName: test_if.myfunc.val.logic
-                vpiActual: UnsupportedTypespec name:logic
           vpiReturn RefTypespec start:11:20 end:11:20:
             vpiParent: FunctionDecl name:myfunc
             vpiFullName: test_if.myfunc
@@ -462,7 +458,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:35:10 end:35:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:35:10 end:35:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -480,7 +476,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:35:10 end:35:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -569,20 +565,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:testmod_callee start:45:8 end:45:22:
       vpiFullName: testmod_callee
-      vpiTypespec (1 items):
-        UnsupportedTypespec name:test_if::mp_e start:47:4 end:47:16:
-          vpiParent: Module name:testmod_callee
-          vpiPathElem (2 items):
-            RefObj name:test_if start:47:4 end:47:11:
-              vpiParent: UnsupportedTypespec name:test_if::mp_e
-              vpiName: test_if
-              vpiFullName: testmod_callee.test_if::mp_e.test_if
-              vpiActual: Interface name:test_if
-            RefObj name:mp_e start:47:12 end:47:16:
-              vpiParent: UnsupportedTypespec name:test_if::mp_e
-              vpiName: mp_e
-              vpiFullName: testmod_callee.test_if::mp_e.mp_e
-          vpiName Identifier name:test_if::mp_e:
       vpiDefName: testmod_callee
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:45:8 end:45:22:
@@ -595,13 +577,6 @@ Design name:unnamed:
           vpiParent: Module name:testmod_callee
           vpiName Identifier name:myfunc start:50:32 end:50:38:
           vpiFullName: testmod_callee.myfunc
-          vpiTypespec (2 items):
-            UnsupportedTypespec name:logic start:50:23 end:50:28:
-              vpiParent: Function name:myfunc
-              vpiName Identifier name:logic start:50:23 end:50:28:
-            UnsupportedTypespec name:logic start:50:46 end:50:51:
-              vpiParent: Function name:myfunc
-              vpiName Identifier name:logic start:50:46 end:50:51:
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiPrefix RefObj name:ie start:50:29 end:50:31:
@@ -618,7 +593,6 @@ Design name:unnamed:
                 vpiParent: IODecl name:val
                 vpiName: logic
                 vpiFullName: testmod_callee.myfunc.val.logic
-                vpiActual: UnsupportedTypespec name:logic
           vpiStmt Begin start:51:7 end:53:10:
             vpiParent: Function name:myfunc
             vpiFullName: testmod_callee.myfunc
@@ -653,10 +627,10 @@ Design name:unnamed:
                       vpiSize: 1
                       vpiDecompile: "1'b0"
                       vpiValue: "0"
-          vpiReturn RefTypespec start:50:23 end:50:28:
+          vpiReturn RefTypespec name:logic start:50:23 end:50:28:
             vpiParent: Function name:myfunc
-            vpiFullName: testmod_callee.myfunc
-            vpiActual: UnsupportedTypespec name:logic
+            vpiName: logic
+            vpiFullName: testmod_callee.myfunc.logic
       vpiPort (1 items):
         Port name:ie start:47:18 end:47:20:
           vpiParent: Module name:testmod_callee
@@ -667,30 +641,27 @@ Design name:unnamed:
             vpiName: ie
             vpiFullName: testmod_callee.ie.ie
             vpiActual: Port name:ie
-          vpiTypespec RefTypespec start:47:4 end:47:16:
+          vpiTypespec RefTypespec name:test_if::mp_e start:47:4 end:47:16:
             vpiParent: Port name:ie
-            vpiFullName: testmod_callee.ie
-            vpiActual: UnsupportedTypespec name:test_if::mp_e
+            vpiName: test_if::mp_e
+            vpiFullName: testmod_callee.ie.test_if::mp_e
+            vpiPathElem (2 items):
+              RefObj name:test_if start:47:4 end:47:11:
+                vpiParent: RefTypespec name:test_if::mp_e
+                vpiName: test_if
+                vpiFullName: testmod_callee.ie.test_if
+                vpiActual: Interface name:test_if
+              RefTypespec name:mp_e start:47:12 end:47:16:
+                vpiParent: RefTypespec name:test_if::mp_e
+                vpiName: mp_e
+                vpiFullName: testmod_callee.ie.test_if::mp_e.mp_e
     Module name:testmod_caller file:$Source01/t_interface_modport_export.v start:58:1 end:74:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:testmod_caller start:58:8 end:58:22:
       vpiFullName: testmod_caller
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:testmod_caller
-        UnsupportedTypespec name:test_if::mp_i start:61:4 end:61:16:
-          vpiParent: Module name:testmod_caller
-          vpiPathElem (2 items):
-            RefObj name:test_if start:61:4 end:61:11:
-              vpiParent: UnsupportedTypespec name:test_if::mp_i
-              vpiName: test_if
-              vpiFullName: testmod_caller.test_if::mp_i.test_if
-              vpiActual: Interface name:test_if
-            RefObj name:mp_i start:61:12 end:61:16:
-              vpiParent: UnsupportedTypespec name:test_if::mp_i
-              vpiName: mp_i
-              vpiFullName: testmod_caller.test_if::mp_i.mp_i
-          vpiName Identifier name:test_if::mp_i:
       vpiDefName: testmod_caller
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:58:8 end:58:22:
@@ -701,7 +672,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:60:10 end:60:13:
           vpiParent: Module name:testmod_caller
-          vpiTypespec RefTypespec start:60:4 end:60:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: testmod_caller.clk
             vpiActual: LogicTypespec
@@ -719,7 +690,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: testmod_caller.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:60:4 end:60:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: testmod_caller.clk
             vpiActual: LogicTypespec
@@ -732,10 +703,20 @@ Design name:unnamed:
             vpiName: ii
             vpiFullName: testmod_caller.ii.ii
             vpiActual: Port name:ii
-          vpiTypespec RefTypespec start:61:4 end:61:16:
+          vpiTypespec RefTypespec name:test_if::mp_i start:61:4 end:61:16:
             vpiParent: Port name:ii
-            vpiFullName: testmod_caller.ii
-            vpiActual: UnsupportedTypespec name:test_if::mp_i
+            vpiName: test_if::mp_i
+            vpiFullName: testmod_caller.ii.test_if::mp_i
+            vpiPathElem (2 items):
+              RefObj name:test_if start:61:4 end:61:11:
+                vpiParent: RefTypespec name:test_if::mp_i
+                vpiName: test_if
+                vpiFullName: testmod_caller.ii.test_if
+                vpiActual: Interface name:test_if
+              RefTypespec name:mp_i start:61:12 end:61:16:
+                vpiParent: RefTypespec name:test_if::mp_i
+                vpiName: mp_i
+                vpiFullName: testmod_caller.ii.test_if::mp_i.mp_i
       vpiProcess (1 items):
         Always start:64:4 end:73:7:
           vpiParent: Module name:testmod_caller
@@ -910,7 +891,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_export/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             135     135       0         0
+Others                             125     125       0         0
 ----------------------------------------------------------------
-                                   135     135       0         0
+                                   125     125       0         0
 ===================== END REDUCTION RESULT =====================

@@ -255,6 +255,7 @@ n<$Source01/dut.sv> u<239> t<Top_level_rule> c<1> l<1:1> el<31:1>
         n<> u<235> t<ENDMODULE> p<236> l<30:1> el<30:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "top".
+[WRN:CP5851] $Source01/dut.sv:24:40: Failed to bind "id:701, name:mode".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top".
 ====== HLDB =======
@@ -1574,7 +1575,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1594,7 +1595,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1616,7 +1617,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1634,7 +1635,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1656,7 +1657,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1674,7 +1675,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1739,24 +1740,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -1913,9 +1912,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:3:10 end:5:3:
           vpiParent: Module name:top
-          vpiBaseTypespec RefTypespec start:3:15 end:3:26:
+          vpiBaseTypespec RefTypespec name:logic [1:0] start:3:15 end:3:26:
             vpiParent: Enum
-            vpiFullName: top
+            vpiName: logic [1:0]
+            vpiFullName: top.logic [1:0]
             vpiActual: LogicTypespec
           vpiEnumConst (1 items):
             EnumConst name:PMP_MODE_OFF start:4:4 end:4:26:
@@ -1988,10 +1988,10 @@ Design name:unnamed:
       vpiVariable (7 items):
         Variable name:csr_pmp_cfg_i start:16:17 end:16:30:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec name:pmp_cfg_t start:16:2 end:16:11:
+          vpiTypespec RefTypespec name:pmp_cfg_t [4] start:16:2 end:16:11:
             vpiParent: Variable name:csr_pmp_cfg_i
-            vpiName: pmp_cfg_t
-            vpiFullName: top.csr_pmp_cfg_i.pmp_cfg_t
+            vpiName: pmp_cfg_t [4]
+            vpiFullName: top.csr_pmp_cfg_i.pmp_cfg_t [4]
             vpiActual: ArrayTypespec
           vpiName: csr_pmp_cfg_i
           vpiFullName: top.csr_pmp_cfg_i
@@ -2078,7 +2078,6 @@ Design name:unnamed:
                 vpiParent: RefObj name:csr_pmp_cfg_i[0].mode
                 vpiName: mode
                 vpiFullName: top.first.mode
-                vpiActual: TypespecMember name:mode
         Variable name:second start:25:8 end:25:14:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:25:2 end:25:7:
@@ -2218,7 +2217,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "4"
                   vpiValue: 4
-          vpiElemTypespec RefTypespec name:pmp_cfg_t:
+          vpiElemTypespec RefTypespec name:pmp_cfg_t start:16:2 end:16:11:
             vpiParent: ArrayTypespec
             vpiName: pmp_cfg_t
             vpiFullName: top.pmp_cfg_t
@@ -2303,7 +2302,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2347,7 +2346,7 @@ COMMAND: ${HLC_DIR}/regression/StructAccess/StructAccess/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             724     724       0         0
+Others                             722     722       0         0
 ----------------------------------------------------------------
-                                   724     724       0         0
+                                   722     722       0         0
 ===================== END REDUCTION RESULT =====================

@@ -106,7 +106,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/dut.sv:11:1: Compile interface "PerformanceCounterIF".
 [INF:CP5804] $Source01/dut.sv:20:1: Compile module "CSR_Unit".
 [WRN:CP5811] $Source01/dut.sv:21:30: Port "perfCounter" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/dut.sv:25:42: Failed to bind "id:48, name:numLoadMiss".
+[WRN:CP5851] $Source01/dut.sv:25:42: Failed to bind "id:42, name:numLoadMiss".
 [WRN:PA5506] $Source01/dut.sv:20:1: No timescale set for "CSR_Unit".
 [WRN:PA5506] $Source01/dut.sv:11:1: No timescale set for "PerformanceCounterIF".
 ====== HLDB =======
@@ -154,20 +154,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:CSR_Unit start:20:8 end:20:16:
       vpiFullName: CSR_Unit
-      vpiTypespec (1 items):
-        UnsupportedTypespec name:PerformanceCounterIF::CSR start:21:5 end:21:29:
-          vpiParent: Module name:CSR_Unit
-          vpiPathElem (2 items):
-            RefObj name:PerformanceCounterIF start:21:5 end:21:25:
-              vpiParent: UnsupportedTypespec name:PerformanceCounterIF::CSR
-              vpiName: PerformanceCounterIF
-              vpiFullName: CSR_Unit.PerformanceCounterIF::CSR.PerformanceCounterIF
-              vpiActual: Interface name:PerformanceCounterIF
-            RefObj name:CSR start:21:26 end:21:29:
-              vpiParent: UnsupportedTypespec name:PerformanceCounterIF::CSR
-              vpiName: CSR
-              vpiFullName: CSR_Unit.PerformanceCounterIF::CSR.CSR
-          vpiName Identifier name:PerformanceCounterIF::CSR:
       vpiDefName: CSR_Unit
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:20:8 end:20:16:
@@ -185,10 +171,20 @@ Design name:unnamed:
             vpiName: perfCounter
             vpiFullName: CSR_Unit.perfCounter.perfCounter
             vpiActual: Port name:perfCounter
-          vpiTypespec RefTypespec start:21:5 end:21:29:
+          vpiTypespec RefTypespec name:PerformanceCounterIF::CSR start:21:5 end:21:29:
             vpiParent: Port name:perfCounter
-            vpiFullName: CSR_Unit.perfCounter
-            vpiActual: UnsupportedTypespec name:PerformanceCounterIF::CSR
+            vpiName: PerformanceCounterIF::CSR
+            vpiFullName: CSR_Unit.perfCounter.PerformanceCounterIF::CSR
+            vpiPathElem (2 items):
+              RefObj name:PerformanceCounterIF start:21:5 end:21:25:
+                vpiParent: RefTypespec name:PerformanceCounterIF::CSR
+                vpiName: PerformanceCounterIF
+                vpiFullName: CSR_Unit.perfCounter.PerformanceCounterIF
+                vpiActual: Interface name:PerformanceCounterIF
+              RefTypespec name:CSR start:21:26 end:21:29:
+                vpiParent: RefTypespec name:PerformanceCounterIF::CSR
+                vpiName: CSR
+                vpiFullName: CSR_Unit.perfCounter.PerformanceCounterIF::CSR.CSR
       vpiContAssign (1 items):
         ContAssign start:25:9 end:25:53:
           vpiParent: Module name:CSR_Unit
@@ -317,7 +313,7 @@ COMMAND: ${HLC_DIR}/regression/NameCollisionBind/NameCollisionBind/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              45      45       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    45      45       0         0
+                                    43      43       0         0
 ===================== END REDUCTION RESULT =====================

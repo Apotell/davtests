@@ -97,22 +97,7 @@ Design name:unnamed:
             vpiFullName: t.b.bar_t
           vpiName: b
           vpiFullName: t.b
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:mispkg start:6:17 end:6:23:
-          vpiParent: Module name:t
-          vpiName Identifier name:mispkg start:6:17 end:6:23:
-        UnsupportedTypespec name:mispkg::foo_t start:6:17 end:6:30:
-          vpiParent: Module name:t
-          vpiPathElem (2 items):
-            RefTypespec start:6:17 end:6:25:
-              vpiParent: UnsupportedTypespec name:mispkg::foo_t
-              vpiFullName: t.mispkg::foo_t
-              vpiActual: UnsupportedTypespec name:mispkg
-            RefTypespec name:foo_t start:6:25 end:6:30:
-              vpiParent: UnsupportedTypespec name:mispkg::foo_t
-              vpiName: foo_t
-              vpiFullName: t.mispkg::foo_t.foo_t
-          vpiName Identifier name:mispkg::foo_t start:6:17 end:6:30:
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:t
       vpiDefName: t
@@ -125,11 +110,19 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:a start:6:31 end:6:32:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec name:foo_t start:6:25 end:6:30:
+          vpiTypespec RefTypespec name:mispkg::foo_t start:6:17 end:6:30:
             vpiParent: Net name:a
-            vpiName: foo_t
-            vpiFullName: t.a.foo_t
-            vpiActual: UnsupportedTypespec name:mispkg::foo_t
+            vpiName: mispkg::foo_t
+            vpiFullName: t.a.mispkg::foo_t
+            vpiPathElem (2 items):
+              RefTypespec name:mispkg start:6:17 end:6:23:
+                vpiParent: RefTypespec name:mispkg::foo_t
+                vpiName: mispkg
+                vpiFullName: t.a.mispkg::foo_t.mispkg
+              RefTypespec name:foo_t start:6:25 end:6:30:
+                vpiParent: RefTypespec name:mispkg::foo_t
+                vpiName: foo_t
+                vpiFullName: t.a.mispkg::foo_t.foo_t
           vpiName: a
           vpiFullName: t.a
           vpiNetType: wire (1)
@@ -143,11 +136,19 @@ Design name:unnamed:
             vpiName: a
             vpiFullName: t.a.a
             vpiActual: Net name:a
-          vpiTypespec RefTypespec name:foo_t start:6:25 end:6:30:
+          vpiTypespec RefTypespec name:mispkg::foo_t start:6:17 end:6:30:
             vpiParent: Port name:a
-            vpiName: foo_t
-            vpiFullName: t.a.foo_t
-            vpiActual: UnsupportedTypespec name:mispkg::foo_t
+            vpiName: mispkg::foo_t
+            vpiFullName: t.a.mispkg::foo_t
+            vpiPathElem (2 items):
+              RefTypespec name:mispkg start:6:17 end:6:23:
+                vpiParent: RefTypespec name:mispkg::foo_t
+                vpiName: mispkg
+                vpiFullName: t.a.mispkg::foo_t.mispkg
+              RefTypespec name:foo_t start:6:25 end:6:30:
+                vpiParent: RefTypespec name:mispkg::foo_t
+                vpiName: foo_t
+                vpiFullName: t.a.mispkg::foo_t.foo_t
   vpiTypespec (1 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -202,7 +203,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_pkg_colon_bad/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              23      23       0         0
+Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    23      23       0         0
+                                    21      21       0         0
 ===================== END REDUCTION RESULT =====================

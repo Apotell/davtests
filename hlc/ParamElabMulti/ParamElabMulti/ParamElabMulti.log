@@ -462,8 +462,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:41:1: Compile module "sub_top".
 [INF:CP5836] $Source01/dut.sv:45:49: Compile generate block "gen_dio_attr".
 [INF:CP5804] $Source01/dut.sv:52:1: Compile module "top".
-[WRN:CP5851] $Source01/dut.sv:54:34: Failed to bind "id:189, name:NDioPads".
-[WRN:CP5851] $Source01/dut.sv:54:65: Failed to bind "id:194, name:B".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "prim_pad_wrapper_pkg".
 [WRN:PA5506] $Source01/dut.sv:8:1: No timescale set for "pinmux_pkg".
 [WRN:PA5506] $Source01/dut.sv:22:1: No timescale set for "prim_generic_pad_attr".
@@ -486,9 +484,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:2:12 end:5:5:
           vpiParent: Package name:prim_pad_wrapper_pkg
-          vpiBaseTypespec RefTypespec start:2:18 end:2:29:
+          vpiBaseTypespec RefTypespec name:logic [2:0] start:2:18 end:2:29:
             vpiParent: Enum
-            vpiFullName: prim_pad_wrapper_pkg
+            vpiName: logic [2:0]
+            vpiFullName: prim_pad_wrapper_pkg::logic [2:0]
             vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:A start:3:7 end:3:15:
@@ -580,10 +579,10 @@ Design name:unnamed:
             TypespecMember name:dio_pad_type start:14:33 end:14:45:
               vpiParent: Struct
               vpiName: dio_pad_type
-              vpiTypespec RefTypespec name:pad_type_e start:14:7 end:14:32:
+              vpiTypespec RefTypespec name:pad_type_e [NDioPads-1:0] start:14:7 end:14:32:
                 vpiParent: TypespecMember name:dio_pad_type
-                vpiName: pad_type_e
-                vpiFullName: pinmux_pkg::dio_pad_type::pad_type_e
+                vpiName: pad_type_e [NDioPads-1:0]
+                vpiFullName: pinmux_pkg::dio_pad_type::pad_type_e [NDioPads-1:0]
                 vpiActual: ArrayTypespec
       vpiTypedef (1 items):
         Typedef name:target_cfg_t start:13:4 end:15:19:
@@ -703,7 +702,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:pad_type_e:
+          vpiElemTypespec RefTypespec name:pad_type_e start:14:7 end:14:32:
             vpiParent: ArrayTypespec
             vpiName: pad_type_e
             vpiFullName: pinmux_pkg::pad_type_e
@@ -1035,6 +1034,21 @@ Design name:unnamed:
             vpiParent: Parameter name:PinmuxTargetCfg
             vpiName: pinmux_pkg::target_cfg_t
             vpiFullName: top.PinmuxTargetCfg.pinmux_pkg::target_cfg_t
+            vpiPathElem (2 items):
+              RefTypespec name:pinmux_pkg start:53:15 end:53:25:
+                vpiParent: RefTypespec name:pinmux_pkg::target_cfg_t
+                vpiName: pinmux_pkg
+                vpiFullName: top.PinmuxTargetCfg.pinmux_pkg::target_cfg_t.pinmux_pkg
+                vpiPathElem (1 items):
+                  RefObj name:pinmux_pkg start:53:15 end:53:25:
+                    vpiParent: RefTypespec name:pinmux_pkg
+                    vpiName: pinmux_pkg
+                    vpiFullName: top.PinmuxTargetCfg.pinmux_pkg::target_cfg_t.pinmux_pkg
+                    vpiActual: Package name:pinmux_pkg
+              RefTypespec name:target_cfg_t start:53:27 end:53:39:
+                vpiParent: RefTypespec name:pinmux_pkg::target_cfg_t
+                vpiName: target_cfg_t
+                vpiFullName: top.PinmuxTargetCfg.pinmux_pkg::target_cfg_t.target_cfg_t
             vpiActual: TypedefTypespec name:target_cfg_t
           vpiName: PinmuxTargetCfg
           vpiFullName: top.PinmuxTargetCfg
@@ -1066,14 +1080,16 @@ Design name:unnamed:
                       vpiName: pinmux_pkg::NDioPads
                       vpiFullName: top.pinmux_pkg::NDioPads
                       vpiPathElem (2 items):
-                        RefTypespec start:54:22 end:54:34:
+                        RefObj name:pinmux_pkg start:54:22 end:54:32:
                           vpiParent: RefObj name:pinmux_pkg::NDioPads
-                          vpiFullName: top.pinmux_pkg::NDioPads
-                          vpiActual: UnsupportedTypespec name:pinmux_pkg
+                          vpiName: pinmux_pkg
+                          vpiFullName: top.pinmux_pkg
+                          vpiActual: Package name:pinmux_pkg
                         RefObj name:NDioPads start:54:34 end:54:42:
                           vpiParent: RefObj name:pinmux_pkg::NDioPads
                           vpiName: NDioPads
                           vpiFullName: top.NDioPads
+                          vpiActual: Parameter name:NDioPads
                     Operation start:54:42 end:54:67:
                       vpiParent: Operation
                       vpiOpType: concatenation (33)
@@ -1083,21 +1099,17 @@ Design name:unnamed:
                           vpiName: prim_pad_wrapper_pkg::B
                           vpiFullName: top.prim_pad_wrapper_pkg::B
                           vpiPathElem (2 items):
-                            RefTypespec start:54:43 end:54:65:
+                            RefObj name:prim_pad_wrapper_pkg start:54:43 end:54:63:
                               vpiParent: RefObj name:prim_pad_wrapper_pkg::B
-                              vpiFullName: top.prim_pad_wrapper_pkg::B
-                              vpiActual: UnsupportedTypespec name:prim_pad_wrapper_pkg
+                              vpiName: prim_pad_wrapper_pkg
+                              vpiFullName: top.prim_pad_wrapper_pkg
+                              vpiActual: Package name:prim_pad_wrapper_pkg
                             RefObj name:B start:54:65 end:54:66:
                               vpiParent: RefObj name:prim_pad_wrapper_pkg::B
                               vpiName: B
                               vpiFullName: top.B
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:pinmux_pkg start:54:22 end:54:32:
-          vpiParent: Module name:top
-          vpiName Identifier name:pinmux_pkg start:54:22 end:54:32:
-        UnsupportedTypespec name:prim_pad_wrapper_pkg start:54:43 end:54:63:
-          vpiParent: Module name:top
-          vpiName Identifier name:prim_pad_wrapper_pkg start:54:43 end:54:63:
+                              vpiActual: EnumConst name:B
+      vpiTypespec (1 items):
         ModuleTypespec name:sub_top start:57:4 end:57:11:
           vpiParent: Module name:top
           vpiName Identifier name:sub_top start:57:4 end:57:11:
@@ -1163,7 +1175,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 8
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1209,10 +1221,10 @@ Name                            Before   After   Added   Removed
 Constant                            10      12       3         1
 LogicTypespec                        1       2       1         0
 Operation                           10       6       0         4
-RefObj                              39      34       0         5
+RefObj                              42      37       0         5
 RefTypespec                         26      27       2         1
 ----------------------------------------------------------------
-Others                              98      98       0         0
+Others                              94      94       0         0
 ----------------------------------------------------------------
-                                   184     179       6        11
+                                   183     178       6        11
 ===================== END REDUCTION RESULT =====================

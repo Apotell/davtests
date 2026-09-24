@@ -2308,9 +2308,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:8:11 end:11:6:
           vpiParent: Package name:pack1
-          vpiBaseTypespec RefTypespec start:8:16 end:8:35:
+          vpiBaseTypespec RefTypespec name:logic [TxWidth-1:0] start:8:16 end:8:35:
             vpiParent: Enum
-            vpiFullName: pack1
+            vpiName: logic [TxWidth-1:0]
+            vpiFullName: pack1::logic [TxWidth-1:0]
             vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:On start:9:7 end:9:20:
@@ -2350,10 +2351,11 @@ Design name:unnamed:
         Typedef name:lc_tx_t start:13:5 end:13:29:
           vpiParent: Package name:pack1
           vpiName Identifier name:lc_tx_t start:13:21 end:13:28:
-          vpiTypedefAlias RefTypespec start:13:13 end:13:20:
+          vpiTypedefAlias RefTypespec name:lc_tx_e start:13:13 end:13:20:
             vpiParent: Typedef name:lc_tx_t
-            vpiFullName: pack1::lc_tx_t
-            vpiActual: UnsupportedTypespec name:lc_tx_e
+            vpiName: lc_tx_e
+            vpiFullName: pack1::lc_tx_t::lc_tx_e
+            vpiActual: TypedefTypespec name:lc_tx_e
       vpiParameter (2 items):
         Parameter name:TxWidth start:6:17 end:6:24:
           vpiParent: Package name:pack1
@@ -2402,7 +2404,7 @@ Design name:unnamed:
             vpiName: Off
             vpiFullName: pack1::Off
             vpiActual: EnumConst name:Off
-      vpiTypespec (5 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Package name:pack1
           vpiRange (1 items):
@@ -2446,13 +2448,9 @@ Design name:unnamed:
           vpiName Identifier name:lc_tx_e start:11:7 end:11:14:
           vpiTypedefKind: enum (2)
           vpiTypedef: Typedef name:lc_tx_e
-        UnsupportedTypespec name:lc_tx_e start:13:13 end:13:20:
-          vpiParent: Package name:pack1
-          vpiName Identifier name:lc_tx_e start:13:13 end:13:20:
         TypedefTypespec name:lc_tx_t start:13:5 end:13:29:
           vpiParent: Package name:pack1
           vpiName Identifier name:lc_tx_t start:13:21 end:13:28:
-          vpiTypedefKind: unsupported (7)
           vpiTypedef: Typedef name:lc_tx_t
       vpiDefName: pack1
       vpiDefNetType: wire (1)
@@ -2531,7 +2529,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -2551,7 +2549,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -2573,7 +2571,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -2591,7 +2589,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -2613,7 +2611,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -2631,7 +2629,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -2696,24 +2694,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -3064,7 +3060,7 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:o start:38:36 end:38:37:
           vpiParent: "Module name:dut2 #(.num_out_p(\"inv\"))"
-          vpiTypespec RefTypespec start:38:7 end:38:35:
+          vpiTypespec RefTypespec start:38:14 end:38:35:
             vpiParent: Variable name:o
             vpiFullName: dut2 #(.num_out_p("inv")).o
             vpiActual: LogicTypespec
@@ -3074,7 +3070,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:num_out_p start:35:25 end:35:34:
           vpiParent: "Module name:dut2 #(.num_out_p(\"inv\"))"
-          vpiTypespec RefTypespec start:35:25 end:35:25:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:num_out_p
             vpiFullName: dut2 #(.num_out_p("inv")).num_out_p
             vpiActual: LogicTypespec
@@ -3185,7 +3181,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:i start:37:36 end:37:37:
           vpiParent: "Module name:dut2 #(.num_out_p(\"inv\"))"
-          vpiTypespec RefTypespec start:37:6 end:37:35:
+          vpiTypespec RefTypespec start:37:12 end:37:35:
             vpiParent: Net name:i
             vpiFullName: dut2 #(.num_out_p("inv")).i
             vpiActual: LogicTypespec
@@ -3195,7 +3191,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:unused start:43:13 end:43:19:
           vpiParent: "Module name:dut2 #(.num_out_p(\"inv\"))"
-          vpiTypespec RefTypespec start:43:13 end:43:13:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:unused
             vpiFullName: dut2 #(.num_out_p("inv")).unused
             vpiActual: LogicTypespec
@@ -3219,7 +3215,7 @@ Design name:unnamed:
             vpiName: i
             vpiFullName: dut2 #(.num_out_p("inv")).i.i
             vpiActual: Net name:i
-          vpiTypespec RefTypespec start:37:6 end:37:35:
+          vpiTypespec RefTypespec start:37:12 end:37:35:
             vpiParent: Port name:i
             vpiFullName: dut2 #(.num_out_p("inv")).i
             vpiActual: LogicTypespec
@@ -3232,7 +3228,7 @@ Design name:unnamed:
             vpiName: o
             vpiFullName: dut2 #(.num_out_p("inv")).o.o
             vpiActual: Variable name:o
-          vpiTypespec RefTypespec start:38:7 end:38:35:
+          vpiTypespec RefTypespec start:38:14 end:38:35:
             vpiParent: Port name:o
             vpiFullName: dut2 #(.num_out_p("inv")).o
             vpiActual: LogicTypespec
@@ -3658,9 +3654,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:87:13 end:90:6:
           vpiParent: Module name:dut5
-          vpiBaseTypespec RefTypespec start:87:18 end:87:37:
+          vpiBaseTypespec RefTypespec name:logic [TxWidth-1:0] start:87:18 end:87:37:
             vpiParent: Enum
-            vpiFullName: dut5
+            vpiName: logic [TxWidth-1:0]
+            vpiFullName: dut5.logic [TxWidth-1:0]
             vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:On start:88:7 end:88:20:
@@ -3700,14 +3697,15 @@ Design name:unnamed:
         Typedef name:lc_tx_t start:92:5 end:92:29:
           vpiParent: Module name:dut5
           vpiName Identifier name:lc_tx_t start:92:21 end:92:28:
-          vpiTypedefAlias RefTypespec start:92:13 end:92:20:
+          vpiTypedefAlias RefTypespec name:lc_tx_e start:92:13 end:92:20:
             vpiParent: Typedef name:lc_tx_t
-            vpiFullName: dut5.lc_tx_t
-            vpiActual: UnsupportedTypespec name:lc_tx_e
+            vpiName: lc_tx_e
+            vpiFullName: dut5.lc_tx_t.lc_tx_e
+            vpiActual: TypedefTypespec name:lc_tx_e
       vpiParameter (5 items):
         Parameter name:inputs_p start:83:14 end:83:22:
           vpiParent: Module name:dut5
-          vpiTypespec RefTypespec start:83:14 end:83:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:inputs_p
             vpiFullName: dut5.inputs_p
             vpiActual: LogicTypespec
@@ -3715,7 +3713,7 @@ Design name:unnamed:
           vpiFullName: dut5.inputs_p
         Parameter name:lg_inputs_p start:84:13 end:84:24:
           vpiParent: Module name:dut5
-          vpiTypespec RefTypespec start:84:13 end:84:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:lg_inputs_p
             vpiFullName: dut5.lg_inputs_p
             vpiActual: LogicTypespec
@@ -3723,7 +3721,7 @@ Design name:unnamed:
           vpiFullName: dut5.lg_inputs_p
         Parameter name:width_p start:85:13 end:85:20:
           vpiParent: Module name:dut5
-          vpiTypespec RefTypespec start:85:13 end:85:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:width_p
             vpiFullName: dut5.width_p
             vpiActual: LogicTypespec
@@ -3834,7 +3832,7 @@ Design name:unnamed:
             vpiName: Off
             vpiFullName: dut5.Off
             vpiActual: EnumConst name:Off
-      vpiTypespec (8 items):
+      vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:dut5
         LogicTypespec:
@@ -3880,14 +3878,13 @@ Design name:unnamed:
           vpiName Identifier name:lc_tx_e start:90:7 end:90:14:
           vpiTypedefKind: enum (2)
           vpiTypedef: Typedef name:lc_tx_e
-        UnsupportedTypespec name:lc_tx_e start:92:13 end:92:20:
-          vpiParent: Module name:dut5
-          vpiName Identifier name:lc_tx_e start:92:13 end:92:20:
         TypedefTypespec name:lc_tx_t start:92:5 end:92:29:
           vpiParent: Module name:dut5
           vpiName Identifier name:lc_tx_t start:92:21 end:92:28:
-          vpiTypedefKind: unsupported (7)
           vpiTypedef: Typedef name:lc_tx_t
+        UnsupportedTypespec name:width_p start:96:33 end:96:40:
+          vpiParent: Module name:dut5
+          vpiName Identifier name:width_p:
         LogicTypespec:
           vpiParent: Module name:dut5
           vpiRange (1 items):
@@ -3923,9 +3920,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        UnsupportedTypespec name:width_p start:96:33 end:96:40:
-          vpiParent: Module name:dut5
-          vpiName Identifier name:width_p:
       vpiDefName: dut5
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:82:8 end:82:12:
@@ -4329,13 +4323,13 @@ COMMAND: ${HLC_DIR}/regression/Bindings/Bindings/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            52      50       9        11
-Identifier                         237     235       0         2
+Identifier                         234     232       0         2
 Operation                           36      25       0        11
 RefObj                              73      66       0         7
 RefTypespec                        262     258       7        11
 SysFuncCall                          3       1       0         2
 ----------------------------------------------------------------
-Others                             362     362       0         0
+Others                             359     359       0         0
 ----------------------------------------------------------------
-                                  1025     997      16        44
+                                  1019     991      16        44
 ===================== END REDUCTION RESULT =====================

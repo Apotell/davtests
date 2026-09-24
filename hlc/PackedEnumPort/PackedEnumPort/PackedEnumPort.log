@@ -172,9 +172,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:3:12 end:5:5:
           vpiParent: Package name:lc_ctrl_pkg
-          vpiBaseTypespec RefTypespec start:3:17 end:3:28:
+          vpiBaseTypespec RefTypespec name:logic [3:0] start:3:17 end:3:28:
             vpiParent: Enum
-            vpiFullName: lc_ctrl_pkg
+            vpiName: logic [3:0]
+            vpiFullName: lc_ctrl_pkg::logic [3:0]
             vpiActual: LogicTypespec
           vpiEnumConst (1 items):
             EnumConst name:On start:4:7 end:4:19:
@@ -201,11 +202,12 @@ Design name:unnamed:
         Typedef name:lc_tx_t start:7:4 end:7:28:
           vpiParent: Package name:lc_ctrl_pkg
           vpiName Identifier name:lc_tx_t start:7:20 end:7:27:
-          vpiTypedefAlias RefTypespec start:7:12 end:7:19:
+          vpiTypedefAlias RefTypespec name:lc_tx_e start:7:12 end:7:19:
             vpiParent: Typedef name:lc_tx_t
-            vpiFullName: lc_ctrl_pkg::lc_tx_t
-            vpiActual: UnsupportedTypespec name:lc_tx_e
-      vpiTypespec (5 items):
+            vpiName: lc_tx_e
+            vpiFullName: lc_ctrl_pkg::lc_tx_t::lc_tx_e
+            vpiActual: TypedefTypespec name:lc_tx_e
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Package name:lc_ctrl_pkg
           vpiRange (1 items):
@@ -240,13 +242,9 @@ Design name:unnamed:
           vpiName Identifier name:lc_tx_e start:5:6 end:5:13:
           vpiTypedefKind: enum (2)
           vpiTypedef: Typedef name:lc_tx_e
-        UnsupportedTypespec name:lc_tx_e start:7:12 end:7:19:
-          vpiParent: Package name:lc_ctrl_pkg
-          vpiName Identifier name:lc_tx_e start:7:12 end:7:19:
         TypedefTypespec name:lc_tx_t start:7:4 end:7:28:
           vpiParent: Package name:lc_ctrl_pkg
           vpiName Identifier name:lc_tx_t start:7:20 end:7:27:
-          vpiTypedefKind: unsupported (7)
           vpiTypedef: Typedef name:lc_tx_t
       vpiDefName: lc_ctrl_pkg
       vpiDefNetType: wire (1)
@@ -274,7 +272,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:lc_clk_byp_ack_i start:13:15 end:13:31:
           vpiParent: Module name:lc_ctrl_fsm
-          vpiTypespec RefTypespec start:13:3 end:13:14:
+          vpiTypespec RefTypespec start:13:9 end:13:14:
             vpiParent: Net name:lc_clk_byp_ack_i
             vpiFullName: lc_ctrl_fsm.lc_clk_byp_ack_i
             vpiActual: LogicTypespec
@@ -292,7 +290,7 @@ Design name:unnamed:
             vpiName: lc_clk_byp_ack_i
             vpiFullName: lc_ctrl_fsm.lc_clk_byp_ack_i.lc_clk_byp_ack_i
             vpiActual: Net name:lc_clk_byp_ack_i
-          vpiTypespec RefTypespec start:13:3 end:13:14:
+          vpiTypespec RefTypespec start:13:9 end:13:14:
             vpiParent: Port name:lc_clk_byp_ack_i
             vpiFullName: lc_ctrl_fsm.lc_clk_byp_ack_i
             vpiActual: LogicTypespec
@@ -304,7 +302,7 @@ Design name:unnamed:
       vpiVariable (3 items):
         Variable name:o start:24:23 end:24:24:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:24:12 end:24:22:
+          vpiTypespec RefTypespec start:24:19 end:24:22:
             vpiParent: Variable name:o
             vpiFullName: top.o
             vpiActual: IntTypespec
@@ -312,7 +310,7 @@ Design name:unnamed:
           vpiFullName: top.o
         Variable name:p start:24:37 end:24:38:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:24:26 end:24:36:
+          vpiTypespec RefTypespec start:24:33 end:24:36:
             vpiParent: Variable name:p
             vpiFullName: top.p
             vpiActual: IntTypespec
@@ -320,17 +318,14 @@ Design name:unnamed:
           vpiFullName: top.p
         Variable name:lc_clk_byp_ack start:25:30 end:25:44:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec name:lc_ctrl_pkg::lc_tx_t start:25:3 end:25:29:
+          "vpiTypespec RefTypespec name: [0:0] start:25:3 end:25:29":
             vpiParent: Variable name:lc_clk_byp_ack
-            vpiName: lc_ctrl_pkg::lc_tx_t
-            vpiFullName: top.lc_clk_byp_ack.lc_ctrl_pkg::lc_tx_t
-            vpiActual: TypedefTypespec name:lc_tx_t
+            vpiName: " [0:0]"
+            vpiFullName: top.lc_clk_byp_ack. [0:0]
+            vpiActual: ArrayTypespec
           vpiName: lc_clk_byp_ack
           vpiFullName: top.lc_clk_byp_ack
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:lc_tx_t start:25:16 end:25:29:
-          vpiParent: Module name:top
-          vpiName Identifier name:lc_tx_t:
+      vpiTypespec (2 items):
         ArrayTypespec:
           vpiParent: Module name:top
           vpiArrayType: static (1)
@@ -357,10 +352,24 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec start:25:3 end:25:29:
             vpiParent: ArrayTypespec
             vpiFullName: top
-            vpiActual: UnsupportedTypespec name:lc_tx_t
+            vpiPathElem (2 items):
+              RefTypespec name:lc_ctrl_pkg start:25:3 end:25:14:
+                vpiParent: RefTypespec
+                vpiName: lc_ctrl_pkg
+                vpiFullName: top.lc_ctrl_pkg
+                vpiPathElem (1 items):
+                  RefObj name:lc_ctrl_pkg start:25:3 end:25:14:
+                    vpiParent: RefTypespec name:lc_ctrl_pkg
+                    vpiName: lc_ctrl_pkg
+                    vpiFullName: top.lc_ctrl_pkg
+                    vpiActual: Package name:lc_ctrl_pkg
+              RefTypespec name:lc_tx_t start:25:16 end:25:23:
+                vpiParent: RefTypespec
+                vpiName: lc_tx_t
+                vpiFullName: top.lc_tx_t
         ModuleTypespec name:lc_ctrl_fsm start:34:4 end:34:15:
           vpiParent: Module name:top
           vpiName Identifier name:lc_ctrl_fsm start:34:4 end:34:15:
@@ -383,7 +392,7 @@ Design name:unnamed:
             vpiName: o
             vpiFullName: top.o.o
             vpiActual: Variable name:o
-          vpiTypespec RefTypespec start:24:12 end:24:22:
+          vpiTypespec RefTypespec start:24:19 end:24:22:
             vpiParent: Port name:o
             vpiFullName: top.o
             vpiActual: IntTypespec
@@ -396,7 +405,7 @@ Design name:unnamed:
             vpiName: p
             vpiFullName: top.p.p
             vpiActual: Variable name:p
-          vpiTypespec RefTypespec start:24:26 end:24:36:
+          vpiTypespec RefTypespec start:24:33 end:24:36:
             vpiParent: Port name:p
             vpiFullName: top.p
             vpiActual: IntTypespec
@@ -501,7 +510,7 @@ COMMAND: ${HLC_DIR}/regression/PackedEnumPort/PackedEnumPort/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              82      82       0         0
+Others                              81      81       0         0
 ----------------------------------------------------------------
-                                    82      82       0         0
+                                    81      81       0         0
 ===================== END REDUCTION RESULT =====================

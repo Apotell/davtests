@@ -132,13 +132,10 @@ Design name:unnamed:
         vpiFullName: foo_flags_pkg::work
       vpiCell: foo_flags_pkg
       vpiEndLabel Identifier name:foo_flags_pkg start:6:14 end:6:27:
-  vpiTypespec (6 items):
+  vpiTypespec (5 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    UnsupportedTypespec name:common_flags_t start:10:20 end:10:41:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:common_flags_t:
     ArrayTypespec:
       vpiParent: Design name:unnamed
       vpiArrayType: static (1)
@@ -190,9 +187,23 @@ Design name:unnamed:
           vpiSize: 64
           vpiDecompile: "0"
           vpiValue: 0
-      vpiElemTypespec RefTypespec:
+      vpiElemTypespec RefTypespec start:10:5 end:10:46:
         vpiParent: ArrayTypespec
-        vpiActual: UnsupportedTypespec name:common_flags_t
+        vpiPathElem (2 items):
+          RefTypespec name:foo_flags_pkg start:10:5 end:10:18:
+            vpiParent: RefTypespec
+            vpiName: foo_flags_pkg
+            vpiFullName: foo_flags_pkg
+            vpiPathElem (1 items):
+              RefObj name:foo_flags_pkg start:10:5 end:10:18:
+                vpiParent: RefTypespec name:foo_flags_pkg
+                vpiName: foo_flags_pkg
+                vpiFullName: foo_flags_pkg
+                vpiActual: Package name:foo_flags_pkg
+          RefTypespec name:common_flags_t start:10:20 end:10:34:
+            vpiParent: RefTypespec
+            vpiName: common_flags_t
+            vpiFullName: common_flags_t
     UnionTypespec start:9:9 end:11:2:
       vpiParent: Design name:unnamed
       vpiUnion: Union
@@ -217,11 +228,11 @@ Design name:unnamed:
         TypespecMember name:atype_t start:10:47 end:10:54:
           vpiParent: Union
           vpiName: atype_t
-          vpiTypespec RefTypespec name:foo_flags_pkg::common_flags_t start:10:5 end:10:46:
+          "vpiTypespec RefTypespec name: [7:0] [3:0] start:10:5 end:10:46":
             vpiParent: TypespecMember name:atype_t
-            vpiName: foo_flags_pkg::common_flags_t
-            vpiFullName: atype_t.foo_flags_pkg::common_flags_t
-            vpiActual: TypedefTypespec name:common_flags_t
+            vpiName: " [7:0] [3:0]"
+            vpiFullName: atype_t. [7:0] [3:0]
+            vpiActual: ArrayTypespec
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -270,7 +281,7 @@ COMMAND: ${HLC_DIR}/regression/UnsupportedTypespecRange/UnsupportedTypespecRange
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    43      43       0         0
 ===================== END REDUCTION RESULT =====================

@@ -282,17 +282,14 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:data start:9:18 end:9:22:
           vpiParent: Interface name:intf
-          vpiTypespec RefTypespec name:logic start:9:4 end:9:17:
+          vpiTypespec RefTypespec name:logic [N-1:0] start:9:4 end:9:17:
             vpiParent: Variable name:data
-            vpiName: logic
-            vpiFullName: intf.data.logic
+            vpiName: logic [N-1:0]
+            vpiFullName: intf.data.logic [N-1:0]
             vpiActual: ArrayTypespec
           vpiName: data
           vpiFullName: intf.data
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:logic start:9:4 end:9:9:
-          vpiParent: Interface name:intf
-          vpiName Identifier name:logic start:9:4 end:9:9:
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Interface name:intf
           vpiArrayType: static (1)
@@ -328,11 +325,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:9:4 end:9:17:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: intf.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiDefName: intf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:11 end:8:15:
@@ -345,10 +341,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:12:8 end:12:9:
       vpiFullName: t
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:logic start:13:10 end:13:15:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:13:10 end:13:15:
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -402,7 +395,6 @@ Design name:unnamed:
             vpiParent: Net name:clk
             vpiName: logic
             vpiFullName: t.clk.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
@@ -420,7 +412,6 @@ Design name:unnamed:
             vpiParent: Port name:clk
             vpiName: logic
             vpiFullName: t.clk.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiProcess (1 items):
         Initial start:27:4 end:30:7:
           vpiParent: Module name:t
@@ -449,10 +440,10 @@ Design name:unnamed:
         RefInstance name:localinterface start:15:9 end:15:23:
           vpiParent: Module name:t
           vpiName: localinterface
-          vpiTypespec RefTypespec name:intf start:15:4 end:15:8:
+          vpiTypespec RefTypespec name:intf [N-1:0] start:15:4 end:15:8:
             vpiParent: RefInstance name:localinterface
-            vpiName: intf
-            vpiFullName: t.localinterface.intf
+            vpiName: intf [N-1:0]
+            vpiFullName: t.localinterface.intf [N-1:0]
             vpiActual: ArrayTypespec
       vpiGenStmt (1 items):
         GenRegion start:17:4 end:25:15:
@@ -523,17 +514,14 @@ Design name:unnamed:
                   vpiVariable (1 items):
                     Variable name:dummy start:20:24 end:20:29:
                       vpiParent: Begin
-                      vpiTypespec RefTypespec name:logic start:20:10 end:20:23:
+                      vpiTypespec RefTypespec name:logic [N-1:0] start:20:10 end:20:23:
                         vpiParent: Variable name:dummy
-                        vpiName: logic
-                        vpiFullName: t.dummy.logic
+                        vpiName: logic [N-1:0]
+                        vpiFullName: t.dummy.logic [N-1:0]
                         vpiActual: ArrayTypespec
                       vpiName: dummy
                       vpiFullName: t.dummy
-                  vpiTypespec (2 items):
-                    UnsupportedTypespec name:logic start:20:10 end:20:15:
-                      vpiParent: Begin
-                      vpiName Identifier name:logic start:20:10 end:20:15:
+                  vpiTypespec (1 items):
                     ArrayTypespec:
                       vpiParent: Begin
                       vpiArrayType: static (1)
@@ -569,11 +557,10 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "0"
                           vpiValue: 0
-                      vpiElemTypespec RefTypespec name:logic:
+                      vpiElemTypespec RefTypespec name:logic start:20:10 end:20:23:
                         vpiParent: ArrayTypespec
                         vpiName: logic
                         vpiFullName: t.logic
-                        vpiActual: UnsupportedTypespec name:logic
                   vpiStmt (2 items):
                     Variable name:dummy:
                     GenFor start:21:10 end:23:13:
@@ -675,11 +662,11 @@ Design name:unnamed:
                                     vpiFullName: t.localinterface[j].data[i].i
                                     vpiActual: Variable name:i
   vpiTypespec (5 items):
-    LogicTypespec:
-      vpiParent: Design name:unnamed
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    LogicTypespec:
+      vpiParent: Design name:unnamed
     InterfaceTypespec name:intf:
       vpiParent: Design name:unnamed
       vpiName Identifier name:intf start:8:11 end:8:15:
@@ -695,7 +682,7 @@ Design name:unnamed:
   vpiParameter (1 items):
     Parameter name:N start:6:11 end:6:12:
       vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:6:11 end:6:11:
+      vpiTypespec RefTypespec:
         vpiParent: Parameter name:N
         vpiFullName: N
         vpiActual: LogicTypespec
@@ -766,7 +753,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_gen_for2/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             110     110       0         0
+Others                             104     104       0         0
 ----------------------------------------------------------------
-                                   110     110       0         0
+                                   104     104       0         0
 ===================== END REDUCTION RESULT =====================

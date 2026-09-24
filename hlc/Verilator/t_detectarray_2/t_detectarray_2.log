@@ -258,10 +258,10 @@ Design name:unnamed:
             TypespecMember name:id start:20:20 end:20:22:
               vpiParent: Struct
               vpiName: id
-              vpiTypespec RefTypespec name:logic start:20:7 end:20:18:
+              vpiTypespec RefTypespec name:logic [1:0] start:20:7 end:20:18:
                 vpiParent: TypespecMember name:id
-                vpiName: logic
-                vpiFullName: t.id.logic
+                vpiName: logic [1:0]
+                vpiFullName: t.id.logic [1:0]
                 vpiActual: ArrayTypespec
       vpiTypedef (1 items):
         Typedef name:context_t start:19:4 end:21:16:
@@ -281,12 +281,9 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:context_t
           vpiName: tsb
           vpiFullName: t.tsb
-      vpiTypespec (5 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:logic start:20:7 end:20:12:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:20:7 end:20:12:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -313,11 +310,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:20:7 end:20:18:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-            vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:19:12 end:21:5:
           vpiParent: Module name:t
           vpiStruct: Struct
@@ -336,7 +332,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:17:10 end:17:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:17:10 end:17:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -354,7 +350,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:17:10 end:17:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -547,11 +543,11 @@ Design name:unnamed:
                 vpiFullName: t.clk
                 vpiActual: Net name:clk
   vpiTypespec (4 items):
-    LogicTypespec:
-      vpiParent: Design name:unnamed
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    LogicTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:13:8 end:13:9:
@@ -562,7 +558,7 @@ Design name:unnamed:
   vpiParameter (1 items):
     Parameter name:ID_MSB start:10:12 end:10:18:
       vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:10:12 end:10:12:
+      vpiTypespec RefTypespec:
         vpiParent: Parameter name:ID_MSB
         vpiFullName: ID_MSB
         vpiActual: LogicTypespec
@@ -634,7 +630,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_detectarray_2/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              87      87       0         0
+Others                              85      85       0         0
 ----------------------------------------------------------------
-                                    87      87       0         0
+                                    85      85       0         0
 ===================== END REDUCTION RESULT =====================

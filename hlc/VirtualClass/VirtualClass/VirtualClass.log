@@ -282,10 +282,10 @@ Design name:unnamed:
             TypespecMember name:m0 start:5:18 end:5:20:
               vpiParent: Struct
               vpiName: m0
-              vpiTypespec RefTypespec name:t_vector start:5:9 end:5:17:
+              vpiTypespec RefTypespec name:t_vector [2*SIZE-1:0] start:5:9 end:5:17:
                 vpiParent: TypespecMember name:m0
-                vpiName: t_vector
-                vpiFullName: C #(.T(logic), .SIZE(1))::m0::t_vector
+                vpiName: t_vector [2*SIZE-1:0]
+                vpiFullName: C #(.T(logic), .SIZE(1))::m0::t_vector [2*SIZE-1:0]
                 vpiActual: ArrayTypespec
             TypespecMember name:m1 start:6:17 end:6:19:
               vpiParent: Struct
@@ -306,9 +306,10 @@ Design name:unnamed:
         Typedef name:t_array start:3:5 end:3:34:
           vpiParent: ClassDefn name:C #(.T(logic), .SIZE(1))
           vpiName Identifier name:t_array start:3:15 end:3:22:
-          vpiTypedefAlias RefTypespec start:3:13 end:3:14:
+          vpiTypedefAlias RefTypespec name:T [SIZE-1:0] start:3:13 end:3:14:
             vpiParent: Typedef name:t_array
-            vpiFullName: C #(.T(logic), .SIZE(1))::t_array
+            vpiName: T [SIZE-1:0]
+            vpiFullName: C #(.T(logic), .SIZE(1))::t_array::T [SIZE-1:0]
             vpiActual: ArrayTypespec
         Typedef name:t_struct start:4:5 end:7:16:
           vpiParent: ClassDefn name:C #(.T(logic), .SIZE(1))
@@ -324,7 +325,7 @@ Design name:unnamed:
           vpiFullName: C #(.T(logic), .SIZE(1))::T
         Parameter name:SIZE start:1:54 end:1:58:
           vpiParent: ClassDefn name:C #(.T(logic), .SIZE(1))
-          vpiTypespec RefTypespec start:1:54 end:1:54:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:SIZE
             vpiFullName: C #(.T(logic), .SIZE(1))::SIZE
             vpiActual: LogicTypespec
@@ -443,7 +444,6 @@ Design name:unnamed:
         TypedefTypespec name:t_array start:3:5 end:3:34:
           vpiParent: ClassDefn name:C #(.T(logic), .SIZE(1))
           vpiName Identifier name:t_array start:3:15 end:3:22:
-          vpiTypedefKind: unsupported (7)
           vpiTypedef: Typedef name:t_array
         ArrayTypespec:
           vpiParent: ClassDefn name:C #(.T(logic), .SIZE(1))
@@ -532,29 +532,59 @@ Design name:unnamed:
       vpiVariable (3 items):
         Variable name:v0 start:13:26 end:13:28:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec name:C start:13:5 end:13:25:
+          vpiTypespec RefTypespec name:C #(t_t0, 3)::t_vector start:13:5 end:13:25:
             vpiParent: Variable name:v0
-            vpiName: C
-            vpiFullName: top.v0.C
-            vpiActual: ClassTypespec name:C
+            vpiName: C #(t_t0, 3)::t_vector
+            vpiFullName: top.v0.C #(t_t0, 3)::t_vector
+            vpiPathElem (2 items):
+              RefTypespec name:C #(t_t0, 3) start:13:5 end:13:15:
+                vpiParent: RefTypespec name:C #(t_t0, 3)::t_vector
+                vpiName: C #(t_t0, 3)
+                vpiFullName: top.v0.C #(t_t0, 3)::t_vector.C #(t_t0, 3)
+                vpiActual: ClassTypespec name:C #(t_t0, 3)
+              RefTypespec name:t_vector start:13:17 end:13:25:
+                vpiParent: RefTypespec name:C #(t_t0, 3)::t_vector
+                vpiName: t_vector
+                vpiFullName: top.v0.C #(t_t0, 3)::t_vector.t_vector
+            vpiActual: TypedefTypespec name:t_vector
           vpiName: v0
           vpiFullName: top.v0
         Variable name:a0 start:13:50 end:13:52:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec name:C start:13:30 end:13:49:
+          vpiTypespec RefTypespec name:C #(t_t0, 3)::t_array start:13:30 end:13:49:
             vpiParent: Variable name:a0
-            vpiName: C
-            vpiFullName: top.a0.C
-            vpiActual: ClassTypespec name:C
+            vpiName: C #(t_t0, 3)::t_array
+            vpiFullName: top.a0.C #(t_t0, 3)::t_array
+            vpiPathElem (2 items):
+              RefTypespec name:C #(t_t0, 3) start:13:30 end:13:40:
+                vpiParent: RefTypespec name:C #(t_t0, 3)::t_array
+                vpiName: C #(t_t0, 3)
+                vpiFullName: top.a0.C #(t_t0, 3)::t_array.C #(t_t0, 3)
+                vpiActual: ClassTypespec name:C #(t_t0, 3)
+              RefTypespec name:t_array start:13:42 end:13:49:
+                vpiParent: RefTypespec name:C #(t_t0, 3)::t_array
+                vpiName: t_array
+                vpiFullName: top.a0.C #(t_t0, 3)::t_array.t_array
+            vpiActual: TypedefTypespec name:t_array
           vpiName: a0
           vpiFullName: top.a0
         Variable name:s0 start:14:25 end:14:27:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec name:C start:14:5 end:14:24:
+          vpiTypespec RefTypespec name:C #(bit, 4)::t_struct start:14:5 end:14:24:
             vpiParent: Variable name:s0
-            vpiName: C
-            vpiFullName: top.s0.C
-            vpiActual: ClassTypespec name:C
+            vpiName: C #(bit, 4)::t_struct
+            vpiFullName: top.s0.C #(bit, 4)::t_struct
+            vpiPathElem (2 items):
+              RefTypespec name:C #(bit, 4) start:14:5 end:14:14:
+                vpiParent: RefTypespec name:C #(bit, 4)::t_struct
+                vpiName: C #(bit, 4)
+                vpiFullName: top.s0.C #(bit, 4)::t_struct.C #(bit, 4)
+                vpiActual: ClassTypespec name:C #(bit, 4)
+              RefTypespec name:t_struct start:14:16 end:14:24:
+                vpiParent: RefTypespec name:C #(bit, 4)::t_struct
+                vpiName: t_struct
+                vpiFullName: top.s0.C #(bit, 4)::t_struct.t_struct
+            vpiActual: TypedefTypespec name:t_struct
           vpiName: s0
           vpiFullName: top.s0
       vpiTypespec (6 items):
@@ -741,9 +771,9 @@ Name                            Before   After   Added   Removed
 Constant                            13      12       3         4
 Operation                            4       0       0         4
 RefObj                               8       5       0         3
-RefTypespec                         28      27       3         4
+RefTypespec                         34      33       3         4
 ----------------------------------------------------------------
 Others                              60      60       0         0
 ----------------------------------------------------------------
-                                   113     104       6        15
+                                   119     110       6        15
 ===================== END REDUCTION RESULT =====================

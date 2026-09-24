@@ -168,12 +168,9 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:5:8 end:5:11:
       vpiFullName: top
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
-        UnsupportedTypespec name:pkg start:6:15 end:6:18:
-          vpiParent: Module name:top
-          vpiName Identifier name:pkg start:6:15 end:6:18:
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:5:8 end:5:11:
@@ -184,7 +181,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:a start:5:19 end:5:20:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:5:12 end:5:18:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:a
             vpiFullName: top.a
             vpiActual: LogicTypespec
@@ -202,7 +199,7 @@ Design name:unnamed:
             vpiName: a
             vpiFullName: top.a.a
             vpiActual: Net name:a
-          vpiTypespec RefTypespec start:5:12 end:5:18:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:a
             vpiFullName: top.a
             vpiActual: LogicTypespec
@@ -219,10 +216,11 @@ Design name:unnamed:
             vpiName: pkg::A[0]
             vpiFullName: top.pkg::A[0]
             vpiPathElem (2 items):
-              RefTypespec start:6:15 end:6:20:
+              RefObj name:pkg start:6:15 end:6:18:
                 vpiParent: RefObj name:pkg::A[0]
-                vpiFullName: top.pkg::A[0]
-                vpiActual: UnsupportedTypespec name:pkg
+                vpiName: pkg
+                vpiFullName: top.pkg
+                vpiActual: Package name:pkg
               BitSelect name:A[0] start:6:20 end:6:23:
                 vpiParent: RefObj name:pkg::A[0]
                 vpiName: A[0]
@@ -231,6 +229,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:A[0]
                   vpiName: A
                   vpiFullName: top.pkg::A[0].A
+                  vpiActual: Parameter name:A
                 vpiIndex Constant start:6:22 end:6:23:
                   vpiParent: BitSelect name:A[0]
                   vpiTypespec RefTypespec:
@@ -244,9 +243,9 @@ Design name:unnamed:
   vpiTypespec (3 items):
     IntTypespec:
       vpiParent: Design name:unnamed
-      vpiSigned: true
     IntTypespec:
       vpiParent: Design name:unnamed
+      vpiSigned: true
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:5:8 end:5:11:
@@ -300,7 +299,7 @@ COMMAND: ${HLC_DIR}/regression/PackageParamConst/PackageParamConst/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

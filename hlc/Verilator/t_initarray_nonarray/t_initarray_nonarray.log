@@ -187,7 +187,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:19:10 end:19:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:19:10 end:19:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -205,7 +205,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:19:10 end:19:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -222,13 +222,10 @@ Design name:unnamed:
             vpiName: IMP_MASK
             vpiFullName: t.IMP_MASK
             vpiActual: Parameter name:IMP_MASK
-  vpiTypespec (7 items):
+  vpiTypespec (6 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    UnsupportedTypespec name:logic start:9:9 end:9:14:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:logic start:9:9 end:9:14:
     ArrayTypespec:
       vpiParent: Design name:unnamed
       vpiArrayType: static (1)
@@ -253,11 +250,10 @@ Design name:unnamed:
           vpiSize: 64
           vpiDecompile: "0"
           vpiValue: 0
-      vpiElemTypespec RefTypespec name:logic:
+      vpiElemTypespec RefTypespec name:logic start:9:9 end:9:20:
         vpiParent: ArrayTypespec
         vpiName: logic
         vpiFullName: logic
-        vpiActual: UnsupportedTypespec name:logic
     ArrayTypespec:
       vpiParent: Design name:unnamed
       vpiArrayType: static (1)
@@ -281,8 +277,10 @@ Design name:unnamed:
           vpiSize: 64
           vpiDecompile: "0"
           vpiValue: 0
-      vpiElemTypespec RefTypespec start:9:9 end:9:20:
+      vpiElemTypespec RefTypespec name:logic [7:0] start:9:9 end:9:20:
         vpiParent: ArrayTypespec
+        vpiName: logic [7:0]
+        vpiFullName: logic [7:0]
         vpiActual: ArrayTypespec
     TypedefTypespec name:mask_t start:9:1 end:9:35:
       vpiParent: Design name:unnamed
@@ -393,9 +391,10 @@ Design name:unnamed:
     Typedef name:mask_t start:9:1 end:9:35:
       vpiParent: Design name:unnamed
       vpiName Identifier name:mask_t start:9:22 end:9:28:
-      vpiTypedefAlias RefTypespec start:9:9 end:9:20:
+      vpiTypedefAlias RefTypespec name:logic [7:0] [7:0] start:9:9 end:9:20:
         vpiParent: Typedef name:mask_t
-        vpiFullName: mask_t
+        vpiName: logic [7:0] [7:0]
+        vpiFullName: mask_t.logic [7:0] [7:0]
         vpiActual: ArrayTypespec
 ===================
 [  FATAL] : 0
@@ -445,7 +444,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_initarray_nonarray/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              62      62       0         0
+Others                              60      60       0         0
 ----------------------------------------------------------------
-                                    62      62       0         0
+                                    60      60       0         0
 ===================== END REDUCTION RESULT =====================

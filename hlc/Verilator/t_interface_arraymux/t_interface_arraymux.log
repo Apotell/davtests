@@ -963,9 +963,10 @@ Design name:unnamed:
         Typedef name:unique_id_t start:7:4 end:7:37:
           vpiParent: Package name:pkg
           vpiName Identifier name:unique_id_t start:7:25 end:7:36:
-          vpiTypedefAlias RefTypespec start:7:12 end:7:24:
+          vpiTypedefAlias RefTypespec name:logic [31:0] start:7:12 end:7:24:
             vpiParent: Typedef name:unique_id_t
-            vpiFullName: pkg::unique_id_t
+            vpiName: logic [31:0]
+            vpiFullName: pkg::unique_id_t::logic [31:0]
             vpiActual: ArrayTypespec
         Typedef name:inner_thing_t start:8:4 end:10:20:
           vpiParent: Package name:pkg
@@ -981,10 +982,7 @@ Design name:unnamed:
             vpiParent: Typedef name:outer_thing_t
             vpiFullName: pkg::outer_thing_t
             vpiActual: StructTypespec
-      vpiTypespec (7 items):
-        UnsupportedTypespec name:logic start:7:12 end:7:17:
-          vpiParent: Package name:pkg
-          vpiName Identifier name:logic start:7:12 end:7:17:
+      vpiTypespec (6 items):
         ArrayTypespec:
           vpiParent: Package name:pkg
           vpiArrayType: static (1)
@@ -1011,11 +1009,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:7:12 end:7:24:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: pkg::logic
-            vpiActual: UnsupportedTypespec name:logic
         TypedefTypespec name:unique_id_t start:7:4 end:7:37:
           vpiParent: Package name:pkg
           vpiName Identifier name:unique_id_t start:7:25 end:7:36:
@@ -1051,10 +1048,10 @@ Design name:unnamed:
       vpiVariable (2 items):
         Variable name:things start:22:27 end:22:33:
           vpiParent: Interface name:the_intf #(.M(5))
-          vpiTypespec RefTypespec name:outer_thing_t start:22:5 end:22:26:
+          vpiTypespec RefTypespec name:outer_thing_t [M-1:0] start:22:5 end:22:26:
             vpiParent: Variable name:things
-            vpiName: outer_thing_t
-            vpiFullName: the_intf #(.M(5)).things.outer_thing_t
+            vpiName: outer_thing_t [M-1:0]
+            vpiFullName: the_intf #(.M(5)).things.outer_thing_t [M-1:0]
             vpiActual: ArrayTypespec
           vpiName: things
           vpiFullName: the_intf #(.M(5)).things
@@ -1069,7 +1066,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:M start:21:15 end:21:16:
           vpiParent: Interface name:the_intf #(.M(5))
-          vpiTypespec RefTypespec start:21:15 end:21:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:M
             vpiFullName: the_intf #(.M(5)).M
             vpiActual: LogicTypespec
@@ -1131,7 +1128,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:outer_thing_t:
+          vpiElemTypespec RefTypespec name:outer_thing_t start:22:5 end:22:26:
             vpiParent: ArrayTypespec
             vpiName: outer_thing_t
             vpiFullName: the_intf #(.M(5)).outer_thing_t
@@ -1178,7 +1175,7 @@ Design name:unnamed:
       vpiParameter (2 items):
         Parameter name:NTHINGS start:34:15 end:34:22:
           vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
-          vpiTypespec RefTypespec start:34:15 end:34:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NTHINGS
             vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).NTHINGS
             vpiActual: LogicTypespec
@@ -1186,7 +1183,7 @@ Design name:unnamed:
           vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).NTHINGS
         Parameter name:M start:35:21 end:35:22:
           vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
-          vpiTypespec RefTypespec start:35:21 end:35:21:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:M
             vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).M
             vpiActual: LogicTypespec
@@ -1227,12 +1224,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "5"
             vpiValue: 5
-      vpiTypespec (6 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
-        UnsupportedTypespec name:logic start:37:11 end:37:16:
-          vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
-          vpiName Identifier name:logic start:37:11 end:37:16:
         ArrayTypespec:
           vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
           vpiArrayType: static (1)
@@ -1268,24 +1262,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:37:11 end:37:30:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).logic
-            vpiActual: UnsupportedTypespec name:logic
-        UnsupportedTypespec name:the_intf::t start:38:5 end:38:15:
-          vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
-          vpiPathElem (2 items):
-            RefObj name:the_intf start:38:5 end:38:13:
-              vpiParent: UnsupportedTypespec name:the_intf::t
-              vpiName: the_intf
-              vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf::t.the_intf
-            RefObj name:t start:38:14 end:38:15:
-              vpiParent: UnsupportedTypespec name:the_intf::t
-              vpiName: t
-              vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf::t.t
-              vpiActual: Module name:t
-          vpiName Identifier name:the_intf::t:
         ArrayTypespec:
           vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
           vpiArrayType: static (1)
@@ -1324,19 +1304,16 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: the_intf::t
             vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf::t
-            vpiActual: UnsupportedTypespec name:the_intf::t
-        UnsupportedTypespec name:the_intf::i start:39:5 end:39:15:
-          vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
-          vpiPathElem (2 items):
-            RefObj name:the_intf start:39:5 end:39:13:
-              vpiParent: UnsupportedTypespec name:the_intf::i
-              vpiName: the_intf
-              vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf::i.the_intf
-            RefObj name:i start:39:14 end:39:15:
-              vpiParent: UnsupportedTypespec name:the_intf::i
-              vpiName: i
-              vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf::i.i
-          vpiName Identifier name:the_intf::i:
+            vpiPathElem (2 items):
+              RefObj name:the_intf start:38:5 end:38:13:
+                vpiParent: RefTypespec name:the_intf::t
+                vpiName: the_intf
+                vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf
+              RefTypespec name:t start:38:14 end:38:15:
+                vpiParent: RefTypespec name:the_intf::t
+                vpiName: t
+                vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf::t.t
+                vpiActual: ModuleTypespec name:t
       vpiDefName: ThingMuxOH
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:32:8 end:32:18:
@@ -1347,10 +1324,10 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:select_oh start:37:31 end:37:40:
           vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
-          vpiTypespec RefTypespec name:logic start:37:11 end:37:16:
+          vpiTypespec RefTypespec name:logic [NTHINGS-1:0] start:37:11 end:37:30:
             vpiParent: Net name:select_oh
-            vpiName: logic
-            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).select_oh.logic
+            vpiName: logic [NTHINGS-1:0]
+            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).select_oh.logic [NTHINGS-1:0]
             vpiActual: ArrayTypespec
           vpiName: select_oh
           vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).select_oh
@@ -1365,10 +1342,10 @@ Design name:unnamed:
             vpiName: select_oh
             vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).select_oh.select_oh
             vpiActual: Net name:select_oh
-          vpiTypespec RefTypespec name:logic start:37:11 end:37:16:
+          vpiTypespec RefTypespec name:logic [NTHINGS-1:0] start:37:11 end:37:30:
             vpiParent: Port name:select_oh
-            vpiName: logic
-            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).select_oh.logic
+            vpiName: logic [NTHINGS-1:0]
+            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).select_oh.logic [NTHINGS-1:0]
             vpiActual: ArrayTypespec
         Port name:things_in start:38:16 end:38:25:
           vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
@@ -1379,9 +1356,10 @@ Design name:unnamed:
             vpiName: things_in
             vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).things_in.things_in
             vpiActual: Port name:things_in
-          vpiTypespec RefTypespec start:38:5 end:38:15:
+          vpiTypespec RefTypespec name:the_intf::t [NTHINGS-1:0] start:38:5 end:38:15:
             vpiParent: Port name:things_in
-            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).things_in
+            vpiName: the_intf::t [NTHINGS-1:0]
+            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).things_in.the_intf::t [NTHINGS-1:0]
             vpiActual: ArrayTypespec
         Port name:thing_out start:39:16 end:39:25:
           vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
@@ -1392,10 +1370,19 @@ Design name:unnamed:
             vpiName: thing_out
             vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).thing_out.thing_out
             vpiActual: Port name:thing_out
-          vpiTypespec RefTypespec start:39:5 end:39:15:
+          vpiTypespec RefTypespec name:the_intf::i start:39:5 end:39:15:
             vpiParent: Port name:thing_out
-            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).thing_out
-            vpiActual: UnsupportedTypespec name:the_intf::i
+            vpiName: the_intf::i
+            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).thing_out.the_intf::i
+            vpiPathElem (2 items):
+              RefObj name:the_intf start:39:5 end:39:13:
+                vpiParent: RefTypespec name:the_intf::i
+                vpiName: the_intf
+                vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).thing_out.the_intf
+              RefTypespec name:i start:39:14 end:39:15:
+                vpiParent: RefTypespec name:the_intf::i
+                vpiName: i
+                vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).thing_out.the_intf::i.i
     Module name:Thinker #(.M(5), .N(2)) file:$Source01/t_interface_arraymux.v start:43:1 end:80:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Thinker #(.M(5), .N(2)) start:43:8 end:43:15:
@@ -1403,17 +1390,17 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:select_oh start:60:18 end:60:27:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
-          vpiTypespec RefTypespec name:logic start:60:4 end:60:17:
+          vpiTypespec RefTypespec name:logic [N-1:0] start:60:4 end:60:17:
             vpiParent: Variable name:select_oh
-            vpiName: logic
-            vpiFullName: Thinker #(.M(5), .N(2)).select_oh.logic
+            vpiName: logic [N-1:0]
+            vpiFullName: Thinker #(.M(5), .N(2)).select_oh.logic [N-1:0]
             vpiActual: ArrayTypespec
           vpiName: select_oh
           vpiFullName: Thinker #(.M(5), .N(2)).select_oh
       vpiParameter (2 items):
         Parameter name:M start:45:15 end:45:16:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
-          vpiTypespec RefTypespec start:45:15 end:45:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:M
             vpiFullName: Thinker #(.M(5), .N(2)).M
             vpiActual: LogicTypespec
@@ -1421,7 +1408,7 @@ Design name:unnamed:
           vpiFullName: Thinker #(.M(5), .N(2)).M
         Parameter name:N start:46:15 end:46:16:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
-          vpiTypespec RefTypespec start:46:15 end:46:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:N
             vpiFullName: Thinker #(.M(5), .N(2)).N
             vpiActual: LogicTypespec
@@ -1462,15 +1449,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
-      vpiTypespec (12 items):
+      vpiTypespec (11 items):
         LogicTypespec:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
-        UnsupportedTypespec name:logic start:48:11 end:48:16:
-          vpiParent: Module name:Thinker #(.M(5), .N(2))
-          vpiName Identifier name:logic start:48:11 end:48:16:
-        UnsupportedTypespec name:logic start:49:11 end:49:16:
-          vpiParent: Module name:Thinker #(.M(5), .N(2))
-          vpiName Identifier name:logic start:49:11 end:49:16:
         ArrayTypespec:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiArrayType: static (1)
@@ -1505,36 +1486,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-          vpiElemTypespec RefTypespec name:unique_id_t start:50:5 end:50:23:
+          vpiElemTypespec RefTypespec name:unique_id_t start:50:12 end:50:23:
             vpiParent: ArrayTypespec
             vpiName: unique_id_t
             vpiFullName: Thinker #(.M(5), .N(2)).unique_id_t
             vpiActual: TypedefTypespec name:unique_id_t
-        UnsupportedTypespec name:the_intf::t start:51:5 end:51:15:
-          vpiParent: Module name:Thinker #(.M(5), .N(2))
-          vpiPathElem (2 items):
-            RefObj name:the_intf start:51:5 end:51:13:
-              vpiParent: UnsupportedTypespec name:the_intf::t
-              vpiName: the_intf
-              vpiFullName: Thinker #(.M(5), .N(2)).the_intf::t.the_intf
-            RefObj name:t start:51:14 end:51:15:
-              vpiParent: UnsupportedTypespec name:the_intf::t
-              vpiName: t
-              vpiFullName: Thinker #(.M(5), .N(2)).the_intf::t.t
-              vpiActual: Module name:t
-          vpiName Identifier name:the_intf::t:
-        UnsupportedTypespec name:the_intf::i start:52:5 end:52:15:
-          vpiParent: Module name:Thinker #(.M(5), .N(2))
-          vpiPathElem (2 items):
-            RefObj name:the_intf start:52:5 end:52:13:
-              vpiParent: UnsupportedTypespec name:the_intf::i
-              vpiName: the_intf
-              vpiFullName: Thinker #(.M(5), .N(2)).the_intf::i.the_intf
-            RefObj name:i start:52:14 end:52:15:
-              vpiParent: UnsupportedTypespec name:the_intf::i
-              vpiName: i
-              vpiFullName: Thinker #(.M(5), .N(2)).the_intf::i.i
-          vpiName Identifier name:the_intf::i:
         ArrayTypespec:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiArrayType: static (1)
@@ -1569,11 +1525,41 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:the_intf start:55:4 end:55:12:
+          vpiElemTypespec RefTypespec start:55:4 end:55:12:
             vpiParent: ArrayTypespec
-            vpiName: the_intf
-            vpiFullName: Thinker #(.M(5), .N(2)).the_intf
-            vpiActual: InterfaceTypespec name:the_intf
+            vpiFullName: Thinker #(.M(5), .N(2))
+            vpiActual: UnsupportedTypespec
+        UnsupportedTypespec start:55:4 end:55:21:
+          vpiParent: Module name:Thinker #(.M(5), .N(2))
+          vpiParamAssign (2 items):
+            ParamAssign start:55:15 end:55:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:55:16 end:55:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:M start:55:18 end:55:19:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+            ParamAssign start:55:15 end:55:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:55:16 end:55:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:M start:55:18 end:55:19:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
         ArrayTypespec:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiArrayType: static (1)
@@ -1608,14 +1594,103 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:the_intf start:56:4 end:56:12:
+          vpiElemTypespec RefTypespec start:56:4 end:56:12:
             vpiParent: ArrayTypespec
-            vpiName: the_intf
-            vpiFullName: Thinker #(.M(5), .N(2)).the_intf
-            vpiActual: InterfaceTypespec name:the_intf
-        UnsupportedTypespec name:logic start:60:4 end:60:9:
+            vpiFullName: Thinker #(.M(5), .N(2))
+            vpiActual: UnsupportedTypespec
+        UnsupportedTypespec start:56:4 end:56:21:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
-          vpiName Identifier name:logic start:60:4 end:60:9:
+          vpiParamAssign (2 items):
+            ParamAssign start:56:15 end:56:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:56:16 end:56:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:M start:56:18 end:56:19:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+            ParamAssign start:56:15 end:56:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:56:16 end:56:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:M start:56:18 end:56:19:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+        UnsupportedTypespec start:57:4 end:57:21:
+          vpiParent: Module name:Thinker #(.M(5), .N(2))
+          vpiParamAssign (2 items):
+            ParamAssign start:57:15 end:57:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:57:16 end:57:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:M start:57:18 end:57:19:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+            ParamAssign start:57:15 end:57:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:57:16 end:57:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:M start:57:18 end:57:19:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+        UnsupportedTypespec start:58:4 end:58:21:
+          vpiParent: Module name:Thinker #(.M(5), .N(2))
+          vpiParamAssign (2 items):
+            ParamAssign start:58:15 end:58:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:58:16 end:58:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:M start:58:18 end:58:19:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+            ParamAssign start:58:15 end:58:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:58:16 end:58:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:M start:58:18 end:58:19:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: Thinker #(.M(5), .N(2)).M
+                vpiActual: Parameter name:M
         ArrayTypespec:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiArrayType: static (1)
@@ -1651,11 +1726,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:60:4 end:60:17:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: Thinker #(.M(5), .N(2)).logic
-            vpiActual: UnsupportedTypespec name:logic
         ModuleTypespec name:ThingMuxOH start:63:4 end:63:14:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiName Identifier name:ThingMuxOH start:63:4 end:63:14:
@@ -1736,7 +1810,6 @@ Design name:unnamed:
             vpiParent: Net name:clk
             vpiName: logic
             vpiFullName: Thinker #(.M(5), .N(2)).clk.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: clk
           vpiFullName: Thinker #(.M(5), .N(2)).clk
           vpiNetType: wire (1)
@@ -1746,16 +1819,15 @@ Design name:unnamed:
             vpiParent: Net name:reset
             vpiName: logic
             vpiFullName: Thinker #(.M(5), .N(2)).reset.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: reset
           vpiFullName: Thinker #(.M(5), .N(2)).reset
           vpiNetType: wire (1)
         Net name:uids start:50:24 end:50:28:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
-          vpiTypespec RefTypespec name:unique_id_t start:50:12 end:50:23:
+          vpiTypespec RefTypespec name:unique_id_t [0:N-1] start:50:12 end:50:23:
             vpiParent: Net name:uids
-            vpiName: unique_id_t
-            vpiFullName: Thinker #(.M(5), .N(2)).uids.unique_id_t
+            vpiName: unique_id_t [0:N-1]
+            vpiFullName: Thinker #(.M(5), .N(2)).uids.unique_id_t [0:N-1]
             vpiActual: ArrayTypespec
           vpiName: uids
           vpiFullName: Thinker #(.M(5), .N(2)).uids
@@ -1774,7 +1846,6 @@ Design name:unnamed:
             vpiParent: Port name:clk
             vpiName: logic
             vpiFullName: Thinker #(.M(5), .N(2)).clk.logic
-            vpiActual: UnsupportedTypespec name:logic
         Port name:reset start:49:17 end:49:22:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiName: reset
@@ -1788,7 +1859,6 @@ Design name:unnamed:
             vpiParent: Port name:reset
             vpiName: logic
             vpiFullName: Thinker #(.M(5), .N(2)).reset.logic
-            vpiActual: UnsupportedTypespec name:logic
         Port name:uids start:50:24 end:50:28:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiName: uids
@@ -1798,10 +1868,10 @@ Design name:unnamed:
             vpiName: uids
             vpiFullName: Thinker #(.M(5), .N(2)).uids.uids
             vpiActual: Net name:uids
-          vpiTypespec RefTypespec name:unique_id_t start:50:12 end:50:23:
+          vpiTypespec RefTypespec name:unique_id_t [0:N-1] start:50:12 end:50:23:
             vpiParent: Port name:uids
-            vpiName: unique_id_t
-            vpiFullName: Thinker #(.M(5), .N(2)).uids.unique_id_t
+            vpiName: unique_id_t [0:N-1]
+            vpiFullName: Thinker #(.M(5), .N(2)).uids.unique_id_t [0:N-1]
             vpiActual: ArrayTypespec
         Port name:thing_inp start:51:16 end:51:25:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
@@ -1812,10 +1882,20 @@ Design name:unnamed:
             vpiName: thing_inp
             vpiFullName: Thinker #(.M(5), .N(2)).thing_inp.thing_inp
             vpiActual: Port name:thing_inp
-          vpiTypespec RefTypespec start:51:5 end:51:15:
+          vpiTypespec RefTypespec name:the_intf::t start:51:5 end:51:15:
             vpiParent: Port name:thing_inp
-            vpiFullName: Thinker #(.M(5), .N(2)).thing_inp
-            vpiActual: UnsupportedTypespec name:the_intf::t
+            vpiName: the_intf::t
+            vpiFullName: Thinker #(.M(5), .N(2)).thing_inp.the_intf::t
+            vpiPathElem (2 items):
+              RefObj name:the_intf start:51:5 end:51:13:
+                vpiParent: RefTypespec name:the_intf::t
+                vpiName: the_intf
+                vpiFullName: Thinker #(.M(5), .N(2)).thing_inp.the_intf
+              RefTypespec name:t start:51:14 end:51:15:
+                vpiParent: RefTypespec name:the_intf::t
+                vpiName: t
+                vpiFullName: Thinker #(.M(5), .N(2)).thing_inp.the_intf::t.t
+                vpiActual: ModuleTypespec name:t
         Port name:thing_out start:52:16 end:52:25:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiName: thing_out
@@ -1825,43 +1905,50 @@ Design name:unnamed:
             vpiName: thing_out
             vpiFullName: Thinker #(.M(5), .N(2)).thing_out.thing_out
             vpiActual: Port name:thing_out
-          vpiTypespec RefTypespec start:52:5 end:52:15:
+          vpiTypespec RefTypespec name:the_intf::i start:52:5 end:52:15:
             vpiParent: Port name:thing_out
-            vpiFullName: Thinker #(.M(5), .N(2)).thing_out
-            vpiActual: UnsupportedTypespec name:the_intf::i
+            vpiName: the_intf::i
+            vpiFullName: Thinker #(.M(5), .N(2)).thing_out.the_intf::i
+            vpiPathElem (2 items):
+              RefObj name:the_intf start:52:5 end:52:13:
+                vpiParent: RefTypespec name:the_intf::i
+                vpiName: the_intf
+                vpiFullName: Thinker #(.M(5), .N(2)).thing_out.the_intf
+              RefTypespec name:i start:52:14 end:52:15:
+                vpiParent: RefTypespec name:the_intf::i
+                vpiName: i
+                vpiFullName: Thinker #(.M(5), .N(2)).thing_out.the_intf::i.i
       vpiRefInstance (6 items):
         RefInstance name:curr_things start:55:22 end:55:33:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiName: curr_things
-          vpiTypespec RefTypespec name:the_intf start:55:4 end:55:12:
+          "vpiTypespec RefTypespec name: [N-1:0] start:55:4 end:55:12":
             vpiParent: RefInstance name:curr_things
-            vpiName: the_intf
-            vpiFullName: Thinker #(.M(5), .N(2)).curr_things.the_intf
+            vpiName: " [N-1:0]"
+            vpiFullName: Thinker #(.M(5), .N(2)).curr_things. [N-1:0]
             vpiActual: ArrayTypespec
         RefInstance name:prev_things start:56:22 end:56:33:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiName: prev_things
-          vpiTypespec RefTypespec name:the_intf start:56:4 end:56:12:
+          "vpiTypespec RefTypespec name: [N-1:0] start:56:4 end:56:12":
             vpiParent: RefInstance name:prev_things
-            vpiName: the_intf
-            vpiFullName: Thinker #(.M(5), .N(2)).prev_things.the_intf
+            vpiName: " [N-1:0]"
+            vpiFullName: Thinker #(.M(5), .N(2)).prev_things. [N-1:0]
             vpiActual: ArrayTypespec
         RefInstance name:curr_thing start:57:22 end:57:32:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiName: curr_thing
-          vpiTypespec RefTypespec name:the_intf start:57:4 end:57:12:
+          vpiTypespec RefTypespec start:57:4 end:57:12:
             vpiParent: RefInstance name:curr_thing
-            vpiName: the_intf
-            vpiFullName: Thinker #(.M(5), .N(2)).curr_thing.the_intf
-            vpiActual: InterfaceTypespec name:the_intf
+            vpiFullName: Thinker #(.M(5), .N(2)).curr_thing
+            vpiActual: UnsupportedTypespec
         RefInstance name:prev_thing start:58:22 end:58:32:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiName: prev_thing
-          vpiTypespec RefTypespec name:the_intf start:58:4 end:58:12:
+          vpiTypespec RefTypespec start:58:4 end:58:12:
             vpiParent: RefInstance name:prev_thing
-            vpiName: the_intf
-            vpiFullName: Thinker #(.M(5), .N(2)).prev_thing.the_intf
-            vpiActual: InterfaceTypespec name:the_intf
+            vpiFullName: Thinker #(.M(5), .N(2)).prev_thing
+            vpiActual: UnsupportedTypespec
         RefInstance name:curr_thing_mux start:66:4 end:66:18:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiName: curr_thing_mux
@@ -1959,16 +2046,17 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:uids start:91:16 end:91:20:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:unique_id_t [0:N-1] start:91:4 end:91:15:
             vpiParent: Variable name:uids
-            vpiFullName: t.uids
+            vpiName: unique_id_t [0:N-1]
+            vpiFullName: t.uids.unique_id_t [0:N-1]
             vpiActual: ArrayTypespec
           vpiName: uids
           vpiFullName: t.uids
       vpiParameter (3 items):
         Parameter name:M start:88:15 end:88:16:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:88:15 end:88:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:M
             vpiFullName: t.M
             vpiActual: LogicTypespec
@@ -1977,7 +2065,7 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:N start:89:15 end:89:16:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:89:15 end:89:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:N
             vpiFullName: t.N
             vpiActual: LogicTypespec
@@ -1986,7 +2074,7 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:K start:107:15 end:107:16:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:107:15 end:107:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:K
             vpiFullName: t.K
             vpiActual: LogicTypespec
@@ -2045,13 +2133,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
-      vpiTypespec (6 items):
-        UnsupportedTypespec name:logic start:84:10 end:84:15:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:84:10 end:84:15:
-        UnsupportedTypespec name:logic start:85:10 end:85:15:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:85:10 end:85:15:
+      vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:t
         ArrayTypespec:
@@ -2093,6 +2175,68 @@ Design name:unnamed:
             vpiName: unique_id_t
             vpiFullName: t.unique_id_t
             vpiActual: TypedefTypespec name:unique_id_t
+        UnsupportedTypespec start:93:4 end:93:21:
+          vpiParent: Module name:t
+          vpiParamAssign (2 items):
+            ParamAssign start:93:15 end:93:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:93:16 end:93:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: t.M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:M start:93:18 end:93:19:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: t.M
+                vpiActual: Parameter name:M
+            ParamAssign start:93:15 end:93:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:93:16 end:93:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: t.M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:M start:93:18 end:93:19:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: t.M
+                vpiActual: Parameter name:M
+        UnsupportedTypespec start:94:4 end:94:21:
+          vpiParent: Module name:t
+          vpiParamAssign (2 items):
+            ParamAssign start:94:15 end:94:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:94:16 end:94:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: t.M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:M start:94:18 end:94:19:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: t.M
+                vpiActual: Parameter name:M
+            ParamAssign start:94:15 end:94:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:94:16 end:94:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: t.M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:M start:94:18 end:94:19:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: t.M
+                vpiActual: Parameter name:M
         ModuleTypespec name:Thinker start:96:4 end:96:11:
           vpiParent: Module name:t
           vpiName Identifier name:Thinker start:96:4 end:96:11:
@@ -2127,6 +2271,68 @@ Design name:unnamed:
                 vpiFullName: t.Thinker.N
                 vpiActual: Parameter name:N
           vpiModule: Module name:Thinker #(.M(5), .N(2))
+        UnsupportedTypespec start:108:4 end:108:21:
+          vpiParent: Module name:t
+          vpiParamAssign (2 items):
+            ParamAssign start:108:15 end:108:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:108:16 end:108:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: t.M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:K start:108:18 end:108:19:
+                vpiParent: ParamAssign
+                vpiName: K
+                vpiFullName: t.K
+                vpiActual: Parameter name:K
+            ParamAssign start:108:15 end:108:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:108:16 end:108:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: t.M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:K start:108:18 end:108:19:
+                vpiParent: ParamAssign
+                vpiName: K
+                vpiFullName: t.K
+                vpiActual: Parameter name:K
+        UnsupportedTypespec start:109:4 end:109:21:
+          vpiParent: Module name:t
+          vpiParamAssign (2 items):
+            ParamAssign start:109:15 end:109:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:109:16 end:109:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: t.M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:K start:109:18 end:109:19:
+                vpiParent: ParamAssign
+                vpiName: K
+                vpiFullName: t.K
+                vpiActual: Parameter name:K
+            ParamAssign start:109:15 end:109:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:M start:109:16 end:109:17:
+                vpiParent: ParamAssign
+                vpiName: M
+                vpiFullName: t.M
+                vpiActual: Parameter name:M
+              vpiRhs RefObj name:K start:109:18 end:109:19:
+                vpiParent: ParamAssign
+                vpiName: K
+                vpiFullName: t.K
+                vpiActual: Parameter name:K
         ModuleTypespec name:Thinker start:111:4 end:111:11:
           vpiParent: Module name:t
           vpiName Identifier name:Thinker start:111:4 end:111:11:
@@ -2175,7 +2381,6 @@ Design name:unnamed:
             vpiParent: Net name:clk
             vpiName: logic
             vpiFullName: t.clk.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
@@ -2185,7 +2390,6 @@ Design name:unnamed:
             vpiParent: Net name:reset
             vpiName: logic
             vpiFullName: t.reset.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: reset
           vpiFullName: t.reset
           vpiNetType: wire (1)
@@ -2203,7 +2407,6 @@ Design name:unnamed:
             vpiParent: Port name:clk
             vpiName: logic
             vpiFullName: t.clk.logic
-            vpiActual: UnsupportedTypespec name:logic
         Port name:reset start:85:16 end:85:21:
           vpiParent: Module name:t
           vpiName: reset
@@ -2217,24 +2420,21 @@ Design name:unnamed:
             vpiParent: Port name:reset
             vpiName: logic
             vpiFullName: t.reset.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiRefInstance (6 items):
         RefInstance name:thing_inp start:93:22 end:93:31:
           vpiParent: Module name:t
           vpiName: thing_inp
-          vpiTypespec RefTypespec name:the_intf start:93:4 end:93:12:
+          vpiTypespec RefTypespec start:93:4 end:93:12:
             vpiParent: RefInstance name:thing_inp
-            vpiName: the_intf
-            vpiFullName: t.thing_inp.the_intf
-            vpiActual: InterfaceTypespec name:the_intf
+            vpiFullName: t.thing_inp
+            vpiActual: UnsupportedTypespec
         RefInstance name:thing_out start:94:22 end:94:31:
           vpiParent: Module name:t
           vpiName: thing_out
-          vpiTypespec RefTypespec name:the_intf start:94:4 end:94:12:
+          vpiTypespec RefTypespec start:94:4 end:94:12:
             vpiParent: RefInstance name:thing_out
-            vpiName: the_intf
-            vpiFullName: t.thing_out.the_intf
-            vpiActual: InterfaceTypespec name:the_intf
+            vpiFullName: t.thing_out
+            vpiActual: UnsupportedTypespec
         RefInstance name:thinker start:99:4 end:99:11:
           vpiParent: Module name:t
           vpiName: thinker
@@ -2307,19 +2507,17 @@ Design name:unnamed:
         RefInstance name:thing_inp2 start:108:22 end:108:32:
           vpiParent: Module name:t
           vpiName: thing_inp2
-          vpiTypespec RefTypespec name:the_intf start:108:4 end:108:12:
+          vpiTypespec RefTypespec start:108:4 end:108:12:
             vpiParent: RefInstance name:thing_inp2
-            vpiName: the_intf
-            vpiFullName: t.thing_inp2.the_intf
-            vpiActual: InterfaceTypespec name:the_intf
+            vpiFullName: t.thing_inp2
+            vpiActual: UnsupportedTypespec
         RefInstance name:thing_out2 start:109:22 end:109:32:
           vpiParent: Module name:t
           vpiName: thing_out2
-          vpiTypespec RefTypespec name:the_intf start:109:4 end:109:12:
+          vpiTypespec RefTypespec start:109:4 end:109:12:
             vpiParent: RefInstance name:thing_out2
-            vpiName: the_intf
-            vpiFullName: t.thing_out2.the_intf
-            vpiActual: InterfaceTypespec name:the_intf
+            vpiFullName: t.thing_out2
+            vpiActual: UnsupportedTypespec
         RefInstance name:thinker2 start:114:4 end:114:12:
           vpiParent: Module name:t
           vpiName: thinker2
@@ -2435,25 +2633,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_arraymux/mounts.json
 
 
-{'result': {'coverage': 98.69,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_arraymux.v': {'post_len': 24,
+            'files': {'$Output/lib/work/t_interface_arraymux.v': {'post_len': 0,
                                                                   'pre_len': 1827}},
-            'post_len': 24,
+            'post_len': 0,
             'pre_len': 1827,
             'test_name': 'Verilator/t_interface_arraymux'}}
 
 +-----------------------------------------+----------+-----------+
 | INPUT                                   |   PRELEN |   POSTLEN |
 +=========================================+==========+===========+
-| $Output/lib/work/t_interface_arraymux.v |     1827 |        24 |
+| $Output/lib/work/t_interface_arraymux.v |     1827 |         0 |
 +=========================================+==========+===========+
-|                                         |     1827 |        24 |
+|                                         |     1827 |         0 |
 +-----------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.69
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2465,10 +2663,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            26      26       8         8
 Operation                            8       0       0         8
-RefObj                              87      79       0         8
-RefTypespec                         81      81       8         8
+RefObj                             115     107       0         8
+RefTypespec                         85      85       8         8
 ----------------------------------------------------------------
-Others                             174     174       0         0
+Others                             176     176       0         0
 ----------------------------------------------------------------
-                                   376     360      16        32
+                                   410     394      16        32
 ===================== END REDUCTION RESULT =====================

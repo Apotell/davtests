@@ -418,14 +418,14 @@ n<$Source01/chip.sv> u<403> t<Top_level_rule> c<1> l<12:1> el<135:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/chip.sv:12:1: Compile module "chip".
 [NTE:CP5810] $Source01/chip.sv:21:14: Implicit port type (wire) for "pad".
-[WRN:CP5851] $Source01/chip.sv:14:22: Failed to bind "id:9, name:pinout".
-[WRN:CP5851] $Source01/chip.sv:54:49: Failed to bind "id:55, name:mp_pads".
-[WRN:CP5851] $Source01/chip.sv:77:47: Failed to bind "id:91, name:adrdec".
-[WRN:CP5851] $Source01/chip.sv:91:47: Failed to bind "id:105, name:master".
-[WRN:CP5851] $Source01/chip.sv:108:47: Failed to bind "id:125, name:slave".
-[WRN:CP5851] $Source01/chip.sv:109:49: Failed to bind "id:130, name:mp_dig".
-[WRN:CP5851] $Source01/chip.sv:126:47: Failed to bind "id:150, name:slave".
-[WRN:CP5851] $Source01/chip.sv:127:49: Failed to bind "id:155, name:mp_ana".
+[WRN:CP5851] $Source01/chip.sv:14:22: Failed to bind "id:8, name:pinout".
+[WRN:CP5851] $Source01/chip.sv:54:49: Failed to bind "id:65, name:mp_pads".
+[WRN:CP5851] $Source01/chip.sv:77:47: Failed to bind "id:101, name:adrdec".
+[WRN:CP5851] $Source01/chip.sv:91:47: Failed to bind "id:115, name:master".
+[WRN:CP5851] $Source01/chip.sv:108:47: Failed to bind "id:135, name:slave".
+[WRN:CP5851] $Source01/chip.sv:109:49: Failed to bind "id:140, name:mp_dig".
+[WRN:CP5851] $Source01/chip.sv:126:47: Failed to bind "id:160, name:slave".
+[WRN:CP5851] $Source01/chip.sv:127:49: Failed to bind "id:165, name:mp_ana".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -443,7 +443,7 @@ Design name:unnamed:
       vpiParameter (2 items):
         Parameter name:NUMPADS start:14:5 end:14:12:
           vpiParent: Module name:chip #(.NUMPADS($size(pinout)))
-          vpiTypespec RefTypespec start:14:5 end:14:5:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NUMPADS
             vpiFullName: chip #(.NUMPADS($size(pinout))).NUMPADS
             vpiActual: LogicTypespec
@@ -451,7 +451,7 @@ Design name:unnamed:
           vpiFullName: chip #(.NUMPADS($size(pinout))).NUMPADS
         Parameter name:NSLAVES start:34:13 end:34:20:
           vpiParent: Module name:chip #(.NUMPADS($size(pinout)))
-          vpiTypespec RefTypespec start:34:13 end:34:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NSLAVES
             vpiFullName: chip #(.NUMPADS($size(pinout))).NSLAVES
             vpiActual: LogicTypespec
@@ -514,7 +514,7 @@ Design name:unnamed:
               vpiName: NUMPADS
               vpiFullName: chip #(.NUMPADS($size(pinout))).NUMPADS
               vpiActual: Parameter name:NUMPADS
-          vpiElemTypespec RefTypespec start:21:3 end:21:13:
+          vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
             vpiFullName: chip #(.NUMPADS($size(pinout)))
             vpiActual: LogicTypespec
@@ -623,16 +623,18 @@ Design name:unnamed:
       vpiNet (3 items):
         Net name:pad start:21:14 end:21:17:
           vpiParent: Module name:chip #(.NUMPADS($size(pinout)))
-          vpiTypespec RefTypespec start:21:3 end:21:13:
+          vpiTypespec RefTypespec name:logic [1:NUMPADS]:
             vpiParent: Net name:pad
-            vpiFullName: chip #(.NUMPADS($size(pinout))).pad
+            vpiName: logic [1:NUMPADS]
+            vpiFullName: chip #(.NUMPADS($size(pinout))).pad.logic [1:NUMPADS]
             vpiActual: ArrayTypespec
           vpiName: pad
           vpiFullName: chip #(.NUMPADS($size(pinout))).pad
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:clk start:25:16 end:25:19:
           vpiParent: Module name:chip #(.NUMPADS($size(pinout)))
-          vpiTypespec RefTypespec start:25:3 end:25:15:
+          vpiTypespec RefTypespec start:25:10 end:25:15:
             vpiParent: Net name:clk
             vpiFullName: chip #(.NUMPADS($size(pinout))).clk
             vpiActual: LogicTypespec
@@ -642,7 +644,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rst start:26:16 end:26:19:
           vpiParent: Module name:chip #(.NUMPADS($size(pinout)))
-          vpiTypespec RefTypespec start:26:3 end:26:15:
+          vpiTypespec RefTypespec start:26:10 end:26:15:
             vpiParent: Net name:rst
             vpiFullName: chip #(.NUMPADS($size(pinout))).rst
             vpiActual: LogicTypespec
@@ -660,9 +662,10 @@ Design name:unnamed:
             vpiName: pad
             vpiFullName: chip #(.NUMPADS($size(pinout))).pad.pad
             vpiActual: Net name:pad
-          vpiTypespec RefTypespec start:21:3 end:21:13:
+          vpiTypespec RefTypespec name:logic [1:NUMPADS]:
             vpiParent: Port name:pad
-            vpiFullName: chip #(.NUMPADS($size(pinout))).pad
+            vpiName: logic [1:NUMPADS]
+            vpiFullName: chip #(.NUMPADS($size(pinout))).pad.logic [1:NUMPADS]
             vpiActual: ArrayTypespec
         Port name:clk start:25:16 end:25:19:
           vpiParent: Module name:chip #(.NUMPADS($size(pinout)))
@@ -673,7 +676,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: chip #(.NUMPADS($size(pinout))).clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:25:3 end:25:15:
+          vpiTypespec RefTypespec start:25:10 end:25:15:
             vpiParent: Port name:clk
             vpiFullName: chip #(.NUMPADS($size(pinout))).clk
             vpiActual: LogicTypespec
@@ -686,7 +689,7 @@ Design name:unnamed:
             vpiName: rst
             vpiFullName: chip #(.NUMPADS($size(pinout))).rst.rst
             vpiActual: Net name:rst
-          vpiTypespec RefTypespec start:26:3 end:26:15:
+          vpiTypespec RefTypespec start:26:10 end:26:15:
             vpiParent: Port name:rst
             vpiFullName: chip #(.NUMPADS($size(pinout))).rst
             vpiActual: LogicTypespec

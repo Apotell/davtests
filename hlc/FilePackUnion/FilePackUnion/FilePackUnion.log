@@ -334,9 +334,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:14:11 end:19:4:
           vpiParent: Package name:fooes_pkg
-          vpiBaseTypespec RefTypespec start:14:16 end:14:27:
+          vpiBaseTypespec RefTypespec name:logic [1:0] start:14:16 end:14:27:
             vpiParent: Enum
-            vpiFullName: fooes_pkg
+            vpiName: logic [1:0]
+            vpiFullName: fooes_pkg::logic [1:0]
             vpiActual: LogicTypespec
           vpiEnumConst (4 items):
             EnumConst name:a start:15:5 end:15:6:
@@ -422,23 +423,20 @@ Design name:unnamed:
             TypespecMember name:atype_t start:30:45 end:30:52:
               vpiParent: Union
               vpiName: atype_t
-              vpiTypespec RefTypespec name:foo_flags_pkg::common_flags_t start:30:3 end:30:44:
+              "vpiTypespec RefTypespec name: [7:0] [3:0] start:30:3 end:30:44":
                 vpiParent: TypespecMember name:atype_t
-                vpiName: foo_flags_pkg::common_flags_t
-                vpiFullName: goog::atype_t::foo_flags_pkg::common_flags_t
-                vpiActual: TypedefTypespec name:common_flags_t
+                vpiName: " [7:0] [3:0]"
+                vpiFullName: "goog::atype_t:: [7:0] [3:0]"
+                vpiActual: ArrayTypespec
             TypespecMember name:btype_t start:31:33 end:31:40:
               vpiParent: Union
               vpiName: btype_t
-              vpiTypespec RefTypespec name:padded_fooes_t start:31:3 end:31:32:
+              vpiTypespec RefTypespec name:padded_fooes_t [7:0] [3:0] start:31:3 end:31:32:
                 vpiParent: TypespecMember name:btype_t
-                vpiName: padded_fooes_t
-                vpiFullName: goog::btype_t::padded_fooes_t
+                vpiName: padded_fooes_t [7:0] [3:0]
+                vpiFullName: goog::btype_t::padded_fooes_t [7:0] [3:0]
                 vpiActual: ArrayTypespec
-      vpiTypespec (7 items):
-        UnsupportedTypespec name:common_flags_t start:30:18 end:30:39:
-          vpiParent: Package name:goog
-          vpiName Identifier name:common_flags_t:
+      vpiTypespec (6 items):
         ArrayTypespec:
           vpiParent: Package name:goog
           vpiArrayType: static (1)
@@ -495,10 +493,24 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec start:30:3 end:30:44:
             vpiParent: ArrayTypespec
             vpiFullName: goog
-            vpiActual: UnsupportedTypespec name:common_flags_t
+            vpiPathElem (2 items):
+              RefTypespec name:foo_flags_pkg start:30:3 end:30:16:
+                vpiParent: RefTypespec
+                vpiName: foo_flags_pkg
+                vpiFullName: goog::foo_flags_pkg
+                vpiPathElem (1 items):
+                  RefObj name:foo_flags_pkg start:30:3 end:30:16:
+                    vpiParent: RefTypespec name:foo_flags_pkg
+                    vpiName: foo_flags_pkg
+                    vpiFullName: goog::foo_flags_pkg
+                    vpiActual: Package name:foo_flags_pkg
+              RefTypespec name:common_flags_t start:30:18 end:30:32:
+                vpiParent: RefTypespec
+                vpiName: common_flags_t
+                vpiFullName: goog::common_flags_t
         ArrayTypespec:
           vpiParent: Package name:goog
           vpiArrayType: static (1)
@@ -555,7 +567,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:padded_fooes_t:
+          vpiElemTypespec RefTypespec name:padded_fooes_t start:31:3 end:31:27:
             vpiParent: ArrayTypespec
             vpiName: padded_fooes_t
             vpiFullName: goog::padded_fooes_t
@@ -584,44 +596,28 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:b start:35:63 end:35:64:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec name:top_flag_t start:35:52 end:35:62:
+          vpiTypespec RefTypespec name:goog::top_flag_t start:35:46 end:35:62:
             vpiParent: Variable name:b
-            vpiName: top_flag_t
-            vpiFullName: top.b.top_flag_t
-            vpiActual: UnsupportedTypespec name:goog::top_flag_t
+            vpiName: goog::top_flag_t
+            vpiFullName: top.b.goog::top_flag_t
+            vpiPathElem (2 items):
+              RefTypespec name:goog start:35:46 end:35:50:
+                vpiParent: RefTypespec name:goog::top_flag_t
+                vpiName: goog
+                vpiFullName: top.b.goog::top_flag_t.goog
+                vpiPathElem (1 items):
+                  RefObj name:goog start:35:46 end:35:50:
+                    vpiParent: RefTypespec name:goog
+                    vpiName: goog
+                    vpiFullName: top.b.goog::top_flag_t.goog
+                    vpiActual: Package name:goog
+              RefTypespec name:top_flag_t start:35:52 end:35:62:
+                vpiParent: RefTypespec name:goog::top_flag_t
+                vpiName: top_flag_t
+                vpiFullName: top.b.goog::top_flag_t.top_flag_t
+            vpiActual: TypedefTypespec name:top_flag_t
           vpiName: b
           vpiFullName: top.b
-      vpiTypespec (4 items):
-        UnsupportedTypespec name:goog start:35:18 end:35:22:
-          vpiParent: Module name:top
-          vpiName Identifier name:goog start:35:18 end:35:22:
-        UnsupportedTypespec name:goog::top_flag_t start:35:18 end:35:34:
-          vpiParent: Module name:top
-          vpiPathElem (2 items):
-            RefTypespec start:35:18 end:35:24:
-              vpiParent: UnsupportedTypespec name:goog::top_flag_t
-              vpiFullName: top.goog::top_flag_t
-              vpiActual: UnsupportedTypespec name:goog
-            RefTypespec name:top_flag_t start:35:24 end:35:34:
-              vpiParent: UnsupportedTypespec name:goog::top_flag_t
-              vpiName: top_flag_t
-              vpiFullName: top.goog::top_flag_t.top_flag_t
-          vpiName Identifier name:goog::top_flag_t start:35:18 end:35:34:
-        UnsupportedTypespec name:goog start:35:46 end:35:50:
-          vpiParent: Module name:top
-          vpiName Identifier name:goog start:35:46 end:35:50:
-        UnsupportedTypespec name:goog::top_flag_t start:35:46 end:35:62:
-          vpiParent: Module name:top
-          vpiPathElem (2 items):
-            RefTypespec start:35:46 end:35:52:
-              vpiParent: UnsupportedTypespec name:goog::top_flag_t
-              vpiFullName: top.goog::top_flag_t
-              vpiActual: UnsupportedTypespec name:goog
-            RefTypespec name:top_flag_t start:35:52 end:35:62:
-              vpiParent: UnsupportedTypespec name:goog::top_flag_t
-              vpiName: top_flag_t
-              vpiFullName: top.goog::top_flag_t.top_flag_t
-          vpiName Identifier name:goog::top_flag_t start:35:46 end:35:62:
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:35:8 end:35:11:
@@ -632,11 +628,26 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:a start:35:35 end:35:36:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec name:top_flag_t start:35:24 end:35:34:
+          vpiTypespec RefTypespec name:goog::top_flag_t start:35:18 end:35:34:
             vpiParent: Net name:a
-            vpiName: top_flag_t
-            vpiFullName: top.a.top_flag_t
-            vpiActual: UnsupportedTypespec name:goog::top_flag_t
+            vpiName: goog::top_flag_t
+            vpiFullName: top.a.goog::top_flag_t
+            vpiPathElem (2 items):
+              RefTypespec name:goog start:35:18 end:35:22:
+                vpiParent: RefTypespec name:goog::top_flag_t
+                vpiName: goog
+                vpiFullName: top.a.goog::top_flag_t.goog
+                vpiPathElem (1 items):
+                  RefObj name:goog start:35:18 end:35:22:
+                    vpiParent: RefTypespec name:goog
+                    vpiName: goog
+                    vpiFullName: top.a.goog::top_flag_t.goog
+                    vpiActual: Package name:goog
+              RefTypespec name:top_flag_t start:35:24 end:35:34:
+                vpiParent: RefTypespec name:goog::top_flag_t
+                vpiName: top_flag_t
+                vpiFullName: top.a.goog::top_flag_t.top_flag_t
+            vpiActual: TypedefTypespec name:top_flag_t
           vpiName: a
           vpiFullName: top.a
           vpiNetType: wire (1)
@@ -650,11 +661,26 @@ Design name:unnamed:
             vpiName: a
             vpiFullName: top.a.a
             vpiActual: Net name:a
-          vpiTypespec RefTypespec name:top_flag_t start:35:24 end:35:34:
+          vpiTypespec RefTypespec name:goog::top_flag_t start:35:18 end:35:34:
             vpiParent: Port name:a
-            vpiName: top_flag_t
-            vpiFullName: top.a.top_flag_t
-            vpiActual: UnsupportedTypespec name:goog::top_flag_t
+            vpiName: goog::top_flag_t
+            vpiFullName: top.a.goog::top_flag_t
+            vpiPathElem (2 items):
+              RefTypespec name:goog start:35:18 end:35:22:
+                vpiParent: RefTypespec name:goog::top_flag_t
+                vpiName: goog
+                vpiFullName: top.a.goog::top_flag_t.goog
+                vpiPathElem (1 items):
+                  RefObj name:goog start:35:18 end:35:22:
+                    vpiParent: RefTypespec name:goog
+                    vpiName: goog
+                    vpiFullName: top.a.goog::top_flag_t.goog
+                    vpiActual: Package name:goog
+              RefTypespec name:top_flag_t start:35:24 end:35:34:
+                vpiParent: RefTypespec name:goog::top_flag_t
+                vpiName: top_flag_t
+                vpiFullName: top.a.goog::top_flag_t.top_flag_t
+            vpiActual: TypedefTypespec name:top_flag_t
         Port name:b start:35:63 end:35:64:
           vpiParent: Module name:top
           vpiName: b
@@ -664,11 +690,26 @@ Design name:unnamed:
             vpiName: b
             vpiFullName: top.b.b
             vpiActual: Variable name:b
-          vpiTypespec RefTypespec name:top_flag_t start:35:52 end:35:62:
+          vpiTypespec RefTypespec name:goog::top_flag_t start:35:46 end:35:62:
             vpiParent: Port name:b
-            vpiName: top_flag_t
-            vpiFullName: top.b.top_flag_t
-            vpiActual: UnsupportedTypespec name:goog::top_flag_t
+            vpiName: goog::top_flag_t
+            vpiFullName: top.b.goog::top_flag_t
+            vpiPathElem (2 items):
+              RefTypespec name:goog start:35:46 end:35:50:
+                vpiParent: RefTypespec name:goog::top_flag_t
+                vpiName: goog
+                vpiFullName: top.b.goog::top_flag_t.goog
+                vpiPathElem (1 items):
+                  RefObj name:goog start:35:46 end:35:50:
+                    vpiParent: RefTypespec name:goog
+                    vpiName: goog
+                    vpiFullName: top.b.goog::top_flag_t.goog
+                    vpiActual: Package name:goog
+              RefTypespec name:top_flag_t start:35:52 end:35:62:
+                vpiParent: RefTypespec name:goog::top_flag_t
+                vpiName: top_flag_t
+                vpiFullName: top.b.goog::top_flag_t.top_flag_t
+            vpiActual: TypedefTypespec name:top_flag_t
       vpiContAssign (2 items):
         ContAssign start:36:10 end:36:15:
           vpiParent: Module name:top
@@ -750,6 +791,21 @@ Design name:unnamed:
             vpiParent: TypespecMember name:b
             vpiName: fooes_pkg::classes_e
             vpiFullName: b.fooes_pkg::classes_e
+            vpiPathElem (2 items):
+              RefTypespec name:fooes_pkg start:25:3 end:25:12:
+                vpiParent: RefTypespec name:fooes_pkg::classes_e
+                vpiName: fooes_pkg
+                vpiFullName: b.fooes_pkg::classes_e.fooes_pkg
+                vpiPathElem (1 items):
+                  RefObj name:fooes_pkg start:25:3 end:25:12:
+                    vpiParent: RefTypespec name:fooes_pkg
+                    vpiName: fooes_pkg
+                    vpiFullName: b.fooes_pkg::classes_e.fooes_pkg
+                    vpiActual: Package name:fooes_pkg
+              RefTypespec name:classes_e start:25:14 end:25:23:
+                vpiParent: RefTypespec name:fooes_pkg::classes_e
+                vpiName: classes_e
+                vpiFullName: b.fooes_pkg::classes_e.classes_e
             vpiActual: TypedefTypespec name:classes_e
   vpiTypedef (1 items):
     Typedef name:padded_fooes_t start:23:1 end:26:18:
@@ -808,9 +864,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            12      11       1         2
 Operation                            1       0       0         1
-RefTypespec                         36      35       1         2
+RefTypespec                         44      43       1         2
 ----------------------------------------------------------------
-Others                              92      92       0         0
+Others                              88      88       0         0
 ----------------------------------------------------------------
-                                   141     138       2         5
+                                   145     142       2         5
 ===================== END REDUCTION RESULT =====================

@@ -357,8 +357,6 @@ n<$Source01/dut.sv> u<342> t<Top_level_rule> c<1> l<16:1> el<36:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:16:1: Compile package "pkg_b".
 [INF:CP5802] $Source01/dut.sv:21:1: Compile package "pkg_a".
-[WRN:CP5851] $Source01/dut.sv:7:42: Failed to bind "id:128, name:ParameterIntEqual4".
-[WRN:CP5851] $Source01/dut.sv:7:65: Failed to bind "id:214, name:ParameterIntEqual4".
 [WRN:PA5506] $Source01/dut.sv:16:1: No timescale set for "pkg_b".
 [WRN:PA5506] $Source01/dut.sv:21:1: No timescale set for "pkg_a".
 ====== HLDB =======
@@ -565,19 +563,17 @@ Design name:unnamed:
             vpiVariable (1 items):
               Variable name:unused_bit start:7:9 end:7:19:
                 vpiParent: Begin
-                vpiTypespec RefTypespec:
+                "vpiTypespec RefTypespec name:bit [32==$bits(pkg_b::ParameterIntEqual4) ? 1 : -1] start:7:5 end:7:8":
                   vpiParent: Variable name:unused_bit
-                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit
+                  vpiName: "bit [32==$bits(pkg_b::ParameterIntEqual4) ? 1 : -1]"
+                  vpiFullName: "pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit::bit [32==$bits(pkg_b::ParameterIntEqual4) ? 1 : -1]"
                   vpiActual: ArrayTypespec
                 vpiName: unused_bit
                 vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::unused_bit
                 vpiScalar: true
-            vpiTypespec (3 items):
+            vpiTypespec (2 items):
               BitTypespec:
                 vpiParent: Begin
-              UnsupportedTypespec name:pkg_b start:7:35 end:7:40:
-                vpiParent: Begin
-                vpiName Identifier name:pkg_b start:7:35 end:7:40:
               ArrayTypespec:
                 vpiParent: Begin
                 vpiArrayType: static (1)
@@ -614,14 +610,16 @@ Design name:unnamed:
                                     vpiName: pkg_b::ParameterIntEqual4
                                     vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::pkg_b::ParameterIntEqual4
                                     vpiPathElem (2 items):
-                                      RefTypespec start:7:35 end:7:42:
+                                      RefObj name:pkg_b start:7:35 end:7:40:
                                         vpiParent: RefObj name:pkg_b::ParameterIntEqual4
-                                        vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::pkg_b::ParameterIntEqual4
-                                        vpiActual: UnsupportedTypespec name:pkg_b
+                                        vpiName: pkg_b
+                                        vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::pkg_b
+                                        vpiActual: Package name:pkg_b
                                       RefObj name:ParameterIntEqual4 start:7:42 end:7:60:
                                         vpiParent: RefObj name:pkg_b::ParameterIntEqual4
                                         vpiName: ParameterIntEqual4
                                         vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter1::ParameterIntEqual4
+                                        vpiActual: Parameter name:ParameterIntEqual4
                           Constant start:7:65 end:7:66:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -717,9 +715,10 @@ Design name:unnamed:
             vpiVariable (1 items):
               Variable name:unused_bit start:7:9 end:7:19:
                 vpiParent: Begin
-                vpiTypespec RefTypespec:
+                "vpiTypespec RefTypespec name:bit [$bits(ParameterIntInPkgA)==32 ? 1 : -1] start:7:5 end:7:8":
                   vpiParent: Variable name:unused_bit
-                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit
+                  vpiName: "bit [$bits(ParameterIntInPkgA)==32 ? 1 : -1]"
+                  vpiFullName: "pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit::bit [$bits(ParameterIntInPkgA)==32 ? 1 : -1]"
                   vpiActual: ArrayTypespec
                 vpiName: unused_bit
                 vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter2::unused_bit
@@ -858,19 +857,17 @@ Design name:unnamed:
             vpiVariable (1 items):
               Variable name:unused_bit start:7:9 end:7:19:
                 vpiParent: Begin
-                vpiTypespec RefTypespec:
+                "vpiTypespec RefTypespec name:bit [$bits(ParameterIntInPkgA)==$bits(pkg_b::ParameterIntEqual4) ? 1 : -1] start:7:5 end:7:8":
                   vpiParent: Variable name:unused_bit
-                  vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit
+                  vpiName: "bit [$bits(ParameterIntInPkgA)==$bits(pkg_b::ParameterIntEqual4) ? 1 : -1]"
+                  vpiFullName: "pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit::bit [$bits(ParameterIntInPkgA)==$bits(pkg_b::ParameterIntEqual4) ? 1 : -1]"
                   vpiActual: ArrayTypespec
                 vpiName: unused_bit
                 vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::unused_bit
                 vpiScalar: true
-            vpiTypespec (3 items):
+            vpiTypespec (2 items):
               BitTypespec:
                 vpiParent: Begin
-              UnsupportedTypespec name:pkg_b start:7:58 end:7:63:
-                vpiParent: Begin
-                vpiName Identifier name:pkg_b start:7:58 end:7:63:
               ArrayTypespec:
                 vpiParent: Begin
                 vpiArrayType: static (1)
@@ -906,14 +903,16 @@ Design name:unnamed:
                                     vpiName: pkg_b::ParameterIntEqual4
                                     vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::pkg_b::ParameterIntEqual4
                                     vpiPathElem (2 items):
-                                      RefTypespec start:7:58 end:7:65:
+                                      RefObj name:pkg_b start:7:58 end:7:63:
                                         vpiParent: RefObj name:pkg_b::ParameterIntEqual4
-                                        vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::pkg_b::ParameterIntEqual4
-                                        vpiActual: UnsupportedTypespec name:pkg_b
+                                        vpiName: pkg_b
+                                        vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::pkg_b
+                                        vpiActual: Package name:pkg_b
                                       RefObj name:ParameterIntEqual4 start:7:65 end:7:83:
                                         vpiParent: RefObj name:pkg_b::ParameterIntEqual4
                                         vpiName: ParameterIntEqual4
                                         vpiFullName: pkg_a::assert_static_in_package_ThisNameDoesNotMatter3::ParameterIntEqual4
+                                        vpiActual: Parameter name:ParameterIntEqual4
                           Constant start:7:88 end:7:89:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -1006,7 +1005,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1050,13 +1049,13 @@ COMMAND: ${HLC_DIR}/regression/AllPackageSignal/AllPackageSignal/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            16      14       3         5
-Identifier                          96      94       0         2
+Identifier                          94      92       0         2
 Operation                           15      10       0         5
-RefObj                              19      17       0         2
-RefTypespec                         29      26       2         5
+RefObj                              21      19       0         2
+RefTypespec                         27      24       2         5
 SysFuncCall                          4       2       0         2
 ----------------------------------------------------------------
-Others                              46      46       0         0
+Others                              44      44       0         0
 ----------------------------------------------------------------
-                                   225     209       5        21
+                                   221     205       5        21
 ===================== END REDUCTION RESULT =====================

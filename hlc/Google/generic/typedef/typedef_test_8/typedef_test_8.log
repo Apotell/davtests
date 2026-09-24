@@ -69,20 +69,16 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-  vpiTypespec (5 items):
+  vpiTypespec (4 items):
     BitTypespec:
       vpiParent: Design name:unnamed
     TypedefTypespec name:some_other_type start:15:1 end:15:29:
       vpiParent: Design name:unnamed
       vpiName Identifier name:some_other_type start:15:13 end:15:28:
       vpiTypedef: Typedef name:some_other_type
-    UnsupportedTypespec name:some_other_type start:16:9 end:16:24:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:some_other_type start:16:9 end:16:24:
     TypedefTypespec name:myalias start:16:1 end:16:33:
       vpiParent: Design name:unnamed
       vpiName Identifier name:myalias start:16:25 end:16:32:
-      vpiTypedefKind: unsupported (7)
       vpiTypedef: Typedef name:myalias
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -100,10 +96,11 @@ Design name:unnamed:
     Typedef name:myalias start:16:1 end:16:33:
       vpiParent: Design name:unnamed
       vpiName Identifier name:myalias start:16:25 end:16:32:
-      vpiTypedefAlias RefTypespec start:16:9 end:16:24:
+      vpiTypedefAlias RefTypespec name:some_other_type start:16:9 end:16:24:
         vpiParent: Typedef name:myalias
-        vpiFullName: myalias
-        vpiActual: UnsupportedTypespec name:some_other_type
+        vpiName: some_other_type
+        vpiFullName: myalias.some_other_type
+        vpiActual: TypedefTypespec name:some_other_type
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -152,7 +149,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/typedef/typedef_test_8/design.hldb
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              20      20       0         0
+Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    20      20       0         0
+                                    18      18       0         0
 ===================== END REDUCTION RESULT =====================

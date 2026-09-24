@@ -236,7 +236,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_xml_tag.v:6:1: Compile interface "ifc".
 [INF:CP5804] $Source01/t_xml_tag.v:11:1: Compile module "m".
 [NTE:CP5810] $Source01/t_xml_tag.v:15:11: Implicit port type (wire) for "foo_op".
-[WRN:CP5851] $Source01/t_xml_tag.v:32:30: Failed to bind "id:83, name:value".
+[WRN:CP5851] $Source01/t_xml_tag.v:32:30: Failed to bind "id:68, name:value".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -298,7 +298,6 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:clk
                 vpiName: logic
                 vpiFullName: m.clk.logic
-                vpiActual: UnsupportedTypespec name:logic
             TypespecMember name:k start:21:16 end:21:17:
               vpiParent: Struct
               vpiName: k
@@ -306,7 +305,6 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:k
                 vpiName: logic
                 vpiFullName: m.k.logic
-                vpiActual: UnsupportedTypespec name:logic
             TypespecMember name:enable start:22:16 end:22:22:
               vpiParent: Struct
               vpiName: enable
@@ -314,7 +312,6 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:enable
                 vpiName: logic
                 vpiFullName: m.enable.logic
-                vpiActual: UnsupportedTypespec name:logic
             TypespecMember name:data start:23:16 end:23:20:
               vpiParent: Struct
               vpiName: data
@@ -322,7 +319,6 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:data
                 vpiName: logic
                 vpiFullName: m.data.logic
-                vpiActual: UnsupportedTypespec name:logic
       vpiTypedef (1 items):
         Typedef name:my_struct start:19:4 end:24:16:
           vpiParent: Module name:m
@@ -334,27 +330,16 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:this_struct start:30:14 end:30:25:
           vpiParent: Module name:m
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:my_struct [2] start:30:4 end:30:13:
             vpiParent: Variable name:this_struct
-            vpiFullName: m.this_struct
+            vpiName: my_struct [2]
+            vpiFullName: m.this_struct.my_struct [2]
             vpiActual: ArrayTypespec
           vpiName: this_struct
           vpiFullName: m.this_struct
-      vpiTypespec (9 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:m
-        UnsupportedTypespec name:logic start:20:7 end:20:12:
-          vpiParent: Module name:m
-          vpiName Identifier name:logic start:20:7 end:20:12:
-        UnsupportedTypespec name:logic start:21:7 end:21:12:
-          vpiParent: Module name:m
-          vpiName Identifier name:logic start:21:7 end:21:12:
-        UnsupportedTypespec name:logic start:22:7 end:22:12:
-          vpiParent: Module name:m
-          vpiName Identifier name:logic start:22:7 end:22:12:
-        UnsupportedTypespec name:logic start:23:7 end:23:12:
-          vpiParent: Module name:m
-          vpiName Identifier name:logic start:23:7 end:23:12:
         StructTypespec start:19:12 end:24:5:
           vpiParent: Module name:m
           vpiStruct: Struct
@@ -434,10 +419,9 @@ Design name:unnamed:
               vpiParent: Function name:f
               vpiName: m
               vpiDirection: input (1)
-              vpiTypespec RefTypespec name:string start:34:21 end:34:27:
+              vpiTypespec RefTypespec start:34:21 end:34:27:
                 vpiParent: IODecl name:m
-                vpiName: string
-                vpiFullName: m.f.m.string
+                vpiFullName: m.f.m
                 vpiActual: StringTypespec
           vpiStmt SysTaskCall name:$display start:35:7 end:35:24:
             vpiParent: Function name:f
@@ -465,7 +449,7 @@ Design name:unnamed:
       vpiNet (4 items):
         Net name:clk_ip start:13:11 end:13:17:
           vpiParent: Module name:m
-          vpiTypespec RefTypespec start:13:4 end:13:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk_ip
             vpiFullName: m.clk_ip
             vpiActual: LogicTypespec
@@ -475,7 +459,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rst_ip start:14:11 end:14:17:
           vpiParent: Module name:m
-          vpiTypespec RefTypespec start:14:4 end:14:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:rst_ip
             vpiFullName: m.rst_ip
             vpiActual: LogicTypespec
@@ -485,7 +469,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:foo_op start:15:11 end:15:17:
           vpiParent: Module name:m
-          vpiTypespec RefTypespec start:15:4 end:15:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:foo_op
             vpiFullName: m.foo_op
             vpiActual: LogicTypespec
@@ -528,7 +512,7 @@ Design name:unnamed:
             vpiName: clk_ip
             vpiFullName: m.clk_ip.clk_ip
             vpiActual: Net name:clk_ip
-          vpiTypespec RefTypespec start:13:4 end:13:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk_ip
             vpiFullName: m.clk_ip
             vpiActual: LogicTypespec
@@ -541,7 +525,7 @@ Design name:unnamed:
             vpiName: rst_ip
             vpiFullName: m.rst_ip.rst_ip
             vpiActual: Net name:rst_ip
-          vpiTypespec RefTypespec start:14:4 end:14:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:rst_ip
             vpiFullName: m.rst_ip
             vpiActual: LogicTypespec
@@ -554,7 +538,7 @@ Design name:unnamed:
             vpiName: foo_op
             vpiFullName: m.foo_op.foo_op
             vpiActual: Net name:foo_op
-          vpiTypespec RefTypespec start:15:4 end:15:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:foo_op
             vpiFullName: m.foo_op
             vpiActual: LogicTypespec
@@ -653,7 +637,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_xml_tag/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              97      97       0         0
+Others                              89      89       0         0
 ----------------------------------------------------------------
-                                    97      97       0         0
+                                    89      89       0         0
 ===================== END REDUCTION RESULT =====================

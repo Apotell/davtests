@@ -104,26 +104,10 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-  vpiTypespec (4 items):
-    UnsupportedTypespec name:some_package start:19:9 end:19:21:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:some_package start:19:9 end:19:21:
-    UnsupportedTypespec name:some_package::some_type start:19:9 end:19:32:
-      vpiParent: Design name:unnamed
-      vpiPathElem (2 items):
-        RefTypespec start:19:9 end:19:23:
-          vpiParent: UnsupportedTypespec name:some_package::some_type
-          vpiFullName: some_package::some_type
-          vpiActual: UnsupportedTypespec name:some_package
-        RefTypespec name:some_type start:19:23 end:19:32:
-          vpiParent: UnsupportedTypespec name:some_package::some_type
-          vpiName: some_type
-          vpiFullName: some_package::some_type.some_type
-      vpiName Identifier name:some_package::some_type start:19:9 end:19:32:
+  vpiTypespec (2 items):
     TypedefTypespec name:myalias start:19:1 end:19:41:
       vpiParent: Design name:unnamed
       vpiName Identifier name:myalias start:19:33 end:19:40:
-      vpiTypedefKind: unsupported (7)
       vpiTypedef: Typedef name:myalias
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -134,10 +118,26 @@ Design name:unnamed:
     Typedef name:myalias start:19:1 end:19:41:
       vpiParent: Design name:unnamed
       vpiName Identifier name:myalias start:19:33 end:19:40:
-      vpiTypedefAlias RefTypespec start:19:9 end:19:32:
+      vpiTypedefAlias RefTypespec name:some_package::some_type start:19:9 end:19:32:
         vpiParent: Typedef name:myalias
-        vpiFullName: myalias
-        vpiActual: UnsupportedTypespec name:some_package::some_type
+        vpiName: some_package::some_type
+        vpiFullName: myalias.some_package::some_type
+        vpiPathElem (2 items):
+          RefTypespec name:some_package start:19:9 end:19:21:
+            vpiParent: RefTypespec name:some_package::some_type
+            vpiName: some_package
+            vpiFullName: myalias.some_package::some_type.some_package
+            vpiPathElem (1 items):
+              RefObj name:some_package start:19:9 end:19:21:
+                vpiParent: RefTypespec name:some_package
+                vpiName: some_package
+                vpiFullName: myalias.some_package::some_type.some_package
+                vpiActual: Package name:some_package
+          RefTypespec name:some_type start:19:23 end:19:32:
+            vpiParent: RefTypespec name:some_package::some_type
+            vpiName: some_type
+            vpiFullName: myalias.some_package::some_type.some_type
+        vpiActual: TypedefTypespec name:some_type
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -186,7 +186,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/typedef/typedef_test_14/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              27      27       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    27      27       0         0
+                                    24      24       0         0
 ===================== END REDUCTION RESULT =====================

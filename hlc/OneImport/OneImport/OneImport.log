@@ -257,9 +257,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:2:11 end:5:4:
           vpiParent: Package name:my_pkg
-          vpiBaseTypespec RefTypespec start:2:16 end:2:27:
+          vpiBaseTypespec RefTypespec name:logic [5:0] start:2:16 end:2:27:
             vpiParent: Enum
-            vpiFullName: my_pkg
+            vpiName: logic [5:0]
+            vpiFullName: my_pkg::logic [5:0]
             vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:OPCODE_LOAD start:3:5 end:3:28:
@@ -380,7 +381,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: dut.b
           vpiVector: true
-      vpiTypespec (8 items):
+      vpiTypespec (5 items):
         ImportTypespec name:my_pkg start:12:10 end:12:19:
           vpiParent: Module name:dut
           vpiName Identifier name:my_pkg start:12:10 end:12:16:
@@ -410,58 +411,6 @@ Design name:unnamed:
             vpiSize: 88
             vpiDecompile: OPCODE_LOAD
             vpiValue: OPCODE_LOAD
-        LogicTypespec:
-          vpiParent: Module name:dut
-          vpiRange (1 items):
-            Range start:14:9 end:14:14:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:14:10 end:14:11:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "5"
-                vpiValue: 5
-              vpiRightRange Constant start:14:12 end:14:13:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:dut
-          vpiRange (1 items):
-            Range start:15:10 end:15:15:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:15:11 end:15:12:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "2"
-                vpiValue: 2
-              vpiRightRange Constant start:15:13 end:15:14:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
         LogicTypespec:
           vpiParent: Module name:dut
           vpiRange (1 items):
@@ -514,9 +463,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        UnsupportedTypespec name:my_pkg start:18:17 end:18:23:
-          vpiParent: Module name:dut
-          vpiName Identifier name:my_pkg start:18:17 end:18:23:
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:11:8 end:11:11:
@@ -586,10 +532,11 @@ Design name:unnamed:
                     vpiName: my_pkg::PMP_CFG_W
                     vpiFullName: dut.my_pkg::PMP_CFG_W
                     vpiPathElem (2 items):
-                      RefTypespec start:18:17 end:18:25:
+                      RefObj name:my_pkg start:18:17 end:18:23:
                         vpiParent: RefObj name:my_pkg::PMP_CFG_W
-                        vpiFullName: dut.my_pkg::PMP_CFG_W
-                        vpiActual: UnsupportedTypespec name:my_pkg
+                        vpiName: my_pkg
+                        vpiFullName: dut.my_pkg
+                        vpiActual: Package name:my_pkg
                       RefObj name:PMP_CFG_W start:18:25 end:18:34:
                         vpiParent: RefObj name:my_pkg::PMP_CFG_W
                         vpiName: PMP_CFG_W
@@ -655,25 +602,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/OneImport/OneImport/mounts.json
 
 
-{'result': {'coverage': 99.42,
+{'result': {'coverage': 97.67,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 2,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 8,
                                                   'pre_len': 344}},
-            'post_len': 2,
+            'post_len': 8,
             'pre_len': 344,
             'test_name': 'OneImport/OneImport'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      344 |         2 |
+| $Output/lib/work/dut.sv |      344 |         8 |
 +=========================+==========+===========+
-|                         |      344 |         2 |
+|                         |      344 |         8 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.42
+[COVERAGE] : 97.67
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -684,7 +631,7 @@ COMMAND: ${HLC_DIR}/regression/OneImport/OneImport/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             100     100       0         0
+Others                              86      86       0         0
 ----------------------------------------------------------------
-                                   100     100       0         0
+                                    86      86       0         0
 ===================== END REDUCTION RESULT =====================

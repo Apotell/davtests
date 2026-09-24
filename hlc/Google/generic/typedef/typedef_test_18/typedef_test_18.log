@@ -104,16 +104,13 @@ Design name:unnamed:
         vpiFullName: test.work
       vpiCell: test
   vpiTypespec (8 items):
-    LogicTypespec:
-      vpiParent: Design name:unnamed
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    LogicTypespec:
+      vpiParent: Design name:unnamed
     BitTypespec:
       vpiParent: Design name:unnamed
-    IntegerTypespec:
-      vpiParent: Design name:unnamed
-      vpiSigned: true
     ArrayTypespec:
       vpiParent: Design name:unnamed
       vpiArrayType: static (1)
@@ -136,6 +133,9 @@ Design name:unnamed:
       vpiElemTypespec RefTypespec start:19:9 end:19:16:
         vpiParent: ArrayTypespec
         vpiActual: IntegerTypespec
+    IntegerTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
     StructTypespec start:17:9 end:20:2:
       vpiParent: Design name:unnamed
       vpiStruct: Struct
@@ -152,7 +152,7 @@ Design name:unnamed:
   vpiParameter (1 items):
     Parameter name:K start:15:11 end:15:12:
       vpiParent: Design name:unnamed
-      vpiTypespec RefTypespec start:15:11 end:15:11:
+      vpiTypespec RefTypespec:
         vpiParent: Parameter name:K
         vpiFullName: K
         vpiActual: LogicTypespec
@@ -189,9 +189,10 @@ Design name:unnamed:
         TypespecMember name:b start:19:17 end:19:18:
           vpiParent: Struct
           vpiName: b
-          vpiTypespec RefTypespec start:19:9 end:19:16:
+          vpiTypespec RefTypespec name:integer [K:0] start:19:9 end:19:16:
             vpiParent: TypespecMember name:b
-            vpiFullName: b
+            vpiName: integer [K:0]
+            vpiFullName: b.integer [K:0]
             vpiActual: ArrayTypespec
   vpiTypedef (1 items):
     Typedef name:randstruct start:17:1 end:20:14:

@@ -726,9 +726,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:12:11 end:18:4:
           vpiParent: Package name:sha3_pkg
-          vpiBaseTypespec RefTypespec start:12:16 end:12:27:
+          vpiBaseTypespec RefTypespec name:logic [2:0] start:12:16 end:12:27:
             vpiParent: Enum
-            vpiFullName: sha3_pkg
+            vpiName: logic [2:0]
+            vpiFullName: sha3_pkg::logic [2:0]
             vpiActual: LogicTypespec
           vpiEnumConst (5 items):
             EnumConst name:L128 start:13:5 end:13:19:
@@ -815,9 +816,10 @@ Design name:unnamed:
           vpiFullName: sha3_pkg::MsgWidth
         Parameter name:KeccakRate start:20:26 end:20:36:
           vpiParent: Package name:sha3_pkg
-          vpiTypespec RefTypespec start:20:13 end:20:25:
+          vpiTypespec RefTypespec name:int unsigned [5] start:20:13 end:20:25:
             vpiParent: Parameter name:KeccakRate
-            vpiFullName: sha3_pkg::KeccakRate
+            vpiName: int unsigned [5]
+            vpiFullName: sha3_pkg::KeccakRate::int unsigned [5]
             vpiActual: ArrayTypespec
           vpiName: KeccakRate
           vpiFullName: sha3_pkg::KeccakRate
@@ -1170,26 +1172,11 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-      vpiTypespec (12 items):
+      vpiTypespec (10 items):
         BitTypespec:
           vpiParent: "Module name:kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
         LogicTypespec:
           vpiParent: "Module name:kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-        UnsupportedTypespec name:sha3_pkg start:9:9 end:9:17:
-          vpiParent: "Module name:kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-          vpiName Identifier name:sha3_pkg start:9:9 end:9:17:
-        UnsupportedTypespec name:sha3_pkg::keccak_strength_e start:9:9 end:9:36:
-          vpiParent: "Module name:kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-          vpiPathElem (2 items):
-            RefTypespec start:9:9 end:9:19:
-              vpiParent: UnsupportedTypespec name:sha3_pkg::keccak_strength_e
-              vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).sha3_pkg::keccak_strength_e"
-              vpiActual: UnsupportedTypespec name:sha3_pkg
-            RefTypespec name:keccak_strength_e start:9:19 end:9:36:
-              vpiParent: UnsupportedTypespec name:sha3_pkg::keccak_strength_e
-              vpiName: keccak_strength_e
-              vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).sha3_pkg::keccak_strength_e.keccak_strength_e"
-          vpiName Identifier name:sha3_pkg::keccak_strength_e start:9:9 end:9:36:
         ImportTypespec name:sha3_pkg start:15:10 end:15:32:
           vpiParent: "Module name:kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
           vpiName Identifier name:sha3_pkg start:15:10 end:15:18:
@@ -1336,7 +1323,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:kmac_en_i start:8:37 end:8:46:
           vpiParent: "Module name:kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-          vpiTypespec RefTypespec start:8:3 end:8:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:kmac_en_i
             vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).kmac_en_i"
             vpiActual: LogicTypespec
@@ -1346,11 +1333,27 @@ Design name:unnamed:
           vpiScalar: true
         Net name:strength_i start:9:37 end:9:47:
           vpiParent: "Module name:kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-          vpiTypespec RefTypespec name:keccak_strength_e start:9:19 end:9:36:
+          vpiTypespec RefTypespec name:sha3_pkg::keccak_strength_e start:9:9 end:9:36:
             vpiParent: Net name:strength_i
-            vpiName: keccak_strength_e
-            vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.keccak_strength_e"
-            vpiActual: UnsupportedTypespec name:sha3_pkg::keccak_strength_e
+            vpiName: sha3_pkg::keccak_strength_e
+            vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e"
+            vpiPathElem (2 items):
+              RefTypespec name:sha3_pkg start:9:9 end:9:17:
+                vpiParent: RefTypespec name:sha3_pkg::keccak_strength_e
+                vpiName: sha3_pkg
+                vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e.sha3_pkg"
+                vpiPathElem (1 items):
+                  RefObj name:sha3_pkg start:9:9 end:9:17:
+                    vpiParent: RefTypespec name:sha3_pkg
+                    vpiName: sha3_pkg
+                    vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e.sha3_pkg"
+                    vpiActual: Package name:sha3_pkg
+                vpiActual: ImportTypespec name:sha3_pkg
+              RefTypespec name:keccak_strength_e start:9:19 end:9:36:
+                vpiParent: RefTypespec name:sha3_pkg::keccak_strength_e
+                vpiName: keccak_strength_e
+                vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e.keccak_strength_e"
+            vpiActual: TypedefTypespec name:keccak_strength_e
           vpiName: strength_i
           vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i"
           vpiNetType: wire (1)
@@ -1364,7 +1367,7 @@ Design name:unnamed:
             vpiName: kmac_en_i
             vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).kmac_en_i.kmac_en_i"
             vpiActual: Net name:kmac_en_i
-          vpiTypespec RefTypespec start:8:3 end:8:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:kmac_en_i
             vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).kmac_en_i"
             vpiActual: LogicTypespec
@@ -1377,11 +1380,27 @@ Design name:unnamed:
             vpiName: strength_i
             vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.strength_i"
             vpiActual: Net name:strength_i
-          vpiTypespec RefTypespec name:keccak_strength_e start:9:19 end:9:36:
+          vpiTypespec RefTypespec name:sha3_pkg::keccak_strength_e start:9:9 end:9:36:
             vpiParent: Port name:strength_i
-            vpiName: keccak_strength_e
-            vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.keccak_strength_e"
-            vpiActual: UnsupportedTypespec name:sha3_pkg::keccak_strength_e
+            vpiName: sha3_pkg::keccak_strength_e
+            vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e"
+            vpiPathElem (2 items):
+              RefTypespec name:sha3_pkg start:9:9 end:9:17:
+                vpiParent: RefTypespec name:sha3_pkg::keccak_strength_e
+                vpiName: sha3_pkg
+                vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e.sha3_pkg"
+                vpiPathElem (1 items):
+                  RefObj name:sha3_pkg start:9:9 end:9:17:
+                    vpiParent: RefTypespec name:sha3_pkg
+                    vpiName: sha3_pkg
+                    vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e.sha3_pkg"
+                    vpiActual: Package name:sha3_pkg
+                vpiActual: ImportTypespec name:sha3_pkg
+              RefTypespec name:keccak_strength_e start:9:19 end:9:36:
+                vpiParent: RefTypespec name:sha3_pkg::keccak_strength_e
+                vpiName: keccak_strength_e
+                vpiFullName: "kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e.keccak_strength_e"
+            vpiActual: TypedefTypespec name:keccak_strength_e
       vpiProcess (1 items):
         Always start:24:5 end:34:8:
           vpiParent: "Module name:kmac_core #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
@@ -1709,26 +1728,11 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-      vpiTypespec (4 items):
+      vpiTypespec (2 items):
         BitTypespec:
           vpiParent: "Module name:kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
         LogicTypespec:
           vpiParent: "Module name:kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-        UnsupportedTypespec name:sha3_pkg start:9:9 end:9:17:
-          vpiParent: "Module name:kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-          vpiName Identifier name:sha3_pkg start:9:9 end:9:17:
-        UnsupportedTypespec name:sha3_pkg::keccak_strength_e start:9:9 end:9:36:
-          vpiParent: "Module name:kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-          vpiPathElem (2 items):
-            RefTypespec start:9:9 end:9:19:
-              vpiParent: UnsupportedTypespec name:sha3_pkg::keccak_strength_e
-              vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).sha3_pkg::keccak_strength_e"
-              vpiActual: UnsupportedTypespec name:sha3_pkg
-            RefTypespec name:keccak_strength_e start:9:19 end:9:36:
-              vpiParent: UnsupportedTypespec name:sha3_pkg::keccak_strength_e
-              vpiName: keccak_strength_e
-              vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).sha3_pkg::keccak_strength_e.keccak_strength_e"
-          vpiName Identifier name:sha3_pkg::keccak_strength_e start:9:9 end:9:36:
       vpiDefName: kmac
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:8 end:1:12:
@@ -1739,7 +1743,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:kmac_en_i start:8:37 end:8:46:
           vpiParent: "Module name:kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-          vpiTypespec RefTypespec start:8:3 end:8:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:kmac_en_i
             vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).kmac_en_i"
             vpiActual: LogicTypespec
@@ -1749,11 +1753,26 @@ Design name:unnamed:
           vpiScalar: true
         Net name:strength_i start:9:37 end:9:47:
           vpiParent: "Module name:kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
-          vpiTypespec RefTypespec name:keccak_strength_e start:9:19 end:9:36:
+          vpiTypespec RefTypespec name:sha3_pkg::keccak_strength_e start:9:9 end:9:36:
             vpiParent: Net name:strength_i
-            vpiName: keccak_strength_e
-            vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.keccak_strength_e"
-            vpiActual: UnsupportedTypespec name:sha3_pkg::keccak_strength_e
+            vpiName: sha3_pkg::keccak_strength_e
+            vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e"
+            vpiPathElem (2 items):
+              RefTypespec name:sha3_pkg start:9:9 end:9:17:
+                vpiParent: RefTypespec name:sha3_pkg::keccak_strength_e
+                vpiName: sha3_pkg
+                vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e.sha3_pkg"
+                vpiPathElem (1 items):
+                  RefObj name:sha3_pkg start:9:9 end:9:17:
+                    vpiParent: RefTypespec name:sha3_pkg
+                    vpiName: sha3_pkg
+                    vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e.sha3_pkg"
+                    vpiActual: Package name:sha3_pkg
+              RefTypespec name:keccak_strength_e start:9:19 end:9:36:
+                vpiParent: RefTypespec name:sha3_pkg::keccak_strength_e
+                vpiName: keccak_strength_e
+                vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e.keccak_strength_e"
+            vpiActual: TypedefTypespec name:keccak_strength_e
           vpiName: strength_i
           vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i"
           vpiNetType: wire (1)
@@ -1767,7 +1786,7 @@ Design name:unnamed:
             vpiName: kmac_en_i
             vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).kmac_en_i.kmac_en_i"
             vpiActual: Net name:kmac_en_i
-          vpiTypespec RefTypespec start:8:3 end:8:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:kmac_en_i
             vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).kmac_en_i"
             vpiActual: LogicTypespec
@@ -1780,11 +1799,26 @@ Design name:unnamed:
             vpiName: strength_i
             vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.strength_i"
             vpiActual: Net name:strength_i
-          vpiTypespec RefTypespec name:keccak_strength_e start:9:19 end:9:36:
+          vpiTypespec RefTypespec name:sha3_pkg::keccak_strength_e start:9:9 end:9:36:
             vpiParent: Port name:strength_i
-            vpiName: keccak_strength_e
-            vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.keccak_strength_e"
-            vpiActual: UnsupportedTypespec name:sha3_pkg::keccak_strength_e
+            vpiName: sha3_pkg::keccak_strength_e
+            vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e"
+            vpiPathElem (2 items):
+              RefTypespec name:sha3_pkg start:9:9 end:9:17:
+                vpiParent: RefTypespec name:sha3_pkg::keccak_strength_e
+                vpiName: sha3_pkg
+                vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e.sha3_pkg"
+                vpiPathElem (1 items):
+                  RefObj name:sha3_pkg start:9:9 end:9:17:
+                    vpiParent: RefTypespec name:sha3_pkg
+                    vpiName: sha3_pkg
+                    vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e.sha3_pkg"
+                    vpiActual: Package name:sha3_pkg
+              RefTypespec name:keccak_strength_e start:9:19 end:9:36:
+                vpiParent: RefTypespec name:sha3_pkg::keccak_strength_e
+                vpiName: keccak_strength_e
+                vpiFullName: "kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1)).strength_i.sha3_pkg::keccak_strength_e.keccak_strength_e"
+            vpiActual: TypedefTypespec name:keccak_strength_e
       vpiRefInstance (1 items):
         RefInstance name:core start:13:14 end:13:18:
           vpiParent: "Module name:kmac #(.EnMasking(0), .Share(EnMasking ? 2 : 1))"
@@ -1875,13 +1909,13 @@ COMMAND: ${HLC_DIR}/regression/Kmac/Kmac/design.hldb ${HLC_DIR}/regression/Kmac/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            32      28       7        11
-Identifier                          30      29       0         1
+Identifier                          26      25       0         1
 Operation                           17       8       0         9
-RefObj                              50      36       0        14
-RefTypespec                         62      57       6        11
+RefObj                              54      40       0        14
+RefTypespec                         66      61       6        11
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              96      96       0         0
+Others                              92      92       0         0
 ----------------------------------------------------------------
                                    288     254      13        47
 ===================== END REDUCTION RESULT =====================

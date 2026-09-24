@@ -196,8 +196,8 @@ n<$Source01/9.7--process_cls_await.sv> u<182> t<Top_level_rule> c<1> l<15:1> el<
         n<> u<178> t<ENDMODULE> p<179> l<38:1> el<38:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/9.7--process_cls_await.sv:15:1: Compile module "process_tb".
-[WRN:CP5851] $Source01/9.7--process_cls_await.sv:23:24: Failed to bind "id:37, name:self".
-[WRN:CP5851] $Source01/9.7--process_cls_await.sv:31:10: Failed to bind "id:62, name:await".
+[WRN:CP5851] $Source01/9.7--process_cls_await.sv:23:24: Failed to bind "id:33, name:self".
+[WRN:CP5851] $Source01/9.7--process_cls_await.sv:31:10: Failed to bind "id:58, name:await".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -240,9 +240,10 @@ Design name:unnamed:
             vpiVariable (1 items):
               Variable name:job start:17:11 end:17:14:
                 vpiParent: Begin
-                vpiTypespec RefTypespec:
+                vpiTypespec RefTypespec name:process [] start:17:3 end:17:16:
                   vpiParent: Variable name:job
-                  vpiFullName: process_tb.test.job
+                  vpiName: process []
+                  vpiFullName: process_tb.test.job.process []
                   vpiActual: ArrayTypespec
                 vpiName: job
                 vpiFullName: process_tb.test.job
@@ -254,10 +255,7 @@ Design name:unnamed:
                       vpiName: N
                       vpiFullName: process_tb.test.job.N
                       vpiActual: IODecl name:N
-            vpiTypespec (2 items):
-              UnsupportedTypespec name:process start:17:3 end:17:10:
-                vpiParent: Begin
-                vpiName Identifier name:process start:17:3 end:17:10:
+            vpiTypespec (1 items):
               ArrayTypespec:
                 vpiParent: Begin
                 vpiArrayType: dynamic (2)
@@ -267,7 +265,6 @@ Design name:unnamed:
                   vpiParent: ArrayTypespec
                   vpiName: process
                   vpiFullName: process_tb.test.process
-                  vpiActual: UnsupportedTypespec name:process
             vpiStmt (4 items):
               Variable name:job:
               ForeachStmt start:19:3 end:26:13:
@@ -310,10 +307,6 @@ Design name:unnamed:
                     Begin start:22:5 end:25:8:
                       vpiParent: ForkStmt
                       vpiFullName: process_tb.test
-                      vpiTypespec (1 items):
-                        UnsupportedTypespec name:process start:23:15 end:23:22:
-                          vpiParent: Begin
-                          vpiName Identifier name:process start:23:15 end:23:22:
                       vpiStmt (2 items):
                         Assignment start:23:6 end:23:30:
                           vpiParent: Begin
@@ -337,10 +330,10 @@ Design name:unnamed:
                             vpiName: process::self()
                             vpiFullName: process_tb.test.process::self()
                             vpiPathElem (2 items):
-                              RefTypespec start:23:15 end:23:24:
+                              RefTypespec name:process start:23:15 end:23:22:
                                 vpiParent: RefObj name:process::self()
-                                vpiFullName: process_tb.test.process::self()
-                                vpiActual: UnsupportedTypespec name:process
+                                vpiName: process
+                                vpiFullName: process_tb.test.process::self().process
                               SubroutineCall name:self start:23:24 end:23:30:
                                 vpiParent: RefObj name:process::self()
                                 vpiName Identifier name:self start:23:24 end:23:28:
@@ -512,7 +505,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_await/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              68      68       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    68      68       0         0
+                                    64      64       0         0
 ===================== END REDUCTION RESULT =====================

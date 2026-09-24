@@ -15,12 +15,13 @@ COMMAND: -wd ../../../tests/OneNetInterf -fileunit -writepp -d db -sv dut.v tb.v
 [INF:CP5805] $Source01/dut.v:7:1: Compile interface "ConnectTB".
 [INF:CP5804] $Source01/dut.v:10:1: Compile module "middle".
 [WRN:CP5811] $Source01/dut.v:10:26: Port "conn" definition missing its direction (input, output, inout).
+[ERR:CP5824] $Source01/dut.v:10:1: Multiply defined typedef "ConnectTB".
 [INF:CP5804] $Source01/dut.v:14:1: Compile module "SUB".
 [INF:CP5807] $Source01/tb.v:1:9: Compile program "TESTBENCH".
 [WRN:CP5815] $Source01/tb.v:1:9: Using programs is discouraged "TESTBENCH", programs are obsoleted by UVM.
 [INF:CP5804] $Source01/tb.v:14:1: Compile module "tb".
-[WRN:CP5851] $Source01/tb.v:18:32: Failed to bind "id:227, name:con_o".
-[WRN:CP5851] $Source01/tb.v:18:53: Failed to bind "id:232, name:con_i".
+[WRN:CP5851] $Source01/tb.v:18:32: Failed to bind "id:236, name:con_o".
+[WRN:CP5851] $Source01/tb.v:18:53: Failed to bind "id:241, name:con_i".
 [WRN:PA5506] $Source01/dut.v:2:1: No timescale set for "dut".
 [WRN:PA5506] $Source01/dut.v:10:1: No timescale set for "middle".
 [WRN:PA5506] $Source01/dut.v:14:1: No timescale set for "SUB".
@@ -47,7 +48,7 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:con_o start:7:51 end:7:56:
           vpiParent: Interface name:ConnectTB
-          vpiTypespec RefTypespec start:7:40 end:7:50:
+          vpiTypespec RefTypespec start:7:47 end:7:50:
             vpiParent: Variable name:con_o
             vpiFullName: ConnectTB.con_o
             vpiActual: LogicTypespec
@@ -67,7 +68,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:con_i start:7:33 end:7:38:
           vpiParent: Interface name:ConnectTB
-          vpiTypespec RefTypespec start:7:22 end:7:32:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:con_i
             vpiFullName: ConnectTB.con_i
             vpiActual: LogicTypespec
@@ -85,7 +86,7 @@ Design name:unnamed:
             vpiName: con_i
             vpiFullName: ConnectTB.con_i.con_i
             vpiActual: Net name:con_i
-          vpiTypespec RefTypespec start:7:22 end:7:32:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:con_i
             vpiFullName: ConnectTB.con_i
             vpiActual: LogicTypespec
@@ -98,7 +99,7 @@ Design name:unnamed:
             vpiName: con_o
             vpiFullName: ConnectTB.con_o.con_o
             vpiActual: Variable name:con_o
-          vpiTypespec RefTypespec start:7:40 end:7:50:
+          vpiTypespec RefTypespec start:7:47 end:7:50:
             vpiParent: Port name:con_o
             vpiFullName: ConnectTB.con_o
             vpiActual: LogicTypespec
@@ -110,7 +111,7 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:drive start:1:50 end:1:55:
           vpiParent: Program name:TESTBENCH
-          vpiTypespec RefTypespec start:1:39 end:1:49:
+          vpiTypespec RefTypespec start:1:46 end:1:49:
             vpiParent: Variable name:drive
             vpiFullName: TESTBENCH.drive
             vpiActual: LogicTypespec
@@ -130,7 +131,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:observe start:1:30 end:1:37:
           vpiParent: Program name:TESTBENCH
-          vpiTypespec RefTypespec start:1:19 end:1:29:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:observe
             vpiFullName: TESTBENCH.observe
             vpiActual: LogicTypespec
@@ -394,7 +395,7 @@ Design name:unnamed:
             vpiName: observe
             vpiFullName: TESTBENCH.observe.observe
             vpiActual: Net name:observe
-          vpiTypespec RefTypespec start:1:19 end:1:29:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:observe
             vpiFullName: TESTBENCH.observe
             vpiActual: LogicTypespec
@@ -407,7 +408,7 @@ Design name:unnamed:
             vpiName: drive
             vpiFullName: TESTBENCH.drive.drive
             vpiActual: Variable name:drive
-          vpiTypespec RefTypespec start:1:39 end:1:49:
+          vpiTypespec RefTypespec start:1:46 end:1:49:
             vpiParent: Port name:drive
             vpiFullName: TESTBENCH.drive
             vpiActual: LogicTypespec
@@ -419,7 +420,7 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:o start:2:38 end:2:39:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:2:27 end:2:37:
+          vpiTypespec RefTypespec start:2:34 end:2:37:
             vpiParent: Variable name:o
             vpiFullName: dut.o
             vpiActual: LogicTypespec
@@ -444,7 +445,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:i start:2:24 end:2:25:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:2:13 end:2:23:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i
             vpiFullName: dut.i
             vpiActual: LogicTypespec
@@ -462,7 +463,7 @@ Design name:unnamed:
             vpiName: i
             vpiFullName: dut.i.i
             vpiActual: Net name:i
-          vpiTypespec RefTypespec start:2:13 end:2:23:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i
             vpiFullName: dut.i
             vpiActual: LogicTypespec
@@ -475,7 +476,7 @@ Design name:unnamed:
             vpiName: o
             vpiFullName: dut.o.o
             vpiActual: Variable name:o
-          vpiTypespec RefTypespec start:2:27 end:2:37:
+          vpiTypespec RefTypespec start:2:34 end:2:37:
             vpiParent: Port name:o
             vpiFullName: dut.o
             vpiActual: LogicTypespec
@@ -495,7 +496,6 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: con_i
                 vpiFullName: dut.conntb.con_i
-                vpiActual: Port name:con_i
               vpiHighConn RefObj name:i start:3:27 end:3:28:
                 vpiParent: Port
                 vpiName: i
@@ -507,7 +507,6 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: con_o
                 vpiFullName: dut.conntb.con_o
-                vpiActual: Port name:con_o
               vpiHighConn RefObj name:o start:3:37 end:3:38:
                 vpiParent: Port
                 vpiName: o
@@ -643,7 +642,7 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:out start:14:40 end:14:43:
           vpiParent: Module name:SUB
-          vpiTypespec RefTypespec start:14:29 end:14:39:
+          vpiTypespec RefTypespec start:14:36 end:14:39:
             vpiParent: Variable name:out
             vpiFullName: SUB.out
             vpiActual: LogicTypespec
@@ -663,7 +662,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:inp start:14:24 end:14:27:
           vpiParent: Module name:SUB
-          vpiTypespec RefTypespec start:14:13 end:14:23:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:inp
             vpiFullName: SUB.inp
             vpiActual: LogicTypespec
@@ -681,7 +680,7 @@ Design name:unnamed:
             vpiName: inp
             vpiFullName: SUB.inp.inp
             vpiActual: Net name:inp
-          vpiTypespec RefTypespec start:14:13 end:14:23:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:inp
             vpiFullName: SUB.inp
             vpiActual: LogicTypespec
@@ -694,7 +693,7 @@ Design name:unnamed:
             vpiName: out
             vpiFullName: SUB.out.out
             vpiActual: Variable name:out
-          vpiTypespec RefTypespec start:14:29 end:14:39:
+          vpiTypespec RefTypespec start:14:36 end:14:39:
             vpiParent: Port name:out
             vpiFullName: SUB.out
             vpiActual: LogicTypespec
@@ -733,7 +732,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:i start:15:8 end:15:9:
           vpiParent: Module name:tb
-          vpiTypespec RefTypespec start:15:8 end:15:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i
             vpiFullName: tb.i
             vpiActual: LogicTypespec
@@ -744,7 +743,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:o start:15:10 end:15:11:
           vpiParent: Module name:tb
-          vpiTypespec RefTypespec start:15:8 end:15:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:o
             vpiFullName: tb.o
             vpiActual: LogicTypespec
@@ -898,7 +897,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************

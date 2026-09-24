@@ -1342,7 +1342,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1362,7 +1362,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1384,7 +1384,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1402,7 +1402,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1424,7 +1424,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1442,7 +1442,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1507,24 +1507,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -1689,18 +1687,20 @@ Design name:unnamed:
           vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).i
         Variable name:code_mem start:42:13 end:42:21:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [31:0] [0:CODE_SIZE-1] start:42:2 end:42:12:
             vpiParent: Variable name:code_mem
-            vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).code_mem
+            vpiName: logic [31:0] [0:CODE_SIZE-1]
+            vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).code_mem.logic [31:0] [0:CODE_SIZE-1]
             vpiActual: ArrayTypespec
           vpiName: code_mem
           vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).code_mem
           vpiVector: true
         Variable name:coeff_mem start:43:18 end:43:27:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [64*NB-1:0] [0:COEFF_SIZE-1] start:43:2 end:43:17:
             vpiParent: Variable name:coeff_mem
-            vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).coeff_mem
+            vpiName: logic [64*NB-1:0] [0:COEFF_SIZE-1]
+            vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).coeff_mem.logic [64*NB-1:0] [0:COEFF_SIZE-1]
             vpiActual: ArrayTypespec
           vpiName: coeff_mem
           vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).coeff_mem
@@ -4183,7 +4183,7 @@ Design name:unnamed:
       vpiNet (26 items):
         Net name:clock start:23:16 end:23:21:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:23:2 end:23:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clock
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).clock
             vpiActual: LogicTypespec
@@ -4193,7 +4193,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:reset start:24:16 end:24:21:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:24:2 end:24:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:reset
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).reset
             vpiActual: LogicTypespec
@@ -4203,7 +4203,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:busy start:25:16 end:25:20:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:25:2 end:25:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:busy
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).busy
             vpiActual: LogicTypespec
@@ -4213,7 +4213,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:cmd_valid start:27:16 end:27:25:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:27:2 end:27:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:cmd_valid
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).cmd_valid
             vpiActual: LogicTypespec
@@ -4223,7 +4223,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:cmd_ready start:28:16 end:28:25:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:28:2 end:28:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:cmd_ready
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).cmd_ready
             vpiActual: LogicTypespec
@@ -4233,7 +4233,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:cmd_insn start:29:16 end:29:24:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:29:2 end:29:15:
+          vpiTypespec RefTypespec start:29:9 end:29:15:
             vpiParent: Net name:cmd_insn
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).cmd_insn
             vpiActual: LogicTypespec
@@ -4243,7 +4243,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:mem_ren start:31:16 end:31:23:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:31:2 end:31:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:mem_ren
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_ren
             vpiActual: LogicTypespec
@@ -4253,7 +4253,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:mem_wen start:32:16 end:32:23:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:32:2 end:32:15:
+          vpiTypespec RefTypespec start:32:9 end:32:15:
             vpiParent: Net name:mem_wen
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_wen
             vpiActual: LogicTypespec
@@ -4263,7 +4263,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:mem_addr start:33:16 end:33:24:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:33:2 end:33:15:
+          vpiTypespec RefTypespec start:33:9 end:33:15:
             vpiParent: Net name:mem_addr
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_addr
             vpiActual: LogicTypespec
@@ -4273,7 +4273,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:mem_wdata start:34:16 end:34:25:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:34:2 end:34:15:
+          vpiTypespec RefTypespec start:34:9 end:34:15:
             vpiParent: Net name:mem_wdata
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_wdata
             vpiActual: LogicTypespec
@@ -4283,7 +4283,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:mem_rdata start:35:16 end:35:25:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:35:2 end:35:15:
+          vpiTypespec RefTypespec start:35:9 end:35:15:
             vpiParent: Net name:mem_rdata
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_rdata
             vpiActual: LogicTypespec
@@ -4293,7 +4293,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:tick_simd start:37:16 end:37:25:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:37:2 end:37:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:tick_simd
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).tick_simd
             vpiActual: LogicTypespec
@@ -4303,7 +4303,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:tick_nosimd start:38:16 end:38:27:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:38:2 end:38:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:tick_nosimd
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).tick_nosimd
             vpiActual: LogicTypespec
@@ -4450,7 +4450,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:s1_stall start:74:22 end:74:30:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
-          vpiTypespec RefTypespec start:74:22 end:74:22:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:s1_stall
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).s1_stall
             vpiActual: LogicTypespec
@@ -4783,7 +4783,7 @@ Design name:unnamed:
             vpiName: clock
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).clock.clock
             vpiActual: Net name:clock
-          vpiTypespec RefTypespec start:23:2 end:23:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clock
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).clock
             vpiActual: LogicTypespec
@@ -4796,7 +4796,7 @@ Design name:unnamed:
             vpiName: reset
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).reset.reset
             vpiActual: Net name:reset
-          vpiTypespec RefTypespec start:24:2 end:24:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:reset
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).reset
             vpiActual: LogicTypespec
@@ -4809,7 +4809,7 @@ Design name:unnamed:
             vpiName: busy
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).busy.busy
             vpiActual: Net name:busy
-          vpiTypespec RefTypespec start:25:2 end:25:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:busy
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).busy
             vpiActual: LogicTypespec
@@ -4822,7 +4822,7 @@ Design name:unnamed:
             vpiName: cmd_valid
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).cmd_valid.cmd_valid
             vpiActual: Net name:cmd_valid
-          vpiTypespec RefTypespec start:27:2 end:27:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:cmd_valid
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).cmd_valid
             vpiActual: LogicTypespec
@@ -4835,7 +4835,7 @@ Design name:unnamed:
             vpiName: cmd_ready
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).cmd_ready.cmd_ready
             vpiActual: Net name:cmd_ready
-          vpiTypespec RefTypespec start:28:2 end:28:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:cmd_ready
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).cmd_ready
             vpiActual: LogicTypespec
@@ -4848,7 +4848,7 @@ Design name:unnamed:
             vpiName: cmd_insn
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).cmd_insn.cmd_insn
             vpiActual: Net name:cmd_insn
-          vpiTypespec RefTypespec start:29:2 end:29:15:
+          vpiTypespec RefTypespec start:29:9 end:29:15:
             vpiParent: Port name:cmd_insn
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).cmd_insn
             vpiActual: LogicTypespec
@@ -4861,7 +4861,7 @@ Design name:unnamed:
             vpiName: mem_ren
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_ren.mem_ren
             vpiActual: Net name:mem_ren
-          vpiTypespec RefTypespec start:31:2 end:31:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:mem_ren
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_ren
             vpiActual: LogicTypespec
@@ -4874,7 +4874,7 @@ Design name:unnamed:
             vpiName: mem_wen
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_wen.mem_wen
             vpiActual: Net name:mem_wen
-          vpiTypespec RefTypespec start:32:2 end:32:15:
+          vpiTypespec RefTypespec start:32:9 end:32:15:
             vpiParent: Port name:mem_wen
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_wen
             vpiActual: LogicTypespec
@@ -4887,7 +4887,7 @@ Design name:unnamed:
             vpiName: mem_addr
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_addr.mem_addr
             vpiActual: Net name:mem_addr
-          vpiTypespec RefTypespec start:33:2 end:33:15:
+          vpiTypespec RefTypespec start:33:9 end:33:15:
             vpiParent: Port name:mem_addr
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_addr
             vpiActual: LogicTypespec
@@ -4900,7 +4900,7 @@ Design name:unnamed:
             vpiName: mem_wdata
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_wdata.mem_wdata
             vpiActual: Net name:mem_wdata
-          vpiTypespec RefTypespec start:34:2 end:34:15:
+          vpiTypespec RefTypespec start:34:9 end:34:15:
             vpiParent: Port name:mem_wdata
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_wdata
             vpiActual: LogicTypespec
@@ -4913,7 +4913,7 @@ Design name:unnamed:
             vpiName: mem_rdata
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_rdata.mem_rdata
             vpiActual: Net name:mem_rdata
-          vpiTypespec RefTypespec start:35:2 end:35:15:
+          vpiTypespec RefTypespec start:35:9 end:35:15:
             vpiParent: Port name:mem_rdata
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mem_rdata
             vpiActual: LogicTypespec
@@ -4926,7 +4926,7 @@ Design name:unnamed:
             vpiName: tick_simd
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).tick_simd.tick_simd
             vpiActual: Net name:tick_simd
-          vpiTypespec RefTypespec start:37:2 end:37:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:tick_simd
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).tick_simd
             vpiActual: LogicTypespec
@@ -4939,7 +4939,7 @@ Design name:unnamed:
             vpiName: tick_nosimd
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).tick_nosimd.tick_nosimd
             vpiActual: Net name:tick_nosimd
-          vpiTypespec RefTypespec start:38:2 end:38:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:tick_nosimd
             vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).tick_nosimd
             vpiActual: LogicTypespec
@@ -14434,10 +14434,10 @@ Design name:unnamed:
         RefInstance name:mul start:364:23 end:364:26:
           vpiParent: Module name:marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512))
           vpiName: mul
-          vpiTypespec RefTypespec name:marlann_compute_mul2 start:364:2 end:364:22:
+          vpiTypespec RefTypespec name:marlann_compute_mul2 [NB*4-1:0] start:364:2 end:364:22:
             vpiParent: RefInstance name:mul
-            vpiName: marlann_compute_mul2
-            vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mul.marlann_compute_mul2
+            vpiName: marlann_compute_mul2 [NB*4-1:0]
+            vpiFullName: marlann_compute #(.NB(2), .CODE_SIZE(512), .COEFF_SIZE(512)).mul.marlann_compute_mul2 [NB*4-1:0]
             vpiActual: ArrayTypespec
           vpiPort (4 items):
             Port start:365:3 end:365:20:
@@ -14661,7 +14661,7 @@ Design name:unnamed:
       vpiNet (4 items):
         Net name:clock start:546:16 end:546:21:
           vpiParent: Module name:marlann_compute_mul2
-          vpiTypespec RefTypespec start:546:2 end:546:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clock
             vpiFullName: marlann_compute_mul2.clock
             vpiActual: LogicTypespec
@@ -14671,7 +14671,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:A start:547:16 end:547:17:
           vpiParent: Module name:marlann_compute_mul2
-          vpiTypespec RefTypespec start:547:2 end:547:15:
+          vpiTypespec RefTypespec start:547:9 end:547:15:
             vpiParent: Net name:A
             vpiFullName: marlann_compute_mul2.A
             vpiActual: LogicTypespec
@@ -14681,7 +14681,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:X start:548:16 end:548:17:
           vpiParent: Module name:marlann_compute_mul2
-          vpiTypespec RefTypespec start:548:2 end:548:15:
+          vpiTypespec RefTypespec start:548:9 end:548:15:
             vpiParent: Net name:X
             vpiFullName: marlann_compute_mul2.X
             vpiActual: LogicTypespec
@@ -14709,7 +14709,7 @@ Design name:unnamed:
             vpiName: clock
             vpiFullName: marlann_compute_mul2.clock.clock
             vpiActual: Net name:clock
-          vpiTypespec RefTypespec start:546:2 end:546:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clock
             vpiFullName: marlann_compute_mul2.clock
             vpiActual: LogicTypespec
@@ -14722,7 +14722,7 @@ Design name:unnamed:
             vpiName: A
             vpiFullName: marlann_compute_mul2.A.A
             vpiActual: Net name:A
-          vpiTypespec RefTypespec start:547:2 end:547:15:
+          vpiTypespec RefTypespec start:547:9 end:547:15:
             vpiParent: Port name:A
             vpiFullName: marlann_compute_mul2.A
             vpiActual: LogicTypespec
@@ -14748,7 +14748,7 @@ Design name:unnamed:
             vpiName: X
             vpiFullName: marlann_compute_mul2.X.X
             vpiActual: Net name:X
-          vpiTypespec RefTypespec start:548:2 end:548:15:
+          vpiTypespec RefTypespec start:548:9 end:548:15:
             vpiParent: Port name:X
             vpiFullName: marlann_compute_mul2.X
             vpiActual: LogicTypespec
@@ -15094,7 +15094,7 @@ Operation                          285     201       0        84
 RefObj                             459     452       0         7
 RefTypespec                        966     891      76       151
 ----------------------------------------------------------------
-Others                            1312    1312       0         0
+Others                            1310    1310       0         0
 ----------------------------------------------------------------
-                                  3682    3441     152       393
+                                  3680    3439     152       393
 ===================== END REDUCTION RESULT =====================

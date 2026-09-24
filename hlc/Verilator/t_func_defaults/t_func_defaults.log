@@ -239,17 +239,14 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:foo_val start:22:16 end:22:23:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:22:4 end:22:15:
+          vpiTypespec RefTypespec name:logic [1:0] start:22:4 end:22:15:
             vpiParent: Variable name:foo_val
-            vpiName: logic
-            vpiFullName: t.foo_val.logic
+            vpiName: logic [1:0]
+            vpiFullName: t.foo_val.logic [1:0]
             vpiActual: ArrayTypespec
           vpiName: foo_val
           vpiFullName: t.foo_val
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:logic start:22:4 end:22:9:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:22:4 end:22:9:
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -276,11 +273,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:22:4 end:22:15:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:21:8 end:21:9:
@@ -348,10 +344,7 @@ Design name:unnamed:
               SysTaskCall name:$finish start:29:7 end:29:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:29:7 end:29:14:
-  vpiTypespec (6 items):
-    UnsupportedTypespec name:logic start:7:11 end:7:16:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:logic start:7:11 end:7:16:
+  vpiTypespec (5 items):
     BitTypespec:
       vpiParent: Design name:unnamed
     IntTypespec:
@@ -371,10 +364,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:calc_y start:9:26 end:9:32:
       vpiFullName: calc_y
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:logic start:9:20 end:9:25:
-          vpiParent: Function name:calc_y
-          vpiName Identifier name:logic start:9:20 end:9:25:
+      vpiTypespec (1 items):
         BitTypespec:
           vpiParent: Function name:calc_y
       vpiVisibility: public (1)
@@ -391,18 +381,15 @@ Design name:unnamed:
           vpiSize: 1
           vpiDecompile: "1'b1"
           vpiValue: "1"
-      vpiReturn RefTypespec start:9:20 end:9:25:
+      vpiReturn RefTypespec name:logic start:9:20 end:9:25:
         vpiParent: Function name:calc_y
-        vpiFullName: calc_y
-        vpiActual: UnsupportedTypespec name:logic
+        vpiName: logic
+        vpiFullName: calc_y.logic
     Function name:foo start:13:1 end:19:12:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:13:32 end:13:35:
       vpiFullName: foo
-      vpiTypespec (4 items):
-        UnsupportedTypespec name:logic start:13:20 end:13:25:
-          vpiParent: Function name:foo
-          vpiName Identifier name:logic start:13:20 end:13:25:
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Function name:foo
           vpiArrayType: static (1)
@@ -429,17 +416,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:13:20 end:13:31:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: foo.logic
-            vpiActual: UnsupportedTypespec name:logic
-        UnsupportedTypespec name:logic start:15:10 end:15:15:
-          vpiParent: Function name:foo
-          vpiName Identifier name:logic start:15:10 end:15:15:
-        UnsupportedTypespec name:logic start:16:10 end:16:15:
-          vpiParent: Function name:foo
-          vpiName Identifier name:logic start:16:10 end:16:15:
       vpiVisibility: public (1)
       vpiAutomatic: true
       vpiIODecl (2 items):
@@ -456,7 +436,6 @@ Design name:unnamed:
             vpiParent: IODecl name:x
             vpiName: logic
             vpiFullName: foo.x.logic
-            vpiActual: UnsupportedTypespec name:logic
         IODecl name:y start:16:16 end:16:17:
           vpiParent: Function name:foo
           vpiName: y
@@ -469,7 +448,6 @@ Design name:unnamed:
             vpiParent: IODecl name:y
             vpiName: logic
             vpiFullName: foo.y.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiStmt ReturnStmt start:18:4 end:18:17:
         vpiParent: Function name:foo
         vpiCondition Operation start:18:11 end:18:16:
@@ -486,9 +464,10 @@ Design name:unnamed:
               vpiName: y
               vpiFullName: foo.y
               vpiActual: IODecl name:y
-      vpiReturn RefTypespec start:13:20 end:13:31:
+      vpiReturn RefTypespec name:logic [1:0] start:13:20 end:13:31:
         vpiParent: Function name:foo
-        vpiFullName: foo
+        vpiName: logic [1:0]
+        vpiFullName: foo.logic [1:0]
         vpiActual: ArrayTypespec
   vpiParameter (1 items):
     Parameter name:Bar start:7:17 end:7:20:
@@ -497,7 +476,6 @@ Design name:unnamed:
         vpiParent: Parameter name:Bar
         vpiName: logic
         vpiFullName: Bar.logic
-        vpiActual: UnsupportedTypespec name:logic
       vpiName: Bar
       vpiFullName: Bar
   vpiParamAssign (1 items):
@@ -565,7 +543,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_defaults/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              73      73       0         0
 ----------------------------------------------------------------
-                                    85      85       0         0
+                                    73      73       0         0
 ===================== END REDUCTION RESULT =====================

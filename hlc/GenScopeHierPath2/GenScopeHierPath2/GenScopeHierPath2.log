@@ -345,10 +345,10 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/dut.sv:14:18: Compile generate block "blk4".
 [INF:CP5836] $Source01/dut.sv:8:30: Compile generate block "blk2".
 [INF:CP5836] $Source01/dut.sv:5:25: Compile generate block "blk1".
-[WRN:CP5851] $Source01/dut.sv:18:28: Failed to bind "id:101, name:blk1".
-[WRN:CP5851] $Source01/dut.sv:20:28: Failed to bind "id:111, name:blk2".
-[WRN:CP5851] $Source01/dut.sv:22:28: Failed to bind "id:121, name:blk3".
-[WRN:CP5851] $Source01/dut.sv:24:28: Failed to bind "id:129, name:blk4".
+[WRN:CP5851] $Source01/dut.sv:18:28: Failed to bind "id:109, name:blk1".
+[WRN:CP5851] $Source01/dut.sv:20:28: Failed to bind "id:119, name:blk2".
+[WRN:CP5851] $Source01/dut.sv:22:28: Failed to bind "id:129, name:blk3".
+[WRN:CP5851] $Source01/dut.sv:24:28: Failed to bind "id:137, name:blk4".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "mod".
 ====== HLDB =======
 Design name:unnamed:
@@ -366,7 +366,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:P start:4:15 end:4:16:
           vpiParent: Module name:mod
-          vpiTypespec RefTypespec start:4:15 end:4:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:P
             vpiFullName: mod.P
             vpiActual: LogicTypespec
@@ -429,7 +429,7 @@ Design name:unnamed:
       vpiNet (5 items):
         Net name:out start:2:24 end:2:27:
           vpiParent: Module name:mod
-          vpiTypespec RefTypespec start:2:5 end:2:23:
+          vpiTypespec RefTypespec start:2:17 end:2:23:
             vpiParent: Net name:out
             vpiFullName: mod.out
             vpiActual: LogicTypespec
@@ -439,9 +439,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:y start:12:14 end:12:15:
           vpiParent: Module name:mod
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [5]:
             vpiParent: Net name:y
-            vpiFullName: mod.y
+            vpiName: logic [5]
+            vpiFullName: mod.y.logic [5]
             vpiActual: ArrayTypespec
           vpiName: y
           vpiFullName: mod.y
@@ -450,9 +451,10 @@ Design name:unnamed:
           vpiScalar: true
         Net name:z start:15:14 end:15:15:
           vpiParent: Module name:mod
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [7]:
             vpiParent: Net name:z
-            vpiFullName: mod.z
+            vpiName: logic [7]
+            vpiFullName: mod.z.logic [7]
             vpiActual: ArrayTypespec
           vpiName: z
           vpiFullName: mod.z
@@ -461,9 +463,10 @@ Design name:unnamed:
           vpiScalar: true
         Net name:x start:9:14 end:9:15:
           vpiParent: Module name:mod
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [3]:
             vpiParent: Net name:x
-            vpiFullName: mod.x
+            vpiName: logic [3]
+            vpiFullName: mod.x.logic [3]
             vpiActual: ArrayTypespec
           vpiName: x
           vpiFullName: mod.x
@@ -472,9 +475,10 @@ Design name:unnamed:
           vpiScalar: true
         Net name:w start:6:14 end:6:15:
           vpiParent: Module name:mod
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [2]:
             vpiParent: Net name:w
-            vpiFullName: mod.w
+            vpiName: logic [2]
+            vpiFullName: mod.w.logic [2]
             vpiActual: ArrayTypespec
           vpiName: w
           vpiFullName: mod.w
@@ -491,7 +495,7 @@ Design name:unnamed:
             vpiName: out
             vpiFullName: mod.out.out
             vpiActual: Net name:out
-          vpiTypespec RefTypespec start:2:5 end:2:23:
+          vpiTypespec RefTypespec start:2:17 end:2:23:
             vpiParent: Port name:out
             vpiFullName: mod.out
             vpiActual: LogicTypespec
@@ -522,8 +526,6 @@ Design name:unnamed:
             vpiName Identifier name:blk1 start:5:25 end:5:29:
             vpiFullName: mod.blk1
             vpiTypespec (2 items):
-              LogicTypespec:
-                vpiParent: Begin name:blk1
               ArrayTypespec:
                 vpiParent: Begin name:blk1
                 vpiArrayType: static (1)
@@ -543,10 +545,12 @@ Design name:unnamed:
                         vpiSize: 64
                         vpiDecompile: "2"
                         vpiValue: 2
-                vpiElemTypespec RefTypespec start:6:14 end:6:14:
+                vpiElemTypespec RefTypespec:
                   vpiParent: ArrayTypespec
                   vpiFullName: mod.blk1
                   vpiActual: LogicTypespec
+              LogicTypespec:
+                vpiParent: Begin name:blk1
           vpiElseStmt Begin:
             vpiParent: GenIfElse
             vpiFullName: mod
@@ -577,8 +581,6 @@ Design name:unnamed:
                   vpiName Identifier name:blk2 start:8:30 end:8:34:
                   vpiFullName: mod.blk2
                   vpiTypespec (2 items):
-                    LogicTypespec:
-                      vpiParent: Begin name:blk2
                     ArrayTypespec:
                       vpiParent: Begin name:blk2
                       vpiArrayType: static (1)
@@ -598,10 +600,12 @@ Design name:unnamed:
                               vpiSize: 64
                               vpiDecompile: "3"
                               vpiValue: 3
-                      vpiElemTypespec RefTypespec start:9:14 end:9:14:
+                      vpiElemTypespec RefTypespec:
                         vpiParent: ArrayTypespec
                         vpiFullName: mod.blk2
                         vpiActual: LogicTypespec
+                    LogicTypespec:
+                      vpiParent: Begin name:blk2
                 vpiElseStmt Begin:
                   vpiParent: GenIfElse
                   vpiFullName: mod
@@ -632,8 +636,6 @@ Design name:unnamed:
                         vpiName Identifier name:blk3 start:11:30 end:11:34:
                         vpiFullName: mod.blk3
                         vpiTypespec (2 items):
-                          LogicTypespec:
-                            vpiParent: Begin name:blk3
                           ArrayTypespec:
                             vpiParent: Begin name:blk3
                             vpiArrayType: static (1)
@@ -653,17 +655,17 @@ Design name:unnamed:
                                     vpiSize: 64
                                     vpiDecompile: "5"
                                     vpiValue: 5
-                            vpiElemTypespec RefTypespec start:12:14 end:12:14:
+                            vpiElemTypespec RefTypespec:
                               vpiParent: ArrayTypespec
                               vpiFullName: mod.blk3
                               vpiActual: LogicTypespec
+                          LogicTypespec:
+                            vpiParent: Begin name:blk3
                       vpiElseStmt Begin name:blk4 start:14:10 end:16:8:
                         vpiParent: GenIfElse
                         vpiName Identifier name:blk4 start:14:18 end:14:22:
                         vpiFullName: mod.blk4
                         vpiTypespec (2 items):
-                          LogicTypespec:
-                            vpiParent: Begin name:blk4
                           ArrayTypespec:
                             vpiParent: Begin name:blk4
                             vpiArrayType: static (1)
@@ -683,10 +685,12 @@ Design name:unnamed:
                                     vpiSize: 64
                                     vpiDecompile: "7"
                                     vpiValue: 7
-                            vpiElemTypespec RefTypespec start:15:14 end:15:14:
+                            vpiElemTypespec RefTypespec:
                               vpiParent: ArrayTypespec
                               vpiFullName: mod.blk4
                               vpiActual: LogicTypespec
+                          LogicTypespec:
+                            vpiParent: Begin name:blk4
         GenIfElse start:17:5 end:24:36:
           vpiParent: Module name:mod
           vpiCondition Operation start:17:9 end:17:15:

@@ -42,12 +42,12 @@ COMMAND: -wd ../../../tests/YosysSmall +incdir+. -sverilog -writepp -fileunit ci
 [WRN:PA5506] $Source01/latch.v:7:1: No timescale set for "latch".
 [WRN:PA5506] $Source01/pwm256_tb.v:6:1: No timescale set for "tb".
 [WRN:PA5506] $Source01/pwm256.v:6:1: No timescale set for "pwm256".
-[ERR:LN7701] Invalid name: id:3584, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3587, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3590, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3593, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3596, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3599, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3621, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3624, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3627, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3630, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3633, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3636, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1393,7 +1393,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1413,7 +1413,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1435,7 +1435,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1453,7 +1453,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1475,7 +1475,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1493,7 +1493,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1558,24 +1558,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -1875,7 +1873,7 @@ Design name:unnamed:
             vpiValue: 0
         Net name:d_out_valid start:14:6 end:14:17:
           vpiParent: Module name:tb
-          vpiTypespec RefTypespec start:14:6 end:14:6:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:d_out_valid
             vpiFullName: tb.d_out_valid
             vpiActual: LogicTypespec
@@ -2115,7 +2113,7 @@ Design name:unnamed:
       vpiVariable (7 items):
         Variable name:d_out start:10:30 end:10:35:
           vpiParent: Module name:cic5
-          vpiTypespec RefTypespec start:10:5 end:10:29:
+          vpiTypespec RefTypespec start:10:12 end:10:29:
             vpiParent: Variable name:d_out
             vpiFullName: cic5.d_out
             vpiActual: LogicTypespec
@@ -2124,7 +2122,7 @@ Design name:unnamed:
           vpiVector: true
         Variable name:d_out_valid start:11:16 end:11:27:
           vpiParent: Module name:cic5
-          vpiTypespec RefTypespec start:11:5 end:11:15:
+          vpiTypespec RefTypespec start:11:12 end:11:15:
             vpiParent: Variable name:d_out_valid
             vpiFullName: cic5.d_out_valid
             vpiActual: LogicTypespec
@@ -2133,27 +2131,30 @@ Design name:unnamed:
           vpiScalar: true
         Variable name:int_s start:14:19 end:14:24:
           vpiParent: Module name:cic5
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic signed [27:0] [1:5] start:14:1 end:14:18:
             vpiParent: Variable name:int_s
-            vpiFullName: cic5.int_s
+            vpiName: logic signed [27:0] [1:5]
+            vpiFullName: cic5.int_s.logic signed [27:0] [1:5]
             vpiActual: ArrayTypespec
           vpiName: int_s
           vpiFullName: cic5.int_s
           vpiVector: true
         Variable name:comb_s start:15:19 end:15:25:
           vpiParent: Module name:cic5
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic signed [27:0] [1:5] start:15:1 end:15:18:
             vpiParent: Variable name:comb_s
-            vpiFullName: cic5.comb_s
+            vpiName: logic signed [27:0] [1:5]
+            vpiFullName: cic5.comb_s.logic signed [27:0] [1:5]
             vpiActual: ArrayTypespec
           vpiName: comb_s
           vpiFullName: cic5.comb_s
           vpiVector: true
         Variable name:tmp start:16:19 end:16:22:
           vpiParent: Module name:cic5
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic signed [27:0] [1:5] start:16:1 end:16:18:
             vpiParent: Variable name:tmp
-            vpiFullName: cic5.tmp
+            vpiName: logic signed [27:0] [1:5]
+            vpiFullName: cic5.tmp.logic signed [27:0] [1:5]
             vpiActual: ArrayTypespec
           vpiName: tmp
           vpiFullName: cic5.tmp
@@ -2439,7 +2440,7 @@ Design name:unnamed:
       vpiNet (3 items):
         Net name:clk start:7:12 end:7:15:
           vpiParent: Module name:cic5
-          vpiTypespec RefTypespec start:7:5 end:7:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: cic5.clk
             vpiActual: LogicTypespec
@@ -2449,7 +2450,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rst_n start:8:12 end:8:17:
           vpiParent: Module name:cic5
-          vpiTypespec RefTypespec start:8:5 end:8:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:rst_n
             vpiFullName: cic5.rst_n
             vpiActual: LogicTypespec
@@ -2459,7 +2460,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:d_in start:9:26 end:9:30:
           vpiParent: Module name:cic5
-          vpiTypespec RefTypespec start:9:5 end:9:25:
+          vpiTypespec RefTypespec start:9:12 end:9:25:
             vpiParent: Net name:d_in
             vpiFullName: cic5.d_in
             vpiActual: LogicTypespec
@@ -2477,7 +2478,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: cic5.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:7:5 end:7:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: cic5.clk
             vpiActual: LogicTypespec
@@ -2490,7 +2491,7 @@ Design name:unnamed:
             vpiName: rst_n
             vpiFullName: cic5.rst_n.rst_n
             vpiActual: Net name:rst_n
-          vpiTypespec RefTypespec start:8:5 end:8:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:rst_n
             vpiFullName: cic5.rst_n
             vpiActual: LogicTypespec
@@ -2503,7 +2504,7 @@ Design name:unnamed:
             vpiName: d_in
             vpiFullName: cic5.d_in.d_in
             vpiActual: Net name:d_in
-          vpiTypespec RefTypespec start:9:5 end:9:25:
+          vpiTypespec RefTypespec start:9:12 end:9:25:
             vpiParent: Port name:d_in
             vpiFullName: cic5.d_in
             vpiActual: LogicTypespec
@@ -2516,7 +2517,7 @@ Design name:unnamed:
             vpiName: d_out
             vpiFullName: cic5.d_out.d_out
             vpiActual: Variable name:d_out
-          vpiTypespec RefTypespec start:10:5 end:10:29:
+          vpiTypespec RefTypespec start:10:12 end:10:29:
             vpiParent: Port name:d_out
             vpiFullName: cic5.d_out
             vpiActual: LogicTypespec
@@ -2529,7 +2530,7 @@ Design name:unnamed:
             vpiName: d_out_valid
             vpiFullName: cic5.d_out_valid.d_out_valid
             vpiActual: Variable name:d_out_valid
-          vpiTypespec RefTypespec start:11:5 end:11:15:
+          vpiTypespec RefTypespec start:11:12 end:11:15:
             vpiParent: Port name:d_out_valid
             vpiFullName: cic5.d_out_valid
             vpiActual: LogicTypespec
@@ -3369,9 +3370,10 @@ Design name:unnamed:
       vpiVariable (2 items):
         Variable name:crctbl start:10:14 end:10:20:
           vpiParent: Module name:crc32
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [31:0] [255:0] start:10:3 end:10:13:
             vpiParent: Variable name:crctbl
-            vpiFullName: crc32.crctbl
+            vpiName: logic [31:0] [255:0]
+            vpiFullName: crc32.crctbl.logic [31:0] [255:0]
             vpiActual: ArrayTypespec
           vpiName: crctbl
           vpiFullName: crc32.crctbl
@@ -3531,7 +3533,7 @@ Design name:unnamed:
       vpiNet (4 items):
         Net name:din start:8:27 end:8:30:
           vpiParent: Module name:crc32
-          vpiTypespec RefTypespec start:8:15 end:8:26:
+          vpiTypespec RefTypespec start:8:21 end:8:26:
             vpiParent: Net name:din
             vpiFullName: crc32.din
             vpiActual: LogicTypespec
@@ -3541,7 +3543,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:clk start:8:38 end:8:41:
           vpiParent: Module name:crc32
-          vpiTypespec RefTypespec start:8:32 end:8:37:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: crc32.clk
             vpiActual: LogicTypespec
@@ -3551,7 +3553,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rst_n start:8:49 end:8:54:
           vpiParent: Module name:crc32
-          vpiTypespec RefTypespec start:8:43 end:8:48:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:rst_n
             vpiFullName: crc32.rst_n
             vpiActual: LogicTypespec
@@ -3561,7 +3563,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:dout start:8:70 end:8:74:
           vpiParent: Module name:crc32
-          vpiTypespec RefTypespec start:8:56 end:8:69:
+          vpiTypespec RefTypespec start:8:63 end:8:69:
             vpiParent: Net name:dout
             vpiFullName: crc32.dout
             vpiActual: LogicTypespec
@@ -3579,7 +3581,7 @@ Design name:unnamed:
             vpiName: din
             vpiFullName: crc32.din.din
             vpiActual: Net name:din
-          vpiTypespec RefTypespec start:8:15 end:8:26:
+          vpiTypespec RefTypespec start:8:21 end:8:26:
             vpiParent: Port name:din
             vpiFullName: crc32.din
             vpiActual: LogicTypespec
@@ -3592,7 +3594,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: crc32.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:8:32 end:8:37:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: crc32.clk
             vpiActual: LogicTypespec
@@ -3605,7 +3607,7 @@ Design name:unnamed:
             vpiName: rst_n
             vpiFullName: crc32.rst_n.rst_n
             vpiActual: Net name:rst_n
-          vpiTypespec RefTypespec start:8:43 end:8:48:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:rst_n
             vpiFullName: crc32.rst_n
             vpiActual: LogicTypespec
@@ -3618,7 +3620,7 @@ Design name:unnamed:
             vpiName: dout
             vpiFullName: crc32.dout.dout
             vpiActual: Net name:dout
-          vpiTypespec RefTypespec start:8:56 end:8:69:
+          vpiTypespec RefTypespec start:8:63 end:8:69:
             vpiParent: Port name:dout
             vpiFullName: crc32.dout
             vpiActual: LogicTypespec
@@ -12291,7 +12293,7 @@ Design name:unnamed:
       vpiVariable (2 items):
         Variable name:dout start:7:60 end:7:64:
           vpiParent: Module name:latch
-          vpiTypespec RefTypespec start:7:43 end:7:59:
+          vpiTypespec RefTypespec start:7:50 end:7:59:
             vpiParent: Variable name:dout
             vpiFullName: latch.dout
             vpiActual: LogicTypespec
@@ -12398,7 +12400,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:din start:7:26 end:7:29:
           vpiParent: Module name:latch
-          vpiTypespec RefTypespec start:7:14 end:7:25:
+          vpiTypespec RefTypespec start:7:20 end:7:25:
             vpiParent: Net name:din
             vpiFullName: latch.din
             vpiActual: LogicTypespec
@@ -12408,7 +12410,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:gate start:7:37 end:7:41:
           vpiParent: Module name:latch
-          vpiTypespec RefTypespec start:7:31 end:7:36:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:gate
             vpiFullName: latch.gate
             vpiActual: LogicTypespec
@@ -12426,7 +12428,7 @@ Design name:unnamed:
             vpiName: din
             vpiFullName: latch.din.din
             vpiActual: Net name:din
-          vpiTypespec RefTypespec start:7:14 end:7:25:
+          vpiTypespec RefTypespec start:7:20 end:7:25:
             vpiParent: Port name:din
             vpiFullName: latch.din
             vpiActual: LogicTypespec
@@ -12439,7 +12441,7 @@ Design name:unnamed:
             vpiName: gate
             vpiFullName: latch.gate.gate
             vpiActual: Net name:gate
-          vpiTypespec RefTypespec start:7:31 end:7:36:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:gate
             vpiFullName: latch.gate
             vpiActual: LogicTypespec
@@ -12452,7 +12454,7 @@ Design name:unnamed:
             vpiName: dout
             vpiFullName: latch.dout.dout
             vpiActual: Variable name:dout
-          vpiTypespec RefTypespec start:7:43 end:7:59:
+          vpiTypespec RefTypespec start:7:50 end:7:59:
             vpiParent: Port name:dout
             vpiFullName: latch.dout
             vpiActual: LogicTypespec
@@ -12621,7 +12623,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:pwm start:11:6 end:11:9:
           vpiParent: Module name:tb
-          vpiTypespec RefTypespec start:11:6 end:11:6:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:pwm
             vpiFullName: tb.pwm
             vpiActual: LogicTypespec
@@ -12859,7 +12861,7 @@ Design name:unnamed:
       vpiVariable (2 items):
         Variable name:pwm_out start:10:16 end:10:23:
           vpiParent: Module name:pwm256
-          vpiTypespec RefTypespec start:10:5 end:10:15:
+          vpiTypespec RefTypespec start:10:12 end:10:15:
             vpiParent: Variable name:pwm_out
             vpiFullName: pwm256.pwm_out
             vpiActual: LogicTypespec
@@ -12941,7 +12943,7 @@ Design name:unnamed:
       vpiNet (3 items):
         Net name:clk start:7:11 end:7:14:
           vpiParent: Module name:pwm256
-          vpiTypespec RefTypespec start:7:5 end:7:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: pwm256.clk
             vpiActual: LogicTypespec
@@ -12951,7 +12953,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rst_n start:8:11 end:8:16:
           vpiParent: Module name:pwm256
-          vpiTypespec RefTypespec start:8:5 end:8:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:rst_n
             vpiFullName: pwm256.rst_n
             vpiActual: LogicTypespec
@@ -12961,7 +12963,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:d_in start:9:17 end:9:21:
           vpiParent: Module name:pwm256
-          vpiTypespec RefTypespec start:9:5 end:9:16:
+          vpiTypespec RefTypespec start:9:11 end:9:16:
             vpiParent: Net name:d_in
             vpiFullName: pwm256.d_in
             vpiActual: LogicTypespec
@@ -12979,7 +12981,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: pwm256.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:7:5 end:7:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: pwm256.clk
             vpiActual: LogicTypespec
@@ -12992,7 +12994,7 @@ Design name:unnamed:
             vpiName: rst_n
             vpiFullName: pwm256.rst_n.rst_n
             vpiActual: Net name:rst_n
-          vpiTypespec RefTypespec start:8:5 end:8:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:rst_n
             vpiFullName: pwm256.rst_n
             vpiActual: LogicTypespec
@@ -13005,7 +13007,7 @@ Design name:unnamed:
             vpiName: d_in
             vpiFullName: pwm256.d_in.d_in
             vpiActual: Net name:d_in
-          vpiTypespec RefTypespec start:9:5 end:9:16:
+          vpiTypespec RefTypespec start:9:11 end:9:16:
             vpiParent: Port name:d_in
             vpiFullName: pwm256.d_in
             vpiActual: LogicTypespec
@@ -13018,7 +13020,7 @@ Design name:unnamed:
             vpiName: pwm_out
             vpiFullName: pwm256.pwm_out.pwm_out
             vpiActual: Variable name:pwm_out
-          vpiTypespec RefTypespec start:10:5 end:10:15:
+          vpiTypespec RefTypespec start:10:12 end:10:15:
             vpiParent: Port name:pwm_out
             vpiFullName: pwm256.pwm_out
             vpiActual: LogicTypespec
@@ -13336,7 +13338,7 @@ Operation                           34      30       0         4
 RefObj                             408     405       0         3
 RefTypespec                        901     904       4         1
 ----------------------------------------------------------------
-Others                            1275    1275       0         0
+Others                            1273    1273       0         0
 ----------------------------------------------------------------
-                                  3276    3275       8         9
+                                  3274    3273       8         9
 ===================== END REDUCTION RESULT =====================

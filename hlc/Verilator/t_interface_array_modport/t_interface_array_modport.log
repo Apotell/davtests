@@ -210,6 +210,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_array_modport.v:12:1: Compile module "foo_mod".
 [WRN:CP5811] $Source01/t_interface_array_modport.v:14:13: Port "foo" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/t_interface_array_modport.v:15:15: Port "bars" definition missing its direction (input, output, inout).
+[ERR:CP5824] $Source01/t_interface_array_modport.v:12:1: Multiply defined typedef "foo_intf".
 [INF:CP5804] $Source01/t_interface_array_modport.v:19:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -256,25 +257,12 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo_mod start:12:8 end:12:15:
       vpiFullName: foo_mod
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         InterfaceTypespec name:foo_intf start:14:4 end:14:12:
           vpiParent: Module name:foo_mod
           vpiName Identifier name:foo_intf start:14:4 end:14:12:
           vpiDefName: foo_intf
           vpiInterface: Interface name:foo_intf
-        UnsupportedTypespec name:foo_intf::m start:15:4 end:15:14:
-          vpiParent: Module name:foo_mod
-          vpiPathElem (2 items):
-            RefObj name:foo_intf start:15:4 end:15:12:
-              vpiParent: UnsupportedTypespec name:foo_intf::m
-              vpiName: foo_intf
-              vpiFullName: foo_mod.foo_intf::m.foo_intf
-              vpiActual: Interface name:foo_intf
-            RefObj name:m start:15:13 end:15:14:
-              vpiParent: UnsupportedTypespec name:foo_intf::m
-              vpiName: m
-              vpiFullName: foo_mod.foo_intf::m.m
-          vpiName Identifier name:foo_intf::m:
         ArrayTypespec:
           vpiParent: Module name:foo_mod
           vpiArrayType: static (1)
@@ -298,7 +286,16 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: foo_intf::m
             vpiFullName: foo_mod.foo_intf::m
-            vpiActual: UnsupportedTypespec name:foo_intf::m
+            vpiPathElem (2 items):
+              RefObj name:foo_intf start:15:4 end:15:12:
+                vpiParent: RefTypespec name:foo_intf::m
+                vpiName: foo_intf
+                vpiFullName: foo_mod.foo_intf
+                vpiActual: Interface name:foo_intf
+              RefTypespec name:m start:15:13 end:15:14:
+                vpiParent: RefTypespec name:foo_intf::m
+                vpiName: m
+                vpiFullName: foo_mod.foo_intf::m.m
       vpiDefName: foo_mod
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:12:8 end:12:15:
@@ -341,9 +338,10 @@ Design name:unnamed:
             vpiName: bars
             vpiFullName: foo_mod.bars.bars
             vpiActual: Port name:bars
-          vpiTypespec RefTypespec start:15:4 end:15:14:
+          vpiTypespec RefTypespec name:foo_intf::m [4] start:15:4 end:15:14:
             vpiParent: Port name:bars
-            vpiFullName: foo_mod.bars
+            vpiName: foo_intf::m [4]
+            vpiFullName: foo_mod.bars.foo_intf::m [4]
             vpiActual: ArrayTypespec
     Module name:t file:$Source01/t_interface_array_modport.v start:19:1 end:40:10:
       vpiParent: Design name:unnamed
@@ -352,7 +350,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:N start:21:15 end:21:16:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:21:15 end:21:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:N
             vpiFullName: t.N
             vpiActual: LogicTypespec
@@ -478,18 +476,18 @@ Design name:unnamed:
         RefInstance name:foos start:23:13 end:23:17:
           vpiParent: Module name:t
           vpiName: foos
-          vpiTypespec RefTypespec name:foo_intf start:23:4 end:23:12:
+          vpiTypespec RefTypespec name:foo_intf [N-1:0] start:23:4 end:23:12:
             vpiParent: RefInstance name:foos
-            vpiName: foo_intf
-            vpiFullName: t.foos.foo_intf
+            vpiName: foo_intf [N-1:0]
+            vpiFullName: t.foos.foo_intf [N-1:0]
             vpiActual: ArrayTypespec
         RefInstance name:bars start:24:13 end:24:17:
           vpiParent: Module name:t
           vpiName: bars
-          vpiTypespec RefTypespec name:foo_intf start:24:4 end:24:12:
+          vpiTypespec RefTypespec name:foo_intf [N] start:24:4 end:24:12:
             vpiParent: RefInstance name:bars
-            vpiName: foo_intf
-            vpiFullName: t.bars.foo_intf
+            vpiName: foo_intf [N]
+            vpiFullName: t.bars.foo_intf [N]
             vpiActual: ArrayTypespec
         RefInstance name:foo_mod start:28:6 end:28:13:
           vpiParent: Module name:t
@@ -562,7 +560,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
@@ -608,10 +606,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       6       1         1
 Operation                            3       2       0         1
-RefObj                              14      13       0         1
-RefTypespec                         17      17       1         1
+RefObj                              13      12       0         1
+RefTypespec                         18      18       1         1
 ----------------------------------------------------------------
-Others                              50      50       0         0
+Others                              48      48       0         0
 ----------------------------------------------------------------
-                                    90      88       2         4
+                                    88      86       2         4
 ===================== END REDUCTION RESULT =====================

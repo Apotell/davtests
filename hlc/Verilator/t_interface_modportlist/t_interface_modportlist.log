@@ -190,10 +190,10 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_modportlist.v:13:1: Compile module "my_module".
 [WRN:CP5811] $Source01/t_interface_modportlist.v:13:50: Port "iface" definition missing its direction (input, output, inout).
 [INF:CP5805] $Source01/t_interface_modportlist.v:20:1: Compile interface "my_interface".
-[WRN:CP5851] $Source01/t_interface_modportlist.v:15:13: Failed to bind "id:45, name:b".
-[WRN:CP5851] $Source01/t_interface_modportlist.v:15:24: Failed to bind "id:48, name:a".
-[WRN:CP5851] $Source01/t_interface_modportlist.v:16:13: Failed to bind "id:52, name:c".
-[WRN:CP5851] $Source01/t_interface_modportlist.v:16:24: Failed to bind "id:55, name:a".
+[WRN:CP5851] $Source01/t_interface_modportlist.v:15:13: Failed to bind "id:43, name:b".
+[WRN:CP5851] $Source01/t_interface_modportlist.v:15:24: Failed to bind "id:46, name:a".
+[WRN:CP5851] $Source01/t_interface_modportlist.v:16:13: Failed to bind "id:50, name:c".
+[WRN:CP5851] $Source01/t_interface_modportlist.v:16:24: Failed to bind "id:53, name:a".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -276,7 +276,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:8:16 end:8:19:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:8:10 end:8:15:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -294,7 +294,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:8:10 end:8:15:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -311,22 +311,9 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:my_module start:13:8 end:13:17:
       vpiFullName: my_module
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:my_module
-        UnsupportedTypespec name:my_interface::my_port start:13:29 end:13:49:
-          vpiParent: Module name:my_module
-          vpiPathElem (2 items):
-            RefObj name:my_interface start:13:29 end:13:41:
-              vpiParent: UnsupportedTypespec name:my_interface::my_port
-              vpiName: my_interface
-              vpiFullName: my_module.my_interface::my_port.my_interface
-              vpiActual: Interface name:my_interface
-            RefObj name:my_port start:13:42 end:13:49:
-              vpiParent: UnsupportedTypespec name:my_interface::my_port
-              vpiName: my_port
-              vpiFullName: my_module.my_interface::my_port.my_port
-          vpiName Identifier name:my_interface::my_port:
       vpiDefName: my_module
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:13:8 end:13:17:
@@ -337,7 +324,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:13:24 end:13:27:
           vpiParent: Module name:my_module
-          vpiTypespec RefTypespec start:13:18 end:13:23:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: my_module.clk
             vpiActual: LogicTypespec
@@ -355,7 +342,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: my_module.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:13:18 end:13:23:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: my_module.clk
             vpiActual: LogicTypespec
@@ -368,10 +355,20 @@ Design name:unnamed:
             vpiName: iface
             vpiFullName: my_module.iface.iface
             vpiActual: Port name:iface
-          vpiTypespec RefTypespec start:13:29 end:13:49:
+          vpiTypespec RefTypespec name:my_interface::my_port start:13:29 end:13:49:
             vpiParent: Port name:iface
-            vpiFullName: my_module.iface
-            vpiActual: UnsupportedTypespec name:my_interface::my_port
+            vpiName: my_interface::my_port
+            vpiFullName: my_module.iface.my_interface::my_port
+            vpiPathElem (2 items):
+              RefObj name:my_interface start:13:29 end:13:41:
+                vpiParent: RefTypespec name:my_interface::my_port
+                vpiName: my_interface
+                vpiFullName: my_module.iface.my_interface
+                vpiActual: Interface name:my_interface
+              RefTypespec name:my_port start:13:42 end:13:49:
+                vpiParent: RefTypespec name:my_interface::my_port
+                vpiName: my_port
+                vpiFullName: my_module.iface.my_interface::my_port.my_port
       vpiProcess (1 items):
         Always start:14:4 end:17:7:
           vpiParent: Module name:my_module
@@ -515,7 +512,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modportlist/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              68      68       0         0
+Others                              66      66       0         0
 ----------------------------------------------------------------
-                                    68      68       0         0
+                                    66      66       0         0
 ===================== END REDUCTION RESULT =====================

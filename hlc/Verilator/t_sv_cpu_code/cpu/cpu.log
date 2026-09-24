@@ -1696,9 +1696,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:rf start:39:16 end:39:18:
           vpiParent: Module name:cpu #(.ID(1))
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [7:0] [0:15] start:39:3 end:39:14:
             vpiParent: Variable name:rf
-            vpiFullName: cpu #(.ID(1)).rf
+            vpiName: logic [7:0] [0:15]
+            vpiFullName: cpu #(.ID(1)).rf.logic [7:0] [0:15]
             vpiActual: ArrayTypespec
           vpiName: rf
           vpiFullName: cpu #(.ID(1)).rf
@@ -1831,7 +1832,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:ID start:11:7 end:11:9:
           vpiParent: Module name:cpu #(.ID(1))
-          vpiTypespec RefTypespec start:11:7 end:11:7:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:ID
             vpiFullName: cpu #(.ID(1)).ID
             vpiActual: LogicTypespec
@@ -1855,21 +1856,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (13 items):
+      vpiTypespec (12 items):
         LogicTypespec:
           vpiParent: Module name:cpu #(.ID(1))
-        UnsupportedTypespec name:genbus_if::master start:18:3 end:18:19:
-          vpiParent: Module name:cpu #(.ID(1))
-          vpiPathElem (2 items):
-            RefObj name:genbus_if start:18:3 end:18:12:
-              vpiParent: UnsupportedTypespec name:genbus_if::master
-              vpiName: genbus_if
-              vpiFullName: cpu #(.ID(1)).genbus_if::master.genbus_if
-            RefObj name:master start:18:13 end:18:19:
-              vpiParent: UnsupportedTypespec name:genbus_if::master
-              vpiName: master
-              vpiFullName: cpu #(.ID(1)).genbus_if::master.master
-          vpiName Identifier name:genbus_if::master:
         LogicTypespec:
           vpiParent: Module name:cpu #(.ID(1))
           vpiRange (1 items):
@@ -2169,7 +2158,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:clk start:26:21 end:26:24:
           vpiParent: Module name:cpu #(.ID(1))
-          vpiTypespec RefTypespec start:26:3 end:26:14:
+          vpiTypespec RefTypespec start:26:9 end:26:14:
             vpiParent: Net name:clk
             vpiFullName: cpu #(.ID(1)).clk
             vpiActual: LogicTypespec
@@ -2179,7 +2168,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rst start:27:21 end:27:24:
           vpiParent: Module name:cpu #(.ID(1))
-          vpiTypespec RefTypespec start:27:3 end:27:14:
+          vpiTypespec RefTypespec start:27:9 end:27:14:
             vpiParent: Net name:rst
             vpiFullName: cpu #(.ID(1)).rst
             vpiActual: LogicTypespec
@@ -2197,10 +2186,19 @@ Design name:unnamed:
             vpiName: dbus
             vpiFullName: cpu #(.ID(1)).dbus.dbus
             vpiActual: Port name:dbus
-          vpiTypespec RefTypespec start:18:3 end:18:19:
+          vpiTypespec RefTypespec name:genbus_if::master start:18:3 end:18:19:
             vpiParent: Port name:dbus
-            vpiFullName: cpu #(.ID(1)).dbus
-            vpiActual: UnsupportedTypespec name:genbus_if::master
+            vpiName: genbus_if::master
+            vpiFullName: cpu #(.ID(1)).dbus.genbus_if::master
+            vpiPathElem (2 items):
+              RefObj name:genbus_if start:18:3 end:18:12:
+                vpiParent: RefTypespec name:genbus_if::master
+                vpiName: genbus_if
+                vpiFullName: cpu #(.ID(1)).dbus.genbus_if
+              RefTypespec name:master start:18:13 end:18:19:
+                vpiParent: RefTypespec name:genbus_if::master
+                vpiName: master
+                vpiFullName: cpu #(.ID(1)).dbus.genbus_if::master.master
         Port name:clk start:26:21 end:26:24:
           vpiParent: Module name:cpu #(.ID(1))
           vpiName: clk
@@ -2210,7 +2208,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: cpu #(.ID(1)).clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:26:3 end:26:14:
+          vpiTypespec RefTypespec start:26:9 end:26:14:
             vpiParent: Port name:clk
             vpiFullName: cpu #(.ID(1)).clk
             vpiActual: LogicTypespec
@@ -2223,7 +2221,7 @@ Design name:unnamed:
             vpiName: rst
             vpiFullName: cpu #(.ID(1)).rst.rst
             vpiActual: Net name:rst
-          vpiTypespec RefTypespec start:27:3 end:27:14:
+          vpiTypespec RefTypespec start:27:9 end:27:14:
             vpiParent: Port name:rst
             vpiFullName: cpu #(.ID(1)).rst
             vpiActual: LogicTypespec
@@ -2245,9 +2243,10 @@ Design name:unnamed:
                 vpiFullName: cpu #(.ID(1)).ROM.i
               Variable name:irom start:75:18 end:75:22:
                 vpiParent: Begin name:ROM
-                vpiTypespec RefTypespec:
+                vpiTypespec RefTypespec name:logic [15:0] [0:255] start:75:7 end:75:17:
                   vpiParent: Variable name:irom
-                  vpiFullName: cpu #(.ID(1)).ROM.irom
+                  vpiName: logic [15:0] [0:255]
+                  vpiFullName: cpu #(.ID(1)).ROM.irom.logic [15:0] [0:255]
                   vpiActual: ArrayTypespec
                 vpiName: irom
                 vpiFullName: cpu #(.ID(1)).ROM.irom
@@ -4038,7 +4037,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/cpu/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             537     537       0         0
+Others                             535     535       0         0
 ----------------------------------------------------------------
-                                   537     537       0         0
+                                   535     535       0         0
 ===================== END REDUCTION RESULT =====================

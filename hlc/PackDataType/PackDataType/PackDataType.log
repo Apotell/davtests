@@ -201,7 +201,6 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "keymgr_pkg".
 [INF:CP5804] $Source01/dut.sv:13:1: Compile module "OK".
 [INF:CP5804] $Source01/dut.sv:16:1: Compile module "kmac_keymgr".
-[WRN:CP5851] $Source01/dut.sv:18:53: Failed to bind "id:684, name:digest_share0".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "keymgr_pkg".
 [WRN:PA5506] $Source01/dut.sv:13:1: No timescale set for "OK".
@@ -1641,7 +1640,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1661,7 +1660,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1683,7 +1682,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1701,7 +1700,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1723,7 +1722,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1741,7 +1740,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1806,24 +1805,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -1991,18 +1988,34 @@ Design name:unnamed:
       vpiVariable (2 items):
         Variable name:keymgr_data_o start:16:55 end:16:68:
           vpiParent: Module name:kmac_keymgr
-          vpiTypespec RefTypespec name:kmac_data_rsp_t start:16:39 end:16:54:
+          vpiTypespec RefTypespec name:keymgr_pkg::kmac_data_rsp_t start:16:27 end:16:54:
             vpiParent: Variable name:keymgr_data_o
-            vpiName: kmac_data_rsp_t
-            vpiFullName: kmac_keymgr.keymgr_data_o.kmac_data_rsp_t
-            vpiActual: UnsupportedTypespec name:keymgr_pkg::kmac_data_rsp_t
+            vpiName: keymgr_pkg::kmac_data_rsp_t
+            vpiFullName: kmac_keymgr.keymgr_data_o.keymgr_pkg::kmac_data_rsp_t
+            vpiPathElem (2 items):
+              RefTypespec name:keymgr_pkg start:16:27 end:16:37:
+                vpiParent: RefTypespec name:keymgr_pkg::kmac_data_rsp_t
+                vpiName: keymgr_pkg
+                vpiFullName: kmac_keymgr.keymgr_data_o.keymgr_pkg::kmac_data_rsp_t.keymgr_pkg
+                vpiPathElem (1 items):
+                  RefObj name:keymgr_pkg start:16:27 end:16:37:
+                    vpiParent: RefTypespec name:keymgr_pkg
+                    vpiName: keymgr_pkg
+                    vpiFullName: kmac_keymgr.keymgr_data_o.keymgr_pkg::kmac_data_rsp_t.keymgr_pkg
+                    vpiActual: Package name:keymgr_pkg
+              RefTypespec name:kmac_data_rsp_t start:16:39 end:16:54:
+                vpiParent: RefTypespec name:keymgr_pkg::kmac_data_rsp_t
+                vpiName: kmac_data_rsp_t
+                vpiFullName: kmac_keymgr.keymgr_data_o.keymgr_pkg::kmac_data_rsp_t.kmac_data_rsp_t
+            vpiActual: TypedefTypespec name:kmac_data_rsp_t
           vpiName: keymgr_data_o
           vpiFullName: kmac_keymgr.keymgr_data_o
         Variable name:keymgr_digest start:22:28 end:22:41:
           vpiParent: Module name:kmac_keymgr
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [KeyMgrDigestW-1:0] [2] start:22:2 end:22:27:
             vpiParent: Variable name:keymgr_digest
-            vpiFullName: kmac_keymgr.keymgr_digest
+            vpiName: logic [KeyMgrDigestW-1:0] [2]
+            vpiFullName: kmac_keymgr.keymgr_digest.logic [KeyMgrDigestW-1:0] [2]
             vpiActual: ArrayTypespec
           vpiName: keymgr_digest
           vpiFullName: kmac_keymgr.keymgr_digest
@@ -2043,22 +2056,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:keymgr_data_o.digest_share0
                     vpiName: digest_share0
                     vpiFullName: kmac_keymgr.digest_share0
-      vpiTypespec (4 items):
-        UnsupportedTypespec name:keymgr_pkg start:16:27 end:16:37:
-          vpiParent: Module name:kmac_keymgr
-          vpiName Identifier name:keymgr_pkg start:16:27 end:16:37:
-        UnsupportedTypespec name:keymgr_pkg::kmac_data_rsp_t start:16:27 end:16:54:
-          vpiParent: Module name:kmac_keymgr
-          vpiPathElem (2 items):
-            RefTypespec start:16:27 end:16:39:
-              vpiParent: UnsupportedTypespec name:keymgr_pkg::kmac_data_rsp_t
-              vpiFullName: kmac_keymgr.keymgr_pkg::kmac_data_rsp_t
-              vpiActual: UnsupportedTypespec name:keymgr_pkg
-            RefTypespec name:kmac_data_rsp_t start:16:39 end:16:54:
-              vpiParent: UnsupportedTypespec name:keymgr_pkg::kmac_data_rsp_t
-              vpiName: kmac_data_rsp_t
-              vpiFullName: kmac_keymgr.keymgr_pkg::kmac_data_rsp_t.kmac_data_rsp_t
-          vpiName Identifier name:keymgr_pkg::kmac_data_rsp_t start:16:27 end:16:54:
+                    vpiActual: TypespecMember name:digest_share0
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:kmac_keymgr
           vpiRange (1 items):
@@ -2134,11 +2133,26 @@ Design name:unnamed:
             vpiName: keymgr_data_o
             vpiFullName: kmac_keymgr.keymgr_data_o.keymgr_data_o
             vpiActual: Variable name:keymgr_data_o
-          vpiTypespec RefTypespec name:kmac_data_rsp_t start:16:39 end:16:54:
+          vpiTypespec RefTypespec name:keymgr_pkg::kmac_data_rsp_t start:16:27 end:16:54:
             vpiParent: Port name:keymgr_data_o
-            vpiName: kmac_data_rsp_t
-            vpiFullName: kmac_keymgr.keymgr_data_o.kmac_data_rsp_t
-            vpiActual: UnsupportedTypespec name:keymgr_pkg::kmac_data_rsp_t
+            vpiName: keymgr_pkg::kmac_data_rsp_t
+            vpiFullName: kmac_keymgr.keymgr_data_o.keymgr_pkg::kmac_data_rsp_t
+            vpiPathElem (2 items):
+              RefTypespec name:keymgr_pkg start:16:27 end:16:37:
+                vpiParent: RefTypespec name:keymgr_pkg::kmac_data_rsp_t
+                vpiName: keymgr_pkg
+                vpiFullName: kmac_keymgr.keymgr_data_o.keymgr_pkg::kmac_data_rsp_t.keymgr_pkg
+                vpiPathElem (1 items):
+                  RefObj name:keymgr_pkg start:16:27 end:16:37:
+                    vpiParent: RefTypespec name:keymgr_pkg
+                    vpiName: keymgr_pkg
+                    vpiFullName: kmac_keymgr.keymgr_data_o.keymgr_pkg::kmac_data_rsp_t.keymgr_pkg
+                    vpiActual: Package name:keymgr_pkg
+              RefTypespec name:kmac_data_rsp_t start:16:39 end:16:54:
+                vpiParent: RefTypespec name:keymgr_pkg::kmac_data_rsp_t
+                vpiName: kmac_data_rsp_t
+                vpiFullName: kmac_keymgr.keymgr_data_o.keymgr_pkg::kmac_data_rsp_t.kmac_data_rsp_t
+            vpiActual: TypedefTypespec name:kmac_data_rsp_t
       vpiGenStmt (1 items):
         GenIf start:19:2 end:20:12:
           vpiParent: Module name:kmac_keymgr
@@ -2220,7 +2234,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 5
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2265,10 +2279,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            14      14       1         1
 Operation                            4       3       0         1
-RefObj                              12      11       0         1
-RefTypespec                        207     207       1         1
+RefObj                              14      13       0         1
+RefTypespec                        209     209       1         1
 ----------------------------------------------------------------
-Others                             481     481       0         0
+Others                             475     475       0         0
 ----------------------------------------------------------------
-                                   718     716       2         4
+                                   716     714       2         4
 ===================== END REDUCTION RESULT =====================

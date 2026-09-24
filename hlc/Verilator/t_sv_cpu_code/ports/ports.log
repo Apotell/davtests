@@ -1404,13 +1404,13 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/ports.sv:14:1: Compile module "ports".
 [WRN:CP5811] $Source01/ports.sv:22:19: Port "dbus" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/ports.sv:23:19: Port "padsif" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/ports.sv:63:12: Failed to bind "id:191, name:sConnect".
-[WRN:CP5851] $Source01/ports.sv:77:28: Failed to bind "id:197, name:Init".
-[WRN:CP5851] $Source01/ports.sv:88:23: Failed to bind "id:222, name:IsPort".
+[WRN:CP5851] $Source01/ports.sv:63:12: Failed to bind "id:189, name:sConnect".
+[WRN:CP5851] $Source01/ports.sv:77:28: Failed to bind "id:195, name:Init".
+[WRN:CP5851] $Source01/ports.sv:88:23: Failed to bind "id:221, name:IsPort".
 [WRN:CP5851] $Source01/ports.sv:120:23: Failed to bind "id:365, name:IsPort".
-[WRN:CP5851] $Source01/ports.sv:144:32: Failed to bind "id:452, name:pinout".
-[WRN:CP5851] $Source01/ports.sv:156:32: Failed to bind "id:520, name:pinout".
-[WRN:CP5851] $Source01/ports.sv:158:25: Failed to bind "id:532, name:id".
+[WRN:CP5851] $Source01/ports.sv:144:32: Failed to bind "id:453, name:pinout".
+[WRN:CP5851] $Source01/ports.sv:156:32: Failed to bind "id:521, name:pinout".
+[WRN:CP5851] $Source01/ports.sv:158:25: Failed to bind "id:533, name:id".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1543,16 +1543,17 @@ Design name:unnamed:
           vpiVector: true
         Variable name:port start:55:5 end:55:9:
           vpiParent: Module name:ports #(.ID(1))
-          vpiTypespec RefTypespec:
+          "vpiTypespec RefTypespec name: [PORTID_A:PORTID_D] start:44:3 end:55:4":
             vpiParent: Variable name:port
-            vpiFullName: ports #(.ID(1)).port
+            vpiName: " [PORTID_A:PORTID_D]"
+            vpiFullName: ports #(.ID(1)).port. [PORTID_A:PORTID_D]
             vpiActual: ArrayTypespec
           vpiName: port
           vpiFullName: ports #(.ID(1)).port
       vpiParameter (1 items):
         Parameter name:ID start:16:7 end:16:9:
           vpiParent: Module name:ports #(.ID(1))
-          vpiTypespec RefTypespec start:16:7 end:16:7:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:ID
             vpiFullName: ports #(.ID(1)).ID
             vpiActual: LogicTypespec
@@ -1576,33 +1577,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (15 items):
+      vpiTypespec (13 items):
         LogicTypespec:
           vpiParent: Module name:ports #(.ID(1))
-        UnsupportedTypespec name:genbus_if::slave start:22:3 end:22:18:
-          vpiParent: Module name:ports #(.ID(1))
-          vpiPathElem (2 items):
-            RefObj name:genbus_if start:22:3 end:22:12:
-              vpiParent: UnsupportedTypespec name:genbus_if::slave
-              vpiName: genbus_if
-              vpiFullName: ports #(.ID(1)).genbus_if::slave.genbus_if
-            RefObj name:slave start:22:13 end:22:18:
-              vpiParent: UnsupportedTypespec name:genbus_if::slave
-              vpiName: slave
-              vpiFullName: ports #(.ID(1)).genbus_if::slave.slave
-          vpiName Identifier name:genbus_if::slave:
-        UnsupportedTypespec name:pads_if::mp_dig start:23:3 end:23:17:
-          vpiParent: Module name:ports #(.ID(1))
-          vpiPathElem (2 items):
-            RefObj name:pads_if start:23:3 end:23:10:
-              vpiParent: UnsupportedTypespec name:pads_if::mp_dig
-              vpiName: pads_if
-              vpiFullName: ports #(.ID(1)).pads_if::mp_dig.pads_if
-            RefObj name:mp_dig start:23:11 end:23:17:
-              vpiParent: UnsupportedTypespec name:pads_if::mp_dig
-              vpiName: mp_dig
-              vpiFullName: ports #(.ID(1)).pads_if::mp_dig.mp_dig
-          vpiName Identifier name:pads_if::mp_dig:
         LogicTypespec:
           vpiParent: Module name:ports #(.ID(1))
           vpiRange (1 items):
@@ -1892,7 +1869,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:clk start:26:22 end:26:25:
           vpiParent: Module name:ports #(.ID(1))
-          vpiTypespec RefTypespec start:26:3 end:26:15:
+          vpiTypespec RefTypespec start:26:10 end:26:15:
             vpiParent: Net name:clk
             vpiFullName: ports #(.ID(1)).clk
             vpiActual: LogicTypespec
@@ -1902,7 +1879,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rst start:27:22 end:27:25:
           vpiParent: Module name:ports #(.ID(1))
-          vpiTypespec RefTypespec start:27:3 end:27:15:
+          vpiTypespec RefTypespec start:27:10 end:27:15:
             vpiParent: Net name:rst
             vpiFullName: ports #(.ID(1)).rst
             vpiActual: LogicTypespec
@@ -1920,10 +1897,19 @@ Design name:unnamed:
             vpiName: dbus
             vpiFullName: ports #(.ID(1)).dbus.dbus
             vpiActual: Port name:dbus
-          vpiTypespec RefTypespec start:22:3 end:22:18:
+          vpiTypespec RefTypespec name:genbus_if::slave start:22:3 end:22:18:
             vpiParent: Port name:dbus
-            vpiFullName: ports #(.ID(1)).dbus
-            vpiActual: UnsupportedTypespec name:genbus_if::slave
+            vpiName: genbus_if::slave
+            vpiFullName: ports #(.ID(1)).dbus.genbus_if::slave
+            vpiPathElem (2 items):
+              RefObj name:genbus_if start:22:3 end:22:12:
+                vpiParent: RefTypespec name:genbus_if::slave
+                vpiName: genbus_if
+                vpiFullName: ports #(.ID(1)).dbus.genbus_if
+              RefTypespec name:slave start:22:13 end:22:18:
+                vpiParent: RefTypespec name:genbus_if::slave
+                vpiName: slave
+                vpiFullName: ports #(.ID(1)).dbus.genbus_if::slave.slave
         Port name:padsif start:23:19 end:23:25:
           vpiParent: Module name:ports #(.ID(1))
           vpiName: padsif
@@ -1933,10 +1919,19 @@ Design name:unnamed:
             vpiName: padsif
             vpiFullName: ports #(.ID(1)).padsif.padsif
             vpiActual: Port name:padsif
-          vpiTypespec RefTypespec start:23:3 end:23:17:
+          vpiTypespec RefTypespec name:pads_if::mp_dig start:23:3 end:23:17:
             vpiParent: Port name:padsif
-            vpiFullName: ports #(.ID(1)).padsif
-            vpiActual: UnsupportedTypespec name:pads_if::mp_dig
+            vpiName: pads_if::mp_dig
+            vpiFullName: ports #(.ID(1)).padsif.pads_if::mp_dig
+            vpiPathElem (2 items):
+              RefObj name:pads_if start:23:3 end:23:10:
+                vpiParent: RefTypespec name:pads_if::mp_dig
+                vpiName: pads_if
+                vpiFullName: ports #(.ID(1)).padsif.pads_if
+              RefTypespec name:mp_dig start:23:11 end:23:17:
+                vpiParent: RefTypespec name:pads_if::mp_dig
+                vpiName: mp_dig
+                vpiFullName: ports #(.ID(1)).padsif.pads_if::mp_dig.mp_dig
         Port name:clk start:26:22 end:26:25:
           vpiParent: Module name:ports #(.ID(1))
           vpiName: clk
@@ -1946,7 +1941,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: ports #(.ID(1)).clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:26:3 end:26:15:
+          vpiTypespec RefTypespec start:26:10 end:26:15:
             vpiParent: Port name:clk
             vpiFullName: ports #(.ID(1)).clk
             vpiActual: LogicTypespec
@@ -1959,7 +1954,7 @@ Design name:unnamed:
             vpiName: rst
             vpiFullName: ports #(.ID(1)).rst.rst
             vpiActual: Net name:rst
-          vpiTypespec RefTypespec start:27:3 end:27:15:
+          vpiTypespec RefTypespec start:27:10 end:27:15:
             vpiParent: Port name:rst
             vpiFullName: ports #(.ID(1)).rst
             vpiActual: LogicTypespec
@@ -2586,9 +2581,10 @@ Design name:unnamed:
                 vpiFullName: ports #(.ID(1)).RegisterRead.j
               Variable name:data start:112:19 end:112:23:
                 vpiParent: Begin name:RegisterRead
-                vpiTypespec RefTypespec:
+                vpiTypespec RefTypespec name:logic [7:0] [PORTID_D:PORTID_A][3:0] start:112:7 end:112:18:
                   vpiParent: Variable name:data
-                  vpiFullName: ports #(.ID(1)).RegisterRead.data
+                  vpiName: logic [7:0] [PORTID_D:PORTID_A][3:0]
+                  vpiFullName: ports #(.ID(1)).RegisterRead.data.logic [7:0] [PORTID_D:PORTID_A][3:0]
                   vpiActual: ArrayTypespec
                 vpiName: data
                 vpiFullName: ports #(.ID(1)).RegisterRead.data
@@ -2597,6 +2593,35 @@ Design name:unnamed:
               IntegerTypespec:
                 vpiParent: Begin name:RegisterRead
                 vpiSigned: true
+              ArrayTypespec:
+                vpiParent: Begin name:RegisterRead
+                vpiArrayType: static (1)
+                vpiRange Range start:112:43 end:112:48:
+                  vpiParent: ArrayTypespec
+                  vpiLeftRange Constant start:112:44 end:112:45:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: ports #(.ID(1)).RegisterRead
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "3"
+                    vpiValue: 3
+                  vpiRightRange Constant start:112:46 end:112:47:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: ports #(.ID(1)).RegisterRead
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                vpiElemTypespec RefTypespec start:112:7 end:112:18:
+                  vpiParent: ArrayTypespec
+                  vpiFullName: ports #(.ID(1)).RegisterRead
+                  vpiActual: LogicTypespec
               LogicTypespec:
                 vpiParent: Begin name:RegisterRead
                 vpiRange (1 items):
@@ -2640,35 +2665,6 @@ Design name:unnamed:
                   vpiParent: ArrayTypespec
                   vpiFullName: ports #(.ID(1)).RegisterRead
                   vpiActual: ArrayTypespec
-              ArrayTypespec:
-                vpiParent: Begin name:RegisterRead
-                vpiArrayType: static (1)
-                vpiRange Range start:112:43 end:112:48:
-                  vpiParent: ArrayTypespec
-                  vpiLeftRange Constant start:112:44 end:112:45:
-                    vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: ports #(.ID(1)).RegisterRead
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "3"
-                    vpiValue: 3
-                  vpiRightRange Constant start:112:46 end:112:47:
-                    vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: ports #(.ID(1)).RegisterRead
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "0"
-                    vpiValue: 0
-                vpiElemTypespec RefTypespec start:112:7 end:112:18:
-                  vpiParent: ArrayTypespec
-                  vpiFullName: ports #(.ID(1)).RegisterRead
-                  vpiActual: LogicTypespec
               BitTypespec:
                 vpiParent: Begin name:RegisterRead
             vpiStmt (3 items):
@@ -3685,7 +3681,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/ports/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             530     530       0         0
+Others                             526     526       0         0
 ----------------------------------------------------------------
-                                   530     530       0         0
+                                   526     526       0         0
 ===================== END REDUCTION RESULT =====================

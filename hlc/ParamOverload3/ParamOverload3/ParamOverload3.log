@@ -643,9 +643,8 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/dut.sv:52:62: Compile generate block "check".
 [INF:CP5836] $Source01/dut.sv:53:66: Compile generate block "operands".
 [INF:CP5836] $Source01/dut.sv:58:22: Compile generate block "no_check".
-[WRN:CP5851] $Source01/dut.sv:46:31: Failed to bind "id:215, name:Width".
-[WRN:CP5851] $Source01/dut.sv:50:51: Failed to bind "id:249, name:fp_width".
-[WRN:CP5851] $Source01/dut.sv:52:18: Failed to bind "id:257, name:EnableNanBox".
+[WRN:CP5851] $Source01/dut.sv:46:31: Failed to bind "id:205, name:Width".
+[WRN:CP5851] $Source01/dut.sv:52:18: Failed to bind "id:245, name:EnableNanBox".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "fpnew_pkg".
 [WRN:PA5506] $Source01/dut.sv:43:1: No timescale set for "top".
 ====== HLDB =======
@@ -664,9 +663,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:11:11 end:18:4:
           vpiParent: Package name:fpnew_pkg
-          vpiBaseTypespec RefTypespec start:11:16 end:11:42:
+          vpiBaseTypespec RefTypespec name:logic [FP_FORMAT_BITS-1:0] start:11:16 end:11:42:
             vpiParent: Enum
-            vpiFullName: fpnew_pkg
+            vpiName: logic [FP_FORMAT_BITS-1:0]
+            vpiFullName: fpnew_pkg::logic [FP_FORMAT_BITS-1:0]
             vpiActual: LogicTypespec
           vpiEnumConst (5 items):
             EnumConst name:FP32 start:12:5 end:12:18:
@@ -789,10 +789,10 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:FP_ENCODINGS start:20:49 end:20:61:
           vpiParent: Package name:fpnew_pkg
-          vpiTypespec RefTypespec name:fp_encoding_t start:20:14 end:20:48:
+          vpiTypespec RefTypespec name:fp_encoding_t [0:NUM_FP_FORMATS-1] start:20:14 end:20:48:
             vpiParent: Parameter name:FP_ENCODINGS
-            vpiName: fp_encoding_t
-            vpiFullName: fpnew_pkg::FP_ENCODINGS::fp_encoding_t
+            vpiName: fp_encoding_t [0:NUM_FP_FORMATS-1]
+            vpiFullName: fpnew_pkg::FP_ENCODINGS::fp_encoding_t [0:NUM_FP_FORMATS-1]
             vpiActual: ArrayTypespec
           vpiName: FP_ENCODINGS
           vpiFullName: fpnew_pkg::FP_ENCODINGS
@@ -803,7 +803,6 @@ Design name:unnamed:
             vpiParent: Parameter name:RV64D_Xsflt
             vpiName: fpu_features_t
             vpiFullName: fpnew_pkg::RV64D_Xsflt::fpu_features_t
-            vpiActual: UnsupportedTypespec name:fpu_features_t
           vpiName: RV64D_Xsflt
           vpiFullName: fpnew_pkg::RV64D_Xsflt
           vpiLocalParam: true
@@ -1063,7 +1062,7 @@ Design name:unnamed:
                   vpiSize: 4
                   vpiDecompile: "4'b1111"
                   vpiValue: "1111"
-      vpiTypespec (8 items):
+      vpiTypespec (7 items):
         StructTypespec start:6:10 end:9:4:
           vpiParent: Package name:fpnew_pkg
           vpiStruct: Struct
@@ -1150,14 +1149,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-          vpiElemTypespec RefTypespec name:fp_encoding_t:
+          vpiElemTypespec RefTypespec name:fp_encoding_t start:20:14 end:20:48:
             vpiParent: ArrayTypespec
             vpiName: fp_encoding_t
             vpiFullName: fpnew_pkg::fp_encoding_t
             vpiActual: TypedefTypespec name:fp_encoding_t
-        UnsupportedTypespec name:fpu_features_t start:29:14 end:29:28:
-          vpiParent: Package name:fpnew_pkg
-          vpiName Identifier name:fpu_features_t start:29:14 end:29:28:
         BitTypespec:
           vpiParent: Package name:fpnew_pkg
       vpiDefName: fpnew_pkg
@@ -1277,12 +1273,26 @@ Design name:unnamed:
             vpiParent: Parameter name:Features
             vpiName: fpnew_pkg::fpu_features_t
             vpiFullName: top.Features.fpnew_pkg::fpu_features_t
-            vpiActual: UnsupportedTypespec name:fpnew_pkg::fpu_features_t
+            vpiPathElem (2 items):
+              RefTypespec name:fpnew_pkg start:45:14 end:45:23:
+                vpiParent: RefTypespec name:fpnew_pkg::fpu_features_t
+                vpiName: fpnew_pkg
+                vpiFullName: top.Features.fpnew_pkg::fpu_features_t.fpnew_pkg
+                vpiPathElem (1 items):
+                  RefObj name:fpnew_pkg start:45:14 end:45:23:
+                    vpiParent: RefTypespec name:fpnew_pkg
+                    vpiName: fpnew_pkg
+                    vpiFullName: top.Features.fpnew_pkg::fpu_features_t.fpnew_pkg
+                    vpiActual: Package name:fpnew_pkg
+              RefTypespec name:fpu_features_t start:45:25 end:45:39:
+                vpiParent: RefTypespec name:fpnew_pkg::fpu_features_t
+                vpiName: fpu_features_t
+                vpiFullName: top.Features.fpnew_pkg::fpu_features_t.fpu_features_t
           vpiName: Features
           vpiFullName: top.Features
         Parameter name:WIDTH start:46:14 end:46:19:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec start:46:14 end:46:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:WIDTH
             vpiFullName: top.WIDTH
             vpiActual: LogicTypespec
@@ -1354,22 +1364,7 @@ Design name:unnamed:
                 vpiParent: RefObj name:Features.Width
                 vpiName: Width
                 vpiFullName: top.Width
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:fpnew_pkg start:45:14 end:45:23:
-          vpiParent: Module name:top
-          vpiName Identifier name:fpnew_pkg start:45:14 end:45:23:
-        UnsupportedTypespec name:fpnew_pkg::fpu_features_t start:45:14 end:45:39:
-          vpiParent: Module name:top
-          vpiPathElem (2 items):
-            RefTypespec start:45:14 end:45:25:
-              vpiParent: UnsupportedTypespec name:fpnew_pkg::fpu_features_t
-              vpiFullName: top.fpnew_pkg::fpu_features_t
-              vpiActual: UnsupportedTypespec name:fpnew_pkg
-            RefTypespec name:fpu_features_t start:45:25 end:45:39:
-              vpiParent: UnsupportedTypespec name:fpnew_pkg::fpu_features_t
-              vpiName: fpu_features_t
-              vpiFullName: top.fpnew_pkg::fpu_features_t.fpu_features_t
-          vpiName Identifier name:fpnew_pkg::fpu_features_t start:45:14 end:45:39:
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
       vpiDefName: top
@@ -1461,32 +1456,40 @@ Design name:unnamed:
                   vpiName: fpnew_pkg::fp_width()
                   vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width()
                   vpiPathElem (2 items):
-                    RefTypespec start:50:40 end:50:51:
+                    RefObj name:fpnew_pkg start:50:40 end:50:49:
                       vpiParent: RefObj name:fpnew_pkg::fp_width()
-                      vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width()
-                      vpiActual: UnsupportedTypespec name:fpnew_pkg
-                    SubroutineCall name:fp_width start:50:51 end:50:89:
+                      vpiName: fpnew_pkg
+                      vpiFullName: top.gen_nanbox_check.fpnew_pkg
+                      vpiActual: Package name:fpnew_pkg
+                    FuncCall name:fp_width start:50:51 end:50:89:
                       vpiParent: RefObj name:fpnew_pkg::fp_width()
                       vpiName Identifier name:fp_width start:50:51 end:50:59:
+                      vpiTaskFunc: Function name:fp_width
                       vpiArgument (1 items):
                         Operation start:50:60 end:50:88:
-                          vpiParent: SubroutineCall name:fp_width
+                          vpiParent: FuncCall name:fp_width
                           vpiTypespec RefTypespec name:fpnew_pkg::fp_format_e start:50:60 end:50:82:
                             vpiParent: Operation
                             vpiName: fpnew_pkg::fp_format_e
-                            vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fp_width.fpnew_pkg::fp_format_e
+                            vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg::fp_format_e
+                            vpiPathElem (2 items):
+                              RefObj name:fpnew_pkg start:50:60 end:50:71:
+                                vpiParent: RefTypespec name:fpnew_pkg::fp_format_e
+                                vpiName: fpnew_pkg
+                                vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg
+                                vpiActual: Package name:fpnew_pkg
+                              RefTypespec name:fp_format_e start:50:71 end:50:82:
+                                vpiParent: RefTypespec name:fpnew_pkg::fp_format_e
+                                vpiName: fp_format_e
+                                vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg::fp_format_e.fp_format_e
                             vpiActual: TypedefTypespec name:fp_format_e
                           vpiOpType: cast (81)
                           vpiOperand (1 items):
                             RefObj name:fmt start:50:84 end:50:87:
                               vpiParent: Operation
                               vpiName: fmt
-                              vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fp_width.fmt
+                              vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fmt
                               vpiActual: Variable name:fmt
-            vpiTypespec (1 items):
-              UnsupportedTypespec name:fpnew_pkg start:50:40 end:50:49:
-                vpiParent: Begin name:gen_nanbox_check
-                vpiName Identifier name:fpnew_pkg start:50:40 end:50:49:
             vpiStmt (3 items):
               Parameter name:FP_WIDTH:
               ParamAssign:
@@ -1729,9 +1732,9 @@ Design name:unnamed:
   vpiTypespec (4 items):
     IntTypespec:
       vpiParent: Design name:unnamed
+      vpiSigned: true
     IntTypespec:
       vpiParent: Design name:unnamed
-      vpiSigned: true
     LogicTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:top:
@@ -1743,7 +1746,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 5
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1787,13 +1790,13 @@ COMMAND: ${HLC_DIR}/regression/ParamOverload3/ParamOverload3/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            32      33       3         2
-Identifier                          23      22       0         1
+Identifier                          19      18       0         1
 Operation                           24      22       0         2
-RefObj                              58      55       0         3
+RefObj                              61      58       0         3
 RefTypespec                         54      54       2         2
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              81      81       0         0
+Others                              77      77       0         0
 ----------------------------------------------------------------
-                                   273     267       5        11
+                                   268     262       5        11
 ===================== END REDUCTION RESULT =====================

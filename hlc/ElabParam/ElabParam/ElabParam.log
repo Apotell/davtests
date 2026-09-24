@@ -220,8 +220,6 @@ n<$Source01/dut.sv> u<203> t<Top_level_rule> c<1> l<1:1> el<20:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "top_pkg".
 [INF:CP5804] $Source01/dut.sv:11:2: Compile module "dut".
-[WRN:CP5851] $Source01/dut.sv:16:27: Failed to bind "id:714, name:PMP_CFG_W".
-[WRN:CP5851] $Source01/dut.sv:17:34: Failed to bind "id:724, name:OPCODE_LOAD".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top_pkg".
 [WRN:PA5506] $Source01/dut.sv:11:2: No timescale set for "dut".
@@ -1479,9 +1477,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:2:12 end:5:5:
           vpiParent: Package name:top_pkg
-          vpiBaseTypespec RefTypespec start:2:17 end:2:28:
+          vpiBaseTypespec RefTypespec name:logic [5:0] start:2:17 end:2:28:
             vpiParent: Enum
-            vpiFullName: top_pkg
+            vpiName: logic [5:0]
+            vpiFullName: top_pkg::logic [5:0]
             vpiActual: LogicTypespec
           vpiEnumConst (2 items):
             EnumConst name:OPCODE_LOAD start:3:6 end:3:29:
@@ -1657,7 +1656,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1677,7 +1676,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1699,7 +1698,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1717,7 +1716,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1739,7 +1738,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1757,7 +1756,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1822,24 +1821,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -2003,59 +2000,7 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: dut.b
           vpiVector: true
-      vpiTypespec (6 items):
-        LogicTypespec:
-          vpiParent: Module name:dut
-          vpiRange (1 items):
-            Range start:12:10 end:12:15:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:12:11 end:12:12:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "5"
-                vpiValue: 5
-              vpiRightRange Constant start:12:13 end:12:14:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:dut
-          vpiRange (1 items):
-            Range start:13:11 end:13:16:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:13:12 end:13:13:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "2"
-                vpiValue: 2
-              vpiRightRange Constant start:13:14 end:13:15:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:dut
           vpiRange (1 items):
@@ -2108,12 +2053,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        UnsupportedTypespec name:top_pkg start:16:18 end:16:25:
-          vpiParent: Module name:dut
-          vpiName Identifier name:top_pkg start:16:18 end:16:25:
-        UnsupportedTypespec name:top_pkg start:17:25 end:17:32:
-          vpiParent: Module name:dut
-          vpiName Identifier name:top_pkg start:17:25 end:17:32:
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:11:9 end:11:12:
@@ -2183,14 +2122,16 @@ Design name:unnamed:
                     vpiName: top_pkg::PMP_CFG_W
                     vpiFullName: dut.top_pkg::PMP_CFG_W
                     vpiPathElem (2 items):
-                      RefTypespec start:16:18 end:16:27:
+                      RefObj name:top_pkg start:16:18 end:16:25:
                         vpiParent: RefObj name:top_pkg::PMP_CFG_W
-                        vpiFullName: dut.top_pkg::PMP_CFG_W
-                        vpiActual: UnsupportedTypespec name:top_pkg
+                        vpiName: top_pkg
+                        vpiFullName: dut.top_pkg
+                        vpiActual: Package name:top_pkg
                       RefObj name:PMP_CFG_W start:16:27 end:16:36:
                         vpiParent: RefObj name:top_pkg::PMP_CFG_W
                         vpiName: PMP_CFG_W
                         vpiFullName: dut.PMP_CFG_W
+                        vpiActual: Parameter name:PMP_CFG_W
               Operation start:17:17 end:17:46:
                 vpiParent: Operation
                 vpiOpType: cast (81)
@@ -2219,14 +2160,16 @@ Design name:unnamed:
                         vpiName: top_pkg::OPCODE_LOAD
                         vpiFullName: dut.top_pkg::OPCODE_LOAD
                         vpiPathElem (2 items):
-                          RefTypespec start:17:25 end:17:34:
+                          RefObj name:top_pkg start:17:25 end:17:32:
                             vpiParent: RefObj name:top_pkg::OPCODE_LOAD
-                            vpiFullName: dut.top_pkg::OPCODE_LOAD
-                            vpiActual: UnsupportedTypespec name:top_pkg
+                            vpiName: top_pkg
+                            vpiFullName: dut.top_pkg
+                            vpiActual: Package name:top_pkg
                           RefObj name:OPCODE_LOAD start:17:34 end:17:45:
                             vpiParent: RefObj name:top_pkg::OPCODE_LOAD
                             vpiName: OPCODE_LOAD
                             vpiFullName: dut.OPCODE_LOAD
+                            vpiActual: EnumConst name:OPCODE_LOAD
   vpiTypespec (9 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -2263,7 +2206,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 5
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2278,25 +2221,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/ElabParam/ElabParam/mounts.json
 
 
-{'result': {'coverage': 99.32,
+{'result': {'coverage': 97.27,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 2,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 8,
                                                   'pre_len': 293}},
-            'post_len': 2,
+            'post_len': 8,
             'pre_len': 293,
             'test_name': 'ElabParam/ElabParam'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      293 |         2 |
+| $Output/lib/work/dut.sv |      293 |         8 |
 +=========================+==========+===========+
-|                         |      293 |         2 |
+|                         |      293 |         8 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.32
+[COVERAGE] : 97.27
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2307,7 +2250,7 @@ COMMAND: ${HLC_DIR}/regression/ElabParam/ElabParam/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             720     720       0         0
+Others                             702     702       0         0
 ----------------------------------------------------------------
-                                   720     720       0         0
+                                   702     702       0         0
 ===================== END REDUCTION RESULT =====================

@@ -61,22 +61,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:myclass start:6:7 end:6:14:
       vpiFullName: myclass
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:mypkg start:7:27 end:7:32:
-          vpiParent: ClassDefn name:myclass
-          vpiName Identifier name:mypkg start:7:27 end:7:32:
-        UnsupportedTypespec name:mypkg::foo start:7:27 end:7:37:
-          vpiParent: ClassDefn name:myclass
-          vpiPathElem (2 items):
-            RefTypespec start:7:27 end:7:34:
-              vpiParent: UnsupportedTypespec name:mypkg::foo
-              vpiFullName: myclass::mypkg::foo
-              vpiActual: UnsupportedTypespec name:mypkg
-            RefTypespec name:foo start:7:34 end:7:37:
-              vpiParent: UnsupportedTypespec name:mypkg::foo
-              vpiName: foo
-              vpiFullName: myclass::mypkg::foo::foo
-          vpiName Identifier name:mypkg::foo start:7:27 end:7:37:
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: ClassDefn name:myclass
           vpiArrayType: static (1)
@@ -94,7 +79,15 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: mypkg::foo
             vpiFullName: myclass::mypkg::foo
-            vpiActual: UnsupportedTypespec name:mypkg::foo
+            vpiPathElem (2 items):
+              RefTypespec name:mypkg start:7:27 end:7:32:
+                vpiParent: RefTypespec name:mypkg::foo
+                vpiName: mypkg
+                vpiFullName: myclass::mypkg::foo::mypkg
+              RefTypespec name:foo start:7:34 end:7:37:
+                vpiParent: RefTypespec name:mypkg::foo
+                vpiName: foo
+                vpiFullName: myclass::mypkg::foo::foo
       vpiDefName: myclass
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -114,10 +107,10 @@ Design name:unnamed:
               vpiParent: FunctionDecl name:subr
               vpiName: y
               vpiDirection: input (1)
-              vpiTypespec RefTypespec name:mypkg::foo start:7:27 end:7:37:
+              vpiTypespec RefTypespec name:mypkg::foo [M] start:7:27 end:7:37:
                 vpiParent: IODecl name:y
-                vpiName: mypkg::foo
-                vpiFullName: myclass::subr::y::mypkg::foo
+                vpiName: mypkg::foo [M]
+                vpiFullName: myclass::subr::y::mypkg::foo [M]
                 vpiActual: ArrayTypespec
           vpiReturn RefTypespec start:7:17 end:7:21:
             vpiParent: FunctionDecl name:subr
@@ -129,7 +122,7 @@ Design name:unnamed:
       vpiName Identifier name:myclass:
       vpiDefName: myclass
       vpiClassDefn: ClassDefn name:myclass
-    VoidTypespec start:7:17 end:7:21:
+    VoidTypespec:
       vpiParent: Design name:unnamed
 ===================
 [  FATAL] : 0
@@ -179,7 +172,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_23/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              24      24       0         0
+Others                              20      20       0         0
 ----------------------------------------------------------------
-                                    24      24       0         0
+                                    20      20       0         0
 ===================== END REDUCTION RESULT =====================

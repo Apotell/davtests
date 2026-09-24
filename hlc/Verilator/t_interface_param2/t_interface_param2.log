@@ -474,15 +474,17 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_interface_param2.v:37:22: Port "a" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface_param2.v:48:1: Compile module "cpu".
 [WRN:CP5811] $Source01/t_interface_param2.v:48:22: Port "b" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/t_interface_param2.v:11:20: Failed to bind "id:44, name:slave".
-[WRN:CP5851] $Source01/t_interface_param2.v:12:20: Failed to bind "id:53, name:master".
-[WRN:CP5851] $Source01/t_interface_param2.v:13:23: Failed to bind "id:62, name:slave".
-[WRN:CP5851] $Source01/t_interface_param2.v:14:23: Failed to bind "id:71, name:master".
-[WRN:CP5851] $Source01/t_interface_param2.v:39:23: Failed to bind "id:168, name:clk".
-[WRN:CP5851] $Source01/t_interface_param2.v:40:8: Failed to bind "id:173, name:gnt".
-[WRN:CP5851] $Source01/t_interface_param2.v:40:17: Failed to bind "id:176, name:req".
-[WRN:CP5851] $Source01/t_interface_param2.v:42:19: Failed to bind "id:185, name:data".
+[WRN:CP5851] $Source01/t_interface_param2.v:11:20: Failed to bind "id:47, name:slave".
+[WRN:CP5851] $Source01/t_interface_param2.v:12:20: Failed to bind "id:56, name:master".
+[WRN:CP5851] $Source01/t_interface_param2.v:13:23: Failed to bind "id:65, name:slave".
+[WRN:CP5851] $Source01/t_interface_param2.v:14:23: Failed to bind "id:74, name:master".
+[WRN:CP5851] $Source01/t_interface_param2.v:39:23: Failed to bind "id:165, name:clk".
+[WRN:CP5851] $Source01/t_interface_param2.v:40:8: Failed to bind "id:170, name:gnt".
+[WRN:CP5851] $Source01/t_interface_param2.v:40:17: Failed to bind "id:173, name:req".
+[WRN:CP5851] $Source01/t_interface_param2.v:42:19: Failed to bind "id:182, name:data".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7701] Invalid name: id:26, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:36, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -515,19 +517,19 @@ Design name:unnamed:
           vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).gnt
         Variable name:addr start:21:23 end:21:27:
           vpiParent: Interface name:simple_bus #(.AWIDTH(8), .DWIDTH(8))
-          vpiTypespec RefTypespec name:logic start:21:4 end:21:22:
+          vpiTypespec RefTypespec name:logic [AWIDTH-1:0] start:21:4 end:21:22:
             vpiParent: Variable name:addr
-            vpiName: logic
-            vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).addr.logic
+            vpiName: logic [AWIDTH-1:0]
+            vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).addr.logic [AWIDTH-1:0]
             vpiActual: ArrayTypespec
           vpiName: addr
           vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).addr
         Variable name:data start:22:23 end:22:27:
           vpiParent: Interface name:simple_bus #(.AWIDTH(8), .DWIDTH(8))
-          vpiTypespec RefTypespec name:logic start:22:4 end:22:22:
+          vpiTypespec RefTypespec name:logic [DWIDTH-1:0] start:22:4 end:22:22:
             vpiParent: Variable name:data
-            vpiName: logic
-            vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).data.logic
+            vpiName: logic [DWIDTH-1:0]
+            vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).data.logic [DWIDTH-1:0]
             vpiActual: ArrayTypespec
           vpiName: data
           vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).data
@@ -575,13 +577,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "8"
             vpiValue: 8
-      vpiTypespec (5 items):
-        UnsupportedTypespec name:logic start:18:11 end:18:16:
-          vpiParent: Interface name:simple_bus #(.AWIDTH(8), .DWIDTH(8))
-          vpiName Identifier name:logic start:18:11 end:18:16:
-        UnsupportedTypespec name:logic start:21:4 end:21:9:
-          vpiParent: Interface name:simple_bus #(.AWIDTH(8), .DWIDTH(8))
-          vpiName Identifier name:logic start:21:4 end:21:9:
+      vpiTypespec (2 items):
         ArrayTypespec:
           vpiParent: Interface name:simple_bus #(.AWIDTH(8), .DWIDTH(8))
           vpiArrayType: static (1)
@@ -617,14 +613,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:21:4 end:21:22:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).logic
-            vpiActual: UnsupportedTypespec name:logic
-        UnsupportedTypespec name:logic start:22:4 end:22:9:
-          vpiParent: Interface name:simple_bus #(.AWIDTH(8), .DWIDTH(8))
-          vpiName Identifier name:logic start:22:4 end:22:9:
         ArrayTypespec:
           vpiParent: Interface name:simple_bus #(.AWIDTH(8), .DWIDTH(8))
           vpiArrayType: static (1)
@@ -660,11 +652,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:22:4 end:22:22:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiDefName: simple_bus
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:17:11 end:17:21:
@@ -679,7 +670,6 @@ Design name:unnamed:
             vpiParent: Net name:clk
             vpiName: logic
             vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).clk.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: clk
           vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).clk
           vpiNetType: wire (1)
@@ -779,16 +769,54 @@ Design name:unnamed:
             vpiParent: Port name:clk
             vpiName: logic
             vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).clk.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiEndLabel Identifier name:simple_bus start:35:15 end:35:25:
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_interface_param2.v start:8:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
       vpiFullName: t
-      vpiTypespec (5 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:t
+        UnsupportedTypespec start:10:4 end:10:29:
+          vpiParent: Module name:t
+          vpiParamAssign (2 items):
+            ParamAssign start:10:17 end:10:28:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:DWIDTH start:10:18 end:10:24:
+                vpiParent: ParamAssign
+                vpiName: DWIDTH
+                vpiFullName: t.DWIDTH
+              vpiRhs Constant start:10:25 end:10:27:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "16"
+                vpiValue: 16
+            ParamAssign start:10:17 end:10:28:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:DWIDTH start:10:18 end:10:24:
+                vpiParent: ParamAssign
+                vpiName: DWIDTH
+                vpiFullName: t.DWIDTH
+              vpiRhs Constant start:10:25 end:10:27:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "16"
+                vpiValue: 16
         ModuleTypespec name:mem start:11:4 end:11:7:
           vpiParent: Module name:t
           vpiName Identifier name:mem start:11:4 end:11:7:
@@ -819,7 +847,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:8:17 end:8:20:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:8:11 end:8:16:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -837,7 +865,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:8:11 end:8:16:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -853,11 +881,9 @@ Design name:unnamed:
           vpiPort (1 items):
             Port start:9:23 end:9:26:
               vpiParent: RefInstance name:sb_intf
-              vpiLowConn RefObj name:clk:
+              vpiLowConn RefObj:
                 vpiParent: Port
-                vpiName: clk
-                vpiFullName: t.sb_intf.clk
-                vpiActual: Port name:clk
+                vpiFullName: t.sb_intf
               vpiHighConn RefObj name:clk start:9:23 end:9:26:
                 vpiParent: Port
                 vpiName: clk
@@ -866,19 +892,16 @@ Design name:unnamed:
         RefInstance name:wide_intf start:10:30 end:10:39:
           vpiParent: Module name:t
           vpiName: wide_intf
-          vpiTypespec RefTypespec name:simple_bus start:10:4 end:10:14:
+          vpiTypespec RefTypespec start:10:4 end:10:14:
             vpiParent: RefInstance name:wide_intf
-            vpiName: simple_bus
-            vpiFullName: t.wide_intf.simple_bus
-            vpiActual: InterfaceTypespec name:simple_bus
+            vpiFullName: t.wide_intf
+            vpiActual: UnsupportedTypespec
           vpiPort (1 items):
             Port start:10:40 end:10:43:
               vpiParent: RefInstance name:wide_intf
-              vpiLowConn RefObj name:clk:
+              vpiLowConn RefObj:
                 vpiParent: Port
-                vpiName: clk
-                vpiFullName: t.wide_intf.clk
-                vpiActual: Port name:clk
+                vpiFullName: t.wide_intf
               vpiHighConn RefObj name:clk start:10:40 end:10:43:
                 vpiParent: Port
                 vpiName: clk
@@ -1221,7 +1244,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 4
 [WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
@@ -1237,25 +1260,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_param2/mounts.json
 
 
-{'result': {'coverage': 98.75,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_param2.v': {'post_len': 9,
+            'files': {'$Output/lib/work/t_interface_param2.v': {'post_len': 0,
                                                                 'pre_len': 718}},
-            'post_len': 9,
+            'post_len': 0,
             'pre_len': 718,
             'test_name': 'Verilator/t_interface_param2'}}
 
 +---------------------------------------+----------+-----------+
 | INPUT                                 |   PRELEN |   POSTLEN |
 +=======================================+==========+===========+
-| $Output/lib/work/t_interface_param2.v |      718 |         9 |
+| $Output/lib/work/t_interface_param2.v |      718 |         0 |
 +=======================================+==========+===========+
-|                                       |      718 |         9 |
+|                                       |      718 |         0 |
 +---------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.75
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1265,12 +1288,12 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_param2/design.hldb ${HLC_DI
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             9       9       3         3
+Constant                            11      11       3         3
 Operation                            6       3       0         3
-RefObj                              46      43       0         3
-RefTypespec                         28      28       3         3
+RefObj                              48      45       0         3
+RefTypespec                         30      30       3         3
 ----------------------------------------------------------------
-Others                             102     102       0         0
+Others                              99      99       0         0
 ----------------------------------------------------------------
-                                   191     185       6        12
+                                   194     188       6        12
 ===================== END REDUCTION RESULT =====================

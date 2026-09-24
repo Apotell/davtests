@@ -109,7 +109,6 @@ n<$Source01/26.3--package-ref.sv> u<94> t<Top_level_rule> c<1> l<17:1> el<30:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/26.3--package-ref.sv:17:1: Compile package "mypkg".
 [INF:CP5804] $Source01/26.3--package-ref.sv:25:1: Compile module "top".
-[WRN:CP5851] $Source01/26.3--package-ref.sv:27:47: Failed to bind "id:40, name:add".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -153,7 +152,7 @@ Design name:unnamed:
               vpiParent: Function name:add
               vpiName: b
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:19:25 end:19:25:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:b
                 vpiFullName: mypkg::add::b
                 vpiActual: LogicTypespec
@@ -183,10 +182,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:25:8 end:25:11:
       vpiFullName: top
-      vpiTypespec (1 items):
-        UnsupportedTypespec name:mypkg start:27:40 end:27:45:
-          vpiParent: Module name:top
-          vpiName Identifier name:mypkg start:27:40 end:27:45:
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:25:8 end:25:11:
@@ -216,29 +211,31 @@ Design name:unnamed:
                 vpiName: mypkg::add(1, 3)
                 vpiFullName: top.mypkg::add(1, 3)
                 vpiPathElem (2 items):
-                  RefTypespec start:27:40 end:27:47:
+                  RefObj name:mypkg start:27:40 end:27:45:
                     vpiParent: RefObj name:mypkg::add(1, 3)
-                    vpiFullName: top.mypkg::add(1, 3)
-                    vpiActual: UnsupportedTypespec name:mypkg
-                  SubroutineCall name:add start:27:47 end:27:56:
+                    vpiName: mypkg
+                    vpiFullName: top.mypkg
+                    vpiActual: Package name:mypkg
+                  FuncCall name:add start:27:47 end:27:56:
                     vpiParent: RefObj name:mypkg::add(1, 3)
                     vpiName Identifier name:add start:27:47 end:27:50:
+                    vpiTaskFunc: Function name:add
                     vpiArgument (2 items):
                       Constant start:27:51 end:27:52:
-                        vpiParent: SubroutineCall name:add
+                        vpiParent: FuncCall name:add
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: top.mypkg::add(1, 3).add
+                          vpiFullName: top.mypkg::add(1, 3)
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
                         vpiDecompile: "1"
                         vpiValue: 1
                       Constant start:27:54 end:27:55:
-                        vpiParent: SubroutineCall name:add
+                        vpiParent: FuncCall name:add
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: top.mypkg::add(1, 3).add
+                          vpiFullName: top.mypkg::add(1, 3)
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -259,7 +256,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -303,7 +300,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-26/26.3--package-ref/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

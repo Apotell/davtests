@@ -56,10 +56,7 @@ n<$Source01/errors/syntax_err02.v> u<36> t<Top_level_rule> c<1> l<1:1> el<8:1>
         n<> u<32> t<ENDMODULE> p<33> l<6:1> el<6:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/errors/syntax_err02.v:1:1: Compile module "a".
-[ERR:LN7713] $Source01/errors/syntax_err02.v:1:1: Found 1 orphan node(s).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7701] Invalid name: id:18, type:RefTypespec, name:, relation:vpiElemTypespec.
-[ERR:LN7701] $Source01/errors/syntax_err02.v:3:9: Invalid name: id:20, type:RefTypespec, name:, relation:vpiTypespec.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -114,16 +111,19 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              vpiElemTypespec RefTypespec:
+              vpiElemTypespec RefTypespec start:3:9 end:3:16:
                 vpiParent: ArrayTypespec
                 vpiFullName: a.to
+                vpiActual: IntegerTypespec
           vpiIODecl (1 items):
             IODecl:
               vpiParent: Task name:to
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:3:9 end:3:16:
+              vpiTypespec RefTypespec name:integer [3:0] start:3:9 end:3:16:
                 vpiParent: IODecl
-                vpiFullName: a.to
+                vpiName: integer [3:0]
+                vpiFullName: a.to.integer [3:0]
+                vpiActual: ArrayTypespec
   vpiTypespec (2 items):
     ModuleTypespec name:a:
       vpiParent: Design name:unnamed
@@ -136,7 +136,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 2
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

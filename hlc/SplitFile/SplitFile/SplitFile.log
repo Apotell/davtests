@@ -51,8 +51,8 @@ COMMAND: -wd ../../../tests/SplitFile top.v top1.v top2.v -writepp -d inst -mt m
 [WRN:PA5506] $Source01/top2.v:115:1: No timescale set for "gap3".
 [WRN:PA5506] $Source01/top2.v:181:1: No timescale set for "gap4_181".
 [WRN:PA5506] $Source01/top1.v:2:1: No timescale set for "my_interface".
-[ERR:LN7701] Invalid name: id:744, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:747, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:746, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:749, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1585,7 +1585,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1605,7 +1605,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1627,7 +1627,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1645,7 +1645,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1667,7 +1667,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1685,7 +1685,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1750,24 +1750,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -1960,7 +1958,7 @@ Design name:unnamed:
       vpiNet (3 items):
         Net name:clock start:3:9 end:3:14:
           vpiParent: Interface name:my_interface
-          vpiTypespec RefTypespec start:3:3 end:3:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clock
             vpiFullName: my_interface.clock
             vpiActual: LogicTypespec
@@ -1970,7 +1968,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:select start:4:9 end:4:15:
           vpiParent: Interface name:my_interface
-          vpiTypespec RefTypespec start:4:3 end:4:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:select
             vpiFullName: my_interface.select
             vpiActual: LogicTypespec
@@ -1980,7 +1978,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:data start:5:15 end:5:19:
           vpiParent: Interface name:my_interface
-          vpiTypespec RefTypespec start:5:3 end:5:14:
+          vpiTypespec RefTypespec start:5:9 end:5:14:
             vpiParent: Net name:data
             vpiFullName: my_interface.data
             vpiActual: LogicTypespec
@@ -2023,7 +2021,7 @@ Design name:unnamed:
             vpiName: clock
             vpiFullName: my_interface.clock.clock
             vpiActual: Net name:clock
-          vpiTypespec RefTypespec start:3:3 end:3:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clock
             vpiFullName: my_interface.clock
             vpiActual: LogicTypespec
@@ -2036,7 +2034,7 @@ Design name:unnamed:
             vpiName: select
             vpiFullName: my_interface.select.select
             vpiActual: Net name:select
-          vpiTypespec RefTypespec start:4:3 end:4:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:select
             vpiFullName: my_interface.select
             vpiActual: LogicTypespec
@@ -2049,7 +2047,7 @@ Design name:unnamed:
             vpiName: data
             vpiFullName: my_interface.data.data
             vpiActual: Net name:data
-          vpiTypespec RefTypespec start:5:3 end:5:14:
+          vpiTypespec RefTypespec start:5:9 end:5:14:
             vpiParent: Port name:data
             vpiFullName: my_interface.data
             vpiActual: LogicTypespec
@@ -2083,7 +2081,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:a start:8:23 end:8:24:
           vpiParent: Module name:bottom1
-          vpiTypespec RefTypespec start:8:17 end:8:22:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:a
             vpiFullName: bottom1.a
             vpiActual: LogicTypespec
@@ -2093,7 +2091,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:b start:8:32 end:8:33:
           vpiParent: Module name:bottom1
-          vpiTypespec RefTypespec start:8:26 end:8:31:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:b
             vpiFullName: bottom1.b
             vpiActual: LogicTypespec
@@ -2111,7 +2109,7 @@ Design name:unnamed:
             vpiName: a
             vpiFullName: bottom1.a.a
             vpiActual: Net name:a
-          vpiTypespec RefTypespec start:8:17 end:8:22:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:a
             vpiFullName: bottom1.a
             vpiActual: LogicTypespec
@@ -2124,7 +2122,7 @@ Design name:unnamed:
             vpiName: b
             vpiFullName: bottom1.b.b
             vpiActual: Net name:b
-          vpiTypespec RefTypespec start:8:26 end:8:31:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:b
             vpiFullName: bottom1.b
             vpiActual: LogicTypespec
@@ -2251,7 +2249,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:a start:18:23 end:18:24:
           vpiParent: Module name:bottom2
-          vpiTypespec RefTypespec start:18:17 end:18:22:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:a
             vpiFullName: bottom2.a
             vpiActual: LogicTypespec
@@ -2261,7 +2259,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:b start:18:32 end:18:33:
           vpiParent: Module name:bottom2
-          vpiTypespec RefTypespec start:18:26 end:18:31:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:b
             vpiFullName: bottom2.b
             vpiActual: LogicTypespec
@@ -2279,7 +2277,7 @@ Design name:unnamed:
             vpiName: a
             vpiFullName: bottom2.a.a
             vpiActual: Net name:a
-          vpiTypespec RefTypespec start:18:17 end:18:22:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:a
             vpiFullName: bottom2.a
             vpiActual: LogicTypespec
@@ -2292,7 +2290,7 @@ Design name:unnamed:
             vpiName: b
             vpiFullName: bottom2.b.b
             vpiActual: Net name:b
-          vpiTypespec RefTypespec start:18:26 end:18:31:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:b
             vpiFullName: bottom2.b
             vpiActual: LogicTypespec
@@ -2475,7 +2473,7 @@ Design name:unnamed:
       vpiNet (3 items):
         Net name:a start:35:8 end:35:9:
           vpiParent: Module name:middle
-          vpiTypespec RefTypespec start:35:8 end:35:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:a
             vpiFullName: middle.a
             vpiActual: LogicTypespec
@@ -2486,7 +2484,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:b start:35:11 end:35:12:
           vpiParent: Module name:middle
-          vpiTypespec RefTypespec start:35:8 end:35:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:b
             vpiFullName: middle.b
             vpiActual: LogicTypespec
@@ -2497,7 +2495,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:c start:35:14 end:35:15:
           vpiParent: Module name:middle
-          vpiTypespec RefTypespec start:35:8 end:35:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:c
             vpiFullName: middle.c
             vpiActual: LogicTypespec
@@ -2750,7 +2748,7 @@ COMMAND: ${HLC_DIR}/regression/SplitFile/SplitFile/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             886     886       0         0
+Others                             884     884       0         0
 ----------------------------------------------------------------
-                                   886     886       0         0
+                                   884     884       0         0
 ===================== END REDUCTION RESULT =====================

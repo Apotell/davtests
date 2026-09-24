@@ -261,8 +261,10 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_gen11.v:8:1: Compile interface "intf".
 [INF:CP5804] $Source01/t_interface_gen11.v:15:1: Compile module "t1".
 [WRN:CP5811] $Source01/t_interface_gen11.v:15:16: Port "mod_intf" definition missing its direction (input, output, inout).
+[ERR:CP5824] $Source01/t_interface_gen11.v:15:1: Multiply defined typedef "intf".
 [INF:CP5804] $Source01/t_interface_gen11.v:21:1: Compile module "t2".
 [WRN:CP5811] $Source01/t_interface_gen11.v:21:16: Port "mod_intfs" definition missing its direction (input, output, inout).
+[ERR:CP5824] $Source01/t_interface_gen11.v:21:1: Multiply defined typedef "intf".
 [INF:CP5804] $Source01/t_interface_gen11.v:29:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -285,13 +287,12 @@ Design name:unnamed:
             vpiParent: Variable name:val
             vpiName: logic
             vpiFullName: intf #(.PARAM(0)).val.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: val
           vpiFullName: intf #(.PARAM(0)).val
       vpiParameter (1 items):
         Parameter name:PARAM start:9:15 end:9:20:
           vpiParent: Interface name:intf #(.PARAM(0))
-          vpiTypespec RefTypespec start:9:15 end:9:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:PARAM
             vpiFullName: intf #(.PARAM(0)).PARAM
             vpiActual: LogicTypespec
@@ -315,12 +316,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:intf #(.PARAM(0))
-        UnsupportedTypespec name:logic start:11:4 end:11:9:
-          vpiParent: Interface name:intf #(.PARAM(0))
-          vpiName Identifier name:logic start:11:4 end:11:9:
       vpiDefName: intf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:11 end:8:15:
@@ -439,11 +437,6 @@ Design name:unnamed:
       vpiName Identifier name:t2 start:21:8 end:21:10:
       vpiFullName: t2
       vpiTypespec (2 items):
-        InterfaceTypespec name:intf start:21:11 end:21:15:
-          vpiParent: Module name:t2
-          vpiName Identifier name:intf start:21:11 end:21:15:
-          vpiDefName: intf
-          vpiInterface: Interface name:intf #(.PARAM(0))
         ArrayTypespec:
           vpiParent: Module name:t2
           vpiArrayType: static (1)
@@ -474,6 +467,11 @@ Design name:unnamed:
             vpiName: intf
             vpiFullName: t2.intf
             vpiActual: InterfaceTypespec name:intf
+        InterfaceTypespec name:intf start:21:11 end:21:15:
+          vpiParent: Module name:t2
+          vpiName Identifier name:intf start:21:11 end:21:15:
+          vpiDefName: intf
+          vpiInterface: Interface name:intf #(.PARAM(0))
       vpiDefName: t2
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:21:8 end:21:10:
@@ -484,10 +482,10 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:mod_intfs start:21:16 end:21:25:
           vpiParent: Module name:t2
-          vpiTypespec RefTypespec name:intf start:21:11 end:21:15:
+          vpiTypespec RefTypespec name:intf [1:0] start:21:11 end:21:15:
             vpiParent: Net name:mod_intfs
-            vpiName: intf
-            vpiFullName: t2.mod_intfs.intf
+            vpiName: intf [1:0]
+            vpiFullName: t2.mod_intfs.intf [1:0]
             vpiActual: ArrayTypespec
           vpiName: mod_intfs
           vpiFullName: t2.mod_intfs
@@ -502,10 +500,10 @@ Design name:unnamed:
             vpiName: mod_intfs
             vpiFullName: t2.mod_intfs.mod_intfs
             vpiActual: Net name:mod_intfs
-          vpiTypespec RefTypespec name:intf start:21:11 end:21:15:
+          vpiTypespec RefTypespec name:intf [1:0] start:21:11 end:21:15:
             vpiParent: Port name:mod_intfs
-            vpiName: intf
-            vpiFullName: t2.mod_intfs.intf
+            vpiName: intf [1:0]
+            vpiFullName: t2.mod_intfs.intf [1:0]
             vpiActual: ArrayTypespec
       vpiGenStmt (1 items):
         GenRegion start:22:5 end:26:16:
@@ -560,7 +558,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:29:8 end:29:9:
       vpiFullName: t
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -586,11 +584,49 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:intf start:31:4 end:31:8:
+          vpiElemTypespec RefTypespec start:31:4 end:31:8:
             vpiParent: ArrayTypespec
-            vpiName: intf
-            vpiFullName: t.intf
-            vpiActual: InterfaceTypespec name:intf
+            vpiFullName: t
+            vpiActual: UnsupportedTypespec
+        UnsupportedTypespec start:31:4 end:31:21:
+          vpiParent: Module name:t
+          vpiParamAssign (2 items):
+            ParamAssign start:31:11 end:31:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:PARAM start:31:12 end:31:17:
+                vpiParent: ParamAssign
+                vpiName: PARAM
+                vpiFullName: t.PARAM
+              vpiRhs Constant start:31:18 end:31:19:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
+            ParamAssign start:31:11 end:31:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:PARAM start:31:12 end:31:17:
+                vpiParent: ParamAssign
+                vpiName: PARAM
+                vpiFullName: t.PARAM
+              vpiRhs Constant start:31:18 end:31:19:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
         ModuleTypespec name:t2 start:33:4 end:33:6:
           vpiParent: Module name:t
           vpiName Identifier name:t2 start:33:4 end:33:6:
@@ -631,10 +667,10 @@ Design name:unnamed:
         RefInstance name:my_intf start:31:22 end:31:29:
           vpiParent: Module name:t
           vpiName: my_intf
-          vpiTypespec RefTypespec name:intf start:31:4 end:31:8:
+          "vpiTypespec RefTypespec name: [1:0] start:31:4 end:31:8":
             vpiParent: RefInstance name:my_intf
-            vpiName: intf
-            vpiFullName: t.my_intf.intf
+            vpiName: " [1:0]"
+            vpiFullName: t.my_intf. [1:0]
             vpiActual: ArrayTypespec
         RefInstance name:t2 start:33:7 end:33:9:
           vpiParent: Module name:t
@@ -686,7 +722,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
@@ -702,25 +738,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_gen11/mounts.json
 
 
-{'result': {'coverage': 98.36,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_gen11.v': {'post_len': 7,
+            'files': {'$Output/lib/work/t_interface_gen11.v': {'post_len': 0,
                                                                'pre_len': 428}},
-            'post_len': 7,
+            'post_len': 0,
             'pre_len': 428,
             'test_name': 'Verilator/t_interface_gen11'}}
 
 +--------------------------------------+----------+-----------+
 | INPUT                                |   PRELEN |   POSTLEN |
 +======================================+==========+===========+
-| $Output/lib/work/t_interface_gen11.v |      428 |         7 |
+| $Output/lib/work/t_interface_gen11.v |      428 |         0 |
 +======================================+==========+===========+
-|                                      |      428 |         7 |
+|                                      |      428 |         0 |
 +--------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.36
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -731,7 +767,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_gen11/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             108     108       0         0
+Others                             115     115       0         0
 ----------------------------------------------------------------
-                                   108     108       0         0
+                                   115     115       0         0
 ===================== END REDUCTION RESULT =====================

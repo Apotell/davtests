@@ -81,6 +81,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_typo_bad.v:8:1: Compile interface "foo_intf".
 [INF:CP5804] $Source01/t_interface_typo_bad.v:11:1: Compile module "submod".
 [WRN:CP5811] $Source01/t_interface_typo_bad.v:13:13: Port "foo" definition missing its direction (input, output, inout).
+[ERR:CP5824] $Source01/t_interface_typo_bad.v:11:1: Multiply defined typedef "foo_intf".
 [INF:CP5804] $Source01/t_interface_typo_bad.v:18:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -158,13 +159,9 @@ Design name:unnamed:
             vpiParent: Variable name:the_foo
             vpiName: fo_intf
             vpiFullName: t.the_foo.fo_intf
-            vpiActual: UnsupportedTypespec name:fo_intf
           vpiName: the_foo
           vpiFullName: t.the_foo
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:fo_intf start:21:4 end:21:11:
-          vpiParent: Module name:t
-          vpiName Identifier name:fo_intf start:21:4 end:21:11:
+      vpiTypespec (1 items):
         ModuleTypespec name:submod start:23:4 end:23:10:
           vpiParent: Module name:t
           vpiName Identifier name:submod start:23:4 end:23:10:
@@ -218,7 +215,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -263,7 +260,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_typo_bad/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              35      35       0         0
+Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    35      35       0         0
+                                    33      33       0         0
 ===================== END REDUCTION RESULT =====================

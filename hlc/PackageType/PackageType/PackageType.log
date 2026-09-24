@@ -1422,7 +1422,7 @@ Design name:unnamed:
       vpiParameter (4 items):
         Parameter name:max_cfgs start:10:14 end:10:22:
           vpiParent: Package name:bp_common_aviary_pkg
-          vpiTypespec RefTypespec start:10:14 end:10:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:max_cfgs
             vpiFullName: bp_common_aviary_pkg::max_cfgs
             vpiActual: LogicTypespec
@@ -1431,7 +1431,7 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:lg_max_cfgs start:11:14 end:11:25:
           vpiParent: Package name:bp_common_aviary_pkg
-          vpiTypespec RefTypespec start:11:14 end:11:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:lg_max_cfgs
             vpiFullName: bp_common_aviary_pkg::lg_max_cfgs
             vpiActual: LogicTypespec
@@ -1450,10 +1450,10 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:all_cfgs_gp start:18:44 end:18:55:
           vpiParent: Package name:bp_common_aviary_pkg
-          vpiTypespec RefTypespec name:bp_proc_param_s start:18:13 end:18:43:
+          vpiTypespec RefTypespec name:bp_proc_param_s [max_cfgs-1:0] start:18:13 end:18:43:
             vpiParent: Parameter name:all_cfgs_gp
-            vpiName: bp_proc_param_s
-            vpiFullName: bp_common_aviary_pkg::all_cfgs_gp::bp_proc_param_s
+            vpiName: bp_proc_param_s [max_cfgs-1:0]
+            vpiFullName: bp_common_aviary_pkg::all_cfgs_gp::bp_proc_param_s [max_cfgs-1:0]
             vpiActual: ArrayTypespec
           vpiName: all_cfgs_gp
           vpiFullName: bp_common_aviary_pkg::all_cfgs_gp
@@ -1583,7 +1583,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:bp_proc_param_s:
+          vpiElemTypespec RefTypespec name:bp_proc_param_s start:18:13 end:18:43:
             vpiParent: ArrayTypespec
             vpiName: bp_proc_param_s
             vpiFullName: bp_common_aviary_pkg::bp_proc_param_s
@@ -1665,7 +1665,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1685,7 +1685,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1707,7 +1707,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1725,7 +1725,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1747,7 +1747,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1765,7 +1765,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1830,24 +1830,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -2071,13 +2069,13 @@ COMMAND: ${HLC_DIR}/regression/PackageType/PackageType/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            11      12       2         1
-Identifier                         208     207       0         1
+Identifier                         207     206       0         1
 Operation                            3       2       0         1
 RefObj                               9       7       0         2
 RefTypespec                        199     199       1         1
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                             253     253       0         0
+Others                             252     252       0         0
 ----------------------------------------------------------------
-                                   684     680       3         7
+                                   682     678       3         7
 ===================== END REDUCTION RESULT =====================

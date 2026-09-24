@@ -646,7 +646,7 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/t_gen_self_return.v:31:15: Compile generate block "ram_dataout_gen".
 [INF:CP5804] $Source01/t_gen_self_return.v:46:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7722] $Source01/t_gen_self_return.v:33:37: Select name does not match pretty-printed expression: id:224, type:BitSelect, name:RAM_BLOCK_INDEX[i + 1], relation:vpiOperand.
+[ERR:LN7722] $Source01/t_gen_self_return.v:33:37: Select name does not match pretty-printed expression: id:227, type:BitSelect, name:RAM_BLOCK_INDEX[i + 1], relation:vpiOperand.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -664,24 +664,25 @@ Design name:unnamed:
         Typedef name:block_index_t start:18:4 end:18:57:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
           vpiName Identifier name:block_index_t start:18:43 end:18:56:
-          vpiTypedefAlias RefTypespec start:18:12 end:18:42:
+          vpiTypedefAlias RefTypespec name:logic [31:0] [NUM_RAM_BLOCKS:0] start:18:12 end:18:42:
             vpiParent: Typedef name:block_index_t
-            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).block_index_t
+            vpiName: logic [31:0] [NUM_RAM_BLOCKS:0]
+            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).block_index_t.logic [31:0] [NUM_RAM_BLOCKS:0]
             vpiActual: ArrayTypespec
       vpiVariable (1 items):
         Variable name:ram_dataout start:13:30 end:13:41:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
-          vpiTypespec RefTypespec name:logic start:13:12 end:13:17:
+          vpiTypespec RefTypespec name:logic [WIDTH-1:0] start:13:12 end:13:29:
             vpiParent: Variable name:ram_dataout
-            vpiName: logic
-            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout.logic
+            vpiName: logic [WIDTH-1:0]
+            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout.logic [WIDTH-1:0]
             vpiActual: ArrayTypespec
           vpiName: ram_dataout
           vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout
       vpiParameter (6 items):
         Parameter name:DEPTH start:8:15 end:8:20:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
-          vpiTypespec RefTypespec start:8:15 end:8:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:DEPTH
             vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).DEPTH
             vpiActual: LogicTypespec
@@ -689,7 +690,7 @@ Design name:unnamed:
           vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).DEPTH
         Parameter name:WIDTH start:9:15 end:9:20:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
-          vpiTypespec RefTypespec start:9:15 end:9:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:WIDTH
             vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).WIDTH
             vpiActual: LogicTypespec
@@ -697,7 +698,7 @@ Design name:unnamed:
           vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).WIDTH
         Parameter name:RAM_SPLIT_WIDTH start:10:15 end:10:30:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
-          vpiTypespec RefTypespec start:10:15 end:10:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:RAM_SPLIT_WIDTH
             vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).RAM_SPLIT_WIDTH
             vpiActual: LogicTypespec
@@ -705,7 +706,7 @@ Design name:unnamed:
           vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).RAM_SPLIT_WIDTH
         Parameter name:RAM_ADDR_WIDTH start:16:15 end:16:29:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
-          vpiTypespec RefTypespec start:16:15 end:16:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:RAM_ADDR_WIDTH
             vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).RAM_ADDR_WIDTH
             vpiActual: LogicTypespec
@@ -714,7 +715,7 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:NUM_RAM_BLOCKS start:17:15 end:17:29:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
-          vpiTypespec RefTypespec start:17:15 end:17:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NUM_RAM_BLOCKS
             vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).NUM_RAM_BLOCKS
             vpiActual: LogicTypespec
@@ -888,12 +889,9 @@ Design name:unnamed:
                 vpiName: NUM_RAM_BLOCKS
                 vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).NUM_RAM_BLOCKS
                 vpiActual: Parameter name:NUM_RAM_BLOCKS
-      vpiTypespec (7 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
-        UnsupportedTypespec name:logic start:13:12 end:13:17:
-          vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
-          vpiName Identifier name:logic start:13:12 end:13:17:
         ArrayTypespec:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
           vpiArrayType: static (1)
@@ -929,14 +927,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:13:12 end:13:29:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).logic
-            vpiActual: UnsupportedTypespec name:logic
-        UnsupportedTypespec name:logic start:18:12 end:18:17:
-          vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
-          vpiName Identifier name:logic start:18:12 end:18:17:
         ArrayTypespec:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
           vpiArrayType: static (1)
@@ -988,11 +982,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:18:12 end:18:36:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).logic
-            vpiActual: UnsupportedTypespec name:logic
         TypedefTypespec name:block_index_t start:18:4 end:18:57:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
           vpiName Identifier name:block_index_t start:18:43 end:18:56:
@@ -1024,17 +1017,14 @@ Design name:unnamed:
               vpiParent: Function name:index_calc
               vpiName: NUM_RAM_BLOCKS
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:20:65 end:20:65:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:NUM_RAM_BLOCKS
                 vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).index_calc.NUM_RAM_BLOCKS
                 vpiActual: LogicTypespec
           vpiStmt Begin:
             vpiParent: Function name:index_calc
             vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).index_calc
-            vpiTypespec (3 items):
-              UnsupportedTypespec name:block_index_t start:20:23 end:20:36:
-                vpiParent: Begin
-                vpiName Identifier name:block_index_t start:20:23 end:20:36:
+            vpiTypespec (2 items):
               LogicTypespec:
                 vpiParent: Begin
               BitTypespec:
@@ -1342,10 +1332,11 @@ Design name:unnamed:
                   vpiName: index_calc
                   vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).index_calc.index_calc
                   vpiActual: Function name:index_calc
-          vpiReturn RefTypespec start:20:23 end:20:36:
+          vpiReturn RefTypespec name:block_index_t start:20:23 end:20:36:
             vpiParent: Function name:index_calc
-            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).index_calc
-            vpiActual: UnsupportedTypespec name:block_index_t
+            vpiName: block_index_t
+            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).index_calc.block_index_t
+            vpiActual: TypedefTypespec name:block_index_t
       vpiPort (1 items):
         Port name:ram_dataout start:13:30 end:13:41:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
@@ -1356,10 +1347,10 @@ Design name:unnamed:
             vpiName: ram_dataout
             vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout.ram_dataout
             vpiActual: Variable name:ram_dataout
-          vpiTypespec RefTypespec name:logic start:13:12 end:13:17:
+          vpiTypespec RefTypespec name:logic [WIDTH-1:0] start:13:12 end:13:29:
             vpiParent: Port name:ram_dataout
-            vpiName: logic
-            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout.logic
+            vpiName: logic [WIDTH-1:0]
+            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout.logic [WIDTH-1:0]
             vpiActual: ArrayTypespec
       vpiProcess (1 items):
         Initial start:38:4 end:42:7:
@@ -1582,19 +1573,16 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:ram_dataout start:49:24 end:49:35:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:49:11 end:49:16:
+          vpiTypespec RefTypespec name:logic [31:0] start:49:11 end:49:23:
             vpiParent: Variable name:ram_dataout
-            vpiName: logic
-            vpiFullName: t.ram_dataout.logic
+            vpiName: logic [31:0]
+            vpiFullName: t.ram_dataout.logic [31:0]
             vpiActual: ArrayTypespec
           vpiName: ram_dataout
           vpiFullName: t.ram_dataout
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:logic start:49:11 end:49:16:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:49:11 end:49:16:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -1621,11 +1609,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:49:11 end:49:23:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-            vpiActual: UnsupportedTypespec name:logic
         ModuleTypespec name:dut start:52:4 end:52:7:
           vpiParent: Module name:t
           vpiName Identifier name:dut start:52:4 end:52:7:
@@ -1641,7 +1628,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:48:24 end:48:27:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:48:4 end:48:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -1659,7 +1646,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:48:4 end:48:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -1672,10 +1659,10 @@ Design name:unnamed:
             vpiName: ram_dataout
             vpiFullName: t.ram_dataout.ram_dataout
             vpiActual: Variable name:ram_dataout
-          vpiTypespec RefTypespec name:logic start:49:11 end:49:16:
+          vpiTypespec RefTypespec name:logic [31:0] start:49:11 end:49:23:
             vpiParent: Port name:ram_dataout
-            vpiName: logic
-            vpiFullName: t.ram_dataout.logic
+            vpiName: logic [31:0]
+            vpiFullName: t.ram_dataout.logic [31:0]
             vpiActual: ArrayTypespec
       vpiRefInstance (1 items):
         RefInstance name:dut0 start:52:8 end:52:12:
@@ -1759,14 +1746,14 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_gen_self_return/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            28      26       4         6
-Identifier                          18      17       0         1
+Identifier                          14      13       0         1
 LogicTypespec                        3       4       1         0
 Operation                           25      18       0         7
 RefObj                              51      45       0         6
 RefTypespec                         51      47       2         6
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              83      83       0         0
+Others                              79      79       0         0
 ----------------------------------------------------------------
-                                   260     240       7        27
+                                   252     232       7        27
 ===================== END REDUCTION RESULT =====================

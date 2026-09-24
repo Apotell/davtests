@@ -756,16 +756,6 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/msgPkg.pkg:4:1: Compile package "msgPkg".
 [INF:CP5804] $Source01/simple_pkg.sv:11:1: Compile module "simple_package".
 [INF:CP5836] $Source01/simple_pkg.sv:15:23: Compile generate block "inst".
-[WRN:CP5851] $Source01/simple_pkg.sv:13:28: Failed to bind "id:826, name:FALSE".
-[WRN:CP5851] $Source01/simple_pkg.sv:20:11: Failed to bind "id:853, name:initMsgPkg".
-[WRN:CP5851] $Source01/simple_pkg.sv:21:11: Failed to bind "id:862, name:msg_info".
-[WRN:CP5851] $Source01/simple_pkg.sv:22:15: Failed to bind "id:875, name:msg_warn".
-[WRN:CP5851] $Source01/simple_pkg.sv:23:15: Failed to bind "id:888, name:msg_error".
-[WRN:CP5851] $Source01/simple_pkg.sv:25:12: Failed to bind "id:900, name:getWarnCnt".
-[WRN:CP5851] $Source01/simple_pkg.sv:25:34: Failed to bind "id:906, name:getErrCnt".
-[WRN:CP5851] $Source01/simple_pkg.sv:24:11: Failed to bind "id:911, name:msg_info".
-[WRN:CP5851] $Source01/simple_pkg.sv:26:28: Failed to bind "id:918, name:TRUE".
-[WRN:CP5851] $Source01/simple_pkg.sv:27:17: Failed to bind "id:931, name:msg_fatal".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/definesPkg.pkg:4:1: No timescale set for "definesPkg".
 [WRN:PA5506] $Source01/msgPkg.pkg:4:1: No timescale set for "msgPkg".
@@ -2046,18 +2036,18 @@ Design name:unnamed:
             TypespecMember name:addr start:12:20 end:12:24:
               vpiParent: Struct
               vpiName: addr
-              vpiTypespec RefTypespec name:bit start:12:6 end:12:17:
+              vpiTypespec RefTypespec name:bit [7:0] start:12:6 end:12:17:
                 vpiParent: TypespecMember name:addr
-                vpiName: bit
-                vpiFullName: definesPkg::addr::bit
+                vpiName: bit [7:0]
+                vpiFullName: definesPkg::addr::bit [7:0]
                 vpiActual: ArrayTypespec
             TypespecMember name:data start:13:20 end:13:24:
               vpiParent: Struct
               vpiName: data
-              vpiTypespec RefTypespec name:bit start:13:6 end:13:17:
+              vpiTypespec RefTypespec name:bit [7:0] start:13:6 end:13:17:
                 vpiParent: TypespecMember name:data
-                vpiName: bit
-                vpiFullName: definesPkg::data::bit
+                vpiName: bit [7:0]
+                vpiFullName: definesPkg::data::bit [7:0]
                 vpiActual: ArrayTypespec
             TypespecMember name:wr start:14:20 end:14:22:
               vpiParent: Struct
@@ -2066,7 +2056,6 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:wr
                 vpiName: bit
                 vpiFullName: definesPkg::wr::bit
-                vpiActual: UnsupportedTypespec name:bit
       vpiTypedef (2 items):
         Typedef name:bool start:10:3 end:10:36:
           vpiParent: Package name:definesPkg
@@ -2085,7 +2074,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:SIZE start:8:13 end:8:17:
           vpiParent: Package name:definesPkg
-          vpiTypespec RefTypespec start:8:13 end:8:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:SIZE
             vpiFullName: definesPkg::SIZE
             vpiActual: LogicTypespec
@@ -2109,7 +2098,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
-      vpiTypespec (10 items):
+      vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Package name:definesPkg
         EnumTypespec start:10:11 end:10:30:
@@ -2120,9 +2109,6 @@ Design name:unnamed:
           vpiName Identifier name:bool start:10:31 end:10:35:
           vpiTypedefKind: enum (2)
           vpiTypedef: Typedef name:bool
-        UnsupportedTypespec name:bit start:12:6 end:12:9:
-          vpiParent: Package name:definesPkg
-          vpiName Identifier name:bit start:12:6 end:12:9:
         ArrayTypespec:
           vpiParent: Package name:definesPkg
           vpiArrayType: static (1)
@@ -2149,14 +2135,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:bit:
+          vpiElemTypespec RefTypespec name:bit start:12:6 end:12:17:
             vpiParent: ArrayTypespec
             vpiName: bit
             vpiFullName: definesPkg::bit
-            vpiActual: UnsupportedTypespec name:bit
-        UnsupportedTypespec name:bit start:13:6 end:13:9:
-          vpiParent: Package name:definesPkg
-          vpiName Identifier name:bit start:13:6 end:13:9:
         ArrayTypespec:
           vpiParent: Package name:definesPkg
           vpiArrayType: static (1)
@@ -2183,14 +2165,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:bit:
+          vpiElemTypespec RefTypespec name:bit start:13:6 end:13:17:
             vpiParent: ArrayTypespec
             vpiName: bit
             vpiFullName: definesPkg::bit
-            vpiActual: UnsupportedTypespec name:bit
-        UnsupportedTypespec name:bit start:14:6 end:14:9:
-          vpiParent: Package name:definesPkg
-          vpiName Identifier name:bit start:14:6 end:14:9:
         StructTypespec start:11:11 end:15:4:
           vpiParent: Package name:definesPkg
           vpiStruct: Struct
@@ -2267,10 +2245,9 @@ Design name:unnamed:
             vpiValue: 0
         Variable name:msgName start:8:12 end:8:19:
           vpiParent: Package name:msgPkg
-          vpiTypespec RefTypespec name:string start:8:3 end:8:9:
+          vpiTypespec RefTypespec start:8:3 end:8:9:
             vpiParent: Variable name:msgName
-            vpiName: string
-            vpiFullName: msgPkg::msgName::string
+            vpiFullName: msgPkg::msgName
             vpiActual: StringTypespec
           vpiName: msgName
           vpiFullName: msgPkg::msgName
@@ -2305,10 +2282,9 @@ Design name:unnamed:
               vpiParent: Task name:initMsgPkg
               vpiName: mName
               vpiDirection: input (1)
-              vpiTypespec RefTypespec name:string start:12:20 end:12:26:
+              vpiTypespec RefTypespec start:12:20 end:12:26:
                 vpiParent: IODecl name:mName
-                vpiName: string
-                vpiFullName: msgPkg::initMsgPkg::mName::string
+                vpiFullName: msgPkg::initMsgPkg::mName
                 vpiActual: StringTypespec
             IODecl name:term start:12:38 end:12:42:
               vpiParent: Task name:initMsgPkg
@@ -2318,14 +2294,9 @@ Design name:unnamed:
                 vpiParent: IODecl name:term
                 vpiName: bit
                 vpiFullName: msgPkg::initMsgPkg::term::bit
-                vpiActual: UnsupportedTypespec name:bit
           vpiStmt Begin:
             vpiParent: Task name:initMsgPkg
             vpiFullName: msgPkg::initMsgPkg
-            vpiTypespec (1 items):
-              UnsupportedTypespec name:bit start:12:34 end:12:37:
-                vpiParent: Begin
-                vpiName Identifier name:bit start:12:34 end:12:37:
             vpiStmt (2 items):
               Assignment start:13:5 end:13:30:
                 vpiParent: Begin
@@ -2362,10 +2333,9 @@ Design name:unnamed:
               vpiParent: Task name:msg_info
               vpiName: msg
               vpiDirection: input (1)
-              vpiTypespec RefTypespec name:string start:19:19 end:19:25:
+              vpiTypespec RefTypespec start:19:19 end:19:25:
                 vpiParent: IODecl name:msg
-                vpiName: string
-                vpiFullName: msgPkg::msg_info::msg::string
+                vpiFullName: msgPkg::msg_info::msg
                 vpiActual: StringTypespec
           vpiStmt SysTaskCall name:$display start:20:5 end:20:55:
             vpiParent: Task name:msg_info
@@ -2403,10 +2373,9 @@ Design name:unnamed:
               vpiParent: Task name:msg_warn
               vpiName: msg
               vpiDirection: input (1)
-              vpiTypespec RefTypespec name:string start:25:19 end:25:25:
+              vpiTypespec RefTypespec start:25:19 end:25:25:
                 vpiParent: IODecl name:msg
-                vpiName: string
-                vpiFullName: msgPkg::msg_warn::msg::string
+                vpiFullName: msgPkg::msg_warn::msg
                 vpiActual: StringTypespec
           vpiStmt Begin:
             vpiParent: Task name:msg_warn
@@ -2457,10 +2426,9 @@ Design name:unnamed:
               vpiParent: Task name:msg_error
               vpiName: msg
               vpiDirection: input (1)
-              vpiTypespec RefTypespec name:string start:32:20 end:32:26:
+              vpiTypespec RefTypespec start:32:20 end:32:26:
                 vpiParent: IODecl name:msg
-                vpiName: string
-                vpiFullName: msgPkg::msg_error::msg::string
+                vpiFullName: msgPkg::msg_error::msg
                 vpiActual: StringTypespec
           vpiStmt Begin:
             vpiParent: Task name:msg_error
@@ -2521,10 +2489,9 @@ Design name:unnamed:
               vpiParent: Task name:msg_fatal
               vpiName: msg
               vpiDirection: input (1)
-              vpiTypespec RefTypespec name:string start:40:20 end:40:26:
+              vpiTypespec RefTypespec start:40:20 end:40:26:
                 vpiParent: IODecl name:msg
-                vpiName: string
-                vpiFullName: msgPkg::msg_fatal::msg::string
+                vpiFullName: msgPkg::msg_fatal::msg
                 vpiActual: StringTypespec
           vpiStmt Begin:
             vpiParent: Task name:msg_fatal
@@ -2682,7 +2649,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -2702,7 +2669,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -2724,7 +2691,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -2742,7 +2709,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -2764,7 +2731,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -2782,7 +2749,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -2847,24 +2814,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -3033,18 +2998,16 @@ Design name:unnamed:
             vpiName: definesPkg::FALSE
             vpiFullName: simple_package.value.definesPkg::FALSE
             vpiPathElem (2 items):
-              RefTypespec start:13:16 end:13:28:
+              RefObj name:definesPkg start:13:16 end:13:26:
                 vpiParent: RefObj name:definesPkg::FALSE
-                vpiFullName: simple_package.value.definesPkg::FALSE
-                vpiActual: UnsupportedTypespec name:definesPkg
+                vpiName: definesPkg
+                vpiFullName: simple_package.value.definesPkg
+                vpiActual: Package name:definesPkg
               RefObj name:FALSE start:13:28 end:13:33:
                 vpiParent: RefObj name:definesPkg::FALSE
                 vpiName: FALSE
                 vpiFullName: simple_package.value.FALSE
-      vpiTypespec (1 items):
-        UnsupportedTypespec name:definesPkg start:13:16 end:13:26:
-          vpiParent: Module name:simple_package
-          vpiName Identifier name:definesPkg start:13:16 end:13:26:
+                vpiActual: EnumConst name:FALSE
       vpiDefName: simple_package
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:11:8 end:11:22:
@@ -3058,63 +3021,37 @@ Design name:unnamed:
           vpiStmt Begin start:19:9 end:28:4:
             vpiParent: Initial
             vpiFullName: simple_package
-            vpiTypespec (9 items):
-              UnsupportedTypespec name:msgPkg start:20:3 end:20:9:
-                vpiParent: Begin
-                vpiName Identifier name:msgPkg start:20:3 end:20:9:
-              UnsupportedTypespec name:msgPkg start:21:3 end:21:9:
-                vpiParent: Begin
-                vpiName Identifier name:msgPkg start:21:3 end:21:9:
-              UnsupportedTypespec name:msgPkg start:22:7 end:22:13:
-                vpiParent: Begin
-                vpiName Identifier name:msgPkg start:22:7 end:22:13:
-              UnsupportedTypespec name:msgPkg start:23:7 end:23:13:
-                vpiParent: Begin
-                vpiName Identifier name:msgPkg start:23:7 end:23:13:
-              UnsupportedTypespec name:msgPkg start:24:3 end:24:9:
-                vpiParent: Begin
-                vpiName Identifier name:msgPkg start:24:3 end:24:9:
-              UnsupportedTypespec name:msgPkg start:25:4 end:25:10:
-                vpiParent: Begin
-                vpiName Identifier name:msgPkg start:25:4 end:25:10:
-              UnsupportedTypespec name:msgPkg start:25:26 end:25:32:
-                vpiParent: Begin
-                vpiName Identifier name:msgPkg start:25:26 end:25:32:
-              UnsupportedTypespec name:definesPkg start:26:16 end:26:26:
-                vpiParent: Begin
-                vpiName Identifier name:definesPkg start:26:16 end:26:26:
-              UnsupportedTypespec name:msgPkg start:27:9 end:27:15:
-                vpiParent: Begin
-                vpiName Identifier name:msgPkg start:27:9 end:27:15:
             vpiStmt (6 items):
               "RefObj name:msgPkg::initMsgPkg(\"PACKAGES\", 0) start:20:3 end:20:35":
                 vpiParent: Begin
                 vpiName: msgPkg::initMsgPkg("PACKAGES", 0)
                 vpiFullName: simple_package.msgPkg::initMsgPkg("PACKAGES", 0)
                 vpiPathElem (2 items):
-                  RefTypespec start:20:3 end:20:11:
+                  RefObj name:msgPkg start:20:3 end:20:9:
                     vpiParent: "RefObj name:msgPkg::initMsgPkg(\"PACKAGES\", 0)"
-                    vpiFullName: simple_package.msgPkg::initMsgPkg("PACKAGES", 0)
-                    vpiActual: UnsupportedTypespec name:msgPkg
-                  SubroutineCall name:initMsgPkg start:20:11 end:20:35:
+                    vpiName: msgPkg
+                    vpiFullName: simple_package.msgPkg
+                    vpiActual: Package name:msgPkg
+                  TaskCall name:initMsgPkg start:20:11 end:20:35:
                     vpiParent: "RefObj name:msgPkg::initMsgPkg(\"PACKAGES\", 0)"
                     vpiName Identifier name:initMsgPkg start:20:11 end:20:21:
+                    vpiTaskFunc: Task name:initMsgPkg
                     vpiArgument (2 items):
                       Constant start:20:22 end:20:32:
-                        vpiParent: SubroutineCall name:initMsgPkg
+                        vpiParent: TaskCall name:initMsgPkg
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: simple_package.msgPkg::initMsgPkg("PACKAGES", 0).initMsgPkg
+                          vpiFullName: simple_package.msgPkg::initMsgPkg("PACKAGES", 0)
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 64
                         vpiDecompile: "\"PACKAGES\""
                         vpiValue: PACKAGES
                       Constant start:20:33 end:20:34:
-                        vpiParent: SubroutineCall name:initMsgPkg
+                        vpiParent: TaskCall name:initMsgPkg
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: simple_package.msgPkg::initMsgPkg("PACKAGES", 0).initMsgPkg
+                          vpiFullName: simple_package.msgPkg::initMsgPkg("PACKAGES", 0)
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
@@ -3125,19 +3062,21 @@ Design name:unnamed:
                 vpiName: msgPkg::msg_info("Testing Packages")
                 vpiFullName: simple_package.msgPkg::msg_info("Testing Packages")
                 vpiPathElem (2 items):
-                  RefTypespec start:21:3 end:21:11:
+                  RefObj name:msgPkg start:21:3 end:21:9:
                     vpiParent: "RefObj name:msgPkg::msg_info(\"Testing Packages\")"
-                    vpiFullName: simple_package.msgPkg::msg_info("Testing Packages")
-                    vpiActual: UnsupportedTypespec name:msgPkg
-                  SubroutineCall name:msg_info start:21:11 end:21:39:
+                    vpiName: msgPkg
+                    vpiFullName: simple_package.msgPkg
+                    vpiActual: Package name:msgPkg
+                  TaskCall name:msg_info start:21:11 end:21:39:
                     vpiParent: "RefObj name:msgPkg::msg_info(\"Testing Packages\")"
                     vpiName Identifier name:msg_info start:21:11 end:21:19:
+                    vpiTaskFunc: Task name:msg_info
                     vpiArgument (1 items):
                       Constant start:21:20 end:21:38:
-                        vpiParent: SubroutineCall name:msg_info
+                        vpiParent: TaskCall name:msg_info
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: simple_package.msgPkg::msg_info("Testing Packages").msg_info
+                          vpiFullName: simple_package.msgPkg::msg_info("Testing Packages")
                           vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 128
@@ -3150,19 +3089,21 @@ Design name:unnamed:
                   vpiName: msgPkg::msg_warn("Testing Packages")
                   vpiFullName: simple_package.msgPkg::msg_warn("Testing Packages")
                   vpiPathElem (2 items):
-                    RefTypespec start:22:7 end:22:15:
+                    RefObj name:msgPkg start:22:7 end:22:13:
                       vpiParent: "RefObj name:msgPkg::msg_warn(\"Testing Packages\")"
-                      vpiFullName: simple_package.msgPkg::msg_warn("Testing Packages")
-                      vpiActual: UnsupportedTypespec name:msgPkg
-                    SubroutineCall name:msg_warn start:22:15 end:22:43:
+                      vpiName: msgPkg
+                      vpiFullName: simple_package.msgPkg
+                      vpiActual: Package name:msgPkg
+                    TaskCall name:msg_warn start:22:15 end:22:43:
                       vpiParent: "RefObj name:msgPkg::msg_warn(\"Testing Packages\")"
                       vpiName Identifier name:msg_warn start:22:15 end:22:23:
+                      vpiTaskFunc: Task name:msg_warn
                       vpiArgument (1 items):
                         Constant start:22:24 end:22:42:
-                          vpiParent: SubroutineCall name:msg_warn
+                          vpiParent: TaskCall name:msg_warn
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: simple_package.msgPkg::msg_warn("Testing Packages").msg_warn
+                            vpiFullName: simple_package.msgPkg::msg_warn("Testing Packages")
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 128
@@ -3185,19 +3126,21 @@ Design name:unnamed:
                   vpiName: msgPkg::msg_error("Testing Packages")
                   vpiFullName: simple_package.msgPkg::msg_error("Testing Packages")
                   vpiPathElem (2 items):
-                    RefTypespec start:23:7 end:23:15:
+                    RefObj name:msgPkg start:23:7 end:23:13:
                       vpiParent: "RefObj name:msgPkg::msg_error(\"Testing Packages\")"
-                      vpiFullName: simple_package.msgPkg::msg_error("Testing Packages")
-                      vpiActual: UnsupportedTypespec name:msgPkg
-                    SubroutineCall name:msg_error start:23:15 end:23:44:
+                      vpiName: msgPkg
+                      vpiFullName: simple_package.msgPkg
+                      vpiActual: Package name:msgPkg
+                    TaskCall name:msg_error start:23:15 end:23:44:
                       vpiParent: "RefObj name:msgPkg::msg_error(\"Testing Packages\")"
                       vpiName Identifier name:msg_error start:23:15 end:23:24:
+                      vpiTaskFunc: Task name:msg_error
                       vpiArgument (1 items):
                         Constant start:23:25 end:23:43:
-                          vpiParent: SubroutineCall name:msg_error
+                          vpiParent: TaskCall name:msg_error
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: simple_package.msgPkg::msg_error("Testing Packages").msg_error
+                            vpiFullName: simple_package.msgPkg::msg_error("Testing Packages")
                             vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 128
@@ -3218,23 +3161,25 @@ Design name:unnamed:
                 vpiName: msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt()))
                 vpiFullName: simple_package.msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt()))
                 vpiPathElem (2 items):
-                  RefTypespec start:24:3 end:24:11:
+                  RefObj name:msgPkg start:24:3 end:24:9:
                     vpiParent: "RefObj name:msgPkg::msg_info($psprintf(\"Warning Count %0d, Error Count %0d\", msgPkg::getWarnCnt(), msgPkg::getErrCnt()))"
-                    vpiFullName: simple_package.msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt()))
-                    vpiActual: UnsupportedTypespec name:msgPkg
-                  SubroutineCall name:msg_info start:24:11 end:25:47:
+                    vpiName: msgPkg
+                    vpiFullName: simple_package.msgPkg
+                    vpiActual: Package name:msgPkg
+                  TaskCall name:msg_info start:24:11 end:25:47:
                     vpiParent: "RefObj name:msgPkg::msg_info($psprintf(\"Warning Count %0d, Error Count %0d\", msgPkg::getWarnCnt(), msgPkg::getErrCnt()))"
                     vpiName Identifier name:msg_info start:24:11 end:24:19:
+                    vpiTaskFunc: Task name:msg_info
                     vpiArgument (1 items):
                       SysFuncCall name:$psprintf start:24:20 end:25:46:
-                        vpiParent: SubroutineCall name:msg_info
+                        vpiParent: TaskCall name:msg_info
                         vpiName Identifier name:$psprintf start:24:20 end:24:29:
                         vpiArgument (3 items):
                           Constant start:24:30 end:24:66:
                             vpiParent: SysFuncCall name:$psprintf
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: simple_package.msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt())).msg_info
+                              vpiFullName: simple_package.msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt()))
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 272
@@ -3243,27 +3188,31 @@ Design name:unnamed:
                           RefObj name:msgPkg::getWarnCnt() start:25:4 end:25:24:
                             vpiParent: SysFuncCall name:$psprintf
                             vpiName: msgPkg::getWarnCnt()
-                            vpiFullName: simple_package.msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt())).msg_info.msgPkg::getWarnCnt()
+                            vpiFullName: simple_package.msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt())).msgPkg::getWarnCnt()
                             vpiPathElem (2 items):
-                              RefTypespec start:25:4 end:25:12:
+                              RefObj name:msgPkg start:25:4 end:25:10:
                                 vpiParent: RefObj name:msgPkg::getWarnCnt()
-                                vpiFullName: simple_package.msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt())).msg_info.msgPkg::getWarnCnt()
-                                vpiActual: UnsupportedTypespec name:msgPkg
-                              SubroutineCall name:getWarnCnt start:25:12 end:25:24:
+                                vpiName: msgPkg
+                                vpiFullName: simple_package.msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt())).msgPkg
+                                vpiActual: Package name:msgPkg
+                              FuncCall name:getWarnCnt start:25:12 end:25:24:
                                 vpiParent: RefObj name:msgPkg::getWarnCnt()
                                 vpiName Identifier name:getWarnCnt start:25:12 end:25:22:
+                                vpiTaskFunc: Function name:getWarnCnt
                           RefObj name:msgPkg::getErrCnt() start:25:26 end:25:45:
                             vpiParent: SysFuncCall name:$psprintf
                             vpiName: msgPkg::getErrCnt()
-                            vpiFullName: simple_package.msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt())).msg_info.msgPkg::getErrCnt()
+                            vpiFullName: simple_package.msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt())).msgPkg::getErrCnt()
                             vpiPathElem (2 items):
-                              RefTypespec start:25:26 end:25:34:
+                              RefObj name:msgPkg start:25:26 end:25:32:
                                 vpiParent: RefObj name:msgPkg::getErrCnt()
-                                vpiFullName: simple_package.msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt())).msg_info.msgPkg::getErrCnt()
-                                vpiActual: UnsupportedTypespec name:msgPkg
-                              SubroutineCall name:getErrCnt start:25:34 end:25:45:
+                                vpiName: msgPkg
+                                vpiFullName: simple_package.msgPkg::msg_info($psprintf("Warning Count %0d, Error Count %0d", msgPkg::getWarnCnt(), msgPkg::getErrCnt())).msgPkg
+                                vpiActual: Package name:msgPkg
+                              FuncCall name:getErrCnt start:25:34 end:25:45:
                                 vpiParent: RefObj name:msgPkg::getErrCnt()
                                 vpiName Identifier name:getErrCnt start:25:34 end:25:43:
+                                vpiTaskFunc: Function name:getErrCnt
               IfStmt start:26:3 end:27:45:
                 vpiParent: Begin
                 vpiCondition Operation start:26:7 end:26:32:
@@ -3280,14 +3229,16 @@ Design name:unnamed:
                       vpiName: definesPkg::TRUE
                       vpiFullName: simple_package.definesPkg::TRUE
                       vpiPathElem (2 items):
-                        RefTypespec start:26:16 end:26:28:
+                        RefObj name:definesPkg start:26:16 end:26:26:
                           vpiParent: RefObj name:definesPkg::TRUE
-                          vpiFullName: simple_package.definesPkg::TRUE
-                          vpiActual: UnsupportedTypespec name:definesPkg
+                          vpiName: definesPkg
+                          vpiFullName: simple_package.definesPkg
+                          vpiActual: Package name:definesPkg
                         RefObj name:TRUE start:26:28 end:26:32:
                           vpiParent: RefObj name:definesPkg::TRUE
                           vpiName: TRUE
                           vpiFullName: simple_package.TRUE
+                          vpiActual: EnumConst name:TRUE
                 vpiStmt DelayControl start:27:5 end:27:45:
                   vpiParent: IfStmt
                   "vpiStmt RefObj name:msgPkg::msg_fatal(\"Value is FALSE\") start:27:9 end:27:44":
@@ -3295,19 +3246,21 @@ Design name:unnamed:
                     vpiName: msgPkg::msg_fatal("Value is FALSE")
                     vpiFullName: simple_package.msgPkg::msg_fatal("Value is FALSE")
                     vpiPathElem (2 items):
-                      RefTypespec start:27:9 end:27:17:
+                      RefObj name:msgPkg start:27:9 end:27:15:
                         vpiParent: "RefObj name:msgPkg::msg_fatal(\"Value is FALSE\")"
-                        vpiFullName: simple_package.msgPkg::msg_fatal("Value is FALSE")
-                        vpiActual: UnsupportedTypespec name:msgPkg
-                      SubroutineCall name:msg_fatal start:27:17 end:27:44:
+                        vpiName: msgPkg
+                        vpiFullName: simple_package.msgPkg
+                        vpiActual: Package name:msgPkg
+                      TaskCall name:msg_fatal start:27:17 end:27:44:
                         vpiParent: "RefObj name:msgPkg::msg_fatal(\"Value is FALSE\")"
                         vpiName Identifier name:msg_fatal start:27:17 end:27:26:
+                        vpiTaskFunc: Task name:msg_fatal
                         vpiArgument (1 items):
                           Constant start:27:27 end:27:43:
-                            vpiParent: SubroutineCall name:msg_fatal
+                            vpiParent: TaskCall name:msg_fatal
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: simple_package.msgPkg::msg_fatal("Value is FALSE").msg_fatal
+                              vpiFullName: simple_package.msgPkg::msg_fatal("Value is FALSE")
                               vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 112
@@ -3413,7 +3366,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 14
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3428,16 +3381,16 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/UnitPackage/UnitPackage/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 99.43,
             'error_count': 0,
             'file_count': 3,
             'files': {'$Output/lib/work/definesPkg.pkg': {'post_len': 0,
                                                           'pre_len': 160},
                       '$Output/lib/work/msgPkg.pkg': {'post_len': 0,
                                                       'pre_len': 745},
-                      '$Output/lib/work/simple_pkg.sv': {'post_len': 0,
+                      '$Output/lib/work/simple_pkg.sv': {'post_len': 8,
                                                          'pre_len': 491}},
-            'post_len': 0,
+            'post_len': 8,
             'pre_len': 1396,
             'test_name': 'UnitPackage/UnitPackage'}}
 
@@ -3446,13 +3399,13 @@ mounts-filepath: ${HLC_DIR}/regression/UnitPackage/UnitPackage/mounts.json
 +=================================+==========+===========+
 | $Output/lib/work/definesPkg.pkg |      160 |         0 |
 | $Output/lib/work/msgPkg.pkg     |      745 |         0 |
-| $Output/lib/work/simple_pkg.sv  |      491 |         0 |
+| $Output/lib/work/simple_pkg.sv  |      491 |         8 |
 +=================================+==========+===========+
-|                                 |     1396 |         0 |
+|                                 |     1396 |         8 |
 +---------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 99.43
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3464,10 +3417,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            32      34       2         0
 Operation                            4       2       0         2
-RefObj                              37      35       0         2
-RefTypespec                        244     246       2         0
+RefObj                              47      45       0         2
+RefTypespec                        234     236       2         0
 ----------------------------------------------------------------
-Others                             592     592       0         0
+Others                             562     562       0         0
 ----------------------------------------------------------------
-                                   909     909       4         4
+                                   879     879       4         4
 ===================== END REDUCTION RESULT =====================

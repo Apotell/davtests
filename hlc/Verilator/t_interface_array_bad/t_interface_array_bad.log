@@ -280,7 +280,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_array_bad.v:6:1: Compile interface "foo_intf".
 [INF:CP5804] $Source01/t_interface_array_bad.v:14:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface_array_bad.v:45:1: Compile module "baz".
-[WRN:CP5851] $Source01/t_interface_array_bad.v:22:21: Failed to bind "id:67, name:a".
+[WRN:CP5851] $Source01/t_interface_array_bad.v:22:21: Failed to bind "id:63, name:a".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -319,17 +319,17 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:bar start:19:20 end:19:23:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec name:logic start:19:4 end:19:19:
+          vpiTypespec RefTypespec name:logic [7:0] start:19:4 end:19:19:
             vpiParent: Variable name:bar
-            vpiName: logic
-            vpiFullName: t.bar.logic
+            vpiName: logic [7:0]
+            vpiFullName: t.bar.logic [7:0]
             vpiActual: ArrayTypespec
           vpiName: bar
           vpiFullName: t.bar
       vpiParameter (1 items):
         Parameter name:N start:16:15 end:16:16:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:16:15 end:16:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:N
             vpiFullName: t.N
             vpiActual: LogicTypespec
@@ -354,7 +354,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "4"
             vpiValue: 4
-      vpiTypespec (6 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
         ArrayTypespec:
@@ -396,9 +396,6 @@ Design name:unnamed:
             vpiName: foo_intf
             vpiFullName: t.foo_intf
             vpiActual: InterfaceTypespec name:foo_intf
-        UnsupportedTypespec name:logic start:19:4 end:19:9:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:19:4 end:19:9:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -425,11 +422,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:19:4 end:19:19:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-            vpiActual: UnsupportedTypespec name:logic
         BitTypespec:
           vpiParent: Module name:t
         ModuleTypespec name:baz start:24:4 end:24:7:
@@ -508,10 +504,10 @@ Design name:unnamed:
         RefInstance name:foos start:18:13 end:18:17:
           vpiParent: Module name:t
           vpiName: foos
-          vpiTypespec RefTypespec name:foo_intf start:18:4 end:18:12:
+          vpiTypespec RefTypespec name:foo_intf [N-1:0] start:18:4 end:18:12:
             vpiParent: RefInstance name:foos
-            vpiName: foo_intf
-            vpiFullName: t.foos.foo_intf
+            vpiName: foo_intf [N-1:0]
+            vpiFullName: t.foos.foo_intf [N-1:0]
             vpiActual: ArrayTypespec
         RefInstance name:baz_inst start:24:8 end:24:16:
           vpiParent: Module name:t
@@ -536,7 +532,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:the_lp start:52:15 end:52:21:
           vpiParent: Module name:baz
-          vpiTypespec RefTypespec start:52:15 end:52:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:the_lp
             vpiFullName: baz.the_lp
             vpiActual: LogicTypespec
@@ -711,7 +707,7 @@ Operation                            1       0       0         1
 RefObj                              12      11       0         1
 RefTypespec                         21      21       1         1
 ----------------------------------------------------------------
-Others                              58      58       0         0
+Others                              56      56       0         0
 ----------------------------------------------------------------
-                                   100      98       2         4
+                                    98      96       2         4
 ===================== END REDUCTION RESULT =====================

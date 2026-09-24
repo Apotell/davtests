@@ -14,21 +14,21 @@ COMMAND: -wd ../../../tests/SimpleClass2 +incdir+. -sverilog -writepp -d inst -m
 [ERR:CP5824] $Source01/top.v:8:1: Multiply defined typedef "c1".
 [INF:CP5802] $Source01/top.v:26:1: Compile package "p3".
 [INF:CP5802] $Source01/top.v:31:1: Compile package "p2".
-[WRN:CP5851] $Source01/top.v:42:11: Failed to bind "id:735, name:foo".
-[WRN:CP5851] $Source01/top.v:43:25: Failed to bind "id:739, name:id".
-[WRN:CP5851] $Source01/top.v:43:29: Failed to bind "id:740, name:action".
-[WRN:CP5851] $Source01/top.v:44:21: Failed to bind "id:744, name:id".
-[WRN:CP5851] $Source01/top.v:44:25: Failed to bind "id:745, name:action".
-[WRN:CP5851] $Source01/top.v:44:16: Failed to bind "id:748, name:addq".
-[WRN:CP5851] $Source01/top.v:45:11: Failed to bind "id:752, name:toto".
-[WRN:CP5851] $Source01/top.v:46:16: Failed to bind "id:758, name:toto".
-[WRN:CP5851] $Source01/top.v:46:21: Failed to bind "id:759, name:len1".
+[WRN:CP5851] $Source01/top.v:42:11: Failed to bind "id:727, name:foo".
+[WRN:CP5851] $Source01/top.v:43:25: Failed to bind "id:731, name:id".
+[WRN:CP5851] $Source01/top.v:43:29: Failed to bind "id:732, name:action".
+[WRN:CP5851] $Source01/top.v:44:21: Failed to bind "id:736, name:id".
+[WRN:CP5851] $Source01/top.v:44:25: Failed to bind "id:737, name:action".
+[WRN:CP5851] $Source01/top.v:44:16: Failed to bind "id:740, name:addq".
+[WRN:CP5851] $Source01/top.v:45:11: Failed to bind "id:744, name:toto".
+[WRN:CP5851] $Source01/top.v:46:16: Failed to bind "id:750, name:toto".
+[WRN:CP5851] $Source01/top.v:46:21: Failed to bind "id:751, name:len1".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/top.v:8:1: No timescale set for "p1".
 [WRN:PA5506] $Source01/top.v:26:1: No timescale set for "p3".
 [WRN:PA5506] $Source01/top.v:31:1: No timescale set for "p2".
-[ERR:LN7705] $Source01/top.v:41:11: Null Actual: id:729, type:MethodFuncCall, name:new, relation:vpiPathElem.
-[ERR:LN7705] $Source01/top.v:45:16: Null Actual: id:753, type:MethodFuncCall, name:len, relation:vpiPathElem.
+[ERR:LN7705] $Source01/top.v:41:11: Null Actual: id:721, type:MethodFuncCall, name:new, relation:vpiPathElem.
+[ERR:LN7705] $Source01/top.v:45:16: Null Actual: id:745, type:MethodFuncCall, name:len, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1284,9 +1284,10 @@ Design name:unnamed:
         Typedef name:c3 start:22:1 end:22:15:
           vpiParent: Package name:p1
           vpiName Identifier name:c3 start:22:12 end:22:14:
-          vpiTypedefAlias RefTypespec start:22:9 end:22:11:
+          vpiTypedefAlias RefTypespec name:c1 start:22:9 end:22:11:
             vpiParent: Typedef name:c3
-            vpiFullName: p1::c3
+            vpiName: c1
+            vpiFullName: p1::c3::c1
             vpiActual: ClassTypespec name:c1
       vpiTypespec (3 items):
         ClassTypespec name:c1:
@@ -1319,19 +1320,15 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:toto start:11:10 end:11:14:
               vpiParent: ClassDefn name:c1
-              vpiTypespec RefTypespec name:string start:11:3 end:11:9:
+              vpiTypespec RefTypespec start:11:3 end:11:9:
                 vpiParent: Variable name:toto
-                vpiName: string
-                vpiFullName: p1::c1::toto::string
+                vpiFullName: p1::c1::toto
                 vpiActual: StringTypespec
               vpiName: toto
               vpiFullName: p1::c1::toto
               vpiRandType: (1)
               vpiVisibility: public (1)
-          vpiTypespec (2 items):
-            UnsupportedTypespec name:uvm_component start:13:37 end:13:50:
-              vpiParent: ClassDefn name:c1
-              vpiName Identifier name:uvm_component start:13:37 end:13:50:
+          vpiTypespec (1 items):
             ClassTypespec name:c1:
               vpiParent: ClassDefn name:c1
               vpiName Identifier name:c1:
@@ -1369,10 +1366,9 @@ Design name:unnamed:
                     vpiConstType: string (6)
                     vpiDecompile: "\"\""
                     vpiValue: ""
-                  vpiTypespec RefTypespec name:string start:15:16 end:15:22:
+                  vpiTypespec RefTypespec start:15:16 end:15:22:
                     vpiParent: IODecl name:name
-                    vpiName: string
-                    vpiFullName: p1::c1::foo::name::string
+                    vpiFullName: p1::c1::foo::name
                     vpiActual: StringTypespec
               vpiReturn RefTypespec start:15:12 end:15:12:
                 vpiParent: Function name:foo
@@ -1388,10 +1384,9 @@ Design name:unnamed:
                   vpiParent: FunctionDecl name:new
                   vpiName: name
                   vpiDirection: input (1)
-                  vpiTypespec RefTypespec name:string start:13:24 end:13:30:
+                  vpiTypespec RefTypespec start:13:24 end:13:30:
                     vpiParent: IODecl name:name
-                    vpiName: string
-                    vpiFullName: p1::c1::new::name::string
+                    vpiFullName: p1::c1::new::name
                     vpiActual: StringTypespec
                 IODecl name:parent start:13:51 end:13:57:
                   vpiParent: FunctionDecl name:new
@@ -1401,7 +1396,6 @@ Design name:unnamed:
                     vpiParent: IODecl name:parent
                     vpiName: uvm_component
                     vpiFullName: p1::c1::new::parent::uvm_component
-                    vpiActual: UnsupportedTypespec name:uvm_component
               vpiReturn RefTypespec name:c1:
                 vpiParent: FunctionDecl name:new
                 vpiName: c1
@@ -1466,9 +1460,10 @@ Design name:unnamed:
             Typedef name:uvm_id_actions_array start:36:4 end:36:63:
               vpiParent: ClassDefn name:c2
               vpiName Identifier name:uvm_id_actions_array start:36:42 end:36:62:
-              vpiTypedefAlias RefTypespec start:36:12 end:36:41:
+              vpiTypedefAlias RefTypespec name:uvm_pool start:36:12 end:36:41:
                 vpiParent: Typedef name:uvm_id_actions_array
-                vpiFullName: p2::c2::uvm_id_actions_array
+                vpiName: uvm_pool
+                vpiFullName: p2::c2::uvm_id_actions_array::uvm_pool
                 vpiActual: ClassTypespec name:uvm_pool #(string, uvm_action)
           vpiVariable (2 items):
             Variable name:id_actions start:37:26 end:37:36:
@@ -1488,6 +1483,21 @@ Design name:unnamed:
                 vpiParent: Variable name:inst1
                 vpiName: p3::c33
                 vpiFullName: p2::c2::inst1::p3::c33
+                vpiPathElem (2 items):
+                  RefTypespec name:p3 start:38:4 end:38:6:
+                    vpiParent: RefTypespec name:p3::c33
+                    vpiName: p3
+                    vpiFullName: p2::c2::inst1::p3::c33::p3
+                    vpiPathElem (1 items):
+                      RefObj name:p3 start:38:4 end:38:6:
+                        vpiParent: RefTypespec name:p3
+                        vpiName: p3
+                        vpiFullName: p2::c2::inst1::p3::c33::p3
+                        vpiActual: Package name:p3
+                  RefTypespec name:c33 start:38:8 end:38:11:
+                    vpiParent: RefTypespec name:p3::c33
+                    vpiName: c33
+                    vpiFullName: p2::c2::inst1::p3::c33::c33
                 vpiActual: ClassTypespec name:c33
               vpiName: inst1
               vpiFullName: p2::c2::inst1
@@ -1562,10 +1572,9 @@ Design name:unnamed:
                     vpiSize: 136
                     vpiDecompile: "\"svaunit_sequencer\""
                     vpiValue: svaunit_sequencer
-                  vpiTypespec RefTypespec name:string start:40:15 end:40:21:
+                  vpiTypespec RefTypespec start:40:15 end:40:21:
                     vpiParent: IODecl name:name
-                    vpiName: string
-                    vpiFullName: p2::c2::new::name::string
+                    vpiFullName: p2::c2::new::name
                     vpiActual: StringTypespec
               vpiStmt Begin:
                 vpiParent: Function name:new
@@ -1795,7 +1804,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1815,7 +1824,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1837,7 +1846,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1855,7 +1864,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1877,7 +1886,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1895,7 +1904,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1960,24 +1969,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -2206,7 +2213,7 @@ COMMAND: ${HLC_DIR}/regression/SimpleClass2/SimpleClass2/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             755     755       0         0
+Others                             754     754       0         0
 ----------------------------------------------------------------
-                                   755     755       0         0
+                                   754     754       0         0
 ===================== END REDUCTION RESULT =====================

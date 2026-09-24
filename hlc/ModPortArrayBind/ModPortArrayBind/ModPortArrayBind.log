@@ -175,7 +175,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:12:1: Compile module "r5p_bus_dec".
 [WRN:CP5811] $Source01/dut.sv:15:18: Port "m" definition missing its direction (input, output, inout).
 [INF:CP5836] $Source01/dut.sv:21:29: Compile generate block "gen_loop".
-[WRN:CP5851] $Source01/dut.sv:23:15: Failed to bind "id:66, name:vld".
+[WRN:CP5851] $Source01/dut.sv:23:15: Failed to bind "id:64, name:vld".
 [WRN:PA5506] $Source01/dut.sv:12:1: No timescale set for "r5p_bus_dec #(.BN(2))".
 [WRN:PA5506] $Source01/dut.sv:2:1: No timescale set for "r5p_bus_if".
 ====== HLDB =======
@@ -259,20 +259,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:r5p_bus_if::man start:15:3 end:15:17:
-          vpiParent: Module name:r5p_bus_dec #(.BN(2))
-          vpiPathElem (2 items):
-            RefObj name:r5p_bus_if start:15:3 end:15:13:
-              vpiParent: UnsupportedTypespec name:r5p_bus_if::man
-              vpiName: r5p_bus_if
-              vpiFullName: r5p_bus_dec #(.BN(2)).r5p_bus_if::man.r5p_bus_if
-              vpiActual: Interface name:r5p_bus_if
-            RefObj name:man start:15:14 end:15:17:
-              vpiParent: UnsupportedTypespec name:r5p_bus_if::man
-              vpiName: man
-              vpiFullName: r5p_bus_dec #(.BN(2)).r5p_bus_if::man.man
-          vpiName Identifier name:r5p_bus_if::man:
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:r5p_bus_dec #(.BN(2))
           vpiArrayType: static (1)
@@ -311,7 +298,16 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiName: r5p_bus_if::man
             vpiFullName: r5p_bus_dec #(.BN(2)).r5p_bus_if::man
-            vpiActual: UnsupportedTypespec name:r5p_bus_if::man
+            vpiPathElem (2 items):
+              RefObj name:r5p_bus_if start:15:3 end:15:13:
+                vpiParent: RefTypespec name:r5p_bus_if::man
+                vpiName: r5p_bus_if
+                vpiFullName: r5p_bus_dec #(.BN(2)).r5p_bus_if
+                vpiActual: Interface name:r5p_bus_if
+              RefTypespec name:man start:15:14 end:15:17:
+                vpiParent: RefTypespec name:r5p_bus_if::man
+                vpiName: man
+                vpiFullName: r5p_bus_dec #(.BN(2)).r5p_bus_if::man.man
       vpiDefName: r5p_bus_dec
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:12:8 end:12:19:
@@ -329,9 +325,10 @@ Design name:unnamed:
             vpiName: m
             vpiFullName: r5p_bus_dec #(.BN(2)).m.m
             vpiActual: Port name:m
-          vpiTypespec RefTypespec start:15:3 end:15:17:
+          vpiTypespec RefTypespec name:r5p_bus_if::man [BN-1:0] start:15:3 end:15:17:
             vpiParent: Port name:m
-            vpiFullName: r5p_bus_dec #(.BN(2)).m
+            vpiName: r5p_bus_if::man [BN-1:0]
+            vpiFullName: r5p_bus_dec #(.BN(2)).m.r5p_bus_if::man [BN-1:0]
             vpiActual: ArrayTypespec
       vpiGenStmt (1 items):
         GenRegion start:20:1 end:26:12:
@@ -467,9 +464,9 @@ Design name:unnamed:
       vpiModule: Module name:r5p_bus_dec #(.BN(2))
     IntTypespec:
       vpiParent: Design name:unnamed
+      vpiSigned: true
     IntTypespec:
       vpiParent: Design name:unnamed
-      vpiSigned: true
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -519,10 +516,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       6       1         1
 Operation                            4       3       0         1
-RefObj                              16      15       0         1
-RefTypespec                         10      10       1         1
+RefObj                              15      14       0         1
+RefTypespec                         11      11       1         1
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              35      35       0         0
 ----------------------------------------------------------------
-                                    73      71       2         4
+                                    71      69       2         4
 ===================== END REDUCTION RESULT =====================

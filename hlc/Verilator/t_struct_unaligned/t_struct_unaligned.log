@@ -331,21 +331,21 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:flag
                 vpiName: logic
                 vpiFullName: t.flag.logic
-                vpiActual: UnsupportedTypespec name:logic
             TypespecMember name:data start:16:16 end:16:20:
               vpiParent: Struct
               vpiName: data
-              vpiTypespec RefTypespec name:logic start:16:2 end:16:15:
+              vpiTypespec RefTypespec name:logic [130:0] start:16:2 end:16:15:
                 vpiParent: TypespecMember name:data
-                vpiName: logic
-                vpiFullName: t.data.logic
+                vpiName: logic [130:0]
+                vpiFullName: t.data.logic [130:0]
                 vpiActual: ArrayTypespec
       vpiVariable (2 items):
         Variable name:foo start:17:7 end:17:10:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec:
+          "vpiTypespec RefTypespec name: [1] start:14:5 end:17:6":
             vpiParent: Variable name:foo
-            vpiFullName: t.foo
+            vpiName: " [1]"
+            vpiFullName: t.foo. [1]
             vpiActual: ArrayTypespec
           vpiName: foo
           vpiFullName: t.foo
@@ -367,15 +367,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
-      vpiTypespec (7 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:logic start:15:2 end:15:7:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:15:2 end:15:7:
-        UnsupportedTypespec name:logic start:16:2 end:16:7:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:16:2 end:16:7:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -402,11 +396,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:16:2 end:16:15:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-            vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:14:5 end:17:6:
           vpiParent: Module name:t
           vpiStruct: Struct
@@ -446,7 +439,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:12:11 end:12:14:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:12:11 end:12:11:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -464,7 +457,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:12:11 end:12:11:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -818,7 +811,7 @@ Operation                            6       4       0         2
 RefObj                              21      19       0         2
 RefTypespec                         23      23       2         2
 ----------------------------------------------------------------
-Others                              49      49       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                   114     110       4         8
+                                   110     106       4         8
 ===================== END REDUCTION RESULT =====================

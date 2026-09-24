@@ -44,10 +44,10 @@ LIB: logicLib
 [WRN:PA5506] $Source01/nets.pkg:1:1: No timescale set for "NetsPkg".
 [WRN:PA5506] $Source01/cmp.sv:2:1: No timescale set for "cmp #(.hyst(0.65))".
 [WRN:PA5506] $Source01/top.sv:1:1: No timescale set for "top".
-[ERR:LN7701] Invalid name: id:1253, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:1269, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:1272, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:1275, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:1278, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:1294, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:1297, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:1300, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1406,7 +1406,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1426,7 +1426,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1448,7 +1448,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1466,7 +1466,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1488,7 +1488,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1506,7 +1506,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1571,24 +1571,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -1745,7 +1743,7 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:out start:8:2 end:8:5:
           vpiParent: Module name:cmp #(.hyst(0.65))
-          vpiTypespec RefTypespec start:6:1 end:7:6:
+          vpiTypespec RefTypespec start:7:1 end:7:6:
             vpiParent: Variable name:out
             vpiFullName: cmp #(.hyst(0.65)).out
             vpiActual: LogicTypespec
@@ -1820,7 +1818,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:inA start:4:25 end:4:28:
           vpiParent: Module name:cmp #(.hyst(0.65))
-          vpiTypespec RefTypespec start:4:2 end:4:24:
+          vpiTypespec RefTypespec start:4:13 end:4:24:
             vpiParent: Net name:inA
             vpiFullName: cmp #(.hyst(0.65)).inA
             vpiActual: LogicTypespec
@@ -1830,7 +1828,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:rst start:5:13 end:5:16:
           vpiParent: Module name:cmp #(.hyst(0.65))
-          vpiTypespec RefTypespec start:5:1 end:5:12:
+          vpiTypespec RefTypespec start:5:7 end:5:12:
             vpiParent: Net name:rst
             vpiFullName: cmp #(.hyst(0.65)).rst
             vpiActual: LogicTypespec
@@ -1848,7 +1846,7 @@ Design name:unnamed:
             vpiName: inA
             vpiFullName: cmp #(.hyst(0.65)).inA.inA
             vpiActual: Net name:inA
-          vpiTypespec RefTypespec start:4:2 end:4:24:
+          vpiTypespec RefTypespec start:4:13 end:4:24:
             vpiParent: Port name:inA
             vpiFullName: cmp #(.hyst(0.65)).inA
             vpiActual: LogicTypespec
@@ -1861,7 +1859,7 @@ Design name:unnamed:
             vpiName: rst
             vpiFullName: cmp #(.hyst(0.65)).rst.rst
             vpiActual: Net name:rst
-          vpiTypespec RefTypespec start:5:1 end:5:12:
+          vpiTypespec RefTypespec start:5:7 end:5:12:
             vpiParent: Port name:rst
             vpiFullName: cmp #(.hyst(0.65)).rst
             vpiActual: LogicTypespec
@@ -1874,7 +1872,7 @@ Design name:unnamed:
             vpiName: out
             vpiFullName: cmp #(.hyst(0.65)).out.out
             vpiActual: Variable name:out
-          vpiTypespec RefTypespec start:6:1 end:7:6:
+          vpiTypespec RefTypespec start:7:1 end:7:6:
             vpiParent: Port name:out
             vpiFullName: cmp #(.hyst(0.65)).out
             vpiActual: LogicTypespec
@@ -2043,7 +2041,6 @@ Design name:unnamed:
             vpiParent: Variable name:out
             vpiName: logic
             vpiFullName: cmp #(.hyst(0.65)).out.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: out
           vpiFullName: cmp #(.hyst(0.65)).out
         Variable name:updatePeriod start:20:2 end:20:14:
@@ -2091,13 +2088,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "0.65"
             vpiValue: 0.65
-      vpiTypespec (6 items):
+      vpiTypespec (3 items):
         ImportTypespec name:NetsPkg start:5:2 end:5:12:
           vpiParent: Module name:cmp #(.hyst(0.65))
           vpiName Identifier name:NetsPkg start:5:2 end:5:9:
-        UnsupportedTypespec name:realNet start:12:2 end:12:9:
-          vpiParent: Module name:cmp #(.hyst(0.65))
-          vpiName Identifier name:realNet start:12:2 end:12:9:
         ArrayTypespec:
           vpiParent: Module name:cmp #(.hyst(0.65))
           vpiArrayType: static (1)
@@ -2124,17 +2118,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "1"
               vpiValue: 1
-          vpiElemTypespec RefTypespec name:realNet:
+          vpiElemTypespec RefTypespec name:realNet start:12:2 end:12:15:
             vpiParent: ArrayTypespec
             vpiName: realNet
             vpiFullName: cmp #(.hyst(0.65)).realNet
-            vpiActual: UnsupportedTypespec name:realNet
-        UnsupportedTypespec name:logic start:13:8 end:13:13:
-          vpiParent: Module name:cmp #(.hyst(0.65))
-          vpiName Identifier name:logic start:13:8 end:13:13:
-        UnsupportedTypespec name:logic start:16:1 end:16:6:
-          vpiParent: Module name:cmp #(.hyst(0.65))
-          vpiName Identifier name:logic start:16:1 end:16:6:
         BitTypespec:
           vpiParent: Module name:cmp #(.hyst(0.65))
       vpiDefName: cmp
@@ -2149,10 +2136,10 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:inA start:12:16 end:12:19:
           vpiParent: Module name:cmp #(.hyst(0.65))
-          vpiTypespec RefTypespec name:realNet start:12:2 end:12:9:
+          vpiTypespec RefTypespec name:realNet [0:1] start:12:2 end:12:15:
             vpiParent: Net name:inA
-            vpiName: realNet
-            vpiFullName: cmp #(.hyst(0.65)).inA.realNet
+            vpiName: realNet [0:1]
+            vpiFullName: cmp #(.hyst(0.65)).inA.realNet [0:1]
             vpiActual: ArrayTypespec
           vpiName: inA
           vpiFullName: cmp #(.hyst(0.65)).inA
@@ -2163,7 +2150,6 @@ Design name:unnamed:
             vpiParent: Net name:rst
             vpiName: logic
             vpiFullName: cmp #(.hyst(0.65)).rst.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: rst
           vpiFullName: cmp #(.hyst(0.65)).rst
           vpiNetType: wire (1)
@@ -2177,10 +2163,10 @@ Design name:unnamed:
             vpiName: inA
             vpiFullName: cmp #(.hyst(0.65)).inA.inA
             vpiActual: Net name:inA
-          vpiTypespec RefTypespec name:realNet start:12:2 end:12:9:
+          vpiTypespec RefTypespec name:realNet [0:1] start:12:2 end:12:15:
             vpiParent: Port name:inA
-            vpiName: realNet
-            vpiFullName: cmp #(.hyst(0.65)).inA.realNet
+            vpiName: realNet [0:1]
+            vpiFullName: cmp #(.hyst(0.65)).inA.realNet [0:1]
             vpiActual: ArrayTypespec
         Port name:rst start:14:2 end:14:5:
           vpiParent: Module name:cmp #(.hyst(0.65))
@@ -2195,7 +2181,6 @@ Design name:unnamed:
             vpiParent: Port name:rst
             vpiName: logic
             vpiFullName: cmp #(.hyst(0.65)).rst.logic
-            vpiActual: UnsupportedTypespec name:logic
         Port name:out start:17:2 end:17:5:
           vpiParent: Module name:cmp #(.hyst(0.65))
           vpiName: out
@@ -2209,7 +2194,6 @@ Design name:unnamed:
             vpiParent: Port name:out
             vpiName: logic
             vpiFullName: cmp #(.hyst(0.65)).out.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiProcess (2 items):
         Initial start:21:1 end:22:13:
           vpiParent: Module name:cmp #(.hyst(0.65))
@@ -2535,7 +2519,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:out start:13:8 end:13:11:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
-          vpiTypespec RefTypespec start:10:1 end:13:7:
+          vpiTypespec RefTypespec start:12:1 end:13:7:
             vpiParent: Net name:out
             vpiFullName: driver #(.delay(30), .iterations(256)).out
             vpiActual: LogicTypespec
@@ -2553,7 +2537,7 @@ Design name:unnamed:
             vpiName: out
             vpiFullName: driver #(.delay(30), .iterations(256)).out.out
             vpiActual: Net name:out
-          vpiTypespec RefTypespec start:10:1 end:13:7:
+          vpiTypespec RefTypespec start:12:1 end:13:7:
             vpiParent: Port name:out
             vpiFullName: driver #(.delay(30), .iterations(256)).out
             vpiActual: LogicTypespec
@@ -2672,18 +2656,19 @@ Design name:unnamed:
       vpiVariable (2 items):
         Variable name:out start:5:30 end:5:33:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
-          vpiTypespec RefTypespec name:realNet start:5:16 end:5:23:
+          vpiTypespec RefTypespec name:realNet [0:1] start:5:16 end:5:29:
             vpiParent: Variable name:out
-            vpiName: realNet
-            vpiFullName: driver #(.delay(30), .iterations(256)).out.realNet
+            vpiName: realNet [0:1]
+            vpiFullName: driver #(.delay(30), .iterations(256)).out.realNet [0:1]
             vpiActual: ArrayTypespec
           vpiName: out
           vpiFullName: driver #(.delay(30), .iterations(256)).out
         Variable name:outR start:7:6 end:7:10:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:real [1:0] start:7:1 end:7:5:
             vpiParent: Variable name:outR
-            vpiFullName: driver #(.delay(30), .iterations(256)).outR
+            vpiName: real [1:0]
+            vpiFullName: driver #(.delay(30), .iterations(256)).outR.real [1:0]
             vpiActual: ArrayTypespec
           vpiName: outR
           vpiFullName: driver #(.delay(30), .iterations(256)).outR
@@ -2739,13 +2724,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "256"
             vpiValue: 256
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         ImportTypespec name:NetsPkg start:2:8 end:2:18:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
           vpiName Identifier name:NetsPkg start:2:8 end:2:15:
-        UnsupportedTypespec name:realNet start:5:16 end:5:23:
-          vpiParent: Module name:driver #(.delay(30), .iterations(256))
-          vpiName Identifier name:realNet start:5:16 end:5:23:
         ArrayTypespec:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
           vpiArrayType: static (1)
@@ -2772,11 +2754,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "1"
               vpiValue: 1
-          vpiElemTypespec RefTypespec name:realNet:
+          vpiElemTypespec RefTypespec name:realNet start:5:16 end:5:29:
             vpiParent: ArrayTypespec
             vpiName: realNet
             vpiFullName: driver #(.delay(30), .iterations(256)).realNet
-            vpiActual: UnsupportedTypespec name:realNet
         ArrayTypespec:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
           vpiArrayType: static (1)
@@ -2825,10 +2806,10 @@ Design name:unnamed:
             vpiName: out
             vpiFullName: driver #(.delay(30), .iterations(256)).out.out
             vpiActual: Variable name:out
-          vpiTypespec RefTypespec name:realNet start:5:16 end:5:23:
+          vpiTypespec RefTypespec name:realNet [0:1] start:5:16 end:5:29:
             vpiParent: Port name:out
-            vpiName: realNet
-            vpiFullName: driver #(.delay(30), .iterations(256)).out.realNet
+            vpiName: realNet [0:1]
+            vpiFullName: driver #(.delay(30), .iterations(256)).out.realNet [0:1]
             vpiActual: ArrayTypespec
       vpiProcess (1 items):
         Initial start:10:1 end:19:4:
@@ -3245,7 +3226,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:aBus start:2:26 end:2:30:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec start:2:14 end:2:25:
             vpiParent: Net name:aBus
             vpiFullName: top.aBus
             vpiActual: LogicTypespec
@@ -3256,10 +3237,10 @@ Design name:unnamed:
         RefInstance name:driverArray start:5:8 end:5:19:
           vpiParent: Module name:top
           vpiName: driverArray
-          vpiTypespec RefTypespec name:driver start:5:1 end:5:7:
+          vpiTypespec RefTypespec name:driver [0:3] start:5:1 end:5:7:
             vpiParent: RefInstance name:driverArray
-            vpiName: driver
-            vpiFullName: top.driverArray.driver
+            vpiName: driver [0:3]
+            vpiFullName: top.driverArray.driver [0:3]
             vpiActual: ArrayTypespec
           vpiPort (1 items):
             Port start:5:25 end:5:29:
@@ -3275,10 +3256,10 @@ Design name:unnamed:
         RefInstance name:cmpArray start:7:5 end:7:13:
           vpiParent: Module name:top
           vpiName: cmpArray
-          vpiTypespec RefTypespec name:cmp start:7:1 end:7:4:
+          vpiTypespec RefTypespec name:cmp [0:3] start:7:1 end:7:4:
             vpiParent: RefInstance name:cmpArray
-            vpiName: cmp
-            vpiFullName: top.cmpArray.cmp
+            vpiName: cmp [0:3]
+            vpiFullName: top.cmpArray.cmp [0:3]
             vpiActual: ArrayTypespec
           vpiPort (3 items):
             Port start:7:19 end:7:23:
@@ -3507,7 +3488,7 @@ COMMAND: ${HLC_DIR}/regression/LibraryIntercon/LibraryIntercon/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1049    1049       0         0
+Others                            1039    1039       0         0
 ----------------------------------------------------------------
-                                  1049    1049       0         0
+                                  1039    1039       0         0
 ===================== END REDUCTION RESULT =====================

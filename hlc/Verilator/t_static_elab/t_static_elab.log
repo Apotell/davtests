@@ -388,10 +388,10 @@ Design name:unnamed:
             TypespecMember name:_five start:9:24 end:9:29:
               vpiParent: Struct
               vpiName: "_five"
-              vpiTypespec RefTypespec name:logic start:9:7 end:9:23:
+              vpiTypespec RefTypespec name:logic [31:0] start:9:7 end:9:23:
                 vpiParent: TypespecMember name:_five
-                vpiName: logic
-                vpiFullName: t._five.logic
+                vpiName: logic [31:0]
+                vpiFullName: t._five.logic [31:0]
                 vpiActual: ArrayTypespec
       vpiTypedef (2 items):
         Typedef name:five_t start:8:4 end:10:13:
@@ -452,10 +452,7 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName Identifier name:gimme_high_five start:34:44 end:34:59:
             vpiTaskFunc: Function name:gimme_high_five
-      vpiTypespec (6 items):
-        UnsupportedTypespec name:logic start:9:7 end:9:12:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:9:7 end:9:12:
+      vpiTypespec (5 items):
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -482,11 +479,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:9:7 end:9:23:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-            vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:8:12 end:10:5:
           vpiParent: Module name:t
           vpiStruct: Struct
@@ -530,10 +526,6 @@ Design name:unnamed:
                 vpiName: result
                 vpiFullName: t.gimme_five.result
                 vpiAutomatic: true
-            vpiTypespec (1 items):
-              UnsupportedTypespec name:five_t start:17:13 end:17:19:
-                vpiParent: Begin
-                vpiName Identifier name:five_t start:17:13 end:17:19:
             vpiStmt (3 items):
               Variable name:result:
               Assignment start:20:7 end:20:23:
@@ -571,10 +563,11 @@ Design name:unnamed:
                   vpiName: result
                   vpiFullName: t.gimme_five.result
                   vpiActual: Variable name:result
-          vpiReturn RefTypespec start:17:13 end:17:19:
+          vpiReturn RefTypespec name:five_t start:17:13 end:17:19:
             vpiParent: Function name:gimme_five
-            vpiFullName: t.gimme_five
-            vpiActual: UnsupportedTypespec name:five_t
+            vpiName: five_t
+            vpiFullName: t.gimme_five.five_t
+            vpiActual: TypedefTypespec name:five_t
         Function name:gimme_high_five start:25:4 end:31:15:
           vpiParent: Module name:t
           vpiName Identifier name:gimme_high_five start:25:26 end:25:41:
@@ -594,10 +587,6 @@ Design name:unnamed:
                 vpiName: result
                 vpiFullName: t.gimme_high_five.result
                 vpiAutomatic: true
-            vpiTypespec (1 items):
-              UnsupportedTypespec name:five_style_t start:25:13 end:25:25:
-                vpiParent: Begin
-                vpiName Identifier name:five_style_t start:25:13 end:25:25:
             vpiStmt (3 items):
               Variable name:result:
               Assignment start:28:7 end:28:25:
@@ -620,10 +609,11 @@ Design name:unnamed:
                   vpiName: result
                   vpiFullName: t.gimme_high_five.result
                   vpiActual: Variable name:result
-          vpiReturn RefTypespec start:25:13 end:25:25:
+          vpiReturn RefTypespec name:five_style_t start:25:13 end:25:25:
             vpiParent: Function name:gimme_high_five
-            vpiFullName: t.gimme_high_five
-            vpiActual: UnsupportedTypespec name:five_style_t
+            vpiName: five_style_t
+            vpiFullName: t.gimme_high_five.five_style_t
+            vpiActual: TypedefTypespec name:five_style_t
       vpiProcess (1 items):
         Initial start:36:4 end:49:7:
           vpiParent: Module name:t
@@ -818,7 +808,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_static_elab/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             119     119       0         0
+Others                             113     113       0         0
 ----------------------------------------------------------------
-                                   119     119       0         0
+                                   113     113       0         0
 ===================== END REDUCTION RESULT =====================

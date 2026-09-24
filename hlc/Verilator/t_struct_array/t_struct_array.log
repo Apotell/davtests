@@ -402,6 +402,7 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/t_struct_array.v:6:1: Compile package "TEST_TYPES".
 [INF:CP5804] $Source01/t_struct_array.v:12:1: Compile module "t".
 [INF:CP5804] $Source01/t_struct_array.v:26:1: Compile module "sub".
+[WRN:CP5851] $Source01/t_struct_array.v:31:11: Failed to bind "id:171, name:stuff".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -428,7 +429,6 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:stuff
                 vpiName: logic
                 vpiFullName: TEST_TYPES::stuff::logic
-                vpiActual: UnsupportedTypespec name:logic
       vpiTypedef (1 items):
         Typedef name:a_struct_t start:7:4 end:9:17:
           vpiParent: Package name:TEST_TYPES
@@ -437,10 +437,7 @@ Design name:unnamed:
             vpiParent: Typedef name:a_struct_t
             vpiFullName: TEST_TYPES::a_struct_t
             vpiActual: StructTypespec
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:logic start:8:7 end:8:12:
-          vpiParent: Package name:TEST_TYPES
-          vpiName Identifier name:logic start:8:7 end:8:12:
+      vpiTypespec (2 items):
         StructTypespec start:7:12 end:9:5:
           vpiParent: Package name:TEST_TYPES
           vpiStruct: Struct
@@ -464,19 +461,16 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:a_out start:14:33 end:14:38:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec name:TEST_TYPES::a_struct_t start:14:4 end:14:32:
+          "vpiTypespec RefTypespec name: [3:0] start:14:4 end:14:32":
             vpiParent: Variable name:a_out
-            vpiName: TEST_TYPES::a_struct_t
-            vpiFullName: t.a_out.TEST_TYPES::a_struct_t
-            vpiActual: TypedefTypespec name:a_struct_t
+            vpiName: " [3:0]"
+            vpiFullName: t.a_out. [3:0]
+            vpiActual: ArrayTypespec
           vpiName: a_out
           vpiFullName: t.a_out
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:a_struct_t start:14:16 end:14:32:
-          vpiParent: Module name:t
-          vpiName Identifier name:a_struct_t:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -503,10 +497,24 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec start:14:4 end:14:32:
             vpiParent: ArrayTypespec
             vpiFullName: t
-            vpiActual: UnsupportedTypespec name:a_struct_t
+            vpiPathElem (2 items):
+              RefTypespec name:TEST_TYPES start:14:4 end:14:14:
+                vpiParent: RefTypespec
+                vpiName: TEST_TYPES
+                vpiFullName: t.TEST_TYPES
+                vpiPathElem (1 items):
+                  RefObj name:TEST_TYPES start:14:4 end:14:14:
+                    vpiParent: RefTypespec name:TEST_TYPES
+                    vpiName: TEST_TYPES
+                    vpiFullName: t.TEST_TYPES
+                    vpiActual: Package name:TEST_TYPES
+              RefTypespec name:a_struct_t start:14:16 end:14:26:
+                vpiParent: RefTypespec
+                vpiName: a_struct_t
+                vpiFullName: t.a_struct_t
         ModuleTypespec name:sub start:15:4 end:15:7:
           vpiParent: Module name:t
           vpiName Identifier name:sub start:15:4 end:15:7:
@@ -522,7 +530,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:13:10 end:13:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:13:10 end:13:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -540,7 +548,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:13:10 end:13:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -759,17 +767,17 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:a_out start:28:42 end:28:47:
           vpiParent: Module name:sub
-          vpiTypespec RefTypespec name:TEST_TYPES::a_struct_t start:28:11 end:28:41:
+          "vpiTypespec RefTypespec name: [n-1:0] start:28:11 end:28:41":
             vpiParent: Variable name:a_out
-            vpiName: TEST_TYPES::a_struct_t
-            vpiFullName: sub.a_out.TEST_TYPES::a_struct_t
-            vpiActual: TypedefTypespec name:a_struct_t
+            vpiName: " [n-1:0]"
+            vpiFullName: sub.a_out. [n-1:0]
+            vpiActual: ArrayTypespec
           vpiName: a_out
           vpiFullName: sub.a_out
       vpiParameter (1 items):
         Parameter name:n start:27:14 end:27:15:
           vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:27:14 end:27:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:n
             vpiFullName: sub.n
             vpiActual: LogicTypespec
@@ -793,12 +801,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "4"
             vpiValue: 4
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:sub
-        UnsupportedTypespec name:a_struct_t start:28:23 end:28:41:
-          vpiParent: Module name:sub
-          vpiName Identifier name:a_struct_t:
         ArrayTypespec:
           vpiParent: Module name:sub
           vpiArrayType: static (1)
@@ -834,10 +839,24 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec start:28:11 end:28:41:
             vpiParent: ArrayTypespec
             vpiFullName: sub
-            vpiActual: UnsupportedTypespec name:a_struct_t
+            vpiPathElem (2 items):
+              RefTypespec name:TEST_TYPES start:28:11 end:28:21:
+                vpiParent: RefTypespec
+                vpiName: TEST_TYPES
+                vpiFullName: sub.TEST_TYPES
+                vpiPathElem (1 items):
+                  RefObj name:TEST_TYPES start:28:11 end:28:21:
+                    vpiParent: RefTypespec name:TEST_TYPES
+                    vpiName: TEST_TYPES
+                    vpiFullName: sub.TEST_TYPES
+                    vpiActual: Package name:TEST_TYPES
+              RefTypespec name:a_struct_t start:28:23 end:28:33:
+                vpiParent: RefTypespec
+                vpiName: a_struct_t
+                vpiFullName: sub.a_struct_t
       vpiDefName: sub
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:26:8 end:26:11:
@@ -855,11 +874,11 @@ Design name:unnamed:
             vpiName: a_out
             vpiFullName: sub.a_out.a_out
             vpiActual: Variable name:a_out
-          vpiTypespec RefTypespec name:TEST_TYPES::a_struct_t start:28:11 end:28:41:
+          "vpiTypespec RefTypespec name: [n-1:0] start:28:11 end:28:41":
             vpiParent: Port name:a_out
-            vpiName: TEST_TYPES::a_struct_t
-            vpiFullName: sub.a_out.TEST_TYPES::a_struct_t
-            vpiActual: TypedefTypespec name:a_struct_t
+            vpiName: " [n-1:0]"
+            vpiFullName: sub.a_out. [n-1:0]
+            vpiActual: ArrayTypespec
       vpiProcess (1 items):
         Always start:29:4 end:32:7:
           vpiParent: Module name:sub
@@ -943,7 +962,6 @@ Design name:unnamed:
                         vpiParent: RefObj name:a_out[i].stuff
                         vpiName: stuff
                         vpiFullName: sub.stuff
-                        vpiActual: TypespecMember name:stuff
                   vpiRhs BitSelect name:i[0] start:31:19 end:31:23:
                     vpiParent: Assignment
                     vpiName: i[0]
@@ -984,7 +1002,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1029,10 +1047,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            16      16       1         1
 Operation                            8       7       0         1
-RefObj                              21      20       0         1
-RefTypespec                         28      28       1         1
+RefObj                              23      22       0         1
+RefTypespec                         32      32       1         1
 ----------------------------------------------------------------
-Others                              76      76       0         0
+Others                              70      70       0         0
 ----------------------------------------------------------------
                                    149     147       2         4
 ===================== END REDUCTION RESULT =====================

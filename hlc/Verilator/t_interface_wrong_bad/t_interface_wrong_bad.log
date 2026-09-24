@@ -182,6 +182,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_wrong_bad.v:11:1: Compile interface "bar_intf".
 [INF:CP5804] $Source01/t_interface_wrong_bad.v:15:1: Compile module "foo_mod".
 [WRN:CP5811] $Source01/t_interface_wrong_bad.v:15:26: Port "foo_port" definition missing its direction (input, output, inout).
+[ERR:CP5824] $Source01/t_interface_wrong_bad.v:15:1: Multiply defined typedef "foo_intf".
 [INF:CP5804] $Source01/t_interface_wrong_bad.v:21:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -200,17 +201,14 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:a start:8:16 end:8:17:
           vpiParent: Interface name:foo_intf
-          vpiTypespec RefTypespec name:logic start:8:4 end:8:15:
+          vpiTypespec RefTypespec name:logic [7:0] start:8:4 end:8:15:
             vpiParent: Variable name:a
-            vpiName: logic
-            vpiFullName: foo_intf.a.logic
+            vpiName: logic [7:0]
+            vpiFullName: foo_intf.a.logic [7:0]
             vpiActual: ArrayTypespec
           vpiName: a
           vpiFullName: foo_intf.a
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:logic start:8:4 end:8:9:
-          vpiParent: Interface name:foo_intf
-          vpiName Identifier name:logic start:8:4 end:8:9:
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Interface name:foo_intf
           vpiArrayType: static (1)
@@ -237,11 +235,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:8:4 end:8:15:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: foo_intf.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiDefName: foo_intf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:7:11 end:7:19:
@@ -256,17 +253,14 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:a start:12:16 end:12:17:
           vpiParent: Interface name:bar_intf
-          vpiTypespec RefTypespec name:logic start:12:4 end:12:15:
+          vpiTypespec RefTypespec name:logic [7:0] start:12:4 end:12:15:
             vpiParent: Variable name:a
-            vpiName: logic
-            vpiFullName: bar_intf.a.logic
+            vpiName: logic [7:0]
+            vpiFullName: bar_intf.a.logic [7:0]
             vpiActual: ArrayTypespec
           vpiName: a
           vpiFullName: bar_intf.a
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:logic start:12:4 end:12:9:
-          vpiParent: Interface name:bar_intf
-          vpiName Identifier name:logic start:12:4 end:12:9:
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Interface name:bar_intf
           vpiArrayType: static (1)
@@ -293,11 +287,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:12:4 end:12:15:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: bar_intf.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiDefName: bar_intf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:11:11 end:11:19:
@@ -457,7 +450,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -502,7 +495,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_wrong_bad/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              68      68       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    68      68       0         0
 ===================== END REDUCTION RESULT =====================

@@ -351,10 +351,10 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface1_modport.v:14:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface1_modport.v:39:1: Compile module "sub".
 [WRN:CP5811] $Source01/t_interface1_modport.v:48:20: Port "isub" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/t_interface1_modport.v:30:12: Failed to bind "id:72, name:value".
-[WRN:CP5851] $Source01/t_interface1_modport.v:31:8: Failed to bind "id:82, name:hidden_from_isub".
-[WRN:CP5851] $Source01/t_interface1_modport.v:32:12: Failed to bind "id:89, name:hidden_from_isub".
-[WRN:CP5851] $Source01/t_interface1_modport.v:54:12: Failed to bind "id:125, name:value".
+[WRN:CP5851] $Source01/t_interface1_modport.v:30:12: Failed to bind "id:71, name:value".
+[WRN:CP5851] $Source01/t_interface1_modport.v:31:8: Failed to bind "id:81, name:hidden_from_isub".
+[WRN:CP5851] $Source01/t_interface1_modport.v:32:12: Failed to bind "id:88, name:hidden_from_isub".
+[WRN:CP5851] $Source01/t_interface1_modport.v:54:12: Failed to bind "id:123, name:value".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -452,7 +452,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:19:10 end:19:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:19:10 end:19:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -470,7 +470,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:19:10 end:19:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -705,20 +705,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub start:39:8 end:39:11:
       vpiFullName: sub
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:ifc::out_modport start:48:4 end:48:19:
-          vpiParent: Module name:sub
-          vpiPathElem (2 items):
-            RefObj name:ifc start:48:4 end:48:7:
-              vpiParent: UnsupportedTypespec name:ifc::out_modport
-              vpiName: ifc
-              vpiFullName: sub.ifc::out_modport.ifc
-              vpiActual: Interface name:ifc
-            RefObj name:out_modport start:48:8 end:48:19:
-              vpiParent: UnsupportedTypespec name:ifc::out_modport
-              vpiName: out_modport
-              vpiFullName: sub.ifc::out_modport.out_modport
-          vpiName Identifier name:ifc::out_modport:
+      vpiTypespec (1 items):
         IntegerTypespec:
           vpiParent: Module name:sub
           vpiSigned: true
@@ -732,7 +719,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:i_value start:49:18 end:49:25:
           vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:49:4 end:49:17:
+          vpiTypespec RefTypespec start:49:10 end:49:17:
             vpiParent: Net name:i_value
             vpiFullName: sub.i_value
             vpiActual: IntegerTypespec
@@ -749,10 +736,20 @@ Design name:unnamed:
             vpiName: isub
             vpiFullName: sub.isub.isub
             vpiActual: Port name:isub
-          vpiTypespec RefTypespec start:48:4 end:48:19:
+          vpiTypespec RefTypespec name:ifc::out_modport start:48:4 end:48:19:
             vpiParent: Port name:isub
-            vpiFullName: sub.isub
-            vpiActual: UnsupportedTypespec name:ifc::out_modport
+            vpiName: ifc::out_modport
+            vpiFullName: sub.isub.ifc::out_modport
+            vpiPathElem (2 items):
+              RefObj name:ifc start:48:4 end:48:7:
+                vpiParent: RefTypespec name:ifc::out_modport
+                vpiName: ifc
+                vpiFullName: sub.isub.ifc
+                vpiActual: Interface name:ifc
+              RefTypespec name:out_modport start:48:8 end:48:19:
+                vpiParent: RefTypespec name:ifc::out_modport
+                vpiName: out_modport
+                vpiFullName: sub.isub.ifc::out_modport.out_modport
         Port name:i_value start:49:18 end:49:25:
           vpiParent: Module name:sub
           vpiName: i_value
@@ -762,7 +759,7 @@ Design name:unnamed:
             vpiName: i_value
             vpiFullName: sub.i_value.i_value
             vpiActual: Net name:i_value
-          vpiTypespec RefTypespec start:49:4 end:49:17:
+          vpiTypespec RefTypespec start:49:10 end:49:17:
             vpiParent: Port name:i_value
             vpiFullName: sub.i_value
             vpiActual: IntegerTypespec
@@ -869,10 +866,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             8       8       2         2
 Operation                            5       3       0         2
-RefObj                              28      26       0         2
-RefTypespec                         18      18       2         2
+RefObj                              27      25       0         2
+RefTypespec                         19      19       2         2
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              58      58       0         0
 ----------------------------------------------------------------
-                                   119     115       4         8
+                                   117     113       4         8
 ===================== END REDUCTION RESULT =====================

@@ -271,7 +271,7 @@ n<$Source01/dut.sv> u<256> t<Top_level_rule> c<1> l<1:1> el<27:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "std_cache_pkg".
 [INF:CP5804] $Source01/dut.sv:16:1: Compile module "axi_adapter_arbiter".
-[WRN:CP5851] $Source01/dut.sv:22:21: Failed to bind "id:134, name:req".
+[WRN:CP5851] $Source01/dut.sv:22:21: Failed to bind "id:132, name:req".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "std_cache_pkg".
 [WRN:PA5506] $Source01/dut.sv:16:1: No timescale set for "axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t))".
 ====== HLDB =======
@@ -306,7 +306,15 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:reqtype
                 vpiName: ariane_axi::ad_req_t
                 vpiFullName: std_cache_pkg::reqtype::ariane_axi::ad_req_t
-                vpiActual: UnsupportedTypespec name:ariane_axi::ad_req_t
+                vpiPathElem (2 items):
+                  RefTypespec name:ariane_axi start:4:5 end:4:15:
+                    vpiParent: RefTypespec name:ariane_axi::ad_req_t
+                    vpiName: ariane_axi
+                    vpiFullName: std_cache_pkg::reqtype::ariane_axi::ad_req_t::ariane_axi
+                  RefTypespec name:ad_req_t start:4:17 end:4:25:
+                    vpiParent: RefTypespec name:ariane_axi::ad_req_t
+                    vpiName: ad_req_t
+                    vpiFullName: std_cache_pkg::reqtype::ariane_axi::ad_req_t::ad_req_t
             TypespecMember name:amo start:5:26 end:5:29:
               vpiParent: Struct
               vpiName: amo
@@ -314,7 +322,15 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:amo
                 vpiName: ariane_pkg::amo_t
                 vpiFullName: std_cache_pkg::amo::ariane_pkg::amo_t
-                vpiActual: UnsupportedTypespec name:ariane_pkg::amo_t
+                vpiPathElem (2 items):
+                  RefTypespec name:ariane_pkg start:5:5 end:5:15:
+                    vpiParent: RefTypespec name:ariane_pkg::amo_t
+                    vpiName: ariane_pkg
+                    vpiFullName: std_cache_pkg::amo::ariane_pkg::amo_t::ariane_pkg
+                  RefTypespec name:amo_t start:5:17 end:5:22:
+                    vpiParent: RefTypespec name:ariane_pkg::amo_t
+                    vpiName: amo_t
+                    vpiFullName: std_cache_pkg::amo::ariane_pkg::amo_t::amo_t
             TypespecMember name:id start:6:26 end:6:28:
               vpiParent: Struct
               vpiName: id
@@ -365,39 +381,9 @@ Design name:unnamed:
             vpiParent: Typedef name:bypass_req_t
             vpiFullName: std_cache_pkg::bypass_req_t
             vpiActual: StructTypespec
-      vpiTypespec (12 items):
+      vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Package name:std_cache_pkg
-        UnsupportedTypespec name:ariane_axi start:4:5 end:4:15:
-          vpiParent: Package name:std_cache_pkg
-          vpiName Identifier name:ariane_axi start:4:5 end:4:15:
-        UnsupportedTypespec name:ariane_axi::ad_req_t start:4:5 end:4:25:
-          vpiParent: Package name:std_cache_pkg
-          vpiPathElem (2 items):
-            RefTypespec start:4:5 end:4:17:
-              vpiParent: UnsupportedTypespec name:ariane_axi::ad_req_t
-              vpiFullName: std_cache_pkg::ariane_axi::ad_req_t
-              vpiActual: UnsupportedTypespec name:ariane_axi
-            RefTypespec name:ad_req_t start:4:17 end:4:25:
-              vpiParent: UnsupportedTypespec name:ariane_axi::ad_req_t
-              vpiName: ad_req_t
-              vpiFullName: std_cache_pkg::ariane_axi::ad_req_t::ad_req_t
-          vpiName Identifier name:ariane_axi::ad_req_t start:4:5 end:4:25:
-        UnsupportedTypespec name:ariane_pkg start:5:5 end:5:15:
-          vpiParent: Package name:std_cache_pkg
-          vpiName Identifier name:ariane_pkg start:5:5 end:5:15:
-        UnsupportedTypespec name:ariane_pkg::amo_t start:5:5 end:5:22:
-          vpiParent: Package name:std_cache_pkg
-          vpiPathElem (2 items):
-            RefTypespec start:5:5 end:5:17:
-              vpiParent: UnsupportedTypespec name:ariane_pkg::amo_t
-              vpiFullName: std_cache_pkg::ariane_pkg::amo_t
-              vpiActual: UnsupportedTypespec name:ariane_pkg
-            RefTypespec name:amo_t start:5:17 end:5:22:
-              vpiParent: UnsupportedTypespec name:ariane_pkg::amo_t
-              vpiName: amo_t
-              vpiFullName: std_cache_pkg::ariane_pkg::amo_t::amo_t
-          vpiName Identifier name:ariane_pkg::amo_t start:5:5 end:5:22:
         LogicTypespec:
           vpiParent: Package name:std_cache_pkg
           vpiRange (1 items):
@@ -561,7 +547,7 @@ Design name:unnamed:
       vpiParameter (2 items):
         Parameter name:NR_PORTS start:17:15 end:17:23:
           vpiParent: Module name:axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t))
-          vpiTypespec RefTypespec start:17:15 end:17:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NR_PORTS
             vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).NR_PORTS
             vpiActual: LogicTypespec
@@ -596,28 +582,29 @@ Design name:unnamed:
             vpiName: req_t
             vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).req_t
             vpiActual: TypeParameter name:req_t
-          vpiRhs RefTypespec start:18:28 end:18:55:
+          vpiRhs RefTypespec name:std_cache_pkg::bypass_req_t start:18:28 end:18:55:
             vpiParent: ParamAssign
-            vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t))
-            vpiActual: UnsupportedTypespec name:std_cache_pkg::bypass_req_t
-      vpiTypespec (5 items):
+            vpiName: std_cache_pkg::bypass_req_t
+            vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).std_cache_pkg::bypass_req_t
+            vpiPathElem (2 items):
+              RefTypespec name:std_cache_pkg start:18:28 end:18:41:
+                vpiParent: RefTypespec name:std_cache_pkg::bypass_req_t
+                vpiName: std_cache_pkg
+                vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).std_cache_pkg::bypass_req_t.std_cache_pkg
+                vpiPathElem (1 items):
+                  RefObj name:std_cache_pkg start:18:28 end:18:41:
+                    vpiParent: RefTypespec name:std_cache_pkg
+                    vpiName: std_cache_pkg
+                    vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).std_cache_pkg::bypass_req_t.std_cache_pkg
+                    vpiActual: Package name:std_cache_pkg
+              RefTypespec name:bypass_req_t start:18:43 end:18:55:
+                vpiParent: RefTypespec name:std_cache_pkg::bypass_req_t
+                vpiName: bypass_req_t
+                vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).std_cache_pkg::bypass_req_t.bypass_req_t
+            vpiActual: TypedefTypespec name:bypass_req_t
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t))
-        UnsupportedTypespec name:std_cache_pkg start:18:28 end:18:41:
-          vpiParent: Module name:axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t))
-          vpiName Identifier name:std_cache_pkg start:18:28 end:18:41:
-        UnsupportedTypespec name:std_cache_pkg::bypass_req_t start:18:28 end:18:55:
-          vpiParent: Module name:axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t))
-          vpiPathElem (2 items):
-            RefTypespec start:18:28 end:18:43:
-              vpiParent: UnsupportedTypespec name:std_cache_pkg::bypass_req_t
-              vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).std_cache_pkg::bypass_req_t
-              vpiActual: UnsupportedTypespec name:std_cache_pkg
-            RefTypespec name:bypass_req_t start:18:43 end:18:55:
-              vpiParent: UnsupportedTypespec name:std_cache_pkg::bypass_req_t
-              vpiName: bypass_req_t
-              vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).std_cache_pkg::bypass_req_t.bypass_req_t
-          vpiName Identifier name:std_cache_pkg::bypass_req_t start:18:28 end:18:55:
         ArrayTypespec:
           vpiParent: Module name:axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t))
           vpiArrayType: static (1)
@@ -653,7 +640,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:req_t:
+          vpiElemTypespec RefTypespec name:req_t start:19:13 end:19:33:
             vpiParent: ArrayTypespec
             vpiName: req_t
             vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).req_t
@@ -669,10 +656,10 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:req_i start:19:34 end:19:39:
           vpiParent: Module name:axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t))
-          vpiTypespec RefTypespec name:req_t start:19:13 end:19:18:
+          vpiTypespec RefTypespec name:req_t [NR_PORTS-1:0] start:19:13 end:19:33:
             vpiParent: Net name:req_i
-            vpiName: req_t
-            vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).req_i.req_t
+            vpiName: req_t [NR_PORTS-1:0]
+            vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).req_i.req_t [NR_PORTS-1:0]
             vpiActual: ArrayTypespec
           vpiName: req_i
           vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).req_i
@@ -687,10 +674,10 @@ Design name:unnamed:
             vpiName: req_i
             vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).req_i.req_i
             vpiActual: Net name:req_i
-          vpiTypespec RefTypespec name:req_t start:19:13 end:19:18:
+          vpiTypespec RefTypespec name:req_t [NR_PORTS-1:0] start:19:13 end:19:33:
             vpiParent: Port name:req_i
-            vpiName: req_t
-            vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).req_i.req_t
+            vpiName: req_t [NR_PORTS-1:0]
+            vpiFullName: axi_adapter_arbiter #(.NR_PORTS(4), .req_t(std_cache_pkg::bypass_req_t)).req_i.req_t [NR_PORTS-1:0]
             vpiActual: ArrayTypespec
       vpiProcess (1 items):
         Always start:21:5 end:25:8:
@@ -815,10 +802,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            14      14       1         1
 Operation                            2       1       0         1
-RefObj                              11      10       0         1
+RefObj                              12      11       0         1
 RefTypespec                         37      37       1         1
 ----------------------------------------------------------------
-Others                              64      64       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                   128     126       2         4
+                                   117     115       2         4
 ===================== END REDUCTION RESULT =====================

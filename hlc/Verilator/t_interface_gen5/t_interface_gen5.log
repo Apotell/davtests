@@ -456,14 +456,15 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_gen5.v:8:1: Compile interface "intf".
 [INF:CP5804] $Source01/t_interface_gen5.v:15:1: Compile module "t1".
 [WRN:CP5811] $Source01/t_interface_gen5.v:15:16: Port "mod_intf" definition missing its direction (input, output, inout).
+[ERR:CP5824] $Source01/t_interface_gen5.v:15:1: Multiply defined typedef "intf".
 [INF:CP5804] $Source01/t_interface_gen5.v:21:1: Compile module "t".
 [INF:CP5836] $Source01/t_interface_gen5.v:23:15: Compile generate block "TestIf".
-[WRN:CP5851] $Source01/t_interface_gen5.v:25:17: Failed to bind "id:67, name:my_intf".
-[WRN:CP5851] $Source01/t_interface_gen5.v:34:17: Failed to bind "id:92, name:my_intf".
-[WRN:CP5851] $Source01/t_interface_gen5.v:46:17: Failed to bind "id:132, name:my_intf".
-[WRN:CP5851] $Source01/t_interface_gen5.v:47:23: Failed to bind "id:141, name:my_intf".
-[WRN:CP5851] $Source01/t_interface_gen5.v:50:17: Failed to bind "id:154, name:my_intf".
-[WRN:CP5851] $Source01/t_interface_gen5.v:51:23: Failed to bind "id:163, name:my_intf".
+[WRN:CP5851] $Source01/t_interface_gen5.v:25:17: Failed to bind "id:71, name:my_intf".
+[WRN:CP5851] $Source01/t_interface_gen5.v:34:17: Failed to bind "id:100, name:my_intf".
+[WRN:CP5851] $Source01/t_interface_gen5.v:46:17: Failed to bind "id:142, name:my_intf".
+[WRN:CP5851] $Source01/t_interface_gen5.v:47:23: Failed to bind "id:151, name:my_intf".
+[WRN:CP5851] $Source01/t_interface_gen5.v:50:17: Failed to bind "id:168, name:my_intf".
+[WRN:CP5851] $Source01/t_interface_gen5.v:51:23: Failed to bind "id:177, name:my_intf".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -485,13 +486,12 @@ Design name:unnamed:
             vpiParent: Variable name:val
             vpiName: logic
             vpiFullName: intf #(.PARAM(0)).val.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: val
           vpiFullName: intf #(.PARAM(0)).val
       vpiParameter (1 items):
         Parameter name:PARAM start:9:15 end:9:20:
           vpiParent: Interface name:intf #(.PARAM(0))
-          vpiTypespec RefTypespec start:9:15 end:9:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:PARAM
             vpiFullName: intf #(.PARAM(0)).PARAM
             vpiActual: LogicTypespec
@@ -515,12 +515,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:intf #(.PARAM(0))
-        UnsupportedTypespec name:logic start:11:4 end:11:9:
-          vpiParent: Interface name:intf #(.PARAM(0))
-          vpiName Identifier name:logic start:11:4 end:11:9:
       vpiDefName: intf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:11 end:8:15:
@@ -645,13 +642,12 @@ Design name:unnamed:
             vpiParent: Variable name:val
             vpiName: logic
             vpiFullName: t.val.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: val
           vpiFullName: t.val
       vpiParameter (1 items):
         Parameter name:LP start:40:15 end:40:17:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:40:15 end:40:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LP
             vpiFullName: t.LP
             vpiActual: LogicTypespec
@@ -676,12 +672,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:logic start:41:4 end:41:9:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:41:4 end:41:9:
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:21:8 end:21:9:
@@ -740,7 +733,46 @@ Design name:unnamed:
             vpiParent: GenRegion
             vpiName Identifier name:TestIf start:23:15 end:23:21:
             vpiFullName: t.TestIf
-            vpiTypespec (2 items):
+            vpiTypespec (3 items):
+              UnsupportedTypespec start:24:10 end:24:27:
+                vpiParent: Begin name:TestIf
+                vpiParamAssign (2 items):
+                  ParamAssign start:24:17 end:24:26:
+                    vpiParent: UnsupportedTypespec
+                    vpiConnByName: true
+                    vpiOverridden: true
+                    vpiLhs RefObj name:PARAM start:24:18 end:24:23:
+                      vpiParent: ParamAssign
+                      vpiName: PARAM
+                      vpiFullName: t.TestIf.PARAM
+                    vpiRhs Constant start:24:24 end:24:25:
+                      vpiParent: ParamAssign
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t.TestIf
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "1"
+                      vpiValue: 1
+                  ParamAssign start:24:17 end:24:26:
+                    vpiParent: UnsupportedTypespec
+                    vpiConnByName: true
+                    vpiOverridden: true
+                    vpiLhs RefObj name:PARAM start:24:18 end:24:23:
+                      vpiParent: ParamAssign
+                      vpiName: PARAM
+                      vpiFullName: t.TestIf.PARAM
+                    vpiRhs Constant start:24:24 end:24:25:
+                      vpiParent: ParamAssign
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t.TestIf
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "1"
+                      vpiValue: 1
               BitTypespec:
                 vpiParent: Begin name:TestIf
               ModuleTypespec name:t1 start:26:10 end:26:12:
@@ -752,11 +784,10 @@ Design name:unnamed:
               RefInstance name:my_intf start:24:28 end:24:35:
                 vpiParent: Begin name:TestIf
                 vpiName: my_intf
-                vpiTypespec RefTypespec name:intf start:24:10 end:24:14:
+                vpiTypespec RefTypespec start:24:10 end:24:14:
                   vpiParent: RefInstance name:my_intf
-                  vpiName: intf
-                  vpiFullName: t.TestIf.my_intf.intf
-                  vpiActual: InterfaceTypespec name:intf
+                  vpiFullName: t.TestIf.my_intf
+                  vpiActual: UnsupportedTypespec
               ContAssign start:25:17 end:25:33:
                 vpiParent: Begin name:TestIf
                 vpiLhs RefObj name:my_intf.val start:25:17 end:25:28:
@@ -809,7 +840,46 @@ Design name:unnamed:
           vpiStmt Begin start:32:7 end:37:10:
             vpiParent: GenRegion
             vpiFullName: t
-            vpiTypespec (2 items):
+            vpiTypespec (3 items):
+              UnsupportedTypespec start:33:10 end:33:27:
+                vpiParent: Begin
+                vpiParamAssign (2 items):
+                  ParamAssign start:33:17 end:33:26:
+                    vpiParent: UnsupportedTypespec
+                    vpiConnByName: true
+                    vpiOverridden: true
+                    vpiLhs RefObj name:PARAM start:33:18 end:33:23:
+                      vpiParent: ParamAssign
+                      vpiName: PARAM
+                      vpiFullName: t.PARAM
+                    vpiRhs Constant start:33:24 end:33:25:
+                      vpiParent: ParamAssign
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "1"
+                      vpiValue: 1
+                  ParamAssign start:33:17 end:33:26:
+                    vpiParent: UnsupportedTypespec
+                    vpiConnByName: true
+                    vpiOverridden: true
+                    vpiLhs RefObj name:PARAM start:33:18 end:33:23:
+                      vpiParent: ParamAssign
+                      vpiName: PARAM
+                      vpiFullName: t.PARAM
+                    vpiRhs Constant start:33:24 end:33:25:
+                      vpiParent: ParamAssign
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "1"
+                      vpiValue: 1
               BitTypespec:
                 vpiParent: Begin
               ModuleTypespec name:t1 start:35:10 end:35:12:
@@ -821,11 +891,10 @@ Design name:unnamed:
               RefInstance name:my_intf start:33:28 end:33:35:
                 vpiParent: Begin
                 vpiName: my_intf
-                vpiTypespec RefTypespec name:intf start:33:10 end:33:14:
+                vpiTypespec RefTypespec start:33:10 end:33:14:
                   vpiParent: RefInstance name:my_intf
-                  vpiName: intf
-                  vpiFullName: t.my_intf.intf
-                  vpiActual: InterfaceTypespec name:intf
+                  vpiFullName: t.my_intf
+                  vpiActual: UnsupportedTypespec
               ContAssign start:34:17 end:34:33:
                 vpiParent: Begin
                 vpiLhs RefObj name:my_intf.val start:34:17 end:34:28:
@@ -889,18 +958,56 @@ Design name:unnamed:
                 vpiStmt Begin start:44:15 end:48:10:
                   vpiParent: GenIfElse
                   vpiFullName: t
-                  vpiTypespec (1 items):
+                  vpiTypespec (2 items):
+                    UnsupportedTypespec start:45:10 end:45:27:
+                      vpiParent: Begin
+                      vpiParamAssign (2 items):
+                        ParamAssign start:45:17 end:45:26:
+                          vpiParent: UnsupportedTypespec
+                          vpiConnByName: true
+                          vpiOverridden: true
+                          vpiLhs RefObj name:PARAM start:45:18 end:45:23:
+                            vpiParent: ParamAssign
+                            vpiName: PARAM
+                            vpiFullName: t.PARAM
+                          vpiRhs Constant start:45:24 end:45:25:
+                            vpiParent: ParamAssign
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "2"
+                            vpiValue: 2
+                        ParamAssign start:45:17 end:45:26:
+                          vpiParent: UnsupportedTypespec
+                          vpiConnByName: true
+                          vpiOverridden: true
+                          vpiLhs RefObj name:PARAM start:45:18 end:45:23:
+                            vpiParent: ParamAssign
+                            vpiName: PARAM
+                            vpiFullName: t.PARAM
+                          vpiRhs Constant start:45:24 end:45:25:
+                            vpiParent: ParamAssign
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "2"
+                            vpiValue: 2
                     BitTypespec:
                       vpiParent: Begin
                   vpiStmt (3 items):
                     RefInstance name:my_intf start:45:28 end:45:35:
                       vpiParent: Begin
                       vpiName: my_intf
-                      vpiTypespec RefTypespec name:intf start:45:10 end:45:14:
+                      vpiTypespec RefTypespec start:45:10 end:45:14:
                         vpiParent: RefInstance name:my_intf
-                        vpiName: intf
-                        vpiFullName: t.my_intf.intf
-                        vpiActual: InterfaceTypespec name:intf
+                        vpiFullName: t.my_intf
+                        vpiActual: UnsupportedTypespec
                     ContAssign start:46:17 end:46:33:
                       vpiParent: Begin
                       vpiLhs RefObj name:my_intf.val start:46:17 end:46:28:
@@ -951,18 +1058,56 @@ Design name:unnamed:
                 vpiElseStmt Begin start:48:16 end:52:10:
                   vpiParent: GenIfElse
                   vpiFullName: t
-                  vpiTypespec (1 items):
+                  vpiTypespec (2 items):
+                    UnsupportedTypespec start:49:10 end:49:27:
+                      vpiParent: Begin
+                      vpiParamAssign (2 items):
+                        ParamAssign start:49:17 end:49:26:
+                          vpiParent: UnsupportedTypespec
+                          vpiConnByName: true
+                          vpiOverridden: true
+                          vpiLhs RefObj name:PARAM start:49:18 end:49:23:
+                            vpiParent: ParamAssign
+                            vpiName: PARAM
+                            vpiFullName: t.PARAM
+                          vpiRhs Constant start:49:24 end:49:25:
+                            vpiParent: ParamAssign
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "3"
+                            vpiValue: 3
+                        ParamAssign start:49:17 end:49:26:
+                          vpiParent: UnsupportedTypespec
+                          vpiConnByName: true
+                          vpiOverridden: true
+                          vpiLhs RefObj name:PARAM start:49:18 end:49:23:
+                            vpiParent: ParamAssign
+                            vpiName: PARAM
+                            vpiFullName: t.PARAM
+                          vpiRhs Constant start:49:24 end:49:25:
+                            vpiParent: ParamAssign
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "3"
+                            vpiValue: 3
                     BitTypespec:
                       vpiParent: Begin
                   vpiStmt (3 items):
                     RefInstance name:my_intf start:49:28 end:49:35:
                       vpiParent: Begin
                       vpiName: my_intf
-                      vpiTypespec RefTypespec name:intf start:49:10 end:49:14:
+                      vpiTypespec RefTypespec start:49:10 end:49:14:
                         vpiParent: RefInstance name:my_intf
-                        vpiName: intf
-                        vpiFullName: t.my_intf.intf
-                        vpiActual: InterfaceTypespec name:intf
+                        vpiFullName: t.my_intf
+                        vpiActual: UnsupportedTypespec
                     ContAssign start:50:17 end:50:33:
                       vpiParent: Begin
                       vpiLhs RefObj name:my_intf.val start:50:17 end:50:28:
@@ -1034,7 +1179,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
@@ -1050,25 +1195,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_gen5/mounts.json
 
 
-{'result': {'coverage': 96.28,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_gen5.v': {'post_len': 28,
+            'files': {'$Output/lib/work/t_interface_gen5.v': {'post_len': 0,
                                                               'pre_len': 752}},
-            'post_len': 28,
+            'post_len': 0,
             'pre_len': 752,
             'test_name': 'Verilator/t_interface_gen5'}}
 
 +-------------------------------------+----------+-----------+
 | INPUT                               |   PRELEN |   POSTLEN |
 +=====================================+==========+===========+
-| $Output/lib/work/t_interface_gen5.v |      752 |        28 |
+| $Output/lib/work/t_interface_gen5.v |      752 |         0 |
 +=====================================+==========+===========+
-|                                     |      752 |        28 |
+|                                     |      752 |         0 |
 +-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 96.28
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1079,7 +1224,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_gen5/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             148     148       0         0
+Others                             180     180       0         0
 ----------------------------------------------------------------
-                                   148     148       0         0
+                                   180     180       0         0
 ===================== END REDUCTION RESULT =====================

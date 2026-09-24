@@ -51,11 +51,28 @@ Design name:unnamed:
         Typedef name:type_alias start:6:3 end:6:39:
           vpiParent: Package name:package1
           vpiName Identifier name:type_alias start:6:28 end:6:38:
-          vpiTypedefAlias RefTypespec start:6:11 end:6:27:
+          vpiTypedefAlias RefTypespec name:package1::type_t start:6:11 end:6:27:
             vpiParent: Typedef name:type_alias
-            vpiFullName: package1::type_alias
-            vpiActual: UnsupportedTypespec name:package1::type_t
-      vpiTypespec (6 items):
+            vpiName: package1::type_t
+            vpiFullName: package1::type_alias::package1::type_t
+            vpiPathElem (2 items):
+              RefTypespec name:package1 start:6:11 end:6:19:
+                vpiParent: RefTypespec name:package1::type_t
+                vpiName: package1
+                vpiFullName: package1::type_alias::package1::type_t::package1
+                vpiPathElem (1 items):
+                  RefObj name:package1 start:6:11 end:6:19:
+                    vpiParent: RefTypespec name:package1
+                    vpiName: package1
+                    vpiFullName: package1::type_alias::package1::type_t::package1
+                    vpiActual: Package name:package1
+              RefTypespec name:type_t start:6:21 end:6:27:
+                vpiParent: RefTypespec name:package1::type_t
+                vpiName: type_t
+                vpiFullName: package1::type_alias::package1::type_t::type_t
+                vpiActual: TypedefTypespec name:type_t
+            vpiActual: TypedefTypespec name:type_t
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Package name:package1
         StructTypespec start:2:11 end:4:4:
@@ -66,26 +83,9 @@ Design name:unnamed:
           vpiName Identifier name:type_t start:4:5 end:4:11:
           vpiTypedefKind: struct (4)
           vpiTypedef: Typedef name:type_t
-        UnsupportedTypespec name:package1 start:6:11 end:6:19:
-          vpiParent: Package name:package1
-          vpiName Identifier name:package1 start:6:11 end:6:19:
-        UnsupportedTypespec name:package1::type_t start:6:11 end:6:27:
-          vpiParent: Package name:package1
-          vpiPathElem (2 items):
-            RefTypespec start:6:11 end:6:21:
-              vpiParent: UnsupportedTypespec name:package1::type_t
-              vpiFullName: package1::type_t
-              vpiActual: UnsupportedTypespec name:package1
-            RefTypespec name:type_t start:6:21 end:6:27:
-              vpiParent: UnsupportedTypespec name:package1::type_t
-              vpiName: type_t
-              vpiFullName: package1::type_t::type_t
-              vpiActual: TypedefTypespec name:type_t
-          vpiName Identifier name:package1::type_t start:6:11 end:6:27:
         TypedefTypespec name:type_alias start:6:3 end:6:39:
           vpiParent: Package name:package1
           vpiName Identifier name:type_alias start:6:28 end:6:38:
-          vpiTypedefKind: unsupported (7)
           vpiTypedef: Typedef name:type_alias
       vpiDefName: package1
       vpiDefNetType: wire (1)
@@ -103,30 +103,30 @@ Design name:unnamed:
         Typedef name:type_alias start:10:3 end:10:39:
           vpiParent: Package name:package2
           vpiName Identifier name:type_alias start:10:28 end:10:38:
-          vpiTypedefAlias RefTypespec start:10:11 end:10:27:
+          vpiTypedefAlias RefTypespec name:package1::type_t start:10:11 end:10:27:
             vpiParent: Typedef name:type_alias
-            vpiFullName: package2::type_alias
-            vpiActual: UnsupportedTypespec name:package1::type_t
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:package1 start:10:11 end:10:19:
-          vpiParent: Package name:package2
-          vpiName Identifier name:package1 start:10:11 end:10:19:
-        UnsupportedTypespec name:package1::type_t start:10:11 end:10:27:
-          vpiParent: Package name:package2
-          vpiPathElem (2 items):
-            RefTypespec start:10:11 end:10:21:
-              vpiParent: UnsupportedTypespec name:package1::type_t
-              vpiFullName: package2::package1::type_t
-              vpiActual: UnsupportedTypespec name:package1
-            RefTypespec name:type_t start:10:21 end:10:27:
-              vpiParent: UnsupportedTypespec name:package1::type_t
-              vpiName: type_t
-              vpiFullName: package2::package1::type_t::type_t
-          vpiName Identifier name:package1::type_t start:10:11 end:10:27:
+            vpiName: package1::type_t
+            vpiFullName: package2::type_alias::package1::type_t
+            vpiPathElem (2 items):
+              RefTypespec name:package1 start:10:11 end:10:19:
+                vpiParent: RefTypespec name:package1::type_t
+                vpiName: package1
+                vpiFullName: package2::type_alias::package1::type_t::package1
+                vpiPathElem (1 items):
+                  RefObj name:package1 start:10:11 end:10:19:
+                    vpiParent: RefTypespec name:package1
+                    vpiName: package1
+                    vpiFullName: package2::type_alias::package1::type_t::package1
+                    vpiActual: Package name:package1
+              RefTypespec name:type_t start:10:21 end:10:27:
+                vpiParent: RefTypespec name:package1::type_t
+                vpiName: type_t
+                vpiFullName: package2::type_alias::package1::type_t::type_t
+            vpiActual: TypedefTypespec name:type_t
+      vpiTypespec (1 items):
         TypedefTypespec name:type_alias start:10:3 end:10:39:
           vpiParent: Package name:package2
           vpiName Identifier name:type_alias start:10:28 end:10:38:
-          vpiTypedefKind: unsupported (7)
           vpiTypedef: Typedef name:type_alias
       vpiDefName: package2
       vpiDefNetType: wire (1)
@@ -152,10 +152,11 @@ Design name:unnamed:
         Typedef name:t_two_bits_copy start:17:5 end:17:40:
           vpiParent: Module name:test
           vpiName Identifier name:t_two_bits_copy start:17:24 end:17:39:
-          vpiTypedefAlias RefTypespec start:17:13 end:17:23:
+          vpiTypedefAlias RefTypespec name:t_two_bits start:17:13 end:17:23:
             vpiParent: Typedef name:t_two_bits_copy
-            vpiFullName: test.t_two_bits_copy
-            vpiActual: UnsupportedTypespec name:t_two_bits
+            vpiName: t_two_bits
+            vpiFullName: test.t_two_bits_copy.t_two_bits
+            vpiActual: TypedefTypespec name:t_two_bits
       vpiVariable (2 items):
         Variable name:kkkk start:18:16 end:18:20:
           vpiParent: Module name:test
@@ -175,7 +176,7 @@ Design name:unnamed:
             vpiActual: TypedefTypespec name:t_two_bits_copy
           vpiName: zzzz
           vpiFullName: test.zzzz
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:test
           vpiRange (1 items):
@@ -206,13 +207,9 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName Identifier name:t_two_bits start:16:25 end:16:35:
           vpiTypedef: Typedef name:t_two_bits
-        UnsupportedTypespec name:t_two_bits start:17:13 end:17:23:
-          vpiParent: Module name:test
-          vpiName Identifier name:t_two_bits start:17:13 end:17:23:
         TypedefTypespec name:t_two_bits_copy start:17:5 end:17:40:
           vpiParent: Module name:test
           vpiName Identifier name:t_two_bits_copy start:17:24 end:17:39:
-          vpiTypedefKind: unsupported (7)
           vpiTypedef: Typedef name:t_two_bits_copy
       vpiDefName: test
       vpiDefNetType: wire (1)
@@ -278,7 +275,7 @@ COMMAND: ${HLC_DIR}/regression/TypedefAlias/TypedefAlias/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                    70      70       0         0
+                                    62      62       0         0
 ===================== END REDUCTION RESULT =====================

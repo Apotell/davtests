@@ -1631,7 +1631,7 @@ Design name:unnamed:
       vpiNet (4 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:10:10 end:10:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -1732,7 +1732,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:10:10 end:10:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -2342,6 +2342,35 @@ Design name:unnamed:
       vpiName Identifier name:callee start:64:8 end:64:14:
       vpiFullName: callee
       vpiTypespec (3 items):
+        ArrayTypespec:
+          vpiParent: Module name:callee
+          vpiArrayType: static (1)
+          vpiRange Range start:64:33 end:64:38:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:64:34 end:64:35:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: callee
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "7"
+              vpiValue: 7
+            vpiRightRange Constant start:64:36 end:64:37:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: callee
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+          vpiElemTypespec RefTypespec start:64:22 end:64:27:
+            vpiParent: ArrayTypespec
+            vpiFullName: callee
+            vpiActual: LogicTypespec
         LogicTypespec:
           vpiParent: Module name:callee
           vpiRange (1 items):
@@ -2368,35 +2397,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        ArrayTypespec:
-          vpiParent: Module name:callee
-          vpiArrayType: static (1)
-          vpiRange Range start:64:33 end:64:38:
-            vpiParent: ArrayTypespec
-            vpiLeftRange Constant start:64:34 end:64:35:
-              vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: callee
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "7"
-              vpiValue: 7
-            vpiRightRange Constant start:64:36 end:64:37:
-              vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: callee
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "0"
-              vpiValue: 0
-          vpiElemTypespec RefTypespec start:64:16 end:64:27:
-            vpiParent: ArrayTypespec
-            vpiFullName: callee
-            vpiActual: LogicTypespec
         LogicTypespec:
           vpiParent: Module name:callee
           vpiRange (1 items):
@@ -2433,16 +2433,18 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:port start:64:28 end:64:32:
           vpiParent: Module name:callee
-          vpiTypespec RefTypespec start:64:16 end:64:27:
+          vpiTypespec RefTypespec name:logic [7:0] [7:0] start:64:22 end:64:27:
             vpiParent: Net name:port
-            vpiFullName: callee.port
+            vpiName: logic [7:0] [7:0]
+            vpiFullName: callee.port.logic [7:0] [7:0]
             vpiActual: ArrayTypespec
           vpiName: port
           vpiFullName: callee.port
           vpiNetType: wire (1)
+          vpiVector: true
         Net name:o start:64:53 end:64:54:
           vpiParent: Module name:callee
-          vpiTypespec RefTypespec start:64:40 end:64:52:
+          vpiTypespec RefTypespec start:64:47 end:64:52:
             vpiParent: Net name:o
             vpiFullName: callee.o
             vpiActual: LogicTypespec
@@ -2460,9 +2462,10 @@ Design name:unnamed:
             vpiName: port
             vpiFullName: callee.port.port
             vpiActual: Net name:port
-          vpiTypespec RefTypespec start:64:16 end:64:27:
+          vpiTypespec RefTypespec name:logic [7:0] [7:0] start:64:22 end:64:27:
             vpiParent: Port name:port
-            vpiFullName: callee.port
+            vpiName: logic [7:0] [7:0]
+            vpiFullName: callee.port.logic [7:0] [7:0]
             vpiActual: ArrayTypespec
         Port name:o start:64:53 end:64:54:
           vpiParent: Module name:callee
@@ -2473,7 +2476,7 @@ Design name:unnamed:
             vpiName: o
             vpiFullName: callee.o.o
             vpiActual: Net name:o
-          vpiTypespec RefTypespec start:64:40 end:64:52:
+          vpiTypespec RefTypespec start:64:47 end:64:52:
             vpiParent: Port name:o
             vpiFullName: callee.o
             vpiActual: LogicTypespec
@@ -2712,32 +2715,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:Test
-          vpiRange (1 items):
-            Range start:79:9 end:79:14:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:79:10 end:79:11:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: Test
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "7"
-                vpiValue: 7
-              vpiRightRange Constant start:79:12 end:79:13:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: Test
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
         ArrayTypespec:
           vpiParent: Module name:Test
           vpiArrayType: static (1)
@@ -2770,9 +2747,9 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:Test
           vpiRange (1 items):
-            Range start:80:9 end:80:14:
+            Range start:79:9 end:79:14:
               vpiParent: LogicTypespec
-              vpiLeftRange Constant start:80:10 end:80:11:
+              vpiLeftRange Constant start:79:10 end:79:11:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
@@ -2782,7 +2759,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "7"
                 vpiValue: 7
-              vpiRightRange Constant start:80:12 end:80:13:
+              vpiRightRange Constant start:79:12 end:79:13:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
@@ -2822,6 +2799,32 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiFullName: Test
             vpiActual: LogicTypespec
+        LogicTypespec:
+          vpiParent: Module name:Test
+          vpiRange (1 items):
+            Range start:80:9 end:80:14:
+              vpiParent: LogicTypespec
+              vpiLeftRange Constant start:80:10 end:80:11:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: Test
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "7"
+                vpiValue: 7
+              vpiRightRange Constant start:80:12 end:80:13:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: Test
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiVector: true
         ModuleTypespec name:callee start:104:4 end:104:10:
           vpiParent: Module name:Test
           vpiName Identifier name:callee start:104:4 end:104:10:
@@ -2852,9 +2855,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:port start:79:15 end:79:19:
           vpiParent: Module name:Test
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [7:0] [15:0] start:79:9 end:79:14:
             vpiParent: Net name:port
-            vpiFullName: Test.port
+            vpiName: logic [7:0] [15:0]
+            vpiFullName: Test.port.logic [7:0] [15:0]
             vpiActual: ArrayTypespec
           vpiName: port
           vpiFullName: Test.port
@@ -2863,9 +2867,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:goodport start:80:15 end:80:23:
           vpiParent: Module name:Test
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [7:0] [7:0] start:80:9 end:80:14:
             vpiParent: Net name:goodport
-            vpiFullName: Test.goodport
+            vpiName: logic [7:0] [7:0]
+            vpiFullName: Test.goodport.logic [7:0] [7:0]
             vpiActual: ArrayTypespec
           vpiName: goodport
           vpiFullName: Test.goodport

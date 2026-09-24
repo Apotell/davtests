@@ -163,15 +163,12 @@ Design name:unnamed:
             TypespecMember name:atype_t start:27:40 end:27:47:
               vpiParent: Union
               vpiName: atype_t
-              vpiTypespec RefTypespec name:foo_flags::common_flags_t start:27:2 end:27:39:
+              "vpiTypespec RefTypespec name: [7:0] [3:0] start:27:2 end:27:39":
                 vpiParent: TypespecMember name:atype_t
-                vpiName: foo_flags::common_flags_t
-                vpiFullName: goog::atype_t::foo_flags::common_flags_t
-                vpiActual: TypedefTypespec name:common_flags_t
-      vpiTypespec (5 items):
-        UnsupportedTypespec name:common_flags_t start:27:13 end:27:34:
-          vpiParent: Package name:goog
-          vpiName Identifier name:common_flags_t:
+                vpiName: " [7:0] [3:0]"
+                vpiFullName: "goog::atype_t:: [7:0] [3:0]"
+                vpiActual: ArrayTypespec
+      vpiTypespec (4 items):
         ArrayTypespec:
           vpiParent: Package name:goog
           vpiArrayType: static (1)
@@ -228,10 +225,24 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec start:27:2 end:27:39:
             vpiParent: ArrayTypespec
             vpiFullName: goog
-            vpiActual: UnsupportedTypespec name:common_flags_t
+            vpiPathElem (2 items):
+              RefTypespec name:foo_flags start:27:2 end:27:11:
+                vpiParent: RefTypespec
+                vpiName: foo_flags
+                vpiFullName: goog::foo_flags
+                vpiPathElem (1 items):
+                  RefObj name:foo_flags start:27:2 end:27:11:
+                    vpiParent: RefTypespec name:foo_flags
+                    vpiName: foo_flags
+                    vpiFullName: goog::foo_flags
+                    vpiActual: Package name:foo_flags
+              RefTypespec name:common_flags_t start:27:13 end:27:27:
+                vpiParent: RefTypespec
+                vpiName: common_flags_t
+                vpiFullName: goog::common_flags_t
         UnionTypespec start:26:9 end:29:2:
           vpiParent: Package name:goog
           vpiUnion: Union
@@ -300,7 +311,7 @@ COMMAND: ${HLC_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/desig
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              46      46       0         0
+Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    46      46       0         0
+                                    47      47       0         0
 ===================== END REDUCTION RESULT =====================

@@ -14,7 +14,6 @@ COMMAND: -wd ../../../tests/PragmaProtect top.sv -d 0 +incdir+. +libext+.v -writ
 [INF:CP5804] $Source01/top.sv:74:1: Compile module "sram".
 [ERR:CP5835] Colliding compilation unit name: "sram".
 [WRN:PA5506] No timescale set for "builtin".
-[ERR:LN7701] $Source01/top.sv:79:7: Invalid name: id:878, type:RefTypespec, name:, relation:vpiTypespec.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1334,7 +1333,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1354,7 +1353,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1376,7 +1375,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1394,7 +1393,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1416,7 +1415,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1434,7 +1433,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1499,24 +1498,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -1682,9 +1679,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:ram start:12:11 end:12:14:
           vpiParent: Module name:sram
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [7:0] [0:4095] start:12:1 end:12:10:
             vpiParent: Variable name:ram
-            vpiFullName: sram.ram
+            vpiName: logic [7:0] [0:4095]
+            vpiFullName: sram.ram.logic [7:0] [0:4095]
             vpiActual: ArrayTypespec
           vpiName: ram
           vpiFullName: sram.ram
@@ -1697,7 +1695,7 @@ Design name:unnamed:
             vpiActual: IntegerTypespec
           vpiName: i
           vpiFullName: sram.i
-      vpiTypespec (8 items):
+      vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:sram
         LogicTypespec:
@@ -1716,32 +1714,6 @@ Design name:unnamed:
                 vpiDecompile: "11"
                 vpiValue: 11
               vpiRightRange Constant start:6:11 end:6:12:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: sram
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:sram
-          vpiRange (1 items):
-            Range start:7:7 end:7:12:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:7:8 end:7:9:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: sram
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "7"
-                vpiValue: 7
-              vpiRightRange Constant start:7:10 end:7:11:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
@@ -1874,7 +1846,7 @@ Design name:unnamed:
       vpiNet (4 items):
         Net name:CSB start:4:7 end:4:10:
           vpiParent: Module name:sram
-          vpiTypespec RefTypespec start:4:7 end:4:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:CSB
             vpiFullName: sram.CSB
             vpiActual: LogicTypespec
@@ -1884,7 +1856,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:WRB start:5:7 end:5:10:
           vpiParent: Module name:sram
-          vpiTypespec RefTypespec start:5:7 end:5:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:WRB
             vpiFullName: sram.WRB
             vpiActual: LogicTypespec
@@ -1935,7 +1907,7 @@ Design name:unnamed:
             vpiName: CSB
             vpiFullName: sram.CSB.CSB
             vpiActual: Net name:CSB
-          vpiTypespec RefTypespec start:4:7 end:4:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:CSB
             vpiFullName: sram.CSB
             vpiActual: LogicTypespec
@@ -1948,7 +1920,7 @@ Design name:unnamed:
             vpiName: WRB
             vpiFullName: sram.WRB.WRB
             vpiActual: Net name:WRB
-          vpiTypespec RefTypespec start:5:7 end:5:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:WRB
             vpiFullName: sram.WRB
             vpiActual: LogicTypespec
@@ -2439,7 +2411,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sram start:74:8 end:74:12:
       vpiFullName: sram
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:sram
         LogicTypespec:
@@ -2468,32 +2440,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:sram
-          vpiRange (1 items):
-            Range start:79:7 end:79:12:
-              vpiParent: LogicTypespec
-              vpiLeftRange Constant start:79:8 end:79:9:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: sram
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "7"
-                vpiValue: 7
-              vpiRightRange Constant start:79:10 end:79:11:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: sram
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
       vpiDefName: sram
       vpiDefNetType: wire (1)
       vpiTimePrecision: -12
@@ -2506,7 +2452,7 @@ Design name:unnamed:
       vpiNet (4 items):
         Net name:CSB start:76:7 end:76:10:
           vpiParent: Module name:sram
-          vpiTypespec RefTypespec start:76:7 end:76:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:CSB
             vpiFullName: sram.CSB
             vpiActual: LogicTypespec
@@ -2516,7 +2462,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:WRB start:77:7 end:77:10:
           vpiParent: Module name:sram
-          vpiTypespec RefTypespec start:77:7 end:77:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:WRB
             vpiFullName: sram.WRB
             vpiActual: LogicTypespec
@@ -2536,9 +2482,6 @@ Design name:unnamed:
           vpiVector: true
         Net name:DBUS start:79:13 end:79:17:
           vpiParent: Module name:sram
-          vpiTypespec RefTypespec start:79:7 end:79:12:
-            vpiParent: Net name:DBUS
-            vpiFullName: sram.DBUS
           vpiName: DBUS
           vpiFullName: sram.DBUS
           vpiNetType: wire (1)
@@ -2569,7 +2512,7 @@ Design name:unnamed:
             vpiName: CSB
             vpiFullName: sram.CSB.CSB
             vpiActual: Net name:CSB
-          vpiTypespec RefTypespec start:76:7 end:76:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:CSB
             vpiFullName: sram.CSB
             vpiActual: LogicTypespec
@@ -2582,7 +2525,7 @@ Design name:unnamed:
             vpiName: WRB
             vpiFullName: sram.WRB.WRB
             vpiActual: Net name:WRB
-          vpiTypespec RefTypespec start:77:7 end:77:7:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:WRB
             vpiFullName: sram.WRB
             vpiActual: LogicTypespec
@@ -2650,7 +2593,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -2666,25 +2609,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/PragmaProtect/PragmaProtect/mounts.json
 
 
-{'result': {'coverage': 93.86,
+{'result': {'coverage': 93.21,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.sv': {'post_len': 57,
+            'files': {'$Output/lib/work/top.sv': {'post_len': 63,
                                                   'pre_len': 928}},
-            'post_len': 57,
+            'post_len': 63,
             'pre_len': 928,
             'test_name': 'PragmaProtect/PragmaProtect'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/top.sv |      928 |        57 |
+| $Output/lib/work/top.sv |      928 |        63 |
 +=========================+==========+===========+
-|                         |      928 |        57 |
+|                         |      928 |        63 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 93.86
+[COVERAGE] : 93.21
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2695,7 +2638,7 @@ COMMAND: ${HLC_DIR}/regression/PragmaProtect/PragmaProtect/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             862     862       0         0
+Others                             847     847       0         0
 ----------------------------------------------------------------
-                                   862     862       0         0
+                                   847     847       0         0
 ===================== END REDUCTION RESULT =====================

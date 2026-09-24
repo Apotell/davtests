@@ -227,7 +227,7 @@ n<$Source01/dut.sv> u<211> t<Top_level_rule> c<1> l<1:1> el<17:1>
         n<> u<207> t<ENDMODULE> p<208> l<15:1> el<15:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "dut".
-[WRN:CP5851] $Source01/dut.sv:14:40: Failed to bind "id:741, name:data_state_xor".
+[WRN:CP5851] $Source01/dut.sv:14:40: Failed to bind "id:765, name:data_state_xor".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "dut".
 ====== HLDB =======
@@ -1547,7 +1547,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1567,7 +1567,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1589,7 +1589,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1607,7 +1607,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1629,7 +1629,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1647,7 +1647,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1712,24 +1712,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -1886,9 +1884,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:7:11 end:11:4:
           vpiParent: Module name:dut
-          vpiBaseTypespec RefTypespec start:7:16 end:7:27:
+          vpiBaseTypespec RefTypespec name:logic [5:0] start:7:16 end:7:27:
             vpiParent: Enum
-            vpiFullName: dut
+            vpiName: logic [5:0]
+            vpiFullName: dut.logic [5:0]
             vpiActual: LogicTypespec
           vpiEnumConst (3 items):
             EnumConst name:EXC_CAUSE_IRQ_SOFTWARE_M start:8:5 end:8:49:
@@ -1896,9 +1895,10 @@ Design name:unnamed:
               vpiName Identifier name:EXC_CAUSE_IRQ_SOFTWARE_M start:8:5 end:8:29:
               vpiValue Operation start:8:36 end:8:49:
                 vpiParent: EnumConst name:EXC_CAUSE_IRQ_SOFTWARE_M
-                vpiTypespec RefTypespec:
+                vpiTypespec RefTypespec name:logic [5:0] start:7:16 end:7:27:
                   vpiParent: Operation
-                  vpiFullName: dut.EXC_CAUSE_IRQ_SOFTWARE_M
+                  vpiName: logic [5:0]
+                  vpiFullName: dut.EXC_CAUSE_IRQ_SOFTWARE_M.logic [5:0]
                   vpiActual: LogicTypespec
                 vpiOpType: concatenation (33)
                 vpiOperand (2 items):
@@ -1927,9 +1927,10 @@ Design name:unnamed:
               vpiName Identifier name:EXC_CAUSE_IRQ_TIMER_M start:9:5 end:9:26:
               vpiValue Operation start:9:36 end:9:49:
                 vpiParent: EnumConst name:EXC_CAUSE_IRQ_TIMER_M
-                vpiTypespec RefTypespec:
+                vpiTypespec RefTypespec name:logic [5:0] start:7:16 end:7:27:
                   vpiParent: Operation
-                  vpiFullName: dut.EXC_CAUSE_IRQ_TIMER_M
+                  vpiName: logic [5:0]
+                  vpiFullName: dut.EXC_CAUSE_IRQ_TIMER_M.logic [5:0]
                   vpiActual: LogicTypespec
                 vpiOpType: concatenation (33)
                 vpiOperand (2 items):
@@ -1958,9 +1959,10 @@ Design name:unnamed:
               vpiName Identifier name:EXC_CAUSE_ECALL_MMODE start:10:5 end:10:26:
               vpiValue Operation start:10:36 end:10:49:
                 vpiParent: EnumConst name:EXC_CAUSE_ECALL_MMODE
-                vpiTypespec RefTypespec:
+                vpiTypespec RefTypespec name:logic [5:0] start:7:16 end:7:27:
                   vpiParent: Operation
-                  vpiFullName: dut.EXC_CAUSE_ECALL_MMODE
+                  vpiName: logic [5:0]
+                  vpiFullName: dut.EXC_CAUSE_ECALL_MMODE.logic [5:0]
                   vpiActual: LogicTypespec
                 vpiOpType: concatenation (33)
                 vpiOperand (2 items):
@@ -2359,7 +2361,7 @@ Constant                            29      25       4         8
 Operation                            4       0       0         4
 RefTypespec                        218     207       0        11
 ----------------------------------------------------------------
-Others                             481     481       0         0
+Others                             479     479       0         0
 ----------------------------------------------------------------
-                                   732     713       4        23
+                                   730     711       4        23
 ===================== END REDUCTION RESULT =====================

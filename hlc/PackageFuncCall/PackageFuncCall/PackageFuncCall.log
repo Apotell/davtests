@@ -503,9 +503,7 @@ n<$Source01/dut.sv> u<486> t<Top_level_rule> c<1> l<1:1> el<43:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "prim_cipher_pkg".
 [INF:CP5804] $Source01/dut.sv:26:1: Compile module "top".
-[WRN:CP5851] $Source01/dut.sv:28:55: Failed to bind "id:826, name:data_state_xor".
-[WRN:CP5851] $Source01/dut.sv:29:41: Failed to bind "id:831, name:PRESENT_SBOX4".
-[WRN:CP5851] $Source01/dut.sv:28:43: Failed to bind "id:833, name:sbox4_64bit".
+[WRN:CP5851] $Source01/dut.sv:28:55: Failed to bind "id:825, name:data_state_xor".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "prim_cipher_pkg".
 [WRN:PA5506] $Source01/dut.sv:26:1: No timescale set for "top".
@@ -2496,7 +2494,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -2516,7 +2514,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -2538,7 +2536,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -2556,7 +2554,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -2578,7 +2576,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -2596,7 +2594,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -2661,24 +2659,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -2832,13 +2828,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:26:8 end:26:11:
       vpiFullName: top
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:prim_cipher_pkg start:28:26 end:28:41:
-          vpiParent: Module name:top
-          vpiName Identifier name:prim_cipher_pkg start:28:26 end:28:41:
-        UnsupportedTypespec name:prim_cipher_pkg start:29:24 end:29:39:
-          vpiParent: Module name:top
-          vpiName Identifier name:prim_cipher_pkg start:29:24 end:29:39:
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:26:8 end:26:11:
@@ -2853,10 +2842,6 @@ Design name:unnamed:
             vpiParent: Always
             vpiName Identifier name:p_post_round_xor start:31:22 end:31:38:
             vpiFullName: top.p_post_round_xor
-            vpiTypespec (1 items):
-              UnsupportedTypespec name:prim_cipher_pkg start:33:22 end:33:37:
-                vpiParent: Begin name:p_post_round_xor
-                vpiName Identifier name:prim_cipher_pkg start:33:22 end:33:37:
             vpiStmt (3 items):
               Assignment start:32:12 end:35:37:
                 vpiParent: Begin name:p_post_round_xor
@@ -2914,10 +2899,11 @@ Design name:unnamed:
                       vpiName: prim_cipher_pkg::PRINCE_ROUND_CONST[11][DataWidth-1:0]
                       vpiFullName: top.p_post_round_xor.prim_cipher_pkg::PRINCE_ROUND_CONST[11][DataWidth-1:0]
                       vpiPathElem (2 items):
-                        RefTypespec start:33:22 end:33:39:
+                        RefObj name:prim_cipher_pkg start:33:22 end:33:37:
                           vpiParent: RefObj name:prim_cipher_pkg::PRINCE_ROUND_CONST[11][DataWidth-1:0]
-                          vpiFullName: top.p_post_round_xor.prim_cipher_pkg::PRINCE_ROUND_CONST[11][DataWidth-1:0]
-                          vpiActual: UnsupportedTypespec name:prim_cipher_pkg
+                          vpiName: prim_cipher_pkg
+                          vpiFullName: top.p_post_round_xor.prim_cipher_pkg
+                          vpiActual: Package name:prim_cipher_pkg
                         PartSelect name:PRINCE_ROUND_CONST[11][DataWidth-1:0] start:34:22 end:35:37:
                           vpiParent: RefObj name:prim_cipher_pkg::PRINCE_ROUND_CONST[11][DataWidth-1:0]
                           vpiName: PRINCE_ROUND_CONST[11][DataWidth-1:0]
@@ -3021,31 +3007,35 @@ Design name:unnamed:
             vpiName: prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4)
             vpiFullName: top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4)
             vpiPathElem (2 items):
-              RefTypespec start:28:26 end:28:43:
+              RefObj name:prim_cipher_pkg start:28:26 end:28:41:
                 vpiParent: RefObj name:prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4)
-                vpiFullName: top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4)
-                vpiActual: UnsupportedTypespec name:prim_cipher_pkg
-              SubroutineCall name:sbox4_64bit start:28:43 end:29:55:
+                vpiName: prim_cipher_pkg
+                vpiFullName: top.prim_cipher_pkg
+                vpiActual: Package name:prim_cipher_pkg
+              FuncCall name:sbox4_64bit start:28:43 end:29:55:
                 vpiParent: RefObj name:prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4)
                 vpiName Identifier name:sbox4_64bit start:28:43 end:28:54:
+                vpiTaskFunc: Function name:sbox4_64bit
                 vpiArgument (2 items):
                   RefObj name:data_state_xor start:28:55 end:28:69:
-                    vpiParent: SubroutineCall name:sbox4_64bit
+                    vpiParent: FuncCall name:sbox4_64bit
                     vpiName: data_state_xor
-                    vpiFullName: top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4).sbox4_64bit.data_state_xor
+                    vpiFullName: top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4).data_state_xor
                   RefObj name:prim_cipher_pkg::PRESENT_SBOX4 start:29:24 end:29:54:
-                    vpiParent: SubroutineCall name:sbox4_64bit
+                    vpiParent: FuncCall name:sbox4_64bit
                     vpiName: prim_cipher_pkg::PRESENT_SBOX4
-                    vpiFullName: top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4).sbox4_64bit.prim_cipher_pkg::PRESENT_SBOX4
+                    vpiFullName: top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4).prim_cipher_pkg::PRESENT_SBOX4
                     vpiPathElem (2 items):
-                      RefTypespec start:29:24 end:29:41:
+                      RefObj name:prim_cipher_pkg start:29:24 end:29:39:
                         vpiParent: RefObj name:prim_cipher_pkg::PRESENT_SBOX4
-                        vpiFullName: top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4).sbox4_64bit.prim_cipher_pkg::PRESENT_SBOX4
-                        vpiActual: UnsupportedTypespec name:prim_cipher_pkg
+                        vpiName: prim_cipher_pkg
+                        vpiFullName: top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4).prim_cipher_pkg
+                        vpiActual: Package name:prim_cipher_pkg
                       RefObj name:PRESENT_SBOX4 start:29:41 end:29:54:
                         vpiParent: RefObj name:prim_cipher_pkg::PRESENT_SBOX4
                         vpiName: PRESENT_SBOX4
-                        vpiFullName: top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4).sbox4_64bit.PRESENT_SBOX4
+                        vpiFullName: top.prim_cipher_pkg::sbox4_64bit(data_state_xor, prim_cipher_pkg::PRESENT_SBOX4).PRESENT_SBOX4
+                        vpiActual: Parameter name:PRESENT_SBOX4
   vpiTypespec (10 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -3084,7 +3074,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3099,25 +3089,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/PackageFuncCall/PackageFuncCall/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 98.66,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 0,
+            'files': {'$Output/lib/work/dut.sv': {'post_len': 11,
                                                   'pre_len': 820}},
-            'post_len': 0,
+            'post_len': 11,
             'pre_len': 820,
             'test_name': 'PackageFuncCall/PackageFuncCall'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/dut.sv |      820 |         0 |
+| $Output/lib/work/dut.sv |      820 |        11 |
 +=========================+==========+===========+
-|                         |      820 |         0 |
+|                         |      820 |        11 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 98.66
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3129,9 +3119,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            55      38       3        20
 Operation                           13      10       0         3
-RefTypespec                        245     226       1        20
+RefTypespec                        242     223       1        20
 ----------------------------------------------------------------
-Others                             528     528       0         0
+Others                             523     523       0         0
 ----------------------------------------------------------------
-                                   841     802       4        43
+                                   833     794       4        43
 ===================== END REDUCTION RESULT =====================

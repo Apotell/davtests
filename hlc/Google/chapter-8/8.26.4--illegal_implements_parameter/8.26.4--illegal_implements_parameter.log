@@ -151,9 +151,9 @@ n<$Source01/8.26.4--illegal_implements_parameter.sv> u<137> t<Top_level_rule> c<
         n<> u<133> t<ENDMODULE> p<134> l<35:1> el<35:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/8.26.4--illegal_implements_parameter.sv:17:1: Compile module "class_tb".
-[WRN:CP5851] $Source01/8.26.4--illegal_implements_parameter.sv:32:9: Failed to bind "id:66, name:new".
+[WRN:CP5851] $Source01/8.26.4--illegal_implements_parameter.sv:32:9: Failed to bind "id:58, name:new".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/8.26.4--illegal_implements_parameter.sv:32:9: Null Actual: id:66, type:MethodFuncCall, name:new, relation:vpiRhs.
+[ERR:LN7705] $Source01/8.26.4--illegal_implements_parameter.sv:32:9: Null Actual: id:58, type:MethodFuncCall, name:new, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -260,9 +260,10 @@ Design name:unnamed:
                 vpiName: T
                 vpiFullName: class_tb::Hello #(.T(ihello))::T
                 vpiActual: TypeParameter name:T
-              vpiRhs RefTypespec start:23:25 end:23:31:
+              vpiRhs RefTypespec name:ihello start:23:25 end:23:31:
                 vpiParent: ParamAssign
-                vpiFullName: class_tb::Hello #(.T(ihello))
+                vpiName: ihello
+                vpiFullName: class_tb::Hello #(.T(ihello))::ihello
                 vpiActual: ClassTypespec name:ihello
           vpiTypespec (2 items):
             ClassTypespec name:ihello start:23:25 end:23:31:
@@ -310,6 +311,16 @@ Design name:unnamed:
                     vpiParent: IODecl name:val
                     vpiName: ihello::int_t
                     vpiFullName: class_tb::Hello #(.T(ihello))::hello::val::ihello::int_t
+                    vpiPathElem (2 items):
+                      RefTypespec name:ihello start:24:31 end:24:37:
+                        vpiParent: RefTypespec name:ihello::int_t
+                        vpiName: ihello
+                        vpiFullName: class_tb::Hello #(.T(ihello))::hello::val::ihello::int_t::ihello
+                        vpiActual: ClassTypespec name:ihello
+                      RefTypespec name:int_t start:24:39 end:24:44:
+                        vpiParent: RefTypespec name:ihello::int_t
+                        vpiName: int_t
+                        vpiFullName: class_tb::Hello #(.T(ihello))::hello::val::ihello::int_t::int_t
                     vpiActual: TypedefTypespec name:int_t
               vpiStmt SysTaskCall name:$display start:25:4 end:25:35:
                 vpiParent: Function name:hello
@@ -375,7 +386,7 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    VoidTypespec start:20:25 end:20:29:
+    VoidTypespec:
       vpiParent: Design name:unnamed
     StringTypespec:
       vpiParent: Design name:unnamed
@@ -427,7 +438,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.26.4--illegal_implements_param
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              62      62       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    62      62       0         0
+                                    64      64       0         0
 ===================== END REDUCTION RESULT =====================

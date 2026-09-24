@@ -50,9 +50,10 @@ Design name:unnamed:
         Typedef name:b start:5:4 end:5:21:
           vpiParent: Package name:pkg
           vpiName Identifier name:b start:5:14 end:5:15:
-          vpiTypedefAlias RefTypespec start:5:12 end:5:13:
+          vpiTypedefAlias RefTypespec name:a [5:0] start:5:12 end:5:13:
             vpiParent: Typedef name:b
-            vpiFullName: pkg::b
+            vpiName: a [5:0]
+            vpiFullName: pkg::b::a [5:0]
             vpiActual: ArrayTypespec
       vpiTypespec (5 items):
         LogicTypespec:
@@ -98,7 +99,6 @@ Design name:unnamed:
         TypedefTypespec name:b start:5:4 end:5:21:
           vpiParent: Package name:pkg
           vpiName Identifier name:b start:5:14 end:5:15:
-          vpiTypedefKind: unsupported (7)
           vpiTypedef: Typedef name:b
       vpiDefName: pkg
       vpiDefNetType: wire (1)
@@ -119,6 +119,21 @@ Design name:unnamed:
             vpiParent: Variable name:c
             vpiName: pkg::b
             vpiFullName: dut.c.pkg::b
+            vpiPathElem (2 items):
+              RefTypespec name:pkg start:9:4 end:9:7:
+                vpiParent: RefTypespec name:pkg::b
+                vpiName: pkg
+                vpiFullName: dut.c.pkg::b.pkg
+                vpiPathElem (1 items):
+                  RefObj name:pkg start:9:4 end:9:7:
+                    vpiParent: RefTypespec name:pkg
+                    vpiName: pkg
+                    vpiFullName: dut.c.pkg::b.pkg
+                    vpiActual: Package name:pkg
+              RefTypespec name:b start:9:9 end:9:10:
+                vpiParent: RefTypespec name:pkg::b
+                vpiName: b
+                vpiFullName: dut.c.pkg::b.b
             vpiActual: TypedefTypespec name:b
           vpiName: c
           vpiFullName: dut.c
@@ -135,7 +150,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:o start:8:19 end:8:20:
           vpiParent: Module name:dut
-          vpiTypespec RefTypespec start:8:12 end:8:18:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:o
             vpiFullName: dut.o
             vpiActual: LogicTypespec
@@ -153,7 +168,7 @@ Design name:unnamed:
             vpiName: o
             vpiFullName: dut.o.o
             vpiActual: Net name:o
-          vpiTypespec RefTypespec start:8:12 end:8:18:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:o
             vpiFullName: dut.o
             vpiActual: LogicTypespec
@@ -292,7 +307,7 @@ COMMAND: ${HLC_DIR}/regression/TypedefUnpacked/TypedefUnpacked/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              58      58       0         0
+Others                              61      61       0         0
 ----------------------------------------------------------------
-                                    58      58       0         0
+                                    61      61       0         0
 ===================== END REDUCTION RESULT =====================

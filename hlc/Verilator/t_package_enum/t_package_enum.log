@@ -326,10 +326,6 @@ n<$Source01/t_package_enum.v> u<313> t<Top_level_rule> c<1> l<6:1> el<37:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/t_package_enum.v:6:1: Compile package "pkg".
 [INF:CP5804] $Source01/t_package_enum.v:14:1: Compile module "t".
-[WRN:CP5851] $Source01/t_package_enum.v:25:20: Failed to bind "id:87, name:E__NOT".
-[WRN:CP5851] $Source01/t_package_enum.v:26:26: Failed to bind "id:95, name:E__VAL".
-[WRN:CP5851] $Source01/t_package_enum.v:29:20: Failed to bind "id:111, name:E__VAL".
-[WRN:CP5851] $Source01/t_package_enum.v:30:26: Failed to bind "id:119, name:E__VAL".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -347,9 +343,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:7:12 end:11:6:
           vpiParent: Package name:pkg
-          vpiBaseTypespec RefTypespec start:7:17 end:7:26:
+          vpiBaseTypespec RefTypespec name:bit [1:0] start:7:17 end:7:26:
             vpiParent: Enum
-            vpiFullName: pkg
+            vpiName: bit [1:0]
+            vpiFullName: pkg::bit [1:0]
             vpiActual: ArrayTypespec
           vpiEnumConst (2 items):
             EnumConst name:E__NOT start:9:5 end:9:21:
@@ -386,10 +383,7 @@ Design name:unnamed:
             vpiParent: Typedef name:E_t
             vpiFullName: pkg::E_t
             vpiActual: EnumTypespec
-      vpiTypespec (4 items):
-        UnsupportedTypespec name:bit start:7:17 end:7:20:
-          vpiParent: Package name:pkg
-          vpiName Identifier name:bit start:7:17 end:7:20:
+      vpiTypespec (3 items):
         ArrayTypespec:
           vpiParent: Package name:pkg
           vpiArrayType: static (1)
@@ -416,11 +410,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:bit:
+          vpiElemTypespec RefTypespec name:bit start:7:17 end:7:26:
             vpiParent: ArrayTypespec
             vpiName: bit
             vpiFullName: pkg::bit
-            vpiActual: UnsupportedTypespec name:bit
         EnumTypespec start:7:12 end:11:6:
           vpiParent: Package name:pkg
           vpiEnum: Enum
@@ -444,9 +437,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:18:4 end:18:34:
           vpiParent: Module name:t
-          vpiBaseTypespec RefTypespec start:18:15 end:18:24:
+          vpiBaseTypespec RefTypespec name:bit [1:0] start:18:15 end:18:24:
             vpiParent: Enum
-            vpiFullName: t
+            vpiName: bit [1:0]
+            vpiFullName: t.bit [1:0]
             vpiActual: ArrayTypespec
           vpiEnumConst (1 items):
             EnumConst name:LOCAL start:18:27 end:18:32:
@@ -479,7 +473,7 @@ Design name:unnamed:
             vpiActual: EnumTypespec
           vpiName: l
           vpiFullName: t.l
-      vpiTypespec (6 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -508,9 +502,6 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:bit start:18:15 end:18:18:
-          vpiParent: Module name:t
-          vpiName Identifier name:bit start:18:15 end:18:18:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -537,11 +528,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:bit:
+          vpiElemTypespec RefTypespec name:bit start:18:15 end:18:24:
             vpiParent: ArrayTypespec
             vpiName: bit
             vpiFullName: t.bit
-            vpiActual: UnsupportedTypespec name:bit
         EnumTypespec start:18:4 end:18:34:
           vpiParent: Module name:t
           vpiEnum: Enum
@@ -592,21 +582,9 @@ Design name:unnamed:
           vpiStmt Begin start:24:12 end:35:7:
             vpiParent: Initial
             vpiFullName: t
-            vpiTypespec (5 items):
-              UnsupportedTypespec name:pkg start:25:15 end:25:18:
-                vpiParent: Begin
-                vpiName Identifier name:pkg start:25:15 end:25:18:
-              UnsupportedTypespec name:pkg start:26:21 end:26:24:
-                vpiParent: Begin
-                vpiName Identifier name:pkg start:26:21 end:26:24:
+            vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin
-              UnsupportedTypespec name:pkg start:29:15 end:29:18:
-                vpiParent: Begin
-                vpiName Identifier name:pkg start:29:15 end:29:18:
-              UnsupportedTypespec name:pkg start:30:21 end:30:24:
-                vpiParent: Begin
-                vpiName Identifier name:pkg start:30:21 end:30:24:
             vpiStmt (8 items):
               Assignment start:25:7 end:25:26:
                 vpiParent: Begin
@@ -621,14 +599,16 @@ Design name:unnamed:
                   vpiName: pkg::E__NOT
                   vpiFullName: t.pkg::E__NOT
                   vpiPathElem (2 items):
-                    RefTypespec start:25:15 end:25:20:
+                    RefObj name:pkg start:25:15 end:25:18:
                       vpiParent: RefObj name:pkg::E__NOT
-                      vpiFullName: t.pkg::E__NOT
-                      vpiActual: UnsupportedTypespec name:pkg
+                      vpiName: pkg
+                      vpiFullName: t.pkg
+                      vpiActual: Package name:pkg
                     RefObj name:E__NOT start:25:20 end:25:26:
                       vpiParent: RefObj name:pkg::E__NOT
                       vpiName: E__NOT
                       vpiFullName: t.E__NOT
+                      vpiActual: EnumConst name:E__NOT
               Assignment start:26:7 end:26:33:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -651,14 +631,16 @@ Design name:unnamed:
                       vpiName: pkg::E__VAL
                       vpiFullName: t.pkg::E__VAL
                       vpiPathElem (2 items):
-                        RefTypespec start:26:21 end:26:26:
+                        RefObj name:pkg start:26:21 end:26:24:
                           vpiParent: RefObj name:pkg::E__VAL
-                          vpiFullName: t.pkg::E__VAL
-                          vpiActual: UnsupportedTypespec name:pkg
+                          vpiName: pkg
+                          vpiFullName: t.pkg
+                          vpiActual: Package name:pkg
                         RefObj name:E__VAL start:26:26 end:26:32:
                           vpiParent: RefObj name:pkg::E__VAL
                           vpiName: E__VAL
                           vpiFullName: t.E__VAL
+                          vpiActual: EnumConst name:E__VAL
               IfStmt start:27:7 end:27:28:
                 vpiParent: Begin
                 vpiCondition Operation start:27:11 end:27:20:
@@ -696,14 +678,16 @@ Design name:unnamed:
                   vpiName: pkg::E__VAL
                   vpiFullName: t.pkg::E__VAL
                   vpiPathElem (2 items):
-                    RefTypespec start:29:15 end:29:20:
+                    RefObj name:pkg start:29:15 end:29:18:
                       vpiParent: RefObj name:pkg::E__VAL
-                      vpiFullName: t.pkg::E__VAL
-                      vpiActual: UnsupportedTypespec name:pkg
+                      vpiName: pkg
+                      vpiFullName: t.pkg
+                      vpiActual: Package name:pkg
                     RefObj name:E__VAL start:29:20 end:29:26:
                       vpiParent: RefObj name:pkg::E__VAL
                       vpiName: E__VAL
                       vpiFullName: t.E__VAL
+                      vpiActual: EnumConst name:E__VAL
               Assignment start:30:7 end:30:33:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -726,14 +710,16 @@ Design name:unnamed:
                       vpiName: pkg::E__VAL
                       vpiFullName: t.pkg::E__VAL
                       vpiPathElem (2 items):
-                        RefTypespec start:30:21 end:30:26:
+                        RefObj name:pkg start:30:21 end:30:24:
                           vpiParent: RefObj name:pkg::E__VAL
-                          vpiFullName: t.pkg::E__VAL
-                          vpiActual: UnsupportedTypespec name:pkg
+                          vpiName: pkg
+                          vpiFullName: t.pkg
+                          vpiActual: Package name:pkg
                         RefObj name:E__VAL start:30:26 end:30:32:
                           vpiParent: RefObj name:pkg::E__VAL
                           vpiName: E__VAL
                           vpiFullName: t.E__VAL
+                          vpiActual: EnumConst name:E__VAL
               IfStmt start:31:7 end:31:28:
                 vpiParent: Begin
                 vpiCondition Operation start:31:11 end:31:20:
@@ -792,7 +778,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -836,7 +822,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_package_enum/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             129     129       0         0
+Others                             117     117       0         0
 ----------------------------------------------------------------
-                                   129     129       0         0
+                                   117     117       0         0
 ===================== END REDUCTION RESULT =====================

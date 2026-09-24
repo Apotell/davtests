@@ -300,8 +300,8 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_param1.v:21:1: Compile module "sub_test".
 [NTE:CP5810] $Source01/t_interface_param1.v:24:18: Implicit port type (wire) for "c".
 [INF:CP5805] $Source01/t_interface_param1.v:31:1: Compile interface "test_if".
-[WRN:CP5851] $Source01/t_interface_param1.v:16:26: Failed to bind "id:42, name:a".
-[WRN:CP5851] $Source01/t_interface_param1.v:16:28: Failed to bind "id:43, name:b".
+[WRN:CP5851] $Source01/t_interface_param1.v:16:26: Failed to bind "id:47, name:a".
+[WRN:CP5851] $Source01/t_interface_param1.v:16:28: Failed to bind "id:48, name:b".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -328,14 +328,13 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:a
                 vpiName: logic
                 vpiFullName: test_if #(.id(0)).a.logic
-                vpiActual: UnsupportedTypespec name:logic
             TypespecMember name:b start:37:23 end:37:24:
               vpiParent: Struct
               vpiName: b
-              vpiTypespec RefTypespec name:logic start:37:7 end:37:19:
+              vpiTypespec RefTypespec name:logic [31:0] start:37:7 end:37:19:
                 vpiParent: TypespecMember name:b
-                vpiName: logic
-                vpiFullName: test_if #(.id(0)).b.logic
+                vpiName: logic [31:0]
+                vpiFullName: test_if #(.id(0)).b.logic [31:0]
                 vpiActual: ArrayTypespec
         Struct start:42:12 end:45:5:
           vpiParent: Interface name:test_if #(.id(0))
@@ -348,14 +347,13 @@ Design name:unnamed:
                 vpiParent: TypespecMember name:c
                 vpiName: logic
                 vpiFullName: test_if #(.id(0)).c.logic
-                vpiActual: UnsupportedTypespec name:logic
             TypespecMember name:d start:44:23 end:44:24:
               vpiParent: Struct
               vpiName: d
-              vpiTypespec RefTypespec name:logic start:44:7 end:44:19:
+              vpiTypespec RefTypespec name:logic [31:0] start:44:7 end:44:19:
                 vpiParent: TypespecMember name:d
-                vpiName: logic
-                vpiFullName: test_if #(.id(0)).d.logic
+                vpiName: logic [31:0]
+                vpiFullName: test_if #(.id(0)).d.logic [31:0]
                 vpiActual: ArrayTypespec
       vpiTypedef (2 items):
         Typedef name:aType start:35:4 end:38:12:
@@ -394,7 +392,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:id start:32:15 end:32:17:
           vpiParent: Interface name:test_if #(.id(0))
-          vpiTypespec RefTypespec start:32:15 end:32:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:id
             vpiFullName: test_if #(.id(0)).id
             vpiActual: LogicTypespec
@@ -418,15 +416,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
-      vpiTypespec (11 items):
+      vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Interface name:test_if #(.id(0))
-        UnsupportedTypespec name:logic start:36:7 end:36:12:
-          vpiParent: Interface name:test_if #(.id(0))
-          vpiName Identifier name:logic start:36:7 end:36:12:
-        UnsupportedTypespec name:logic start:37:7 end:37:12:
-          vpiParent: Interface name:test_if #(.id(0))
-          vpiName Identifier name:logic start:37:7 end:37:12:
         ArrayTypespec:
           vpiParent: Interface name:test_if #(.id(0))
           vpiArrayType: static (1)
@@ -453,11 +445,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:37:7 end:37:19:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: test_if #(.id(0)).logic
-            vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:35:12 end:38:5:
           vpiParent: Interface name:test_if #(.id(0))
           vpiStruct: Struct
@@ -466,12 +457,6 @@ Design name:unnamed:
           vpiName Identifier name:aType start:38:6 end:38:11:
           vpiTypedefKind: struct (4)
           vpiTypedef: Typedef name:aType
-        UnsupportedTypespec name:logic start:43:7 end:43:12:
-          vpiParent: Interface name:test_if #(.id(0))
-          vpiName Identifier name:logic start:43:7 end:43:12:
-        UnsupportedTypespec name:logic start:44:7 end:44:12:
-          vpiParent: Interface name:test_if #(.id(0))
-          vpiName Identifier name:logic start:44:7 end:44:12:
         ArrayTypespec:
           vpiParent: Interface name:test_if #(.id(0))
           vpiArrayType: static (1)
@@ -498,11 +483,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:44:7 end:44:19:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: test_if #(.id(0)).logic
-            vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:42:12 end:45:5:
           vpiParent: Interface name:test_if #(.id(0))
           vpiStruct: Struct
@@ -537,7 +521,7 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:8:8 end:8:9:
       vpiFullName: t
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
         LogicTypespec:
@@ -566,6 +550,45 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        UnsupportedTypespec start:15:4 end:15:22:
+          vpiParent: Module name:t
+          vpiParamAssign (2 items):
+            ParamAssign start:15:15 end:15:21:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:id start:15:16 end:15:18:
+                vpiParent: ParamAssign
+                vpiName: id
+                vpiFullName: t.id
+              vpiRhs Constant start:15:19 end:15:20:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "3"
+                vpiValue: 3
+            ParamAssign start:15:15 end:15:21:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:id start:15:16 end:15:18:
+                vpiParent: ParamAssign
+                vpiName: id
+                vpiFullName: t.id
+              vpiRhs Constant start:15:19 end:15:20:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "3"
+                vpiValue: 3
         ModuleTypespec name:sub_test start:16:4 end:16:12:
           vpiParent: Module name:t
           vpiName Identifier name:sub_test start:16:4 end:16:12:
@@ -581,7 +604,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:clk start:12:22 end:12:25:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:12:11 end:12:15:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -610,7 +633,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:12:11 end:12:15:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -618,11 +641,10 @@ Design name:unnamed:
         RefInstance name:s start:15:23 end:15:24:
           vpiParent: Module name:t
           vpiName: s
-          vpiTypespec RefTypespec name:test_if start:15:4 end:15:11:
+          vpiTypespec RefTypespec start:15:4 end:15:11:
             vpiParent: RefInstance name:s
-            vpiName: test_if
-            vpiFullName: t.s.test_if
-            vpiActual: InterfaceTypespec name:test_if
+            vpiFullName: t.s
+            vpiActual: UnsupportedTypespec
         RefInstance name:U_SUB_TEST start:16:13 end:16:23:
           vpiParent: Module name:t
           vpiName: U_SUB_TEST
@@ -737,7 +759,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:b start:23:18 end:23:19:
           vpiParent: Module name:sub_test
-          vpiTypespec RefTypespec start:23:4 end:23:16:
+          vpiTypespec RefTypespec start:23:10 end:23:16:
             vpiParent: Net name:b
             vpiFullName: sub_test.b
             vpiActual: LogicTypespec
@@ -747,7 +769,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:c start:24:18 end:24:19:
           vpiParent: Module name:sub_test
-          vpiTypespec RefTypespec start:24:4 end:24:17:
+          vpiTypespec RefTypespec start:24:11 end:24:17:
             vpiParent: Net name:c
             vpiFullName: sub_test.c
             vpiActual: LogicTypespec
@@ -765,7 +787,7 @@ Design name:unnamed:
             vpiName: b
             vpiFullName: sub_test.b.b
             vpiActual: Net name:b
-          vpiTypespec RefTypespec start:23:4 end:23:16:
+          vpiTypespec RefTypespec start:23:10 end:23:16:
             vpiParent: Port name:b
             vpiFullName: sub_test.b
             vpiActual: LogicTypespec
@@ -778,7 +800,7 @@ Design name:unnamed:
             vpiName: c
             vpiFullName: sub_test.c.c
             vpiActual: Net name:c
-          vpiTypespec RefTypespec start:24:4 end:24:17:
+          vpiTypespec RefTypespec start:24:11 end:24:17:
             vpiParent: Port name:c
             vpiFullName: sub_test.c
             vpiActual: LogicTypespec
@@ -833,25 +855,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_param1/mounts.json
 
 
-{'result': {'coverage': 99.1,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_param1.v': {'post_len': 4,
+            'files': {'$Output/lib/work/t_interface_param1.v': {'post_len': 0,
                                                                 'pre_len': 442}},
-            'post_len': 4,
+            'post_len': 0,
             'pre_len': 442,
             'test_name': 'Verilator/t_interface_param1'}}
 
 +---------------------------------------+----------+-----------+
 | INPUT                                 |   PRELEN |   POSTLEN |
 +=======================================+==========+===========+
-| $Output/lib/work/t_interface_param1.v |      442 |         4 |
+| $Output/lib/work/t_interface_param1.v |      442 |         0 |
 +=======================================+==========+===========+
-|                                       |      442 |         4 |
+|                                       |      442 |         0 |
 +---------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.1
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -862,7 +884,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_param1/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             132     132       0         0
+Others                             133     133       0         0
 ----------------------------------------------------------------
-                                   132     132       0         0
+                                   133     133       0         0
 ===================== END REDUCTION RESULT =====================

@@ -447,9 +447,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/pads.sv:8:1: Compile module "pads".
 [WRN:CP5811] $Source01/pads.sv:18:19: Port "padsif" definition missing its direction (input, output, inout).
 [NTE:CP5810] $Source01/pads.sv:25:14: Implicit port type (wire) for "pad".
-[WRN:CP5851] $Source01/pads.sv:10:22: Failed to bind "id:9, name:pinout".
-[WRN:CP5851] $Source01/pads.sv:50:47: Failed to bind "id:67, name:padtype".
-[WRN:CP5851] $Source01/pads.sv:51:47: Failed to bind "id:78, name:id".
+[WRN:CP5851] $Source01/pads.sv:10:22: Failed to bind "id:8, name:pinout".
+[WRN:CP5851] $Source01/pads.sv:50:47: Failed to bind "id:73, name:padtype".
+[WRN:CP5851] $Source01/pads.sv:51:47: Failed to bind "id:82, name:id".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -472,7 +472,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:NUMPADS start:10:5 end:10:12:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
-          vpiTypespec RefTypespec start:10:5 end:10:5:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NUMPADS
             vpiFullName: pads #(.NUMPADS($size(pinout))).NUMPADS
             vpiActual: LogicTypespec
@@ -494,21 +494,9 @@ Design name:unnamed:
                 vpiParent: SysFuncCall name:$size
                 vpiName: pinout
                 vpiFullName: pads #(.NUMPADS($size(pinout))).pinout
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
-        UnsupportedTypespec name:pads_if::mp_pads start:18:3 end:18:18:
-          vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
-          vpiPathElem (2 items):
-            RefObj name:pads_if start:18:3 end:18:10:
-              vpiParent: UnsupportedTypespec name:pads_if::mp_pads
-              vpiName: pads_if
-              vpiFullName: pads #(.NUMPADS($size(pinout))).pads_if::mp_pads.pads_if
-            RefObj name:mp_pads start:18:11 end:18:18:
-              vpiParent: UnsupportedTypespec name:pads_if::mp_pads
-              vpiName: mp_pads
-              vpiFullName: pads #(.NUMPADS($size(pinout))).pads_if::mp_pads.mp_pads
-          vpiName Identifier name:pads_if::mp_pads:
         ArrayTypespec:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
           vpiArrayType: static (1)
@@ -529,7 +517,7 @@ Design name:unnamed:
               vpiName: NUMPADS
               vpiFullName: pads #(.NUMPADS($size(pinout))).NUMPADS
               vpiActual: Parameter name:NUMPADS
-          vpiElemTypespec RefTypespec start:25:3 end:25:13:
+          vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
             vpiFullName: pads #(.NUMPADS($size(pinout)))
             vpiActual: LogicTypespec
@@ -543,16 +531,18 @@ Design name:unnamed:
       vpiNet (3 items):
         Net name:pad start:25:14 end:25:17:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
-          vpiTypespec RefTypespec start:25:3 end:25:13:
+          vpiTypespec RefTypespec name:logic [1:NUMPADS]:
             vpiParent: Net name:pad
-            vpiFullName: pads #(.NUMPADS($size(pinout))).pad
+            vpiName: logic [1:NUMPADS]
+            vpiFullName: pads #(.NUMPADS($size(pinout))).pad.logic [1:NUMPADS]
             vpiActual: ArrayTypespec
           vpiName: pad
           vpiFullName: pads #(.NUMPADS($size(pinout))).pad
           vpiNetType: wire (1)
+          vpiScalar: true
         Net name:clk start:29:21 end:29:24:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
-          vpiTypespec RefTypespec start:29:3 end:29:14:
+          vpiTypespec RefTypespec start:29:9 end:29:14:
             vpiParent: Net name:clk
             vpiFullName: pads #(.NUMPADS($size(pinout))).clk
             vpiActual: LogicTypespec
@@ -562,7 +552,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rst start:30:21 end:30:24:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
-          vpiTypespec RefTypespec start:30:3 end:30:14:
+          vpiTypespec RefTypespec start:30:9 end:30:14:
             vpiParent: Net name:rst
             vpiFullName: pads #(.NUMPADS($size(pinout))).rst
             vpiActual: LogicTypespec
@@ -580,10 +570,19 @@ Design name:unnamed:
             vpiName: padsif
             vpiFullName: pads #(.NUMPADS($size(pinout))).padsif.padsif
             vpiActual: Port name:padsif
-          vpiTypespec RefTypespec start:18:3 end:18:18:
+          vpiTypespec RefTypespec name:pads_if::mp_pads start:18:3 end:18:18:
             vpiParent: Port name:padsif
-            vpiFullName: pads #(.NUMPADS($size(pinout))).padsif
-            vpiActual: UnsupportedTypespec name:pads_if::mp_pads
+            vpiName: pads_if::mp_pads
+            vpiFullName: pads #(.NUMPADS($size(pinout))).padsif.pads_if::mp_pads
+            vpiPathElem (2 items):
+              RefObj name:pads_if start:18:3 end:18:10:
+                vpiParent: RefTypespec name:pads_if::mp_pads
+                vpiName: pads_if
+                vpiFullName: pads #(.NUMPADS($size(pinout))).padsif.pads_if
+              RefTypespec name:mp_pads start:18:11 end:18:18:
+                vpiParent: RefTypespec name:pads_if::mp_pads
+                vpiName: mp_pads
+                vpiFullName: pads #(.NUMPADS($size(pinout))).padsif.pads_if::mp_pads.mp_pads
         Port name:pad start:25:14 end:25:17:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
           vpiName: pad
@@ -593,9 +592,10 @@ Design name:unnamed:
             vpiName: pad
             vpiFullName: pads #(.NUMPADS($size(pinout))).pad.pad
             vpiActual: Net name:pad
-          vpiTypespec RefTypespec start:25:3 end:25:13:
+          vpiTypespec RefTypespec name:logic [1:NUMPADS]:
             vpiParent: Port name:pad
-            vpiFullName: pads #(.NUMPADS($size(pinout))).pad
+            vpiName: logic [1:NUMPADS]
+            vpiFullName: pads #(.NUMPADS($size(pinout))).pad.logic [1:NUMPADS]
             vpiActual: ArrayTypespec
         Port name:clk start:29:21 end:29:24:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
@@ -606,7 +606,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: pads #(.NUMPADS($size(pinout))).clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:29:3 end:29:14:
+          vpiTypespec RefTypespec start:29:9 end:29:14:
             vpiParent: Port name:clk
             vpiFullName: pads #(.NUMPADS($size(pinout))).clk
             vpiActual: LogicTypespec
@@ -619,7 +619,7 @@ Design name:unnamed:
             vpiName: rst
             vpiFullName: pads #(.NUMPADS($size(pinout))).rst.rst
             vpiActual: Net name:rst
-          vpiTypespec RefTypespec start:30:3 end:30:14:
+          vpiTypespec RefTypespec start:30:9 end:30:14:
             vpiParent: Port name:rst
             vpiFullName: pads #(.NUMPADS($size(pinout))).rst
             vpiActual: LogicTypespec
@@ -680,7 +680,6 @@ Design name:unnamed:
                   vpiParent: Parameter name:p_type
                   vpiName: t_padtype
                   vpiFullName: pads #(.NUMPADS($size(pinout))).p_type.t_padtype
-                  vpiActual: UnsupportedTypespec name:t_padtype
                 vpiName: p_type
                 vpiFullName: pads #(.NUMPADS($size(pinout))).p_type
                 vpiLocalParam: true
@@ -690,7 +689,6 @@ Design name:unnamed:
                   vpiParent: Parameter name:p_id
                   vpiName: t_pinid
                   vpiFullName: pads #(.NUMPADS($size(pinout))).p_id.t_pinid
-                  vpiActual: UnsupportedTypespec name:t_pinid
                 vpiName: p_id
                 vpiFullName: pads #(.NUMPADS($size(pinout))).p_id
                 vpiLocalParam: true
@@ -753,13 +751,7 @@ Design name:unnamed:
                       vpiParent: RefObj name:pinout[i].id
                       vpiName: id
                       vpiFullName: pads #(.NUMPADS($size(pinout))).id
-            vpiTypespec (3 items):
-              UnsupportedTypespec name:t_padtype start:50:18 end:50:27:
-                vpiParent: Begin
-                vpiName Identifier name:t_padtype start:50:18 end:50:27:
-              UnsupportedTypespec name:t_pinid start:51:18 end:51:25:
-                vpiParent: Begin
-                vpiName Identifier name:t_pinid start:51:18 end:51:25:
+            vpiTypespec (1 items):
               UnsupportedTypespec name:pad_gpio start:56:11 end:56:19:
                 vpiParent: Begin
                 vpiName Identifier name:pad_gpio start:56:11 end:56:19:
@@ -1234,7 +1226,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/pads/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             180     180       0         0
+Others                             174     174       0         0
 ----------------------------------------------------------------
-                                   180     180       0         0
+                                   174     174       0         0
 ===================== END REDUCTION RESULT =====================

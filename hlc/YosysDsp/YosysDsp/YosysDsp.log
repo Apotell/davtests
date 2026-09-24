@@ -1694,7 +1694,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1714,7 +1714,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1736,7 +1736,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1754,7 +1754,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1776,7 +1776,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1794,7 +1794,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1859,24 +1859,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -2069,9 +2067,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:mem start:94:17 end:94:20:
           vpiParent: Module name:boxcar
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [IW-1:0] [0:1<<LGMEM-1] start:94:2 end:94:16:
             vpiParent: Variable name:mem
-            vpiFullName: boxcar.mem
+            vpiName: logic [IW-1:0] [0:1<<LGMEM-1]
+            vpiFullName: boxcar.mem.logic [IW-1:0] [0:1<<LGMEM-1]
             vpiActual: ArrayTypespec
           vpiName: mem
           vpiFullName: boxcar.mem
@@ -2115,7 +2114,7 @@ Design name:unnamed:
       vpiParameter (6 items):
         Parameter name:IW start:75:12 end:75:14:
           vpiParent: Module name:boxcar
-          vpiTypespec RefTypespec start:75:12 end:75:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: boxcar.IW
             vpiActual: LogicTypespec
@@ -2123,7 +2122,7 @@ Design name:unnamed:
           vpiFullName: boxcar.IW
         Parameter name:LGMEM start:76:4 end:76:9:
           vpiParent: Module name:boxcar
-          vpiTypespec RefTypespec start:75:12 end:75:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LGMEM
             vpiFullName: boxcar.LGMEM
             vpiActual: LogicTypespec
@@ -2131,7 +2130,7 @@ Design name:unnamed:
           vpiFullName: boxcar.LGMEM
         Parameter name:OW start:77:4 end:77:6:
           vpiParent: Module name:boxcar
-          vpiTypespec RefTypespec start:75:12 end:75:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: boxcar.OW
             vpiActual: LogicTypespec
@@ -2275,6 +2274,8 @@ Design name:unnamed:
       vpiTypespec (16 items):
         LogicTypespec:
           vpiParent: Module name:boxcar
+        BitTypespec:
+          vpiParent: Module name:boxcar
         LogicTypespec:
           vpiParent: Module name:boxcar
           vpiRange (1 items):
@@ -2301,8 +2302,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        BitTypespec:
-          vpiParent: Module name:boxcar
         LogicTypespec:
           vpiParent: Module name:boxcar
           vpiRange (1 items):
@@ -2780,7 +2779,7 @@ Design name:unnamed:
       vpiNet (7 items):
         Net name:i_clk start:84:15 end:84:20:
           vpiParent: Module name:boxcar
-          vpiTypespec RefTypespec start:84:8 end:84:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: boxcar.i_clk
             vpiActual: LogicTypespec
@@ -2790,7 +2789,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:85:6 end:85:13:
           vpiParent: Module name:boxcar
-          vpiTypespec RefTypespec start:84:8 end:84:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: boxcar.i_reset
             vpiActual: LogicTypespec
@@ -2800,7 +2799,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_navg start:86:27 end:86:33:
           vpiParent: Module name:boxcar
-          vpiTypespec RefTypespec start:86:8 end:86:26:
+          vpiTypespec RefTypespec start:86:13 end:86:26:
             vpiParent: Net name:i_navg
             vpiFullName: boxcar.i_navg
             vpiActual: LogicTypespec
@@ -2810,7 +2809,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:88:15 end:88:19:
           vpiParent: Module name:boxcar
-          vpiTypespec RefTypespec start:88:8 end:88:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: boxcar.i_ce
             vpiActual: LogicTypespec
@@ -2820,7 +2819,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:89:24 end:89:32:
           vpiParent: Module name:boxcar
-          vpiTypespec RefTypespec start:89:8 end:89:23:
+          vpiTypespec RefTypespec start:89:13 end:89:23:
             vpiParent: Net name:i_sample
             vpiFullName: boxcar.i_sample
             vpiActual: LogicTypespec
@@ -2860,7 +2859,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: boxcar.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:84:8 end:84:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: boxcar.i_clk
             vpiActual: LogicTypespec
@@ -2873,7 +2872,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: boxcar.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:84:8 end:84:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: boxcar.i_reset
             vpiActual: LogicTypespec
@@ -2886,7 +2885,7 @@ Design name:unnamed:
             vpiName: i_navg
             vpiFullName: boxcar.i_navg.i_navg
             vpiActual: Net name:i_navg
-          vpiTypespec RefTypespec start:86:8 end:86:26:
+          vpiTypespec RefTypespec start:86:13 end:86:26:
             vpiParent: Port name:i_navg
             vpiFullName: boxcar.i_navg
             vpiActual: LogicTypespec
@@ -2899,7 +2898,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: boxcar.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:88:8 end:88:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: boxcar.i_ce
             vpiActual: LogicTypespec
@@ -2912,7 +2911,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: boxcar.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:89:8 end:89:23:
+          vpiTypespec RefTypespec start:89:13 end:89:23:
             vpiParent: Port name:i_sample
             vpiFullName: boxcar.i_sample
             vpiActual: LogicTypespec
@@ -4251,7 +4250,7 @@ Design name:unnamed:
       vpiVariable (8 items):
         Variable name:i_clk start:65:11 end:65:16:
           vpiParent: Module name:delayw
-          vpiTypespec RefTypespec start:65:11 end:65:11:
+          vpiTypespec RefTypespec:
             vpiParent: Variable name:i_clk
             vpiFullName: delayw.i_clk
             vpiActual: LogicTypespec
@@ -4260,7 +4259,7 @@ Design name:unnamed:
           vpiScalar: true
         Variable name:i_reset start:65:18 end:65:25:
           vpiParent: Module name:delayw
-          vpiTypespec RefTypespec start:65:11 end:65:11:
+          vpiTypespec RefTypespec:
             vpiParent: Variable name:i_reset
             vpiFullName: delayw.i_reset
             vpiActual: LogicTypespec
@@ -4305,9 +4304,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:mem start:73:17 end:73:20:
           vpiParent: Module name:delayw
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [DW-1:0] [0:1<<LGDLY-1] start:73:2 end:73:16:
             vpiParent: Variable name:mem
-            vpiFullName: delayw.mem
+            vpiName: logic [DW-1:0] [0:1<<LGDLY-1]
+            vpiFullName: delayw.mem.logic [DW-1:0] [0:1<<LGDLY-1]
             vpiActual: ArrayTypespec
           vpiName: mem
           vpiFullName: delayw.mem
@@ -4324,7 +4324,7 @@ Design name:unnamed:
       vpiParameter (3 items):
         Parameter name:LGDLY start:51:13 end:51:18:
           vpiParent: Module name:delayw
-          vpiTypespec RefTypespec start:51:13 end:51:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LGDLY
             vpiFullName: delayw.LGDLY
             vpiActual: LogicTypespec
@@ -4332,7 +4332,7 @@ Design name:unnamed:
           vpiFullName: delayw.LGDLY
         Parameter name:DW start:56:13 end:56:15:
           vpiParent: Module name:delayw
-          vpiTypespec RefTypespec start:56:13 end:56:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:DW
             vpiFullName: delayw.DW
             vpiActual: LogicTypespec
@@ -4780,7 +4780,7 @@ Design name:unnamed:
       vpiNet (6 items):
         Net name:i_delay start:66:27 end:66:34:
           vpiParent: Module name:delayw
-          vpiTypespec RefTypespec start:66:8 end:66:26:
+          vpiTypespec RefTypespec start:66:13 end:66:26:
             vpiParent: Net name:i_delay
             vpiFullName: delayw.i_delay
             vpiActual: LogicTypespec
@@ -4790,7 +4790,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:67:15 end:67:19:
           vpiParent: Module name:delayw
-          vpiTypespec RefTypespec start:67:8 end:67:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: delayw.i_ce
             vpiActual: LogicTypespec
@@ -4800,7 +4800,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_word start:68:24 end:68:30:
           vpiParent: Module name:delayw
-          vpiTypespec RefTypespec start:68:8 end:68:23:
+          vpiTypespec RefTypespec start:68:13 end:68:23:
             vpiParent: Net name:i_word
             vpiFullName: delayw.i_word
             vpiActual: LogicTypespec
@@ -4851,7 +4851,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: delayw.i_clk.i_clk
             vpiActual: Variable name:i_clk
-          vpiTypespec RefTypespec start:65:11 end:65:11:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: delayw.i_clk
             vpiActual: LogicTypespec
@@ -4864,7 +4864,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: delayw.i_reset.i_reset
             vpiActual: Variable name:i_reset
-          vpiTypespec RefTypespec start:65:11 end:65:11:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: delayw.i_reset
             vpiActual: LogicTypespec
@@ -4877,7 +4877,7 @@ Design name:unnamed:
             vpiName: i_delay
             vpiFullName: delayw.i_delay.i_delay
             vpiActual: Net name:i_delay
-          vpiTypespec RefTypespec start:66:8 end:66:26:
+          vpiTypespec RefTypespec start:66:13 end:66:26:
             vpiParent: Port name:i_delay
             vpiFullName: delayw.i_delay
             vpiActual: LogicTypespec
@@ -4890,7 +4890,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: delayw.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:67:8 end:67:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: delayw.i_ce
             vpiActual: LogicTypespec
@@ -4903,7 +4903,7 @@ Design name:unnamed:
             vpiName: i_word
             vpiFullName: delayw.i_word.i_word
             vpiActual: Net name:i_word
-          vpiTypespec RefTypespec start:68:8 end:68:23:
+          vpiTypespec RefTypespec start:68:13 end:68:23:
             vpiParent: Port name:i_word
             vpiFullName: delayw.i_word
             vpiActual: LogicTypespec
@@ -5466,7 +5466,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:DW start:42:12 end:42:14:
           vpiParent: Module name:dspswitch
-          vpiTypespec RefTypespec start:42:12 end:42:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:DW
             vpiFullName: dspswitch.DW
             vpiActual: LogicTypespec
@@ -5573,7 +5573,7 @@ Design name:unnamed:
       vpiNet (6 items):
         Net name:i_clk start:43:15 end:43:20:
           vpiParent: Module name:dspswitch
-          vpiTypespec RefTypespec start:43:8 end:43:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: dspswitch.i_clk
             vpiActual: LogicTypespec
@@ -5583,7 +5583,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_areset_n start:43:22 end:43:32:
           vpiParent: Module name:dspswitch
-          vpiTypespec RefTypespec start:43:8 end:43:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_areset_n
             vpiFullName: dspswitch.i_areset_n
             vpiActual: LogicTypespec
@@ -5593,7 +5593,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_en start:43:34 end:43:38:
           vpiParent: Module name:dspswitch
-          vpiTypespec RefTypespec start:43:8 end:43:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_en
             vpiFullName: dspswitch.i_en
             vpiActual: LogicTypespec
@@ -5603,7 +5603,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_ce start:45:15 end:45:19:
           vpiParent: Module name:dspswitch
-          vpiTypespec RefTypespec start:45:8 end:45:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: dspswitch.i_ce
             vpiActual: LogicTypespec
@@ -5613,7 +5613,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:46:24 end:46:32:
           vpiParent: Module name:dspswitch
-          vpiTypespec RefTypespec start:46:8 end:46:23:
+          vpiTypespec RefTypespec start:46:13 end:46:23:
             vpiParent: Net name:i_sample
             vpiFullName: dspswitch.i_sample
             vpiActual: LogicTypespec
@@ -5623,7 +5623,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_bypass start:46:34 end:46:42:
           vpiParent: Module name:dspswitch
-          vpiTypespec RefTypespec start:46:8 end:46:23:
+          vpiTypespec RefTypespec start:46:13 end:46:23:
             vpiParent: Net name:i_bypass
             vpiFullName: dspswitch.i_bypass
             vpiActual: LogicTypespec
@@ -5641,7 +5641,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: dspswitch.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:43:8 end:43:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: dspswitch.i_clk
             vpiActual: LogicTypespec
@@ -5654,7 +5654,7 @@ Design name:unnamed:
             vpiName: i_areset_n
             vpiFullName: dspswitch.i_areset_n.i_areset_n
             vpiActual: Net name:i_areset_n
-          vpiTypespec RefTypespec start:43:8 end:43:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_areset_n
             vpiFullName: dspswitch.i_areset_n
             vpiActual: LogicTypespec
@@ -5667,7 +5667,7 @@ Design name:unnamed:
             vpiName: i_en
             vpiFullName: dspswitch.i_en.i_en
             vpiActual: Net name:i_en
-          vpiTypespec RefTypespec start:43:8 end:43:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_en
             vpiFullName: dspswitch.i_en
             vpiActual: LogicTypespec
@@ -5680,7 +5680,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: dspswitch.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:45:8 end:45:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: dspswitch.i_ce
             vpiActual: LogicTypespec
@@ -5693,7 +5693,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: dspswitch.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:46:8 end:46:23:
+          vpiTypespec RefTypespec start:46:13 end:46:23:
             vpiParent: Port name:i_sample
             vpiFullName: dspswitch.i_sample
             vpiActual: LogicTypespec
@@ -5706,7 +5706,7 @@ Design name:unnamed:
             vpiName: i_bypass
             vpiFullName: dspswitch.i_bypass.i_bypass
             vpiActual: Net name:i_bypass
-          vpiTypespec RefTypespec start:46:8 end:46:23:
+          vpiTypespec RefTypespec start:46:13 end:46:23:
             vpiParent: Port name:i_bypass
             vpiFullName: dspswitch.i_bypass
             vpiActual: LogicTypespec
@@ -5944,7 +5944,7 @@ Design name:unnamed:
       vpiParameter (5 items):
         Parameter name:NTAPS start:48:13 end:48:18:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec start:48:13 end:48:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NTAPS
             vpiFullName: fastfir.NTAPS
             vpiActual: LogicTypespec
@@ -5952,7 +5952,7 @@ Design name:unnamed:
           vpiFullName: fastfir.NTAPS
         Parameter name:IW start:48:24 end:48:26:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec start:48:13 end:48:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: fastfir.IW
             vpiActual: LogicTypespec
@@ -5960,7 +5960,7 @@ Design name:unnamed:
           vpiFullName: fastfir.IW
         Parameter name:TW start:48:31 end:48:33:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec start:48:13 end:48:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:TW
             vpiFullName: fastfir.TW
             vpiActual: LogicTypespec
@@ -5968,7 +5968,7 @@ Design name:unnamed:
           vpiFullName: fastfir.TW
         Parameter name:OW start:48:38 end:48:40:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec start:48:13 end:48:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: fastfir.OW
             vpiActual: LogicTypespec
@@ -6220,6 +6220,30 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        ArrayTypespec:
+          vpiParent: Module name:fastfir
+          vpiArrayType: static (1)
+          vpiRange Range start:60:23 end:60:32:
+            vpiParent: ArrayTypespec
+            vpiLeftRange RefObj name:NTAPS start:60:24 end:60:29:
+              vpiParent: Range
+              vpiName: NTAPS
+              vpiFullName: fastfir.NTAPS
+              vpiActual: Parameter name:NTAPS
+            vpiRightRange Constant start:60:30 end:60:31:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: fastfir
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+          vpiElemTypespec RefTypespec start:60:7 end:60:17:
+            vpiParent: ArrayTypespec
+            vpiFullName: fastfir
+            vpiActual: LogicTypespec
         LogicTypespec:
           vpiParent: Module name:fastfir
           vpiRange (1 items):
@@ -6258,14 +6282,14 @@ Design name:unnamed:
         ArrayTypespec:
           vpiParent: Module name:fastfir
           vpiArrayType: static (1)
-          vpiRange Range start:60:23 end:60:32:
+          vpiRange Range start:61:25 end:61:34:
             vpiParent: ArrayTypespec
-            vpiLeftRange RefObj name:NTAPS start:60:24 end:60:29:
+            vpiLeftRange RefObj name:NTAPS start:61:26 end:61:31:
               vpiParent: Range
               vpiName: NTAPS
               vpiFullName: fastfir.NTAPS
               vpiActual: Parameter name:NTAPS
-            vpiRightRange Constant start:60:30 end:60:31:
+            vpiRightRange Constant start:61:32 end:61:33:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
@@ -6275,7 +6299,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec start:60:7 end:60:17:
+          vpiElemTypespec RefTypespec start:61:7 end:61:17:
             vpiParent: ArrayTypespec
             vpiFullName: fastfir
             vpiActual: LogicTypespec
@@ -6317,14 +6341,14 @@ Design name:unnamed:
         ArrayTypespec:
           vpiParent: Module name:fastfir
           vpiArrayType: static (1)
-          vpiRange Range start:61:25 end:61:34:
+          vpiRange Range start:62:25 end:62:34:
             vpiParent: ArrayTypespec
-            vpiLeftRange RefObj name:NTAPS start:61:26 end:61:31:
+            vpiLeftRange RefObj name:NTAPS start:62:26 end:62:31:
               vpiParent: Range
               vpiName: NTAPS
               vpiFullName: fastfir.NTAPS
               vpiActual: Parameter name:NTAPS
-            vpiRightRange Constant start:61:32 end:61:33:
+            vpiRightRange Constant start:62:32 end:62:33:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
@@ -6334,7 +6358,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec start:61:7 end:61:17:
+          vpiElemTypespec RefTypespec start:62:7 end:62:17:
             vpiParent: ArrayTypespec
             vpiFullName: fastfir
             vpiActual: LogicTypespec
@@ -6376,14 +6400,14 @@ Design name:unnamed:
         ArrayTypespec:
           vpiParent: Module name:fastfir
           vpiArrayType: static (1)
-          vpiRange Range start:62:25 end:62:34:
+          vpiRange Range start:63:25 end:63:34:
             vpiParent: ArrayTypespec
-            vpiLeftRange RefObj name:NTAPS start:62:26 end:62:31:
+            vpiLeftRange RefObj name:NTAPS start:63:26 end:63:31:
               vpiParent: Range
               vpiName: NTAPS
               vpiFullName: fastfir.NTAPS
               vpiActual: Parameter name:NTAPS
-            vpiRightRange Constant start:62:32 end:62:33:
+            vpiRightRange Constant start:63:32 end:63:33:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
@@ -6393,7 +6417,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec start:62:7 end:62:17:
+          vpiElemTypespec RefTypespec start:63:7 end:63:17:
             vpiParent: ArrayTypespec
             vpiFullName: fastfir
             vpiActual: LogicTypespec
@@ -6432,30 +6456,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        ArrayTypespec:
-          vpiParent: Module name:fastfir
-          vpiArrayType: static (1)
-          vpiRange Range start:63:25 end:63:34:
-            vpiParent: ArrayTypespec
-            vpiLeftRange RefObj name:NTAPS start:63:26 end:63:31:
-              vpiParent: Range
-              vpiName: NTAPS
-              vpiFullName: fastfir.NTAPS
-              vpiActual: Parameter name:NTAPS
-            vpiRightRange Constant start:63:32 end:63:33:
-              vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: fastfir
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "0"
-              vpiValue: 0
-          vpiElemTypespec RefTypespec start:63:7 end:63:17:
-            vpiParent: ArrayTypespec
-            vpiFullName: fastfir
-            vpiActual: LogicTypespec
         LogicTypespec:
           vpiParent: Module name:fastfir
           vpiRange (1 items):
@@ -6487,7 +6487,7 @@ Design name:unnamed:
       vpiNet (14 items):
         Net name:i_clk start:51:15 end:51:20:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec start:51:8 end:51:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: fastfir.i_clk
             vpiActual: LogicTypespec
@@ -6497,7 +6497,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:51:22 end:51:29:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec start:51:8 end:51:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: fastfir.i_reset
             vpiActual: LogicTypespec
@@ -6507,7 +6507,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap_wr start:53:15 end:53:23:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec start:53:8 end:53:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_tap_wr
             vpiFullName: fastfir.i_tap_wr
             vpiActual: LogicTypespec
@@ -6517,7 +6517,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap start:54:24 end:54:29:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec start:54:8 end:54:23:
+          vpiTypespec RefTypespec start:54:13 end:54:23:
             vpiParent: Net name:i_tap
             vpiFullName: fastfir.i_tap
             vpiActual: LogicTypespec
@@ -6527,7 +6527,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:56:15 end:56:19:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec start:56:8 end:56:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: fastfir.i_ce
             vpiActual: LogicTypespec
@@ -6537,7 +6537,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:57:24 end:57:32:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec start:57:8 end:57:23:
+          vpiTypespec RefTypespec start:57:13 end:57:23:
             vpiParent: Net name:i_sample
             vpiFullName: fastfir.i_sample
             vpiActual: LogicTypespec
@@ -6547,7 +6547,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:o_result start:58:25 end:58:33:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec start:58:9 end:58:24:
+          vpiTypespec RefTypespec start:58:14 end:58:24:
             vpiParent: Net name:o_result
             vpiFullName: fastfir.o_result
             vpiActual: LogicTypespec
@@ -6557,9 +6557,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:tap start:60:18 end:60:21:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [TW-1:0] [NTAPS:0] start:60:7 end:60:17:
             vpiParent: Net name:tap
-            vpiFullName: fastfir.tap
+            vpiName: logic [TW-1:0] [NTAPS:0]
+            vpiFullName: fastfir.tap.logic [TW-1:0] [NTAPS:0]
             vpiActual: ArrayTypespec
           vpiName: tap
           vpiFullName: fastfir.tap
@@ -6568,9 +6569,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:tapout start:61:18 end:61:24:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [TW-1:0] [NTAPS:0] start:61:7 end:61:17:
             vpiParent: Net name:tapout
-            vpiFullName: fastfir.tapout
+            vpiName: logic [TW-1:0] [NTAPS:0]
+            vpiFullName: fastfir.tapout.logic [TW-1:0] [NTAPS:0]
             vpiActual: ArrayTypespec
           vpiName: tapout
           vpiFullName: fastfir.tapout
@@ -6579,9 +6581,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:sample start:62:18 end:62:24:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [IW-1:0] [NTAPS:0] start:62:7 end:62:17:
             vpiParent: Net name:sample
-            vpiFullName: fastfir.sample
+            vpiName: logic [IW-1:0] [NTAPS:0]
+            vpiFullName: fastfir.sample.logic [IW-1:0] [NTAPS:0]
             vpiActual: ArrayTypespec
           vpiName: sample
           vpiFullName: fastfir.sample
@@ -6590,9 +6593,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:result start:63:18 end:63:24:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [OW-1:0] [NTAPS:0] start:63:7 end:63:17:
             vpiParent: Net name:result
-            vpiFullName: fastfir.result
+            vpiName: logic [OW-1:0] [NTAPS:0]
+            vpiFullName: fastfir.result.logic [OW-1:0] [NTAPS:0]
             vpiActual: ArrayTypespec
           vpiName: result
           vpiFullName: fastfir.result
@@ -6601,7 +6605,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:tap_wr start:64:8 end:64:14:
           vpiParent: Module name:fastfir
-          vpiTypespec RefTypespec start:64:8 end:64:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:tap_wr
             vpiFullName: fastfir.tap_wr
             vpiActual: LogicTypespec
@@ -6642,7 +6646,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: fastfir.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:51:8 end:51:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: fastfir.i_clk
             vpiActual: LogicTypespec
@@ -6655,7 +6659,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: fastfir.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:51:8 end:51:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: fastfir.i_reset
             vpiActual: LogicTypespec
@@ -6668,7 +6672,7 @@ Design name:unnamed:
             vpiName: i_tap_wr
             vpiFullName: fastfir.i_tap_wr.i_tap_wr
             vpiActual: Net name:i_tap_wr
-          vpiTypespec RefTypespec start:53:8 end:53:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_tap_wr
             vpiFullName: fastfir.i_tap_wr
             vpiActual: LogicTypespec
@@ -6681,7 +6685,7 @@ Design name:unnamed:
             vpiName: i_tap
             vpiFullName: fastfir.i_tap.i_tap
             vpiActual: Net name:i_tap
-          vpiTypespec RefTypespec start:54:8 end:54:23:
+          vpiTypespec RefTypespec start:54:13 end:54:23:
             vpiParent: Port name:i_tap
             vpiFullName: fastfir.i_tap
             vpiActual: LogicTypespec
@@ -6694,7 +6698,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: fastfir.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:56:8 end:56:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: fastfir.i_ce
             vpiActual: LogicTypespec
@@ -6707,7 +6711,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: fastfir.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:57:8 end:57:23:
+          vpiTypespec RefTypespec start:57:13 end:57:23:
             vpiParent: Port name:i_sample
             vpiFullName: fastfir.i_sample
             vpiActual: LogicTypespec
@@ -6720,7 +6724,7 @@ Design name:unnamed:
             vpiName: o_result
             vpiFullName: fastfir.o_result.o_result
             vpiActual: Net name:o_result
-          vpiTypespec RefTypespec start:58:9 end:58:24:
+          vpiTypespec RefTypespec start:58:14 end:58:24:
             vpiParent: Port name:o_result
             vpiFullName: fastfir.o_result
             vpiActual: LogicTypespec
@@ -7418,7 +7422,7 @@ Design name:unnamed:
       vpiParameter (5 items):
         Parameter name:NTAPS start:5:13 end:5:18:
           vpiParent: Module name:fastfir_dynamictaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NTAPS
             vpiFullName: fastfir_dynamictaps.NTAPS
             vpiActual: LogicTypespec
@@ -7426,7 +7430,7 @@ Design name:unnamed:
           vpiFullName: fastfir_dynamictaps.NTAPS
         Parameter name:IW start:5:24 end:5:26:
           vpiParent: Module name:fastfir_dynamictaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: fastfir_dynamictaps.IW
             vpiActual: LogicTypespec
@@ -7434,7 +7438,7 @@ Design name:unnamed:
           vpiFullName: fastfir_dynamictaps.IW
         Parameter name:TW start:5:31 end:5:33:
           vpiParent: Module name:fastfir_dynamictaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:TW
             vpiFullName: fastfir_dynamictaps.TW
             vpiActual: LogicTypespec
@@ -7442,7 +7446,7 @@ Design name:unnamed:
           vpiFullName: fastfir_dynamictaps.TW
         Parameter name:OW start:5:38 end:5:40:
           vpiParent: Module name:fastfir_dynamictaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: fastfir_dynamictaps.OW
             vpiActual: LogicTypespec
@@ -7704,7 +7708,7 @@ Design name:unnamed:
       vpiNet (7 items):
         Net name:i_clk start:8:15 end:8:20:
           vpiParent: Module name:fastfir_dynamictaps
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: fastfir_dynamictaps.i_clk
             vpiActual: LogicTypespec
@@ -7714,7 +7718,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:8:22 end:8:29:
           vpiParent: Module name:fastfir_dynamictaps
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: fastfir_dynamictaps.i_reset
             vpiActual: LogicTypespec
@@ -7724,7 +7728,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap_wr start:10:15 end:10:23:
           vpiParent: Module name:fastfir_dynamictaps
-          vpiTypespec RefTypespec start:10:8 end:10:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_tap_wr
             vpiFullName: fastfir_dynamictaps.i_tap_wr
             vpiActual: LogicTypespec
@@ -7734,7 +7738,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap start:11:24 end:11:29:
           vpiParent: Module name:fastfir_dynamictaps
-          vpiTypespec RefTypespec start:11:8 end:11:23:
+          vpiTypespec RefTypespec start:11:13 end:11:23:
             vpiParent: Net name:i_tap
             vpiFullName: fastfir_dynamictaps.i_tap
             vpiActual: LogicTypespec
@@ -7744,7 +7748,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:13:15 end:13:19:
           vpiParent: Module name:fastfir_dynamictaps
-          vpiTypespec RefTypespec start:13:8 end:13:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: fastfir_dynamictaps.i_ce
             vpiActual: LogicTypespec
@@ -7754,7 +7758,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:14:24 end:14:32:
           vpiParent: Module name:fastfir_dynamictaps
-          vpiTypespec RefTypespec start:14:8 end:14:23:
+          vpiTypespec RefTypespec start:14:13 end:14:23:
             vpiParent: Net name:i_sample
             vpiFullName: fastfir_dynamictaps.i_sample
             vpiActual: LogicTypespec
@@ -7764,7 +7768,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:o_result start:15:25 end:15:33:
           vpiParent: Module name:fastfir_dynamictaps
-          vpiTypespec RefTypespec start:15:9 end:15:24:
+          vpiTypespec RefTypespec start:15:14 end:15:24:
             vpiParent: Net name:o_result
             vpiFullName: fastfir_dynamictaps.o_result
             vpiActual: LogicTypespec
@@ -7782,7 +7786,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: fastfir_dynamictaps.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: fastfir_dynamictaps.i_clk
             vpiActual: LogicTypespec
@@ -7795,7 +7799,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: fastfir_dynamictaps.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: fastfir_dynamictaps.i_reset
             vpiActual: LogicTypespec
@@ -7808,7 +7812,7 @@ Design name:unnamed:
             vpiName: i_tap_wr
             vpiFullName: fastfir_dynamictaps.i_tap_wr.i_tap_wr
             vpiActual: Net name:i_tap_wr
-          vpiTypespec RefTypespec start:10:8 end:10:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_tap_wr
             vpiFullName: fastfir_dynamictaps.i_tap_wr
             vpiActual: LogicTypespec
@@ -7821,7 +7825,7 @@ Design name:unnamed:
             vpiName: i_tap
             vpiFullName: fastfir_dynamictaps.i_tap.i_tap
             vpiActual: Net name:i_tap
-          vpiTypespec RefTypespec start:11:8 end:11:23:
+          vpiTypespec RefTypespec start:11:13 end:11:23:
             vpiParent: Port name:i_tap
             vpiFullName: fastfir_dynamictaps.i_tap
             vpiActual: LogicTypespec
@@ -7834,7 +7838,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: fastfir_dynamictaps.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:13:8 end:13:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: fastfir_dynamictaps.i_ce
             vpiActual: LogicTypespec
@@ -7847,7 +7851,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: fastfir_dynamictaps.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:14:8 end:14:23:
+          vpiTypespec RefTypespec start:14:13 end:14:23:
             vpiParent: Port name:i_sample
             vpiFullName: fastfir_dynamictaps.i_sample
             vpiActual: LogicTypespec
@@ -7860,7 +7864,7 @@ Design name:unnamed:
             vpiName: o_result
             vpiFullName: fastfir_dynamictaps.o_result.o_result
             vpiActual: Net name:o_result
-          vpiTypespec RefTypespec start:15:9 end:15:24:
+          vpiTypespec RefTypespec start:15:14 end:15:24:
             vpiParent: Port name:o_result
             vpiFullName: fastfir_dynamictaps.o_result
             vpiActual: LogicTypespec
@@ -7965,7 +7969,7 @@ Design name:unnamed:
       vpiParameter (5 items):
         Parameter name:NTAPS start:5:13 end:5:18:
           vpiParent: Module name:fastfir_fixedtaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NTAPS
             vpiFullName: fastfir_fixedtaps.NTAPS
             vpiActual: LogicTypespec
@@ -7973,7 +7977,7 @@ Design name:unnamed:
           vpiFullName: fastfir_fixedtaps.NTAPS
         Parameter name:IW start:5:24 end:5:26:
           vpiParent: Module name:fastfir_fixedtaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: fastfir_fixedtaps.IW
             vpiActual: LogicTypespec
@@ -7981,7 +7985,7 @@ Design name:unnamed:
           vpiFullName: fastfir_fixedtaps.IW
         Parameter name:TW start:5:31 end:5:33:
           vpiParent: Module name:fastfir_fixedtaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:TW
             vpiFullName: fastfir_fixedtaps.TW
             vpiActual: LogicTypespec
@@ -7989,7 +7993,7 @@ Design name:unnamed:
           vpiFullName: fastfir_fixedtaps.TW
         Parameter name:OW start:5:38 end:5:40:
           vpiParent: Module name:fastfir_fixedtaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: fastfir_fixedtaps.OW
             vpiActual: LogicTypespec
@@ -8251,7 +8255,7 @@ Design name:unnamed:
       vpiNet (7 items):
         Net name:i_clk start:8:15 end:8:20:
           vpiParent: Module name:fastfir_fixedtaps
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: fastfir_fixedtaps.i_clk
             vpiActual: LogicTypespec
@@ -8261,7 +8265,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:8:22 end:8:29:
           vpiParent: Module name:fastfir_fixedtaps
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: fastfir_fixedtaps.i_reset
             vpiActual: LogicTypespec
@@ -8271,7 +8275,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap_wr start:10:15 end:10:23:
           vpiParent: Module name:fastfir_fixedtaps
-          vpiTypespec RefTypespec start:10:8 end:10:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_tap_wr
             vpiFullName: fastfir_fixedtaps.i_tap_wr
             vpiActual: LogicTypespec
@@ -8281,7 +8285,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap start:11:24 end:11:29:
           vpiParent: Module name:fastfir_fixedtaps
-          vpiTypespec RefTypespec start:11:8 end:11:23:
+          vpiTypespec RefTypespec start:11:13 end:11:23:
             vpiParent: Net name:i_tap
             vpiFullName: fastfir_fixedtaps.i_tap
             vpiActual: LogicTypespec
@@ -8291,7 +8295,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:13:15 end:13:19:
           vpiParent: Module name:fastfir_fixedtaps
-          vpiTypespec RefTypespec start:13:8 end:13:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: fastfir_fixedtaps.i_ce
             vpiActual: LogicTypespec
@@ -8301,7 +8305,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:14:24 end:14:32:
           vpiParent: Module name:fastfir_fixedtaps
-          vpiTypespec RefTypespec start:14:8 end:14:23:
+          vpiTypespec RefTypespec start:14:13 end:14:23:
             vpiParent: Net name:i_sample
             vpiFullName: fastfir_fixedtaps.i_sample
             vpiActual: LogicTypespec
@@ -8311,7 +8315,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:o_result start:15:25 end:15:33:
           vpiParent: Module name:fastfir_fixedtaps
-          vpiTypespec RefTypespec start:15:9 end:15:24:
+          vpiTypespec RefTypespec start:15:14 end:15:24:
             vpiParent: Net name:o_result
             vpiFullName: fastfir_fixedtaps.o_result
             vpiActual: LogicTypespec
@@ -8329,7 +8333,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: fastfir_fixedtaps.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: fastfir_fixedtaps.i_clk
             vpiActual: LogicTypespec
@@ -8342,7 +8346,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: fastfir_fixedtaps.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: fastfir_fixedtaps.i_reset
             vpiActual: LogicTypespec
@@ -8355,7 +8359,7 @@ Design name:unnamed:
             vpiName: i_tap_wr
             vpiFullName: fastfir_fixedtaps.i_tap_wr.i_tap_wr
             vpiActual: Net name:i_tap_wr
-          vpiTypespec RefTypespec start:10:8 end:10:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_tap_wr
             vpiFullName: fastfir_fixedtaps.i_tap_wr
             vpiActual: LogicTypespec
@@ -8368,7 +8372,7 @@ Design name:unnamed:
             vpiName: i_tap
             vpiFullName: fastfir_fixedtaps.i_tap.i_tap
             vpiActual: Net name:i_tap
-          vpiTypespec RefTypespec start:11:8 end:11:23:
+          vpiTypespec RefTypespec start:11:13 end:11:23:
             vpiParent: Port name:i_tap
             vpiFullName: fastfir_fixedtaps.i_tap
             vpiActual: LogicTypespec
@@ -8381,7 +8385,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: fastfir_fixedtaps.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:13:8 end:13:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: fastfir_fixedtaps.i_ce
             vpiActual: LogicTypespec
@@ -8394,7 +8398,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: fastfir_fixedtaps.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:14:8 end:14:23:
+          vpiTypespec RefTypespec start:14:13 end:14:23:
             vpiParent: Port name:i_sample
             vpiFullName: fastfir_fixedtaps.i_sample
             vpiActual: LogicTypespec
@@ -8407,7 +8411,7 @@ Design name:unnamed:
             vpiName: o_result
             vpiFullName: fastfir_fixedtaps.o_result.o_result
             vpiActual: Net name:o_result
-          vpiTypespec RefTypespec start:15:9 end:15:24:
+          vpiTypespec RefTypespec start:15:14 end:15:24:
             vpiParent: Port name:o_result
             vpiFullName: fastfir_fixedtaps.o_result
             vpiActual: LogicTypespec
@@ -8549,7 +8553,7 @@ Design name:unnamed:
       vpiParameter (5 items):
         Parameter name:IW start:58:13 end:58:15:
           vpiParent: Module name:firtap
-          vpiTypespec RefTypespec start:58:13 end:58:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: firtap.IW
             vpiActual: LogicTypespec
@@ -8557,7 +8561,7 @@ Design name:unnamed:
           vpiFullName: firtap.IW
         Parameter name:TW start:58:20 end:58:22:
           vpiParent: Module name:firtap
-          vpiTypespec RefTypespec start:58:13 end:58:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:TW
             vpiFullName: firtap.TW
             vpiActual: LogicTypespec
@@ -8565,7 +8569,7 @@ Design name:unnamed:
           vpiFullName: firtap.TW
         Parameter name:OW start:58:27 end:58:29:
           vpiParent: Module name:firtap
-          vpiTypespec RefTypespec start:58:13 end:58:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: firtap.OW
             vpiActual: LogicTypespec
@@ -9052,7 +9056,7 @@ Design name:unnamed:
       vpiNet (9 items):
         Net name:i_clk start:62:15 end:62:20:
           vpiParent: Module name:firtap
-          vpiTypespec RefTypespec start:62:8 end:62:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: firtap.i_clk
             vpiActual: LogicTypespec
@@ -9062,7 +9066,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:62:22 end:62:29:
           vpiParent: Module name:firtap
-          vpiTypespec RefTypespec start:62:8 end:62:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: firtap.i_reset
             vpiActual: LogicTypespec
@@ -9072,7 +9076,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap_wr start:64:15 end:64:23:
           vpiParent: Module name:firtap
-          vpiTypespec RefTypespec start:64:8 end:64:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_tap_wr
             vpiFullName: firtap.i_tap_wr
             vpiActual: LogicTypespec
@@ -9082,7 +9086,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap start:65:24 end:65:29:
           vpiParent: Module name:firtap
-          vpiTypespec RefTypespec start:65:8 end:65:23:
+          vpiTypespec RefTypespec start:65:13 end:65:23:
             vpiParent: Net name:i_tap
             vpiFullName: firtap.i_tap
             vpiActual: LogicTypespec
@@ -9092,7 +9096,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:o_tap start:66:32 end:66:37:
           vpiParent: Module name:firtap
-          vpiTypespec RefTypespec start:66:9 end:66:31:
+          vpiTypespec RefTypespec start:66:14 end:66:31:
             vpiParent: Net name:o_tap
             vpiFullName: firtap.o_tap
             vpiActual: LogicTypespec
@@ -9102,7 +9106,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:68:15 end:68:19:
           vpiParent: Module name:firtap
-          vpiTypespec RefTypespec start:68:8 end:68:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: firtap.i_ce
             vpiActual: LogicTypespec
@@ -9112,7 +9116,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:69:31 end:69:39:
           vpiParent: Module name:firtap
-          vpiTypespec RefTypespec start:69:8 end:69:30:
+          vpiTypespec RefTypespec start:69:13 end:69:30:
             vpiParent: Net name:i_sample
             vpiFullName: firtap.i_sample
             vpiActual: LogicTypespec
@@ -9122,7 +9126,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_partial_acc start:72:24 end:72:37:
           vpiParent: Module name:firtap
-          vpiTypespec RefTypespec start:72:8 end:72:23:
+          vpiTypespec RefTypespec start:72:13 end:72:23:
             vpiParent: Net name:i_partial_acc
             vpiFullName: firtap.i_partial_acc
             vpiActual: LogicTypespec
@@ -9132,7 +9136,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:unused start:155:7 end:155:13:
           vpiParent: Module name:firtap
-          vpiTypespec RefTypespec start:155:7 end:155:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:unused
             vpiFullName: firtap.unused
             vpiActual: LogicTypespec
@@ -9151,7 +9155,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: firtap.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:62:8 end:62:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: firtap.i_clk
             vpiActual: LogicTypespec
@@ -9164,7 +9168,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: firtap.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:62:8 end:62:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: firtap.i_reset
             vpiActual: LogicTypespec
@@ -9177,7 +9181,7 @@ Design name:unnamed:
             vpiName: i_tap_wr
             vpiFullName: firtap.i_tap_wr.i_tap_wr
             vpiActual: Net name:i_tap_wr
-          vpiTypespec RefTypespec start:64:8 end:64:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_tap_wr
             vpiFullName: firtap.i_tap_wr
             vpiActual: LogicTypespec
@@ -9190,7 +9194,7 @@ Design name:unnamed:
             vpiName: i_tap
             vpiFullName: firtap.i_tap.i_tap
             vpiActual: Net name:i_tap
-          vpiTypespec RefTypespec start:65:8 end:65:23:
+          vpiTypespec RefTypespec start:65:13 end:65:23:
             vpiParent: Port name:i_tap
             vpiFullName: firtap.i_tap
             vpiActual: LogicTypespec
@@ -9203,7 +9207,7 @@ Design name:unnamed:
             vpiName: o_tap
             vpiFullName: firtap.o_tap.o_tap
             vpiActual: Net name:o_tap
-          vpiTypespec RefTypespec start:66:9 end:66:31:
+          vpiTypespec RefTypespec start:66:14 end:66:31:
             vpiParent: Port name:o_tap
             vpiFullName: firtap.o_tap
             vpiActual: LogicTypespec
@@ -9216,7 +9220,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: firtap.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:68:8 end:68:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: firtap.i_ce
             vpiActual: LogicTypespec
@@ -9229,7 +9233,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: firtap.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:69:8 end:69:30:
+          vpiTypespec RefTypespec start:69:13 end:69:30:
             vpiParent: Port name:i_sample
             vpiFullName: firtap.i_sample
             vpiActual: LogicTypespec
@@ -9255,7 +9259,7 @@ Design name:unnamed:
             vpiName: i_partial_acc
             vpiFullName: firtap.i_partial_acc.i_partial_acc
             vpiActual: Net name:i_partial_acc
-          vpiTypespec RefTypespec start:72:8 end:72:23:
+          vpiTypespec RefTypespec start:72:13 end:72:23:
             vpiParent: Port name:i_partial_acc
             vpiFullName: firtap.i_partial_acc
             vpiActual: LogicTypespec
@@ -9808,7 +9812,7 @@ Design name:unnamed:
       vpiParameter (5 items):
         Parameter name:NTAPS start:42:13 end:42:18:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec start:42:13 end:42:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NTAPS
             vpiFullName: genericfir.NTAPS
             vpiActual: LogicTypespec
@@ -9816,7 +9820,7 @@ Design name:unnamed:
           vpiFullName: genericfir.NTAPS
         Parameter name:IW start:42:24 end:42:26:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec start:42:13 end:42:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: genericfir.IW
             vpiActual: LogicTypespec
@@ -9824,7 +9828,7 @@ Design name:unnamed:
           vpiFullName: genericfir.IW
         Parameter name:TW start:42:31 end:42:33:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec start:42:13 end:42:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:TW
             vpiFullName: genericfir.TW
             vpiActual: LogicTypespec
@@ -9832,7 +9836,7 @@ Design name:unnamed:
           vpiFullName: genericfir.TW
         Parameter name:OW start:42:38 end:42:40:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec start:42:13 end:42:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: genericfir.OW
             vpiActual: LogicTypespec
@@ -10084,6 +10088,30 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        ArrayTypespec:
+          vpiParent: Module name:genericfir
+          vpiArrayType: static (1)
+          vpiRange Range start:53:23 end:53:32:
+            vpiParent: ArrayTypespec
+            vpiLeftRange RefObj name:NTAPS start:53:24 end:53:29:
+              vpiParent: Range
+              vpiName: NTAPS
+              vpiFullName: genericfir.NTAPS
+              vpiActual: Parameter name:NTAPS
+            vpiRightRange Constant start:53:30 end:53:31:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: genericfir
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "0"
+              vpiValue: 0
+          vpiElemTypespec RefTypespec start:53:7 end:53:17:
+            vpiParent: ArrayTypespec
+            vpiFullName: genericfir
+            vpiActual: LogicTypespec
         LogicTypespec:
           vpiParent: Module name:genericfir
           vpiRange (1 items):
@@ -10122,14 +10150,14 @@ Design name:unnamed:
         ArrayTypespec:
           vpiParent: Module name:genericfir
           vpiArrayType: static (1)
-          vpiRange Range start:53:23 end:53:32:
+          vpiRange Range start:54:25 end:54:34:
             vpiParent: ArrayTypespec
-            vpiLeftRange RefObj name:NTAPS start:53:24 end:53:29:
+            vpiLeftRange RefObj name:NTAPS start:54:26 end:54:31:
               vpiParent: Range
               vpiName: NTAPS
               vpiFullName: genericfir.NTAPS
               vpiActual: Parameter name:NTAPS
-            vpiRightRange Constant start:53:30 end:53:31:
+            vpiRightRange Constant start:54:32 end:54:33:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
@@ -10139,7 +10167,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec start:53:7 end:53:17:
+          vpiElemTypespec RefTypespec start:54:7 end:54:17:
             vpiParent: ArrayTypespec
             vpiFullName: genericfir
             vpiActual: LogicTypespec
@@ -10181,14 +10209,14 @@ Design name:unnamed:
         ArrayTypespec:
           vpiParent: Module name:genericfir
           vpiArrayType: static (1)
-          vpiRange Range start:54:25 end:54:34:
+          vpiRange Range start:55:25 end:55:34:
             vpiParent: ArrayTypespec
-            vpiLeftRange RefObj name:NTAPS start:54:26 end:54:31:
+            vpiLeftRange RefObj name:NTAPS start:55:26 end:55:31:
               vpiParent: Range
               vpiName: NTAPS
               vpiFullName: genericfir.NTAPS
               vpiActual: Parameter name:NTAPS
-            vpiRightRange Constant start:54:32 end:54:33:
+            vpiRightRange Constant start:55:32 end:55:33:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
@@ -10198,7 +10226,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec start:54:7 end:54:17:
+          vpiElemTypespec RefTypespec start:55:7 end:55:17:
             vpiParent: ArrayTypespec
             vpiFullName: genericfir
             vpiActual: LogicTypespec
@@ -10240,14 +10268,14 @@ Design name:unnamed:
         ArrayTypespec:
           vpiParent: Module name:genericfir
           vpiArrayType: static (1)
-          vpiRange Range start:55:25 end:55:34:
+          vpiRange Range start:56:25 end:56:34:
             vpiParent: ArrayTypespec
-            vpiLeftRange RefObj name:NTAPS start:55:26 end:55:31:
+            vpiLeftRange RefObj name:NTAPS start:56:26 end:56:31:
               vpiParent: Range
               vpiName: NTAPS
               vpiFullName: genericfir.NTAPS
               vpiActual: Parameter name:NTAPS
-            vpiRightRange Constant start:55:32 end:55:33:
+            vpiRightRange Constant start:56:32 end:56:33:
               vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
@@ -10257,7 +10285,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec start:55:7 end:55:17:
+          vpiElemTypespec RefTypespec start:56:7 end:56:17:
             vpiParent: ArrayTypespec
             vpiFullName: genericfir
             vpiActual: LogicTypespec
@@ -10296,30 +10324,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        ArrayTypespec:
-          vpiParent: Module name:genericfir
-          vpiArrayType: static (1)
-          vpiRange Range start:56:25 end:56:34:
-            vpiParent: ArrayTypespec
-            vpiLeftRange RefObj name:NTAPS start:56:26 end:56:31:
-              vpiParent: Range
-              vpiName: NTAPS
-              vpiFullName: genericfir.NTAPS
-              vpiActual: Parameter name:NTAPS
-            vpiRightRange Constant start:56:32 end:56:33:
-              vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: genericfir
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "0"
-              vpiValue: 0
-          vpiElemTypespec RefTypespec start:56:7 end:56:17:
-            vpiParent: ArrayTypespec
-            vpiFullName: genericfir
-            vpiActual: LogicTypespec
         LogicTypespec:
           vpiParent: Module name:genericfir
           vpiRange (1 items):
@@ -10351,7 +10355,7 @@ Design name:unnamed:
       vpiNet (14 items):
         Net name:i_clk start:44:15 end:44:20:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec start:44:8 end:44:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: genericfir.i_clk
             vpiActual: LogicTypespec
@@ -10361,7 +10365,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:44:22 end:44:29:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec start:44:8 end:44:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: genericfir.i_reset
             vpiActual: LogicTypespec
@@ -10371,7 +10375,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap_wr start:46:15 end:46:23:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_tap_wr
             vpiFullName: genericfir.i_tap_wr
             vpiActual: LogicTypespec
@@ -10381,7 +10385,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap start:47:24 end:47:29:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec start:47:8 end:47:23:
+          vpiTypespec RefTypespec start:47:13 end:47:23:
             vpiParent: Net name:i_tap
             vpiFullName: genericfir.i_tap
             vpiActual: LogicTypespec
@@ -10391,7 +10395,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:49:15 end:49:19:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec start:49:8 end:49:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: genericfir.i_ce
             vpiActual: LogicTypespec
@@ -10401,7 +10405,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:50:24 end:50:32:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec start:50:8 end:50:23:
+          vpiTypespec RefTypespec start:50:13 end:50:23:
             vpiParent: Net name:i_sample
             vpiFullName: genericfir.i_sample
             vpiActual: LogicTypespec
@@ -10411,7 +10415,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:o_result start:51:25 end:51:33:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec start:51:9 end:51:24:
+          vpiTypespec RefTypespec start:51:14 end:51:24:
             vpiParent: Net name:o_result
             vpiFullName: genericfir.o_result
             vpiActual: LogicTypespec
@@ -10421,9 +10425,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:tap start:53:18 end:53:21:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [TW-1:0] [NTAPS:0] start:53:7 end:53:17:
             vpiParent: Net name:tap
-            vpiFullName: genericfir.tap
+            vpiName: logic [TW-1:0] [NTAPS:0]
+            vpiFullName: genericfir.tap.logic [TW-1:0] [NTAPS:0]
             vpiActual: ArrayTypespec
           vpiName: tap
           vpiFullName: genericfir.tap
@@ -10432,9 +10437,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:tapout start:54:18 end:54:24:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [TW-1:0] [NTAPS:0] start:54:7 end:54:17:
             vpiParent: Net name:tapout
-            vpiFullName: genericfir.tapout
+            vpiName: logic [TW-1:0] [NTAPS:0]
+            vpiFullName: genericfir.tapout.logic [TW-1:0] [NTAPS:0]
             vpiActual: ArrayTypespec
           vpiName: tapout
           vpiFullName: genericfir.tapout
@@ -10443,9 +10449,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:sample start:55:18 end:55:24:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [IW-1:0] [NTAPS:0] start:55:7 end:55:17:
             vpiParent: Net name:sample
-            vpiFullName: genericfir.sample
+            vpiName: logic [IW-1:0] [NTAPS:0]
+            vpiFullName: genericfir.sample.logic [IW-1:0] [NTAPS:0]
             vpiActual: ArrayTypespec
           vpiName: sample
           vpiFullName: genericfir.sample
@@ -10454,9 +10461,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:result start:56:18 end:56:24:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [OW-1:0] [NTAPS:0] start:56:7 end:56:17:
             vpiParent: Net name:result
-            vpiFullName: genericfir.result
+            vpiName: logic [OW-1:0] [NTAPS:0]
+            vpiFullName: genericfir.result.logic [OW-1:0] [NTAPS:0]
             vpiActual: ArrayTypespec
           vpiName: result
           vpiFullName: genericfir.result
@@ -10465,7 +10473,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:tap_wr start:57:8 end:57:14:
           vpiParent: Module name:genericfir
-          vpiTypespec RefTypespec start:57:8 end:57:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:tap_wr
             vpiFullName: genericfir.tap_wr
             vpiActual: LogicTypespec
@@ -10506,7 +10514,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: genericfir.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:44:8 end:44:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: genericfir.i_clk
             vpiActual: LogicTypespec
@@ -10519,7 +10527,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: genericfir.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:44:8 end:44:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: genericfir.i_reset
             vpiActual: LogicTypespec
@@ -10532,7 +10540,7 @@ Design name:unnamed:
             vpiName: i_tap_wr
             vpiFullName: genericfir.i_tap_wr.i_tap_wr
             vpiActual: Net name:i_tap_wr
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_tap_wr
             vpiFullName: genericfir.i_tap_wr
             vpiActual: LogicTypespec
@@ -10545,7 +10553,7 @@ Design name:unnamed:
             vpiName: i_tap
             vpiFullName: genericfir.i_tap.i_tap
             vpiActual: Net name:i_tap
-          vpiTypespec RefTypespec start:47:8 end:47:23:
+          vpiTypespec RefTypespec start:47:13 end:47:23:
             vpiParent: Port name:i_tap
             vpiFullName: genericfir.i_tap
             vpiActual: LogicTypespec
@@ -10558,7 +10566,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: genericfir.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:49:8 end:49:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: genericfir.i_ce
             vpiActual: LogicTypespec
@@ -10571,7 +10579,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: genericfir.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:50:8 end:50:23:
+          vpiTypespec RefTypespec start:50:13 end:50:23:
             vpiParent: Port name:i_sample
             vpiFullName: genericfir.i_sample
             vpiActual: LogicTypespec
@@ -10584,7 +10592,7 @@ Design name:unnamed:
             vpiName: o_result
             vpiFullName: genericfir.o_result.o_result
             vpiActual: Net name:o_result
-          vpiTypespec RefTypespec start:51:9 end:51:24:
+          vpiTypespec RefTypespec start:51:14 end:51:24:
             vpiParent: Port name:o_result
             vpiFullName: genericfir.o_result
             vpiActual: LogicTypespec
@@ -11260,7 +11268,7 @@ Design name:unnamed:
       vpiParameter (5 items):
         Parameter name:IW start:42:12 end:42:14:
           vpiParent: Module name:iiravg
-          vpiTypespec RefTypespec start:42:12 end:42:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: iiravg.IW
             vpiActual: LogicTypespec
@@ -11268,7 +11276,7 @@ Design name:unnamed:
           vpiFullName: iiravg.IW
         Parameter name:OW start:42:19 end:42:21:
           vpiParent: Module name:iiravg
-          vpiTypespec RefTypespec start:42:12 end:42:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: iiravg.OW
             vpiActual: LogicTypespec
@@ -11276,7 +11284,7 @@ Design name:unnamed:
           vpiFullName: iiravg.OW
         Parameter name:LGALPHA start:42:26 end:42:33:
           vpiParent: Module name:iiravg
-          vpiTypespec RefTypespec start:42:12 end:42:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LGALPHA
             vpiFullName: iiravg.LGALPHA
             vpiActual: LogicTypespec
@@ -11292,7 +11300,7 @@ Design name:unnamed:
           vpiFullName: iiravg.RESET_VALUE
         Parameter name:AW start:44:13 end:44:15:
           vpiParent: Module name:iiravg
-          vpiTypespec RefTypespec start:44:13 end:44:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:AW
             vpiFullName: iiravg.AW
             vpiActual: LogicTypespec
@@ -11571,7 +11579,7 @@ Design name:unnamed:
       vpiNet (7 items):
         Net name:i_clk start:46:13 end:46:18:
           vpiParent: Module name:iiravg
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: iiravg.i_clk
             vpiActual: LogicTypespec
@@ -11581,7 +11589,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:46:20 end:46:27:
           vpiParent: Module name:iiravg
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: iiravg.i_reset
             vpiActual: LogicTypespec
@@ -11591,7 +11599,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_ce start:46:29 end:46:33:
           vpiParent: Module name:iiravg
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: iiravg.i_ce
             vpiActual: LogicTypespec
@@ -11601,7 +11609,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_data start:47:24 end:47:30:
           vpiParent: Module name:iiravg
-          vpiTypespec RefTypespec start:47:8 end:47:23:
+          vpiTypespec RefTypespec start:47:13 end:47:23:
             vpiParent: Net name:i_data
             vpiFullName: iiravg.i_data
             vpiActual: LogicTypespec
@@ -11611,7 +11619,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:o_data start:48:25 end:48:31:
           vpiParent: Module name:iiravg
-          vpiTypespec RefTypespec start:48:9 end:48:24:
+          vpiTypespec RefTypespec start:48:14 end:48:24:
             vpiParent: Net name:o_data
             vpiFullName: iiravg.o_data
             vpiActual: LogicTypespec
@@ -11651,7 +11659,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: iiravg.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: iiravg.i_clk
             vpiActual: LogicTypespec
@@ -11664,7 +11672,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: iiravg.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: iiravg.i_reset
             vpiActual: LogicTypespec
@@ -11677,7 +11685,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: iiravg.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: iiravg.i_ce
             vpiActual: LogicTypespec
@@ -11690,7 +11698,7 @@ Design name:unnamed:
             vpiName: i_data
             vpiFullName: iiravg.i_data.i_data
             vpiActual: Net name:i_data
-          vpiTypespec RefTypespec start:47:8 end:47:23:
+          vpiTypespec RefTypespec start:47:13 end:47:23:
             vpiParent: Port name:i_data
             vpiFullName: iiravg.i_data
             vpiActual: LogicTypespec
@@ -11703,7 +11711,7 @@ Design name:unnamed:
             vpiName: o_data
             vpiFullName: iiravg.o_data.o_data
             vpiActual: Net name:o_data
-          vpiTypespec RefTypespec start:48:9 end:48:24:
+          vpiTypespec RefTypespec start:48:14 end:48:24:
             vpiParent: Port name:o_data
             vpiFullName: iiravg.o_data
             vpiActual: LogicTypespec
@@ -11947,7 +11955,7 @@ Design name:unnamed:
       vpiParameter (4 items):
         Parameter name:WS start:47:13 end:47:15:
           vpiParent: Module name:lfsr
-          vpiTypespec RefTypespec start:47:13 end:47:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:WS
             vpiFullName: lfsr.WS
             vpiActual: LogicTypespec
@@ -11955,7 +11963,7 @@ Design name:unnamed:
           vpiFullName: lfsr.WS
         Parameter name:LN start:48:5 end:48:7:
           vpiParent: Module name:lfsr
-          vpiTypespec RefTypespec start:47:13 end:47:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LN
             vpiFullName: lfsr.LN
             vpiActual: LogicTypespec
@@ -12090,6 +12098,8 @@ Design name:unnamed:
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:lfsr
+        BitTypespec:
+          vpiParent: Module name:lfsr
         LogicTypespec:
           vpiParent: Module name:lfsr
           vpiRange (1 items):
@@ -12125,8 +12135,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        BitTypespec:
-          vpiParent: Module name:lfsr
         LogicTypespec:
           vpiParent: Module name:lfsr
           vpiRange (1 items):
@@ -12206,41 +12214,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:lfsr
-          vpiRange (1 items):
-            Range start:70:7 end:70:17:
-              vpiParent: LogicTypespec
-              vpiLeftRange Operation start:70:9 end:70:13:
-                vpiParent: Range
-                vpiOpType: subtract (11)
-                vpiOperand (2 items):
-                  RefObj name:LN start:70:9 end:70:11:
-                    vpiParent: Operation
-                    vpiName: LN
-                    vpiFullName: lfsr.LN
-                    vpiActual: Parameter name:LN
-                  Constant start:70:12 end:70:13:
-                    vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: lfsr
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "1"
-                    vpiValue: 1
-              vpiRightRange Constant start:70:15 end:70:16:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: lfsr
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
         ArrayTypespec:
           vpiParent: Module name:lfsr
           vpiArrayType: static (1)
@@ -12279,6 +12252,41 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiFullName: lfsr
             vpiActual: LogicTypespec
+        LogicTypespec:
+          vpiParent: Module name:lfsr
+          vpiRange (1 items):
+            Range start:70:7 end:70:17:
+              vpiParent: LogicTypespec
+              vpiLeftRange Operation start:70:9 end:70:13:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  RefObj name:LN start:70:9 end:70:11:
+                    vpiParent: Operation
+                    vpiName: LN
+                    vpiFullName: lfsr.LN
+                    vpiActual: Parameter name:LN
+                  Constant start:70:12 end:70:13:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: lfsr
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
+              vpiRightRange Constant start:70:15 end:70:16:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: lfsr
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiVector: true
         LogicTypespec:
           vpiParent: Module name:lfsr
           vpiRange (1 items):
@@ -12333,7 +12341,7 @@ Design name:unnamed:
       vpiNet (6 items):
         Net name:i_clk start:52:15 end:52:20:
           vpiParent: Module name:lfsr
-          vpiTypespec RefTypespec start:52:8 end:52:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: lfsr.i_clk
             vpiActual: LogicTypespec
@@ -12343,7 +12351,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:52:22 end:52:29:
           vpiParent: Module name:lfsr
-          vpiTypespec RefTypespec start:52:8 end:52:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: lfsr.i_reset
             vpiActual: LogicTypespec
@@ -12353,7 +12361,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_ce start:52:31 end:52:35:
           vpiParent: Module name:lfsr
-          vpiTypespec RefTypespec start:52:8 end:52:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: lfsr.i_ce
             vpiActual: LogicTypespec
@@ -12363,7 +12371,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:o_word start:53:25 end:53:31:
           vpiParent: Module name:lfsr
-          vpiTypespec RefTypespec start:53:9 end:53:24:
+          vpiTypespec RefTypespec start:53:14 end:53:24:
             vpiParent: Net name:o_word
             vpiFullName: lfsr.o_word
             vpiActual: LogicTypespec
@@ -12373,9 +12381,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:tapv start:70:18 end:70:22:
           vpiParent: Module name:lfsr
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [LN-1:0] [0:WS-1] start:70:7 end:70:17:
             vpiParent: Net name:tapv
-            vpiFullName: lfsr.tapv
+            vpiName: logic [LN-1:0] [0:WS-1]
+            vpiFullName: lfsr.tapv.logic [LN-1:0] [0:WS-1]
             vpiActual: ArrayTypespec
           vpiName: tapv
           vpiFullName: lfsr.tapv
@@ -12403,7 +12412,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: lfsr.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:52:8 end:52:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: lfsr.i_clk
             vpiActual: LogicTypespec
@@ -12416,7 +12425,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: lfsr.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:52:8 end:52:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: lfsr.i_reset
             vpiActual: LogicTypespec
@@ -12429,7 +12438,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: lfsr.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:52:8 end:52:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: lfsr.i_ce
             vpiActual: LogicTypespec
@@ -12442,7 +12451,7 @@ Design name:unnamed:
             vpiName: o_word
             vpiFullName: lfsr.o_word.o_word
             vpiActual: Net name:o_word
-          vpiTypespec RefTypespec start:53:9 end:53:24:
+          vpiTypespec RefTypespec start:53:14 end:53:24:
             vpiParent: Port name:o_word
             vpiFullName: lfsr.o_word
             vpiActual: LogicTypespec
@@ -13449,7 +13458,7 @@ Design name:unnamed:
       vpiParameter (3 items):
         Parameter name:LN start:42:13 end:42:15:
           vpiParent: Module name:lfsr_fib
-          vpiTypespec RefTypespec start:42:13 end:42:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LN
             vpiFullName: lfsr_fib.LN
             vpiActual: LogicTypespec
@@ -13567,6 +13576,8 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:lfsr_fib
+        BitTypespec:
+          vpiParent: Module name:lfsr_fib
         LogicTypespec:
           vpiParent: Module name:lfsr_fib
           vpiRange (1 items):
@@ -13602,8 +13613,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        BitTypespec:
-          vpiParent: Module name:lfsr_fib
         LogicTypespec:
           vpiParent: Module name:lfsr_fib
           vpiRange (1 items):
@@ -13649,7 +13658,7 @@ Design name:unnamed:
       vpiNet (5 items):
         Net name:i_clk start:46:15 end:46:20:
           vpiParent: Module name:lfsr_fib
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: lfsr_fib.i_clk
             vpiActual: LogicTypespec
@@ -13659,7 +13668,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:46:22 end:46:29:
           vpiParent: Module name:lfsr_fib
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: lfsr_fib.i_reset
             vpiActual: LogicTypespec
@@ -13669,7 +13678,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_ce start:46:31 end:46:35:
           vpiParent: Module name:lfsr_fib
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: lfsr_fib.i_ce
             vpiActual: LogicTypespec
@@ -13679,7 +13688,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_in start:46:37 end:46:41:
           vpiParent: Module name:lfsr_fib
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_in
             vpiFullName: lfsr_fib.i_in
             vpiActual: LogicTypespec
@@ -13689,7 +13698,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:o_bit start:47:16 end:47:21:
           vpiParent: Module name:lfsr_fib
-          vpiTypespec RefTypespec start:47:9 end:47:13:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:o_bit
             vpiFullName: lfsr_fib.o_bit
             vpiActual: LogicTypespec
@@ -13707,7 +13716,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: lfsr_fib.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: lfsr_fib.i_clk
             vpiActual: LogicTypespec
@@ -13720,7 +13729,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: lfsr_fib.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: lfsr_fib.i_reset
             vpiActual: LogicTypespec
@@ -13733,7 +13742,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: lfsr_fib.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: lfsr_fib.i_ce
             vpiActual: LogicTypespec
@@ -13746,7 +13755,7 @@ Design name:unnamed:
             vpiName: i_in
             vpiFullName: lfsr_fib.i_in.i_in
             vpiActual: Net name:i_in
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_in
             vpiFullName: lfsr_fib.i_in
             vpiActual: LogicTypespec
@@ -13759,7 +13768,7 @@ Design name:unnamed:
             vpiName: o_bit
             vpiFullName: lfsr_fib.o_bit.o_bit
             vpiActual: Net name:o_bit
-          vpiTypespec RefTypespec start:47:9 end:47:13:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:o_bit
             vpiFullName: lfsr_fib.o_bit
             vpiActual: LogicTypespec
@@ -14010,7 +14019,7 @@ Design name:unnamed:
       vpiParameter (3 items):
         Parameter name:LN start:42:13 end:42:15:
           vpiParent: Module name:lfsr_gal
-          vpiTypespec RefTypespec start:42:13 end:42:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LN
             vpiFullName: lfsr_gal.LN
             vpiActual: LogicTypespec
@@ -14128,6 +14137,8 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:lfsr_gal
+        BitTypespec:
+          vpiParent: Module name:lfsr_gal
         LogicTypespec:
           vpiParent: Module name:lfsr_gal
           vpiRange (1 items):
@@ -14163,8 +14174,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        BitTypespec:
-          vpiParent: Module name:lfsr_gal
         LogicTypespec:
           vpiParent: Module name:lfsr_gal
           vpiRange (1 items):
@@ -14210,7 +14219,7 @@ Design name:unnamed:
       vpiNet (5 items):
         Net name:i_clk start:46:14 end:46:19:
           vpiParent: Module name:lfsr_gal
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: lfsr_gal.i_clk
             vpiActual: LogicTypespec
@@ -14220,7 +14229,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:46:21 end:46:28:
           vpiParent: Module name:lfsr_gal
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: lfsr_gal.i_reset
             vpiActual: LogicTypespec
@@ -14230,7 +14239,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_ce start:46:30 end:46:34:
           vpiParent: Module name:lfsr_gal
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: lfsr_gal.i_ce
             vpiActual: LogicTypespec
@@ -14240,7 +14249,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_in start:46:36 end:46:40:
           vpiParent: Module name:lfsr_gal
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_in
             vpiFullName: lfsr_gal.i_in
             vpiActual: LogicTypespec
@@ -14250,7 +14259,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:o_bit start:47:15 end:47:20:
           vpiParent: Module name:lfsr_gal
-          vpiTypespec RefTypespec start:47:9 end:47:13:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:o_bit
             vpiFullName: lfsr_gal.o_bit
             vpiActual: LogicTypespec
@@ -14268,7 +14277,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: lfsr_gal.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: lfsr_gal.i_clk
             vpiActual: LogicTypespec
@@ -14281,7 +14290,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: lfsr_gal.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: lfsr_gal.i_reset
             vpiActual: LogicTypespec
@@ -14294,7 +14303,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: lfsr_gal.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: lfsr_gal.i_ce
             vpiActual: LogicTypespec
@@ -14307,7 +14316,7 @@ Design name:unnamed:
             vpiName: i_in
             vpiFullName: lfsr_gal.i_in.i_in
             vpiActual: Net name:i_in
-          vpiTypespec RefTypespec start:46:8 end:46:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_in
             vpiFullName: lfsr_gal.i_in
             vpiActual: LogicTypespec
@@ -14320,7 +14329,7 @@ Design name:unnamed:
             vpiName: o_bit
             vpiFullName: lfsr_gal.o_bit.o_bit
             vpiActual: Net name:o_bit
-          vpiTypespec RefTypespec start:47:9 end:47:13:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:o_bit
             vpiFullName: lfsr_gal.o_bit
             vpiActual: LogicTypespec
@@ -14578,9 +14587,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:tapmem start:94:17 end:94:23:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [TW-1:0] [0:CMEMSZ-1] start:94:2 end:94:16:
             vpiParent: Variable name:tapmem
-            vpiFullName: shalfband.tapmem
+            vpiName: logic [TW-1:0] [0:CMEMSZ-1]
+            vpiFullName: shalfband.tapmem.logic [TW-1:0] [0:CMEMSZ-1]
             vpiActual: ArrayTypespec
           vpiName: tapmem
           vpiFullName: shalfband.tapmem
@@ -14632,18 +14642,20 @@ Design name:unnamed:
           vpiVector: true
         Variable name:dmem1 start:99:17 end:99:22:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [IW-1:0] [0:DMEMSZ-1] start:99:2 end:99:16:
             vpiParent: Variable name:dmem1
-            vpiFullName: shalfband.dmem1
+            vpiName: logic [IW-1:0] [0:DMEMSZ-1]
+            vpiFullName: shalfband.dmem1.logic [IW-1:0] [0:DMEMSZ-1]
             vpiActual: ArrayTypespec
           vpiName: dmem1
           vpiFullName: shalfband.dmem1
           vpiVector: true
         Variable name:dmem2 start:100:17 end:100:22:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [IW-1:0] [0:DMEMSZ-1] start:100:2 end:100:16:
             vpiParent: Variable name:dmem2
-            vpiFullName: shalfband.dmem2
+            vpiName: logic [IW-1:0] [0:DMEMSZ-1]
+            vpiFullName: shalfband.dmem2.logic [IW-1:0] [0:DMEMSZ-1]
             vpiActual: ArrayTypespec
           vpiName: dmem2
           vpiFullName: shalfband.dmem2
@@ -14750,7 +14762,7 @@ Design name:unnamed:
       vpiParameter (14 items):
         Parameter name:LGNTAPS start:42:14 end:42:21:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:42:14 end:42:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LGNTAPS
             vpiFullName: shalfband.LGNTAPS
             vpiActual: LogicTypespec
@@ -14758,7 +14770,7 @@ Design name:unnamed:
           vpiFullName: shalfband.LGNTAPS
         Parameter name:IW start:42:27 end:42:29:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:42:14 end:42:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: shalfband.IW
             vpiActual: LogicTypespec
@@ -14766,7 +14778,7 @@ Design name:unnamed:
           vpiFullName: shalfband.IW
         Parameter name:TW start:42:34 end:42:36:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:42:14 end:42:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:TW
             vpiFullName: shalfband.TW
             vpiActual: LogicTypespec
@@ -14774,7 +14786,7 @@ Design name:unnamed:
           vpiFullName: shalfband.TW
         Parameter name:OW start:43:6 end:43:8:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:42:14 end:42:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: shalfband.OW
             vpiActual: LogicTypespec
@@ -14798,7 +14810,7 @@ Design name:unnamed:
           vpiFullName: shalfband.FIXED_TAPS
         Parameter name:INITIAL_COEFFS start:46:14 end:46:28:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:46:14 end:46:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:INITIAL_COEFFS
             vpiFullName: shalfband.INITIAL_COEFFS
             vpiActual: LogicTypespec
@@ -14814,7 +14826,7 @@ Design name:unnamed:
           vpiFullName: shalfband.OPT_HILBERT
         Parameter name:LGNMEM start:49:15 end:49:21:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:49:15 end:49:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LGNMEM
             vpiFullName: shalfband.LGNMEM
             vpiActual: LogicTypespec
@@ -14823,7 +14835,7 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:LGNCOEF start:50:6 end:50:13:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:49:15 end:49:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LGNCOEF
             vpiFullName: shalfband.LGNCOEF
             vpiActual: LogicTypespec
@@ -14850,7 +14862,7 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:DMEMSZ start:53:15 end:53:21:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:53:15 end:53:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:DMEMSZ
             vpiFullName: shalfband.DMEMSZ
             vpiActual: LogicTypespec
@@ -14859,7 +14871,7 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:CMEMSZ start:54:15 end:54:21:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:54:15 end:54:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:CMEMSZ
             vpiFullName: shalfband.CMEMSZ
             vpiActual: LogicTypespec
@@ -15237,6 +15249,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        BitTypespec:
+          vpiParent: Module name:shalfband
         LogicTypespec:
           vpiParent: Module name:shalfband
           vpiRange (1 items):
@@ -15263,8 +15277,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        BitTypespec:
-          vpiParent: Module name:shalfband
         LogicTypespec:
           vpiParent: Module name:shalfband
           vpiRange (1 items):
@@ -16036,7 +16048,7 @@ Design name:unnamed:
       vpiNet (10 items):
         Net name:i_clk start:73:14 end:73:19:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:73:8 end:73:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: shalfband.i_clk
             vpiActual: LogicTypespec
@@ -16046,7 +16058,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:73:21 end:73:28:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:73:8 end:73:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: shalfband.i_reset
             vpiActual: LogicTypespec
@@ -16056,7 +16068,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap_wr start:77:15 end:77:23:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:77:8 end:77:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_tap_wr
             vpiFullName: shalfband.i_tap_wr
             vpiActual: LogicTypespec
@@ -16066,7 +16078,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap start:78:24 end:78:29:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:78:8 end:78:23:
+          vpiTypespec RefTypespec start:78:13 end:78:23:
             vpiParent: Net name:i_tap
             vpiFullName: shalfband.i_tap
             vpiActual: LogicTypespec
@@ -16076,7 +16088,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:83:15 end:83:19:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:83:8 end:83:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: shalfband.i_ce
             vpiActual: LogicTypespec
@@ -16086,7 +16098,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:84:24 end:84:32:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:84:8 end:84:23:
+          vpiTypespec RefTypespec start:84:13 end:84:23:
             vpiParent: Net name:i_sample
             vpiFullName: shalfband.i_sample
             vpiActual: LogicTypespec
@@ -16107,7 +16119,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:last_tap_index start:182:9 end:182:23:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:182:9 end:182:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:last_tap_index
             vpiFullName: shalfband.last_tap_index
             vpiActual: LogicTypespec
@@ -16118,7 +16130,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:last_data_index start:182:25 end:182:40:
           vpiParent: Module name:shalfband
-          vpiTypespec RefTypespec start:182:9 end:182:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:last_data_index
             vpiFullName: shalfband.last_data_index
             vpiActual: LogicTypespec
@@ -16148,7 +16160,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: shalfband.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:73:8 end:73:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: shalfband.i_clk
             vpiActual: LogicTypespec
@@ -16161,7 +16173,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: shalfband.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:73:8 end:73:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: shalfband.i_reset
             vpiActual: LogicTypespec
@@ -16174,7 +16186,7 @@ Design name:unnamed:
             vpiName: i_tap_wr
             vpiFullName: shalfband.i_tap_wr.i_tap_wr
             vpiActual: Net name:i_tap_wr
-          vpiTypespec RefTypespec start:77:8 end:77:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_tap_wr
             vpiFullName: shalfband.i_tap_wr
             vpiActual: LogicTypespec
@@ -16187,7 +16199,7 @@ Design name:unnamed:
             vpiName: i_tap
             vpiFullName: shalfband.i_tap.i_tap
             vpiActual: Net name:i_tap
-          vpiTypespec RefTypespec start:78:8 end:78:23:
+          vpiTypespec RefTypespec start:78:13 end:78:23:
             vpiParent: Port name:i_tap
             vpiFullName: shalfband.i_tap
             vpiActual: LogicTypespec
@@ -16200,7 +16212,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: shalfband.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:83:8 end:83:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: shalfband.i_ce
             vpiActual: LogicTypespec
@@ -16213,7 +16225,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: shalfband.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:84:8 end:84:23:
+          vpiTypespec RefTypespec start:84:13 end:84:23:
             vpiParent: Port name:i_sample
             vpiFullName: shalfband.i_sample
             vpiActual: LogicTypespec
@@ -18726,9 +18738,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:tapmem start:75:17 end:75:23:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [TW-1:0] [0:MEMSZ-1] start:75:2 end:75:16:
             vpiParent: Variable name:tapmem
-            vpiFullName: slowfil.tapmem
+            vpiName: logic [TW-1:0] [0:MEMSZ-1]
+            vpiFullName: slowfil.tapmem.logic [TW-1:0] [0:MEMSZ-1]
             vpiActual: ArrayTypespec
           vpiName: tapmem
           vpiFullName: slowfil.tapmem
@@ -18771,9 +18784,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:dmem start:80:17 end:80:21:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [IW-1:0] [0:MEMSZ-1] start:80:2 end:80:16:
             vpiParent: Variable name:dmem
-            vpiFullName: slowfil.dmem
+            vpiName: logic [IW-1:0] [0:MEMSZ-1]
+            vpiFullName: slowfil.dmem.logic [IW-1:0] [0:MEMSZ-1]
             vpiActual: ArrayTypespec
           vpiName: dmem
           vpiFullName: slowfil.dmem
@@ -18844,7 +18858,7 @@ Design name:unnamed:
       vpiParameter (8 items):
         Parameter name:LGNTAPS start:47:12 end:47:19:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:47:12 end:47:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LGNTAPS
             vpiFullName: slowfil.LGNTAPS
             vpiActual: LogicTypespec
@@ -18852,7 +18866,7 @@ Design name:unnamed:
           vpiFullName: slowfil.LGNTAPS
         Parameter name:IW start:47:25 end:47:27:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:47:12 end:47:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: slowfil.IW
             vpiActual: LogicTypespec
@@ -18860,7 +18874,7 @@ Design name:unnamed:
           vpiFullName: slowfil.IW
         Parameter name:TW start:47:32 end:47:34:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:47:12 end:47:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:TW
             vpiFullName: slowfil.TW
             vpiActual: LogicTypespec
@@ -18868,7 +18882,7 @@ Design name:unnamed:
           vpiFullName: slowfil.TW
         Parameter name:OW start:47:39 end:47:41:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:47:12 end:47:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: slowfil.OW
             vpiActual: LogicTypespec
@@ -18892,7 +18906,7 @@ Design name:unnamed:
           vpiFullName: slowfil.FIXED_TAPS
         Parameter name:INITIAL_COEFFS start:50:14 end:50:28:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:50:14 end:50:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:INITIAL_COEFFS
             vpiFullName: slowfil.INITIAL_COEFFS
             vpiActual: LogicTypespec
@@ -18900,7 +18914,7 @@ Design name:unnamed:
           vpiFullName: slowfil.INITIAL_COEFFS
         Parameter name:MEMSZ start:51:13 end:51:18:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:51:13 end:51:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:MEMSZ
             vpiFullName: slowfil.MEMSZ
             vpiActual: LogicTypespec
@@ -19089,6 +19103,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        BitTypespec:
+          vpiParent: Module name:slowfil
         LogicTypespec:
           vpiParent: Module name:slowfil
           vpiRange (1 items):
@@ -19115,8 +19131,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        BitTypespec:
-          vpiParent: Module name:slowfil
         LogicTypespec:
           vpiParent: Module name:slowfil
           vpiRange (1 items):
@@ -19627,7 +19641,7 @@ Design name:unnamed:
       vpiNet (8 items):
         Net name:i_clk start:54:14 end:54:19:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:54:8 end:54:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: slowfil.i_clk
             vpiActual: LogicTypespec
@@ -19637,7 +19651,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:54:21 end:54:28:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:54:8 end:54:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: slowfil.i_reset
             vpiActual: LogicTypespec
@@ -19647,7 +19661,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap_wr start:58:15 end:58:23:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:58:8 end:58:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_tap_wr
             vpiFullName: slowfil.i_tap_wr
             vpiActual: LogicTypespec
@@ -19657,7 +19671,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap start:59:24 end:59:29:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:59:8 end:59:23:
+          vpiTypespec RefTypespec start:59:13 end:59:23:
             vpiParent: Net name:i_tap
             vpiFullName: slowfil.i_tap
             vpiActual: LogicTypespec
@@ -19667,7 +19681,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:64:15 end:64:19:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:64:8 end:64:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: slowfil.i_ce
             vpiActual: LogicTypespec
@@ -19677,7 +19691,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:65:24 end:65:32:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:65:8 end:65:23:
+          vpiTypespec RefTypespec start:65:13 end:65:23:
             vpiParent: Net name:i_sample
             vpiFullName: slowfil.i_sample
             vpiActual: LogicTypespec
@@ -19698,7 +19712,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:last_tap_index start:151:7 end:151:21:
           vpiParent: Module name:slowfil
-          vpiTypespec RefTypespec start:151:7 end:151:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:last_tap_index
             vpiFullName: slowfil.last_tap_index
             vpiActual: LogicTypespec
@@ -19717,7 +19731,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: slowfil.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:54:8 end:54:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: slowfil.i_clk
             vpiActual: LogicTypespec
@@ -19730,7 +19744,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: slowfil.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:54:8 end:54:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: slowfil.i_reset
             vpiActual: LogicTypespec
@@ -19743,7 +19757,7 @@ Design name:unnamed:
             vpiName: i_tap_wr
             vpiFullName: slowfil.i_tap_wr.i_tap_wr
             vpiActual: Net name:i_tap_wr
-          vpiTypespec RefTypespec start:58:8 end:58:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_tap_wr
             vpiFullName: slowfil.i_tap_wr
             vpiActual: LogicTypespec
@@ -19756,7 +19770,7 @@ Design name:unnamed:
             vpiName: i_tap
             vpiFullName: slowfil.i_tap.i_tap
             vpiActual: Net name:i_tap
-          vpiTypespec RefTypespec start:59:8 end:59:23:
+          vpiTypespec RefTypespec start:59:13 end:59:23:
             vpiParent: Port name:i_tap
             vpiFullName: slowfil.i_tap
             vpiActual: LogicTypespec
@@ -19769,7 +19783,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: slowfil.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:64:8 end:64:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: slowfil.i_ce
             vpiActual: LogicTypespec
@@ -19782,7 +19796,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: slowfil.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:65:8 end:65:23:
+          vpiTypespec RefTypespec start:65:13 end:65:23:
             vpiParent: Port name:i_sample
             vpiFullName: slowfil.i_sample
             vpiActual: LogicTypespec
@@ -21516,7 +21530,7 @@ Design name:unnamed:
       vpiParameter (5 items):
         Parameter name:NTAPS start:5:13 end:5:18:
           vpiParent: Module name:slowfil_fixedtaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NTAPS
             vpiFullName: slowfil_fixedtaps.NTAPS
             vpiActual: LogicTypespec
@@ -21524,7 +21538,7 @@ Design name:unnamed:
           vpiFullName: slowfil_fixedtaps.NTAPS
         Parameter name:IW start:5:24 end:5:26:
           vpiParent: Module name:slowfil_fixedtaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: slowfil_fixedtaps.IW
             vpiActual: LogicTypespec
@@ -21532,7 +21546,7 @@ Design name:unnamed:
           vpiFullName: slowfil_fixedtaps.IW
         Parameter name:TW start:5:31 end:5:33:
           vpiParent: Module name:slowfil_fixedtaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:TW
             vpiFullName: slowfil_fixedtaps.TW
             vpiActual: LogicTypespec
@@ -21540,7 +21554,7 @@ Design name:unnamed:
           vpiFullName: slowfil_fixedtaps.TW
         Parameter name:OW start:5:38 end:5:40:
           vpiParent: Module name:slowfil_fixedtaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: slowfil_fixedtaps.OW
             vpiActual: LogicTypespec
@@ -21802,7 +21816,7 @@ Design name:unnamed:
       vpiNet (8 items):
         Net name:i_clk start:8:15 end:8:20:
           vpiParent: Module name:slowfil_fixedtaps
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: slowfil_fixedtaps.i_clk
             vpiActual: LogicTypespec
@@ -21812,7 +21826,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:8:22 end:8:29:
           vpiParent: Module name:slowfil_fixedtaps
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: slowfil_fixedtaps.i_reset
             vpiActual: LogicTypespec
@@ -21822,7 +21836,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap_wr start:10:15 end:10:23:
           vpiParent: Module name:slowfil_fixedtaps
-          vpiTypespec RefTypespec start:10:8 end:10:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_tap_wr
             vpiFullName: slowfil_fixedtaps.i_tap_wr
             vpiActual: LogicTypespec
@@ -21832,7 +21846,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap start:11:24 end:11:29:
           vpiParent: Module name:slowfil_fixedtaps
-          vpiTypespec RefTypespec start:11:8 end:11:23:
+          vpiTypespec RefTypespec start:11:13 end:11:23:
             vpiParent: Net name:i_tap
             vpiFullName: slowfil_fixedtaps.i_tap
             vpiActual: LogicTypespec
@@ -21842,7 +21856,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:13:15 end:13:19:
           vpiParent: Module name:slowfil_fixedtaps
-          vpiTypespec RefTypespec start:13:8 end:13:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: slowfil_fixedtaps.i_ce
             vpiActual: LogicTypespec
@@ -21852,7 +21866,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:14:24 end:14:32:
           vpiParent: Module name:slowfil_fixedtaps
-          vpiTypespec RefTypespec start:14:8 end:14:23:
+          vpiTypespec RefTypespec start:14:13 end:14:23:
             vpiParent: Net name:i_sample
             vpiFullName: slowfil_fixedtaps.i_sample
             vpiActual: LogicTypespec
@@ -21862,7 +21876,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:o_ce start:15:25 end:15:29:
           vpiParent: Module name:slowfil_fixedtaps
-          vpiTypespec RefTypespec start:15:9 end:15:13:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:o_ce
             vpiFullName: slowfil_fixedtaps.o_ce
             vpiActual: LogicTypespec
@@ -21872,7 +21886,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:o_result start:16:25 end:16:33:
           vpiParent: Module name:slowfil_fixedtaps
-          vpiTypespec RefTypespec start:16:9 end:16:24:
+          vpiTypespec RefTypespec start:16:14 end:16:24:
             vpiParent: Net name:o_result
             vpiFullName: slowfil_fixedtaps.o_result
             vpiActual: LogicTypespec
@@ -21890,7 +21904,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: slowfil_fixedtaps.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: slowfil_fixedtaps.i_clk
             vpiActual: LogicTypespec
@@ -21903,7 +21917,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: slowfil_fixedtaps.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: slowfil_fixedtaps.i_reset
             vpiActual: LogicTypespec
@@ -21916,7 +21930,7 @@ Design name:unnamed:
             vpiName: i_tap_wr
             vpiFullName: slowfil_fixedtaps.i_tap_wr.i_tap_wr
             vpiActual: Net name:i_tap_wr
-          vpiTypespec RefTypespec start:10:8 end:10:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_tap_wr
             vpiFullName: slowfil_fixedtaps.i_tap_wr
             vpiActual: LogicTypespec
@@ -21929,7 +21943,7 @@ Design name:unnamed:
             vpiName: i_tap
             vpiFullName: slowfil_fixedtaps.i_tap.i_tap
             vpiActual: Net name:i_tap
-          vpiTypespec RefTypespec start:11:8 end:11:23:
+          vpiTypespec RefTypespec start:11:13 end:11:23:
             vpiParent: Port name:i_tap
             vpiFullName: slowfil_fixedtaps.i_tap
             vpiActual: LogicTypespec
@@ -21942,7 +21956,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: slowfil_fixedtaps.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:13:8 end:13:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: slowfil_fixedtaps.i_ce
             vpiActual: LogicTypespec
@@ -21955,7 +21969,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: slowfil_fixedtaps.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:14:8 end:14:23:
+          vpiTypespec RefTypespec start:14:13 end:14:23:
             vpiParent: Port name:i_sample
             vpiFullName: slowfil_fixedtaps.i_sample
             vpiActual: LogicTypespec
@@ -21968,7 +21982,7 @@ Design name:unnamed:
             vpiName: o_ce
             vpiFullName: slowfil_fixedtaps.o_ce.o_ce
             vpiActual: Net name:o_ce
-          vpiTypespec RefTypespec start:15:9 end:15:13:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:o_ce
             vpiFullName: slowfil_fixedtaps.o_ce
             vpiActual: LogicTypespec
@@ -21981,7 +21995,7 @@ Design name:unnamed:
             vpiName: o_result
             vpiFullName: slowfil_fixedtaps.o_result.o_result
             vpiActual: Net name:o_result
-          vpiTypespec RefTypespec start:16:9 end:16:24:
+          vpiTypespec RefTypespec start:16:14 end:16:24:
             vpiParent: Port name:o_result
             vpiFullName: slowfil_fixedtaps.o_result
             vpiActual: LogicTypespec
@@ -22116,9 +22130,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:tapmem start:78:17 end:78:23:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [TW-1:0] [0:MEMSZ-1] start:78:2 end:78:16:
             vpiParent: Variable name:tapmem
-            vpiFullName: slowfil_srl.tapmem
+            vpiName: logic [TW-1:0] [0:MEMSZ-1]
+            vpiFullName: slowfil_srl.tapmem.logic [TW-1:0] [0:MEMSZ-1]
             vpiActual: ArrayTypespec
           vpiName: tapmem
           vpiFullName: slowfil_srl.tapmem
@@ -22143,9 +22158,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:dsrl start:83:17 end:83:21:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [IW-1:0] [0:MEMSZ-1] start:83:2 end:83:16:
             vpiParent: Variable name:dsrl
-            vpiFullName: slowfil_srl.dsrl
+            vpiName: logic [IW-1:0] [0:MEMSZ-1]
+            vpiFullName: slowfil_srl.dsrl.logic [IW-1:0] [0:MEMSZ-1]
             vpiActual: ArrayTypespec
           vpiName: dsrl
           vpiFullName: slowfil_srl.dsrl
@@ -22216,7 +22232,7 @@ Design name:unnamed:
       vpiParameter (8 items):
         Parameter name:LGNTAPS start:50:12 end:50:19:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:50:12 end:50:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LGNTAPS
             vpiFullName: slowfil_srl.LGNTAPS
             vpiActual: LogicTypespec
@@ -22224,7 +22240,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl.LGNTAPS
         Parameter name:IW start:50:25 end:50:27:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:50:12 end:50:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: slowfil_srl.IW
             vpiActual: LogicTypespec
@@ -22232,7 +22248,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl.IW
         Parameter name:TW start:50:32 end:50:34:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:50:12 end:50:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:TW
             vpiFullName: slowfil_srl.TW
             vpiActual: LogicTypespec
@@ -22240,7 +22256,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl.TW
         Parameter name:OW start:50:39 end:50:41:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:50:12 end:50:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: slowfil_srl.OW
             vpiActual: LogicTypespec
@@ -22264,7 +22280,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl.FIXED_TAPS
         Parameter name:INITIAL_COEFFS start:53:14 end:53:28:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:53:14 end:53:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:INITIAL_COEFFS
             vpiFullName: slowfil_srl.INITIAL_COEFFS
             vpiActual: LogicTypespec
@@ -22272,7 +22288,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl.INITIAL_COEFFS
         Parameter name:MEMSZ start:54:13 end:54:18:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:54:13 end:54:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:MEMSZ
             vpiFullName: slowfil_srl.MEMSZ
             vpiActual: LogicTypespec
@@ -22461,6 +22477,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        BitTypespec:
+          vpiParent: Module name:slowfil_srl
         LogicTypespec:
           vpiParent: Module name:slowfil_srl
           vpiRange (1 items):
@@ -22487,8 +22505,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        BitTypespec:
-          vpiParent: Module name:slowfil_srl
         LogicTypespec:
           vpiParent: Module name:slowfil_srl
           vpiRange (1 items):
@@ -22964,7 +22980,7 @@ Design name:unnamed:
       vpiNet (8 items):
         Net name:i_clk start:57:14 end:57:19:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:57:8 end:57:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: slowfil_srl.i_clk
             vpiActual: LogicTypespec
@@ -22974,7 +22990,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:57:21 end:57:28:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:57:8 end:57:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: slowfil_srl.i_reset
             vpiActual: LogicTypespec
@@ -22984,7 +23000,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap_wr start:61:15 end:61:23:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:61:8 end:61:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_tap_wr
             vpiFullName: slowfil_srl.i_tap_wr
             vpiActual: LogicTypespec
@@ -22994,7 +23010,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap start:62:24 end:62:29:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:62:8 end:62:23:
+          vpiTypespec RefTypespec start:62:13 end:62:23:
             vpiParent: Net name:i_tap
             vpiFullName: slowfil_srl.i_tap
             vpiActual: LogicTypespec
@@ -23004,7 +23020,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:67:15 end:67:19:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:67:8 end:67:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: slowfil_srl.i_ce
             vpiActual: LogicTypespec
@@ -23014,7 +23030,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:68:24 end:68:32:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:68:8 end:68:23:
+          vpiTypespec RefTypespec start:68:13 end:68:23:
             vpiParent: Net name:i_sample
             vpiFullName: slowfil_srl.i_sample
             vpiActual: LogicTypespec
@@ -23035,7 +23051,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:last_tap_index start:165:7 end:165:21:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:165:7 end:165:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:last_tap_index
             vpiFullName: slowfil_srl.last_tap_index
             vpiActual: LogicTypespec
@@ -23054,7 +23070,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: slowfil_srl.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:57:8 end:57:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: slowfil_srl.i_clk
             vpiActual: LogicTypespec
@@ -23067,7 +23083,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: slowfil_srl.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:57:8 end:57:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: slowfil_srl.i_reset
             vpiActual: LogicTypespec
@@ -23080,7 +23096,7 @@ Design name:unnamed:
             vpiName: i_tap_wr
             vpiFullName: slowfil_srl.i_tap_wr.i_tap_wr
             vpiActual: Net name:i_tap_wr
-          vpiTypespec RefTypespec start:61:8 end:61:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_tap_wr
             vpiFullName: slowfil_srl.i_tap_wr
             vpiActual: LogicTypespec
@@ -23093,7 +23109,7 @@ Design name:unnamed:
             vpiName: i_tap
             vpiFullName: slowfil_srl.i_tap.i_tap
             vpiActual: Net name:i_tap
-          vpiTypespec RefTypespec start:62:8 end:62:23:
+          vpiTypespec RefTypespec start:62:13 end:62:23:
             vpiParent: Port name:i_tap
             vpiFullName: slowfil_srl.i_tap
             vpiActual: LogicTypespec
@@ -23106,7 +23122,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: slowfil_srl.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:67:8 end:67:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: slowfil_srl.i_ce
             vpiActual: LogicTypespec
@@ -23119,7 +23135,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: slowfil_srl.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:68:8 end:68:23:
+          vpiTypespec RefTypespec start:68:13 end:68:23:
             vpiParent: Port name:i_sample
             vpiFullName: slowfil_srl.i_sample
             vpiActual: LogicTypespec
@@ -24915,7 +24931,7 @@ Design name:unnamed:
       vpiParameter (5 items):
         Parameter name:NTAPS start:5:13 end:5:18:
           vpiParent: Module name:slowfil_srl_fixedtaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:NTAPS
             vpiFullName: slowfil_srl_fixedtaps.NTAPS
             vpiActual: LogicTypespec
@@ -24923,7 +24939,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl_fixedtaps.NTAPS
         Parameter name:IW start:5:24 end:5:26:
           vpiParent: Module name:slowfil_srl_fixedtaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: slowfil_srl_fixedtaps.IW
             vpiActual: LogicTypespec
@@ -24931,7 +24947,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl_fixedtaps.IW
         Parameter name:TW start:5:31 end:5:33:
           vpiParent: Module name:slowfil_srl_fixedtaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:TW
             vpiFullName: slowfil_srl_fixedtaps.TW
             vpiActual: LogicTypespec
@@ -24939,7 +24955,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl_fixedtaps.TW
         Parameter name:OW start:5:38 end:5:40:
           vpiParent: Module name:slowfil_srl_fixedtaps
-          vpiTypespec RefTypespec start:5:13 end:5:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: slowfil_srl_fixedtaps.OW
             vpiActual: LogicTypespec
@@ -25286,7 +25302,7 @@ Design name:unnamed:
       vpiNet (8 items):
         Net name:i_clk start:8:15 end:8:20:
           vpiParent: Module name:slowfil_srl_fixedtaps
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: slowfil_srl_fixedtaps.i_clk
             vpiActual: LogicTypespec
@@ -25296,7 +25312,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:8:22 end:8:29:
           vpiParent: Module name:slowfil_srl_fixedtaps
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: slowfil_srl_fixedtaps.i_reset
             vpiActual: LogicTypespec
@@ -25306,7 +25322,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap_wr start:10:15 end:10:23:
           vpiParent: Module name:slowfil_srl_fixedtaps
-          vpiTypespec RefTypespec start:10:8 end:10:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_tap_wr
             vpiFullName: slowfil_srl_fixedtaps.i_tap_wr
             vpiActual: LogicTypespec
@@ -25316,7 +25332,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap start:11:24 end:11:29:
           vpiParent: Module name:slowfil_srl_fixedtaps
-          vpiTypespec RefTypespec start:11:8 end:11:23:
+          vpiTypespec RefTypespec start:11:13 end:11:23:
             vpiParent: Net name:i_tap
             vpiFullName: slowfil_srl_fixedtaps.i_tap
             vpiActual: LogicTypespec
@@ -25326,7 +25342,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:13:15 end:13:19:
           vpiParent: Module name:slowfil_srl_fixedtaps
-          vpiTypespec RefTypespec start:13:8 end:13:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: slowfil_srl_fixedtaps.i_ce
             vpiActual: LogicTypespec
@@ -25336,7 +25352,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:14:24 end:14:32:
           vpiParent: Module name:slowfil_srl_fixedtaps
-          vpiTypespec RefTypespec start:14:8 end:14:23:
+          vpiTypespec RefTypespec start:14:13 end:14:23:
             vpiParent: Net name:i_sample
             vpiFullName: slowfil_srl_fixedtaps.i_sample
             vpiActual: LogicTypespec
@@ -25346,7 +25362,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:o_ce start:15:25 end:15:29:
           vpiParent: Module name:slowfil_srl_fixedtaps
-          vpiTypespec RefTypespec start:15:9 end:15:13:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:o_ce
             vpiFullName: slowfil_srl_fixedtaps.o_ce
             vpiActual: LogicTypespec
@@ -25356,7 +25372,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:o_result start:16:25 end:16:33:
           vpiParent: Module name:slowfil_srl_fixedtaps
-          vpiTypespec RefTypespec start:16:9 end:16:24:
+          vpiTypespec RefTypespec start:16:14 end:16:24:
             vpiParent: Net name:o_result
             vpiFullName: slowfil_srl_fixedtaps.o_result
             vpiActual: LogicTypespec
@@ -25374,7 +25390,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: slowfil_srl_fixedtaps.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: slowfil_srl_fixedtaps.i_clk
             vpiActual: LogicTypespec
@@ -25387,7 +25403,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: slowfil_srl_fixedtaps.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:8:8 end:8:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: slowfil_srl_fixedtaps.i_reset
             vpiActual: LogicTypespec
@@ -25400,7 +25416,7 @@ Design name:unnamed:
             vpiName: i_tap_wr
             vpiFullName: slowfil_srl_fixedtaps.i_tap_wr.i_tap_wr
             vpiActual: Net name:i_tap_wr
-          vpiTypespec RefTypespec start:10:8 end:10:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_tap_wr
             vpiFullName: slowfil_srl_fixedtaps.i_tap_wr
             vpiActual: LogicTypespec
@@ -25413,7 +25429,7 @@ Design name:unnamed:
             vpiName: i_tap
             vpiFullName: slowfil_srl_fixedtaps.i_tap.i_tap
             vpiActual: Net name:i_tap
-          vpiTypespec RefTypespec start:11:8 end:11:23:
+          vpiTypespec RefTypespec start:11:13 end:11:23:
             vpiParent: Port name:i_tap
             vpiFullName: slowfil_srl_fixedtaps.i_tap
             vpiActual: LogicTypespec
@@ -25426,7 +25442,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: slowfil_srl_fixedtaps.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:13:8 end:13:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: slowfil_srl_fixedtaps.i_ce
             vpiActual: LogicTypespec
@@ -25439,7 +25455,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: slowfil_srl_fixedtaps.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:14:8 end:14:23:
+          vpiTypespec RefTypespec start:14:13 end:14:23:
             vpiParent: Port name:i_sample
             vpiFullName: slowfil_srl_fixedtaps.i_sample
             vpiActual: LogicTypespec
@@ -25452,7 +25468,7 @@ Design name:unnamed:
             vpiName: o_ce
             vpiFullName: slowfil_srl_fixedtaps.o_ce.o_ce
             vpiActual: Net name:o_ce
-          vpiTypespec RefTypespec start:15:9 end:15:13:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:o_ce
             vpiFullName: slowfil_srl_fixedtaps.o_ce
             vpiActual: LogicTypespec
@@ -25465,7 +25481,7 @@ Design name:unnamed:
             vpiName: o_result
             vpiFullName: slowfil_srl_fixedtaps.o_result.o_result
             vpiActual: Net name:o_result
-          vpiTypespec RefTypespec start:16:9 end:16:24:
+          vpiTypespec RefTypespec start:16:14 end:16:24:
             vpiParent: Port name:o_result
             vpiFullName: slowfil_srl_fixedtaps.o_result
             vpiActual: LogicTypespec
@@ -25600,9 +25616,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:tapmem start:78:17 end:78:23:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [TW-1:0] [0:MEMSZ-1] start:78:2 end:78:16:
             vpiParent: Variable name:tapmem
-            vpiFullName: slowfil_srl.tapmem
+            vpiName: logic [TW-1:0] [0:MEMSZ-1]
+            vpiFullName: slowfil_srl.tapmem.logic [TW-1:0] [0:MEMSZ-1]
             vpiActual: ArrayTypespec
           vpiName: tapmem
           vpiFullName: slowfil_srl.tapmem
@@ -25627,9 +25644,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:dsrl start:82:21 end:82:25:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [MEMSZ-1:0] [IW-1:0] start:82:2 end:82:19:
             vpiParent: Variable name:dsrl
-            vpiFullName: slowfil_srl.dsrl
+            vpiName: logic [MEMSZ-1:0] [IW-1:0]
+            vpiFullName: slowfil_srl.dsrl.logic [MEMSZ-1:0] [IW-1:0]
             vpiActual: ArrayTypespec
           vpiName: dsrl
           vpiFullName: slowfil_srl.dsrl
@@ -25700,7 +25718,7 @@ Design name:unnamed:
       vpiParameter (8 items):
         Parameter name:LGNTAPS start:50:12 end:50:19:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:50:12 end:50:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LGNTAPS
             vpiFullName: slowfil_srl.LGNTAPS
             vpiActual: LogicTypespec
@@ -25708,7 +25726,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl.LGNTAPS
         Parameter name:IW start:50:25 end:50:27:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:50:12 end:50:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: slowfil_srl.IW
             vpiActual: LogicTypespec
@@ -25716,7 +25734,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl.IW
         Parameter name:TW start:50:32 end:50:34:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:50:12 end:50:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:TW
             vpiFullName: slowfil_srl.TW
             vpiActual: LogicTypespec
@@ -25724,7 +25742,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl.TW
         Parameter name:OW start:50:39 end:50:41:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:50:12 end:50:12:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: slowfil_srl.OW
             vpiActual: LogicTypespec
@@ -25748,7 +25766,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl.FIXED_TAPS
         Parameter name:INITIAL_COEFFS start:53:14 end:53:28:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:53:14 end:53:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:INITIAL_COEFFS
             vpiFullName: slowfil_srl.INITIAL_COEFFS
             vpiActual: LogicTypespec
@@ -25756,7 +25774,7 @@ Design name:unnamed:
           vpiFullName: slowfil_srl.INITIAL_COEFFS
         Parameter name:MEMSZ start:54:13 end:54:18:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:54:13 end:54:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:MEMSZ
             vpiFullName: slowfil_srl.MEMSZ
             vpiActual: LogicTypespec
@@ -25945,6 +25963,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        BitTypespec:
+          vpiParent: Module name:slowfil_srl
         LogicTypespec:
           vpiParent: Module name:slowfil_srl
           vpiRange (1 items):
@@ -25971,8 +25991,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        BitTypespec:
-          vpiParent: Module name:slowfil_srl
         LogicTypespec:
           vpiParent: Module name:slowfil_srl
           vpiRange (1 items):
@@ -26448,7 +26466,7 @@ Design name:unnamed:
       vpiNet (8 items):
         Net name:i_clk start:57:14 end:57:19:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:57:8 end:57:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: slowfil_srl.i_clk
             vpiActual: LogicTypespec
@@ -26458,7 +26476,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:57:21 end:57:28:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:57:8 end:57:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: slowfil_srl.i_reset
             vpiActual: LogicTypespec
@@ -26468,7 +26486,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap_wr start:61:15 end:61:23:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:61:8 end:61:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_tap_wr
             vpiFullName: slowfil_srl.i_tap_wr
             vpiActual: LogicTypespec
@@ -26478,7 +26496,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap start:62:24 end:62:29:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:62:8 end:62:23:
+          vpiTypespec RefTypespec start:62:13 end:62:23:
             vpiParent: Net name:i_tap
             vpiFullName: slowfil_srl.i_tap
             vpiActual: LogicTypespec
@@ -26488,7 +26506,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:67:15 end:67:19:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:67:8 end:67:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: slowfil_srl.i_ce
             vpiActual: LogicTypespec
@@ -26498,7 +26516,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:68:24 end:68:32:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:68:8 end:68:23:
+          vpiTypespec RefTypespec start:68:13 end:68:23:
             vpiParent: Net name:i_sample
             vpiFullName: slowfil_srl.i_sample
             vpiActual: LogicTypespec
@@ -26519,7 +26537,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:last_tap_index start:154:7 end:154:21:
           vpiParent: Module name:slowfil_srl
-          vpiTypespec RefTypespec start:154:7 end:154:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:last_tap_index
             vpiFullName: slowfil_srl.last_tap_index
             vpiActual: LogicTypespec
@@ -26538,7 +26556,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: slowfil_srl.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:57:8 end:57:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: slowfil_srl.i_clk
             vpiActual: LogicTypespec
@@ -26551,7 +26569,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: slowfil_srl.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:57:8 end:57:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: slowfil_srl.i_reset
             vpiActual: LogicTypespec
@@ -26564,7 +26582,7 @@ Design name:unnamed:
             vpiName: i_tap_wr
             vpiFullName: slowfil_srl.i_tap_wr.i_tap_wr
             vpiActual: Net name:i_tap_wr
-          vpiTypespec RefTypespec start:61:8 end:61:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_tap_wr
             vpiFullName: slowfil_srl.i_tap_wr
             vpiActual: LogicTypespec
@@ -26577,7 +26595,7 @@ Design name:unnamed:
             vpiName: i_tap
             vpiFullName: slowfil_srl.i_tap.i_tap
             vpiActual: Net name:i_tap
-          vpiTypespec RefTypespec start:62:8 end:62:23:
+          vpiTypespec RefTypespec start:62:13 end:62:23:
             vpiParent: Port name:i_tap
             vpiFullName: slowfil_srl.i_tap
             vpiActual: LogicTypespec
@@ -26590,7 +26608,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: slowfil_srl.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:67:8 end:67:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: slowfil_srl.i_ce
             vpiActual: LogicTypespec
@@ -26603,7 +26621,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: slowfil_srl.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:68:8 end:68:23:
+          vpiTypespec RefTypespec start:68:13 end:68:23:
             vpiParent: Port name:i_sample
             vpiFullName: slowfil_srl.i_sample
             vpiActual: LogicTypespec
@@ -28498,9 +28516,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:tapmem start:78:17 end:78:23:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [TW-1:0] [0:MEMSZ-1] start:78:2 end:78:16:
             vpiParent: Variable name:tapmem
-            vpiFullName: slowsymf.tapmem
+            vpiName: logic [TW-1:0] [0:MEMSZ-1]
+            vpiFullName: slowsymf.tapmem.logic [TW-1:0] [0:MEMSZ-1]
             vpiActual: ArrayTypespec
           vpiName: tapmem
           vpiFullName: slowsymf.tapmem
@@ -28552,18 +28571,20 @@ Design name:unnamed:
           vpiVector: true
         Variable name:dmem1 start:83:17 end:83:22:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [IW-1:0] [0:MEMSZ-1] start:83:2 end:83:16:
             vpiParent: Variable name:dmem1
-            vpiFullName: slowsymf.dmem1
+            vpiName: logic [IW-1:0] [0:MEMSZ-1]
+            vpiFullName: slowsymf.dmem1.logic [IW-1:0] [0:MEMSZ-1]
             vpiActual: ArrayTypespec
           vpiName: dmem1
           vpiFullName: slowsymf.dmem1
           vpiVector: true
         Variable name:dmem2 start:84:17 end:84:22:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [IW-1:0] [0:MEMSZ-1] start:84:2 end:84:16:
             vpiParent: Variable name:dmem2
-            vpiFullName: slowsymf.dmem2
+            vpiName: logic [IW-1:0] [0:MEMSZ-1]
+            vpiFullName: slowsymf.dmem2.logic [IW-1:0] [0:MEMSZ-1]
             vpiActual: ArrayTypespec
           vpiName: dmem2
           vpiFullName: slowsymf.dmem2
@@ -28670,7 +28691,7 @@ Design name:unnamed:
       vpiParameter (10 items):
         Parameter name:LGNTAPS start:46:14 end:46:21:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:46:14 end:46:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LGNTAPS
             vpiFullName: slowsymf.LGNTAPS
             vpiActual: LogicTypespec
@@ -28678,7 +28699,7 @@ Design name:unnamed:
           vpiFullName: slowsymf.LGNTAPS
         Parameter name:IW start:46:27 end:46:29:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:46:14 end:46:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: slowsymf.IW
             vpiActual: LogicTypespec
@@ -28686,7 +28707,7 @@ Design name:unnamed:
           vpiFullName: slowsymf.IW
         Parameter name:TW start:46:34 end:46:36:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:46:14 end:46:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:TW
             vpiFullName: slowsymf.TW
             vpiActual: LogicTypespec
@@ -28694,7 +28715,7 @@ Design name:unnamed:
           vpiFullName: slowsymf.TW
         Parameter name:OW start:47:6 end:47:8:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:46:14 end:46:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: slowsymf.OW
             vpiActual: LogicTypespec
@@ -28718,7 +28739,7 @@ Design name:unnamed:
           vpiFullName: slowsymf.FIXED_TAPS
         Parameter name:INITIAL_COEFFS start:50:14 end:50:28:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:50:14 end:50:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:INITIAL_COEFFS
             vpiFullName: slowsymf.INITIAL_COEFFS
             vpiActual: LogicTypespec
@@ -28726,7 +28747,7 @@ Design name:unnamed:
           vpiFullName: slowsymf.INITIAL_COEFFS
         Parameter name:LGNMEM start:52:15 end:52:21:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:52:15 end:52:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:LGNMEM
             vpiFullName: slowsymf.LGNMEM
             vpiActual: LogicTypespec
@@ -28744,7 +28765,7 @@ Design name:unnamed:
           vpiLocalParam: true
         Parameter name:MEMSZ start:54:15 end:54:20:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:54:15 end:54:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:MEMSZ
             vpiFullName: slowsymf.MEMSZ
             vpiActual: LogicTypespec
@@ -28992,6 +29013,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        BitTypespec:
+          vpiParent: Module name:slowsymf
         LogicTypespec:
           vpiParent: Module name:slowsymf
           vpiRange (1 items):
@@ -29018,8 +29041,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        BitTypespec:
-          vpiParent: Module name:slowsymf
         LogicTypespec:
           vpiParent: Module name:slowsymf
           vpiRange (1 items):
@@ -29730,7 +29751,7 @@ Design name:unnamed:
       vpiNet (10 items):
         Net name:i_clk start:57:14 end:57:19:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:57:8 end:57:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: slowsymf.i_clk
             vpiActual: LogicTypespec
@@ -29740,7 +29761,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_reset start:57:21 end:57:28:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:57:8 end:57:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_reset
             vpiFullName: slowsymf.i_reset
             vpiActual: LogicTypespec
@@ -29750,7 +29771,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap_wr start:61:15 end:61:23:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:61:8 end:61:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_tap_wr
             vpiFullName: slowsymf.i_tap_wr
             vpiActual: LogicTypespec
@@ -29760,7 +29781,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_tap start:62:24 end:62:29:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:62:8 end:62:23:
+          vpiTypespec RefTypespec start:62:13 end:62:23:
             vpiParent: Net name:i_tap
             vpiFullName: slowsymf.i_tap
             vpiActual: LogicTypespec
@@ -29770,7 +29791,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:i_ce start:67:15 end:67:19:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:67:8 end:67:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: slowsymf.i_ce
             vpiActual: LogicTypespec
@@ -29780,7 +29801,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_sample start:68:24 end:68:32:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:68:8 end:68:23:
+          vpiTypespec RefTypespec start:68:13 end:68:23:
             vpiParent: Net name:i_sample
             vpiFullName: slowsymf.i_sample
             vpiActual: LogicTypespec
@@ -29801,7 +29822,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:last_tap_index start:166:7 end:166:21:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:166:7 end:166:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:last_tap_index
             vpiFullName: slowsymf.last_tap_index
             vpiActual: LogicTypespec
@@ -29812,7 +29833,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:last_data_index start:166:23 end:166:38:
           vpiParent: Module name:slowsymf
-          vpiTypespec RefTypespec start:166:7 end:166:7:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:last_data_index
             vpiFullName: slowsymf.last_data_index
             vpiActual: LogicTypespec
@@ -29842,7 +29863,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: slowsymf.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:57:8 end:57:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: slowsymf.i_clk
             vpiActual: LogicTypespec
@@ -29855,7 +29876,7 @@ Design name:unnamed:
             vpiName: i_reset
             vpiFullName: slowsymf.i_reset.i_reset
             vpiActual: Net name:i_reset
-          vpiTypespec RefTypespec start:57:8 end:57:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_reset
             vpiFullName: slowsymf.i_reset
             vpiActual: LogicTypespec
@@ -29868,7 +29889,7 @@ Design name:unnamed:
             vpiName: i_tap_wr
             vpiFullName: slowsymf.i_tap_wr.i_tap_wr
             vpiActual: Net name:i_tap_wr
-          vpiTypespec RefTypespec start:61:8 end:61:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_tap_wr
             vpiFullName: slowsymf.i_tap_wr
             vpiActual: LogicTypespec
@@ -29881,7 +29902,7 @@ Design name:unnamed:
             vpiName: i_tap
             vpiFullName: slowsymf.i_tap.i_tap
             vpiActual: Net name:i_tap
-          vpiTypespec RefTypespec start:62:8 end:62:23:
+          vpiTypespec RefTypespec start:62:13 end:62:23:
             vpiParent: Port name:i_tap
             vpiFullName: slowsymf.i_tap
             vpiActual: LogicTypespec
@@ -29894,7 +29915,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: slowsymf.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:67:8 end:67:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: slowsymf.i_ce
             vpiActual: LogicTypespec
@@ -29907,7 +29928,7 @@ Design name:unnamed:
             vpiName: i_sample
             vpiFullName: slowsymf.i_sample.i_sample
             vpiActual: Net name:i_sample
-          vpiTypespec RefTypespec start:68:8 end:68:23:
+          vpiTypespec RefTypespec start:68:13 end:68:23:
             vpiParent: Port name:i_sample
             vpiFullName: slowsymf.i_sample
             vpiActual: LogicTypespec
@@ -32457,7 +32478,7 @@ Design name:unnamed:
       vpiParameter (2 items):
         Parameter name:IW start:48:14 end:48:16:
           vpiParent: Module name:smplfir
-          vpiTypespec RefTypespec start:48:14 end:48:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:IW
             vpiFullName: smplfir.IW
             vpiActual: LogicTypespec
@@ -32465,7 +32486,7 @@ Design name:unnamed:
           vpiFullName: smplfir.IW
         Parameter name:OW start:49:15 end:49:17:
           vpiParent: Module name:smplfir
-          vpiTypespec RefTypespec start:49:15 end:49:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:OW
             vpiFullName: smplfir.OW
             vpiActual: LogicTypespec
@@ -32634,7 +32655,7 @@ Design name:unnamed:
       vpiNet (4 items):
         Net name:i_clk start:50:15 end:50:20:
           vpiParent: Module name:smplfir
-          vpiTypespec RefTypespec start:50:8 end:50:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_clk
             vpiFullName: smplfir.i_clk
             vpiActual: LogicTypespec
@@ -32644,7 +32665,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_ce start:50:22 end:50:26:
           vpiParent: Module name:smplfir
-          vpiTypespec RefTypespec start:50:8 end:50:12:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:i_ce
             vpiFullName: smplfir.i_ce
             vpiActual: LogicTypespec
@@ -32654,7 +32675,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:i_val start:51:24 end:51:29:
           vpiParent: Module name:smplfir
-          vpiTypespec RefTypespec start:51:8 end:51:23:
+          vpiTypespec RefTypespec start:51:13 end:51:23:
             vpiParent: Net name:i_val
             vpiFullName: smplfir.i_val
             vpiActual: LogicTypespec
@@ -32664,7 +32685,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:o_val start:52:25 end:52:30:
           vpiParent: Module name:smplfir
-          vpiTypespec RefTypespec start:52:9 end:52:24:
+          vpiTypespec RefTypespec start:52:14 end:52:24:
             vpiParent: Net name:o_val
             vpiFullName: smplfir.o_val
             vpiActual: LogicTypespec
@@ -32682,7 +32703,7 @@ Design name:unnamed:
             vpiName: i_clk
             vpiFullName: smplfir.i_clk.i_clk
             vpiActual: Net name:i_clk
-          vpiTypespec RefTypespec start:50:8 end:50:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_clk
             vpiFullName: smplfir.i_clk
             vpiActual: LogicTypespec
@@ -32695,7 +32716,7 @@ Design name:unnamed:
             vpiName: i_ce
             vpiFullName: smplfir.i_ce.i_ce
             vpiActual: Net name:i_ce
-          vpiTypespec RefTypespec start:50:8 end:50:12:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:i_ce
             vpiFullName: smplfir.i_ce
             vpiActual: LogicTypespec
@@ -32708,7 +32729,7 @@ Design name:unnamed:
             vpiName: i_val
             vpiFullName: smplfir.i_val.i_val
             vpiActual: Net name:i_val
-          vpiTypespec RefTypespec start:51:8 end:51:23:
+          vpiTypespec RefTypespec start:51:13 end:51:23:
             vpiParent: Port name:i_val
             vpiFullName: smplfir.i_val
             vpiActual: LogicTypespec
@@ -32721,7 +32742,7 @@ Design name:unnamed:
             vpiName: o_val
             vpiFullName: smplfir.o_val.o_val
             vpiActual: Net name:o_val
-          vpiTypespec RefTypespec start:52:9 end:52:24:
+          vpiTypespec RefTypespec start:52:14 end:52:24:
             vpiParent: Port name:o_val
             vpiFullName: smplfir.o_val
             vpiActual: LogicTypespec
@@ -33056,7 +33077,7 @@ Operation                          728     386       0       342
 RefObj                            1807    1468       0       339
 RefTypespec                       1642    1643     260       259
 ----------------------------------------------------------------
-Others                            2922    2922       0         0
+Others                            2920    2920       0         0
 ----------------------------------------------------------------
-                                  8010    7339     528      1199
+                                  8008    7337     528      1199
 ===================== END REDUCTION RESULT =====================

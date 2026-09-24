@@ -17,7 +17,7 @@ COMMAND: -wd ../../../tests/ForElab -sverilog top.v -writepp -d inst -nobuiltin 
 [INF:CP5836] $Source01/top.v:54:60: Compile generate block "gen_tree_arb".
 [INF:CP5836] $Source01/top.v:62:20: Compile generate block "gen_unknown".
 [INF:CP5836] $Source01/top.v:52:47: Compile generate block "gen_arb_ppc".
-[WRN:CP5851] $Source01/top.v:57:32: Failed to bind "id:176, name:tl_h2d_t".
+[WRN:CP5851] $Source01/top.v:57:32: Failed to bind "id:177, name:tl_h2d_t".
 [WRN:PA5506] $Source01/top.v:1:1: No timescale set for "tlul_pkg".
 [WRN:PA5506] $Source01/top.v:16:1: No timescale set for "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1))".
 [WRN:PA5506] $Source01/top.v:49:1: No timescale set for "tlul_socket_m1".
@@ -37,7 +37,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:ArbiterImpl start:9:13 end:9:24:
           vpiParent: Package name:tlul_pkg
-          vpiTypespec RefTypespec start:9:13 end:9:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:ArbiterImpl
             vpiFullName: tlul_pkg::ArbiterImpl
             vpiActual: LogicTypespec
@@ -168,7 +168,7 @@ Design name:unnamed:
       vpiNet (2 items):
         Net name:clk_i start:21:9 end:21:14:
           vpiParent: "Module name:prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1))"
-          vpiTypespec RefTypespec start:21:3 end:21:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk_i
             vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).clk_i"
             vpiActual: LogicTypespec
@@ -178,7 +178,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rst_ni start:22:9 end:22:15:
           vpiParent: "Module name:prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1))"
-          vpiTypespec RefTypespec start:22:3 end:22:8:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:rst_ni
             vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).rst_ni"
             vpiActual: LogicTypespec
@@ -196,7 +196,7 @@ Design name:unnamed:
             vpiName: clk_i
             vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).clk_i.clk_i"
             vpiActual: Net name:clk_i
-          vpiTypespec RefTypespec start:21:3 end:21:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk_i
             vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).clk_i"
             vpiActual: LogicTypespec
@@ -209,7 +209,7 @@ Design name:unnamed:
             vpiName: rst_ni
             vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).rst_ni.rst_ni"
             vpiActual: Net name:rst_ni
-          vpiTypespec RefTypespec start:22:3 end:22:8:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:rst_ni
             vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).rst_ni"
             vpiActual: LogicTypespec
@@ -645,10 +645,7 @@ Design name:unnamed:
                   vpiParent: GenIfElse
                   vpiName Identifier name:gen_tree_arb start:54:60 end:54:72:
                   vpiFullName: tlul_socket_m1.gen_tree_arb
-                  vpiTypespec (2 items):
-                    UnsupportedTypespec name:tlul_pkg start:57:22 end:57:30:
-                      vpiParent: Begin name:gen_tree_arb
-                      vpiName Identifier name:tlul_pkg start:57:22 end:57:30:
+                  vpiTypespec (1 items):
                     ModuleTypespec name:prim_arbiter_tree start:55:5 end:55:22:
                       vpiParent: Begin name:gen_tree_arb
                       vpiName Identifier name:prim_arbiter_tree start:55:5 end:55:22:
@@ -689,10 +686,11 @@ Design name:unnamed:
                                 vpiName: tlul_pkg::tl_h2d_t
                                 vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.tlul_pkg::tl_h2d_t
                                 vpiPathElem (2 items):
-                                  RefTypespec start:57:22 end:57:32:
+                                  RefObj name:tlul_pkg start:57:22 end:57:30:
                                     vpiParent: RefObj name:tlul_pkg::tl_h2d_t
-                                    vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.tlul_pkg::tl_h2d_t
-                                    vpiActual: UnsupportedTypespec name:tlul_pkg
+                                    vpiName: tlul_pkg
+                                    vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.tlul_pkg
+                                    vpiActual: Package name:tlul_pkg
                                   RefObj name:tl_h2d_t start:57:32 end:57:40:
                                     vpiParent: RefObj name:tlul_pkg::tl_h2d_t
                                     vpiName: tl_h2d_t
@@ -736,9 +734,9 @@ Design name:unnamed:
       vpiModule: "Module name:prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1))"
     IntTypespec:
       vpiParent: Design name:unnamed
+      vpiSigned: true
     IntTypespec:
       vpiParent: Design name:unnamed
-      vpiSigned: true
     ModuleTypespec name:tlul_socket_m1:
       vpiParent: Design name:unnamed
       vpiName Identifier name:tlul_socket_m1 start:49:8 end:49:22:
@@ -792,13 +790,13 @@ COMMAND: ${HLC_DIR}/regression/ForElab/ForElab/design.hldb ${HLC_DIR}/regression
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            18      19       4         3
-Identifier                          17      16       0         1
+Identifier                          16      15       0         1
 Operation                           12       9       0         3
-RefObj                              37      33       0         4
-RefTypespec                         32      32       3         3
+RefObj                              38      34       0         4
+RefTypespec                         31      31       3         3
 SysFuncCall                          2       1       0         1
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                   178     170       7        15
+                                   176     168       7        15
 ===================== END REDUCTION RESULT =====================

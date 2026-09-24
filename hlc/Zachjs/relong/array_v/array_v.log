@@ -1140,7 +1140,7 @@ Design name:unnamed:
       vpiParameter (2 items):
         Parameter name:SIZE start:4:15 end:4:19:
           vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-          vpiTypespec RefTypespec start:4:15 end:4:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:SIZE
             vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).SIZE
             vpiActual: LogicTypespec
@@ -1148,7 +1148,7 @@ Design name:unnamed:
           vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).SIZE
         Parameter name:WIDTH start:4:26 end:4:31:
           vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-          vpiTypespec RefTypespec start:4:15 end:4:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:WIDTH
             vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).WIDTH
             vpiActual: LogicTypespec
@@ -1271,41 +1271,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        LogicTypespec:
-          vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-          vpiRange (1 items):
-            Range start:13:10 end:13:21:
-              vpiParent: LogicTypespec
-              vpiLeftRange Operation start:13:11 end:13:18:
-                vpiParent: Range
-                vpiOpType: subtract (11)
-                vpiOperand (2 items):
-                  RefObj name:WIDTH start:13:11 end:13:16:
-                    vpiParent: Operation
-                    vpiName: WIDTH
-                    vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).WIDTH
-                    vpiActual: Parameter name:WIDTH
-                  Constant start:13:17 end:13:18:
-                    vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "1"
-                    vpiValue: 1
-              vpiRightRange Constant start:13:19 end:13:20:
-                vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiVector: true
         ArrayTypespec:
           vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
           vpiArrayType: static (1)
@@ -1344,6 +1309,41 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32))
             vpiActual: LogicTypespec
+        LogicTypespec:
+          vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
+          vpiRange (1 items):
+            Range start:13:10 end:13:21:
+              vpiParent: LogicTypespec
+              vpiLeftRange Operation start:13:11 end:13:18:
+                vpiParent: Range
+                vpiOpType: subtract (11)
+                vpiOperand (2 items):
+                  RefObj name:WIDTH start:13:11 end:13:16:
+                    vpiParent: Operation
+                    vpiName: WIDTH
+                    vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).WIDTH
+                    vpiActual: Parameter name:WIDTH
+                  Constant start:13:17 end:13:18:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32))
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
+              vpiRightRange Constant start:13:19 end:13:20:
+                vpiParent: Range
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32))
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
+          vpiVector: true
       vpiDefName: ArrayOrReduction
       vpiDefNetType: none (12)
       vpiLibrary RefObj name:work start:3:8 end:3:24:
@@ -1354,7 +1354,7 @@ Design name:unnamed:
       vpiNet (4 items):
         Net name:inputs start:6:35 end:6:41:
           vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-          vpiTypespec RefTypespec start:6:5 end:6:34:
+          vpiTypespec RefTypespec start:6:16 end:6:34:
             vpiParent: Net name:inputs
             vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).inputs
             vpiActual: LogicTypespec
@@ -1364,7 +1364,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:result start:7:29 end:7:35:
           vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-          vpiTypespec RefTypespec start:7:5 end:7:28:
+          vpiTypespec RefTypespec start:7:17 end:7:28:
             vpiParent: Net name:result
             vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).result
             vpiActual: LogicTypespec
@@ -1374,9 +1374,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:__inputs start:13:22 end:13:30:
           vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [WIDTH-1:0] [SIZE-1:0] start:13:10 end:13:21:
             vpiParent: Net name:__inputs
-            vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).__inputs
+            vpiName: logic [WIDTH-1:0] [SIZE-1:0]
+            vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).__inputs.logic [WIDTH-1:0] [SIZE-1:0]
             vpiActual: ArrayTypespec
           vpiName: "__inputs"
           vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).__inputs
@@ -1385,9 +1386,10 @@ Design name:unnamed:
           vpiVector: true
         Net name:subResults start:31:30 end:31:40:
           vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [WIDTH-1:0] [1:0] start:31:18 end:31:29:
             vpiParent: Net name:subResults
-            vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).subResults
+            vpiName: logic [WIDTH-1:0] [1:0]
+            vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).subResults.logic [WIDTH-1:0] [1:0]
             vpiActual: ArrayTypespec
           vpiName: subResults
           vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).subResults
@@ -1404,7 +1406,7 @@ Design name:unnamed:
             vpiName: inputs
             vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).inputs.inputs
             vpiActual: Net name:inputs
-          vpiTypespec RefTypespec start:6:5 end:6:34:
+          vpiTypespec RefTypespec start:6:16 end:6:34:
             vpiParent: Port name:inputs
             vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).inputs
             vpiActual: LogicTypespec
@@ -1417,7 +1419,7 @@ Design name:unnamed:
             vpiName: result
             vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).result.result
             vpiActual: Net name:result
-          vpiTypespec RefTypespec start:7:5 end:7:28:
+          vpiTypespec RefTypespec start:7:17 end:7:28:
             vpiParent: Port name:result
             vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).result
             vpiActual: LogicTypespec
@@ -1496,7 +1498,7 @@ Design name:unnamed:
               vpiParameter (1 items):
                 Parameter name:START_BIT start:17:24 end:17:33:
                   vpiParent: Begin name:unflatten
-                  vpiTypespec RefTypespec start:17:24 end:17:24:
+                  vpiTypespec RefTypespec:
                     vpiParent: Parameter name:START_BIT
                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).unflatten.START_BIT
                     vpiActual: LogicTypespec
@@ -1772,6 +1774,35 @@ Design name:unnamed:
                           vpiName Identifier name:recursive_case start:30:26 end:30:40:
                           vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case
                           vpiTypespec (4 items):
+                            ArrayTypespec:
+                              vpiParent: Begin name:recursive_case
+                              vpiArrayType: static (1)
+                              vpiRange Range start:31:41 end:31:46:
+                                vpiParent: ArrayTypespec
+                                vpiLeftRange Constant start:31:42 end:31:43:
+                                  vpiParent: Range
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case
+                                    vpiActual: IntTypespec
+                                  vpiConstType: unsigned int (9)
+                                  vpiSize: 64
+                                  vpiDecompile: "1"
+                                  vpiValue: 1
+                                vpiRightRange Constant start:31:44 end:31:45:
+                                  vpiParent: Range
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case
+                                    vpiActual: IntTypespec
+                                  vpiConstType: unsigned int (9)
+                                  vpiSize: 64
+                                  vpiDecompile: "0"
+                                  vpiValue: 0
+                              vpiElemTypespec RefTypespec start:31:18 end:31:29:
+                                vpiParent: ArrayTypespec
+                                vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case
+                                vpiActual: LogicTypespec
                             LogicTypespec:
                               vpiParent: Begin name:recursive_case
                               vpiRange (1 items):
@@ -1807,35 +1838,6 @@ Design name:unnamed:
                                     vpiDecompile: "0"
                                     vpiValue: 0
                               vpiVector: true
-                            ArrayTypespec:
-                              vpiParent: Begin name:recursive_case
-                              vpiArrayType: static (1)
-                              vpiRange Range start:31:41 end:31:46:
-                                vpiParent: ArrayTypespec
-                                vpiLeftRange Constant start:31:42 end:31:43:
-                                  vpiParent: Range
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case
-                                    vpiActual: IntTypespec
-                                  vpiConstType: unsigned int (9)
-                                  vpiSize: 64
-                                  vpiDecompile: "1"
-                                  vpiValue: 1
-                                vpiRightRange Constant start:31:44 end:31:45:
-                                  vpiParent: Range
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case
-                                    vpiActual: IntTypespec
-                                  vpiConstType: unsigned int (9)
-                                  vpiSize: 64
-                                  vpiDecompile: "0"
-                                  vpiValue: 0
-                              vpiElemTypespec RefTypespec start:31:18 end:31:29:
-                                vpiParent: ArrayTypespec
-                                vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case
-                                vpiActual: LogicTypespec
                             ModuleTypespec name:ArrayOrReduction start:33:13 end:33:29:
                               vpiParent: Begin name:recursive_case
                               vpiName Identifier name:ArrayOrReduction start:33:13 end:33:29:
@@ -2203,9 +2205,10 @@ Design name:unnamed:
       vpiVariable (3 items):
         Variable name:__array start:51:21 end:51:28:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [WIDTH-1:0] [ELEMENTS-1:0] start:51:5 end:51:20:
             vpiParent: Variable name:__array
-            vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).__array
+            vpiName: logic [WIDTH-1:0] [ELEMENTS-1:0]
+            vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).__array.logic [WIDTH-1:0] [ELEMENTS-1:0]
             vpiActual: ArrayTypespec
           vpiName: "__array"
           vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).__array
@@ -2225,7 +2228,7 @@ Design name:unnamed:
       vpiParameter (3 items):
         Parameter name:ELEMENTS start:42:26 end:42:34:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
-          vpiTypespec RefTypespec start:42:26 end:42:26:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:ELEMENTS
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).ELEMENTS
             vpiActual: LogicTypespec
@@ -2233,7 +2236,7 @@ Design name:unnamed:
           vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).ELEMENTS
         Parameter name:WIDTH start:42:39 end:42:44:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
-          vpiTypespec RefTypespec start:42:26 end:42:26:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:WIDTH
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).WIDTH
             vpiActual: LogicTypespec
@@ -2241,7 +2244,7 @@ Design name:unnamed:
           vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).WIDTH
         Parameter name:ZERO_ELEMENT start:60:14 end:60:26:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
-          vpiTypespec RefTypespec start:60:14 end:60:14:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:ZERO_ELEMENT
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).ZERO_ELEMENT
             vpiActual: LogicTypespec
@@ -2522,7 +2525,7 @@ Design name:unnamed:
       vpiNet (6 items):
         Net name:index start:44:37 end:44:42:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
-          vpiTypespec RefTypespec start:44:3 end:44:36:
+          vpiTypespec RefTypespec start:44:14 end:44:36:
             vpiParent: Net name:index
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).index
             vpiActual: LogicTypespec
@@ -2532,7 +2535,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:element start:45:26 end:45:33:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
-          vpiTypespec RefTypespec start:45:3 end:45:25:
+          vpiTypespec RefTypespec start:45:14 end:45:25:
             vpiParent: Net name:element
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).element
             vpiActual: LogicTypespec
@@ -2542,7 +2545,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:array start:47:38 end:47:43:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
-          vpiTypespec RefTypespec start:47:3 end:47:37:
+          vpiTypespec RefTypespec start:47:15 end:47:37:
             vpiParent: Net name:array
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).array
             vpiActual: LogicTypespec
@@ -2552,7 +2555,7 @@ Design name:unnamed:
           vpiVector: true
         Net name:clock start:48:14 end:48:19:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
-          vpiTypespec RefTypespec start:48:3 end:48:13:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clock
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).clock
             vpiActual: LogicTypespec
@@ -2590,7 +2593,7 @@ Design name:unnamed:
             vpiName: index
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).index.index
             vpiActual: Net name:index
-          vpiTypespec RefTypespec start:44:3 end:44:36:
+          vpiTypespec RefTypespec start:44:14 end:44:36:
             vpiParent: Port name:index
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).index
             vpiActual: LogicTypespec
@@ -2603,7 +2606,7 @@ Design name:unnamed:
             vpiName: element
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).element.element
             vpiActual: Net name:element
-          vpiTypespec RefTypespec start:45:3 end:45:25:
+          vpiTypespec RefTypespec start:45:14 end:45:25:
             vpiParent: Port name:element
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).element
             vpiActual: LogicTypespec
@@ -2616,7 +2619,7 @@ Design name:unnamed:
             vpiName: array
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).array.array
             vpiActual: Net name:array
-          vpiTypespec RefTypespec start:47:3 end:47:37:
+          vpiTypespec RefTypespec start:47:15 end:47:37:
             vpiParent: Port name:array
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).array
             vpiActual: LogicTypespec
@@ -2629,7 +2632,7 @@ Design name:unnamed:
             vpiName: clock
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).clock.clock
             vpiActual: Net name:clock
-          vpiTypespec RefTypespec start:48:3 end:48:13:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clock
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).clock
             vpiActual: LogicTypespec
@@ -2877,7 +2880,7 @@ Design name:unnamed:
               vpiParameter (1 items):
                 Parameter name:START_BIT start:55:24 end:55:33:
                   vpiParent: Begin name:unflatten
-                  vpiTypespec RefTypespec start:55:24 end:55:24:
+                  vpiTypespec RefTypespec:
                     vpiParent: Parameter name:START_BIT
                     vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).unflatten.START_BIT
                     vpiActual: LogicTypespec

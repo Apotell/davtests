@@ -284,9 +284,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_modport_import.v:28:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface_modport_import.v:42:1: Compile module "testmod".
 [WRN:CP5811] $Source01/t_interface_modport_import.v:45:16: Port "i" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/t_interface_modport_import.v:37:15: Failed to bind "id:53, name:mp".
-[WRN:CP5851] $Source01/t_interface_modport_import.v:49:9: Failed to bind "id:81, name:data".
-[WRN:CP5851] $Source01/t_interface_modport_import.v:50:13: Failed to bind "id:91, name:myfunc".
+[WRN:CP5851] $Source01/t_interface_modport_import.v:37:15: Failed to bind "id:48, name:mp".
+[WRN:CP5851] $Source01/t_interface_modport_import.v:49:9: Failed to bind "id:75, name:data".
+[WRN:CP5851] $Source01/t_interface_modport_import.v:50:13: Failed to bind "id:85, name:myfunc".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -322,13 +322,6 @@ Design name:unnamed:
           vpiParent: Interface name:test_if
           vpiName Identifier name:myfunc start:19:29 end:19:35:
           vpiFullName: test_if.myfunc
-          vpiTypespec (2 items):
-            UnsupportedTypespec name:logic start:19:23 end:19:28:
-              vpiParent: Function name:myfunc
-              vpiName Identifier name:logic start:19:23 end:19:28:
-            UnsupportedTypespec name:logic start:19:43 end:19:48:
-              vpiParent: Function name:myfunc
-              vpiName Identifier name:logic start:19:43 end:19:48:
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (1 items):
@@ -340,7 +333,6 @@ Design name:unnamed:
                 vpiParent: IODecl name:val
                 vpiName: logic
                 vpiFullName: test_if.myfunc.val.logic
-                vpiActual: UnsupportedTypespec name:logic
           vpiStmt Begin start:20:7 end:22:10:
             vpiParent: Function name:myfunc
             vpiFullName: test_if.myfunc
@@ -375,10 +367,10 @@ Design name:unnamed:
                       vpiSize: 1
                       vpiDecompile: "1'b0"
                       vpiValue: "0"
-          vpiReturn RefTypespec start:19:23 end:19:28:
+          vpiReturn RefTypespec name:logic start:19:23 end:19:28:
             vpiParent: Function name:myfunc
-            vpiFullName: test_if.myfunc
-            vpiActual: UnsupportedTypespec name:logic
+            vpiName: logic
+            vpiFullName: test_if.myfunc.logic
       vpiModport (1 items):
         Modport name:mp start:14:12 end:14:14:
           vpiParent: Interface name:test_if
@@ -412,7 +404,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:32:10 end:32:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:32:10 end:32:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -430,7 +422,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:32:10 end:32:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -489,22 +481,9 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:testmod start:42:8 end:42:15:
       vpiFullName: testmod
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:testmod
-        UnsupportedTypespec name:test_if::mp start:45:4 end:45:14:
-          vpiParent: Module name:testmod
-          vpiPathElem (2 items):
-            RefObj name:test_if start:45:4 end:45:11:
-              vpiParent: UnsupportedTypespec name:test_if::mp
-              vpiName: test_if
-              vpiFullName: testmod.test_if::mp.test_if
-              vpiActual: Interface name:test_if
-            RefObj name:mp start:45:12 end:45:14:
-              vpiParent: UnsupportedTypespec name:test_if::mp
-              vpiName: mp
-              vpiFullName: testmod.test_if::mp.mp
-          vpiName Identifier name:test_if::mp:
       vpiDefName: testmod
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:42:8 end:42:15:
@@ -515,7 +494,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:44:10 end:44:13:
           vpiParent: Module name:testmod
-          vpiTypespec RefTypespec start:44:4 end:44:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: testmod.clk
             vpiActual: LogicTypespec
@@ -533,7 +512,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: testmod.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:44:4 end:44:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: testmod.clk
             vpiActual: LogicTypespec
@@ -546,10 +525,20 @@ Design name:unnamed:
             vpiName: i
             vpiFullName: testmod.i.i
             vpiActual: Port name:i
-          vpiTypespec RefTypespec start:45:4 end:45:14:
+          vpiTypespec RefTypespec name:test_if::mp start:45:4 end:45:14:
             vpiParent: Port name:i
-            vpiFullName: testmod.i
-            vpiActual: UnsupportedTypespec name:test_if::mp
+            vpiName: test_if::mp
+            vpiFullName: testmod.i.test_if::mp
+            vpiPathElem (2 items):
+              RefObj name:test_if start:45:4 end:45:11:
+                vpiParent: RefTypespec name:test_if::mp
+                vpiName: test_if
+                vpiFullName: testmod.i.test_if
+                vpiActual: Interface name:test_if
+              RefTypespec name:mp start:45:12 end:45:14:
+                vpiParent: RefTypespec name:test_if::mp
+                vpiName: mp
+                vpiFullName: testmod.i.test_if::mp.mp
       vpiProcess (1 items):
         Always start:48:4 end:57:7:
           vpiParent: Module name:testmod
@@ -719,7 +708,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_import/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             102     102       0         0
+Others                              96      96       0         0
 ----------------------------------------------------------------
-                                   102     102       0         0
+                                    96      96       0         0
 ===================== END REDUCTION RESULT =====================

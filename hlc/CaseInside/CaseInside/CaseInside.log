@@ -179,9 +179,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/top.sv:12:1: Compile module "dm_csrs".
 [WRN:CP5851] $Source01/top.sv:15:27: Failed to bind "id:671, name:dmi_req_i".
 [WRN:CP5851] $Source01/top.sv:15:37: Failed to bind "id:672, name:addr".
-[WRN:CP5851] $Source01/top.sv:17:15: Failed to bind "id:678, name:Data0".
-[WRN:CP5851] $Source01/top.sv:17:27: Failed to bind "id:683, name:Data1".
-[WRN:CP5851] $Source01/top.sv:23:13: Failed to bind "id:697, name:DMControl".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/top.sv:1:1: No timescale set for "dm".
 [WRN:PA5506] $Source01/top.sv:12:1: No timescale set for "dm_csrs".
@@ -1439,9 +1436,10 @@ Design name:unnamed:
       vpiEnum (1 items):
         Enum start:4:11 end:8:4:
           vpiParent: Package name:dm
-          vpiBaseTypespec RefTypespec start:4:16 end:4:27:
+          vpiBaseTypespec RefTypespec name:logic [7:0] start:4:16 end:4:27:
             vpiParent: Enum
-            vpiFullName: dm
+            vpiName: logic [7:0]
+            vpiFullName: dm::logic [7:0]
             vpiActual: LogicTypespec
           vpiEnumConst (3 items):
             EnumConst name:DMControl start:5:5 end:5:25:
@@ -1604,7 +1602,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1624,7 +1622,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1646,7 +1644,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1664,7 +1662,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1686,7 +1684,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1704,7 +1702,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1769,24 +1767,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -1954,18 +1950,9 @@ Design name:unnamed:
             vpiParent: Always
             vpiName Identifier name:csr_read_write start:13:23 end:13:37:
             vpiFullName: dm_csrs.csr_read_write
-            vpiTypespec (4 items):
+            vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin name:csr_read_write
-              UnsupportedTypespec name:dm start:17:11 end:17:13:
-                vpiParent: Begin name:csr_read_write
-                vpiName Identifier name:dm start:17:11 end:17:13:
-              UnsupportedTypespec name:dm start:17:23 end:17:25:
-                vpiParent: Begin name:csr_read_write
-                vpiName Identifier name:dm start:17:23 end:17:25:
-              UnsupportedTypespec name:dm start:23:9 end:23:11:
-                vpiParent: Begin name:csr_read_write
-                vpiName Identifier name:dm start:23:9 end:23:11:
             vpiStmt (1 items):
               CaseStmt start:15:7 end:26:14:
                 vpiParent: Begin name:csr_read_write
@@ -2013,27 +2000,31 @@ Design name:unnamed:
                               vpiName: dm::Data0
                               vpiFullName: dm_csrs.csr_read_write.dm::Data0
                               vpiPathElem (2 items):
-                                RefTypespec start:17:11 end:17:15:
+                                RefObj name:dm start:17:11 end:17:13:
                                   vpiParent: RefObj name:dm::Data0
-                                  vpiFullName: dm_csrs.csr_read_write.dm::Data0
-                                  vpiActual: UnsupportedTypespec name:dm
+                                  vpiName: dm
+                                  vpiFullName: dm_csrs.csr_read_write.dm
+                                  vpiActual: Package name:dm
                                 RefObj name:Data0 start:17:15 end:17:20:
                                   vpiParent: RefObj name:dm::Data0
                                   vpiName: Data0
                                   vpiFullName: dm_csrs.csr_read_write.Data0
+                                  vpiActual: EnumConst name:Data0
                             vpiRightRange RefObj name:dm::Data1 start:17:23 end:17:32:
                               vpiParent: Range
                               vpiName: dm::Data1
                               vpiFullName: dm_csrs.csr_read_write.dm::Data1
                               vpiPathElem (2 items):
-                                RefTypespec start:17:23 end:17:27:
+                                RefObj name:dm start:17:23 end:17:25:
                                   vpiParent: RefObj name:dm::Data1
-                                  vpiFullName: dm_csrs.csr_read_write.dm::Data1
-                                  vpiActual: UnsupportedTypespec name:dm
+                                  vpiName: dm
+                                  vpiFullName: dm_csrs.csr_read_write.dm
+                                  vpiActual: Package name:dm
                                 RefObj name:Data1 start:17:27 end:17:32:
                                   vpiParent: RefObj name:dm::Data1
                                   vpiName: Data1
                                   vpiFullName: dm_csrs.csr_read_write.Data1
+                                  vpiActual: EnumConst name:Data1
                     vpiStmt Begin start:17:36 end:21:12:
                       vpiParent: CaseItem
                       vpiFullName: dm_csrs.csr_read_write
@@ -2070,14 +2061,16 @@ Design name:unnamed:
                             vpiName: dm::DMControl
                             vpiFullName: dm_csrs.csr_read_write.dm::DMControl
                             vpiPathElem (2 items):
-                              RefTypespec start:23:9 end:23:13:
+                              RefObj name:dm start:23:9 end:23:11:
                                 vpiParent: RefObj name:dm::DMControl
-                                vpiFullName: dm_csrs.csr_read_write.dm::DMControl
-                                vpiActual: UnsupportedTypespec name:dm
+                                vpiName: dm
+                                vpiFullName: dm_csrs.csr_read_write.dm
+                                vpiActual: Package name:dm
                               RefObj name:DMControl start:23:13 end:23:22:
                                 vpiParent: RefObj name:dm::DMControl
                                 vpiName: DMControl
                                 vpiFullName: dm_csrs.csr_read_write.DMControl
+                                vpiActual: EnumConst name:DMControl
                     vpiStmt Assignment start:23:27 end:23:56:
                       vpiParent: CaseItem
                       vpiBlocking: true
@@ -2129,7 +2122,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 8
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2173,7 +2166,7 @@ COMMAND: ${HLC_DIR}/regression/CaseInside/CaseInside/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             708     708       0         0
+Others                             700     700       0         0
 ----------------------------------------------------------------
-                                   708     708       0         0
+                                   700     700       0         0
 ===================== END REDUCTION RESULT =====================

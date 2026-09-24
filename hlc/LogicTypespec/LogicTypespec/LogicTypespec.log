@@ -156,17 +156,14 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:my_instance start:7:50 end:7:61:
           vpiParent: Module name:logic_typespec
-          vpiTypespec RefTypespec name:my_package::typedef_logic_typespec start:7:1 end:7:49:
+          "vpiTypespec RefTypespec name: [7:0] [1:0] start:7:1 end:7:49":
             vpiParent: Variable name:my_instance
-            vpiName: my_package::typedef_logic_typespec
-            vpiFullName: logic_typespec.my_instance.my_package::typedef_logic_typespec
-            vpiActual: TypedefTypespec name:typedef_logic_typespec
+            vpiName: " [7:0] [1:0]"
+            vpiFullName: logic_typespec.my_instance. [7:0] [1:0]
+            vpiActual: ArrayTypespec
           vpiName: my_instance
           vpiFullName: logic_typespec.my_instance
-      vpiTypespec (3 items):
-        UnsupportedTypespec name:typedef_logic_typespec start:7:13 end:7:44:
-          vpiParent: Module name:logic_typespec
-          vpiName Identifier name:typedef_logic_typespec:
+      vpiTypespec (2 items):
         ArrayTypespec:
           vpiParent: Module name:logic_typespec
           vpiArrayType: static (1)
@@ -223,10 +220,24 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec start:7:1 end:7:49:
             vpiParent: ArrayTypespec
             vpiFullName: logic_typespec
-            vpiActual: UnsupportedTypespec name:typedef_logic_typespec
+            vpiPathElem (2 items):
+              RefTypespec name:my_package start:7:1 end:7:11:
+                vpiParent: RefTypespec
+                vpiName: my_package
+                vpiFullName: logic_typespec.my_package
+                vpiPathElem (1 items):
+                  RefObj name:my_package start:7:1 end:7:11:
+                    vpiParent: RefTypespec name:my_package
+                    vpiName: my_package
+                    vpiFullName: logic_typespec.my_package
+                    vpiActual: Package name:my_package
+              RefTypespec name:typedef_logic_typespec start:7:13 end:7:35:
+                vpiParent: RefTypespec
+                vpiName: typedef_logic_typespec
+                vpiFullName: logic_typespec.typedef_logic_typespec
       vpiDefName: logic_typespec
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:5:8 end:5:22:
@@ -292,7 +303,7 @@ COMMAND: ${HLC_DIR}/regression/LogicTypespec/LogicTypespec/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    43      43       0         0
 ===================== END REDUCTION RESULT =====================

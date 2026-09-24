@@ -105,19 +105,29 @@ Design name:unnamed:
       vpiVariable (4 items):
         Variable name:winterface start:7:34 end:7:44:
           vpiParent: ClassDefn name:myclass
-          vpiTypespec RefTypespec start:7:1 end:7:33:
+          vpiTypespec RefTypespec name:hinterface::some_mod_port start:7:9 end:7:33:
             vpiParent: Variable name:winterface
-            vpiFullName: myclass::winterface
-            vpiActual: UnsupportedTypespec name:hinterface::some_mod_port
+            vpiName: hinterface::some_mod_port
+            vpiFullName: myclass::winterface::hinterface::some_mod_port
+            vpiPathElem (2 items):
+              RefObj name:hinterface start:7:9 end:7:19:
+                vpiParent: RefTypespec name:hinterface::some_mod_port
+                vpiName: hinterface
+                vpiFullName: myclass::winterface::hinterface
+              RefTypespec name:some_mod_port start:7:20 end:7:33:
+                vpiParent: RefTypespec name:hinterface::some_mod_port
+                vpiName: some_mod_port
+                vpiFullName: myclass::winterface::hinterface::some_mod_port::some_mod_port
           vpiName: winterface
           vpiFullName: myclass::winterface
           vpiRandType: (1)
           vpiVisibility: public (1)
         Variable name:bar_if start:8:33 end:8:39:
           vpiParent: ClassDefn name:myclass
-          vpiTypespec RefTypespec start:8:1 end:8:32:
+          vpiTypespec RefTypespec name:foo_if start:8:19 end:8:25:
             vpiParent: Variable name:bar_if
-            vpiFullName: myclass::bar_if
+            vpiName: foo_if
+            vpiFullName: myclass::bar_if::foo_if
             vpiActual: UnsupportedTypespec name:foo_if
           vpiName: bar_if
           vpiFullName: myclass::bar_if
@@ -125,9 +135,10 @@ Design name:unnamed:
           vpiVisibility: public (1)
         Variable name:baz_if start:8:41 end:8:47:
           vpiParent: ClassDefn name:myclass
-          vpiTypespec RefTypespec start:8:1 end:8:32:
+          vpiTypespec RefTypespec name:foo_if start:8:19 end:8:25:
             vpiParent: Variable name:baz_if
-            vpiFullName: myclass::baz_if
+            vpiName: foo_if
+            vpiFullName: myclass::baz_if::foo_if
             vpiActual: UnsupportedTypespec name:foo_if
           vpiName: baz_if
           vpiFullName: myclass::baz_if
@@ -135,29 +146,17 @@ Design name:unnamed:
           vpiVisibility: public (1)
         Variable name:blinterface start:9:44 end:9:55:
           vpiParent: ClassDefn name:myclass
-          vpiTypespec RefTypespec name:some_mod_port start:9:1 end:9:43:
+          vpiTypespec RefTypespec name:disinterface start:9:9 end:9:21:
             vpiParent: Variable name:blinterface
-            vpiName: some_mod_port
-            vpiFullName: myclass::blinterface::some_mod_port
+            vpiName: disinterface
+            vpiFullName: myclass::blinterface::disinterface
             vpiActual: UnsupportedTypespec name:disinterface
           vpiName: blinterface
           vpiFullName: myclass::blinterface
           vpiRandType: (1)
           vpiVisibility: public (1)
       vpiTypespec (3 items):
-        UnsupportedTypespec name:hinterface::some_mod_port start:7:9 end:7:33:
-          vpiParent: ClassDefn name:myclass
-          vpiPathElem (2 items):
-            RefObj name:hinterface start:7:9 end:7:19:
-              vpiParent: UnsupportedTypespec name:hinterface::some_mod_port
-              vpiName: hinterface
-              vpiFullName: myclass::hinterface::some_mod_port::hinterface
-            RefObj name:some_mod_port start:7:20 end:7:33:
-              vpiParent: UnsupportedTypespec name:hinterface::some_mod_port
-              vpiName: some_mod_port
-              vpiFullName: myclass::hinterface::some_mod_port::some_mod_port
-          vpiName Identifier name:hinterface::some_mod_port:
-        UnsupportedTypespec name:foo_if start:8:19 end:8:25:
+        UnsupportedTypespec name:foo_if start:8:19 end:8:32:
           vpiParent: ClassDefn name:myclass
           vpiName Identifier name:foo_if start:8:19 end:8:25:
           vpiParamAssign (2 items):
@@ -175,7 +174,25 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: K
                 vpiFullName: myclass::foo_if::K
-        UnsupportedTypespec name:disinterface start:9:9 end:9:21:
+        UnsupportedTypespec name:foo_if start:8:19 end:8:32:
+          vpiParent: ClassDefn name:myclass
+          vpiName Identifier name:foo_if start:8:19 end:8:25:
+          vpiParamAssign (2 items):
+            ParamAssign start:8:28 end:8:29:
+              vpiParent: UnsupportedTypespec name:foo_if
+              vpiOverridden: true
+              vpiRhs RefObj name:J start:8:28 end:8:29:
+                vpiParent: ParamAssign
+                vpiName: J
+                vpiFullName: myclass::foo_if::J
+            ParamAssign start:8:30 end:8:31:
+              vpiParent: UnsupportedTypespec name:foo_if
+              vpiOverridden: true
+              vpiRhs RefObj name:K start:8:30 end:8:31:
+                vpiParent: ParamAssign
+                vpiName: K
+                vpiFullName: myclass::foo_if::K
+        UnsupportedTypespec name:disinterface start:9:9 end:9:29:
           vpiParent: ClassDefn name:myclass
           vpiName Identifier name:disinterface start:9:9 end:9:21:
           vpiParamAssign (1 items):
@@ -224,25 +241,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/generic/member/class_member_test_50/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 92.26,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/class_member_test_50.sv': {'post_len': 0,
+            'files': {'$Output/lib/work/class_member_test_50.sv': {'post_len': 13,
                                                                    'pre_len': 168}},
-            'post_len': 0,
+            'post_len': 13,
             'pre_len': 168,
             'test_name': 'Google/generic/member/class_member_test_50'}}
 
 +------------------------------------------+----------+-----------+
 | INPUT                                    |   PRELEN |   POSTLEN |
 +==========================================+==========+===========+
-| $Output/lib/work/class_member_test_50.sv |      168 |         0 |
+| $Output/lib/work/class_member_test_50.sv |      168 |        13 |
 +==========================================+==========+===========+
-|                                          |      168 |         0 |
+|                                          |      168 |        13 |
 +------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 92.26
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -253,7 +270,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_50/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              30      30       0         0
+Others                              34      34       0         0
 ----------------------------------------------------------------
-                                    30      30       0         0
+                                    34      34       0         0
 ===================== END REDUCTION RESULT =====================

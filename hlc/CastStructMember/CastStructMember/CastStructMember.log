@@ -170,10 +170,11 @@ Design name:unnamed:
             vpiActual: Parameter name:w
           vpiRhs Operation start:7:26 end:7:38:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec start:7:26 end:7:33:
+            vpiTypespec RefTypespec name:width_t start:7:26 end:7:33:
               vpiParent: Operation
-              vpiFullName: Foo
-              vpiActual: UnsupportedTypespec name:width_t
+              vpiName: width_t
+              vpiFullName: Foo.width_t
+              vpiActual: TypedefTypespec name:width_t
             vpiOpType: cast (81)
             vpiOperand (1 items):
               Operation start:7:34 end:7:38:
@@ -190,10 +191,7 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "32"
                     vpiValue: 32
-      vpiTypespec (5 items):
-        UnsupportedTypespec name:width_t start:7:26 end:7:33:
-          vpiParent: Module name:Foo
-          vpiName Identifier name:width_t:
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:Foo
           vpiRange (1 items):
@@ -220,20 +218,9 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        UnsupportedTypespec name:w start:8:20 end:8:21:
+        UnsupportedTypespec name:w start:9:20 end:9:21:
           vpiParent: Module name:Foo
-          vpiPathElem (3 items):
-            RefObj name:w start:8:20 end:8:21:
-              vpiParent: UnsupportedTypespec name:w
-              vpiName: w
-              vpiFullName: Foo.w.w
-              vpiActual: Parameter name:w
-            RefObj name:WIDTH start:8:22 end:8:27:
-              vpiParent: UnsupportedTypespec name:w
-              vpiName: WIDTH
-              vpiFullName: Foo.w.WIDTH
-            RefObj name:WIDTH:
-          vpiName Identifier name:w start:8:20 end:8:21:
+          vpiName Identifier name:w:
         LogicTypespec:
           vpiParent: Module name:Foo
           vpiRange (1 items):
@@ -260,9 +247,6 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
-        UnsupportedTypespec name:w start:9:20 end:9:21:
-          vpiParent: Module name:Foo
-          vpiName Identifier name:w:
       vpiDefName: Foo
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:6:8 end:6:11:
@@ -284,11 +268,21 @@ Design name:unnamed:
           vpiVector: true
           vpiValue Operation start:8:20 end:8:31:
             vpiParent: Net name:t1
-            vpiTypespec RefTypespec name:w start:8:20 end:8:27:
+            vpiTypespec RefTypespec name:w::WIDTH::WIDTH start:8:20 end:8:27:
               vpiParent: Operation
-              vpiName: w
-              vpiFullName: Foo.t1.w
-              vpiActual: UnsupportedTypespec name:w
+              vpiName: w::WIDTH::WIDTH
+              vpiFullName: Foo.t1.w::WIDTH::WIDTH
+              vpiPathElem (3 items):
+                RefObj name:w start:8:20 end:8:21:
+                  vpiParent: RefTypespec name:w::WIDTH::WIDTH
+                  vpiName: w
+                  vpiFullName: Foo.t1.w
+                  vpiActual: Parameter name:w
+                RefObj name:WIDTH start:8:22 end:8:27:
+                  vpiParent: RefTypespec name:w::WIDTH::WIDTH
+                  vpiName: WIDTH
+                  vpiFullName: Foo.t1.WIDTH
+                RefObj name:WIDTH:
             vpiOpType: cast (81)
             vpiOperand (1 items):
               Constant start:8:29 end:8:30:
@@ -418,7 +412,7 @@ Constant                             7       6       0         1
 Operation                            4       3       0         1
 RefTypespec                         15      14       0         1
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    58      55       0         3
+                                    54      51       0         3
 ===================== END REDUCTION RESULT =====================

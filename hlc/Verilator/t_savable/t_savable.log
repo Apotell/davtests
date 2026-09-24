@@ -1407,7 +1407,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:11:10 end:11:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -1425,7 +1425,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:11:10 end:11:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -1512,9 +1512,10 @@ Design name:unnamed:
           vpiVector: true
         Variable name:vec start:32:15 end:32:18:
           vpiParent: Module name:sub
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:logic [31:0] [2:1][2:1] start:32:4 end:32:14:
             vpiParent: Variable name:vec
-            vpiFullName: sub.vec
+            vpiName: logic [31:0] [2:1][2:1]
+            vpiFullName: sub.vec.logic [31:0] [2:1][2:1]
             vpiActual: ArrayTypespec
           vpiName: vec
           vpiFullName: sub.vec
@@ -1538,36 +1539,34 @@ Design name:unnamed:
           vpiFullName: sub.r
         Variable name:s start:35:17 end:35:18:
           vpiParent: Module name:sub
-          vpiTypespec RefTypespec name:string start:35:4 end:35:10:
+          vpiTypespec RefTypespec start:35:4 end:35:10:
             vpiParent: Variable name:s
-            vpiName: string
-            vpiFullName: sub.s.string
+            vpiFullName: sub.s
             vpiActual: StringTypespec
           vpiName: s
           vpiFullName: sub.s
         Variable name:s2 start:35:19 end:35:21:
           vpiParent: Module name:sub
-          vpiTypespec RefTypespec name:string start:35:4 end:35:10:
+          vpiTypespec RefTypespec start:35:4 end:35:10:
             vpiParent: Variable name:s2
-            vpiName: string
-            vpiFullName: sub.s2.string
+            vpiFullName: sub.s2
             vpiActual: StringTypespec
           vpiName: s2
           vpiFullName: sub.s2
         Variable name:sarr start:36:17 end:36:21:
           vpiParent: Module name:sub
-          vpiTypespec RefTypespec:
+          vpiTypespec RefTypespec name:string [2:1] start:36:4 end:36:10:
             vpiParent: Variable name:sarr
-            vpiFullName: sub.sarr
+            vpiName: string [2:1]
+            vpiFullName: sub.sarr.string [2:1]
             vpiActual: ArrayTypespec
           vpiName: sarr
           vpiFullName: sub.sarr
         Variable name:si start:38:12 end:38:14:
           vpiParent: Module name:sub
-          vpiTypespec RefTypespec name:string start:38:4 end:38:10:
+          vpiTypespec RefTypespec start:38:4 end:38:10:
             vpiParent: Variable name:si
-            vpiName: string
-            vpiFullName: sub.si.string
+            vpiFullName: sub.si
             vpiActual: StringTypespec
           vpiName: si
           vpiFullName: sub.si
@@ -1681,6 +1680,35 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        ArrayTypespec:
+          vpiParent: Module name:sub
+          vpiArrayType: static (1)
+          vpiRange Range start:32:23 end:32:28:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:32:24 end:32:25:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: sub
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "2"
+              vpiValue: 2
+            vpiRightRange Constant start:32:26 end:32:27:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: sub
+                vpiActual: IntTypespec
+              vpiConstType: unsigned int (9)
+              vpiSize: 64
+              vpiDecompile: "1"
+              vpiValue: 1
+          vpiElemTypespec RefTypespec start:32:4 end:32:14:
+            vpiParent: ArrayTypespec
+            vpiFullName: sub
+            vpiActual: LogicTypespec
         LogicTypespec:
           vpiParent: Module name:sub
           vpiRange (1 items):
@@ -1736,35 +1764,6 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiFullName: sub
             vpiActual: ArrayTypespec
-        ArrayTypespec:
-          vpiParent: Module name:sub
-          vpiArrayType: static (1)
-          vpiRange Range start:32:23 end:32:28:
-            vpiParent: ArrayTypespec
-            vpiLeftRange Constant start:32:24 end:32:25:
-              vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: sub
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "2"
-              vpiValue: 2
-            vpiRightRange Constant start:32:26 end:32:27:
-              vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: sub
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "1"
-              vpiValue: 1
-          vpiElemTypespec RefTypespec start:32:4 end:32:14:
-            vpiParent: ArrayTypespec
-            vpiFullName: sub
-            vpiActual: LogicTypespec
         LogicTypespec:
           vpiParent: Module name:sub
           vpiRange (3 items):
@@ -1860,10 +1859,9 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "1"
               vpiValue: 1
-          vpiElemTypespec RefTypespec name:string start:36:4 end:36:10:
+          vpiElemTypespec RefTypespec start:36:4 end:36:10:
             vpiParent: ArrayTypespec
-            vpiName: string
-            vpiFullName: sub.string
+            vpiFullName: sub
             vpiActual: StringTypespec
       vpiDefName: sub
       vpiDefNetType: wire (1)
@@ -1875,7 +1873,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:23:10 end:23:13:
           vpiParent: Module name:sub
-          vpiTypespec RefTypespec start:23:10 end:23:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: sub.clk
             vpiActual: LogicTypespec
@@ -1893,7 +1891,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: sub.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:23:10 end:23:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: sub.clk
             vpiActual: LogicTypespec

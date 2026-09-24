@@ -169,10 +169,10 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "top".
 [WRN:PA5506] No timescale set for "builtin".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top".
-[ERR:LN7705] $Source01/dut.sv:3:17: Null Actual: id:644, type:MethodFuncCall, name:substr, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:7:15: Null Actual: id:666, type:MethodFuncCall, name:getc, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:8:15: Null Actual: id:674, type:MethodFuncCall, name:compare, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:9:15: Null Actual: id:682, type:MethodFuncCall, name:icompare, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:3:17: Null Actual: id:643, type:MethodFuncCall, name:substr, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:7:15: Null Actual: id:665, type:MethodFuncCall, name:getc, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:8:15: Null Actual: id:673, type:MethodFuncCall, name:compare, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:9:15: Null Actual: id:681, type:MethodFuncCall, name:icompare, relation:vpiPathElem.
 [ERR:LN7705] $Source01/dut.sv:5:9: Null Actual: id:658, type:MethodFuncCall, name:putc, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
@@ -1491,7 +1491,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1511,7 +1511,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1533,7 +1533,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1551,7 +1551,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1573,7 +1573,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1591,7 +1591,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1656,24 +1656,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -1830,10 +1828,9 @@ Design name:unnamed:
       vpiVariable (5 items):
         Variable name:s start:2:11 end:2:12:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec name:string start:2:4 end:2:10:
+          vpiTypespec RefTypespec start:2:4 end:2:10:
             vpiParent: Variable name:s
-            vpiName: string
-            vpiFullName: top.s.string
+            vpiFullName: top.s
             vpiActual: StringTypespec
           vpiName: s
           vpiFullName: top.s
@@ -1849,10 +1846,9 @@ Design name:unnamed:
             vpiValue: abcd
         Variable name:t start:3:11 end:3:12:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec name:string start:3:4 end:3:10:
+          vpiTypespec RefTypespec start:3:4 end:3:10:
             vpiParent: Variable name:t
-            vpiName: string
-            vpiFullName: top.t.string
+            vpiFullName: top.t
             vpiActual: StringTypespec
           vpiName: t
           vpiFullName: top.t
@@ -2108,7 +2104,7 @@ COMMAND: ${HLC_DIR}/regression/StringMethod/StringMethod/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             683     683       0         0
+Others                             681     681       0         0
 ----------------------------------------------------------------
-                                   683     683       0         0
+                                   681     681       0         0
 ===================== END REDUCTION RESULT =====================

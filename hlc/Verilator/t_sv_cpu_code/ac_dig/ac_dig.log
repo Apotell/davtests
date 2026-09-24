@@ -809,7 +809,7 @@ n<$Source01/ac_dig.sv> u<794> t<Top_level_rule> c<1> l<8:1> el<144:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/ac_dig.sv:8:1: Compile module "ac_dig".
 [WRN:CP5811] $Source01/ac_dig.sv:17:19: Port "dbus" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/ac_dig.sv:81:12: Failed to bind "id:184, name:sConnect".
+[WRN:CP5851] $Source01/ac_dig.sv:81:12: Failed to bind "id:186, name:sConnect".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -864,7 +864,7 @@ Design name:unnamed:
       vpiVariable (10 items):
         Variable name:acenable start:21:22 end:21:30:
           vpiParent: Module name:ac_dig #(.ID(1))
-          vpiTypespec RefTypespec start:21:3 end:21:15:
+          vpiTypespec RefTypespec start:21:10 end:21:15:
             vpiParent: Variable name:acenable
             vpiFullName: ac_dig #(.ID(1)).acenable
             vpiActual: LogicTypespec
@@ -953,7 +953,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:ID start:10:7 end:10:9:
           vpiParent: Module name:ac_dig #(.ID(1))
-          vpiTypespec RefTypespec start:10:7 end:10:7:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:ID
             vpiFullName: ac_dig #(.ID(1)).ID
             vpiActual: LogicTypespec
@@ -977,21 +977,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (12 items):
+      vpiTypespec (11 items):
         LogicTypespec:
           vpiParent: Module name:ac_dig #(.ID(1))
-        UnsupportedTypespec name:genbus_if::slave start:17:3 end:17:18:
-          vpiParent: Module name:ac_dig #(.ID(1))
-          vpiPathElem (2 items):
-            RefObj name:genbus_if start:17:3 end:17:12:
-              vpiParent: UnsupportedTypespec name:genbus_if::slave
-              vpiName: genbus_if
-              vpiFullName: ac_dig #(.ID(1)).genbus_if::slave.genbus_if
-            RefObj name:slave start:17:13 end:17:18:
-              vpiParent: UnsupportedTypespec name:genbus_if::slave
-              vpiName: slave
-              vpiFullName: ac_dig #(.ID(1)).genbus_if::slave.slave
-          vpiName Identifier name:genbus_if::slave:
         LogicTypespec:
           vpiParent: Module name:ac_dig #(.ID(1))
           vpiRange (1 items):
@@ -1216,7 +1204,7 @@ Design name:unnamed:
       vpiNet (3 items):
         Net name:acout start:25:22 end:25:27:
           vpiParent: Module name:ac_dig #(.ID(1))
-          vpiTypespec RefTypespec start:25:3 end:25:15:
+          vpiTypespec RefTypespec start:25:10 end:25:15:
             vpiParent: Net name:acout
             vpiFullName: ac_dig #(.ID(1)).acout
             vpiActual: LogicTypespec
@@ -1226,7 +1214,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:clk start:29:22 end:29:25:
           vpiParent: Module name:ac_dig #(.ID(1))
-          vpiTypespec RefTypespec start:29:3 end:29:15:
+          vpiTypespec RefTypespec start:29:10 end:29:15:
             vpiParent: Net name:clk
             vpiFullName: ac_dig #(.ID(1)).clk
             vpiActual: LogicTypespec
@@ -1236,7 +1224,7 @@ Design name:unnamed:
           vpiScalar: true
         Net name:rst start:30:22 end:30:25:
           vpiParent: Module name:ac_dig #(.ID(1))
-          vpiTypespec RefTypespec start:30:3 end:30:15:
+          vpiTypespec RefTypespec start:30:10 end:30:15:
             vpiParent: Net name:rst
             vpiFullName: ac_dig #(.ID(1)).rst
             vpiActual: LogicTypespec
@@ -1254,10 +1242,19 @@ Design name:unnamed:
             vpiName: dbus
             vpiFullName: ac_dig #(.ID(1)).dbus.dbus
             vpiActual: Port name:dbus
-          vpiTypespec RefTypespec start:17:3 end:17:18:
+          vpiTypespec RefTypespec name:genbus_if::slave start:17:3 end:17:18:
             vpiParent: Port name:dbus
-            vpiFullName: ac_dig #(.ID(1)).dbus
-            vpiActual: UnsupportedTypespec name:genbus_if::slave
+            vpiName: genbus_if::slave
+            vpiFullName: ac_dig #(.ID(1)).dbus.genbus_if::slave
+            vpiPathElem (2 items):
+              RefObj name:genbus_if start:17:3 end:17:12:
+                vpiParent: RefTypespec name:genbus_if::slave
+                vpiName: genbus_if
+                vpiFullName: ac_dig #(.ID(1)).dbus.genbus_if
+              RefTypespec name:slave start:17:13 end:17:18:
+                vpiParent: RefTypespec name:genbus_if::slave
+                vpiName: slave
+                vpiFullName: ac_dig #(.ID(1)).dbus.genbus_if::slave.slave
         Port name:acenable start:21:22 end:21:30:
           vpiParent: Module name:ac_dig #(.ID(1))
           vpiName: acenable
@@ -1267,7 +1264,7 @@ Design name:unnamed:
             vpiName: acenable
             vpiFullName: ac_dig #(.ID(1)).acenable.acenable
             vpiActual: Variable name:acenable
-          vpiTypespec RefTypespec start:21:3 end:21:15:
+          vpiTypespec RefTypespec start:21:10 end:21:15:
             vpiParent: Port name:acenable
             vpiFullName: ac_dig #(.ID(1)).acenable
             vpiActual: LogicTypespec
@@ -1280,7 +1277,7 @@ Design name:unnamed:
             vpiName: acout
             vpiFullName: ac_dig #(.ID(1)).acout.acout
             vpiActual: Net name:acout
-          vpiTypespec RefTypespec start:25:3 end:25:15:
+          vpiTypespec RefTypespec start:25:10 end:25:15:
             vpiParent: Port name:acout
             vpiFullName: ac_dig #(.ID(1)).acout
             vpiActual: LogicTypespec
@@ -1293,7 +1290,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: ac_dig #(.ID(1)).clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:29:3 end:29:15:
+          vpiTypespec RefTypespec start:29:10 end:29:15:
             vpiParent: Port name:clk
             vpiFullName: ac_dig #(.ID(1)).clk
             vpiActual: LogicTypespec
@@ -1306,7 +1303,7 @@ Design name:unnamed:
             vpiName: rst
             vpiFullName: ac_dig #(.ID(1)).rst.rst
             vpiActual: Net name:rst
-          vpiTypespec RefTypespec start:30:3 end:30:15:
+          vpiTypespec RefTypespec start:30:10 end:30:15:
             vpiParent: Port name:rst
             vpiFullName: ac_dig #(.ID(1)).rst
             vpiActual: LogicTypespec
@@ -1612,9 +1609,10 @@ Design name:unnamed:
             vpiVariable (1 items):
               Variable name:data start:106:19 end:106:23:
                 vpiParent: Begin name:RegisterRead
-                vpiTypespec RefTypespec:
+                vpiTypespec RefTypespec name:logic [7:0] [0:3] start:106:7 end:106:18:
                   vpiParent: Variable name:data
-                  vpiFullName: ac_dig #(.ID(1)).RegisterRead.data
+                  vpiName: logic [7:0] [0:3]
+                  vpiFullName: ac_dig #(.ID(1)).RegisterRead.data.logic [7:0] [0:3]
                   vpiActual: ArrayTypespec
                 vpiName: data
                 vpiFullName: ac_dig #(.ID(1)).RegisterRead.data
@@ -2062,9 +2060,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            40      39       0         1
 Operation                            9       8       0         1
-RefTypespec                         65      64       0         1
+RefTypespec                         66      65       0         1
 ----------------------------------------------------------------
-Others                             174     174       0         0
+Others                             171     171       0         0
 ----------------------------------------------------------------
-                                   288     285       0         3
+                                   286     283       0         3
 ===================== END REDUCTION RESULT =====================

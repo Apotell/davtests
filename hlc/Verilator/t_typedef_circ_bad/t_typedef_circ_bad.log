@@ -49,40 +49,34 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: t_typedef_circ_bad.v
       vpiPreprocFile: "$Output/lib/work/t_typedef_circ_bad.v"
-  vpiTypespec (5 items):
+  vpiTypespec (3 items):
     TypedefTypespec start:4:1 end:4:13:
       vpiParent: Design name:unnamed
-    UnsupportedTypespec name:a_t start:5:9 end:5:12:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:a_t start:5:9 end:5:12:
     TypedefTypespec name:b_t start:5:1 end:5:17:
       vpiParent: Design name:unnamed
       vpiName Identifier name:b_t start:5:13 end:5:16:
-      vpiTypedefKind: unsupported (7)
       vpiTypedef: Typedef name:b_t
-    UnsupportedTypespec name:b_t start:6:9 end:6:12:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:b_t start:6:9 end:6:12:
     TypedefTypespec name:a_t start:6:1 end:6:17:
       vpiParent: Design name:unnamed
       vpiName Identifier name:a_t start:6:13 end:6:16:
-      vpiTypedefKind: unsupported (7)
       vpiTypedef: Typedef name:a_t
   vpiTypedef (2 items):
     Typedef name:b_t start:5:1 end:5:17:
       vpiParent: Design name:unnamed
       vpiName Identifier name:b_t start:5:13 end:5:16:
-      vpiTypedefAlias RefTypespec start:5:9 end:5:12:
+      vpiTypedefAlias RefTypespec name:a_t start:5:9 end:5:12:
         vpiParent: Typedef name:b_t
-        vpiFullName: b_t
-        vpiActual: UnsupportedTypespec name:a_t
+        vpiName: a_t
+        vpiFullName: b_t.a_t
+        vpiActual: TypedefTypespec name:a_t
     Typedef name:a_t start:6:1 end:6:17:
       vpiParent: Design name:unnamed
       vpiName Identifier name:a_t start:6:13 end:6:16:
-      vpiTypedefAlias RefTypespec start:6:9 end:6:12:
+      vpiTypedefAlias RefTypespec name:b_t start:6:9 end:6:12:
         vpiParent: Typedef name:a_t
-        vpiFullName: a_t
-        vpiActual: UnsupportedTypespec name:b_t
+        vpiName: b_t
+        vpiFullName: a_t.b_t
+        vpiActual: TypedefTypespec name:b_t
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
@@ -131,7 +125,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_typedef_circ_bad/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              17      17       0         0
+Others                              13      13       0         0
 ----------------------------------------------------------------
-                                    17      17       0         0
+                                    13      13       0         0
 ===================== END REDUCTION RESULT =====================

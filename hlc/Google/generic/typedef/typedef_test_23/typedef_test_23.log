@@ -72,6 +72,8 @@ n<$Source01/typedef_test_23.sv> u<57> t<Top_level_rule> c<1> l<15:1> el<23:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/typedef_test_23.sv:21:1: Compile module "test".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7701] Invalid name: id:22, type:RefTypespec, name:, relation:vpiTypespec.
+[ERR:LN7701] Invalid name: id:27, type:RefTypespec, name:, relation:vpiTypespec.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -92,7 +94,7 @@ Design name:unnamed:
         vpiName: work
         vpiFullName: test.work
       vpiCell: test
-  vpiTypespec (8 items):
+  vpiTypespec (7 items):
     BitTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -124,9 +126,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:num_t start:15:18 end:15:23:
       vpiTypedef: Typedef name:num_t
-    UnsupportedTypespec name:num_t start:16:14 end:16:19:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:num_t start:16:14 end:16:19:
     IntTypespec:
       vpiParent: Design name:unnamed
     EnumTypespec start:16:9 end:19:2:
@@ -145,9 +144,11 @@ Design name:unnamed:
   vpiEnum (1 items):
     Enum start:16:9 end:19:2:
       vpiParent: Design name:unnamed
-      vpiBaseTypespec RefTypespec start:16:14 end:16:19:
+      vpiBaseTypespec RefTypespec name:num_t start:16:14 end:16:19:
         vpiParent: Enum
-        vpiActual: UnsupportedTypespec name:num_t
+        vpiName: num_t
+        vpiFullName: num_t
+        vpiActual: TypedefTypespec name:num_t
       vpiEnumConst (2 items):
         EnumConst name:Global start:17:3 end:17:16:
           vpiParent: Enum
@@ -157,7 +158,6 @@ Design name:unnamed:
             vpiTypespec RefTypespec:
               vpiParent: Constant
               vpiFullName: Global
-              vpiActual: UnsupportedTypespec name:num_t
             vpiConstType: hexadecimal (5)
             vpiSize: 4
             vpiDecompile: "4'h2"
@@ -170,7 +170,6 @@ Design name:unnamed:
             vpiTypespec RefTypespec:
               vpiParent: Constant
               vpiFullName: Local
-              vpiActual: UnsupportedTypespec name:num_t
             vpiConstType: hexadecimal (5)
             vpiSize: 4
             vpiDecompile: "4'h3"
@@ -193,7 +192,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -238,7 +237,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/typedef/typedef_test_23/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              38      38       0         0
+Others                              36      36       0         0
 ----------------------------------------------------------------
-                                    38      38       0         0
+                                    36      36       0         0
 ===================== END REDUCTION RESULT =====================

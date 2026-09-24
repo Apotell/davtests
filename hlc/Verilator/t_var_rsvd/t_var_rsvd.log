@@ -195,10 +195,10 @@ Design name:unnamed:
             TypespecMember name:vector start:19:20 end:19:26:
               vpiParent: Struct
               vpiName: vector
-              vpiTypespec RefTypespec name:logic start:19:7 end:19:19:
+              vpiTypespec RefTypespec name:logic [31:0] start:19:7 end:19:19:
                 vpiParent: TypespecMember name:vector
-                vpiName: logic
-                vpiFullName: t.vector.logic
+                vpiName: logic [31:0]
+                vpiFullName: t.vector.logic [31:0]
                 vpiActual: ArrayTypespec
       vpiTypedef (1 items):
         Typedef name:test start:18:4 end:20:11:
@@ -245,12 +245,9 @@ Design name:unnamed:
           vpiName: global
           vpiFullName: t.global
           vpiScalar: true
-      vpiTypespec (5 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:logic start:19:7 end:19:12:
-          vpiParent: Module name:t
-          vpiName Identifier name:logic start:19:7 end:19:12:
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -277,11 +274,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:19:7 end:19:19:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
-            vpiActual: UnsupportedTypespec name:logic
         StructTypespec start:18:12 end:20:5:
           vpiParent: Module name:t
           vpiStruct: Struct
@@ -300,7 +296,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:bool start:13:10 end:13:14:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:13:10 end:13:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:bool
             vpiFullName: t.bool
             vpiActual: LogicTypespec
@@ -318,7 +314,7 @@ Design name:unnamed:
             vpiName: bool
             vpiFullName: t.bool.bool
             vpiActual: Net name:bool
-          vpiTypespec RefTypespec start:13:10 end:13:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:bool
             vpiFullName: t.bool
             vpiActual: LogicTypespec
@@ -433,7 +429,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_var_rsvd/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              53      53       0         0
 ----------------------------------------------------------------
-                                    55      55       0         0
+                                    53      53       0         0
 ===================== END REDUCTION RESULT =====================

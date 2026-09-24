@@ -175,6 +175,7 @@ AST_DEBUG_END
 [ERR:CP5824] $Source01/t_interface_size_bad.v:10:1: Multiply defined typedef "baz".
 [INF:CP5804] $Source01/t_interface_size_bad.v:20:1: Compile module "baz".
 [WRN:CP5811] $Source01/t_interface_size_bad.v:20:21: Port "foo" definition missing its direction (input, output, inout).
+[ERR:CP5824] $Source01/t_interface_size_bad.v:20:1: Multiply defined typedef "foo_intf".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -213,7 +214,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:N start:11:15 end:11:16:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:11:15 end:11:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:N
             vpiFullName: t.N
             vpiActual: LogicTypespec
@@ -331,18 +332,18 @@ Design name:unnamed:
         RefInstance name:foo4 start:12:13 end:12:17:
           vpiParent: Module name:t
           vpiName: foo4
-          vpiTypespec RefTypespec name:foo_intf start:12:4 end:12:12:
+          vpiTypespec RefTypespec name:foo_intf [N-1:0] start:12:4 end:12:12:
             vpiParent: RefInstance name:foo4
-            vpiName: foo_intf
-            vpiFullName: t.foo4.foo_intf
+            vpiName: foo_intf [N-1:0]
+            vpiFullName: t.foo4.foo_intf [N-1:0]
             vpiActual: ArrayTypespec
         RefInstance name:foo6 start:13:13 end:13:17:
           vpiParent: Module name:t
           vpiName: foo6
-          vpiTypespec RefTypespec name:foo_intf start:13:4 end:13:12:
+          vpiTypespec RefTypespec name:foo_intf [5:0] start:13:4 end:13:12:
             vpiParent: RefInstance name:foo6
-            vpiName: foo_intf
-            vpiFullName: t.foo6.foo_intf
+            vpiName: foo_intf [5:0]
+            vpiFullName: t.foo6.foo_intf [5:0]
             vpiActual: ArrayTypespec
         RefInstance name:baz4_inst start:15:8 end:15:17:
           vpiParent: Module name:t
@@ -391,11 +392,6 @@ Design name:unnamed:
       vpiName Identifier name:baz start:20:8 end:20:11:
       vpiFullName: baz
       vpiTypespec (2 items):
-        InterfaceTypespec name:foo_intf start:20:12 end:20:20:
-          vpiParent: Module name:baz
-          vpiName Identifier name:foo_intf start:20:12 end:20:20:
-          vpiDefName: foo_intf
-          vpiInterface: Interface name:foo_intf
         ArrayTypespec:
           vpiParent: Module name:baz
           vpiArrayType: static (1)
@@ -426,6 +422,11 @@ Design name:unnamed:
             vpiName: foo_intf
             vpiFullName: baz.foo_intf
             vpiActual: InterfaceTypespec name:foo_intf
+        InterfaceTypespec name:foo_intf start:20:12 end:20:20:
+          vpiParent: Module name:baz
+          vpiName Identifier name:foo_intf start:20:12 end:20:20:
+          vpiDefName: foo_intf
+          vpiInterface: Interface name:foo_intf
       vpiDefName: baz
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:20:8 end:20:11:
@@ -436,10 +437,10 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:foo start:20:21 end:20:24:
           vpiParent: Module name:baz
-          vpiTypespec RefTypespec name:foo_intf start:20:12 end:20:20:
+          vpiTypespec RefTypespec name:foo_intf [4:0] start:20:12 end:20:20:
             vpiParent: Net name:foo
-            vpiName: foo_intf
-            vpiFullName: baz.foo.foo_intf
+            vpiName: foo_intf [4:0]
+            vpiFullName: baz.foo.foo_intf [4:0]
             vpiActual: ArrayTypespec
           vpiName: foo
           vpiFullName: baz.foo
@@ -454,10 +455,10 @@ Design name:unnamed:
             vpiName: foo
             vpiFullName: baz.foo.foo
             vpiActual: Net name:foo
-          vpiTypespec RefTypespec name:foo_intf start:20:12 end:20:20:
+          vpiTypespec RefTypespec name:foo_intf [4:0] start:20:12 end:20:20:
             vpiParent: Port name:foo
-            vpiName: foo_intf
-            vpiFullName: baz.foo.foo_intf
+            vpiName: foo_intf [4:0]
+            vpiFullName: baz.foo.foo_intf [4:0]
             vpiActual: ArrayTypespec
   vpiTypespec (4 items):
     InterfaceTypespec name:foo_intf:
@@ -481,7 +482,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 2
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

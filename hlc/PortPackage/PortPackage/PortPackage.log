@@ -130,26 +130,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (4 items):
-        UnsupportedTypespec name:dm start:13:5 end:13:7:
-          vpiParent: Module name:dm_top #(.NrHarts(1))
-          vpiName Identifier name:dm start:13:5 end:13:7:
-        UnsupportedTypespec name:dm::hartinfo_t [NrHarts-1:0] start:13:5 end:13:33:
-          vpiParent: Module name:dm_top #(.NrHarts(1))
-          vpiPathElem (2 items):
-            RefTypespec start:13:5 end:13:9:
-              vpiParent: UnsupportedTypespec name:dm::hartinfo_t [NrHarts-1:0]
-              vpiFullName: dm_top #(.NrHarts(1)).dm::hartinfo_t [NrHarts-1:0]
-              vpiActual: UnsupportedTypespec name:dm
-            RefTypespec name:hartinfo_t start:13:9 end:13:33:
-              vpiParent: UnsupportedTypespec name:dm::hartinfo_t [NrHarts-1:0]
-              vpiName: hartinfo_t
-              vpiFullName: dm_top #(.NrHarts(1)).dm::hartinfo_t [NrHarts-1:0].hartinfo_t
-              vpiActual: ArrayTypespec
-          vpiName Identifier name:dm::hartinfo_t [NrHarts-1:0] start:13:5 end:13:33:
-        UnsupportedTypespec name:hartinfo_t start:13:9 end:13:33:
-          vpiParent: Module name:dm_top #(.NrHarts(1))
-          vpiName Identifier name:hartinfo_t:
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:dm_top #(.NrHarts(1))
           vpiArrayType: static (1)
@@ -185,10 +166,24 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec:
+          vpiElemTypespec RefTypespec start:13:5 end:13:33:
             vpiParent: ArrayTypespec
             vpiFullName: dm_top #(.NrHarts(1))
-            vpiActual: UnsupportedTypespec name:hartinfo_t
+            vpiPathElem (2 items):
+              RefTypespec name:dm start:13:5 end:13:7:
+                vpiParent: RefTypespec
+                vpiName: dm
+                vpiFullName: dm_top #(.NrHarts(1)).dm
+                vpiPathElem (1 items):
+                  RefObj name:dm start:13:5 end:13:7:
+                    vpiParent: RefTypespec name:dm
+                    vpiName: dm
+                    vpiFullName: dm_top #(.NrHarts(1)).dm
+                    vpiActual: Package name:dm
+              RefTypespec name:hartinfo_t start:13:9 end:13:19:
+                vpiParent: RefTypespec
+                vpiName: hartinfo_t
+                vpiFullName: dm_top #(.NrHarts(1)).hartinfo_t
       vpiDefName: dm_top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:10:8 end:10:14:
@@ -199,11 +194,11 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:hartinfo_i start:13:35 end:13:45:
           vpiParent: Module name:dm_top #(.NrHarts(1))
-          vpiTypespec RefTypespec name:hartinfo_t start:13:9 end:13:19:
+          "vpiTypespec RefTypespec name: [NrHarts-1:0] start:13:5 end:13:33":
             vpiParent: Net name:hartinfo_i
-            vpiName: hartinfo_t
-            vpiFullName: dm_top #(.NrHarts(1)).hartinfo_i.hartinfo_t
-            vpiActual: UnsupportedTypespec name:dm::hartinfo_t [NrHarts-1:0]
+            vpiName: " [NrHarts-1:0]"
+            vpiFullName: dm_top #(.NrHarts(1)).hartinfo_i. [NrHarts-1:0]
+            vpiActual: ArrayTypespec
           vpiName: hartinfo_i
           vpiFullName: dm_top #(.NrHarts(1)).hartinfo_i
           vpiNetType: wire (1)
@@ -217,11 +212,11 @@ Design name:unnamed:
             vpiName: hartinfo_i
             vpiFullName: dm_top #(.NrHarts(1)).hartinfo_i.hartinfo_i
             vpiActual: Net name:hartinfo_i
-          vpiTypespec RefTypespec name:hartinfo_t start:13:9 end:13:19:
+          "vpiTypespec RefTypespec name: [NrHarts-1:0] start:13:5 end:13:33":
             vpiParent: Port name:hartinfo_i
-            vpiName: hartinfo_t
-            vpiFullName: dm_top #(.NrHarts(1)).hartinfo_i.hartinfo_t
-            vpiActual: UnsupportedTypespec name:dm::hartinfo_t [NrHarts-1:0]
+            vpiName: " [NrHarts-1:0]"
+            vpiFullName: dm_top #(.NrHarts(1)).hartinfo_i. [NrHarts-1:0]
+            vpiActual: ArrayTypespec
   vpiTypespec (2 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -280,10 +275,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       5       1         1
 Operation                            1       0       0         1
-RefObj                               5       4       0         1
+RefObj                               6       5       0         1
 RefTypespec                         14      14       1         1
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              26      26       0         0
 ----------------------------------------------------------------
-                                    57      55       2         4
+                                    52      50       2         4
 ===================== END REDUCTION RESULT =====================

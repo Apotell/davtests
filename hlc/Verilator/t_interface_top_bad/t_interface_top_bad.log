@@ -145,10 +145,10 @@ Design name:unnamed:
       vpiVariable (2 items):
         Variable name:value start:7:16 end:7:21:
           vpiParent: Interface name:ifc
-          vpiTypespec RefTypespec name:logic start:7:4 end:7:15:
+          vpiTypespec RefTypespec name:logic [3:0] start:7:4 end:7:15:
             vpiParent: Variable name:value
-            vpiName: logic
-            vpiFullName: ifc.value.logic
+            vpiName: logic [3:0]
+            vpiFullName: ifc.value.logic [3:0]
             vpiActual: ArrayTypespec
           vpiName: value
           vpiFullName: ifc.value
@@ -160,10 +160,7 @@ Design name:unnamed:
             vpiFullName: ifc.reset.logic
           vpiName: reset
           vpiFullName: ifc.reset
-      vpiTypespec (2 items):
-        UnsupportedTypespec name:logic start:7:4 end:7:9:
-          vpiParent: Interface name:ifc
-          vpiName Identifier name:logic start:7:4 end:7:9:
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Interface name:ifc
           vpiArrayType: static (1)
@@ -190,11 +187,10 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic:
+          vpiElemTypespec RefTypespec name:logic start:7:4 end:7:15:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: ifc.logic
-            vpiActual: UnsupportedTypespec name:logic
       vpiDefName: ifc
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:6:11 end:6:14:
@@ -253,22 +249,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (3 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
-        UnsupportedTypespec name:ifc::counter_mp start:16:4 end:16:18:
-          vpiParent: Module name:t
-          vpiPathElem (2 items):
-            RefObj name:ifc start:16:4 end:16:7:
-              vpiParent: UnsupportedTypespec name:ifc::counter_mp
-              vpiName: ifc
-              vpiFullName: t.ifc::counter_mp.ifc
-              vpiActual: Interface name:ifc
-            RefObj name:counter_mp start:16:8 end:16:18:
-              vpiParent: UnsupportedTypespec name:ifc::counter_mp
-              vpiName: counter_mp
-              vpiFullName: t.ifc::counter_mp.counter_mp
-          vpiName Identifier name:ifc::counter_mp:
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -282,7 +265,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:clk start:15:10 end:15:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:15:4 end:15:9:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -300,7 +283,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:15:4 end:15:9:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -313,10 +296,20 @@ Design name:unnamed:
             vpiName: c_data
             vpiFullName: t.c_data.c_data
             vpiActual: Port name:c_data
-          vpiTypespec RefTypespec start:16:4 end:16:18:
+          vpiTypespec RefTypespec name:ifc::counter_mp start:16:4 end:16:18:
             vpiParent: Port name:c_data
-            vpiFullName: t.c_data
-            vpiActual: UnsupportedTypespec name:ifc::counter_mp
+            vpiName: ifc::counter_mp
+            vpiFullName: t.c_data.ifc::counter_mp
+            vpiPathElem (2 items):
+              RefObj name:ifc start:16:4 end:16:7:
+                vpiParent: RefTypespec name:ifc::counter_mp
+                vpiName: ifc
+                vpiFullName: t.c_data.ifc
+                vpiActual: Interface name:ifc
+              RefTypespec name:counter_mp start:16:8 end:16:18:
+                vpiParent: RefTypespec name:ifc::counter_mp
+                vpiName: counter_mp
+                vpiFullName: t.c_data.ifc::counter_mp.counter_mp
   vpiTypespec (3 items):
     InterfaceTypespec name:ifc:
       vpiParent: Design name:unnamed
@@ -379,7 +372,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_top_bad/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              52      52       0         0
+Others                              48      48       0         0
 ----------------------------------------------------------------
-                                    52      52       0         0
+                                    48      48       0         0
 ===================== END REDUCTION RESULT =====================

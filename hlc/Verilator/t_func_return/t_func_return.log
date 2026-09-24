@@ -1021,10 +1021,6 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:line_wb_ind start:59:22 end:59:33:
           vpiFullName: t.line_wb_ind
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:wb_ind_t start:59:13 end:59:21:
-              vpiParent: Function name:line_wb_ind
-              vpiName Identifier name:wb_ind_t start:59:13 end:59:21:
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:id start:59:40 end:59:42:
@@ -1204,14 +1200,15 @@ Design name:unnamed:
                         vpiSize: 64
                         vpiDecompile: "0"
                         vpiValue: 0
-          vpiReturn RefTypespec start:59:13 end:59:21:
+          vpiReturn RefTypespec name:wb_ind_t start:59:13 end:59:21:
             vpiParent: Function name:line_wb_ind
-            vpiFullName: t.line_wb_ind
-            vpiActual: UnsupportedTypespec name:wb_ind_t
+            vpiName: wb_ind_t
+            vpiFullName: t.line_wb_ind.wb_ind_t
+            vpiActual: TypedefTypespec name:wb_ind_t
       vpiNet (4 items):
         Net name:clk start:14:10 end:14:13:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:14:10 end:14:10:
+          vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -1348,7 +1345,7 @@ Design name:unnamed:
             vpiName: clk
             vpiFullName: t.clk.clk
             vpiActual: Net name:clk
-          vpiTypespec RefTypespec start:14:10 end:14:10:
+          vpiTypespec RefTypespec:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
@@ -1867,13 +1864,10 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:55:3 end:55:10:
           vpiAlwaysType: always (1)
-  vpiTypespec (12 items):
+  vpiTypespec (10 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
-    UnsupportedTypespec name:logic start:7:9 end:7:14:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:logic start:7:9 end:7:14:
     ArrayTypespec:
       vpiParent: Design name:unnamed
       vpiArrayType: static (1)
@@ -1911,18 +1905,14 @@ Design name:unnamed:
           vpiSize: 64
           vpiDecompile: "0"
           vpiValue: 0
-      vpiElemTypespec RefTypespec name:logic:
+      vpiElemTypespec RefTypespec name:logic start:7:9 end:7:22:
         vpiParent: ArrayTypespec
         vpiName: logic
         vpiFullName: logic
-        vpiActual: UnsupportedTypespec name:logic
     TypedefTypespec name:wb_ind_t start:7:1 end:7:32:
       vpiParent: Design name:unnamed
       vpiName Identifier name:wb_ind_t start:7:23 end:7:31:
       vpiTypedef: Typedef name:wb_ind_t
-    UnsupportedTypespec name:logic start:8:9 end:8:14:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:logic start:8:9 end:8:14:
     ArrayTypespec:
       vpiParent: Design name:unnamed
       vpiArrayType: static (1)
@@ -1960,11 +1950,10 @@ Design name:unnamed:
           vpiSize: 64
           vpiDecompile: "0"
           vpiValue: 0
-      vpiElemTypespec RefTypespec name:logic:
+      vpiElemTypespec RefTypespec name:logic start:8:9 end:8:22:
         vpiParent: ArrayTypespec
         vpiName: logic
         vpiFullName: logic
-        vpiActual: UnsupportedTypespec name:logic
     TypedefTypespec name:id_t start:8:1 end:8:28:
       vpiParent: Design name:unnamed
       vpiName Identifier name:id_t start:8:23 end:8:27:
@@ -1986,16 +1975,18 @@ Design name:unnamed:
     Typedef name:wb_ind_t start:7:1 end:7:32:
       vpiParent: Design name:unnamed
       vpiName Identifier name:wb_ind_t start:7:23 end:7:31:
-      vpiTypedefAlias RefTypespec start:7:9 end:7:22:
+      vpiTypedefAlias RefTypespec name:logic [7-1:0] start:7:9 end:7:22:
         vpiParent: Typedef name:wb_ind_t
-        vpiFullName: wb_ind_t
+        vpiName: logic [7-1:0]
+        vpiFullName: wb_ind_t.logic [7-1:0]
         vpiActual: ArrayTypespec
     Typedef name:id_t start:8:1 end:8:28:
       vpiParent: Design name:unnamed
       vpiName Identifier name:id_t start:8:23 end:8:27:
-      vpiTypedefAlias RefTypespec start:8:9 end:8:22:
+      vpiTypedefAlias RefTypespec name:logic [7-1:0] start:8:9 end:8:22:
         vpiParent: Typedef name:id_t
-        vpiFullName: id_t
+        vpiName: logic [7-1:0]
+        vpiFullName: id_t.logic [7-1:0]
         vpiActual: ArrayTypespec
 ===================
 [  FATAL] : 0
@@ -2049,7 +2040,7 @@ Operation                           24      17       0         7
 RefObj                              34      29       0         5
 RefTypespec                         69      67       7         9
 ----------------------------------------------------------------
-Others                             119     119       0         0
+Others                             113     113       0         0
 ----------------------------------------------------------------
-                                   298     282      14        30
+                                   292     276      14        30
 ===================== END REDUCTION RESULT =====================

@@ -239,10 +239,26 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:a start:12:24 end:12:25:
               vpiParent: Function name:foo_bar
-              vpiTypespec RefTypespec start:12:11 end:12:23:
+              vpiTypespec RefTypespec name:b::foo_bar_t start:12:11 end:12:23:
                 vpiParent: Variable name:a
-                vpiFullName: aa::foo_bar::a
-                vpiActual: UnsupportedTypespec name:b::foo_bar_t
+                vpiName: b::foo_bar_t
+                vpiFullName: aa::foo_bar::a::b::foo_bar_t
+                vpiPathElem (2 items):
+                  RefTypespec name:b start:12:11 end:12:12:
+                    vpiParent: RefTypespec name:b::foo_bar_t
+                    vpiName: b
+                    vpiFullName: aa::foo_bar::a::b::foo_bar_t::b
+                    vpiPathElem (1 items):
+                      RefObj name:b start:12:11 end:12:12:
+                        vpiParent: RefTypespec name:b
+                        vpiName: b
+                        vpiFullName: aa::foo_bar::a::b::foo_bar_t::b
+                        vpiActual: Package name:b
+                  RefTypespec name:foo_bar_t start:12:14 end:12:23:
+                    vpiParent: RefTypespec name:b::foo_bar_t
+                    vpiName: foo_bar_t
+                    vpiFullName: aa::foo_bar::a::b::foo_bar_t::foo_bar_t
+                vpiActual: TypedefTypespec name:foo_bar_t
               vpiName: a
               vpiFullName: aa::foo_bar::a
           vpiVisibility: public (1)
@@ -251,10 +267,26 @@ Design name:unnamed:
             IODecl name:a start:12:24 end:12:25:
               vpiParent: Function name:foo_bar
               vpiName: a
-              vpiTypespec RefTypespec start:12:11 end:12:23:
+              vpiTypespec RefTypespec name:b::foo_bar_t start:12:11 end:12:23:
                 vpiParent: IODecl name:a
-                vpiFullName: aa::foo_bar::a
-                vpiActual: UnsupportedTypespec name:b::foo_bar_t
+                vpiName: b::foo_bar_t
+                vpiFullName: aa::foo_bar::a::b::foo_bar_t
+                vpiPathElem (2 items):
+                  RefTypespec name:b start:12:11 end:12:12:
+                    vpiParent: RefTypespec name:b::foo_bar_t
+                    vpiName: b
+                    vpiFullName: aa::foo_bar::a::b::foo_bar_t::b
+                    vpiPathElem (1 items):
+                      RefObj name:b start:12:11 end:12:12:
+                        vpiParent: RefTypespec name:b
+                        vpiName: b
+                        vpiFullName: aa::foo_bar::a::b::foo_bar_t::b
+                        vpiActual: Package name:b
+                  RefTypespec name:foo_bar_t start:12:14 end:12:23:
+                    vpiParent: RefTypespec name:b::foo_bar_t
+                    vpiName: foo_bar_t
+                    vpiFullName: aa::foo_bar::a::b::foo_bar_t::foo_bar_t
+                vpiActual: TypedefTypespec name:foo_bar_t
           vpiStmt Begin:
             vpiParent: Function name:foo_bar
             vpiFullName: aa::foo_bar
@@ -265,6 +297,21 @@ Design name:unnamed:
                   vpiParent: Variable name:y
                   vpiName: b::foo_bar_t
                   vpiFullName: aa::foo_bar::y::b::foo_bar_t
+                  vpiPathElem (2 items):
+                    RefTypespec name:b start:14:5 end:14:6:
+                      vpiParent: RefTypespec name:b::foo_bar_t
+                      vpiName: b
+                      vpiFullName: aa::foo_bar::y::b::foo_bar_t::b
+                      vpiPathElem (1 items):
+                        RefObj name:b start:14:5 end:14:6:
+                          vpiParent: RefTypespec name:b
+                          vpiName: b
+                          vpiFullName: aa::foo_bar::y::b::foo_bar_t::b
+                          vpiActual: Package name:b
+                    RefTypespec name:foo_bar_t start:14:8 end:14:17:
+                      vpiParent: RefTypespec name:b::foo_bar_t
+                      vpiName: foo_bar_t
+                      vpiFullName: aa::foo_bar::y::b::foo_bar_t::foo_bar_t
                   vpiActual: TypedefTypespec name:foo_bar_t
                 vpiName: y
                 vpiFullName: aa::foo_bar::y
@@ -277,37 +324,7 @@ Design name:unnamed:
                 vpiName: a_vec
                 vpiFullName: aa::foo_bar::a_vec
                 vpiVector: true
-            vpiTypespec (5 items):
-              UnsupportedTypespec name:b start:10:22 end:10:23:
-                vpiParent: Begin
-                vpiName Identifier name:b start:10:22 end:10:23:
-              UnsupportedTypespec name:b::foo_bar_t start:10:22 end:10:34:
-                vpiParent: Begin
-                vpiPathElem (2 items):
-                  RefTypespec start:10:22 end:10:25:
-                    vpiParent: UnsupportedTypespec name:b::foo_bar_t
-                    vpiFullName: aa::foo_bar::b::foo_bar_t
-                    vpiActual: UnsupportedTypespec name:b
-                  RefTypespec name:foo_bar_t start:10:25 end:10:34:
-                    vpiParent: UnsupportedTypespec name:b::foo_bar_t
-                    vpiName: foo_bar_t
-                    vpiFullName: aa::foo_bar::b::foo_bar_t::foo_bar_t
-                vpiName Identifier name:b::foo_bar_t start:10:22 end:10:34:
-              UnsupportedTypespec name:b start:12:11 end:12:12:
-                vpiParent: Begin
-                vpiName Identifier name:b start:12:11 end:12:12:
-              UnsupportedTypespec name:b::foo_bar_t start:12:11 end:12:23:
-                vpiParent: Begin
-                vpiPathElem (2 items):
-                  RefTypespec start:12:11 end:12:14:
-                    vpiParent: UnsupportedTypespec name:b::foo_bar_t
-                    vpiFullName: aa::foo_bar::b::foo_bar_t
-                    vpiActual: UnsupportedTypespec name:b
-                  RefTypespec name:foo_bar_t start:12:14 end:12:23:
-                    vpiParent: UnsupportedTypespec name:b::foo_bar_t
-                    vpiName: foo_bar_t
-                    vpiFullName: aa::foo_bar::b::foo_bar_t::foo_bar_t
-                vpiName Identifier name:b::foo_bar_t start:12:11 end:12:23:
+            vpiTypespec (1 items):
               LogicTypespec:
                 vpiParent: Begin
                 vpiRange (1 items):
@@ -367,10 +384,26 @@ Design name:unnamed:
                       vpiName: y
                       vpiFullName: aa::foo_bar::y
                       vpiActual: Variable name:y
-          vpiReturn RefTypespec start:10:22 end:10:34:
+          vpiReturn RefTypespec name:b::foo_bar_t start:10:22 end:10:34:
             vpiParent: Function name:foo_bar
-            vpiFullName: aa::foo_bar
-            vpiActual: UnsupportedTypespec name:b::foo_bar_t
+            vpiName: b::foo_bar_t
+            vpiFullName: aa::foo_bar::b::foo_bar_t
+            vpiPathElem (2 items):
+              RefTypespec name:b start:10:22 end:10:23:
+                vpiParent: RefTypespec name:b::foo_bar_t
+                vpiName: b
+                vpiFullName: aa::foo_bar::b::foo_bar_t::b
+                vpiPathElem (1 items):
+                  RefObj name:b start:10:22 end:10:23:
+                    vpiParent: RefTypespec name:b
+                    vpiName: b
+                    vpiFullName: aa::foo_bar::b::foo_bar_t::b
+                    vpiActual: Package name:b
+              RefTypespec name:foo_bar_t start:10:25 end:10:34:
+                vpiParent: RefTypespec name:b::foo_bar_t
+                vpiName: foo_bar_t
+                vpiFullName: aa::foo_bar::b::foo_bar_t::foo_bar_t
+            vpiActual: TypedefTypespec name:foo_bar_t
   vpiTypespec (1 items):
     IntTypespec:
       vpiParent: Design name:unnamed

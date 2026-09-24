@@ -15,14 +15,15 @@ COMMAND: -wd ../../../tests/OneNetRange -fileunit -writepp -d db -sv dut.v tb.v 
 [INF:CP5805] $Source01/dut.v:8:1: Compile interface "ConnectTB".
 [INF:CP5804] $Source01/dut.v:11:1: Compile module "middle".
 [WRN:CP5811] $Source01/dut.v:11:49: Port "conn" definition missing its direction (input, output, inout).
+[ERR:CP5824] $Source01/dut.v:11:1: Multiply defined typedef "ConnectTB".
 [INF:CP5804] $Source01/dut.v:15:1: Compile module "SUB".
 [INF:CP5807] $Source01/tb.v:1:9: Compile program "TESTBENCH".
 [WRN:CP5815] $Source01/tb.v:1:9: Using programs is discouraged "TESTBENCH", programs are obsoleted by UVM.
 [INF:CP5804] $Source01/tb.v:16:1: Compile module "TOP".
-[WRN:CP5851] $Source01/tb.v:21:31: Failed to bind "id:372, name:con_i".
-[WRN:CP5851] $Source01/tb.v:21:49: Failed to bind "id:377, name:con_o".
-[WRN:CP5851] $Source01/tb.v:22:41: Failed to bind "id:388, name:con_o".
-[WRN:CP5851] $Source01/tb.v:22:62: Failed to bind "id:393, name:con_i".
+[WRN:CP5851] $Source01/tb.v:21:31: Failed to bind "id:456, name:con_i".
+[WRN:CP5851] $Source01/tb.v:21:49: Failed to bind "id:461, name:con_o".
+[WRN:CP5851] $Source01/tb.v:22:41: Failed to bind "id:472, name:con_o".
+[WRN:CP5851] $Source01/tb.v:22:62: Failed to bind "id:477, name:con_i".
 [WRN:PA5506] $Source01/dut.v:2:1: No timescale set for "dut #(.width(1))".
 [WRN:PA5506] $Source01/dut.v:11:1: No timescale set for "middle #(.width(1))".
 [WRN:PA5506] $Source01/dut.v:15:1: No timescale set for "SUB #(.width(1))".
@@ -49,7 +50,7 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:con_o start:8:98 end:8:103:
           vpiParent: Interface name:ConnectTB #(.width(1))
-          vpiTypespec RefTypespec start:8:75 end:8:97:
+          vpiTypespec RefTypespec start:8:82 end:8:97:
             vpiParent: Variable name:con_o
             vpiFullName: ConnectTB #(.width(1)).con_o
             vpiActual: LogicTypespec
@@ -59,7 +60,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:width start:8:33 end:8:38:
           vpiParent: Interface name:ConnectTB #(.width(1))
-          vpiTypespec RefTypespec start:8:33 end:8:33:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:width
             vpiFullName: ConnectTB #(.width(1)).width
             vpiActual: LogicTypespec
@@ -166,7 +167,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:con_i start:8:68 end:8:73:
           vpiParent: Interface name:ConnectTB #(.width(1))
-          vpiTypespec RefTypespec start:8:45 end:8:67:
+          vpiTypespec RefTypespec start:8:56 end:8:67:
             vpiParent: Net name:con_i
             vpiFullName: ConnectTB #(.width(1)).con_i
             vpiActual: LogicTypespec
@@ -184,7 +185,7 @@ Design name:unnamed:
             vpiName: con_i
             vpiFullName: ConnectTB #(.width(1)).con_i.con_i
             vpiActual: Net name:con_i
-          vpiTypespec RefTypespec start:8:45 end:8:67:
+          vpiTypespec RefTypespec start:8:56 end:8:67:
             vpiParent: Port name:con_i
             vpiFullName: ConnectTB #(.width(1)).con_i
             vpiActual: LogicTypespec
@@ -197,7 +198,7 @@ Design name:unnamed:
             vpiName: con_o
             vpiFullName: ConnectTB #(.width(1)).con_o.con_o
             vpiActual: Variable name:con_o
-          vpiTypespec RefTypespec start:8:75 end:8:97:
+          vpiTypespec RefTypespec start:8:82 end:8:97:
             vpiParent: Port name:con_o
             vpiFullName: ConnectTB #(.width(1)).con_o
             vpiActual: LogicTypespec
@@ -209,7 +210,7 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:drive start:1:98 end:1:103:
           vpiParent: Program name:TESTBENCH #(.width(1))
-          vpiTypespec RefTypespec start:1:75 end:1:97:
+          vpiTypespec RefTypespec start:1:82 end:1:97:
             vpiParent: Variable name:drive
             vpiFullName: TESTBENCH #(.width(1)).drive
             vpiActual: LogicTypespec
@@ -219,7 +220,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:width start:1:31 end:1:36:
           vpiParent: Program name:TESTBENCH #(.width(1))
-          vpiTypespec RefTypespec start:1:31 end:1:31:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:width
             vpiFullName: TESTBENCH #(.width(1)).width
             vpiActual: LogicTypespec
@@ -326,7 +327,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:observe start:1:66 end:1:73:
           vpiParent: Program name:TESTBENCH #(.width(1))
-          vpiTypespec RefTypespec start:1:43 end:1:65:
+          vpiTypespec RefTypespec start:1:54 end:1:65:
             vpiParent: Net name:observe
             vpiFullName: TESTBENCH #(.width(1)).observe
             vpiActual: LogicTypespec
@@ -590,7 +591,7 @@ Design name:unnamed:
             vpiName: observe
             vpiFullName: TESTBENCH #(.width(1)).observe.observe
             vpiActual: Net name:observe
-          vpiTypespec RefTypespec start:1:43 end:1:65:
+          vpiTypespec RefTypespec start:1:54 end:1:65:
             vpiParent: Port name:observe
             vpiFullName: TESTBENCH #(.width(1)).observe
             vpiActual: LogicTypespec
@@ -603,7 +604,7 @@ Design name:unnamed:
             vpiName: drive
             vpiFullName: TESTBENCH #(.width(1)).drive.drive
             vpiActual: Variable name:drive
-          vpiTypespec RefTypespec start:1:75 end:1:97:
+          vpiTypespec RefTypespec start:1:82 end:1:97:
             vpiParent: Port name:drive
             vpiFullName: TESTBENCH #(.width(1)).drive
             vpiActual: LogicTypespec
@@ -615,7 +616,7 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:o start:2:85 end:2:86:
           vpiParent: Module name:dut #(.width(1))
-          vpiTypespec RefTypespec start:2:62 end:2:84:
+          vpiTypespec RefTypespec start:2:69 end:2:84:
             vpiParent: Variable name:o
             vpiFullName: dut #(.width(1)).o
             vpiActual: LogicTypespec
@@ -625,7 +626,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:width start:2:24 end:2:29:
           vpiParent: Module name:dut #(.width(1))
-          vpiTypespec RefTypespec start:2:24 end:2:24:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:width
             vpiFullName: dut #(.width(1)).width
             vpiActual: LogicTypespec
@@ -649,7 +650,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (4 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:dut #(.width(1))
         LogicTypespec:
@@ -722,6 +723,37 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        UnsupportedTypespec start:3:3 end:3:29:
+          vpiParent: Module name:dut #(.width(1))
+          vpiParamAssign (2 items):
+            ParamAssign start:3:15 end:3:28:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:width start:3:16 end:3:21:
+                vpiParent: ParamAssign
+                vpiName: width
+                vpiFullName: dut #(.width(1)).width
+                vpiActual: Parameter name:width
+              vpiRhs RefObj name:width start:3:22 end:3:27:
+                vpiParent: ParamAssign
+                vpiName: width
+                vpiFullName: dut #(.width(1)).width
+                vpiActual: Parameter name:width
+            ParamAssign start:3:15 end:3:28:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:width start:3:16 end:3:21:
+                vpiParent: ParamAssign
+                vpiName: width
+                vpiFullName: dut #(.width(1)).width
+                vpiActual: Parameter name:width
+              vpiRhs RefObj name:width start:3:22 end:3:27:
+                vpiParent: ParamAssign
+                vpiName: width
+                vpiFullName: dut #(.width(1)).width
+                vpiActual: Parameter name:width
         ModuleTypespec name:middle start:4:3 end:4:9:
           vpiParent: Module name:dut #(.width(1))
           vpiName Identifier name:middle start:4:3 end:4:9:
@@ -752,7 +784,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:i start:2:59 end:2:60:
           vpiParent: Module name:dut #(.width(1))
-          vpiTypespec RefTypespec start:2:36 end:2:58:
+          vpiTypespec RefTypespec start:2:47 end:2:58:
             vpiParent: Net name:i
             vpiFullName: dut #(.width(1)).i
             vpiActual: LogicTypespec
@@ -770,7 +802,7 @@ Design name:unnamed:
             vpiName: i
             vpiFullName: dut #(.width(1)).i.i
             vpiActual: Net name:i
-          vpiTypespec RefTypespec start:2:36 end:2:58:
+          vpiTypespec RefTypespec start:2:47 end:2:58:
             vpiParent: Port name:i
             vpiFullName: dut #(.width(1)).i
             vpiActual: LogicTypespec
@@ -783,7 +815,7 @@ Design name:unnamed:
             vpiName: o
             vpiFullName: dut #(.width(1)).o.o
             vpiActual: Variable name:o
-          vpiTypespec RefTypespec start:2:62 end:2:84:
+          vpiTypespec RefTypespec start:2:69 end:2:84:
             vpiParent: Port name:o
             vpiFullName: dut #(.width(1)).o
             vpiActual: LogicTypespec
@@ -791,11 +823,10 @@ Design name:unnamed:
         RefInstance name:conntb start:3:30 end:3:36:
           vpiParent: Module name:dut #(.width(1))
           vpiName: conntb
-          vpiTypespec RefTypespec name:ConnectTB start:3:3 end:3:12:
+          vpiTypespec RefTypespec start:3:3 end:3:12:
             vpiParent: RefInstance name:conntb
-            vpiName: ConnectTB
-            vpiFullName: dut #(.width(1)).conntb.ConnectTB
-            vpiActual: InterfaceTypespec name:ConnectTB
+            vpiFullName: dut #(.width(1)).conntb
+            vpiActual: UnsupportedTypespec
           vpiPort (2 items):
             Port start:3:37 end:3:46:
               vpiParent: RefInstance name:conntb
@@ -803,7 +834,6 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: con_i
                 vpiFullName: dut #(.width(1)).conntb.con_i
-                vpiActual: Port name:con_i
               vpiHighConn RefObj name:i start:3:44 end:3:45:
                 vpiParent: Port
                 vpiName: i
@@ -815,7 +845,6 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: con_o
                 vpiFullName: dut #(.width(1)).conntb.con_o
-                vpiActual: Port name:con_o
               vpiHighConn RefObj name:o start:3:54 end:3:55:
                 vpiParent: Port
                 vpiName: o
@@ -849,7 +878,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:width start:11:27 end:11:32:
           vpiParent: Module name:middle #(.width(1))
-          vpiTypespec RefTypespec start:11:27 end:11:27:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:width
             vpiFullName: middle #(.width(1)).width
             vpiActual: LogicTypespec
@@ -995,7 +1024,7 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:out start:15:87 end:15:90:
           vpiParent: Module name:SUB #(.width(1))
-          vpiTypespec RefTypespec start:15:64 end:15:86:
+          vpiTypespec RefTypespec start:15:71 end:15:86:
             vpiParent: Variable name:out
             vpiFullName: SUB #(.width(1)).out
             vpiActual: LogicTypespec
@@ -1005,7 +1034,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:width start:15:24 end:15:29:
           vpiParent: Module name:SUB #(.width(1))
-          vpiTypespec RefTypespec start:15:24 end:15:24:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:width
             vpiFullName: SUB #(.width(1)).width
             vpiActual: LogicTypespec
@@ -1112,7 +1141,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:inp start:15:59 end:15:62:
           vpiParent: Module name:SUB #(.width(1))
-          vpiTypespec RefTypespec start:15:36 end:15:58:
+          vpiTypespec RefTypespec start:15:47 end:15:58:
             vpiParent: Net name:inp
             vpiFullName: SUB #(.width(1)).inp
             vpiActual: LogicTypespec
@@ -1130,7 +1159,7 @@ Design name:unnamed:
             vpiName: inp
             vpiFullName: SUB #(.width(1)).inp.inp
             vpiActual: Net name:inp
-          vpiTypespec RefTypespec start:15:36 end:15:58:
+          vpiTypespec RefTypespec start:15:47 end:15:58:
             vpiParent: Port name:inp
             vpiFullName: SUB #(.width(1)).inp
             vpiActual: LogicTypespec
@@ -1143,7 +1172,7 @@ Design name:unnamed:
             vpiName: out
             vpiFullName: SUB #(.width(1)).out.out
             vpiActual: Variable name:out
-          vpiTypespec RefTypespec start:15:64 end:15:86:
+          vpiTypespec RefTypespec start:15:71 end:15:86:
             vpiParent: Port name:out
             vpiFullName: SUB #(.width(1)).out
             vpiActual: LogicTypespec
@@ -1167,7 +1196,7 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:width start:17:13 end:17:18:
           vpiParent: Module name:TOP
-          vpiTypespec RefTypespec start:17:13 end:17:13:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:width
             vpiFullName: TOP.width
             vpiActual: LogicTypespec
@@ -1483,7 +1512,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 12
 [   NOTE] : 0
 ********************************************************************************
@@ -1499,28 +1528,27 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/OneNetRange/OneNetRange/mounts.json
 
 
-{'result': {'coverage': 98.28,
+{'result': {'coverage': 99.18,
             'error_count': 0,
             'file_count': 2,
-            'files': {'$Output/lib/work/dut.v': {'post_len': 11,
-                                                 'pre_len': 549},
+            'files': {'$Output/lib/work/dut.v': {'post_len': 0, 'pre_len': 549},
                       '$Output/lib/work/tb.v': {'post_len': 10,
                                                 'pre_len': 672}},
-            'post_len': 21,
+            'post_len': 10,
             'pre_len': 1221,
             'test_name': 'OneNetRange/OneNetRange'}}
 
 +------------------------+----------+-----------+
 | INPUT                  |   PRELEN |   POSTLEN |
 +========================+==========+===========+
-| $Output/lib/work/dut.v |      549 |        11 |
+| $Output/lib/work/dut.v |      549 |         0 |
 | $Output/lib/work/tb.v  |      672 |        10 |
 +========================+==========+===========+
-|                        |     1221 |        21 |
+|                        |     1221 |        10 |
 +------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.28
+[COVERAGE] : 99.18
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1532,10 +1560,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            40      40      10        10
 Operation                           12       2       0        10
-RefObj                              80      70       0        10
+RefObj                              84      74       0        10
 RefTypespec                         72      72      10        10
 ----------------------------------------------------------------
-Others                             144     144       0         0
+Others                             147     147       0         0
 ----------------------------------------------------------------
-                                   348     328      20        40
+                                   355     335      20        40
 ===================== END REDUCTION RESULT =====================

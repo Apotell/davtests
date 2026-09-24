@@ -460,6 +460,7 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/top.sv:34:1: No timescale set for "top2 #(.Width(2))".
 [WRN:PA5506] $Source01/top.sv:1:1: No timescale set for "abc_if #(.NO_Input(3))".
 [WRN:PA5506] $Source01/top.sv:22:1: No timescale set for "pins_if #(.Width(1))".
+[ERR:LN7701] Invalid name: id:809, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1777,7 +1778,7 @@ Design name:unnamed:
               vpiParent: Task name:put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:9:13 end:9:13:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::put::message
                 vpiActual: LogicTypespec
@@ -1797,7 +1798,7 @@ Design name:unnamed:
               vpiParent: Function name:try_put
               vpiName: message
               vpiDirection: input (1)
-              vpiTypespec RefTypespec start:12:21 end:12:21:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_put::message
                 vpiActual: LogicTypespec
@@ -1819,7 +1820,7 @@ Design name:unnamed:
               vpiParent: Task name:get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:15:17 end:15:17:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::get::message
                 vpiActual: LogicTypespec
@@ -1837,7 +1838,7 @@ Design name:unnamed:
               vpiParent: Function name:try_get
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:18:29 end:18:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_get::message
                 vpiActual: LogicTypespec
@@ -1859,7 +1860,7 @@ Design name:unnamed:
               vpiParent: Task name:peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:21:18 end:21:18:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::peek::message
                 vpiActual: LogicTypespec
@@ -1877,7 +1878,7 @@ Design name:unnamed:
               vpiParent: Function name:try_peek
               vpiName: message
               vpiDirection: ref (6)
-              vpiTypespec RefTypespec start:24:29 end:24:29:
+              vpiTypespec RefTypespec:
                 vpiParent: IODecl name:message
                 vpiFullName: mailbox::try_peek::message
                 vpiActual: LogicTypespec
@@ -1942,24 +1943,22 @@ Design name:unnamed:
               vpiClassDefn: ClassDefn name:process
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:34:19 end:34:26:
+          vpiReturn RefTypespec name:process start:34:19 end:34:26:
             vpiParent: Function name:self
-            vpiFullName: process::self
+            vpiName: process
+            vpiFullName: process::self::process
             vpiActual: ClassTypespec name:process
         Function name:status start:37:3 end:38:14:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:status start:37:18 end:37:24:
           vpiFullName: process::status
-          vpiTypespec (1 items):
-            UnsupportedTypespec name:state start:37:12 end:37:17:
-              vpiParent: Function name:status
-              vpiName Identifier name:state start:37:12 end:37:17:
           vpiMethod: true
           vpiVisibility: public (1)
-          vpiReturn RefTypespec start:37:12 end:37:17:
+          vpiReturn RefTypespec name:state start:37:12 end:37:17:
             vpiParent: Function name:status
-            vpiFullName: process::status
-            vpiActual: UnsupportedTypespec name:state
+            vpiName: state
+            vpiFullName: process::status::state
+            vpiActual: TypedefTypespec name:state
         Task name:kill start:40:3 end:41:10:
           vpiParent: ClassDefn name:process
           vpiName Identifier name:kill start:40:8 end:40:12:
@@ -2436,7 +2435,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:pins start:23:21 end:23:25:
           vpiParent: Interface name:pins_if #(.Width(1))
-          vpiTypespec RefTypespec start:23:3 end:23:20:
+          vpiTypespec RefTypespec start:23:9 end:23:20:
             vpiParent: Net name:pins
             vpiFullName: pins_if #(.Width(1)).pins
             vpiActual: LogicTypespec
@@ -2454,7 +2453,7 @@ Design name:unnamed:
             vpiName: pins
             vpiFullName: pins_if #(.Width(1)).pins.pins
             vpiActual: Net name:pins
-          vpiTypespec RefTypespec start:23:3 end:23:20:
+          vpiTypespec RefTypespec start:23:9 end:23:20:
             vpiParent: Port name:pins
             vpiFullName: pins_if #(.Width(1)).pins
             vpiActual: LogicTypespec
@@ -2619,7 +2618,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:top2 #(.Width(2))
           vpiRange (1 items):
@@ -2655,6 +2654,37 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        UnsupportedTypespec start:35:1 end:35:25:
+          vpiParent: Module name:top2 #(.Width(2))
+          vpiParamAssign (2 items):
+            ParamAssign start:35:11 end:35:24:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:Width start:35:12 end:35:17:
+                vpiParent: ParamAssign
+                vpiName: Width
+                vpiFullName: top2 #(.Width(2)).Width
+                vpiActual: Parameter name:Width
+              vpiRhs RefObj name:Width start:35:18 end:35:23:
+                vpiParent: ParamAssign
+                vpiName: Width
+                vpiFullName: top2 #(.Width(2)).Width
+                vpiActual: Parameter name:Width
+            ParamAssign start:35:11 end:35:24:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:Width start:35:12 end:35:17:
+                vpiParent: ParamAssign
+                vpiName: Width
+                vpiFullName: top2 #(.Width(2)).Width
+                vpiActual: Parameter name:Width
+              vpiRhs RefObj name:Width start:35:18 end:35:23:
+                vpiParent: ParamAssign
+                vpiName: Width
+                vpiFullName: top2 #(.Width(2)).Width
+                vpiActual: Parameter name:Width
       vpiDefName: top2
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:34:8 end:34:12:
@@ -2665,7 +2695,7 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:pins start:34:61 end:34:65:
           vpiParent: Module name:top2 #(.Width(2))
-          vpiTypespec RefTypespec start:34:43 end:34:60:
+          vpiTypespec RefTypespec start:34:49 end:34:60:
             vpiParent: Net name:pins
             vpiFullName: top2 #(.Width(2)).pins
             vpiActual: LogicTypespec
@@ -2683,7 +2713,7 @@ Design name:unnamed:
             vpiName: pins
             vpiFullName: top2 #(.Width(2)).pins.pins
             vpiActual: Net name:pins
-          vpiTypespec RefTypespec start:34:43 end:34:60:
+          vpiTypespec RefTypespec start:34:49 end:34:60:
             vpiParent: Port name:pins
             vpiFullName: top2 #(.Width(2)).pins
             vpiActual: LogicTypespec
@@ -2691,19 +2721,16 @@ Design name:unnamed:
         RefInstance name:intf start:35:26 end:35:30:
           vpiParent: Module name:top2 #(.Width(2))
           vpiName: intf
-          vpiTypespec RefTypespec name:pins_if start:35:1 end:35:8:
+          vpiTypespec RefTypespec start:35:1 end:35:8:
             vpiParent: RefInstance name:intf
-            vpiName: pins_if
-            vpiFullName: top2 #(.Width(2)).intf.pins_if
-            vpiActual: InterfaceTypespec name:pins_if
+            vpiFullName: top2 #(.Width(2)).intf
+            vpiActual: UnsupportedTypespec
           vpiPort (1 items):
             Port start:35:33 end:35:37:
               vpiParent: RefInstance name:intf
-              vpiLowConn RefObj name:pins:
+              vpiLowConn RefObj:
                 vpiParent: Port
-                vpiName: pins
-                vpiFullName: top2 #(.Width(2)).intf.pins
-                vpiActual: Port name:pins
+                vpiFullName: top2 #(.Width(2)).intf
               vpiHighConn RefObj name:pins start:35:33 end:35:37:
                 vpiParent: Port
                 vpiName: pins
@@ -2872,7 +2899,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 5
 [   NOTE] : 1
 ********************************************************************************
@@ -2888,25 +2915,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/GenerateInterface/GenerateInterface/mounts.json
 
 
-{'result': {'coverage': 98.45,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.sv': {'post_len': 11,
+            'files': {'$Output/lib/work/top.sv': {'post_len': 0,
                                                   'pre_len': 710}},
-            'post_len': 11,
+            'post_len': 0,
             'pre_len': 710,
             'test_name': 'GenerateInterface/GenerateInterface'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/top.sv |      710 |        11 |
+| $Output/lib/work/top.sv |      710 |         0 |
 +=========================+==========+===========+
-|                         |      710 |        11 |
+|                         |      710 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.45
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -2918,10 +2945,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            25      25       5         5
 Operation                           14       9       0         5
-RefObj                              39      34       0         5
+RefObj                              43      38       0         5
 RefTypespec                        217     217       5         5
 ----------------------------------------------------------------
-Others                             509     509       0         0
+Others                             510     510       0         0
 ----------------------------------------------------------------
-                                   804     794      10        20
+                                   809     799      10        20
 ===================== END REDUCTION RESULT =====================

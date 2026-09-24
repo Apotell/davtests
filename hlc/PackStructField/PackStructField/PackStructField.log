@@ -153,10 +153,6 @@ n<$Source01/dut.sv> u<138> t<Top_level_rule> c<1> l<2:1> el<24:22>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:2:1: Compile package "my_package".
 [INF:CP5804] $Source01/dut.sv:16:1: Compile module "my_module".
-[WRN:CP5851] $Source01/dut.sv:21:24: Failed to bind "id:74, name:my_parameter".
-[WRN:CP5851] $Source01/dut.sv:21:37: Failed to bind "id:75, name:a".
-[WRN:CP5851] $Source01/dut.sv:22:24: Failed to bind "id:82, name:my_parameter".
-[WRN:CP5851] $Source01/dut.sv:22:37: Failed to bind "id:83, name:b".
 [WRN:PA5506] $Source01/dut.sv:2:1: No timescale set for "my_package".
 [WRN:PA5506] $Source01/dut.sv:16:1: No timescale set for "my_module".
 ====== HLDB =======
@@ -206,6 +202,22 @@ Design name:unnamed:
             vpiParent: Parameter name:my_parameter
             vpiName: my_package::my_struct
             vpiFullName: my_package::my_parameter::my_package::my_struct
+            vpiPathElem (2 items):
+              RefTypespec name:my_package start:9:13 end:9:23:
+                vpiParent: RefTypespec name:my_package::my_struct
+                vpiName: my_package
+                vpiFullName: my_package::my_parameter::my_package::my_struct::my_package
+                vpiPathElem (1 items):
+                  RefObj name:my_package start:9:13 end:9:23:
+                    vpiParent: RefTypespec name:my_package
+                    vpiName: my_package
+                    vpiFullName: my_package::my_parameter::my_package::my_struct::my_package
+                    vpiActual: Package name:my_package
+              RefTypespec name:my_struct start:9:25 end:9:34:
+                vpiParent: RefTypespec name:my_package::my_struct
+                vpiName: my_struct
+                vpiFullName: my_package::my_parameter::my_package::my_struct::my_struct
+                vpiActual: TypedefTypespec name:my_struct
             vpiActual: TypedefTypespec name:my_struct
           vpiName: my_parameter
           vpiFullName: my_package::my_parameter
@@ -282,59 +294,52 @@ Design name:unnamed:
       vpiVariable (2 items):
         Variable name:x start:17:34 end:17:35:
           vpiParent: Module name:my_module
-          vpiTypespec RefTypespec name:my_struct start:17:24 end:17:33:
+          vpiTypespec RefTypespec name:my_package::my_struct start:17:12 end:17:33:
             vpiParent: Variable name:x
-            vpiName: my_struct
-            vpiFullName: my_module.x.my_struct
-            vpiActual: UnsupportedTypespec name:my_package::my_struct
+            vpiName: my_package::my_struct
+            vpiFullName: my_module.x.my_package::my_struct
+            vpiPathElem (2 items):
+              RefTypespec name:my_package start:17:12 end:17:22:
+                vpiParent: RefTypespec name:my_package::my_struct
+                vpiName: my_package
+                vpiFullName: my_module.x.my_package::my_struct.my_package
+                vpiPathElem (1 items):
+                  RefObj name:my_package start:17:12 end:17:22:
+                    vpiParent: RefTypespec name:my_package
+                    vpiName: my_package
+                    vpiFullName: my_module.x.my_package::my_struct.my_package
+                    vpiActual: Package name:my_package
+              RefTypespec name:my_struct start:17:24 end:17:33:
+                vpiParent: RefTypespec name:my_package::my_struct
+                vpiName: my_struct
+                vpiFullName: my_module.x.my_package::my_struct.my_struct
+            vpiActual: TypedefTypespec name:my_struct
           vpiName: x
           vpiFullName: my_module.x
         Variable name:y start:18:34 end:18:35:
           vpiParent: Module name:my_module
-          vpiTypespec RefTypespec name:my_struct start:18:24 end:18:33:
+          vpiTypespec RefTypespec name:my_package::my_struct start:18:12 end:18:33:
             vpiParent: Variable name:y
-            vpiName: my_struct
-            vpiFullName: my_module.y.my_struct
-            vpiActual: UnsupportedTypespec name:my_package::my_struct
+            vpiName: my_package::my_struct
+            vpiFullName: my_module.y.my_package::my_struct
+            vpiPathElem (2 items):
+              RefTypespec name:my_package start:18:12 end:18:22:
+                vpiParent: RefTypespec name:my_package::my_struct
+                vpiName: my_package
+                vpiFullName: my_module.y.my_package::my_struct.my_package
+                vpiPathElem (1 items):
+                  RefObj name:my_package start:18:12 end:18:22:
+                    vpiParent: RefTypespec name:my_package
+                    vpiName: my_package
+                    vpiFullName: my_module.y.my_package::my_struct.my_package
+                    vpiActual: Package name:my_package
+              RefTypespec name:my_struct start:18:24 end:18:33:
+                vpiParent: RefTypespec name:my_package::my_struct
+                vpiName: my_struct
+                vpiFullName: my_module.y.my_package::my_struct.my_struct
+            vpiActual: TypedefTypespec name:my_struct
           vpiName: y
           vpiFullName: my_module.y
-      vpiTypespec (6 items):
-        UnsupportedTypespec name:my_package start:17:12 end:17:22:
-          vpiParent: Module name:my_module
-          vpiName Identifier name:my_package start:17:12 end:17:22:
-        UnsupportedTypespec name:my_package::my_struct start:17:12 end:17:33:
-          vpiParent: Module name:my_module
-          vpiPathElem (2 items):
-            RefTypespec start:17:12 end:17:24:
-              vpiParent: UnsupportedTypespec name:my_package::my_struct
-              vpiFullName: my_module.my_package::my_struct
-              vpiActual: UnsupportedTypespec name:my_package
-            RefTypespec name:my_struct start:17:24 end:17:33:
-              vpiParent: UnsupportedTypespec name:my_package::my_struct
-              vpiName: my_struct
-              vpiFullName: my_module.my_package::my_struct.my_struct
-          vpiName Identifier name:my_package::my_struct start:17:12 end:17:33:
-        UnsupportedTypespec name:my_package start:18:12 end:18:22:
-          vpiParent: Module name:my_module
-          vpiName Identifier name:my_package start:18:12 end:18:22:
-        UnsupportedTypespec name:my_package::my_struct start:18:12 end:18:33:
-          vpiParent: Module name:my_module
-          vpiPathElem (2 items):
-            RefTypespec start:18:12 end:18:24:
-              vpiParent: UnsupportedTypespec name:my_package::my_struct
-              vpiFullName: my_module.my_package::my_struct
-              vpiActual: UnsupportedTypespec name:my_package
-            RefTypespec name:my_struct start:18:24 end:18:33:
-              vpiParent: UnsupportedTypespec name:my_package::my_struct
-              vpiName: my_struct
-              vpiFullName: my_module.my_package::my_struct.my_struct
-          vpiName Identifier name:my_package::my_struct start:18:12 end:18:33:
-        UnsupportedTypespec name:my_package start:21:12 end:21:22:
-          vpiParent: Module name:my_module
-          vpiName Identifier name:my_package start:21:12 end:21:22:
-        UnsupportedTypespec name:my_package start:22:12 end:22:22:
-          vpiParent: Module name:my_module
-          vpiName Identifier name:my_package start:22:12 end:22:22:
       vpiDefName: my_module
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:16:8 end:16:17:
@@ -352,11 +357,26 @@ Design name:unnamed:
             vpiName: x
             vpiFullName: my_module.x.x
             vpiActual: Variable name:x
-          vpiTypespec RefTypespec name:my_struct start:17:24 end:17:33:
+          vpiTypespec RefTypespec name:my_package::my_struct start:17:12 end:17:33:
             vpiParent: Port name:x
-            vpiName: my_struct
-            vpiFullName: my_module.x.my_struct
-            vpiActual: UnsupportedTypespec name:my_package::my_struct
+            vpiName: my_package::my_struct
+            vpiFullName: my_module.x.my_package::my_struct
+            vpiPathElem (2 items):
+              RefTypespec name:my_package start:17:12 end:17:22:
+                vpiParent: RefTypespec name:my_package::my_struct
+                vpiName: my_package
+                vpiFullName: my_module.x.my_package::my_struct.my_package
+                vpiPathElem (1 items):
+                  RefObj name:my_package start:17:12 end:17:22:
+                    vpiParent: RefTypespec name:my_package
+                    vpiName: my_package
+                    vpiFullName: my_module.x.my_package::my_struct.my_package
+                    vpiActual: Package name:my_package
+              RefTypespec name:my_struct start:17:24 end:17:33:
+                vpiParent: RefTypespec name:my_package::my_struct
+                vpiName: my_struct
+                vpiFullName: my_module.x.my_package::my_struct.my_struct
+            vpiActual: TypedefTypespec name:my_struct
         Port name:y start:18:34 end:18:35:
           vpiParent: Module name:my_module
           vpiName: y
@@ -366,11 +386,26 @@ Design name:unnamed:
             vpiName: y
             vpiFullName: my_module.y.y
             vpiActual: Variable name:y
-          vpiTypespec RefTypespec name:my_struct start:18:24 end:18:33:
+          vpiTypespec RefTypespec name:my_package::my_struct start:18:12 end:18:33:
             vpiParent: Port name:y
-            vpiName: my_struct
-            vpiFullName: my_module.y.my_struct
-            vpiActual: UnsupportedTypespec name:my_package::my_struct
+            vpiName: my_package::my_struct
+            vpiFullName: my_module.y.my_package::my_struct
+            vpiPathElem (2 items):
+              RefTypespec name:my_package start:18:12 end:18:22:
+                vpiParent: RefTypespec name:my_package::my_struct
+                vpiName: my_package
+                vpiFullName: my_module.y.my_package::my_struct.my_package
+                vpiPathElem (1 items):
+                  RefObj name:my_package start:18:12 end:18:22:
+                    vpiParent: RefTypespec name:my_package
+                    vpiName: my_package
+                    vpiFullName: my_module.y.my_package::my_struct.my_package
+                    vpiActual: Package name:my_package
+              RefTypespec name:my_struct start:18:24 end:18:33:
+                vpiParent: RefTypespec name:my_package::my_struct
+                vpiName: my_struct
+                vpiFullName: my_module.y.my_package::my_struct.my_struct
+            vpiActual: TypedefTypespec name:my_struct
       vpiContAssign (2 items):
         ContAssign start:21:8 end:21:38:
           vpiParent: Module name:my_module
@@ -384,18 +419,21 @@ Design name:unnamed:
             vpiName: my_package::my_parameter.a
             vpiFullName: my_module.my_package::my_parameter.a
             vpiPathElem (3 items):
-              RefTypespec start:21:12 end:21:24:
+              RefObj name:my_package start:21:12 end:21:22:
                 vpiParent: RefObj name:my_package::my_parameter.a
-                vpiFullName: my_module.my_package::my_parameter.a
-                vpiActual: UnsupportedTypespec name:my_package
+                vpiName: my_package
+                vpiFullName: my_module.my_package
+                vpiActual: Package name:my_package
               RefObj name:my_parameter start:21:24 end:21:36:
                 vpiParent: RefObj name:my_package::my_parameter.a
                 vpiName: my_parameter
                 vpiFullName: my_module.my_parameter
+                vpiActual: Parameter name:my_parameter
               RefObj name:a start:21:37 end:21:38:
                 vpiParent: RefObj name:my_package::my_parameter.a
                 vpiName: a
                 vpiFullName: my_module.a
+                vpiActual: TypespecMember name:a
         ContAssign start:22:8 end:22:38:
           vpiParent: Module name:my_module
           vpiLhs RefObj name:y start:22:8 end:22:9:
@@ -408,18 +446,21 @@ Design name:unnamed:
             vpiName: my_package::my_parameter.b
             vpiFullName: my_module.my_package::my_parameter.b
             vpiPathElem (3 items):
-              RefTypespec start:22:12 end:22:24:
+              RefObj name:my_package start:22:12 end:22:22:
                 vpiParent: RefObj name:my_package::my_parameter.b
-                vpiFullName: my_module.my_package::my_parameter.b
-                vpiActual: UnsupportedTypespec name:my_package
+                vpiName: my_package
+                vpiFullName: my_module.my_package
+                vpiActual: Package name:my_package
               RefObj name:my_parameter start:22:24 end:22:36:
                 vpiParent: RefObj name:my_package::my_parameter.b
                 vpiName: my_parameter
                 vpiFullName: my_module.my_parameter
+                vpiActual: Parameter name:my_parameter
               RefObj name:b start:22:37 end:22:38:
                 vpiParent: RefObj name:my_package::my_parameter.b
                 vpiName: b
                 vpiFullName: my_module.b
+                vpiActual: TypespecMember name:b
       vpiEndLabel Identifier name:my_module start:24:13 end:24:22:
   vpiTypespec (1 items):
     ModuleTypespec name:my_module:
@@ -431,7 +472,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -475,7 +516,7 @@ COMMAND: ${HLC_DIR}/regression/PackStructField/PackStructField/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              76      76       0         0
+Others                              75      75       0         0
 ----------------------------------------------------------------
-                                    76      76       0         0
+                                    75      75       0         0
 ===================== END REDUCTION RESULT =====================

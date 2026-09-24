@@ -251,6 +251,7 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_gen8.v:8:1: Compile interface "intf".
 [INF:CP5804] $Source01/t_interface_gen8.v:15:1: Compile module "t1".
 [WRN:CP5811] $Source01/t_interface_gen8.v:15:16: Port "mod_intf" definition missing its direction (input, output, inout).
+[ERR:CP5824] $Source01/t_interface_gen8.v:15:1: Multiply defined typedef "intf".
 [INF:CP5804] $Source01/t_interface_gen8.v:21:1: Compile module "t".
 [INF:CP5836] $Source01/t_interface_gen8.v:28:66: Compile generate block "TestIf".
 [INF:CM5028] Using global timescale: "1ns/1ns".
@@ -274,13 +275,12 @@ Design name:unnamed:
             vpiParent: Variable name:val
             vpiName: logic
             vpiFullName: intf #(.PARAM(0)).val.logic
-            vpiActual: UnsupportedTypespec name:logic
           vpiName: val
           vpiFullName: intf #(.PARAM(0)).val
       vpiParameter (1 items):
         Parameter name:PARAM start:9:15 end:9:20:
           vpiParent: Interface name:intf #(.PARAM(0))
-          vpiTypespec RefTypespec start:9:15 end:9:15:
+          vpiTypespec RefTypespec:
             vpiParent: Parameter name:PARAM
             vpiFullName: intf #(.PARAM(0)).PARAM
             vpiActual: LogicTypespec
@@ -304,12 +304,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:intf #(.PARAM(0))
-        UnsupportedTypespec name:logic start:11:4 end:11:9:
-          vpiParent: Interface name:intf #(.PARAM(0))
-          vpiName Identifier name:logic start:11:4 end:11:9:
       vpiDefName: intf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:11 end:8:15:
@@ -427,6 +424,46 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:21:8 end:21:9:
       vpiFullName: t
+      vpiTypespec (1 items):
+        UnsupportedTypespec start:24:4 end:24:21:
+          vpiParent: Module name:t
+          vpiParamAssign (2 items):
+            ParamAssign start:24:11 end:24:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:PARAM start:24:12 end:24:17:
+                vpiParent: ParamAssign
+                vpiName: PARAM
+                vpiFullName: t.PARAM
+              vpiRhs Constant start:24:18 end:24:19:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
+            ParamAssign start:24:11 end:24:20:
+              vpiParent: UnsupportedTypespec
+              vpiConnByName: true
+              vpiOverridden: true
+              vpiLhs RefObj name:PARAM start:24:12 end:24:17:
+                vpiParent: ParamAssign
+                vpiName: PARAM
+                vpiFullName: t.PARAM
+              vpiRhs Constant start:24:18 end:24:19:
+                vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:21:8 end:21:9:
@@ -462,11 +499,10 @@ Design name:unnamed:
         RefInstance name:my_intf start:24:22 end:24:29:
           vpiParent: Module name:t
           vpiName: my_intf
-          vpiTypespec RefTypespec name:intf start:24:4 end:24:8:
+          vpiTypespec RefTypespec start:24:4 end:24:8:
             vpiParent: RefInstance name:my_intf
-            vpiName: intf
-            vpiFullName: t.my_intf.intf
-            vpiActual: InterfaceTypespec name:intf
+            vpiFullName: t.my_intf
+            vpiActual: UnsupportedTypespec
       vpiGenStmt (1 items):
         GenRegion start:26:4 end:33:15:
           vpiParent: Module name:t
@@ -587,7 +623,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -603,25 +639,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Verilator/t_interface_gen8/mounts.json
 
 
-{'result': {'coverage': 98.36,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/t_interface_gen8.v': {'post_len': 7,
+            'files': {'$Output/lib/work/t_interface_gen8.v': {'post_len': 0,
                                                               'pre_len': 427}},
-            'post_len': 7,
+            'post_len': 0,
             'pre_len': 427,
             'test_name': 'Verilator/t_interface_gen8'}}
 
 +-------------------------------------+----------+-----------+
 | INPUT                               |   PRELEN |   POSTLEN |
 +=====================================+==========+===========+
-| $Output/lib/work/t_interface_gen8.v |      427 |         7 |
+| $Output/lib/work/t_interface_gen8.v |      427 |         0 |
 +=====================================+==========+===========+
-|                                     |      427 |         7 |
+|                                     |      427 |         0 |
 +-------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.36
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -632,7 +668,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_gen8/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              86      86       0         0
+Others                              93      93       0         0
 ----------------------------------------------------------------
-                                    86      86       0         0
+                                    93      93       0         0
 ===================== END REDUCTION RESULT =====================
