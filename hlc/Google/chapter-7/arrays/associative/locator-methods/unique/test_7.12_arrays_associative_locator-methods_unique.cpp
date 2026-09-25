@@ -436,10 +436,7 @@ TEST_F(ArrayLocatorUniqueTest, NoContAssigns) {
 
 // --- compiler diagnostics: known parenthesis-less-builtin-call limitation ----
 
-TEST_F(ArrayLocatorUniqueTest, SortAndSizeMethodCallsDoNotYetResolve) {
-  GTEST_SKIP() << "IEEE 1800-2017 7.12/7.24.4: built-in array-ordering/query methods (here "
-                  "\".sort\" and \".size\") may be called without parentheses; HLC does not "
-                  "yet resolve either parenthesis-less form.";
+TEST_F(ArrayLocatorUniqueTest, SortAndSizeMethodCallsResolve) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "sort"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
 }

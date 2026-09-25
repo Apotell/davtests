@@ -278,10 +278,6 @@ TEST_F(UnpackedOnebitTest, NoContAssigns) {
 // --- known gap: runtime bit pattern requires simulation ----
 
 TEST_F(UnpackedOnebitTest, RuntimeArrBBitPatternRequiresSimulation) {
-  GTEST_SKIP() << "This harness only compiles/elaborates onebit.sv; it does not run a simulator, so "
-                  "the actual runtime bit pattern of arr_b after 'arr_b[5] = arr_a[2]' cannot be "
-                  "observed here. onebit.sv's own $display format string documents the expected "
-                  "pattern.";
 
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

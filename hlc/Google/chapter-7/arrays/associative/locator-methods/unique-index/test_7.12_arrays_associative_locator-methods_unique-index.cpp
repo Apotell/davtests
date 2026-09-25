@@ -439,10 +439,7 @@ TEST_F(ArrayLocatorUniqueIndexTest, NoContAssigns) {
 
 // --- compiler diagnostics: known parenthesis-less-builtin-call limitation ----
 
-TEST_F(ArrayLocatorUniqueIndexTest, UniqueIndexSortAndSizeMethodCallsDoNotYetResolve) {
-  GTEST_SKIP() << "IEEE 1800-2017 7.12/7.24.4: built-in array-locator/ordering/query methods "
-                  "(here \".unique_index\", \".sort\", and \".size\") may be called without "
-                  "parentheses; HLC does not yet resolve any of these parenthesis-less forms.";
+TEST_F(ArrayLocatorUniqueIndexTest, UniqueIndexSortAndSizeMethodCallsResolve) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "unique_index"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "sort"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);

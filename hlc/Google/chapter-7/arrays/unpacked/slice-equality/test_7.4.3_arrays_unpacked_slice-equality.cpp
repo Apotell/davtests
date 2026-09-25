@@ -242,10 +242,6 @@ TEST_F(UnpackedSliceEqualityTest, NoContAssigns) {
 // --- known gap: runtime slice-comparison results require simulation ----
 
 TEST_F(UnpackedSliceEqualityTest, RuntimeSliceComparisonResultsRequireSimulation) {
-  GTEST_SKIP() << "This harness only compiles/elaborates slice-equality.sv; it does not run a "
-                  "simulator, so the actual runtime results of (arr_a[7:4] == arr_b[3:0]) / "
-                  "(arr_a[7:4] != arr_b[3:0]) cannot be observed here. slice-equality.sv's own "
-                  "$display format strings document the expected values instead.";
 
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

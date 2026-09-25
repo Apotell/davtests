@@ -232,9 +232,6 @@ TEST_F(UnpackedOperationsTest, NoContAssigns) {
 // --- known gap: runtime bit-pattern values require simulation ----
 
 TEST_F(UnpackedOperationsTest, RuntimeArrValuesRequireSimulation) {
-  GTEST_SKIP() << "This harness only compiles/elaborates operations.sv; it does not run a simulator, "
-                  "so the actual runtime bit patterns of arr after each write cannot be observed "
-                  "here. operations.sv's own $display format strings document the expected values.";
 
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

@@ -206,10 +206,7 @@ TEST_F(ForkInvalidTest, InitialBodyCallsFunAndResolvesBackToFun) {
 // ---------------------------------------------------------------------------
 // THE POINT OF THIS FILE: fork-join_any is illegal inside a function
 // ---------------------------------------------------------------------------
-TEST_F(ForkInvalidTest, CompilerShouldRejectForkJoinAnyInsideFunctionButDoesNot) {
-  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected): "
-                  "IEEE 1800-2023 13.4.4 only permits fork-join_none inside a function, but HLC accepts "
-                  "fork-join_any with zero diagnostics. Tracked, not yet fixed by the compiler.";
+TEST_F(ForkInvalidTest, CompilerRejectsForkJoinAnyInsideFunction) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)

@@ -238,11 +238,7 @@ TEST_F(RealEdgeTest, NoContAssigns) {
 // ---------------------------------------------------------------------------
 // The actual point of the file: posedge on a real variable is illegal
 // ---------------------------------------------------------------------------
-TEST_F(RealEdgeTest, CompilerShouldRejectPosedgeOnRealVariableButDoesNot) {
-  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed "
-                  "(fails as expected): IEEE 1800-2023 6.12 prohibits edge event controls "
-                  "(posedge, negedge, edge) applied to real variables ('posedge a'), but HLC "
-                  "accepts it with zero diagnostics. Tracked, not yet fixed by the compiler.";
+TEST_F(RealEdgeTest, CompilerRejectsPosedgeOnRealVariable) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)

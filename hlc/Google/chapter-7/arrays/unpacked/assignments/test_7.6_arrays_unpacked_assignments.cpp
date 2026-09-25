@@ -255,9 +255,6 @@ TEST_F(UnpackedAssignmentsTest, NoContAssigns) {
 // --- known gap: runtime array-copy contents require simulation ----
 
 TEST_F(UnpackedAssignmentsTest, RuntimeArrayCopyContentsRequireSimulation) {
-  GTEST_SKIP() << "This harness only compiles/elaborates assignments.sv; it does not run a simulator, "
-                  "so the actual runtime contents of B after 'B = A' cannot be observed here. "
-                  "assignments.sv's own $display format string documents the expected values.";
 
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
