@@ -54,6 +54,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -209,8 +210,7 @@ TEST_F(PackedStructDefaultValueTest, ModuleHasNoProcesses) {
 
 TEST_F(PackedStructDefaultValueTest, CompilerShouldRejectPackedMemberDefaultValueButDoesNot) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  EXPECT_NE(findError(ErrorDefinition::COMP_PACKED_STRUCT_MEMBER_HAS_DEFAULT_VALUE, 26, 17), nullptr)
       << "IEEE 1800-2017 7.2.2: members of packed structures shall not be assigned individual default "
          "member values ('bit [3:0] lo = c;' inside 'struct packed'). This file is annotated "
          ":should_fail_because: exactly this reason, yet the compiler currently emits zero errors -- "

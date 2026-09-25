@@ -27,6 +27,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -40,8 +41,7 @@ class AssertionNetTest : public Test {
 
 TEST_F(AssertionNetTest, NetLocalVariableInPropertyIsRejected) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 24, 4), nullptr)
       << "a net-type (wire) local variable declared inside a property is illegal: local variables in "
          "sequences/properties must be variable data types, and a property has no driver context for a net.";
 }

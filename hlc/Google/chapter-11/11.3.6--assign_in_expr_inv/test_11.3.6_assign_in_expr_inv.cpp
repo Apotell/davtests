@@ -75,6 +75,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -94,10 +95,10 @@ class AssignInExprInvTest : public Test {
 
 TEST_F(AssignInExprInvTest, CompilerCorrectlyRejectsUnparenthesizedChainedAssignment) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 23, 7), nullptr)
       << "IEEE 11.3.6 requires 'a = b = c = 5;' (no parens) to be rejected, matching this file's "
          ":should_fail_because: tag";
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbWarning, 0);
 }
 

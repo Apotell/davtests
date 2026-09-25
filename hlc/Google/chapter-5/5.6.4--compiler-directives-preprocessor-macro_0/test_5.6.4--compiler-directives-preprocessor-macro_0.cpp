@@ -33,6 +33,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -71,8 +72,7 @@ TEST_F(CompilerDirectivesPreprocessorMacro0, DesignHasOneSourceFile) {
 // SystemVerilog and must be reported as a syntax error.
 // ----
 TEST_F(CompilerDirectivesPreprocessorMacro0, Compiler_ReportsSyntaxError) {
-  const ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_GT(stats.nbSyntax, 0) << "the `else branch's invalid text must produce a syntax error";
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 20, 16), nullptr) << "the `else branch's invalid text must produce a syntax error";
 }
 
 }  // namespace hlc

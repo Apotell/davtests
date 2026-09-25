@@ -16,6 +16,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -87,8 +88,7 @@ TEST_F(TestMacrosTest, Add5MacroIfPresent) {
 // this scope). This must be reported as a syntax/parse error.
 TEST_F(TestMacrosTest, TopLevelUvmInfoInvocationIsIllegal) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GE(stats.nbSyntax + stats.nbFatal + stats.nbError, 1)
+  EXPECT_NE(findError(ErrorDefinition::PP_SYNTAX_ERROR, 14, 7), nullptr)
       << "expanding `uvm_info(...) into a begin/end block outside any module "
          "is illegal per IEEE 1800-2023 and must be diagnosed";
 }

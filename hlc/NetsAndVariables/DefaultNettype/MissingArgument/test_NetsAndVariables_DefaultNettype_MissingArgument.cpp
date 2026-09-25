@@ -24,6 +24,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -37,8 +38,7 @@ class MissingArgumentTest : public Test {
 
 TEST_F(MissingArgumentTest, MissingArgumentIsRejected) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  EXPECT_NE(findError(ErrorDefinition::PP_SYNTAX_ERROR, 20, 16), nullptr)
       << "`default_nettype with no argument is illegal: the directive requires exactly one net type "
          "keyword or 'none'.";
 }

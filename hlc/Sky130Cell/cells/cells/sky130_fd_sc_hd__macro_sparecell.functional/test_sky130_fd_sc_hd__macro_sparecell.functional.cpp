@@ -16,6 +16,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -51,8 +52,7 @@ TEST_F(Sky130MacroSparecellFunctionalTest, ModuleCompiles) {
 // error for each unresolvable include.
 TEST_F(Sky130MacroSparecellFunctionalTest, UnresolvableIncludesAreReportedAsErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GE(stats.nbError, 4)
+  EXPECT_NE(findError(ErrorDefinition::PP_CANNOT_OPEN_INCLUDE_FILE, 35, 1), nullptr)
       << "the 4 unresolvable `include directives (conb/nor2/inv/nand2) must each be reported as an error";
 }
 
