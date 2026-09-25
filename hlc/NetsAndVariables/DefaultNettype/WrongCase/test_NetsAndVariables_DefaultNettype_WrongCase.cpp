@@ -26,6 +26,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -41,10 +42,9 @@ TEST_F(WrongCaseTest, WrongCaseIsRejected) {
   GTEST_SKIP() << "`default_nettype Wire is illegal: SystemVerilog keywords are case-sensitive, so 'Wire' is not "
                   "the keyword 'wire'.";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbSyntax, 0)
-      << "`default_nettype Wire is illegal: SystemVerilog keywords are case-sensitive, so 'Wire' is not "
-         "the keyword 'wire'.";
+  EXPECT_NE(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_VALUE), nullptr)
+      << "IEEE 1800-2023 22.8 with 5.2: SystemVerilog is case sensitive, so 'Wire' is not the "
+         "keyword 'wire' and is not a legal default_nettype value.";
 }
 
 }  // namespace hlc

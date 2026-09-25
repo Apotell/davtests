@@ -49,6 +49,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -187,15 +188,10 @@ TEST_F(ProcAssignmentBadTest, CompilerShouldRejectProceduralAssignmentToWireButD
   GTEST_SKIP() << "HLC does not enforce IEEE 1800-2023 Table 10-1: a net shall not be the target of a "
                   "procedural assignment. Fix pending.";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "IEEE 1800-2017 Table 10-1: a net (here, 'wire w') shall not be the target of a procedural "
-         "(blocking) assignment -- only continuous assignment, a gate, or a port connection may drive "
-         "a net. This file is annotated :should_fail_because: exactly this reason, yet the compiler "
-         "currently emits zero errors for 'w = #10 a & b;' inside the initial block. This is a genuine "
-         "compile-time defect, not a simulation gap: the compiler already resolves 'w' to a Net (see "
-         "InitialStmtIsBlockingAssignmentToNetW above), so it has everything it needs to detect and "
-         "reject this at compile time.";
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_TARGET, "w"), nullptr)
+      << "IEEE 1800-2023 10.3 Table 10-1: 'w' is a wire, and a net may only be driven by a "
+         "continuous assignment or a primitive, so the procedural 'w = #10 a & b;' is an "
+         "illegal assignment target.";
 }
 
 }  // namespace hlc

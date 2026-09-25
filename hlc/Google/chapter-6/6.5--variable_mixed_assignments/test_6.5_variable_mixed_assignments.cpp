@@ -72,6 +72,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -336,13 +337,9 @@ TEST_F(VariableMixedAssignmentsTest, CompilerShouldRejectMixedContinuousAndProce
   GTEST_SKIP() << "IEEE 1800-2023 10.3.2: 'Variables can only be driven by one continuous assignment or "
                   "by one or more procedural drivers; they cannot be driven by both a continuous "
                   "assignment and a procedural driver at the same time.' Compiler needs to report this as an error.";
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "IEEE 1800-2023 10.3.2: 'Variables can only be driven by one continuous assignment or "
-         "by one or more procedural drivers; they cannot be driven by both a continuous "
-         "assignment and a procedural driver at the same time.' 'v' is driven by 'assign v = 12;' "
-         "AND 'v <= ~v;' inside 'always @(posedge clk)' -- HLC currently reports zero errors for "
-         "this, which is a compiler bug";
+  EXPECT_NE(findError(ErrorDefinition::COMP_MULTIPLE_ASSIGNING_PROCESSES, "v"), nullptr)
+      << "IEEE 1800-2023 10.3.2: 'v' is driven by a continuous assignment and by an always "
+         "block at the same time, which the standard forbids.";
 }
 
 }  // namespace hlc

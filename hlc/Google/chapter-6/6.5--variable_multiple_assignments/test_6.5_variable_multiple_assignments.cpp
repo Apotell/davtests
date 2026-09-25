@@ -61,6 +61,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -181,11 +182,9 @@ TEST_F(VariableMultipleAssignmentsTest, NoProcesses) {
 TEST_F(VariableMultipleAssignmentsTest, CompilerShouldRejectTwoContinuousAssignmentsToOneVariableButDoesNot) {
   GTEST_SKIP() << "IEEE 1800-2023 10.3.2: 'Variables can only be driven by one continuous assignment.'"
                   "Compiler needs to report this as an error.";
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "IEEE 1800-2023 10.3.2: 'Variables can only be driven by one continuous assignment.' "
-         "'v' is driven by both 'assign v = 12;' and 'assign v = 13;' -- HLC currently reports "
-         "zero errors for this, which is a compiler bug";
+  EXPECT_NE(findError(ErrorDefinition::COMP_MULTIPLE_ASSIGNING_PROCESSES, "v"), nullptr)
+      << "IEEE 1800-2023 10.3.2: 'v' has two continuous assignments, and a variable may be "
+         "driven by only one.";
 }
 
 }  // namespace hlc

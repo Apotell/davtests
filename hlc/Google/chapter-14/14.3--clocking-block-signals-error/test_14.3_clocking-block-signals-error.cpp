@@ -72,6 +72,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -188,8 +189,9 @@ TEST_F(ClockingBlockSignalsErrorTest, CompilerReportsAtLeastOneErrorForProcedura
                   "be rejected. Confirmed compiler bug, matches this source file's own "
                   "':should_fail_because: assigning to net from procedural context' tag.";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0);
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_TARGET, "b"), nullptr)
+      << "IEEE 1800-2023 14.3 with 10.3 Table 10-1: output ports 'b' and 'c' are nets, so the "
+         "always_ff procedural assignments to them are illegal assignment targets.";
 }
 
 }  // namespace hlc

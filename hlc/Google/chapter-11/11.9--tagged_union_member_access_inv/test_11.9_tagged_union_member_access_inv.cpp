@@ -221,6 +221,11 @@ TEST_F(TaggedUnionMemberAccessInvTest, ReadingInactiveTagShouldRaiseARuntimeErro
                   "that expectation and fails now because no such checking "
                   "exists yet.";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  // NOTE: deliberately still a coarse error-count assertion, unlike the sibling gap tests
+  // which were narrowed to findError(). IEEE 1800-2023 11.9 makes this a RUN-TIME error,
+  // not a compile-time one, so no ErrorDefinition entry could correctly describe it -- a
+  // static compiler has no point at which to raise it. This assertion documents the
+  // expectation only; it is not a diagnostic gap HLC can close as a compile-time check.
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_GT(stats.nbError, 0) << "once runtime tag-checking exists, reading 'a.Valid' should be reported as an error";
 }

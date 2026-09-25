@@ -66,6 +66,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -168,11 +169,9 @@ TEST_F(VariableRedeclareTest, CompilerShouldRejectRedeclarationOfVButDoesNot) {
   GTEST_SKIP() << "IEEE 1800-2023 6.5: a single identifier cannot be redeclared as two fundamentally "
                   "different kinds of thing (a variable via 'reg' and a net via 'wire') in the same "
                   "scope. Compiler needs to report this as an error.";
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "IEEE 1800-2023 6.5: a single identifier cannot be redeclared as two fundamentally "
-         "different kinds of thing (a variable via 'reg' and a net via 'wire') in the same "
-         "scope -- HLC currently reports zero errors for this, which is a compiler bug";
+  EXPECT_NE(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_VARIABLE, "v"), nullptr)
+      << "IEEE 1800-2023 6.5: 'v' is declared twice in one scope, first as a variable via "
+         "'reg' and then as a net via 'wire'.";
 }
 
 }  // namespace hlc

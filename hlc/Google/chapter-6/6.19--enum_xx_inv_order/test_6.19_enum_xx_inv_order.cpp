@@ -58,6 +58,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -202,12 +203,9 @@ TEST_F(EnumXxInvOrderTest, CompilerShouldRejectUnassignedNameAfterXValueButDoesN
   GTEST_SKIP() << "IEEE 1800-2023 6.19: 'an unassigned enumerated name that follows an enum name with x or "
                   "z assignments shall be a syntax error'";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "IEEE 1800-2023 6.19: 'an unassigned enumerated name that follows an enum name with x or "
-         "z assignments shall be a syntax error' -- 'c' is unassigned and follows the x-valued "
-         "'b', matching this file's own :should_fail_because: tag -- HLC currently accepts it "
-         "with zero diagnostics";
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ENUM_VALUE), nullptr)
+      << "IEEE 1800-2023 6.19: 'c' is an unassigned enumerated name following an enumerator "
+         "that carries an x value.";
 }
 
 }  // namespace hlc

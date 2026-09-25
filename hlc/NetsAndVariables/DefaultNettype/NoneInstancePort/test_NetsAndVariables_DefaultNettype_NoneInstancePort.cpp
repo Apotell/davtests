@@ -26,6 +26,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -41,10 +42,9 @@ TEST_F(NoneInstancePortTest, UndeclaredInstancePortNetIsRejected) {
   GTEST_SKIP() << "under `default_nettype none, an undeclared identifier used as a module instance port "
                   "connection is illegal: there is no default net type to fall back on.";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "under `default_nettype none, an undeclared identifier used as a module instance port "
-         "connection is illegal: there is no default net type to fall back on.";
+  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "undeclared_net"), nullptr)
+      << "IEEE 1800-2023 22.8 with 6.10: under default_nettype none no implicit net is "
+         "created, so the instance port connection never resolves.";
 }
 
 }  // namespace hlc
