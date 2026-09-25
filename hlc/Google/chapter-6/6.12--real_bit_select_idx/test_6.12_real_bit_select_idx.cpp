@@ -58,12 +58,13 @@
 //     index RefObj "a" resolves via getActual<hldb::Variable>() (not
 //     Net) to the real Variable
 //   - top has no processes
-//   - THE POINT OF THIS FILE: the compiler should report at least one
-//     error for the illegal real-typed bit-select index "b[a]", per
-//     IEEE 1800-2023 6.12 quoted above. Confirmed by personally running
-//     with the skip removed (fails as expected) -- kept as GTEST_SKIP()
-//     with the real assertion underneath, per the established gating
-//     rule (skips only added after personal verification)
+//   - THE POINT OF THIS FILE: the compiler must reject the illegal
+//     real-typed bit-select index "b[a]", per IEEE 1800-2023 6.12
+//     quoted above. HLC now does, reporting
+//     COMP_ILLEGAL_REAL_SELECT_INDEX against 'a' at line 22, col 13.
+//     Asserted via findError() with the code, symbol and location, not
+//     an nbFatal+nbSyntax+nbError sum: a bare count would also go green
+//     on any unrelated diagnostic in this fixture.
 //
 // What is NOT checked and why:
 //   - none: every corner above is fully structural and checkable without
@@ -71,6 +72,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -246,11 +248,10 @@ TEST_F(RealBitSelectIdxTest, NoProcesses) {
 // ---------------------------------------------------------------------------
 TEST_F(RealBitSelectIdxTest, CompilerRejectsRealTypedBitSelectIndex) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_REAL_SELECT_INDEX, "a", 22, 13), nullptr)
       << "IEEE 1800-2023 6.12: 'real index expressions of bit-selects or part-selects of "
-         "vectors' are prohibited -- 'b[a]' does exactly this, matching this file's own "
-         ":should_fail_because: tag -- HLC currently accepts it with zero diagnostics";
+         "vectors' are prohibited -- 'b[a]' on line 22 does exactly this, matching this file's "
+         "own :should_fail_because: tag";
 }
 
 }  // namespace hlc
