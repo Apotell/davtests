@@ -94,8 +94,7 @@ static const hldb::Parameter *getParam(const hldb::Design *d, std::string_view n
 // Returns the ParamAssign for the named parameter (matched via getLhs name).
 static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  return (m == nullptr) ? nullptr : hldb::findByName(name, m->getParamAssigns());
 }
 
 // Returns the RHS Constant of the named parameter's ParamAssign, or nullptr.

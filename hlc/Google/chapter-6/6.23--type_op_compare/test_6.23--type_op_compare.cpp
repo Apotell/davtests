@@ -101,8 +101,7 @@ static const hldb::Module *getTop(const hldb::Design *d) {
 
 static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m || !m->getParamAssigns()) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  return (m == nullptr) ? nullptr : hldb::findByName(name, m->getParamAssigns());
 }
 
 // ===========================================================================

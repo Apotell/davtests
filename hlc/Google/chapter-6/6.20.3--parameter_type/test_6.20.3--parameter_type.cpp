@@ -112,8 +112,7 @@ static const hldb::TypeParameter *getTypeParam(const hldb::Design *d, std::strin
 // matched by getLhs()->getName() == name (the LHS RefTypespec carries the name).
 static const hldb::ParamAssign *getTypeParamAssign(const hldb::Design *d, std::string_view name) {
   const hldb::Module *m = getTop(d);
-  if (!m) return nullptr;
-  return hldb::findByName<hldb::ParamAssign>(name, m->getParamAssigns());
+  return (m == nullptr) ? nullptr : hldb::findByName(name, m->getParamAssigns());
 }
 
 // Returns the named variable from the module's variable collection.

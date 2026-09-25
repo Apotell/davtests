@@ -141,11 +141,11 @@ TEST_F(SetMemberTest, ParamAssignsGiveCFiveAndDSeven) {
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getParamAssigns(), nullptr);
   ASSERT_EQ(top->getParamAssigns()->size(), 2u);
-  const hldb::ParamAssign *const cAssign = hldb::findByName<hldb::ParamAssign>("c", top->getParamAssigns());
+  const hldb::ParamAssign *const cAssign = hldb::findByName("c", top->getParamAssigns());
   ASSERT_NE(cAssign, nullptr);
   ASSERT_NE(cAssign->getRhs<hldb::Constant>(), nullptr);
   EXPECT_EQ(cAssign->getRhs<hldb::Constant>()->getDecompile(), "5");
-  const hldb::ParamAssign *const dAssign = hldb::findByName<hldb::ParamAssign>("d", top->getParamAssigns());
+  const hldb::ParamAssign *const dAssign = hldb::findByName("d", top->getParamAssigns());
   ASSERT_NE(dAssign, nullptr);
   ASSERT_NE(dAssign->getRhs<hldb::Constant>(), nullptr);
   EXPECT_EQ(dAssign->getRhs<hldb::Constant>()->getDecompile(), "7");

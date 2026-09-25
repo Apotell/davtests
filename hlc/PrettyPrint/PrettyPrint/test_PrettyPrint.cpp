@@ -56,7 +56,7 @@ TEST_F(PrettyPrint, Select) {
   const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
-  const hldb::ParamAssign *const paramAssign = hldb::findByName<hldb::ParamAssign>("b", module->getParamAssigns());
+  const hldb::ParamAssign *const paramAssign = hldb::findByName("b", module->getParamAssigns());
   ASSERT_NE(paramAssign, nullptr) << "Module/ParamAssign is null";
 
   const hldb::Expr *const rhs = paramAssign->getRhs<hldb::Expr>();
@@ -69,7 +69,7 @@ TEST_F(PrettyPrint, ConditionOp) {
   const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
-  const hldb::ParamAssign *const paramAssign = hldb::findByName<hldb::ParamAssign>("d", module->getParamAssigns());
+  const hldb::ParamAssign *const paramAssign = hldb::findByName("d", module->getParamAssigns());
   ASSERT_NE(paramAssign, nullptr) << "Module/ParamAssign is null";
 
   const hldb::Expr *const rhs = paramAssign->getRhs<hldb::Expr>();
@@ -82,7 +82,7 @@ TEST_F(PrettyPrint, SysFuncCall) {
   const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
-  const hldb::ParamAssign *const paramAssign = hldb::findByName<hldb::ParamAssign>("f", module->getParamAssigns());
+  const hldb::ParamAssign *const paramAssign = hldb::findByName("f", module->getParamAssigns());
   ASSERT_NE(paramAssign, nullptr) << "Module/ParamAssign is null";
 
   const hldb::Expr *const rhs = paramAssign->getRhs<hldb::Expr>();
@@ -95,7 +95,7 @@ TEST_F(PrettyPrint, AssignmentPatternOp) {
   const hldb::Module *const module = hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
   ASSERT_NE(module, nullptr) << "Module is null";
 
-  const hldb::ParamAssign *const paramAssign = hldb::findByName<hldb::ParamAssign>("h", module->getParamAssigns());
+  const hldb::ParamAssign *const paramAssign = hldb::findByName("h", module->getParamAssigns());
   ASSERT_NE(paramAssign, nullptr) << "Module/ParamAssign is null";
 
   const hldb::Expr *const rhs = paramAssign->getRhs<hldb::Expr>();
