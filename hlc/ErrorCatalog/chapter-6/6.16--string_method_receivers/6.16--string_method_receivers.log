@@ -1,0 +1,2383 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../../tests/ErrorCatalog/chapter-6 -d ast -d db 6.16--string_method_receivers.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/ErrorCatalog/chapter-6/6.16--string_method_receivers
+[INF:CM5022] Creating log file "$Output/hlc.log".
+[INF:PP5223] Preprocessing source file "$Source01/6.16--string_method_receivers.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
+[INF:PA5502] Parsing source file "$Source01/6.16--string_method_receivers.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
+AST_DEBUG_BEGIN
+Count: 456
+LIB: work
+FILE<0>:$Source01/6.16--string_method_receivers.sv
+n<$Source01/6.16--string_method_receivers.sv> u<455> t<Top_level_rule> c<1> l<15:1> el<68:1>
+  n<> u<1> t<Null_rule> p<455> s<2> l<15:1> el<15:1>
+  n</*\n:name: string_method_receivers\n:description: IEEE 1800-2023 Sec 6.16 string methods reached through every receiver shape\n:tags: 6.16\n*/> u<2> t<BLOCK_COMMENT> p<455> s<3> l<15:1> el<67:10>
+  n<// The per-subclause 6.16.x fixtures each call one method on a module-level> u<3> t<LINE_COMMENT> p<455> s<4> l<7:1> el<7:76>
+  n<// "string" variable. That leaves the METHOD names covered but the RECEIVER> u<4> t<LINE_COMMENT> p<455> s<5> l<8:1> el<8:76>
+  n<// shapes untested: Sec 6.16 puts no restriction on where the string comes> u<5> t<LINE_COMMENT> p<455> s<6> l<9:1> el<9:75>
+  n<// from, so a string reached through a typedef, a class property, a struct> u<6> t<LINE_COMMENT> p<455> s<7> l<10:1> el<10:75>
+  n<// member or a subroutine formal must bind exactly the same way. This file> u<7> t<LINE_COMMENT> p<455> s<8> l<11:1> el<11:75>
+  n<// varies the receiver instead of the method, so a regression in receiver> u<8> t<LINE_COMMENT> p<455> s<9> l<12:1> el<12:74>
+  n<// resolution is caught even though every call here is legal.> u<9> t<LINE_COMMENT> p<455> s<454> l<13:1> el<13:62>
+  n<> u<454> t<Source_text> p<455> c<17> l<15:1> el<67:10>
+    n<> u<17> t<Description> p<454> c<16> s<61> l<15:1> el<15:20>
+      n<> u<16> t<Package_item> p<17> c<15> l<15:1> el<15:20>
+        n<> u<15> t<Package_or_generate_item_declaration> p<16> c<14> l<15:1> el<15:20>
+          n<> u<14> t<Data_declaration> p<15> c<13> l<15:1> el<15:20>
+            n<> u<13> t<Type_declaration> p<14> c<11> l<15:1> el<15:20>
+              n<string> u<11> t<Data_type> p<13> c<10> s<12> l<15:9> el<15:15>
+                n<string> u<10> t<STRING> p<11> l<15:9> el<15:15>
+              n<s_t> u<12> t<SIMPLE_IDENTIFIER> p<13> l<15:16> el<15:19>
+    n<> u<61> t<Description> p<454> c<60> s<62> l<17:1> el<24:9>
+      n<> u<60> t<Package_item> p<61> c<59> l<17:1> el<24:9>
+        n<> u<59> t<Package_or_generate_item_declaration> p<60> c<58> l<17:1> el<24:9>
+          n<> u<58> t<Class_declaration> p<59> c<56> l<17:1> el<24:9>
+            n<> u<56> t<CLASS> p<58> s<18> l<17:1> el<17:6>
+            n<holder> u<18> t<SIMPLE_IDENTIFIER> p<58> s<31> l<17:7> el<17:13>
+            n<> u<31> t<Class_item> p<58> c<30> s<32> l<18:3> el<18:26>
+              n<> u<30> t<Class_property> p<31> c<29> l<18:3> el<18:26>
+                n<> u<29> t<Data_declaration> p<30> c<28> l<18:3> el<18:26>
+                  n<> u<28> t<Variable_declaration> p<29> c<20> l<18:3> el<18:26>
+                    n<string> u<20> t<Data_type> p<28> c<19> s<27> l<18:3> el<18:9>
+                      n<string> u<19> t<STRING> p<20> l<18:3> el<18:9>
+                    n<> u<27> t<Variable_decl_assignment_list> p<28> c<26> l<18:10> el<18:25>
+                      n<> u<26> t<Variable_decl_assignment> p<27> c<21> l<18:10> el<18:25>
+                        n<prop> u<21> t<SIMPLE_IDENTIFIER> p<26> s<25> l<18:10> el<18:14>
+                        n<> u<25> t<Expression> p<26> c<24> l<18:17> el<18:25>
+                          n<> u<24> t<Primary> p<25> c<23> l<18:17> el<18:25>
+                            n<> u<23> t<Primary_literal> p<24> c<22> l<18:17> el<18:25>
+                              n<"abcdef"> u<22> t<QUOTED_STRING> p<23> l<18:17> el<18:25>
+            n<// Receiver is a property of the enclosing class, named without a handle.> u<32> t<LINE_COMMENT> p<58> s<55> l<20:3> el<20:76>
+            n<> u<55> t<Class_item> p<58> c<54> s<57> l<21:3> el<23:14>
+              n<> u<54> t<Class_method> p<55> c<53> l<21:3> el<23:14>
+                n<> u<53> t<Function_declaration> p<54> c<52> l<21:3> el<23:14>
+                  n<> u<52> t<Function_body_declaration> p<53> c<36> l<21:12> el<23:14>
+                    n<> u<36> t<Function_data_type_or_implicit> p<52> c<35> s<37> l<21:12> el<21:15>
+                      n<> u<35> t<Function_data_type> p<36> c<34> l<21:12> el<21:15>
+                        n<> u<34> t<Data_type> p<35> c<33> l<21:12> el<21:15>
+                          n<> u<33> t<INT> p<34> l<21:12> el<21:15>
+                    n<via_own_prop> u<37> t<SIMPLE_IDENTIFIER> p<52> s<38> l<21:16> el<21:28>
+                    n<> u<38> t<Tf_port_item_list> p<52> s<50> l<21:28> el<21:30>
+                    n<> u<50> t<Function_statement_or_null> p<52> c<49> s<51> l<22:5> el<22:23>
+                      n<> u<49> t<Statement> p<50> c<48> l<22:5> el<22:23>
+                        n<> u<48> t<Statement_item> p<49> c<47> l<22:5> el<22:23>
+                          n<> u<47> t<Jump_statement> p<48> c<46> l<22:5> el<22:23>
+                            n<> u<46> t<RETURN> p<47> s<45> l<22:5> el<22:11>
+                            n<> u<45> t<Expression> p<47> c<44> l<22:12> el<22:22>
+                              n<> u<44> t<Primary> p<45> c<43> l<22:12> el<22:22>
+                                n<> u<43> t<Subroutine_call> p<44> c<39> l<22:12> el<22:22>
+                                  n<prop> u<39> t<SIMPLE_IDENTIFIER> p<43> s<40> l<22:12> el<22:16>
+                                  n<> u<40> t<Constant_bit_select> p<43> s<41> l<22:16> el<22:16>
+                                  n<len> u<41> t<SIMPLE_IDENTIFIER> p<43> s<42> l<22:17> el<22:20>
+                                  n<> u<42> t<Argument_list> p<43> l<22:21> el<22:21>
+                    n<> u<51> t<ENDFUNCTION> p<52> l<23:3> el<23:14>
+            n<> u<57> t<ENDCLASS> p<58> l<24:1> el<24:9>
+    n<// A user-declared method whose name collides with a Sec 6.16 string method.> u<62> t<LINE_COMMENT> p<454> s<63> l<26:1> el<26:77>
+    n<// Nothing about a string may capture it: its receiver is a class handle.> u<63> t<LINE_COMMENT> p<454> s<103> l<27:1> el<27:74>
+    n<> u<103> t<Description> p<454> c<102> s<453> l<28:1> el<33:9>
+      n<> u<102> t<Package_item> p<103> c<101> l<28:1> el<33:9>
+        n<> u<101> t<Package_or_generate_item_declaration> p<102> c<100> l<28:1> el<33:9>
+          n<> u<100> t<Class_declaration> p<101> c<98> l<28:1> el<33:9>
+            n<> u<98> t<CLASS> p<100> s<64> l<28:1> el<28:6>
+            n<shadow> u<64> t<SIMPLE_IDENTIFIER> p<100> s<77> l<28:7> el<28:13>
+            n<> u<77> t<Class_item> p<100> c<76> s<97> l<29:3> el<29:16>
+              n<> u<76> t<Class_property> p<77> c<75> l<29:3> el<29:16>
+                n<> u<75> t<Data_declaration> p<76> c<74> l<29:3> el<29:16>
+                  n<> u<74> t<Variable_declaration> p<75> c<66> l<29:3> el<29:16>
+                    n<> u<66> t<Data_type> p<74> c<65> s<73> l<29:3> el<29:6>
+                      n<> u<65> t<INT> p<66> l<29:3> el<29:6>
+                    n<> u<73> t<Variable_decl_assignment_list> p<74> c<72> l<29:7> el<29:15>
+                      n<> u<72> t<Variable_decl_assignment> p<73> c<67> l<29:7> el<29:15>
+                        n<data> u<67> t<SIMPLE_IDENTIFIER> p<72> s<71> l<29:7> el<29:11>
+                        n<> u<71> t<Expression> p<72> c<70> l<29:14> el<29:15>
+                          n<> u<70> t<Primary> p<71> c<69> l<29:14> el<29:15>
+                            n<> u<69> t<Primary_literal> p<70> c<68> l<29:14> el<29:15>
+                              n<7> u<68> t<INTEGRAL_NUMBER> p<69> l<29:14> el<29:15>
+            n<> u<97> t<Class_item> p<100> c<96> s<99> l<30:3> el<32:14>
+              n<> u<96> t<Class_method> p<97> c<95> l<30:3> el<32:14>
+                n<> u<95> t<Function_declaration> p<96> c<94> l<30:3> el<32:14>
+                  n<> u<94> t<Function_body_declaration> p<95> c<81> l<30:12> el<32:14>
+                    n<> u<81> t<Function_data_type_or_implicit> p<94> c<80> s<82> l<30:12> el<30:15>
+                      n<> u<80> t<Function_data_type> p<81> c<79> l<30:12> el<30:15>
+                        n<> u<79> t<Data_type> p<80> c<78> l<30:12> el<30:15>
+                          n<> u<78> t<INT> p<79> l<30:12> el<30:15>
+                    n<len> u<82> t<SIMPLE_IDENTIFIER> p<94> s<83> l<30:16> el<30:19>
+                    n<> u<83> t<Tf_port_item_list> p<94> s<92> l<30:19> el<30:21>
+                    n<> u<92> t<Function_statement_or_null> p<94> c<91> s<93> l<31:5> el<31:17>
+                      n<> u<91> t<Statement> p<92> c<90> l<31:5> el<31:17>
+                        n<> u<90> t<Statement_item> p<91> c<89> l<31:5> el<31:17>
+                          n<> u<89> t<Jump_statement> p<90> c<88> l<31:5> el<31:17>
+                            n<> u<88> t<RETURN> p<89> s<87> l<31:5> el<31:11>
+                            n<> u<87> t<Expression> p<89> c<86> l<31:12> el<31:16>
+                              n<> u<86> t<Primary> p<87> c<85> l<31:12> el<31:16>
+                                n<> u<85> t<Primary_literal> p<86> c<84> l<31:12> el<31:16>
+                                  n<data> u<84> t<SIMPLE_IDENTIFIER> p<85> l<31:12> el<31:16>
+                    n<> u<93> t<ENDFUNCTION> p<94> l<32:3> el<32:14>
+            n<> u<99> t<ENDCLASS> p<100> l<33:1> el<33:9>
+    n<> u<453> t<Description> p<454> c<452> l<35:1> el<67:10>
+      n<> u<452> t<Module_declaration> p<453> c<108> l<35:1> el<67:10>
+        n<> u<108> t<Module_nonansi_header> p<452> c<104> s<127> l<35:1> el<35:14>
+          n<module> u<104> t<MODULE> p<108> s<105> l<35:1> el<35:7>
+          n<top> u<105> t<SIMPLE_IDENTIFIER> p<108> s<106> l<35:8> el<35:11>
+          n<> u<106> t<Package_import_declaration_list> p<108> s<107> l<35:11> el<35:11>
+          n<> u<107> t<Port_list> p<108> l<35:11> el<35:13>
+        n<> u<127> t<Module_item> p<452> c<126> s<142> l<36:3> el<36:41>
+          n<> u<126> t<Non_port_module_item> p<127> c<125> l<36:3> el<36:41>
+            n<> u<125> t<Module_or_generate_item> p<126> c<124> l<36:3> el<36:41>
+              n<> u<124> t<Module_common_item> p<125> c<123> l<36:3> el<36:41>
+                n<> u<123> t<Module_or_generate_item_declaration> p<124> c<122> l<36:3> el<36:41>
+                  n<> u<122> t<Package_or_generate_item_declaration> p<123> c<121> l<36:3> el<36:41>
+                    n<> u<121> t<Data_declaration> p<122> c<120> l<36:3> el<36:41>
+                      n<> u<120> t<Type_declaration> p<121> c<118> l<36:3> el<36:41>
+                        n<> u<118> t<Data_type> p<120> c<110> s<119> l<36:11> el<36:34>
+                          n<> u<110> t<Struct_union> p<118> c<109> s<117> l<36:11> el<36:17>
+                            n<> u<109> t<STRUCT> p<110> l<36:11> el<36:17>
+                          n<> u<117> t<Struct_union_member> p<118> c<113> l<36:20> el<36:32>
+                            n<> u<113> t<Data_type_or_void> p<117> c<112> s<116> l<36:20> el<36:26>
+                              n<string> u<112> t<Data_type> p<113> c<111> l<36:20> el<36:26>
+                                n<string> u<111> t<STRING> p<112> l<36:20> el<36:26>
+                            n<> u<116> t<Variable_decl_assignment_list> p<117> c<115> l<36:27> el<36:31>
+                              n<> u<115> t<Variable_decl_assignment> p<116> c<114> l<36:27> el<36:31>
+                                n<name> u<114> t<SIMPLE_IDENTIFIER> p<115> l<36:27> el<36:31>
+                        n<rec_t> u<119> t<SIMPLE_IDENTIFIER> p<120> l<36:35> el<36:40>
+        n<> u<142> t<Module_item> p<452> c<141> s<149> l<38:3> el<38:35>
+          n<> u<141> t<Non_port_module_item> p<142> c<140> l<38:3> el<38:35>
+            n<> u<140> t<Module_or_generate_item> p<141> c<139> l<38:3> el<38:35>
+              n<> u<139> t<Module_common_item> p<140> c<138> l<38:3> el<38:35>
+                n<> u<138> t<Module_or_generate_item_declaration> p<139> c<137> l<38:3> el<38:35>
+                  n<> u<137> t<Package_or_generate_item_declaration> p<138> c<136> l<38:3> el<38:35>
+                    n<> u<136> t<Net_declaration> p<137> c<128> l<38:3> el<38:35>
+                      n<s_t> u<128> t<SIMPLE_IDENTIFIER> p<136> s<135> l<38:3> el<38:6>
+                      n<> u<135> t<Net_decl_assignment_list> p<136> c<134> l<38:12> el<38:34>
+                        n<> u<134> t<Net_decl_assignment> p<135> c<129> l<38:12> el<38:34>
+                          n<via_typedef> u<129> t<SIMPLE_IDENTIFIER> p<134> s<133> l<38:12> el<38:23>
+                          n<> u<133> t<Expression> p<134> c<132> l<38:26> el<38:34>
+                            n<> u<132> t<Primary> p<133> c<131> l<38:26> el<38:34>
+                              n<> u<131> t<Primary_literal> p<132> c<130> l<38:26> el<38:34>
+                                n<"abcdef"> u<130> t<QUOTED_STRING> p<131> l<38:26> el<38:34>
+        n<> u<149> t<Module_item> p<452> c<148> s<156> l<39:3> el<39:16>
+          n<> u<148> t<Port_declaration> p<149> c<147> l<39:3> el<39:15>
+            n<> u<147> t<Interface_port_declaration> p<148> c<144> l<39:3> el<39:15>
+              n<rec_t> u<144> t<Interface_identifier> p<147> c<143> s<146> l<39:3> el<39:8>
+                n<rec_t> u<143> t<SIMPLE_IDENTIFIER> p<144> l<39:3> el<39:8>
+              n<> u<146> t<Interface_identifier_list> p<147> c<145> l<39:12> el<39:15>
+                n<rec> u<145> t<SIMPLE_IDENTIFIER> p<146> l<39:12> el<39:15>
+        n<> u<156> t<Module_item> p<452> c<155> s<163> l<40:3> el<40:14>
+          n<> u<155> t<Port_declaration> p<156> c<154> l<40:3> el<40:13>
+            n<> u<154> t<Interface_port_declaration> p<155> c<151> l<40:3> el<40:13>
+              n<holder> u<151> t<Interface_identifier> p<154> c<150> s<153> l<40:3> el<40:9>
+                n<holder> u<150> t<SIMPLE_IDENTIFIER> p<151> l<40:3> el<40:9>
+              n<> u<153> t<Interface_identifier_list> p<154> c<152> l<40:12> el<40:13>
+                n<h> u<152> t<SIMPLE_IDENTIFIER> p<153> l<40:12> el<40:13>
+        n<> u<163> t<Module_item> p<452> c<162> s<180> l<41:3> el<41:15>
+          n<> u<162> t<Port_declaration> p<163> c<161> l<41:3> el<41:14>
+            n<> u<161> t<Interface_port_declaration> p<162> c<158> l<41:3> el<41:14>
+              n<shadow> u<158> t<Interface_identifier> p<161> c<157> s<160> l<41:3> el<41:9>
+                n<shadow> u<157> t<SIMPLE_IDENTIFIER> p<158> l<41:3> el<41:9>
+              n<> u<160> t<Interface_identifier_list> p<161> c<159> l<41:12> el<41:14>
+                n<sh> u<159> t<SIMPLE_IDENTIFIER> p<160> l<41:12> el<41:14>
+        n<> u<180> t<Module_item> p<452> c<179> s<196> l<42:3> el<42:29>
+          n<> u<179> t<Non_port_module_item> p<180> c<178> l<42:3> el<42:29>
+            n<> u<178> t<Module_or_generate_item> p<179> c<177> l<42:3> el<42:29>
+              n<> u<177> t<Module_common_item> p<178> c<176> l<42:3> el<42:29>
+                n<> u<176> t<Module_or_generate_item_declaration> p<177> c<175> l<42:3> el<42:29>
+                  n<> u<175> t<Package_or_generate_item_declaration> p<176> c<174> l<42:3> el<42:29>
+                    n<> u<174> t<Data_declaration> p<175> c<173> l<42:3> el<42:29>
+                      n<> u<173> t<Variable_declaration> p<174> c<165> l<42:3> el<42:29>
+                        n<string> u<165> t<Data_type> p<173> c<164> s<172> l<42:3> el<42:9>
+                          n<string> u<164> t<STRING> p<165> l<42:3> el<42:9>
+                        n<> u<172> t<Variable_decl_assignment_list> p<173> c<171> l<42:12> el<42:28>
+                          n<> u<171> t<Variable_decl_assignment> p<172> c<166> l<42:12> el<42:28>
+                            n<plain> u<166> t<SIMPLE_IDENTIFIER> p<171> s<170> l<42:12> el<42:17>
+                            n<> u<170> t<Expression> p<171> c<169> l<42:20> el<42:28>
+                              n<> u<169> t<Primary> p<170> c<168> l<42:20> el<42:28>
+                                n<> u<168> t<Primary_literal> p<169> c<167> l<42:20> el<42:28>
+                                  n<"abcdef"> u<167> t<QUOTED_STRING> p<168> l<42:20> el<42:28>
+        n<> u<196> t<Module_item> p<452> c<195> s<209> l<43:3> el<43:17>
+          n<> u<195> t<Non_port_module_item> p<196> c<194> l<43:3> el<43:17>
+            n<> u<194> t<Module_or_generate_item> p<195> c<193> l<43:3> el<43:17>
+              n<> u<193> t<Module_common_item> p<194> c<192> l<43:3> el<43:17>
+                n<> u<192> t<Module_or_generate_item_declaration> p<193> c<191> l<43:3> el<43:17>
+                  n<> u<191> t<Package_or_generate_item_declaration> p<192> c<190> l<43:3> el<43:17>
+                    n<> u<190> t<Data_declaration> p<191> c<189> l<43:3> el<43:17>
+                      n<> u<189> t<Variable_declaration> p<190> c<182> l<43:3> el<43:17>
+                        n<string> u<182> t<Data_type> p<189> c<181> s<188> l<43:3> el<43:9>
+                          n<string> u<181> t<STRING> p<182> l<43:3> el<43:9>
+                        n<> u<188> t<Variable_decl_assignment_list> p<189> c<187> l<43:12> el<43:16>
+                          n<> u<187> t<Variable_decl_assignment> p<188> c<183> l<43:12> el<43:16>
+                            n<q> u<183> t<SIMPLE_IDENTIFIER> p<187> s<186> l<43:12> el<43:13>
+                            n<> u<186> t<Variable_dimension> p<187> c<185> l<43:13> el<43:16>
+                              n<> u<185> t<Queue_dimension> p<186> c<184> l<43:13> el<43:16>
+                                n<> u<184> t<DOLLAR> p<185> l<43:14> el<43:15>
+        n<> u<209> t<Module_item> p<452> c<208> s<210> l<44:3> el<44:14>
+          n<> u<208> t<Non_port_module_item> p<209> c<207> l<44:3> el<44:14>
+            n<> u<207> t<Module_or_generate_item> p<208> c<206> l<44:3> el<44:14>
+              n<> u<206> t<Module_common_item> p<207> c<205> l<44:3> el<44:14>
+                n<> u<205> t<Module_or_generate_item_declaration> p<206> c<204> l<44:3> el<44:14>
+                  n<> u<204> t<Package_or_generate_item_declaration> p<205> c<203> l<44:3> el<44:14>
+                    n<> u<203> t<Data_declaration> p<204> c<202> l<44:3> el<44:14>
+                      n<> u<202> t<Variable_declaration> p<203> c<198> l<44:3> el<44:14>
+                        n<> u<198> t<Data_type> p<202> c<197> s<201> l<44:3> el<44:6>
+                          n<> u<197> t<INT> p<198> l<44:3> el<44:6>
+                        n<> u<201> t<Variable_decl_assignment_list> p<202> c<200> l<44:12> el<44:13>
+                          n<> u<200> t<Variable_decl_assignment> p<201> c<199> l<44:12> el<44:13>
+                            n<n> u<199> t<SIMPLE_IDENTIFIER> p<200> l<44:12> el<44:13>
+        n<// Receiver is a subroutine formal, and a subroutine local.> u<210> t<LINE_COMMENT> p<452> s<271> l<46:3> el<46:62>
+        n<> u<271> t<Module_item> p<452> c<270> s<272> l<47:3> el<51:14>
+          n<> u<270> t<Non_port_module_item> p<271> c<269> l<47:3> el<51:14>
+            n<> u<269> t<Module_or_generate_item> p<270> c<268> l<47:3> el<51:14>
+              n<> u<268> t<Module_common_item> p<269> c<267> l<47:3> el<51:14>
+                n<> u<267> t<Module_or_generate_item_declaration> p<268> c<266> l<47:3> el<51:14>
+                  n<> u<266> t<Package_or_generate_item_declaration> p<267> c<265> l<47:3> el<51:14>
+                    n<> u<265> t<Function_declaration> p<266> c<264> l<47:3> el<51:14>
+                      n<> u<264> t<Function_body_declaration> p<265> c<214> l<47:12> el<51:14>
+                        n<> u<214> t<Function_data_type_or_implicit> p<264> c<213> s<215> l<47:12> el<47:15>
+                          n<> u<213> t<Function_data_type> p<214> c<212> l<47:12> el<47:15>
+                            n<> u<212> t<Data_type> p<213> c<211> l<47:12> el<47:15>
+                              n<> u<211> t<INT> p<212> l<47:12> el<47:15>
+                        n<via_subroutine> u<215> t<SIMPLE_IDENTIFIER> p<264> s<221> l<47:16> el<47:30>
+                        n<> u<221> t<Tf_port_item_list> p<264> c<220> s<233> l<47:30> el<47:45>
+                          n<> u<220> t<Tf_port_item> p<221> c<218> l<47:31> el<47:44>
+                            n<> u<218> t<Data_type_or_implicit> p<220> c<217> s<219> l<47:31> el<47:37>
+                              n<string> u<217> t<Data_type> p<218> c<216> l<47:31> el<47:37>
+                                n<string> u<216> t<STRING> p<217> l<47:31> el<47:37>
+                            n<formal> u<219> t<SIMPLE_IDENTIFIER> p<220> l<47:38> el<47:44>
+                        n<> u<233> t<Block_item_declaration> p<264> c<232> s<250> l<48:5> el<48:33>
+                          n<> u<232> t<Data_declaration> p<233> c<231> l<48:5> el<48:33>
+                            n<> u<231> t<Variable_declaration> p<232> c<223> l<48:5> el<48:33>
+                              n<string> u<223> t<Data_type> p<231> c<222> s<230> l<48:5> el<48:11>
+                                n<string> u<222> t<STRING> p<223> l<48:5> el<48:11>
+                              n<> u<230> t<Variable_decl_assignment_list> p<231> c<229> l<48:12> el<48:32>
+                                n<> u<229> t<Variable_decl_assignment> p<230> c<224> l<48:12> el<48:32>
+                                  n<local_str> u<224> t<SIMPLE_IDENTIFIER> p<229> s<228> l<48:12> el<48:21>
+                                  n<> u<228> t<Expression> p<229> c<227> l<48:24> el<48:32>
+                                    n<> u<227> t<Primary> p<228> c<226> l<48:24> el<48:32>
+                                      n<> u<226> t<Primary_literal> p<227> c<225> l<48:24> el<48:32>
+                                        n<"abcdef"> u<225> t<QUOTED_STRING> p<226> l<48:24> el<48:32>
+                        n<> u<250> t<Function_statement_or_null> p<264> c<249> s<262> l<49:5> el<49:22>
+                          n<> u<249> t<Statement> p<250> c<248> l<49:5> el<49:22>
+                            n<> u<248> t<Statement_item> p<249> c<247> l<49:5> el<49:22>
+                              n<> u<247> t<Blocking_assignment> p<248> c<246> l<49:5> el<49:21>
+                                n<> u<246> t<Variable_assignment> p<247> c<238> l<49:5> el<49:21>
+                                  n<> u<238> t<Variable_lvalue> p<246> c<235> s<245> l<49:5> el<49:6>
+                                    n<> u<235> t<Ps_or_hierarchical_identifier> p<238> c<234> s<237> l<49:5> el<49:6>
+                                      n<n> u<234> t<SIMPLE_IDENTIFIER> p<235> l<49:5> el<49:6>
+                                    n<> u<237> t<Select> p<238> c<236> l<49:7> el<49:7>
+                                      n<> u<236> t<Bit_select> p<237> l<49:7> el<49:7>
+                                  n<> u<245> t<Expression> p<246> c<244> l<49:9> el<49:21>
+                                    n<> u<244> t<Primary> p<245> c<243> l<49:9> el<49:21>
+                                      n<> u<243> t<Subroutine_call> p<244> c<239> l<49:9> el<49:21>
+                                        n<formal> u<239> t<SIMPLE_IDENTIFIER> p<243> s<240> l<49:9> el<49:15>
+                                        n<> u<240> t<Constant_bit_select> p<243> s<241> l<49:15> el<49:15>
+                                        n<len> u<241> t<SIMPLE_IDENTIFIER> p<243> s<242> l<49:16> el<49:19>
+                                        n<> u<242> t<Argument_list> p<243> l<49:20> el<49:20>
+                        n<> u<262> t<Function_statement_or_null> p<264> c<261> s<263> l<50:5> el<50:28>
+                          n<> u<261> t<Statement> p<262> c<260> l<50:5> el<50:28>
+                            n<> u<260> t<Statement_item> p<261> c<259> l<50:5> el<50:28>
+                              n<> u<259> t<Jump_statement> p<260> c<258> l<50:5> el<50:28>
+                                n<> u<258> t<RETURN> p<259> s<257> l<50:5> el<50:11>
+                                n<> u<257> t<Expression> p<259> c<256> l<50:12> el<50:27>
+                                  n<> u<256> t<Primary> p<257> c<255> l<50:12> el<50:27>
+                                    n<> u<255> t<Subroutine_call> p<256> c<251> l<50:12> el<50:27>
+                                      n<local_str> u<251> t<SIMPLE_IDENTIFIER> p<255> s<252> l<50:12> el<50:21>
+                                      n<> u<252> t<Constant_bit_select> p<255> s<253> l<50:21> el<50:21>
+                                      n<len> u<253> t<SIMPLE_IDENTIFIER> p<255> s<254> l<50:22> el<50:25>
+                                      n<> u<254> t<Argument_list> p<255> l<50:26> el<50:26>
+                        n<> u<263> t<ENDFUNCTION> p<264> l<51:3> el<51:14>
+        n<// The handles are never constructed: Sec 6.16 binding is a static, declared-type> u<272> t<LINE_COMMENT> p<452> s<273> l<53:3> el<53:84>
+        n<// question, so h.prop resolves through holder's own declaration alone. Calling new()> u<273> t<LINE_COMMENT> p<452> s<274> l<54:3> el<54:88>
+        n<// here would only add unrelated constructor-binding noise to the golden.> u<274> t<LINE_COMMENT> p<452> s<450> l<55:3> el<55:76>
+        n<> u<450> t<Module_item> p<452> c<449> s<451> l<56:3> el<66:6>
+          n<> u<449> t<Non_port_module_item> p<450> c<448> l<56:3> el<66:6>
+            n<> u<448> t<Module_or_generate_item> p<449> c<447> l<56:3> el<66:6>
+              n<> u<447> t<Module_common_item> p<448> c<446> l<56:3> el<66:6>
+                n<> u<446> t<Initial_construct> p<447> c<445> l<56:3> el<66:6>
+                  n<> u<445> t<Statement_or_null> p<446> c<444> l<56:11> el<66:6>
+                    n<> u<444> t<Statement> p<445> c<443> l<56:11> el<66:6>
+                      n<> u<443> t<Statement_item> p<444> c<442> l<56:11> el<66:6>
+                        n<> u<442> t<Seq_block> p<443> c<291> l<56:11> el<66:6>
+                          n<> u<291> t<Statement_or_null> p<442> c<290> s<292> l<57:5> el<57:27>
+                            n<> u<290> t<Statement> p<291> c<289> l<57:5> el<57:27>
+                              n<> u<289> t<Statement_item> p<290> c<288> l<57:5> el<57:27>
+                                n<> u<288> t<Blocking_assignment> p<289> c<287> l<57:5> el<57:26>
+                                  n<> u<287> t<Variable_assignment> p<288> c<279> l<57:5> el<57:26>
+                                    n<> u<279> t<Variable_lvalue> p<287> c<276> s<286> l<57:5> el<57:6>
+                                      n<> u<276> t<Ps_or_hierarchical_identifier> p<279> c<275> s<278> l<57:5> el<57:6>
+                                        n<n> u<275> t<SIMPLE_IDENTIFIER> p<276> l<57:5> el<57:6>
+                                      n<> u<278> t<Select> p<279> c<277> l<57:7> el<57:7>
+                                        n<> u<277> t<Bit_select> p<278> l<57:7> el<57:7>
+                                    n<> u<286> t<Expression> p<287> c<285> l<57:9> el<57:26>
+                                      n<> u<285> t<Primary> p<286> c<284> l<57:9> el<57:26>
+                                        n<> u<284> t<Subroutine_call> p<285> c<280> l<57:9> el<57:26>
+                                          n<via_typedef> u<280> t<SIMPLE_IDENTIFIER> p<284> s<281> l<57:9> el<57:20>
+                                          n<> u<281> t<Constant_bit_select> p<284> s<282> l<57:20> el<57:20>
+                                          n<len> u<282> t<SIMPLE_IDENTIFIER> p<284> s<283> l<57:21> el<57:24>
+                                          n<> u<283> t<Argument_list> p<284> l<57:25> el<57:25>
+                          n<// typedef of string> u<292> t<LINE_COMMENT> p<442> s<311> l<57:35> el<57:55>
+                          n<> u<311> t<Statement_or_null> p<442> c<310> s<312> l<58:5> el<58:24>
+                            n<> u<310> t<Statement> p<311> c<309> l<58:5> el<58:24>
+                              n<> u<309> t<Statement_item> p<310> c<308> l<58:5> el<58:24>
+                                n<> u<308> t<Blocking_assignment> p<309> c<307> l<58:5> el<58:23>
+                                  n<> u<307> t<Variable_assignment> p<308> c<297> l<58:5> el<58:23>
+                                    n<> u<297> t<Variable_lvalue> p<307> c<294> s<306> l<58:5> el<58:6>
+                                      n<> u<294> t<Ps_or_hierarchical_identifier> p<297> c<293> s<296> l<58:5> el<58:6>
+                                        n<n> u<293> t<SIMPLE_IDENTIFIER> p<294> l<58:5> el<58:6>
+                                      n<> u<296> t<Select> p<297> c<295> l<58:7> el<58:7>
+                                        n<> u<295> t<Bit_select> p<296> l<58:7> el<58:7>
+                                    n<> u<306> t<Expression> p<307> c<305> l<58:9> el<58:23>
+                                      n<> u<305> t<Primary> p<306> c<304> l<58:9> el<58:23>
+                                        n<> u<304> t<Subroutine_call> p<305> c<298> l<58:9> el<58:23>
+                                          n<rec> u<298> t<SIMPLE_IDENTIFIER> p<304> s<299> l<58:9> el<58:12>
+                                          n<> u<299> t<Constant_bit_select> p<304> s<300> l<58:12> el<58:12>
+                                          n<name> u<300> t<SIMPLE_IDENTIFIER> p<304> s<301> l<58:13> el<58:17>
+                                          n<> u<301> t<Constant_bit_select> p<304> s<302> l<58:17> el<58:17>
+                                          n<len> u<302> t<SIMPLE_IDENTIFIER> p<304> s<303> l<58:18> el<58:21>
+                                          n<> u<303> t<Argument_list> p<304> l<58:22> el<58:22>
+                          n<// struct member> u<312> t<LINE_COMMENT> p<442> s<331> l<58:35> el<58:51>
+                          n<> u<331> t<Statement_or_null> p<442> c<330> s<332> l<59:5> el<59:22>
+                            n<> u<330> t<Statement> p<331> c<329> l<59:5> el<59:22>
+                              n<> u<329> t<Statement_item> p<330> c<328> l<59:5> el<59:22>
+                                n<> u<328> t<Blocking_assignment> p<329> c<327> l<59:5> el<59:21>
+                                  n<> u<327> t<Variable_assignment> p<328> c<317> l<59:5> el<59:21>
+                                    n<> u<317> t<Variable_lvalue> p<327> c<314> s<326> l<59:5> el<59:6>
+                                      n<> u<314> t<Ps_or_hierarchical_identifier> p<317> c<313> s<316> l<59:5> el<59:6>
+                                        n<n> u<313> t<SIMPLE_IDENTIFIER> p<314> l<59:5> el<59:6>
+                                      n<> u<316> t<Select> p<317> c<315> l<59:7> el<59:7>
+                                        n<> u<315> t<Bit_select> p<316> l<59:7> el<59:7>
+                                    n<> u<326> t<Expression> p<327> c<325> l<59:9> el<59:21>
+                                      n<> u<325> t<Primary> p<326> c<324> l<59:9> el<59:21>
+                                        n<> u<324> t<Subroutine_call> p<325> c<318> l<59:9> el<59:21>
+                                          n<h> u<318> t<SIMPLE_IDENTIFIER> p<324> s<319> l<59:9> el<59:10>
+                                          n<> u<319> t<Constant_bit_select> p<324> s<320> l<59:10> el<59:10>
+                                          n<prop> u<320> t<SIMPLE_IDENTIFIER> p<324> s<321> l<59:11> el<59:15>
+                                          n<> u<321> t<Constant_bit_select> p<324> s<322> l<59:15> el<59:15>
+                                          n<len> u<322> t<SIMPLE_IDENTIFIER> p<324> s<323> l<59:16> el<59:19>
+                                          n<> u<323> t<Argument_list> p<324> l<59:20> el<59:20>
+                          n<// class property through a handle> u<332> t<LINE_COMMENT> p<442> s<349> l<59:35> el<59:69>
+                          n<> u<349> t<Statement_or_null> p<442> c<348> s<350> l<60:5> el<60:26>
+                            n<> u<348> t<Statement> p<349> c<347> l<60:5> el<60:26>
+                              n<> u<347> t<Statement_item> p<348> c<346> l<60:5> el<60:26>
+                                n<> u<346> t<Blocking_assignment> p<347> c<345> l<60:5> el<60:25>
+                                  n<> u<345> t<Variable_assignment> p<346> c<337> l<60:5> el<60:25>
+                                    n<> u<337> t<Variable_lvalue> p<345> c<334> s<344> l<60:5> el<60:6>
+                                      n<> u<334> t<Ps_or_hierarchical_identifier> p<337> c<333> s<336> l<60:5> el<60:6>
+                                        n<n> u<333> t<SIMPLE_IDENTIFIER> p<334> l<60:5> el<60:6>
+                                      n<> u<336> t<Select> p<337> c<335> l<60:7> el<60:7>
+                                        n<> u<335> t<Bit_select> p<336> l<60:7> el<60:7>
+                                    n<> u<344> t<Expression> p<345> c<343> l<60:9> el<60:25>
+                                      n<> u<343> t<Primary> p<344> c<342> l<60:9> el<60:25>
+                                        n<> u<342> t<Subroutine_call> p<343> c<338> l<60:9> el<60:25>
+                                          n<h> u<338> t<SIMPLE_IDENTIFIER> p<342> s<339> l<60:9> el<60:10>
+                                          n<> u<339> t<Constant_bit_select> p<342> s<340> l<60:10> el<60:10>
+                                          n<via_own_prop> u<340> t<SIMPLE_IDENTIFIER> p<342> s<341> l<60:11> el<60:23>
+                                          n<> u<341> t<Argument_list> p<342> l<60:24> el<60:24>
+                          n<// class property without a handle> u<350> t<LINE_COMMENT> p<442> s<369> l<60:35> el<60:69>
+                          n<> u<369> t<Statement_or_null> p<442> c<368> s<370> l<61:5> el<61:34>
+                            n<> u<368> t<Statement> p<369> c<367> l<61:5> el<61:34>
+                              n<> u<367> t<Statement_item> p<368> c<366> l<61:5> el<61:34>
+                                n<> u<366> t<Blocking_assignment> p<367> c<365> l<61:5> el<61:33>
+                                  n<> u<365> t<Variable_assignment> p<366> c<355> l<61:5> el<61:33>
+                                    n<> u<355> t<Variable_lvalue> p<365> c<352> s<364> l<61:5> el<61:6>
+                                      n<> u<352> t<Ps_or_hierarchical_identifier> p<355> c<351> s<354> l<61:5> el<61:6>
+                                        n<n> u<351> t<SIMPLE_IDENTIFIER> p<352> l<61:5> el<61:6>
+                                      n<> u<354> t<Select> p<355> c<353> l<61:7> el<61:7>
+                                        n<> u<353> t<Bit_select> p<354> l<61:7> el<61:7>
+                                    n<> u<364> t<Expression> p<365> c<363> l<61:9> el<61:33>
+                                      n<> u<363> t<Primary> p<364> c<362> l<61:9> el<61:33>
+                                        n<> u<362> t<Subroutine_call> p<363> c<356> l<61:9> el<61:33>
+                                          n<via_subroutine> u<356> t<SIMPLE_IDENTIFIER> p<362> s<361> l<61:9> el<61:23>
+                                          n<> u<361> t<Argument_list> p<362> c<360> l<61:24> el<61:32>
+                                            n<> u<360> t<Expression> p<361> c<359> l<61:24> el<61:32>
+                                              n<> u<359> t<Primary> p<360> c<358> l<61:24> el<61:32>
+                                                n<> u<358> t<Primary_literal> p<359> c<357> l<61:24> el<61:32>
+                                                  n<"abcdef"> u<357> t<QUOTED_STRING> p<358> l<61:24> el<61:32>
+                          n<// subroutine formal + local> u<370> t<LINE_COMMENT> p<442> s<399> l<61:35> el<61:63>
+                          n<> u<399> t<Statement_or_null> p<442> c<398> s<400> l<62:5> el<62:34>
+                            n<> u<398> t<Statement> p<399> c<397> l<62:5> el<62:34>
+                              n<> u<397> t<Statement_item> p<398> c<396> l<62:5> el<62:34>
+                                n<> u<396> t<Blocking_assignment> p<397> c<395> l<62:5> el<62:33>
+                                  n<> u<395> t<Variable_assignment> p<396> c<375> l<62:5> el<62:33>
+                                    n<> u<375> t<Variable_lvalue> p<395> c<372> s<394> l<62:5> el<62:6>
+                                      n<> u<372> t<Ps_or_hierarchical_identifier> p<375> c<371> s<374> l<62:5> el<62:6>
+                                        n<n> u<371> t<SIMPLE_IDENTIFIER> p<372> l<62:5> el<62:6>
+                                      n<> u<374> t<Select> p<375> c<373> l<62:7> el<62:7>
+                                        n<> u<373> t<Bit_select> p<374> l<62:7> el<62:7>
+                                    n<> u<394> t<Expression> p<395> c<393> l<62:9> el<62:33>
+                                      n<> u<393> t<Primary> p<394> c<392> l<62:9> el<62:33>
+                                        n<> u<392> t<Subroutine_call> p<393> c<376> l<62:9> el<62:33>
+                                          n<plain> u<376> t<SIMPLE_IDENTIFIER> p<392> s<377> l<62:9> el<62:14>
+                                          n<> u<377> t<Constant_bit_select> p<392> s<378> l<62:14> el<62:14>
+                                          n<substr> u<378> t<SIMPLE_IDENTIFIER> p<392> s<388> l<62:15> el<62:21>
+                                          n<> u<388> t<Argument_list> p<392> c<382> s<391> l<62:22> el<62:26>
+                                            n<> u<382> t<Expression> p<388> c<381> s<387> l<62:22> el<62:23>
+                                              n<> u<381> t<Primary> p<382> c<380> l<62:22> el<62:23>
+                                                n<> u<380> t<Primary_literal> p<381> c<379> l<62:22> el<62:23>
+                                                  n<1> u<379> t<INTEGRAL_NUMBER> p<380> l<62:22> el<62:23>
+                                            n<> u<387> t<Argument> p<388> c<386> l<62:25> el<62:26>
+                                              n<> u<386> t<Expression> p<387> c<385> l<62:25> el<62:26>
+                                                n<> u<385> t<Primary> p<386> c<384> l<62:25> el<62:26>
+                                                  n<> u<384> t<Primary_literal> p<385> c<383> l<62:25> el<62:26>
+                                                    n<2> u<383> t<INTEGRAL_NUMBER> p<384> l<62:25> el<62:26>
+                                          n<> u<391> t<Method_call_body> p<392> c<389> l<62:28> el<62:33>
+                                            n<len> u<389> t<SIMPLE_IDENTIFIER> p<391> s<390> l<62:28> el<62:31>
+                                            n<> u<390> t<Argument_list> p<391> l<62:32> el<62:32>
+                          n<// chained: the receiver is a method result> u<400> t<LINE_COMMENT> p<442> s<417> l<62:35> el<62:78>
+                          n<> u<417> t<Statement_or_null> p<442> c<416> s<418> l<64:5> el<64:18>
+                            n<> u<416> t<Statement> p<417> c<415> l<64:5> el<64:18>
+                              n<> u<415> t<Statement_item> p<416> c<414> l<64:5> el<64:18>
+                                n<> u<414> t<Blocking_assignment> p<415> c<413> l<64:5> el<64:17>
+                                  n<> u<413> t<Variable_assignment> p<414> c<405> l<64:5> el<64:17>
+                                    n<> u<405> t<Variable_lvalue> p<413> c<402> s<412> l<64:5> el<64:6>
+                                      n<> u<402> t<Ps_or_hierarchical_identifier> p<405> c<401> s<404> l<64:5> el<64:6>
+                                        n<n> u<401> t<SIMPLE_IDENTIFIER> p<402> l<64:5> el<64:6>
+                                      n<> u<404> t<Select> p<405> c<403> l<64:7> el<64:7>
+                                        n<> u<403> t<Bit_select> p<404> l<64:7> el<64:7>
+                                    n<> u<412> t<Expression> p<413> c<411> l<64:9> el<64:17>
+                                      n<> u<411> t<Primary> p<412> c<410> l<64:9> el<64:17>
+                                        n<> u<410> t<Subroutine_call> p<411> c<406> l<64:9> el<64:17>
+                                          n<sh> u<406> t<SIMPLE_IDENTIFIER> p<410> s<407> l<64:9> el<64:11>
+                                          n<> u<407> t<Constant_bit_select> p<410> s<408> l<64:11> el<64:11>
+                                          n<len> u<408> t<SIMPLE_IDENTIFIER> p<410> s<409> l<64:12> el<64:15>
+                                          n<> u<409> t<Argument_list> p<410> l<64:16> el<64:16>
+                          n<// user method wins; not a string method> u<418> t<LINE_COMMENT> p<442> s<439> l<64:35> el<64:75>
+                          n<> u<439> t<Statement_or_null> p<442> c<438> s<440> l<65:5> el<65:20>
+                            n<> u<438> t<Statement> p<439> c<437> l<65:5> el<65:20>
+                              n<> u<437> t<Statement_item> p<438> c<436> l<65:5> el<65:20>
+                                n<> u<436> t<Blocking_assignment> p<437> c<435> l<65:5> el<65:19>
+                                  n<> u<435> t<Variable_assignment> p<436> c<423> l<65:5> el<65:19>
+                                    n<> u<423> t<Variable_lvalue> p<435> c<420> s<434> l<65:5> el<65:6>
+                                      n<> u<420> t<Ps_or_hierarchical_identifier> p<423> c<419> s<422> l<65:5> el<65:6>
+                                        n<n> u<419> t<SIMPLE_IDENTIFIER> p<420> l<65:5> el<65:6>
+                                      n<> u<422> t<Select> p<423> c<421> l<65:7> el<65:7>
+                                        n<> u<421> t<Bit_select> p<422> l<65:7> el<65:7>
+                                    n<> u<434> t<Expression> p<435> c<433> l<65:9> el<65:19>
+                                      n<> u<433> t<Primary> p<434> c<432> l<65:9> el<65:19>
+                                        n<> u<432> t<Subroutine_call> p<433> c<424> l<65:9> el<65:19>
+                                          n<q> u<424> t<SIMPLE_IDENTIFIER> p<432> s<429> l<65:9> el<65:10>
+                                          n<> u<429> t<Constant_bit_select> p<432> c<428> s<430> l<65:10> el<65:13>
+                                            n<> u<428> t<Constant_expression> p<429> c<427> l<65:11> el<65:12>
+                                              n<> u<427> t<Constant_primary> p<428> c<426> l<65:11> el<65:12>
+                                                n<> u<426> t<Primary_literal> p<427> c<425> l<65:11> el<65:12>
+                                                  n<1> u<425> t<INTEGRAL_NUMBER> p<426> l<65:11> el<65:12>
+                                          n<len> u<430> t<SIMPLE_IDENTIFIER> p<432> s<431> l<65:14> el<65:17>
+                                          n<> u<431> t<Argument_list> p<432> l<65:18> el<65:18>
+                          n<// element of a queue of strings> u<440> t<LINE_COMMENT> p<442> s<441> l<65:35> el<65:67>
+                          n<> u<441> t<END> p<442> l<66:3> el<66:6>
+        n<> u<451> t<ENDMODULE> p<452> l<67:1> el<67:10>
+AST_DEBUG_END
+[INF:CP5804] $Source01/6.16--string_method_receivers.sv:35:1: Compile module "top".
+[WRN:PA5506] No timescale set for "builtin".
+[WRN:PA5506] $Source01/6.16--string_method_receivers.sv:35:1: No timescale set for "top".
+[ERR:LN7705] $Source01/6.16--string_method_receivers.sv:65:14: Null Actual: id:808, type:MethodFuncCall, name:len, relation:vpiPathElem.
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (1 items):
+    SourceFile name:6.16--string_method_receivers.sv file:$Source01/6.16--string_method_receivers.sv:
+      vpiParent: Design name:unnamed
+      vpiName: "6.16--string_method_receivers.sv"
+      vpiPreprocFile: "$Output/lib/work/6.16--string_method_receivers.sv"
+  vpiAllPackages (1 items):
+    Package name:builtin:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:builtin:
+      vpiFullName: builtin
+      vpiClassDefn (5 items):
+        ClassDefn name:array:
+          vpiParent: Package name:builtin
+          vpiName Identifier name:array:
+          vpiFullName: builtin::array
+          vpiMethod (20 items):
+            Function name:find:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:find:
+              vpiFullName: builtin::array::find
+              vpiReturn RefTypespec name:generic:
+                vpiParent: Function name:find
+                vpiName: generic
+                vpiFullName: builtin::array::find::generic
+            Function name:find_index:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:find_index:
+              vpiFullName: builtin::array::find_index
+              vpiReturn RefTypespec:
+                vpiParent: Function name:find_index
+                vpiFullName: builtin::array::find_index
+                vpiActual: IntTypespec
+            Function name:find_first:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:find_first:
+              vpiFullName: builtin::array::find_first
+              vpiReturn RefTypespec:
+                vpiParent: Function name:find_first
+                vpiFullName: builtin::array::find_first
+                vpiActual: IntTypespec
+            Function name:find_first_index:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:find_first_index:
+              vpiFullName: builtin::array::find_first_index
+              vpiReturn RefTypespec:
+                vpiParent: Function name:find_first_index
+                vpiFullName: builtin::array::find_first_index
+                vpiActual: IntTypespec
+            Function name:find_last:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:find_last:
+              vpiFullName: builtin::array::find_last
+              vpiReturn RefTypespec:
+                vpiParent: Function name:find_last
+                vpiFullName: builtin::array::find_last
+                vpiActual: IntTypespec
+            Function name:find_last_index:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:find_last_index:
+              vpiFullName: builtin::array::find_last_index
+              vpiReturn RefTypespec:
+                vpiParent: Function name:find_last_index
+                vpiFullName: builtin::array::find_last_index
+                vpiActual: IntTypespec
+            Function name:min:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:min:
+              vpiFullName: builtin::array::min
+              vpiReturn RefTypespec:
+                vpiParent: Function name:min
+                vpiFullName: builtin::array::min
+                vpiActual: IntTypespec
+            Function name:max:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:max:
+              vpiFullName: builtin::array::max
+              vpiReturn RefTypespec:
+                vpiParent: Function name:max
+                vpiFullName: builtin::array::max
+                vpiActual: IntTypespec
+            Function name:unique:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:unique:
+              vpiFullName: builtin::array::unique
+              vpiReturn RefTypespec:
+                vpiParent: Function name:unique
+                vpiFullName: builtin::array::unique
+                vpiActual: IntTypespec
+            Function name:unique_index:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:unique_index:
+              vpiFullName: builtin::array::unique_index
+              vpiReturn RefTypespec:
+                vpiParent: Function name:unique_index
+                vpiFullName: builtin::array::unique_index
+                vpiActual: IntTypespec
+            Function name:reverse:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:reverse:
+              vpiFullName: builtin::array::reverse
+              vpiReturn RefTypespec:
+                vpiParent: Function name:reverse
+                vpiFullName: builtin::array::reverse
+                vpiActual: VoidTypespec
+            Function name:sort:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:sort:
+              vpiFullName: builtin::array::sort
+              vpiReturn RefTypespec:
+                vpiParent: Function name:sort
+                vpiFullName: builtin::array::sort
+                vpiActual: VoidTypespec
+            Function name:rsort:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:rsort:
+              vpiFullName: builtin::array::rsort
+              vpiReturn RefTypespec:
+                vpiParent: Function name:rsort
+                vpiFullName: builtin::array::rsort
+                vpiActual: VoidTypespec
+            Function name:shuffle:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:shuffle:
+              vpiFullName: builtin::array::shuffle
+              vpiReturn RefTypespec:
+                vpiParent: Function name:shuffle
+                vpiFullName: builtin::array::shuffle
+                vpiActual: VoidTypespec
+            Function name:sum:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:sum:
+              vpiFullName: builtin::array::sum
+              vpiReturn RefTypespec:
+                vpiParent: Function name:sum
+                vpiFullName: builtin::array::sum
+                vpiActual: VoidTypespec
+            Function name:product:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:product:
+              vpiFullName: builtin::array::product
+              vpiReturn RefTypespec:
+                vpiParent: Function name:product
+                vpiFullName: builtin::array::product
+                vpiActual: VoidTypespec
+            Function name:and:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:and:
+              vpiFullName: builtin::array::and
+              vpiReturn RefTypespec:
+                vpiParent: Function name:and
+                vpiFullName: builtin::array::and
+                vpiActual: VoidTypespec
+            Function name:or:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:or:
+              vpiFullName: builtin::array::or
+              vpiReturn RefTypespec:
+                vpiParent: Function name:or
+                vpiFullName: builtin::array::or
+                vpiActual: VoidTypespec
+            Function name:xor:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:xor:
+              vpiFullName: builtin::array::xor
+              vpiReturn RefTypespec:
+                vpiParent: Function name:xor
+                vpiFullName: builtin::array::xor
+                vpiActual: VoidTypespec
+            Function name:delete:
+              vpiParent: ClassDefn name:array
+              vpiName Identifier name:delete:
+              vpiFullName: builtin::array::delete
+              vpiReturn RefTypespec:
+                vpiParent: Function name:delete
+                vpiFullName: builtin::array::delete
+                vpiActual: VoidTypespec
+        ClassDefn name:queue:
+          vpiParent: Package name:builtin
+          vpiName Identifier name:queue:
+          vpiFullName: builtin::queue
+          vpiMethod (7 items):
+            Function name:size:
+              vpiParent: ClassDefn name:queue
+              vpiName Identifier name:size:
+              vpiFullName: builtin::queue::size
+              vpiReturn RefTypespec:
+                vpiParent: Function name:size
+                vpiFullName: builtin::queue::size
+                vpiActual: IntTypespec
+            Function name:insert:
+              vpiParent: ClassDefn name:queue
+              vpiName Identifier name:insert:
+              vpiFullName: builtin::queue::insert
+              vpiReturn RefTypespec:
+                vpiParent: Function name:insert
+                vpiFullName: builtin::queue::insert
+                vpiActual: VoidTypespec
+            Function name:delete:
+              vpiParent: ClassDefn name:queue
+              vpiName Identifier name:delete:
+              vpiFullName: builtin::queue::delete
+              vpiReturn RefTypespec:
+                vpiParent: Function name:delete
+                vpiFullName: builtin::queue::delete
+                vpiActual: VoidTypespec
+            Function name:pop_front:
+              vpiParent: ClassDefn name:queue
+              vpiName Identifier name:pop_front:
+              vpiFullName: builtin::queue::pop_front
+              vpiReturn RefTypespec name:generic:
+                vpiParent: Function name:pop_front
+                vpiName: generic
+                vpiFullName: builtin::queue::pop_front::generic
+            Function name:pop_back:
+              vpiParent: ClassDefn name:queue
+              vpiName Identifier name:pop_back:
+              vpiFullName: builtin::queue::pop_back
+              vpiReturn RefTypespec name:generic:
+                vpiParent: Function name:pop_back
+                vpiName: generic
+                vpiFullName: builtin::queue::pop_back::generic
+            Function name:push_front:
+              vpiParent: ClassDefn name:queue
+              vpiName Identifier name:push_front:
+              vpiFullName: builtin::queue::push_front
+              vpiReturn RefTypespec:
+                vpiParent: Function name:push_front
+                vpiFullName: builtin::queue::push_front
+                vpiActual: VoidTypespec
+            Function name:push_back:
+              vpiParent: ClassDefn name:queue
+              vpiName Identifier name:push_back:
+              vpiFullName: builtin::queue::push_back
+              vpiReturn RefTypespec:
+                vpiParent: Function name:push_back
+                vpiFullName: builtin::queue::push_back
+                vpiActual: VoidTypespec
+        ClassDefn name:string:
+          vpiParent: Package name:builtin
+          vpiName Identifier name:string:
+          vpiFullName: builtin::string
+          vpiMethod (14 items):
+            Function name:len:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:len:
+              vpiFullName: builtin::string::len
+              vpiReturn RefTypespec:
+                vpiParent: Function name:len
+                vpiFullName: builtin::string::len
+                vpiActual: IntTypespec
+            Function name:putc:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:putc:
+              vpiFullName: builtin::string::putc
+              vpiReturn RefTypespec:
+                vpiParent: Function name:putc
+                vpiFullName: builtin::string::putc
+                vpiActual: VoidTypespec
+            Function name:getc:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:getc:
+              vpiFullName: builtin::string::getc
+              vpiReturn RefTypespec:
+                vpiParent: Function name:getc
+                vpiFullName: builtin::string::getc
+                vpiActual: IntTypespec
+            Function name:toupper:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:toupper:
+              vpiFullName: builtin::string::toupper
+              vpiReturn RefTypespec:
+                vpiParent: Function name:toupper
+                vpiFullName: builtin::string::toupper
+                vpiActual: StringTypespec
+            Function name:tolower:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:tolower:
+              vpiFullName: builtin::string::tolower
+              vpiReturn RefTypespec:
+                vpiParent: Function name:tolower
+                vpiFullName: builtin::string::tolower
+                vpiActual: StringTypespec
+            Function name:compare:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:compare:
+              vpiFullName: builtin::string::compare
+              vpiReturn RefTypespec:
+                vpiParent: Function name:compare
+                vpiFullName: builtin::string::compare
+                vpiActual: IntTypespec
+            Function name:icompare:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:icompare:
+              vpiFullName: builtin::string::icompare
+              vpiReturn RefTypespec:
+                vpiParent: Function name:icompare
+                vpiFullName: builtin::string::icompare
+                vpiActual: IntTypespec
+            Function name:substr:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:substr:
+              vpiFullName: builtin::string::substr
+              vpiReturn RefTypespec:
+                vpiParent: Function name:substr
+                vpiFullName: builtin::string::substr
+                vpiActual: StringTypespec
+            Function name:atoi:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:atoi:
+              vpiFullName: builtin::string::atoi
+              vpiReturn RefTypespec:
+                vpiParent: Function name:atoi
+                vpiFullName: builtin::string::atoi
+                vpiActual: IntTypespec
+            Function name:atoreal:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:atoreal:
+              vpiFullName: builtin::string::atoreal
+              vpiReturn RefTypespec:
+                vpiParent: Function name:atoreal
+                vpiFullName: builtin::string::atoreal
+                vpiActual: RealTypespec
+            Function name:itoa:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:itoa:
+              vpiFullName: builtin::string::itoa
+              vpiReturn RefTypespec:
+                vpiParent: Function name:itoa
+                vpiFullName: builtin::string::itoa
+                vpiActual: VoidTypespec
+            Function name:hextoa:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:hextoa:
+              vpiFullName: builtin::string::hextoa
+              vpiReturn RefTypespec:
+                vpiParent: Function name:hextoa
+                vpiFullName: builtin::string::hextoa
+                vpiActual: VoidTypespec
+            Function name:bintoa:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:bintoa:
+              vpiFullName: builtin::string::bintoa
+              vpiReturn RefTypespec:
+                vpiParent: Function name:bintoa
+                vpiFullName: builtin::string::bintoa
+                vpiActual: VoidTypespec
+            Function name:realtoa:
+              vpiParent: ClassDefn name:string
+              vpiName Identifier name:realtoa:
+              vpiFullName: builtin::string::realtoa
+              vpiReturn RefTypespec:
+                vpiParent: Function name:realtoa
+                vpiFullName: builtin::string::realtoa
+                vpiActual: VoidTypespec
+        ClassDefn name:system:
+          vpiParent: Package name:builtin
+          vpiName Identifier name:system:
+          vpiFullName: builtin::system
+          vpiMethod (106 items):
+            Function name:display:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:display:
+              vpiFullName: builtin::system::display
+              vpiReturn RefTypespec:
+                vpiParent: Function name:display
+                vpiFullName: builtin::system::display
+                vpiActual: VoidTypespec
+            Function name:write:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:write:
+              vpiFullName: builtin::system::write
+              vpiReturn RefTypespec:
+                vpiParent: Function name:write
+                vpiFullName: builtin::system::write
+                vpiActual: VoidTypespec
+            Function name:strobe:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:strobe:
+              vpiFullName: builtin::system::strobe
+              vpiReturn RefTypespec:
+                vpiParent: Function name:strobe
+                vpiFullName: builtin::system::strobe
+                vpiActual: VoidTypespec
+            Function name:monitor:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:monitor:
+              vpiFullName: builtin::system::monitor
+              vpiReturn RefTypespec:
+                vpiParent: Function name:monitor
+                vpiFullName: builtin::system::monitor
+                vpiActual: VoidTypespec
+            Function name:monitoron:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:monitoron:
+              vpiFullName: builtin::system::monitoron
+              vpiReturn RefTypespec:
+                vpiParent: Function name:monitoron
+                vpiFullName: builtin::system::monitoron
+                vpiActual: VoidTypespec
+            Function name:monitoroff:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:monitoroff:
+              vpiFullName: builtin::system::monitoroff
+              vpiReturn RefTypespec:
+                vpiParent: Function name:monitoroff
+                vpiFullName: builtin::system::monitoroff
+                vpiActual: VoidTypespec
+            Function name:displayb:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:displayb:
+              vpiFullName: builtin::system::displayb
+              vpiReturn RefTypespec:
+                vpiParent: Function name:displayb
+                vpiFullName: builtin::system::displayb
+                vpiActual: VoidTypespec
+            Function name:writeb:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:writeb:
+              vpiFullName: builtin::system::writeb
+              vpiReturn RefTypespec:
+                vpiParent: Function name:writeb
+                vpiFullName: builtin::system::writeb
+                vpiActual: VoidTypespec
+            Function name:strobeb:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:strobeb:
+              vpiFullName: builtin::system::strobeb
+              vpiReturn RefTypespec:
+                vpiParent: Function name:strobeb
+                vpiFullName: builtin::system::strobeb
+                vpiActual: VoidTypespec
+            Function name:monitorb:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:monitorb:
+              vpiFullName: builtin::system::monitorb
+              vpiReturn RefTypespec:
+                vpiParent: Function name:monitorb
+                vpiFullName: builtin::system::monitorb
+                vpiActual: VoidTypespec
+            Function name:displayo:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:displayo:
+              vpiFullName: builtin::system::displayo
+              vpiReturn RefTypespec:
+                vpiParent: Function name:displayo
+                vpiFullName: builtin::system::displayo
+                vpiActual: VoidTypespec
+            Function name:writeo:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:writeo:
+              vpiFullName: builtin::system::writeo
+              vpiReturn RefTypespec:
+                vpiParent: Function name:writeo
+                vpiFullName: builtin::system::writeo
+                vpiActual: VoidTypespec
+            Function name:strobeo:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:strobeo:
+              vpiFullName: builtin::system::strobeo
+              vpiReturn RefTypespec:
+                vpiParent: Function name:strobeo
+                vpiFullName: builtin::system::strobeo
+                vpiActual: VoidTypespec
+            Function name:monitoro:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:monitoro:
+              vpiFullName: builtin::system::monitoro
+              vpiReturn RefTypespec:
+                vpiParent: Function name:monitoro
+                vpiFullName: builtin::system::monitoro
+                vpiActual: VoidTypespec
+            Function name:displayh:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:displayh:
+              vpiFullName: builtin::system::displayh
+              vpiReturn RefTypespec:
+                vpiParent: Function name:displayh
+                vpiFullName: builtin::system::displayh
+                vpiActual: VoidTypespec
+            Function name:writeh:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:writeh:
+              vpiFullName: builtin::system::writeh
+              vpiReturn RefTypespec:
+                vpiParent: Function name:writeh
+                vpiFullName: builtin::system::writeh
+                vpiActual: VoidTypespec
+            Function name:strobeh:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:strobeh:
+              vpiFullName: builtin::system::strobeh
+              vpiReturn RefTypespec:
+                vpiParent: Function name:strobeh
+                vpiFullName: builtin::system::strobeh
+                vpiActual: VoidTypespec
+            Function name:monitorh:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:monitorh:
+              vpiFullName: builtin::system::monitorh
+              vpiReturn RefTypespec:
+                vpiParent: Function name:monitorh
+                vpiFullName: builtin::system::monitorh
+                vpiActual: VoidTypespec
+            Function name:fopen:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fopen:
+              vpiFullName: builtin::system::fopen
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fopen
+                vpiFullName: builtin::system::fopen
+                vpiActual: VoidTypespec
+            Function name:fclose:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fclose:
+              vpiFullName: builtin::system::fclose
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fclose
+                vpiFullName: builtin::system::fclose
+                vpiActual: VoidTypespec
+            Function name:frewind:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:frewind:
+              vpiFullName: builtin::system::frewind
+              vpiReturn RefTypespec:
+                vpiParent: Function name:frewind
+                vpiFullName: builtin::system::frewind
+                vpiActual: VoidTypespec
+            Function name:fflush:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fflush:
+              vpiFullName: builtin::system::fflush
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fflush
+                vpiFullName: builtin::system::fflush
+                vpiActual: VoidTypespec
+            Function name:fseek:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fseek:
+              vpiFullName: builtin::system::fseek
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fseek
+                vpiFullName: builtin::system::fseek
+                vpiActual: VoidTypespec
+            Function name:ftell:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:ftell:
+              vpiFullName: builtin::system::ftell
+              vpiReturn RefTypespec:
+                vpiParent: Function name:ftell
+                vpiFullName: builtin::system::ftell
+                vpiActual: VoidTypespec
+            Function name:fdisplay:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fdisplay:
+              vpiFullName: builtin::system::fdisplay
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fdisplay
+                vpiFullName: builtin::system::fdisplay
+                vpiActual: VoidTypespec
+            Function name:fwrite:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fwrite:
+              vpiFullName: builtin::system::fwrite
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fwrite
+                vpiFullName: builtin::system::fwrite
+                vpiActual: VoidTypespec
+            Function name:swrite:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:swrite:
+              vpiFullName: builtin::system::swrite
+              vpiReturn RefTypespec:
+                vpiParent: Function name:swrite
+                vpiFullName: builtin::system::swrite
+                vpiActual: VoidTypespec
+            Function name:fstrobe:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fstrobe:
+              vpiFullName: builtin::system::fstrobe
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fstrobe
+                vpiFullName: builtin::system::fstrobe
+                vpiActual: VoidTypespec
+            Function name:fmonitor:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fmonitor:
+              vpiFullName: builtin::system::fmonitor
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fmonitor
+                vpiFullName: builtin::system::fmonitor
+                vpiActual: VoidTypespec
+            Function name:fread:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fread:
+              vpiFullName: builtin::system::fread
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fread
+                vpiFullName: builtin::system::fread
+                vpiActual: VoidTypespec
+            Function name:fscanf:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fscanf:
+              vpiFullName: builtin::system::fscanf
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fscanf
+                vpiFullName: builtin::system::fscanf
+                vpiActual: VoidTypespec
+            Function name:fdisplayb:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fdisplayb:
+              vpiFullName: builtin::system::fdisplayb
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fdisplayb
+                vpiFullName: builtin::system::fdisplayb
+                vpiActual: VoidTypespec
+            Function name:fwriteb:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fwriteb:
+              vpiFullName: builtin::system::fwriteb
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fwriteb
+                vpiFullName: builtin::system::fwriteb
+                vpiActual: VoidTypespec
+            Function name:swriteb:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:swriteb:
+              vpiFullName: builtin::system::swriteb
+              vpiReturn RefTypespec:
+                vpiParent: Function name:swriteb
+                vpiFullName: builtin::system::swriteb
+                vpiActual: VoidTypespec
+            Function name:fstrobeb:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fstrobeb:
+              vpiFullName: builtin::system::fstrobeb
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fstrobeb
+                vpiFullName: builtin::system::fstrobeb
+                vpiActual: VoidTypespec
+            Function name:fmonitorb:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fmonitorb:
+              vpiFullName: builtin::system::fmonitorb
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fmonitorb
+                vpiFullName: builtin::system::fmonitorb
+                vpiActual: VoidTypespec
+            Function name:fdisplayo:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fdisplayo:
+              vpiFullName: builtin::system::fdisplayo
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fdisplayo
+                vpiFullName: builtin::system::fdisplayo
+                vpiActual: VoidTypespec
+            Function name:fwriteo:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fwriteo:
+              vpiFullName: builtin::system::fwriteo
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fwriteo
+                vpiFullName: builtin::system::fwriteo
+                vpiActual: VoidTypespec
+            Function name:swriteo:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:swriteo:
+              vpiFullName: builtin::system::swriteo
+              vpiReturn RefTypespec:
+                vpiParent: Function name:swriteo
+                vpiFullName: builtin::system::swriteo
+                vpiActual: VoidTypespec
+            Function name:fstrobeo:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fstrobeo:
+              vpiFullName: builtin::system::fstrobeo
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fstrobeo
+                vpiFullName: builtin::system::fstrobeo
+                vpiActual: VoidTypespec
+            Function name:fmonitoro:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fmonitoro:
+              vpiFullName: builtin::system::fmonitoro
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fmonitoro
+                vpiFullName: builtin::system::fmonitoro
+                vpiActual: VoidTypespec
+            Function name:fdisplayh:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fdisplayh:
+              vpiFullName: builtin::system::fdisplayh
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fdisplayh
+                vpiFullName: builtin::system::fdisplayh
+                vpiActual: VoidTypespec
+            Function name:fwriteh:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fwriteh:
+              vpiFullName: builtin::system::fwriteh
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fwriteh
+                vpiFullName: builtin::system::fwriteh
+                vpiActual: VoidTypespec
+            Function name:swriteh:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:swriteh:
+              vpiFullName: builtin::system::swriteh
+              vpiReturn RefTypespec:
+                vpiParent: Function name:swriteh
+                vpiFullName: builtin::system::swriteh
+                vpiActual: VoidTypespec
+            Function name:fstrobeh:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fstrobeh:
+              vpiFullName: builtin::system::fstrobeh
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fstrobeh
+                vpiFullName: builtin::system::fstrobeh
+                vpiActual: VoidTypespec
+            Function name:fmonitorh:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fmonitorh:
+              vpiFullName: builtin::system::fmonitorh
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fmonitorh
+                vpiFullName: builtin::system::fmonitorh
+                vpiActual: VoidTypespec
+            Function name:sscanf:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:sscanf:
+              vpiFullName: builtin::system::sscanf
+              vpiReturn RefTypespec:
+                vpiParent: Function name:sscanf
+                vpiFullName: builtin::system::sscanf
+                vpiActual: VoidTypespec
+            Function name:sdf_annotate:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:sdf_annotate:
+              vpiFullName: builtin::system::sdf_annotate
+              vpiReturn RefTypespec:
+                vpiParent: Function name:sdf_annotate
+                vpiFullName: builtin::system::sdf_annotate
+                vpiActual: VoidTypespec
+            Function name:sformat:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:sformat:
+              vpiFullName: builtin::system::sformat
+              vpiReturn RefTypespec:
+                vpiParent: Function name:sformat
+                vpiFullName: builtin::system::sformat
+                vpiActual: VoidTypespec
+            Function name:cast:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:cast:
+              vpiFullName: builtin::system::cast
+              vpiReturn RefTypespec:
+                vpiParent: Function name:cast
+                vpiFullName: builtin::system::cast
+                vpiActual: VoidTypespec
+            Function name:assertkill:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:assertkill:
+              vpiFullName: builtin::system::assertkill
+              vpiReturn RefTypespec:
+                vpiParent: Function name:assertkill
+                vpiFullName: builtin::system::assertkill
+                vpiActual: VoidTypespec
+            Function name:assertoff:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:assertoff:
+              vpiFullName: builtin::system::assertoff
+              vpiReturn RefTypespec:
+                vpiParent: Function name:assertoff
+                vpiFullName: builtin::system::assertoff
+                vpiActual: VoidTypespec
+            Function name:asserton:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:asserton:
+              vpiFullName: builtin::system::asserton
+              vpiReturn RefTypespec:
+                vpiParent: Function name:asserton
+                vpiFullName: builtin::system::asserton
+                vpiActual: VoidTypespec
+            Function name:bits:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:bits:
+              vpiFullName: builtin::system::bits
+              vpiReturn RefTypespec:
+                vpiParent: Function name:bits
+                vpiFullName: builtin::system::bits
+                vpiActual: VoidTypespec
+            Function name:bitstoshortreal:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:bitstoshortreal:
+              vpiFullName: builtin::system::bitstoshortreal
+              vpiReturn RefTypespec:
+                vpiParent: Function name:bitstoshortreal
+                vpiFullName: builtin::system::bitstoshortreal
+                vpiActual: VoidTypespec
+            Function name:countones:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:countones:
+              vpiFullName: builtin::system::countones
+              vpiReturn RefTypespec:
+                vpiParent: Function name:countones
+                vpiFullName: builtin::system::countones
+                vpiActual: VoidTypespec
+            Function name:coverage_control:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:coverage_control:
+              vpiFullName: builtin::system::coverage_control
+              vpiReturn RefTypespec:
+                vpiParent: Function name:coverage_control
+                vpiFullName: builtin::system::coverage_control
+                vpiActual: VoidTypespec
+            Function name:coverage_merge:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:coverage_merge:
+              vpiFullName: builtin::system::coverage_merge
+              vpiReturn RefTypespec:
+                vpiParent: Function name:coverage_merge
+                vpiFullName: builtin::system::coverage_merge
+                vpiActual: VoidTypespec
+            Function name:coverage_save:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:coverage_save:
+              vpiFullName: builtin::system::coverage_save
+              vpiReturn RefTypespec:
+                vpiParent: Function name:coverage_save
+                vpiFullName: builtin::system::coverage_save
+                vpiActual: VoidTypespec
+            Function name:dimensions:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:dimensions:
+              vpiFullName: builtin::system::dimensions
+              vpiReturn RefTypespec:
+                vpiParent: Function name:dimensions
+                vpiFullName: builtin::system::dimensions
+                vpiActual: VoidTypespec
+            Function name:error:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:error:
+              vpiFullName: builtin::system::error
+              vpiReturn RefTypespec:
+                vpiParent: Function name:error
+                vpiFullName: builtin::system::error
+                vpiActual: VoidTypespec
+            Function name:exit:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:exit:
+              vpiFullName: builtin::system::exit
+              vpiReturn RefTypespec:
+                vpiParent: Function name:exit
+                vpiFullName: builtin::system::exit
+                vpiActual: VoidTypespec
+            Function name:fatal:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fatal:
+              vpiFullName: builtin::system::fatal
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fatal
+                vpiFullName: builtin::system::fatal
+                vpiActual: VoidTypespec
+            Function name:fell:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:fell:
+              vpiFullName: builtin::system::fell
+              vpiReturn RefTypespec:
+                vpiParent: Function name:fell
+                vpiFullName: builtin::system::fell
+                vpiActual: VoidTypespec
+            Function name:get_coverage:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:get_coverage:
+              vpiFullName: builtin::system::get_coverage
+              vpiReturn RefTypespec:
+                vpiParent: Function name:get_coverage
+                vpiFullName: builtin::system::get_coverage
+                vpiActual: VoidTypespec
+            Function name:coverage_get:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:coverage_get:
+              vpiFullName: builtin::system::coverage_get
+              vpiReturn RefTypespec:
+                vpiParent: Function name:coverage_get
+                vpiFullName: builtin::system::coverage_get
+                vpiActual: VoidTypespec
+            Function name:coverage_get_max:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:coverage_get_max:
+              vpiFullName: builtin::system::coverage_get_max
+              vpiReturn RefTypespec:
+                vpiParent: Function name:coverage_get_max
+                vpiFullName: builtin::system::coverage_get_max
+                vpiActual: VoidTypespec
+            Function name:high:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:high:
+              vpiFullName: builtin::system::high
+              vpiReturn RefTypespec:
+                vpiParent: Function name:high
+                vpiFullName: builtin::system::high
+                vpiActual: VoidTypespec
+            Function name:increment:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:increment:
+              vpiFullName: builtin::system::increment
+              vpiReturn RefTypespec:
+                vpiParent: Function name:increment
+                vpiFullName: builtin::system::increment
+                vpiActual: VoidTypespec
+            Function name:info:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:info:
+              vpiFullName: builtin::system::info
+              vpiReturn RefTypespec:
+                vpiParent: Function name:info
+                vpiFullName: builtin::system::info
+                vpiActual: VoidTypespec
+            Function name:isunbounded:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:isunbounded:
+              vpiFullName: builtin::system::isunbounded
+              vpiReturn RefTypespec:
+                vpiParent: Function name:isunbounded
+                vpiFullName: builtin::system::isunbounded
+                vpiActual: VoidTypespec
+            Function name:isunknown:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:isunknown:
+              vpiFullName: builtin::system::isunknown
+              vpiReturn RefTypespec:
+                vpiParent: Function name:isunknown
+                vpiFullName: builtin::system::isunknown
+                vpiActual: VoidTypespec
+            Function name:left:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:left:
+              vpiFullName: builtin::system::left
+              vpiReturn RefTypespec:
+                vpiParent: Function name:left
+                vpiFullName: builtin::system::left
+                vpiActual: VoidTypespec
+            Function name:load_coverage_db:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:load_coverage_db:
+              vpiFullName: builtin::system::load_coverage_db
+              vpiReturn RefTypespec:
+                vpiParent: Function name:load_coverage_db
+                vpiFullName: builtin::system::load_coverage_db
+                vpiActual: VoidTypespec
+            Function name:low:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:low:
+              vpiFullName: builtin::system::low
+              vpiReturn RefTypespec:
+                vpiParent: Function name:low
+                vpiFullName: builtin::system::low
+                vpiActual: VoidTypespec
+            Function name:onehot:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:onehot:
+              vpiFullName: builtin::system::onehot
+              vpiReturn RefTypespec:
+                vpiParent: Function name:onehot
+                vpiFullName: builtin::system::onehot
+                vpiActual: VoidTypespec
+            Function name:past:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:past:
+              vpiFullName: builtin::system::past
+              vpiReturn RefTypespec:
+                vpiParent: Function name:past
+                vpiFullName: builtin::system::past
+                vpiActual: VoidTypespec
+            Function name:readmemb:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:readmemb:
+              vpiFullName: builtin::system::readmemb
+              vpiReturn RefTypespec:
+                vpiParent: Function name:readmemb
+                vpiFullName: builtin::system::readmemb
+                vpiActual: VoidTypespec
+            Function name:readmemh:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:readmemh:
+              vpiFullName: builtin::system::readmemh
+              vpiReturn RefTypespec:
+                vpiParent: Function name:readmemh
+                vpiFullName: builtin::system::readmemh
+                vpiActual: VoidTypespec
+            Function name:right:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:right:
+              vpiFullName: builtin::system::right
+              vpiReturn RefTypespec:
+                vpiParent: Function name:right
+                vpiFullName: builtin::system::right
+                vpiActual: VoidTypespec
+            Function name:root:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:root:
+              vpiFullName: builtin::system::root
+              vpiReturn RefTypespec:
+                vpiParent: Function name:root
+                vpiFullName: builtin::system::root
+                vpiActual: VoidTypespec
+            Function name:rose:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:rose:
+              vpiFullName: builtin::system::rose
+              vpiReturn RefTypespec:
+                vpiParent: Function name:rose
+                vpiFullName: builtin::system::rose
+                vpiActual: VoidTypespec
+            Function name:sampled:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:sampled:
+              vpiFullName: builtin::system::sampled
+              vpiReturn RefTypespec:
+                vpiParent: Function name:sampled
+                vpiFullName: builtin::system::sampled
+                vpiActual: VoidTypespec
+            Function name:set_coverage_db_name:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:set_coverage_db_name:
+              vpiFullName: builtin::system::set_coverage_db_name
+              vpiReturn RefTypespec:
+                vpiParent: Function name:set_coverage_db_name
+                vpiFullName: builtin::system::set_coverage_db_name
+                vpiActual: VoidTypespec
+            Function name:shortrealtobits:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:shortrealtobits:
+              vpiFullName: builtin::system::shortrealtobits
+              vpiReturn RefTypespec:
+                vpiParent: Function name:shortrealtobits
+                vpiFullName: builtin::system::shortrealtobits
+                vpiActual: VoidTypespec
+            Function name:size:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:size:
+              vpiFullName: builtin::system::size
+              vpiReturn RefTypespec:
+                vpiParent: Function name:size
+                vpiFullName: builtin::system::size
+                vpiActual: VoidTypespec
+            Function name:stable:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:stable:
+              vpiFullName: builtin::system::stable
+              vpiReturn RefTypespec:
+                vpiParent: Function name:stable
+                vpiFullName: builtin::system::stable
+                vpiActual: VoidTypespec
+            Function name:typename:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:typename:
+              vpiFullName: builtin::system::typename
+              vpiReturn RefTypespec:
+                vpiParent: Function name:typename
+                vpiFullName: builtin::system::typename
+                vpiActual: VoidTypespec
+            Function name:typeof:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:typeof:
+              vpiFullName: builtin::system::typeof
+              vpiReturn RefTypespec:
+                vpiParent: Function name:typeof
+                vpiFullName: builtin::system::typeof
+                vpiActual: VoidTypespec
+            Function name:unit:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:unit:
+              vpiFullName: builtin::system::unit
+              vpiReturn RefTypespec:
+                vpiParent: Function name:unit
+                vpiFullName: builtin::system::unit
+                vpiActual: VoidTypespec
+            Function name:urandom:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:urandom:
+              vpiFullName: builtin::system::urandom
+              vpiReturn RefTypespec:
+                vpiParent: Function name:urandom
+                vpiFullName: builtin::system::urandom
+                vpiActual: VoidTypespec
+            Function name:srandom:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:srandom:
+              vpiFullName: builtin::system::srandom
+              vpiReturn RefTypespec:
+                vpiParent: Function name:srandom
+                vpiFullName: builtin::system::srandom
+                vpiActual: VoidTypespec
+            Function name:urandom_range:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:urandom_range:
+              vpiFullName: builtin::system::urandom_range
+              vpiReturn RefTypespec:
+                vpiParent: Function name:urandom_range
+                vpiFullName: builtin::system::urandom_range
+                vpiActual: VoidTypespec
+            Function name:set_randstate:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:set_randstate:
+              vpiFullName: builtin::system::set_randstate
+              vpiReturn RefTypespec:
+                vpiParent: Function name:set_randstate
+                vpiFullName: builtin::system::set_randstate
+                vpiActual: VoidTypespec
+            Function name:get_randstate:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:get_randstate:
+              vpiFullName: builtin::system::get_randstate
+              vpiReturn RefTypespec:
+                vpiParent: Function name:get_randstate
+                vpiFullName: builtin::system::get_randstate
+                vpiActual: VoidTypespec
+            Function name:dist_uniform:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:dist_uniform:
+              vpiFullName: builtin::system::dist_uniform
+              vpiReturn RefTypespec:
+                vpiParent: Function name:dist_uniform
+                vpiFullName: builtin::system::dist_uniform
+                vpiActual: VoidTypespec
+            Function name:dist_normal:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:dist_normal:
+              vpiFullName: builtin::system::dist_normal
+              vpiReturn RefTypespec:
+                vpiParent: Function name:dist_normal
+                vpiFullName: builtin::system::dist_normal
+                vpiActual: VoidTypespec
+            Function name:dist_exponential:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:dist_exponential:
+              vpiFullName: builtin::system::dist_exponential
+              vpiReturn RefTypespec:
+                vpiParent: Function name:dist_exponential
+                vpiFullName: builtin::system::dist_exponential
+                vpiActual: VoidTypespec
+            Function name:dist_poisson:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:dist_poisson:
+              vpiFullName: builtin::system::dist_poisson
+              vpiReturn RefTypespec:
+                vpiParent: Function name:dist_poisson
+                vpiFullName: builtin::system::dist_poisson
+                vpiActual: VoidTypespec
+            Function name:dist_chi_square:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:dist_chi_square:
+              vpiFullName: builtin::system::dist_chi_square
+              vpiReturn RefTypespec:
+                vpiParent: Function name:dist_chi_square
+                vpiFullName: builtin::system::dist_chi_square
+                vpiActual: VoidTypespec
+            Function name:dist_t:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:dist_t:
+              vpiFullName: builtin::system::dist_t
+              vpiReturn RefTypespec:
+                vpiParent: Function name:dist_t
+                vpiFullName: builtin::system::dist_t
+                vpiActual: VoidTypespec
+            Function name:dist_erlang:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:dist_erlang:
+              vpiFullName: builtin::system::dist_erlang
+              vpiReturn RefTypespec:
+                vpiParent: Function name:dist_erlang
+                vpiFullName: builtin::system::dist_erlang
+                vpiActual: VoidTypespec
+            Function name:warning:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:warning:
+              vpiFullName: builtin::system::warning
+              vpiReturn RefTypespec:
+                vpiParent: Function name:warning
+                vpiFullName: builtin::system::warning
+                vpiActual: VoidTypespec
+            Function name:writememb:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:writememb:
+              vpiFullName: builtin::system::writememb
+              vpiReturn RefTypespec:
+                vpiParent: Function name:writememb
+                vpiFullName: builtin::system::writememb
+                vpiActual: VoidTypespec
+            Function name:writememh:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:writememh:
+              vpiFullName: builtin::system::writememh
+              vpiReturn RefTypespec:
+                vpiParent: Function name:writememh
+                vpiFullName: builtin::system::writememh
+                vpiActual: VoidTypespec
+            Function name:value$plusargs:
+              vpiParent: ClassDefn name:system
+              vpiName Identifier name:value$plusargs:
+              vpiFullName: builtin::system::value$plusargs
+              vpiReturn RefTypespec:
+                vpiParent: Function name:value$plusargs
+                vpiFullName: builtin::system::value$plusargs
+                vpiActual: VoidTypespec
+        ClassDefn name:any_sverilog_class:
+          vpiParent: Package name:builtin
+          vpiName Identifier name:any_sverilog_class:
+          vpiFullName: builtin::any_sverilog_class
+          vpiMethod (4 items):
+            Function name:randomize:
+              vpiParent: ClassDefn name:any_sverilog_class
+              vpiName Identifier name:randomize:
+              vpiFullName: builtin::any_sverilog_class::randomize
+              vpiReturn RefTypespec:
+                vpiParent: Function name:randomize
+                vpiFullName: builtin::any_sverilog_class::randomize
+                vpiActual: VoidTypespec
+            Function name:srandom:
+              vpiParent: ClassDefn name:any_sverilog_class
+              vpiName Identifier name:srandom:
+              vpiFullName: builtin::any_sverilog_class::srandom
+              vpiReturn RefTypespec:
+                vpiParent: Function name:srandom
+                vpiFullName: builtin::any_sverilog_class::srandom
+                vpiActual: VoidTypespec
+            Function name:constraint_mode:
+              vpiParent: ClassDefn name:any_sverilog_class
+              vpiName Identifier name:constraint_mode:
+              vpiFullName: builtin::any_sverilog_class::constraint_mode
+              vpiReturn RefTypespec:
+                vpiParent: Function name:constraint_mode
+                vpiFullName: builtin::any_sverilog_class::constraint_mode
+                vpiActual: VoidTypespec
+            Function name:rand_mode:
+              vpiParent: ClassDefn name:any_sverilog_class
+              vpiName Identifier name:rand_mode:
+              vpiFullName: builtin::any_sverilog_class::rand_mode
+              vpiReturn RefTypespec:
+                vpiParent: Function name:rand_mode
+                vpiFullName: builtin::any_sverilog_class::rand_mode
+                vpiActual: VoidTypespec
+  vpiAllClasses (2 items):
+    ClassDefn name:holder file:$Source01/6.16--string_method_receivers.sv start:17:1 end:24:9:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:holder start:17:7 end:17:13:
+      vpiFullName: holder
+      vpiVariable (1 items):
+        Variable name:prop start:18:10 end:18:14:
+          vpiParent: ClassDefn name:holder
+          vpiTypespec RefTypespec start:18:3 end:18:9:
+            vpiParent: Variable name:prop
+            vpiFullName: holder::prop
+            vpiActual: StringTypespec
+          vpiName: prop
+          vpiFullName: holder::prop
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiValue Constant start:18:17 end:18:25:
+            vpiParent: Variable name:prop
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: holder::prop
+              vpiActual: StringTypespec
+            vpiConstType: string (6)
+            vpiSize: 48
+            vpiDecompile: "\"abcdef\""
+            vpiValue: abcdef
+      vpiDefName: holder
+      vpiAutomatic: true
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work start:17:7 end:17:13:
+        vpiParent: ClassDefn name:holder
+        vpiName: work
+        vpiFullName: holder::work
+      vpiCell: holder
+      vpiMethod (1 items):
+        Function name:via_own_prop start:21:3 end:23:14:
+          vpiParent: ClassDefn name:holder
+          vpiName Identifier name:via_own_prop start:21:16 end:21:28:
+          vpiFullName: holder::via_own_prop
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiStmt ReturnStmt start:22:5 end:22:23:
+            vpiParent: Function name:via_own_prop
+            vpiCondition RefObj name:prop.len start:22:12 end:22:22:
+              vpiParent: ReturnStmt
+              vpiName: prop.len
+              vpiFullName: holder::via_own_prop::prop.len
+              vpiPathElem (2 items):
+                RefObj name:prop start:22:12 end:22:16:
+                  vpiParent: RefObj name:prop.len
+                  vpiName: prop
+                  vpiFullName: holder::via_own_prop::prop
+                  vpiActual: Variable name:prop
+                MethodFuncCall name:len start:22:17 end:22:22:
+                  vpiParent: RefObj name:prop.len
+                  vpiName Identifier name:len start:22:17 end:22:20:
+                  vpiTaskFunc: Function name:len
+          vpiReturn RefTypespec start:21:12 end:21:15:
+            vpiParent: Function name:via_own_prop
+            vpiFullName: holder::via_own_prop
+            vpiActual: IntTypespec
+    ClassDefn name:shadow file:$Source01/6.16--string_method_receivers.sv start:28:1 end:33:9:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:shadow start:28:7 end:28:13:
+      vpiFullName: shadow
+      vpiVariable (1 items):
+        Variable name:data start:29:7 end:29:11:
+          vpiParent: ClassDefn name:shadow
+          vpiTypespec RefTypespec start:29:3 end:29:6:
+            vpiParent: Variable name:data
+            vpiFullName: shadow::data
+            vpiActual: IntTypespec
+          vpiName: data
+          vpiFullName: shadow::data
+          vpiRandType: (1)
+          vpiVisibility: public (1)
+          vpiValue Constant start:29:14 end:29:15:
+            vpiParent: Variable name:data
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: shadow::data
+              vpiActual: IntTypespec
+            vpiConstType: unsigned int (9)
+            vpiSize: 64
+            vpiDecompile: "7"
+            vpiValue: 7
+      vpiDefName: shadow
+      vpiAutomatic: true
+      vpiClassType: userdefined class (3)
+      vpiLibrary RefObj name:work start:28:7 end:28:13:
+        vpiParent: ClassDefn name:shadow
+        vpiName: work
+        vpiFullName: shadow::work
+      vpiCell: shadow
+      vpiMethod (1 items):
+        Function name:len start:30:3 end:32:14:
+          vpiParent: ClassDefn name:shadow
+          vpiName Identifier name:len start:30:16 end:30:19:
+          vpiFullName: shadow::len
+          vpiMethod: true
+          vpiVisibility: public (1)
+          vpiStmt ReturnStmt start:31:5 end:31:17:
+            vpiParent: Function name:len
+            vpiCondition RefObj name:data start:31:12 end:31:16:
+              vpiParent: ReturnStmt
+              vpiName: data
+              vpiFullName: shadow::len::data
+              vpiActual: Variable name:data
+          vpiReturn RefTypespec start:30:12 end:30:15:
+            vpiParent: Function name:len
+            vpiFullName: shadow::len
+            vpiActual: IntTypespec
+  vpiAllModules (1 items):
+    Module name:top file:$Source01/6.16--string_method_receivers.sv start:35:1 end:67:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:35:8 end:35:11:
+      vpiFullName: top
+      vpiStruct (1 items):
+        Struct start:36:11 end:36:34:
+          vpiParent: Module name:top
+          vpiTypespecMember (1 items):
+            TypespecMember name:name start:36:27 end:36:31:
+              vpiParent: Struct
+              vpiName: name
+              vpiTypespec RefTypespec start:36:20 end:36:26:
+                vpiParent: TypespecMember name:name
+                vpiFullName: top.name
+                vpiActual: StringTypespec
+      vpiTypedef (1 items):
+        Typedef name:rec_t start:36:3 end:36:41:
+          vpiParent: Module name:top
+          vpiName Identifier name:rec_t start:36:35 end:36:40:
+          vpiTypedefAlias RefTypespec start:36:11 end:36:34:
+            vpiParent: Typedef name:rec_t
+            vpiFullName: top.rec_t
+            vpiActual: StructTypespec
+      vpiVariable (7 items):
+        Variable name:via_typedef start:38:12 end:38:23:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec name:s_t start:38:3 end:38:6:
+            vpiParent: Variable name:via_typedef
+            vpiName: s_t
+            vpiFullName: top.via_typedef.s_t
+            vpiActual: TypedefTypespec name:s_t
+          vpiName: via_typedef
+          vpiFullName: top.via_typedef
+          vpiValue Constant start:38:26 end:38:34:
+            vpiParent: Variable name:via_typedef
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.via_typedef
+              vpiActual: StringTypespec
+            vpiConstType: string (6)
+            vpiSize: 48
+            vpiDecompile: "\"abcdef\""
+            vpiValue: abcdef
+        Variable name:rec start:39:12 end:39:15:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec name:rec_t start:39:3 end:39:8:
+            vpiParent: Variable name:rec
+            vpiName: rec_t
+            vpiFullName: top.rec.rec_t
+            vpiActual: TypedefTypespec name:rec_t
+          vpiName: rec
+          vpiFullName: top.rec
+        Variable name:h start:40:12 end:40:13:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec name:holder start:40:3 end:40:9:
+            vpiParent: Variable name:h
+            vpiName: holder
+            vpiFullName: top.h.holder
+            vpiActual: ClassTypespec name:holder
+          vpiName: h
+          vpiFullName: top.h
+        Variable name:sh start:41:12 end:41:14:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec name:shadow start:41:3 end:41:9:
+            vpiParent: Variable name:sh
+            vpiName: shadow
+            vpiFullName: top.sh.shadow
+            vpiActual: ClassTypespec name:shadow
+          vpiName: sh
+          vpiFullName: top.sh
+        Variable name:plain start:42:12 end:42:17:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:42:3 end:42:9:
+            vpiParent: Variable name:plain
+            vpiFullName: top.plain
+            vpiActual: StringTypespec
+          vpiName: plain
+          vpiFullName: top.plain
+          vpiValue Constant start:42:20 end:42:28:
+            vpiParent: Variable name:plain
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.plain
+              vpiActual: StringTypespec
+            vpiConstType: string (6)
+            vpiSize: 48
+            vpiDecompile: "\"abcdef\""
+            vpiValue: abcdef
+        Variable name:q start:43:12 end:43:13:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec name:string [$] start:43:3 end:43:9:
+            vpiParent: Variable name:q
+            vpiName: string [$]
+            vpiFullName: top.q.string [$]
+            vpiActual: ArrayTypespec
+          vpiName: q
+          vpiFullName: top.q
+        Variable name:n start:44:12 end:44:13:
+          vpiParent: Module name:top
+          vpiTypespec RefTypespec start:44:3 end:44:6:
+            vpiParent: Variable name:n
+            vpiFullName: top.n
+            vpiActual: IntTypespec
+          vpiName: n
+          vpiFullName: top.n
+      vpiTypespec (3 items):
+        StructTypespec start:36:11 end:36:34:
+          vpiParent: Module name:top
+          vpiStruct: Struct
+        TypedefTypespec name:rec_t start:36:3 end:36:41:
+          vpiParent: Module name:top
+          vpiName Identifier name:rec_t start:36:35 end:36:40:
+          vpiTypedefKind: struct (4)
+          vpiTypedef: Typedef name:rec_t
+        ArrayTypespec:
+          vpiParent: Module name:top
+          vpiArrayType: queue (4)
+          vpiRange Range start:43:13 end:43:16:
+            vpiParent: ArrayTypespec
+            vpiLeftRange Constant start:43:14 end:43:15:
+              vpiParent: Range
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: top
+                vpiActual: StringTypespec
+              vpiConstType: unbounded (11)
+              vpiDecompile: "$"
+              vpiValue: "$"
+          vpiElemTypespec RefTypespec start:43:3 end:43:9:
+            vpiParent: ArrayTypespec
+            vpiFullName: top
+            vpiActual: StringTypespec
+      vpiDefName: top
+      vpiDefNetType: wire (1)
+      vpiLibrary RefObj name:work start:35:8 end:35:11:
+        vpiParent: Module name:top
+        vpiName: work
+        vpiFullName: top.work
+      vpiCell: top
+      vpiTaskFunc (1 items):
+        Function name:via_subroutine start:47:3 end:51:14:
+          vpiParent: Module name:top
+          vpiName Identifier name:via_subroutine start:47:16 end:47:30:
+          vpiFullName: top.via_subroutine
+          vpiVisibility: public (1)
+          vpiIODecl (1 items):
+            IODecl name:formal start:47:38 end:47:44:
+              vpiParent: Function name:via_subroutine
+              vpiName: formal
+              vpiDirection: input (1)
+              vpiTypespec RefTypespec start:47:31 end:47:37:
+                vpiParent: IODecl name:formal
+                vpiFullName: top.via_subroutine.formal
+                vpiActual: StringTypespec
+          vpiStmt Begin:
+            vpiParent: Function name:via_subroutine
+            vpiFullName: top.via_subroutine
+            vpiVariable (1 items):
+              Variable name:local_str start:48:12 end:48:21:
+                vpiParent: Begin
+                vpiTypespec RefTypespec start:48:5 end:48:11:
+                  vpiParent: Variable name:local_str
+                  vpiFullName: top.via_subroutine.local_str
+                  vpiActual: StringTypespec
+                vpiName: local_str
+                vpiFullName: top.via_subroutine.local_str
+                vpiValue Constant start:48:24 end:48:32:
+                  vpiParent: Variable name:local_str
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top.via_subroutine.local_str
+                    vpiActual: StringTypespec
+                  vpiConstType: string (6)
+                  vpiSize: 48
+                  vpiDecompile: "\"abcdef\""
+                  vpiValue: abcdef
+            vpiStmt (3 items):
+              Variable name:local_str:
+              Assignment start:49:5 end:49:21:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:n start:49:5 end:49:6:
+                  vpiParent: Assignment
+                  vpiName: n
+                  vpiFullName: top.via_subroutine.n
+                  vpiActual: Variable name:n
+                vpiRhs RefObj name:formal.len start:49:9 end:49:21:
+                  vpiParent: Assignment
+                  vpiName: formal.len
+                  vpiFullName: top.via_subroutine.formal.len
+                  vpiPathElem (2 items):
+                    RefObj name:formal start:49:9 end:49:15:
+                      vpiParent: RefObj name:formal.len
+                      vpiName: formal
+                      vpiFullName: top.via_subroutine.formal
+                      vpiActual: IODecl name:formal
+                    MethodFuncCall name:len start:49:16 end:49:21:
+                      vpiParent: RefObj name:formal.len
+                      vpiName Identifier name:len start:49:16 end:49:19:
+                      vpiTaskFunc: Function name:len
+              ReturnStmt start:50:5 end:50:28:
+                vpiParent: Begin
+                vpiCondition RefObj name:local_str.len start:50:12 end:50:27:
+                  vpiParent: ReturnStmt
+                  vpiName: local_str.len
+                  vpiFullName: top.via_subroutine.local_str.len
+                  vpiPathElem (2 items):
+                    RefObj name:local_str start:50:12 end:50:21:
+                      vpiParent: RefObj name:local_str.len
+                      vpiName: local_str
+                      vpiFullName: top.via_subroutine.local_str
+                      vpiActual: Variable name:local_str
+                    MethodFuncCall name:len start:50:22 end:50:27:
+                      vpiParent: RefObj name:local_str.len
+                      vpiName Identifier name:len start:50:22 end:50:25:
+                      vpiTaskFunc: Function name:len
+          vpiReturn RefTypespec start:47:12 end:47:15:
+            vpiParent: Function name:via_subroutine
+            vpiFullName: top.via_subroutine
+            vpiActual: IntTypespec
+      vpiProcess (1 items):
+        Initial start:56:3 end:66:6:
+          vpiParent: Module name:top
+          vpiStmt Begin start:56:11 end:66:6:
+            vpiParent: Initial
+            vpiFullName: top
+            vpiStmt (8 items):
+              Assignment start:57:5 end:57:26:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:n start:57:5 end:57:6:
+                  vpiParent: Assignment
+                  vpiName: n
+                  vpiFullName: top.n
+                  vpiActual: Variable name:n
+                vpiRhs RefObj name:via_typedef.len start:57:9 end:57:26:
+                  vpiParent: Assignment
+                  vpiName: via_typedef.len
+                  vpiFullName: top.via_typedef.len
+                  vpiPathElem (2 items):
+                    RefObj name:via_typedef start:57:9 end:57:20:
+                      vpiParent: RefObj name:via_typedef.len
+                      vpiName: via_typedef
+                      vpiFullName: top.via_typedef
+                      vpiActual: Variable name:via_typedef
+                    MethodFuncCall name:len start:57:21 end:57:26:
+                      vpiParent: RefObj name:via_typedef.len
+                      vpiName Identifier name:len start:57:21 end:57:24:
+                      vpiTaskFunc: Function name:len
+              Assignment start:58:5 end:58:23:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:n start:58:5 end:58:6:
+                  vpiParent: Assignment
+                  vpiName: n
+                  vpiFullName: top.n
+                  vpiActual: Variable name:n
+                vpiRhs RefObj name:rec.name.len start:58:9 end:58:23:
+                  vpiParent: Assignment
+                  vpiName: rec.name.len
+                  vpiFullName: top.rec.name.len
+                  vpiPathElem (3 items):
+                    RefObj name:rec start:58:9 end:58:12:
+                      vpiParent: RefObj name:rec.name.len
+                      vpiName: rec
+                      vpiFullName: top.rec
+                      vpiActual: Variable name:rec
+                    RefObj name:name start:58:13 end:58:17:
+                      vpiParent: RefObj name:rec.name.len
+                      vpiName: name
+                      vpiFullName: top.name
+                      vpiActual: TypespecMember name:name
+                    MethodFuncCall name:len start:58:18 end:58:23:
+                      vpiParent: RefObj name:rec.name.len
+                      vpiName Identifier name:len start:58:18 end:58:21:
+                      vpiTaskFunc: Function name:len
+              Assignment start:59:5 end:59:21:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:n start:59:5 end:59:6:
+                  vpiParent: Assignment
+                  vpiName: n
+                  vpiFullName: top.n
+                  vpiActual: Variable name:n
+                vpiRhs RefObj name:h.prop.len start:59:9 end:59:21:
+                  vpiParent: Assignment
+                  vpiName: h.prop.len
+                  vpiFullName: top.h.prop.len
+                  vpiPathElem (3 items):
+                    RefObj name:h start:59:9 end:59:10:
+                      vpiParent: RefObj name:h.prop.len
+                      vpiName: h
+                      vpiFullName: top.h
+                      vpiActual: Variable name:h
+                    RefObj name:prop start:59:11 end:59:15:
+                      vpiParent: RefObj name:h.prop.len
+                      vpiName: prop
+                      vpiFullName: top.prop
+                      vpiActual: Variable name:prop
+                    MethodFuncCall name:len start:59:16 end:59:21:
+                      vpiParent: RefObj name:h.prop.len
+                      vpiName Identifier name:len start:59:16 end:59:19:
+                      vpiTaskFunc: Function name:len
+              Assignment start:60:5 end:60:25:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:n start:60:5 end:60:6:
+                  vpiParent: Assignment
+                  vpiName: n
+                  vpiFullName: top.n
+                  vpiActual: Variable name:n
+                vpiRhs RefObj name:h.via_own_prop() start:60:9 end:60:25:
+                  vpiParent: Assignment
+                  vpiName: h.via_own_prop()
+                  vpiFullName: top.h.via_own_prop()
+                  vpiPathElem (2 items):
+                    RefObj name:h start:60:9 end:60:10:
+                      vpiParent: RefObj name:h.via_own_prop()
+                      vpiName: h
+                      vpiFullName: top.h
+                      vpiActual: Variable name:h
+                    MethodFuncCall name:via_own_prop start:60:11 end:60:25:
+                      vpiParent: RefObj name:h.via_own_prop()
+                      vpiName Identifier name:via_own_prop start:60:11 end:60:23:
+                      vpiTaskFunc: Function name:via_own_prop
+              Assignment start:61:5 end:61:33:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:n start:61:5 end:61:6:
+                  vpiParent: Assignment
+                  vpiName: n
+                  vpiFullName: top.n
+                  vpiActual: Variable name:n
+                vpiRhs FuncCall name:via_subroutine start:61:9 end:61:33:
+                  vpiParent: Assignment
+                  vpiName Identifier name:via_subroutine start:61:9 end:61:23:
+                  vpiTaskFunc: Function name:via_subroutine
+                  vpiArgument (1 items):
+                    Constant start:61:24 end:61:32:
+                      vpiParent: FuncCall name:via_subroutine
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"abcdef\""
+                      vpiValue: abcdef
+              Assignment start:62:5 end:62:33:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:n start:62:5 end:62:6:
+                  vpiParent: Assignment
+                  vpiName: n
+                  vpiFullName: top.n
+                  vpiActual: Variable name:n
+                vpiRhs RefObj name:plain.substr(1, 2).len start:62:9 end:62:33:
+                  vpiParent: Assignment
+                  vpiName: plain.substr(1, 2).len
+                  vpiFullName: top.plain.substr(1, 2).len
+                  vpiPathElem (3 items):
+                    RefObj name:plain start:62:9 end:62:14:
+                      vpiParent: RefObj name:plain.substr(1, 2).len
+                      vpiName: plain
+                      vpiFullName: top.plain
+                      vpiActual: Variable name:plain
+                    MethodFuncCall name:substr start:62:15 end:62:33:
+                      vpiParent: RefObj name:plain.substr(1, 2).len
+                      vpiName Identifier name:substr start:62:15 end:62:21:
+                      vpiTaskFunc: Function name:substr
+                      vpiArgument (2 items):
+                        Constant start:62:22 end:62:23:
+                          vpiParent: MethodFuncCall name:substr
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: top.plain.substr(1, 2).len
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                        Constant start:62:25 end:62:26:
+                          vpiParent: MethodFuncCall name:substr
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: top.plain.substr(1, 2).len
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "2"
+                          vpiValue: 2
+                    MethodFuncCall name:len start:62:28 end:62:33:
+                      vpiParent: RefObj name:plain.substr(1, 2).len
+                      vpiName Identifier name:len start:62:28 end:62:31:
+                      vpiTaskFunc: Function name:len
+              Assignment start:64:5 end:64:17:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:n start:64:5 end:64:6:
+                  vpiParent: Assignment
+                  vpiName: n
+                  vpiFullName: top.n
+                  vpiActual: Variable name:n
+                vpiRhs RefObj name:sh.len start:64:9 end:64:17:
+                  vpiParent: Assignment
+                  vpiName: sh.len
+                  vpiFullName: top.sh.len
+                  vpiPathElem (2 items):
+                    RefObj name:sh start:64:9 end:64:11:
+                      vpiParent: RefObj name:sh.len
+                      vpiName: sh
+                      vpiFullName: top.sh
+                      vpiActual: Variable name:sh
+                    MethodFuncCall name:len start:64:12 end:64:17:
+                      vpiParent: RefObj name:sh.len
+                      vpiName Identifier name:len start:64:12 end:64:15:
+                      vpiTaskFunc: Function name:len
+              Assignment start:65:5 end:65:19:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:n start:65:5 end:65:6:
+                  vpiParent: Assignment
+                  vpiName: n
+                  vpiFullName: top.n
+                  vpiActual: Variable name:n
+                vpiRhs RefObj name:q[1].len start:65:9 end:65:19:
+                  vpiParent: Assignment
+                  vpiName: q[1].len
+                  vpiFullName: top.q[1].len
+                  vpiPathElem (2 items):
+                    BitSelect name:q[1] start:65:9 end:65:12:
+                      vpiParent: RefObj name:q[1].len
+                      vpiName: q[1]
+                      vpiFullName: top.q[1].len.q[1]
+                      vpiPrefix RefObj name:q start:65:9 end:65:10:
+                        vpiParent: BitSelect name:q[1]
+                        vpiName: q
+                        vpiFullName: top.q[1].len.q
+                        vpiActual: Variable name:q
+                      vpiIndex Constant start:65:11 end:65:12:
+                        vpiParent: BitSelect name:q[1]
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top.q[1].len.q[1]
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                    MethodFuncCall name:len start:65:14 end:65:19:
+                      vpiParent: RefObj name:q[1].len
+                      vpiName Identifier name:len start:65:14 end:65:17:
+  vpiTypespec (11 items):
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    TypedefTypespec name:s_t start:15:1 end:15:20:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:s_t start:15:16 end:15:19:
+      vpiTypedef: Typedef name:s_t
+    ClassTypespec name:holder start:17:7 end:17:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:holder:
+      vpiDefName: holder
+      vpiClassDefn: ClassDefn name:holder
+    ClassTypespec name:shadow start:28:7 end:28:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:shadow:
+      vpiDefName: shadow
+      vpiClassDefn: ClassDefn name:shadow
+    ModuleTypespec name:top:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:top start:35:8 end:35:11:
+      vpiDefName: top
+      vpiModule: Module name:top
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
+  vpiTypedef (1 items):
+    Typedef name:s_t start:15:1 end:15:20:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:s_t start:15:16 end:15:19:
+      vpiTypedefAlias RefTypespec start:15:9 end:15:15:
+        vpiParent: Typedef name:s_t
+        vpiFullName: s_t
+        vpiActual: StringTypespec
+===================
+[  FATAL] : 0
+[ SYNTAX] : 0
+[  ERROR] : 1
+[WARNING] : 2
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: ErrorCatalog/chapter-6/6.16--string_method_receivers
+   test-dirpath: ${HLC_DIR}/regression/ErrorCatalog/chapter-6/6.16--string_method_receivers
+  hldb-filepath: ${HLC_DIR}/regression/ErrorCatalog/chapter-6/6.16--string_method_receivers/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/ErrorCatalog/chapter-6/6.16--string_method_receivers/mounts.json
+
+
+{'result': {'coverage': 100.0,
+            'error_count': 0,
+            'file_count': 1,
+            'files': {'$Output/lib/work/6.16--string_method_receivers.sv': {'post_len': 0,
+                                                                            'pre_len': 678}},
+            'post_len': 0,
+            'pre_len': 678,
+            'test_name': 'ErrorCatalog/chapter-6/6.16--string_method_receivers'}}
+
++---------------------------------------------------+----------+-----------+
+| INPUT                                             |   PRELEN |   POSTLEN |
++===================================================+==========+===========+
+| $Output/lib/work/6.16--string_method_receivers.sv |      678 |         0 |
++===================================================+==========+===========+
+|                                                   |      678 |         0 |
++---------------------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 100.0
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/ErrorCatalog/chapter-6/6.16--string_method_receivers/design.hldb ${HLC_DIR}/regression/ErrorCatalog/chapter-6/6.16--string_method_receivers/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                            1552    1552       0         0
+----------------------------------------------------------------
+                                  1552    1552       0         0
+===================== END REDUCTION RESULT =====================
