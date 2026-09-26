@@ -79,6 +79,9 @@
 //
 // ----------------------------------------------------------------------------
 // CHECKED (this file):
+//   - the built-in "process" class exists as a real ClassDefn (findable via
+//     Design::getAllClasses()), with a method set that includes "self" and
+//     "await"
 //   - design has module "process_tb" with one task "test", declared
 //     automatic, with one input IODecl "N" whose typespec resolves to
 //     IntTypespec
@@ -87,9 +90,8 @@
 //     whose own scope declares exactly one Variable: "job"
 //   - "job"'s typespec resolves to ArrayTypespec with getArrayType() ==
 //     vpiDynamicArray (a "process job[] = new [N];" dynamic array, not a
-//     fixed-size one), whose element typespec resolves to an
-//     UnsupportedTypespec named "process" -- this compiler does not model
-//     the built-in "process" class as a real ClassDefn
+//     fixed-size one), whose element typespec resolves to a ClassTypespec
+//     whose getClassDefn() is the built-in "process" ClassDefn
 //   - "job"'s initializer ("= new [N]") is an ArrayExpr with exactly one
 //     expression, a RefObj "N" resolving to the task's own IODecl "N"
 //   - the Begin's own statement list has exactly 4 entries, in source
@@ -108,13 +110,14 @@
 //     wrapping the fork branch's two statements)
 //   - that Begin has exactly 2 statements: a blocking Assignment whose lhs
 //     is BitSelect "job[k]" (prefix resolves to Variable "job", index
-//     resolves to Variable "k") and whose rhs is a HierPath named
-//     "process::self()" with exactly 2 path elements -- a RefTypespec
-//     resolving to the UnsupportedTypespec "process" (the "process::" scope
-//     prefix), then a SubroutineCall named "self" whose getTaskFunc() is
-//     null (see NOT CHECKED below) -- then a SysTaskCall "$display" with 2
-//     arguments: the string literal "process %d" and a RefObj "k" resolving
-//     to Variable "k"
+//     resolves to Variable "k") and whose rhs is a RefObj named
+//     "process::self()" with exactly 2 path elements (getPathElems()) -- a
+//     RefTypespec resolving to a ClassTypespec for the "process" ClassDefn
+//     (the "process::" scope prefix), then a MethodFuncCall named "self"
+//     whose getTaskFunc<Function>() resolves to "process"'s own "self"
+//     method (a function, since "self()" returns the process handle) --
+//     then a SysTaskCall "$display" with 2 arguments: the string literal
+//     "process %d" and a RefObj "k" resolving to Variable "k"
 //   - the second ForeachStmt: own scope declares exactly one Variable "i"
 //     (its own, distinct per-loop scope, same as the first ForeachStmt);
 //     its loop variable resolves "job" to the same Variable; its
@@ -122,32 +125,21 @@
 //     with getOpType() == vpiNeqOp and 2 operands: BitSelect "job[i]"
 //     (prefix/index resolving to Variable "job"/Variable "i") and a
 //     Constant with getConstType() == vpiNullConst
-//   - "job[1].await();" is a HierPath directly bound as the Begin's 4th
-//     statement (a bare expression statement, from the unresolved
-//     subroutine_call_statement), named "job[1].await()" with exactly 2
-//     path elements -- a BitSelect "job[1]" (prefix resolves to Variable
-//     "job", index is Constant "1"), then a SubroutineCall named "await"
-//     whose getTaskFunc() is null (see NOT CHECKED below)
+//   - "job[1].await();" is a RefObj directly bound as the Begin's 4th
+//     statement, named "job[1].await()" with exactly 2 path elements -- a
+//     BitSelect "job[1]" (prefix resolves to Variable "job", index is
+//     Constant "1"), then a MethodTaskCall named "await" whose
+//     getTaskFunc<Task>() resolves to "process"'s own "await" method (a
+//     task, since "await()" returns nothing)
 //   - module "process_tb" has exactly one process, an Initial, whose
 //     statement is a Begin wrapping exactly one TaskCall resolving to
 //     "test" with one Constant argument "8"
-//   - COMP_FAILED_TO_BIND is raised at line 23, column 24 (the "self" call)
-//     and at line 31, column 10 (the "await" call): this compiler treats
-//     "process" as an UnsupportedTypespec (not a real ClassDefn), so
-//     neither the built-in static method process::self() nor the instance
-//     method job[1].await() can be bound to a real TaskFunc -- a real
-//     elaborator would resolve both against the process class's built-in
-//     method set
+//   - COMP_FAILED_TO_BIND is never raised: both "self" and "await" bind
+//     cleanly to the built-in "process" class's own methods
 //
 // NOT CHECKED (out of scope regardless of pass/fail; every assertion above
 // states only what IEEE 1800-2023 requires -- none of it is based on
 // reading a .log file or any other tool-output dump):
-//   - findError()'s symbol-matching overload (type + symbol string, with no
-//     line/column) does not find either failed bind by the plain text
-//     "self" or "await", even though both are found by (type, line,
-//     column); the location's underlying matching by symbol text was not
-//     investigated further, so only the line/column overload is relied on
-//     here.
 //   - Runtime effects (that "job[1].await()" actually blocks until the
 //     second forked process completes, that "process::self()" actually
 //     returns a distinct handle per branch, or that the fork branches
@@ -168,24 +160,26 @@
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
 #include <hldb/bit_select.h>
+#include <hldb/class_defn.h>
+#include <hldb/class_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/foreach_stmt.h>
 #include <hldb/fork_stmt.h>
-#include <hldb/hier_path.h>
+#include <hldb/function.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
+#include <hldb/method_func_call.h>
+#include <hldb/method_task_call.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
-#include <hldb/subroutine_call.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/task.h>
 #include <hldb/task_call.h>
-#include <hldb/unsupported_typespec.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 #include <hldb/wait_stmt.h>
@@ -238,11 +232,11 @@ class ProcessClsAwaitTest : public Test {
     return any_cast<hldb::ForeachStmt>(body->getStmts()->at(2));
   }
 
-  static const hldb::HierPath *getAwaitCall() {
+  static const hldb::RefObj *getAwaitCall() {
     const hldb::Begin *const body = getTaskBody();
     if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->size() < 4)
       return nullptr;
-    return any_cast<hldb::HierPath>(body->getStmts()->at(3));
+    return any_cast<hldb::RefObj>(body->getStmts()->at(3));
   }
 
   static const hldb::ForkStmt *getForkStmt() {
@@ -351,7 +345,12 @@ TEST_F(ProcessClsAwaitTest, TaskScopeHasExactlyOneVariableJob) {
   EXPECT_NE(getJobVariable(), nullptr) << "Variable 'job' not found";
 }
 
-TEST_F(ProcessClsAwaitTest, JobTypespecIsDynamicArrayOfUnsupportedProcess) {
+TEST_F(ProcessClsAwaitTest, ProcessClassExists) {
+  EXPECT_NE(hldb::findByName<hldb::ClassDefn>("process", m_design->getAllClasses()), nullptr)
+      << "the built-in 'process' class should be modeled as a real ClassDefn";
+}
+
+TEST_F(ProcessClsAwaitTest, JobTypespecIsDynamicArrayOfProcess) {
   const hldb::Variable *const job = getJobVariable();
   ASSERT_NE(job, nullptr);
   ASSERT_NE(job->getTypespec(), nullptr);
@@ -361,9 +360,10 @@ TEST_F(ProcessClsAwaitTest, JobTypespecIsDynamicArrayOfUnsupportedProcess) {
   EXPECT_EQ(at->getArrayType(), vpiDynamicArray) << "'job[]' with no fixed size is a dynamic array";
 
   ASSERT_NE(at->getElemTypespec(), nullptr);
-  const hldb::UnsupportedTypespec *const elem = at->getElemTypespec()->getActual<hldb::UnsupportedTypespec>();
-  ASSERT_NE(elem, nullptr) << "the built-in 'process' class is not modeled as a real ClassDefn by this compiler";
-  EXPECT_EQ(elem->getName(), "process");
+  const hldb::ClassTypespec *const elem = at->getElemTypespec()->getActual<hldb::ClassTypespec>();
+  ASSERT_NE(elem, nullptr) << "'process' should resolve to ClassTypespec";
+  ASSERT_NE(elem->getClassDefn(), nullptr);
+  EXPECT_EQ(elem->getClassDefn()->getName(), "process");
 }
 
 TEST_F(ProcessClsAwaitTest, JobInitializerIsArrayExprOfN) {
@@ -479,17 +479,17 @@ TEST_F(ProcessClsAwaitTest, SelfAssignmentLhsIsJobOfK) {
   EXPECT_EQ(index->getActual<hldb::Variable>(), getKVariable());
 }
 
-// 'process::self()' resolves to a HierPath (a scope-resolved path, from the
-// 'process::' class-scope prefix), not a plain RefObj: its 2 path elements
-// are a RefTypespec (resolving to the UnsupportedTypespec 'process') and a
-// SubroutineCall named 'self' whose getTaskFunc() is null, since this
-// compiler has no real ClassDefn for the built-in 'process' class to bind
-// the static method call against.
-TEST_F(ProcessClsAwaitTest, SelfAssignmentRhsIsUnresolvedSelfCallOnProcess) {
+// 'process::self()' resolves to a RefObj carrying a 2-element path (from the
+// 'process::' class-scope prefix): a RefTypespec (resolving to a
+// ClassTypespec for the built-in 'process' ClassDefn) and a MethodFuncCall
+// named 'self' -- a function, not a task, since 'self()' returns the
+// process handle -- resolving via getTaskFunc<Function>() to 'process'
+// class's own 'self' method.
+TEST_F(ProcessClsAwaitTest, SelfAssignmentRhsIsProcessSelfMethodCall) {
   const hldb::Assignment *const assign = getSelfAssignment();
   ASSERT_NE(assign, nullptr);
-  const hldb::HierPath *const rhs = assign->getRhs<hldb::HierPath>();
-  ASSERT_NE(rhs, nullptr) << "'process::self()' should be a HierPath";
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr) << "'process::self()' should be a RefObj";
   EXPECT_EQ(rhs->getName(), "process::self()");
 
   ASSERT_NE(rhs->getPathElems(), nullptr);
@@ -497,14 +497,17 @@ TEST_F(ProcessClsAwaitTest, SelfAssignmentRhsIsUnresolvedSelfCallOnProcess) {
 
   const hldb::RefTypespec *const prefix = any_cast<hldb::RefTypespec>(rhs->getPathElems()->at(0));
   ASSERT_NE(prefix, nullptr) << "the 'process' scope-resolution prefix should be a RefTypespec";
-  const hldb::UnsupportedTypespec *const process = prefix->getActual<hldb::UnsupportedTypespec>();
-  ASSERT_NE(process, nullptr) << "the built-in 'process' class is not modeled as a real ClassDefn";
-  EXPECT_EQ(process->getName(), "process");
+  const hldb::ClassTypespec *const process = prefix->getActual<hldb::ClassTypespec>();
+  ASSERT_NE(process, nullptr) << "'process' should resolve to ClassTypespec";
+  ASSERT_NE(process->getClassDefn(), nullptr);
+  EXPECT_EQ(process->getClassDefn()->getName(), "process");
 
-  const hldb::SubroutineCall *const self = any_cast<hldb::SubroutineCall>(rhs->getPathElems()->at(1));
-  ASSERT_NE(self, nullptr) << "'self()' should be a SubroutineCall";
+  const hldb::MethodFuncCall *const self = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  ASSERT_NE(self, nullptr) << "'self()' should be a MethodFuncCall";
   EXPECT_EQ(self->getName(), "self");
-  EXPECT_EQ(self->getTaskFunc(), nullptr) << "'process::self()' cannot bind to any real TaskFunc";
+  const hldb::Function *const selfMethod = self->getTaskFunc<hldb::Function>();
+  ASSERT_NE(selfMethod, nullptr) << "'process::self()' should resolve to a real Function (it returns a handle)";
+  EXPECT_EQ(selfMethod->getName(), "self");
 }
 
 TEST_F(ProcessClsAwaitTest, DisplayCallHasStringAndKArguments) {
@@ -579,12 +582,13 @@ TEST_F(ProcessClsAwaitTest, WaitConditionIsJobOfINotEqualNull) {
 // --- job[1].await(); ----------------------------------------------------------
 
 // 'job[1].await();' resolves the same way as 'process::self()' above: a
-// HierPath whose 2 path elements are a BitSelect 'job[1]' (the handle being
-// called on) and a SubroutineCall named 'await' with a null getTaskFunc(),
-// since 'process' has no real ClassDefn to bind the instance method against.
-TEST_F(ProcessClsAwaitTest, FourthStmtIsUnresolvedAwaitCallOnJobOne) {
-  const hldb::HierPath *const call = getAwaitCall();
-  ASSERT_NE(call, nullptr) << "'job[1].await();' should bind directly as a bare HierPath statement";
+// RefObj whose 2 path elements are a BitSelect 'job[1]' (the handle being
+// called on) and a MethodTaskCall named 'await' -- a task, not a function,
+// since 'await()' returns nothing -- resolving via getTaskFunc<Task>() to
+// 'process' class's own 'await' method.
+TEST_F(ProcessClsAwaitTest, FourthStmtIsAwaitMethodCallOnJobOne) {
+  const hldb::RefObj *const call = getAwaitCall();
+  ASSERT_NE(call, nullptr) << "'job[1].await();' should bind directly as a bare RefObj statement";
   EXPECT_EQ(call->getName(), "job[1].await()");
 
   ASSERT_NE(call->getPathElems(), nullptr);
@@ -598,10 +602,12 @@ TEST_F(ProcessClsAwaitTest, FourthStmtIsUnresolvedAwaitCallOnJobOne) {
   ASSERT_NE(index, nullptr);
   EXPECT_EQ(index->getDecompile(), "1");
 
-  const hldb::SubroutineCall *const await = any_cast<hldb::SubroutineCall>(call->getPathElems()->at(1));
-  ASSERT_NE(await, nullptr) << "'await()' should be a SubroutineCall";
+  const hldb::MethodTaskCall *const await = any_cast<hldb::MethodTaskCall>(call->getPathElems()->at(1));
+  ASSERT_NE(await, nullptr) << "'await()' should be a MethodTaskCall";
   EXPECT_EQ(await->getName(), "await");
-  EXPECT_EQ(await->getTaskFunc(), nullptr) << "'job[1].await()' cannot bind to any real TaskFunc";
+  const hldb::Task *const awaitMethod = await->getTaskFunc<hldb::Task>();
+  ASSERT_NE(awaitMethod, nullptr) << "'job[1].await()' should resolve to a real Task (it returns nothing)";
+  EXPECT_EQ(awaitMethod->getName(), "await");
 }
 
 // --- initial begin test(8); end ----------------------------------------------
@@ -627,16 +633,14 @@ TEST_F(ProcessClsAwaitTest, InitialCallsTestWithConstantEight) {
   EXPECT_EQ(arg->getConstType(), vpiUIntConst);
 }
 
-// --- compiler diagnostics: 'self' and 'await' fail to bind -------------------
+// --- compiler diagnostics -----------------------------------------------------
 
-TEST_F(ProcessClsAwaitTest, SelfFailsToBind) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, 23u, uint16_t(24)), nullptr)
-      << "'process::self()' cannot resolve against the UnsupportedTypespec 'process'";
-}
-
-TEST_F(ProcessClsAwaitTest, AwaitFailsToBind) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, 31u, uint16_t(10)), nullptr)
-      << "'job[1].await()' cannot resolve against the UnsupportedTypespec 'process'";
+// Both 'process::self()' and 'job[1].await()' resolve to real methods of the
+// built-in 'process' ClassDefn (see the two tests above), so neither should
+// leave any reference unbound.
+TEST_F(ProcessClsAwaitTest, ReferencesAreNotFailedBinds) {
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr)
+      << "'self' and 'await' should both bind to the built-in 'process' class's own methods";
 }
 
 }  // namespace hlc
