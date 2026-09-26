@@ -36,6 +36,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -92,8 +93,8 @@ TEST_F(IntegersSignedIllegal, NoNetsInStubModules) {
 // valid syntax and must be reported as a syntax error.
 // ----
 TEST_F(IntegersSignedIllegal, Compiler_ReportsSyntaxErrors) {
-  const ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_GT(stats.nbSyntax, 0) << "'8'd-6' is illegal (IEEE 1800-2023 Sec 5.7.1) and must be a syntax error";
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 19, 2), nullptr) << "'8'd-6' is illegal (IEEE 1800-2023 Sec 5.7.1) and must be a syntax error";
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 20, 10), nullptr);
 }
 
 }  // namespace hlc

@@ -206,9 +206,6 @@ TEST_F(UnpackStreamPadSimTest, CompilerReportsZeroErrors) {
 // --- the actual point of the file: does d hold the packed value ----------
 
 TEST_F(UnpackStreamPadSimTest, DEqualsCShiftedSixtyFourPlusBShiftedThirtyTwoPlusA) {
-  GTEST_SKIP() << "The source asserts d's low 96 bits equal (c<<64)+(b<<32)+a. HLC is a static "
-                  "compiler/elaborator with no post-execution value for a Variable. Genuine "
-                  "simulation-only gap, not a shortcut.";
   const hldb::Begin *const blk = getInitialBody();
   ASSERT_NE(blk, nullptr);
   const hldb::Variable *const d = hldb::findByName<hldb::Variable>("d", blk->getVariables());

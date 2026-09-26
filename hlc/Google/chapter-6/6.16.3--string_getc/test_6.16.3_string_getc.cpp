@@ -55,10 +55,12 @@
 
 #include <hldb/Utils.h>
 #include <hldb/byte_typespec.h>
+#include <hldb/class_defn.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
 #include <hldb/module.h>
+#include <hldb/task_func.h>
 #include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -176,6 +178,15 @@ TEST_F(StringGetcTest, RefObjMethodIsGetc) {
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "getc");
+
+  // IEEE 1800-2023 Sec 6.16: "getc" is a string method. It is declared in no user scope,
+  // so it can only resolve to the builtin "StringTypespec" class.
+  const hldb::TaskFunc *const tf = call->getTaskFunc();
+  ASSERT_NE(tf, nullptr) << "string.getc() must bind (IEEE 1800-2023 Sec 6.16)";
+  EXPECT_EQ(tf->getName(), "getc");
+  const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(tf->getParent());
+  ASSERT_NE(owner, nullptr);
+  EXPECT_EQ(owner->getName(), "StringTypespec");
 }
 
 TEST_F(StringGetcTest, GetcArgumentIsTwo) {
@@ -231,7 +242,7 @@ TEST_F(StringGetcTest, CompilerReportsZeroErrors) {
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "getc"), nullptr)
+  EXPECT_EQ(findError(ErrorDefinition::LINT_NULL_ACTUAL), nullptr)
       << "str.getc() must bind (IEEE 1800-2023 6.16.3)";
 }
 

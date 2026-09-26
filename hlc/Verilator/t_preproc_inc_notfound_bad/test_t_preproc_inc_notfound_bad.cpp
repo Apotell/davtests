@@ -16,6 +16,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -54,8 +55,7 @@ TEST_F(PreprocIncNotfoundBadTest, MissingFileRecorded) {
 // be reported as a compile error.
 TEST_F(PreprocIncNotfoundBadTest, MissingIncludeIsReportedAsError) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GE(stats.nbError, 1) << "the unresolvable `include of this_file_is_not_found.vh must be an error";
+  EXPECT_NE(findError(ErrorDefinition::PP_CANNOT_OPEN_INCLUDE_FILE, 6, 1), nullptr) << "the unresolvable `include of this_file_is_not_found.vh must be an error";
 }
 
 }  // namespace hlc

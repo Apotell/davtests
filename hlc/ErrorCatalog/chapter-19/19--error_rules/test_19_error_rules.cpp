@@ -305,8 +305,6 @@ TEST_F(Chapter19ErrorRulesTest, Row723_OverlappingBinsAreWarnedWhenDetectOverlap
   // covers 5..20, so 5..10 is in both. The warning is conditional on the
   // option -- with detect_overlap left at its default the same two bins must
   // stay silent.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.7 requires a warning for "
-                  "overlapping bin range lists when option.detect_overlap is true";
   EXPECT_NE(findError(ErrorDefinition::COMP_OVERLAPPING_BINS, "b2", 240, 7), nullptr)
       << "overlapping bins must be warned when detect_overlap is set (IEEE 1800-2023 19.7)";
 }

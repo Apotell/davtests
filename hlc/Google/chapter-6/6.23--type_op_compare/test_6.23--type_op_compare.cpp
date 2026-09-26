@@ -125,6 +125,27 @@ TEST_F(TypeOpCompareTest, Compiler_NoErrors) {
   EXPECT_EQ(stats.nbError, 0) << "ss.6.23: valid type() file must produce no compilation errors";
 }
 
+// ----
+// Known gap: 'parameter type T = type(logic[11:0])' -- type() used as a
+// data type (here, a type parameter's default) -- currently still reports
+// one spurious error even though this file is fully legal per 6.23 (see
+// Compiler_NoErrors above, which documents the overall "must be zero"
+// expectation and is left failing until this is fixed).
+//
+// Same root cause as 6.23--type_op's own KnownGap_TypeOperatorPathElemReportedAsInvalid:
+// Phase2's leavePA_Data_type (paType_reference branch) wraps the
+// 'logic[11:0]' argument in an hldb::Operation (vpiTypeOp) and stores that
+// Operation directly in the placeholder UnsupportedTypespec's own
+// getPathElems() collection, which hier_typespec.yaml's path_elem_group
+// filter (ref_typespec/ref_obj/bit_select/var_select only) does not allow
+// -- hlc::Linter::checkHierTypespec()'s own isFiltered() check on that
+// collection reports 'vpiPathElem' property value has invalid objects.
+//
+TEST_F(TypeOpCompareTest, KnownGap_TypeOperatorPathElemReportedAsInvalid) {
+  ErrorContainer::Stats stats = m_compiler->getErrorStats();
+  EXPECT_EQ(stats.nbError, 0);
+}
+
 // ===========================================================================
 // Module structure  (ss.6.23)
 // ===========================================================================

@@ -53,6 +53,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -164,12 +165,9 @@ TEST_F(EnumTypeCheckingInvTest, CompilerShouldRejectUncastIntAssignmentButDoesNo
   GTEST_SKIP() << "IEEE 1800-2023 6.19.3: 'a variable of type enum cannot be directly assigned a value "
                   "that lies outside the enumeration set unless an explicit cast is used'";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "IEEE 1800-2023 6.19.3: 'a variable of type enum cannot be directly assigned a value "
-         "that lies outside the enumeration set unless an explicit cast is used' -- 'val = 1;' "
-         "does exactly this, matching this file's own :should_fail_because: tag -- HLC currently "
-         "accepts it with zero diagnostics";
+  EXPECT_NE(findError(ErrorDefinition::COMP_INCOMPATIBLE_TYPES), nullptr)
+      << "IEEE 1800-2023 6.19.3: assigning a plain int to an enum variable without a cast "
+         "violates the strict type checking the standard requires for enumerations.";
 }
 
 }  // namespace hlc

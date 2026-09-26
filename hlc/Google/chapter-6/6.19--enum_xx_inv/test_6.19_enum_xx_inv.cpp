@@ -61,6 +61,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -207,12 +208,9 @@ TEST_F(EnumXxInvTest, CompilerShouldRejectXValueOn2StateEnumButDoesNot) {
   GTEST_SKIP() << "IEEE 1800-2023 6.19: 'an enumerated name with x or z assignments assigned to an enum "
                   "with ... an explicit 2-state declaration shall be a syntax error'";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "IEEE 1800-2023 6.19: 'an enumerated name with x or z assignments assigned to an enum "
-         "with ... an explicit 2-state declaration shall be a syntax error' -- 'bit [1:0]' is "
-         "2-state and 'b=2'bxx' assigns an x-value, matching this file's own "
-         ":should_fail_because: tag -- HLC currently accepts it with zero diagnostics";
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ENUM_VALUE), nullptr)
+      << "IEEE 1800-2023 6.19: enumerator 'b' is given an x value while the enum has an "
+         "explicit 2-state base type.";
 }
 
 }  // namespace hlc

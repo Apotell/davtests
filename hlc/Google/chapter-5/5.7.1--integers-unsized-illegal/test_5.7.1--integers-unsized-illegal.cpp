@@ -41,6 +41,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -165,8 +166,10 @@ TEST_F(IntegersUnsizedIllegal, Compiler_ShouldReportSyntaxErrorForIllegalToken) 
                   "IEEE 1800-2023 Annex A.8.7/A.9.3 requires a syntax error since '4af' has "
                   "no legal token interpretation.";
 
-  const ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_GT(stats.nbSyntax, 0) << "'4af' is not a legal integer, time, or identifier token";
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR), nullptr)
+      << "IEEE 1800-2023 5.7.1: '4af' is not a legal number token because a hexadecimal "
+         "literal requires the 'h base specifier. PA_SYNTAX_ERROR carries no object name, so "
+         "this cannot be narrowed by symbol.";
 }
 
 }  // namespace hlc

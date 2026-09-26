@@ -189,7 +189,7 @@ TEST_F(EnumFirstTest, RefObjReceiverResolvesToVariable) {
       << "receiver RefObj 'val' in val.first() should resolve to the local Variable";
 }
 
-TEST_F(EnumFirstTest, FirstCallBindsToBuiltinEnumerationIterator) {
+TEST_F(EnumFirstTest, FirstCallBindsToBuiltinEnumTypespec) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -203,13 +203,13 @@ TEST_F(EnumFirstTest, FirstCallBindsToBuiltinEnumerationIterator) {
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
   // IEEE 1800-2023 Sec 6.19.5.1: "first()" is an enumerated-type method. It is declared in
-  // no user scope, so it can only resolve to the builtin "enumeration_iterator" class.
+  // no user scope, so it can only resolve to the builtin "EnumTypespec" class.
   const hldb::TaskFunc *const tf = call->getTaskFunc();
   ASSERT_NE(tf, nullptr) << "enum.first() must bind (IEEE 1800-2023 Sec 6.19.5.1)";
   EXPECT_EQ(tf->getName(), "first");
   const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(tf->getParent());
   ASSERT_NE(owner, nullptr);
-  EXPECT_EQ(owner->getName(), "enumeration_iterator");
+  EXPECT_EQ(owner->getName(), "EnumTypespec");
 }
 
 TEST_F(EnumFirstTest, CompilerReportsZeroErrors) {

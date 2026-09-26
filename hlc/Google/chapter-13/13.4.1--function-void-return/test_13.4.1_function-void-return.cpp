@@ -84,6 +84,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -200,11 +201,9 @@ TEST_F(FunctionVoidReturnTest, CompilerShouldRejectVoidFunctionReturningAValueBu
                   "carrying an expression and a void function call from being used as an expression, but HLC "
                   "accepts both with zero diagnostics. Tracked, not yet fixed by the compiler.";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "IEEE 1800-2023 13.4.1 prohibits both a void function's return statement from carrying an expression "
-         "and a void function call from being used as an expression -- this file's 'add' does both, matching "
-         "the file's own :should_fail_because: tag -- HLC currently accepts it with zero diagnostics";
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_RETURN_VALUE, "add"), nullptr)
+      << "IEEE 1800-2023 13.4.1: a return statement in a void function shall not carry an "
+         "expression, but 'add' returns a sum.";
 }
 
 TEST_F(FunctionVoidReturnTest, NoContinuousAssigns) {

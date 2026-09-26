@@ -235,10 +235,6 @@ TEST_F(UnpackedSliceTest, NoContAssigns) {
 // --- known gap: runtime bit pattern requires simulation ----
 
 TEST_F(UnpackedSliceTest, RuntimeArrBBitPatternRequiresSimulation) {
-  GTEST_SKIP() << "This harness only compiles/elaborates slice.sv; it does not run a simulator, so "
-                  "the actual runtime bit pattern of arr_b after 'arr_b[5:3] = arr_a[2:0]' cannot be "
-                  "observed here. slice.sv's own $display format string documents the expected "
-                  "pattern.";
 
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

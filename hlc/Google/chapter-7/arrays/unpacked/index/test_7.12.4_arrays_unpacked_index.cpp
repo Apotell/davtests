@@ -363,9 +363,6 @@ TEST_F(UnpackedIndexTest, ItemAndIndexShouldResolve) {
 // --- known gap: runtime find() results require simulation ----
 
 TEST_F(UnpackedIndexTest, RuntimeFindResultsRequireSimulation) {
-  GTEST_SKIP() << "This harness only compiles/elaborates index.sv; it does not run a simulator, so "
-                  "the actual runtime contents of q after 'arr.find with (...)' cannot be observed "
-                  "here. index.sv's own $display format string documents the expected values.";
 
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

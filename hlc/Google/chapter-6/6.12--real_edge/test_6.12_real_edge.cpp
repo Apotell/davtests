@@ -54,12 +54,12 @@
 //   - EventControl body is SysTaskCall "$display" with argument Constant
 //     "\"posedge\""
 //   - top has no continuous assignments
-//   - THE POINT OF THIS FILE: the compiler should report at least one
-//     error for the illegal "posedge a" on a real variable, per IEEE
-//     1800-2023 6.12 quoted above. Confirmed by personally running with
-//     the skip removed (fails as expected) -- kept as GTEST_SKIP() with
-//     the real assertion underneath, per the established gating rule
-//     (skips only added after personal verification)
+//   - THE POINT OF THIS FILE: the compiler must reject the illegal
+//     "posedge a" on a real variable, per IEEE 1800-2023 6.12 quoted
+//     above. HLC now does, reporting COMP_ILLEGAL_EDGE_ON_REAL against
+//     'a' at line 19, col 11. Asserted via findError() with the code,
+//     symbol and location, not an nbFatal+nbSyntax+nbError sum: a bare
+//     count would also go green on any unrelated diagnostic here.
 //
 // What is NOT checked and why:
 //   - none: every corner above is fully structural and checkable without
@@ -67,6 +67,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -238,17 +239,12 @@ TEST_F(RealEdgeTest, NoContAssigns) {
 // ---------------------------------------------------------------------------
 // The actual point of the file: posedge on a real variable is illegal
 // ---------------------------------------------------------------------------
-TEST_F(RealEdgeTest, CompilerShouldRejectPosedgeOnRealVariableButDoesNot) {
-  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed "
-                  "(fails as expected): IEEE 1800-2023 6.12 prohibits edge event controls "
-                  "(posedge, negedge, edge) applied to real variables ('posedge a'), but HLC "
-                  "accepts it with zero diagnostics. Tracked, not yet fixed by the compiler.";
+TEST_F(RealEdgeTest, CompilerRejectsPosedgeOnRealVariable) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EDGE_ON_REAL, "a", 19, 11), nullptr)
       << "IEEE 1800-2023 6.12: 'edge event controls (posedge, negedge, edge) applied to real "
-         "variables' are prohibited -- 'posedge a' does exactly this, matching this file's own "
-         ":should_fail_because: tag -- HLC currently accepts it with zero diagnostics";
+         "variables' are prohibited -- 'posedge a' on line 19 does exactly this, matching this "
+         "file's own :should_fail_because: tag";
 }
 
 }  // namespace hlc

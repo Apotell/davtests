@@ -77,6 +77,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -268,10 +269,9 @@ TEST_F(PackedVariableSliceZeroTest, CompilerShouldRejectZeroWidthIndexedPartSele
                   "test once the compiler enforces the >0 width rule.";
 
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbError + stats.nbFatal, 0)
-      << "expected the compiler to reject the zero-width indexed part-select arr_b[4+:c] (c==0) "
-         "per IEEE 1800-2017 7.4.3, once that semantic check is implemented";
+  EXPECT_NE(findError(ErrorDefinition::LINT_INVALID_SELECT_WIDTH_EXPR), nullptr)
+      << "IEEE 1800-2023 7.4.3 with 11.5.1: the indexed part-select uses a width parameter of "
+         "zero, and the width of an indexed part-select shall be a positive constant.";
 }
 
 // --- known gap: the should_fail_because semantic check is simulation-only --

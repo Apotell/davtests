@@ -50,11 +50,13 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/class_defn.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
+#include <hldb/task_func.h>
 #include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -161,6 +163,15 @@ TEST_F(StringAtooctTest, RefObjMethodIsAtooct) {
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "atooct");
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "atooct() takes no arguments";
+
+  // IEEE 1800-2023 Sec 6.16: "atooct" is a string method. It is declared in no user scope,
+  // so it can only resolve to the builtin "StringTypespec" class.
+  const hldb::TaskFunc *const tf = call->getTaskFunc();
+  ASSERT_NE(tf, nullptr) << "string.atooct() must bind (IEEE 1800-2023 Sec 6.16)";
+  EXPECT_EQ(tf->getName(), "atooct");
+  const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(tf->getParent());
+  ASSERT_NE(owner, nullptr);
+  EXPECT_EQ(owner->getName(), "StringTypespec");
 }
 
 TEST_F(StringAtooctTest, CompilerReportsZeroErrors) {
@@ -168,7 +179,7 @@ TEST_F(StringAtooctTest, CompilerReportsZeroErrors) {
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "atooct"), nullptr)
+  EXPECT_EQ(findError(ErrorDefinition::LINT_NULL_ACTUAL), nullptr)
       << "str.atooct() must bind (IEEE 1800-2023 6.16.9)";
 }
 

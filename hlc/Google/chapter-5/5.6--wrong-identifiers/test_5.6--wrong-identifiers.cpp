@@ -27,6 +27,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -49,9 +50,9 @@ class WrongIdentifiers : public Test {
 // both illegal and must be reported as syntax errors.
 // ----
 TEST_F(WrongIdentifiers, Compiler_ReportsSyntaxErrors) {
-  const ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_GT(stats.nbSyntax, 0) << "illegal identifiers '$dollar' and '0number' (IEEE 1800-2023 Sec 5.6) "
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 17, 6), nullptr) << "illegal identifiers '$dollar' and '0number' (IEEE 1800-2023 Sec 5.6) "
                                    "must be reported as syntax errors";
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 18, 6), nullptr);
 }
 
 // ----

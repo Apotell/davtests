@@ -16,6 +16,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -40,11 +41,14 @@ class UnitSimpleIncludeAndMacrosTest : public Test {
 // top-level macro expansions produce bare statements outside any module.
 TEST_F(UnitSimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GE(stats.nbSyntax, 1) << "illegal top-level macro expansions in mode.vh must produce syntax errors";
-  EXPECT_GE(stats.nbError, 1)
-      << "illegal macro argument counts, missing parentheses, and the "
-         "recursive BOTTOM/TOP/BOTTOM1 macro chain must be reported as errors";
+  EXPECT_NE(findError(ErrorDefinition::PP_SYNTAX_ERROR, 13, 17), nullptr) << "illegal top-level macro expansions in mode.vh must produce syntax errors";
+  EXPECT_NE(findError(ErrorDefinition::PP_MACRO_PARENTHESIS_NEEDED, 62, 1), nullptr);
+  EXPECT_NE(findError(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE, 36, 0), nullptr)
+      << "illegal macro argument counts must be reported as errors";
+  EXPECT_NE(findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO, 40, 0), nullptr)
+      << "too many actual arguments for a macro must be reported as an error";
+  EXPECT_NE(findError(ErrorDefinition::PP_RECURSIVE_MACRO_DEFINITION, 47, 0), nullptr)
+      << "the recursive BOTTOM/TOP/BOTTOM1 macro chain must be reported as an error";
 }
 
 // LRM 22.5.1: all FAKELIB_* modules from lib.v must compile (same sources

@@ -249,10 +249,6 @@ TEST_F(MemoriesReadWriteTest, NoContAssigns) {
 // --- known gap: runtime mem[5] value requires simulation ----
 
 TEST_F(MemoriesReadWriteTest, RuntimeMemFiveValueRequiresSimulation) {
-  GTEST_SKIP() << "This harness only compiles/elaborates read-write.sv; it does not run a simulator, "
-                  "so the actual runtime value held in mem[5] before/after each write cannot be "
-                  "observed here. read-write.sv's own $display format strings document the expected "
-                  "values.";
 
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);

@@ -99,8 +99,6 @@ TEST_F(AnsiClassTest, ClsBitsIsBitTypespecVectorFour) {
 }
 
 TEST_F(AnsiClassTest, ClassHasRandVariables) {
-  GTEST_SKIP() << "Rand is allowed only in unpacked structures; As per the standard, It shall be"
-                  "legal to declare a random_qualifier (rand|randc) only within unpacked structures.";
 
   const hldb::ClassDefn *const cls =
       hldb::findByName<hldb::ClassDefn>("nets_and_variables_class", m_design->getAllClasses());

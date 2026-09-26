@@ -68,6 +68,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -226,11 +227,12 @@ TEST_F(RealBitSelectTest, CompilerShouldRejectBitSelectOnRealVariableButDoesNot)
                   "references of real variables ('a[2]'), but HLC accepts it with zero "
                   "diagnostics. Tracked, not yet fixed by the compiler.";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "IEEE 1800-2023 6.12: 'bit-select or part-select references of real variables' are "
-         "prohibited -- 'a[2]' does exactly this, matching this file's own :should_fail_because: "
-         "tag -- HLC currently accepts it with zero diagnostics";
+  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_OPERAND_TYPE), nullptr)
+      << "IEEE 1800-2023 6.12: a bit-select may not be applied TO a real variable, as in "
+         "'a[2]' where 'a' is real. This is a different rule from the sibling "
+         "6.12--real_bit_select_idx, which covers a real used AS the index and has its own "
+         "code, COMP_ILLEGAL_REAL_SELECT_INDEX. No dedicated code exists for a real select "
+         "OPERAND, so the generic operand-type code is the closest fit.";
 }
 
 }  // namespace hlc

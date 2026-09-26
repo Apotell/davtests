@@ -204,12 +204,6 @@ TEST_F(CasePatternTest, ModuleHasNoNetsAndOneVariableTmp) {
 }
 
 TEST_F(CasePatternTest, CaseStmtExistsWithExactTypeAndMatchesQualifier) {
-  GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected): "
-                  "IEEE 1800-2023 12.6.1 requires the 'matches' keyword to be recorded as vpiMatchesQualifier on "
-                  "the CaseStmt, but HLC leaves getQualifier() at its default 0 (vpiNoQualifier) -- the keyword is "
-                  "parsed but never recorded onto the final object. Same underlying gap as "
-                  "12.4.2--priority_if.cpp/unique_if.cpp/unique0_if.cpp, now confirmed for case statements too. "
-                  "Tracked, not yet fixed by the compiler.";
   const hldb::CaseStmt *const cs = getCaseStmt();
   ASSERT_NE(cs, nullptr) << "the initial process's statement should resolve directly to CaseStmt";
   EXPECT_EQ(cs->getCaseType(), vpiCaseExact);

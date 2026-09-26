@@ -28,6 +28,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -41,8 +42,7 @@ class ModuleRandcTest : public Test {
 
 TEST_F(ModuleRandcTest, RandcVariableAtModuleScopeIsRejected) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 24, 2), nullptr)
       << "a `randc` qualifier on a variable declared directly inside a module is illegal: rand/randc "
          "random-variable qualifiers are only legal on class properties or on variables declared inside "
          "a checker, and a module has no randomize() context.";

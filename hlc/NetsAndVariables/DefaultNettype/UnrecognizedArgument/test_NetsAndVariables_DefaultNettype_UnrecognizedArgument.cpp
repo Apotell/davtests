@@ -25,6 +25,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -39,9 +40,9 @@ class UnrecognizedArgumentTest : public Test {
 TEST_F(UnrecognizedArgumentTest, UnrecognizedArgumentIsRejected) {
   GTEST_SKIP() << "`default_nettype mytype is illegal: 'mytype' is not a net type keyword or 'none'.";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "`default_nettype mytype is illegal: 'mytype' is not a net type keyword or 'none'.";
+  EXPECT_NE(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_VALUE), nullptr)
+      << "IEEE 1800-2023 22.8: default_nettype accepts only wire, tri, tri0, tri1, triand, "
+         "trior, trireg, uwire, wand, wor or none, and 'mytype' is not one of them.";
 }
 
 }  // namespace hlc

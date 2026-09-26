@@ -27,6 +27,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -42,10 +43,9 @@ TEST_F(ProceduralAssignmentUndeclaredTest, ProceduralAssignmentToUndeclaredIsRej
   GTEST_SKIP() << "a procedural assignment to an undeclared identifier is illegal: implicit declaration is "
                   "net-only (IEEE 1800 clause 6.10) and never arises from a procedural assignment.";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "a procedural assignment to an undeclared identifier is illegal: implicit declaration is "
-         "net-only (IEEE 1800 clause 6.10) and never arises from a procedural assignment.";
+  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "undeclared_var"), nullptr)
+      << "IEEE 1800-2023 6.10: the assigned identifier is never declared, and an implicit net "
+         "is not created for a procedural assignment target.";
 }
 
 }  // namespace hlc

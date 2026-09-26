@@ -314,7 +314,7 @@ def _get_run_args(
     if Path(test_id).name not in _blacklisted_dump_hldb_tests:
       parts += ['-d', 'db']
     parts += ['-nostdout']  # Keep this at end so it overrides any '-verbose' flag in the hlc file
-    parts += ['-o', str(output_dirpath)]
+    parts += ['-o', output_dirpath.as_posix()]  # as_posix(): identical on Linux, avoids backslashes on Windows
 
     cmdline = ' '.join(['"' + part + '"' if '"' in part else part for part in parts if part])
     print(f'Processed command line: {cmdline}')

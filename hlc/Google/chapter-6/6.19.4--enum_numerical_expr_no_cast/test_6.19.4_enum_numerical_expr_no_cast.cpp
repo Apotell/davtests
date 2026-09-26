@@ -59,6 +59,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -235,12 +236,9 @@ TEST_F(EnumNumericalExprNoCastTest, CompilerShouldRejectUncastCompoundAssignment
                   "an enum variable where the type of the expression is not equivalent to the enumeration "
                   "type'";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "IEEE 1800-2023 6.19.4: 'a cast shall be required for an expression that is assigned to "
-         "an enum variable where the type of the expression is not equivalent to the enumeration "
-         "type' -- 'val += 1;' does exactly this, matching this file's own :should_fail_because: "
-         "tag -- HLC currently accepts it with zero diagnostics";
+  EXPECT_NE(findError(ErrorDefinition::COMP_INCOMPATIBLE_TYPES), nullptr)
+      << "IEEE 1800-2023 6.19.4: a compound numerical assignment on an enum variable with no "
+         "cast back to the enum type violates the same strict type checking rule.";
 }
 
 }  // namespace hlc

@@ -208,6 +208,13 @@ TEST_F(EnumValueInvTest, CompilerShouldRejectSizeMismatchButDoesNot) {
   GTEST_SKIP() << "IEEE 1800-2023 6.19: 'if the integer value expression is a sized literal constant, it "
                   "shall be an error if the size is different from the enum base type'";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  // NOTE: deliberately still a coarse error-count assertion, unlike the sibling gap tests
+  // in this suite which were narrowed to findError(). No ErrorDefinition entry expresses
+  // this rule: COMP_ILLEGAL_ENUM_VALUE covers x/z values only, and
+  // ELAB_ENUM_VALUE_OUT_OF_RANGE covers a VALUE exceeding the base type -- here the values
+  // (2 and 3) fit the 3-bit base perfectly and only the literals' declared SIZE (4) differs.
+  // Naming either code would assert the wrong rule, so this stays coarse until a code for
+  // the size rule exists.
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
       << "IEEE 1800-2023 6.19: 'if the integer value expression is a sized literal constant, it "

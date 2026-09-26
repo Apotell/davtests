@@ -27,6 +27,7 @@
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -40,8 +41,7 @@ class PackageTest : public Test {
 
 TEST_F(PackageTest, ContinuousAssignmentAtPackageScopeIsRejected) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 24, 2), nullptr)
       << "a continuous assignment ('assign pkg_wire = pkg_logic;') directly inside a package is illegal: "
          "a package may only contain processes inside a nested checker declaration, so it has no process "
          "context to drive a net at its own scope.";

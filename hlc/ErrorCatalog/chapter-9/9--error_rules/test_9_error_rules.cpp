@@ -80,9 +80,6 @@ TEST_F(Chapter9ErrorRulesTest, Row275_RefFormalInsideForkJoinNoneIsRejected) {
   // token, no model field, and no way to tell an exempt formal from a plain
   // one. Wiring the check would enforce the pre-2023 wording and would start
   // rejecting legal code the day `ref static` is supported.
-  GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 9.3.2 forbids referring to a "
-                  "by-reference formal inside fork-join_any / fork-join_none unless the formal is "
-                  "declared 'ref static' or the reference is a block_item_declaration initializer";
   EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_REF_IN_FORK, "r", 28, 7), nullptr)
       << "a by-reference formal cannot be referenced inside fork-join_none (IEEE 1800-2023 9.3.2)";
 }
