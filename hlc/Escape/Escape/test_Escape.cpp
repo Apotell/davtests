@@ -54,6 +54,7 @@
 #include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
+#include <hldb/ref_instance.h>
 
 namespace hlc {
 
@@ -64,14 +65,18 @@ class EscapeTest : public Test {
 
  protected:
   // Scans every module in the design (top-level and nested instances) for a
-  // submodule instance whose name equals the given (already-unescaped) name.
+  // submodule instantiation whose name equals the given (already-unescaped)
+  // name. "ddr" (the module type of "\g_datapath:0:g_io") is never declared
+  // in top.v/top1.v, so this instantiation cannot resolve to an elaborated
+  // Module -- it is a RefInstance with an unresolved type instead, which is
+  // why this searches Module::getRefInstances(), not Module::getModules().
   // This avoids depending on which of the two same-named "bottom3" modules
   // (one from top.v, one from top1.v) ends up reachable by name lookup.
-  static const hldb::Module *findInstanceNamed(std::string_view name) {
+  static const hldb::RefInstance *findInstanceNamed(std::string_view name) {
     if (m_design == nullptr || m_design->getAllModules() == nullptr) return nullptr;
     for (const hldb::Module *const m : *m_design->getAllModules()) {
-      if (m->getModules() == nullptr) continue;
-      for (const hldb::Module *const inst : *m->getModules()) {
+      if (m->getRefInstances() == nullptr) continue;
+      for (const hldb::RefInstance *const inst : *m->getRefInstances()) {
         if (inst->getName() == name) return inst;
       }
     }
@@ -89,14 +94,8 @@ TEST_F(EscapeTest, ModulesArePresent) {
 // \g_datapath:0:g_io  ->  "g_datapath:0:g_io"  (leading backslash dropped,
 // every other character -- including ':' -- preserved, per 5.6.1).
 TEST_F(EscapeTest, EscapedInstanceNameHasBackslashStripped) {
-  const hldb::Module *const inst = findInstanceNamed("g_datapath:0:g_io");
-  if (inst == nullptr) {
-    GTEST_SKIP() << "No submodule instance named 'g_datapath:0:g_io' was found in the design; HLC may not be "
-                    "creating an instance object for a reference to an undefined module type ('ddr' is never "
-                    "declared). Per IEEE 1800-2023 Sec 5.6.1 the escaped instance name '\\g_datapath:0:g_io' "
-                    "must still be recorded, with the leading backslash stripped, as 'g_datapath:0:g_io', "
-                    "independent of whether the referenced module type binds. Fix pending.";
-  }
+  const hldb::RefInstance *const inst = findInstanceNamed("g_datapath:0:g_io");
+  ASSERT_NE(inst, nullptr) << "'\\g_datapath:0:g_io ' instantiation not found";
   EXPECT_EQ(inst->getName(), "g_datapath:0:g_io");
 }
 
@@ -104,11 +103,8 @@ TEST_F(EscapeTest, EscapedInstanceNameHasBackslashStripped) {
 // stored name (5.6.1: "the backslash ... shall not be considered part of
 // the identifier").
 TEST_F(EscapeTest, EscapedInstanceNameDoesNotContainBackslash) {
-  const hldb::Module *const inst = findInstanceNamed("g_datapath:0:g_io");
-  if (inst == nullptr) {
-    GTEST_SKIP() << "No submodule instance named 'g_datapath:0:g_io' was found; see EscapedInstanceNameHas"
-                    "BackslashStripped for the same limitation. Fix pending.";
-  }
+  const hldb::RefInstance *const inst = findInstanceNamed("g_datapath:0:g_io");
+  ASSERT_NE(inst, nullptr) << "'\\g_datapath:0:g_io ' instantiation not found";
   EXPECT_EQ(inst->getName().find('\\'), std::string_view::npos)
       << "escaped-identifier instance name must not retain the leading backslash per IEEE 1800-2023 Sec 5.6.1";
 }
