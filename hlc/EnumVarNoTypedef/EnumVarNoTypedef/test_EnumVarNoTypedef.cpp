@@ -68,6 +68,7 @@
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/typedef_typespec.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -98,11 +99,23 @@ class EnumVarNoTypedefTest : public Test {
 TEST_F(EnumVarNoTypedefTest, ModuleExists) { EXPECT_NE(getTop(), nullptr) << "module 'top' not found"; }
 
 TEST_F(EnumVarNoTypedefTest, ModuleHasOneTypespecAnonymousEnum) {
+  // Two Typespec objects are expected in the module's own vpiTypespec collection:
+  // the anonymous EnumTypespec itself, plus the "logic [2:0]" base typespec it
+  // references (every distinct Typespec built for a declared type registers itself
+  // on its enclosing scope -- see e.g. Design's own vpiTypespec collection carrying
+  // separate IntTypespec/VoidTypespec/etc. entries for builtin subroutines). The
+  // actual point of this test -- confirmed by the loop below -- is that no
+  // TypedefTypespec wrapper exists, since "enum logic [2:0] {...} myenum;" has no
+  // 'typedef' keyword (IEEE 1800-2023 6.19).
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
-  EXPECT_EQ(top->getTypespecs()->size(), 1u);
+  EXPECT_EQ(top->getTypespecs()->size(), 2u);
   EXPECT_NE(getEnumTypespec(), nullptr) << "anonymous enum should have EnumTypespec directly, no TypedefTypespec";
+  for (const hldb::Any *const ts : *top->getTypespecs()) {
+    EXPECT_EQ(any_cast<hldb::TypedefTypespec>(ts), nullptr)
+        << "no TypedefTypespec should exist for a non-typedef'd anonymous enum";
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -184,15 +197,13 @@ TEST_F(EnumVarNoTypedefTest, NoProcesses) {
 }
 
 // ---------------------------------------------------------------------------
-// Known limitation: sized-literal/enum-base size mismatch is illegal but
-// currently accepted with zero diagnostics.
+// IEEE 1800-2023 6.19: "If the integer value expression is a sized literal
+// constant, it shall be an error if the size is different from the enum
+// base type" -- Global=4'h2 is a 4-bit literal on a 3-bit (logic[2:0]) base.
 // ---------------------------------------------------------------------------
 
-TEST_F(EnumVarNoTypedefTest, CompilerShouldRejectSizeMismatchButDoesNot) {
-  GTEST_SKIP() << "IEEE 1800-2023 6.19: 'if the integer value expression is a sized literal constant, it "
-                  "shall be an error if the size is different from the enum base type' -- Global=4'h2 is a "
-                  "4-bit literal on a 3-bit (logic[2:0]) base. HLC currently accepts it with zero diagnostics. "
-                  "Fix pending.";
+TEST_F(EnumVarNoTypedefTest, CompilerRejectsSizeMismatch) {
+  EXPECT_NE(findError(ErrorDefinition::HLDB_ENUM_CONST_SIZE_MISMATCH, "Global"), nullptr);
 }
 
 }  // namespace hlc
