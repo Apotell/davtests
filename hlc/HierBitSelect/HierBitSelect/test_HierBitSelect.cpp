@@ -81,37 +81,15 @@ TEST_F(HierBitSelectTest, ModuleHasThreeContinuousAssignments) {
 // so each must be reported as a binding failure.
 
 TEST_F(HierBitSelectTest, MidoBytesInFailsToBind) {
-  const Error *const err = findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view{"mido_bytes_in"});
-  if (err == nullptr) {
-    GTEST_SKIP() << "HLC does not report a binding failure for the illegal chained bit-select "
-                     "'mido_bytes_in[1][2][3]' on an undeclared identifier; per IEEE 1800-2023 Sec 6.10 an "
-                     "implicit net inferred from an undeclared identifier is always scalar, so a "
-                     "multi-dimensional select on it cannot resolve to a legal target. Fix pending.";
-  }
-  EXPECT_NE(err, nullptr);
+  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view{"mido_bytes_in"}), nullptr);
 }
 
 TEST_F(HierBitSelectTest, StateDFailsToBind) {
-  const Error *const err = findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view{"state_d"});
-  if (err == nullptr) {
-    GTEST_SKIP() << "HLC does not report a binding failure for the illegal chained bit-select/slice "
-                     "'state_d[2][3][4][5:6]' on an undeclared identifier; per IEEE 1800-2023 Sec 6.10 an "
-                     "implicit net inferred from an undeclared identifier is always scalar, so a "
-                     "multi-dimensional select ending in a part-select on it cannot resolve to a legal "
-                     "target. Fix pending.";
-  }
-  EXPECT_NE(err, nullptr);
+  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view{"state_d"}), nullptr);
 }
 
 TEST_F(HierBitSelectTest, StateD1FailsToBind) {
-  const Error *const err = findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view{"state_d1"});
-  if (err == nullptr) {
-    GTEST_SKIP() << "HLC does not report a binding failure for the illegal part-select 'state_d1[10:11]' "
-                     "on an undeclared identifier; per IEEE 1800-2023 Sec 6.10 an implicit net inferred "
-                     "from an undeclared identifier is always scalar, so a part-select on it cannot "
-                     "resolve to a legal target. Fix pending.";
-  }
-  EXPECT_NE(err, nullptr);
+  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view{"state_d1"}), nullptr);
 }
 
 }  // namespace hlc
