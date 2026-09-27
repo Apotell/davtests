@@ -158,14 +158,12 @@ TEST_F(DpiTaskTest, ExportDpiCIdentifierDefaultsToItsSvName) {
   // IEEE 1800-2023 35.5.3: "If the c_identifier is omitted, the imported
   // (or exported) name shall be the same as the SystemVerilog function or
   // task name." 'export "DPI-C" task task_1;' supplies no c_identifier,
-  // so the recorded DPI C string should be "task_1". HLC currently
-  // records this field as an unresolved/invalid marker instead.
-  GTEST_SKIP() << "HLC does not populate the DPI C-identifier for export declarations (reads back as an internal "
-                  "placeholder); should default to the SV subroutine name per IEEE 1800-2023 35.5.3. Fix pending.";
+  // so the recorded DPI C string should be "task_1".
   const hldb::TaskDecl *const decl = getTask1Decl();
   ASSERT_NE(decl, nullptr);
   EXPECT_EQ(decl->getName(), std::string_view("task_1"));
-  EXPECT_EQ(decl->getDPICStr(), vpiDPICStr);
+  EXPECT_EQ(decl->getDPICIdentifier(), std::string_view("task_1"));
+  EXPECT_EQ(decl->getDPICStr(), vpiDPIC);
 }
 
 TEST_F(DpiTaskTest, CompilerReportsZeroErrors) {
