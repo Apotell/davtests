@@ -74,6 +74,7 @@
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
+#include <hldb/part_select.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -207,21 +208,25 @@ TEST_F(DollarBitsUnaryTest, BitsArgumentOfSelectRangeIsBitNegOfDrQ) {
   }
   ASSERT_NE(found, nullptr);
 
-  // The RHS 'dr_x[$bits(~dr_q)-1:0]' is a part-select expression; the exact
-  // Any subtype HLC uses to model a part-select over an unresolved base
-  // identifier is not pinned down elsewhere in this suite, so this test
-  // walks down to whichever Operation embeds the '$bits(~dr_q)' SysFuncCall
-  // rather than asserting a specific outer shape.
-  const hldb::Any *const rhs = found->getRhs();
-  ASSERT_NE(rhs, nullptr) << "'assign o = dr_x[...]': RHS must be non-null";
+  // Per IEEE 1800-2023 Sec 11.5.1, 'dr_x[$bits(~dr_q)-1:0]' is an indexed
+  // part-select: the RHS is a PartSelect over the (unresolved) base 'dr_x',
+  // and the select bounds -- including the '$bits(~dr_q)-1' expression --
+  // live on that PartSelect's own Range, not on ContAssign::getRhs() itself.
+  const hldb::PartSelect *const partSelect = any_cast<hldb::PartSelect>(found->getRhs());
+  ASSERT_NE(partSelect, nullptr) << "'dr_x[$bits(~dr_q)-1:0]' should be modeled as a PartSelect";
+  const hldb::RefObj *const prefix = any_cast<hldb::RefObj>(partSelect->getPrefix());
+  ASSERT_NE(prefix, nullptr);
+  EXPECT_EQ(prefix->getName(), "dr_x");
 
-  const hldb::Operation *const rangeOp = any_cast<hldb::Operation>(rhs);
-  if (rangeOp == nullptr) {
-    GTEST_SKIP() << "HLC did not represent 'dr_x[$bits(~dr_q)-1:0]' as an Operation directly on ContAssign::getRhs()"
-                    " -- the exact part-select shape over an unresolved base identifier is not confirmed. Per IEEE"
-                    " 1800-2023 Sec 11.5.1 (indexed part-select) the select bounds must still constant-fold through"
-                    " '$bits(~dr_q)-1:0' regardless of whether 'dr_x' itself resolves. Fix/confirmation pending.";
-  }
+  const hldb::Range *const range = partSelect->getRange();
+  ASSERT_NE(range, nullptr);
+  const hldb::Constant *const rightRange = any_cast<hldb::Constant>(range->getRightExpr());
+  ASSERT_NE(rightRange, nullptr);
+  EXPECT_EQ(std::string(rightRange->getDecompile()), "0");
+
+  const hldb::Operation *const rangeOp = any_cast<hldb::Operation>(range->getLeftExpr());
+  ASSERT_NE(rangeOp, nullptr) << "'$bits(~dr_q)-1' must be a subtract Operation";
+  EXPECT_EQ(rangeOp->getOpType(), vpiSubOp);
 
   const hldb::SysFuncCall *bits = nullptr;
   if (rangeOp->getOperands() != nullptr) {
