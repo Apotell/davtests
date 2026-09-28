@@ -148,7 +148,10 @@ TEST_F(FuncReturnRangeTest, WidthAIsFive) {
   const hldb::Parameter *const widthA = hldb::findByName<hldb::Parameter>("WIDTH_A", top->getParameters());
   ASSERT_NE(widthA, nullptr);
   EXPECT_TRUE(widthA->getLocalParam());
-  const hldb::Constant *const val = widthA->getExpr<hldb::Constant>();
+  ASSERT_NE(top->getParamAssigns(), nullptr);
+  const hldb::ParamAssign *const pa = hldb::findByName("WIDTH_A", top->getParamAssigns());
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const val = pa->getRhs<hldb::Constant>();
   ASSERT_NE(val, nullptr);
   EXPECT_EQ(val->getDecompile(), "5");
 }

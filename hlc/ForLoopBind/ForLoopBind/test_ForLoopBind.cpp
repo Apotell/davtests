@@ -112,9 +112,7 @@ class ForLoopBindTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Package *getUvm() {
-    return hldb::findByName<hldb::Package>("uvm", m_design->getAllPackages());
-  }
+  static const hldb::Package *getUvm() { return hldb::findByName<hldb::Package>("uvm", m_design->getAllPackages()); }
 
   static const hldb::ClassDefn *getClass(std::string_view name) {
     const hldb::Package *const uvm = getUvm();
@@ -129,8 +127,8 @@ class ForLoopBindTest : public Test {
   // uvm_vreg's own scope.
   static const hldb::Task *getWrite() {
     const hldb::ClassDefn *const cls = getUvmVreg();
-    if (cls == nullptr || cls->getTaskFuncs() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Task>("write", cls->getTaskFuncs());
+    if (cls == nullptr || cls->getMethods() == nullptr) return nullptr;
+    return hldb::findByName<hldb::Task>("write", cls->getMethods());
   }
 
   static const hldb::Begin *getWriteBody() {
@@ -189,7 +187,7 @@ TEST_F(ForLoopBindTest, UvmVregHasFieldsQueueMember) {
 TEST_F(ForLoopBindTest, WriteTaskExistsInUvmVregScope) {
   const hldb::Task *const write = getWrite();
   ASSERT_NE(write, nullptr) << "Sec 8.24: out-of-block 'task uvm_vreg::write()' must bind to the matching "
-                                "'extern task write();' prototype and live in uvm_vreg's scope";
+                               "'extern task write();' prototype and live in uvm_vreg's scope";
   EXPECT_EQ(write->getName(), std::string_view{"write"});
 }
 
@@ -234,7 +232,7 @@ TEST_F(ForLoopBindTest, ForeachBodyStartsWithShadowingCbsVariableDecl) {
   ASSERT_GE(body->getStmts()->size(), 2u);
   const hldb::Variable *const cbs = any_cast<hldb::Variable>(body->getStmts()->at(0));
   ASSERT_NE(cbs, nullptr) << "'uvm_vreg_field_cb_iter cbs = new(fields[i]);' should be a Variable declaration "
-                              "statement, scoped to the foreach body, shadowing the outer 'cbs'";
+                             "statement, scoped to the foreach body, shadowing the outer 'cbs'";
   EXPECT_EQ(cbs->getName(), std::string_view{"cbs"});
 }
 
@@ -248,7 +246,7 @@ TEST_F(ForLoopBindTest, ForCbDeclaresLocalVariableCb) {
   const hldb::ForStmt *const fs = getForCb();
   ASSERT_NE(fs, nullptr);
   ASSERT_NE(fs->getVariables(), nullptr) << "12.7.1: 'uvm_vreg_field_cbs cb = cbs' is a for_variable_declaration, "
-                                             "local to the ForStmt's own scope";
+                                            "local to the ForStmt's own scope";
   EXPECT_NE(hldb::findByName<hldb::Variable>("cb", fs->getVariables()), nullptr);
 }
 

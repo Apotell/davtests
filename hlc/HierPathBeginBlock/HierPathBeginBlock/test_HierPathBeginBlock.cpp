@@ -67,7 +67,7 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
-#include <hldb/process.h>
+#include <hldb/process_stmt.h>
 #include <hldb/ref_obj.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>

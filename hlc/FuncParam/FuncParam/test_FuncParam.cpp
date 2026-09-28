@@ -144,7 +144,10 @@ TEST_F(FuncParamTest, LfsrDwParameterDefaultsToTwelve) {
   const hldb::Parameter *const lfsrDw = hldb::findByName<hldb::Parameter>("LfsrDw", mod->getParameters());
   ASSERT_NE(lfsrDw, nullptr);
   EXPECT_FALSE(lfsrDw->getLocalParam());
-  const hldb::Constant *const defaultVal = lfsrDw->getExpr<hldb::Constant>();
+  ASSERT_NE(mod->getParamAssigns(), nullptr);
+  const hldb::ParamAssign *const pa = hldb::findByName("LfsrDw", mod->getParamAssigns());
+  ASSERT_NE(pa, nullptr);
+  const hldb::Constant *const defaultVal = pa->getRhs<hldb::Constant>();
   ASSERT_NE(defaultVal, nullptr);
   EXPECT_EQ(defaultVal->getDecompile(), "12");
 }

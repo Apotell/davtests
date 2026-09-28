@@ -86,9 +86,7 @@ class ExprReductionBitsTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() {
-    return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
-  }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Parameter *getParam() {
     const hldb::Module *const top = getTop();
@@ -149,9 +147,12 @@ TEST_F(ExprReductionBitsTest, ParamExistsAndIsNotLocalParam) {
 }
 
 TEST_F(ExprReductionBitsTest, ParamDefaultIsFour) {
-  const hldb::Parameter *const param = getParam();
-  ASSERT_NE(param, nullptr);
-  const hldb::Constant *const expr = param->getExpr<hldb::Constant>();
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getParamAssigns(), nullptr);
+  const hldb::ParamAssign *const pa = hldb::findByName("PARAM", top->getParamAssigns());
+  ASSERT_NE(pa, nullptr) << "ParamAssign for 'PARAM' not found on module 'top'";
+  const hldb::Constant *const expr = pa->getRhs<hldb::Constant>();
   ASSERT_NE(expr, nullptr);
   EXPECT_EQ(expr->getDecompile(), "4");
 }
@@ -205,7 +206,7 @@ TEST_F(ExprReductionBitsTest, RangeLeftExprIsTopLevelAddOp) {
   ASSERT_NE(r, nullptr);
   const hldb::Operation *const top = r->getLeftExpr<hldb::Operation>();
   ASSERT_NE(top, nullptr) << "Sec 11.3.1: '+'/'-' are left-associative at the same precedence, so the outermost "
-                              "node of '$bits(PARAM) - 32 + 85 + PARAM' should be a '+' Operation";
+                             "node of '$bits(PARAM) - 32 + 85 + PARAM' should be a '+' Operation";
   EXPECT_EQ(top->getOpType(), vpiAddOp);
   ASSERT_NE(top->getOperands(), nullptr);
   ASSERT_EQ(top->getOperands()->size(), 2u);
@@ -289,8 +290,7 @@ TEST_F(ExprReductionBitsTest, CompilerReportsZeroErrors) {
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0)
-      << "'PARAM' is declared, so the whole bit-width expression should evaluate without error";
+  EXPECT_EQ(stats.nbError, 0) << "'PARAM' is declared, so the whole bit-width expression should evaluate without error";
 }
 
 }  // namespace hlc

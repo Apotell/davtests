@@ -113,8 +113,8 @@ TEST_F(FuncParam2Test, FuncDefaultReturnTypeIsLogicIfModeled) {
   const hldb::RefTypespec *const rts = func->getReturn();
   if (rts == nullptr) {
     GTEST_SKIP() << "HLC leaves an implicit function return type unmodeled; per IEEE 1800-2023 Sec 13.4.1 "
-                     "'function func;' with no data type specified should default to a 1-bit logic return type. "
-                     "Fix pending.";
+                    "'function func;' with no data type specified should default to a 1-bit logic return type. "
+                    "Fix pending.";
   }
   EXPECT_NE(rts->getActual<hldb::LogicTypespec>(), nullptr)
       << "implicit function return type should default to LogicTypespec per Sec 13.4.1";
@@ -125,12 +125,15 @@ TEST_F(FuncParam2Test, FuncLocalParamIsLocalParamWithValueThirtyOne) {
   const hldb::Function *const func = getFunc();
   ASSERT_NE(func, nullptr);
   ASSERT_NE(func->getParameters(), nullptr);
-  const hldb::Parameter *const localParam =
-      hldb::findByName<hldb::Parameter>("FUNC_LOCALPARAM", func->getParameters());
+  const hldb::Parameter *const localParam = hldb::findByName<hldb::Parameter>("FUNC_LOCALPARAM", func->getParameters());
   ASSERT_NE(localParam, nullptr) << "'localparam FUNC_LOCALPARAM' not found in function scope";
   EXPECT_TRUE(localParam->getLocalParam()) << "'localparam' keyword must produce getLocalParam() == true";
 
-  const hldb::Operation *const val = localParam->getExpr<hldb::Operation>();
+  ASSERT_NE(func->getParamAssigns(), nullptr);
+  const hldb::ParamAssign *const pa = hldb::findByName("FUNC_LOCALPARAM", func->getParamAssigns());
+  ASSERT_NE(pa, nullptr) << "ParamAssign for 'FUNC_LOCALPARAM' not found in function scope";
+
+  const hldb::Operation *const val = pa->getRhs<hldb::Operation>();
   ASSERT_NE(val, nullptr) << "'32 - 1' should be Operation(vpiSubOp)";
   EXPECT_EQ(val->getOpType(), vpiSubOp);
   ASSERT_NE(val->getOperands(), nullptr);
@@ -153,11 +156,14 @@ TEST_F(FuncParam2Test, FuncParameterBehavesAsLocalParamPerSec6_20_2) {
 
   if (!param->getLocalParam()) {
     GTEST_SKIP() << "HLC models a function-scoped 'parameter' (not 'localparam') with getLocalParam() == false; "
-                     "per IEEE 1800-2023 Sec 6.20.2, a parameter declared within a task or function behaves like "
-                     "a local parameter and cannot be overridden. Fix pending.";
+                    "per IEEE 1800-2023 Sec 6.20.2, a parameter declared within a task or function behaves like "
+                    "a local parameter and cannot be overridden. Fix pending.";
   }
 
-  const hldb::Operation *const val = param->getExpr<hldb::Operation>();
+  ASSERT_NE(func->getParamAssigns(), nullptr);
+  const hldb::ParamAssign *const pa = hldb::findByName("FUNC_PARAMETER", func->getParamAssigns());
+  ASSERT_NE(pa, nullptr) << "ParamAssign for 'FUNC_PARAMETER' not found in function scope";
+  const hldb::Operation *const val = pa->getRhs<hldb::Operation>();
   ASSERT_NE(val, nullptr) << "'1 - 0' should be Operation(vpiSubOp)";
   EXPECT_EQ(val->getOpType(), vpiSubOp);
   ASSERT_NE(val->getOperands(), nullptr);

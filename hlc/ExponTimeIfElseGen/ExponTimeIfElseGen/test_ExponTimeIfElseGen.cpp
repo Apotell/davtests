@@ -192,10 +192,10 @@ TEST_F(ExponTimeIfElseGenTest, ModuleFooExists) { EXPECT_NE(getTop(), nullptr) <
 TEST_F(ExponTimeIfElseGenTest, ParameterAddrOffsetPart1EqualsOne) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getParameters(), nullptr);
-  const hldb::Parameter *const param = hldb::findByName<hldb::Parameter>("ADDR_OFFSET_PART_1", top->getParameters());
+  ASSERT_NE(top->getParamAssigns(), nullptr);
+  const hldb::ParamAssign *const param = hldb::findByName("ADDR_OFFSET_PART_1", top->getParamAssigns());
   ASSERT_NE(param, nullptr) << "parameter 'ADDR_OFFSET_PART_1' not found";
-  const hldb::Constant *const value = param->getExpr<hldb::Constant>();
+  const hldb::Constant *const value = param->getRhs<hldb::Constant>();
   ASSERT_NE(value, nullptr) << "'parameter ADDR_OFFSET_PART_1 = 1' should have a Constant default";
   EXPECT_EQ(value->getDecompile(), "1");
 }
