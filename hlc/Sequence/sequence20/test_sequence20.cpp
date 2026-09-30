@@ -363,7 +363,7 @@ TEST_F(Sequence20Test, Assert0_PropertyExpr_NameIsSeqDelayStar) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const expr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(expr, nullptr);
   EXPECT_EQ(expr->getName(), "seq_delay_star")
       << "first assertion must reference 'seq_delay_star'";
@@ -376,7 +376,7 @@ TEST_F(Sequence20Test, Assert1_PropertyExpr_NameIsSeqDelayPlus) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const expr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(expr, nullptr);
   EXPECT_EQ(expr->getName(), "seq_delay_plus")
       << "second assertion must reference 'seq_delay_plus'";
@@ -391,9 +391,9 @@ TEST_F(Sequence20Test, Assert0_PropertyExpr_ResolvedToSeqDelayStarDecl) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const expr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(expr, nullptr);
-  EXPECT_NE(expr->getActual<hldb::SequenceDecl>(), nullptr)
+  EXPECT_NE(expr->getSequenceDecl(), nullptr)
       << "ss.16.7: 'seq_delay_star' in assert property must resolve to "
          "SequenceDecl";
 }
@@ -407,9 +407,9 @@ TEST_F(Sequence20Test, Assert1_PropertyExpr_ResolvedToSeqDelayPlusDecl) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const expr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(expr, nullptr);
-  EXPECT_NE(expr->getActual<hldb::SequenceDecl>(), nullptr)
+  EXPECT_NE(expr->getSequenceDecl(), nullptr)
       << "ss.16.7: 'seq_delay_plus' in assert property must resolve to "
          "SequenceDecl";
 }

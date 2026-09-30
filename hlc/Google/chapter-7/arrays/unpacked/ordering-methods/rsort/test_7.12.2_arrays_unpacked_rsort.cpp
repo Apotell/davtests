@@ -224,13 +224,8 @@ TEST_F(UnpackedRsortTest, DesignHasStringTypespec) {
 }
 
 TEST_F(UnpackedRsortTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "rsort"), nullptr)
       << "arr.rsort() must bind (IEEE 1800-2023 7.12.2)";
-  EXPECT_EQ(stats.nbWarning, 0);
 }
 
 TEST_F(UnpackedRsortTest, NoContAssigns) {

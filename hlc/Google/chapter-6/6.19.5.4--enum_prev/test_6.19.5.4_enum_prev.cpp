@@ -150,7 +150,7 @@ TEST_F(EnumPrevTest, AssignmentRhsIsRefObj) {
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), std::string_view("val"));
   const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(hp, nullptr) << "val.prev() rhs should be a RefObj";
-  EXPECT_EQ(hp->getName(), std::string_view("val.prev"));
+  EXPECT_EQ(hp->getName(), std::string_view("val.prev()"));
 }
 
 TEST_F(EnumPrevTest, RefObjReceiverAndFuncCall) {

@@ -393,8 +393,8 @@ TEST_F(Sequence16Test, Assert_PropertyExpr_IsRefObj) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  EXPECT_NE(spec->getPropertyExpr<hldb::RefObj>(), nullptr)
-      << "property expression must be a RefObj";
+  EXPECT_NE(spec->getPropertyExpr<hldb::SequenceInst>(), nullptr)
+      << "property expression must be a SequenceInst";
 }
 
 TEST_F(Sequence16Test, Assert_PropertyExpr_NameIsSeqGoto) {
@@ -407,7 +407,7 @@ TEST_F(Sequence16Test, Assert_PropertyExpr_NameIsSeqGoto) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *const propExpr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const propExpr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(propExpr, nullptr);
   EXPECT_EQ(propExpr->getName(), "seq_goto")
       << "property expression must reference 'seq_goto'";
@@ -425,9 +425,9 @@ TEST_F(Sequence16Test, Assert_PropertyExpr_ResolvedToSeqGotoDecl) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *const propExpr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const propExpr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(propExpr, nullptr);
-  EXPECT_NE(propExpr->getActual<hldb::SequenceDecl>(), nullptr)
+  EXPECT_NE(propExpr->getSequenceDecl(), nullptr)
       << "ss.16.9: 'seq_goto' in assert property must resolve to the "
          "SequenceDecl";
 }

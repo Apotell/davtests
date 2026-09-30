@@ -147,7 +147,7 @@ TEST_F(EnumFirstTest, AssignmentRhsIsRefObj) {
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), std::string_view("val"));
   const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(hp, nullptr) << "val.first() rhs should be a RefObj";
-  EXPECT_EQ(hp->getName(), std::string_view("val.first"));
+  EXPECT_EQ(hp->getName(), std::string_view("val.first()"));
 }
 
 TEST_F(EnumFirstTest, RefObjReceiverAndFuncCall) {

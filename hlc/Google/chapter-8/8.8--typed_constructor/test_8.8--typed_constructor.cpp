@@ -427,7 +427,11 @@ TEST_F(ClassTypedConstructorTest, AssignmentIsBlockingWithLhsSuperObj) {
 TEST_F(ClassTypedConstructorTest, AssignmentRhsIsNewMethodFuncCallWithNoArguments) {
   const hldb::Assignment *const assign = getAssignmentStmt();
   ASSERT_NE(assign, nullptr);
-  const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  ASSERT_NE(rhs->getPathElems(), nullptr);
+  ASSERT_EQ(rhs->getPathElems()->size(), 2u);  
+  const hldb::MethodFuncCall *const newCall = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->back());
   ASSERT_NE(newCall, nullptr) << "'test_cls::new' should resolve to a MethodFuncCall";
   EXPECT_EQ(newCall->getName(), "new");
   EXPECT_EQ(newCall->getArguments(), nullptr) << "bare 'new' (no parens) takes no arguments";
@@ -436,25 +440,32 @@ TEST_F(ClassTypedConstructorTest, AssignmentRhsIsNewMethodFuncCallWithNoArgument
 TEST_F(ClassTypedConstructorTest, AssignmentRhsScopeResolvesToTestClsClassDefn) {
   const hldb::Assignment *const assign = getAssignmentStmt();
   ASSERT_NE(assign, nullptr);
-  const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
-  ASSERT_NE(newCall, nullptr);
-  const hldb::RefTypespec *const rt = newCall->getScope<hldb::RefTypespec>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  ASSERT_NE(rhs->getPathElems(), nullptr);
+  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
+  const hldb::RefTypespec *const rt = any_cast<hldb::RefTypespec>(rhs->getPathElems()->front());
   ASSERT_NE(rt, nullptr);
   const hldb::ClassTypespec *const ct = rt->getActual<hldb::ClassTypespec>();
   ASSERT_NE(ct, nullptr);
   EXPECT_EQ(ct->getDefName(), "test_cls");
   EXPECT_EQ(ct->getClassDefn(), getTestClsDefn());
+  const hldb::MethodFuncCall *const newCall = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->back());
+  ASSERT_NE(newCall, nullptr);
+  EXPECT_EQ(newCall->getName(), std::string_view("new"));
 }
 
 TEST_F(ClassTypedConstructorTest, AssignmentRhsNewCallResolvesToTestConstructor) {
   const hldb::Assignment *const assign = getAssignmentStmt();
   ASSERT_NE(assign, nullptr);
-  const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  ASSERT_NE(rhs->getPathElems(), nullptr);
+  ASSERT_EQ(rhs->getPathElems()->size(), 2u);  
+  const hldb::MethodFuncCall *const newCall = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->back());
   ASSERT_NE(newCall, nullptr);
   EXPECT_EQ(newCall->getTaskFunc<hldb::Function>(), getTestConstructor())
-      << "8.8: 'test_cls::new' must resolve back to test_cls's constructor (see FIXED COMPILER BUG #3 above, "
-         "consistent with the ordinary 'new' resolution fix in "
-         "chapter-8/8.7--constructor/test_8.7--constructor.cpp)";
+      << "8.8: 'test_cls::new' must resolve back to test_cls's constructor";
 }
 
 // --- $display(super_obj.s) -------------------------------------------------------

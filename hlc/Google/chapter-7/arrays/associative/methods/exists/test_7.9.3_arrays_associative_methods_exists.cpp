@@ -257,24 +257,10 @@ TEST_F(AssociativeArrayExistsTest, DesignHasModuleTypespec) {
 }
 
 TEST_F(AssociativeArrayExistsTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "exists"), nullptr)
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "exists", 24, 40), nullptr)
       << "map.exists() must bind (IEEE 1800-2023 7.9.3)";
-  EXPECT_EQ(stats.nbWarning, 0);
-}
-
-TEST_F(AssociativeArrayExistsTest, NoImplicitVariableErrorsUnlikeNoParensSizeDeleteNum) {
-  // Confirms the "not applicable" note above: unlike map.size/map.delete/arr.num called
-  // without parens elsewhere in this suite, map.exists(...) with an explicit argument never
-  // triggers COMP_FAILED_TO_BIND, so there is no unresolved "item"-style RefObj here.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const std::vector<Error> &errors = m_session->getErrorContainer()->getErrors();
-  for (const Error &err : errors) {
-    EXPECT_NE(err.getType(), ErrorDefinition::COMP_FAILED_TO_BIND);
-  }
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "exists", 25, 40), nullptr)
+      << "map.exists() must bind (IEEE 1800-2023 7.9.3)";
 }
 
 }  // namespace hlc

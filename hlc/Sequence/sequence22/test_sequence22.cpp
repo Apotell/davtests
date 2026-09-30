@@ -360,9 +360,9 @@ TEST_F(Sequence22Test, SeqNamed_InstantiatedSeqName_IsMySeq) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  EXPECT_EQ(sc->getName(), "my_seq") << "ss.16.8: the instantiated sequence name must be 'my_seq'";
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  EXPECT_EQ(si->getName(), "my_seq") << "ss.16.8: the instantiated sequence name must be 'my_seq'";
 }
 
 TEST_F(Sequence22Test, SeqNamed_HasTwoNamedArguments) {
@@ -370,10 +370,10 @@ TEST_F(Sequence22Test, SeqNamed_HasTwoNamedArguments) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  EXPECT_EQ(sc->getArguments()->size(), 2u) << "ss.16.8: 'my_seq(.x(a),.y(b))' must pass exactly 2 named arguments";
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  EXPECT_EQ(si->getArguments()->size(), 2u) << "ss.16.8: 'my_seq(.x(a),.y(b))' must pass exactly 2 named arguments";
 }
 
 TEST_F(Sequence22Test, SeqNamed_NamedArg0_IsNamedArgument) {
@@ -383,11 +383,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg0_IsNamedArgument) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[0]);
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  ASSERT_EQ(si->getArguments()->size(), 2u);
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*si->getArguments())[0]);
   EXPECT_NE(na, nullptr) << "ss.16.8: named argument 0 ('.x(a)') must be an NamedArgument node";
 }
 
@@ -396,11 +396,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg0_FormalName_IsX) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[0]);
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  ASSERT_EQ(si->getArguments()->size(), 2u);
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*si->getArguments())[0]);
   ASSERT_NE(na, nullptr);
   const hldb::Any *const lc = na->getLowConn();
   ASSERT_NE(lc, nullptr);
@@ -412,11 +412,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg0_ActualExpr_IsRefObjA) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[0]);
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  ASSERT_EQ(si->getArguments()->size(), 2u);
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*si->getArguments())[0]);
   ASSERT_NE(na, nullptr);
   const hldb::Any *const hc = na->getHighConn();
   ASSERT_NE(hc, nullptr);
@@ -430,11 +430,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg0_ActualSignal_ResolvesToNetA) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[0]);
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  ASSERT_EQ(si->getArguments()->size(), 2u);
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*si->getArguments())[0]);
   ASSERT_NE(na, nullptr);
   const hldb::RefObj *const hc = na->getHighConn<hldb::RefObj>();
   ASSERT_NE(hc, nullptr);
@@ -446,11 +446,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg1_IsNamedArgument) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[1]);
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  ASSERT_EQ(si->getArguments()->size(), 2u);
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*si->getArguments())[1]);
   EXPECT_NE(na, nullptr) << "ss.16.8: named argument 1 ('.y(b)') must be an NamedArgument node";
 }
 
@@ -459,11 +459,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg1_FormalName_IsY) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[1]);
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  ASSERT_EQ(si->getArguments()->size(), 2u);
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*si->getArguments())[1]);
   ASSERT_NE(na, nullptr);
   const hldb::Any *const lc = na->getLowConn();
   ASSERT_NE(lc, nullptr);
@@ -475,11 +475,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg1_ActualExpr_IsRefObjB) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[1]);
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  ASSERT_EQ(si->getArguments()->size(), 2u);
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*si->getArguments())[1]);
   ASSERT_NE(na, nullptr);
   const hldb::Any *const ref = na->getHighConn();
   ASSERT_NE(ref, nullptr);
@@ -493,11 +493,11 @@ TEST_F(Sequence22Test, SeqNamed_NamedArg1_ActualSignal_ResolvesToNetB) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_named");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*sc->getArguments())[1]);
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  ASSERT_EQ(si->getArguments()->size(), 2u);
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*si->getArguments())[1]);
   ASSERT_NE(na, nullptr);
   const hldb::RefObj *const ref = na->getHighConn<hldb::RefObj>();
   ASSERT_NE(ref, nullptr);
@@ -517,7 +517,7 @@ TEST_F(Sequence22Test, Assert_PropertyExpr_NameIsSeqNamed) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const expr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(expr, nullptr);
   EXPECT_EQ(expr->getName(), "seq_named") << "assertion must reference 'seq_named'";
 }
@@ -533,9 +533,9 @@ TEST_F(Sequence22Test, Assert_PropertyExpr_ResolvedToSeqNamedDecl) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const expr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(expr, nullptr);
-  EXPECT_NE(expr->getActual<hldb::SequenceDecl>(), nullptr)
+  EXPECT_EQ(expr->getSequenceDecl(), getSeqDecl(tb, "seq_named"))
       << "ss.16.8: 'seq_named' in assert property must resolve to SequenceDecl";
 }
 

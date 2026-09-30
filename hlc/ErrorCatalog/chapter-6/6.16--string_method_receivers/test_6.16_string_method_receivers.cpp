@@ -103,32 +103,32 @@ TEST_F(StringMethodReceiversTest, ModuleExists) {
 // Receiver shapes that must all reach the same builtin
 // ---------------------------------------------------------------------------
 TEST_F(StringMethodReceiversTest, TypedefReceiverBindsToStringTypespec) {
-  EXPECT_EQ(ownerOfCall("via_typedef.len"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("via_typedef.len()"), "StringTypespec")
       << "a 'typedef string' receiver must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
 TEST_F(StringMethodReceiversTest, StructMemberReceiverBindsToStringTypespec) {
-  EXPECT_EQ(ownerOfCall("rec.name.len"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("rec.name.len()"), "StringTypespec")
       << "a string struct member receiver must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
 TEST_F(StringMethodReceiversTest, ClassPropertyViaHandleBindsToStringTypespec) {
-  EXPECT_EQ(ownerOfCall("h.prop.len"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("h.prop.len()"), "StringTypespec")
       << "a string class property reached through a handle must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
 TEST_F(StringMethodReceiversTest, ClassPropertyWithoutHandleBindsToStringTypespec) {
-  EXPECT_EQ(ownerOfCall("prop.len"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("prop.len()"), "StringTypespec")
       << "a string class property named from inside its own class must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
 TEST_F(StringMethodReceiversTest, SubroutineFormalReceiverBindsToStringTypespec) {
-  EXPECT_EQ(ownerOfCall("formal.len"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("formal.len()"), "StringTypespec")
       << "a string subroutine formal receiver must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
 TEST_F(StringMethodReceiversTest, SubroutineLocalReceiverBindsToStringTypespec) {
-  EXPECT_EQ(ownerOfCall("local_str.len"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("local_str.len()"), "StringTypespec")
       << "a string subroutine local receiver must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
@@ -136,7 +136,7 @@ TEST_F(StringMethodReceiversTest, SubroutineLocalReceiverBindsToStringTypespec) 
 // Chained: substr() returns a string per Sec 6.16.8, so its result is itself a receiver
 // ---------------------------------------------------------------------------
 TEST_F(StringMethodReceiversTest, ChainedCallBindsBothMethods) {
-  const hldb::RefObj *const ro = findPath("plain.substr(1, 2).len");
+  const hldb::RefObj *const ro = findPath("plain.substr(1, 2).len()");
   ASSERT_NE(ro, nullptr);
   ASSERT_EQ(ro->getPathElems()->size(), 3u) << "expected receiver, substr, len";
 
@@ -145,7 +145,7 @@ TEST_F(StringMethodReceiversTest, ChainedCallBindsBothMethods) {
   EXPECT_EQ(substr->getName(), "substr");
   EXPECT_NE(substr->getTaskFunc(), nullptr) << "substr() must bind (IEEE 1800-2023 Sec 6.16.8)";
 
-  EXPECT_EQ(ownerOfCall("plain.substr(1, 2).len"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("plain.substr(1, 2).len()"), std::string_view("StringTypespec"))
       << "a substr() result is a string per Sec 6.16.8, so len() on it must bind";
 }
 
@@ -153,7 +153,7 @@ TEST_F(StringMethodReceiversTest, ChainedCallBindsBothMethods) {
 // The builtin must not displace a user method that shares its name
 // ---------------------------------------------------------------------------
 TEST_F(StringMethodReceiversTest, UserMethodWithStringMethodNameIsNotDisplaced) {
-  EXPECT_EQ(ownerOfCall("sh.len"), "shadow")
+  EXPECT_EQ(ownerOfCall("sh.len()"), "shadow")
       << "len() on a class handle is that class's own method, not the Sec 6.16 string method";
 }
 

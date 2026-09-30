@@ -352,7 +352,7 @@ TEST_F(QueuesPushFrontAssignTest, DesignHasStringTypespec) {
 }
 
 TEST_F(QueuesPushFrontAssignTest, NoBindErrorForSize) {
-EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr)
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr)
       << "'q.size' without parens should not raise COMP_FAILED_TO_BIND (IEEE 1800-2017 7.24.4 permits "
          "omitting parens on a no-arg built-in method call)";
 }

@@ -401,8 +401,8 @@ TEST_F(Sequence23Test, Assert_PropertyExpr_IsRefObj) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  EXPECT_NE(spec->getPropertyExpr<hldb::RefObj>(), nullptr)
-      << "property expression must be a RefObj referencing seq_range";
+  EXPECT_NE(spec->getPropertyExpr<hldb::SequenceInst>(), nullptr)
+      << "property expression must be a SequenceInst referencing seq_range";
 }
 
 TEST_F(Sequence23Test, Assert_PropertyExpr_NameIsSeqRange) {
@@ -415,7 +415,7 @@ TEST_F(Sequence23Test, Assert_PropertyExpr_NameIsSeqRange) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const expr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(expr, nullptr);
   EXPECT_EQ(expr->getName(), "seq_range")
       << "assertion must reference 'seq_range'";
@@ -433,9 +433,9 @@ TEST_F(Sequence23Test, Assert_PropertyExpr_ResolvedToSeqRangeDecl) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const expr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(expr, nullptr);
-  EXPECT_NE(expr->getActual<hldb::SequenceDecl>(), nullptr)
+  EXPECT_NE(expr->getSequenceDecl(), nullptr)
       << "ss.16.9.1: 'seq_range' in assert property must resolve to SequenceDecl";
 }
 

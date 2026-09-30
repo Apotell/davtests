@@ -516,14 +516,14 @@ TEST_F(Sequence15Test, Assert_PropertyExpr_ResolvedToSeq15Decl) {
   const hldb::PropertySpec *const spec = found->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr) << "Assert has no inline PropertySpec";
 
-  const hldb::RefObj *const propExpr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const propExpr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(propExpr, nullptr)
-      << "inline assert property expression is not a RefObj "
+      << "inline assert property expression is not a SequenceInst "
          "(expected reference to 'seq15')";
   EXPECT_EQ(propExpr->getName(), "seq15")
       << "property expression does not reference 'seq15'";
 
-  EXPECT_NE(propExpr->getActual<hldb::SequenceDecl>(), nullptr)
+  EXPECT_NE(propExpr->getSequenceDecl(), nullptr)
       << "ss.16.7: 'seq15' in assert property must resolve to its "
          "SequenceDecl";
 }

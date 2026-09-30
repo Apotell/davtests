@@ -186,8 +186,8 @@ TEST_F(Sequence3, AssertPropertyExprReferencesSeq3) {
   const hldb::PropertySpec *const spec = found->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr) << "Assert has no inline PropertySpec";
 
-  const hldb::RefObj *const propExpr = spec->getPropertyExpr<hldb::RefObj>();
-  ASSERT_NE(propExpr, nullptr) << "inline assert property expression is not a RefObj";
+  const hldb::SequenceInst *const propExpr = spec->getPropertyExpr<hldb::SequenceInst>();
+  ASSERT_NE(propExpr, nullptr) << "inline assert property expression is not a SequenceInst";
   EXPECT_EQ(propExpr->getName(), "seq3") << "inline assert property expression does not reference 'seq3'";
 }
 

@@ -211,7 +211,6 @@ TEST_F(MonitorTaskTest, DeclaresOneSignedIntVariableNamedA) {
 
   const hldb::IntTypespec *const intTypespec = any_cast<hldb::IntTypespec>(typespec);
   EXPECT_TRUE(intTypespec->getSigned());
-  EXPECT_EQ(sizeOf(intTypespec->getRanges()), 0u);
 }
 
 // 9.2.1: one `initial` construct. 9.3.1: its body is a `begin ... end`

@@ -144,7 +144,7 @@ TEST_F(StringLenTest, BVariableValueIsRefObj) {
   ASSERT_NE(b, nullptr);
   const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a RefObj";
-  EXPECT_EQ(hp->getName(), "a.len");
+  EXPECT_EQ(hp->getName(), std::string_view("a.len()"));
 }
 
 TEST_F(StringLenTest, RefObjReceiverIsA) {

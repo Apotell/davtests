@@ -172,7 +172,7 @@ TEST_F(EnumNumTest, NInitializerIsRefObj) {
   ASSERT_NE(n, nullptr);
   const hldb::RefObj *const hp = n->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr) << "n's vpiValue should be RefObj (inline initializer int n = val.num())";
-  EXPECT_EQ(hp->getName(), std::string_view("val.num"));
+  EXPECT_EQ(hp->getName(), std::string_view("val.num()"));
 }
 
 TEST_F(EnumNumTest, RefObjReceiverAndFuncCall) {

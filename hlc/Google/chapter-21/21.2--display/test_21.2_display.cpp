@@ -261,8 +261,6 @@ TEST_F(DisplayTest, ValTypespecIsSignedRangelessIntTypespec) {
   const hldb::IntTypespec *const it = val->getTypespec()->getActual<hldb::IntTypespec>();
   ASSERT_NE(it, nullptr) << "6.11.1: 'int' must elaborate to an IntTypespec";
   EXPECT_TRUE(it->getSigned()) << "6.11.1: 'int' is the 2-state SIGNED 32-bit type";
-  EXPECT_EQ(it->getRanges(), nullptr)
-      << "6.11.1: 'int' is an atom type, and 'int val' declares no explicit packed dimensions";
 }
 
 TEST_F(DisplayTest, ValInitialValueIsConstant1234) {

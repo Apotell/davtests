@@ -66,10 +66,10 @@ class CovergroupMethodsTest : public Test {
 
  protected:
   const hldb::RefObj *findPath(std::string_view name) const {
-    for (const hldb::Any *const any : m_session->getDatabase().getObjects()) {
-      const hldb::RefObj *const ro = any_cast<hldb::RefObj>(any);
-      if ((ro == nullptr) || (ro->getName() != name)) continue;
-      if ((ro->getPathElems() != nullptr) && !ro->getPathElems()->empty()) return ro;
+    for (const hldb::Any *const any : m_session->getDatabase().getObjects<hldb::RefObj>()) {
+      if (any->getName() != name) continue;
+      const hldb::RefObj *const ro = hier_cast<hldb::RefObj>(any);
+      if (ro != nullptr) return ro;
     }
     return nullptr;
   }

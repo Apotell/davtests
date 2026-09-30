@@ -262,8 +262,8 @@ TEST_F(Sequence4Test, Seq4_RepeatOperand_IsRefNamedBaseSeq) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
 
-  const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*op->getOperands())[0]);
-  ASSERT_NE(op0, nullptr) << "operand[0] must be a RefObj";
+  const hldb::SequenceInst *op0 = any_cast<hldb::SequenceInst>((*op->getOperands())[0]);
+  ASSERT_NE(op0, nullptr) << "operand[0] must be a SequenceInst";
   EXPECT_EQ(op0->getName(), "base_seq") << "ss.16.9.2: operand[0] must reference 'base_seq'";
 }
 
@@ -281,9 +281,9 @@ TEST_F(Sequence4Test, Seq4_RepeatOperand_ResolvedToSequenceDecl) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
 
-  const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*op->getOperands())[0]);
+  const hldb::SequenceInst *op0 = any_cast<hldb::SequenceInst>((*op->getOperands())[0]);
   ASSERT_NE(op0, nullptr);
-  EXPECT_NE(op0->getActual<hldb::SequenceDecl>(), nullptr)
+  EXPECT_NE(op0->getSequenceDecl(), nullptr)
       << "ss.16.9.2: 'base_seq' in seq4 must resolve to SequenceDecl, not be "
          "treated as an implicit net";
 }
@@ -348,8 +348,8 @@ TEST_F(Sequence4Test, Assert_PropertyExpr_ReferencesSeq4) {
   ASSERT_NE(a, nullptr);
   const hldb::PropertySpec *spec = a->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
-  ASSERT_NE(propExpr, nullptr) << "property expression must be a RefObj";
+  const hldb::SequenceInst *propExpr = spec->getPropertyExpr<hldb::SequenceInst>();
+  ASSERT_NE(propExpr, nullptr) << "property expression must be a SequenceInst";
   EXPECT_EQ(propExpr->getName(), "seq4") << "ss.16.14: property expression must reference 'seq4'";
 }
 
@@ -363,9 +363,9 @@ TEST_F(Sequence4Test, Assert_PropertyExpr_ResolvedToSeq4Decl) {
   ASSERT_NE(a, nullptr);
   const hldb::PropertySpec *spec = a->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *propExpr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(propExpr, nullptr);
-  EXPECT_NE(propExpr->getActual<hldb::SequenceDecl>(), nullptr)
+  EXPECT_NE(propExpr->getSequenceDecl(), nullptr)
       << "ss.16.14: 'seq4' in assert property must resolve to SequenceDecl, not be "
          "treated as an implicit net";
 }

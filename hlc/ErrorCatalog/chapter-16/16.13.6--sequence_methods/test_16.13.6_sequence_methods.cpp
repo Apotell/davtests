@@ -76,10 +76,10 @@ class SequenceMethodsTest : public Test {
   std::string_view ownerOf(const hldb::RefObj *path) const {
     if (path == nullptr) return "<no path>";
 
-    const hldb::RefObj *const leaf = any_cast<hldb::RefObj>(path->getPathElems()->back());
-    if (leaf == nullptr) return "<trailing element is not a RefObj>";
+    const hldb::MethodFuncCall *const leaf = any_cast<hldb::MethodFuncCall>(path->getPathElems()->back());
+    if (leaf == nullptr) return "<trailing element is not a MethodFuncCall>";
 
-    const hldb::TaskFunc *const tf = leaf->getActual<hldb::TaskFunc>();
+    const hldb::TaskFunc *const tf = leaf->getTaskFunc();
     if (tf == nullptr) return "<unresolved>";
 
     const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(tf->getParent());
@@ -104,7 +104,7 @@ TEST_F(SequenceMethodsTest, BothSequencesExist) {
 TEST_F(SequenceMethodsTest, MatchedBindsToSequenceDecl) {
   const std::vector<const hldb::RefObj *> paths = findPaths("s1.matched");
   ASSERT_EQ(paths.size(), 1u) << "the fixture uses matched exactly once";
-  EXPECT_EQ(ownerOf(paths.front()), "SequenceDecl")
+  EXPECT_EQ(ownerOf(paths.front()), std::string_view("SequenceDecl"))
       << "sequence.matched must bind (IEEE 1800-2023 Sec 16.13.6)";
 }
 
@@ -115,7 +115,7 @@ TEST_F(SequenceMethodsTest, TriggeredBindsToSequenceDeclAtEverySite) {
   const std::vector<const hldb::RefObj *> paths = findPaths("s1.triggered");
   ASSERT_EQ(paths.size(), 2u) << "the fixture uses triggered in a Boolean and in a wait";
   for (const hldb::RefObj *const path : paths) {
-    EXPECT_EQ(ownerOf(path), "SequenceDecl")
+    EXPECT_EQ(ownerOf(path), std::string_view("SequenceDecl"))
         << "sequence.triggered must bind (IEEE 1800-2023 Sec 16.13.6)";
   }
 }

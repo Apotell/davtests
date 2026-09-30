@@ -401,7 +401,7 @@ TEST_F(ClassTypedConstructorParamTest, TestConstructorSecondStmtAssignsAFromDefM
 
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "a");
+  EXPECT_EQ(lhs->getName(), std::string_view("a"));
   EXPECT_EQ(lhs->getActual<hldb::Variable>(), getTestPropertyA());
 
   const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
@@ -412,14 +412,14 @@ TEST_F(ClassTypedConstructorParamTest, TestConstructorSecondStmtAssignsAFromDefM
 
   const hldb::RefObj *const defOperand = any_cast<hldb::RefObj>(rhs->getOperands()->at(0));
   ASSERT_NE(defOperand, nullptr);
-  EXPECT_EQ(defOperand->getName(), "def");
+  EXPECT_EQ(defOperand->getName(), std::string_view("def"));
   ASSERT_NE(ctor->getIODecls(), nullptr);
   ASSERT_GT(ctor->getIODecls()->size(), 0u);
   EXPECT_EQ(defOperand->getActual<hldb::IODecl>(), ctor->getIODecls()->at(0));
 
   const hldb::RefObj *const tOperand = any_cast<hldb::RefObj>(rhs->getOperands()->at(1));
   ASSERT_NE(tOperand, nullptr);
-  EXPECT_EQ(tOperand->getName(), "t");
+  EXPECT_EQ(tOperand->getName(), std::string_view("t"));
   EXPECT_EQ(tOperand->getActual<hldb::Parameter>(), getTestClassParamT())
       << "'t' used bare inside the constructor body must resolve to the class's OWN type parameter";
 }
@@ -462,24 +462,32 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentIsBlockingWithLhsSuperObj) {
   EXPECT_TRUE(assign->getBlocking());
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "super_obj");
+  EXPECT_EQ(lhs->getName(), std::string_view("super_obj"));
   EXPECT_EQ(lhs->getActual<hldb::Variable>(), getVariableSuperObj());
 }
 
 TEST_F(ClassTypedConstructorParamTest, AssignmentRhsIsNewMethodFuncCall) {
   const hldb::Assignment *const assign = getAssignmentStmt();
   ASSERT_NE(assign, nullptr);
-  const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  ASSERT_NE(rhs->getPathElems(), nullptr);
+  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
+  const hldb::MethodFuncCall *const newCall = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(newCall, nullptr) << "'test_cls#(.t(23))::new(.def(41))' should resolve to a MethodFuncCall";
-  EXPECT_EQ(newCall->getName(), "new");
+  EXPECT_EQ(newCall->getName(), std::string_view("new"));
 }
 
-TEST_F(ClassTypedConstructorParamTest, AssignmentRhsScopeParamTResolvesToClassParameter) {
+TEST_F(ClassTypedConstructorParamTest, AssignmentRhsHierPathResolvesToClassParameter) {
   const hldb::Assignment *const assign = getAssignmentStmt();
   ASSERT_NE(assign, nullptr);
-  const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  ASSERT_NE(rhs->getPathElems(), nullptr);
+  ASSERT_EQ(rhs->getPathElems()->size(), 2u);  
+  const hldb::MethodFuncCall *const newCall = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->back());
   ASSERT_NE(newCall, nullptr);
-  const hldb::RefTypespec *const rt = newCall->getScope<hldb::RefTypespec>();
+  const hldb::RefTypespec *const rt = any_cast<hldb::RefTypespec>(rhs->getPathElems()->front());
   ASSERT_NE(rt, nullptr);
   const hldb::ClassTypespec *const ct = rt->getActual<hldb::ClassTypespec>();
   ASSERT_NE(ct, nullptr);
@@ -491,29 +499,35 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsScopeParamTResolvesToClassPa
   EXPECT_TRUE(pa->getConnByName()) << "'.t(23)' is a named (not positional) parameter assignment";
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "t");
+  EXPECT_EQ(lhs->getName(), std::string_view("t"));
   EXPECT_EQ(lhs->getActual<hldb::Parameter>(), getTestClassParamT())
       << "8.8: '.t(23)' must resolve 't' back to test_cls's OWN type parameter (see FIXED COMPILER BUG #3 above)";
-  const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getDecompile(), "23");
+  const hldb::Constant *const paRhs = pa->getRhs<hldb::Constant>();
+  ASSERT_NE(paRhs, nullptr);
+  EXPECT_EQ(paRhs->getDecompile(), std::string_view("23"));
 }
 
 TEST_F(ClassTypedConstructorParamTest, AssignmentRhsNewCallResolvesToTestConstructor) {
   const hldb::Assignment *const assign = getAssignmentStmt();
   ASSERT_NE(assign, nullptr);
-  const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  ASSERT_NE(rhs->getPathElems(), nullptr);
+  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
+  const hldb::MethodFuncCall *const newCall = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(newCall, nullptr);
   EXPECT_EQ(newCall->getTaskFunc<hldb::Function>(), getTestConstructor())
-      << "8.8: 'test_cls::new(...)' must resolve back to test_cls's constructor (see FIXED COMPILER BUG #3 "
-         "above, consistent with the ordinary 'new' resolution fix documented in "
-         "chapter-8/8.7--constructor/test_8.7--constructor.cpp)";
+      << "8.8: 'test_cls::new(...)' must resolve back to test_cls's constructor";
 }
 
 TEST_F(ClassTypedConstructorParamTest, AssignmentRhsNamedArgumentDefIsFortyOne) {
   const hldb::Assignment *const assign = getAssignmentStmt();
   ASSERT_NE(assign, nullptr);
-  const hldb::MethodFuncCall *const newCall = assign->getRhs<hldb::MethodFuncCall>();
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  ASSERT_NE(rhs->getPathElems(), nullptr);
+  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
+  const hldb::MethodFuncCall *const newCall = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(newCall, nullptr);
   ASSERT_NE(newCall->getArguments(), nullptr);
   ASSERT_EQ(newCall->getArguments()->size(), 1u);
@@ -525,10 +539,10 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsNamedArgumentDefIsFortyOne) 
   ASSERT_NE(arg, nullptr) << "'.def(41)' is represented as an NamedArgument, not a plain Constant";
   const hldb::Any *const lc = arg->getLowConn();
   ASSERT_NE(lc, nullptr);
-  EXPECT_EQ(lc->getName(), "def");
+  EXPECT_EQ(lc->getName(), std::string_view("def"));
   const hldb::Constant *const value = arg->getHighConn<hldb::Constant>();
   ASSERT_NE(value, nullptr);
-  EXPECT_EQ(value->getDecompile(), "41");
+  EXPECT_EQ(value->getDecompile(), std::string_view("41"));
 }
 
 // --- $display(super_obj.s) -------------------------------------------------------

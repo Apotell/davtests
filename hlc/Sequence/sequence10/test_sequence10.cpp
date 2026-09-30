@@ -390,8 +390,8 @@ TEST_F(Sequence10Test, Assert_PropertyExpr_ReferencesSeq10) {
   ASSERT_NE(a, nullptr);
   const hldb::PropertySpec *spec = a->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
-  ASSERT_NE(propExpr, nullptr) << "property expression must be a RefObj";
+  const hldb::SequenceInst *propExpr = spec->getPropertyExpr<hldb::SequenceInst>();
+  ASSERT_NE(propExpr, nullptr) << "property expression must be a SequenceInst";
   EXPECT_EQ(propExpr->getName(), "seq10") << "ss.16.14: property expression must reference 'seq10'";
 }
 
@@ -405,9 +405,9 @@ TEST_F(Sequence10Test, Assert_PropertyExpr_ResolvedToSeq10Decl) {
   ASSERT_NE(a, nullptr);
   const hldb::PropertySpec *spec = a->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *propExpr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *propExpr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(propExpr, nullptr);
-  EXPECT_NE(propExpr->getActual<hldb::SequenceDecl>(), nullptr)
+  EXPECT_NE(propExpr->getSequenceDecl(), nullptr)
       << "ss.16.14: 'seq10' in assert property must resolve to SequenceDecl, not be "
          "treated as an implicit net";
 }

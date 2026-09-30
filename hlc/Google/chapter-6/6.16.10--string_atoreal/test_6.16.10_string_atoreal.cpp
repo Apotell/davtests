@@ -137,7 +137,7 @@ TEST_F(StringAtorealTest, BVariableValueIsRefObj) {
   ASSERT_NE(b, nullptr);
   const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), "a.atoreal");
+  EXPECT_EQ(hp->getName(), std::string_view("a.atoreal()"));
 }
 
 TEST_F(StringAtorealTest, RefObjReceiverIsA) {

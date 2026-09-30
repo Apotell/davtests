@@ -444,7 +444,7 @@ TEST_F(SequenceExprTest, Alt5_Consec_Exact_SubjectName) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 1u);
-  const auto *subj = any_cast<hldb::RefObj>((*op->getOperands())[0]);
+  const auto *subj = any_cast<hldb::SequenceInst>((*op->getOperands())[0]);
   ASSERT_NE(subj, nullptr);
   EXPECT_EQ(subj->getName(), "seq_ab");
 }

@@ -105,17 +105,17 @@ TEST_F(BuiltinClassMethodsTest, ModuleExists) {
 // 15.3 Semaphores -- Google has no semaphore test at all
 // ---------------------------------------------------------------------------
 TEST_F(BuiltinClassMethodsTest, SemaphorePutBindsToSemaphore) {
-  EXPECT_EQ(ownerOfCall("sem.put(1)"), "semaphore")
+  EXPECT_EQ(ownerOfCall("sem.put(1)"), std::string_view("semaphore"))
       << "semaphore.put() must bind (IEEE 1800-2023 Sec 15.3.2)";
 }
 
 TEST_F(BuiltinClassMethodsTest, SemaphoreGetBindsToSemaphore) {
-  EXPECT_EQ(ownerOfCall("sem.get(1)"), "semaphore")
+  EXPECT_EQ(ownerOfCall("sem.get(1)"), std::string_view("semaphore"))
       << "semaphore.get() must bind (IEEE 1800-2023 Sec 15.3.3)";
 }
 
 TEST_F(BuiltinClassMethodsTest, SemaphoreTryGetBindsToSemaphore) {
-  EXPECT_EQ(ownerOfCall("sem.try_get(1)"), "semaphore")
+  EXPECT_EQ(ownerOfCall("sem.try_get(1)"), std::string_view("semaphore"))
       << "semaphore.try_get() must bind (IEEE 1800-2023 Sec 15.3.4)";
 }
 
@@ -147,7 +147,7 @@ TEST_F(BuiltinClassMethodsTest, MailboxTryPeekBindsToMailbox) {
 // 15.5.3 Persistent trigger -- "function bit triggered()"
 // ---------------------------------------------------------------------------
 TEST_F(BuiltinClassMethodsTest, TriggeredBindsToEventTypespec) {
-  EXPECT_EQ(ownerOfCall("e.triggered"), "EventTypespec")
+  EXPECT_EQ(ownerOfCall("e.triggered"), std::string_view("EventTypespec"))
       << "event.triggered must bind (IEEE 1800-2023 Sec 15.5.3); the standard gives it no "
          "nameable owning type, so it resolves to the synthesized EventTypespec class";
 }

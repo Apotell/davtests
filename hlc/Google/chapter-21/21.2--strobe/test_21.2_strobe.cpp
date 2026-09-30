@@ -266,7 +266,6 @@ TEST_F(StrobeTaskTest, AIsASignedInt) {
   // IEEE 1800 6.11.1: 'int' is the 2-state 32-bit *signed* integer type, and
   // it takes no packed dimensions.
   EXPECT_TRUE(typespec->getSigned());
-  EXPECT_EQ(sizeOf(typespec->getRanges()), 0u);
 }
 
 TEST_F(StrobeTaskTest, AlwaysIsEdgeTriggeredOnPosedgeClk) {

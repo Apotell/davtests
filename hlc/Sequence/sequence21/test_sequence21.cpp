@@ -347,9 +347,9 @@ TEST_F(Sequence21Test, SeqInst_InstantiatedSeqName_IsMySeq) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_inst");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  EXPECT_EQ(sc->getName(), "my_seq") << "ss.16.8: the instantiated sequence name must be 'my_seq'";
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  EXPECT_EQ(si->getName(), "my_seq") << "ss.16.8: the instantiated sequence name must be 'my_seq'";
 }
 
 TEST_F(Sequence21Test, SeqInst_HasTwoActualArguments) {
@@ -357,10 +357,10 @@ TEST_F(Sequence21Test, SeqInst_HasTwoActualArguments) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_inst");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  EXPECT_EQ(sc->getArguments()->size(), 2u) << "ss.16.8: 'my_seq(a,b)' must pass exactly 2 actual arguments";
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  EXPECT_EQ(si->getArguments()->size(), 2u) << "ss.16.8: 'my_seq(a,b)' must pass exactly 2 actual arguments";
 }
 
 TEST_F(Sequence21Test, SeqInst_ActualArg0_IsSignalA) {
@@ -368,11 +368,14 @@ TEST_F(Sequence21Test, SeqInst_ActualArg0_IsSignalA) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_inst");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::RefObj *const ref = any_cast<const hldb::RefObj *>((*sc->getArguments())[0]);
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  ASSERT_EQ(si->getArguments()->size(), 2u);
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*si->getArguments())[0]);
+  ASSERT_NE(na, nullptr);
+  ASSERT_NE(na->getHighConn(), nullptr);
+  const hldb::RefObj *const ref = na->getHighConn<hldb::RefObj>();
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "a") << "ss.16.8: first positional actual argument must be signal 'a'";
 }
@@ -384,11 +387,14 @@ TEST_F(Sequence21Test, SeqInst_ActualArg0_ResolvesToNetA) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_inst");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  ASSERT_GE(sc->getArguments()->size(), 1u);
-  const hldb::RefObj *const ref = any_cast<const hldb::RefObj *>((*sc->getArguments())[0]);
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  ASSERT_EQ(si->getArguments()->size(), 2u);
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*si->getArguments())[0]);
+  ASSERT_NE(na, nullptr);
+  ASSERT_NE(na->getHighConn(), nullptr);
+  const hldb::RefObj *const ref = na->getHighConn<hldb::RefObj>();
   ASSERT_NE(ref, nullptr);
   EXPECT_NE(ref->getActual<hldb::Variable>(), nullptr) << "ss.16.8: actual argument 'a' must resolve to Variable 'bit a'";
 }
@@ -398,11 +404,14 @@ TEST_F(Sequence21Test, SeqInst_ActualArg1_IsSignalB) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_inst");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::RefObj *const ref = any_cast<const hldb::RefObj *>((*sc->getArguments())[1]);
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  ASSERT_EQ(si->getArguments()->size(), 2u);
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*si->getArguments())[1]);
+  ASSERT_NE(na, nullptr);
+  ASSERT_NE(na->getHighConn(), nullptr);
+  const hldb::RefObj *const ref = na->getHighConn<hldb::RefObj>();
   ASSERT_NE(ref, nullptr);
   EXPECT_EQ(ref->getName(), "b") << "ss.16.8: second positional actual argument must be signal 'b'";
 }
@@ -414,11 +423,14 @@ TEST_F(Sequence21Test, SeqInst_ActualArg1_ResolvesToNetB) {
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_inst");
   ASSERT_NE(seq, nullptr);
-  const hldb::SubroutineCall *const sc = seq->getExpr<hldb::SubroutineCall>();
-  ASSERT_NE(sc, nullptr);
-  ASSERT_NE(sc->getArguments(), nullptr);
-  ASSERT_GE(sc->getArguments()->size(), 2u);
-  const hldb::RefObj *const ref = any_cast<const hldb::RefObj *>((*sc->getArguments())[1]);
+  const hldb::SequenceInst *const si = seq->getExpr<hldb::SequenceInst>();
+  ASSERT_NE(si, nullptr);
+  ASSERT_NE(si->getArguments(), nullptr);
+  ASSERT_EQ(si->getArguments()->size(), 2u);
+  const hldb::NamedArgument *const na = any_cast<const hldb::NamedArgument *>((*si->getArguments())[1]);
+  ASSERT_NE(na, nullptr);
+  ASSERT_NE(na->getHighConn(), nullptr);
+  const hldb::RefObj *const ref = na->getHighConn<hldb::RefObj>();
   ASSERT_NE(ref, nullptr);
   EXPECT_NE(ref->getActual<hldb::Variable>(), nullptr) << "ss.16.8: actual argument 'b' must resolve to Variable 'bit b'";
 }
@@ -436,7 +448,7 @@ TEST_F(Sequence21Test, Assert_PropertyExpr_NameIsSeqInst) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const expr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(expr, nullptr);
   EXPECT_EQ(expr->getName(), "seq_inst") << "assertion must reference 'seq_inst'";
 }
@@ -452,9 +464,9 @@ TEST_F(Sequence21Test, Assert_PropertyExpr_ResolvedToSeqInstDecl) {
   ASSERT_NE(ca, nullptr);
   const hldb::PropertySpec *const spec = ca->getProperty<hldb::PropertySpec>();
   ASSERT_NE(spec, nullptr);
-  const hldb::RefObj *const expr = spec->getPropertyExpr<hldb::RefObj>();
+  const hldb::SequenceInst *const expr = spec->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(expr, nullptr);
-  EXPECT_NE(expr->getActual<hldb::SequenceDecl>(), nullptr)
+  EXPECT_EQ(expr->getSequenceDecl(), getSeqDecl(tb, "seq_inst"))
       << "ss.16.8: 'seq_inst' in assert property must resolve to SequenceDecl";
 }
 

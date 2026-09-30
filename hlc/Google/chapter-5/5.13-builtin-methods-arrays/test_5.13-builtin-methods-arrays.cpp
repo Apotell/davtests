@@ -200,7 +200,7 @@ TEST_F(BuiltinMethodsArrays, SecondArgumentIsRefObj) {
 
   const hldb::RefObj *const hp = any_cast<hldb::RefObj>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr) << "second argument should be a RefObj";
-  EXPECT_EQ(hp->getName(), "array.size");
+  EXPECT_EQ(hp->getName(), std::string_view("array.size()"));
 }
 
 TEST_F(BuiltinMethodsArrays, RefObjHasTwoPathElems) {

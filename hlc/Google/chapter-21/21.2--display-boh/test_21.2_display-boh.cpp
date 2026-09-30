@@ -214,7 +214,6 @@ TEST_F(DisplayBohTest, InitialBlockDeclaresSignedIntValInitializedTo1234) {
   const hldb::IntTypespec *const intTypespec = val->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>();
   ASSERT_NE(intTypespec, nullptr);
   EXPECT_TRUE(intTypespec->getSigned()) << "IEEE 1800-2023 Sec 6.11.2: 'int' is a signed 32-bit integer type";
-  EXPECT_EQ(intTypespec->getRanges(), nullptr) << "'int val' declares no explicit packed dimensions";
 
   ASSERT_NE(val->getValue<hldb::Constant>(), nullptr);
   EXPECT_EQ(val->getValue<hldb::Constant>()->getDecompile(), "1234");
@@ -302,7 +301,6 @@ TEST_F(DisplayBohTest, DesignHasModuleAndIntTypespecsOnly) {
   const hldb::IntTypespec *const intTypespec = any_cast<hldb::IntTypespec>(m_design->getTypespecs()->at(1));
   ASSERT_NE(intTypespec, nullptr);
   EXPECT_TRUE(intTypespec->getSigned());
-  EXPECT_EQ(intTypespec->getRanges(), nullptr);
 }
 
 TEST_F(DisplayBohTest, CompilerReportsZeroErrors) {

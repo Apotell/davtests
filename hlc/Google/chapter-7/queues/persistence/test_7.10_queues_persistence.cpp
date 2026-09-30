@@ -453,7 +453,7 @@ TEST_F(QueuesPersistenceTest, SecondInitialSecondStmtIsDeleteWithParensCorrectly
   ASSERT_NE(begin, nullptr);
   const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(1));
   ASSERT_NE(hp, nullptr) << "'q.delete()' should be a RefObj";
-  EXPECT_EQ(hp->getName(), "q.delete");
+  EXPECT_EQ(hp->getName(), "q.delete()");
   ASSERT_NE(hp->getPathElems(), nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
 

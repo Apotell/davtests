@@ -281,12 +281,10 @@ bool OperandsContainNamedRef(const hldb::Operation *op, std::string_view name) {
         return true;
       }
     }
-    if (const hldb::RefObj *const path = any_cast<hldb::RefObj>(operand)) {
-      if (path->getPathElems() != nullptr && !path->getPathElems()->empty()) {
-        const hldb::RefObj *const leaf = any_cast<hldb::RefObj>(path->getPathElems()->back());
-        if (leaf != nullptr && leaf->getName() == name) {
-          return true;
-        }
+    if (const hldb::RefObj *const path = hier_cast<hldb::RefObj>(operand)) {
+      const hldb::RefObj *const leaf = any_cast<hldb::RefObj>(path->getPathElems()->back());
+      if (leaf != nullptr && leaf->getName() == name) {
+        return true;
       }
     }
   }

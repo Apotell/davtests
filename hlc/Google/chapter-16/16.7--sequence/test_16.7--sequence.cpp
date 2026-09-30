@@ -479,8 +479,8 @@ TEST_F(NamedSequenceTest, ConcAssert_PropSpec_PropertyExpr_IsRefObj) {
   // sequence 'seq'.
   const auto *ps = getPropSpec(m_design);
   ASSERT_NE(ps, nullptr);
-  EXPECT_NE(ps->getPropertyExpr<hldb::RefObj>(), nullptr)
-      << "sec. 16.7: 'assert property (seq)' property expression must be a RefObj referencing 'seq'";
+  EXPECT_NE(ps->getPropertyExpr<hldb::SequenceInst>(), nullptr)
+      << "sec. 16.7: 'assert property (seq)' property expression must be a SequenceInst referencing 'seq'";
 }
 
 TEST_F(NamedSequenceTest, ConcAssert_PropSpec_PropertyExpr_NameIsSeq) {
@@ -497,12 +497,12 @@ TEST_F(NamedSequenceTest, ConcAssert_PropSpec_PropertyExpr_ResolvesToSeqDecl) {
   // declaration without requiring full hierarchical elaboration.
   const auto *ps = getPropSpec(m_design);
   ASSERT_NE(ps, nullptr);
-  const auto *ref = ps->getPropertyExpr<hldb::RefObj>();
+  const auto *ref = ps->getPropertyExpr<hldb::SequenceInst>();
   ASSERT_NE(ref, nullptr);
   const auto *sd = getSeqDecl(m_design);
   ASSERT_NE(sd, nullptr);
-  EXPECT_EQ(ref->getActual<hldb::SequenceDecl>(), sd)
-      << "sec. 16.7: RefObj('seq')::getActual() must resolve to the SequenceDecl 'seq'";
+  EXPECT_EQ(ref->getSequenceDecl(), sd)
+      << "sec. 16.7: SequenceInstance('seq')::getSequenceDecl() must resolve to the SequenceDecl 'seq'";
 }
 
 }  // namespace hlc

@@ -174,7 +174,7 @@ TEST_F(BuiltinMethodsStrings, SecondArgumentIsRefObj) {
 
   const hldb::RefObj *const hp = any_cast<hldb::RefObj>((*c->getArguments())[1]);
   ASSERT_NE(hp, nullptr) << "second argument should be a RefObj";
-  EXPECT_EQ(hp->getName(), "a.len");
+  EXPECT_EQ(hp->getName(), std::string_view("a.len()"));
 }
 
 TEST_F(BuiltinMethodsStrings, RefObjHasTwoPathElems) {
