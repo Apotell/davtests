@@ -15,6 +15,7 @@
 */
 
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/ErrorDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -205,8 +206,13 @@ TEST_F(PreprocUhdmCovTest, MismatchedEndLabelIsReportedAsError) {
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 1) << "'module top ... endmodule : toto' must be reported as exactly one error "
-                                 "(mismatched end label)";
+  // Do not count errors (test_writing_guide): this file also reports unrelated errors (multiple
+  // continuous assignments to 'a', unsupported typespec 'prim_subreg'). Check for the specific
+  // mismatched-label error on 'module top' (4:1) instead.
+  // EXPECT_EQ(stats.nbError, 1) << "'module top ... endmodule : toto' must be reported as exactly one error "
+  //                                "(mismatched end label)";
+  EXPECT_NE(findError(ErrorDefinition::COMP_UNMATCHED_LABEL, 4, 1), nullptr)
+      << "'module top ... endmodule : toto' must be reported as a mismatched end label";
 }
 
 TEST_F(PreprocUhdmCovTest, TopModuleEndLabelIsRecordedDespiteMismatch) {

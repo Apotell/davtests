@@ -65,6 +65,20 @@ class HierPathStructTypespecTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
+  // A Variable's / TypespecMember's getTypespec() is a RefTypespec. Follow it to its actual, through
+  // any TypedefTypespec -> Typedef -> alias chain, to the underlying (non-typedef) typespec.
+  static const hldb::Typespec *resolveTypespec(const hldb::RefTypespec *rt) {
+    while (rt != nullptr) {
+      const hldb::Typespec *const actual = rt->getActual();
+      const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(actual);
+      if (tdt == nullptr) return actual;
+      const hldb::Typedef *const td = tdt->getTypedef();
+      if (td == nullptr) return nullptr;
+      rt = td->getAlias();
+    }
+    return nullptr;
+  }
+
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::StructTypespec *getHw2regStructTypespec() {
@@ -72,7 +86,8 @@ class HierPathStructTypespecTest : public Test {
     if (top == nullptr || top->getVariables() == nullptr) return nullptr;
     const hldb::Variable *const hw2reg = hldb::findByName<hldb::Variable>("hw2reg", top->getVariables());
     if (hw2reg == nullptr || hw2reg->getTypespec() == nullptr) return nullptr;
-    return hw2reg->getTypespec<hldb::StructTypespec>();
+    // return hw2reg->getTypespec<hldb::StructTypespec>();
+    return any_cast<hldb::StructTypespec>(resolveTypespec(hw2reg->getTypespec()));
   }
 
   static const hldb::GenIf *getFirstGenIf() {
@@ -114,7 +129,8 @@ TEST_F(HierPathStructTypespecTest, StatusMemberResolvesToNestedStructWithFifoDep
   const hldb::TypespecMember *const status = s->getMembers()->at(1);
   ASSERT_NE(status, nullptr);
   ASSERT_NE(status->getTypespec(), nullptr);
-  const hldb::StructTypespec *const statusSt = status->getTypespec<hldb::StructTypespec>();
+  // const hldb::StructTypespec *const statusSt = status->getTypespec<hldb::StructTypespec>();
+  const hldb::StructTypespec *const statusSt = any_cast<hldb::StructTypespec>(resolveTypespec(status->getTypespec()));
   ASSERT_NE(statusSt, nullptr) << "'status' should resolve to a nested StructTypespec";
   const hldb::Struct *const statusStruct = statusSt->getStruct();
   ASSERT_NE(statusStruct, nullptr);

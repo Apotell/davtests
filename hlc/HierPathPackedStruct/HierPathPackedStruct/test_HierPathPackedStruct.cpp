@@ -61,6 +61,7 @@
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/typespec_member.h>
 #include <hldb/vpi_user.h>
 
 #include <gtest/gtest.h>
@@ -125,22 +126,65 @@ TEST_F(HierPathPackedStructTest, BitsArgumentIsHierPathThenBitSelect) {
 
   ASSERT_NE(bits->getArguments(), nullptr);
   ASSERT_EQ(bits->getArguments()->size(), 1u);
-  const hldb::BitSelect *const bsel = any_cast<hldb::BitSelect>(bits->getArguments()->at(0));
-  ASSERT_NE(bsel, nullptr) << "'a.pair[0]' should be a BitSelect";
-
+  // 'a.pair[0]' is a hierarchical path whose last element is the bit-select (HLDB's
+  // hierarchical-path convention; IEEE 1800 VPI defines no hierarchical-path object):
+  // path elements RefObj "a" (the port net) and BitSelect "pair[0]" (prefix RefObj "pair" ->
+  // the foo_t struct member, index 0).
+  ASSERT_NE(bits->getArguments()->at(0), nullptr);
+  const hldb::RefObj *const path = any_cast<hldb::RefObj>(bits->getArguments()->at(0));
+  ASSERT_NE(path, nullptr) << "'a.pair[0]' should be a hierarchical path RefObj";
+  EXPECT_EQ(path->getName(), std::string_view{"a.pair[0]"});
+  ASSERT_NE(path->getPathElems(), nullptr);
+  ASSERT_EQ(path->getPathElems()->size(), 2u);
+  const hldb::RefObj *const head = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+  ASSERT_NE(head, nullptr);
+  EXPECT_EQ(head->getName(), std::string_view{"a"});
+  EXPECT_NE(head->getActual(), nullptr) << "'a' should resolve to the input port";
+  const hldb::BitSelect *const bsel = any_cast<hldb::BitSelect>(path->getPathElems()->at(1));
+  ASSERT_NE(bsel, nullptr) << "'pair[0]' should be a BitSelect (pair is a packed array)";
   ASSERT_NE(bsel->getPrefix(), nullptr);
-  const hldb::RefObj *const prefix = bsel->getPrefix<hldb::RefObj>();
-  ASSERT_NE(prefix, nullptr) << "BitSelect prefix should be the hierarchical path RefObj 'a.pair'";
-  EXPECT_EQ(prefix->getName(), std::string_view{"a.pair"});
-  ASSERT_NE(prefix->getPathElems(), nullptr);
-  ASSERT_EQ(prefix->getPathElems()->size(), 2u);
-  EXPECT_EQ(prefix->getPathElems()->at(0)->getName(), std::string_view{"a"});
-  EXPECT_EQ(prefix->getPathElems()->at(1)->getName(), std::string_view{"pair"});
-
+  const hldb::RefObj *const member = bsel->getPrefix<hldb::RefObj>();
+  ASSERT_NE(member, nullptr);
+  EXPECT_EQ(member->getName(), std::string_view{"pair"});
+  ASSERT_NE(member->getActual(), nullptr);
+  EXPECT_NE(member->getActual<hldb::TypespecMember>(), nullptr) << "'pair' should resolve to the struct member";
   ASSERT_NE(bsel->getIndex(), nullptr);
   const hldb::Constant *const idx = bsel->getIndex<hldb::Constant>();
   ASSERT_NE(idx, nullptr);
-  EXPECT_EQ(std::string(idx->getValue()), "0");
+  EXPECT_EQ(idx->getDecompile(), std::string_view{"0"});
+
+  // Previous BitSelect-of-path version:
+  // const hldb::BitSelect *const bsel = any_cast<hldb::BitSelect>(bits->getArguments()->at(0));
+
+  // ASSERT_NE(bsel, nullptr) << "'a.pair[0]' should be a BitSelect";
+
+  //
+
+  // ASSERT_NE(bsel->getPrefix(), nullptr);
+
+  // const hldb::RefObj *const prefix = bsel->getPrefix<hldb::RefObj>();
+
+  // ASSERT_NE(prefix, nullptr) << "BitSelect prefix should be the hierarchical path RefObj 'a.pair'";
+
+  // EXPECT_EQ(prefix->getName(), std::string_view{"a.pair"});
+
+  // ASSERT_NE(prefix->getPathElems(), nullptr);
+
+  // ASSERT_EQ(prefix->getPathElems()->size(), 2u);
+
+  // EXPECT_EQ(prefix->getPathElems()->at(0)->getName(), std::string_view{"a"});
+
+  // EXPECT_EQ(prefix->getPathElems()->at(1)->getName(), std::string_view{"pair"});
+
+  //
+
+  // ASSERT_NE(bsel->getIndex(), nullptr);
+
+  // const hldb::Constant *const idx = bsel->getIndex<hldb::Constant>();
+
+  // ASSERT_NE(idx, nullptr);
+
+  // EXPECT_EQ(std::string(idx->getValue()), "0");
 }
 
 }  // namespace hlc

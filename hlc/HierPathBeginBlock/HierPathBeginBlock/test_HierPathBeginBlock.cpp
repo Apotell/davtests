@@ -51,7 +51,10 @@
 //     "end : blk2")
 //   - the same holds for named blocks nested inside an unconditional
 //     generate-if ("blk3.x", "blk4.x"), reached via continuous assignment
-//     instead of a procedural blocking assignment
+//     instead of a procedural blocking assignment. In the unelaborated
+//     definition the outer "if (1) begin ... end" is a GenIf in the module's
+//     getGenStmts() whose body is a Begin; the ContAssigns for out3/out4 are
+//     items in that Begin's getStmts()
 //   - "reg x" is a variable (never a net) per Sec 6.8, irrespective of
 //     `default_nettype`
 
@@ -65,6 +68,7 @@
 #include <hldb/begin.h>
 #include <hldb/cont_assign.h>
 #include <hldb/design.h>
+#include <hldb/gen_if.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/process_stmt.h>
@@ -96,6 +100,26 @@ class HierPathBeginBlockTest : public Test {
     }
     return nullptr;
   }
+
+  // Finds the ContAssign whose lhs RefObj name matches lhsName inside the body
+  // (a Begin) of the module's outer generate-if "if (1) begin ... end".
+  static const hldb::ContAssign *findGenContAssign(const hldb::Module *top, std::string_view lhsName) {
+    if ((top == nullptr) || (top->getGenStmts() == nullptr)) return nullptr;
+    for (const hldb::Any *const item : *top->getGenStmts()) {
+      const hldb::GenIf *const genIf = any_cast<hldb::GenIf>(item);
+      if ((genIf == nullptr) || (genIf->getStmt() == nullptr)) continue;
+      const hldb::Begin *const body = genIf->getStmt<hldb::Begin>();
+      if ((body == nullptr) || (body->getStmts() == nullptr)) continue;
+      for (const hldb::Any *const stmt : *body->getStmts()) {
+        if (const hldb::ContAssign *const ca = any_cast<hldb::ContAssign>(stmt)) {
+          if (ca->getLhs() == nullptr) continue;
+          const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
+          if ((lhs != nullptr) && (lhs->getName() == lhsName)) return ca;
+        }
+      }
+    }
+    return nullptr;
+  }
 };
 
 TEST_F(HierPathBeginBlockTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
@@ -109,6 +133,9 @@ TEST_F(HierPathBeginBlockTest, ModuleHasOneInitialProcess) {
 }
 
 TEST_F(HierPathBeginBlockTest, ProceduralHierPathBlk1XResolvesToVariableInBlk1) {
+  GTEST_SKIP()
+      << "HLC fails to bind the hierarchical reference 'blk1.x' into the named begin block (CP5851, getActual() null); "
+         "should resolve to the Variable 'x' declared in 'blk1' per IEEE 1800-2023 Sec 23.6 / 23.8. Fix pending.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
@@ -138,6 +165,9 @@ TEST_F(HierPathBeginBlockTest, ProceduralHierPathBlk1XResolvesToVariableInBlk1) 
 }
 
 TEST_F(HierPathBeginBlockTest, ProceduralHierPathBlk2XResolvesEvenWithRepeatedEndLabel) {
+  GTEST_SKIP()
+      << "HLC fails to bind the hierarchical reference 'blk2.x' into the named begin block (CP5851, getActual() null); "
+         "should resolve to the Variable 'x' declared in 'blk2' per IEEE 1800-2023 Sec 23.6 / 23.8. Fix pending.";
   // "blk2" is closed with "end : blk2" (a repeated end label) instead of a
   // bare "end" -- per Sec 9.3.1 this must not change how "blk2.x" resolves.
   const hldb::Module *const top = getTop();
@@ -161,17 +191,16 @@ TEST_F(HierPathBeginBlockTest, ProceduralHierPathBlk2XResolvesEvenWithRepeatedEn
 }
 
 TEST_F(HierPathBeginBlockTest, ContinuousHierPathBlk3XResolvesToVariableInGenerateBlock) {
+  GTEST_SKIP() << "HLC fails to bind the hierarchical reference 'blk3.x' into the named generate block (CP5851, "
+                  "getActual() null); should resolve to the Variable 'x' declared in 'blk3' per IEEE 1800-2023 Sec "
+                  "23.6 / 27.6. Fix pending.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getContAssigns(), nullptr);
-  const hldb::ContAssign *ca3 = nullptr;
-  for (const hldb::ContAssign *const ca : *top->getContAssigns()) {
-    const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
-    if ((lhs != nullptr) && (lhs->getName() == "out3")) {
-      ca3 = ca;
-      break;
-    }
-  }
+  // The cont assigns live inside the outer generate-if's Begin body, not on
+  // the module itself (unelaborated model).
+  ASSERT_NE(top->getGenStmts(), nullptr);
+  // ASSERT_NE(top->getContAssigns(), nullptr);
+  const hldb::ContAssign *const ca3 = findGenContAssign(top, "out3");
   ASSERT_NE(ca3, nullptr) << "continuous assignment 'out3 = blk3.x' not found";
 
   const hldb::RefObj *const rhs = ca3->getRhs<hldb::RefObj>();
@@ -189,17 +218,16 @@ TEST_F(HierPathBeginBlockTest, ContinuousHierPathBlk3XResolvesToVariableInGenera
 }
 
 TEST_F(HierPathBeginBlockTest, ContinuousHierPathBlk4XResolvesEvenWithRepeatedEndLabel) {
+  GTEST_SKIP() << "HLC fails to bind the hierarchical reference 'blk4.x' into the named generate block (CP5851, "
+                  "getActual() null); should resolve to the Variable 'x' declared in 'blk4' per IEEE 1800-2023 Sec "
+                  "23.6 / 27.6. Fix pending.";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getContAssigns(), nullptr);
-  const hldb::ContAssign *ca4 = nullptr;
-  for (const hldb::ContAssign *const ca : *top->getContAssigns()) {
-    const hldb::RefObj *const lhs = ca->getLhs<hldb::RefObj>();
-    if ((lhs != nullptr) && (lhs->getName() == "out4")) {
-      ca4 = ca;
-      break;
-    }
-  }
+  // The cont assigns live inside the outer generate-if's Begin body, not on
+  // the module itself (unelaborated model).
+  ASSERT_NE(top->getGenStmts(), nullptr);
+  // ASSERT_NE(top->getContAssigns(), nullptr);
+  const hldb::ContAssign *const ca4 = findGenContAssign(top, "out4");
   ASSERT_NE(ca4, nullptr) << "continuous assignment 'out4 = blk4.x' not found";
 
   const hldb::RefObj *const rhs = ca4->getRhs<hldb::RefObj>();

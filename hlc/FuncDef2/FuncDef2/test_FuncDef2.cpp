@@ -100,7 +100,9 @@ class FuncDef2Test : public Test {
   }
 
   static const hldb::Module *getSplitter() {
-    return hldb::findByName<hldb::Module>("tnoc_vc_splitter", m_design->getAllModules());
+    // Parameterized module definition: getName() carries the '#(...)'
+    // parameter suffix, so look it up by its plain definition name.
+    return hldb::findByDefName<hldb::Module>("tnoc_vc_splitter", m_design->getAllModules());
   }
 };
 

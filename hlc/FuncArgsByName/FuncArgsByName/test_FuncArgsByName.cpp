@@ -42,9 +42,10 @@
 //   TFCall::getArguments() API (a plain AnyCollection*, no separate
 //   "argument name" field), mandates a particular *storage order* for
 //   that collection, so assertions below identify each argument by which
-//   formal it is bound to (matching a RefObj's name against
-//   m_matches_type_pair's own same-named IODecl -- the same approach
-//   used by the existing EvalFuncNamed test), not by position.
+//   formal it is bound to (each named connection is a NamedArgument whose
+//   lowConn RefObj names and resolves to m_matches_type_pair's own
+//   same-named IODecl and whose highConn is the actual Constant), not by
+//   position.
 //
 //   Sec 13.4: function arguments default to direction 'input' when not
 //   otherwise specified; 'string' (Sec 6.16) is a non-net data type.
@@ -78,6 +79,8 @@
 #include <hldb/function.h>
 #include <hldb/io_decl.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
+#include <hldb/ref_obj.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -102,6 +105,12 @@ class FuncArgsByNameTest : public Test {
   static const hldb::Constant *findConstArgAt(const hldb::FuncCall *call, size_t index) {
     if (call == nullptr || call->getArguments() == nullptr || call->getArguments()->size() <= index) return nullptr;
     return any_cast<hldb::Constant>(call->getArguments()->at(index));
+  }
+
+  // Returns the callee's formal IODecl of the given name.
+  static const hldb::IODecl *findFormal(const hldb::Function *callee, std::string_view name) {
+    if (callee == nullptr) return nullptr;
+    return hldb::findByName<hldb::IODecl>(name, callee->getIODecls());
   }
 };
 
@@ -149,20 +158,41 @@ TEST_F(FuncArgsByNameTest, FirstCallBindsArgumentsByNameInSourceOrder) {
 
   const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(body->getStmts()->at(0));
   ASSERT_NE(call, nullptr) << "first statement should be a bare FuncCall statement (Sec 13.4.1: legal to call a "
-                               "function as if it had no return value)";
+                              "function as if it had no return value)";
   EXPECT_EQ(call->getName(), std::string_view("m_matches_type_pair"));
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), callee);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  // Named connections are order-independent (Sec 13.5.3); bind by the
-  // formal each actual's RefObj resolves to.
+  // Named connections are order-independent (Sec 13.5.3); each argument is
+  // a NamedArgument whose lowConn names (and resolves to) the callee's
+  // formal and whose highConn is the actual expression.
   bool foundA = false, foundB = false;
+  // for (hldb::Any *const arg : *call->getArguments()) {
+  //   const hldb::Constant *const value = any_cast<hldb::Constant>(arg);
+  //   if (value == nullptr) continue;
+  //   if (value->getDecompile() == std::string_view("\"a\"")) foundA = true;
+  //   if (value->getDecompile() == std::string_view("\"b\"")) foundB = true;
+  // }
   for (hldb::Any *const arg : *call->getArguments()) {
-    const hldb::Constant *const value = any_cast<hldb::Constant>(arg);
-    if (value == nullptr) continue;
-    if (value->getDecompile() == std::string_view("\"a\"")) foundA = true;
-    if (value->getDecompile() == std::string_view("\"b\"")) foundB = true;
+    const hldb::NamedArgument *const named = any_cast<hldb::NamedArgument>(arg);
+    ASSERT_NE(named, nullptr) << "'.formal(actual)' should be a NamedArgument";
+    ASSERT_NE(named->getLowConn(), nullptr);
+    const hldb::RefObj *const formal = named->getLowConn<hldb::RefObj>();
+    ASSERT_NE(formal, nullptr) << "NamedArgument lowConn should reference the formal by name";
+    ASSERT_NE(named->getHighConn(), nullptr);
+    const hldb::Constant *const value = named->getHighConn<hldb::Constant>();
+    ASSERT_NE(value, nullptr) << "NamedArgument highConn should be the actual string Constant";
+    if (value->getDecompile() == std::string_view("\"a\"")) {
+      foundA = true;
+      EXPECT_EQ(formal->getName(), std::string_view("match_type_pair"));
+      EXPECT_EQ(formal->getActual(), findFormal(callee, "match_type_pair"));
+    }
+    if (value->getDecompile() == std::string_view("\"b\"")) {
+      foundB = true;
+      EXPECT_EQ(formal->getName(), std::string_view("requested_type"));
+      EXPECT_EQ(formal->getActual(), findFormal(callee, "requested_type"));
+    }
   }
   EXPECT_TRUE(foundA) << "'.match_type_pair(\"a\")' actual \"a\" not found among call arguments";
   EXPECT_TRUE(foundB) << "'.requested_type(\"b\")' actual \"b\" not found among call arguments";
@@ -197,7 +227,9 @@ TEST_F(FuncArgsByNameTest, SecondCallIsPositional) {
 // ---------------------------------------------------------------------------
 TEST_F(FuncArgsByNameTest, ThirdCallBindsArgumentsByNameEvenWhenReversed) {
   const hldb::Function *const func = getFn("func");
+  const hldb::Function *const callee = getFn("m_matches_type_pair");
   ASSERT_NE(func, nullptr);
+  ASSERT_NE(callee, nullptr);
   const hldb::Begin *const body = func->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_EQ(body->getStmts()->size(), 3u);
@@ -212,11 +244,31 @@ TEST_F(FuncArgsByNameTest, ThirdCallBindsArgumentsByNameEvenWhenReversed) {
   // still bind "e" to requested_type and "f" to match_type_pair,
   // regardless of the reversed syntactic order used at the call site.
   bool foundE = false, foundF = false;
+  // for (hldb::Any *const arg : *call->getArguments()) {
+  //   const hldb::Constant *const value = any_cast<hldb::Constant>(arg);
+  //   if (value == nullptr) continue;
+  //   if (value->getDecompile() == std::string_view("\"e\"")) foundE = true;
+  //   if (value->getDecompile() == std::string_view("\"f\"")) foundF = true;
+  // }
   for (hldb::Any *const arg : *call->getArguments()) {
-    const hldb::Constant *const value = any_cast<hldb::Constant>(arg);
-    if (value == nullptr) continue;
-    if (value->getDecompile() == std::string_view("\"e\"")) foundE = true;
-    if (value->getDecompile() == std::string_view("\"f\"")) foundF = true;
+    const hldb::NamedArgument *const named = any_cast<hldb::NamedArgument>(arg);
+    ASSERT_NE(named, nullptr) << "'.formal(actual)' should be a NamedArgument";
+    ASSERT_NE(named->getLowConn(), nullptr);
+    const hldb::RefObj *const formal = named->getLowConn<hldb::RefObj>();
+    ASSERT_NE(formal, nullptr) << "NamedArgument lowConn should reference the formal by name";
+    ASSERT_NE(named->getHighConn(), nullptr);
+    const hldb::Constant *const value = named->getHighConn<hldb::Constant>();
+    ASSERT_NE(value, nullptr) << "NamedArgument highConn should be the actual string Constant";
+    if (value->getDecompile() == std::string_view("\"e\"")) {
+      foundE = true;
+      EXPECT_EQ(formal->getName(), std::string_view("requested_type"));
+      EXPECT_EQ(formal->getActual(), findFormal(callee, "requested_type"));
+    }
+    if (value->getDecompile() == std::string_view("\"f\"")) {
+      foundF = true;
+      EXPECT_EQ(formal->getName(), std::string_view("match_type_pair"));
+      EXPECT_EQ(formal->getActual(), findFormal(callee, "match_type_pair"));
+    }
   }
   EXPECT_TRUE(foundE) << "'.requested_type(\"e\")' actual \"e\" not found among call arguments";
   EXPECT_TRUE(foundF) << "'.match_type_pair(\"f\")' actual \"f\" not found among call arguments";

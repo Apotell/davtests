@@ -56,7 +56,10 @@
 // Compiled at "-d ast" level (no "-d inst"), so the generate-for loop
 // survives as a raw GenFor on 'top's getGenStmts() (IEEE 1800-2023 Sec
 // 27.4) rather than being unrolled into elaborated, per-iteration
-// GenScopeArray/GenScope objects.
+// GenScopeArray/GenScope objects. The loop body 'begin : gen_dio_attr ...
+// end' is the GenFor's statement: a Begin named 'gen_dio_attr' whose items
+// are in its getStmts(). The instantiation inside it is a RefInstance whose
+// typespec's actual is a ModuleTypespec carrying the parameter overrides.
 //
 // What is under test: a hierarchical/indexed path reference into a *plain*
 // generate scope (as opposed to a module instantiated inside one, covered
@@ -78,13 +81,17 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/begin.h>
 #include <hldb/bit_select.h>
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
 #include <hldb/module.h>
+#include <hldb/module_typespec.h>
 #include <hldb/operation.h>
 #include <hldb/param_assign.h>
+#include <hldb/ref_instance.h>
 #include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 #include <hldb/select.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
@@ -109,12 +116,35 @@ class GenScopeHierPathTest : public Test {
     return nullptr;
   }
 
+  static const hldb::Begin *getGenDioAttr() {
+    const hldb::GenFor *const gf = findGenFor(getModule("top"));
+    if ((gf == nullptr) || (gf->getStmt() == nullptr)) return nullptr;
+    return gf->getStmt<hldb::Begin>();
+  }
+
+  static const hldb::RefInstance *getUPrimPadAttr() {
+    const hldb::Begin *const b = getGenDioAttr();
+    if ((b == nullptr) || (b->getStmts() == nullptr)) return nullptr;
+    for (const hldb::Any *const stmt : *b->getStmts()) {
+      if (const hldb::RefInstance *const ri = any_cast<hldb::RefInstance>(stmt)) {
+        if (ri->getName() == std::string_view("u_prim_pad_attr")) return ri;
+      }
+    }
+    return nullptr;
+  }
+
   // Walk a Select/RefObj expression chain looking for a leaf RefObj named
   // 'k' (the loop's own genvar reference used as the bit-select index).
   static const hldb::RefObj *findKRef(const hldb::Any *expr) {
     if (expr == nullptr) return nullptr;
     if (const hldb::RefObj *const ro = any_cast<hldb::RefObj>(expr)) {
       if (ro->getName() == std::string_view("k")) return ro;
+      // Hierarchical/member path 'TargetCfg.dio_pad_type[k]'.
+      if (ro->getPathElems() != nullptr) {
+        for (const hldb::Any *const elem : *ro->getPathElems()) {
+          if (const hldb::RefObj *const found = findKRef(elem)) return found;
+        }
+      }
       return nullptr;
     }
     if (const hldb::BitSelect *const bs = any_cast<hldb::BitSelect>(expr)) {
@@ -148,7 +178,11 @@ TEST_F(GenScopeHierPathTest, TopHasExactlyOneGenForNamedGenDioAttr) {
 
   const hldb::GenFor *const gf = findGenFor(getModule("top"));
   ASSERT_NE(gf, nullptr);
-  EXPECT_EQ(gf->getName(), std::string_view("gen_dio_attr"));
+  // The label names the generate block (the loop body), not the loop.
+  ASSERT_NE(gf->getStmt(), nullptr);
+  const hldb::Begin *const body = gf->getStmt<hldb::Begin>();
+  ASSERT_NE(body, nullptr) << "'begin : gen_dio_attr ... end' should be a Begin";
+  EXPECT_EQ(body->getName(), std::string_view("gen_dio_attr"));
 }
 
 // 'k < NDioPads' -- relational less-than condition (Sec 11.4.4, vpiLtOp).
@@ -162,14 +196,18 @@ TEST_F(GenScopeHierPathTest, GenForConditionIsKLessThanNDioPads) {
 }
 
 // 'prim_pad_attr #(...) u_prim_pad_attr(.b(o));' -- one module instance
-// declared inside the generate-for scope (GenScope::getModules()).
+// declared inside the generate-for block (a RefInstance in the
+// 'gen_dio_attr' Begin's getStmts()).
 TEST_F(GenScopeHierPathTest, UPrimPadAttrDeclaredInsideGenDioAttr) {
-  const hldb::GenFor *const gf = findGenFor(getModule("top"));
-  ASSERT_NE(gf, nullptr);
-  ASSERT_NE(gf->getModules(), nullptr) << "'gen_dio_attr' should carry the 'u_prim_pad_attr' instance";
-  const hldb::Module *const inst = hldb::findByName<hldb::Module>("u_prim_pad_attr", gf->getModules());
+  const hldb::Begin *const body = getGenDioAttr();
+  ASSERT_NE(body, nullptr);
+  ASSERT_NE(body->getStmts(), nullptr) << "'gen_dio_attr' should carry the 'u_prim_pad_attr' instance";
+  const hldb::RefInstance *const inst = getUPrimPadAttr();
   ASSERT_NE(inst, nullptr);
-  EXPECT_EQ(inst->getDefName(), std::string_view("prim_pad_attr"));
+  ASSERT_NE(inst->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt, nullptr);
+  EXPECT_EQ(mt->getDefName(), std::string_view("prim_pad_attr"));
 }
 
 // '.PadType(TargetCfg.dio_pad_type[k])' -- the parameter override
@@ -177,14 +215,14 @@ TEST_F(GenScopeHierPathTest, UPrimPadAttrDeclaredInsideGenDioAttr) {
 // to 'gen_dio_attr' itself (Sec 27.4): a hierarchical path back into the
 // enclosing plain generate scope, not into a module instance.
 TEST_F(GenScopeHierPathTest, PadTypeOverrideReferencesLoopScopedK) {
-  const hldb::GenFor *const gf = findGenFor(getModule("top"));
-  ASSERT_NE(gf, nullptr);
-  ASSERT_NE(gf->getModules(), nullptr);
-  const hldb::Module *const inst = hldb::findByName<hldb::Module>("u_prim_pad_attr", gf->getModules());
+  const hldb::RefInstance *const inst = getUPrimPadAttr();
   ASSERT_NE(inst, nullptr);
+  ASSERT_NE(inst->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt, nullptr);
 
-  ASSERT_NE(inst->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName("PadType", inst->getParamAssigns());
+  ASSERT_NE(mt->getParamAssigns(), nullptr);
+  const hldb::ParamAssign *const pa = hldb::findByName("PadType", mt->getParamAssigns());
   ASSERT_NE(pa, nullptr) << "'.PadType(TargetCfg.dio_pad_type[k])' ParamAssign not found";
   ASSERT_NE(pa->getRhs(), nullptr);
 

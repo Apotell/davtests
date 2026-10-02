@@ -52,7 +52,9 @@
 //
 //   Sec 23.3.2/23.10 "Module instantiation": "prim_lfsr #(.LfsrDw(16))
 //   u_lfsr16();" overrides the "LfsrDw" parameter by name for this specific
-//   instance -- this should produce a per-instance ParamAssign whose
+//   instance. Inside the unelaborated aes_prng definition each instance
+//   is a RefInstance whose ModuleTypespec (defName "prim_lfsr") carries a
+//   per-instance ParamAssign whose
 //   getConnByName() is true, LHS resolving to the "LfsrDw" Parameter and
 //   RHS Constant "16" (respectively "18" for u_lfsr18), without disturbing
 //   prim_lfsr's own default-value Parameter declaration.
@@ -75,10 +77,12 @@
 #include <hldb/function.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
+#include <hldb/module_typespec.h>
 #include <hldb/operation.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
 #include <hldb/range.h>
+#include <hldb/ref_instance.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/return_stmt.h>
@@ -208,31 +212,43 @@ TEST_F(FuncParamTest, ComputeBodyDeclaresNextStateWithSameParameterizedWidthAndR
 TEST_F(FuncParamTest, AesPrngInstantiatesPrimLfsrTwiceWithDifferentParamOverrides) {
   const hldb::Module *const aesPrng = getAesPrng();
   ASSERT_NE(aesPrng, nullptr);
-  ASSERT_NE(aesPrng->getModules(), nullptr);
-  ASSERT_EQ(aesPrng->getModules()->size(), 2u);
+  // Instantiations inside the (unelaborated) aes_prng definition are
+  // RefInstances; the per-instance parameter overrides live on the
+  // instance's ModuleTypespec.
+  ASSERT_NE(aesPrng->getRefInstances(), nullptr);
+  ASSERT_EQ(aesPrng->getRefInstances()->size(), 2u);
 
-  const hldb::Module *const u16 = hldb::findByName<hldb::Module>("u_lfsr16", aesPrng->getModules());
+  const hldb::RefInstance *const u16 = hldb::findByName<hldb::RefInstance>("u_lfsr16", aesPrng->getRefInstances());
   ASSERT_NE(u16, nullptr);
-  EXPECT_EQ(u16->getDefName(), "prim_lfsr");
-  const hldb::Module *const u18 = hldb::findByName<hldb::Module>("u_lfsr18", aesPrng->getModules());
-  ASSERT_NE(u18, nullptr);
-  EXPECT_EQ(u18->getDefName(), "prim_lfsr");
+  ASSERT_NE(u16->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt16 = u16->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt16, nullptr);
+  EXPECT_EQ(mt16->getDefName(), std::string_view("prim_lfsr"));
 
-  ASSERT_NE(u16->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa16 = hldb::findByName("LfsrDw", u16->getParamAssigns());
+  const hldb::RefInstance *const u18 = hldb::findByName<hldb::RefInstance>("u_lfsr18", aesPrng->getRefInstances());
+  ASSERT_NE(u18, nullptr);
+  ASSERT_NE(u18->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt18 = u18->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt18, nullptr);
+  EXPECT_EQ(mt18->getDefName(), std::string_view("prim_lfsr"));
+
+  ASSERT_NE(mt16->getParamAssigns(), nullptr);
+  const hldb::ParamAssign *const pa16 = hldb::findByName("LfsrDw", mt16->getParamAssigns());
   ASSERT_NE(pa16, nullptr) << "'.LfsrDw(16)' should produce a named ParamAssign on u_lfsr16";
   EXPECT_TRUE(pa16->getConnByName());
-  const hldb::Constant *const rhs16 = any_cast<hldb::Constant>(pa16->getRhs());
+  ASSERT_NE(pa16->getRhs(), nullptr);
+  const hldb::Constant *const rhs16 = pa16->getRhs<hldb::Constant>();
   ASSERT_NE(rhs16, nullptr);
-  EXPECT_EQ(rhs16->getDecompile(), "16");
+  EXPECT_EQ(rhs16->getDecompile(), std::string_view("16"));
 
-  ASSERT_NE(u18->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa18 = hldb::findByName("LfsrDw", u18->getParamAssigns());
+  ASSERT_NE(mt18->getParamAssigns(), nullptr);
+  const hldb::ParamAssign *const pa18 = hldb::findByName("LfsrDw", mt18->getParamAssigns());
   ASSERT_NE(pa18, nullptr) << "'.LfsrDw(18)' should produce a named ParamAssign on u_lfsr18";
   EXPECT_TRUE(pa18->getConnByName());
-  const hldb::Constant *const rhs18 = any_cast<hldb::Constant>(pa18->getRhs());
+  ASSERT_NE(pa18->getRhs(), nullptr);
+  const hldb::Constant *const rhs18 = pa18->getRhs<hldb::Constant>();
   ASSERT_NE(rhs18, nullptr);
-  EXPECT_EQ(rhs18->getDecompile(), "18");
+  EXPECT_EQ(rhs18->getDecompile(), std::string_view("18"));
 }
 
 }  // namespace hlc

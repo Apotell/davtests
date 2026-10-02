@@ -48,17 +48,16 @@
 //   - all 3 are automatic (explicit 'automatic' keyword, 13.4.2)
 //   - "get_sub_n_list" has exactly 1 formal IODecl "n", direction vpiInput,
 //     typespec IntTypespec ('int')
-//   - "get_sub_n_list" and "get_offset_list" return a packed array
-//     (ArrayTypespec, getPacked() == true) per 1800-2023 7.4.2 "Packed
-//     arrays" (multi-dimensional packed type 'bit [N-1:0][15:0]')
+//   - "get_sub_n_list" and "get_offset_list" return the multi-dimensional
+//     packed bit type 'bit [N-1:0][15:0]' (1800-2023 7.4.1): a vector
+//     BitTypespec carrying 2 packed ranges (VPI Sec 37 models packed
+//     dimensions of bit/logic as the typespec's vpiRange list, not as a
+//     packed array typespec)
 //   - "get_next_n" returns int -> IntTypespec, and its single formal
-//     IODecl "sub_n_list" also resolves to a packed ArrayTypespec
+//     IODecl "sub_n_list" also resolves to that 2-range vector BitTypespec
 //
-// What is NOT checked and why: the exact nested element/range shape of the
-// two-dimensional packed array typespec (e.g. the [15:0] inner dimension)
-// is not asserted -- only that it is packed -- to avoid over-specifying an
-// area with no existing precedent test in this suite to cross-check
-// against; no .log file was consulted to decide this file's shape.
+// What is NOT checked and why: the bounds of each packed range are not
+// asserted; no .log file was consulted to decide this file's shape.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -66,6 +65,7 @@
 
 #include <hldb/Utils.h>
 #include <hldb/array_typespec.h>
+#include <hldb/bit_typespec.h>
 #include <hldb/design.h>
 #include <hldb/function.h>
 #include <hldb/int_typespec.h>
@@ -83,13 +83,31 @@ class FuncInModuleTest : public Test {
 
  protected:
   static const hldb::Module *getTop() {
-    return hldb::findByName<hldb::Module>("rggen_or_reducer", m_design->getAllModules());
+    // Parameterized module definition: getName() carries the '#(...)'
+    // parameter suffix, so look it up by its plain definition name.
+    return hldb::findByDefName<hldb::Module>("rggen_or_reducer", m_design->getAllModules());
   }
 
   static const hldb::Function *findFunc(std::string_view name) {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getTaskFuncs() == nullptr) return nullptr;
     return hldb::findByName<hldb::Function>(name, top->getTaskFuncs());
+  }
+
+  // 'bit [N-1:0][15:0]' is a multi-dimensional packed array of the
+  // single-bit type 'bit' (Sec 7.4.1), i.e. a 2-D packed bit vector. In the
+  // VPI model (Sec 37) such a type is a bit typespec whose vpiRange
+  // iteration yields each packed dimension in order -- not a packed array
+  // typespec, which is reserved for packed arrays of struct/union/enum
+  // elements.
+  static void checkTwoDimPackedBit(const hldb::RefTypespec *rt, std::string_view what) {
+    ASSERT_NE(rt, nullptr) << what;
+    ASSERT_NE(rt->getActual(), nullptr) << what;
+    const hldb::BitTypespec *const bt = rt->getActual<hldb::BitTypespec>();
+    ASSERT_NE(bt, nullptr) << what << ": 'bit [N-1:0][15:0]' should resolve to BitTypespec";
+    EXPECT_TRUE(bt->getVector()) << what;
+    ASSERT_NE(bt->getRanges(), nullptr) << what;
+    EXPECT_EQ(bt->getRanges()->size(), 2u) << what << ": two packed dimensions [N-1:0] and [15:0]";
   }
 };
 
@@ -126,18 +144,20 @@ TEST_F(FuncInModuleTest, GetSubNListHasOneIntInputAndReturnsPackedArray) {
   EXPECT_NE(n->getTypespec()->getActual<hldb::IntTypespec>(), nullptr) << "'int n' should resolve to IntTypespec";
 
   ASSERT_NE(f->getReturn(), nullptr);
-  const hldb::ArrayTypespec *const ret = f->getReturn()->getActual<hldb::ArrayTypespec>();
-  ASSERT_NE(ret, nullptr) << "'bit [N-1:0][15:0]' return type should resolve to ArrayTypespec";
-  EXPECT_TRUE(ret->getPacked()) << "7.4.2: 'bit [N-1:0][15:0]' is a packed array";
+  // const hldb::ArrayTypespec *const ret = f->getReturn()->getActual<hldb::ArrayTypespec>();
+  // ASSERT_NE(ret, nullptr) << "'bit [N-1:0][15:0]' return type should resolve to ArrayTypespec";
+  // EXPECT_TRUE(ret->getPacked()) << "7.4.2: 'bit [N-1:0][15:0]' is a packed array";
+  checkTwoDimPackedBit(f->getReturn(), "get_sub_n_list return");
 }
 
 TEST_F(FuncInModuleTest, GetOffsetListReturnsPackedArray) {
   const hldb::Function *const f = findFunc("get_offset_list");
   ASSERT_NE(f, nullptr);
   ASSERT_NE(f->getReturn(), nullptr);
-  const hldb::ArrayTypespec *const ret = f->getReturn()->getActual<hldb::ArrayTypespec>();
-  ASSERT_NE(ret, nullptr);
-  EXPECT_TRUE(ret->getPacked());
+  // const hldb::ArrayTypespec *const ret = f->getReturn()->getActual<hldb::ArrayTypespec>();
+  // ASSERT_NE(ret, nullptr);
+  // EXPECT_TRUE(ret->getPacked());
+  checkTwoDimPackedBit(f->getReturn(), "get_offset_list return");
 }
 
 TEST_F(FuncInModuleTest, GetNextNReturnsIntAndTakesPackedArrayInput) {
@@ -153,9 +173,10 @@ TEST_F(FuncInModuleTest, GetNextNReturnsIntAndTakesPackedArrayInput) {
   ASSERT_NE(subNList, nullptr);
   EXPECT_EQ(subNList->getName(), std::string_view("sub_n_list"));
   ASSERT_NE(subNList->getTypespec(), nullptr);
-  const hldb::ArrayTypespec *const argTs = subNList->getTypespec()->getActual<hldb::ArrayTypespec>();
-  ASSERT_NE(argTs, nullptr) << "'bit [N-1:0][15:0] sub_n_list' should resolve to ArrayTypespec";
-  EXPECT_TRUE(argTs->getPacked());
+  // const hldb::ArrayTypespec *const argTs = subNList->getTypespec()->getActual<hldb::ArrayTypespec>();
+  // ASSERT_NE(argTs, nullptr) << "'bit [N-1:0][15:0] sub_n_list' should resolve to ArrayTypespec";
+  // EXPECT_TRUE(argTs->getPacked());
+  checkTwoDimPackedBit(subNList->getTypespec(), "get_next_n sub_n_list");
 }
 
 }  // namespace hlc

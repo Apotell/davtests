@@ -62,9 +62,12 @@
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
 #include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 #include <hldb/struct.h>
 #include <hldb/struct_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/typedef.h>
+#include <hldb/typedef_typespec.h>
 #include <hldb/typespec_member.h>
 #include <hldb/variable.h>
 
@@ -140,7 +143,13 @@ TEST_F(HierPathUnpackedInPackedTest, HwKeyReqTStructIsPacked) {
   const hldb::Variable *const keymgrKeyI = hldb::findByName<hldb::Variable>("keymgr_key_i", top->getVariables());
   ASSERT_NE(keymgrKeyI, nullptr);
   ASSERT_NE(keymgrKeyI->getTypespec(), nullptr);
-  const hldb::StructTypespec *const st = keymgrKeyI->getTypespec<hldb::StructTypespec>();
+  // keymgr_pkg::hw_key_req_t is a typedef: RefTypespec -> TypedefTypespec -> Typedef -> alias -> StructTypespec.
+  ASSERT_NE(keymgrKeyI->getTypespec()->getActual(), nullptr);
+  const hldb::TypedefTypespec *const tdt = keymgrKeyI->getTypespec()->getActual<hldb::TypedefTypespec>();
+  ASSERT_NE(tdt, nullptr);
+  ASSERT_NE(tdt->getTypedef(), nullptr);
+  ASSERT_NE(tdt->getTypedef()->getAlias(), nullptr);
+  const hldb::StructTypespec *const st = tdt->getTypedef()->getAlias()->getActual<hldb::StructTypespec>();
   ASSERT_NE(st, nullptr);
   const hldb::Struct *const s = st->getStruct();
   ASSERT_NE(s, nullptr);

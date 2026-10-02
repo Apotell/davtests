@@ -33,8 +33,9 @@
 //       ST_Done=10;
 //     reg [3:0] CurState, NextState;
 //     always @(posedge Clk) begin:SEQ
-//       if (Reset) CurState <= ST_Read; else CurState <= NextState;
+//       if (Reset) CurState = ST_Read; else CurState = NextState;
 //     end
+//     initial begin Read = 0; Write = 1; Wait = 0; Delay = 1; end
 //     always @(CurState) begin:COMB
 //       case (CurState)
 //         ST_Trx: begin ... end
@@ -56,26 +57,25 @@
 // variant worth its own coverage.
 //
 // What is checked (IEEE 1800-2023 citations):
-//   - 23.3 "Module instantiation": module "top" has exactly 3 module
-//     instances (getModules()), F1/F2/F3, whose getDefName() resolves to
-//     FSM1/FSM2/FSM3 respectively (getName() is the instance name,
-//     getDefName() the module being instantiated -- two distinct
-//     properties per Instance).
-//   - 6.20.2: FSM1 declares 11 Parameters (ST_Read..ST_Done), each with
-//     an explicit "[3:0]" range (getRanges() non-empty) and a decimal
-//     Constant value; ST_Read=0 and ST_Done=10 spot-checked.
-//   - 9.4.2: FSM1 has exactly 2 Always processes (SEQ posedge Clk, COMB
-//     level-sensitive on CurState alone -- a single-signal sensitivity
-//     list, so the EventControl condition is a bare RefObj, not an
-//     Operation).
-//   - SEQ: EventControl(vpiPosedgeOp, RefObj "Clk"); body (Begin,
-//     EndLabel "SEQ") is directly an IfElse "if (Reset) CurState <=
-//     ST_Read; else CurState <= NextState;" -- both branches are bare
-//     (non-delayed) non-blocking Assignments, not wrapped in a Begin
-//     (single statement each).
+//   - 23.3 "Module instantiation": the (unelaborated) definition "top"
+//     has exactly 3 instantiations (getRefInstances()), F1/F2/F3, whose
+//     ModuleTypespec resolves to FSM1/FSM2/FSM3 respectively.
+//   - 6.20.2: the FSM1 definition (looked up by getDefName()) declares 11
+//     Parameters (ST_Read..ST_Done), each with an explicit "[3:0]" range
+//     (carried by the Parameter's typespec) and a decimal Constant value
+//     (ParamAssign rhs); ST_Read=0 and ST_Done=10 spot-checked.
+//   - 9.4.2: FSM1 has exactly 3 processes: 2 Always (SEQ posedge Clk,
+//     COMB level-sensitive on CurState alone -- a single-signal
+//     sensitivity list, so the EventControl condition is a bare RefObj,
+//     not an Operation) and 1 Initial.
+//   - SEQ: EventControl(vpiPosedgeOp, RefObj "Clk"); body (Begin, name
+//     "SEQ") is directly an IfElse "if (Reset) CurState = ST_Read; else
+//     CurState = NextState;" -- both branches are bare (non-delayed)
+//     blocking Assignments, not wrapped in a Begin (single statement
+//     each).
 //   - COMB: EventControl condition is directly RefObj "CurState" (a
 //     1-signal sensitivity list has no "or"/Operation wrapper); body
-//     (Begin, EndLabel "COMB") is directly a CaseStmt with 12 CaseItems
+//     (Begin, name "COMB") is directly a CaseStmt with 12 CaseItems
 //     (11 named states + default).
 //   - The "ST_Read" CaseItem (12.5.1/Annex 37.72): exprs = [RefObj
 //     "ST_Read"]; stmt is a Begin of 5 blocking Assignments ("Read=1;
@@ -109,10 +109,15 @@
 #include <hldb/design.h>
 #include <hldb/event_control.h>
 #include <hldb/if_else.h>
+#include <hldb/initial.h>
+#include <hldb/logic_typespec.h>
 #include <hldb/module.h>
+#include <hldb/module_typespec.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
+#include <hldb/ref_instance.h>
 #include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -126,14 +131,10 @@ class FSMBsp13Test : public Test {
  protected:
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
-  // The elaborated design only names module instances by their instance
-  // name ("F1"), not by their definition name ("FSM1"); look FSM1's
-  // elaborated instance up via top's child-module collection rather than
-  // assuming a separately-named "FSM1" entry exists in getAllModules().
+  // The design is not elaborated; FSM1 is a module definition in
+  // getAllModules(), looked up by its definition name.
   static const hldb::Module *getFSM1Def() {
-    const hldb::Module *const top = getTop();
-    if (top == nullptr) return nullptr;
-    return hldb::findByName<hldb::Module>("F1", top->getModules());
+    return hldb::findByDefName<hldb::Module>("FSM1", m_design->getAllModules());
   }
 
   static const hldb::Parameter *getFSM1Parameter(std::string_view name) {
@@ -151,7 +152,7 @@ class FSMBsp13Test : public Test {
       const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
       if (ec == nullptr) continue;
       const hldb::Begin *const body = ec->getStmt<hldb::Begin>();
-      if ((body != nullptr) && (body->getEndLabel() == label)) return body;
+      if ((body != nullptr) && (body->getName() == label)) return body;
     }
     return nullptr;
   }
@@ -165,7 +166,7 @@ class FSMBsp13Test : public Test {
       const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
       if (ec == nullptr) continue;
       const hldb::Begin *const body = ec->getStmt<hldb::Begin>();
-      if ((body != nullptr) && (body->getEndLabel() == label)) return ec;
+      if ((body != nullptr) && (body->getName() == label)) return ec;
     }
     return nullptr;
   }
@@ -184,8 +185,10 @@ TEST_F(FSMBsp13Test, TopModuleExists) { EXPECT_NE(getTop(), nullptr); }
 TEST_F(FSMBsp13Test, TopHasThreeModuleInstances) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getModules(), nullptr);
-  EXPECT_EQ(top->getModules()->size(), 3u);
+  // ASSERT_NE(top->getModules(), nullptr);
+  // EXPECT_EQ(top->getModules()->size(), 3u);
+  ASSERT_NE(top->getRefInstances(), nullptr);
+  EXPECT_EQ(top->getRefInstances()->size(), 3u);
 
   const std::pair<std::string_view, std::string_view> expected[3] = {
       {"F1", "FSM1"},
@@ -193,9 +196,15 @@ TEST_F(FSMBsp13Test, TopHasThreeModuleInstances) {
       {"F3", "FSM3"},
   };
   for (const std::pair<std::string_view, std::string_view> &entry : expected) {
-    const hldb::Module *const inst = hldb::findByName<hldb::Module>(entry.first, top->getModules());
+    // const hldb::Module *const inst = hldb::findByName<hldb::Module>(entry.first, top->getModules());
+    // ASSERT_NE(inst, nullptr) << entry.first;
+    // EXPECT_EQ(inst->getDefName(), entry.second) << entry.first;
+    const hldb::RefInstance *const inst = hldb::findByName<hldb::RefInstance>(entry.first, top->getRefInstances());
     ASSERT_NE(inst, nullptr) << entry.first;
-    EXPECT_EQ(inst->getDefName(), entry.second) << entry.first;
+    ASSERT_NE(inst->getTypespec(), nullptr) << entry.first;
+    const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+    ASSERT_NE(mt, nullptr) << entry.first;
+    EXPECT_EQ(mt->getName(), entry.second) << entry.first;
   }
 }
 
@@ -209,12 +218,15 @@ TEST_F(FSMBsp13Test, FSM1HasElevenRangedParameters) {
   ASSERT_NE(fsm1->getParamAssigns(), nullptr);
   EXPECT_EQ(fsm1->getParamAssigns()->size(), 11u);
 
-  for (std::string_view name :
-       {"ST_Read", "ST_Write", "ST_Delay", "ST_Trx", "ST_Hold", "ST_Block", "ST_Wait", "ST_Turn", "ST_Quit",
-        "ST_Exit", "ST_Done"}) {
+  for (std::string_view name : {"ST_Read", "ST_Write", "ST_Delay", "ST_Trx", "ST_Hold", "ST_Block", "ST_Wait",
+                                "ST_Turn", "ST_Quit", "ST_Exit", "ST_Done"}) {
     const hldb::Parameter *const param = getFSM1Parameter(name);
     ASSERT_NE(param, nullptr) << name;
-    EXPECT_NE(param->getRanges(), nullptr) << name << ": 'parameter [3:0]' declares an explicit range";
+    // EXPECT_NE(param->getRanges(), nullptr) << name << ": 'parameter [3:0]' declares an explicit range";
+    ASSERT_NE(param->getTypespec(), nullptr) << name;
+    const hldb::LogicTypespec *const ts = param->getTypespec()->getActual<hldb::LogicTypespec>();
+    ASSERT_NE(ts, nullptr) << name << ": 'parameter [3:0]' is an implicit logic vector";
+    EXPECT_NE(ts->getRanges(), nullptr) << name << ": 'parameter [3:0]' declares an explicit range";
   }
 }
 
@@ -231,8 +243,12 @@ TEST_F(FSMBsp13Test, FSM1StReadIsZeroStDoneIsTen) {
   const hldb::Constant *readValue = nullptr;
   const hldb::Constant *doneValue = nullptr;
   for (const hldb::ParamAssign *const pa : *fsm1->getParamAssigns()) {
-    if (pa->getLhs<hldb::Parameter>() == stRead) readValue = pa->getRhs<hldb::Constant>();
-    if (pa->getLhs<hldb::Parameter>() == stDone) doneValue = pa->getRhs<hldb::Constant>();
+    // if (pa->getLhs<hldb::Parameter>() == stRead) readValue = pa->getRhs<hldb::Constant>();
+    // if (pa->getLhs<hldb::Parameter>() == stDone) doneValue = pa->getRhs<hldb::Constant>();
+    const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
+    if (lhs == nullptr) continue;
+    if (lhs->getActual() == stRead) readValue = pa->getRhs<hldb::Constant>();
+    if (lhs->getActual() == stDone) doneValue = pa->getRhs<hldb::Constant>();
   }
   ASSERT_NE(readValue, nullptr);
   EXPECT_EQ(readValue->getDecompile(), std::string_view{"0"});
@@ -246,12 +262,22 @@ TEST_F(FSMBsp13Test, FSM1HasExactlyTwoAlwaysProcesses) {
   const hldb::Module *const fsm1 = getFSM1Def();
   ASSERT_NE(fsm1, nullptr);
   ASSERT_NE(fsm1->getProcesses(), nullptr);
-  EXPECT_EQ(fsm1->getProcesses()->size(), 2u);
+  // EXPECT_EQ(fsm1->getProcesses()->size(), 2u);
+  EXPECT_EQ(fsm1->getProcesses()->size(), 3u) << "SEQ always, initial, COMB always";
+  uint32_t alwaysCount = 0;
+  uint32_t initialCount = 0;
   for (const hldb::Process *const process : *fsm1->getProcesses()) {
+    if (any_cast<hldb::Initial>(process) != nullptr) {
+      ++initialCount;
+      continue;
+    }
     const hldb::Always *const always = any_cast<hldb::Always>(process);
     ASSERT_NE(always, nullptr);
     EXPECT_EQ(always->getAlwaysType(), vpiAlways);
+    ++alwaysCount;
   }
+  EXPECT_EQ(alwaysCount, 2u);
+  EXPECT_EQ(initialCount, 1u);
 }
 
 TEST_F(FSMBsp13Test, SeqIsPosedgeClkWithBareIfElse) {
@@ -272,16 +298,18 @@ TEST_F(FSMBsp13Test, SeqIsPosedgeClkWithBareIfElse) {
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 1u);
   const hldb::IfElse *const ifElse = any_cast<hldb::IfElse>(body->getStmts()->at(0));
-  ASSERT_NE(ifElse, nullptr) << "'if (Reset) CurState <= ST_Read; else CurState <= NextState;'";
+  ASSERT_NE(ifElse, nullptr) << "'if (Reset) CurState = ST_Read; else CurState = NextState;'";
 
   const hldb::Assignment *const thenAssign = ifElse->getStmt<hldb::Assignment>();
   ASSERT_NE(thenAssign, nullptr) << "then-branch (single stmt) must not be wrapped in a Begin";
-  EXPECT_FALSE(thenAssign->getBlocking());
-  EXPECT_EQ(thenAssign->getDelayControl(), nullptr) << "'CurState <= ST_Read;' has no intra-assignment delay";
+  // EXPECT_FALSE(thenAssign->getBlocking());
+  EXPECT_TRUE(thenAssign->getBlocking()) << "'CurState = ST_Read;' is a blocking assignment";
+  EXPECT_EQ(thenAssign->getDelayControl(), nullptr) << "'CurState = ST_Read;' has no intra-assignment delay";
 
   const hldb::Assignment *const elseAssign = ifElse->getElseStmt<hldb::Assignment>();
   ASSERT_NE(elseAssign, nullptr) << "else-branch (single stmt) must not be wrapped in a Begin";
-  EXPECT_FALSE(elseAssign->getBlocking());
+  // EXPECT_FALSE(elseAssign->getBlocking());
+  EXPECT_TRUE(elseAssign->getBlocking()) << "'CurState = NextState;' is a blocking assignment";
   const hldb::RefObj *const elseRhs = elseAssign->getRhs<hldb::RefObj>();
   ASSERT_NE(elseRhs, nullptr);
   EXPECT_EQ(elseRhs->getName(), std::string_view{"NextState"});

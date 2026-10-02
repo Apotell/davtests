@@ -45,6 +45,8 @@
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/gen_for.h>
+#include <hldb/gen_region.h>
 #include <hldb/gen_scope.h>
 #include <hldb/gen_scope_array.h>
 #include <hldb/if_else.h>
@@ -113,8 +115,7 @@ void CollectPartSelects(const hldb::Any *node, std::vector<const hldb::PartSelec
       }
       return;
     }
-    default:
-      return;
+    default: return;
   }
 }
 
@@ -130,31 +131,49 @@ class HierBitSliceTest : public Test {
     return hldb::findByName<hldb::Module>("int_execute_stage", m_design->getAllModules());
   }
 
-  // Returns the "lane_alu_gen" generate-for scope's lane-0 instance (the
-  // GenScope whose contents lexically hold "fp_operand"), or nullptr if it
-  // cannot be located.
-  static const hldb::GenScope *getLaneZeroScope() {
+  // Returns the "lane_alu_gen" generate-for body, or nullptr if it cannot be
+  // located. This design is not elaborated (no -d inst), so there are no
+  // per-lane GenScopes: the loop generate construct is a GenFor (inside the
+  // "generate ... endgenerate" GenRegion) whose body is the Begin named
+  // "lane_alu_gen" (Sec 27.4), and the always_comb blocks are among that
+  // Begin's statements.
+  static const hldb::Begin *getLaneAluGenBody() {
     const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getGenScopeArrays() == nullptr || top->getGenScopeArrays()->empty()) {
-      return nullptr;
+    if (top == nullptr || top->getGenStmts() == nullptr) return nullptr;
+    for (const hldb::Any *const gs : *top->getGenStmts()) {
+      const hldb::GenRegion *const region = any_cast<hldb::GenRegion>(gs);
+      if (region == nullptr || region->getStmt() == nullptr) continue;
+      const hldb::GenFor *const gf = any_cast<hldb::GenFor>(region->getStmt());
+      if (gf == nullptr || gf->getStmt() == nullptr) continue;
+      const hldb::Begin *const body = any_cast<hldb::Begin>(gf->getStmt());
+      if ((body != nullptr) && (body->getName() == std::string_view{"lane_alu_gen"})) return body;
     }
-    const hldb::GenScopeArray *const gsa = top->getGenScopeArrays()->at(0);
-    if (gsa == nullptr || gsa->getGenScopes() == nullptr || gsa->getGenScopes()->empty()) {
-      return nullptr;
-    }
-    return gsa->getGenScopes()->at(0);
+    return nullptr;
   }
 
+  // Elaborated-model lookup, kept for when the design is elaborated:
+  // static const hldb::GenScope *getLaneZeroScope() {
+  //   const hldb::Module *const top = getTop();
+  //   if (top == nullptr || top->getGenScopeArrays() == nullptr || top->getGenScopeArrays()->empty()) {
+  //     return nullptr;
+  //   }
+  //   const hldb::GenScopeArray *const gsa = top->getGenScopeArrays()->at(0);
+  //   if (gsa == nullptr || gsa->getGenScopes() == nullptr || gsa->getGenScopes()->empty()) {
+  //     return nullptr;
+  //   }
+  //   return gsa->getGenScopes()->at(0);
+  // }
+
   // Finds the PartSelect "fp_operand.significand[22:17]" by walking every
-  // process inside the lane-0 generate scope.
+  // always process inside the lane_alu_gen generate-for body.
   static const hldb::PartSelect *findSignificandPartSelect() {
-    const hldb::GenScope *const scope = getLaneZeroScope();
-    if (scope == nullptr || scope->getProcess() == nullptr) {
+    const hldb::Begin *const body = getLaneAluGenBody();
+    if (body == nullptr || body->getStmts() == nullptr) {
       return nullptr;
     }
     std::vector<const hldb::PartSelect *> found;
-    for (const hldb::Process *const proc : *scope->getProcess()) {
-      const hldb::Always *const alw = any_cast<hldb::Always>(proc);
+    for (const hldb::Any *const stmt : *body->getStmts()) {
+      const hldb::Always *const alw = any_cast<hldb::Always>(stmt);
       if (alw == nullptr) {
         continue;
       }
@@ -179,7 +198,7 @@ class HierBitSliceTest : public Test {
 
 TEST_F(HierBitSliceTest, ModuleIntExecuteStageExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(HierBitSliceTest, LaneAluGenGenerateForScopeExists) { EXPECT_NE(getLaneZeroScope(), nullptr); }
+TEST_F(HierBitSliceTest, LaneAluGenGenerateForScopeExists) { EXPECT_NE(getLaneAluGenBody(), nullptr); }
 
 // --- fp_operand.significand[22:17] is a PartSelect over a member access ---
 
@@ -187,10 +206,10 @@ TEST_F(HierBitSliceTest, SignificandPartSelectHasBoundsTwentyTwoSeventeen) {
   const hldb::PartSelect *const ps = findSignificandPartSelect();
   if (ps == nullptr) {
     GTEST_SKIP() << "Could not locate a PartSelect with bounds [22:17] under the lane-0 always_comb "
-                     "process for 'fp_operand.significand[22:17]'; per IEEE 1800-2023 ss.11.5.1 a "
-                     "part-select applied to a hierarchical/member-select base expression such as "
-                     "'fp_operand.significand' must be modeled as a PartSelect whose vpiRange bounds "
-                     "are the constants 22 and 17. Fix pending.";
+                    "process for 'fp_operand.significand[22:17]'; per IEEE 1800-2023 ss.11.5.1 a "
+                    "part-select applied to a hierarchical/member-select base expression such as "
+                    "'fp_operand.significand' must be modeled as a PartSelect whose vpiRange bounds "
+                    "are the constants 22 and 17. Fix pending.";
   }
   ASSERT_NE(ps, nullptr);
   ASSERT_NE(ps->getRange(), nullptr);
@@ -204,15 +223,15 @@ TEST_F(HierBitSliceTest, SignificandPartSelectPrefixReferencesSignificandMember)
   const hldb::PartSelect *const ps = findSignificandPartSelect();
   if (ps == nullptr) {
     GTEST_SKIP() << "Could not locate the 'fp_operand.significand[22:17]' PartSelect; see the bounds "
-                     "test above for the standard citation.";
+                    "test above for the standard citation.";
   }
   ASSERT_NE(ps, nullptr);
   ASSERT_NE(ps->getPrefix(), nullptr);
   const hldb::RefObj *const prefixRef = ps->getPrefix<hldb::RefObj>();
   if (prefixRef == nullptr) {
     GTEST_SKIP() << "The PartSelect's prefix is not modeled as a RefObj resolving to the struct member "
-                     "'significand' of 'fp_operand'; per IEEE 1800-2023 ss.11.5.1 and ss.7.2.1 the base "
-                     "of a part-select on a struct member must reference that member. Fix pending.";
+                    "'significand' of 'fp_operand'; per IEEE 1800-2023 ss.11.5.1 and ss.7.2.1 the base "
+                    "of a part-select on a struct member must reference that member. Fix pending.";
   }
   EXPECT_EQ(prefixRef->getName(), std::string_view{"significand"});
 }

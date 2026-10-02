@@ -60,6 +60,8 @@
 #include <hldb/struct.h>
 #include <hldb/struct_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/typedef.h>
+#include <hldb/typedef_typespec.h>
 #include <hldb/typespec_member.h>
 #include <hldb/variable.h>
 
@@ -72,6 +74,20 @@ class HierPathUnpackedTest : public Test {
 
  protected:
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+
+  // Follows RefTypespec -> actual, through any TypedefTypespec -> Typedef -> alias chain,
+  // to the underlying (non-typedef) typespec.
+  static const hldb::Typespec *resolveTypespec(const hldb::RefTypespec *rt) {
+    while (rt != nullptr) {
+      const hldb::Typespec *const actual = rt->getActual();
+      const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(actual);
+      if (tdt == nullptr) return actual;
+      const hldb::Typedef *const td = tdt->getTypedef();
+      if (td == nullptr) return nullptr;
+      rt = td->getAlias();
+    }
+    return nullptr;
+  }
 
   static const hldb::ParamAssign *getParamAssign(std::string_view name) {
     const hldb::Module *const top = getTop();
@@ -94,7 +110,7 @@ TEST_F(HierPathUnpackedTest, VariableAExistsWithFooTStruct) {
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
   ASSERT_NE(a->getTypespec(), nullptr);
-  const hldb::StructTypespec *const st = a->getTypespec<hldb::StructTypespec>();
+  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(resolveTypespec(a->getTypespec()));
   ASSERT_NE(st, nullptr);
   const hldb::Struct *const s = st->getStruct();
   ASSERT_NE(s, nullptr);
@@ -106,7 +122,7 @@ TEST_F(HierPathUnpackedTest, PairMemberIsUnpackedArrayOfTwo32BitLogic) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
-  const hldb::StructTypespec *const st = a->getTypespec<hldb::StructTypespec>();
+  const hldb::StructTypespec *const st = any_cast<hldb::StructTypespec>(resolveTypespec(a->getTypespec()));
   ASSERT_NE(st, nullptr);
   const hldb::Struct *const s = st->getStruct();
   ASSERT_NE(s, nullptr);
@@ -117,7 +133,7 @@ TEST_F(HierPathUnpackedTest, PairMemberIsUnpackedArrayOfTwo32BitLogic) {
   ASSERT_NE(pair, nullptr);
   EXPECT_EQ(pair->getName(), std::string_view("pair"));
   ASSERT_NE(pair->getTypespec(), nullptr);
-  const hldb::ArrayTypespec *const at = pair->getTypespec<hldb::ArrayTypespec>();
+  const hldb::ArrayTypespec *const at = pair->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr) << "'pair' should resolve to an ArrayTypespec";
   EXPECT_FALSE(at->getPacked()) << "dimension placed after the member name is an unpacked dimension";
 

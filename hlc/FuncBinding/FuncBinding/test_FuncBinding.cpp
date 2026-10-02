@@ -92,7 +92,9 @@ class FuncBindingTest : public Test {
   }
 
   // Finds the Always block whose EventControl-guarded Begin carries the
-  // given end label.
+  // given block name ('begin : NAME'). The label after 'begin :' is the
+  // block's name (getName()); getEndLabel() is only the optional repeat
+  // after 'end :', which this source does not use.
   static const hldb::Begin *findAlwaysBeginByLabel(const hldb::Module *m, std::string_view label) {
     if (m == nullptr || m->getProcesses() == nullptr) return nullptr;
     for (const hldb::Process *const p : *m->getProcesses()) {
@@ -101,7 +103,7 @@ class FuncBindingTest : public Test {
       const hldb::EventControl *const ec = alw->getStmt<hldb::EventControl>();
       if (ec == nullptr) continue;
       const hldb::Begin *const blk = ec->getStmt<hldb::Begin>();
-      if (blk != nullptr && blk->getEndLabel() == label) return blk;
+      if (blk != nullptr && blk->getName() == label) return blk;
     }
     return nullptr;
   }
@@ -192,7 +194,7 @@ TEST_F(FuncBindingTest, FunBlockCallsFsmFunctionBoundToItsDeclaration) {
   ASSERT_EQ(funBlk->getStmts()->size(), 1u);
   const hldb::AssignStmt *const asg = any_cast<hldb::AssignStmt>(funBlk->getStmts()->at(0));
   ASSERT_NE(asg, nullptr) << "'assign next_state = ...;' inside a procedural block is a procedural "
-                              "continuous assignment (AssignStmt, Sec 10.6.2)";
+                             "continuous assignment (AssignStmt, Sec 10.6.2)";
 
   const hldb::RefObj *const lhs = asg->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);

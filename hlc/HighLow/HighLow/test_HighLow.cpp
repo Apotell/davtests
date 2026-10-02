@@ -73,6 +73,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/gen_if.h>
+#include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/param_assign.h>
@@ -80,6 +81,7 @@
 #include <hldb/range.h>
 #include <hldb/ref_instance.h>
 #include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 #include <hldb/sys_func_call.h>
 #include <hldb/vpi_user.h>
 
@@ -133,8 +135,7 @@ class HighLowTest : public Test {
 
 TEST_F(HighLowTest, ModulesExist) {
   EXPECT_NE(getTop(), nullptr) << "module 'top' not found";
-  EXPECT_NE(hldb::findByDefName<hldb::Module>("GOOD", m_design->getAllModules()), nullptr)
-      << "module 'GOOD' not found";
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("GOOD", m_design->getAllModules()), nullptr) << "module 'GOOD' not found";
 }
 
 // ---------------------------------------------------------------------------
@@ -146,10 +147,20 @@ TEST_F(HighLowTest, ParamAHasPackedRangeTwoToOne) {
   ASSERT_NE(top, nullptr);
   const hldb::Parameter *const a = findParam(top, "a");
   ASSERT_NE(a, nullptr) << "'parameter [2:1] a' not found";
-  ASSERT_NE(a->getRanges(), nullptr) << "'[2:1]' must produce a packed range";
-  ASSERT_EQ(a->getRanges()->size(), 1u);
+  // The packed dimension [2:1] is part of the parameter's data type (implicit logic, Sec 6.20.2 /
+  // 7.4.1), so it is a range of the LogicTypespec its RefTypespec resolves to, not of the Parameter
+  // object itself (Parameter::getRanges() would carry unpacked dimensions).
+  // ASSERT_NE(a->getRanges(), nullptr) << "'[2:1]' must produce a packed range";
+  // ASSERT_EQ(a->getRanges()->size(), 1u);
+  // const hldb::Range *const range = a->getRanges()->at(0);
+  ASSERT_NE(a->getTypespec(), nullptr);
+  ASSERT_NE(a->getTypespec()->getActual(), nullptr);
+  const hldb::LogicTypespec *const lt = a->getTypespec()->getActual<hldb::LogicTypespec>();
+  ASSERT_NE(lt, nullptr) << "'parameter [2:1] a' should have an implicit logic type";
+  ASSERT_NE(lt->getRanges(), nullptr) << "'[2:1]' must produce a packed range";
+  ASSERT_EQ(lt->getRanges()->size(), 1u);
 
-  const hldb::Range *const range = a->getRanges()->at(0);
+  const hldb::Range *const range = lt->getRanges()->at(0);
   ASSERT_NE(range, nullptr);
   const hldb::Constant *const leftExpr = range->getLeftExpr<hldb::Constant>();
   const hldb::Constant *const rightExpr = range->getRightExpr<hldb::Constant>();
@@ -244,8 +255,8 @@ TEST_F(HighLowTest, TopHasExactlyFourGenIfStatements) {
 // (Sec 11.4.5: vpiEqOp) and its body is 'begin GOODk(); end' instantiating
 // module 'GOOD' as 'instName'.
 static void expectGuardedGoodInstance(const std::vector<const hldb::GenIf *> &genIfs, size_t index,
-                                       std::string_view paramName, std::string_view expectedRhs,
-                                       std::string_view instName) {
+                                      std::string_view paramName, std::string_view expectedRhs,
+                                      std::string_view instName) {
   ASSERT_LT(index, genIfs.size());
   const hldb::GenIf *const gi = genIfs[index];
   ASSERT_NE(gi, nullptr);

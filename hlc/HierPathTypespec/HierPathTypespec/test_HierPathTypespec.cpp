@@ -64,12 +64,26 @@ class HierPathTypespecTest : public Test {
  protected:
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
+  // Follows RefTypespec -> actual, through any TypedefTypespec -> Typedef -> alias chain,
+  // to the underlying (non-typedef) typespec.
+  static const hldb::Typespec *resolveTypespec(const hldb::RefTypespec *rt) {
+    while (rt != nullptr) {
+      const hldb::Typespec *const actual = rt->getActual();
+      const hldb::TypedefTypespec *const tdt = any_cast<hldb::TypedefTypespec>(actual);
+      if (tdt == nullptr) return actual;
+      const hldb::Typedef *const td = tdt->getTypedef();
+      if (td == nullptr) return nullptr;
+      rt = td->getAlias();
+    }
+    return nullptr;
+  }
+
   static const hldb::ArrayTypespec *getVariableCArrayTypespec() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getVariables() == nullptr) return nullptr;
     const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
     if (c == nullptr || c->getTypespec() == nullptr) return nullptr;
-    return c->getTypespec<hldb::ArrayTypespec>();
+    return any_cast<hldb::ArrayTypespec>(resolveTypespec(c->getTypespec()));
   }
 
   static const hldb::ContAssign *getContAssign(size_t n) {
@@ -92,7 +106,8 @@ TEST_F(HierPathTypespecTest, ArrayElemTypespecResolvesToStructAWithMemberX) {
   const hldb::ArrayTypespec *const at = getVariableCArrayTypespec();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
-  const hldb::StructTypespec *const elemSt = at->getElemTypespec()->getActual<hldb::StructTypespec>();
+  const hldb::StructTypespec *const elemSt =
+      any_cast<hldb::StructTypespec>(resolveTypespec(at->getElemTypespec()));
   ASSERT_NE(elemSt, nullptr) << "array element should resolve to struct 'a'";
   const hldb::Struct *const s = elemSt->getStruct();
   ASSERT_NE(s, nullptr);

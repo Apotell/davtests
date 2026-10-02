@@ -60,6 +60,7 @@
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_obj.h>
+#include <hldb/typespec_member.h>
 #include <hldb/variable.h>
 
 #include <gtest/gtest.h>
@@ -75,9 +76,7 @@ class HierPathSelectTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getDut2() {
-    return hldb::findByDefName<hldb::Module>("dut2", m_design->getAllModules());
-  }
+  static const hldb::Module *getDut2() { return hldb::findByDefName<hldb::Module>("dut2", m_design->getAllModules()); }
 };
 
 TEST_F(HierPathSelectTest, ModuleExists) { EXPECT_NE(getDut2(), nullptr); }
@@ -109,22 +108,64 @@ TEST_F(HierPathSelectTest, LhsIsHierPathThenBitSelect) {
   ASSERT_NE(ca, nullptr);
 
   ASSERT_NE(ca->getLhs(), nullptr);
-  const hldb::BitSelect *const bsel = ca->getLhs<hldb::BitSelect>();
-  ASSERT_NE(bsel, nullptr) << "'read_buf.q[1]' LHS should be a BitSelect";
-
+  // 'read_buf.q[1]' is a hierarchical path whose last element is the bit-select (HLDB's
+  // hierarchical-path convention; IEEE 1800 VPI defines no hierarchical-path object):
+  // path elements RefObj "read_buf" (the variable) and BitSelect "q[1]" (prefix RefObj "q" ->
+  // the struct member, index 1).
+  const hldb::RefObj *const path = ca->getLhs<hldb::RefObj>();
+  ASSERT_NE(path, nullptr) << "'read_buf.q[1]' LHS should be a hierarchical path RefObj";
+  EXPECT_EQ(path->getName(), std::string_view{"read_buf.q[1]"});
+  ASSERT_NE(path->getPathElems(), nullptr);
+  ASSERT_EQ(path->getPathElems()->size(), 2u);
+  const hldb::RefObj *const head = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
+  ASSERT_NE(head, nullptr);
+  EXPECT_EQ(head->getName(), std::string_view{"read_buf"});
+  EXPECT_NE(head->getActual(), nullptr) << "'read_buf' should resolve to the variable";
+  const hldb::BitSelect *const bsel = any_cast<hldb::BitSelect>(path->getPathElems()->at(1));
+  ASSERT_NE(bsel, nullptr) << "'q[1]' should be a BitSelect (q is a packed vector)";
   ASSERT_NE(bsel->getPrefix(), nullptr);
-  const hldb::RefObj *const prefix = bsel->getPrefix<hldb::RefObj>();
-  ASSERT_NE(prefix, nullptr) << "BitSelect prefix should be the hierarchical path RefObj 'read_buf.q'";
-  EXPECT_EQ(prefix->getName(), std::string_view{"read_buf.q"});
-  ASSERT_NE(prefix->getPathElems(), nullptr);
-  ASSERT_EQ(prefix->getPathElems()->size(), 2u);
-  EXPECT_EQ(prefix->getPathElems()->at(0)->getName(), std::string_view{"read_buf"});
-  EXPECT_EQ(prefix->getPathElems()->at(1)->getName(), std::string_view{"q"});
-
+  const hldb::RefObj *const member = bsel->getPrefix<hldb::RefObj>();
+  ASSERT_NE(member, nullptr);
+  EXPECT_EQ(member->getName(), std::string_view{"q"});
+  ASSERT_NE(member->getActual(), nullptr);
+  EXPECT_NE(member->getActual<hldb::TypespecMember>(), nullptr) << "'q' should resolve to the struct member";
   ASSERT_NE(bsel->getIndex(), nullptr);
   const hldb::Constant *const idx = bsel->getIndex<hldb::Constant>();
   ASSERT_NE(idx, nullptr);
-  EXPECT_EQ(std::string(idx->getValue()), "1");
+  EXPECT_EQ(idx->getDecompile(), std::string_view{"1"});
+
+  // Previous BitSelect-of-path version:
+  // const hldb::BitSelect *const bsel = ca->getLhs<hldb::BitSelect>();
+
+  // ASSERT_NE(bsel, nullptr) << "'read_buf.q[1]' LHS should be a BitSelect";
+
+  //
+
+  // ASSERT_NE(bsel->getPrefix(), nullptr);
+
+  // const hldb::RefObj *const prefix = bsel->getPrefix<hldb::RefObj>();
+
+  // ASSERT_NE(prefix, nullptr) << "BitSelect prefix should be the hierarchical path RefObj 'read_buf.q'";
+
+  // EXPECT_EQ(prefix->getName(), std::string_view{"read_buf.q"});
+
+  // ASSERT_NE(prefix->getPathElems(), nullptr);
+
+  // ASSERT_EQ(prefix->getPathElems()->size(), 2u);
+
+  // EXPECT_EQ(prefix->getPathElems()->at(0)->getName(), std::string_view{"read_buf"});
+
+  // EXPECT_EQ(prefix->getPathElems()->at(1)->getName(), std::string_view{"q"});
+
+  //
+
+  // ASSERT_NE(bsel->getIndex(), nullptr);
+
+  // const hldb::Constant *const idx = bsel->getIndex<hldb::Constant>();
+
+  // ASSERT_NE(idx, nullptr);
+
+  // EXPECT_EQ(std::string(idx->getValue()), "1");
 
   ASSERT_NE(ca->getRhs(), nullptr);
   const hldb::Constant *const rhs = ca->getRhs<hldb::Constant>();

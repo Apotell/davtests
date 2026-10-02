@@ -33,7 +33,8 @@
 //   endmodule
 //
 // Like HierPathPackedArrayNet, "req_i[i].req" bit-selects an element of the
-// unpacked-array port "req_i" (of parameterized packed-struct type req_t)
+// packed-array port "req_i" (packed dimension [NR_PORTS-1:0] of the
+// parameterized packed-struct type req_t)
 // before descending via a hierarchical path into its ".req" field -- the
 // select is applied before the hierarchical path, distinguishing this shape
 // from HierPathPackedStruct/HierPathSelect (select applied after the path).
@@ -46,15 +47,18 @@
 // asserts the parse-time hierarchical-path/select shape, which the grammar
 // guarantees regardless of whether "i" itself resolves.
 //
-// "req_i" carries no net-type keyword, so per Sec 6.7/6.8 it must be
-// modeled as a Variable, not a Net.
+// "req_i" is an ANSI "input" port declared with a data type but no port
+// kind, so per IEEE 1800-2023 Sec 23.2.2.3 it defaults to a net of the
+// default net type (wire), not a Variable (only an "output" port with an
+// explicit data type defaults to a variable).
 //
 // Checked:
-//   - module "axi_adapter_arbiter" exists, "req_i" is a Variable (not Net)
+//   - module "axi_adapter_arbiter" exists, "req_i" is a wire Net (not a
+//     Variable)
 //   - always_comb -> begin -> if is present
 //   - if-condition operand 0 is a hierarchical RefObj with 2 path
-//     elements: a BitSelect named "req_i" (index RefObj "i"), then RefObj
-//     "req"
+//     elements: a BitSelect "req_i[i]" (prefix RefObj "req_i" bound to the
+//     Net, index RefObj "i"), then RefObj "req"
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -108,15 +112,22 @@ class HierPathPackedVarTest : public Test {
 
 TEST_F(HierPathPackedVarTest, ModuleExists) { EXPECT_NE(getArbiter(), nullptr); }
 
-TEST_F(HierPathPackedVarTest, ReqIIsVariableNotNet) {
-  // Per IEEE 1800-2023 Sec 6.7/6.8: no net-type keyword means "req_i" must
-  // be modeled as a Variable, never a Net.
+TEST_F(HierPathPackedVarTest, ReqIIsNetNotVariable) {
+  // Per IEEE 1800-2023 Sec 23.2.2.3: an ANSI "input" port with a data type
+  // but no port kind defaults to a net of the default net type (wire); the
+  // Sec 6.7/6.8 "no net-type keyword means variable" rule does not apply to
+  // input ports.
   const hldb::Module *const mod = getArbiter();
   ASSERT_NE(mod, nullptr);
-  const hldb::Variable *const asVar = hldb::findByName<hldb::Variable>("req_i", mod->getVariables());
-  EXPECT_NE(asVar, nullptr) << "'req_i' has no net-type keyword and must be modeled as a Variable";
+  // const hldb::Variable *const asVar = hldb::findByName<hldb::Variable>("req_i", mod->getVariables());
+  // EXPECT_NE(asVar, nullptr) << "'req_i' has no net-type keyword and must be modeled as a Variable";
+  // const hldb::Net *const asNet = hldb::findByName<hldb::Net>("req_i", mod->getNets());
+  // EXPECT_EQ(asNet, nullptr) << "'req_i' must not be modeled as a Net (no net-type keyword given)";
   const hldb::Net *const asNet = hldb::findByName<hldb::Net>("req_i", mod->getNets());
-  EXPECT_EQ(asNet, nullptr) << "'req_i' must not be modeled as a Net (no net-type keyword given)";
+  ASSERT_NE(asNet, nullptr) << "'req_i' is an input port and must be modeled as a Net";
+  EXPECT_EQ(asNet->getNetType(), vpiWire);
+  EXPECT_EQ(hldb::findByName<hldb::Variable>("req_i", mod->getVariables()), nullptr)
+      << "'req_i' is an input port -- it must not also appear in vpiVariables";
 }
 
 TEST_F(HierPathPackedVarTest, IfConditionExists) { EXPECT_NE(findIfCondition(getArbiter()), nullptr); }
@@ -138,9 +149,22 @@ TEST_F(HierPathPackedVarTest, ConditionLhsIsArraySelectThenHierPathToReq) {
 
   const hldb::Any *const first = hierPath->getPathElems()->at(0);
   ASSERT_NE(first, nullptr);
-  EXPECT_EQ(first->getName(), std::string_view{"req_i"});
+  // A select's own name is its full text including the index; the selected
+  // object's name is carried by its prefix.
+  // EXPECT_EQ(first->getName(), std::string_view{"req_i"});
+  EXPECT_EQ(first->getName(), std::string_view{"req_i[i]"});
   const hldb::BitSelect *const arraySel = any_cast<hldb::BitSelect>(first);
   ASSERT_NE(arraySel, nullptr) << "first path element 'req_i[i]' should be a BitSelect";
+  ASSERT_NE(arraySel->getPrefix(), nullptr);
+  const hldb::RefObj *const base = arraySel->getPrefix<hldb::RefObj>();
+  ASSERT_NE(base, nullptr) << "BitSelect prefix should be a RefObj";
+  EXPECT_EQ(base->getName(), std::string_view{"req_i"});
+  ASSERT_NE(base->getActual(), nullptr);
+  EXPECT_EQ(base->getActual()->getAnyType(), hldb::AnyType::Net);
+  ASSERT_NE(arraySel->getIndex(), nullptr);
+  const hldb::RefObj *const idx = arraySel->getIndex<hldb::RefObj>();
+  ASSERT_NE(idx, nullptr) << "index 'i' should be a RefObj";
+  EXPECT_EQ(idx->getName(), std::string_view{"i"});
 
   const hldb::Any *const second = hierPath->getPathElems()->at(1);
   ASSERT_NE(second, nullptr);

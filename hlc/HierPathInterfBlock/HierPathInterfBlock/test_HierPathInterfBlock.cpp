@@ -69,10 +69,15 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/begin.h>
 #include <hldb/design.h>
+#include <hldb/gen_if.h>
 #include <hldb/gen_scope_array.h>
 #include <hldb/interface.h>
+#include <hldb/interface_typespec.h>
 #include <hldb/module.h>
+#include <hldb/ref_instance.h>
+#include <hldb/ref_typespec.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -87,6 +92,20 @@ class HierPathInterfBlockTest : public Test {
   static const hldb::Interface *getIntf() {
     return hldb::findByName<hldb::Interface>("intf", m_design->getAllInterfaces());
   }
+
+  // This design is not elaborated (no -d inst): "if (1) begin : blk ... end" is a GenIf in the
+  // scope's getGenStmts() whose body is the Begin named "blk" (Sec 27.5). GenScopeArrays only
+  // exist after elaboration.
+  static const hldb::Begin *findGenIfBlock(const hldb::AnyCollection *genStmts, std::string_view name) {
+    if (genStmts == nullptr) return nullptr;
+    for (const hldb::Any *const gs : *genStmts) {
+      const hldb::GenIf *const gi = any_cast<hldb::GenIf>(gs);
+      if (gi == nullptr || gi->getStmt() == nullptr) continue;
+      const hldb::Begin *const body = any_cast<hldb::Begin>(gi->getStmt());
+      if ((body != nullptr) && (body->getName() == name)) return body;
+    }
+    return nullptr;
+  }
 };
 
 TEST_F(HierPathInterfBlockTest, ModuleAndInterfaceExist) {
@@ -97,28 +116,42 @@ TEST_F(HierPathInterfBlockTest, ModuleAndInterfaceExist) {
 TEST_F(HierPathInterfBlockTest, ModuleHasNamedGenerateBlockBlk) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getGenScopeArrays(), nullptr);
-  const hldb::GenScopeArray *const blk = hldb::findByName<hldb::GenScopeArray>("blk", top->getGenScopeArrays());
-  ASSERT_NE(blk, nullptr) << "generate block 'blk' not found under module 'top'";
-  ASSERT_NE(blk->getGenScopes(), nullptr);
-  EXPECT_EQ(blk->getGenScopes()->size(), 1u) << "'if (1) begin : blk ... end' is unconditional, single instance";
+  // ASSERT_NE(top->getGenScopeArrays(), nullptr);
+  // const hldb::GenScopeArray *const blk = hldb::findByName<hldb::GenScopeArray>("blk", top->getGenScopeArrays());
+  // ASSERT_NE(blk, nullptr) << "generate block 'blk' not found under module 'top'";
+  // ASSERT_NE(blk->getGenScopes(), nullptr);
+  // EXPECT_EQ(blk->getGenScopes()->size(), 1u) << "'if (1) begin : blk ... end' is unconditional, single instance";
+  ASSERT_NE(top->getGenStmts(), nullptr);
+  EXPECT_NE(findGenIfBlock(top->getGenStmts(), "blk"), nullptr) << "generate block 'blk' not found under module 'top'";
 }
 
 TEST_F(HierPathInterfBlockTest, InterfaceHasNamedGenerateBlockBlk) {
   const hldb::Interface *const intf = getIntf();
   ASSERT_NE(intf, nullptr);
-  ASSERT_NE(intf->getGenScopeArrays(), nullptr);
-  const hldb::GenScopeArray *const blk = hldb::findByName<hldb::GenScopeArray>("blk", intf->getGenScopeArrays());
-  ASSERT_NE(blk, nullptr) << "generate block 'blk' not found under interface 'intf'";
-  ASSERT_NE(blk->getGenScopes(), nullptr);
-  EXPECT_EQ(blk->getGenScopes()->size(), 1u);
+  // ASSERT_NE(intf->getGenScopeArrays(), nullptr);
+  // const hldb::GenScopeArray *const blk = hldb::findByName<hldb::GenScopeArray>("blk", intf->getGenScopeArrays());
+  // ASSERT_NE(blk, nullptr) << "generate block 'blk' not found under interface 'intf'";
+  // ASSERT_NE(blk->getGenScopes(), nullptr);
+  // EXPECT_EQ(blk->getGenScopes()->size(), 1u);
+  ASSERT_NE(intf->getGenStmts(), nullptr);
+  EXPECT_NE(findGenIfBlock(intf->getGenStmts(), "blk"), nullptr)
+      << "generate block 'blk' not found under interface 'intf'";
 }
 
 TEST_F(HierPathInterfBlockTest, ModuleHasInterfaceInstance) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getInterfaces(), nullptr);
-  EXPECT_NE(hldb::findByName<hldb::Interface>("i", top->getInterfaces()), nullptr);
+  // ASSERT_NE(top->getInterfaces(), nullptr);
+  // EXPECT_NE(hldb::findByName<hldb::Interface>("i", top->getInterfaces()), nullptr);
+  // Unelaborated: 'intf i();' is a RefInstance whose typespec resolves to the InterfaceTypespec 'intf'.
+  ASSERT_NE(top->getRefInstances(), nullptr);
+  const hldb::RefInstance *const i = hldb::findByName<hldb::RefInstance>("i", top->getRefInstances());
+  ASSERT_NE(i, nullptr) << "'intf i();' instance not found under module 'top'";
+  ASSERT_NE(i->getTypespec(), nullptr);
+  ASSERT_NE(i->getTypespec()->getActual(), nullptr);
+  const hldb::InterfaceTypespec *const it = i->getTypespec()->getActual<hldb::InterfaceTypespec>();
+  ASSERT_NE(it, nullptr) << "'i' should be an instance of interface 'intf'";
+  EXPECT_EQ(it->getName(), std::string_view{"intf"});
 }
 
 TEST_F(HierPathInterfBlockTest, NoneOfTheEightHierPathCallsFailToBind) {
