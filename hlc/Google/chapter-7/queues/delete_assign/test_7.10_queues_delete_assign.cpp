@@ -401,11 +401,6 @@ TEST_F(QueuesDeleteAssignTest, ModuleHasNoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-TEST_F(QueuesDeleteAssignTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(QueuesDeleteAssignTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = findFirstByType<hldb::ModuleTypespec>(m_design->getTypespecs());

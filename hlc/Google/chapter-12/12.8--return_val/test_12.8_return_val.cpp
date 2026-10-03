@@ -219,8 +219,8 @@ TEST_F(ReturnValTest, LoopBodyDisplaysFunCallResultAndResolvesBackToFun) {
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 1u);
 
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(display->getArguments()->at(0));
-  ASSERT_NE(call, nullptr) << "$display's argument should be a FuncCall 'fun(i)', used as an expression here";
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(display->getArguments()->at(0));
+  ASSERT_NE(call, nullptr) << "$display's argument should be a MethodFuncCall 'fun(i)', used as an expression here";
   EXPECT_EQ(call->getName(), "fun");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getFun()) << "call should resolve back to the 'fun' declaration";
   ASSERT_NE(call->getArguments(), nullptr);

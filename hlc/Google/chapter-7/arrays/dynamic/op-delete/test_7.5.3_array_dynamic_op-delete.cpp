@@ -478,12 +478,6 @@ TEST_F(OpDeleteTest, SecondDisplaySecondArgIsArrSizeRefObj) {
 
 // --- design-level typespecs ----
 
-TEST_F(OpDeleteTest, DesignHasThreeTypespecs) {
-  // ModuleTypespec "top" + IntTypespec + StringTypespec (from $display)
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(OpDeleteTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

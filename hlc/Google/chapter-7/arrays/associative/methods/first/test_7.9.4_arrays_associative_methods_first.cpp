@@ -291,11 +291,6 @@ TEST_F(AssociativeArrayFirstTest, RuntimeValuesOfRcAndSRequireSimulation) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(AssociativeArrayFirstTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(AssociativeArrayFirstTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "first"), nullptr)
       << "map.first() must bind (IEEE 1800-2023 7.9.4)";

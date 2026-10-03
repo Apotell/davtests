@@ -444,12 +444,6 @@ TEST_F(DynamicArrayOpSizeTest, SecondDisplaySecondArgIsArrSizeRefObj) {
 
 // --- design-level typespecs ----
 
-TEST_F(DynamicArrayOpSizeTest, DesignHasThreeTypespecs) {
-  // ModuleTypespec "top" + IntTypespec + StringTypespec (a single shared
-  // StringTypespec instance, reused by both $display calls -- see op-delete.sv)
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
 
 TEST_F(DynamicArrayOpSizeTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

@@ -250,7 +250,7 @@ TEST_F(ExprShortCircuitTest, AssignmentRhsIsLogAndOfAAndLogOrOfBAndFunCall) {
 
   // Right operand of "||" is the call site fun(c) that must be
   // short-circuited away at runtime whenever b is true.
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(orOp->getOperands()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(orOp->getOperands()->at(1));
   ASSERT_NE(call, nullptr) << "right operand of the inner || should be the fun(c) call";
   EXPECT_EQ(call->getName(), "fun");
   const hldb::Function *const resolved = call->getTaskFunc<hldb::Function>();

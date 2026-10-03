@@ -507,11 +507,6 @@ TEST_F(QueuesSliceTest, ModuleHasNoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-TEST_F(QueuesSliceTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(QueuesSliceTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

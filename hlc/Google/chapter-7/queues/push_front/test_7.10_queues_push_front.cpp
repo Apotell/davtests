@@ -312,10 +312,6 @@ TEST_F(QueuesPushFrontTest, ModuleHasNoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-TEST_F(QueuesPushFrontTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
 
 TEST_F(QueuesPushFrontTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

@@ -179,10 +179,10 @@ static const hldb::Operation *getPostIncOp(const hldb::Module *m) {
 }
 
 // Returns operand[3] of the list as a FuncCall node, or nullptr.
-static const hldb::FuncCall *getFuncCall(const hldb::Module *m) {
+static const hldb::MethodFuncCall *getMethodFuncCall(const hldb::Module *m) {
   const hldb::Operation *op = getListOp(m);
   if (!op || !op->getOperands() || op->getOperands()->size() < 4) return nullptr;
-  return any_cast<hldb::FuncCall>((*op->getOperands())[3]);
+  return any_cast<hldb::MethodFuncCall>((*op->getOperands())[3]);
 }
 
 // ===========================================================================
@@ -479,19 +479,19 @@ TEST_F(Sequence14Test, Seq14_PostIncrement_Operand_ResolvesToNet) {
 
 // ss.16.10: operand[3] is the third match item -- subroutine call 'inc()',
 // represented as a FuncCall node.
-TEST_F(Sequence14Test, Seq14_List_Operand3_IsFuncCall) {
+TEST_F(Sequence14Test, Seq14_List_Operand3_IsMethodFuncCall) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  const hldb::FuncCall *fc = getFuncCall(m);
-  EXPECT_NE(fc, nullptr) << "ss.16.10: operand[3] must be a FuncCall node (match item 'inc()')";
+  const hldb::MethodFuncCall *mfc = getMethodFuncCall(m);
+  EXPECT_NE(mfc, nullptr) << "ss.16.10: operand[3] must be a FuncCall node (match item 'inc()')";
 }
 
 TEST_F(Sequence14Test, Seq14_FuncCall_NameIsInc) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  const hldb::FuncCall *fc = getFuncCall(m);
-  ASSERT_NE(fc, nullptr);
-  EXPECT_EQ(fc->getName(), "inc") << "ss.16.10: FuncCall must reference function 'inc'";
+  const hldb::MethodFuncCall *mfc = getMethodFuncCall(m);
+  ASSERT_NE(mfc, nullptr);
+  EXPECT_EQ(mfc->getName(), "inc") << "ss.16.10: FuncCall must reference function 'inc'";
 }
 
 // ss.16.10: FuncCall for 'inc()' must resolve to the Function declaration
@@ -499,9 +499,9 @@ TEST_F(Sequence14Test, Seq14_FuncCall_NameIsInc) {
 TEST_F(Sequence14Test, Seq14_FuncCall_ResolvedToFunction) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  const hldb::FuncCall *fc = getFuncCall(m);
-  ASSERT_NE(fc, nullptr);
-  EXPECT_NE(fc->getTaskFunc<hldb::Function>(), nullptr)
+  const hldb::MethodFuncCall *mfc = getMethodFuncCall(m);
+  ASSERT_NE(mfc, nullptr);
+  EXPECT_NE(mfc->getTaskFunc<hldb::Function>(), nullptr)
       << "ss.16.10: FuncCall for 'inc()' must resolve to Function 'inc' at "
          "compile time -- missing compile-time name binding for FuncCall "
          "inside sequence match items";

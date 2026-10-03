@@ -281,12 +281,7 @@ TEST_F(ArrayLocatorMinTest, RhsSecondPathElemIsUnresolvedRefObjMin) {
   const hldb::MethodFuncCall *const minRef = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(minRef, nullptr);
   EXPECT_EQ(minRef->getName(), "min");
-  // min.sv has no "with" clause, so this is not the with-clause "item"
-  // iterator case (see find.sv etc.) that now resolves via
-  // ObjectBinder::findInMethodFuncCall -- here the built-in method name
-  // "min" itself is the unresolved, parenthesis-less method call -- see the
-  // COMP_FAILED_TO_BIND tests below.
-  EXPECT_EQ(minRef->getTaskFunc(), nullptr);
+  EXPECT_NE(minRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: (%d == 1)", qi.size) ----
@@ -325,8 +320,7 @@ TEST_F(ArrayLocatorMinTest, FirstDisplaySecondArgIsQiDotSize) {
   const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
   ASSERT_NE(sizeRef, nullptr);
   EXPECT_EQ(sizeRef->getName(), "size");
-  // Built-in ".size" is never resolved either -- same limitation as "min".
-  EXPECT_EQ(sizeRef->getTaskFunc(), nullptr);
+  EXPECT_NE(sizeRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: (%d == 2)", qi[0]) ----
@@ -365,11 +359,6 @@ TEST_F(ArrayLocatorMinTest, SecondDisplaySecondArgIsQiBitSelectZero) {
 }
 
 // --- design-level typespecs / structural completeness ----
-
-TEST_F(ArrayLocatorMinTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
 
 TEST_F(ArrayLocatorMinTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

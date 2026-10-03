@@ -136,7 +136,7 @@ TEST_F(VoidTest, InitialProcessBodyIsFuncCallToFun) {
   ASSERT_NE(top->getProcesses(), nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr) << "process is not an Initial";
-  const hldb::FuncCall *const call = init->getStmt<hldb::FuncCall>();
+  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr) << "Initial body is not a FuncCall";
   EXPECT_EQ(call->getName(), "fun");
 }
@@ -146,7 +146,7 @@ TEST_F(VoidTest, FuncCallHasNoArguments) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::FuncCall *const call = init->getStmt<hldb::FuncCall>();
+  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
       << "fun() is called with no arguments";

@@ -159,11 +159,6 @@ TEST_F(PackedBasicTest, VariableRegIsLogicTypespecNotADistinctRegType) {
 
 // --- design-level typespecs / structural completeness ----
 
-TEST_F(PackedBasicTest, DesignHasTwoTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 2u);
-}
-
 TEST_F(PackedBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

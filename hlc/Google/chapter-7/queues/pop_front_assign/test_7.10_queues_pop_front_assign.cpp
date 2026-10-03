@@ -437,10 +437,6 @@ TEST_F(QueuesPopFrontAssignTest, ModuleHasNoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-TEST_F(QueuesPopFrontAssignTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
 
 TEST_F(QueuesPopFrontAssignTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

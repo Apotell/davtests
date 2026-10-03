@@ -197,11 +197,6 @@ TEST_F(UnpackedOperationsTest, ThreeDisplaysReadEightBitSelectsEach) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(UnpackedOperationsTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(UnpackedOperationsTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

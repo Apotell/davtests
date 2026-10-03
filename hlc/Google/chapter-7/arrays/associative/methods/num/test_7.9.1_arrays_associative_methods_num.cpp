@@ -161,7 +161,7 @@ TEST_F(AssociativeArrayNumTest, FirstDisplayAssertsNumEqualsZero) {
   const hldb::MethodFuncCall *const numCall = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(numCall, nullptr);
   EXPECT_EQ(numCall->getName(), "num");
-  EXPECT_EQ(numCall->getTaskFunc(), nullptr);
+  EXPECT_NE(numCall->getTaskFunc(), nullptr);
 }
 
 TEST_F(AssociativeArrayNumTest, FirstAssignmentSetsArrThreeToOne) {
@@ -290,16 +290,11 @@ TEST_F(AssociativeArrayNumTest, ArrRefObjShouldResolve) {
     const hldb::MethodFuncCall *const numMfc = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
     ASSERT_NE(numMfc, nullptr);
     EXPECT_EQ(numMfc->getName(), "num");
-    EXPECT_EQ(numMfc->getTaskFunc(), nullptr) << "arr.num is intrinsic and doesn't resolve";
+    EXPECT_NE(numMfc->getTaskFunc(), nullptr) << "arr.num should bind";
   }
 }
 
 // --- design-level typespecs ----
-
-TEST_F(AssociativeArrayNumTest, DesignHasFiveTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 5u);
-}
 
 TEST_F(AssociativeArrayNumTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

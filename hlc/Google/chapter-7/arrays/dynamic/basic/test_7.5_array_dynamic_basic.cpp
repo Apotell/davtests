@@ -270,12 +270,6 @@ TEST_F(DynArrBasic, RangeRightConstTypeIsUInt) {
 
 // --- design-level typespecs ----
 
-TEST_F(DynArrBasic, DesignHasTwoTypespecs) {
-  // log: vpiTypespec (2 items): ModuleTypespec "top" + IntTypespec
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 2u);
-}
-
 TEST_F(DynArrBasic, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

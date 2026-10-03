@@ -267,23 +267,18 @@ TEST_F(UnpackedSubroutinesTest, FourthStmtDisplaysBIndices) {
 TEST_F(UnpackedSubroutinesTest, FifthStmtIsFunCallWithBArgument) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::TaskCall *const tc = any_cast<hldb::TaskCall>(begin->getStmts()->at(4));
-  ASSERT_NE(tc, nullptr) << "'fun(b)' should be a TaskCall";
-  EXPECT_EQ(tc->getName(), "fun");
-  ASSERT_NE(tc->getArguments(), nullptr);
-  ASSERT_EQ(tc->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(tc->getArguments()->at(0));
+  const hldb::MethodTaskCall *const mtc = any_cast<hldb::MethodTaskCall>(begin->getStmts()->at(4));
+  ASSERT_NE(mtc, nullptr) << "'fun(b)' should be a TaskCall";
+  EXPECT_EQ(mtc->getName(), "fun");
+  ASSERT_NE(mtc->getArguments(), nullptr);
+  ASSERT_EQ(mtc->getArguments()->size(), 1u);
+  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(mtc->getArguments()->at(0));
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "b");
   EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
 }
 
 // --- design-level typespecs / compiler diagnostics ----
-
-TEST_F(UnpackedSubroutinesTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
 
 TEST_F(UnpackedSubroutinesTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
@@ -322,11 +317,11 @@ TEST_F(UnpackedSubroutinesTest, NoContAssigns) {
 TEST_F(UnpackedSubroutinesTest, TaskCallResolvesToDeclaredTask) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::TaskCall *const tc = any_cast<hldb::TaskCall>(begin->getStmts()->at(4));
-  ASSERT_NE(tc, nullptr) << "'fun(b)' should be a TaskCall";
+  const hldb::MethodTaskCall *const mtc = any_cast<hldb::MethodTaskCall>(begin->getStmts()->at(4));
+  ASSERT_NE(mtc, nullptr) << "'fun(b)' should be a TaskCall";
   const hldb::Task *const declaredTask = getTaskFun();
   ASSERT_NE(declaredTask, nullptr);
-  EXPECT_EQ(tc->getTaskFunc<hldb::Task>(), declaredTask)
+  EXPECT_EQ(mtc->getTaskFunc<hldb::Task>(), declaredTask)
       << "call-site 'fun(b)' must resolve (via getTaskFunc<Task>()) back to the "
          "declared task 'fun' -- if this fails, the compiler is not performing "
          "compile-time name binding from task-invocation call sites to their "

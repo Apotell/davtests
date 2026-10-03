@@ -282,7 +282,7 @@ TEST_F(Sequence5Test, Seq5_MatchExpr_IsConstantOne) {
 
 // ss.16.9.4: operand[2] is the subroutine call match item 'f()'.  It must be
 // a FuncCall node (ss.16.9.4: subroutine_call).
-TEST_F(Sequence5Test, Seq5_MatchItem_FuncCall_Exists) {
+TEST_F(Sequence5Test, Seq5_MatchItem_MethodFuncCall_Exists) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::SequenceDecl *s5 = getSeqDecl(m, "seq5");
@@ -292,12 +292,12 @@ TEST_F(Sequence5Test, Seq5_MatchItem_FuncCall_Exists) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 3u);
 
-  EXPECT_NE(any_cast<hldb::FuncCall>((*op->getOperands())[2]), nullptr)
+  EXPECT_NE(any_cast<hldb::MethodFuncCall>((*op->getOperands())[2]), nullptr)
       << "ss.16.9.4: subroutine call match item 'f()' must be a FuncCall";
 }
 
 // ss.16.9.4: the FuncCall for 'f()' must carry the function name "f".
-TEST_F(Sequence5Test, Seq5_MatchItem_FuncCall_NameIsF) {
+TEST_F(Sequence5Test, Seq5_MatchItem_MethodFuncCall_NameIsF) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::SequenceDecl *s5 = getSeqDecl(m, "seq5");
@@ -307,16 +307,16 @@ TEST_F(Sequence5Test, Seq5_MatchItem_FuncCall_NameIsF) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 3u);
 
-  const hldb::FuncCall *fc = any_cast<hldb::FuncCall>((*op->getOperands())[2]);
-  ASSERT_NE(fc, nullptr);
-  EXPECT_EQ(fc->getName(), "f") << "ss.16.9.4: subroutine call match item must name function 'f'";
+  const hldb::MethodFuncCall *mfc = any_cast<hldb::MethodFuncCall>((*op->getOperands())[2]);
+  ASSERT_NE(mfc, nullptr);
+  EXPECT_EQ(mfc->getName(), "f") << "ss.16.9.4: subroutine call match item must name function 'f'";
 }
 
 // ss.16.9.4: the FuncCall for 'f()' must resolve (getTaskFunc) to the
 // Function declaration node for 'f'.  This is compile-time name binding --
 // 'f' is declared in the same module scope, so no elaboration is needed to
 // find it.
-TEST_F(Sequence5Test, Seq5_MatchItem_FuncCall_ResolvesToFunction) {
+TEST_F(Sequence5Test, Seq5_MatchItem_MethodFuncCall_ResolvesToFunction) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::SequenceDecl *s5 = getSeqDecl(m, "seq5");
@@ -326,9 +326,9 @@ TEST_F(Sequence5Test, Seq5_MatchItem_FuncCall_ResolvesToFunction) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 3u);
 
-  const hldb::FuncCall *fc = any_cast<hldb::FuncCall>((*op->getOperands())[2]);
-  ASSERT_NE(fc, nullptr);
-  EXPECT_NE(fc->getTaskFunc<hldb::Function>(), nullptr)
+  const hldb::MethodFuncCall *mfc = any_cast<hldb::MethodFuncCall>((*op->getOperands())[2]);
+  ASSERT_NE(mfc, nullptr);
+  EXPECT_NE(mfc->getTaskFunc<hldb::Function>(), nullptr)
       << "ss.16.9.4: FuncCall for 'f()' in the match item must resolve to "
          "the Function declaration -- 'f' is in the same module scope so "
          "this is compile-time name binding, same as RefObj->Net";

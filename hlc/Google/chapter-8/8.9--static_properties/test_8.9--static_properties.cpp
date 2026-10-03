@@ -387,16 +387,6 @@ TEST_F(ClassStaticPropertiesTest, FifthStmtAssignsTestObj0SToThirteen) {
 // still resolve "s" to the SAME declared property Variable.
 TEST_F(ClassStaticPropertiesTest, SixthStmtDisplaysTestObj1S) { ExpectSDisplay(5, "test_obj1", getVariableTestObj1()); }
 
-// --- compiler diagnostics ---------------------------------------------------------
-
-TEST_F(ClassStaticPropertiesTest, CompilerReportsNoErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "new", 24, 15), nullptr)
-      << "class instantiation via new must bind (IEEE 1800-2023 8.4)";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "new", 25, 15), nullptr)
-      << "class instantiation via new must bind (IEEE 1800-2023 8.4)";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

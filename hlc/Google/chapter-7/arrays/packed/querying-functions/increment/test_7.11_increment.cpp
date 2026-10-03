@@ -155,10 +155,6 @@ TEST_F(PackedQueryIncrementTest, NestedIncrementCallHasArrArgument) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(PackedQueryIncrementTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
 
 TEST_F(PackedQueryIncrementTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

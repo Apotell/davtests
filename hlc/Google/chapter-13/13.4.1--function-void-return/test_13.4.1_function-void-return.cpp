@@ -182,7 +182,7 @@ TEST_F(FunctionVoidReturnTest, VoidFunctionCallIllegallyUsedAsExpressionArgument
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u);
 
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(display->getArguments()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(display->getArguments()->at(1));
   ASSERT_NE(call, nullptr)
       << "structurally confirming a call to the void function 'add' really is used as an expression argument "
          "here -- per 13.4.1, a void function call may only be used as a statement, never as an expression";

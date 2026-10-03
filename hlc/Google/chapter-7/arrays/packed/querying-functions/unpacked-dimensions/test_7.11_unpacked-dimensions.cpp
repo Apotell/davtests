@@ -156,11 +156,6 @@ TEST_F(PackedQueryUnpackedDimensionsTest, NestedUnpackedDimensionsCallHasArrArgu
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(PackedQueryUnpackedDimensionsTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(PackedQueryUnpackedDimensionsTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

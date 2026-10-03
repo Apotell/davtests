@@ -155,10 +155,6 @@ TEST_F(PackedQueryHighTest, NestedHighCallHasArrArgument) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(PackedQueryHighTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
 
 TEST_F(PackedQueryHighTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

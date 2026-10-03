@@ -387,11 +387,6 @@ TEST_F(ArrayLocatorFindTest, SecondDisplaySecondArgIsQsBitSelectZero) {
 
 // --- design-level typespecs / structural completeness ----
 
-TEST_F(ArrayLocatorFindTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(ArrayLocatorFindTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

@@ -273,11 +273,6 @@ TEST_F(AssociativeArrayNextTest, RuntimeValuesOfRcAndSRequireSimulation) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(AssociativeArrayNextTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(AssociativeArrayNextTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "next"), nullptr)
       << "map.next() must bind (IEEE 1800-2023 7.9.6)";

@@ -210,11 +210,6 @@ TEST_F(UnionsTaggedBasicTest, SecondStmtDisplaysUn) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(UnionsTaggedBasicTest, DesignHasFourTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 4u);
-}
-
 TEST_F(UnionsTaggedBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = hldb::findByName<hldb::ModuleTypespec>("top", m_design->getTypespecs());

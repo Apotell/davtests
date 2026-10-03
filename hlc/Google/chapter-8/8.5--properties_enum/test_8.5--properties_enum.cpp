@@ -399,14 +399,6 @@ TEST_F(ClassPropertiesEnumTest, DisplayArgIsTestObjDotC) {
       << "'test_obj.C' must resolve back to the SAME EnumConst 'C' declared on the class's enum";
 }
 
-// --- compiler diagnostics ---------------------------------------------------------
-
-TEST_F(ClassPropertiesEnumTest, CompilerReportsNoErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "new", 23, 14), nullptr)
-      << "class instantiation via new must bind (IEEE 1800-2023 8.4)";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

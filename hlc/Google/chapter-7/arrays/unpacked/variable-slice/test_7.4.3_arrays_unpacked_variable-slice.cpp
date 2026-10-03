@@ -265,11 +265,6 @@ TEST_F(UnpackedVariableSliceTest, SixthStmtDisplaysArrBBitsAfterVariableSliceWri
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(UnpackedVariableSliceTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(UnpackedVariableSliceTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

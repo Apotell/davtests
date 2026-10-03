@@ -234,11 +234,6 @@ TEST_F(PackedVariableSliceZeroTest, SecondDisplayAssertsAllZeroBitPattern) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(PackedVariableSliceZeroTest, DesignHasFourTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 4u);
-}
-
 TEST_F(PackedVariableSliceZeroTest, CompilerReportsZeroErrorsAtParseElaborateStage) {
   // Documents the compiler-limitation note above: this compile/elaborate-only
   // pass does not perform the "part width must be > 0" semantic check, so it

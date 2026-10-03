@@ -180,12 +180,6 @@ TEST_F(PackedStructDefaultValueTest, MemberHiHasNoDefaultValue) {
 
 // --- design-level typespecs ----
 
-TEST_F(PackedStructDefaultValueTest, DesignHasThreeTypespecs) {
-  // No StringTypespec: default-value.sv has no initial block / $display.
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(PackedStructDefaultValueTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

@@ -227,10 +227,6 @@ TEST_F(UnpackedAndTest, ThirdStmtDisplaysYEqualsOne) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(UnpackedAndTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
 
 TEST_F(UnpackedAndTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

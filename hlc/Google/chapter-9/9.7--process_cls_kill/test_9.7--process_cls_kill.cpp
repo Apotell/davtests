@@ -233,7 +233,7 @@ TEST_F(ProcessClsKillTest, InitialCallsTestWithArgumentEight) {
   const std::vector<const hldb::Any *> stmts = TopLevelStatements(init->getStmt());
   ASSERT_EQ(stmts.size(), 1u);
 
-  const hldb::TaskCall *const call = any_cast<hldb::TaskCall>(stmts.front());
+  const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(stmts.front());
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "test");
   ASSERT_NE(call->getArguments(), nullptr);

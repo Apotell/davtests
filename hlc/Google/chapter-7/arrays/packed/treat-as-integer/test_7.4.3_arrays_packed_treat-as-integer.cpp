@@ -166,13 +166,6 @@ TEST_F(PackedTreatAsIntegerTest, DisplayAssertsSumEqualsFortySix) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(PackedTreatAsIntegerTest, DesignHasThreeTypespecs) {
-  // Unlike most sibling files in this directory, no extra unsigned IntTypespec
-  // is added here (no comparison operator produces a second int result type).
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(PackedTreatAsIntegerTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

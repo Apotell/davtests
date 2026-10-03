@@ -240,7 +240,7 @@ TEST_F(TaskStaticTest, InitialBodyCallsMytaskFourTimesWithArguments) {
 
   const std::string_view expectedArgs[4] = {"0", "1", "1", "1"};
   for (uint32_t idx = 0; idx < 4u; ++idx) {
-    const hldb::TaskCall *const call = any_cast<hldb::TaskCall>(body->getStmts()->at(idx));
+    const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(body->getStmts()->at(idx));
     ASSERT_NE(call, nullptr) << "'mytask(...)' with parens+argument should be a TaskCall, not a plain RefObj";
     EXPECT_EQ(call->getName(), "mytask");
     EXPECT_EQ(call->getTaskFunc<hldb::Task>(), getMytask());

@@ -163,7 +163,7 @@ TEST_F(FunctionReturnAssignmentTest, InitialBodyDisplaysAddCallResultAndResolves
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u);
 
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(display->getArguments()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(display->getArguments()->at(1));
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "add");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getAdd());

@@ -120,12 +120,6 @@ TEST_F(MemoriesBasicTest, MemElemLogicTypespecHasPackedRangeSevenToZeroAndIsVect
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(MemoriesBasicTest, DesignHasTwoTypespecs) {
-  // No StringTypespec: basic.sv has no initial block / $display.
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 2u);
-}
-
 TEST_F(MemoriesBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

@@ -171,7 +171,7 @@ TEST_F(FunctionReturnTest, InitialBodyDisplaysAddCallResultAndResolvesBackToAdd)
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (%d == 90)\"");
 
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(display->getArguments()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(display->getArguments()->at(1));
   ASSERT_NE(call, nullptr) << "$display's second argument should be a FuncCall 'add(30, 60)'";
   EXPECT_EQ(call->getName(), "add");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getAdd()) << "call should resolve back to the 'add' declaration";

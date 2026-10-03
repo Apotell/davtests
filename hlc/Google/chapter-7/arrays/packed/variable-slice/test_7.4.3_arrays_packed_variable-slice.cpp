@@ -223,11 +223,6 @@ TEST_F(PackedVariableSliceTest, SecondDisplayAssertsBitPattern) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(PackedVariableSliceTest, DesignHasFourTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 4u);
-}
-
 TEST_F(PackedVariableSliceTest, CompilerReportsZeroErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();

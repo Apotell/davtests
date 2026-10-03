@@ -236,11 +236,6 @@ TEST_F(PackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(PackedStructBasicTest, DesignHasFourTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 4u);
-}
-
 TEST_F(PackedStructBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

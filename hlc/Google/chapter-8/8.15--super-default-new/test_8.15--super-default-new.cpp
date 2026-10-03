@@ -604,14 +604,6 @@ TEST_F(ClassSuperDefaultNewTest, FourthStmtCallsU0Print) {
       << "'u0.print()' should resolve getTaskFunc() to uvm_object's OWN 'print' Function";
 }
 
-// --- compiler diagnostics ---------------------------------------------------------
-
-TEST_F(ClassSuperDefaultNewTest, CompilerReportsNoErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "new", 41, 11), nullptr)
-      << "class instantiation via new must bind (IEEE 1800-2023 8.4)";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

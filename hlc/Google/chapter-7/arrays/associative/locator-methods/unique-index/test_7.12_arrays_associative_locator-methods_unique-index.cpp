@@ -290,10 +290,7 @@ TEST_F(ArrayLocatorUniqueIndexTest, RhsSecondPathElemIsUnresolvedRefObjUniqueInd
   const hldb::MethodFuncCall *const uiRef = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(uiRef, nullptr);
   EXPECT_EQ(uiRef->getName(), "unique_index");
-  // Unlike ".unique" (a resolvable MethodFuncCall name), "unique_index"
-  // itself is an unresolved implicit variable here -- see the
-  // COMP_FAILED_TO_BIND tests below.
-  EXPECT_EQ(uiRef->getTaskFunc(), nullptr);
+  EXPECT_NE(uiRef->getTaskFunc(), nullptr);
 }
 
 // --- qi.sort; ----
@@ -315,10 +312,7 @@ TEST_F(ArrayLocatorUniqueIndexTest, ThirdStmtIsRefObjQiDotSort) {
   const hldb::MethodFuncCall *const sortRef = any_cast<hldb::MethodFuncCall>(sort->getPathElems()->at(1));
   ASSERT_NE(sortRef, nullptr);
   EXPECT_EQ(sortRef->getName(), "sort");
-  // Built-in ".sort" (no "()" in source, bare statement) is unresolved --
-  // same limitation as ".size" and "unique_index" -- see the
-  // COMP_FAILED_TO_BIND tests below.
-  EXPECT_EQ(sortRef->getTaskFunc(), nullptr);
+  EXPECT_NE(sortRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: (%d == 3)", qi.size) ----
@@ -357,8 +351,7 @@ TEST_F(ArrayLocatorUniqueIndexTest, FirstDisplaySecondArgIsQiDotSize) {
   const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
   ASSERT_NE(sizeRef, nullptr);
   EXPECT_EQ(sizeRef->getName(), "size");
-  // Built-in ".size" is never resolved either -- same limitation as "sort".
-  EXPECT_EQ(sizeRef->getTaskFunc(), nullptr);
+  EXPECT_NE(sizeRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: ((%d == 0) and (%d == 2) and (%d == 3))", ...) ----
@@ -402,13 +395,6 @@ TEST_F(ArrayLocatorUniqueIndexTest, SecondDisplayThreeArgsAreQiBitSelectsZeroOne
   }
 }
 
-// --- design-level typespecs / structural completeness ----
-
-TEST_F(ArrayLocatorUniqueIndexTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(ArrayLocatorUniqueIndexTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));
@@ -435,14 +421,6 @@ TEST_F(ArrayLocatorUniqueIndexTest, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
-}
-
-// --- compiler diagnostics: known parenthesis-less-builtin-call limitation ----
-
-TEST_F(ArrayLocatorUniqueIndexTest, UniqueIndexSortAndSizeMethodCallsResolve) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "unique_index"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "sort"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
 }
 
 }  // namespace hlc

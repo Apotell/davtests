@@ -213,7 +213,7 @@ TEST_F(FunctionStaticTest, InitialBodyCallsAddFourTimesWithAccumulatingExpectedM
     EXPECT_EQ(fmt->getDecompile(), expectedMessages[idx])
         << "the accumulating expected message documents this function's static (shared) storage semantics";
 
-    const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(display->getArguments()->at(1));
+    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(display->getArguments()->at(1));
     ASSERT_NE(call, nullptr);
     EXPECT_EQ(call->getName(), "add");
     EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getAdd());

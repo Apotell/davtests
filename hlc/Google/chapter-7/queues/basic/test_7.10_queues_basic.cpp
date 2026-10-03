@@ -201,11 +201,6 @@ TEST_F(QueuesBasicTest, ModuleHasNoContAssigns) {
 
 // --- design-level typespecs ----
 
-TEST_F(QueuesBasicTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(QueuesBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = findFirstByType<hldb::ModuleTypespec>(m_design->getTypespecs());

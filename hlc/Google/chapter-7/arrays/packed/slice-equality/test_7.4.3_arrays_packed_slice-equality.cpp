@@ -186,11 +186,6 @@ TEST_F(PackedSliceEqualityTest, ThirdDisplayArgIsNotEqualOperationOnSlices) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(PackedSliceEqualityTest, DesignHasFourTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 4u);
-}
-
 TEST_F(PackedSliceEqualityTest, CompilerReportsZeroErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();

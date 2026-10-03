@@ -288,14 +288,14 @@ class ProcessClsAwaitTest : public Test {
     return any_cast<hldb::Initial>(mod->getProcesses()->at(0));
   }
 
-  static const hldb::TaskCall *getTestCall() {
+  static const hldb::MethodTaskCall *getTestCall() {
     const hldb::Initial *const init = getInitialProcess();
     if (init == nullptr)
       return nullptr;
     const hldb::Begin *const body = init->getStmt<hldb::Begin>();
     if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->empty())
       return nullptr;
-    return any_cast<hldb::TaskCall>(body->getStmts()->at(0));
+    return any_cast<hldb::MethodTaskCall>(body->getStmts()->at(0));
   }
   // clang-format on
 };
@@ -621,7 +621,7 @@ TEST_F(ProcessClsAwaitTest, ModuleHasOneInitialProcess) {
 }
 
 TEST_F(ProcessClsAwaitTest, InitialCallsTestWithConstantEight) {
-  const hldb::TaskCall *const call = getTestCall();
+  const hldb::MethodTaskCall *const call = getTestCall();
   ASSERT_NE(call, nullptr) << "'test(8);' should be a TaskCall";
   EXPECT_EQ(call->getTaskFunc<hldb::Task>(), getTestTask()) << "'test(8)' should resolve to task 'test'";
 

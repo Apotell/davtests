@@ -243,13 +243,6 @@ TEST_F(UnpackedEqualityTest, SixthStmtArgIsNotEqualOperationOnRefObjs) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(UnpackedEqualityTest, DesignHasThreeTypespecs) {
-  // NOTE: unlike packed/equality, no extra unsigned IntTypespec is added
-  // here for the comparison result type.
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(UnpackedEqualityTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

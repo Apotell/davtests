@@ -572,14 +572,6 @@ TEST_F(ClassAssignmentTest, SixthStmtDisplaysTestObj1A) {
       << "'test_obj1.a' must resolve back to the SAME declared property Variable as 'test_obj0.a'";
 }
 
-// --- compiler diagnostics ---------------------------------------------------------
-
-TEST_F(ClassAssignmentTest, CompilerReportsNoErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "new", 28, 15), nullptr)
-      << "class instantiation via new must bind (IEEE 1800-2023 8.4)";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

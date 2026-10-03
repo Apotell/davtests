@@ -171,8 +171,8 @@ TEST_F(FunctionTest, InitialBodyDisplaysTestCallResultAndResolvesBackToTest) {
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (%d == 2)\"");
 
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(display->getArguments()->at(1));
-  ASSERT_NE(call, nullptr) << "$display's second argument should be a FuncCall 'test(1)'";
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(display->getArguments()->at(1));
+  ASSERT_NE(call, nullptr) << "$display's second argument should be a MethodFuncCall 'test(1)'";
   EXPECT_EQ(call->getName(), "test");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getTestFun());
   ASSERT_NE(call->getArguments(), nullptr);

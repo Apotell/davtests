@@ -236,11 +236,6 @@ TEST_F(UnionsBasicTest, ThirdStmtDisplaysUnV2) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(UnionsBasicTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(UnionsBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

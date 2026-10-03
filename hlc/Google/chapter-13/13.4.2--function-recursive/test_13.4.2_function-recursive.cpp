@@ -188,7 +188,7 @@ TEST_F(FunctionRecursiveTest, RecursiveStepMultipliesSelfCallByVal) {
   ASSERT_NE(mult->getOperands(), nullptr);
   ASSERT_EQ(mult->getOperands()->size(), 2u);
 
-  const hldb::FuncCall *const selfCall = any_cast<hldb::FuncCall>(mult->getOperands()->at(0));
+  const hldb::MethodFuncCall *const selfCall = any_cast<hldb::MethodFuncCall>(mult->getOperands()->at(0));
   ASSERT_NE(selfCall, nullptr) << "first operand should be the recursive FuncCall 'factorial(val-1)'";
   EXPECT_EQ(selfCall->getName(), "factorial");
   EXPECT_EQ(selfCall->getTaskFunc<hldb::Function>(), factorial)
@@ -231,7 +231,7 @@ TEST_F(FunctionRecursiveTest, InitialBodyCallsFactorialWithFiveDifferentArgument
     ASSERT_NE(display, nullptr);
     ASSERT_NE(display->getArguments(), nullptr);
     ASSERT_EQ(display->getArguments()->size(), 2u);
-    const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(display->getArguments()->at(1));
+    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(display->getArguments()->at(1));
     ASSERT_NE(call, nullptr);
     EXPECT_EQ(call->getName(), "factorial");
     EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getFactorial());

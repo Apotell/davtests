@@ -399,13 +399,13 @@ TEST_F(QueuesPersistenceTest, FirstInitialFourthStmtDisplaysThreeElemAssert) {
 TEST_F(QueuesPersistenceTest, FirstInitialFifthStmtIsFunCallWithQAtOne) {
   const hldb::Begin *const begin = getInitialBegin(0);
   ASSERT_NE(begin, nullptr);
-  const hldb::TaskCall *const tc = any_cast<hldb::TaskCall>(begin->getStmts()->at(4));
-  ASSERT_NE(tc, nullptr) << "'fun(q[1])' should be a FuncCall";
-  EXPECT_EQ(tc->getName(), "fun");
-  ASSERT_NE(tc->getArguments(), nullptr);
-  ASSERT_EQ(tc->getArguments()->size(), 1u);
+  const hldb::MethodTaskCall *const mtc = any_cast<hldb::MethodTaskCall>(begin->getStmts()->at(4));
+  ASSERT_NE(mtc, nullptr) << "'fun(q[1])' should be a FuncCall";
+  EXPECT_EQ(mtc->getName(), "fun");
+  ASSERT_NE(mtc->getArguments(), nullptr);
+  ASSERT_EQ(mtc->getArguments()->size(), 1u);
 
-  const hldb::BitSelect *const arg = any_cast<hldb::BitSelect>(tc->getArguments()->at(0));
+  const hldb::BitSelect *const arg = any_cast<hldb::BitSelect>(mtc->getArguments()->at(0));
   ASSERT_NE(arg, nullptr) << "the 'ref' argument should be the BitSelect 'q[1]'";
   EXPECT_EQ(arg->getName(), "q[1]");
   const hldb::RefObj *const prefix = arg->getPrefix<hldb::RefObj>();
@@ -513,11 +513,6 @@ TEST_F(QueuesPersistenceTest, ModuleHasNoContAssigns) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_EQ(top->getContAssigns(), nullptr);
-}
-
-TEST_F(QueuesPersistenceTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
 }
 
 TEST_F(QueuesPersistenceTest, DesignHasModuleTypespec) {

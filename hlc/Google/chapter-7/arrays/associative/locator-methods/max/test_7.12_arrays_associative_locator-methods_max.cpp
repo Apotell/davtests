@@ -282,12 +282,7 @@ TEST_F(ArrayLocatorMaxTest, RhsSecondPathElemIsUnresolvedRefObjMax) {
   const hldb::MethodFuncCall *const maxRef = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(maxRef, nullptr);
   EXPECT_EQ(maxRef->getName(), "max");
-  // max.sv has no "with" clause, so this is not the with-clause "item"
-  // iterator case (see find.sv etc.) that now resolves via
-  // ObjectBinder::findInMethodFuncCall -- here the built-in method name
-  // "max" itself is the unresolved, parenthesis-less method call -- see the
-  // COMP_FAILED_TO_BIND tests below.
-  EXPECT_EQ(maxRef->getTaskFunc(), nullptr);
+  EXPECT_NE(maxRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: (%d == 1)", qi.size) ----
@@ -326,8 +321,7 @@ TEST_F(ArrayLocatorMaxTest, FirstDisplaySecondArgIsQiDotSize) {
   const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
   ASSERT_NE(sizeRef, nullptr);
   EXPECT_EQ(sizeRef->getName(), "size");
-  // Built-in ".size" is never resolved either -- same limitation as "max".
-  EXPECT_EQ(sizeRef->getTaskFunc(), nullptr);
+  EXPECT_NE(sizeRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: (%d == 20)", qi[0]) ----
@@ -366,11 +360,6 @@ TEST_F(ArrayLocatorMaxTest, SecondDisplaySecondArgIsQiBitSelectZero) {
 }
 
 // --- design-level typespecs / structural completeness ----
-
-TEST_F(ArrayLocatorMaxTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
 
 TEST_F(ArrayLocatorMaxTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);

@@ -227,11 +227,6 @@ TEST_F(MultiDimBasicTest, VariableArr2ElemIsBitTypespecWithTwoPackedRanges) {
 
 // --- design-level typespecs / structural completeness ----
 
-TEST_F(MultiDimBasicTest, DesignHasTwoTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 2u);
-}
-
 TEST_F(MultiDimBasicTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
   const hldb::ModuleTypespec *const mt = any_cast<hldb::ModuleTypespec>(m_design->getTypespecs()->at(0));

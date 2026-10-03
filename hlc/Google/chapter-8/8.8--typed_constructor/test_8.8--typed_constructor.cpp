@@ -444,12 +444,10 @@ TEST_F(ClassTypedConstructorTest, AssignmentRhsScopeResolvesToTestClsClassDefn) 
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getPathElems(), nullptr);
   ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::RefTypespec *const rt = any_cast<hldb::RefTypespec>(rhs->getPathElems()->front());
-  ASSERT_NE(rt, nullptr);
-  const hldb::ClassTypespec *const ct = rt->getActual<hldb::ClassTypespec>();
-  ASSERT_NE(ct, nullptr);
-  EXPECT_EQ(ct->getDefName(), "test_cls");
-  EXPECT_EQ(ct->getClassDefn(), getTestClsDefn());
+  const hldb::RefObj *const ro = any_cast<hldb::RefObj>(rhs->getPathElems()->front());
+  ASSERT_NE(ro, nullptr);
+  EXPECT_EQ(ro->getName(), "test_cls");
+  EXPECT_EQ(ro->getActual(), getTestClsDefn());
   const hldb::MethodFuncCall *const newCall = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->back());
   ASSERT_NE(newCall, nullptr);
   EXPECT_EQ(newCall->getName(), std::string_view("new"));

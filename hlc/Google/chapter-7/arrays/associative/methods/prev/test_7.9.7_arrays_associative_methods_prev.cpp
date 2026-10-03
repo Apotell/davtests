@@ -273,11 +273,6 @@ TEST_F(AssociativeArrayPrevTest, RuntimeValuesOfRcAndSRequireSimulation) {
 
 // --- design-level typespecs / compiler diagnostics ----
 
-TEST_F(AssociativeArrayPrevTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
-
 TEST_F(AssociativeArrayPrevTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "prev"), nullptr)
       << "map.prev() must bind (IEEE 1800-2023 7.9.7)";

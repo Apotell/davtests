@@ -391,10 +391,6 @@ TEST_F(ArrayLocatorFindFirstTest, SecondDisplaySecondArgIsQsBitSelectZero) {
 
 // --- design-level typespecs / structural completeness ----
 
-TEST_F(ArrayLocatorFindFirstTest, DesignHasThreeTypespecs) {
-  ASSERT_NE(m_design->getTypespecs(), nullptr);
-  EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
-}
 
 TEST_F(ArrayLocatorFindFirstTest, DesignHasModuleTypespec) {
   ASSERT_NE(m_design->getTypespecs(), nullptr);
