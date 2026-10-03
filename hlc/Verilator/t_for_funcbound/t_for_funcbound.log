@@ -792,10 +792,6 @@ n<$Source01/t_for_funcbound.v> u<777> t<Top_level_rule> c<1> l<6:1> el<77:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_for_funcbound.v:6:1: Compile module "t".
 [INF:CP5804] $Source01/t_for_funcbound.v:53:1: Compile module "strings".
-[WRN:CP5851] $Source01/t_for_funcbound.v:25:11: Failed to bind "stringStart".
-[WRN:CP5851] $Source01/t_for_funcbound.v:26:23: Failed to bind "stringByte".
-[WRN:CP5851] $Source01/t_for_funcbound.v:26:49: Failed to bind "isNull".
-[WRN:CP5851] $Source01/t_for_funcbound.v:26:78: Failed to bind "stringByte".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -887,6 +883,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiTaskFunc (1 items):
         Task name:show start:19:4 end:31:11:
@@ -1049,12 +1046,13 @@ Design name:unnamed:
                         vpiName: strings
                         vpiFullName: t.show.strings
                         vpiActual: RefInstance name:strings
-                      SubroutineCall name:stringStart start:25:11 end:25:29:
+                      MethodTaskCall name:stringStart start:25:11 end:25:29:
                         vpiParent: RefObj name:strings.stringStart(8 * 8 - 1)
                         vpiName Identifier name:stringStart start:25:11 end:25:22:
+                        vpiTaskFunc: Task name:stringStart
                         vpiArgument (1 items):
                           Operation start:25:23 end:25:28:
-                            vpiParent: SubroutineCall name:stringStart
+                            vpiParent: MethodTaskCall name:stringStart
                             vpiOpType: subtract (11)
                             vpiOperand (2 items):
                               Operation start:25:23 end:25:26:
@@ -1065,7 +1063,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: t.show.strings.stringStart(8 * 8 - 1).stringStart
+                                      vpiFullName: t.show.strings.stringStart(8 * 8 - 1)
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
@@ -1075,7 +1073,7 @@ Design name:unnamed:
                                     vpiParent: Operation
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
-                                      vpiFullName: t.show.strings.stringStart(8 * 8 - 1).stringStart
+                                      vpiFullName: t.show.strings.stringStart(8 * 8 - 1)
                                       vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
@@ -1085,12 +1083,13 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: t.show.strings.stringStart(8 * 8 - 1).stringStart
+                                  vpiFullName: t.show.strings.stringStart(8 * 8 - 1)
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
                                 vpiDecompile: "1"
                                 vpiValue: 1
+                    vpiActual: MethodTaskCall name:stringStart
                   ForStmt start:26:3 end:28:6:
                     vpiParent: Begin
                     vpiFullName: t.show
@@ -1113,15 +1112,17 @@ Design name:unnamed:
                               vpiName: strings
                               vpiFullName: t.show.strings
                               vpiActual: RefInstance name:strings
-                            SubroutineCall name:stringByte start:26:23 end:26:38:
+                            MethodFuncCall name:stringByte start:26:23 end:26:38:
                               vpiParent: RefObj name:strings.stringByte(str)
                               vpiName Identifier name:stringByte start:26:23 end:26:33:
+                              vpiTaskFunc: Function name:stringByte
                               vpiArgument (1 items):
                                 RefObj name:str start:26:34 end:26:37:
-                                  vpiParent: SubroutineCall name:stringByte
+                                  vpiParent: MethodFuncCall name:stringByte
                                   vpiName: str
-                                  vpiFullName: t.show.strings.stringByte(str).stringByte.str
+                                  vpiFullName: t.show.strings.stringByte(str).str
                                   vpiActual: IODecl name:str
+                          vpiActual: MethodFuncCall name:stringByte
                     vpiForIncStmt (1 items):
                       Assignment start:26:63 end:26:93:
                         vpiParent: ForStmt
@@ -1141,15 +1142,17 @@ Design name:unnamed:
                               vpiName: strings
                               vpiFullName: t.show.strings
                               vpiActual: RefInstance name:strings
-                            SubroutineCall name:stringByte start:26:78 end:26:93:
+                            MethodFuncCall name:stringByte start:26:78 end:26:93:
                               vpiParent: RefObj name:strings.stringByte(str)
                               vpiName Identifier name:stringByte start:26:78 end:26:88:
+                              vpiTaskFunc: Function name:stringByte
                               vpiArgument (1 items):
                                 RefObj name:str start:26:89 end:26:92:
-                                  vpiParent: SubroutineCall name:stringByte
+                                  vpiParent: MethodFuncCall name:stringByte
                                   vpiName: str
-                                  vpiFullName: t.show.strings.stringByte(str).stringByte.str
+                                  vpiFullName: t.show.strings.stringByte(str).str
                                   vpiActual: IODecl name:str
+                          vpiActual: MethodFuncCall name:stringByte
                     vpiCondition Operation start:26:40 end:26:61:
                       vpiParent: ForStmt
                       vpiOpType: not (3)
@@ -1164,15 +1167,17 @@ Design name:unnamed:
                               vpiName: strings
                               vpiFullName: t.show.strings
                               vpiActual: RefInstance name:strings
-                            SubroutineCall name:isNull start:26:49 end:26:61:
+                            MethodFuncCall name:isNull start:26:49 end:26:61:
                               vpiParent: RefObj name:strings.isNull(char)
                               vpiName Identifier name:isNull start:26:49 end:26:55:
+                              vpiTaskFunc: Function name:isNull
                               vpiArgument (1 items):
                                 RefObj name:char start:26:56 end:26:60:
-                                  vpiParent: SubroutineCall name:isNull
+                                  vpiParent: MethodFuncCall name:isNull
                                   vpiName: char
-                                  vpiFullName: t.show.strings.isNull(char).isNull.char
+                                  vpiFullName: t.show.strings.isNull(char).char
                                   vpiActual: Variable name:char
+                          vpiActual: MethodFuncCall name:isNull
                     vpiStmt Begin start:26:95 end:28:6:
                       vpiParent: ForStmt
                       vpiFullName: t.show
@@ -1349,13 +1354,13 @@ Design name:unnamed:
                           vpiParent: IfStmt
                           vpiFullName: t
                           vpiStmt (1 items):
-                            TaskCall name:show start:39:6 end:39:25:
+                            MethodTaskCall name:show start:39:6 end:39:25:
                               vpiParent: Begin
                               vpiName Identifier name:show start:39:6 end:39:10:
                               vpiTaskFunc: Task name:show
                               vpiArgument (1 items):
                                 Constant start:39:11 end:39:24:
-                                  vpiParent: TaskCall name:show
+                                  vpiParent: MethodTaskCall name:show
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
                                     vpiFullName: t
@@ -1389,13 +1394,13 @@ Design name:unnamed:
                           vpiParent: IfStmt
                           vpiFullName: t
                           vpiStmt (1 items):
-                            TaskCall name:show start:42:6 end:42:25:
+                            MethodTaskCall name:show start:42:6 end:42:25:
                               vpiParent: Begin
                               vpiName Identifier name:show start:42:6 end:42:10:
                               vpiTaskFunc: Task name:show
                               vpiArgument (1 items):
                                 Constant start:42:11 end:42:24:
-                                  vpiParent: TaskCall name:show
+                                  vpiParent: MethodTaskCall name:show
                                   vpiTypespec RefTypespec:
                                     vpiParent: Constant
                                     vpiFullName: t
@@ -1480,6 +1485,7 @@ Design name:unnamed:
         vpiParent: Module name:strings
         vpiName: work
         vpiFullName: strings.work
+        vpiActual: Library name:work
       vpiCell: strings
       vpiTaskFunc (3 items):
         Task name:stringStart start:56:4 end:61:11:
@@ -1919,7 +1925,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

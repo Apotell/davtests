@@ -46,6 +46,7 @@ n<$Source01/class_test_22.sv> u<33> t<Top_level_rule> c<1> l<6:1> el<6:58>
                               n<y> u<14> t<SIMPLE_IDENTIFIER> p<15> l<6:45> el<6:46>
             n<> u<27> t<ENDCLASS> p<28> l<6:50> el<6:58>
 AST_DEBUG_END
+[WRN:CP5851] $Source01/class_test_22.sv:6:19: Failed to bind "Package".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/class_test_22.sv:6:28: Unsupported typespec "Bar".
 ====== HLDB =======
@@ -62,7 +63,7 @@ Design name:unnamed:
       vpiName Identifier name:Foo start:6:7 end:6:10:
       vpiFullName: Foo
       vpiTypespec (1 items):
-        UnsupportedTypespec name:Bar start:6:28 end:6:48:
+        UnsupportedTypespec name:Bar start:6:28 end:6:31:
           vpiParent: ClassDefn name:Foo
           vpiName Identifier name:Bar start:6:28 end:6:31:
           vpiParamAssign (2 items):
@@ -101,10 +102,10 @@ Design name:unnamed:
             vpiName: Package::Bar
             vpiFullName: Foo::Package::Bar
             vpiPathElem (2 items):
-              RefTypespec name:Package start:6:19 end:6:26:
+              RefObj name:Package start:6:19 end:6:26:
                 vpiParent: RefTypespec name:Package::Bar
                 vpiName: Package
-                vpiFullName: Foo::Package::Bar::Package
+                vpiFullName: Foo::Package
               RefTypespec name:Bar start:6:28 end:6:31:
                 vpiParent: RefTypespec name:Package::Bar
                 vpiName: Bar
@@ -114,6 +115,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:Foo
         vpiName: work
         vpiFullName: Foo::work
+        vpiActual: Library name:work
       vpiCell: Foo
   vpiTypespec (1 items):
     ClassTypespec name:Foo start:6:7 end:6:10:
@@ -129,7 +131,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -71,17 +71,17 @@ n<$Source01/dut.sv> u<95> t<Top_level_rule> c<1> l<1:1> el<24:1>
         n<> u<90> t<Package_item> p<92> c<89> s<91> l<18:1> el<21:8>
           n<> u<89> t<Package_or_generate_item_declaration> p<90> c<88> l<18:1> el<21:8>
             n<> u<88> t<Task_declaration> p<89> c<87> l<18:1> el<21:8>
-              n<> u<87> t<Task_body_declaration> p<88> c<55> l<18:6> el<21:8>
-                n<> u<55> t<Class_scope> p<87> c<54> s<56> l<18:6> el<18:16>
-                  n<> u<54> t<Class_type> p<55> c<53> l<18:6> el<18:14>
-                    n<uvm_vreg> u<53> t<SIMPLE_IDENTIFIER> p<54> l<18:6> el<18:14>
-                n<write> u<56> t<SIMPLE_IDENTIFIER> p<87> s<57> l<18:16> el<18:21>
-                n<> u<57> t<Tf_port_item_list> p<87> s<65> l<18:21> el<18:23>
+              n<> u<87> t<Task_body_declaration> p<88> c<54> l<18:6> el<21:8>
+                n<> u<54> t<Class_scope> p<87> c<53> s<55> l<18:6> el<18:16>
+                  n<uvm_vreg> u<53> t<SIMPLE_IDENTIFIER> p<54> l<18:6> el<18:14>
+                n<write> u<55> t<SIMPLE_IDENTIFIER> p<87> s<56> l<18:16> el<18:21>
+                n<> u<56> t<Tf_port_item_list> p<87> s<65> l<18:21> el<18:23>
                 n<> u<65> t<Block_item_declaration> p<87> c<64> s<85> l<19:3> el<19:26>
                   n<> u<64> t<Data_declaration> p<65> c<63> l<19:3> el<19:26>
                     n<> u<63> t<Variable_declaration> p<64> c<59> l<19:3> el<19:26>
                       n<> u<59> t<Data_type> p<63> c<58> s<62> l<19:3> el<19:21>
-                        n<uvm_vreg_field_cbs> u<58> t<SIMPLE_IDENTIFIER> p<59> l<19:3> el<19:21>
+                        n<> u<58> t<Class_type> p<59> c<57> l<19:3> el<19:21>
+                          n<uvm_vreg_field_cbs> u<57> t<SIMPLE_IDENTIFIER> p<58> l<19:3> el<19:21>
                       n<> u<62> t<Variable_decl_assignment_list> p<63> c<61> l<19:22> el<19:25>
                         n<> u<61> t<Variable_decl_assignment> p<62> c<60> l<19:22> el<19:25>
                           n<cbs> u<60> t<SIMPLE_IDENTIFIER> p<61> l<19:22> el<19:25>
@@ -109,6 +109,8 @@ n<$Source01/dut.sv> u<95> t<Top_level_rule> c<1> l<1:1> el<24:1>
         n<> u<91> t<ENDPACKAGE> p<92> l<23:1> el<23:11>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "uvm".
+[WRN:CP5851] $Source01/dut.sv:5:16: Failed to bind "first".
+[WRN:CP5851] $Source01/dut.sv:20:19: Failed to bind "first".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "uvm".
 [ERR:LN7705] $Source01/dut.sv:20:19: Null Actual: id:46, type:MethodFuncCall, name:first, relation:vpiPathElem.
 ====== HLDB =======
@@ -146,6 +148,7 @@ Design name:unnamed:
         vpiParent: Package name:uvm
         vpiName: work
         vpiFullName: uvm::work
+        vpiActual: Library name:work
       vpiCell: uvm
       vpiClassDefn (3 items):
         ClassDefn name:uvm_vreg_field_cb_iter file:$Source01/dut.sv start:4:1 end:7:9:
@@ -159,6 +162,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:uvm_vreg_field_cb_iter
             vpiName: work
             vpiFullName: uvm::uvm_vreg_field_cb_iter::work
+            vpiActual: Library name:work
           vpiCell: uvm_vreg_field_cb_iter
           vpiTaskFuncDecl (1 items):
             FunctionDecl name:first start:5:16 end:5:36:
@@ -207,6 +211,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:uvm_vreg_field_cbs
             vpiName: work
             vpiFullName: uvm::uvm_vreg_field_cbs::work
+            vpiActual: Library name:work
           vpiCell: uvm_vreg_field_cbs
         ClassDefn name:uvm_vreg file:$Source01/dut.sv start:14:1 end:16:9:
           vpiParent: Package name:uvm
@@ -219,6 +224,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:uvm_vreg
             vpiName: work
             vpiFullName: uvm::uvm_vreg::work
+            vpiActual: Library name:work
           vpiCell: uvm_vreg
           vpiMethod (1 items):
             Task name:write start:18:1 end:21:8:
@@ -264,6 +270,7 @@ Design name:unnamed:
                           vpiName: fname
                           vpiFullName: uvm::uvm_vreg::write::fname
                           vpiActual: Variable name:fname
+                      vpiActual: Variable name:fname
                     vpiRhs RefObj name:cbs.first() start:20:15 end:20:26:
                       vpiParent: Assignment
                       vpiName: cbs.first()
@@ -277,12 +284,14 @@ Design name:unnamed:
                         MethodFuncCall name:first start:20:19 end:20:26:
                           vpiParent: RefObj name:cbs.first()
                           vpiName Identifier name:first start:20:19 end:20:24:
+                          vpiTaskFuncDecl: FunctionDecl name:first
           vpiTaskFuncDecl (1 items):
             TaskDecl name:write start:15:12 end:15:24:
               vpiParent: ClassDefn name:uvm_vreg
               vpiName Identifier name:write start:15:17 end:15:22:
               vpiFullName: uvm::uvm_vreg::write
               vpiVisibility: public (1)
+              vpiTaskFunc: Task name:write
   vpiTypespec (1 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -295,7 +304,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 1
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

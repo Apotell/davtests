@@ -171,6 +171,7 @@ Design name:unnamed:
         vpiParent: Package name:Package
         vpiName: work
         vpiFullName: Package::work
+        vpiActual: Library name:work
       vpiCell: Package
       vpiClassDefn (1 items):
         ClassDefn name:Bar #(.X(0), .Y(1), .Z(2)) file:$Source01/class_test_19.sv start:16:1 end:16:49:
@@ -261,6 +262,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:Bar #(.X(0), .Y(1), .Z(2))
             vpiName: work
             vpiFullName: Package::Bar #(.X(0), .Y(1), .Z(2))::work
+            vpiActual: Library name:work
           vpiCell: Bar
   vpiAllClasses (1 items):
     ClassDefn name:Foo file:$Source01/class_test_19.sv start:20:1 end:20:50:
@@ -268,7 +270,7 @@ Design name:unnamed:
       vpiName Identifier name:Foo start:20:7 end:20:10:
       vpiFullName: Foo
       vpiTypespec (1 items):
-        ClassTypespec name:Bar #(x, y, z) start:20:28 end:20:40:
+        ClassTypespec name:Bar #(x, y, z) start:20:28 end:20:31:
           vpiParent: ClassDefn name:Foo
           vpiName Identifier name:Bar #(x, y, z) start:20:28 end:20:31:
           vpiDefName: Bar
@@ -309,19 +311,22 @@ Design name:unnamed:
             vpiName: Package::Bar #(x, y, z)
             vpiFullName: Foo::Package::Bar #(x, y, z)
             vpiPathElem (2 items):
-              RefTypespec name:Package start:20:19 end:20:26:
+              RefObj name:Package start:20:19 end:20:26:
                 vpiParent: RefTypespec name:Package::Bar #(x, y, z)
                 vpiName: Package
-                vpiFullName: Foo::Package::Bar #(x, y, z)::Package
-              RefTypespec name:Bar start:20:28 end:20:31:
+                vpiFullName: Foo::Package
+                vpiActual: Package name:Package
+              RefTypespec name:Bar #(x, y, z) start:20:28 end:20:31:
                 vpiParent: RefTypespec name:Package::Bar #(x, y, z)
-                vpiName: Bar
-                vpiFullName: Foo::Package::Bar #(x, y, z)::Bar
+                vpiName: Bar #(x, y, z)
+                vpiFullName: Foo::Package::Bar #(x, y, z)::Bar #(x, y, z)
                 vpiActual: ClassTypespec name:Bar #(x, y, z)
+            vpiActual: ClassTypespec name:Bar #(x, y, z)
       vpiLibrary RefObj name:work start:20:7 end:20:10:
         vpiParent: ClassDefn name:Foo
         vpiName: work
         vpiFullName: Foo::work
+        vpiActual: Library name:work
       vpiCell: Foo
   vpiAllModules (1 items):
     Module name:test file:$Source01/class_test_19.sv start:22:1 end:23:10:
@@ -334,6 +339,7 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
+        vpiActual: Library name:work
       vpiCell: test
   vpiTypespec (4 items):
     IntTypespec:

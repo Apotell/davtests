@@ -33,20 +33,20 @@ n<$Source01/class_member_test_24.sv> u<43> t<Top_level_rule> c<1> l<6:1> el<8:9>
                     n<> u<30> t<Tf_port_item_list> p<31> c<29> l<7:26> el<7:48>
                       n<> u<29> t<Tf_port_item> p<30> c<21> l<7:27> el<7:47>
                         n<> u<21> t<Data_type_or_implicit> p<29> c<20> s<22> l<7:27> el<7:42>
-                          n<> u<20> t<Data_type> p<21> c<9> l<7:27> el<7:42>
-                            n<> u<9> t<Class_scope> p<20> c<8> s<10> l<7:27> el<7:34>
-                              n<> u<8> t<Class_type> p<9> c<7> l<7:27> el<7:32>
-                                n<mypkg> u<7> t<SIMPLE_IDENTIFIER> p<8> l<7:27> el<7:32>
-                            n<foo> u<10> t<SIMPLE_IDENTIFIER> p<20> s<19> l<7:34> el<7:37>
-                            n<> u<19> t<Parameter_value_assignment> p<20> c<18> l<7:38> el<7:42>
-                              n<> u<18> t<Parameter_assignment_list> p<19> c<17> l<7:40> el<7:41>
-                                n<> u<17> t<Ordered_parameter_assignment> p<18> c<16> l<7:40> el<7:41>
-                                  n<> u<16> t<Param_expression> p<17> c<15> l<7:40> el<7:41>
-                                    n<> u<15> t<Mintypmax_expression> p<16> c<14> l<7:40> el<7:41>
-                                      n<> u<14> t<Expression> p<15> c<13> l<7:40> el<7:41>
-                                        n<> u<13> t<Primary> p<14> c<12> l<7:40> el<7:41>
-                                          n<> u<12> t<Primary_literal> p<13> c<11> l<7:40> el<7:41>
-                                            n<4> u<11> t<INTEGRAL_NUMBER> p<12> l<7:40> el<7:41>
+                          n<> u<20> t<Data_type> p<21> c<8> l<7:27> el<7:42>
+                            n<> u<8> t<Package_scope> p<20> c<7> s<19> l<7:27> el<7:34>
+                              n<mypkg> u<7> t<SIMPLE_IDENTIFIER> p<8> l<7:27> el<7:32>
+                            n<> u<19> t<Class_type> p<20> c<18> l<7:34> el<7:42>
+                              n<foo> u<18> t<SIMPLE_IDENTIFIER> p<19> s<17> l<7:34> el<7:37>
+                              n<> u<17> t<Parameter_value_assignment> p<19> c<16> l<7:38> el<7:42>
+                                n<> u<16> t<Parameter_assignment_list> p<17> c<15> l<7:40> el<7:41>
+                                  n<> u<15> t<Ordered_parameter_assignment> p<16> c<14> l<7:40> el<7:41>
+                                    n<> u<14> t<Param_expression> p<15> c<13> l<7:40> el<7:41>
+                                      n<> u<13> t<Mintypmax_expression> p<14> c<12> l<7:40> el<7:41>
+                                        n<> u<12> t<Expression> p<13> c<11> l<7:40> el<7:41>
+                                          n<> u<11> t<Primary> p<12> c<10> l<7:40> el<7:41>
+                                            n<> u<10> t<Primary_literal> p<11> c<9> l<7:40> el<7:41>
+                                              n<4> u<9> t<INTEGRAL_NUMBER> p<10> l<7:40> el<7:41>
                         n<x> u<22> t<SIMPLE_IDENTIFIER> p<29> s<28> l<7:43> el<7:44>
                         n<> u<28> t<Variable_dimension> p<29> c<27> l<7:44> el<7:47>
                           n<> u<27> t<Unpacked_dimension> p<28> c<26> l<7:44> el<7:47>
@@ -56,8 +56,10 @@ n<$Source01/class_member_test_24.sv> u<43> t<Top_level_rule> c<1> l<6:1> el<8:9>
                                   n<N> u<23> t<SIMPLE_IDENTIFIER> p<24> l<7:45> el<7:46>
             n<> u<37> t<ENDCLASS> p<38> l<8:1> el<8:9>
 AST_DEBUG_END
+[WRN:CP5851] $Source01/class_member_test_24.sv:7:8: Failed to bind "subr".
+[WRN:CP5851] $Source01/class_member_test_24.sv:7:27: Failed to bind "mypkg".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:DB2029] $Source01/class_member_test_24.sv:7:34: Unsupported typespec "".
+[ERR:DB2029] $Source01/class_member_test_24.sv:7:34: Unsupported typespec "foo".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -72,17 +74,18 @@ Design name:unnamed:
       vpiName Identifier name:myclass start:6:7 end:6:14:
       vpiFullName: myclass
       vpiTypespec (2 items):
-        UnsupportedTypespec start:7:34 end:7:42:
+        UnsupportedTypespec name:foo start:7:34 end:7:42:
           vpiParent: ClassDefn name:myclass
+          vpiName Identifier name:foo start:7:34 end:7:37:
           vpiParamAssign (1 items):
             ParamAssign start:7:40 end:7:41:
-              vpiParent: UnsupportedTypespec
+              vpiParent: UnsupportedTypespec name:foo
               vpiOverridden: true
               vpiRhs Constant start:7:40 end:7:41:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: myclass
+                  vpiFullName: myclass::foo
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -101,20 +104,20 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: N
                   vpiFullName: myclass::N
-          "vpiElemTypespec RefTypespec name:mypkg:: start:7:27 end:7:42":
+          vpiElemTypespec RefTypespec name:mypkg::foo start:7:27 end:7:42:
             vpiParent: ArrayTypespec
-            vpiName: mypkg::
-            vpiFullName: myclass::mypkg
+            vpiName: mypkg::foo
+            vpiFullName: myclass::mypkg::foo
             vpiPathElem (2 items):
-              RefTypespec name:mypkg start:7:27 end:7:32:
-                vpiParent: RefTypespec name:mypkg::
+              RefObj name:mypkg start:7:27 end:7:32:
+                vpiParent: RefTypespec name:mypkg::foo
                 vpiName: mypkg
-                vpiFullName: myclass::mypkg::::mypkg
+                vpiFullName: myclass::mypkg
               RefTypespec name:foo start:7:34 end:7:42:
-                vpiParent: RefTypespec name:mypkg::
+                vpiParent: RefTypespec name:mypkg::foo
                 vpiName: foo
-                vpiFullName: myclass::mypkg::::foo
-                vpiActual: UnsupportedTypespec
+                vpiFullName: myclass::mypkg::foo::foo
+                vpiActual: UnsupportedTypespec name:foo
       vpiDefName: myclass
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -122,6 +125,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:myclass
         vpiName: work
         vpiFullName: myclass::work
+        vpiActual: Library name:work
       vpiCell: myclass
       vpiTaskFuncDecl (1 items):
         FunctionDecl name:subr start:7:8 end:7:48:
@@ -134,10 +138,10 @@ Design name:unnamed:
               vpiParent: FunctionDecl name:subr
               vpiName: x
               vpiDirection: input (1)
-              "vpiTypespec RefTypespec name:mypkg:: [N] start:7:27 end:7:42":
+              vpiTypespec RefTypespec name:mypkg::foo [N] start:7:27 end:7:42:
                 vpiParent: IODecl name:x
-                vpiName: "mypkg:: [N]"
-                vpiFullName: "myclass::subr::x::mypkg:: [N]"
+                vpiName: mypkg::foo [N]
+                vpiFullName: myclass::subr::x::mypkg::foo [N]
                 vpiActual: ArrayTypespec
           vpiReturn RefTypespec start:7:17 end:7:21:
             vpiParent: FunctionDecl name:subr
@@ -162,7 +166,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -206,7 +210,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_24/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    26      26       0         0
+                                    27      27       0         0
 ===================== END REDUCTION RESULT =====================

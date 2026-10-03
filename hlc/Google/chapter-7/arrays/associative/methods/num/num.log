@@ -7,7 +7,9 @@ VERSION: 1.84
 COMMAND: -wd ../../../../../../../tests/Google/chapter-7/arrays/associative/methods -timescale=1ns/1ns -d ast -d db num.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-7/arrays/associative/methods/num
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/num.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/num.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 193
 LIB: work
@@ -207,10 +209,6 @@ n<$Source01/num.sv> u<192> t<Top_level_rule> c<1> l<16:1> el<31:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/num.sv:16:1: Compile module "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/num.sv:21:40: Null Actual: id:23, type:MethodFuncCall, name:num, relation:vpiPathElem.
-[ERR:LN7705] $Source01/num.sv:23:40: Null Actual: id:41, type:MethodFuncCall, name:num, relation:vpiPathElem.
-[ERR:LN7705] $Source01/num.sv:25:40: Null Actual: id:59, type:MethodFuncCall, name:num, relation:vpiPathElem.
-[ERR:LN7705] $Source01/num.sv:27:40: Null Actual: id:77, type:MethodFuncCall, name:num, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -252,6 +250,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
       vpiProcess (1 items):
         Initial start:20:1 end:28:4:
@@ -263,6 +262,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:21:5 end:21:44:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:21:5 end:21:13:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:21:14 end:21:34:
                     vpiParent: SysTaskCall name:$display
@@ -288,6 +288,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:arr.num
                         vpiName Identifier name:num start:21:40 end:21:43:
                         vpiIsProperty: true
+                        vpiTaskFunc: Function name:num
+                    vpiActual: MethodFuncCall name:num
               Assignment start:22:5 end:22:17:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -323,6 +325,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:23:5 end:23:44:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:23:5 end:23:13:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:23:14 end:23:34:
                     vpiParent: SysTaskCall name:$display
@@ -348,6 +351,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:arr.num
                         vpiName Identifier name:num start:23:40 end:23:43:
                         vpiIsProperty: true
+                        vpiTaskFunc: Function name:num
+                    vpiActual: MethodFuncCall name:num
               Assignment start:24:5 end:24:24:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -383,6 +388,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:25:5 end:25:44:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:25:5 end:25:13:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:25:14 end:25:34:
                     vpiParent: SysTaskCall name:$display
@@ -408,6 +414,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:arr.num
                         vpiName Identifier name:num start:25:40 end:25:43:
                         vpiIsProperty: true
+                        vpiTaskFunc: Function name:num
+                    vpiActual: MethodFuncCall name:num
               Assignment start:26:5 end:26:23:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -443,6 +451,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:27:5 end:27:44:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:27:5 end:27:13:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:27:14 end:27:34:
                     vpiParent: SysTaskCall name:$display
@@ -468,7 +477,9 @@ Design name:unnamed:
                         vpiParent: RefObj name:arr.num
                         vpiName Identifier name:num start:27:40 end:27:43:
                         vpiIsProperty: true
-  vpiTypespec (5 items):
+                        vpiTaskFunc: Function name:num
+                    vpiActual: MethodFuncCall name:num
+  vpiTypespec (9 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:16:8 end:16:11:
@@ -483,6 +494,14 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
     LogicTypespec:
       vpiParent: Design name:unnamed
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -490,7 +509,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -535,7 +554,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/arrays/associative/methods/num/d
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                            1436    1436       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                  1436    1436       0         0
 ===================== END REDUCTION RESULT =====================

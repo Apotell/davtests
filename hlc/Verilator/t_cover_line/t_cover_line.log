@@ -1016,7 +1016,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_cover_line.v:91:1: Compile module "beta".
 [INF:CP5804] $Source01/t_cover_line.v:118:1: Compile module "tsk".
 [INF:CP5804] $Source01/t_cover_line.v:146:1: Compile module "off".
-[WRN:CP5851] $Source01/t_cover_line.v:66:10: Failed to bind "center_task".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1117,6 +1116,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiTaskFunc (1 items):
         Task name:call_task start:64:4 end:67:11:
@@ -1136,20 +1136,22 @@ Design name:unnamed:
                 vpiName: t1
                 vpiFullName: t.call_task.t1
                 vpiActual: RefInstance name:t1
-              SubroutineCall name:center_task start:66:10 end:66:27:
+              MethodTaskCall name:center_task start:66:10 end:66:27:
                 vpiParent: "RefObj name:t1.center_task(1'b1)"
                 vpiName Identifier name:center_task start:66:10 end:66:21:
+                vpiTaskFunc: Task name:center_task
                 vpiArgument (1 items):
                   Constant start:66:22 end:66:26:
-                    vpiParent: SubroutineCall name:center_task
+                    vpiParent: MethodTaskCall name:center_task
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
-                      vpiFullName: "t.call_task.t1.center_task(1'b1).center_task"
+                      vpiFullName: "t.call_task.t1.center_task(1'b1)"
                       vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
                     vpiValue: "1"
+            vpiActual: MethodTaskCall name:center_task
       vpiNet (2 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
@@ -1416,7 +1418,7 @@ Design name:unnamed:
                             vpiParent: IfElse
                             vpiFullName: t
                             vpiStmt (1 items):
-                              TaskCall name:call_task start:54:6 end:54:17:
+                              MethodTaskCall name:call_task start:54:6 end:54:17:
                                 vpiParent: Begin
                                 vpiName Identifier name:call_task start:54:6 end:54:15:
                                 vpiTaskFunc: Task name:call_task
@@ -1480,7 +1482,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.a1.clk
-                vpiActual: Port name:clk
+                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:20:15 end:20:18:
                 vpiParent: Port
                 vpiName: clk
@@ -1492,7 +1494,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: toggle
                 vpiFullName: t.a1.toggle
-                vpiActual: Port name:toggle
+                vpiActual: Variable name:toggle
               vpiHighConn RefObj name:toggle start:21:18 end:21:24:
                 vpiParent: Port
                 vpiName: toggle
@@ -1513,7 +1515,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.a2.clk
-                vpiActual: Port name:clk
+                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:24:15 end:24:18:
                 vpiParent: Port
                 vpiName: clk
@@ -1525,7 +1527,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: toggle
                 vpiFullName: t.a2.toggle
-                vpiActual: Port name:toggle
+                vpiActual: Variable name:toggle
               vpiHighConn RefObj name:toggle start:25:18 end:25:24:
                 vpiParent: Port
                 vpiName: toggle
@@ -1546,7 +1548,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.b1.clk
-                vpiActual: Port name:clk
+                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:28:15 end:28:18:
                 vpiParent: Port
                 vpiName: clk
@@ -1558,7 +1560,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: toggle
                 vpiFullName: t.b1.toggle
-                vpiActual: Port name:toggle
+                vpiActual: Variable name:toggle
               vpiHighConn RefObj name:toggle start:29:18 end:29:24:
                 vpiParent: Port
                 vpiName: toggle
@@ -1579,7 +1581,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.b2.clk
-                vpiActual: Port name:clk
+                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:32:15 end:32:18:
                 vpiParent: Port
                 vpiName: clk
@@ -1591,7 +1593,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: toggle
                 vpiFullName: t.b2.toggle
-                vpiActual: Port name:toggle
+                vpiActual: Variable name:toggle
               vpiHighConn RefObj name:toggle start:33:18 end:33:24:
                 vpiParent: Port
                 vpiName: toggle
@@ -1612,7 +1614,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.t1.clk
-                vpiActual: Port name:clk
+                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:36:15 end:36:18:
                 vpiParent: Port
                 vpiName: clk
@@ -1624,7 +1626,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: toggle
                 vpiFullName: t.t1.toggle
-                vpiActual: Port name:toggle
+                vpiActual: Variable name:toggle
               vpiHighConn RefObj name:toggle start:37:18 end:37:24:
                 vpiParent: Port
                 vpiName: toggle
@@ -1645,7 +1647,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.o1.clk
-                vpiActual: Port name:clk
+                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:40:15 end:40:18:
                 vpiParent: Port
                 vpiName: clk
@@ -1657,7 +1659,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: toggle
                 vpiFullName: t.o1.toggle
-                vpiActual: Port name:toggle
+                vpiActual: Variable name:toggle
               vpiHighConn RefObj name:toggle start:41:18 end:41:24:
                 vpiParent: Port
                 vpiName: toggle
@@ -1676,6 +1678,7 @@ Design name:unnamed:
         vpiParent: Module name:alpha
         vpiName: work
         vpiFullName: alpha.work
+        vpiActual: Library name:work
       vpiCell: alpha
       vpiNet (2 items):
         Net name:clk start:75:10 end:75:13:
@@ -1791,6 +1794,7 @@ Design name:unnamed:
         vpiParent: Module name:beta
         vpiName: work
         vpiFullName: beta.work
+        vpiActual: Library name:work
       vpiCell: beta
       vpiNet (2 items):
         Net name:clk start:95:10 end:95:13:
@@ -1921,6 +1925,7 @@ Design name:unnamed:
         vpiParent: Module name:tsk
         vpiName: work
         vpiFullName: tsk.work
+        vpiActual: Library name:work
       vpiCell: tsk
       vpiTaskFunc (1 items):
         Task name:center_task start:131:4 end:142:11:
@@ -2062,13 +2067,13 @@ Design name:unnamed:
                 BitTypespec:
                   vpiParent: Begin
               vpiStmt (1 items):
-                TaskCall name:center_task start:128:7 end:128:24:
+                MethodTaskCall name:center_task start:128:7 end:128:24:
                   vpiParent: Begin
                   vpiName Identifier name:center_task start:128:7 end:128:18:
                   vpiTaskFunc: Task name:center_task
                   vpiArgument (1 items):
                     Constant start:128:19 end:128:23:
-                      vpiParent: TaskCall name:center_task
+                      vpiParent: MethodTaskCall name:center_task
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
                         vpiFullName: tsk
@@ -2091,6 +2096,7 @@ Design name:unnamed:
         vpiParent: Module name:off
         vpiName: work
         vpiFullName: off.work
+        vpiActual: Library name:work
       vpiCell: off
       vpiNet (2 items):
         Net name:clk start:150:10 end:150:13:
@@ -2236,7 +2242,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

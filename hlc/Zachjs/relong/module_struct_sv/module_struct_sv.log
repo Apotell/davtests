@@ -252,7 +252,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/relong/module_struct.sv:9:1: Compile module "Example".
 [INF:CP5804] $Source01/relong/module_struct.sv:28:1: Compile module "SubModule".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/relong/module_struct.sv:19:12: Null Actual: id:100, type:MethodFuncCall, name:last, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -378,6 +377,7 @@ Design name:unnamed:
         vpiParent: Module name:Example
         vpiName: work
         vpiFullName: Example.work
+        vpiActual: Library name:work
       vpiCell: Example
       vpiPort (3 items):
         Port name:a start:10:23 end:10:24:
@@ -444,6 +444,7 @@ Design name:unnamed:
                       vpiName: first
                       vpiFullName: Example.first
                       vpiActual: TypespecMember name:first
+                  vpiActual: TypespecMember name:first
                 vpiRhs RefObj name:b start:23:19 end:23:20:
                   vpiParent: Assignment
                   vpiName: b
@@ -502,10 +503,12 @@ Design name:unnamed:
                     vpiName: s
                     vpiFullName: Example.sub.s
                     vpiActual: Variable name:s
-                  MethodFuncCall name:last start:19:12 end:19:16:
+                  RefObj name:last start:19:12 end:19:16:
                     vpiParent: RefObj name:s.last
-                    vpiName Identifier name:last start:19:12 end:19:16:
-                    vpiIsProperty: true
+                    vpiName: last
+                    vpiFullName: Example.sub.last
+                    vpiActual: TypespecMember name:last
+                vpiActual: TypespecMember name:last
     Module name:SubModule file:$Source01/relong/module_struct.sv start:28:1 end:35:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:SubModule start:28:8 end:28:17:
@@ -588,6 +591,7 @@ Design name:unnamed:
         vpiParent: Module name:SubModule
         vpiName: work
         vpiFullName: SubModule.work
+        vpiActual: Library name:work
       vpiCell: SubModule
       vpiPort (2 items):
         Port name:in start:29:21 end:29:23:
@@ -735,7 +739,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -780,7 +784,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/module_struct_sv/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             118     118       0         0
+Others                             117     117       0         0
 ----------------------------------------------------------------
-                                   118     118       0         0
+                                   117     117       0         0
 ===================== END REDUCTION RESULT =====================

@@ -34,11 +34,11 @@ n<$Source01/t_lint_pkg_colon_bad.v> u<48> t<Top_level_rule> c<1> l<6:1> el<9:1>
                 n<> u<9> t<INPUT> p<17> s<16> l<6:11> el<6:16>
                 n<> u<16> t<Net_port_type> p<17> c<15> l<6:17> el<6:30>
                   n<> u<15> t<Data_type_or_implicit> p<16> c<14> l<6:17> el<6:30>
-                    n<> u<14> t<Data_type> p<15> c<12> l<6:17> el<6:30>
-                      n<> u<12> t<Class_scope> p<14> c<11> s<13> l<6:17> el<6:25>
-                        n<> u<11> t<Class_type> p<12> c<10> l<6:17> el<6:23>
-                          n<mispkg> u<10> t<SIMPLE_IDENTIFIER> p<11> l<6:17> el<6:23>
-                      n<foo_t> u<13> t<SIMPLE_IDENTIFIER> p<14> l<6:25> el<6:30>
+                    n<> u<14> t<Data_type> p<15> c<11> l<6:17> el<6:30>
+                      n<> u<11> t<Package_scope> p<14> c<10> s<13> l<6:17> el<6:25>
+                        n<mispkg> u<10> t<SIMPLE_IDENTIFIER> p<11> l<6:17> el<6:23>
+                      n<> u<13> t<Class_type> p<14> c<12> l<6:25> el<6:30>
+                        n<foo_t> u<12> t<SIMPLE_IDENTIFIER> p<13> l<6:25> el<6:30>
               n<a> u<18> t<SIMPLE_IDENTIFIER> p<19> l<6:31> el<6:32>
         n<> u<33> t<Non_port_module_item> p<45> c<32> s<43> l<7:4> el<7:17>
           n<> u<32> t<Module_or_generate_item> p<33> c<31> l<7:4> el<7:17>
@@ -65,6 +65,11 @@ n<$Source01/t_lint_pkg_colon_bad.v> u<48> t<Top_level_rule> c<1> l<6:1> el<9:1>
         n<> u<44> t<ENDMODULE> p<45> l<8:1> el<8:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_lint_pkg_colon_bad.v:6:1: Compile module "t".
+[WRN:CP5851] $Source01/t_lint_pkg_colon_bad.v:6:17: Failed to bind "mispkg".
+[WRN:CP5851] $Source01/t_lint_pkg_colon_bad.v:6:25: Failed to bind "foo_t".
+[WRN:CP5851] $Source01/t_lint_pkg_colon_bad.v:6:17: Failed to bind "mispkg".
+[WRN:CP5851] $Source01/t_lint_pkg_colon_bad.v:6:25: Failed to bind "foo_t".
+[WRN:CP5851] $Source01/t_lint_pkg_colon_bad.v:7:17: Failed to bind "bar_t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -106,6 +111,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiNet (1 items):
         Net name:a start:6:31 end:6:32:
@@ -115,10 +121,10 @@ Design name:unnamed:
             vpiName: mispkg::foo_t
             vpiFullName: t.a.mispkg::foo_t
             vpiPathElem (2 items):
-              RefTypespec name:mispkg start:6:17 end:6:23:
+              RefObj name:mispkg start:6:17 end:6:23:
                 vpiParent: RefTypespec name:mispkg::foo_t
                 vpiName: mispkg
-                vpiFullName: t.a.mispkg::foo_t.mispkg
+                vpiFullName: t.a.mispkg
               RefTypespec name:foo_t start:6:25 end:6:30:
                 vpiParent: RefTypespec name:mispkg::foo_t
                 vpiName: foo_t
@@ -141,10 +147,10 @@ Design name:unnamed:
             vpiName: mispkg::foo_t
             vpiFullName: t.a.mispkg::foo_t
             vpiPathElem (2 items):
-              RefTypespec name:mispkg start:6:17 end:6:23:
+              RefObj name:mispkg start:6:17 end:6:23:
                 vpiParent: RefTypespec name:mispkg::foo_t
                 vpiName: mispkg
-                vpiFullName: t.a.mispkg::foo_t.mispkg
+                vpiFullName: t.a.mispkg
               RefTypespec name:foo_t start:6:25 end:6:30:
                 vpiParent: RefTypespec name:mispkg::foo_t
                 vpiName: foo_t
@@ -163,7 +169,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

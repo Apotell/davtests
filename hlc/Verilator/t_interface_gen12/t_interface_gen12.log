@@ -195,9 +195,8 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/t_interface_gen12.v:10:52: Compile generate block "my_gen_block".
 [INF:CP5804] $Source01/t_interface_gen12.v:16:1: Compile module "bar_module".
 [INF:CP5804] $Source01/t_interface_gen12.v:20:1: Compile module "t".
-[WRN:CP5851] $Source01/t_interface_gen12.v:23:11: Failed to bind "foo".
+[WRN:CP5851] $Source01/t_interface_gen12.v:11:3: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_gen12.v:23:31: Failed to bind "baz".
-[WRN:CP5851] $Source01/t_interface_gen12.v:24:15: Failed to bind "foo".
 [WRN:CP5851] $Source01/t_interface_gen12.v:24:35: Failed to bind "baz".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -219,6 +218,7 @@ Design name:unnamed:
         vpiParent: Module name:foo_module
         vpiName: work
         vpiFullName: foo_module.work
+        vpiActual: Library name:work
       vpiCell: foo_module
       vpiGenStmt (1 items):
         GenRegion start:9:4 end:13:15:
@@ -322,6 +322,7 @@ Design name:unnamed:
         vpiParent: Module name:bar_module
         vpiName: work
         vpiFullName: bar_module.work
+        vpiActual: Library name:work
       vpiCell: bar_module
       vpiRefInstance (1 items):
         RefInstance name:foo start:17:15 end:17:18:
@@ -348,6 +349,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiProcess (1 items):
         Initial start:22:4 end:28:7:
@@ -373,6 +375,7 @@ Design name:unnamed:
                       vpiParent: RefObj name:bar.foo.my_gen_block[0].baz
                       vpiName: foo
                       vpiFullName: t.foo
+                      vpiActual: RefInstance name:foo
                     BitSelect name:my_gen_block[0] start:23:15 end:23:29:
                       vpiParent: RefObj name:bar.foo.my_gen_block[0].baz
                       vpiName: my_gen_block[0]
@@ -421,6 +424,7 @@ Design name:unnamed:
                       vpiParent: RefObj name:bar.foo.my_gen_block[0].baz
                       vpiName: foo
                       vpiFullName: t.foo
+                      vpiActual: RefInstance name:foo
                     BitSelect name:my_gen_block[0] start:24:19 end:24:33:
                       vpiParent: RefObj name:bar.foo.my_gen_block[0].baz
                       vpiName: my_gen_block[0]
@@ -503,7 +507,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

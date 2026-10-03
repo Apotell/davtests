@@ -11,10 +11,8 @@ COMMAND: -wd ../../../tests/ClassMini -fileunit -writepp -d db -sv dut.sv -nobui
 [INF:PA5502] Parsing source file "$Source01/dut.sv".
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "pack".
 [INF:CP5804] $Source01/dut.sv:21:1: Compile module "door_mod".
-[WRN:CP5851] $Source01/dut.sv:24:16: Failed to bind "new".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "pack".
 [WRN:PA5506] $Source01/dut.sv:21:1: No timescale set for "door_mod".
-[ERR:LN7705] $Source01/dut.sv:24:16: Null Actual: id:84, type:MethodFuncCall, name:new, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -45,6 +43,7 @@ Design name:unnamed:
         vpiParent: Package name:pack
         vpiName: work
         vpiFullName: pack::work
+        vpiActual: Library name:work
       vpiCell: pack
       vpiClassDefn (2 items):
         ClassDefn name:door file:$Source01/dut.sv start:3:1 end:11:9:
@@ -193,6 +192,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:door
             vpiName: work
             vpiFullName: pack::door::work
+            vpiActual: Library name:work
           vpiCell: door
           vpiTaskFuncDecl (1 items):
             TaskDecl name:door_fsm start:10:18 end:10:33:
@@ -227,6 +227,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:doorOpen
             vpiName: work
             vpiFullName: pack::doorOpen::work
+            vpiActual: Library name:work
           vpiCell: doorOpen
           vpiMethod (1 items):
             Task name:door_fsm start:14:13 end:16:12:
@@ -268,6 +269,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:toto
         vpiName: work
         vpiFullName: toto::work
+        vpiActual: Library name:work
       vpiCell: toto
   vpiAllModules (1 items):
     Module name:door_mod file:$Source01/dut.sv start:21:1 end:27:10:
@@ -282,29 +284,32 @@ Design name:unnamed:
             vpiName: pack::doorOpen
             vpiFullName: door_mod.open.pack::doorOpen
             vpiPathElem (2 items):
-              RefTypespec name:pack start:22:5 end:22:9:
+              RefObj name:pack start:22:5 end:22:9:
                 vpiParent: RefTypespec name:pack::doorOpen
                 vpiName: pack
-                vpiFullName: door_mod.open.pack::doorOpen.pack
-                vpiPathElem (1 items):
-                  RefObj name:pack start:22:5 end:22:9:
-                    vpiParent: RefTypespec name:pack
-                    vpiName: pack
-                    vpiFullName: door_mod.open.pack::doorOpen.pack
-                    vpiActual: Package name:pack
+                vpiFullName: door_mod.open.pack
+                vpiActual: Package name:pack
               RefTypespec name:doorOpen start:22:11 end:22:19:
                 vpiParent: RefTypespec name:pack::doorOpen
                 vpiName: doorOpen
                 vpiFullName: door_mod.open.pack::doorOpen.doorOpen
+                vpiActual: ClassTypespec name:doorOpen
             vpiActual: ClassTypespec name:doorOpen
           vpiName: open
           vpiFullName: door_mod.open
+      vpiTypespec (1 items):
+        ClassTypespec name:doorOpen start:22:11 end:22:19:
+          vpiParent: Module name:door_mod
+          vpiName Identifier name:doorOpen start:22:11 end:22:19:
+          vpiDefName: doorOpen
+          vpiClassDefn: ClassDefn name:doorOpen
       vpiDefName: door_mod
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:21:8 end:21:16:
         vpiParent: Module name:door_mod
         vpiName: work
         vpiFullName: door_mod.work
+        vpiActual: Library name:work
       vpiCell: door_mod
       vpiProcess (1 items):
         Initial start:23:5 end:26:8:
@@ -338,6 +343,7 @@ Design name:unnamed:
                     vpiParent: RefObj name:open.door_fsm()
                     vpiName Identifier name:door_fsm start:25:14 end:25:22:
                     vpiTaskFunc: Task name:door_fsm
+                vpiActual: MethodTaskCall name:door_fsm
   vpiTypespec (4 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -361,8 +367,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 3
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -406,7 +412,7 @@ COMMAND: ${HLC_DIR}/regression/ClassMini/ClassMini/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              86      86       0         0
 ----------------------------------------------------------------
-                                    85      85       0         0
+                                    86      86       0         0
 ===================== END REDUCTION RESULT =====================

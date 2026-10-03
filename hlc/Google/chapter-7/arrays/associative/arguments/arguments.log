@@ -7,7 +7,9 @@ VERSION: 1.84
 COMMAND: -wd ../../../../../../tests/Google/chapter-7/arrays/associative -timescale=1ns/1ns -d ast -d db arguments.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-7/arrays/associative/arguments
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/arguments.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/arguments.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 293
 LIB: work
@@ -348,6 +350,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
       vpiTaskFunc (1 items):
         Task name:fun start:20:1 end:24:8:
@@ -415,6 +418,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:22:2 end:23:35:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:22:2 end:22:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (4 items):
                   Constant start:22:11 end:22:73:
                     vpiParent: SysTaskCall name:$display
@@ -589,6 +593,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:31:2 end:32:35:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:31:2 end:31:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (4 items):
                   Constant start:31:11 end:31:73:
                     vpiParent: SysTaskCall name:$display
@@ -657,19 +662,20 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "2"
                       vpiValue: 2
-              TaskCall name:fun start:34:2 end:34:13:
+              MethodTaskCall name:fun start:34:2 end:34:13:
                 vpiParent: Begin
                 vpiName Identifier name:fun start:34:2 end:34:5:
                 vpiTaskFunc: Task name:fun
                 vpiArgument (1 items):
                   RefObj name:arraya start:34:6 end:34:12:
-                    vpiParent: TaskCall name:fun
+                    vpiParent: MethodTaskCall name:fun
                     vpiName: arraya
                     vpiFullName: top.arraya
                     vpiActual: Variable name:arraya
               SysTaskCall name:$display start:36:2 end:37:35:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:36:2 end:36:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (4 items):
                   Constant start:36:11 end:36:73:
                     vpiParent: SysTaskCall name:$display
@@ -738,7 +744,7 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "2"
                       vpiValue: 2
-  vpiTypespec (3 items):
+  vpiTypespec (8 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:16:8 end:16:11:
@@ -749,6 +755,16 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -801,7 +817,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/arrays/associative/arguments/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             104     104       0         0
+Others                            1469    1469       0         0
 ----------------------------------------------------------------
-                                   104     104       0         0
+                                  1469    1469       0         0
 ===================== END REDUCTION RESULT =====================

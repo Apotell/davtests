@@ -40,11 +40,11 @@ n<$Source01/typedef_test_14.sv> u<41> t<Top_level_rule> c<1> l<15:1> el<23:1>
         n<> u<30> t<Package_or_generate_item_declaration> p<31> c<29> l<19:1> el<19:41>
           n<> u<29> t<Data_declaration> p<30> c<28> l<19:1> el<19:41>
             n<> u<28> t<Type_declaration> p<29> c<26> l<19:1> el<19:41>
-              n<> u<26> t<Data_type> p<28> c<24> s<27> l<19:9> el<19:32>
-                n<> u<24> t<Class_scope> p<26> c<23> s<25> l<19:9> el<19:23>
-                  n<> u<23> t<Class_type> p<24> c<22> l<19:9> el<19:21>
-                    n<some_package> u<22> t<SIMPLE_IDENTIFIER> p<23> l<19:9> el<19:21>
-                n<some_type> u<25> t<SIMPLE_IDENTIFIER> p<26> l<19:23> el<19:32>
+              n<> u<26> t<Data_type> p<28> c<23> s<27> l<19:9> el<19:32>
+                n<> u<23> t<Package_scope> p<26> c<22> s<25> l<19:9> el<19:23>
+                  n<some_package> u<22> t<SIMPLE_IDENTIFIER> p<23> l<19:9> el<19:21>
+                n<> u<25> t<Class_type> p<26> c<24> l<19:23> el<19:32>
+                  n<some_type> u<24> t<SIMPLE_IDENTIFIER> p<25> l<19:23> el<19:32>
               n<myalias> u<27> t<SIMPLE_IDENTIFIER> p<28> l<19:33> el<19:40>
     n<> u<39> t<Description> p<40> c<38> l<21:1> el<22:10>
       n<> u<38> t<Module_declaration> p<39> c<36> l<21:1> el<22:10>
@@ -91,6 +91,7 @@ Design name:unnamed:
         vpiParent: Package name:some_package
         vpiName: work
         vpiFullName: some_package::work
+        vpiActual: Library name:work
       vpiCell: some_package
   vpiAllModules (1 items):
     Module name:test file:$Source01/typedef_test_14.sv start:21:1 end:22:10:
@@ -103,6 +104,7 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
+        vpiActual: Library name:work
       vpiCell: test
   vpiTypespec (2 items):
     TypedefTypespec name:myalias start:19:1 end:19:41:
@@ -123,20 +125,16 @@ Design name:unnamed:
         vpiName: some_package::some_type
         vpiFullName: myalias.some_package::some_type
         vpiPathElem (2 items):
-          RefTypespec name:some_package start:19:9 end:19:21:
+          RefObj name:some_package start:19:9 end:19:21:
             vpiParent: RefTypespec name:some_package::some_type
             vpiName: some_package
-            vpiFullName: myalias.some_package::some_type.some_package
-            vpiPathElem (1 items):
-              RefObj name:some_package start:19:9 end:19:21:
-                vpiParent: RefTypespec name:some_package
-                vpiName: some_package
-                vpiFullName: myalias.some_package::some_type.some_package
-                vpiActual: Package name:some_package
+            vpiFullName: myalias.some_package
+            vpiActual: Package name:some_package
           RefTypespec name:some_type start:19:23 end:19:32:
             vpiParent: RefTypespec name:some_package::some_type
             vpiName: some_type
             vpiFullName: myalias.some_package::some_type.some_type
+            vpiActual: TypedefTypespec name:some_type
         vpiActual: TypedefTypespec name:some_type
   vpiLibrary (1 items):
     Library name:work:
@@ -190,7 +188,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/typedef/typedef_test_14/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              25      25       0         0
+Others                              24      24       0         0
 ----------------------------------------------------------------
-                                    25      25       0         0
+                                    24      24       0         0
 ===================== END REDUCTION RESULT =====================

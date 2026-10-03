@@ -53,11 +53,11 @@ n<$Source01/dut.sv> u<71> t<Top_level_rule> c<1> l<1:1> el<10:1>
                   n<> u<60> t<Package_or_generate_item_declaration> p<61> c<59> l<7:1> el<7:62>
                     n<> u<59> t<Data_declaration> p<60> c<58> l<7:1> el<7:62>
                       n<> u<58> t<Variable_declaration> p<59> c<54> l<7:1> el<7:62>
-                        n<> u<54> t<Data_type> p<58> c<32> s<57> l<7:1> el<7:49>
-                          n<> u<32> t<Class_scope> p<54> c<31> s<33> l<7:1> el<7:13>
-                            n<> u<31> t<Class_type> p<32> c<30> l<7:1> el<7:11>
-                              n<my_package> u<30> t<SIMPLE_IDENTIFIER> p<31> l<7:1> el<7:11>
-                          n<typedef_logic_typespec> u<33> t<SIMPLE_IDENTIFIER> p<54> s<43> l<7:13> el<7:35>
+                        n<> u<54> t<Data_type> p<58> c<31> s<57> l<7:1> el<7:49>
+                          n<> u<31> t<Package_scope> p<54> c<30> s<33> l<7:1> el<7:13>
+                            n<my_package> u<30> t<SIMPLE_IDENTIFIER> p<31> l<7:1> el<7:11>
+                          n<> u<33> t<Class_type> p<54> c<32> s<43> l<7:13> el<7:35>
+                            n<typedef_logic_typespec> u<32> t<SIMPLE_IDENTIFIER> p<33> l<7:13> el<7:35>
                           n<> u<43> t<Packed_dimension> p<54> c<42> s<53> l<7:39> el<7:44>
                             n<> u<42> t<Constant_range> p<43> c<37> l<7:40> el<7:43>
                               n<> u<37> t<Constant_expression> p<42> c<36> s<41> l<7:40> el<7:41>
@@ -146,6 +146,7 @@ Design name:unnamed:
         vpiParent: Package name:my_package
         vpiName: work
         vpiFullName: my_package::work
+        vpiActual: Library name:work
       vpiCell: my_package
       vpiEndLabel Identifier name:my_package start:3:13 end:3:23:
   vpiAllModules (1 items):
@@ -156,10 +157,10 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:my_instance start:7:50 end:7:61:
           vpiParent: Module name:logic_typespec
-          "vpiTypespec RefTypespec name: [7:0] [1:0] start:7:1 end:7:49":
+          vpiTypespec RefTypespec name:my_package::typedef_logic_typespec [7:0] [1:0] start:7:1 end:7:49:
             vpiParent: Variable name:my_instance
-            vpiName: " [7:0] [1:0]"
-            vpiFullName: logic_typespec.my_instance. [7:0] [1:0]
+            vpiName: my_package::typedef_logic_typespec [7:0] [1:0]
+            vpiFullName: logic_typespec.my_instance.my_package::typedef_logic_typespec [7:0] [1:0]
             vpiActual: ArrayTypespec
           vpiName: my_instance
           vpiFullName: logic_typespec.my_instance
@@ -220,30 +221,29 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec start:7:1 end:7:49:
+          vpiElemTypespec RefTypespec name:my_package::typedef_logic_typespec start:7:1 end:7:49:
             vpiParent: ArrayTypespec
-            vpiFullName: logic_typespec
+            vpiName: my_package::typedef_logic_typespec
+            vpiFullName: logic_typespec.my_package::typedef_logic_typespec
             vpiPathElem (2 items):
-              RefTypespec name:my_package start:7:1 end:7:11:
-                vpiParent: RefTypespec
+              RefObj name:my_package start:7:1 end:7:11:
+                vpiParent: RefTypespec name:my_package::typedef_logic_typespec
                 vpiName: my_package
                 vpiFullName: logic_typespec.my_package
-                vpiPathElem (1 items):
-                  RefObj name:my_package start:7:1 end:7:11:
-                    vpiParent: RefTypespec name:my_package
-                    vpiName: my_package
-                    vpiFullName: logic_typespec.my_package
-                    vpiActual: Package name:my_package
+                vpiActual: Package name:my_package
               RefTypespec name:typedef_logic_typespec start:7:13 end:7:35:
-                vpiParent: RefTypespec
+                vpiParent: RefTypespec name:my_package::typedef_logic_typespec
                 vpiName: typedef_logic_typespec
-                vpiFullName: logic_typespec.typedef_logic_typespec
+                vpiFullName: logic_typespec.my_package::typedef_logic_typespec.typedef_logic_typespec
+                vpiActual: TypedefTypespec name:typedef_logic_typespec
+            vpiActual: TypedefTypespec name:typedef_logic_typespec
       vpiDefName: logic_typespec
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:5:8 end:5:22:
         vpiParent: Module name:logic_typespec
         vpiName: work
         vpiFullName: logic_typespec.work
+        vpiActual: Library name:work
       vpiCell: logic_typespec
       vpiEndLabel Identifier name:logic_typespec start:9:13 end:9:27:
   vpiTypespec (2 items):
@@ -307,7 +307,7 @@ COMMAND: ${HLC_DIR}/regression/LogicTypespec/LogicTypespec/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    44      44       0         0
+                                    43      43       0         0
 ===================== END REDUCTION RESULT =====================

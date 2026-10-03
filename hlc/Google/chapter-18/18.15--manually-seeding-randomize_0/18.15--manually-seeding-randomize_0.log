@@ -107,6 +107,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:a
         vpiName: work
         vpiFullName: a::work
+        vpiActual: Library name:work
       vpiCell: a
       vpiMethod (1 items):
         Function name:new start:18:5 end:20:16:
@@ -124,26 +125,27 @@ Design name:unnamed:
                 vpiParent: IODecl name:seed
                 vpiFullName: a::new::seed
                 vpiActual: IntTypespec
-          vpiStmt RefObj name:a::srandom(seed) start:19:9 end:19:27:
+          vpiStmt RefObj name:this.srandom(seed) start:19:9 end:19:27:
             vpiParent: Function name:new
-            vpiName: a::srandom(seed)
-            vpiFullName: a::new::a::srandom(seed)
+            vpiName: this.srandom(seed)
+            vpiFullName: a::new::this.srandom(seed)
             vpiPathElem (2 items):
               RefObj name:this start:19:9 end:19:13:
-                vpiParent: RefObj name:a::srandom(seed)
+                vpiParent: RefObj name:this.srandom(seed)
                 vpiName: this
                 vpiFullName: a::new::this
                 vpiActual: ClassDefn name:a
               MethodFuncCall name:srandom start:19:14 end:19:27:
-                vpiParent: RefObj name:a::srandom(seed)
+                vpiParent: RefObj name:this.srandom(seed)
                 vpiName Identifier name:srandom start:19:14 end:19:21:
                 vpiTaskFunc: Function name:srandom
                 vpiArgument (1 items):
                   RefObj name:seed start:19:22 end:19:26:
                     vpiParent: MethodFuncCall name:srandom
                     vpiName: seed
-                    vpiFullName: a::new::a::srandom(seed)::seed
+                    vpiFullName: a::new::this.srandom(seed)::seed
                     vpiActual: IODecl name:seed
+            vpiActual: MethodFuncCall name:srandom
           vpiReturn RefTypespec name:a:
             vpiParent: Function name:new
             vpiName: a
@@ -222,7 +224,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.15--manually-seeding-randomi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1126    1126       0         0
+Others                            1389    1389       0         0
 ----------------------------------------------------------------
-                                  1126    1126       0         0
+                                  1389    1389       0         0
 ===================== END REDUCTION RESULT =====================

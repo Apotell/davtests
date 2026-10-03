@@ -247,9 +247,11 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/t_crazy_sel.v:18:65: Compile generate block "foo_loop".
 [INF:CP5804] $Source01/t_crazy_sel.v:36:1: Compile module "foo".
 [INF:CP5804] $Source01/t_crazy_sel.v:40:1: Compile module "bar".
-[WRN:CP5851] $Source01/t_crazy_sel.v:26:33: Failed to bind "THE_LP".
+[WRN:CP5851] $Source01/t_crazy_sel.v:8:4: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_crazy_sel.v:25:4: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_crazy_sel.v:26:41: Failed to bind "foo_inst".
 [WRN:CP5851] $Source01/t_crazy_sel.v:26:50: Failed to bind "y".
+[WRN:CP5851] $Source01/t_crazy_sel.v:37:4: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -279,6 +281,7 @@ Design name:unnamed:
         vpiParent: Interface name:foo_intf
         vpiName: work
         vpiFullName: foo_intf.work
+        vpiActual: Library name:work
       vpiCell: foo_intf
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_crazy_sel.v start:15:1 end:34:10:
@@ -310,6 +313,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiProcess (1 items):
         Initial start:30:4 end:33:7:
@@ -371,6 +375,8 @@ Design name:unnamed:
                       vpiParent: RefObj name:bar_inst.THE_LP
                       vpiName: THE_LP
                       vpiFullName: t.foo_loop[bar_inst.THE_LP].foo_inst.y.THE_LP
+                      vpiActual: Parameter name:THE_LP
+                  vpiActual: Parameter name:THE_LP
               RefObj name:foo_inst start:26:41 end:26:49:
                 vpiParent: RefObj name:foo_loop[bar_inst.THE_LP].foo_inst.y
                 vpiName: foo_inst
@@ -481,6 +487,7 @@ Design name:unnamed:
         vpiParent: Module name:foo
         vpiName: work
         vpiFullName: foo.work
+        vpiActual: Library name:work
       vpiCell: foo
     Module name:bar file:$Source01/t_crazy_sel.v start:40:1 end:42:10:
       vpiParent: Design name:unnamed
@@ -523,6 +530,7 @@ Design name:unnamed:
         vpiParent: Module name:bar
         vpiName: work
         vpiFullName: bar.work
+        vpiActual: Library name:work
       vpiCell: bar
   vpiTypespec (6 items):
     InterfaceTypespec name:foo_intf:
@@ -588,7 +596,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

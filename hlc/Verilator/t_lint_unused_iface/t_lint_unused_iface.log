@@ -237,7 +237,12 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_lint_unused_iface.v:25:20: Port "dummy_in" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/t_lint_unused_iface.v:26:19: Port "dummy_out" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_lint_unused_iface.v:34:1: Compile module "t".
+[WRN:CP5851] $Source01/t_lint_unused_iface.v:7:4: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_lint_unused_iface.v:25:13: Failed to bind "master".
+[WRN:CP5851] $Source01/t_lint_unused_iface.v:26:13: Failed to bind "slave".
+[WRN:CP5851] $Source01/t_lint_unused_iface.v:29:11: Failed to bind "dummy_in".
 [WRN:CP5851] $Source01/t_lint_unused_iface.v:29:20: Failed to bind "signal".
+[WRN:CP5851] $Source01/t_lint_unused_iface.v:30:22: Failed to bind "dummy_out".
 [WRN:CP5851] $Source01/t_lint_unused_iface.v:30:32: Failed to bind "signal".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -268,6 +273,7 @@ Design name:unnamed:
         vpiParent: Interface name:dummy_if
         vpiName: work
         vpiFullName: dummy_if.work
+        vpiActual: Library name:work
       vpiCell: dummy_if
       vpiModport (2 items):
         Modport name:slave start:9:12 end:9:17:
@@ -303,6 +309,7 @@ Design name:unnamed:
         vpiParent: Module name:sub
         vpiName: work
         vpiFullName: sub.work
+        vpiActual: Library name:work
       vpiCell: sub
       vpiNet (2 items):
         Net name:signal_i start:22:16 end:22:24:
@@ -360,7 +367,6 @@ Design name:unnamed:
             vpiParent: Port name:dummy_in
             vpiName: dummy_in
             vpiFullName: sub.dummy_in.dummy_in
-            vpiActual: Port name:dummy_in
           vpiTypespec RefTypespec name:dummy_if::master start:25:4 end:25:19:
             vpiParent: Port name:dummy_in
             vpiName: dummy_if::master
@@ -383,7 +389,6 @@ Design name:unnamed:
             vpiParent: Port name:dummy_out
             vpiName: dummy_out
             vpiFullName: sub.dummy_out.dummy_out
-            vpiActual: Port name:dummy_out
           vpiTypespec RefTypespec name:dummy_if::slave start:26:4 end:26:18:
             vpiParent: Port name:dummy_out
             vpiName: dummy_if::slave
@@ -410,7 +415,6 @@ Design name:unnamed:
                 vpiParent: RefObj name:dummy_in.signal
                 vpiName: dummy_in
                 vpiFullName: sub.dummy_in
-                vpiActual: Port name:dummy_in
               RefObj name:signal start:29:20 end:29:26:
                 vpiParent: RefObj name:dummy_in.signal
                 vpiName: signal
@@ -436,7 +440,6 @@ Design name:unnamed:
                 vpiParent: RefObj name:dummy_out.signal
                 vpiName: dummy_out
                 vpiFullName: sub.dummy_out
-                vpiActual: Port name:dummy_out
               RefObj name:signal start:30:32 end:30:38:
                 vpiParent: RefObj name:dummy_out.signal
                 vpiName: signal
@@ -459,6 +462,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiNet (2 items):
         Net name:signal_i start:40:10 end:40:18:
@@ -540,7 +544,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: signal_i
                 vpiFullName: t.sub.signal_i
-                vpiActual: Port name:signal_i
+                vpiActual: Net name:signal_i
               vpiHighConn RefObj name:signal_i start:53:17 end:53:25:
                 vpiParent: Port
                 vpiName: signal_i
@@ -552,7 +556,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: signal_o
                 vpiFullName: t.sub.signal_o
-                vpiActual: Port name:signal_o
+                vpiActual: Net name:signal_o
               vpiHighConn RefObj name:signal_o start:54:17 end:54:25:
                 vpiParent: Port
                 vpiName: signal_o
@@ -606,7 +610,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 9
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

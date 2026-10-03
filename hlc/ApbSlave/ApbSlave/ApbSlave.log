@@ -25,16 +25,6 @@ COMMAND: -wd ../../../tests/ApbSlave -timescale=1ns/1ns +vcs+flush+all +warn=all
 [ERR:CP5824] $Source02/svunit_base/svunit_pkg.sv:24:1: Multiply defined typedef "svunit_testcase".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2038] 'vpiStmt' property value has invalid objects.
-[ERR:LN7705] $Source02/svunit_base/svunit_testsuite.sv:68:21: Null Actual: id:3776, type:MethodFuncCall, name:push_back, relation:vpiPathElem.
-[ERR:LN7705] $Source02/svunit_base/svunit_testsuite.sv:93:50: Null Actual: id:3818, type:MethodFuncCall, name:find, relation:vpiPathElem.
-[ERR:LN7705] $Source02/svunit_base/svunit_testsuite.sv:94:22: Null Actual: id:3836, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN7705] $Source02/svunit_base/svunit_testsuite.sv:97:37: Null Actual: id:3842, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN7705] $Source02/svunit_base/svunit_defines.svh:106:23: Null Actual: id:3882, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN7705] $Source02/svunit_base/svunit_testrunner.sv:67:18: Null Actual: id:3964, type:MethodFuncCall, name:push_back, relation:vpiPathElem.
-[ERR:LN7705] $Source02/svunit_base/svunit_testrunner.sv:80:48: Null Actual: id:3984, type:MethodFuncCall, name:find, relation:vpiPathElem.
-[ERR:LN7705] $Source02/svunit_base/svunit_testrunner.sv:81:22: Null Actual: id:4002, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN7705] $Source02/svunit_base/svunit_testrunner.sv:84:34: Null Actual: id:4008, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN7705] $Source02/svunit_base/svunit_defines.svh:106:20: Null Actual: id:4048, type:MethodFuncCall, name:size, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2304,6 +2294,7 @@ Design name:unnamed:
         vpiParent: Package name:svunit_pkg
         vpiName: work
         vpiFullName: svunit_pkg::work
+        vpiActual: Library name:work
       vpiCell: svunit_pkg
       vpiClassDefn (4 items):
         ClassDefn name:svunit_base file:$Source02/svunit_base/svunit_base.sv start:26:1 end:49:9:
@@ -2350,6 +2341,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:svunit_base
             vpiName: work
             vpiFullName: svunit_pkg::svunit_base::work
+            vpiActual: Library name:work
           vpiCell: svunit_base
           vpiMethod (4 items):
             Function name:new start:59:1 end:61:12:
@@ -2368,21 +2360,22 @@ Design name:unnamed:
               vpiStmt Assignment start:60:3 end:60:19:
                 vpiParent: Function name:new
                 vpiBlocking: true
-                vpiLhs RefObj name:svunit_base::name start:60:3 end:60:12:
+                vpiLhs RefObj name:this.name start:60:3 end:60:12:
                   vpiParent: Assignment
-                  vpiName: svunit_base::name
-                  vpiFullName: svunit_pkg::svunit_base::new::svunit_base::name
+                  vpiName: this.name
+                  vpiFullName: svunit_pkg::svunit_base::new::this.name
                   vpiPathElem (2 items):
                     RefObj name:this start:60:3 end:60:7:
-                      vpiParent: RefObj name:svunit_base::name
+                      vpiParent: RefObj name:this.name
                       vpiName: this
                       vpiFullName: svunit_pkg::svunit_base::new::this
                       vpiActual: ClassDefn name:svunit_base
                     RefObj name:name start:60:8 end:60:12:
-                      vpiParent: RefObj name:svunit_base::name
+                      vpiParent: RefObj name:this.name
                       vpiName: name
                       vpiFullName: svunit_pkg::svunit_base::new::name
                       vpiActual: Variable name:name
+                  vpiActual: Variable name:name
                 vpiRhs RefObj name:name start:60:15 end:60:19:
                   vpiParent: Assignment
                   vpiName: name
@@ -2530,6 +2523,7 @@ Design name:unnamed:
               vpiParent: ClassDefn name:svunit_base
               vpiName Identifier name:new:
               vpiFullName: svunit_pkg::svunit_base::new
+              vpiTaskFunc: Function name:new
               vpiIODecl (1 items):
                 IODecl name:name start:43:30 end:43:34:
                   vpiParent: FunctionDecl name:new
@@ -2549,6 +2543,7 @@ Design name:unnamed:
               vpiName Identifier name:get_name start:44:26 end:44:34:
               vpiFullName: svunit_pkg::svunit_base::get_name
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:get_name
               vpiReturn RefTypespec start:44:19 end:44:25:
                 vpiParent: FunctionDecl name:get_name
                 vpiFullName: svunit_pkg::svunit_base::get_name
@@ -2558,6 +2553,7 @@ Design name:unnamed:
               vpiName Identifier name:get_results start:45:29 end:45:40:
               vpiFullName: svunit_pkg::svunit_base::get_results
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:get_results
               vpiReturn RefTypespec name:results_t start:45:19 end:45:28:
                 vpiParent: FunctionDecl name:get_results
                 vpiName: results_t
@@ -2569,6 +2565,7 @@ Design name:unnamed:
               vpiFullName: svunit_pkg::svunit_base::report
               vpiVisibility: public (1)
               vpiVirtual: true
+              vpiTaskFunc: Function name:report
               vpiReturn RefTypespec start:47:27 end:47:31:
                 vpiParent: FunctionDecl name:report
                 vpiFullName: svunit_pkg::svunit_base::report
@@ -2670,6 +2667,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:svunit_testcase
             vpiName: work
             vpiFullName: svunit_pkg::svunit_testcase::work
+            vpiActual: Library name:work
           vpiCell: svunit_testcase
           vpiMethod (12 items):
             Function name:new start:81:1 end:83:12:
@@ -2685,26 +2683,27 @@ Design name:unnamed:
                     vpiParent: IODecl name:name
                     vpiFullName: svunit_pkg::svunit_testcase::new::name
                     vpiActual: StringTypespec
-              vpiStmt RefObj name:svunit_base::new(name) start:82:3 end:82:12:
+              vpiStmt RefObj name:super.new(name) start:82:3 end:82:12:
                 vpiParent: Function name:new
-                vpiName: svunit_base::new(name)
-                vpiFullName: svunit_pkg::svunit_testcase::new::svunit_base::new(name)
+                vpiName: super.new(name)
+                vpiFullName: svunit_pkg::svunit_testcase::new::super.new(name)
                 vpiPathElem (2 items):
                   RefObj name:super start:82:3 end:82:8:
-                    vpiParent: RefObj name:svunit_base::new(name)
+                    vpiParent: RefObj name:super.new(name)
                     vpiName: super
                     vpiFullName: svunit_pkg::svunit_testcase::new::super
                     vpiActual: ClassDefn name:svunit_base
                   MethodFuncCall name:new start:82:9 end:82:17:
-                    vpiParent: RefObj name:svunit_base::new(name)
+                    vpiParent: RefObj name:super.new(name)
                     vpiName Identifier name:new:
                     vpiTaskFunc: Function name:new
                     vpiArgument (1 items):
                       RefObj name:name start:82:13 end:82:17:
                         vpiParent: MethodFuncCall name:new
                         vpiName: name
-                        vpiFullName: svunit_pkg::svunit_testcase::new::svunit_base::new(name)::name
+                        vpiFullName: svunit_pkg::svunit_testcase::new::super.new(name)::name
                         vpiActual: IODecl name:name
+                vpiActual: MethodFuncCall name:new
               vpiReturn RefTypespec:
                 vpiParent: Function name:new
                 vpiFullName: svunit_pkg::svunit_testcase::new
@@ -3285,6 +3284,7 @@ Design name:unnamed:
               vpiParent: ClassDefn name:svunit_testcase
               vpiName Identifier name:new:
               vpiFullName: svunit_pkg::svunit_testcase::new
+              vpiTaskFunc: Function name:new
               vpiIODecl (1 items):
                 IODecl name:name start:52:30 end:52:34:
                   vpiParent: FunctionDecl name:new
@@ -3304,11 +3304,13 @@ Design name:unnamed:
               vpiName Identifier name:wait_for_error start:54:15 end:54:29:
               vpiFullName: svunit_pkg::svunit_testcase::wait_for_error
               vpiVisibility: public (1)
+              vpiTaskFunc: Task name:wait_for_error
             FunctionDecl name:get_error_count start:55:10 end:55:44:
               vpiParent: ClassDefn name:svunit_testcase
               vpiName Identifier name:get_error_count start:55:27 end:55:42:
               vpiFullName: svunit_pkg::svunit_testcase::get_error_count
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:get_error_count
               vpiReturn RefTypespec start:55:19 end:55:26:
                 vpiParent: FunctionDecl name:get_error_count
                 vpiFullName: svunit_pkg::svunit_testcase::get_error_count
@@ -3318,11 +3320,13 @@ Design name:unnamed:
               vpiName Identifier name:give_up start:56:15 end:56:22:
               vpiFullName: svunit_pkg::svunit_testcase::give_up
               vpiVisibility: public (1)
+              vpiTaskFunc: Task name:give_up
             FunctionDecl name:fail start:58:10 end:58:86:
               vpiParent: ClassDefn name:svunit_testcase
               vpiName Identifier name:fail start:58:23 end:58:27:
               vpiFullName: svunit_pkg::svunit_testcase::fail
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:fail
               vpiIODecl (6 items):
                 IODecl name:c start:58:35 end:58:36:
                   vpiParent: FunctionDecl name:fail
@@ -3390,6 +3394,7 @@ Design name:unnamed:
               vpiName Identifier name:start start:60:24 end:60:29:
               vpiFullName: svunit_pkg::svunit_testcase::start
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:start
               vpiReturn RefTypespec start:60:19 end:60:23:
                 vpiParent: FunctionDecl name:start
                 vpiFullName: svunit_pkg::svunit_testcase::start
@@ -3399,6 +3404,7 @@ Design name:unnamed:
               vpiName Identifier name:stop start:61:24 end:61:28:
               vpiFullName: svunit_pkg::svunit_testcase::stop
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:stop
               vpiReturn RefTypespec start:61:19 end:61:23:
                 vpiParent: FunctionDecl name:stop
                 vpiFullName: svunit_pkg::svunit_testcase::stop
@@ -3408,6 +3414,7 @@ Design name:unnamed:
               vpiName Identifier name:is_running start:62:24 end:62:34:
               vpiFullName: svunit_pkg::svunit_testcase::is_running
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:is_running
               vpiReturn RefTypespec start:62:19 end:62:22:
                 vpiParent: FunctionDecl name:is_running
                 vpiFullName: svunit_pkg::svunit_testcase::is_running
@@ -3417,6 +3424,7 @@ Design name:unnamed:
               vpiName Identifier name:update_exit_status start:64:24 end:64:42:
               vpiFullName: svunit_pkg::svunit_testcase::update_exit_status
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:update_exit_status
               vpiReturn RefTypespec start:64:19 end:64:23:
                 vpiParent: FunctionDecl name:update_exit_status
                 vpiFullName: svunit_pkg::svunit_testcase::update_exit_status
@@ -3426,6 +3434,7 @@ Design name:unnamed:
               vpiName Identifier name:report start:65:24 end:65:30:
               vpiFullName: svunit_pkg::svunit_testcase::report
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:report
               vpiReturn RefTypespec start:65:19 end:65:23:
                 vpiParent: FunctionDecl name:report
                 vpiFullName: svunit_pkg::svunit_testcase::report
@@ -3436,12 +3445,14 @@ Design name:unnamed:
               vpiFullName: svunit_pkg::svunit_testcase::setup
               vpiVisibility: public (1)
               vpiVirtual: true
+              vpiTaskFunc: Task name:setup
             TaskDecl name:teardown start:68:18 end:68:33:
               vpiParent: ClassDefn name:svunit_testcase
               vpiName Identifier name:teardown start:68:23 end:68:31:
               vpiFullName: svunit_pkg::svunit_testcase::teardown
               vpiVisibility: public (1)
               vpiVirtual: true
+              vpiTaskFunc: Task name:teardown
         ClassDefn name:svunit_testsuite file:$Source02/svunit_base/svunit_testsuite.sv start:26:1 end:44:9:
           vpiParent: Package name:svunit_pkg
           vpiName Identifier name:svunit_testsuite start:26:7 end:26:23:
@@ -3513,6 +3524,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:svunit_testsuite
             vpiName: work
             vpiFullName: svunit_pkg::svunit_testsuite::work
+            vpiActual: Library name:work
           vpiCell: svunit_testsuite
           vpiMethod (4 items):
             Function name:new start:54:1 end:56:12:
@@ -3528,26 +3540,27 @@ Design name:unnamed:
                     vpiParent: IODecl name:name
                     vpiFullName: svunit_pkg::svunit_testsuite::new::name
                     vpiActual: StringTypespec
-              vpiStmt RefObj name:svunit_base::new(name) start:55:3 end:55:12:
+              vpiStmt RefObj name:super.new(name) start:55:3 end:55:12:
                 vpiParent: Function name:new
-                vpiName: svunit_base::new(name)
-                vpiFullName: svunit_pkg::svunit_testsuite::new::svunit_base::new(name)
+                vpiName: super.new(name)
+                vpiFullName: svunit_pkg::svunit_testsuite::new::super.new(name)
                 vpiPathElem (2 items):
                   RefObj name:super start:55:3 end:55:8:
-                    vpiParent: RefObj name:svunit_base::new(name)
+                    vpiParent: RefObj name:super.new(name)
                     vpiName: super
                     vpiFullName: svunit_pkg::svunit_testsuite::new::super
                     vpiActual: ClassDefn name:svunit_base
                   MethodFuncCall name:new start:55:9 end:55:17:
-                    vpiParent: RefObj name:svunit_base::new(name)
+                    vpiParent: RefObj name:super.new(name)
                     vpiName Identifier name:new:
                     vpiTaskFunc: Function name:new
                     vpiArgument (1 items):
                       RefObj name:name start:55:13 end:55:17:
                         vpiParent: MethodFuncCall name:new
                         vpiName: name
-                        vpiFullName: svunit_pkg::svunit_testsuite::new::svunit_base::new(name)::name
+                        vpiFullName: svunit_pkg::svunit_testsuite::new::super.new(name)::name
                         vpiActual: IODecl name:name
+                vpiActual: MethodFuncCall name:new
               vpiReturn RefTypespec:
                 vpiParent: Function name:new
                 vpiFullName: svunit_pkg::svunit_testsuite::new
@@ -3629,6 +3642,7 @@ Design name:unnamed:
                                 vpiParent: RefObj name:svunit.get_name()
                                 vpiName Identifier name:get_name start:103:100 end:103:108:
                                 vpiTaskFunc: Function name:get_name
+                            vpiActual: MethodFuncCall name:get_name
                   RefObj name:list_of_testcases.push_back(svunit) start:68:3 end:68:38:
                     vpiParent: Begin
                     vpiName: list_of_testcases.push_back(svunit)
@@ -3642,12 +3656,14 @@ Design name:unnamed:
                       MethodFuncCall name:push_back start:68:21 end:68:38:
                         vpiParent: RefObj name:list_of_testcases.push_back(svunit)
                         vpiName Identifier name:push_back start:68:21 end:68:30:
+                        vpiTaskFunc: Function name:push_back
                         vpiArgument (1 items):
                           RefObj name:svunit start:68:31 end:68:37:
                             vpiParent: MethodFuncCall name:push_back
                             vpiName: svunit
                             vpiFullName: svunit_pkg::svunit_testsuite::add_testcase::list_of_testcases.push_back(svunit)::svunit
                             vpiActual: IODecl name:svunit
+                    vpiActual: MethodFuncCall name:push_back
               vpiReturn RefTypespec start:66:10 end:66:14:
                 vpiParent: Function name:add_testcase
                 vpiFullName: svunit_pkg::svunit_testsuite::add_testcase
@@ -3757,6 +3773,7 @@ Design name:unnamed:
                           vpiParent: RefObj name:list_of_testcases[i].report()
                           vpiName Identifier name:report start:90:26 end:90:32:
                           vpiTaskFunc: Function name:report
+                      vpiActual: MethodFuncCall name:report
                   Begin start:92:3 end:95:6:
                     vpiParent: Begin
                     vpiFullName: svunit_pkg::svunit_testsuite::report
@@ -3783,6 +3800,7 @@ Design name:unnamed:
                             MethodFuncCall name:find start:93:50 end:93:90:
                               vpiParent: RefObj name:list_of_testcases.find()
                               vpiName Identifier name:find start:93:50 end:93:54:
+                              vpiTaskFunc: Function name:find
                               vpiWith Operation start:93:63 end:93:89:
                                 vpiParent: MethodFuncCall name:find
                                 vpiOpType: equal (14)
@@ -3801,6 +3819,7 @@ Design name:unnamed:
                                         vpiParent: RefObj name:item.get_results()
                                         vpiName Identifier name:get_results start:93:68 end:93:79:
                                         vpiTaskFunc: Function name:get_results
+                                    vpiActual: MethodFuncCall name:get_results
                                   RefObj name:PASS start:93:85 end:93:89:
                                     vpiParent: Operation
                                     vpiName: PASS
@@ -3808,9 +3827,14 @@ Design name:unnamed:
                                     vpiActual: EnumConst name:PASS
                               vpiLoopVars Variable name:item start:93:63 end:93:89:
                                 vpiParent: MethodFuncCall name:find
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Variable name:item
+                                  vpiFullName: svunit_pkg::svunit_testsuite::report::match::list_of_testcases.find()::item
+                                  vpiActual: ClassTypespec name:Queue #(T)
                                 vpiName: item
                                 vpiFullName: svunit_pkg::svunit_testsuite::report::match::list_of_testcases.find()::item
                                 vpiIsIterator: true
+                          vpiActual: MethodFuncCall name:find
                     vpiTypespec (2 items):
                       ClassTypespec name:svunit_testcase start:93:5 end:93:20:
                         vpiParent: Begin
@@ -3858,6 +3882,8 @@ Design name:unnamed:
                             MethodFuncCall name:size start:94:22 end:94:28:
                               vpiParent: RefObj name:match.size()
                               vpiName Identifier name:size start:94:22 end:94:26:
+                              vpiTaskFunc: Function name:size
+                          vpiActual: MethodFuncCall name:size
                   IfElse start:97:3 end:103:6:
                     vpiParent: Begin
                     vpiCondition Operation start:97:7 end:97:43:
@@ -3882,6 +3908,8 @@ Design name:unnamed:
                             MethodFuncCall name:size start:97:37 end:97:43:
                               vpiParent: RefObj name:list_of_testcases.size()
                               vpiName Identifier name:size start:97:37 end:97:41:
+                              vpiTaskFunc: Function name:size
+                          vpiActual: MethodFuncCall name:size
                     vpiStmt Begin start:97:45 end:100:6:
                       vpiParent: IfElse
                       vpiFullName: svunit_pkg::svunit_testsuite::report
@@ -4028,6 +4056,8 @@ Design name:unnamed:
                               MethodFuncCall name:size start:106:23 end:106:29:
                                 vpiParent: RefObj name:list_of_testcases.size()
                                 vpiName Identifier name:size start:106:23 end:106:27:
+                                vpiTaskFunc: Function name:size
+                            vpiActual: MethodFuncCall name:size
               vpiReturn RefTypespec start:85:10 end:85:14:
                 vpiParent: Function name:report
                 vpiFullName: svunit_pkg::svunit_testsuite::report
@@ -4037,6 +4067,7 @@ Design name:unnamed:
               vpiParent: ClassDefn name:svunit_testsuite
               vpiName Identifier name:new:
               vpiFullName: svunit_pkg::svunit_testsuite::new
+              vpiTaskFunc: Function name:new
               vpiIODecl (1 items):
                 IODecl name:name start:38:30 end:38:34:
                   vpiParent: FunctionDecl name:new
@@ -4056,6 +4087,7 @@ Design name:unnamed:
               vpiName Identifier name:add_testcase start:39:24 end:39:36:
               vpiFullName: svunit_pkg::svunit_testsuite::add_testcase
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:add_testcase
               vpiIODecl (1 items):
                 IODecl name:svunit start:39:53 end:39:59:
                   vpiParent: FunctionDecl name:add_testcase
@@ -4075,11 +4107,13 @@ Design name:unnamed:
               vpiName Identifier name:run start:40:15 end:40:18:
               vpiFullName: svunit_pkg::svunit_testsuite::run
               vpiVisibility: public (1)
+              vpiTaskFunc: Task name:run
             FunctionDecl name:report start:42:10 end:42:32:
               vpiParent: ClassDefn name:svunit_testsuite
               vpiName Identifier name:report start:42:24 end:42:30:
               vpiFullName: svunit_pkg::svunit_testsuite::report
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:report
               vpiReturn RefTypespec start:42:19 end:42:23:
                 vpiParent: FunctionDecl name:report
                 vpiFullName: svunit_pkg::svunit_testsuite::report
@@ -4155,6 +4189,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:svunit_testrunner
             vpiName: work
             vpiFullName: svunit_pkg::svunit_testrunner::work
+            vpiActual: Library name:work
           vpiCell: svunit_testrunner
           vpiMethod (3 items):
             Function name:new start:53:1 end:55:12:
@@ -4170,26 +4205,27 @@ Design name:unnamed:
                     vpiParent: IODecl name:name
                     vpiFullName: svunit_pkg::svunit_testrunner::new::name
                     vpiActual: StringTypespec
-              vpiStmt RefObj name:svunit_base::new(name) start:54:3 end:54:12:
+              vpiStmt RefObj name:super.new(name) start:54:3 end:54:12:
                 vpiParent: Function name:new
-                vpiName: svunit_base::new(name)
-                vpiFullName: svunit_pkg::svunit_testrunner::new::svunit_base::new(name)
+                vpiName: super.new(name)
+                vpiFullName: svunit_pkg::svunit_testrunner::new::super.new(name)
                 vpiPathElem (2 items):
                   RefObj name:super start:54:3 end:54:8:
-                    vpiParent: RefObj name:svunit_base::new(name)
+                    vpiParent: RefObj name:super.new(name)
                     vpiName: super
                     vpiFullName: svunit_pkg::svunit_testrunner::new::super
                     vpiActual: ClassDefn name:svunit_base
                   MethodFuncCall name:new start:54:9 end:54:17:
-                    vpiParent: RefObj name:svunit_base::new(name)
+                    vpiParent: RefObj name:super.new(name)
                     vpiName Identifier name:new:
                     vpiTaskFunc: Function name:new
                     vpiArgument (1 items):
                       RefObj name:name start:54:13 end:54:17:
                         vpiParent: MethodFuncCall name:new
                         vpiName: name
-                        vpiFullName: svunit_pkg::svunit_testrunner::new::svunit_base::new(name)::name
+                        vpiFullName: svunit_pkg::svunit_testrunner::new::super.new(name)::name
                         vpiActual: IODecl name:name
+                vpiActual: MethodFuncCall name:new
               vpiReturn RefTypespec:
                 vpiParent: Function name:new
                 vpiFullName: svunit_pkg::svunit_testrunner::new
@@ -4271,6 +4307,7 @@ Design name:unnamed:
                                 vpiParent: RefObj name:suite.get_name()
                                 vpiName Identifier name:get_name start:103:96 end:103:104:
                                 vpiTaskFunc: Function name:get_name
+                            vpiActual: MethodFuncCall name:get_name
                   RefObj name:list_of_suites.push_back(suite) start:67:3 end:67:34:
                     vpiParent: Begin
                     vpiName: list_of_suites.push_back(suite)
@@ -4284,12 +4321,14 @@ Design name:unnamed:
                       MethodFuncCall name:push_back start:67:18 end:67:34:
                         vpiParent: RefObj name:list_of_suites.push_back(suite)
                         vpiName Identifier name:push_back start:67:18 end:67:27:
+                        vpiTaskFunc: Function name:push_back
                         vpiArgument (1 items):
                           RefObj name:suite start:67:28 end:67:33:
                             vpiParent: MethodFuncCall name:push_back
                             vpiName: suite
                             vpiFullName: svunit_pkg::svunit_testrunner::add_testsuite::list_of_suites.push_back(suite)::suite
                             vpiActual: IODecl name:suite
+                    vpiActual: MethodFuncCall name:push_back
               vpiReturn RefTypespec start:65:10 end:65:14:
                 vpiParent: Function name:add_testsuite
                 vpiFullName: svunit_pkg::svunit_testrunner::add_testsuite
@@ -4348,6 +4387,7 @@ Design name:unnamed:
                             MethodFuncCall name:find start:80:48 end:80:88:
                               vpiParent: RefObj name:list_of_suites.find()
                               vpiName Identifier name:find start:80:48 end:80:52:
+                              vpiTaskFunc: Function name:find
                               vpiWith Operation start:80:61 end:80:87:
                                 vpiParent: MethodFuncCall name:find
                                 vpiOpType: equal (14)
@@ -4366,6 +4406,7 @@ Design name:unnamed:
                                         vpiParent: RefObj name:item.get_results()
                                         vpiName Identifier name:get_results start:80:66 end:80:77:
                                         vpiTaskFunc: Function name:get_results
+                                    vpiActual: MethodFuncCall name:get_results
                                   RefObj name:PASS start:80:83 end:80:87:
                                     vpiParent: Operation
                                     vpiName: PASS
@@ -4373,9 +4414,14 @@ Design name:unnamed:
                                     vpiActual: EnumConst name:PASS
                               vpiLoopVars Variable name:item start:80:61 end:80:87:
                                 vpiParent: MethodFuncCall name:find
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Variable name:item
+                                  vpiFullName: svunit_pkg::svunit_testrunner::report::match::list_of_suites.find()::item
+                                  vpiActual: ClassTypespec name:Queue #(T)
                                 vpiName: item
                                 vpiFullName: svunit_pkg::svunit_testrunner::report::match::list_of_suites.find()::item
                                 vpiIsIterator: true
+                          vpiActual: MethodFuncCall name:find
                     vpiTypespec (2 items):
                       ClassTypespec name:svunit_testsuite start:80:5 end:80:21:
                         vpiParent: Begin
@@ -4423,6 +4469,8 @@ Design name:unnamed:
                             MethodFuncCall name:size start:81:22 end:81:28:
                               vpiParent: RefObj name:match.size()
                               vpiName Identifier name:size start:81:22 end:81:26:
+                              vpiTaskFunc: Function name:size
+                          vpiActual: MethodFuncCall name:size
                   IfElse start:84:3 end:90:6:
                     vpiParent: Begin
                     vpiCondition Operation start:84:7 end:84:40:
@@ -4447,6 +4495,8 @@ Design name:unnamed:
                             MethodFuncCall name:size start:84:34 end:84:40:
                               vpiParent: RefObj name:list_of_suites.size()
                               vpiName Identifier name:size start:84:34 end:84:38:
+                              vpiTaskFunc: Function name:size
+                          vpiActual: MethodFuncCall name:size
                     vpiStmt Begin start:84:42 end:87:6:
                       vpiParent: IfElse
                       vpiFullName: svunit_pkg::svunit_testrunner::report
@@ -4593,6 +4643,8 @@ Design name:unnamed:
                               MethodFuncCall name:size start:106:20 end:106:26:
                                 vpiParent: RefObj name:list_of_suites.size()
                                 vpiName Identifier name:size start:106:20 end:106:24:
+                                vpiTaskFunc: Function name:size
+                            vpiActual: MethodFuncCall name:size
                           RefObj name:svunit_version start:107:5 end:107:19:
                             vpiParent: SysFuncCall name:$sformatf
                             vpiName: svunit_version
@@ -4607,6 +4659,7 @@ Design name:unnamed:
               vpiParent: ClassDefn name:svunit_testrunner
               vpiName Identifier name:new:
               vpiFullName: svunit_pkg::svunit_testrunner::new
+              vpiTaskFunc: Function name:new
               vpiIODecl (1 items):
                 IODecl name:name start:38:30 end:38:34:
                   vpiParent: FunctionDecl name:new
@@ -4626,6 +4679,7 @@ Design name:unnamed:
               vpiName Identifier name:add_testsuite start:39:24 end:39:37:
               vpiFullName: svunit_pkg::svunit_testrunner::add_testsuite
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:add_testsuite
               vpiIODecl (1 items):
                 IODecl name:suite start:39:55 end:39:60:
                   vpiParent: FunctionDecl name:add_testsuite
@@ -4645,6 +4699,7 @@ Design name:unnamed:
               vpiName Identifier name:report start:41:24 end:41:30:
               vpiFullName: svunit_pkg::svunit_testrunner::report
               vpiVisibility: public (1)
+              vpiTaskFunc: Function name:report
               vpiReturn RefTypespec start:41:19 end:41:23:
                 vpiParent: FunctionDecl name:report
                 vpiFullName: svunit_pkg::svunit_testrunner::report
@@ -5063,6 +5118,7 @@ Design name:unnamed:
         vpiParent: Module name:apb_slave #(.addrWidth(8), .dataWidth(32))
         vpiName: work
         vpiFullName: apb_slave #(.addrWidth(8), .dataWidth(32)).work
+        vpiActual: Library name:work
       vpiCell: apb_slave
       vpiNet (7 items):
         Net name:clk start:8:32 end:8:35:
@@ -5849,6 +5905,7 @@ Design name:unnamed:
         vpiParent: Module name:apb_slave_unit_test
         vpiName: work
         vpiFullName: apb_slave_unit_test.work
+        vpiActual: Library name:work
       vpiCell: apb_slave_unit_test
       vpiTaskFunc (7 items):
         Function name:build start:41:3 end:43:14:
@@ -5900,7 +5957,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:svunit_ut.setup()
                     vpiName Identifier name:setup start:50:15 end:50:20:
                     vpiTaskFunc: Task name:setup
-              TaskCall name:idle start:56:5 end:56:11:
+                vpiActual: MethodTaskCall name:setup
+              MethodTaskCall name:idle start:56:5 end:56:11:
                 vpiParent: Begin
                 vpiName Identifier name:idle start:56:5 end:56:9:
                 vpiTaskFunc: Task name:idle
@@ -5981,6 +6039,7 @@ Design name:unnamed:
                 vpiParent: RefObj name:svunit_ut.teardown()
                 vpiName Identifier name:teardown start:72:15 end:72:23:
                 vpiTaskFunc: Task name:teardown
+            vpiActual: MethodTaskCall name:teardown
         Task name:run start:129:3 end:136:33:
           vpiParent: Module name:apb_slave_unit_test
           vpiName Identifier name:run start:129:18 end:129:21:
@@ -6069,6 +6128,7 @@ Design name:unnamed:
                           vpiParent: RefObj name:svunit_ut.get_error_count()
                           vpiName Identifier name:get_error_count start:148:43 end:148:58:
                           vpiTaskFunc: Function name:get_error_count
+                      vpiActual: MethodFuncCall name:get_error_count
                   Variable name:fileName start:149:12 end:149:20:
                     vpiParent: Begin name:single_write_then_read
                     vpiTypespec RefTypespec start:149:5 end:149:11:
@@ -6137,21 +6197,22 @@ Design name:unnamed:
                   Assignment start:153:5 end:153:39:
                     vpiParent: Begin name:single_write_then_read
                     vpiBlocking: true
-                    vpiLhs RefObj name:svunit_pkg::current_tc start:153:5 end:153:27:
+                    vpiLhs RefObj name:svunit_pkg.current_tc start:153:5 end:153:27:
                       vpiParent: Assignment
-                      vpiName: svunit_pkg::current_tc
-                      vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc
+                      vpiName: svunit_pkg.current_tc
+                      vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg.current_tc
                       vpiPathElem (2 items):
                         RefObj name:svunit_pkg start:153:5 end:153:15:
-                          vpiParent: RefObj name:svunit_pkg::current_tc
+                          vpiParent: RefObj name:svunit_pkg.current_tc
                           vpiName: svunit_pkg
                           vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg
                           vpiActual: Package name:svunit_pkg
                         RefObj name:current_tc start:153:17 end:153:27:
-                          vpiParent: RefObj name:svunit_pkg::current_tc
+                          vpiParent: RefObj name:svunit_pkg.current_tc
                           vpiName: current_tc
                           vpiFullName: apb_slave_unit_test.run.single_write_then_read.current_tc
                           vpiActual: Variable name:current_tc
+                      vpiActual: Variable name:current_tc
                     vpiRhs RefObj name:svunit_ut start:153:30 end:153:39:
                       vpiParent: Assignment
                       vpiName: svunit_ut
@@ -6171,7 +6232,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:svunit_ut.start()
                         vpiName Identifier name:start start:154:15 end:154:20:
                         vpiTaskFunc: Function name:start
-                  TaskCall name:setup start:155:5 end:155:12:
+                    vpiActual: MethodFuncCall name:start
+                  MethodTaskCall name:setup start:155:5 end:155:12:
                     vpiParent: Begin name:single_write_then_read
                     vpiName Identifier name:setup start:155:5 end:155:10:
                     vpiTaskFunc: Task name:setup
@@ -6228,55 +6290,55 @@ Design name:unnamed:
                                       vpiSize: -1
                                       vpiDecompile: "'h61"
                                       vpiValue: "61"
-                                  TaskCall name:write start:104:5 end:104:22:
+                                  MethodTaskCall name:write start:104:5 end:104:22:
                                     vpiParent: Begin
                                     vpiName Identifier name:write start:104:5 end:104:10:
                                     vpiTaskFunc: Task name:write
                                     vpiArgument (2 items):
                                       RefObj name:addr start:104:11 end:104:15:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiName: addr
                                         vpiFullName: apb_slave_unit_test.run.single_write_then_read.addr
                                         vpiActual: Variable name:addr
                                       RefObj name:data start:104:17 end:104:21:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiName: data
                                         vpiFullName: apb_slave_unit_test.run.single_write_then_read.data
                                         vpiActual: Variable name:data
-                                  TaskCall name:read start:105:5 end:105:22:
+                                  MethodTaskCall name:read start:105:5 end:105:22:
                                     vpiParent: Begin
                                     vpiName Identifier name:read start:105:5 end:105:9:
                                     vpiTaskFunc: Task name:read
                                     vpiArgument (2 items):
                                       RefObj name:addr start:105:10 end:105:14:
-                                        vpiParent: TaskCall name:read
+                                        vpiParent: MethodTaskCall name:read
                                         vpiName: addr
                                         vpiFullName: apb_slave_unit_test.run.single_write_then_read.addr
                                         vpiActual: Variable name:addr
                                       RefObj name:rdata start:105:16 end:105:21:
-                                        vpiParent: TaskCall name:read
+                                        vpiParent: MethodTaskCall name:read
                                         vpiName: rdata
                                         vpiFullName: apb_slave_unit_test.run.single_write_then_read.rdata
                                         vpiActual: Variable name:rdata
                                   IfStmt start:28:3 end:30:6:
                                     vpiParent: Begin
-                                    "vpiCondition RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 106) start:28:7 end:28:112":
+                                    "vpiCondition RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 106) start:28:7 end:28:112":
                                       vpiParent: IfStmt
-                                      vpiName: svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106)
-                                      vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106)
+                                      vpiName: svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106)
+                                      vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106)
                                       vpiPathElem (3 items):
-                                        RefTypespec name:svunit_pkg start:28:7 end:28:17:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 106)"
+                                        RefObj name:svunit_pkg start:28:7 end:28:17:
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 106)"
                                           vpiName: svunit_pkg
-                                          vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106).svunit_pkg
-                                          vpiActual: ImportTypespec name:svunit_pkg
+                                          vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg
+                                          vpiActual: Package name:svunit_pkg
                                         RefObj name:current_tc start:28:19 end:28:29:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 106)"
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 106)"
                                           vpiName: current_tc
                                           vpiFullName: apb_slave_unit_test.run.single_write_then_read.current_tc
                                           vpiActual: Variable name:current_tc
                                         MethodFuncCall name:fail start:28:30 end:28:112:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 106)"
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 106)"
                                           vpiName Identifier name:fail start:28:30 end:28:34:
                                           vpiTaskFunc: Function name:fail
                                           vpiArgument (5 items):
@@ -6284,7 +6346,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106)
+                                                vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 56
@@ -6297,18 +6359,18 @@ Design name:unnamed:
                                                 RefObj name:data start:28:47 end:28:51:
                                                   vpiParent: Operation
                                                   vpiName: data
-                                                  vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106).data
+                                                  vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106).data
                                                   vpiActual: Variable name:data
                                                 RefObj name:rdata start:28:56 end:28:61:
                                                   vpiParent: Operation
                                                   vpiName: rdata
-                                                  vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106).rdata
+                                                  vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106).rdata
                                                   vpiActual: Variable name:rdata
                                             Constant start:28:64 end:28:80:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106)
+                                                vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 112
@@ -6318,7 +6380,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106)
+                                                vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 176
@@ -6328,56 +6390,59 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106)
+                                                vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 106)
                                                 vpiActual: IntTypespec
                                               vpiConstType: unsigned int (9)
                                               vpiSize: 64
                                               vpiDecompile: "106"
                                               vpiValue: 106
+                                      vpiActual: MethodFuncCall name:fail
                                     vpiStmt Begin start:28:114 end:30:6:
                                       vpiParent: IfStmt
                                       vpiFullName: apb_slave_unit_test.run.single_write_then_read
                                       vpiStmt (1 items):
                                         IfStmt start:29:5 end:29:79:
                                           vpiParent: Begin
-                                          vpiCondition RefObj name:svunit_pkg::current_tc.is_running() start:29:9 end:29:44:
+                                          vpiCondition RefObj name:svunit_pkg.current_tc.is_running() start:29:9 end:29:44:
                                             vpiParent: IfStmt
-                                            vpiName: svunit_pkg::current_tc.is_running()
-                                            vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc.is_running()
+                                            vpiName: svunit_pkg.current_tc.is_running()
+                                            vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg.current_tc.is_running()
                                             vpiPathElem (3 items):
-                                              RefTypespec name:svunit_pkg start:29:9 end:29:19:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                              RefObj name:svunit_pkg start:29:9 end:29:19:
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName: svunit_pkg
-                                                vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc.is_running().svunit_pkg
-                                                vpiActual: ImportTypespec name:svunit_pkg
+                                                vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg
+                                                vpiActual: Package name:svunit_pkg
                                               RefObj name:current_tc start:29:21 end:29:31:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName: current_tc
                                                 vpiFullName: apb_slave_unit_test.run.single_write_then_read.current_tc
                                                 vpiActual: Variable name:current_tc
                                               MethodFuncCall name:is_running start:29:32 end:29:44:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName Identifier name:is_running start:29:32 end:29:42:
                                                 vpiTaskFunc: Function name:is_running
-                                          vpiStmt RefObj name:svunit_pkg::current_tc.give_up() start:29:46 end:29:78:
+                                            vpiActual: MethodFuncCall name:is_running
+                                          vpiStmt RefObj name:svunit_pkg.current_tc.give_up() start:29:46 end:29:78:
                                             vpiParent: IfStmt
-                                            vpiName: svunit_pkg::current_tc.give_up()
-                                            vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc.give_up()
+                                            vpiName: svunit_pkg.current_tc.give_up()
+                                            vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg.current_tc.give_up()
                                             vpiPathElem (3 items):
-                                              RefTypespec name:svunit_pkg start:29:46 end:29:56:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                              RefObj name:svunit_pkg start:29:46 end:29:56:
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName: svunit_pkg
-                                                vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg::current_tc.give_up().svunit_pkg
-                                                vpiActual: ImportTypespec name:svunit_pkg
+                                                vpiFullName: apb_slave_unit_test.run.single_write_then_read.svunit_pkg
+                                                vpiActual: Package name:svunit_pkg
                                               RefObj name:current_tc start:29:58 end:29:68:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName: current_tc
                                                 vpiFullName: apb_slave_unit_test.run.single_write_then_read.current_tc
                                                 vpiActual: Variable name:current_tc
                                               MethodTaskCall name:give_up start:29:69 end:29:78:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName Identifier name:give_up start:29:69 end:29:76:
                                                 vpiTaskFunc: Task name:give_up
+                                            vpiActual: MethodTaskCall name:give_up
                               Begin start:167:11 end:171:14:
                                 vpiParent: ForkStmt
                                 vpiFullName: apb_slave_unit_test.run.single_write_then_read
@@ -6402,6 +6467,7 @@ Design name:unnamed:
                                               vpiParent: RefObj name:svunit_ut.get_error_count()
                                               vpiName Identifier name:get_error_count start:168:27 end:168:42:
                                               vpiTaskFunc: Function name:get_error_count
+                                          vpiActual: MethodFuncCall name:get_error_count
                                         RefObj name:local_error_count start:168:48 end:168:65:
                                           vpiParent: Operation
                                           vpiName: local_error_count
@@ -6425,6 +6491,7 @@ Design name:unnamed:
                                               vpiParent: RefObj name:svunit_ut.wait_for_error()
                                               vpiName Identifier name:wait_for_error start:169:25 end:169:39:
                                               vpiTaskFunc: Task name:wait_for_error
+                                          vpiActual: MethodTaskCall name:wait_for_error
                           DelayControl start:174:9 end:174:11:
                             vpiParent: Begin
                             vpiDelay Constant start:174:10 end:174:11:
@@ -6453,7 +6520,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:svunit_ut.stop()
                         vpiName Identifier name:stop start:178:15 end:178:19:
                         vpiTaskFunc: Function name:stop
-                  TaskCall name:teardown start:179:5 end:179:15:
+                    vpiActual: MethodFuncCall name:stop
+                  MethodTaskCall name:teardown start:179:5 end:179:15:
                     vpiParent: Begin name:single_write_then_read
                     vpiName Identifier name:teardown start:179:5 end:179:13:
                     vpiTaskFunc: Task name:teardown
@@ -6477,6 +6545,7 @@ Design name:unnamed:
                               vpiParent: RefObj name:svunit_ut.get_error_count()
                               vpiName Identifier name:get_error_count start:180:19 end:180:34:
                               vpiTaskFunc: Function name:get_error_count
+                          vpiActual: MethodFuncCall name:get_error_count
                         RefObj name:local_error_count start:180:40 end:180:57:
                           vpiParent: Operation
                           vpiName: local_error_count
@@ -6584,6 +6653,7 @@ Design name:unnamed:
                         vpiParent: RefObj name:svunit_ut.update_exit_status()
                         vpiName Identifier name:update_exit_status start:184:15 end:184:33:
                         vpiTaskFunc: Function name:update_exit_status
+                    vpiActual: MethodFuncCall name:update_exit_status
               Begin name:write_wo_psel start:146:3 end:185:6:
                 vpiParent: Begin
                 vpiName Identifier name:write_wo_psel start:146:11 end:146:24:
@@ -6629,6 +6699,7 @@ Design name:unnamed:
                           vpiParent: RefObj name:svunit_ut.get_error_count()
                           vpiName Identifier name:get_error_count start:148:43 end:148:58:
                           vpiTaskFunc: Function name:get_error_count
+                      vpiActual: MethodFuncCall name:get_error_count
                   Variable name:fileName start:149:12 end:149:20:
                     vpiParent: Begin name:write_wo_psel
                     vpiTypespec RefTypespec start:149:5 end:149:11:
@@ -6697,21 +6768,22 @@ Design name:unnamed:
                   Assignment start:153:5 end:153:39:
                     vpiParent: Begin name:write_wo_psel
                     vpiBlocking: true
-                    vpiLhs RefObj name:svunit_pkg::current_tc start:153:5 end:153:27:
+                    vpiLhs RefObj name:svunit_pkg.current_tc start:153:5 end:153:27:
                       vpiParent: Assignment
-                      vpiName: svunit_pkg::current_tc
-                      vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc
+                      vpiName: svunit_pkg.current_tc
+                      vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg.current_tc
                       vpiPathElem (2 items):
                         RefObj name:svunit_pkg start:153:5 end:153:15:
-                          vpiParent: RefObj name:svunit_pkg::current_tc
+                          vpiParent: RefObj name:svunit_pkg.current_tc
                           vpiName: svunit_pkg
                           vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg
                           vpiActual: Package name:svunit_pkg
                         RefObj name:current_tc start:153:17 end:153:27:
-                          vpiParent: RefObj name:svunit_pkg::current_tc
+                          vpiParent: RefObj name:svunit_pkg.current_tc
                           vpiName: current_tc
                           vpiFullName: apb_slave_unit_test.run.write_wo_psel.current_tc
                           vpiActual: Variable name:current_tc
+                      vpiActual: Variable name:current_tc
                     vpiRhs RefObj name:svunit_ut start:153:30 end:153:39:
                       vpiParent: Assignment
                       vpiName: svunit_ut
@@ -6731,7 +6803,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:svunit_ut.start()
                         vpiName Identifier name:start start:154:15 end:154:20:
                         vpiTaskFunc: Function name:start
-                  TaskCall name:setup start:155:5 end:155:12:
+                    vpiActual: MethodFuncCall name:start
+                  MethodTaskCall name:setup start:155:5 end:155:12:
                     vpiParent: Begin name:write_wo_psel
                     vpiName Identifier name:setup start:155:5 end:155:10:
                     vpiTaskFunc: Task name:setup
@@ -6788,33 +6861,33 @@ Design name:unnamed:
                                       vpiSize: -1
                                       vpiDecompile: "'hffff_ffff"
                                       vpiValue: ffffffff
-                                  TaskCall name:write start:123:5 end:123:22:
+                                  MethodTaskCall name:write start:123:5 end:123:22:
                                     vpiParent: Begin
                                     vpiName Identifier name:write start:123:5 end:123:10:
                                     vpiTaskFunc: Task name:write
                                     vpiArgument (2 items):
                                       RefObj name:addr start:123:11 end:123:15:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiName: addr
                                         vpiFullName: apb_slave_unit_test.run.write_wo_psel.addr
                                         vpiActual: Variable name:addr
                                       RefObj name:data start:123:17 end:123:21:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiName: data
                                         vpiFullName: apb_slave_unit_test.run.write_wo_psel.data
                                         vpiActual: Variable name:data
-                                  TaskCall name:write start:124:5 end:124:28:
+                                  MethodTaskCall name:write start:124:5 end:124:28:
                                     vpiParent: Begin
                                     vpiName Identifier name:write start:124:5 end:124:10:
                                     vpiTaskFunc: Task name:write
                                     vpiArgument (4 items):
                                       RefObj name:addr start:124:11 end:124:15:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiName: addr
                                         vpiFullName: apb_slave_unit_test.run.write_wo_psel.addr
                                         vpiActual: Variable name:addr
                                       Constant start:124:17 end:124:21:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
                                           vpiFullName: apb_slave_unit_test.run.write_wo_psel
@@ -6824,7 +6897,7 @@ Design name:unnamed:
                                         vpiDecompile: "'hff"
                                         vpiValue: ff
                                       Constant start:124:23 end:124:24:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
                                           vpiFullName: apb_slave_unit_test.run.write_wo_psel
@@ -6834,7 +6907,7 @@ Design name:unnamed:
                                         vpiDecompile: "0"
                                         vpiValue: 0
                                       Constant start:124:26 end:124:27:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
                                           vpiFullName: apb_slave_unit_test.run.write_wo_psel
@@ -6843,40 +6916,40 @@ Design name:unnamed:
                                         vpiSize: 64
                                         vpiDecompile: "0"
                                         vpiValue: 0
-                                  TaskCall name:read start:125:5 end:125:22:
+                                  MethodTaskCall name:read start:125:5 end:125:22:
                                     vpiParent: Begin
                                     vpiName Identifier name:read start:125:5 end:125:9:
                                     vpiTaskFunc: Task name:read
                                     vpiArgument (2 items):
                                       RefObj name:addr start:125:10 end:125:14:
-                                        vpiParent: TaskCall name:read
+                                        vpiParent: MethodTaskCall name:read
                                         vpiName: addr
                                         vpiFullName: apb_slave_unit_test.run.write_wo_psel.addr
                                         vpiActual: Variable name:addr
                                       RefObj name:rdata start:125:16 end:125:21:
-                                        vpiParent: TaskCall name:read
+                                        vpiParent: MethodTaskCall name:read
                                         vpiName: rdata
                                         vpiFullName: apb_slave_unit_test.run.write_wo_psel.rdata
                                         vpiActual: Variable name:rdata
                                   IfStmt start:28:3 end:30:6:
                                     vpiParent: Begin
-                                    "vpiCondition RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 126) start:28:7 end:28:112":
+                                    "vpiCondition RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 126) start:28:7 end:28:112":
                                       vpiParent: IfStmt
-                                      vpiName: svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126)
-                                      vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126)
+                                      vpiName: svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126)
+                                      vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126)
                                       vpiPathElem (3 items):
-                                        RefTypespec name:svunit_pkg start:28:7 end:28:17:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 126)"
+                                        RefObj name:svunit_pkg start:28:7 end:28:17:
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 126)"
                                           vpiName: svunit_pkg
-                                          vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126).svunit_pkg
-                                          vpiActual: ImportTypespec name:svunit_pkg
+                                          vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg
+                                          vpiActual: Package name:svunit_pkg
                                         RefObj name:current_tc start:28:19 end:28:29:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 126)"
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 126)"
                                           vpiName: current_tc
                                           vpiFullName: apb_slave_unit_test.run.write_wo_psel.current_tc
                                           vpiActual: Variable name:current_tc
                                         MethodFuncCall name:fail start:28:30 end:28:112:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 126)"
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 126)"
                                           vpiName Identifier name:fail start:28:30 end:28:34:
                                           vpiTaskFunc: Function name:fail
                                           vpiArgument (5 items):
@@ -6884,7 +6957,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126)
+                                                vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 56
@@ -6897,18 +6970,18 @@ Design name:unnamed:
                                                 RefObj name:data start:28:47 end:28:51:
                                                   vpiParent: Operation
                                                   vpiName: data
-                                                  vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126).data
+                                                  vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126).data
                                                   vpiActual: Variable name:data
                                                 RefObj name:rdata start:28:56 end:28:61:
                                                   vpiParent: Operation
                                                   vpiName: rdata
-                                                  vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126).rdata
+                                                  vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126).rdata
                                                   vpiActual: Variable name:rdata
                                             Constant start:28:64 end:28:80:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126)
+                                                vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 112
@@ -6918,7 +6991,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126)
+                                                vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 176
@@ -6928,56 +7001,59 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126)
+                                                vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 126)
                                                 vpiActual: IntTypespec
                                               vpiConstType: unsigned int (9)
                                               vpiSize: 64
                                               vpiDecompile: "126"
                                               vpiValue: 126
+                                      vpiActual: MethodFuncCall name:fail
                                     vpiStmt Begin start:28:114 end:30:6:
                                       vpiParent: IfStmt
                                       vpiFullName: apb_slave_unit_test.run.write_wo_psel
                                       vpiStmt (1 items):
                                         IfStmt start:29:5 end:29:79:
                                           vpiParent: Begin
-                                          vpiCondition RefObj name:svunit_pkg::current_tc.is_running() start:29:9 end:29:44:
+                                          vpiCondition RefObj name:svunit_pkg.current_tc.is_running() start:29:9 end:29:44:
                                             vpiParent: IfStmt
-                                            vpiName: svunit_pkg::current_tc.is_running()
-                                            vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc.is_running()
+                                            vpiName: svunit_pkg.current_tc.is_running()
+                                            vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg.current_tc.is_running()
                                             vpiPathElem (3 items):
-                                              RefTypespec name:svunit_pkg start:29:9 end:29:19:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                              RefObj name:svunit_pkg start:29:9 end:29:19:
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName: svunit_pkg
-                                                vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc.is_running().svunit_pkg
-                                                vpiActual: ImportTypespec name:svunit_pkg
+                                                vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg
+                                                vpiActual: Package name:svunit_pkg
                                               RefObj name:current_tc start:29:21 end:29:31:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName: current_tc
                                                 vpiFullName: apb_slave_unit_test.run.write_wo_psel.current_tc
                                                 vpiActual: Variable name:current_tc
                                               MethodFuncCall name:is_running start:29:32 end:29:44:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName Identifier name:is_running start:29:32 end:29:42:
                                                 vpiTaskFunc: Function name:is_running
-                                          vpiStmt RefObj name:svunit_pkg::current_tc.give_up() start:29:46 end:29:78:
+                                            vpiActual: MethodFuncCall name:is_running
+                                          vpiStmt RefObj name:svunit_pkg.current_tc.give_up() start:29:46 end:29:78:
                                             vpiParent: IfStmt
-                                            vpiName: svunit_pkg::current_tc.give_up()
-                                            vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc.give_up()
+                                            vpiName: svunit_pkg.current_tc.give_up()
+                                            vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg.current_tc.give_up()
                                             vpiPathElem (3 items):
-                                              RefTypespec name:svunit_pkg start:29:46 end:29:56:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                              RefObj name:svunit_pkg start:29:46 end:29:56:
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName: svunit_pkg
-                                                vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg::current_tc.give_up().svunit_pkg
-                                                vpiActual: ImportTypespec name:svunit_pkg
+                                                vpiFullName: apb_slave_unit_test.run.write_wo_psel.svunit_pkg
+                                                vpiActual: Package name:svunit_pkg
                                               RefObj name:current_tc start:29:58 end:29:68:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName: current_tc
                                                 vpiFullName: apb_slave_unit_test.run.write_wo_psel.current_tc
                                                 vpiActual: Variable name:current_tc
                                               MethodTaskCall name:give_up start:29:69 end:29:78:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName Identifier name:give_up start:29:69 end:29:76:
                                                 vpiTaskFunc: Task name:give_up
+                                            vpiActual: MethodTaskCall name:give_up
                               Begin start:167:11 end:171:14:
                                 vpiParent: ForkStmt
                                 vpiFullName: apb_slave_unit_test.run.write_wo_psel
@@ -7002,6 +7078,7 @@ Design name:unnamed:
                                               vpiParent: RefObj name:svunit_ut.get_error_count()
                                               vpiName Identifier name:get_error_count start:168:27 end:168:42:
                                               vpiTaskFunc: Function name:get_error_count
+                                          vpiActual: MethodFuncCall name:get_error_count
                                         RefObj name:local_error_count start:168:48 end:168:65:
                                           vpiParent: Operation
                                           vpiName: local_error_count
@@ -7025,6 +7102,7 @@ Design name:unnamed:
                                               vpiParent: RefObj name:svunit_ut.wait_for_error()
                                               vpiName Identifier name:wait_for_error start:169:25 end:169:39:
                                               vpiTaskFunc: Task name:wait_for_error
+                                          vpiActual: MethodTaskCall name:wait_for_error
                           DelayControl start:174:9 end:174:11:
                             vpiParent: Begin
                             vpiDelay Constant start:174:10 end:174:11:
@@ -7053,7 +7131,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:svunit_ut.stop()
                         vpiName Identifier name:stop start:178:15 end:178:19:
                         vpiTaskFunc: Function name:stop
-                  TaskCall name:teardown start:179:5 end:179:15:
+                    vpiActual: MethodFuncCall name:stop
+                  MethodTaskCall name:teardown start:179:5 end:179:15:
                     vpiParent: Begin name:write_wo_psel
                     vpiName Identifier name:teardown start:179:5 end:179:13:
                     vpiTaskFunc: Task name:teardown
@@ -7077,6 +7156,7 @@ Design name:unnamed:
                               vpiParent: RefObj name:svunit_ut.get_error_count()
                               vpiName Identifier name:get_error_count start:180:19 end:180:34:
                               vpiTaskFunc: Function name:get_error_count
+                          vpiActual: MethodFuncCall name:get_error_count
                         RefObj name:local_error_count start:180:40 end:180:57:
                           vpiParent: Operation
                           vpiName: local_error_count
@@ -7184,6 +7264,7 @@ Design name:unnamed:
                         vpiParent: RefObj name:svunit_ut.update_exit_status()
                         vpiName Identifier name:update_exit_status start:184:15 end:184:33:
                         vpiTaskFunc: Function name:update_exit_status
+                    vpiActual: MethodFuncCall name:update_exit_status
               Begin name:write_wo_write start:146:3 end:185:6:
                 vpiParent: Begin
                 vpiName Identifier name:write_wo_write start:146:11 end:146:25:
@@ -7229,6 +7310,7 @@ Design name:unnamed:
                           vpiParent: RefObj name:svunit_ut.get_error_count()
                           vpiName Identifier name:get_error_count start:148:43 end:148:58:
                           vpiTaskFunc: Function name:get_error_count
+                      vpiActual: MethodFuncCall name:get_error_count
                   Variable name:fileName start:149:12 end:149:20:
                     vpiParent: Begin name:write_wo_write
                     vpiTypespec RefTypespec start:149:5 end:149:11:
@@ -7297,21 +7379,22 @@ Design name:unnamed:
                   Assignment start:153:5 end:153:39:
                     vpiParent: Begin name:write_wo_write
                     vpiBlocking: true
-                    vpiLhs RefObj name:svunit_pkg::current_tc start:153:5 end:153:27:
+                    vpiLhs RefObj name:svunit_pkg.current_tc start:153:5 end:153:27:
                       vpiParent: Assignment
-                      vpiName: svunit_pkg::current_tc
-                      vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc
+                      vpiName: svunit_pkg.current_tc
+                      vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg.current_tc
                       vpiPathElem (2 items):
                         RefObj name:svunit_pkg start:153:5 end:153:15:
-                          vpiParent: RefObj name:svunit_pkg::current_tc
+                          vpiParent: RefObj name:svunit_pkg.current_tc
                           vpiName: svunit_pkg
                           vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg
                           vpiActual: Package name:svunit_pkg
                         RefObj name:current_tc start:153:17 end:153:27:
-                          vpiParent: RefObj name:svunit_pkg::current_tc
+                          vpiParent: RefObj name:svunit_pkg.current_tc
                           vpiName: current_tc
                           vpiFullName: apb_slave_unit_test.run.write_wo_write.current_tc
                           vpiActual: Variable name:current_tc
+                      vpiActual: Variable name:current_tc
                     vpiRhs RefObj name:svunit_ut start:153:30 end:153:39:
                       vpiParent: Assignment
                       vpiName: svunit_ut
@@ -7331,7 +7414,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:svunit_ut.start()
                         vpiName Identifier name:start start:154:15 end:154:20:
                         vpiTaskFunc: Function name:start
-                  TaskCall name:setup start:155:5 end:155:12:
+                    vpiActual: MethodFuncCall name:start
+                  MethodTaskCall name:setup start:155:5 end:155:12:
                     vpiParent: Begin name:write_wo_write
                     vpiName Identifier name:setup start:155:5 end:155:10:
                     vpiTaskFunc: Task name:setup
@@ -7388,33 +7472,33 @@ Design name:unnamed:
                                       vpiSize: -1
                                       vpiDecompile: "'h99"
                                       vpiValue: "99"
-                                  TaskCall name:write start:143:5 end:143:22:
+                                  MethodTaskCall name:write start:143:5 end:143:22:
                                     vpiParent: Begin
                                     vpiName Identifier name:write start:143:5 end:143:10:
                                     vpiTaskFunc: Task name:write
                                     vpiArgument (2 items):
                                       RefObj name:addr start:143:11 end:143:15:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiName: addr
                                         vpiFullName: apb_slave_unit_test.run.write_wo_write.addr
                                         vpiActual: Variable name:addr
                                       RefObj name:data start:143:17 end:143:21:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiName: data
                                         vpiFullName: apb_slave_unit_test.run.write_wo_write.data
                                         vpiActual: Variable name:data
-                                  TaskCall name:write start:144:5 end:144:31:
+                                  MethodTaskCall name:write start:144:5 end:144:31:
                                     vpiParent: Begin
                                     vpiName Identifier name:write start:144:5 end:144:10:
                                     vpiTaskFunc: Task name:write
                                     vpiArgument (5 items):
                                       RefObj name:addr start:144:11 end:144:15:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiName: addr
                                         vpiFullName: apb_slave_unit_test.run.write_wo_write.addr
                                         vpiActual: Variable name:addr
                                       Constant start:144:17 end:144:21:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
                                           vpiFullName: apb_slave_unit_test.run.write_wo_write
@@ -7424,7 +7508,7 @@ Design name:unnamed:
                                         vpiDecompile: "'hff"
                                         vpiValue: ff
                                       Constant start:144:23 end:144:24:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
                                           vpiFullName: apb_slave_unit_test.run.write_wo_write
@@ -7434,7 +7518,7 @@ Design name:unnamed:
                                         vpiDecompile: "0"
                                         vpiValue: 0
                                       Constant start:144:26 end:144:27:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
                                           vpiFullName: apb_slave_unit_test.run.write_wo_write
@@ -7444,7 +7528,7 @@ Design name:unnamed:
                                         vpiDecompile: "1"
                                         vpiValue: 1
                                       Constant start:144:29 end:144:30:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
                                           vpiFullName: apb_slave_unit_test.run.write_wo_write
@@ -7453,40 +7537,40 @@ Design name:unnamed:
                                         vpiSize: 64
                                         vpiDecompile: "0"
                                         vpiValue: 0
-                                  TaskCall name:read start:145:5 end:145:22:
+                                  MethodTaskCall name:read start:145:5 end:145:22:
                                     vpiParent: Begin
                                     vpiName Identifier name:read start:145:5 end:145:9:
                                     vpiTaskFunc: Task name:read
                                     vpiArgument (2 items):
                                       RefObj name:addr start:145:10 end:145:14:
-                                        vpiParent: TaskCall name:read
+                                        vpiParent: MethodTaskCall name:read
                                         vpiName: addr
                                         vpiFullName: apb_slave_unit_test.run.write_wo_write.addr
                                         vpiActual: Variable name:addr
                                       RefObj name:rdata start:145:16 end:145:21:
-                                        vpiParent: TaskCall name:read
+                                        vpiParent: MethodTaskCall name:read
                                         vpiName: rdata
                                         vpiFullName: apb_slave_unit_test.run.write_wo_write.rdata
                                         vpiActual: Variable name:rdata
                                   IfStmt start:28:3 end:30:6:
                                     vpiParent: Begin
-                                    "vpiCondition RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 146) start:28:7 end:28:112":
+                                    "vpiCondition RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 146) start:28:7 end:28:112":
                                       vpiParent: IfStmt
-                                      vpiName: svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146)
-                                      vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146)
+                                      vpiName: svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146)
+                                      vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146)
                                       vpiPathElem (3 items):
-                                        RefTypespec name:svunit_pkg start:28:7 end:28:17:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 146)"
+                                        RefObj name:svunit_pkg start:28:7 end:28:17:
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 146)"
                                           vpiName: svunit_pkg
-                                          vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146).svunit_pkg
-                                          vpiActual: ImportTypespec name:svunit_pkg
+                                          vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg
+                                          vpiActual: Package name:svunit_pkg
                                         RefObj name:current_tc start:28:19 end:28:29:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 146)"
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 146)"
                                           vpiName: current_tc
                                           vpiFullName: apb_slave_unit_test.run.write_wo_write.current_tc
                                           vpiActual: Variable name:current_tc
                                         MethodFuncCall name:fail start:28:30 end:28:112:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 146)"
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 146)"
                                           vpiName Identifier name:fail start:28:30 end:28:34:
                                           vpiTaskFunc: Function name:fail
                                           vpiArgument (5 items):
@@ -7494,7 +7578,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146)
+                                                vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 56
@@ -7507,18 +7591,18 @@ Design name:unnamed:
                                                 RefObj name:data start:28:47 end:28:51:
                                                   vpiParent: Operation
                                                   vpiName: data
-                                                  vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146).data
+                                                  vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146).data
                                                   vpiActual: Variable name:data
                                                 RefObj name:rdata start:28:56 end:28:61:
                                                   vpiParent: Operation
                                                   vpiName: rdata
-                                                  vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146).rdata
+                                                  vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146).rdata
                                                   vpiActual: Variable name:rdata
                                             Constant start:28:64 end:28:80:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146)
+                                                vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 112
@@ -7528,7 +7612,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146)
+                                                vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 176
@@ -7538,56 +7622,59 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146)
+                                                vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 146)
                                                 vpiActual: IntTypespec
                                               vpiConstType: unsigned int (9)
                                               vpiSize: 64
                                               vpiDecompile: "146"
                                               vpiValue: 146
+                                      vpiActual: MethodFuncCall name:fail
                                     vpiStmt Begin start:28:114 end:30:6:
                                       vpiParent: IfStmt
                                       vpiFullName: apb_slave_unit_test.run.write_wo_write
                                       vpiStmt (1 items):
                                         IfStmt start:29:5 end:29:79:
                                           vpiParent: Begin
-                                          vpiCondition RefObj name:svunit_pkg::current_tc.is_running() start:29:9 end:29:44:
+                                          vpiCondition RefObj name:svunit_pkg.current_tc.is_running() start:29:9 end:29:44:
                                             vpiParent: IfStmt
-                                            vpiName: svunit_pkg::current_tc.is_running()
-                                            vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc.is_running()
+                                            vpiName: svunit_pkg.current_tc.is_running()
+                                            vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg.current_tc.is_running()
                                             vpiPathElem (3 items):
-                                              RefTypespec name:svunit_pkg start:29:9 end:29:19:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                              RefObj name:svunit_pkg start:29:9 end:29:19:
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName: svunit_pkg
-                                                vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc.is_running().svunit_pkg
-                                                vpiActual: ImportTypespec name:svunit_pkg
+                                                vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg
+                                                vpiActual: Package name:svunit_pkg
                                               RefObj name:current_tc start:29:21 end:29:31:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName: current_tc
                                                 vpiFullName: apb_slave_unit_test.run.write_wo_write.current_tc
                                                 vpiActual: Variable name:current_tc
                                               MethodFuncCall name:is_running start:29:32 end:29:44:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName Identifier name:is_running start:29:32 end:29:42:
                                                 vpiTaskFunc: Function name:is_running
-                                          vpiStmt RefObj name:svunit_pkg::current_tc.give_up() start:29:46 end:29:78:
+                                            vpiActual: MethodFuncCall name:is_running
+                                          vpiStmt RefObj name:svunit_pkg.current_tc.give_up() start:29:46 end:29:78:
                                             vpiParent: IfStmt
-                                            vpiName: svunit_pkg::current_tc.give_up()
-                                            vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc.give_up()
+                                            vpiName: svunit_pkg.current_tc.give_up()
+                                            vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg.current_tc.give_up()
                                             vpiPathElem (3 items):
-                                              RefTypespec name:svunit_pkg start:29:46 end:29:56:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                              RefObj name:svunit_pkg start:29:46 end:29:56:
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName: svunit_pkg
-                                                vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg::current_tc.give_up().svunit_pkg
-                                                vpiActual: ImportTypespec name:svunit_pkg
+                                                vpiFullName: apb_slave_unit_test.run.write_wo_write.svunit_pkg
+                                                vpiActual: Package name:svunit_pkg
                                               RefObj name:current_tc start:29:58 end:29:68:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName: current_tc
                                                 vpiFullName: apb_slave_unit_test.run.write_wo_write.current_tc
                                                 vpiActual: Variable name:current_tc
                                               MethodTaskCall name:give_up start:29:69 end:29:78:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName Identifier name:give_up start:29:69 end:29:76:
                                                 vpiTaskFunc: Task name:give_up
+                                            vpiActual: MethodTaskCall name:give_up
                               Begin start:167:11 end:171:14:
                                 vpiParent: ForkStmt
                                 vpiFullName: apb_slave_unit_test.run.write_wo_write
@@ -7612,6 +7699,7 @@ Design name:unnamed:
                                               vpiParent: RefObj name:svunit_ut.get_error_count()
                                               vpiName Identifier name:get_error_count start:168:27 end:168:42:
                                               vpiTaskFunc: Function name:get_error_count
+                                          vpiActual: MethodFuncCall name:get_error_count
                                         RefObj name:local_error_count start:168:48 end:168:65:
                                           vpiParent: Operation
                                           vpiName: local_error_count
@@ -7635,6 +7723,7 @@ Design name:unnamed:
                                               vpiParent: RefObj name:svunit_ut.wait_for_error()
                                               vpiName Identifier name:wait_for_error start:169:25 end:169:39:
                                               vpiTaskFunc: Task name:wait_for_error
+                                          vpiActual: MethodTaskCall name:wait_for_error
                           DelayControl start:174:9 end:174:11:
                             vpiParent: Begin
                             vpiDelay Constant start:174:10 end:174:11:
@@ -7663,7 +7752,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:svunit_ut.stop()
                         vpiName Identifier name:stop start:178:15 end:178:19:
                         vpiTaskFunc: Function name:stop
-                  TaskCall name:teardown start:179:5 end:179:15:
+                    vpiActual: MethodFuncCall name:stop
+                  MethodTaskCall name:teardown start:179:5 end:179:15:
                     vpiParent: Begin name:write_wo_write
                     vpiName Identifier name:teardown start:179:5 end:179:13:
                     vpiTaskFunc: Task name:teardown
@@ -7687,6 +7777,7 @@ Design name:unnamed:
                               vpiParent: RefObj name:svunit_ut.get_error_count()
                               vpiName Identifier name:get_error_count start:180:19 end:180:34:
                               vpiTaskFunc: Function name:get_error_count
+                          vpiActual: MethodFuncCall name:get_error_count
                         RefObj name:local_error_count start:180:40 end:180:57:
                           vpiParent: Operation
                           vpiName: local_error_count
@@ -7794,6 +7885,7 @@ Design name:unnamed:
                         vpiParent: RefObj name:svunit_ut.update_exit_status()
                         vpiName Identifier name:update_exit_status start:184:15 end:184:33:
                         vpiTaskFunc: Function name:update_exit_status
+                    vpiActual: MethodFuncCall name:update_exit_status
               Begin name:_2_writes_then_2_reads start:146:3 end:185:6:
                 vpiParent: Begin
                 vpiName Identifier name:_2_writes_then_2_reads start:146:11 end:146:33:
@@ -7839,6 +7931,7 @@ Design name:unnamed:
                           vpiParent: RefObj name:svunit_ut.get_error_count()
                           vpiName Identifier name:get_error_count start:148:43 end:148:58:
                           vpiTaskFunc: Function name:get_error_count
+                      vpiActual: MethodFuncCall name:get_error_count
                   Variable name:fileName start:149:12 end:149:20:
                     vpiParent: Begin name:_2_writes_then_2_reads
                     vpiTypespec RefTypespec start:149:5 end:149:11:
@@ -7907,21 +8000,22 @@ Design name:unnamed:
                   Assignment start:153:5 end:153:39:
                     vpiParent: Begin name:_2_writes_then_2_reads
                     vpiBlocking: true
-                    vpiLhs RefObj name:svunit_pkg::current_tc start:153:5 end:153:27:
+                    vpiLhs RefObj name:svunit_pkg.current_tc start:153:5 end:153:27:
                       vpiParent: Assignment
-                      vpiName: svunit_pkg::current_tc
-                      vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc
+                      vpiName: svunit_pkg.current_tc
+                      vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc
                       vpiPathElem (2 items):
                         RefObj name:svunit_pkg start:153:5 end:153:15:
-                          vpiParent: RefObj name:svunit_pkg::current_tc
+                          vpiParent: RefObj name:svunit_pkg.current_tc
                           vpiName: svunit_pkg
                           vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg
                           vpiActual: Package name:svunit_pkg
                         RefObj name:current_tc start:153:17 end:153:27:
-                          vpiParent: RefObj name:svunit_pkg::current_tc
+                          vpiParent: RefObj name:svunit_pkg.current_tc
                           vpiName: current_tc
                           vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.current_tc
                           vpiActual: Variable name:current_tc
+                      vpiActual: Variable name:current_tc
                     vpiRhs RefObj name:svunit_ut start:153:30 end:153:39:
                       vpiParent: Assignment
                       vpiName: svunit_ut
@@ -7941,7 +8035,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:svunit_ut.start()
                         vpiName Identifier name:start start:154:15 end:154:20:
                         vpiTaskFunc: Function name:start
-                  TaskCall name:setup start:155:5 end:155:12:
+                    vpiActual: MethodFuncCall name:start
+                  MethodTaskCall name:setup start:155:5 end:155:12:
                     vpiParent: Begin name:_2_writes_then_2_reads
                     vpiName Identifier name:setup start:155:5 end:155:10:
                     vpiTaskFunc: Task name:setup
@@ -7998,23 +8093,23 @@ Design name:unnamed:
                                       vpiSize: -1
                                       vpiDecompile: "'h31"
                                       vpiValue: "31"
-                                  TaskCall name:write start:161:5 end:161:25:
+                                  MethodTaskCall name:write start:161:5 end:161:25:
                                     vpiParent: Begin
                                     vpiName Identifier name:write start:161:5 end:161:10:
                                     vpiTaskFunc: Task name:write
                                     vpiArgument (3 items):
                                       RefObj name:addr start:161:11 end:161:15:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiName: addr
                                         vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.addr
                                         vpiActual: Variable name:addr
                                       RefObj name:data start:161:17 end:161:21:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiName: data
                                         vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.data
                                         vpiActual: Variable name:data
                                       Constant start:161:23 end:161:24:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
                                           vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads
@@ -8023,13 +8118,13 @@ Design name:unnamed:
                                         vpiSize: 64
                                         vpiDecompile: "1"
                                         vpiValue: 1
-                                  TaskCall name:write start:162:5 end:162:29:
+                                  MethodTaskCall name:write start:162:5 end:162:29:
                                     vpiParent: Begin
                                     vpiName Identifier name:write start:162:5 end:162:10:
                                     vpiTaskFunc: Task name:write
                                     vpiArgument (3 items):
                                       Operation start:162:11 end:162:17:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiOpType: add (24)
                                         vpiOperand (2 items):
                                           RefObj name:addr start:162:11 end:162:15:
@@ -8048,7 +8143,7 @@ Design name:unnamed:
                                             vpiDecompile: "1"
                                             vpiValue: 1
                                       Operation start:162:19 end:162:25:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiOpType: add (24)
                                         vpiOperand (2 items):
                                           RefObj name:data start:162:19 end:162:23:
@@ -8067,7 +8162,7 @@ Design name:unnamed:
                                             vpiDecompile: "1"
                                             vpiValue: 1
                                       Constant start:162:27 end:162:28:
-                                        vpiParent: TaskCall name:write
+                                        vpiParent: MethodTaskCall name:write
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
                                           vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads
@@ -8076,23 +8171,23 @@ Design name:unnamed:
                                         vpiSize: 64
                                         vpiDecompile: "1"
                                         vpiValue: 1
-                                  TaskCall name:read start:163:5 end:163:25:
+                                  MethodTaskCall name:read start:163:5 end:163:25:
                                     vpiParent: Begin
                                     vpiName Identifier name:read start:163:5 end:163:9:
                                     vpiTaskFunc: Task name:read
                                     vpiArgument (3 items):
                                       RefObj name:addr start:163:10 end:163:14:
-                                        vpiParent: TaskCall name:read
+                                        vpiParent: MethodTaskCall name:read
                                         vpiName: addr
                                         vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.addr
                                         vpiActual: Variable name:addr
                                       RefObj name:rdata start:163:16 end:163:21:
-                                        vpiParent: TaskCall name:read
+                                        vpiParent: MethodTaskCall name:read
                                         vpiName: rdata
                                         vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.rdata
                                         vpiActual: Variable name:rdata
                                       Constant start:163:23 end:163:24:
-                                        vpiParent: TaskCall name:read
+                                        vpiParent: MethodTaskCall name:read
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
                                           vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads
@@ -8103,23 +8198,23 @@ Design name:unnamed:
                                         vpiValue: 1
                                   IfStmt start:28:3 end:30:6:
                                     vpiParent: Begin
-                                    "vpiCondition RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 164) start:28:7 end:28:112":
+                                    "vpiCondition RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 164) start:28:7 end:28:112":
                                       vpiParent: IfStmt
-                                      vpiName: svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164)
-                                      vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164)
+                                      vpiName: svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164)
+                                      vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164)
                                       vpiPathElem (3 items):
-                                        RefTypespec name:svunit_pkg start:28:7 end:28:17:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 164)"
+                                        RefObj name:svunit_pkg start:28:7 end:28:17:
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 164)"
                                           vpiName: svunit_pkg
-                                          vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164).svunit_pkg
-                                          vpiActual: ImportTypespec name:svunit_pkg
+                                          vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg
+                                          vpiActual: Package name:svunit_pkg
                                         RefObj name:current_tc start:28:19 end:28:29:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 164)"
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 164)"
                                           vpiName: current_tc
                                           vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.current_tc
                                           vpiActual: Variable name:current_tc
                                         MethodFuncCall name:fail start:28:30 end:28:112:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 164)"
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data !== rdata, \"data !== rdata\", \"$Source01/testbench.sv\", 164)"
                                           vpiName Identifier name:fail start:28:30 end:28:34:
                                           vpiTaskFunc: Function name:fail
                                           vpiArgument (5 items):
@@ -8127,7 +8222,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164)
+                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 56
@@ -8140,18 +8235,18 @@ Design name:unnamed:
                                                 RefObj name:data start:28:47 end:28:51:
                                                   vpiParent: Operation
                                                   vpiName: data
-                                                  vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164).data
+                                                  vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164).data
                                                   vpiActual: Variable name:data
                                                 RefObj name:rdata start:28:56 end:28:61:
                                                   vpiParent: Operation
                                                   vpiName: rdata
-                                                  vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164).rdata
+                                                  vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164).rdata
                                                   vpiActual: Variable name:rdata
                                             Constant start:28:64 end:28:80:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164)
+                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 112
@@ -8161,7 +8256,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164)
+                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 176
@@ -8171,63 +8266,66 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164)
+                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data !== rdata, "data !== rdata", "$Source01/testbench.sv", 164)
                                                 vpiActual: IntTypespec
                                               vpiConstType: unsigned int (9)
                                               vpiSize: 64
                                               vpiDecompile: "164"
                                               vpiValue: 164
+                                      vpiActual: MethodFuncCall name:fail
                                     vpiStmt Begin start:28:114 end:30:6:
                                       vpiParent: IfStmt
                                       vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads
                                       vpiStmt (1 items):
                                         IfStmt start:29:5 end:29:79:
                                           vpiParent: Begin
-                                          vpiCondition RefObj name:svunit_pkg::current_tc.is_running() start:29:9 end:29:44:
+                                          vpiCondition RefObj name:svunit_pkg.current_tc.is_running() start:29:9 end:29:44:
                                             vpiParent: IfStmt
-                                            vpiName: svunit_pkg::current_tc.is_running()
-                                            vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.is_running()
+                                            vpiName: svunit_pkg.current_tc.is_running()
+                                            vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.is_running()
                                             vpiPathElem (3 items):
-                                              RefTypespec name:svunit_pkg start:29:9 end:29:19:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                              RefObj name:svunit_pkg start:29:9 end:29:19:
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName: svunit_pkg
-                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.is_running().svunit_pkg
-                                                vpiActual: ImportTypespec name:svunit_pkg
+                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg
+                                                vpiActual: Package name:svunit_pkg
                                               RefObj name:current_tc start:29:21 end:29:31:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName: current_tc
                                                 vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.current_tc
                                                 vpiActual: Variable name:current_tc
                                               MethodFuncCall name:is_running start:29:32 end:29:44:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName Identifier name:is_running start:29:32 end:29:42:
                                                 vpiTaskFunc: Function name:is_running
-                                          vpiStmt RefObj name:svunit_pkg::current_tc.give_up() start:29:46 end:29:78:
+                                            vpiActual: MethodFuncCall name:is_running
+                                          vpiStmt RefObj name:svunit_pkg.current_tc.give_up() start:29:46 end:29:78:
                                             vpiParent: IfStmt
-                                            vpiName: svunit_pkg::current_tc.give_up()
-                                            vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.give_up()
+                                            vpiName: svunit_pkg.current_tc.give_up()
+                                            vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.give_up()
                                             vpiPathElem (3 items):
-                                              RefTypespec name:svunit_pkg start:29:46 end:29:56:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                              RefObj name:svunit_pkg start:29:46 end:29:56:
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName: svunit_pkg
-                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.give_up().svunit_pkg
-                                                vpiActual: ImportTypespec name:svunit_pkg
+                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg
+                                                vpiActual: Package name:svunit_pkg
                                               RefObj name:current_tc start:29:58 end:29:68:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName: current_tc
                                                 vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.current_tc
                                                 vpiActual: Variable name:current_tc
                                               MethodTaskCall name:give_up start:29:69 end:29:78:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName Identifier name:give_up start:29:69 end:29:76:
                                                 vpiTaskFunc: Task name:give_up
-                                  TaskCall name:read start:165:5 end:165:27:
+                                            vpiActual: MethodTaskCall name:give_up
+                                  MethodTaskCall name:read start:165:5 end:165:27:
                                     vpiParent: Begin
                                     vpiName Identifier name:read start:165:5 end:165:9:
                                     vpiTaskFunc: Task name:read
                                     vpiArgument (3 items):
                                       Operation start:165:10 end:165:16:
-                                        vpiParent: TaskCall name:read
+                                        vpiParent: MethodTaskCall name:read
                                         vpiOpType: add (24)
                                         vpiOperand (2 items):
                                           RefObj name:addr start:165:10 end:165:14:
@@ -8246,12 +8344,12 @@ Design name:unnamed:
                                             vpiDecompile: "1"
                                             vpiValue: 1
                                       RefObj name:rdata start:165:18 end:165:23:
-                                        vpiParent: TaskCall name:read
+                                        vpiParent: MethodTaskCall name:read
                                         vpiName: rdata
                                         vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.rdata
                                         vpiActual: Variable name:rdata
                                       Constant start:165:25 end:165:26:
-                                        vpiParent: TaskCall name:read
+                                        vpiParent: MethodTaskCall name:read
                                         vpiTypespec RefTypespec:
                                           vpiParent: Constant
                                           vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads
@@ -8262,23 +8360,23 @@ Design name:unnamed:
                                         vpiValue: 1
                                   IfStmt start:28:3 end:30:6:
                                     vpiParent: Begin
-                                    "vpiCondition RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data + 1 !== rdata, \"data+1 !== rdata\", \"$Source01/testbench.sv\", 166) start:28:7 end:28:116":
+                                    "vpiCondition RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data + 1 !== rdata, \"data+1 !== rdata\", \"$Source01/testbench.sv\", 166) start:28:7 end:28:116":
                                       vpiParent: IfStmt
-                                      vpiName: svunit_pkg::current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
-                                      vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
+                                      vpiName: svunit_pkg.current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
+                                      vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
                                       vpiPathElem (3 items):
-                                        RefTypespec name:svunit_pkg start:28:7 end:28:17:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data + 1 !== rdata, \"data+1 !== rdata\", \"$Source01/testbench.sv\", 166)"
+                                        RefObj name:svunit_pkg start:28:7 end:28:17:
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data + 1 !== rdata, \"data+1 !== rdata\", \"$Source01/testbench.sv\", 166)"
                                           vpiName: svunit_pkg
-                                          vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166).svunit_pkg
-                                          vpiActual: ImportTypespec name:svunit_pkg
+                                          vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg
+                                          vpiActual: Package name:svunit_pkg
                                         RefObj name:current_tc start:28:19 end:28:29:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data + 1 !== rdata, \"data+1 !== rdata\", \"$Source01/testbench.sv\", 166)"
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data + 1 !== rdata, \"data+1 !== rdata\", \"$Source01/testbench.sv\", 166)"
                                           vpiName: current_tc
                                           vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.current_tc
                                           vpiActual: Variable name:current_tc
                                         MethodFuncCall name:fail start:28:30 end:28:116:
-                                          vpiParent: "RefObj name:svunit_pkg::current_tc.fail(\"fail_if\", data + 1 !== rdata, \"data+1 !== rdata\", \"$Source01/testbench.sv\", 166)"
+                                          vpiParent: "RefObj name:svunit_pkg.current_tc.fail(\"fail_if\", data + 1 !== rdata, \"data+1 !== rdata\", \"$Source01/testbench.sv\", 166)"
                                           vpiName Identifier name:fail start:28:30 end:28:34:
                                           vpiTaskFunc: Function name:fail
                                           vpiArgument (5 items):
@@ -8286,7 +8384,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
+                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 56
@@ -8303,13 +8401,13 @@ Design name:unnamed:
                                                     RefObj name:data start:28:47 end:28:51:
                                                       vpiParent: Operation
                                                       vpiName: data
-                                                      vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166).data
+                                                      vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166).data
                                                       vpiActual: Variable name:data
                                                     Constant start:28:52 end:28:53:
                                                       vpiParent: Operation
                                                       vpiTypespec RefTypespec:
                                                         vpiParent: Constant
-                                                        vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
+                                                        vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
                                                         vpiActual: IntTypespec
                                                       vpiConstType: unsigned int (9)
                                                       vpiSize: 64
@@ -8318,13 +8416,13 @@ Design name:unnamed:
                                                 RefObj name:rdata start:28:58 end:28:63:
                                                   vpiParent: Operation
                                                   vpiName: rdata
-                                                  vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166).rdata
+                                                  vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166).rdata
                                                   vpiActual: Variable name:rdata
                                             Constant start:28:66 end:28:84:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
+                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 128
@@ -8334,7 +8432,7 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
+                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
                                                 vpiActual: StringTypespec
                                               vpiConstType: string (6)
                                               vpiSize: 176
@@ -8344,56 +8442,59 @@ Design name:unnamed:
                                               vpiParent: MethodFuncCall name:fail
                                               vpiTypespec RefTypespec:
                                                 vpiParent: Constant
-                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
+                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.fail("fail_if", data + 1 !== rdata, "data+1 !== rdata", "$Source01/testbench.sv", 166)
                                                 vpiActual: IntTypespec
                                               vpiConstType: unsigned int (9)
                                               vpiSize: 64
                                               vpiDecompile: "166"
                                               vpiValue: 166
+                                      vpiActual: MethodFuncCall name:fail
                                     vpiStmt Begin start:28:118 end:30:6:
                                       vpiParent: IfStmt
                                       vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads
                                       vpiStmt (1 items):
                                         IfStmt start:29:5 end:29:79:
                                           vpiParent: Begin
-                                          vpiCondition RefObj name:svunit_pkg::current_tc.is_running() start:29:9 end:29:44:
+                                          vpiCondition RefObj name:svunit_pkg.current_tc.is_running() start:29:9 end:29:44:
                                             vpiParent: IfStmt
-                                            vpiName: svunit_pkg::current_tc.is_running()
-                                            vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.is_running()
+                                            vpiName: svunit_pkg.current_tc.is_running()
+                                            vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.is_running()
                                             vpiPathElem (3 items):
-                                              RefTypespec name:svunit_pkg start:29:9 end:29:19:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                              RefObj name:svunit_pkg start:29:9 end:29:19:
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName: svunit_pkg
-                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.is_running().svunit_pkg
-                                                vpiActual: ImportTypespec name:svunit_pkg
+                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg
+                                                vpiActual: Package name:svunit_pkg
                                               RefObj name:current_tc start:29:21 end:29:31:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName: current_tc
                                                 vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.current_tc
                                                 vpiActual: Variable name:current_tc
                                               MethodFuncCall name:is_running start:29:32 end:29:44:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.is_running()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.is_running()
                                                 vpiName Identifier name:is_running start:29:32 end:29:42:
                                                 vpiTaskFunc: Function name:is_running
-                                          vpiStmt RefObj name:svunit_pkg::current_tc.give_up() start:29:46 end:29:78:
+                                            vpiActual: MethodFuncCall name:is_running
+                                          vpiStmt RefObj name:svunit_pkg.current_tc.give_up() start:29:46 end:29:78:
                                             vpiParent: IfStmt
-                                            vpiName: svunit_pkg::current_tc.give_up()
-                                            vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.give_up()
+                                            vpiName: svunit_pkg.current_tc.give_up()
+                                            vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg.current_tc.give_up()
                                             vpiPathElem (3 items):
-                                              RefTypespec name:svunit_pkg start:29:46 end:29:56:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                              RefObj name:svunit_pkg start:29:46 end:29:56:
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName: svunit_pkg
-                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg::current_tc.give_up().svunit_pkg
-                                                vpiActual: ImportTypespec name:svunit_pkg
+                                                vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.svunit_pkg
+                                                vpiActual: Package name:svunit_pkg
                                               RefObj name:current_tc start:29:58 end:29:68:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName: current_tc
                                                 vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads.current_tc
                                                 vpiActual: Variable name:current_tc
                                               MethodTaskCall name:give_up start:29:69 end:29:78:
-                                                vpiParent: RefObj name:svunit_pkg::current_tc.give_up()
+                                                vpiParent: RefObj name:svunit_pkg.current_tc.give_up()
                                                 vpiName Identifier name:give_up start:29:69 end:29:76:
                                                 vpiTaskFunc: Task name:give_up
+                                            vpiActual: MethodTaskCall name:give_up
                               Begin start:167:11 end:171:14:
                                 vpiParent: ForkStmt
                                 vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads
@@ -8418,6 +8519,7 @@ Design name:unnamed:
                                               vpiParent: RefObj name:svunit_ut.get_error_count()
                                               vpiName Identifier name:get_error_count start:168:27 end:168:42:
                                               vpiTaskFunc: Function name:get_error_count
+                                          vpiActual: MethodFuncCall name:get_error_count
                                         RefObj name:local_error_count start:168:48 end:168:65:
                                           vpiParent: Operation
                                           vpiName: local_error_count
@@ -8441,6 +8543,7 @@ Design name:unnamed:
                                               vpiParent: RefObj name:svunit_ut.wait_for_error()
                                               vpiName Identifier name:wait_for_error start:169:25 end:169:39:
                                               vpiTaskFunc: Task name:wait_for_error
+                                          vpiActual: MethodTaskCall name:wait_for_error
                           DelayControl start:174:9 end:174:11:
                             vpiParent: Begin
                             vpiDelay Constant start:174:10 end:174:11:
@@ -8469,7 +8572,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:svunit_ut.stop()
                         vpiName Identifier name:stop start:178:15 end:178:19:
                         vpiTaskFunc: Function name:stop
-                  TaskCall name:teardown start:179:5 end:179:15:
+                    vpiActual: MethodFuncCall name:stop
+                  MethodTaskCall name:teardown start:179:5 end:179:15:
                     vpiParent: Begin name:_2_writes_then_2_reads
                     vpiName Identifier name:teardown start:179:5 end:179:13:
                     vpiTaskFunc: Task name:teardown
@@ -8493,6 +8597,7 @@ Design name:unnamed:
                               vpiParent: RefObj name:svunit_ut.get_error_count()
                               vpiName Identifier name:get_error_count start:180:19 end:180:34:
                               vpiTaskFunc: Function name:get_error_count
+                          vpiActual: MethodFuncCall name:get_error_count
                         RefObj name:local_error_count start:180:40 end:180:57:
                           vpiParent: Operation
                           vpiName: local_error_count
@@ -8600,6 +8705,7 @@ Design name:unnamed:
                         vpiParent: RefObj name:svunit_ut.update_exit_status()
                         vpiName Identifier name:update_exit_status start:184:15 end:184:33:
                         vpiTaskFunc: Function name:update_exit_status
+                    vpiActual: MethodFuncCall name:update_exit_status
         Task name:write start:179:3 end:210:10:
           vpiParent: Module name:apb_slave_unit_test
           vpiName Identifier name:write start:179:8 end:179:13:
@@ -9514,7 +9620,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 14
+[  ERROR] : 4
 [WARNING] : 1
 [   NOTE] : 2
 ********************************************************************************
@@ -9564,12 +9670,12 @@ COMMAND: ${HLC_DIR}/regression/ApbSlave/ApbSlave/design.hldb ${HLC_DIR}/regressi
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                           213     212       8         9
+Constant                           212     211       8         9
 Operation                           56      46       0        10
-RefObj                             393     379       0        14
-RefTypespec                        621     620       8         9
+RefObj                             417     403       0        14
+RefTypespec                        688     687       8         9
 ----------------------------------------------------------------
-Others                            3535    3535       0         0
+Others                            3710    3710       0         0
 ----------------------------------------------------------------
-                                  4818    4792      16        42
+                                  5083    5057      16        42
 ===================== END REDUCTION RESULT =====================

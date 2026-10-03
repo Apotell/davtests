@@ -97,6 +97,7 @@ Design name:unnamed:
         vpiParent: Package name:dm
         vpiName: work
         vpiFullName: dm::work
+        vpiActual: Library name:work
       vpiCell: dm
   vpiAllModules (1 items):
     Module name:dm_top #(.NrHarts(1)) file:$Source01/dut.sv start:10:1 end:17:10:
@@ -166,38 +167,37 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec start:13:5 end:13:33:
+          vpiElemTypespec RefTypespec name:dm::hartinfo_t start:13:5 end:13:33:
             vpiParent: ArrayTypespec
-            vpiFullName: dm_top #(.NrHarts(1))
+            vpiName: dm::hartinfo_t
+            vpiFullName: dm_top #(.NrHarts(1)).dm::hartinfo_t
             vpiPathElem (2 items):
-              RefTypespec name:dm start:13:5 end:13:7:
-                vpiParent: RefTypespec
+              RefObj name:dm start:13:5 end:13:7:
+                vpiParent: RefTypespec name:dm::hartinfo_t
                 vpiName: dm
                 vpiFullName: dm_top #(.NrHarts(1)).dm
-                vpiPathElem (1 items):
-                  RefObj name:dm start:13:5 end:13:7:
-                    vpiParent: RefTypespec name:dm
-                    vpiName: dm
-                    vpiFullName: dm_top #(.NrHarts(1)).dm
-                    vpiActual: Package name:dm
+                vpiActual: Package name:dm
               RefTypespec name:hartinfo_t start:13:9 end:13:19:
-                vpiParent: RefTypespec
+                vpiParent: RefTypespec name:dm::hartinfo_t
                 vpiName: hartinfo_t
-                vpiFullName: dm_top #(.NrHarts(1)).hartinfo_t
+                vpiFullName: dm_top #(.NrHarts(1)).dm::hartinfo_t.hartinfo_t
+                vpiActual: TypedefTypespec name:hartinfo_t
+            vpiActual: TypedefTypespec name:hartinfo_t
       vpiDefName: dm_top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:10:8 end:10:14:
         vpiParent: Module name:dm_top #(.NrHarts(1))
         vpiName: work
         vpiFullName: dm_top #(.NrHarts(1)).work
+        vpiActual: Library name:work
       vpiCell: dm_top
       vpiNet (1 items):
         Net name:hartinfo_i start:13:35 end:13:45:
           vpiParent: Module name:dm_top #(.NrHarts(1))
-          "vpiTypespec RefTypespec name: [NrHarts-1:0] start:13:5 end:13:33":
+          vpiTypespec RefTypespec name:dm::hartinfo_t [NrHarts-1:0] start:13:5 end:13:33:
             vpiParent: Net name:hartinfo_i
-            vpiName: " [NrHarts-1:0]"
-            vpiFullName: dm_top #(.NrHarts(1)).hartinfo_i. [NrHarts-1:0]
+            vpiName: dm::hartinfo_t [NrHarts-1:0]
+            vpiFullName: dm_top #(.NrHarts(1)).hartinfo_i.dm::hartinfo_t [NrHarts-1:0]
             vpiActual: ArrayTypespec
           vpiName: hartinfo_i
           vpiFullName: dm_top #(.NrHarts(1)).hartinfo_i
@@ -212,10 +212,10 @@ Design name:unnamed:
             vpiName: hartinfo_i
             vpiFullName: dm_top #(.NrHarts(1)).hartinfo_i.hartinfo_i
             vpiActual: Net name:hartinfo_i
-          "vpiTypespec RefTypespec name: [NrHarts-1:0] start:13:5 end:13:33":
+          vpiTypespec RefTypespec name:dm::hartinfo_t [NrHarts-1:0] start:13:5 end:13:33:
             vpiParent: Port name:hartinfo_i
-            vpiName: " [NrHarts-1:0]"
-            vpiFullName: dm_top #(.NrHarts(1)).hartinfo_i. [NrHarts-1:0]
+            vpiName: dm::hartinfo_t [NrHarts-1:0]
+            vpiFullName: dm_top #(.NrHarts(1)).hartinfo_i.dm::hartinfo_t [NrHarts-1:0]
             vpiActual: ArrayTypespec
   vpiTypespec (2 items):
     IntTypespec:
@@ -280,9 +280,9 @@ Name                            Before   After   Added   Removed
 Constant                             5       5       1         1
 Operation                            1       0       0         1
 RefObj                               6       5       0         1
-RefTypespec                         14      14       1         1
+RefTypespec                         13      13       1         1
 ----------------------------------------------------------------
 Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    53      51       2         4
+                                    52      50       2         4
 ===================== END REDUCTION RESULT =====================

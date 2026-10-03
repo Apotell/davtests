@@ -82,7 +82,6 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/class_test_27.sv:16:1: Compile package "Package".
 [INF:CP5804] $Source01/class_test_27.sv:22:1: Compile module "test".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:DB2029] $Source01/class_test_27.sv:20:31: Unsupported typespec "Bar".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -108,6 +107,7 @@ Design name:unnamed:
         vpiParent: Package name:Package
         vpiName: work
         vpiFullName: Package::work
+        vpiActual: Library name:work
       vpiCell: Package
       vpiClassDefn (1 items):
         ClassDefn name:Bar #(.A(), .B()) file:$Source01/class_test_27.sv start:17:3 end:17:50:
@@ -157,43 +157,13 @@ Design name:unnamed:
             vpiParent: ClassDefn name:Bar #(.A(), .B())
             vpiName: work
             vpiFullName: Package::Bar #(.A(), .B())::work
+            vpiActual: Library name:work
           vpiCell: Bar
   vpiAllClasses (1 items):
     ClassDefn name:Foo file:$Source01/class_test_27.sv start:20:1 end:20:51:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Foo start:20:7 end:20:10:
       vpiFullName: Foo
-      vpiTypespec (1 items):
-        UnsupportedTypespec name:Bar start:20:31 end:20:34:
-          vpiParent: ClassDefn name:Foo
-          vpiName Identifier name:Bar:
-          vpiParamAssign (2 items):
-            ParamAssign start:20:36 end:20:37:
-              vpiParent: UnsupportedTypespec name:Bar
-              vpiOverridden: true
-              vpiRhs Constant start:20:36 end:20:37:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: Foo::Bar
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "1"
-                vpiValue: 1
-            ParamAssign start:20:39 end:20:40:
-              vpiParent: UnsupportedTypespec name:Bar
-              vpiOverridden: true
-              vpiRhs Constant start:20:39 end:20:40:
-                vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: Foo::Bar
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "2"
-                vpiValue: 2
       vpiDefName: Foo
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -214,12 +184,13 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:Package::Bar
                 vpiName: Bar
                 vpiFullName: Foo::Package::Bar::Bar
-                vpiActual: UnsupportedTypespec name:Bar
+                vpiActual: ClassTypespec name:Bar
             vpiActual: ClassTypespec name:Bar
       vpiLibrary RefObj name:work start:20:7 end:20:10:
         vpiParent: ClassDefn name:Foo
         vpiName: work
         vpiFullName: Foo::work
+        vpiActual: Library name:work
       vpiCell: Foo
   vpiAllModules (1 items):
     Module name:test file:$Source01/class_test_27.sv start:22:1 end:23:10:
@@ -232,6 +203,7 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
+        vpiActual: Library name:work
       vpiCell: test
   vpiTypespec (3 items):
     ClassTypespec name:Foo start:20:7 end:20:10:
@@ -254,7 +226,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -299,7 +271,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_27/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              35      35       0         0
 ----------------------------------------------------------------
-                                    43      43       0         0
+                                    35      35       0         0
 ===================== END REDUCTION RESULT =====================

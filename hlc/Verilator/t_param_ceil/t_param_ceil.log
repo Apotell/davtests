@@ -441,6 +441,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiNet (1 items):
         Net name:O_out start:10:17 end:10:22:
@@ -520,7 +521,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: O_out
                 vpiFullName: t.test.O_out
-                vpiActual: Port name:O_out
+                vpiActual: Net name:O_out
               vpiHighConn PartSelect name:O_out[31:0] start:15:18 end:15:29:
                 vpiParent: Port
                 vpiName: O_out[31:0]
@@ -596,6 +597,7 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: pFOO
                 vpiFullName: Test.test.pFOO
+                vpiActual: Parameter name:pFOO
               vpiRhs Constant start:32:14 end:32:15:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -614,6 +616,7 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName: pBAR
                 vpiFullName: Test.test.pBAR
+                vpiActual: Parameter name:pBAR
               vpiRhs Constant start:33:14 end:33:15:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -631,6 +634,7 @@ Design name:unnamed:
         vpiParent: Module name:Test
         vpiName: work
         vpiFullName: Test.work
+        vpiActual: Library name:work
       vpiCell: Test
       vpiNet (1 items):
         Net name:O_out start:27:18 end:27:23:
@@ -673,7 +677,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: O_out
                 vpiFullName: Test.U_test.O_out
-                vpiActual: Port name:O_out
+                vpiActual: Net name:O_out
               vpiHighConn RefObj name:O_out start:36:9 end:36:14:
                 vpiParent: Port
                 vpiName: O_out
@@ -750,18 +754,18 @@ Design name:unnamed:
             vpiName: pBAZ
             vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pBAZ
             vpiActual: Parameter name:pBAZ
-          vpiRhs FuncCall name:ceiling start:43:22 end:43:41:
+          vpiRhs MethodFuncCall name:ceiling start:43:22 end:43:41:
             vpiParent: ParamAssign
             vpiName Identifier name:ceiling start:43:22 end:43:29:
             vpiTaskFunc: Function name:ceiling
             vpiArgument (2 items):
               RefObj name:pFOO start:43:30 end:43:34:
-                vpiParent: FuncCall name:ceiling
+                vpiParent: MethodFuncCall name:ceiling
                 vpiName: pFOO
                 vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pFOO
                 vpiActual: Parameter name:pFOO
               RefObj name:pBAR start:43:36 end:43:40:
-                vpiParent: FuncCall name:ceiling
+                vpiParent: MethodFuncCall name:ceiling
                 vpiName: pBAR
                 vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).pBAR
                 vpiActual: Parameter name:pBAR
@@ -800,6 +804,7 @@ Design name:unnamed:
         vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
         vpiName: work
         vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).work
+        vpiActual: Library name:work
       vpiCell: test
       vpiTaskFunc (1 items):
         Function name:ceiling start:51:4 end:54:15:

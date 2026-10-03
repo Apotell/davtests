@@ -7,7 +7,9 @@ VERSION: 1.84
 COMMAND: -wd ../../../../../../../tests/Google/chapter-7/arrays/packed/querying-functions -timescale=1ns/1ns -d ast -d db dimensions.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-7/arrays/packed/querying-functions/dimensions
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/dimensions.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/dimensions.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 80
 LIB: work
@@ -150,6 +152,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
       vpiProcess (1 items):
         Initial start:20:1 end:22:4:
@@ -161,6 +164,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:21:2 end:21:50:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:21:2 end:21:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:21:11 end:21:31:
                     vpiParent: SysTaskCall name:$display
@@ -175,13 +179,14 @@ Design name:unnamed:
                   SysFuncCall name:$dimensions start:21:33 end:21:49:
                     vpiParent: SysTaskCall name:$display
                     vpiName Identifier name:$dimensions start:21:33 end:21:44:
+                    vpiTaskFunc: Function name:$dimensions
                     vpiArgument (1 items):
                       RefObj name:arr start:21:45 end:21:48:
                         vpiParent: SysFuncCall name:$dimensions
                         vpiName: arr
                         vpiFullName: top.arr
                         vpiActual: Variable name:arr
-  vpiTypespec (3 items):
+  vpiTypespec (8 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:16:8 end:16:11:
@@ -191,6 +196,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
     StringTypespec:
+      vpiParent: Design name:unnamed
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
       vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
@@ -244,7 +259,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/arrays/packed/querying-functions
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              27      27       0         0
+Others                            1392    1392       0         0
 ----------------------------------------------------------------
-                                    27      27       0         0
+                                  1392    1392       0         0
 ===================== END REDUCTION RESULT =====================

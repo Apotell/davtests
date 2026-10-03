@@ -257,8 +257,6 @@ n<$Source01/task_scope.v> u<242> t<Top_level_rule> c<1> l<28:1> el<68:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/task_scope.v:28:1: Compile module "test".
 [INF:CP5804] $Source01/task_scope.v:54:1: Compile module "jobs".
-[WRN:CP5851] $Source01/task_scope.v:36:5: Failed to bind "set".
-[WRN:CP5851] $Source01/task_scope.v:44:4: Failed to bind "set".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -287,6 +285,7 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
+        vpiActual: Library name:work
       vpiCell: test
       vpiTaskFunc (1 items):
         Task name:ini start:34:4 end:38:11:
@@ -307,20 +306,22 @@ Design name:unnamed:
                     vpiName: j
                     vpiFullName: test.ini.j
                     vpiActual: RefInstance name:j
-                  SubroutineCall name:set start:36:5 end:36:14:
+                  MethodTaskCall name:set start:36:5 end:36:14:
                     vpiParent: "RefObj name:j.set(1'bz)"
                     vpiName Identifier name:set start:36:5 end:36:8:
+                    vpiTaskFunc: Task name:set
                     vpiArgument (1 items):
                       Constant start:36:9 end:36:13:
-                        vpiParent: SubroutineCall name:set
+                        vpiParent: MethodTaskCall name:set
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: "test.ini.j.set(1'bz).set"
+                          vpiFullName: "test.ini.j.set(1'bz)"
                           vpiActual: LogicTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'bz"
                         vpiValue: z
+                vpiActual: MethodTaskCall name:set
       vpiNet (1 items):
         Net name:w start:30:9 end:30:10:
           vpiParent: Module name:test
@@ -370,20 +371,22 @@ Design name:unnamed:
                     vpiName: j
                     vpiFullName: test.j
                     vpiActual: RefInstance name:j
-                  SubroutineCall name:set start:44:4 end:44:13:
+                  MethodTaskCall name:set start:44:4 end:44:13:
                     vpiParent: "RefObj name:j.set(1'b1)"
                     vpiName Identifier name:set start:44:4 end:44:7:
+                    vpiTaskFunc: Task name:set
                     vpiArgument (1 items):
                       Constant start:44:8 end:44:12:
-                        vpiParent: SubroutineCall name:set
+                        vpiParent: MethodTaskCall name:set
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: "test.j.set(1'b1).set"
+                          vpiFullName: "test.j.set(1'b1)"
                           vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
                         vpiValue: "1"
+                vpiActual: MethodTaskCall name:set
               DelayControl start:45:2 end:45:4:
                 vpiParent: Begin
                 vpiDelay Constant start:45:3 end:45:4:
@@ -490,6 +493,7 @@ Design name:unnamed:
         vpiParent: Module name:jobs
         vpiName: work
         vpiFullName: jobs.work
+        vpiActual: Library name:work
       vpiCell: jobs
       vpiTaskFunc (1 items):
         Task name:set start:59:4 end:64:11:
@@ -585,7 +589,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

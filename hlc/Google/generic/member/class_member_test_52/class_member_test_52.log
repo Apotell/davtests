@@ -28,11 +28,11 @@ n<$Source01/class_member_test_52.sv> u<98> t<Top_level_rule> c<1> l<6:1> el<13:9
                   n<> u<87> t<Function_body_declaration> p<88> c<10> l<7:10> el<12:12>
                     n<> u<10> t<Function_data_type_or_implicit> p<87> c<9> s<11> l<7:10> el<7:21>
                       n<> u<9> t<Function_data_type> p<10> c<8> l<7:10> el<7:21>
-                        n<> u<8> t<Data_type> p<9> c<6> l<7:10> el<7:21>
-                          n<> u<6> t<Class_scope> p<8> c<5> s<7> l<7:10> el<7:16>
-                            n<> u<5> t<Class_type> p<6> c<4> l<7:10> el<7:14>
-                              n<apkg> u<4> t<SIMPLE_IDENTIFIER> p<5> l<7:10> el<7:14>
-                          n<num_t> u<7> t<SIMPLE_IDENTIFIER> p<8> l<7:16> el<7:21>
+                        n<> u<8> t<Data_type> p<9> c<5> l<7:10> el<7:21>
+                          n<> u<5> t<Package_scope> p<8> c<4> s<7> l<7:10> el<7:16>
+                            n<apkg> u<4> t<SIMPLE_IDENTIFIER> p<5> l<7:10> el<7:14>
+                          n<> u<7> t<Class_type> p<8> c<6> l<7:16> el<7:21>
+                            n<num_t> u<6> t<SIMPLE_IDENTIFIER> p<7> l<7:16> el<7:21>
                     n<apply_all> u<11> t<SIMPLE_IDENTIFIER> p<87> s<12> l<7:22> el<7:31>
                     n<> u<12> t<Tf_port_item_list> p<87> s<85> l<7:31> el<7:33>
                     n<> u<85> t<Function_statement_or_null> p<87> c<84> s<86> l<8:3> el<11:6>
@@ -111,7 +111,10 @@ n<$Source01/class_member_test_52.sv> u<98> t<Top_level_rule> c<1> l<6:1> el<13:9
                     n<> u<86> t<ENDFUNCTION> p<87> l<12:1> el<12:12>
             n<> u<92> t<ENDCLASS> p<93> l<13:1> el<13:9>
 AST_DEBUG_END
+[WRN:CP5851] $Source01/class_member_test_52.sv:7:10: Failed to bind "apkg".
+[WRN:CP5851] $Source01/class_member_test_52.sv:7:16: Failed to bind "num_t".
 [WRN:CP5851] $Source01/class_member_test_52.sv:8:17: Failed to bind "foo".
+[WRN:CP5851] $Source01/class_member_test_52.sv:10:13: Failed to bind "super".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -133,6 +136,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:myclass
         vpiName: work
         vpiFullName: myclass::work
+        vpiActual: Library name:work
       vpiCell: myclass
       vpiMethod (1 items):
         Function name:apply_all start:7:1 end:12:12:
@@ -150,18 +154,18 @@ Design name:unnamed:
                 vpiName: i
                 vpiFullName: myclass::apply_all::i
                 vpiIsIterator: true
-            vpiVariable RefObj name:myclass::foo start:8:12 end:8:16:
+            vpiVariable RefObj name:this.foo start:8:12 end:8:16:
               vpiParent: ForeachStmt
-              vpiName: myclass::foo
-              vpiFullName: myclass::apply_all::myclass::foo
+              vpiName: this.foo
+              vpiFullName: myclass::apply_all::this.foo
               vpiPathElem (2 items):
                 RefObj name:this start:8:12 end:8:16:
-                  vpiParent: RefObj name:myclass::foo
+                  vpiParent: RefObj name:this.foo
                   vpiName: this
                   vpiFullName: myclass::apply_all::this
                   vpiActual: ClassDefn name:myclass
                 RefObj name:foo start:8:17 end:8:20:
-                  vpiParent: RefObj name:myclass::foo
+                  vpiParent: RefObj name:this.foo
                   vpiName: foo
                   vpiFullName: myclass::apply_all::foo
             vpiLoopVars (1 items):
@@ -185,29 +189,30 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName: y
                         vpiFullName: myclass::apply_all::y
-                      RefObj name:myclass::foo[i] start:9:13 end:9:24:
+                      RefObj name:this.foo[i] start:9:13 end:9:24:
                         vpiParent: Operation
-                        vpiName: myclass::foo[i]
-                        vpiFullName: myclass::apply_all::myclass::foo[i]
+                        vpiName: this.foo[i]
+                        vpiFullName: myclass::apply_all::this.foo[i]
                         vpiPathElem (2 items):
                           RefObj name:this start:9:13 end:9:17:
-                            vpiParent: RefObj name:myclass::foo[i]
+                            vpiParent: RefObj name:this.foo[i]
                             vpiName: this
                             vpiFullName: myclass::apply_all::this
                             vpiActual: ClassDefn name:myclass
                           BitSelect name:foo[i] start:9:18 end:9:23:
-                            vpiParent: RefObj name:myclass::foo[i]
+                            vpiParent: RefObj name:this.foo[i]
                             vpiName: foo[i]
-                            vpiFullName: myclass::apply_all::myclass::foo[i]::foo[i]
+                            vpiFullName: myclass::apply_all::this.foo[i]::foo[i]
                             vpiPrefix RefObj name:foo start:9:18 end:9:21:
                               vpiParent: BitSelect name:foo[i]
                               vpiName: foo
-                              vpiFullName: myclass::apply_all::myclass::foo[i]::foo
+                              vpiFullName: myclass::apply_all::this.foo[i]::foo
                             vpiIndex RefObj name:i start:9:22 end:9:23:
                               vpiParent: BitSelect name:foo[i]
                               vpiName: i
-                              vpiFullName: myclass::apply_all::myclass::foo[i]::i
+                              vpiFullName: myclass::apply_all::this.foo[i]::i
                               vpiActual: Variable name:i
+                        vpiActual: BitSelect name:foo[i]
                 Assignment start:10:5 end:10:26:
                   vpiParent: Begin
                   vpiBlocking: true
@@ -250,10 +255,10 @@ Design name:unnamed:
             vpiName: apkg::num_t
             vpiFullName: myclass::apply_all::apkg::num_t
             vpiPathElem (2 items):
-              RefTypespec name:apkg start:7:10 end:7:14:
+              RefObj name:apkg start:7:10 end:7:14:
                 vpiParent: RefTypespec name:apkg::num_t
                 vpiName: apkg
-                vpiFullName: myclass::apply_all::apkg::num_t::apkg
+                vpiFullName: myclass::apply_all::apkg
               RefTypespec name:num_t start:7:16 end:7:21:
                 vpiParent: RefTypespec name:apkg::num_t
                 vpiName: num_t
@@ -272,7 +277,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

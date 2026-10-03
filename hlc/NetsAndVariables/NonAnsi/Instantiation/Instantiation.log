@@ -479,12 +479,13 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/Instantiation.sv:38:1: Compile interface "nets_and_variables_if_nonansi".
 [ERR:CP5812] $Source01/Instantiation.sv:41:37: Undefined net used in modport: "if_wire".
 [INF:CP5804] $Source01/Instantiation.sv:56:1: Compile module "top_nonansi".
-[WRN:CP5851] $Source01/Instantiation.sv:69:12: Failed to bind "new".
 [WRN:PA5506] $Source01/Instantiation.sv:24:1: No timescale set for "nets_and_variables_nonansi".
 [WRN:PA5506] $Source01/Instantiation.sv:56:1: No timescale set for "top_nonansi".
 [WRN:PA5506] $Source01/Instantiation.sv:38:1: No timescale set for "nets_and_variables_if_nonansi".
 [WRN:PA5506] $Source01/Instantiation.sv:31:1: No timescale set for "nets_and_variables_program".
-[ERR:LN7705] $Source01/Instantiation.sv:69:12: Null Actual: id:178, type:MethodFuncCall, name:new, relation:vpiRhs.
+[ERR:LN7701] Invalid name: id:161, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:164, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:167, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -589,6 +590,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:nets_and_variables_class_nonansi
         vpiName: work
         vpiFullName: nets_and_variables_class_nonansi::work
+        vpiActual: Library name:work
       vpiCell: nets_and_variables_class_nonansi
       vpiMethod (1 items):
         Task name:run start:49:3 end:53:10:
@@ -677,6 +679,7 @@ Design name:unnamed:
         vpiParent: Interface name:nets_and_variables_if_nonansi
         vpiName: work
         vpiFullName: nets_and_variables_if_nonansi.work
+        vpiActual: Library name:work
       vpiCell: nets_and_variables_if_nonansi
       vpiNet (1 items):
         Net name:if_wire start:40:8 end:40:15:
@@ -728,6 +731,7 @@ Design name:unnamed:
         vpiParent: Program name:nets_and_variables_program
         vpiName: work
         vpiFullName: nets_and_variables_program.work
+        vpiActual: Library name:work
       vpiCell: nets_and_variables_program
       vpiNet (2 items):
         Net name:a start:32:14 end:32:15:
@@ -769,12 +773,12 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: nets_and_variables_program.a
-                  vpiActual: Port name:a
+                  vpiActual: Net name:a
                 RefObj name:b start:35:19 end:35:20:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: nets_and_variables_program.b
-                  vpiActual: Port name:b
+                  vpiActual: Net name:b
       vpiPort (3 items):
         Port name:a start:31:36 end:31:37:
           vpiParent: Program name:nets_and_variables_program
@@ -829,6 +833,7 @@ Design name:unnamed:
         vpiParent: Module name:nets_and_variables_nonansi
         vpiName: work
         vpiFullName: nets_and_variables_nonansi.work
+        vpiActual: Library name:work
       vpiCell: nets_and_variables_nonansi
       vpiNet (3 items):
         Net name:a start:25:9 end:25:10:
@@ -951,13 +956,13 @@ Design name:unnamed:
           vpiParent: Module name:top_nonansi
           vpiName Identifier name:nets_and_variables_program start:64:3 end:64:29:
           vpiDefName: nets_and_variables_program
-          vpiProgram: Program name:nets_and_variables_program
       vpiDefName: top_nonansi
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:56:8 end:56:19:
         vpiParent: Module name:top_nonansi
         vpiName: work
         vpiFullName: top_nonansi.work
+        vpiActual: Library name:work
       vpiCell: top_nonansi
       vpiNet (4 items):
         Net name:a start:58:8 end:58:9:
@@ -1056,6 +1061,7 @@ Design name:unnamed:
                     vpiParent: RefObj name:cls0.run()
                     vpiName Identifier name:run start:70:10 end:70:13:
                     vpiTaskFunc: Task name:run
+                vpiActual: MethodTaskCall name:run
       vpiRefInstance (3 items):
         RefInstance name:mod_nonansi start:63:30 end:63:41:
           vpiParent: Module name:top_nonansi
@@ -1113,11 +1119,9 @@ Design name:unnamed:
           vpiPort (3 items):
             Port start:64:40 end:64:41:
               vpiParent: RefInstance name:prog_inst
-              vpiLowConn RefObj name:a:
+              vpiLowConn RefObj:
                 vpiParent: Port
-                vpiName: a
-                vpiFullName: top_nonansi.prog_inst.a
-                vpiActual: Port name:a
+                vpiFullName: top_nonansi.prog_inst
               vpiHighConn RefObj name:a start:64:40 end:64:41:
                 vpiParent: Port
                 vpiName: a
@@ -1125,11 +1129,9 @@ Design name:unnamed:
                 vpiActual: Net name:a
             Port start:64:43 end:64:44:
               vpiParent: RefInstance name:prog_inst
-              vpiLowConn RefObj name:b:
+              vpiLowConn RefObj:
                 vpiParent: Port
-                vpiName: b
-                vpiFullName: top_nonansi.prog_inst.b
-                vpiActual: Port name:b
+                vpiFullName: top_nonansi.prog_inst
               vpiHighConn RefObj name:b start:64:43 end:64:44:
                 vpiParent: Port
                 vpiName: b
@@ -1137,11 +1139,9 @@ Design name:unnamed:
                 vpiActual: Net name:b
             Port start:64:46 end:64:48:
               vpiParent: RefInstance name:prog_inst
-              vpiLowConn RefObj name:y:
+              vpiLowConn RefObj:
                 vpiParent: Port
-                vpiName: y
-                vpiFullName: top_nonansi.prog_inst.y
-                vpiActual: Port name:y
+                vpiFullName: top_nonansi.prog_inst
               vpiHighConn RefObj name:y2 start:64:46 end:64:48:
                 vpiParent: Port
                 vpiName: y2
@@ -1193,8 +1193,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 6
+[  ERROR] : 4
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

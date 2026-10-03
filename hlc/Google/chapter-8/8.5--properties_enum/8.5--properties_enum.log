@@ -4,10 +4,12 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/Google/chapter-8 -timescale=1ns/1ns -d ast -d db -nobuiltin 8.5--properties_enum.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-8/8.5--properties_enum
+COMMAND: -wd ../../../../tests/Google/chapter-8 -timescale=1ns/1ns -d ast -d db 8.5--properties_enum.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-8/8.5--properties_enum
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/8.5--properties_enum.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/8.5--properties_enum.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 103
 LIB: work
@@ -116,9 +118,7 @@ n<$Source01/8.5--properties_enum.sv> u<102> t<Top_level_rule> c<1> l<15:1> el<27
         n<> u<98> t<ENDMODULE> p<99> l<26:1> el<26:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/8.5--properties_enum.sv:15:1: Compile module "class_tb".
-[WRN:CP5851] $Source01/8.5--properties_enum.sv:23:14: Failed to bind "new".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/8.5--properties_enum.sv:23:14: Null Actual: id:45, type:MethodFuncCall, name:new, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -154,6 +154,7 @@ Design name:unnamed:
         vpiParent: Module name:class_tb
         vpiName: work
         vpiFullName: class_tb.work
+        vpiActual: Library name:work
       vpiCell: class_tb
       vpiClassDefn (1 items):
         ClassDefn name:test_cls file:$Source01/8.5--properties_enum.sv start:16:2 end:18:10:
@@ -240,6 +241,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:test_cls
             vpiName: work
             vpiFullName: class_tb::test_cls::work
+            vpiActual: Library name:work
           vpiCell: test_cls
       vpiProcess (1 items):
         Initial start:22:2 end:25:5:
@@ -263,23 +265,25 @@ Design name:unnamed:
               SysTaskCall name:$display start:24:3 end:24:23:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:24:3 end:24:11:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (1 items):
-                  RefObj name:test_obj.C = 30 start:24:12 end:24:22:
+                  RefObj name:test_obj.C start:24:12 end:24:22:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: test_obj.C = 30
-                    vpiFullName: class_tb.test_obj.C = 30
+                    vpiName: test_obj.C
+                    vpiFullName: class_tb.test_obj.C
                     vpiPathElem (2 items):
                       RefObj name:test_obj start:24:12 end:24:20:
-                        vpiParent: RefObj name:test_obj.C = 30
+                        vpiParent: RefObj name:test_obj.C
                         vpiName: test_obj
                         vpiFullName: class_tb.test_obj
                         vpiActual: Variable name:test_obj
                       RefObj name:C start:24:21 end:24:22:
-                        vpiParent: RefObj name:test_obj.C = 30
+                        vpiParent: RefObj name:test_obj.C
                         vpiName: C
                         vpiFullName: class_tb.C
                         vpiActual: EnumConst name:C
-  vpiTypespec (2 items):
+                    vpiActual: EnumConst name:C
+  vpiTypespec (8 items):
     ModuleTypespec name:class_tb:
       vpiParent: Design name:unnamed
       vpiName Identifier name:class_tb start:15:8 end:15:16:
@@ -288,6 +292,18 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -295,8 +311,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 1
+[  ERROR] : 0
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -340,7 +356,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.5--properties_enum/design.hldb
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              50      50       0         0
+Others                            1416    1416       0         0
 ----------------------------------------------------------------
-                                    50      50       0         0
+                                  1416    1416       0         0
 ===================== END REDUCTION RESULT =====================

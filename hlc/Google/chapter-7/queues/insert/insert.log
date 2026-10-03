@@ -7,7 +7,9 @@ VERSION: 1.84
 COMMAND: -wd ../../../../../tests/Google/chapter-7/queues -timescale=1ns/1ns -d ast -d db insert.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-7/queues/insert
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/insert.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/insert.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 114
 LIB: work
@@ -128,8 +130,6 @@ n<$Source01/insert.sv> u<113> t<Top_level_rule> c<1> l<16:1> el<27:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/insert.sv:16:1: Compile module "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/insert.sv:21:4: Null Actual: id:28, type:MethodFuncCall, name:insert, relation:vpiPathElem.
-[ERR:LN7705] $Source01/insert.sv:22:35: Null Actual: id:35, type:MethodFuncCall, name:size, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -178,6 +178,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
       vpiProcess (1 items):
         Initial start:20:1 end:24:4:
@@ -199,6 +200,7 @@ Design name:unnamed:
                   MethodFuncCall name:insert start:21:4 end:21:16:
                     vpiParent: RefObj name:q.insert(0, 1)
                     vpiName Identifier name:insert start:21:4 end:21:10:
+                    vpiTaskFunc: Function name:insert
                     vpiArgument (2 items):
                       Constant start:21:11 end:21:12:
                         vpiParent: MethodFuncCall name:insert
@@ -220,9 +222,11 @@ Design name:unnamed:
                         vpiSize: 64
                         vpiDecompile: "1"
                         vpiValue: 1
+                vpiActual: MethodFuncCall name:insert
               SysTaskCall name:$display start:22:2 end:22:40:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:22:2 end:22:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:22:11 end:22:31:
                     vpiParent: SysTaskCall name:$display
@@ -248,9 +252,12 @@ Design name:unnamed:
                         vpiParent: RefObj name:q.size
                         vpiName Identifier name:size start:22:35 end:22:39:
                         vpiIsProperty: true
+                        vpiTaskFunc: Function name:size
+                    vpiActual: MethodFuncCall name:size
               SysTaskCall name:$display start:23:2 end:23:38:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:23:2 end:23:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:23:11 end:23:31:
                     vpiParent: SysTaskCall name:$display
@@ -281,7 +288,7 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
-  vpiTypespec (3 items):
+  vpiTypespec (8 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:16:8 end:16:11:
@@ -292,6 +299,16 @@ Design name:unnamed:
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -299,7 +316,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -344,7 +361,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/queues/insert/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                            1408    1408       0         0
 ----------------------------------------------------------------
-                                    43      43       0         0
+                                  1408    1408       0         0
 ===================== END REDUCTION RESULT =====================

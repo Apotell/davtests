@@ -136,6 +136,8 @@ AST_DEBUG_END
 [WRN:CP5815] $Source01/24.3--program.sv:16:9: Using programs is discouraged "prog", programs are obsoleted by UVM.
 [INF:CP5804] $Source01/24.3--program.sv:20:1: Compile module "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7701] Invalid name: id:50, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:53, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -158,6 +160,7 @@ Design name:unnamed:
         vpiParent: Program name:prog
         vpiName: work
         vpiFullName: prog.work
+        vpiActual: Library name:work
       vpiCell: prog
       vpiNet (2 items):
         Net name:a start:16:25 end:16:26:
@@ -201,12 +204,12 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$display
                 vpiName: a
                 vpiFullName: prog.a
-                vpiActual: Port name:a
+                vpiActual: Net name:a
               RefObj name:b start:17:45 end:17:46:
                 vpiParent: SysTaskCall name:$display
                 vpiName: b
                 vpiFullName: prog.b
-                vpiActual: Port name:b
+                vpiActual: Net name:b
       vpiPort (2 items):
         Port name:a start:16:25 end:16:26:
           vpiParent: Program name:prog
@@ -246,13 +249,13 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName Identifier name:prog start:25:4 end:25:8:
           vpiDefName: prog
-          vpiProgram: Program name:prog
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:20:8 end:20:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
       vpiNet (2 items):
         Net name:a start:22:9 end:22:10:
@@ -309,11 +312,9 @@ Design name:unnamed:
           vpiPort (2 items):
             Port start:25:11 end:25:12:
               vpiParent: RefInstance name:p
-              vpiLowConn RefObj name:a:
+              vpiLowConn RefObj:
                 vpiParent: Port
-                vpiName: a
-                vpiFullName: top.p.a
-                vpiActual: Port name:a
+                vpiFullName: top.p
               vpiHighConn RefObj name:a start:25:11 end:25:12:
                 vpiParent: Port
                 vpiName: a
@@ -321,11 +322,9 @@ Design name:unnamed:
                 vpiActual: Net name:a
             Port start:25:14 end:25:15:
               vpiParent: RefInstance name:p
-              vpiLowConn RefObj name:b:
+              vpiLowConn RefObj:
                 vpiParent: Port
-                vpiName: b
-                vpiFullName: top.p.b
-                vpiActual: Port name:b
+                vpiFullName: top.p
               vpiHighConn RefObj name:b start:25:14 end:25:15:
                 vpiParent: Port
                 vpiName: b
@@ -354,7 +353,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

@@ -1416,13 +1416,30 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/ports.sv:14:1: Compile module "ports".
 [WRN:CP5811] $Source01/ports.sv:22:19: Port "dbus" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/ports.sv:23:19: Port "padsif" definition missing its direction (input, output, inout).
+[WRN:CP5851] $Source01/ports.sv:22:3: Failed to bind "genbus_if".
+[WRN:CP5851] $Source01/ports.sv:22:13: Failed to bind "slave".
+[WRN:CP5851] $Source01/ports.sv:23:3: Failed to bind "pads_if".
+[WRN:CP5851] $Source01/ports.sv:23:11: Failed to bind "mp_dig".
+[WRN:CP5851] $Source01/ports.sv:63:7: Failed to bind "dbus".
 [WRN:CP5851] $Source01/ports.sv:63:12: Failed to bind "sConnect".
+[WRN:CP5851] $Source01/ports.sv:63:23: Failed to bind "id".
+[WRN:CP5851] $Source01/ports.sv:77:21: Failed to bind "padsif".
 [WRN:CP5851] $Source01/ports.sv:77:28: Failed to bind "Init".
+[WRN:CP5851] $Source01/ports.sv:88:16: Failed to bind "padsif".
 [WRN:CP5851] $Source01/ports.sv:88:23: Failed to bind "IsPort".
+[WRN:CP5851] $Source01/ports.sv:120:16: Failed to bind "padsif".
 [WRN:CP5851] $Source01/ports.sv:120:23: Failed to bind "IsPort".
 [WRN:CP5851] $Source01/ports.sv:144:32: Failed to bind "pinout".
+[WRN:CP5851] $Source01/ports.sv:146:11: Failed to bind "padsif".
+[WRN:CP5851] $Source01/ports.sv:147:11: Failed to bind "padsif".
+[WRN:CP5851] $Source01/ports.sv:148:11: Failed to bind "padsif".
+[WRN:CP5851] $Source01/ports.sv:149:11: Failed to bind "padsif".
+[WRN:CP5851] $Source01/ports.sv:150:11: Failed to bind "padsif".
+[WRN:CP5851] $Source01/ports.sv:151:11: Failed to bind "padsif".
 [WRN:CP5851] $Source01/ports.sv:156:32: Failed to bind "pinout".
 [WRN:CP5851] $Source01/ports.sv:158:25: Failed to bind "id".
+[WRN:CP5851] $Source01/ports.sv:161:15: Failed to bind "padsif".
+[WRN:CP5851] $Source01/ports.sv:162:15: Failed to bind "padsif".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1877,6 +1894,7 @@ Design name:unnamed:
         vpiParent: Module name:ports #(.ID(1))
         vpiName: work
         vpiFullName: ports #(.ID(1)).work
+        vpiActual: Library name:work
       vpiCell: ports
       vpiNet (2 items):
         Net name:clk start:26:22 end:26:25:
@@ -1908,7 +1926,6 @@ Design name:unnamed:
             vpiParent: Port name:dbus
             vpiName: dbus
             vpiFullName: ports #(.ID(1)).dbus.dbus
-            vpiActual: Port name:dbus
           vpiTypespec RefTypespec name:genbus_if::slave start:22:3 end:22:18:
             vpiParent: Port name:dbus
             vpiName: genbus_if::slave
@@ -1930,7 +1947,6 @@ Design name:unnamed:
             vpiParent: Port name:padsif
             vpiName: padsif
             vpiFullName: ports #(.ID(1)).padsif.padsif
-            vpiActual: Port name:padsif
           vpiTypespec RefTypespec name:pads_if::mp_dig start:23:3 end:23:17:
             vpiParent: Port name:padsif
             vpiName: pads_if::mp_dig
@@ -1987,7 +2003,6 @@ Design name:unnamed:
                     vpiParent: RefObj name:dbus.sConnect(.id(ID), .rst(rst), .sdata(sdata), .ws(ws), .mdata(mdata), .adr(adr), .we(we), .re(re))
                     vpiName: dbus
                     vpiFullName: ports #(.ID(1)).dbus_Connect.dbus
-                    vpiActual: Port name:dbus
                   SubroutineCall name:sConnect start:63:12 end:63:110:
                     vpiParent: RefObj name:dbus.sConnect(.id(ID), .rst(rst), .sdata(sdata), .ws(ws), .mdata(mdata), .adr(adr), .we(we), .re(re))
                     vpiName Identifier name:sConnect start:63:12 end:63:20:
@@ -2103,7 +2118,6 @@ Design name:unnamed:
                     vpiParent: RefObj name:padsif.Init()
                     vpiName: padsif
                     vpiFullName: ports #(.ID(1)).padsif
-                    vpiActual: Port name:padsif
                   SubroutineCall name:Init start:77:28 end:77:34:
                     vpiParent: RefObj name:padsif.Init()
                     vpiName Identifier name:Init start:77:28 end:77:32:
@@ -2200,7 +2214,6 @@ Design name:unnamed:
                               vpiParent: RefObj name:padsif.IsPort(j)
                               vpiName: padsif
                               vpiFullName: ports #(.ID(1)).padsif
-                              vpiActual: Port name:padsif
                             SubroutineCall name:IsPort start:88:23 end:88:34:
                               vpiParent: RefObj name:padsif.IsPort(j)
                               vpiName Identifier name:IsPort start:88:23 end:88:29:
@@ -2382,6 +2395,7 @@ Design name:unnamed:
                                             vpiName: dir
                                             vpiFullName: ports #(.ID(1)).dir
                                             vpiActual: TypespecMember name:dir
+                                        vpiActual: TypespecMember name:dir
                                       vpiRhs PartSelect name:mdata[7:0] start:93:36 end:93:46:
                                         vpiParent: Assignment
                                         vpiName: mdata[7:0]
@@ -2460,6 +2474,7 @@ Design name:unnamed:
                                             vpiName: out
                                             vpiFullName: ports #(.ID(1)).out
                                             vpiActual: TypespecMember name:out
+                                        vpiActual: TypespecMember name:out
                                       vpiRhs PartSelect name:mdata[15:8] start:95:36 end:95:47:
                                         vpiParent: Assignment
                                         vpiName: mdata[15:8]
@@ -2521,6 +2536,7 @@ Design name:unnamed:
                                     vpiName: dir
                                     vpiFullName: ports #(.ID(1)).dir
                                     vpiActual: TypespecMember name:dir
+                                vpiActual: TypespecMember name:dir
                               vpiRhs Constant start:100:30 end:100:35:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -2557,6 +2573,7 @@ Design name:unnamed:
                                     vpiName: out
                                     vpiFullName: ports #(.ID(1)).out
                                     vpiActual: TypespecMember name:out
+                                vpiActual: TypespecMember name:out
                               vpiRhs Constant start:101:30 end:101:35:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -2734,7 +2751,6 @@ Design name:unnamed:
                             vpiParent: RefObj name:padsif.IsPort(j)
                             vpiName: padsif
                             vpiFullName: ports #(.ID(1)).RegisterRead.padsif
-                            vpiActual: Port name:padsif
                           SubroutineCall name:IsPort start:120:23 end:120:34:
                             vpiParent: RefObj name:padsif.IsPort(j)
                             vpiName Identifier name:IsPort start:120:23 end:120:29:
@@ -2789,6 +2805,7 @@ Design name:unnamed:
                                   vpiName: dir
                                   vpiFullName: ports #(.ID(1)).RegisterRead.dir
                                   vpiActual: TypespecMember name:dir
+                              vpiActual: TypespecMember name:dir
                             RefObj name:port[j].out start:121:39 end:121:50:
                               vpiParent: Operation
                               vpiName: port[j].out
@@ -2813,6 +2830,7 @@ Design name:unnamed:
                                   vpiName: out
                                   vpiFullName: ports #(.ID(1)).RegisterRead.out
                                   vpiActual: TypespecMember name:out
+                              vpiActual: TypespecMember name:out
                             Constant start:121:52 end:121:57:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -3105,7 +3123,6 @@ Design name:unnamed:
                             vpiParent: RefObj name:padsif.pullup_en[i]
                             vpiName: padsif
                             vpiFullName: ports #(.ID(1)).padsif
-                            vpiActual: Port name:padsif
                           BitSelect name:pullup_en[i] start:146:18 end:146:33:
                             vpiParent: RefObj name:padsif.pullup_en[i]
                             vpiName: pullup_en[i]
@@ -3141,7 +3158,6 @@ Design name:unnamed:
                             vpiParent: RefObj name:padsif.pulldown_en[i]
                             vpiName: padsif
                             vpiFullName: ports #(.ID(1)).padsif
-                            vpiActual: Port name:padsif
                           BitSelect name:pulldown_en[i] start:147:18 end:147:33:
                             vpiParent: RefObj name:padsif.pulldown_en[i]
                             vpiName: pulldown_en[i]
@@ -3177,7 +3193,6 @@ Design name:unnamed:
                             vpiParent: RefObj name:padsif.output_en[i]
                             vpiName: padsif
                             vpiFullName: ports #(.ID(1)).padsif
-                            vpiActual: Port name:padsif
                           BitSelect name:output_en[i] start:148:18 end:148:33:
                             vpiParent: RefObj name:padsif.output_en[i]
                             vpiName: output_en[i]
@@ -3213,7 +3228,6 @@ Design name:unnamed:
                             vpiParent: RefObj name:padsif.output_val[i]
                             vpiName: padsif
                             vpiFullName: ports #(.ID(1)).padsif
-                            vpiActual: Port name:padsif
                           BitSelect name:output_val[i] start:149:18 end:149:33:
                             vpiParent: RefObj name:padsif.output_val[i]
                             vpiName: output_val[i]
@@ -3249,7 +3263,6 @@ Design name:unnamed:
                             vpiParent: RefObj name:padsif.slew_limit_en[i]
                             vpiName: padsif
                             vpiFullName: ports #(.ID(1)).padsif
-                            vpiActual: Port name:padsif
                           BitSelect name:slew_limit_en[i] start:150:18 end:150:33:
                             vpiParent: RefObj name:padsif.slew_limit_en[i]
                             vpiName: slew_limit_en[i]
@@ -3285,7 +3298,6 @@ Design name:unnamed:
                             vpiParent: RefObj name:padsif.input_en[i]
                             vpiName: padsif
                             vpiFullName: ports #(.ID(1)).padsif
-                            vpiActual: Port name:padsif
                           BitSelect name:input_en[i] start:151:18 end:151:33:
                             vpiParent: RefObj name:padsif.input_en[i]
                             vpiName: input_en[i]
@@ -3423,7 +3435,6 @@ Design name:unnamed:
                                   vpiParent: RefObj name:padsif.output_en[i]
                                   vpiName: padsif
                                   vpiFullName: ports #(.ID(1)).padsif
-                                  vpiActual: Port name:padsif
                                 BitSelect name:output_en[i] start:161:22 end:161:34:
                                   vpiParent: RefObj name:padsif.output_en[i]
                                   vpiName: output_en[i]
@@ -3490,7 +3501,6 @@ Design name:unnamed:
                                     vpiParent: BitSelect name:dir[j[2:0]]
                                     vpiName: dir
                                     vpiFullName: ports #(.ID(1)).port[j[4:3]].dir[j[2:0]].dir
-                                    vpiActual: TypespecMember name:dir
                                   vpiIndex PartSelect name:j[2:0] start:161:55 end:161:61:
                                     vpiParent: BitSelect name:dir[j[2:0]]
                                     vpiName: j[2:0]
@@ -3522,6 +3532,7 @@ Design name:unnamed:
                                         vpiSize: 64
                                         vpiDecompile: "0"
                                         vpiValue: 0
+                              vpiActual: BitSelect name:dir[j[2:0]]
                           Assignment start:162:15 end:162:62:
                             vpiParent: Begin
                             vpiBlocking: true
@@ -3534,7 +3545,6 @@ Design name:unnamed:
                                   vpiParent: RefObj name:padsif.output_val[i]
                                   vpiName: padsif
                                   vpiFullName: ports #(.ID(1)).padsif
-                                  vpiActual: Port name:padsif
                                 BitSelect name:output_val[i] start:162:22 end:162:34:
                                   vpiParent: RefObj name:padsif.output_val[i]
                                   vpiName: output_val[i]
@@ -3601,7 +3611,6 @@ Design name:unnamed:
                                     vpiParent: BitSelect name:out[j[2:0]]
                                     vpiName: out
                                     vpiFullName: ports #(.ID(1)).port[j[4:3]].out[j[2:0]].out
-                                    vpiActual: TypespecMember name:out
                                   vpiIndex PartSelect name:j[2:0] start:162:55 end:162:61:
                                     vpiParent: BitSelect name:out[j[2:0]]
                                     vpiName: j[2:0]
@@ -3633,6 +3642,7 @@ Design name:unnamed:
                                         vpiSize: 64
                                         vpiDecompile: "0"
                                         vpiValue: 0
+                              vpiActual: BitSelect name:out[j[2:0]]
           vpiAlwaysType: comb (2)
   vpiTypespec (3 items):
     ModuleTypespec name:ports:
@@ -3653,7 +3663,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 2
-[WARNING] : 9
+[WARNING] : 26
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

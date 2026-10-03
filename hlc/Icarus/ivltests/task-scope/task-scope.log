@@ -336,8 +336,6 @@ n<$Source01/task-scope.v> u<321> t<Top_level_rule> c<1> l<24:1> el<72:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/task-scope.v:24:1: Compile module "nest".
 [INF:CP5804] $Source01/task-scope.v:39:1: Compile module "test".
-[WRN:CP5851] $Source01/task-scope.v:45:14: Failed to bind "r".
-[WRN:CP5851] $Source01/task-scope.v:50:5: Failed to bind "incr".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -400,6 +398,7 @@ Design name:unnamed:
         vpiParent: Module name:nest
         vpiName: work
         vpiFullName: nest.work
+        vpiActual: Library name:work
       vpiCell: nest
       vpiTaskFunc (1 items):
         Task name:incr start:29:4 end:35:11:
@@ -562,6 +561,7 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
+        vpiActual: Library name:work
       vpiCell: test
       vpiTaskFunc (1 items):
         Task name:increment start:48:4 end:52:11:
@@ -582,20 +582,22 @@ Design name:unnamed:
                     vpiName: n
                     vpiFullName: test.increment.n
                     vpiActual: RefInstance name:n
-                  SubroutineCall name:incr start:50:5 end:50:12:
+                  MethodTaskCall name:incr start:50:5 end:50:12:
                     vpiParent: RefObj name:n.incr(1)
                     vpiName Identifier name:incr start:50:5 end:50:9:
+                    vpiTaskFunc: Task name:incr
                     vpiArgument (1 items):
                       Constant start:50:10 end:50:11:
-                        vpiParent: SubroutineCall name:incr
+                        vpiParent: MethodTaskCall name:incr
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: test.increment.n.incr(1).incr
+                          vpiFullName: test.increment.n.incr(1)
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
                         vpiDecompile: "1"
                         vpiValue: 1
+                vpiActual: MethodTaskCall name:incr
       vpiNet (1 items):
         Net name:acc start:41:15 end:41:18:
           vpiParent: Module name:test
@@ -627,6 +629,8 @@ Design name:unnamed:
                   vpiParent: RefObj name:n.r
                   vpiName: r
                   vpiFullName: test.r
+                  vpiActual: Variable name:r
+              vpiActual: Variable name:r
             vpiRhs Constant start:45:19 end:45:20:
               vpiParent: Assignment
               vpiTypespec RefTypespec:
@@ -801,7 +805,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

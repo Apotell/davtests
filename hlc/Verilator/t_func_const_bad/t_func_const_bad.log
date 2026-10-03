@@ -577,7 +577,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_func_const_bad.v:6:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:CP5946] $Source01/t_func_const_bad.v:11:20: Illegal construct in constant function f_bad_output.
-[ERR:CP5927] $Source01/t_func_const_bad.v:11:35: Illegal left-hand side of assignment: o.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -672,13 +671,13 @@ Design name:unnamed:
             vpiName: B1
             vpiFullName: t.B1
             vpiActual: Parameter name:B1
-          vpiRhs FuncCall name:f_bad_output start:11:20 end:11:37:
+          vpiRhs MethodFuncCall name:f_bad_output start:11:20 end:11:37:
             vpiParent: ParamAssign
             vpiName Identifier name:f_bad_output start:11:20 end:11:32:
             vpiTaskFunc: Function name:f_bad_output
             vpiArgument (2 items):
               Constant start:11:33 end:11:34:
-                vpiParent: FuncCall name:f_bad_output
+                vpiParent: MethodFuncCall name:f_bad_output
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t
@@ -688,7 +687,7 @@ Design name:unnamed:
                 vpiDecompile: "1"
                 vpiValue: 1
               Constant start:11:35 end:11:36:
-                vpiParent: FuncCall name:f_bad_output
+                vpiParent: MethodFuncCall name:f_bad_output
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t
@@ -721,13 +720,13 @@ Design name:unnamed:
             vpiName: B2
             vpiFullName: t.B2
             vpiActual: Parameter name:B2
-          vpiRhs FuncCall name:f_bad_dotted start:20:20 end:20:35:
+          vpiRhs MethodFuncCall name:f_bad_dotted start:20:20 end:20:35:
             vpiParent: ParamAssign
             vpiName Identifier name:f_bad_dotted start:20:20 end:20:32:
             vpiTaskFunc: Function name:f_bad_dotted
             vpiArgument (1 items):
               Constant start:20:33 end:20:34:
-                vpiParent: FuncCall name:f_bad_dotted
+                vpiParent: MethodFuncCall name:f_bad_dotted
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t
@@ -743,13 +742,13 @@ Design name:unnamed:
             vpiName: B3
             vpiFullName: t.B3
             vpiActual: Parameter name:B3
-          vpiRhs FuncCall name:f_bad_nonparam start:27:20 end:27:37:
+          vpiRhs MethodFuncCall name:f_bad_nonparam start:27:20 end:27:37:
             vpiParent: ParamAssign
             vpiName Identifier name:f_bad_nonparam start:27:20 end:27:34:
             vpiTaskFunc: Function name:f_bad_nonparam
             vpiArgument (1 items):
               Constant start:27:35 end:27:36:
-                vpiParent: FuncCall name:f_bad_nonparam
+                vpiParent: MethodFuncCall name:f_bad_nonparam
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t
@@ -765,13 +764,13 @@ Design name:unnamed:
             vpiName: B4
             vpiFullName: t.B4
             vpiActual: Parameter name:B4
-          vpiRhs FuncCall name:f_bad_infinite start:35:20 end:35:37:
+          vpiRhs MethodFuncCall name:f_bad_infinite start:35:20 end:35:37:
             vpiParent: ParamAssign
             vpiName Identifier name:f_bad_infinite start:35:20 end:35:34:
             vpiTaskFunc: Function name:f_bad_infinite
             vpiArgument (1 items):
               Constant start:35:35 end:35:36:
-                vpiParent: FuncCall name:f_bad_infinite
+                vpiParent: MethodFuncCall name:f_bad_infinite
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t
@@ -787,13 +786,13 @@ Design name:unnamed:
             vpiName: BSTOP
             vpiFullName: t.BSTOP
             vpiActual: Parameter name:BSTOP
-          vpiRhs FuncCall name:f_bad_stop start:43:23 end:43:36:
+          vpiRhs MethodFuncCall name:f_bad_stop start:43:23 end:43:36:
             vpiParent: ParamAssign
             vpiName Identifier name:f_bad_stop start:43:23 end:43:33:
             vpiTaskFunc: Function name:f_bad_stop
             vpiArgument (1 items):
               Constant start:43:34 end:43:35:
-                vpiParent: FuncCall name:f_bad_stop
+                vpiParent: MethodFuncCall name:f_bad_stop
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t
@@ -809,13 +808,13 @@ Design name:unnamed:
             vpiName: BFATAL
             vpiFullName: t.BFATAL
             vpiActual: Parameter name:BFATAL
-          vpiRhs FuncCall name:f_bad_fatal start:49:24 end:49:38:
+          vpiRhs MethodFuncCall name:f_bad_fatal start:49:24 end:49:38:
             vpiParent: ParamAssign
             vpiName Identifier name:f_bad_fatal start:49:24 end:49:35:
             vpiTaskFunc: Function name:f_bad_fatal
             vpiArgument (1 items):
               Constant start:49:36 end:49:37:
-                vpiParent: FuncCall name:f_bad_fatal
+                vpiParent: MethodFuncCall name:f_bad_fatal
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t
@@ -836,6 +835,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiTaskFunc (6 items):
         Function name:f_bad_output start:12:4 end:14:15:
@@ -990,21 +990,22 @@ Design name:unnamed:
               vpiName: f_bad_dotted
               vpiFullName: t.f_bad_dotted.f_bad_dotted
               vpiActual: Function name:f_bad_dotted
-            vpiRhs RefObj name:t #(.B1(f_bad_output(1, 2)), .EIGHT(8), .B2(f_bad_dotted(2)), .B3(f_bad_nonparam(3)), .B4(f_bad_infinite(3)), .BSTOP(f_bad_stop(3)), .BFATAL(f_bad_fatal(3))).EIGHT start:22:22 end:22:29:
+            vpiRhs RefObj name:t.EIGHT start:22:22 end:22:29:
               vpiParent: Assignment
-              vpiName: t #(.B1(f_bad_output(1, 2)), .EIGHT(8), .B2(f_bad_dotted(2)), .B3(f_bad_nonparam(3)), .B4(f_bad_infinite(3)), .BSTOP(f_bad_stop(3)), .BFATAL(f_bad_fatal(3))).EIGHT
-              vpiFullName: t.f_bad_dotted.t #(.B1(f_bad_output(1, 2)), .EIGHT(8), .B2(f_bad_dotted(2)), .B3(f_bad_nonparam(3)), .B4(f_bad_infinite(3)), .BSTOP(f_bad_stop(3)), .BFATAL(f_bad_fatal(3))).EIGHT
+              vpiName: t.EIGHT
+              vpiFullName: t.f_bad_dotted.t.EIGHT
               vpiPathElem (2 items):
                 RefObj name:t start:22:22 end:22:23:
-                  vpiParent: RefObj name:t #(.B1(f_bad_output(1, 2)), .EIGHT(8), .B2(f_bad_dotted(2)), .B3(f_bad_nonparam(3)), .B4(f_bad_infinite(3)), .BSTOP(f_bad_stop(3)), .BFATAL(f_bad_fatal(3))).EIGHT
+                  vpiParent: RefObj name:t.EIGHT
                   vpiName: t
                   vpiFullName: t.f_bad_dotted.t
                   vpiActual: Module name:t
                 RefObj name:EIGHT start:22:24 end:22:29:
-                  vpiParent: RefObj name:t #(.B1(f_bad_output(1, 2)), .EIGHT(8), .B2(f_bad_dotted(2)), .B3(f_bad_nonparam(3)), .B4(f_bad_infinite(3)), .BSTOP(f_bad_stop(3)), .BFATAL(f_bad_fatal(3))).EIGHT
+                  vpiParent: RefObj name:t.EIGHT
                   vpiName: EIGHT
                   vpiFullName: t.f_bad_dotted.EIGHT
                   vpiActual: Parameter name:EIGHT
+              vpiActual: Parameter name:EIGHT
           vpiReturn RefTypespec start:21:13 end:21:20:
             vpiParent: Function name:f_bad_dotted
             vpiFullName: t.f_bad_dotted
@@ -1408,7 +1409,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

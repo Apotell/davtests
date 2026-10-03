@@ -40,13 +40,21 @@ LIB: logicLib
 [INF:CP5804] $Source01/top.sv:1:1: Compile module "top".
 [ERR:CP5835] Colliding compilation unit name: "cmp #(.hyst(0.65))".
 [ERR:CP5835] Colliding compilation unit name: "driver #(.delay(30), .iterations(256))".
+[WRN:CP5851] $Source01/cmp.svr:12:2: Failed to bind "realNet".
+[WRN:CP5851] $Source01/cmp.svr:12:2: Failed to bind "realNet".
+[WRN:CP5851] $Source01/cmp.svr:13:8: Failed to bind "logic".
+[WRN:CP5851] $Source01/cmp.svr:13:8: Failed to bind "logic".
+[WRN:CP5851] $Source01/cmp.svr:16:1: Failed to bind "logic".
+[WRN:CP5851] $Source01/cmp.svr:16:1: Failed to bind "logic".
+[WRN:CP5851] $Source01/driver.svr:5:16: Failed to bind "realNet".
+[WRN:CP5851] $Source01/driver.svr:5:16: Failed to bind "realNet".
 [WRN:PA5506] $Source01/nets.pkg:1:1: No timescale set for "NetsPkg".
 [WRN:PA5506] $Source01/cmp.sv:2:1: No timescale set for "cmp #(.hyst(0.65))".
 [WRN:PA5506] $Source01/top.sv:1:1: No timescale set for "top".
-[ERR:LN7701] Invalid name: id:1728, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:1744, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:1747, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:1750, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:2043, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:2059, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:2062, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:2065, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -95,6 +103,7 @@ Design name:unnamed:
         vpiParent: Package name:NetsPkg
         vpiName: work
         vpiFullName: NetsPkg::work
+        vpiActual: Library name:work
       vpiCell: NetsPkg
       vpiEndLabel Identifier name:NetsPkg start:5:14 end:5:21:
   vpiAllModules (5 items):
@@ -176,6 +185,7 @@ Design name:unnamed:
         vpiParent: Module name:cmp #(.hyst(0.65))
         vpiName: logicLib
         vpiFullName: cmp #(.hyst(0.65)).logicLib
+        vpiActual: Library name:logicLib
       vpiCell: cmp
       vpiNet (2 items):
         Net name:inA start:4:25 end:4:28:
@@ -490,7 +500,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "1"
               vpiValue: 1
-          vpiElemTypespec RefTypespec name:realNet start:12:2 end:12:15:
+          vpiElemTypespec RefTypespec name:realNet start:12:2 end:12:9:
             vpiParent: ArrayTypespec
             vpiName: realNet
             vpiFullName: cmp #(.hyst(0.65)).realNet
@@ -504,6 +514,7 @@ Design name:unnamed:
         vpiParent: Module name:cmp #(.hyst(0.65))
         vpiName: realLib
         vpiFullName: cmp #(.hyst(0.65)).realLib
+        vpiActual: Library name:realLib
       vpiCell: cmp
       vpiNet (2 items):
         Net name:inA start:12:16 end:12:19:
@@ -887,6 +898,7 @@ Design name:unnamed:
         vpiParent: Module name:driver #(.delay(30), .iterations(256))
         vpiName: logicLib
         vpiFullName: driver #(.delay(30), .iterations(256)).logicLib
+        vpiActual: Library name:logicLib
       vpiCell: driver
       vpiNet (1 items):
         Net name:out start:13:8 end:13:11:
@@ -1136,7 +1148,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "1"
               vpiValue: 1
-          vpiElemTypespec RefTypespec name:realNet start:5:16 end:5:29:
+          vpiElemTypespec RefTypespec name:realNet start:5:16 end:5:23:
             vpiParent: ArrayTypespec
             vpiName: realNet
             vpiFullName: driver #(.delay(30), .iterations(256)).realNet
@@ -1177,6 +1189,7 @@ Design name:unnamed:
         vpiParent: Module name:driver #(.delay(30), .iterations(256))
         vpiName: realLib
         vpiFullName: driver #(.delay(30), .iterations(256)).realLib
+        vpiActual: Library name:realLib
       vpiCell: driver
       vpiPort (1 items):
         Port name:out start:5:30 end:5:33:
@@ -1604,6 +1617,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: logicLib
         vpiFullName: top.logicLib
+        vpiActual: Library name:logicLib
       vpiCell: top
       vpiNet (1 items):
         Net name:aBus start:2:26 end:2:30:
@@ -1743,10 +1757,13 @@ Design name:unnamed:
               vpiParent: RefObj name:logicLib.top
               vpiName: logicLib
               vpiFullName: cfgReal.logicLib
+              vpiActual: Library name:logicLib
             RefObj name:top start:6:17 end:6:20:
               vpiParent: RefObj name:logicLib.top
               vpiName: top
               vpiFullName: cfgReal.top
+              vpiActual: Module name:top
+          vpiActual: Module name:top
       vpiConfigRule (1 items):
         ConfigRule start:7:1 end:7:34:
           vpiParent: ConfigDecl name:cfgReal
@@ -1758,10 +1775,12 @@ Design name:unnamed:
                 vpiParent: Clause
                 vpiName: realLib
                 vpiFullName: cfgReal.realLib
+                vpiActual: Library name:realLib
               RefObj name:logicLib start:7:25 end:7:33:
                 vpiParent: Clause
                 vpiName: logicLib
                 vpiFullName: cfgReal.logicLib
+                vpiActual: Library name:logicLib
     ConfigDecl name:cfgLogic file:$Source01/lib.map start:10:1 end:13:10:
       vpiParent: Design name:unnamed
       vpiName: cfgLogic
@@ -1775,10 +1794,13 @@ Design name:unnamed:
               vpiParent: RefObj name:logicLib.top
               vpiName: logicLib
               vpiFullName: cfgLogic.logicLib
+              vpiActual: Library name:logicLib
             RefObj name:top start:11:17 end:11:20:
               vpiParent: RefObj name:logicLib.top
               vpiName: top
               vpiFullName: cfgLogic.top
+              vpiActual: Module name:top
+          vpiActual: Module name:top
       vpiConfigRule (1 items):
         ConfigRule start:12:1 end:12:34:
           vpiParent: ConfigDecl name:cfgLogic
@@ -1790,15 +1812,17 @@ Design name:unnamed:
                 vpiParent: Clause
                 vpiName: logicLib
                 vpiFullName: cfgLogic.logicLib
+                vpiActual: Library name:logicLib
               RefObj name:realLib start:12:26 end:12:33:
                 vpiParent: Clause
                 vpiName: realLib
                 vpiFullName: cfgLogic.realLib
+                vpiActual: Library name:realLib
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 6
-[WARNING] : 3
+[WARNING] : 11
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1857,7 +1881,7 @@ COMMAND: ${HLC_DIR}/regression/LibraryIntercon/LibraryIntercon/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1519    1519       0         0
+Others                            1782    1782       0         0
 ----------------------------------------------------------------
-                                  1519    1519       0         0
+                                  1782    1782       0         0
 ===================== END REDUCTION RESULT =====================

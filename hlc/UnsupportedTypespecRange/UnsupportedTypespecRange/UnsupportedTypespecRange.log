@@ -48,11 +48,11 @@ n<$Source01/dut.sv> u<65> t<Top_level_rule> c<1> l<1:1> el<12:1>
                 n<> u<26> t<PACKED> p<57> s<56> l<9:15> el<9:21>
                 n<> u<56> t<Struct_union_member> p<57> c<52> l<10:5> el<10:55>
                   n<> u<52> t<Data_type_or_void> p<56> c<51> s<55> l<10:5> el<10:46>
-                    n<> u<51> t<Data_type> p<52> c<29> l<10:5> el<10:46>
-                      n<> u<29> t<Class_scope> p<51> c<28> s<30> l<10:5> el<10:20>
-                        n<> u<28> t<Class_type> p<29> c<27> l<10:5> el<10:18>
-                          n<foo_flags_pkg> u<27> t<SIMPLE_IDENTIFIER> p<28> l<10:5> el<10:18>
-                      n<common_flags_t> u<30> t<SIMPLE_IDENTIFIER> p<51> s<40> l<10:20> el<10:34>
+                    n<> u<51> t<Data_type> p<52> c<28> l<10:5> el<10:46>
+                      n<> u<28> t<Package_scope> p<51> c<27> s<30> l<10:5> el<10:20>
+                        n<foo_flags_pkg> u<27> t<SIMPLE_IDENTIFIER> p<28> l<10:5> el<10:18>
+                      n<> u<30> t<Class_type> p<51> c<29> s<40> l<10:20> el<10:34>
+                        n<common_flags_t> u<29> t<SIMPLE_IDENTIFIER> p<30> l<10:20> el<10:34>
                       n<> u<40> t<Packed_dimension> p<51> c<39> s<50> l<10:36> el<10:41>
                         n<> u<39> t<Constant_range> p<40> c<34> l<10:37> el<10:40>
                           n<> u<34> t<Constant_expression> p<39> c<33> s<38> l<10:37> el<10:38>
@@ -130,6 +130,7 @@ Design name:unnamed:
         vpiParent: Package name:foo_flags_pkg
         vpiName: work
         vpiFullName: foo_flags_pkg::work
+        vpiActual: Library name:work
       vpiCell: foo_flags_pkg
       vpiEndLabel Identifier name:foo_flags_pkg start:6:14 end:6:27:
   vpiTypespec (5 items):
@@ -187,23 +188,22 @@ Design name:unnamed:
           vpiSize: 64
           vpiDecompile: "0"
           vpiValue: 0
-      vpiElemTypespec RefTypespec start:10:5 end:10:46:
+      vpiElemTypespec RefTypespec name:foo_flags_pkg::common_flags_t start:10:5 end:10:46:
         vpiParent: ArrayTypespec
+        vpiName: foo_flags_pkg::common_flags_t
+        vpiFullName: foo_flags_pkg::common_flags_t
         vpiPathElem (2 items):
-          RefTypespec name:foo_flags_pkg start:10:5 end:10:18:
-            vpiParent: RefTypespec
+          RefObj name:foo_flags_pkg start:10:5 end:10:18:
+            vpiParent: RefTypespec name:foo_flags_pkg::common_flags_t
             vpiName: foo_flags_pkg
             vpiFullName: foo_flags_pkg
-            vpiPathElem (1 items):
-              RefObj name:foo_flags_pkg start:10:5 end:10:18:
-                vpiParent: RefTypespec name:foo_flags_pkg
-                vpiName: foo_flags_pkg
-                vpiFullName: foo_flags_pkg
-                vpiActual: Package name:foo_flags_pkg
+            vpiActual: Package name:foo_flags_pkg
           RefTypespec name:common_flags_t start:10:20 end:10:34:
-            vpiParent: RefTypespec
+            vpiParent: RefTypespec name:foo_flags_pkg::common_flags_t
             vpiName: common_flags_t
-            vpiFullName: common_flags_t
+            vpiFullName: foo_flags_pkg::common_flags_t.common_flags_t
+            vpiActual: TypedefTypespec name:common_flags_t
+        vpiActual: TypedefTypespec name:common_flags_t
     UnionTypespec start:9:9 end:11:2:
       vpiParent: Design name:unnamed
       vpiUnion: Union
@@ -228,10 +228,10 @@ Design name:unnamed:
         TypespecMember name:atype_t start:10:47 end:10:54:
           vpiParent: Union
           vpiName: atype_t
-          "vpiTypespec RefTypespec name: [7:0] [3:0] start:10:5 end:10:46":
+          vpiTypespec RefTypespec name:foo_flags_pkg::common_flags_t [7:0] [3:0] start:10:5 end:10:46:
             vpiParent: TypespecMember name:atype_t
-            vpiName: " [7:0] [3:0]"
-            vpiFullName: atype_t. [7:0] [3:0]
+            vpiName: foo_flags_pkg::common_flags_t [7:0] [3:0]
+            vpiFullName: atype_t.foo_flags_pkg::common_flags_t [7:0] [3:0]
             vpiActual: ArrayTypespec
   vpiLibrary (1 items):
     Library name:work:
@@ -285,7 +285,7 @@ COMMAND: ${HLC_DIR}/regression/UnsupportedTypespecRange/UnsupportedTypespecRange
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    44      44       0         0
+                                    43      43       0         0
 ===================== END REDUCTION RESULT =====================

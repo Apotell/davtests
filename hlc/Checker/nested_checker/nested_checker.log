@@ -334,11 +334,6 @@ AST_DEBUG_END
 [INF:CP5808] $Source01/nested_checker.sv:14:11: Compile checker "outer_chk".
 [INF:CP5808] $Source01/nested_checker.sv:16:13: Compile checker "inner_chk".
 [WRN:PA5506] $Source01/nested_checker.sv:1:1: No timescale set for "tb4".
-[ERR:DB2038] $Source01/nested_checker.sv:17:34: 'vpiActual' property value on object is invalid.
-[ERR:DB2038] $Source01/nested_checker.sv:17:39: 'vpiActual' property value on object is invalid.
-[ERR:DB2038] $Source01/nested_checker.sv:17:49: 'vpiActual' property value on object is invalid.
-[ERR:DB2038] $Source01/nested_checker.sv:21:18: 'vpiActual' property value on object is invalid.
-[ERR:DB2038] $Source01/nested_checker.sv:21:21: 'vpiActual' property value on object is invalid.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -402,6 +397,7 @@ Design name:unnamed:
         vpiParent: Module name:tb4
         vpiName: work
         vpiFullName: tb4.work
+        vpiActual: Library name:work
       vpiCell: tb4
       vpiCheckerDecl (1 items):
         CheckerDecl name:outer_chk start:14:3 end:23:13:
@@ -419,6 +415,7 @@ Design name:unnamed:
             vpiParent: CheckerDecl name:outer_chk
             vpiName: work
             vpiFullName: tb4.outer_chk.work
+            vpiActual: Library name:work
           vpiCell: outer_chk
           vpiCheckerDecl (1 items):
             CheckerDecl name:inner_chk start:16:5 end:19:15:
@@ -438,7 +435,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: clk
                           vpiFullName: tb4.outer_chk.inner_chk.clk
-                          vpiActual: CheckerPort name:clk
+                          vpiActual: Variable name:clk
                     vpiPropertyExpr Operation start:17:39 end:17:50:
                       vpiParent: PropertySpec
                       vpiOpType: overlap imply (52)
@@ -447,7 +444,6 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: a
                           vpiFullName: tb4.outer_chk.inner_chk.a
-                          vpiActual: CheckerPort name:a
                         Operation start:17:45 end:17:50:
                           vpiParent: Operation
                           vpiOpType: unary cycle delay (70)
@@ -466,7 +462,6 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: b
                               vpiFullName: tb4.outer_chk.inner_chk.b
-                              vpiActual: CheckerPort name:b
                   vpiElseStmt SysTaskCall name:$error start:18:14 end:18:36:
                     vpiParent: Assert
                     vpiName Identifier name:$error start:18:14 end:18:20:
@@ -489,6 +484,7 @@ Design name:unnamed:
                 vpiParent: CheckerDecl name:inner_chk
                 vpiName: work
                 vpiFullName: tb4.outer_chk.inner_chk.work
+                vpiActual: Library name:work
               vpiCell: inner_chk
               vpiPort (2 items):
                 CheckerPort name:a start:16:23 end:16:36:
@@ -553,14 +549,14 @@ Design name:unnamed:
                     vpiParent: CheckerInstPort
                     vpiName: x
                     vpiFullName: tb4.outer_chk.ic.x
-                    vpiActual: CheckerPort name:x
+                    vpiActual: Variable name:x
                 CheckerInstPort start:21:21 end:21:22:
                   vpiParent: RefInstance name:ic
                   vpiActual RefObj name:y start:21:21 end:21:22:
                     vpiParent: CheckerInstPort
                     vpiName: y
                     vpiFullName: tb4.outer_chk.ic.y
-                    vpiActual: CheckerPort name:y
+                    vpiActual: Variable name:y
       vpiProcess (2 items):
         Always start:5:3 end:5:24:
           vpiParent: Module name:tb4
@@ -763,7 +759,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

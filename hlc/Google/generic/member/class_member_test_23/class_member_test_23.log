@@ -33,11 +33,11 @@ n<$Source01/class_member_test_23.sv> u<34> t<Top_level_rule> c<1> l<6:1> el<8:9>
                     n<> u<21> t<Tf_port_item_list> p<22> c<20> l<7:26> el<7:43>
                       n<> u<20> t<Tf_port_item> p<21> c<12> l<7:27> el<7:42>
                         n<> u<12> t<Data_type_or_implicit> p<20> c<11> s<13> l<7:27> el<7:37>
-                          n<> u<11> t<Data_type> p<12> c<9> l<7:27> el<7:37>
-                            n<> u<9> t<Class_scope> p<11> c<8> s<10> l<7:27> el<7:34>
-                              n<> u<8> t<Class_type> p<9> c<7> l<7:27> el<7:32>
-                                n<mypkg> u<7> t<SIMPLE_IDENTIFIER> p<8> l<7:27> el<7:32>
-                            n<foo> u<10> t<SIMPLE_IDENTIFIER> p<11> l<7:34> el<7:37>
+                          n<> u<11> t<Data_type> p<12> c<8> l<7:27> el<7:37>
+                            n<> u<8> t<Package_scope> p<11> c<7> s<10> l<7:27> el<7:34>
+                              n<mypkg> u<7> t<SIMPLE_IDENTIFIER> p<8> l<7:27> el<7:32>
+                            n<> u<10> t<Class_type> p<11> c<9> l<7:34> el<7:37>
+                              n<foo> u<9> t<SIMPLE_IDENTIFIER> p<10> l<7:34> el<7:37>
                         n<y> u<13> t<SIMPLE_IDENTIFIER> p<20> s<19> l<7:38> el<7:39>
                         n<> u<19> t<Variable_dimension> p<20> c<18> l<7:39> el<7:42>
                           n<> u<18> t<Unpacked_dimension> p<19> c<17> l<7:39> el<7:42>
@@ -47,6 +47,9 @@ n<$Source01/class_member_test_23.sv> u<34> t<Top_level_rule> c<1> l<6:1> el<8:9>
                                   n<M> u<14> t<SIMPLE_IDENTIFIER> p<15> l<7:40> el<7:41>
             n<> u<28> t<ENDCLASS> p<29> l<8:1> el<8:9>
 AST_DEBUG_END
+[WRN:CP5851] $Source01/class_member_test_23.sv:7:8: Failed to bind "subr".
+[WRN:CP5851] $Source01/class_member_test_23.sv:7:27: Failed to bind "mypkg".
+[WRN:CP5851] $Source01/class_member_test_23.sv:7:34: Failed to bind "foo".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -80,10 +83,10 @@ Design name:unnamed:
             vpiName: mypkg::foo
             vpiFullName: myclass::mypkg::foo
             vpiPathElem (2 items):
-              RefTypespec name:mypkg start:7:27 end:7:32:
+              RefObj name:mypkg start:7:27 end:7:32:
                 vpiParent: RefTypespec name:mypkg::foo
                 vpiName: mypkg
-                vpiFullName: myclass::mypkg::foo::mypkg
+                vpiFullName: myclass::mypkg
               RefTypespec name:foo start:7:34 end:7:37:
                 vpiParent: RefTypespec name:mypkg::foo
                 vpiName: foo
@@ -95,6 +98,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:myclass
         vpiName: work
         vpiFullName: myclass::work
+        vpiActual: Library name:work
       vpiCell: myclass
       vpiTaskFuncDecl (1 items):
         FunctionDecl name:subr start:7:8 end:7:43:
@@ -132,7 +136,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

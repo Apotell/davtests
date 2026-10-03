@@ -17,6 +17,11 @@ COMMAND: -wd ../../../tests/ModPortTest +incdir+. -fileunit -writepp top.v -nobu
 [WRN:CP5811] $Source01/top.v:36:37: Port "sif" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/top.v:45:1: Compile module "memory_ctrl2".
 [WRN:CP5811] $Source01/top.v:45:36: Port "sif" definition missing its direction (input, output, inout).
+[WRN:CP5851] $Source01/top.v:12:11: Failed to bind "logic".
+[WRN:CP5851] $Source01/top.v:14:3: Failed to bind "id_t1".
+[WRN:CP5851] $Source01/top.v:36:29: Failed to bind "system1".
+[WRN:CP5851] $Source01/top.v:45:29: Failed to bind "system".
+[WRN:CP5851] $Source01/top.v:51:1: Failed to bind "DD".
 [WRN:PA5506] $Source01/top.v:1:1: No timescale set for "dff0_test".
 [WRN:PA5506] $Source01/top.v:36:1: No timescale set for "memory_ctrl1".
 [WRN:PA5506] $Source01/top.v:45:1: No timescale set for "memory_ctrl2".
@@ -131,7 +136,7 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:logic start:12:11 end:12:35:
+          vpiElemTypespec RefTypespec name:logic start:12:11 end:12:16:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: AXI_BUS #(.AXI_ID_WIDTH(-1)).logic
@@ -145,6 +150,7 @@ Design name:unnamed:
         vpiParent: Interface name:AXI_BUS #(.AXI_ID_WIDTH(-1))
         vpiName: work
         vpiFullName: AXI_BUS #(.AXI_ID_WIDTH(-1)).work
+        vpiActual: Library name:work
       vpiCell: AXI_BUS
       vpiModport (2 items):
         Modport name:Master start:16:11 end:16:17:
@@ -178,6 +184,7 @@ Design name:unnamed:
         vpiParent: Interface name:mem_if
         vpiName: work
         vpiFullName: mem_if.work
+        vpiActual: Library name:work
       vpiCell: mem_if
       vpiNet (1 items):
         Net name:clk start:29:30 end:29:33:
@@ -271,6 +278,7 @@ Design name:unnamed:
         vpiParent: Module name:dff0_test
         vpiName: work
         vpiFullName: dff0_test.work
+        vpiActual: Library name:work
       vpiCell: dff0_test
       vpiPort (1 items):
         Port name:n1 start:1:18 end:1:20:
@@ -335,6 +343,7 @@ Design name:unnamed:
         vpiParent: Module name:memory_ctrl1
         vpiName: work
         vpiFullName: memory_ctrl1.work
+        vpiActual: Library name:work
       vpiCell: memory_ctrl1
       vpiPort (1 items):
         Port name:sif start:36:37 end:36:40:
@@ -345,7 +354,6 @@ Design name:unnamed:
             vpiParent: Port name:sif
             vpiName: sif
             vpiFullName: memory_ctrl1.sif.sif
-            vpiActual: Port name:sif
           vpiTypespec RefTypespec name:mem_if::system1 start:36:22 end:36:36:
             vpiParent: Port name:sif
             vpiName: mem_if::system1
@@ -421,6 +429,7 @@ Design name:unnamed:
         vpiParent: Module name:memory_ctrl2
         vpiName: work
         vpiFullName: memory_ctrl2.work
+        vpiActual: Library name:work
       vpiCell: memory_ctrl2
       vpiPort (1 items):
         Port name:sif start:45:36 end:45:39:
@@ -431,7 +440,6 @@ Design name:unnamed:
             vpiParent: Port name:sif
             vpiName: sif
             vpiFullName: memory_ctrl2.sif.sif
-            vpiActual: Port name:sif
           vpiTypespec RefTypespec name:mem_if::system start:45:22 end:45:35:
             vpiParent: Port name:sif
             vpiName: mem_if::system
@@ -483,7 +491,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 7
+[WARNING] : 12
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

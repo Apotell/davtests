@@ -424,6 +424,7 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/dut.sv:19:20: Compile generate block "blk".
 [WRN:CP5851] $Source01/dut.sv:13:74: Failed to bind "a".
 [WRN:CP5851] $Source01/dut.sv:13:76: Failed to bind "b".
+[WRN:CP5851] $Source01/dut.sv:13:78: Failed to bind "y".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "Module".
 [WRN:PA5506] $Source01/dut.sv:16:1: No timescale set for "top".
 [ERR:DB2038] $Source01/dut.sv:19:12: 'vpiStmt' property value has invalid objects.
@@ -536,6 +537,7 @@ Design name:unnamed:
         vpiParent: Module name:Module
         vpiName: work
         vpiFullName: Module.work
+        vpiActual: Library name:work
       vpiCell: Module
       vpiNet (2 items):
         Net name:x start:4:18 end:4:19:
@@ -592,49 +594,49 @@ Design name:unnamed:
                 vpiName: S
                 vpiFullName: Module.S
                 vpiActual: Parameter name:S
-              RefObj name:Module #(.S(0), .T(0)).x start:13:54 end:13:62:
+              RefObj name:Module.x start:13:54 end:13:62:
                 vpiParent: SysTaskCall name:$display
-                vpiName: Module #(.S(0), .T(0)).x
-                vpiFullName: Module.Module #(.S(0), .T(0)).x
+                vpiName: Module.x
+                vpiFullName: Module.Module.x
                 vpiPathElem (2 items):
                   RefObj name:Module start:13:54 end:13:60:
-                    vpiParent: RefObj name:Module #(.S(0), .T(0)).x
+                    vpiParent: RefObj name:Module.x
                     vpiName: Module
                     vpiFullName: Module.Module
                     vpiActual: Module name:Module
                   RefObj name:x start:13:61 end:13:62:
-                    vpiParent: RefObj name:Module #(.S(0), .T(0)).x
+                    vpiParent: RefObj name:Module.x
                     vpiName: x
                     vpiFullName: Module.x
                     vpiActual: Net name:x
+                vpiActual: Net name:x
               RefObj name:T start:13:64 end:13:65:
                 vpiParent: SysTaskCall name:$display
                 vpiName: T
                 vpiFullName: Module.T
                 vpiActual: Parameter name:T
-              RefObj name:Module #(.S(0), .T(0)).a.b.y start:13:67 end:13:79:
+              RefObj name:Module.a.b.y start:13:67 end:13:79:
                 vpiParent: SysTaskCall name:$display
-                vpiName: Module #(.S(0), .T(0)).a.b.y
-                vpiFullName: Module.Module #(.S(0), .T(0)).a.b.y
+                vpiName: Module.a.b.y
+                vpiFullName: Module.Module.a.b.y
                 vpiPathElem (4 items):
                   RefObj name:Module start:13:67 end:13:73:
-                    vpiParent: RefObj name:Module #(.S(0), .T(0)).a.b.y
+                    vpiParent: RefObj name:Module.a.b.y
                     vpiName: Module
                     vpiFullName: Module.Module
                     vpiActual: Module name:Module
                   RefObj name:a start:13:74 end:13:75:
-                    vpiParent: RefObj name:Module #(.S(0), .T(0)).a.b.y
+                    vpiParent: RefObj name:Module.a.b.y
                     vpiName: a
                     vpiFullName: Module.a
                   RefObj name:b start:13:76 end:13:77:
-                    vpiParent: RefObj name:Module #(.S(0), .T(0)).a.b.y
+                    vpiParent: RefObj name:Module.a.b.y
                     vpiName: b
                     vpiFullName: Module.b
                   RefObj name:y start:13:78 end:13:79:
-                    vpiParent: RefObj name:Module #(.S(0), .T(0)).a.b.y
+                    vpiParent: RefObj name:Module.a.b.y
                     vpiName: y
                     vpiFullName: Module.y
-                    vpiActual: Net name:y
               Operation start:13:81 end:13:86:
                 vpiParent: SysTaskCall name:$display
                 vpiOpType: add (24)
@@ -706,21 +708,22 @@ Design name:unnamed:
                     vpiStmt (1 items):
                       ContAssign start:8:24 end:8:40:
                         vpiParent: Begin name:b
-                        vpiLhs RefObj name:Module #(.S(0), .T(0)).x start:8:24 end:8:32:
+                        vpiLhs RefObj name:Module.x start:8:24 end:8:32:
                           vpiParent: ContAssign
-                          vpiName: Module #(.S(0), .T(0)).x
-                          vpiFullName: Module.a.b.Module #(.S(0), .T(0)).x
+                          vpiName: Module.x
+                          vpiFullName: Module.a.b.Module.x
                           vpiPathElem (2 items):
                             RefObj name:Module start:8:24 end:8:30:
-                              vpiParent: RefObj name:Module #(.S(0), .T(0)).x
+                              vpiParent: RefObj name:Module.x
                               vpiName: Module
                               vpiFullName: Module.a.b.Module
                               vpiActual: Module name:Module
                             RefObj name:x start:8:31 end:8:32:
-                              vpiParent: RefObj name:Module #(.S(0), .T(0)).x
+                              vpiParent: RefObj name:Module.x
                               vpiName: x
                               vpiFullName: Module.a.b.x
                               vpiActual: Net name:x
+                          vpiActual: Net name:x
                         vpiRhs Constant start:8:35 end:8:40:
                           vpiParent: ContAssign
                           vpiTypespec RefTypespec:
@@ -911,6 +914,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
       vpiNet (1 items):
         Net name:x start:18:24 end:18:25:
@@ -1035,7 +1039,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 4
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

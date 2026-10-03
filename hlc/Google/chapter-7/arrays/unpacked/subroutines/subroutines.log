@@ -7,7 +7,9 @@ VERSION: 1.84
 COMMAND: -wd ../../../../../../tests/Google/chapter-7/arrays/unpacked -timescale=1ns/1ns -d ast -d db subroutines.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-7/arrays/unpacked/subroutines
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/subroutines.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/subroutines.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 243
 LIB: work
@@ -276,6 +278,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
       vpiTaskFunc (1 items):
         Task name:fun start:18:1 end:21:8:
@@ -325,6 +328,7 @@ Design name:unnamed:
           vpiStmt SysTaskCall name:$display start:19:2 end:20:20:
             vpiParent: Task name:fun
             vpiName Identifier name:$display start:19:2 end:19:10:
+            vpiTaskFunc: Task name:$display
             vpiArgument (4 items):
               Constant start:19:11 end:19:61:
                 vpiParent: SysTaskCall name:$display
@@ -539,6 +543,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:28:2 end:29:20:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:28:2 end:28:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (4 items):
                   Constant start:28:11 end:28:61:
                     vpiParent: SysTaskCall name:$display
@@ -607,17 +612,17 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "2"
                       vpiValue: 2
-              TaskCall name:fun start:30:2 end:30:8:
+              MethodTaskCall name:fun start:30:2 end:30:8:
                 vpiParent: Begin
                 vpiName Identifier name:fun start:30:2 end:30:5:
                 vpiTaskFunc: Task name:fun
                 vpiArgument (1 items):
                   RefObj name:b start:30:6 end:30:7:
-                    vpiParent: TaskCall name:fun
+                    vpiParent: MethodTaskCall name:fun
                     vpiName: b
                     vpiFullName: top.b
                     vpiActual: Variable name:b
-  vpiTypespec (3 items):
+  vpiTypespec (8 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:16:8 end:16:11:
@@ -627,6 +632,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
     StringTypespec:
+      vpiParent: Design name:unnamed
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
       vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
@@ -680,7 +695,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/arrays/unpacked/subroutines/desi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              88      88       0         0
+Others                            1453    1453       0         0
 ----------------------------------------------------------------
-                                    88      88       0         0
+                                  1453    1453       0         0
 ===================== END REDUCTION RESULT =====================

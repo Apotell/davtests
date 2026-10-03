@@ -4,10 +4,12 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/ErrorCatalog/chapter-7 -d ast -d db -nobuiltin 7--error_rules.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/ErrorCatalog/chapter-7/7--error_rules
+COMMAND: -wd ../../../../tests/ErrorCatalog/chapter-7 -d ast -d db 7--error_rules.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/ErrorCatalog/chapter-7/7--error_rules
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/7--error_rules.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/7--error_rules.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 [SNT:PA5508] $Source01/7--error_rules.sv:34:7: Syntax error: missing {'this', 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER} at '[',
   real [3:0] v; // illegal - packed array of real
        ^-- $Source01/7--error_rules.sv:34:7:.
@@ -575,7 +577,6 @@ AST_DEBUG_END
 [ERR:CP5902] $Source01/7--error_rules.sv:75:19: Illegal index expression type: r38_aa.
 [ERR:DB2015] $Source01/7--error_rules.sv:75:26: Can't use a real type as bit select "r38_r".
 [ERR:CP5903] $Source01/7--error_rules.sv:90:11: Illegal use of wildcard-index associative array r39_aa.
-[ERR:LN7705] $Source01/7--error_rules.sv:103:17: Null Actual: id:236, type:MethodFuncCall, name:reverse, relation:vpiPathElem.
 [ERR:CP5896] $Source01/7--error_rules.sv:20:9: Packed union members must be the same size: r33_u_t.
 ====== HLDB =======
 Design name:unnamed:
@@ -596,6 +597,7 @@ Design name:unnamed:
         vpiParent: Module name:r34_m
         vpiName: work
         vpiFullName: r34_m.work
+        vpiActual: Library name:work
       vpiCell: r34_m
     Module name:r35_m file:$Source01/7--error_rules.sv start:40:1 end:43:10:
       vpiParent: Design name:unnamed
@@ -743,6 +745,7 @@ Design name:unnamed:
         vpiParent: Module name:r35_m
         vpiName: work
         vpiFullName: r35_m.work
+        vpiActual: Library name:work
       vpiCell: r35_m
       vpiProcess (1 items):
         Initial start:42:3 end:42:35:
@@ -888,6 +891,7 @@ Design name:unnamed:
         vpiParent: Module name:r36_m
         vpiName: work
         vpiFullName: r36_m.work
+        vpiActual: Library name:work
       vpiCell: r36_m
     Module name:r37_m file:$Source01/7--error_rules.sv start:63:1 end:66:10:
       vpiParent: Design name:unnamed
@@ -928,18 +932,20 @@ Design name:unnamed:
         vpiParent: Module name:r37_m
         vpiName: work
         vpiFullName: r37_m.work
+        vpiActual: Library name:work
       vpiCell: r37_m
       vpiProcess (1 items):
         Initial start:65:3 end:65:24:
           vpiParent: Module name:r37_m
-          vpiStmt SubroutineCall name:r37_f start:65:11 end:65:23:
+          vpiStmt FuncCall name:r37_f start:65:11 end:65:23:
             vpiParent: Initial
             vpiName Identifier name:r37_f start:65:11 end:65:16:
+            vpiTaskFuncDecl: FunctionDecl name:r37_f
             vpiArgument (1 items):
               RefObj name:r37_q start:65:17 end:65:22:
-                vpiParent: SubroutineCall name:r37_f
+                vpiParent: FuncCall name:r37_f
                 vpiName: r37_q
-                vpiFullName: r37_m.r37_f.r37_q
+                vpiFullName: r37_m.r37_q
                 vpiActual: Variable name:r37_q
     Module name:r38_m file:$Source01/7--error_rules.sv start:71:1 end:76:10:
       vpiParent: Design name:unnamed
@@ -1015,6 +1021,7 @@ Design name:unnamed:
         vpiParent: Module name:r38_m
         vpiName: work
         vpiFullName: r38_m.work
+        vpiActual: Library name:work
       vpiCell: r38_m
       vpiProcess (1 items):
         Initial start:75:3 end:75:33:
@@ -1089,6 +1096,7 @@ Design name:unnamed:
         vpiParent: Module name:r39_m
         vpiName: work
         vpiFullName: r39_m.work
+        vpiActual: Library name:work
       vpiCell: r39_m
       vpiProcess (1 items):
         Initial start:90:3 end:90:40:
@@ -1185,6 +1193,7 @@ Design name:unnamed:
         vpiParent: Module name:r40_m
         vpiName: work
         vpiFullName: r40_m.work
+        vpiActual: Library name:work
       vpiCell: r40_m
       vpiProcess (1 items):
         Initial start:103:3 end:103:37:
@@ -1203,6 +1212,7 @@ Design name:unnamed:
                 vpiParent: RefObj name:r40_q.reverse
                 vpiName Identifier name:reverse start:103:17 end:103:24:
                 vpiIsProperty: true
+                vpiTaskFunc: Function name:reverse
                 vpiWith RefObj name:item start:103:31 end:103:35:
                   vpiParent: MethodFuncCall name:reverse
                   vpiName: item
@@ -1210,10 +1220,15 @@ Design name:unnamed:
                   vpiActual: Variable name:item
                 vpiLoopVars Variable name:item start:103:31 end:103:35:
                   vpiParent: MethodFuncCall name:reverse
+                  vpiTypespec RefTypespec:
+                    vpiParent: Variable name:item
+                    vpiFullName: r40_m.r40_q.reverse.item
+                    vpiActual: VoidTypespec
                   vpiName: item
                   vpiFullName: r40_m.r40_q.reverse.item
                   vpiIsIterator: true
-  vpiTypespec (16 items):
+            vpiActual: MethodFuncCall name:reverse
+  vpiTypespec (19 items):
     BitTypespec:
       vpiParent: Design name:unnamed
       vpiRange (1 items):
@@ -1322,11 +1337,18 @@ Design name:unnamed:
       vpiName Identifier name:r40_m start:101:8 end:101:13:
       vpiDefName: r40_m
       vpiModule: Module name:r40_m
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
   vpiTaskFuncDecl (1 items):
     FunctionDecl name:r37_f start:62:1 end:62:54:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r37_f start:62:30 end:62:35:
       vpiFullName: r37_f
+      vpiAccessType: DPIImport (4)
       vpiDPICStr: DPI-C (2)
       vpiIODecl (1 items):
         IODecl name:arr start:62:47 end:62:50:
@@ -1376,7 +1398,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 5
-[  ERROR] : 7
+[  ERROR] : 6
 [WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
@@ -1420,11 +1442,11 @@ COMMAND: ${HLC_DIR}/regression/ErrorCatalog/chapter-7/7--error_rules/design.hldb
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            28      26       1         3
+Constant                            42      40       1         3
 Operation                            3       2       0         1
-RefTypespec                         54      51       0         3
+RefTypespec                        394     391       0         3
 ----------------------------------------------------------------
-Others                             120     120       0         0
+Others                            1130    1130       0         0
 ----------------------------------------------------------------
-                                   205     199       1         7
+                                  1569    1563       1         7
 ===================== END REDUCTION RESULT =====================

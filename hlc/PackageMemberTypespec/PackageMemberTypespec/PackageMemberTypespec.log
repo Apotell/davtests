@@ -53,11 +53,11 @@ n<$Source01/dut.sv> u<74> t<Top_level_rule> c<1> l<1:1> el<37:3>
                   n<> u<30> t<PACKED> p<62> s<60> l<26:15> el<26:21>
                   n<> u<60> t<Struct_union_member> p<62> c<56> s<61> l<27:2> el<27:48>
                     n<> u<56> t<Data_type_or_void> p<60> c<55> s<59> l<27:2> el<27:39>
-                      n<> u<55> t<Data_type> p<56> c<33> l<27:2> el<27:39>
-                        n<> u<33> t<Class_scope> p<55> c<32> s<34> l<27:2> el<27:13>
-                          n<> u<32> t<Class_type> p<33> c<31> l<27:2> el<27:11>
-                            n<foo_flags> u<31> t<SIMPLE_IDENTIFIER> p<32> l<27:2> el<27:11>
-                        n<common_flags_t> u<34> t<SIMPLE_IDENTIFIER> p<55> s<44> l<27:13> el<27:27>
+                      n<> u<55> t<Data_type> p<56> c<32> l<27:2> el<27:39>
+                        n<> u<32> t<Package_scope> p<55> c<31> s<34> l<27:2> el<27:13>
+                          n<foo_flags> u<31> t<SIMPLE_IDENTIFIER> p<32> l<27:2> el<27:11>
+                        n<> u<34> t<Class_type> p<55> c<33> s<44> l<27:13> el<27:27>
+                          n<common_flags_t> u<33> t<SIMPLE_IDENTIFIER> p<34> l<27:13> el<27:27>
                         n<> u<44> t<Packed_dimension> p<55> c<43> s<54> l<27:29> el<27:34>
                           n<> u<43> t<Constant_range> p<44> c<38> l<27:30> el<27:33>
                             n<> u<38> t<Constant_expression> p<43> c<37> s<42> l<27:30> el<27:31>
@@ -141,6 +141,7 @@ Design name:unnamed:
         vpiParent: Package name:foo_flags
         vpiName: work
         vpiFullName: foo_flags::work
+        vpiActual: Library name:work
       vpiCell: foo_flags
       vpiEndLabel Identifier name:foo_flags start:5:14 end:5:23:
     Package name:goog file:$Source01/dut.sv start:17:1 end:31:17:
@@ -163,10 +164,10 @@ Design name:unnamed:
             TypespecMember name:atype_t start:27:40 end:27:47:
               vpiParent: Union
               vpiName: atype_t
-              "vpiTypespec RefTypespec name: [7:0] [3:0] start:27:2 end:27:39":
+              vpiTypespec RefTypespec name:foo_flags::common_flags_t [7:0] [3:0] start:27:2 end:27:39:
                 vpiParent: TypespecMember name:atype_t
-                vpiName: " [7:0] [3:0]"
-                vpiFullName: "goog::atype_t:: [7:0] [3:0]"
+                vpiName: foo_flags::common_flags_t [7:0] [3:0]
+                vpiFullName: goog::atype_t::foo_flags::common_flags_t [7:0] [3:0]
                 vpiActual: ArrayTypespec
       vpiTypespec (4 items):
         ArrayTypespec:
@@ -225,24 +226,22 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec start:27:2 end:27:39:
+          vpiElemTypespec RefTypespec name:foo_flags::common_flags_t start:27:2 end:27:39:
             vpiParent: ArrayTypespec
-            vpiFullName: goog
+            vpiName: foo_flags::common_flags_t
+            vpiFullName: goog::foo_flags::common_flags_t
             vpiPathElem (2 items):
-              RefTypespec name:foo_flags start:27:2 end:27:11:
-                vpiParent: RefTypespec
+              RefObj name:foo_flags start:27:2 end:27:11:
+                vpiParent: RefTypespec name:foo_flags::common_flags_t
                 vpiName: foo_flags
                 vpiFullName: goog::foo_flags
-                vpiPathElem (1 items):
-                  RefObj name:foo_flags start:27:2 end:27:11:
-                    vpiParent: RefTypespec name:foo_flags
-                    vpiName: foo_flags
-                    vpiFullName: goog::foo_flags
-                    vpiActual: Package name:foo_flags
+                vpiActual: Package name:foo_flags
               RefTypespec name:common_flags_t start:27:13 end:27:27:
-                vpiParent: RefTypespec
+                vpiParent: RefTypespec name:foo_flags::common_flags_t
                 vpiName: common_flags_t
-                vpiFullName: goog::common_flags_t
+                vpiFullName: goog::foo_flags::common_flags_t::common_flags_t
+                vpiActual: TypedefTypespec name:common_flags_t
+            vpiActual: TypedefTypespec name:common_flags_t
         UnionTypespec start:26:9 end:29:2:
           vpiParent: Package name:goog
           vpiUnion: Union
@@ -257,6 +256,7 @@ Design name:unnamed:
         vpiParent: Package name:goog
         vpiName: work
         vpiFullName: goog::work
+        vpiActual: Library name:work
       vpiCell: goog
       vpiEndLabel Identifier name:goog start:31:13 end:31:17:
   vpiTypespec (1 items):
@@ -315,7 +315,7 @@ COMMAND: ${HLC_DIR}/regression/PackageMemberTypespec/PackageMemberTypespec/desig
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              48      48       0         0
+Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    48      48       0         0
+                                    47      47       0         0
 ===================== END REDUCTION RESULT =====================

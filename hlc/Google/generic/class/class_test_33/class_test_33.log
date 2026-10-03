@@ -33,14 +33,17 @@ n<$Source01/class_test_33.sv> u<28> t<Top_level_rule> c<1> l<6:1> el<8:9>
                     n<> u<15> t<Tf_port_item_list> p<16> c<14> l<7:30> el<7:58>
                       n<> u<14> t<Tf_port_item> p<15> c<12> l<7:31> el<7:57>
                         n<> u<12> t<Data_type_or_implicit> p<14> c<11> s<13> l<7:31> el<7:53>
-                          n<> u<11> t<Data_type> p<12> c<9> l<7:31> el<7:53>
-                            n<> u<9> t<Class_scope> p<11> c<8> s<10> l<7:31> el<7:40>
-                              n<> u<8> t<Class_type> p<9> c<7> l<7:31> el<7:38>
-                                n<dbg_pkg> u<7> t<SIMPLE_IDENTIFIER> p<8> l<7:31> el<7:38>
-                            n<analysis_port> u<10> t<SIMPLE_IDENTIFIER> p<11> l<7:40> el<7:53>
+                          n<> u<11> t<Data_type> p<12> c<8> l<7:31> el<7:53>
+                            n<> u<8> t<Package_scope> p<11> c<7> s<10> l<7:31> el<7:40>
+                              n<dbg_pkg> u<7> t<SIMPLE_IDENTIFIER> p<8> l<7:31> el<7:38>
+                            n<> u<10> t<Class_type> p<11> c<9> l<7:40> el<7:53>
+                              n<analysis_port> u<9> t<SIMPLE_IDENTIFIER> p<10> l<7:40> el<7:53>
                         n<app> u<13> t<SIMPLE_IDENTIFIER> p<14> l<7:54> el<7:57>
             n<> u<22> t<ENDCLASS> p<23> l<8:1> el<8:9>
 AST_DEBUG_END
+[WRN:CP5851] $Source01/class_test_33.sv:7:8: Failed to bind "set_port".
+[WRN:CP5851] $Source01/class_test_33.sv:7:31: Failed to bind "dbg_pkg".
+[WRN:CP5851] $Source01/class_test_33.sv:7:40: Failed to bind "analysis_port".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -62,6 +65,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:zzxy
         vpiName: work
         vpiFullName: zzxy::work
+        vpiActual: Library name:work
       vpiCell: zzxy
       vpiTaskFuncDecl (1 items):
         FunctionDecl name:set_port start:7:8 end:7:58:
@@ -79,10 +83,10 @@ Design name:unnamed:
                 vpiName: dbg_pkg::analysis_port
                 vpiFullName: zzxy::set_port::app::dbg_pkg::analysis_port
                 vpiPathElem (2 items):
-                  RefTypespec name:dbg_pkg start:7:31 end:7:38:
+                  RefObj name:dbg_pkg start:7:31 end:7:38:
                     vpiParent: RefTypespec name:dbg_pkg::analysis_port
                     vpiName: dbg_pkg
-                    vpiFullName: zzxy::set_port::app::dbg_pkg::analysis_port::dbg_pkg
+                    vpiFullName: zzxy::set_port::app::dbg_pkg
                   RefTypespec name:analysis_port start:7:40 end:7:53:
                     vpiParent: RefTypespec name:dbg_pkg::analysis_port
                     vpiName: analysis_port
@@ -107,7 +111,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

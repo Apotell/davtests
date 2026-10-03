@@ -230,6 +230,10 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/ac.sv:8:1: Compile module "ac".
 [WRN:CP5811] $Source01/ac.sv:17:19: Port "dbus" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/ac.sv:18:19: Port "padsif" definition missing its direction (input, output, inout).
+[WRN:CP5851] $Source01/ac.sv:17:3: Failed to bind "genbus_if".
+[WRN:CP5851] $Source01/ac.sv:17:13: Failed to bind "slave".
+[WRN:CP5851] $Source01/ac.sv:18:3: Failed to bind "pads_if".
+[WRN:CP5851] $Source01/ac.sv:18:11: Failed to bind "mp_ana".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/ac.sv:40:3: Unsupported typespec "ac_dig".
 [ERR:DB2029] $Source01/ac.sv:58:3: Unsupported typespec "ac_ana".
@@ -322,6 +326,7 @@ Design name:unnamed:
         vpiParent: Module name:ac #(.ID(1))
         vpiName: work
         vpiFullName: ac #(.ID(1)).work
+        vpiActual: Library name:work
       vpiCell: ac
       vpiNet (2 items):
         Net name:clk start:21:22 end:21:25:
@@ -353,7 +358,6 @@ Design name:unnamed:
             vpiParent: Port name:dbus
             vpiName: dbus
             vpiFullName: ac #(.ID(1)).dbus.dbus
-            vpiActual: Port name:dbus
           vpiTypespec RefTypespec name:genbus_if::slave start:17:3 end:17:18:
             vpiParent: Port name:dbus
             vpiName: genbus_if::slave
@@ -375,7 +379,6 @@ Design name:unnamed:
             vpiParent: Port name:padsif
             vpiName: padsif
             vpiFullName: ac #(.ID(1)).padsif.padsif
-            vpiActual: Port name:padsif
           vpiTypespec RefTypespec name:pads_if::mp_ana start:18:3 end:18:17:
             vpiParent: Port name:padsif
             vpiName: pads_if::mp_ana
@@ -431,12 +434,10 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: dbus
                 vpiFullName: ac #(.ID(1)).i_ac_dig.dbus
-                vpiActual: Port name:dbus
               vpiHighConn RefObj name:dbus start:44:42 end:44:46:
                 vpiParent: Port
                 vpiName: dbus
                 vpiFullName: ac #(.ID(1)).i_ac_dig.dbus
-                vpiActual: Port name:dbus
             Port start:47:4 end:47:26:
               vpiParent: RefInstance name:i_ac_dig
               vpiLowConn RefObj name:acenable start:47:5 end:47:13:
@@ -500,12 +501,10 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: padsif
                 vpiFullName: ac #(.ID(1)).i_ac_ana.padsif
-                vpiActual: Port name:padsif
               vpiHighConn RefObj name:padsif start:61:42 end:61:48:
                 vpiParent: Port
                 vpiName: padsif
                 vpiFullName: ac #(.ID(1)).i_ac_ana.padsif
-                vpiActual: Port name:padsif
             Port start:64:4 end:64:20:
               vpiParent: RefInstance name:i_ac_ana
               vpiLowConn RefObj name:acout start:64:5 end:64:10:
@@ -571,7 +570,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 2
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

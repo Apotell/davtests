@@ -658,12 +658,12 @@ n<$Source01/t_enum_type_pins.v> u<643> t<Top_level_rule> c<1> l<13:1> el<105:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_enum_type_pins.v:47:1: Compile module "t".
 [INF:CP5804] $Source01/t_enum_type_pins.v:70:1: Compile module "test".
+[WRN:CP5851] $Source01/t_enum_type_pins.v:78:31: Failed to bind "num".
+[WRN:CP5851] $Source01/t_enum_type_pins.v:86:13: Failed to bind "first".
+[WRN:CP5851] $Source01/t_enum_type_pins.v:89:20: Failed to bind "prev".
+[WRN:CP5851] $Source01/t_enum_type_pins.v:95:14: Failed to bind "last".
+[WRN:CP5851] $Source01/t_enum_type_pins.v:99:12: Failed to bind "next".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/t_enum_type_pins.v:78:31: Null Actual: id:370, type:MethodFuncCall, name:num, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_enum_type_pins.v:86:13: Null Actual: id:387, type:MethodFuncCall, name:first, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_enum_type_pins.v:89:20: Null Actual: id:397, type:MethodFuncCall, name:prev, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_enum_type_pins.v:95:14: Null Actual: id:403, type:MethodFuncCall, name:last, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_enum_type_pins.v:99:12: Null Actual: id:412, type:MethodFuncCall, name:next, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -703,6 +703,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiNet (3 items):
         Net name:clk start:51:10 end:51:13:
@@ -819,7 +820,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: t.test_i.clk
-                vpiActual: Port name:clk
+                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:59:11 end:59:14:
                 vpiParent: Port
                 vpiName: clk
@@ -866,7 +867,7 @@ Design name:unnamed:
                   vpiName: e
                   vpiFullName: test.myarray1.e
                   vpiActual: Variable name:e
-                MethodFuncCall name:num start:78:31 end:78:34:
+                SubroutineCall name:num start:78:31 end:78:34:
                   vpiParent: RefObj name:e.num
                   vpiName Identifier name:num start:78:31 end:78:34:
                   vpiIsProperty: true
@@ -888,6 +889,7 @@ Design name:unnamed:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
+        vpiActual: Library name:work
       vpiCell: test
       vpiNet (1 items):
         Net name:clk start:74:10 end:74:13:
@@ -950,7 +952,7 @@ Design name:unnamed:
                         vpiName: e
                         vpiFullName: test.e
                         vpiActual: Variable name:e
-                      MethodFuncCall name:first start:86:13 end:86:18:
+                      SubroutineCall name:first start:86:13 end:86:18:
                         vpiParent: RefObj name:e.first
                         vpiName Identifier name:first start:86:13 end:86:18:
                         vpiIsProperty: true
@@ -986,7 +988,7 @@ Design name:unnamed:
                               vpiName: e
                               vpiFullName: test.e
                               vpiActual: Variable name:e
-                            MethodFuncCall name:prev start:89:20 end:89:24:
+                            SubroutineCall name:prev start:89:20 end:89:24:
                               vpiParent: RefObj name:e.prev
                               vpiName Identifier name:prev start:89:20 end:89:24:
                               vpiIsProperty: true
@@ -1011,7 +1013,7 @@ Design name:unnamed:
                                   vpiName: e
                                   vpiFullName: test.e
                                   vpiActual: Variable name:e
-                                MethodFuncCall name:last start:95:14 end:95:18:
+                                SubroutineCall name:last start:95:14 end:95:18:
                                   vpiParent: RefObj name:e.last
                                   vpiName Identifier name:last start:95:14 end:95:18:
                                   vpiIsProperty: true
@@ -1043,7 +1045,7 @@ Design name:unnamed:
                                     vpiName: e
                                     vpiFullName: test.e
                                     vpiActual: Variable name:e
-                                  MethodFuncCall name:next start:99:12 end:99:16:
+                                  SubroutineCall name:next start:99:12 end:99:16:
                                     vpiParent: RefObj name:e.next
                                     vpiName Identifier name:next start:99:12 end:99:16:
                                     vpiIsProperty: true
@@ -1547,8 +1549,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
-[WARNING] : 0
+[  ERROR] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

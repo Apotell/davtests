@@ -72,7 +72,6 @@ n<$Source01/dut.sv> u<58> t<Top_level_rule> c<1> l<1:1> el<8:1>
         n<> u<54> t<ENDMODULE> p<55> l<7:1> el<7:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "top".
-[WRN:CP5851] $Source01/dut.sv:5:7: Failed to bind "test_output_argument".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
@@ -102,12 +101,14 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
       vpiTaskFuncDecl (1 items):
         TaskDecl name:test_output_argument start:2:4 end:2:59:
           vpiParent: Module name:top
           vpiName Identifier name:test_output_argument start:2:24 end:2:44:
           vpiFullName: top.test_output_argument
+          vpiAccessType: DPIImport (4)
           vpiDPICStr: DPI-C (2)
           vpiIODecl (1 items):
             IODecl name:o start:2:56 end:2:57:
@@ -139,14 +140,15 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: top
             vpiStmt (1 items):
-              SubroutineCall name:test_output_argument start:5:7 end:5:30:
+              MethodTaskCall name:test_output_argument start:5:7 end:5:30:
                 vpiParent: Begin
                 vpiName Identifier name:test_output_argument start:5:7 end:5:27:
+                vpiTaskFuncDecl: TaskDecl name:test_output_argument
                 vpiArgument (1 items):
                   RefObj name:a start:5:28 end:5:29:
-                    vpiParent: SubroutineCall name:test_output_argument
+                    vpiParent: MethodTaskCall name:test_output_argument
                     vpiName: a
-                    vpiFullName: top.test_output_argument.a
+                    vpiFullName: top.a
                     vpiActual: Variable name:a
   vpiTypespec (2 items):
     ModuleTypespec name:top:
@@ -165,7 +167,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

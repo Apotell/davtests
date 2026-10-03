@@ -193,6 +193,11 @@ n<$Source01/adrdec.sv> u<178> t<Top_level_rule> c<1> l<8:1> el<42:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/adrdec.sv:8:1: Compile module "adrdec".
 [WRN:CP5811] $Source01/adrdec.sv:17:20: Port "dbus" definition missing its direction (input, output, inout).
+[WRN:CP5851] $Source01/adrdec.sv:17:3: Failed to bind "genbus_if".
+[WRN:CP5851] $Source01/adrdec.sv:17:13: Failed to bind "adrdec".
+[WRN:CP5851] $Source01/adrdec.sv:30:17: Failed to bind "dbus".
+[WRN:CP5851] $Source01/adrdec.sv:31:17: Failed to bind "dbus".
+[WRN:CP5851] $Source01/adrdec.sv:34:7: Failed to bind "dbus".
 [WRN:CP5851] $Source01/adrdec.sv:34:12: Failed to bind "s_sel".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -244,6 +249,7 @@ Design name:unnamed:
         vpiParent: Module name:adrdec #(.NSLAVES(2))
         vpiName: work
         vpiFullName: adrdec #(.NSLAVES(2)).work
+        vpiActual: Library name:work
       vpiCell: adrdec
       vpiPort (1 items):
         Port name:dbus start:17:20 end:17:24:
@@ -254,7 +260,6 @@ Design name:unnamed:
             vpiParent: Port name:dbus
             vpiName: dbus
             vpiFullName: adrdec #(.NSLAVES(2)).dbus.dbus
-            vpiActual: Port name:dbus
           vpiTypespec RefTypespec name:genbus_if::adrdec start:17:3 end:17:19:
             vpiParent: Port name:dbus
             vpiName: genbus_if::adrdec
@@ -268,7 +273,6 @@ Design name:unnamed:
                 vpiParent: RefTypespec name:genbus_if::adrdec
                 vpiName: adrdec
                 vpiFullName: adrdec #(.NSLAVES(2)).dbus.genbus_if::adrdec.adrdec
-                vpiActual: ModuleTypespec name:adrdec
       vpiProcess (1 items):
         Always start:27:3 end:39:8:
           vpiParent: Module name:adrdec #(.NSLAVES(2))
@@ -349,7 +353,6 @@ Design name:unnamed:
                           vpiParent: RefObj name:dbus.s_adr[1][7:4]
                           vpiName: dbus
                           vpiFullName: adrdec #(.NSLAVES(2)).dbus
-                          vpiActual: Port name:dbus
                         PartSelect name:s_adr[1][7:4] start:30:27 end:30:35:
                           vpiParent: RefObj name:dbus.s_adr[1][7:4]
                           vpiName: s_adr[1][7:4]
@@ -439,7 +442,6 @@ Design name:unnamed:
                           vpiParent: RefObj name:dbus.s_adr[2][7:4]
                           vpiName: dbus
                           vpiFullName: adrdec #(.NSLAVES(2)).dbus
-                          vpiActual: Port name:dbus
                         PartSelect name:s_adr[2][7:4] start:31:27 end:31:35:
                           vpiParent: RefObj name:dbus.s_adr[2][7:4]
                           vpiName: s_adr[2][7:4]
@@ -506,7 +508,6 @@ Design name:unnamed:
                       vpiParent: RefObj name:dbus.s_sel
                       vpiName: dbus
                       vpiFullName: adrdec #(.NSLAVES(2)).dbus
-                      vpiActual: Port name:dbus
                     RefObj name:s_sel start:34:12 end:34:17:
                       vpiParent: RefObj name:dbus.s_sel
                       vpiName: s_sel
@@ -536,7 +537,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

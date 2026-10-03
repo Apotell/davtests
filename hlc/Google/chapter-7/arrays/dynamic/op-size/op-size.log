@@ -7,7 +7,9 @@ VERSION: 1.84
 COMMAND: -wd ../../../../../../tests/Google/chapter-7/arrays/dynamic -timescale=1ns/1ns -d ast -d db op-size.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-7/arrays/dynamic/op-size
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/op-size.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/op-size.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 126
 LIB: work
@@ -140,8 +142,6 @@ n<$Source01/op-size.sv> u<125> t<Top_level_rule> c<1> l<16:1> el<28:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/op-size.sv:16:1: Compile module "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/op-size.sv:22:41: Null Actual: id:35, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN7705] $Source01/op-size.sv:24:40: Null Actual: id:50, type:MethodFuncCall, name:size, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -208,6 +208,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
       vpiProcess (1 items):
         Initial start:20:1 end:25:4:
@@ -240,6 +241,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:22:5 end:22:46:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:22:5 end:22:13:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:22:14 end:22:35:
                     vpiParent: SysTaskCall name:$display
@@ -265,6 +267,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:arr.size
                         vpiName Identifier name:size start:22:41 end:22:45:
                         vpiIsProperty: true
+                        vpiTaskFunc: Function name:size
+                    vpiActual: MethodFuncCall name:size
               Assignment start:23:5 end:23:20:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -289,6 +293,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:24:5 end:24:45:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:24:5 end:24:13:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:24:14 end:24:34:
                     vpiParent: SysTaskCall name:$display
@@ -314,7 +319,9 @@ Design name:unnamed:
                         vpiParent: RefObj name:arr.size
                         vpiName Identifier name:size start:24:40 end:24:44:
                         vpiIsProperty: true
-  vpiTypespec (3 items):
+                        vpiTaskFunc: Function name:size
+                    vpiActual: MethodFuncCall name:size
+  vpiTypespec (8 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:16:8 end:16:11:
@@ -325,6 +332,16 @@ Design name:unnamed:
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -332,7 +349,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -377,7 +394,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/arrays/dynamic/op-size/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              49      49       0         0
+Others                            1414    1414       0         0
 ----------------------------------------------------------------
-                                    49      49       0         0
+                                  1414    1414       0         0
 ===================== END REDUCTION RESULT =====================

@@ -1673,8 +1673,13 @@ n<$Source01/cpu.sv> u<1658> t<Top_level_rule> c<1> l<8:1> el<232:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/cpu.sv:8:1: Compile module "cpu".
 [WRN:CP5811] $Source01/cpu.sv:18:22: Port "dbus" definition missing its direction (input, output, inout).
+[WRN:CP5851] $Source01/cpu.sv:18:3: Failed to bind "genbus_if".
+[WRN:CP5851] $Source01/cpu.sv:18:13: Failed to bind "master".
 [WRN:CP5851] $Source01/cpu.sv:80:26: Failed to bind "rom".
+[WRN:CP5851] $Source01/cpu.sv:205:7: Failed to bind "dbus".
 [WRN:CP5851] $Source01/cpu.sv:205:12: Failed to bind "mConnect".
+[WRN:CP5851] $Source01/cpu.sv:223:3: Failed to bind "mPreAdrDecode_resp".
+[WRN:CP5851] $Source01/cpu.sv:227:21: Failed to bind "dbus".
 [WRN:CP5851] $Source01/cpu.sv:227:26: Failed to bind "mPreAdrDecode".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -2160,6 +2165,7 @@ Design name:unnamed:
         vpiParent: Module name:cpu #(.ID(1))
         vpiName: work
         vpiFullName: cpu #(.ID(1)).work
+        vpiActual: Library name:work
       vpiCell: cpu
       vpiNet (2 items):
         Net name:clk start:26:21 end:26:24:
@@ -2191,7 +2197,6 @@ Design name:unnamed:
             vpiParent: Port name:dbus
             vpiName: dbus
             vpiFullName: cpu #(.ID(1)).dbus.dbus
-            vpiActual: Port name:dbus
           vpiTypespec RefTypespec name:genbus_if::master start:18:3 end:18:19:
             vpiParent: Port name:dbus
             vpiName: genbus_if::master
@@ -3592,7 +3597,6 @@ Design name:unnamed:
                     vpiParent: "RefObj name:dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
                     vpiName: dbus
                     vpiFullName: cpu #(.ID(1)).Conntect.dbus
-                    vpiActual: Port name:dbus
                   SubroutineCall name:mConnect start:205:12 end:216:12:
                     vpiParent: "RefObj name:dbus.mConnect(ID, sdata16, mem_ws, {2{{rf[idec_rs]}}}, {8'h00, idec_mem_adr[7:1], 1'b0}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_we}}}, {idec_mem_adr[0], ~idec_mem_adr[0]} & {2{{idec_mem_re}}})"
                     vpiName Identifier name:mConnect start:205:12 end:205:20:
@@ -3963,7 +3967,6 @@ Design name:unnamed:
                       vpiParent: RefObj name:dbus.mPreAdrDecode(0, idec_mem_adr)
                       vpiName: dbus
                       vpiFullName: cpu #(.ID(1)).PreAdrDecode.dbus
-                      vpiActual: Port name:dbus
                     SubroutineCall name:mPreAdrDecode start:227:26 end:227:58:
                       vpiParent: RefObj name:dbus.mPreAdrDecode(0, idec_mem_adr)
                       vpiName Identifier name:mPreAdrDecode start:227:26 end:227:39:
@@ -4003,7 +4006,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

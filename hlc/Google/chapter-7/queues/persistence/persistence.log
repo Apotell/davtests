@@ -7,7 +7,9 @@ VERSION: 1.84
 COMMAND: -wd ../../../../../tests/Google/chapter-7/queues -timescale=1ns/1ns -d ast -d db persistence.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-7/queues/persistence
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/persistence.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/persistence.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 318
 LIB: work
@@ -332,11 +334,6 @@ n<$Source01/persistence.sv> u<317> t<Top_level_rule> c<1> l<16:1> el<45:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/persistence.sv:16:1: Compile module "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/persistence.sv:28:4: Null Actual: id:52, type:MethodFuncCall, name:push_back, relation:vpiPathElem.
-[ERR:LN7705] $Source01/persistence.sv:29:4: Null Actual: id:59, type:MethodFuncCall, name:push_back, relation:vpiPathElem.
-[ERR:LN7705] $Source01/persistence.sv:30:4: Null Actual: id:66, type:MethodFuncCall, name:push_back, relation:vpiPathElem.
-[ERR:LN7705] $Source01/persistence.sv:39:4: Null Actual: id:113, type:MethodFuncCall, name:delete, relation:vpiPathElem.
-[ERR:LN7705] $Source01/persistence.sv:41:35: Null Actual: id:124, type:MethodFuncCall, name:size, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -385,6 +382,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
       vpiTaskFunc (1 items):
         Task name:fun start:20:1 end:25:8:
@@ -408,6 +406,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:21:2 end:21:35:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:21:2 end:21:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:21:11 end:21:31:
                     vpiParent: SysTaskCall name:$display
@@ -457,6 +456,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:24:2 end:24:36:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:24:2 end:24:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:24:11 end:24:32:
                     vpiParent: SysTaskCall name:$display
@@ -493,6 +493,7 @@ Design name:unnamed:
                   MethodFuncCall name:push_back start:28:4 end:28:16:
                     vpiParent: RefObj name:q.push_back(1)
                     vpiName Identifier name:push_back start:28:4 end:28:13:
+                    vpiTaskFunc: Function name:push_back
                     vpiArgument (1 items):
                       Constant start:28:14 end:28:15:
                         vpiParent: MethodFuncCall name:push_back
@@ -504,6 +505,7 @@ Design name:unnamed:
                         vpiSize: 64
                         vpiDecompile: "1"
                         vpiValue: 1
+                vpiActual: MethodFuncCall name:push_back
               RefObj name:q.push_back(2) start:29:2 end:29:16:
                 vpiParent: Begin
                 vpiName: q.push_back(2)
@@ -517,6 +519,7 @@ Design name:unnamed:
                   MethodFuncCall name:push_back start:29:4 end:29:16:
                     vpiParent: RefObj name:q.push_back(2)
                     vpiName Identifier name:push_back start:29:4 end:29:13:
+                    vpiTaskFunc: Function name:push_back
                     vpiArgument (1 items):
                       Constant start:29:14 end:29:15:
                         vpiParent: MethodFuncCall name:push_back
@@ -528,6 +531,7 @@ Design name:unnamed:
                         vpiSize: 64
                         vpiDecompile: "2"
                         vpiValue: 2
+                vpiActual: MethodFuncCall name:push_back
               RefObj name:q.push_back(3) start:30:2 end:30:16:
                 vpiParent: Begin
                 vpiName: q.push_back(3)
@@ -541,6 +545,7 @@ Design name:unnamed:
                   MethodFuncCall name:push_back start:30:4 end:30:16:
                     vpiParent: RefObj name:q.push_back(3)
                     vpiName Identifier name:push_back start:30:4 end:30:13:
+                    vpiTaskFunc: Function name:push_back
                     vpiArgument (1 items):
                       Constant start:30:14 end:30:15:
                         vpiParent: MethodFuncCall name:push_back
@@ -552,9 +557,11 @@ Design name:unnamed:
                         vpiSize: 64
                         vpiDecompile: "3"
                         vpiValue: 3
+                vpiActual: MethodFuncCall name:push_back
               SysTaskCall name:$display start:31:2 end:32:20:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:31:2 end:31:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (4 items):
                   Constant start:31:11 end:31:61:
                     vpiParent: SysTaskCall name:$display
@@ -623,13 +630,13 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "2"
                       vpiValue: 2
-              TaskCall name:fun start:33:2 end:33:11:
+              MethodTaskCall name:fun start:33:2 end:33:11:
                 vpiParent: Begin
                 vpiName Identifier name:fun start:33:2 end:33:5:
                 vpiTaskFunc: Task name:fun
                 vpiArgument (1 items):
                   BitSelect name:q[1] start:33:6 end:33:10:
-                    vpiParent: TaskCall name:fun
+                    vpiParent: MethodTaskCall name:fun
                     vpiName: q[1]
                     vpiFullName: top.q[1]
                     vpiPrefix RefObj name:q start:33:6 end:33:7:
@@ -658,6 +665,7 @@ Design name:unnamed:
                 vpiStmt SysTaskCall name:$display start:38:2 end:38:38:
                   vpiParent: DelayControl
                   vpiName Identifier name:$display start:38:2 end:38:10:
+                  vpiTaskFunc: Task name:$display
                   vpiArgument (2 items):
                     Constant start:38:11 end:38:31:
                       vpiParent: SysTaskCall name:$display
@@ -711,6 +719,8 @@ Design name:unnamed:
                   MethodFuncCall name:delete start:39:4 end:39:12:
                     vpiParent: RefObj name:q.delete()
                     vpiName Identifier name:delete start:39:4 end:39:10:
+                    vpiTaskFunc: Function name:delete
+                vpiActual: MethodFuncCall name:delete
               DelayControl start:40:2 end:40:6:
                 vpiParent: Begin
                 vpiDelay Constant start:40:3 end:40:6:
@@ -726,6 +736,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:41:2 end:41:40:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:41:2 end:41:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:41:11 end:41:31:
                     vpiParent: SysTaskCall name:$display
@@ -751,7 +762,9 @@ Design name:unnamed:
                         vpiParent: RefObj name:q.size
                         vpiName Identifier name:size start:41:35 end:41:39:
                         vpiIsProperty: true
-  vpiTypespec (3 items):
+                        vpiTaskFunc: Function name:size
+                    vpiActual: MethodFuncCall name:size
+  vpiTypespec (8 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:16:8 end:16:11:
@@ -762,6 +775,16 @@ Design name:unnamed:
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -769,7 +792,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 5
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -814,7 +837,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/queues/persistence/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             109     109       0         0
+Others                            1474    1474       0         0
 ----------------------------------------------------------------
-                                   109     109       0         0
+                                  1474    1474       0         0
 ===================== END REDUCTION RESULT =====================

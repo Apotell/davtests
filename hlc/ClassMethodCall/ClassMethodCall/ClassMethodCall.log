@@ -45,6 +45,7 @@ Design name:unnamed:
         vpiParent: Package name:pack
         vpiName: work
         vpiFullName: pack::work
+        vpiActual: Library name:work
       vpiCell: pack
       vpiClassDefn (2 items):
         ClassDefn name:door file:$Source01/dut.sv start:4:1 end:18:9:
@@ -193,6 +194,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:door
             vpiName: work
             vpiFullName: pack::door::work
+            vpiActual: Library name:work
           vpiCell: door
           vpiMethod (1 items):
             Function name:f1 start:14:3 end:16:14:
@@ -249,6 +251,7 @@ Design name:unnamed:
             vpiParent: ClassDefn name:doorOpen
             vpiName: work
             vpiFullName: pack::doorOpen::work
+            vpiActual: Library name:work
           vpiCell: doorOpen
           vpiMethod (3 items):
             Function name:f2 start:25:5 end:27:16:
@@ -332,6 +335,7 @@ Design name:unnamed:
               vpiParent: ClassDefn name:doorOpen
               vpiName Identifier name:new:
               vpiFullName: pack::doorOpen::new
+              vpiTaskFunc: Function name:new
               vpiIODecl (1 items):
                 IODecl name:a start:23:30 end:23:31:
                   vpiParent: FunctionDecl name:new
@@ -359,29 +363,32 @@ Design name:unnamed:
             vpiName: pack::doorOpen
             vpiFullName: door_mod.open.pack::doorOpen
             vpiPathElem (2 items):
-              RefTypespec name:pack start:45:5 end:45:9:
+              RefObj name:pack start:45:5 end:45:9:
                 vpiParent: RefTypespec name:pack::doorOpen
                 vpiName: pack
-                vpiFullName: door_mod.open.pack::doorOpen.pack
-                vpiPathElem (1 items):
-                  RefObj name:pack start:45:5 end:45:9:
-                    vpiParent: RefTypespec name:pack
-                    vpiName: pack
-                    vpiFullName: door_mod.open.pack::doorOpen.pack
-                    vpiActual: Package name:pack
+                vpiFullName: door_mod.open.pack
+                vpiActual: Package name:pack
               RefTypespec name:doorOpen start:45:11 end:45:19:
                 vpiParent: RefTypespec name:pack::doorOpen
                 vpiName: doorOpen
                 vpiFullName: door_mod.open.pack::doorOpen.doorOpen
+                vpiActual: ClassTypespec name:doorOpen
             vpiActual: ClassTypespec name:doorOpen
           vpiName: open
           vpiFullName: door_mod.open
+      vpiTypespec (1 items):
+        ClassTypespec name:doorOpen start:45:11 end:45:19:
+          vpiParent: Module name:door_mod
+          vpiName Identifier name:doorOpen start:45:11 end:45:19:
+          vpiDefName: doorOpen
+          vpiClassDefn: ClassDefn name:doorOpen
       vpiDefName: door_mod
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:43:8 end:43:16:
         vpiParent: Module name:door_mod
         vpiName: work
         vpiFullName: door_mod.work
+        vpiActual: Library name:work
       vpiCell: door_mod
       vpiProcess (1 items):
         Initial start:46:5 end:50:8:
@@ -416,6 +423,7 @@ Design name:unnamed:
                     vpiParent: RefObj name:open.door_fsm()
                     vpiName Identifier name:door_fsm start:48:14 end:48:22:
                     vpiTaskFunc: Task name:door_fsm
+                vpiActual: MethodTaskCall name:door_fsm
               RefObj name:open.f1() start:49:9 end:49:18:
                 vpiParent: Begin
                 vpiName: open.f1()
@@ -430,6 +438,7 @@ Design name:unnamed:
                     vpiParent: RefObj name:open.f1()
                     vpiName Identifier name:f1 start:49:14 end:49:16:
                     vpiTaskFunc: Function name:f1
+                vpiActual: MethodFuncCall name:f1
   vpiTypespec (3 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -493,7 +502,7 @@ COMMAND: ${HLC_DIR}/regression/ClassMethodCall/ClassMethodCall/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             113     113       0         0
+Others                             114     114       0         0
 ----------------------------------------------------------------
-                                   113     113       0         0
+                                   114     114       0         0
 ===================== END REDUCTION RESULT =====================

@@ -170,7 +170,6 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_dpi_string.v:19:20: Failed to bind "SOME_STRING".
 [WRN:CP5851] $Source01/t_dpi_string.v:20:23: Failed to bind "DSM".
 [WRN:CP5851] $Source01/t_dpi_string.v:20:27: Failed to bind "SOME_STRING".
-[WRN:CP5851] $Source01/t_dpi_string.v:20:11: Failed to bind "dpii_string".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -191,12 +190,14 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiTaskFuncDecl (1 items):
         FunctionDecl name:dpii_string start:10:4 end:10:67:
           vpiParent: Module name:t
           vpiName Identifier name:dpii_string start:10:32 end:10:43:
           vpiFullName: t.dpii_string
+          vpiAccessType: DPIImport (4)
           vpiDPICStr: DPI-C (2)
           vpiIODecl (1 items):
             IODecl name:DSM_NAME start:10:57 end:10:65:
@@ -251,23 +252,24 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiOpType: not equal (15)
                   vpiOperand (2 items):
-                    SubroutineCall name:dpii_string start:20:11 end:20:39:
+                    MethodFuncCall name:dpii_string start:20:11 end:20:39:
                       vpiParent: Operation
                       vpiName Identifier name:dpii_string start:20:11 end:20:22:
+                      vpiTaskFuncDecl: FunctionDecl name:dpii_string
                       vpiArgument (1 items):
                         RefObj name:DSM.SOME_STRING start:20:23 end:20:38:
-                          vpiParent: SubroutineCall name:dpii_string
+                          vpiParent: MethodFuncCall name:dpii_string
                           vpiName: DSM.SOME_STRING
-                          vpiFullName: t.dpii_string.DSM.SOME_STRING
+                          vpiFullName: t.DSM.SOME_STRING
                           vpiPathElem (2 items):
                             RefObj name:DSM start:20:23 end:20:26:
                               vpiParent: RefObj name:DSM.SOME_STRING
                               vpiName: DSM
-                              vpiFullName: t.dpii_string.DSM
+                              vpiFullName: t.DSM
                             RefObj name:SOME_STRING start:20:27 end:20:38:
                               vpiParent: RefObj name:DSM.SOME_STRING
                               vpiName: SOME_STRING
-                              vpiFullName: t.dpii_string.SOME_STRING
+                              vpiFullName: t.SOME_STRING
                     Constant start:20:43 end:20:44:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -338,7 +340,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 5
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

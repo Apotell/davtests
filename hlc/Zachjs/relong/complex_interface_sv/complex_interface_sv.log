@@ -346,8 +346,11 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/relong/complex_interface.sv:13:1: Compile module "CacheWithInterface".
 [INF:CP5804] $Source01/relong/complex_interface.sv:38:1: Compile module "CacheSet".
 [WRN:CP5811] $Source01/relong/complex_interface.sv:39:32: Port "data" definition missing its direction (input, output, inout).
+[WRN:CP5851] $Source01/relong/complex_interface.sv:45:13: Failed to bind "data".
 [WRN:CP5851] $Source01/relong/complex_interface.sv:45:18: Failed to bind "response".
+[WRN:CP5851] $Source01/relong/complex_interface.sv:47:13: Failed to bind "data".
 [WRN:CP5851] $Source01/relong/complex_interface.sv:47:18: Failed to bind "response".
+[WRN:CP5851] $Source01/relong/complex_interface.sv:47:31: Failed to bind "data".
 [WRN:CP5851] $Source01/relong/complex_interface.sv:47:36: Failed to bind "request".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -432,6 +435,7 @@ Design name:unnamed:
         vpiParent: Interface name:CacheSetInterface
         vpiName: work
         vpiFullName: CacheSetInterface.work
+        vpiActual: Library name:work
       vpiCell: CacheSetInterface
       vpiNet (1 items):
         Net name:request start:2:23 end:2:30:
@@ -636,6 +640,7 @@ Design name:unnamed:
         vpiParent: Module name:CacheWithInterface
         vpiName: work
         vpiFullName: CacheWithInterface.work
+        vpiActual: Library name:work
       vpiCell: CacheWithInterface
       vpiNet (3 items):
         Net name:dataIn start:14:23 end:14:29:
@@ -809,20 +814,21 @@ Design name:unnamed:
                     vpiName: CacheSet
                     vpiFullName: CacheWithInterface.set.CacheSet
                     vpiActual: Module name:CacheSet
+                vpiActual: Module name:CacheSet
             Port start:29:9 end:29:15:
               vpiParent: RefInstance name:set
               vpiLowConn RefObj name:clock start:29:10 end:29:15:
                 vpiParent: Port
                 vpiName: clock
                 vpiFullName: CacheWithInterface.set.clock
-                vpiActual: Port name:clock
+                vpiActual: Net name:clock
             Port start:30:9 end:30:15:
               vpiParent: RefInstance name:set
               vpiLowConn RefObj name:clear start:30:10 end:30:15:
                 vpiParent: Port
                 vpiName: clear
                 vpiFullName: CacheWithInterface.set.clear
-                vpiActual: Port name:clear
+                vpiActual: Net name:clear
     Module name:CacheSet file:$Source01/relong/complex_interface.sv start:38:1 end:49:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:CacheSet start:38:8 end:38:16:
@@ -836,6 +842,7 @@ Design name:unnamed:
         vpiParent: Module name:CacheSet
         vpiName: work
         vpiFullName: CacheSet.work
+        vpiActual: Library name:work
       vpiCell: CacheSet
       vpiNet (2 items):
         Net name:clock start:40:17 end:40:22:
@@ -867,7 +874,6 @@ Design name:unnamed:
             vpiParent: Port name:data
             vpiName: data
             vpiFullName: CacheSet.data.data
-            vpiActual: Port name:data
           vpiTypespec RefTypespec name:CacheSetInterface::CacheSet start:39:5 end:39:31:
             vpiParent: Port name:data
             vpiName: CacheSetInterface::CacheSet
@@ -883,6 +889,7 @@ Design name:unnamed:
                 vpiName: CacheSet
                 vpiFullName: CacheSet.data.CacheSetInterface::CacheSet.CacheSet
                 vpiActual: ModuleTypespec name:CacheSet
+            vpiActual: ModuleTypespec name:CacheSet
         Port name:clock start:40:17 end:40:22:
           vpiParent: Module name:CacheSet
           vpiName: clock
@@ -941,7 +948,6 @@ Design name:unnamed:
                       vpiParent: RefObj name:data.response
                       vpiName: data
                       vpiFullName: CacheSet.data
-                      vpiActual: Port name:data
                     RefObj name:response start:45:18 end:45:26:
                       vpiParent: RefObj name:data.response
                       vpiName: response
@@ -967,7 +973,6 @@ Design name:unnamed:
                       vpiParent: RefObj name:data.response
                       vpiName: data
                       vpiFullName: CacheSet.data
-                      vpiActual: Port name:data
                     RefObj name:response start:47:18 end:47:26:
                       vpiParent: RefObj name:data.response
                       vpiName: response
@@ -985,7 +990,6 @@ Design name:unnamed:
                           vpiParent: RefObj name:data.request
                           vpiName: data
                           vpiFullName: CacheSet.data
-                          vpiActual: Port name:data
                         RefObj name:request start:47:36 end:47:43:
                           vpiParent: RefObj name:data.request
                           vpiName: request
@@ -1020,7 +1024,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

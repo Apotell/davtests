@@ -944,16 +944,35 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/svinterfaces/svinterface1.sv:99:28: Port "u_MyInterfaceInSub3" definition missing its direction (input, output, inout).
 [WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:22:40: Failed to bind "mysig_out".
 [WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:25:30: Failed to bind "setting".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:62:5: Failed to bind "MyInterface".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:62:17: Failed to bind "submodule1".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:70:7: Failed to bind "u_MyInterface".
 [WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:70:21: Failed to bind "mysig_out".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:72:10: Failed to bind "u_MyInterface".
 [WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:72:24: Failed to bind "setting".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:73:9: Failed to bind "u_MyInterface".
 [WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:73:23: Failed to bind "mysig_out".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:75:9: Failed to bind "u_MyInterface".
 [WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:75:23: Failed to bind "mysig_out".
 [WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:87:48: Failed to bind "other_setting".
 [WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:89:37: Failed to bind "setting".
 [WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:90:37: Failed to bind "mysig_out".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:98:5: Failed to bind "MyInterface".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:98:17: Failed to bind "submodule2".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:99:5: Failed to bind "MyInterface".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:99:17: Failed to bind "submodule2".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:104:11: Failed to bind "u_MyInterfaceInSub3".
 [WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:104:31: Failed to bind "mysig_out".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:105:9: Failed to bind "u_MyInterfaceInSub3".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:106:16: Failed to bind "u_MyInterfaceInSub3".
 [WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:106:36: Failed to bind "mysig_out".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:107:9: Failed to bind "u_MyInterfaceInSub3".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:108:16: Failed to bind "u_MyInterfaceInSub3".
 [WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:108:36: Failed to bind "mysig_out".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:109:9: Failed to bind "u_MyInterfaceInSub3".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:111:9: Failed to bind "u_MyInterfaceInSub3".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:114:12: Failed to bind "u_MyInterfaceInSub2".
+[WRN:CP5851] $Source01/svinterfaces/svinterface1.sv:115:12: Failed to bind "u_MyInterfaceInSub2".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/svinterfaces/svinterface1.sv:12:3: Unsupported typespec "".
 [ERR:DB2029] $Source01/svinterfaces/svinterface1.sv:78:3: Unsupported typespec "".
@@ -1130,6 +1149,7 @@ Design name:unnamed:
         vpiParent: Interface name:MyInterface #(.WIDTH(3))
         vpiName: work
         vpiFullName: MyInterface #(.WIDTH(3)).work
+        vpiActual: Library name:work
       vpiCell: MyInterface
       vpiModport (2 items):
         Modport name:submodule1 start:42:13 end:42:23:
@@ -1364,6 +1384,7 @@ Design name:unnamed:
         vpiParent: Module name:TopModule
         vpiName: work
         vpiFullName: TopModule.work
+        vpiActual: Library name:work
       vpiCell: TopModule
       vpiNet (4 items):
         Net name:clk start:4:17 end:4:20:
@@ -1563,6 +1584,7 @@ Design name:unnamed:
                 vpiName: passThrough
                 vpiFullName: TopModule.passThrough
                 vpiActual: Variable name:passThrough
+            vpiActual: Variable name:passThrough
       vpiRefInstance (2 items):
         RefInstance name:MyInterfaceInstance start:12:28 end:12:47:
           vpiParent: Module name:TopModule
@@ -1586,7 +1608,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: TopModule.u_SubModule1.clk
-                vpiActual: Port name:clk
+                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:15:10 end:15:13:
                 vpiParent: Port
                 vpiName: clk
@@ -1598,7 +1620,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: rst
                 vpiFullName: TopModule.u_SubModule1.rst
-                vpiActual: Port name:rst
+                vpiActual: Net name:rst
               vpiHighConn RefObj name:rst start:16:10 end:16:13:
                 vpiParent: Port
                 vpiName: rst
@@ -1622,7 +1644,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: outOther
                 vpiFullName: TopModule.u_SubModule1.outOther
-                vpiActual: Port name:outOther
+                vpiActual: Variable name:outOther
               vpiHighConn RefObj name:outOther start:18:15 end:18:23:
                 vpiParent: Port
                 vpiName: outOther
@@ -1634,7 +1656,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: sig
                 vpiFullName: TopModule.u_SubModule1.sig
-                vpiActual: Port name:sig
+                vpiActual: Net name:sig
               vpiHighConn RefObj name:sig start:19:11 end:19:14:
                 vpiParent: Port
                 vpiName: sig
@@ -1759,6 +1781,7 @@ Design name:unnamed:
         vpiParent: Module name:SubModule1
         vpiName: work
         vpiFullName: SubModule1.work
+        vpiActual: Library name:work
       vpiCell: SubModule1
       vpiNet (3 items):
         Net name:clk start:60:17 end:60:20:
@@ -1826,7 +1849,6 @@ Design name:unnamed:
             vpiParent: Port name:u_MyInterface
             vpiName: u_MyInterface
             vpiFullName: SubModule1.u_MyInterface.u_MyInterface
-            vpiActual: Port name:u_MyInterface
           vpiTypespec RefTypespec name:MyInterface::submodule1 start:62:5 end:62:27:
             vpiParent: Port name:u_MyInterface
             vpiName: MyInterface::submodule1
@@ -1911,7 +1933,6 @@ Design name:unnamed:
                       vpiParent: RefObj name:u_MyInterface.mysig_out
                       vpiName: u_MyInterface
                       vpiFullName: SubModule1.u_MyInterface
-                      vpiActual: Port name:u_MyInterface
                     RefObj name:mysig_out start:70:21 end:70:30:
                       vpiParent: RefObj name:u_MyInterface.mysig_out
                       vpiName: mysig_out
@@ -1941,7 +1962,6 @@ Design name:unnamed:
                           vpiParent: RefObj name:u_MyInterface.setting
                           vpiName: u_MyInterface
                           vpiFullName: SubModule1.u_MyInterface
-                          vpiActual: Port name:u_MyInterface
                         RefObj name:setting start:72:24 end:72:31:
                           vpiParent: RefObj name:u_MyInterface.setting
                           vpiName: setting
@@ -1957,7 +1977,6 @@ Design name:unnamed:
                             vpiParent: RefObj name:u_MyInterface.mysig_out
                             vpiName: u_MyInterface
                             vpiFullName: SubModule1.u_MyInterface
-                            vpiActual: Port name:u_MyInterface
                           RefObj name:mysig_out start:73:23 end:73:32:
                             vpiParent: RefObj name:u_MyInterface.mysig_out
                             vpiName: mysig_out
@@ -1978,7 +1997,6 @@ Design name:unnamed:
                             vpiParent: RefObj name:u_MyInterface.mysig_out
                             vpiName: u_MyInterface
                             vpiFullName: SubModule1.u_MyInterface
-                            vpiActual: Port name:u_MyInterface
                           RefObj name:mysig_out start:75:23 end:75:32:
                             vpiParent: RefObj name:u_MyInterface.mysig_out
                             vpiName: mysig_out
@@ -2085,7 +2103,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: clk
                 vpiFullName: SubModule1.u_SubModule2.clk
-                vpiActual: Port name:clk
+                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:81:10 end:81:13:
                 vpiParent: Port
                 vpiName: clk
@@ -2097,7 +2115,7 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: rst
                 vpiFullName: SubModule1.u_SubModule2.rst
-                vpiActual: Port name:rst
+                vpiActual: Net name:rst
               vpiHighConn RefObj name:rst start:82:10 end:82:13:
                 vpiParent: Port
                 vpiName: rst
@@ -2114,7 +2132,6 @@ Design name:unnamed:
                 vpiParent: Port
                 vpiName: u_MyInterface
                 vpiFullName: SubModule1.u_SubModule2.u_MyInterface
-                vpiActual: Port name:u_MyInterface
             Port start:84:5 end:84:51:
               vpiParent: RefInstance name:u_SubModule2
               vpiLowConn RefObj name:u_MyInterfaceInSub3 start:84:6 end:84:25:
@@ -2140,6 +2157,7 @@ Design name:unnamed:
         vpiParent: Module name:SubModule2
         vpiName: work
         vpiFullName: SubModule2.work
+        vpiActual: Library name:work
       vpiCell: SubModule2
       vpiNet (2 items):
         Net name:clk start:96:17 end:96:20:
@@ -2197,7 +2215,6 @@ Design name:unnamed:
             vpiParent: Port name:u_MyInterfaceInSub2
             vpiName: u_MyInterfaceInSub2
             vpiFullName: SubModule2.u_MyInterfaceInSub2.u_MyInterfaceInSub2
-            vpiActual: Port name:u_MyInterfaceInSub2
           vpiTypespec RefTypespec name:MyInterface::submodule2 start:98:5 end:98:27:
             vpiParent: Port name:u_MyInterfaceInSub2
             vpiName: MyInterface::submodule2
@@ -2219,7 +2236,6 @@ Design name:unnamed:
             vpiParent: Port name:u_MyInterfaceInSub3
             vpiName: u_MyInterfaceInSub3
             vpiFullName: SubModule2.u_MyInterfaceInSub3.u_MyInterfaceInSub3
-            vpiActual: Port name:u_MyInterfaceInSub3
           vpiTypespec RefTypespec name:MyInterface::submodule2 start:99:5 end:99:27:
             vpiParent: Port name:u_MyInterfaceInSub3
             vpiName: MyInterface::submodule2
@@ -2255,7 +2271,6 @@ Design name:unnamed:
                           vpiParent: RefObj name:u_MyInterfaceInSub3.mysig_out
                           vpiName: u_MyInterfaceInSub3
                           vpiFullName: SubModule2.u_MyInterfaceInSub3
-                          vpiActual: Port name:u_MyInterfaceInSub3
                         RefObj name:mysig_out start:104:31 end:104:40:
                           vpiParent: RefObj name:u_MyInterfaceInSub3.mysig_out
                           vpiName: mysig_out
@@ -2282,7 +2297,6 @@ Design name:unnamed:
                         vpiParent: RefObj name:u_MyInterfaceInSub3.other_setting[21:0]
                         vpiName: u_MyInterfaceInSub3
                         vpiFullName: SubModule2.u_MyInterfaceInSub3
-                        vpiActual: Port name:u_MyInterfaceInSub3
                       PartSelect name:other_setting[21:0] start:105:28 end:105:48:
                         vpiParent: RefObj name:u_MyInterfaceInSub3.other_setting[21:0]
                         vpiName: other_setting[21:0]
@@ -2338,7 +2352,6 @@ Design name:unnamed:
                             vpiParent: RefObj name:u_MyInterfaceInSub3.mysig_out
                             vpiName: u_MyInterfaceInSub3
                             vpiFullName: SubModule2.u_MyInterfaceInSub3
-                            vpiActual: Port name:u_MyInterfaceInSub3
                           RefObj name:mysig_out start:106:36 end:106:45:
                             vpiParent: RefObj name:u_MyInterfaceInSub3.mysig_out
                             vpiName: mysig_out
@@ -2365,7 +2378,6 @@ Design name:unnamed:
                           vpiParent: RefObj name:u_MyInterfaceInSub3.other_setting[21:0]
                           vpiName: u_MyInterfaceInSub3
                           vpiFullName: SubModule2.u_MyInterfaceInSub3
-                          vpiActual: Port name:u_MyInterfaceInSub3
                         PartSelect name:other_setting[21:0] start:107:28 end:107:48:
                           vpiParent: RefObj name:u_MyInterfaceInSub3.other_setting[21:0]
                           vpiName: other_setting[21:0]
@@ -2421,7 +2433,6 @@ Design name:unnamed:
                               vpiParent: RefObj name:u_MyInterfaceInSub3.mysig_out
                               vpiName: u_MyInterfaceInSub3
                               vpiFullName: SubModule2.u_MyInterfaceInSub3
-                              vpiActual: Port name:u_MyInterfaceInSub3
                             RefObj name:mysig_out start:108:36 end:108:45:
                               vpiParent: RefObj name:u_MyInterfaceInSub3.mysig_out
                               vpiName: mysig_out
@@ -2448,7 +2459,6 @@ Design name:unnamed:
                             vpiParent: RefObj name:u_MyInterfaceInSub3.other_setting[21:0]
                             vpiName: u_MyInterfaceInSub3
                             vpiFullName: SubModule2.u_MyInterfaceInSub3
-                            vpiActual: Port name:u_MyInterfaceInSub3
                           PartSelect name:other_setting[21:0] start:109:28 end:109:48:
                             vpiParent: RefObj name:u_MyInterfaceInSub3.other_setting[21:0]
                             vpiName: other_setting[21:0]
@@ -2501,7 +2511,6 @@ Design name:unnamed:
                             vpiParent: RefObj name:u_MyInterfaceInSub3.other_setting[21:0]
                             vpiName: u_MyInterfaceInSub3
                             vpiFullName: SubModule2.u_MyInterfaceInSub3
-                            vpiActual: Port name:u_MyInterfaceInSub3
                           PartSelect name:other_setting[21:0] start:111:28 end:111:48:
                             vpiParent: RefObj name:u_MyInterfaceInSub3.other_setting[21:0]
                             vpiName: other_setting[21:0]
@@ -2555,7 +2564,6 @@ Design name:unnamed:
                 vpiParent: RefObj name:u_MyInterfaceInSub2.passThrough[7:0]
                 vpiName: u_MyInterfaceInSub2
                 vpiFullName: SubModule2.u_MyInterfaceInSub2
-                vpiActual: Port name:u_MyInterfaceInSub2
               PartSelect name:passThrough[7:0] start:114:32 end:114:48:
                 vpiParent: RefObj name:u_MyInterfaceInSub2.passThrough[7:0]
                 vpiName: passThrough[7:0]
@@ -2607,7 +2615,6 @@ Design name:unnamed:
                 vpiParent: RefObj name:u_MyInterfaceInSub2.passThrough[15:8]
                 vpiName: u_MyInterfaceInSub2
                 vpiFullName: SubModule2.u_MyInterfaceInSub2
-                vpiActual: Port name:u_MyInterfaceInSub2
               PartSelect name:passThrough[15:8] start:115:32 end:115:49:
                 vpiParent: RefObj name:u_MyInterfaceInSub2.passThrough[15:8]
                 vpiName: passThrough[15:8]
@@ -2682,7 +2689,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 15
+[WARNING] : 34
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

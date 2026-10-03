@@ -580,16 +580,27 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/relong/simple_interface.sv:47:30: Port "myInterface" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/relong/simple_interface.sv:63:1: Compile module "Consumer".
 [WRN:CP5811] $Source01/relong/simple_interface.sv:64:30: Port "myInterface" definition missing its direction (input, output, inout).
+[WRN:CP5851] $Source01/relong/simple_interface.sv:51:25: Failed to bind "myInterface".
 [WRN:CP5851] $Source01/relong/simple_interface.sv:51:37: Failed to bind "clock".
+[WRN:CP5851] $Source01/relong/simple_interface.sv:52:12: Failed to bind "myInterface".
 [WRN:CP5851] $Source01/relong/simple_interface.sv:52:24: Failed to bind "clear".
+[WRN:CP5851] $Source01/relong/simple_interface.sv:54:21: Failed to bind "myInterface".
 [WRN:CP5851] $Source01/relong/simple_interface.sv:54:33: Failed to bind "shift".
+[WRN:CP5851] $Source01/relong/simple_interface.sv:59:12: Failed to bind "myInterface".
 [WRN:CP5851] $Source01/relong/simple_interface.sv:59:24: Failed to bind "data".
+[WRN:CP5851] $Source01/relong/simple_interface.sv:70:26: Failed to bind "myInterface".
 [WRN:CP5851] $Source01/relong/simple_interface.sv:70:38: Failed to bind "shift".
+[WRN:CP5851] $Source01/relong/simple_interface.sv:72:25: Failed to bind "myInterface".
 [WRN:CP5851] $Source01/relong/simple_interface.sv:72:37: Failed to bind "clock".
+[WRN:CP5851] $Source01/relong/simple_interface.sv:73:12: Failed to bind "myInterface".
 [WRN:CP5851] $Source01/relong/simple_interface.sv:73:24: Failed to bind "clear".
+[WRN:CP5851] $Source01/relong/simple_interface.sv:74:13: Failed to bind "myInterface".
 [WRN:CP5851] $Source01/relong/simple_interface.sv:74:25: Failed to bind "shift".
+[WRN:CP5851] $Source01/relong/simple_interface.sv:76:13: Failed to bind "myInterface".
 [WRN:CP5851] $Source01/relong/simple_interface.sv:76:25: Failed to bind "shift".
+[WRN:CP5851] $Source01/relong/simple_interface.sv:76:35: Failed to bind "myInterface".
 [WRN:CP5851] $Source01/relong/simple_interface.sv:76:47: Failed to bind "shift".
+[WRN:CP5851] $Source01/relong/simple_interface.sv:79:22: Failed to bind "myInterface".
 [WRN:CP5851] $Source01/relong/simple_interface.sv:79:34: Failed to bind "data".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -679,6 +690,7 @@ Design name:unnamed:
         vpiParent: Interface name:SimpleInterface
         vpiName: work
         vpiFullName: SimpleInterface.work
+        vpiActual: Library name:work
       vpiCell: SimpleInterface
       vpiModport (2 items):
         Modport name:Producer start:7:13 end:7:21:
@@ -855,6 +867,7 @@ Design name:unnamed:
         vpiParent: Module name:Device
         vpiName: work
         vpiFullName: Device.work
+        vpiActual: Library name:work
       vpiCell: Device
       vpiPort (4 items):
         Port name:dataIn start:23:23 end:23:29:
@@ -964,13 +977,14 @@ Design name:unnamed:
                     vpiName: Producer
                     vpiFullName: Device.producer.Producer
                     vpiActual: Module name:Producer
+                vpiActual: Module name:Producer
             Port start:34:9 end:34:16:
               vpiParent: RefInstance name:producer
               vpiLowConn RefObj name:dataIn start:34:10 end:34:16:
                 vpiParent: Port
                 vpiName: dataIn
                 vpiFullName: Device.producer.dataIn
-                vpiActual: Port name:dataIn
+                vpiActual: Variable name:dataIn
         RefInstance name:consumer start:37:14 end:37:22:
           vpiParent: Module name:Device
           vpiName: consumer
@@ -1002,13 +1016,14 @@ Design name:unnamed:
                     vpiName: Consumer
                     vpiFullName: Device.consumer.Consumer
                     vpiActual: Module name:Consumer
+                vpiActual: Module name:Consumer
             Port start:39:9 end:39:17:
               vpiParent: RefInstance name:consumer
               vpiLowConn RefObj name:dataOut start:39:10 end:39:17:
                 vpiParent: Port
                 vpiName: dataOut
                 vpiFullName: Device.consumer.dataOut
-                vpiActual: Port name:dataOut
+                vpiActual: Variable name:dataOut
     Module name:Producer file:$Source01/relong/simple_interface.sv start:46:1 end:61:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Producer start:46:8 end:46:16:
@@ -1091,6 +1106,7 @@ Design name:unnamed:
         vpiParent: Module name:Producer
         vpiName: work
         vpiFullName: Producer.work
+        vpiActual: Library name:work
       vpiCell: Producer
       vpiPort (2 items):
         Port name:myInterface start:47:30 end:47:41:
@@ -1101,7 +1117,6 @@ Design name:unnamed:
             vpiParent: Port name:myInterface
             vpiName: myInterface
             vpiFullName: Producer.myInterface.myInterface
-            vpiActual: Port name:myInterface
           vpiTypespec RefTypespec name:SimpleInterface::Producer start:47:5 end:47:29:
             vpiParent: Port name:myInterface
             vpiName: SimpleInterface::Producer
@@ -1117,6 +1132,7 @@ Design name:unnamed:
                 vpiName: Producer
                 vpiFullName: Producer.myInterface.SimpleInterface::Producer.Producer
                 vpiActual: ModuleTypespec name:Producer
+            vpiActual: ModuleTypespec name:Producer
         Port name:dataIn start:48:23 end:48:29:
           vpiParent: Module name:Producer
           vpiName: dataIn
@@ -1148,7 +1164,6 @@ Design name:unnamed:
                       vpiParent: RefObj name:myInterface.clock
                       vpiName: myInterface
                       vpiFullName: Producer.myInterface
-                      vpiActual: Port name:myInterface
                     RefObj name:clock start:51:37 end:51:42:
                       vpiParent: RefObj name:myInterface.clock
                       vpiName: clock
@@ -1168,7 +1183,6 @@ Design name:unnamed:
                         vpiParent: RefObj name:myInterface.clear
                         vpiName: myInterface
                         vpiFullName: Producer.myInterface
-                        vpiActual: Port name:myInterface
                       RefObj name:clear start:52:24 end:52:29:
                         vpiParent: RefObj name:myInterface.clear
                         vpiName: clear
@@ -1205,7 +1219,6 @@ Design name:unnamed:
                           vpiParent: RefObj name:myInterface.shift
                           vpiName: myInterface
                           vpiFullName: Producer.myInterface
-                          vpiActual: Port name:myInterface
                         RefObj name:shift start:54:33 end:54:38:
                           vpiParent: RefObj name:myInterface.shift
                           vpiName: shift
@@ -1274,7 +1287,6 @@ Design name:unnamed:
                 vpiParent: RefObj name:myInterface.data
                 vpiName: myInterface
                 vpiFullName: Producer.myInterface
-                vpiActual: Port name:myInterface
               RefObj name:data start:59:24 end:59:28:
                 vpiParent: RefObj name:myInterface.data
                 vpiName: data
@@ -1342,6 +1354,7 @@ Design name:unnamed:
         vpiParent: Module name:Consumer
         vpiName: work
         vpiFullName: Consumer.work
+        vpiActual: Library name:work
       vpiCell: Consumer
       vpiPort (2 items):
         Port name:myInterface start:64:30 end:64:41:
@@ -1352,7 +1365,6 @@ Design name:unnamed:
             vpiParent: Port name:myInterface
             vpiName: myInterface
             vpiFullName: Consumer.myInterface.myInterface
-            vpiActual: Port name:myInterface
           vpiTypespec RefTypespec name:SimpleInterface::Consumer start:64:5 end:64:29:
             vpiParent: Port name:myInterface
             vpiName: SimpleInterface::Consumer
@@ -1368,6 +1380,7 @@ Design name:unnamed:
                 vpiName: Consumer
                 vpiFullName: Consumer.myInterface.SimpleInterface::Consumer.Consumer
                 vpiActual: ModuleTypespec name:Consumer
+            vpiActual: ModuleTypespec name:Consumer
         Port name:dataOut start:65:25 end:65:32:
           vpiParent: Module name:Consumer
           vpiName: dataOut
@@ -1399,7 +1412,6 @@ Design name:unnamed:
                       vpiParent: RefObj name:myInterface.clock
                       vpiName: myInterface
                       vpiFullName: Consumer.myInterface
-                      vpiActual: Port name:myInterface
                     RefObj name:clock start:72:37 end:72:42:
                       vpiParent: RefObj name:myInterface.clock
                       vpiName: clock
@@ -1415,7 +1427,6 @@ Design name:unnamed:
                     vpiParent: RefObj name:myInterface.clear
                     vpiName: myInterface
                     vpiFullName: Consumer.myInterface
-                    vpiActual: Port name:myInterface
                   RefObj name:clear start:73:24 end:73:29:
                     vpiParent: RefObj name:myInterface.clear
                     vpiName: clear
@@ -1438,7 +1449,6 @@ Design name:unnamed:
                           vpiParent: RefObj name:myInterface.shift
                           vpiName: myInterface
                           vpiFullName: Consumer.myInterface
-                          vpiActual: Port name:myInterface
                         RefObj name:shift start:74:25 end:74:30:
                           vpiParent: RefObj name:myInterface.shift
                           vpiName: shift
@@ -1468,7 +1478,6 @@ Design name:unnamed:
                           vpiParent: RefObj name:myInterface.shift
                           vpiName: myInterface
                           vpiFullName: Consumer.myInterface
-                          vpiActual: Port name:myInterface
                         RefObj name:shift start:76:25 end:76:30:
                           vpiParent: RefObj name:myInterface.shift
                           vpiName: shift
@@ -1486,7 +1495,6 @@ Design name:unnamed:
                               vpiParent: RefObj name:myInterface.shift
                               vpiName: myInterface
                               vpiFullName: Consumer.myInterface
-                              vpiActual: Port name:myInterface
                             RefObj name:shift start:76:47 end:76:52:
                               vpiParent: RefObj name:myInterface.shift
                               vpiName: shift
@@ -1509,7 +1517,6 @@ Design name:unnamed:
                 vpiParent: RefObj name:myInterface.shift
                 vpiName: myInterface
                 vpiFullName: Consumer.myInterface
-                vpiActual: Port name:myInterface
               RefObj name:shift start:70:38 end:70:43:
                 vpiParent: RefObj name:myInterface.shift
                 vpiName: shift
@@ -1530,7 +1537,6 @@ Design name:unnamed:
                 vpiParent: RefObj name:myInterface.data
                 vpiName: myInterface
                 vpiFullName: Consumer.myInterface
-                vpiActual: Port name:myInterface
               RefObj name:data start:79:34 end:79:38:
                 vpiParent: RefObj name:myInterface.data
                 vpiName: data
@@ -1571,7 +1577,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 13
+[WARNING] : 24
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

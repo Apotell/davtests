@@ -156,8 +156,6 @@ n<$Source01/t_dpi_lib.v> u<142> t<Top_level_rule> c<1> l<8:1> el<27:1>
         n<> u<138> t<ENDMODULE> p<139> l<26:1> el<26:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_dpi_lib.v:8:1: Compile module "t".
-[WRN:CP5851] $Source01/t_dpi_lib.v:14:7: Failed to bind "dpii_check".
-[WRN:CP5851] $Source01/t_dpi_lib.v:16:11: Failed to bind "dpii_failure".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -178,12 +176,14 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiTaskFuncDecl (2 items):
         FunctionDecl name:dpii_failure start:10:4 end:10:47:
           vpiParent: Module name:t
           vpiName Identifier name:dpii_failure start:10:32 end:10:44:
           vpiFullName: t.dpii_failure
+          vpiAccessType: DPIImport (4)
           vpiDPICStr: DPI-C (2)
           vpiReturn RefTypespec start:10:28 end:10:31:
             vpiParent: FunctionDecl name:dpii_failure
@@ -193,6 +193,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:dpii_check start:11:33 end:11:43:
           vpiFullName: t.dpii_check
+          vpiAccessType: DPIImport (4)
           vpiDPICStr: DPI-C (2)
           vpiReturn RefTypespec start:11:28 end:11:32:
             vpiParent: FunctionDecl name:dpii_check
@@ -205,18 +206,20 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: t
             vpiStmt (2 items):
-              SubroutineCall name:dpii_check start:14:7 end:14:19:
+              MethodFuncCall name:dpii_check start:14:7 end:14:19:
                 vpiParent: Begin
                 vpiName Identifier name:dpii_check start:14:7 end:14:17:
+                vpiTaskFuncDecl: FunctionDecl name:dpii_check
               IfElse start:16:7 end:23:10:
                 vpiParent: Begin
                 vpiCondition Operation start:16:11 end:16:28:
                   vpiParent: IfElse
                   vpiOpType: not equal (15)
                   vpiOperand (2 items):
-                    SubroutineCall name:dpii_failure start:16:11 end:16:25:
+                    MethodFuncCall name:dpii_failure start:16:11 end:16:25:
                       vpiParent: Operation
                       vpiName Identifier name:dpii_failure start:16:11 end:16:23:
+                      vpiTaskFuncDecl: FunctionDecl name:dpii_failure
                     Constant start:16:27 end:16:28:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -292,7 +295,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

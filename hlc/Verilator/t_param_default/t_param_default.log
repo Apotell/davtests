@@ -128,7 +128,6 @@ n<$Source01/t_param_default.v> u<113> t<Top_level_rule> c<1> l<6:1> el<20:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_param_default.v:6:1: Compile module "m".
 [INF:CP5804] $Source01/t_param_default.v:9:1: Compile module "t".
-[WRN:CP5851] $Source01/t_param_default.v:14:13: Failed to bind "Foo".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -166,6 +165,7 @@ Design name:unnamed:
         vpiParent: Module name:m #(.Foo())
         vpiName: work
         vpiFullName: m #(.Foo()).work
+        vpiActual: Library name:work
       vpiCell: m
     Module name:t file:$Source01/t_param_default.v start:9:1 end:19:10:
       vpiParent: Design name:unnamed
@@ -197,6 +197,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiProcess (1 items):
         Initial start:13:4 end:17:7:
@@ -225,6 +226,8 @@ Design name:unnamed:
                           vpiParent: RefObj name:foo.Foo
                           vpiName: Foo
                           vpiFullName: t.Foo
+                          vpiActual: Parameter name:Foo
+                      vpiActual: Parameter name:Foo
                     Constant start:14:20 end:14:22:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -290,7 +293,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -528,10 +528,6 @@ n<$Source01/t_dpi_context.v> u<489> t<Top_level_rule> c<1> l<8:1> el<67:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_dpi_context.v:8:1: Compile module "t".
 [INF:CP5804] $Source01/t_dpi_context.v:25:1: Compile module "sub".
-[WRN:CP5851] $Source01/t_dpi_context.v:14:9: Failed to bind "test1".
-[WRN:CP5851] $Source01/t_dpi_context.v:15:9: Failed to bind "test1".
-[WRN:CP5851] $Source01/t_dpi_context.v:16:9: Failed to bind "test2".
-[WRN:CP5851] $Source01/t_dpi_context.v:17:9: Failed to bind "test2".
 [WRN:CP5851] $Source01/t_dpi_context.v:50:11: Failed to bind "dpic_restore".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -564,6 +560,7 @@ Design name:unnamed:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
+        vpiActual: Library name:work
       vpiCell: t
       vpiProcess (1 items):
         Initial start:13:4 end:21:7:
@@ -586,6 +583,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:a.test1
                     vpiName: test1
                     vpiFullName: t.test1
+                    vpiActual: Task name:test1
+                vpiActual: Task name:test1
               RefObj name:b.test1 start:15:7 end:15:14:
                 vpiParent: Begin
                 vpiName: b.test1
@@ -600,6 +599,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:b.test1
                     vpiName: test1
                     vpiFullName: t.test1
+                    vpiActual: Task name:test1
+                vpiActual: Task name:test1
               RefObj name:a.test2 start:16:7 end:16:14:
                 vpiParent: Begin
                 vpiName: a.test2
@@ -614,6 +615,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:a.test2
                     vpiName: test2
                     vpiFullName: t.test2
+                    vpiActual: Task name:test2
+                vpiActual: Task name:test2
               RefObj name:b.test2 start:17:7 end:17:14:
                 vpiParent: Begin
                 vpiName: b.test2
@@ -628,6 +631,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:b.test2
                     vpiName: test2
                     vpiFullName: t.test2
+                    vpiActual: Task name:test2
+                vpiActual: Task name:test2
               SysTaskCall name:$write start:19:7 end:19:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:19:7 end:19:13:
@@ -730,6 +735,7 @@ Design name:unnamed:
         vpiParent: Module name:sub
         vpiName: work
         vpiFullName: sub.work
+        vpiActual: Library name:work
       vpiCell: sub
       vpiTaskFunc (5 items):
         Function name:dpic_line start:27:27 end:28:26:
@@ -815,7 +821,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: result
                   vpiFullName: sub.test1.result
-                vpiRhs FuncCall name:dpic_line start:37:16 end:37:27:
+                vpiRhs MethodFuncCall name:dpic_line start:37:16 end:37:27:
                   vpiParent: Assignment
                   vpiName Identifier name:dpic_line start:37:16 end:37:25:
                   vpiTaskFunc: Function name:dpic_line
@@ -840,13 +846,13 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: result
                   vpiFullName: sub.test1.result
-                vpiRhs FuncCall name:dpic_save start:45:16 end:45:34:
+                vpiRhs MethodFuncCall name:dpic_save start:45:16 end:45:34:
                   vpiParent: Assignment
                   vpiName Identifier name:dpic_save start:45:16 end:45:25:
                   vpiTaskFunc: Function name:dpic_save
                   vpiArgument (1 items):
                     Operation start:45:26 end:45:33:
-                      vpiParent: FuncCall name:dpic_save
+                      vpiParent: MethodFuncCall name:dpic_save
                       vpiOpType: add (24)
                       vpiOperand (2 items):
                         Constant start:45:26 end:45:28:
@@ -963,7 +969,7 @@ Design name:unnamed:
                   vpiName: cntxt1
                   vpiFullName: sub.cntxt1
                   vpiActual: Variable name:cntxt1
-                vpiRhs FuncCall name:dpic_getcontext start:57:15 end:57:32:
+                vpiRhs MethodFuncCall name:dpic_getcontext start:57:15 end:57:32:
                   vpiParent: Assignment
                   vpiName Identifier name:dpic_getcontext start:57:15 end:57:30:
                   vpiTaskFunc: Function name:dpic_getcontext
@@ -980,7 +986,7 @@ Design name:unnamed:
                       vpiName: cntxt2
                       vpiFullName: sub.caller_context.cntxt2
                       vpiActual: Variable name:cntxt2
-                    vpiRhs FuncCall name:dpic_getcontext start:60:17 end:60:34:
+                    vpiRhs MethodFuncCall name:dpic_getcontext start:60:17 end:60:34:
                       vpiParent: Assignment
                       vpiName Identifier name:dpic_getcontext start:60:17 end:60:32:
                       vpiTaskFunc: Function name:dpic_getcontext
@@ -1030,7 +1036,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 8
 [  ERROR] : 0
-[WARNING] : 5
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

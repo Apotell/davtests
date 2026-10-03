@@ -813,7 +813,11 @@ n<$Source01/ac_dig.sv> u<798> t<Top_level_rule> c<1> l<8:1> el<144:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/ac_dig.sv:8:1: Compile module "ac_dig".
 [WRN:CP5811] $Source01/ac_dig.sv:17:19: Port "dbus" definition missing its direction (input, output, inout).
+[WRN:CP5851] $Source01/ac_dig.sv:17:3: Failed to bind "genbus_if".
+[WRN:CP5851] $Source01/ac_dig.sv:17:13: Failed to bind "slave".
+[WRN:CP5851] $Source01/ac_dig.sv:81:7: Failed to bind "dbus".
 [WRN:CP5851] $Source01/ac_dig.sv:81:12: Failed to bind "sConnect".
+[WRN:CP5851] $Source01/ac_dig.sv:81:23: Failed to bind "id".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1204,6 +1208,7 @@ Design name:unnamed:
         vpiParent: Module name:ac_dig #(.ID(1))
         vpiName: work
         vpiFullName: ac_dig #(.ID(1)).work
+        vpiActual: Library name:work
       vpiCell: ac_dig
       vpiNet (3 items):
         Net name:acout start:25:22 end:25:27:
@@ -1245,7 +1250,6 @@ Design name:unnamed:
             vpiParent: Port name:dbus
             vpiName: dbus
             vpiFullName: ac_dig #(.ID(1)).dbus.dbus
-            vpiActual: Port name:dbus
           vpiTypespec RefTypespec name:genbus_if::slave start:17:3 end:17:18:
             vpiParent: Port name:dbus
             vpiName: genbus_if::slave
@@ -1327,7 +1331,6 @@ Design name:unnamed:
                     vpiParent: RefObj name:dbus.sConnect(.id(ID), .rst(rst), .sdata(sdata), .ws(ws), .mdata(mdata), .adr(adr[1:0]), .we(we), .re(re))
                     vpiName: dbus
                     vpiFullName: ac_dig #(.ID(1)).dbus
-                    vpiActual: Port name:dbus
                   SubroutineCall name:sConnect start:81:12 end:81:115:
                     vpiParent: RefObj name:dbus.sConnect(.id(ID), .rst(rst), .sdata(sdata), .ws(ws), .mdata(mdata), .adr(adr[1:0]), .we(we), .re(re))
                     vpiName Identifier name:sConnect start:81:12 end:81:20:
@@ -1861,6 +1864,7 @@ Design name:unnamed:
                           vpiName: enable
                           vpiFullName: ac_dig #(.ID(1)).enable
                           vpiActual: TypespecMember name:enable
+                      vpiActual: TypespecMember name:enable
                     vpiStmt Assignment start:131:9 end:131:33:
                       vpiParent: IfStmt
                       vpiLhs RefObj name:sync start:131:9 end:131:13:
@@ -1959,6 +1963,7 @@ Design name:unnamed:
                       vpiName: acout
                       vpiFullName: ac_dig #(.ID(1)).acout
                       vpiActual: TypespecMember name:acout
+                  vpiActual: TypespecMember name:acout
                 vpiRhs BitSelect name:sync[1] start:140:22 end:140:29:
                   vpiParent: Assignment
                   vpiName: sync[1]
@@ -2002,6 +2007,7 @@ Design name:unnamed:
                 vpiName: enable
                 vpiFullName: ac_dig #(.ID(1)).enable
                 vpiActual: TypespecMember name:enable
+            vpiActual: TypespecMember name:enable
   vpiTypespec (4 items):
     ModuleTypespec name:ac_dig:
       vpiParent: Design name:unnamed
@@ -2023,7 +2029,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

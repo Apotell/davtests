@@ -7,7 +7,9 @@ VERSION: 1.84
 COMMAND: -wd ../../../../../../../tests/Google/chapter-7/arrays/associative/locator-methods -timescale=1ns/1ns -d ast -d db find.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-7/arrays/associative/locator-methods/find
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/find.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/find.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 155
 LIB: work
@@ -169,8 +171,6 @@ n<$Source01/find.sv> u<154> t<Top_level_rule> c<1> l<16:1> el<28:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/find.sv:16:1: Compile module "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/find.sv:22:9: Null Actual: id:42, type:MethodFuncCall, name:find, relation:vpiPathElem.
-[ERR:LN7705] $Source01/find.sv:23:39: Null Actual: id:53, type:MethodFuncCall, name:size, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -271,6 +271,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
       vpiProcess (1 items):
         Initial start:21:1 end:25:4:
@@ -301,6 +302,7 @@ Design name:unnamed:
                       vpiParent: RefObj name:s.find
                       vpiName Identifier name:find start:22:9 end:22:13:
                       vpiIsProperty: true
+                      vpiTaskFunc: Function name:find
                       vpiWith Operation start:22:21 end:22:34:
                         vpiParent: MethodFuncCall name:find
                         vpiOpType: equal (14)
@@ -322,12 +324,18 @@ Design name:unnamed:
                             vpiValue: sad
                       vpiLoopVars Variable name:item start:22:21 end:22:34:
                         vpiParent: MethodFuncCall name:find
+                        vpiTypespec RefTypespec:
+                          vpiParent: Variable name:item
+                          vpiFullName: top.s.find.item
+                          vpiActual: ClassTypespec name:Queue
                         vpiName: item
                         vpiFullName: top.s.find.item
                         vpiIsIterator: true
+                  vpiActual: MethodFuncCall name:find
               SysTaskCall name:$display start:23:5 end:23:44:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:23:5 end:23:13:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:23:14 end:23:34:
                     vpiParent: SysTaskCall name:$display
@@ -353,9 +361,12 @@ Design name:unnamed:
                         vpiParent: RefObj name:qs.size
                         vpiName Identifier name:size start:23:39 end:23:43:
                         vpiIsProperty: true
+                        vpiTaskFunc: Function name:size
+                    vpiActual: MethodFuncCall name:size
               SysTaskCall name:$display start:24:5 end:24:48:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:24:5 end:24:13:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:24:14 end:24:40:
                     vpiParent: SysTaskCall name:$display
@@ -386,7 +397,7 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
-  vpiTypespec (3 items):
+  vpiTypespec (8 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:16:8 end:16:11:
@@ -397,6 +408,16 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -404,7 +425,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -448,11 +469,11 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/arrays/associative/locator-metho
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             8       6       1         3
+Constant                            22      20       1         3
 Operation                            2       1       0         1
-RefTypespec                         12       9       0         3
+RefTypespec                        352     349       0         3
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                            1048    1048       0         0
 ----------------------------------------------------------------
-                                    58      52       1         7
+                                  1424    1418       1         7
 ===================== END REDUCTION RESULT =====================

@@ -10,9 +10,7 @@ COMMAND: -wd ../../../tests/ClassParamAsParam -fileunit -writepp -d db -sv dut.s
 [INF:PP5223] Preprocessing source file "$Source01/dut.sv".
 [INF:PA5502] Parsing source file "$Source01/dut.sv".
 [INF:CP5804] $Source01/dut.sv:17:1: Compile module "top".
-[WRN:CP5851] $Source01/dut.sv:18:40: Failed to bind "new".
 [WRN:PA5506] $Source01/dut.sv:17:1: No timescale set for "top".
-[ERR:LN7705] $Source01/dut.sv:18:40: Null Actual: id:66, type:MethodFuncCall, name:new, relation:vpiValue.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -53,6 +51,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:object #(.T(int))
         vpiName: work
         vpiFullName: object #(.T(int))::work
+        vpiActual: Library name:work
       vpiCell: object
     ClassDefn name:resource #(.T(int)) file:$Source01/dut.sv start:4:1 end:5:9:
       vpiParent: Design name:unnamed
@@ -84,6 +83,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:resource #(.T(int))
         vpiName: work
         vpiFullName: resource #(.T(int))::work
+        vpiActual: Library name:work
       vpiCell: resource
     ClassDefn name:resource_db #(.T(int)) file:$Source01/dut.sv start:7:1 end:12:9:
       vpiParent: Design name:unnamed
@@ -93,10 +93,10 @@ Design name:unnamed:
         Typedef name:rsrc_t start:9:2 end:9:31:
           vpiParent: ClassDefn name:resource_db #(.T(int))
           vpiName Identifier name:rsrc_t start:9:24 end:9:30:
-          vpiTypedefAlias RefTypespec name:resource start:9:10 end:9:23:
+          vpiTypedefAlias RefTypespec name:resource #(T) start:9:10 end:9:23:
             vpiParent: Typedef name:rsrc_t
-            vpiName: resource
-            vpiFullName: resource_db #(.T(int))::rsrc_t::resource
+            vpiName: resource #(T)
+            vpiFullName: resource_db #(.T(int))::rsrc_t::resource #(T)
             vpiActual: ClassTypespec name:resource #(T)
       vpiVariable (1 items):
         Variable name:rsrc start:10:9 end:10:13:
@@ -154,6 +154,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:resource_db #(.T(int))
         vpiName: work
         vpiFullName: resource_db #(.T(int))::work
+        vpiActual: Library name:work
       vpiCell: resource_db
     ClassDefn name:config_db #(.T(int)) file:$Source01/dut.sv start:14:1 end:15:9:
       vpiParent: Design name:unnamed
@@ -206,6 +207,7 @@ Design name:unnamed:
         vpiParent: ClassDefn name:config_db #(.T(int))
         vpiName: work
         vpiFullName: config_db #(.T(int))::work
+        vpiActual: Library name:work
       vpiCell: config_db
   vpiAllModules (1 items):
     Module name:top file:$Source01/dut.sv start:17:1 end:19:10:
@@ -215,10 +217,10 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:misc2 start:18:32 end:18:37:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec name:config_db start:18:3 end:18:31:
+          vpiTypespec RefTypespec name:config_db #(object #(longint)) start:18:3 end:18:31:
             vpiParent: Variable name:misc2
-            vpiName: config_db
-            vpiFullName: top.misc2.config_db
+            vpiName: config_db #(object #(longint))
+            vpiFullName: top.misc2.config_db #(object #(longint))
             vpiActual: ClassTypespec name:config_db #(object #(longint))
           vpiName: misc2
           vpiFullName: top.misc2
@@ -248,10 +250,10 @@ Design name:unnamed:
             ParamAssign start:18:14 end:18:30:
               vpiParent: ClassTypespec name:config_db #(object #(longint))
               vpiOverridden: true
-              vpiRhs RefTypespec name:object start:18:14 end:18:30:
+              vpiRhs RefTypespec name:object #(longint) start:18:14 end:18:30:
                 vpiParent: ParamAssign
-                vpiName: object
-                vpiFullName: top.config_db #(object #(longint)).object
+                vpiName: object #(longint)
+                vpiFullName: top.config_db #(object #(longint)).object #(longint)
                 vpiActual: ClassTypespec name:object #(longint)
           vpiClassDefn: ClassDefn name:config_db #(.T(int))
       vpiDefName: top
@@ -260,6 +262,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
   vpiTypespec (7 items):
     ClassTypespec name:object start:1:15 end:1:21:
@@ -300,8 +303,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

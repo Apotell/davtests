@@ -7,7 +7,9 @@ VERSION: 1.84
 COMMAND: -wd ../../../../../../../tests/Google/chapter-7/arrays/unpacked/reduction-methods -timescale=1ns/1ns -d ast -d db and.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-7/arrays/unpacked/reduction-methods/and
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/and.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/and.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 175
 LIB: work
@@ -189,7 +191,6 @@ n<$Source01/and.sv> u<174> t<Top_level_rule> c<1> l<16:1> el<29:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/and.sv:16:1: Compile module "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/and.sv:24:8: Null Actual: id:59, type:MethodFuncCall, name:and, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -284,6 +285,7 @@ Design name:unnamed:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
+        vpiActual: Library name:work
       vpiCell: top
       vpiProcess (1 items):
         Initial start:21:1 end:26:4:
@@ -295,6 +297,7 @@ Design name:unnamed:
               SysTaskCall name:$display start:22:2 end:23:26:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:22:2 end:22:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (5 items):
                   Constant start:22:11 end:22:75:
                     vpiParent: SysTaskCall name:$display
@@ -404,9 +407,12 @@ Design name:unnamed:
                       vpiParent: RefObj name:b.and
                       vpiName Identifier name:and start:24:8 end:24:11:
                       vpiIsProperty: true
+                      vpiTaskFunc: Function name:and
+                  vpiActual: MethodFuncCall name:and
               SysTaskCall name:$display start:25:2 end:25:35:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:25:2 end:25:10:
+                vpiTaskFunc: Task name:$display
                 vpiArgument (2 items):
                   Constant start:25:11 end:25:31:
                     vpiParent: SysTaskCall name:$display
@@ -423,7 +429,7 @@ Design name:unnamed:
                     vpiName: y
                     vpiFullName: top.y
                     vpiActual: Variable name:y
-  vpiTypespec (3 items):
+  vpiTypespec (8 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:16:8 end:16:11:
@@ -434,6 +440,16 @@ Design name:unnamed:
       vpiSigned: true
     StringTypespec:
       vpiParent: Design name:unnamed
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
+      vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -441,7 +457,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -485,11 +501,11 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-7/arrays/unpacked/reduction-method
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            10       7       1         4
+Constant                            24      21       1         4
 Operation                            1       0       0         1
-RefTypespec                         13       9       0         4
+RefTypespec                        352     348       0         4
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                            1048    1048       0         0
 ----------------------------------------------------------------
-                                    60      52       1         9
+                                  1425    1417       1         9
 ===================== END REDUCTION RESULT =====================
