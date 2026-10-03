@@ -49,9 +49,12 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/initial.h>
 #include <hldb/module.h>
+#include <hldb/sys_task_call.h>
 #include <hldb/tf_call.h>
 
 #include <string>
@@ -104,11 +107,24 @@ TEST_F(FileLineTest, AaaAndBbbShareSourceFile) {
 TEST_F(FileLineTest, DisplayCallArgumentIsFileNameLiteral) {
   const hldb::Module *const aaa = getAaa();
   ASSERT_NE(aaa, nullptr);
-  ASSERT_NE(aaa->getSysTaskCalls(), nullptr) << "'$display(...)' must produce a system task call";
-  const hldb::TFCall *display = nullptr;
-  for (const hldb::TFCall *const call : *aaa->getSysTaskCalls()) {
-    ASSERT_NE(call, nullptr);
-    if (call->getName() == std::string_view{"$display"}) {
+  // '$display' is a statement inside 'initial begin ... end', so it lives in
+  // the Initial process's Begin statement list, not in the module's own
+  // getSysTaskCalls() collection.
+  // ASSERT_NE(aaa->getSysTaskCalls(), nullptr) << "'$display(...)' must produce a system task call";
+  ASSERT_NE(aaa->getProcesses(), nullptr);
+  ASSERT_EQ(aaa->getProcesses()->size(), 1u) << "module 'aaa' has exactly one 'initial' process";
+  ASSERT_NE(aaa->getProcesses()->at(0), nullptr);
+  const hldb::Initial *const init = any_cast<hldb::Initial>(aaa->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  ASSERT_NE(init->getStmt(), nullptr);
+  const hldb::Begin *const blk = init->getStmt<hldb::Begin>();
+  ASSERT_NE(blk, nullptr) << "'initial begin ... end' must produce a Begin statement";
+  ASSERT_NE(blk->getStmts(), nullptr);
+  const hldb::SysTaskCall *display = nullptr;
+  for (const hldb::Any *const stmt : *blk->getStmts()) {
+    ASSERT_NE(stmt, nullptr);
+    const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(stmt);
+    if ((call != nullptr) && (call->getName() == std::string_view{"$display"})) {
       display = call;
       break;
     }

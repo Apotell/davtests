@@ -41,9 +41,9 @@
 //   - each EnumConst's value is a concatenation Operation (vpiConcatOp)
 //     with exactly 2 operands
 //   - EXC_CAUSE_IRQ_SOFTWARE_M's operands are Constant 1'b1 (vpiBinaryConst,
-//     size 1, value "1") and Constant 5'd03 (vpiDecConst, size 5, value "3")
+//     size 1, decompile "1'b1") and Constant 5'd03 (vpiDecConst, size 5, decompile "5'd03")
 //   - EXC_CAUSE_IRQ_TIMER_M's operands are Constant 1'b1 (vpiBinaryConst,
-//     size 1, value "1") and Constant 5'd07 (vpiDecConst, size 5, value "7")
+//     size 1, decompile "1'b1") and Constant 5'd07 (vpiDecConst, size 5, decompile "5'd07")
 //   - module has no processes and no generate statements
 //   - compiler reports zero errors
 
@@ -79,8 +79,7 @@ class EnumConstTest : public Test {
   static const hldb::Enum *getExcCauseEnum() {
     const hldb::Module *const dut = getDut();
     if (dut == nullptr || dut->getTypespecs() == nullptr) return nullptr;
-    const hldb::TypedefTypespec *const tt =
-        hldb::findByName<hldb::TypedefTypespec>("exc_cause_e", dut->getTypespecs());
+    const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("exc_cause_e", dut->getTypespecs());
     if (tt == nullptr) return nullptr;
     const hldb::Typedef *const td = tt->getTypedef();
     if (td == nullptr || td->getAlias() == nullptr) return nullptr;
@@ -106,8 +105,7 @@ TEST_F(EnumConstTest, DutHasOneTypespec) {
 TEST_F(EnumConstTest, ExcCauseETypedefResolvesToEnumTypespec) {
   const hldb::Module *const dut = getDut();
   ASSERT_NE(dut, nullptr);
-  const hldb::TypedefTypespec *const tt =
-      hldb::findByName<hldb::TypedefTypespec>("exc_cause_e", dut->getTypespecs());
+  const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("exc_cause_e", dut->getTypespecs());
   ASSERT_NE(tt, nullptr) << "TypedefTypespec 'exc_cause_e' not found";
   const hldb::Typedef *const td = tt->getTypedef();
   ASSERT_NE(td, nullptr);
@@ -168,13 +166,17 @@ TEST_F(EnumConstTest, SoftwareMValueIsConcatOfOneAndThree) {
   ASSERT_NE(bit1, nullptr);
   EXPECT_EQ(bit1->getConstType(), vpiBinaryConst);
   EXPECT_EQ(bit1->getSize(), 1);
-  EXPECT_EQ(std::string(bit1->getValue()), "1");
+  // getValue() is HLC's internal value encoding; check the source literal text instead.
+  // EXPECT_EQ(std::string(bit1->getValue()), "1");
+  EXPECT_EQ(bit1->getDecompile(), std::string_view{"1'b1"});
 
   const hldb::Constant *const dec3 = any_cast<hldb::Constant>(concat->getOperands()->at(1));
   ASSERT_NE(dec3, nullptr);
   EXPECT_EQ(dec3->getConstType(), vpiDecConst);
   EXPECT_EQ(dec3->getSize(), 5);
-  EXPECT_EQ(std::string(dec3->getValue()), "3");
+  // getValue() is HLC's internal value encoding; check the source literal text instead.
+  // EXPECT_EQ(std::string(dec3->getValue()), "3");
+  EXPECT_EQ(dec3->getDecompile(), std::string_view{"5'd03"});
 }
 
 TEST_F(EnumConstTest, TimerMValueIsConcatOfOneAndSeven) {
@@ -194,13 +196,17 @@ TEST_F(EnumConstTest, TimerMValueIsConcatOfOneAndSeven) {
   ASSERT_NE(bit1, nullptr);
   EXPECT_EQ(bit1->getConstType(), vpiBinaryConst);
   EXPECT_EQ(bit1->getSize(), 1);
-  EXPECT_EQ(std::string(bit1->getValue()), "1");
+  // getValue() is HLC's internal value encoding; check the source literal text instead.
+  // EXPECT_EQ(std::string(bit1->getValue()), "1");
+  EXPECT_EQ(bit1->getDecompile(), std::string_view{"1'b1"});
 
   const hldb::Constant *const dec7 = any_cast<hldb::Constant>(concat->getOperands()->at(1));
   ASSERT_NE(dec7, nullptr);
   EXPECT_EQ(dec7->getConstType(), vpiDecConst);
   EXPECT_EQ(dec7->getSize(), 5);
-  EXPECT_EQ(std::string(dec7->getValue()), "7");
+  // getValue() is HLC's internal value encoding; check the source literal text instead.
+  // EXPECT_EQ(std::string(dec7->getValue()), "7");
+  EXPECT_EQ(dec7->getDecompile(), std::string_view{"5'd07"});
 }
 
 // ---------------------------------------------------------------------------

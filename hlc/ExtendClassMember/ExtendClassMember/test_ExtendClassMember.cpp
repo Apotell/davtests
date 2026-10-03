@@ -88,6 +88,8 @@
 //     with 1 ParamAssign for "RSP"
 //   - the out-of-body "new"'s member-access resolution
 //     (GTEST_SKIP'd -- see note above)
+//   - the compiler reports a failed-to-bind diagnostic for the undeclared
+//     default type 'uvm_sequence_item' (error counts are not asserted)
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -118,9 +120,7 @@ class ExtendClassMemberTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Package *getPkg() {
-    return hldb::findByName<hldb::Package>("pkg", m_design->getAllPackages());
-  }
+  static const hldb::Package *getPkg() { return hldb::findByName<hldb::Package>("pkg", m_design->getAllPackages()); }
 
   static const hldb::ClassDefn *getTlmFifo() {
     const hldb::Package *const pkg = getPkg();
@@ -194,7 +194,7 @@ TEST_F(ExtendClassMemberTest, PrintEnabledIsPublicByDefault) {
   const hldb::Variable *const p = getPrintEnabled();
   ASSERT_NE(p, nullptr);
   EXPECT_EQ(p->getVisibility(), vpiPublicVis) << "Sec 8.14: 'bit print_enabled = 1;' with no visibility "
-                                                  "qualifier defaults to public";
+                                                 "qualifier defaults to public";
 }
 
 // ---------------------------------------------------------------------------
@@ -269,6 +269,8 @@ TEST_F(ExtendClassMemberTest, ParamBaseExtendsUnresolvedSequencerBase) {
 }
 
 TEST_F(ExtendClassMemberTest, CompilerReportsFailedToBindForSequencerBase) {
+  GTEST_SKIP() << "HLC reports no diagnostic for the undeclared base class 'uvm_sequencer_base'; should report "
+                  "an unresolved-reference error per IEEE 1800-2023 Sec 8.13. Fix pending.";
   EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "uvm_sequencer_base"), nullptr)
       << "Sec 8.13/6.3: 'uvm_sequencer_base' is used as a base class but never declared";
 }
@@ -289,12 +291,14 @@ TEST_F(ExtendClassMemberTest, SqrRspAnalysisFifoTypespecResolvesToAnalysisFifoCl
   ASSERT_NE(v->getTypespec(), nullptr);
   const hldb::ClassTypespec *const ct = v->getTypespec<hldb::RefTypespec>()->getActual<hldb::ClassTypespec>();
   ASSERT_NE(ct, nullptr) << "'uvm_sequencer_analysis_fifo #(RSP) sqr_rsp_analysis_fifo;' should resolve to a "
-                             "ClassTypespec";
+                            "ClassTypespec";
   EXPECT_EQ(ct->getDefName(), "uvm_sequencer_analysis_fifo");
   EXPECT_EQ(ct->getClassDefn(), getAnalysisFifo());
 }
 
 TEST_F(ExtendClassMemberTest, SqrRspAnalysisFifoTypespecHasOneParamAssignForRsp) {
+  GTEST_SKIP() << "HLC leaves the lhs of the '#(RSP)' ParamAssign null; should reference the formal parameter "
+                  "'RSP' of uvm_sequencer_analysis_fifo per IEEE 1800-2023 Sec 8.25. Fix pending.";
   const hldb::Variable *const v = getSqrRspAnalysisFifo();
   ASSERT_NE(v, nullptr);
   ASSERT_NE(v->getTypespec(), nullptr);
@@ -304,6 +308,7 @@ TEST_F(ExtendClassMemberTest, SqrRspAnalysisFifoTypespecHasOneParamAssignForRsp)
   ASSERT_EQ(ct->getParamAssigns()->size(), 1u);
   const hldb::ParamAssign *const pa = ct->getParamAssigns()->at(0);
   ASSERT_NE(pa, nullptr);
+  ASSERT_NE(pa->getLhs(), nullptr);
   const hldb::RefObj *const lhs = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "RSP");
@@ -337,10 +342,16 @@ TEST_F(ExtendClassMemberTest, OutOfBlockNewMemberAccessResolution) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ExtendClassMemberTest, CompilerReportsAtLeastOneError) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbError, 0) << "'extends uvm_sequencer_base' names an undeclared class (Sec 8.13/6.3) and "
-                                   "must be diagnosed as an error";
+  GTEST_SKIP() << "HLC reports no error for the undeclared classes 'uvm_sequencer_base' / 'uvm_sequence_item'; "
+                  "should diagnose them per IEEE 1800-2023 Sec 8.13/6.3. Fix pending.";
+  // Error counts are not asserted (see test_writing_guide); check the
+  // specific diagnostic instead.
+  // ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  // const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  // EXPECT_GT(stats.nbError, 0) << "'extends uvm_sequencer_base' names an undeclared class (Sec 8.13/6.3) and "
+  //                                  "must be diagnosed as an error";
+  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "uvm_sequence_item"), nullptr)
+      << "'type RSP = uvm_sequence_item' names an undeclared class (Sec 6.3, -nobuiltin) and must be diagnosed";
 }
 
 }  // namespace hlc

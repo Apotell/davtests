@@ -73,7 +73,7 @@ class DefParamFromParamTest : public Test {
 };
 
 static const hldb::Module *getModule(const hldb::Design *d, std::string_view name) {
-  return hldb::findByName<hldb::Module>(name, d->getAllModules());
+  return hldb::findByDefName<hldb::Module>(name, d->getAllModules());
 }
 
 static const hldb::DefParam *getDefParam(const hldb::Design *d, size_t index) {
@@ -110,7 +110,8 @@ TEST_F(DefParamFromParamTest, Fifo_Width1Default_IsConstant9) {
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'parameter width1 = 9' RHS must be a Constant";
-  EXPECT_EQ(std::string(rhs->getValue()), "9");
+  // EXPECT_EQ(std::string(rhs->getValue()), "9");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("9"));
 }
 
 TEST_F(DefParamFromParamTest, Fifo_Width2Default_IsConstant8) {
@@ -122,7 +123,8 @@ TEST_F(DefParamFromParamTest, Fifo_Width2Default_IsConstant8) {
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'parameter width2 = 8' RHS must be a Constant";
-  EXPECT_EQ(std::string(rhs->getValue()), "8");
+  // EXPECT_EQ(std::string(rhs->getValue()), "8");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("8"));
 }
 
 // ===========================================================================
@@ -146,7 +148,8 @@ TEST_F(DefParamFromParamTest, Top_WidthADefault_IsConstant10) {
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'parameter width_a = 10' RHS must be a Constant";
-  EXPECT_EQ(std::string(rhs->getValue()), "10");
+  // EXPECT_EQ(std::string(rhs->getValue()), "10");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view("10"));
 }
 
 TEST_F(DefParamFromParamTest, Top_WidthBDefault_IsRefObjToWidthA) {
@@ -161,7 +164,7 @@ TEST_F(DefParamFromParamTest, Top_WidthBDefault_IsRefObjToWidthA) {
   ASSERT_NE(pa->getRhs(), nullptr) << "'parameter width_b = width_a' must have a non-null RHS";
   const hldb::RefObj *const rhs = pa->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "'width_a' on the RHS of 'width_b's default must be a RefObj";
-  EXPECT_EQ(rhs->getName(), "width_a");
+  EXPECT_EQ(rhs->getName(), std::string_view("width_a"));
   EXPECT_NE(rhs->getActual<hldb::Parameter>(), nullptr) << "RefObj 'width_a' must resolve to the Parameter 'width_a'";
 }
 
@@ -185,7 +188,7 @@ TEST_F(DefParamFromParamTest, Top_ParamAssignsCollection_NotPollutedByDefParams)
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getParamAssigns(), nullptr);
   EXPECT_EQ(top->getParamAssigns()->size(), 2u) << "sec. 23.10: 'defparam' overrides must not be merged into the "
-                                                    "module's own vpiParamAssign collection";
+                                                   "module's own vpiParamAssign collection";
 }
 
 // ---- First defparam: 'defparam fifo_inst.width1 = width_a;' ----
@@ -203,7 +206,7 @@ TEST_F(DefParamFromParamTest, DefParam0_Lhs_NameIsHierarchicalPath) {
   ASSERT_NE(dp, nullptr);
   const hldb::RefObj *const lhs = dp->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "defparam LHS must be a RefObj";
-  EXPECT_EQ(lhs->getName(), "fifo_inst.width1");
+  EXPECT_EQ(lhs->getName(), std::string_view("fifo_inst.width1"));
 }
 
 TEST_F(DefParamFromParamTest, DefParam0_Lhs_ResolvesToFifoWidth1) {
@@ -233,7 +236,7 @@ TEST_F(DefParamFromParamTest, DefParam0_Rhs_IsRefObjToWidthA) {
   ASSERT_NE(dp->getRhs(), nullptr);
   const hldb::RefObj *const rhs = dp->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "defparam RHS 'width_a' must be a RefObj";
-  EXPECT_EQ(rhs->getName(), "width_a");
+  EXPECT_EQ(rhs->getName(), std::string_view("width_a"));
 }
 
 TEST_F(DefParamFromParamTest, DefParam0_Rhs_ResolvesToTopWidthA) {
@@ -243,7 +246,7 @@ TEST_F(DefParamFromParamTest, DefParam0_Rhs_ResolvesToTopWidthA) {
   ASSERT_NE(rhs, nullptr);
   const hldb::Parameter *const actual = rhs->getActual<hldb::Parameter>();
   ASSERT_NE(actual, nullptr) << "sec. 23.10.1: RHS 'width_a' must resolve to top's own Parameter 'width_a'";
-  EXPECT_EQ(actual->getName(), "width_a");
+  EXPECT_EQ(actual->getName(), std::string_view("width_a"));
 }
 
 TEST_F(DefParamFromParamTest, DefParam0_NoIllegalExpressionContextError) {
@@ -262,7 +265,7 @@ TEST_F(DefParamFromParamTest, DefParam1_Lhs_NameIsHierarchicalPath) {
   ASSERT_NE(dp, nullptr);
   const hldb::RefObj *const lhs = dp->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "defparam LHS must be a RefObj";
-  EXPECT_EQ(lhs->getName(), "fifo_inst.width2");
+  EXPECT_EQ(lhs->getName(), std::string_view("fifo_inst.width2"));
 }
 
 TEST_F(DefParamFromParamTest, DefParam1_Rhs_IsRefObjToWidthB) {
@@ -271,7 +274,7 @@ TEST_F(DefParamFromParamTest, DefParam1_Rhs_IsRefObjToWidthB) {
   ASSERT_NE(dp->getRhs(), nullptr);
   const hldb::RefObj *const rhs = dp->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "defparam RHS 'width_b' must be a RefObj";
-  EXPECT_EQ(rhs->getName(), "width_b");
+  EXPECT_EQ(rhs->getName(), std::string_view("width_b"));
 }
 
 TEST_F(DefParamFromParamTest, DefParam1_Rhs_ResolvesToTopWidthB) {
@@ -281,7 +284,7 @@ TEST_F(DefParamFromParamTest, DefParam1_Rhs_ResolvesToTopWidthB) {
   ASSERT_NE(rhs, nullptr);
   const hldb::Parameter *const actual = rhs->getActual<hldb::Parameter>();
   ASSERT_NE(actual, nullptr) << "sec. 23.10.1: RHS 'width_b' must resolve to top's own Parameter 'width_b'";
-  EXPECT_EQ(actual->getName(), "width_b");
+  EXPECT_EQ(actual->getName(), std::string_view("width_b"));
 }
 
 }  // namespace hlc

@@ -51,7 +51,8 @@
 //   - the illegal "wait" inside a function is diagnosed:
 //     COMP_ILLEGAL_TIMING_CONTROL_IN_FUNCTION at 7:5 (13.4(a))
 //   - the undeclared identifiers fail to bind: COMP_FAILED_TO_BIND for
-//     "m_state", "qs", "m_type_names", "key" (6.3)
+//     "m_state", "qs", "m_type_names", "key" (6.3), and the method call
+//     "qs.push_back" is reported as LINT_NULL_ACTUAL at 8:8
 //   - Function "print"'s body (its single function_statement_or_null) is
 //     directly a DoWhile (AnyType::DoWhile) -- no enclosing Begin needed,
 //     since the do-while is the function's only statement
@@ -107,9 +108,7 @@ class DoWhileTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Package *getToto() {
-    return hldb::findByName<hldb::Package>("toto", m_design->getAllPackages());
-  }
+  static const hldb::Package *getToto() { return hldb::findByName<hldb::Package>("toto", m_design->getAllPackages()); }
 
   static const hldb::Function *getPrint() {
     const hldb::Package *const toto = getToto();
@@ -156,7 +155,12 @@ TEST_F(DoWhileTest, WaitInsideFunctionIsIllegalTimingControl) {
 TEST_F(DoWhileTest, UndeclaredIdentifiersFailToBind) {
   EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "m_state"), nullptr) << "'m_state' is never declared";
   EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "qs"), nullptr) << "'qs' is never declared";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "push_back"), nullptr) << "'push_back' is never declared";
+  // 'push_back' is a method on the unbound 'qs'; it is reported as a null
+  // actual (LINT_NULL_ACTUAL) whose symbol is the full "id:..., name:..."
+  // text, so match it by location (8:8).
+  // EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "push_back"), nullptr) << "'push_back' is never
+  // declared";
+  EXPECT_NE(findError(ErrorDefinition::LINT_NULL_ACTUAL, 8, 8), nullptr) << "'qs.push_back' cannot be resolved";
   EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "m_type_names"), nullptr)
       << "'m_type_names' is never declared";
   EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "key"), nullptr) << "'key' is never declared";

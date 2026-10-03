@@ -46,7 +46,8 @@
 //
 // IEEE 1800-2023 6.20.2/23.3: a parameter override on an instance
 // ('.Depth(ReqDepth)') is a constant-expression connection; the override is
-// recorded via a by-name, overriding ParamAssign on the instance.
+// recorded via a by-name, overriding ParamAssign on the instance's
+// ModuleTypespec (the RefInstance's typespec actual).
 // IEEE 1800-2023 27.5 "Generate-if constructs": the condition of a
 // generate-if is a constant expression evaluated at elaboration; here it is
 // preserved as an Operation(vpiEqOp) over the parameter and a Constant.
@@ -54,7 +55,9 @@
 // concatenation, encoded as Operation(vpiMultiConcatOp) with the repeat
 // count as its first operand.
 // IEEE 1800-2023 11.5.1 "Vector bit-select and part-select addressing":
-// 'DReqDepth[1*4+:4]' is an indexed part-select (IndexedPartSelect).
+// 'DReqDepth[1*4+:4]' is an indexed part-select (IndexedPartSelect),
+// whose prefix is a RefObj to DReqDepth. The generate-for (no
+// 'generate' region in the source) is a GenFor directly in vpiGenStmt.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -260,7 +263,10 @@ TEST_F(ElabCParamTest, FifoSync_InstantiatesPrimFifoSyncWithDepthOverride) {
   ASSERT_NE(mt, nullptr) << "reqfifo's typespec is not ModuleTypespec";
   EXPECT_EQ(mt->getName(), std::string_view("prim_fifo_sync"));
 
-  const hldb::ParamAssign *const pa = findParamAssign(reqfifo, "Depth");
+  // Instance parameter overrides live on the instance's ModuleTypespec
+  // (vpiParamAssign), not on the RefInstance itself.
+  // const hldb::ParamAssign *const pa = findParamAssign(reqfifo, "Depth");
+  const hldb::ParamAssign *const pa = findParamAssign(mt, "Depth");
   ASSERT_NE(pa, nullptr) << "'.Depth(ReqDepth)' override not found on 'reqfifo'";
   EXPECT_TRUE(pa->getConnByName()) << "'.Depth(...)' is a by-name parameter connection (Sec 23.3)";
   EXPECT_TRUE(pa->getOverridden()) << "an explicit instance-level override must be marked as overriding the default";
@@ -343,7 +349,12 @@ TEST_F(ElabCParamTest, Socket1n_BBIsIndexedPartSelectOfDReqDepth) {
   ASSERT_NE(pa, nullptr);
   const hldb::IndexedPartSelect *const rhs = pa->getRhs<hldb::IndexedPartSelect>();
   ASSERT_NE(rhs, nullptr) << "'DReqDepth[1*4+:4]': RHS must be an IndexedPartSelect";
-  EXPECT_EQ(rhs->getName(), "DReqDepth");
+  // A select's own name is its full text; the selected object is its prefix.
+  // EXPECT_EQ(rhs->getName(), "DReqDepth");
+  ASSERT_NE(rhs->getPrefix(), nullptr);
+  const hldb::RefObj *const prefix = rhs->getPrefix<hldb::RefObj>();
+  ASSERT_NE(prefix, nullptr) << "'DReqDepth[1*4+:4]': prefix must be a RefObj";
+  EXPECT_EQ(prefix->getName(), std::string_view("DReqDepth"));
   EXPECT_EQ(rhs->getIndexedPartSelectType(), vpiPosIndexed) << "'+:' must produce vpiPosIndexed";
 }
 
@@ -357,9 +368,12 @@ TEST_F(ElabCParamTest, Socket1n_GenerateForInstantiatesFifoSync) {
 
   const hldb::RefInstance *fifoD = nullptr;
   for (const hldb::Any *const stmt : *m->getGenStmts()) {
-    const hldb::GenRegion *const region = any_cast<hldb::GenRegion>(stmt);
-    if (region == nullptr) continue;
-    const hldb::GenFor *const genFor = region->getStmt<hldb::GenFor>();
+    // The source has no 'generate ... endgenerate' region, so the
+    // generate-for is directly a GenFor in the module's vpiGenStmt.
+    // const hldb::GenRegion *const region = any_cast<hldb::GenRegion>(stmt);
+    // if (region == nullptr) continue;
+    // const hldb::GenFor *const genFor = region->getStmt<hldb::GenFor>();
+    const hldb::GenFor *const genFor = any_cast<hldb::GenFor>(stmt);
     if (genFor == nullptr) continue;
     const hldb::Begin *const body = genFor->getStmt<hldb::Begin>();
     if (body == nullptr || body->getStmts() == nullptr) continue;
@@ -378,13 +392,18 @@ TEST_F(ElabCParamTest, Socket1n_GenerateForInstantiatesFifoSync) {
   ASSERT_NE(mt, nullptr) << "fifo_d's typespec is not ModuleTypespec";
   EXPECT_EQ(mt->getName(), std::string_view("fifo_sync"));
 
-  const hldb::ParamAssign *const pa = findParamAssign(fifoD, "ReqDepth");
+  // const hldb::ParamAssign *const pa = findParamAssign(fifoD, "ReqDepth");
+  const hldb::ParamAssign *const pa = findParamAssign(mt, "ReqDepth");
   ASSERT_NE(pa, nullptr) << "'.ReqDepth(DReqDepth[i*4+:4])' override not found on 'fifo_d'";
   EXPECT_TRUE(pa->getConnByName());
   EXPECT_TRUE(pa->getOverridden());
   const hldb::IndexedPartSelect *const rhs = pa->getRhs<hldb::IndexedPartSelect>();
   ASSERT_NE(rhs, nullptr) << "'.ReqDepth(DReqDepth[i*4+:4])': RHS must be an IndexedPartSelect";
-  EXPECT_EQ(rhs->getName(), "DReqDepth");
+  // EXPECT_EQ(rhs->getName(), "DReqDepth");
+  ASSERT_NE(rhs->getPrefix(), nullptr);
+  const hldb::RefObj *const prefix = rhs->getPrefix<hldb::RefObj>();
+  ASSERT_NE(prefix, nullptr) << "'DReqDepth[i*4+:4]': prefix must be a RefObj";
+  EXPECT_EQ(prefix->getName(), std::string_view("DReqDepth"));
 }
 
 // ---------------------------------------------------------------------------

@@ -50,14 +50,13 @@
 //   arguments are connected by name is not significant." So the ONLY
 //   standard-mandated fact about a named-argument call is the *binding*:
 //   each actual expression connects to the formal whose name is given,
-//   regardless of the syntactic order used at the call site. Nothing in
-//   the standard, nor in the hldb TFCall::getArguments() API (a plain
-//   AnyCollection*, with no separate "argument name" field), mandates a
-//   particular *storage order* for that collection -- that is an
-//   implementation choice, not something IEEE 1800 specifies. So the
-//   assertions below identify each argument by which formal it is bound
-//   to (matching RefObj name against the caller's own same-named IODecl),
-//   not by position in the collection.
+//   regardless of the syntactic order used at the call site. Each named
+//   connection is a NamedArgument in TFCall::getArguments(), whose low
+//   conn names the formal and whose high conn is the actual expression.
+//   Nothing in the standard mandates a particular *storage order* for
+//   that collection, so the assertions below identify each argument by
+//   the formal it is bound to (the NamedArgument's low conn name), not by
+//   position in the collection.
 //
 //   Sec 13.4: functions default to formal direction 'input' when not
 //   otherwise specified; 'int' (Sec 6.11) is a non-net data type, so each
@@ -93,11 +92,13 @@
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/expr.h>
 #include <hldb/func_call.h>
 #include <hldb/function.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
 #include <hldb/package.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
@@ -126,13 +127,17 @@ class EvalFuncNamedTest : public Test {
     return hldb::findByName<hldb::Function>(name, pkg->getTaskFuncs());
   }
 
-  // Finds, among the arguments of a named-argument call, the one that is a
-  // RefObj bound to the given formal name -- order-independent per 13.5.3.
-  static const hldb::RefObj *findArgByFormalName(const hldb::FuncCall *call, std::string_view formalName) {
+  // Finds, among the arguments of a named-argument call, the NamedArgument
+  // whose formal ('.formal(...)', the low conn) has the given name and
+  // returns its actual expression (the high conn) -- order-independent per
+  // 13.5.3.
+  static const hldb::Expr *findArgByFormalName(const hldb::FuncCall *call, std::string_view formalName) {
     if (call == nullptr || call->getArguments() == nullptr) return nullptr;
-    for (hldb::Any *const arg : *call->getArguments()) {
-      if (const hldb::RefObj *const ref = any_cast<hldb::RefObj>(arg)) {
-        if (ref->getName() == formalName) return ref;
+    for (const hldb::Any *const arg : *call->getArguments()) {
+      if (const hldb::NamedArgument *const na = any_cast<hldb::NamedArgument>(arg)) {
+        if (const hldb::RefObj *const formal = na->getLowConn<hldb::RefObj>()) {
+          if (formal->getName() == formalName) return na->getHighConn();
+        }
       }
     }
     return nullptr;
@@ -232,8 +237,7 @@ TEST_F(EvalFuncNamedTest, SimpleFuncCallsSimpleMinusWithNamedArgumentsBoundByNam
       << "the call should resolve back to the 'simple_minus' declaration";
 
   ASSERT_NE(call->getArguments(), nullptr);
-  ASSERT_EQ(call->getArguments()->size(), 2u)
-      << "'.value2(value2), .value1(value1)' is 2 named argument connections";
+  ASSERT_EQ(call->getArguments()->size(), 2u) << "'.value2(value2), .value1(value1)' is 2 named argument connections";
 
   // Sec 13.5.3: "The order in which arguments are connected by name is not
   // significant" -- find each actual by the formal name it is bound to,
@@ -251,15 +255,21 @@ TEST_F(EvalFuncNamedTest, SimpleFuncCallsSimpleMinusWithNamedArgumentsBoundByNam
 
   // '.value1(value1)': the formal 'value1' of simple_minus is bound to the
   // actual expression 'value1', which is simple_func's own IODecl.
-  const hldb::RefObj *const argForValue1 = findArgByFormalName(call, "value1");
-  ASSERT_NE(argForValue1, nullptr) << "no argument RefObj named 'value1' found";
+  const hldb::Expr *const actual1 = findArgByFormalName(call, "value1");
+  ASSERT_NE(actual1, nullptr) << "no NamedArgument for formal 'value1' found";
+  const hldb::RefObj *const argForValue1 = any_cast<hldb::RefObj>(actual1);
+  ASSERT_NE(argForValue1, nullptr) << "'.value1(value1)' actual should be a RefObj";
+  EXPECT_EQ(argForValue1->getName(), std::string_view{"value1"});
   EXPECT_NE(argForValue1->getActual(), nullptr);
   EXPECT_EQ(argForValue1->getActual(), callerValue1)
       << "'.value1(value1)' actual should resolve to simple_func's own 'value1' IODecl";
 
   // '.value2(value2)': likewise for 'value2'.
-  const hldb::RefObj *const argForValue2 = findArgByFormalName(call, "value2");
-  ASSERT_NE(argForValue2, nullptr) << "no argument RefObj named 'value2' found";
+  const hldb::Expr *const actual2 = findArgByFormalName(call, "value2");
+  ASSERT_NE(actual2, nullptr) << "no NamedArgument for formal 'value2' found";
+  const hldb::RefObj *const argForValue2 = any_cast<hldb::RefObj>(actual2);
+  ASSERT_NE(argForValue2, nullptr) << "'.value2(value2)' actual should be a RefObj";
+  EXPECT_EQ(argForValue2->getName(), std::string_view{"value2"});
   EXPECT_NE(argForValue2->getActual(), nullptr);
   EXPECT_EQ(argForValue2->getActual(), callerValue2)
       << "'.value2(value2)' actual should resolve to simple_func's own 'value2' IODecl";
@@ -289,25 +299,25 @@ TEST_F(EvalFuncNamedTest, MyParam2ValueEvaluatesNamedCallOrRemainsUnfoldedFuncCa
     // evaluated at elaboration time: simple_func(.value2(12), .value1(24))
     // == simple_minus(value1=24, value2=12) == 24 - 12 == 12.
     EXPECT_EQ(c->getDecompile(), "12") << "Sec 13.4.3: constant-function fold of 'simple_func(.value2(12), "
-                                           ".value1(24))' should be 12";
+                                          ".value1(24))' should be 12";
     return;
   }
 
   const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
   if (call == nullptr) {
     GTEST_SKIP() << "HLC's ParamAssign RHS for a constant-function-valued localparam is neither a folded "
-                     "Constant nor an unfolded FuncCall; per IEEE 1800-2023 Sec 13.4.3 this constant "
-                     "expression should evaluate to 12. Fix pending.";
+                    "Constant nor an unfolded FuncCall; per IEEE 1800-2023 Sec 13.4.3 this constant "
+                    "expression should evaluate to 12. Fix pending.";
   }
   EXPECT_EQ(call->getName(), "simple_func");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
-  const hldb::RefObj *const asValue1 = findArgByFormalName(call, "value1");
-  const hldb::RefObj *const asValue2 = findArgByFormalName(call, "value2");
-  ASSERT_NE(asValue1, nullptr);
-  ASSERT_NE(asValue2, nullptr);
-  const hldb::Constant *const val1 = any_cast<hldb::Constant>(asValue1->getActual());
-  const hldb::Constant *const val2 = any_cast<hldb::Constant>(asValue2->getActual());
+  const hldb::Expr *const asValue1 = findArgByFormalName(call, "value1");
+  const hldb::Expr *const asValue2 = findArgByFormalName(call, "value2");
+  ASSERT_NE(asValue1, nullptr) << "no NamedArgument for formal 'value1' found";
+  ASSERT_NE(asValue2, nullptr) << "no NamedArgument for formal 'value2' found";
+  const hldb::Constant *const val1 = any_cast<hldb::Constant>(asValue1);
+  const hldb::Constant *const val2 = any_cast<hldb::Constant>(asValue2);
   ASSERT_NE(val1, nullptr) << "'.value1(24)': actual should be a Constant";
   ASSERT_NE(val2, nullptr) << "'.value2(12)': actual should be a Constant";
   EXPECT_EQ(val1->getDecompile(), "24");

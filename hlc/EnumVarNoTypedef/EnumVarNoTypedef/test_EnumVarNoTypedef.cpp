@@ -43,7 +43,7 @@
 //
 // Checked:
 //   - design has module top with 1 Variable "myenum" and no Net "myenum"
-//   - module has 1 typespec: anonymous EnumTypespec (no TypedefTypespec wrapper)
+//   - module has an anonymous EnumTypespec and no TypedefTypespec wrapper
 //   - EnumTypespec has an explicit base typespec resolving to LogicTypespec
 //   - EnumTypespec has 1 const: Global, stored as a hex Constant
 //   - variable "myenum" typespec resolves directly to the EnumTypespec
@@ -68,6 +68,7 @@
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/typespec.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -101,7 +102,13 @@ TEST_F(EnumVarNoTypedefTest, ModuleHasOneTypespecAnonymousEnum) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getTypespecs(), nullptr);
-  EXPECT_EQ(top->getTypespecs()->size(), 1u);
+  // The scope's typespec collection also legitimately holds the enum's base
+  // typespec 'logic [2:0]', so its size is not 1; what matters is that there
+  // is no TypedefTypespec (no 'typedef' keyword in the source).
+  // EXPECT_EQ(top->getTypespecs()->size(), 1u);
+  for (const hldb::Typespec *const ts : *top->getTypespecs()) {
+    EXPECT_NE(ts->getAnyType(), hldb::AnyType::TypedefTypespec) << "no typedef in source, no TypedefTypespec expected";
+  }
   EXPECT_NE(getEnumTypespec(), nullptr) << "anonymous enum should have EnumTypespec directly, no TypedefTypespec";
 }
 
@@ -153,7 +160,7 @@ TEST_F(EnumVarNoTypedefTest, VariableMyenumExistsNotNet) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const myenum = hldb::findByName<hldb::Variable>("myenum", top->getVariables());
   ASSERT_NE(myenum, nullptr) << "'myenum' should be a Variable per IEEE 1800-2023 6.8: 'enum' is a data_type "
-                                 "alternative, never a net_type";
+                                "alternative, never a net_type";
   EXPECT_EQ(hldb::findByName<hldb::Net>("myenum", top->getNets()), nullptr)
       << "'myenum' is variable-declared -- it must not also appear as a Net";
 }

@@ -62,11 +62,12 @@
 //     (Constant 4'h5)
 //   - "pkg" owns TypedefTypespec "fsm_state_e" -> EnumTypespec with 1 const
 //     "ReadingLow" whose value is a concatenation Operation (vpiConcatOp)
-//     of Constant 6'b001100 and a RefObj "MuBi4False" that resolves
-//     (getActual) to prim_mubi_pkg's MuBi4False EnumConst
+//     of Constant 6'b001100 and a RefObj "prim_mubi_pkg::MuBi4False"
+//     whose path elements resolve to package prim_mubi_pkg and its
+//     MuBi4False EnumConst
 //   - "top" has exactly 1 generate statement: a GenIf whose condition is
-//     an equality Operation (vpiEqOp) of RefObj "ReadingLow" (resolving to
-//     pkg's EnumConst) and Constant "197"
+//     an equality Operation (vpiEqOp) of RefObj "pkg::ReadingLow" (path
+//     elements resolving to package pkg and its EnumConst) and Constant "197"
 //   - the GenIf's body is a Begin containing a RefInstance "good" whose
 //     typespec resolves (ModuleTypespec) to "GOOD"
 //   - compiler reports zero errors
@@ -110,17 +111,11 @@ class EnumConstConcatTest : public Test {
     return hldb::findByName<hldb::Package>("prim_mubi_pkg", m_design->getAllPackages());
   }
 
-  static const hldb::Package *getPkg() {
-    return hldb::findByName<hldb::Package>("pkg", m_design->getAllPackages());
-  }
+  static const hldb::Package *getPkg() { return hldb::findByName<hldb::Package>("pkg", m_design->getAllPackages()); }
 
-  static const hldb::Module *getGood() {
-    return hldb::findByDefName<hldb::Module>("GOOD", m_design->getAllModules());
-  }
+  static const hldb::Module *getGood() { return hldb::findByDefName<hldb::Module>("GOOD", m_design->getAllModules()); }
 
-  static const hldb::Module *getTop() {
-    return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules());
-  }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Enum *getMubi4Enum() {
     const hldb::Package *const p = getPrimMubiPkg();
@@ -242,13 +237,17 @@ TEST_F(EnumConstConcatTest, Mubi4tHasTwoConstsTrueAndFalse) {
   ASSERT_NE(trueVal, nullptr) << "'MuBi4True = 4'hA' value must be a Constant";
   EXPECT_EQ(trueVal->getConstType(), vpiHexConst);
   EXPECT_EQ(trueVal->getSize(), 4);
-  EXPECT_EQ(std::string(trueVal->getValue()), "a");
+  // getValue() is HLC's internal value encoding; check the source literal text instead.
+  // EXPECT_EQ(std::string(trueVal->getValue()), "a");
+  EXPECT_EQ(trueVal->getDecompile(), std::string_view{"4'hA"});
 
   const hldb::Constant *const falseVal = e->getEnumConsts()->at(1)->getValue<hldb::Constant>();
   ASSERT_NE(falseVal, nullptr) << "'MuBi4False = 4'h5' value must be a Constant";
   EXPECT_EQ(falseVal->getConstType(), vpiHexConst);
   EXPECT_EQ(falseVal->getSize(), 4);
-  EXPECT_EQ(std::string(falseVal->getValue()), "5");
+  // getValue() is HLC's internal value encoding; check the source literal text instead.
+  // EXPECT_EQ(std::string(falseVal->getValue()), "5");
+  EXPECT_EQ(falseVal->getDecompile(), std::string_view{"4'h5"});
 }
 
 // ---------------------------------------------------------------------------
@@ -282,16 +281,34 @@ TEST_F(EnumConstConcatTest, ReadingLowValueIsConcatOfLiteralAndCrossPackageEnumC
   ASSERT_NE(literal, nullptr);
   EXPECT_EQ(literal->getConstType(), vpiBinaryConst);
   EXPECT_EQ(literal->getSize(), 6);
-  EXPECT_EQ(std::string(literal->getValue()), "1100");
+  // getValue() is HLC's internal value encoding; check the source literal text instead.
+  // EXPECT_EQ(std::string(literal->getValue()), "1100");
+  EXPECT_EQ(literal->getDecompile(), std::string_view{"6'b001100"});
 
   // Sec 26.3 package_scope: "prim_mubi_pkg::MuBi4False" is a cross-package
   // reference to the enum constant declared in package "prim_mubi_pkg".
   const hldb::RefObj *const crossPkgRef = any_cast<hldb::RefObj>(concat->getOperands()->at(1));
   ASSERT_NE(crossPkgRef, nullptr) << "'prim_mubi_pkg::MuBi4False' operand must be a RefObj";
-  EXPECT_EQ(crossPkgRef->getName(), std::string_view("MuBi4False"));
-  const hldb::EnumConst *const resolved = crossPkgRef->getActual<hldb::EnumConst>();
-  ASSERT_NE(resolved, nullptr)
-      << "'prim_mubi_pkg::MuBi4False' must resolve to prim_mubi_pkg's EnumConst declaration";
+  // A package-scoped reference "prim_mubi_pkg::MuBi4False" is a RefObj whose name is the full source text and
+  // whose path elements are [RefObj "prim_mubi_pkg" -> Package, RefObj "MuBi4False" -> EnumConst].
+  // EXPECT_EQ(crossPkgRef->getName(), std::string_view("MuBi4False"));
+  // const hldb::EnumConst *const resolved = crossPkgRef->getActual<hldb::EnumConst>();
+  EXPECT_EQ(crossPkgRef->getName(), std::string_view{"prim_mubi_pkg::MuBi4False"});
+  ASSERT_NE(crossPkgRef->getPathElems(), nullptr);
+  ASSERT_EQ(crossPkgRef->getPathElems()->size(), 2u);
+  const hldb::RefObj *const pkgRef = any_cast<hldb::RefObj>(crossPkgRef->getPathElems()->front());
+  ASSERT_NE(pkgRef, nullptr);
+  EXPECT_EQ(pkgRef->getName(), std::string_view{"prim_mubi_pkg"});
+  ASSERT_NE(pkgRef->getActual(), nullptr);
+  const hldb::Package *const pkgDecl = pkgRef->getActual<hldb::Package>();
+  ASSERT_NE(pkgDecl, nullptr) << "'prim_mubi_pkg' must resolve to the package";
+  EXPECT_EQ(pkgDecl->getName(), std::string_view{"prim_mubi_pkg"});
+  const hldb::RefObj *const leafRef = any_cast<hldb::RefObj>(crossPkgRef->getPathElems()->back());
+  ASSERT_NE(leafRef, nullptr);
+  EXPECT_EQ(leafRef->getName(), std::string_view{"MuBi4False"});
+  ASSERT_NE(leafRef->getActual(), nullptr);
+  const hldb::EnumConst *const resolved = leafRef->getActual<hldb::EnumConst>();
+  ASSERT_NE(resolved, nullptr) << "'prim_mubi_pkg::MuBi4False' must resolve to prim_mubi_pkg's EnumConst declaration";
   EXPECT_EQ(resolved->getName(), std::string_view("MuBi4False"));
 }
 
@@ -318,8 +335,25 @@ TEST_F(EnumConstConcatTest, GenIfConditionIsEqualityOfReadingLowAnd197) {
 
   const hldb::RefObj *const lhs = any_cast<hldb::RefObj>(eq->getOperands()->at(0));
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), std::string_view("ReadingLow"));
-  const hldb::EnumConst *const resolved = lhs->getActual<hldb::EnumConst>();
+  // A package-scoped reference "pkg::ReadingLow" is a RefObj whose name is the full source text and
+  // whose path elements are [RefObj "pkg" -> Package, RefObj "ReadingLow" -> EnumConst].
+  // EXPECT_EQ(lhs->getName(), std::string_view("ReadingLow"));
+  // const hldb::EnumConst *const resolved = lhs->getActual<hldb::EnumConst>();
+  EXPECT_EQ(lhs->getName(), std::string_view{"pkg::ReadingLow"});
+  ASSERT_NE(lhs->getPathElems(), nullptr);
+  ASSERT_EQ(lhs->getPathElems()->size(), 2u);
+  const hldb::RefObj *const pkgRef = any_cast<hldb::RefObj>(lhs->getPathElems()->front());
+  ASSERT_NE(pkgRef, nullptr);
+  EXPECT_EQ(pkgRef->getName(), std::string_view{"pkg"});
+  ASSERT_NE(pkgRef->getActual(), nullptr);
+  const hldb::Package *const pkgDecl = pkgRef->getActual<hldb::Package>();
+  ASSERT_NE(pkgDecl, nullptr) << "'pkg' must resolve to the package";
+  EXPECT_EQ(pkgDecl->getName(), std::string_view{"pkg"});
+  const hldb::RefObj *const leafRef = any_cast<hldb::RefObj>(lhs->getPathElems()->back());
+  ASSERT_NE(leafRef, nullptr);
+  EXPECT_EQ(leafRef->getName(), std::string_view{"ReadingLow"});
+  ASSERT_NE(leafRef->getActual(), nullptr);
+  const hldb::EnumConst *const resolved = leafRef->getActual<hldb::EnumConst>();
   ASSERT_NE(resolved, nullptr) << "'pkg::ReadingLow' must resolve to pkg's EnumConst declaration";
 
   const hldb::Constant *const rhs = any_cast<hldb::Constant>(eq->getOperands()->at(1));

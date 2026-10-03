@@ -167,7 +167,9 @@ class ForElabTest : public Test {
 TEST_F(ForElabTest, TopModuleExists) { ASSERT_NE(getTopModule(), nullptr) << "module 'tlul_socket_m1' not found"; }
 
 TEST_F(ForElabTest, PrimArbiterTreeModuleExists) {
-  EXPECT_NE(hldb::findByName<hldb::Module>("prim_arbiter_tree", m_design->getAllModules()), nullptr);
+  // prim_arbiter_tree is parameterized, so its definition's getName() carries the parameter list;
+  // look it up by its plain definition name.
+  EXPECT_NE(hldb::findByDefName<hldb::Module>("prim_arbiter_tree", m_design->getAllModules()), nullptr);
 }
 
 // ---------------------------------------------------------------------------
@@ -179,9 +181,9 @@ TEST_F(ForElabTest, UReqArbInstanceElaborated) {
   const hldb::Module *const arb = getUReqArb();
   if (arb == nullptr) {
     GTEST_SKIP() << "HLC did not elaborate instance 'u_reqarb' under the "
-                     "'else if (tlul_pkg::ArbiterImpl == \"BINTREE\")' branch of module 'tlul_socket_m1'. Per "
-                     "IEEE 1800-2023 Sec 27.5 this branch's condition is a compile-time-constant string "
-                     "comparison that evaluates true, so 'u_reqarb' must be present. Fix pending.";
+                    "'else if (tlul_pkg::ArbiterImpl == \"BINTREE\")' branch of module 'tlul_socket_m1'. Per "
+                    "IEEE 1800-2023 Sec 27.5 this branch's condition is a compile-time-constant string "
+                    "comparison that evaluates true, so 'u_reqarb' must be present. Fix pending.";
   }
   EXPECT_EQ(arb->getDefName(), std::string_view{"prim_arbiter_tree"});
 }
@@ -194,13 +196,13 @@ TEST_F(ForElabTest, GenNormalCaseElaborated) {
   const hldb::Module *const arb = getUReqArb();
   if (arb == nullptr) {
     GTEST_SKIP() << "'u_reqarb' itself was not elaborated (see UReqArbInstanceElaborated); cannot check its "
-                     "'gen_normal_case' branch.";
+                    "'gen_normal_case' branch.";
   }
   const hldb::GenScope *const normal = getNormalCaseScope();
   if (normal == nullptr) {
     GTEST_SKIP() << "HLC did not elaborate the 'else' (gen_normal_case) branch of 'if (N == 1)' inside "
-                     "'prim_arbiter_tree' for N == 4. Per IEEE 1800-2023 Sec 27.5, since 'N == 1' is false for "
-                     "the default/overridden N == 4, the 'else' branch must be the one elaborated. Fix pending.";
+                    "'prim_arbiter_tree' for N == 4. Per IEEE 1800-2023 Sec 27.5, since 'N == 1' is false for "
+                    "the default/overridden N == 4, the 'else' branch must be the one elaborated. Fix pending.";
   }
   EXPECT_NE(normal, nullptr);
 }
@@ -214,17 +216,17 @@ TEST_F(ForElabTest, GenTreeHasThreeIterations) {
   const hldb::GenScope *const normal = getNormalCaseScope();
   if (normal == nullptr) {
     GTEST_SKIP() << "'gen_normal_case' itself was not elaborated (see GenNormalCaseElaborated); cannot check the "
-                     "nested 'gen_tree' loop.";
+                    "nested 'gen_tree' loop.";
   }
   const hldb::GenScopeArray *const genTree = getGenTree();
   if (genTree == nullptr) {
     GTEST_SKIP() << "HLC did not elaborate the loop generate construct 'for (genvar level = 0; level < "
-                     "N_LEVELS+1; level++) begin : gen_tree ...' (no GenScopeArray named 'gen_tree' found under "
-                     "'gen_normal_case'). Per IEEE 1800-2023 Sec 27.4/20.8.1, N_LEVELS == $clog2(4) == 2, so this "
-                     "loop must elaborate exactly N_LEVELS+1 == 3 iterations. Fix pending.";
+                    "N_LEVELS+1; level++) begin : gen_tree ...' (no GenScopeArray named 'gen_tree' found under "
+                    "'gen_normal_case'). Per IEEE 1800-2023 Sec 27.4/20.8.1, N_LEVELS == $clog2(4) == 2, so this "
+                    "loop must elaborate exactly N_LEVELS+1 == 3 iterations. Fix pending.";
   }
   EXPECT_EQ(genTree->getSize(), 3) << "Sec 27.4/20.8.1: $clog2(4) == 2, so 'level < N_LEVELS+1' must iterate "
-                                       "levels 0, 1, 2 -- exactly 3 iterations";
+                                      "levels 0, 1, 2 -- exactly 3 iterations";
   ASSERT_NE(genTree->getGenScopes(), nullptr);
   EXPECT_EQ(genTree->getGenScopes()->size(), 3u);
 }
@@ -238,7 +240,7 @@ TEST_F(ForElabTest, EachGenTreeIterationHasOrGateNamedGate) {
   const hldb::GenScopeArray *const genTree = getGenTree();
   if (genTree == nullptr || genTree->getGenScopes() == nullptr) {
     GTEST_SKIP() << "'gen_tree' itself was not elaborated (see GenTreeHasThreeIterations); cannot check its "
-                     "per-iteration primitive instantiation.";
+                    "per-iteration primitive instantiation.";
   }
   for (const hldb::GenScope *const iter : *genTree->getGenScopes()) {
     ASSERT_NE(iter, nullptr);

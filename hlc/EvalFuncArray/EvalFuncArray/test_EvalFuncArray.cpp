@@ -51,7 +51,6 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/array_expr.h>
 #include <hldb/array_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
@@ -59,11 +58,13 @@
 #include <hldb/function.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
+#include <hldb/operation.h>
 #include <hldb/package.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/sv_vpi_user.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -122,7 +123,7 @@ TEST_F(EvalFuncArrayTest, FunctionHasOneArrayTypedInputArgument) {
   ASSERT_NE(rts, nullptr) << "'infos' should carry a typespec describing its unpacked-array type";
   const hldb::ArrayTypespec *const arrTs = rts->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(arrTs, nullptr) << "'int infos[InfoTypes]' should resolve to an ArrayTypespec, actual AnyType: "
-                             << (rts->getActual() != nullptr ? static_cast<int>(rts->getActual()->getAnyType()) : -1);
+                            << (rts->getActual() != nullptr ? static_cast<int>(rts->getActual()->getAnyType()) : -1);
   EXPECT_FALSE(arrTs->getPacked()) << "'int infos[InfoTypes]' is an unpacked array per IEEE 1800-2023 Sec 7.4";
 
   const hldb::RefTypespec *const elemRts = arrTs->getElemTypespec();
@@ -142,23 +143,26 @@ TEST_F(EvalFuncArrayTest, ParamInfosPerBankCallsMaxInfoPagesWithFiveElementArray
     EXPECT_EQ(call->getName(), "max_info_pages");
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);
-    const hldb::ArrayExpr *const arrArg = any_cast<hldb::ArrayExpr>(call->getArguments()->at(0));
-    ASSERT_NE(arrArg, nullptr) << "'{10, 1, 14, 18, 12}' should be modeled as an ArrayExpr argument, actual "
-                                   "AnyType: "
-                                << static_cast<int>(call->getArguments()->at(0)->getAnyType());
-    ASSERT_NE(arrArg->getExprs(), nullptr);
-    ASSERT_EQ(arrArg->getExprs()->size(), 5u);
+    // '{10, 1, 14, 18, 12} is an assignment pattern (IEEE 1800-2023 Sec 10.9.1), modeled as an Operation with
+    // vpiAssignmentPatternOp whose operands are the element expressions.
+    ASSERT_NE(call->getArguments()->at(0), nullptr);
+    const hldb::Operation *const arrArg = any_cast<hldb::Operation>(call->getArguments()->at(0));
+    ASSERT_NE(arrArg, nullptr) << "'{10, 1, 14, 18, 12}' should be modeled as an assignment-pattern Operation, actual "
+                                  "AnyType: "
+                               << static_cast<int>(call->getArguments()->at(0)->getAnyType());
+    EXPECT_EQ(arrArg->getOpType(), vpiAssignmentPatternOp);
+    ASSERT_NE(arrArg->getOperands(), nullptr);
+    ASSERT_EQ(arrArg->getOperands()->size(), 5u);
     static const char *const kExpected[5] = {"10", "1", "14", "18", "12"};
     for (size_t i = 0; i < 5; ++i) {
-      const hldb::Constant *const elem = any_cast<hldb::Constant>(arrArg->getExprs()->at(i));
+      const hldb::Constant *const elem = any_cast<hldb::Constant>(arrArg->getOperands()->at(i));
       ASSERT_NE(elem, nullptr) << "element " << i << " of the array literal should be a Constant";
-      EXPECT_EQ(elem->getDecompile(), kExpected[i]) << "element " << i << " mismatch";
+      EXPECT_EQ(elem->getDecompile(), std::string_view{kExpected[i]}) << "element " << i << " mismatch";
     }
   } else if (const hldb::Constant *const folded = any_cast<hldb::Constant>(rhs)) {
     // 13.4.3: a constant function call is evaluated at elaboration time; if HLC folds it into a Constant rather
-    // than keeping the FuncCall + ArrayExpr, the folded value must still be the correct maximum: 18.
-    EXPECT_EQ(folded->getDecompile(), "18")
-        << "max_info_pages({10,1,14,18,12}) must fold to the maximum element, 18";
+    // than keeping the FuncCall + assignment pattern, the folded value must still be the correct maximum: 18.
+    EXPECT_EQ(folded->getDecompile(), "18") << "max_info_pages({10,1,14,18,12}) must fold to the maximum element, 18";
   } else {
     FAIL() << "ParamAssign RHS for 'InfosPerBank' is neither a FuncCall nor a Constant -- actual AnyType: "
            << static_cast<int>(rhs->getAnyType());

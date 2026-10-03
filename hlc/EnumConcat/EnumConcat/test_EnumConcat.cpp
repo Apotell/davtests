@@ -85,17 +85,14 @@ class EnumConcatTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getGood() {
-    return hldb::findByDefName<hldb::Module>("GOOD", m_design->getAllModules());
-  }
+  static const hldb::Module *getGood() { return hldb::findByDefName<hldb::Module>("GOOD", m_design->getAllModules()); }
 
   static const hldb::Module *getDut() { return hldb::findByDefName<hldb::Module>("dut", m_design->getAllModules()); }
 
   static const hldb::Enum *getExcCauseEnum() {
     const hldb::Module *const dut = getDut();
     if (dut == nullptr || dut->getTypespecs() == nullptr) return nullptr;
-    const hldb::TypedefTypespec *const tt =
-        hldb::findByName<hldb::TypedefTypespec>("exc_cause_e", dut->getTypespecs());
+    const hldb::TypedefTypespec *const tt = hldb::findByName<hldb::TypedefTypespec>("exc_cause_e", dut->getTypespecs());
     if (tt == nullptr) return nullptr;
     const hldb::Typedef *const td = tt->getTypedef();
     if (td == nullptr || td->getAlias() == nullptr) return nullptr;
@@ -151,13 +148,17 @@ TEST_F(EnumConcatTest, SoftwareMValueIsConcatOfOneAndThree) {
   ASSERT_NE(bit1, nullptr);
   EXPECT_EQ(bit1->getConstType(), vpiBinaryConst);
   EXPECT_EQ(bit1->getSize(), 1);
-  EXPECT_EQ(std::string(bit1->getValue()), "1");
+  // getValue() is HLC's internal value encoding; check the source literal text instead.
+  // EXPECT_EQ(std::string(bit1->getValue()), "1");
+  EXPECT_EQ(bit1->getDecompile(), std::string_view{"1'b1"});
 
   const hldb::Constant *const dec3 = any_cast<hldb::Constant>(concat->getOperands()->at(1));
   ASSERT_NE(dec3, nullptr);
   EXPECT_EQ(dec3->getConstType(), vpiDecConst);
   EXPECT_EQ(dec3->getSize(), 5);
-  EXPECT_EQ(std::string(dec3->getValue()), "3");
+  // getValue() is HLC's internal value encoding; check the source literal text instead.
+  // EXPECT_EQ(std::string(dec3->getValue()), "3");
+  EXPECT_EQ(dec3->getDecompile(), std::string_view{"5'd03"});
 }
 
 // ---------------------------------------------------------------------------

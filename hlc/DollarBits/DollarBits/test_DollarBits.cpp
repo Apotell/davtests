@@ -38,7 +38,8 @@
 //     ParamAssign RHS decompiles to "1"
 //   - "dut" instantiates "other" via RefInstance "oth", whose typespec
 //     resolves (ModuleTypespec) to "other"
-//   - "oth" carries an explicit, overriding, by-name ParamAssign for
+//   - "oth"'s ModuleTypespec (RefInstance::getTypespec()->getActual())
+//     carries an explicit, overriding, by-name ParamAssign for
 //     "Width" (Sec 23.3 named parameter value assignment)
 //   - that ParamAssign's RHS is a SysFuncCall "$bits" with exactly one
 //     argument
@@ -145,7 +146,12 @@ TEST_F(DollarBitsTest, OthWidthOverrideIsByNameAndOverriding) {
   ASSERT_NE(dut, nullptr);
   const hldb::RefInstance *const oth = hldb::findByName<hldb::RefInstance>("oth", dut->getRefInstances());
   ASSERT_NE(oth, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(oth, "Width");
+  // RefInstance has no vpiParamAssign relation; the instance's parameter
+  // overrides are carried by its (parameterized) ModuleTypespec.
+  ASSERT_NE(oth->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const othTs = oth->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(othTs, nullptr);
+  const hldb::ParamAssign *const pa = findParamAssign(othTs, "Width");
   ASSERT_NE(pa, nullptr) << "'.Width($bits({in}))' override not found on 'oth'";
   EXPECT_TRUE(pa->getConnByName()) << "'.Width(...)' is a by-name parameter connection (Sec 23.3)";
   EXPECT_TRUE(pa->getOverridden()) << "an explicit instance-level override must be marked as overriding the default";
@@ -156,7 +162,12 @@ TEST_F(DollarBitsTest, OthWidthOverrideRhsIsBitsSysFuncCallWithOneArgument) {
   ASSERT_NE(dut, nullptr);
   const hldb::RefInstance *const oth = hldb::findByName<hldb::RefInstance>("oth", dut->getRefInstances());
   ASSERT_NE(oth, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(oth, "Width");
+  // RefInstance has no vpiParamAssign relation; the instance's parameter
+  // overrides are carried by its (parameterized) ModuleTypespec.
+  ASSERT_NE(oth->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const othTs = oth->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(othTs, nullptr);
+  const hldb::ParamAssign *const pa = findParamAssign(othTs, "Width");
   ASSERT_NE(pa, nullptr);
   const hldb::SysFuncCall *const bits = pa->getRhs<hldb::SysFuncCall>();
   ASSERT_NE(bits, nullptr) << "Sec 20.6.2: '.Width($bits({in}))' RHS must be a SysFuncCall";
@@ -170,7 +181,12 @@ TEST_F(DollarBitsTest, BitsArgumentIsSingleOperandConcatOfIn) {
   ASSERT_NE(dut, nullptr);
   const hldb::RefInstance *const oth = hldb::findByName<hldb::RefInstance>("oth", dut->getRefInstances());
   ASSERT_NE(oth, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(oth, "Width");
+  // RefInstance has no vpiParamAssign relation; the instance's parameter
+  // overrides are carried by its (parameterized) ModuleTypespec.
+  ASSERT_NE(oth->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const othTs = oth->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(othTs, nullptr);
+  const hldb::ParamAssign *const pa = findParamAssign(othTs, "Width");
   ASSERT_NE(pa, nullptr);
   const hldb::SysFuncCall *const bits = pa->getRhs<hldb::SysFuncCall>();
   ASSERT_NE(bits, nullptr);

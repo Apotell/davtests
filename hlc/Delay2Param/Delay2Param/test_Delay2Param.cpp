@@ -50,7 +50,7 @@
 //     list ("clog2(intWidth)") is a function_subroutine_call. "clog2" is
 //     NOT "$clog2" (Sec 20.8.1) and is never declared anywhere in this
 //     file, so it cannot resolve to any function_decl -- the resulting
-//     FuncCall's TFCall::getTaskFunc() must stay null.
+//     call's TFCall::getTaskFunc() must stay null.
 //   - Sec 28.14 ("Assigning delays to primitives" / udp_instantiation):
 //     "BUFG #5 bg(out, in);" instantiates the user-defined primitive
 //     "BUFG" (declared via "primitive ... endprimitive") with a single
@@ -63,7 +63,7 @@
 //   - "iNToRawFN"'s parameter "intWidth": not a localparam, default value
 //     ParamAssign rhs Constant "1".
 //   - "iNToRawFN"'s localparam "expWidth": IS a localparam, whose expr is
-//     an Operation (vpiAddOp) of 2 operands: a FuncCall "clog2" (with one
+//     an Operation (vpiAddOp) of 2 operands: a SubroutineCall "clog2" (with one
 //     RefObj "intWidth" argument, TaskFunc unresolved) and Constant "1".
 //   - "iNToRawFN" declares net "adjustedNormDist", vpiWire, with a
 //     RefTypespec -> LogicTypespec chain.
@@ -105,6 +105,7 @@
 #include <hldb/primitive.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/subroutine_call.h>
 #include <hldb/udp.h>
 #include <hldb/vpi_user.h>
 
@@ -131,8 +132,7 @@ class Delay2ParamTest : public Test {
   // Checks 'localparam <lpName> = clog2(<paramName>) + 1;' for a module
   // that has both a parameter 'paramName' and a localparam 'lpName' of
   // that exact shape.
-  static void ExpectClog2PlusOneLocalParam(const hldb::Module *m, std::string_view lpName,
-                                            std::string_view paramName) {
+  static void ExpectClog2PlusOneLocalParam(const hldb::Module *m, std::string_view lpName, std::string_view paramName) {
     const hldb::ParamAssign *const lpa = getParamAssign(m, lpName);
     ASSERT_NE(lpa, nullptr) << "ParamAssign localparam '" << lpName << "' not found";
 
@@ -151,9 +151,13 @@ class Delay2ParamTest : public Test {
     ASSERT_NE(add->getOperands(), nullptr);
     ASSERT_EQ(add->getOperands()->size(), 2u);
 
-    const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(add->getOperands()->at(0));
-    ASSERT_NE(call, nullptr) << lpName << ": first operand must be the 'clog2(...)' FuncCall";
-    EXPECT_EQ(call->getName(), "clog2");
+    // An unbound user call in the unelaborated model is a SubroutineCall (a TFCall), not a FuncCall.
+    // const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(add->getOperands()->at(0));
+    // ASSERT_NE(call, nullptr) << lpName << ": first operand must be the 'clog2(...)' FuncCall";
+    ASSERT_NE(add->getOperands()->at(0), nullptr);
+    const hldb::SubroutineCall *const call = any_cast<hldb::SubroutineCall>(add->getOperands()->at(0));
+    ASSERT_NE(call, nullptr) << lpName << ": first operand must be the 'clog2(...)' SubroutineCall";
+    EXPECT_EQ(call->getName(), std::string_view("clog2"));
     EXPECT_EQ(call->getTaskFunc(), nullptr)
         << "'clog2' is never declared in this file (it is not '$clog2') -- must not resolve (Sec 13.4.1)";
     ASSERT_NE(call->getArguments(), nullptr);
@@ -164,7 +168,7 @@ class Delay2ParamTest : public Test {
 
     const hldb::Constant *const one = any_cast<hldb::Constant>(add->getOperands()->at(1));
     ASSERT_NE(one, nullptr) << lpName << ": second operand must be the Constant '1'";
-    EXPECT_EQ(one->getDecompile(), "1");
+    EXPECT_EQ(one->getDecompile(), std::string_view("1"));
   }
 
   static void ExpectWireWithLogicTypespec(const hldb::Module *m, std::string_view netName) {

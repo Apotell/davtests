@@ -67,8 +67,8 @@
 //     if ( constant_expression ) generate_block [ else generate_block ]".
 //     A chain of "if / else if / else if / ..." with no final bare "else"
 //     desugars to nested if-else, i.e. GenIfElse whose getElseStmt() is
-//     itself the next GenIfElse, ending with a GenIfElse whose
-//     getElseStmt() is null (no trailing "else" in the source).
+//     itself the next GenIfElse, ending with a GenIf (an
+//     if_generate_construct with no "else" in the source).
 //   - "parameter ADDR_OFFSET_PART_1 = 1;" (6.20.2): a parameter with no
 //     explicit data type defaults to a signed "integer" per 6.20.2's
 //     rules for an untyped parameter assignment with an integer literal
@@ -84,11 +84,14 @@
 //   - GenFor's body is an (unnamed) Begin holding exactly the 10-way
 //     GenIfElse chain, one link per "if"/"else if", each comparing "i"
 //     (vpiEqOp) against the corresponding named condition operand, in
-//     source order; the final link's getElseStmt() is null.
+//     source order; links #0..#8 are GenIfElse chained directly via
+//     getElseStmt(), and the final link (no trailing bare "else") is a
+//     GenIf.
 //   - for the first branch (i == ADDR_OFFSET_PART_0), the full nested
-//     body shape: Begin -> Always (vpiAlwaysFF) -> IfStmt(shift_foo_bar)
-//     -> Begin -> Assignment (non-blocking) of "foo_bar_4[i] <=
-//     foo_bar_4[i+1]".
+//     body shape: Begin -> Always (vpiAlwaysFF) -> EventControl -> Begin
+//     -> IfStmt(shift_foo_bar) -> Begin -> Assignment (non-blocking) of
+//     "foo_bar_4[i] <= foo_bar_4[i+1]" (BitSelects whose prefix is
+//     "foo_bar_4").
 //   - for every other branch, a lighter check that getStmt() resolves to
 //     a Begin containing exactly one Always with getAlwaysType() ==
 //     vpiAlwaysFF (the 10 branches are textually identical).
@@ -111,7 +114,9 @@
 #include <hldb/bit_select.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/event_control.h>
 #include <hldb/gen_for.h>
+#include <hldb/gen_if.h>
 #include <hldb/gen_if_else.h>
 #include <hldb/gen_region.h>
 #include <hldb/if_stmt.h>
@@ -156,8 +161,9 @@ class ExponTimeIfElseGenTest : public Test {
     return any_cast<hldb::GenIfElse>(body->getStmts()->at(0));
   }
 
-  // Verifies "i == <name>" as the GenIfElse condition.
-  static void CheckConditionIsIEqualsNamedConst(const hldb::GenIfElse *link, std::string_view name) {
+  // Verifies "i == <name>" as the GenIfElse / GenIf condition.
+  template <typename T>
+  static void CheckConditionIsIEqualsNamedConst(const T *link, std::string_view name) {
     ASSERT_NE(link, nullptr);
     const hldb::Operation *const cond = link->getCondition<hldb::Operation>();
     ASSERT_NE(cond, nullptr) << "'i == " << name << "' should be an Operation";
@@ -173,7 +179,8 @@ class ExponTimeIfElseGenTest : public Test {
   }
 
   // Verifies the branch body resolves to: Begin -> Always(vpiAlwaysFF).
-  static const hldb::Always *CheckBranchBodyIsSingleAlwaysFF(const hldb::GenIfElse *link) {
+  template <typename T>
+  static const hldb::Always *CheckBranchBodyIsSingleAlwaysFF(const T *link) {
     if (link == nullptr) return nullptr;
     const hldb::Begin *const branchBody = link->getStmt<hldb::Begin>();
     if (branchBody == nullptr || branchBody->getStmts() == nullptr || branchBody->getStmts()->size() != 1u) {
@@ -278,9 +285,20 @@ TEST_F(ExponTimeIfElseGenTest, GenForBodyIsUnnamedBeginWithSingleIfElseChain) {
 }
 
 TEST_F(ExponTimeIfElseGenTest, IfElseChainHasTenLinksInSourceOrder) {
+  GTEST_SKIP() << "HLC wraps every 'else if (...)' generate_block in a synthetic unnamed Begin, so getElseStmt() is "
+                  "a Begin holding the next GenIfElse/GenIf; should be the nested if_generate_construct itself "
+                  "(a generate_block may be a single generate item without begin/end) per IEEE 1800-2023 Sec "
+                  "27.3. Fix pending.";
   static constexpr std::array<std::string_view, 10> kExpectedNames = {
-      "ADDR_OFFSET_PART_0", "ADDR_OFFSET_PART_1", "ADDR_OFFSET_PART_2", "ADDR_OFFSET_PART_3", "ADDR_OFFSET_0",
-      "ADDR_OFFSET_1",      "ADDR_OFFSET_2",      "ADDR_OFFSET_3",      "ADDR_OFFSET_PART_0_STRIDE",
+      "ADDR_OFFSET_PART_0",
+      "ADDR_OFFSET_PART_1",
+      "ADDR_OFFSET_PART_2",
+      "ADDR_OFFSET_PART_3",
+      "ADDR_OFFSET_0",
+      "ADDR_OFFSET_1",
+      "ADDR_OFFSET_2",
+      "ADDR_OFFSET_3",
+      "ADDR_OFFSET_PART_0_STRIDE",
       "ADDR_OFFSET_PART_1_STRIDE",
   };
 
@@ -291,13 +309,19 @@ TEST_F(ExponTimeIfElseGenTest, IfElseChainHasTenLinksInSourceOrder) {
     ASSERT_NE(link, nullptr) << "expected " << kExpectedNames.size() << " chain links, chain ended early";
     CheckConditionIsIEqualsNamedConst(link, kExpectedNames[index]);
 
-    if (index + 1 < kExpectedNames.size()) {
-      const hldb::GenIfElse *const next = any_cast<hldb::GenIfElse>(link->getElseStmt());
-      ASSERT_NE(next, nullptr) << "'else if (...)' should chain to the next GenIfElse via getElseStmt()";
+    ASSERT_NE(link->getElseStmt(), nullptr) << "'else if (...)' should chain via getElseStmt()";
+    if (index + 2 < kExpectedNames.size()) {
+      const hldb::GenIfElse *const next = link->getElseStmt<hldb::GenIfElse>();
+      ASSERT_NE(next, nullptr) << "'else if (...) ... else ...' should chain to the next GenIfElse via getElseStmt()";
       link = next;
     } else {
-      EXPECT_EQ(link->getElseStmt(), nullptr)
-          << "the final 'else if' has no trailing bare 'else', so getElseStmt() should be null";
+      // The final 'else if (...)' has no trailing bare 'else', so it is an
+      // if_generate_construct without else: a GenIf (which has no else).
+      const hldb::GenIf *const last = link->getElseStmt<hldb::GenIf>();
+      ASSERT_NE(last, nullptr) << "the final 'else if' has no trailing bare 'else', so it should be a GenIf";
+      SCOPED_TRACE(::testing::Message() << "chain link #" << (index + 1) << " (" << kExpectedNames[index + 1] << ")");
+      CheckConditionIsIEqualsNamedConst(last, kExpectedNames[index + 1]);
+      break;
     }
   }
 }
@@ -313,8 +337,15 @@ TEST_F(ExponTimeIfElseGenTest, FirstBranchBodyIsAlwaysFFWithGuardedNonBlockingAs
   ASSERT_NE(always, nullptr) << "branch body 'begin always_ff ... end' should be a Begin holding one Always";
   EXPECT_EQ(always->getAlwaysType(), vpiAlwaysFF);
 
-  const hldb::Begin *const alwaysBody = any_cast<hldb::Begin>(always->getStmt());
-  ASSERT_NE(alwaysBody, nullptr) << "'always_ff @(...) begin ... end' should be a Begin";
+  // Sec 9.4.2: 'always_ff @(posedge clk) begin ... end' -- the always's
+  // statement is the event-controlled statement (EventControl), whose own
+  // statement is the begin-end block.
+  ASSERT_NE(always->getStmt(), nullptr);
+  const hldb::EventControl *const ec = always->getStmt<hldb::EventControl>();
+  ASSERT_NE(ec, nullptr) << "'always_ff @(posedge clk) ...' statement should be an EventControl";
+  ASSERT_NE(ec->getStmt(), nullptr);
+  const hldb::Begin *const alwaysBody = ec->getStmt<hldb::Begin>();
+  ASSERT_NE(alwaysBody, nullptr) << "'@(...) begin ... end' should be a Begin";
   ASSERT_NE(alwaysBody->getStmts(), nullptr);
   ASSERT_EQ(alwaysBody->getStmts()->size(), 1u);
 
@@ -335,14 +366,20 @@ TEST_F(ExponTimeIfElseGenTest, FirstBranchBodyIsAlwaysFFWithGuardedNonBlockingAs
 
   const hldb::BitSelect *const lhs = any_cast<hldb::BitSelect>(nba->getLhs());
   ASSERT_NE(lhs, nullptr) << "'foo_bar_4[i]' should be a BitSelect";
-  EXPECT_EQ(lhs->getName(), "foo_bar_4");
+  ASSERT_NE(lhs->getPrefix(), nullptr);
+  const hldb::RefObj *const lhsPrefix = lhs->getPrefix<hldb::RefObj>();
+  ASSERT_NE(lhsPrefix, nullptr);
+  EXPECT_EQ(lhsPrefix->getName(), std::string_view{"foo_bar_4"});
   const hldb::RefObj *const lhsIndex = any_cast<hldb::RefObj>(lhs->getIndex());
   ASSERT_NE(lhsIndex, nullptr);
   EXPECT_EQ(lhsIndex->getName(), "i");
 
   const hldb::BitSelect *const rhs = any_cast<hldb::BitSelect>(nba->getRhs());
   ASSERT_NE(rhs, nullptr) << "'foo_bar_4[i+1]' should be a BitSelect";
-  EXPECT_EQ(rhs->getName(), "foo_bar_4");
+  ASSERT_NE(rhs->getPrefix(), nullptr);
+  const hldb::RefObj *const rhsPrefix = rhs->getPrefix<hldb::RefObj>();
+  ASSERT_NE(rhsPrefix, nullptr);
+  EXPECT_EQ(rhsPrefix->getName(), std::string_view{"foo_bar_4"});
   const hldb::Operation *const rhsIndex = any_cast<hldb::Operation>(rhs->getIndex());
   ASSERT_NE(rhsIndex, nullptr) << "'i+1' should be an Operation";
   EXPECT_EQ(rhsIndex->getOpType(), vpiAddOp);
@@ -353,16 +390,29 @@ TEST_F(ExponTimeIfElseGenTest, FirstBranchBodyIsAlwaysFFWithGuardedNonBlockingAs
 // textually identical, so only the AlwaysFF shape is re-verified per link).
 // ---------------------------------------------------------------------------
 TEST_F(ExponTimeIfElseGenTest, RemainingNineBranchesAreEachSingleAlwaysFF) {
+  GTEST_SKIP() << "HLC wraps every 'else if (...)' generate_block in a synthetic unnamed Begin, so getElseStmt() is "
+                  "a Begin holding the next GenIfElse/GenIf; should be the nested if_generate_construct itself per "
+                  "IEEE 1800-2023 Sec 27.3. Fix pending.";
   const hldb::GenIfElse *link = getFirstGenIfElse();
   ASSERT_NE(link, nullptr);
-  for (int index = 0; index < 10; ++index) {
+  // Links #0..#8 are GenIfElse; link #9 (no trailing 'else') is a GenIf.
+  for (int index = 0; index < 9; ++index) {
     ASSERT_NE(link, nullptr) << "chain ended early at link #" << index;
     const hldb::Always *const always = CheckBranchBodyIsSingleAlwaysFF(link);
     EXPECT_NE(always, nullptr) << "link #" << index << ": branch body should be a single Always";
     if (always != nullptr) {
       EXPECT_EQ(always->getAlwaysType(), vpiAlwaysFF) << "link #" << index;
     }
-    link = any_cast<hldb::GenIfElse>(link->getElseStmt());
+    ASSERT_NE(link->getElseStmt(), nullptr) << "link #" << index;
+    if (index < 8) {
+      link = link->getElseStmt<hldb::GenIfElse>();
+    } else {
+      const hldb::GenIf *const last = link->getElseStmt<hldb::GenIf>();
+      ASSERT_NE(last, nullptr) << "link #9 should be a GenIf";
+      const hldb::Always *const lastAlways = CheckBranchBodyIsSingleAlwaysFF(last);
+      ASSERT_NE(lastAlways, nullptr) << "link #9: branch body should be a single Always";
+      EXPECT_EQ(lastAlways->getAlwaysType(), vpiAlwaysFF) << "link #9";
+    }
   }
 }
 

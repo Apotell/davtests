@@ -43,7 +43,7 @@
 // "((($bits(PARAM) - 32) + 85) + PARAM)" -- a top-level vpiAddOp.
 //
 // Checked (mirrors test_ExprEvalBits.cpp):
-//   - module "top" exists with 1 output IODecl "o", and parameter "PARAM"
+//   - module "top" exists with 1 output Port "o", and parameter "PARAM"
 //     (not localparam, default Constant "4")
 //   - "top" declares exactly 1 Typedef "logic90pb_0_e" whose alias
 //     resolves to an EnumTypespec, whose base typespec resolves to a
@@ -66,11 +66,11 @@
 #include <hldb/enum.h>
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
-#include <hldb/io_decl.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/parameter.h>
+#include <hldb/port.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -132,11 +132,13 @@ TEST_F(ExprReductionBitsTest, ModuleTopExists) { ASSERT_NE(getTop(), nullptr); }
 TEST_F(ExprReductionBitsTest, ModuleHasOutputPortO) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  ASSERT_NE(top->getIODecls(), nullptr);
-  ASSERT_EQ(top->getIODecls()->size(), 1u);
-  const hldb::IODecl *const o = top->getIODecls()->at(0);
+  // Module ports are Port objects (getPorts()); IODecls are for task/function
+  // arguments only.
+  ASSERT_NE(top->getPorts(), nullptr);
+  ASSERT_EQ(top->getPorts()->size(), 1u);
+  const hldb::Port *const o = top->getPorts()->at(0);
   ASSERT_NE(o, nullptr);
-  EXPECT_EQ(o->getName(), "o");
+  EXPECT_EQ(o->getName(), std::string_view("o"));
   EXPECT_EQ(o->getDirection(), vpiOutput);
 }
 

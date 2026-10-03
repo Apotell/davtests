@@ -274,7 +274,12 @@ TEST_F(EnumConstElabTest, UCtrlRegShadowedOverridesResvalWithCtrlReset) {
   const hldb::RefInstance *const inst =
       hldb::findByName<hldb::RefInstance>("u_ctrl_reg_shadowed", top->getRefInstances());
   ASSERT_NE(inst, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(inst, "RESVAL");
+  // Per-instance parameter overrides of an unelaborated instantiation live on
+  // the instance's ModuleTypespec (RefInstance has no vpiParamAssign).
+  ASSERT_NE(inst->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt, nullptr);
+  const hldb::ParamAssign *const pa = findParamAssign(mt, "RESVAL");
   ASSERT_NE(pa, nullptr) << "'.RESVAL(CTRL_RESET)' override not found";
   EXPECT_TRUE(pa->getConnByName());
   EXPECT_TRUE(pa->getOverridden());
@@ -345,7 +350,12 @@ TEST_F(EnumConstElabTest, StagedRegOverridesResvalWithShadowsResval) {
   ASSERT_NE(shadow, nullptr);
   const hldb::RefInstance *const inst = hldb::findByName<hldb::RefInstance>("staged_reg", shadow->getRefInstances());
   ASSERT_NE(inst, nullptr);
-  const hldb::ParamAssign *const pa = findParamAssign(inst, "RESVAL");
+  // Per-instance parameter overrides of an unelaborated instantiation live on
+  // the instance's ModuleTypespec (RefInstance has no vpiParamAssign).
+  ASSERT_NE(inst->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt, nullptr);
+  const hldb::ParamAssign *const pa = findParamAssign(mt, "RESVAL");
   ASSERT_NE(pa, nullptr) << "'.RESVAL(RESVAL)' override not found";
   EXPECT_TRUE(pa->getConnByName());
   EXPECT_TRUE(pa->getOverridden());

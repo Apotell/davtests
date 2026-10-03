@@ -45,15 +45,18 @@
 // 12.4 "Conditional if-else statement").
 // IEEE 1800-2023 23.3/23.10: 'middleman's 'invert' parameter is propagated
 // by name into 'assigner's 'invert', and top's two 'middleman' instances
-// each override 'invert' with a distinct Constant (1 and 0).
+// each override 'invert' with a distinct Constant (1 and 0). The overrides
+// are ParamAssigns on each instance's ModuleTypespec (the RefInstance's
+// typespec actual).
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/cont_assign.h>
+#include <hldb/begin.h>
 #include <hldb/constant.h>
+#include <hldb/cont_assign.h>
 #include <hldb/design.h>
 #include <hldb/gen_if.h>
 #include <hldb/module.h>
@@ -174,7 +177,15 @@ TEST_F(ElabIfTest, Assigner_FirstGenIf_BodyIsContAssignOutFromInp) {
   const std::vector<const hldb::GenIf *> genIfs = findAllGenIf(m);
   ASSERT_EQ(genIfs.size(), 2u);
 
-  const hldb::ContAssign *const assign = genIfs[0]->getStmt<hldb::ContAssign>();
+  // A generate-if branch with no begin-end is still a generate block (IEEE 1800-2023 Sec 27.5), so
+  // the GenIf's statement is an implicit unnamed Begin holding the single item.
+  // const hldb::ContAssign *const assign = genIfs[0]->getStmt<hldb::ContAssign>();
+  ASSERT_NE(genIfs[0]->getStmt(), nullptr);
+  const hldb::Begin *const block = any_cast<hldb::Begin>(genIfs[0]->getStmt());
+  ASSERT_NE(block, nullptr) << "unbracketed generate-if item should be an implicit generate block";
+  ASSERT_NE(block->getStmts(), nullptr);
+  ASSERT_EQ(block->getStmts()->size(), 1u);
+  const hldb::ContAssign *const assign = any_cast<hldb::ContAssign>(block->getStmts()->at(0));
   ASSERT_NE(assign, nullptr) << "'assign out = inp;' body must be a ContAssign";
 
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
@@ -206,7 +217,15 @@ TEST_F(ElabIfTest, Assigner_SecondGenIf_BodyIsContAssignOutFromBitwiseNotInp) {
   const std::vector<const hldb::GenIf *> genIfs = findAllGenIf(m);
   ASSERT_EQ(genIfs.size(), 2u);
 
-  const hldb::ContAssign *const assign = genIfs[1]->getStmt<hldb::ContAssign>();
+  // A generate-if branch with no begin-end is still a generate block (IEEE 1800-2023 Sec 27.5), so
+  // the GenIf's statement is an implicit unnamed Begin holding the single item.
+  // const hldb::ContAssign *const assign = genIfs[1]->getStmt<hldb::ContAssign>();
+  ASSERT_NE(genIfs[1]->getStmt(), nullptr);
+  const hldb::Begin *const block = any_cast<hldb::Begin>(genIfs[1]->getStmt());
+  ASSERT_NE(block, nullptr) << "unbracketed generate-if item should be an implicit generate block";
+  ASSERT_NE(block->getStmts(), nullptr);
+  ASSERT_EQ(block->getStmts()->size(), 1u);
+  const hldb::ContAssign *const assign = any_cast<hldb::ContAssign>(block->getStmts()->at(0));
   ASSERT_NE(assign, nullptr) << "'assign out = ~inp;' body must be a ContAssign";
 
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
@@ -245,7 +264,10 @@ TEST_F(ElabIfTest, Middleman_InstantiatesAssignerWithInvertPropagated) {
   ASSERT_NE(mt, nullptr) << "asgn's typespec is not ModuleTypespec";
   EXPECT_EQ(mt->getName(), std::string_view("assigner"));
 
-  const hldb::ParamAssign *const pa = findParamAssign(asgn, "invert");
+  // Instance parameter overrides live on the instance's ModuleTypespec
+  // (vpiParamAssign), not on the RefInstance itself.
+  // const hldb::ParamAssign *const pa = findParamAssign(asgn, "invert");
+  const hldb::ParamAssign *const pa = findParamAssign(mt, "invert");
   ASSERT_NE(pa, nullptr) << "'.invert(invert)' override not found on 'asgn'";
   EXPECT_TRUE(pa->getConnByName()) << "'.invert(...)' is a by-name parameter connection (Sec 23.3)";
   EXPECT_TRUE(pa->getOverridden());
@@ -267,8 +289,13 @@ TEST_F(ElabIfTest, Top_InstantiatesMiddlemanTwiceWithDistinctInvertOverrides) {
   const hldb::RefInstance *const mdl1 = findRefInst("mdl1", top);
   ASSERT_NE(mdl1, nullptr) << "'middleman #(.invert(1)) mdl1()' RefInstance not found";
   ASSERT_NE(mdl1->getTypespec(), nullptr);
-  EXPECT_EQ(mdl1->getTypespec()->getActual<hldb::ModuleTypespec>()->getName(), std::string_view("middleman"));
-  const hldb::ParamAssign *const pa1 = findParamAssign(mdl1, "invert");
+  // EXPECT_EQ(mdl1->getTypespec()->getActual<hldb::ModuleTypespec>()->getName(), std::string_view("middleman"));
+  const hldb::ModuleTypespec *const mt1 = mdl1->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt1, nullptr) << "mdl1's typespec is not ModuleTypespec";
+  EXPECT_EQ(mt1->getName(), std::string_view("middleman"));
+  // Instance parameter overrides live on the instance's ModuleTypespec.
+  // const hldb::ParamAssign *const pa1 = findParamAssign(mdl1, "invert");
+  const hldb::ParamAssign *const pa1 = findParamAssign(mt1, "invert");
   ASSERT_NE(pa1, nullptr) << "'.invert(1)' override not found on 'mdl1'";
   EXPECT_TRUE(pa1->getConnByName());
   EXPECT_TRUE(pa1->getOverridden());
@@ -278,7 +305,11 @@ TEST_F(ElabIfTest, Top_InstantiatesMiddlemanTwiceWithDistinctInvertOverrides) {
 
   const hldb::RefInstance *const mdl0 = findRefInst("mdl0", top);
   ASSERT_NE(mdl0, nullptr) << "'middleman #(.invert(0)) mdl0()' RefInstance not found";
-  const hldb::ParamAssign *const pa0 = findParamAssign(mdl0, "invert");
+  ASSERT_NE(mdl0->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt0 = mdl0->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt0, nullptr) << "mdl0's typespec is not ModuleTypespec";
+  // const hldb::ParamAssign *const pa0 = findParamAssign(mdl0, "invert");
+  const hldb::ParamAssign *const pa0 = findParamAssign(mt0, "invert");
   ASSERT_NE(pa0, nullptr) << "'.invert(0)' override not found on 'mdl0'";
   EXPECT_TRUE(pa0->getConnByName());
   EXPECT_TRUE(pa0->getOverridden());

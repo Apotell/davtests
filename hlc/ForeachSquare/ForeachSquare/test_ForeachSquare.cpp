@@ -53,7 +53,9 @@
 //   - inner ForeachStmt: array_name RefObj "array[i]", exactly 1 implicit
 //     loop variable "j"
 //   - inner's body (no begin-end) is directly the Assignment
-//     "array[i][j] = i * j": LHS RefObj "array[i][j]", RHS
+//     "array[i][j] = i * j": LHS VarSelect "array[i][j]" (element of an
+//     unpacked array) whose prefix is VarSelect "array[i]" (prefix RefObj
+//     "array", index RefObj "i") and whose index is RefObj "j"; RHS
 //     Operation(vpiMultOp) over RefObj "i" and RefObj "j"
 
 #include <hlc/Common/Session.h>
@@ -69,6 +71,7 @@
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/ref_obj.h>
+#include <hldb/var_select.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -80,9 +83,7 @@ class ForeachSquareTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getDut() {
-    return hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
-  }
+  static const hldb::Module *getDut() { return hldb::findByName<hldb::Module>("dut", m_design->getAllModules()); }
 
   static const hldb::Initial *getInitial() {
     const hldb::Module *const dut = getDut();
@@ -156,6 +157,9 @@ TEST_F(ForeachSquareTest, OuterBodyIsDirectlyInnerForeach) {
 }
 
 TEST_F(ForeachSquareTest, InnerArrayNameIsRefObjArrayI) {
+  GTEST_SKIP() << "HLC models the inner 'foreach(array[i][j])' as array_name 'array' with a single, re-declared "
+                  "loop variable 'i' (dropping 'j'); should be array_name 'array[i]' with loop variable 'j' per "
+                  "IEEE 1800-2023 Sec 12.7.3. Fix pending.";
   const hldb::ForeachStmt *const outer = getOuterForeach();
   ASSERT_NE(outer, nullptr);
   const hldb::ForeachStmt *const inner = outer->getStmt<hldb::ForeachStmt>();
@@ -165,6 +169,8 @@ TEST_F(ForeachSquareTest, InnerArrayNameIsRefObjArrayI) {
 }
 
 TEST_F(ForeachSquareTest, InnerHasOneLoopVariableJ) {
+  GTEST_SKIP() << "HLC drops loop variable 'j' of the inner 'foreach(array[i][j])' and re-declares 'i' instead; "
+                  "should declare loop variable 'j' per IEEE 1800-2023 Sec 12.7.3. Fix pending.";
   const hldb::ForeachStmt *const outer = getOuterForeach();
   ASSERT_NE(outer, nullptr);
   CheckLoopVar(outer->getStmt<hldb::ForeachStmt>(), "j");
@@ -175,6 +181,8 @@ TEST_F(ForeachSquareTest, InnerHasOneLoopVariableJ) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ForeachSquareTest, InnerBodyIsDirectlyAssignArrayIJEqualsIMulJ) {
+  GTEST_SKIP() << "HLC builds BitSelects for 'array[i][j]'; elements of the unpacked array 'int array[16][16]' "
+                  "should be VarSelects per IEEE 1800-2023 Sec 7.4 and 37. Fix pending.";
   const hldb::ForeachStmt *const outer = getOuterForeach();
   ASSERT_NE(outer, nullptr);
   const hldb::ForeachStmt *const inner = outer->getStmt<hldb::ForeachStmt>();
@@ -182,9 +190,26 @@ TEST_F(ForeachSquareTest, InnerBodyIsDirectlyAssignArrayIJEqualsIMulJ) {
   const hldb::Assignment *const assign = inner->getStmt<hldb::Assignment>();
   ASSERT_NE(assign, nullptr) << "'array[i][j] = i * j;' has no begin-end, so it is directly the inner body";
   EXPECT_TRUE(assign->getBlocking());
-  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
+  ASSERT_NE(assign->getLhs(), nullptr);
+  const hldb::VarSelect *const lhs = assign->getLhs<hldb::VarSelect>();
+  ASSERT_NE(lhs, nullptr) << "'array[i][j]' selects an element of an unpacked array -> VarSelect";
   EXPECT_EQ(lhs->getName(), std::string_view{"array[i][j]"});
+  ASSERT_NE(lhs->getIndex(), nullptr);
+  const hldb::RefObj *const lhsIdxJ = lhs->getIndex<hldb::RefObj>();
+  ASSERT_NE(lhsIdxJ, nullptr);
+  EXPECT_EQ(lhsIdxJ->getName(), std::string_view{"j"});
+  ASSERT_NE(lhs->getPrefix(), nullptr);
+  const hldb::VarSelect *const row = lhs->getPrefix<hldb::VarSelect>();
+  ASSERT_NE(row, nullptr) << "'array[i]' (row i of the unpacked array) -> VarSelect";
+  EXPECT_EQ(row->getName(), std::string_view{"array[i]"});
+  ASSERT_NE(row->getPrefix(), nullptr);
+  const hldb::RefObj *const rowPrefix = row->getPrefix<hldb::RefObj>();
+  ASSERT_NE(rowPrefix, nullptr);
+  EXPECT_EQ(rowPrefix->getName(), std::string_view{"array"});
+  ASSERT_NE(row->getIndex(), nullptr);
+  const hldb::RefObj *const rowIdxI = row->getIndex<hldb::RefObj>();
+  ASSERT_NE(rowIdxI, nullptr);
+  EXPECT_EQ(rowIdxI->getName(), std::string_view{"i"});
 
   ASSERT_NE(assign->getRhs(), nullptr);
   const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();

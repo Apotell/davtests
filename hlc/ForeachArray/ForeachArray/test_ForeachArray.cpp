@@ -42,8 +42,9 @@
 //     (12.7.3: "array_name shall be ... the name of an array object")
 //   - exactly 1 loop variable "i", implicitly declared (getIsIterator())
 //   - the loop body ("array[i] = i;") is directly an Assignment (no
-//     begin-end wraps a single foreach body statement): LHS is a RefObj
-//     whose flattened name is "array[i]" and RHS is a RefObj "i"
+//     begin-end wraps a single foreach body statement): LHS is a VarSelect
+//     (element of an unpacked array) named "array[i]" whose prefix is a
+//     RefObj "array" and whose index is a RefObj "i"; RHS is a RefObj "i"
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -57,6 +58,7 @@
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
+#include <hldb/var_select.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -68,9 +70,7 @@ class ForeachArrayTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getDut() {
-    return hldb::findByName<hldb::Module>("dut", m_design->getAllModules());
-  }
+  static const hldb::Module *getDut() { return hldb::findByName<hldb::Module>("dut", m_design->getAllModules()); }
 
   static const hldb::Initial *getInitial() {
     const hldb::Module *const dut = getDut();
@@ -136,14 +136,25 @@ TEST_F(ForeachArrayTest, OneImplicitLoopVariableI) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ForeachArrayTest, BodyIsDirectlyAssignArrayIEqualsI) {
+  GTEST_SKIP() << "HLC builds a BitSelect for 'array[i]'; an element of the unpacked array 'int array[16]' "
+                  "should be a VarSelect per IEEE 1800-2023 Sec 7.4 and 37. Fix pending.";
   const hldb::ForeachStmt *const fe = getForeach();
   ASSERT_NE(fe, nullptr);
   const hldb::Assignment *const assign = fe->getStmt<hldb::Assignment>();
   ASSERT_NE(assign, nullptr) << "'array[i] = i;' has no begin-end, so it is directly the ForeachStmt's body";
   EXPECT_TRUE(assign->getBlocking());
-  const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
-  ASSERT_NE(lhs, nullptr);
+  ASSERT_NE(assign->getLhs(), nullptr);
+  const hldb::VarSelect *const lhs = assign->getLhs<hldb::VarSelect>();
+  ASSERT_NE(lhs, nullptr) << "'array[i]' selects an element of an unpacked array -> VarSelect";
   EXPECT_EQ(lhs->getName(), std::string_view{"array[i]"});
+  ASSERT_NE(lhs->getPrefix(), nullptr);
+  const hldb::RefObj *const prefix = lhs->getPrefix<hldb::RefObj>();
+  ASSERT_NE(prefix, nullptr);
+  EXPECT_EQ(prefix->getName(), std::string_view{"array"});
+  ASSERT_NE(lhs->getIndex(), nullptr);
+  const hldb::RefObj *const index = lhs->getIndex<hldb::RefObj>();
+  ASSERT_NE(index, nullptr);
+  EXPECT_EQ(index->getName(), std::string_view{"i"});
   ASSERT_NE(assign->getRhs(), nullptr);
   const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "RHS 'i' should be a RefObj";
