@@ -3137,6 +3137,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/18.9--controlling-constraints-with-constraint_mode_0.sv:47:11: Failed to bind "drop_objection".
 [WRN:CP5851] $Source01/18.9--controlling-constraints-with-constraint_mode_0.sv:58:5: Failed to bind "run_test".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:DB2038] $Source01/18.9--controlling-constraints-with-constraint_mode_0.sv:21:19: 'vpiConstraintItem' property value has invalid objects.
+[ERR:DB2038] $Source01/18.9--controlling-constraints-with-constraint_mode_0.sv:22:19: 'vpiConstraintItem' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -42880,6 +42882,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: x
           vpiFullName: a::x
+          vpiAutomatic: true
           vpiIsRandomized: true
           vpiRandType: rand (2)
           vpiVisibility: public (1)
@@ -42898,53 +42901,49 @@ Design name:unnamed:
           vpiName: c1
           vpiFullName: a::c1
           vpiConstraintItem (1 items):
-            Distribution start:21:21 end:21:27:
+            Operation start:21:21 end:21:26:
               vpiParent: Constraint name:c1
-              vpiExpr Operation start:21:21 end:21:26:
-                vpiParent: Distribution
-                vpiOpType: less than (20)
-                vpiOperand (2 items):
-                  RefObj name:x start:21:21 end:21:22:
-                    vpiParent: Operation
-                    vpiName: x
-                    vpiFullName: a::c1::x
-                    vpiActual: Variable name:x
-                  Constant start:21:25 end:21:26:
-                    vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: a::c1
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "0"
-                    vpiValue: 0
+              vpiOpType: less than (20)
+              vpiOperand (2 items):
+                RefObj name:x start:21:21 end:21:22:
+                  vpiParent: Operation
+                  vpiName: x
+                  vpiFullName: a::c1::x
+                  vpiActual: Variable name:x
+                Constant start:21:25 end:21:26:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: a::c1
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
         Constraint name:c2 start:22:19 end:22:29:
           vpiParent: ClassDefn name:a
           vpiName: c2
           vpiFullName: a::c2
           vpiConstraintItem (1 items):
-            Distribution start:22:21 end:22:27:
+            Operation start:22:21 end:22:26:
               vpiParent: Constraint name:c2
-              vpiExpr Operation start:22:21 end:22:26:
-                vpiParent: Distribution
-                vpiOpType: greater than (18)
-                vpiOperand (2 items):
-                  RefObj name:x start:22:21 end:22:22:
-                    vpiParent: Operation
-                    vpiName: x
-                    vpiFullName: a::c2::x
-                    vpiActual: Variable name:x
-                  Constant start:22:25 end:22:26:
-                    vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: a::c2
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "0"
-                    vpiValue: 0
+              vpiOpType: greater than (18)
+              vpiOperand (2 items):
+                RefObj name:x start:22:21 end:22:22:
+                  vpiParent: Operation
+                  vpiName: x
+                  vpiFullName: a::c2::x
+                  vpiActual: Variable name:x
+                Constant start:22:25 end:22:26:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: a::c2
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
     ClassDefn name:env file:$Source01/18.9--controlling-constraints-with-constraint_mode_0.sv start:25:1 end:50:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:env start:25:7 end:25:10:
@@ -42959,6 +42958,7 @@ Design name:unnamed:
             vpiActual: ClassTypespec name:a
           vpiName: obj
           vpiFullName: env::obj
+          vpiAutomatic: true
           vpiRandType: (1)
           vpiVisibility: public (1)
           vpiValue MethodFuncCall name:new start:27:11 end:27:14:
@@ -42974,6 +42974,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: ret1
           vpiFullName: env::ret1
+          vpiAutomatic: true
           vpiRandType: (1)
           vpiVisibility: public (1)
         Variable name:ret2 start:28:13 end:28:17:
@@ -42984,6 +42985,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: ret2
           vpiFullName: env::ret2
+          vpiAutomatic: true
           vpiRandType: (1)
           vpiVisibility: public (1)
       vpiTypespec (2 items):
@@ -43653,7 +43655,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 30
 [   NOTE] : 0
 ********************************************************************************
@@ -43698,7 +43700,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.9--controlling-constraints-w
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                           38893   38893       0         0
+Others                           38891   38891       0         0
 ----------------------------------------------------------------
-                                 38893   38893       0         0
+                                 38891   38891       0         0
 ===================== END REDUCTION RESULT =====================

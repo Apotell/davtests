@@ -3137,6 +3137,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/18.7--in-line-constraints--randomize_4.sv:47:11: Failed to bind "drop_objection".
 [WRN:CP5851] $Source01/18.7--in-line-constraints--randomize_4.sv:58:5: Failed to bind "run_test".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:DB2038] $Source01/18.7--in-line-constraints--randomize_4.sv:24:34: 'vpiConstraintItem' property value has invalid objects.
+[ERR:DB2038] $Source01/18.7--in-line-constraints--randomize_4.sv:24:34: 'vpiConstraintItem' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -42880,6 +42882,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: x
           vpiFullName: a::x
+          vpiAutomatic: true
           vpiIsRandomized: true
           vpiRandType: rand (2)
           vpiVisibility: public (1)
@@ -42906,6 +42909,7 @@ Design name:unnamed:
             vpiActual: ClassTypespec name:a
           vpiName: obj
           vpiFullName: env::obj
+          vpiAutomatic: true
           vpiRandType: (1)
           vpiVisibility: public (1)
           vpiValue MethodFuncCall name:new start:29:11 end:29:14:
@@ -42921,6 +42925,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: y
           vpiFullName: env::y
+          vpiAutomatic: true
           vpiRandType: (1)
           vpiVisibility: public (1)
       vpiTypespec (2 items):
@@ -43575,41 +43580,37 @@ Design name:unnamed:
                 vpiParent: MethodFuncCall name:randomize
                 vpiFullName: F.obj.randomize()
                 vpiConstraintItem (2 items):
-                  Distribution start:24:36 end:24:42:
+                  Operation start:24:36 end:24:41:
                     vpiParent: Constraint
-                    vpiExpr Operation start:24:36 end:24:41:
-                      vpiParent: Distribution
-                      vpiOpType: greater than (18)
-                      vpiOperand (2 items):
-                        RefObj name:x start:24:36 end:24:37:
-                          vpiParent: Operation
-                          vpiName: x
-                          vpiFullName: F.obj.randomize().x
-                        Constant start:24:40 end:24:41:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: F.obj.randomize()
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "0"
-                          vpiValue: 0
-                  Distribution start:24:43 end:24:49:
+                    vpiOpType: greater than (18)
+                    vpiOperand (2 items):
+                      RefObj name:x start:24:36 end:24:37:
+                        vpiParent: Operation
+                        vpiName: x
+                        vpiFullName: F.obj.randomize().x
+                      Constant start:24:40 end:24:41:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: F.obj.randomize()
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "0"
+                        vpiValue: 0
+                  Operation start:24:43 end:24:48:
                     vpiParent: Constraint
-                    vpiExpr Operation start:24:43 end:24:48:
-                      vpiParent: Distribution
-                      vpiOpType: less than (20)
-                      vpiOperand (2 items):
-                        RefObj name:x start:24:43 end:24:44:
-                          vpiParent: Operation
-                          vpiName: x
-                          vpiFullName: F.obj.randomize().x
-                        RefObj name:y start:24:47 end:24:48:
-                          vpiParent: Operation
-                          vpiName: y
-                          vpiFullName: F.obj.randomize().y
-                          vpiActual: IODecl name:y
+                    vpiOpType: less than (20)
+                    vpiOperand (2 items):
+                      RefObj name:x start:24:43 end:24:44:
+                        vpiParent: Operation
+                        vpiName: x
+                        vpiFullName: F.obj.randomize().x
+                      RefObj name:y start:24:47 end:24:48:
+                        vpiParent: Operation
+                        vpiName: y
+                        vpiFullName: F.obj.randomize().y
+                        vpiActual: IODecl name:y
           vpiActual: MethodFuncCall name:randomize
       vpiReturn RefTypespec start:23:10 end:23:13:
         vpiParent: Function name:F
@@ -43622,7 +43623,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 32
 [   NOTE] : 0
 ********************************************************************************
@@ -43667,7 +43668,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--rand
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                           38887   38887       0         0
+Others                           38885   38885       0         0
 ----------------------------------------------------------------
-                                 38887   38887       0         0
+                                 38885   38885       0         0
 ===================== END REDUCTION RESULT =====================

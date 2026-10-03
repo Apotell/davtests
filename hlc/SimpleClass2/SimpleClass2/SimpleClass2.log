@@ -16,24 +16,15 @@ COMMAND: -wd ../../../tests/SimpleClass2 +incdir+. -sverilog -writepp -d inst -m
 [INF:CP5802] $Source01/top.v:31:1: Compile package "p2".
 [WRN:CP5851] $Source01/top.v:13:10: Failed to bind "new".
 [WRN:CP5851] $Source01/top.v:13:37: Failed to bind "uvm_component".
-[WRN:CP5851] $Source01/top.v:41:5: Failed to bind "super".
-[WRN:CP5851] $Source01/top.v:42:5: Failed to bind "super".
-[WRN:CP5851] $Source01/top.v:42:11: Failed to bind "foo".
 [WRN:CP5851] $Source01/top.v:43:25: Failed to bind "id".
 [WRN:CP5851] $Source01/top.v:43:29: Failed to bind "action".
 [WRN:CP5851] $Source01/top.v:44:16: Failed to bind "addq".
 [WRN:CP5851] $Source01/top.v:44:21: Failed to bind "id".
 [WRN:CP5851] $Source01/top.v:44:25: Failed to bind "action".
-[WRN:CP5851] $Source01/top.v:45:5: Failed to bind "super".
-[WRN:CP5851] $Source01/top.v:45:11: Failed to bind "toto".
-[WRN:CP5851] $Source01/top.v:45:16: Failed to bind "len".
-[WRN:CP5851] $Source01/top.v Failed to bind "super".
-[WRN:CP5851] $Source01/top.v:46:16: Failed to bind "toto".
 [WRN:CP5851] $Source01/top.v:46:21: Failed to bind "len1".
 [WRN:PA5506] $Source01/top.v:8:1: No timescale set for "p1".
 [WRN:PA5506] $Source01/top.v:26:1: No timescale set for "p3".
 [WRN:PA5506] $Source01/top.v:31:1: No timescale set for "p2".
-[ERR:LN7705] $Source01/top.v:45:16: Null Actual: id:155, type:MethodFuncCall, name:len, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -94,6 +85,7 @@ Design name:unnamed:
                 vpiActual: StringTypespec
               vpiName: toto
               vpiFullName: p1::c1::toto
+              vpiAutomatic: true
               vpiRandType: (1)
               vpiVisibility: public (1)
           vpiTypespec (1 items):
@@ -257,6 +249,7 @@ Design name:unnamed:
                 vpiActual: TypedefTypespec name:uvm_id_actions_array
               vpiName: id_actions
               vpiFullName: p2::c2::id_actions
+              vpiAutomatic: true
               vpiRandType: (1)
               vpiVisibility: public (1)
             Variable name:inst1 start:38:12 end:38:17:
@@ -279,6 +272,7 @@ Design name:unnamed:
                 vpiActual: ClassTypespec name:c33
               vpiName: inst1
               vpiFullName: p2::c2::inst1
+              vpiAutomatic: true
               vpiRandType: (1)
               vpiVisibility: public (1)
           vpiTypespec (4 items):
@@ -373,9 +367,11 @@ Design name:unnamed:
                         vpiParent: RefObj name:super.new(name)
                         vpiName: super
                         vpiFullName: p2::c2::new::super
+                        vpiActual: ClassDefn name:c1
                       MethodFuncCall name:new start:41:11 end:41:19:
                         vpiParent: RefObj name:super.new(name)
                         vpiName Identifier name:new:
+                        vpiTaskFuncDecl: FunctionDecl name:new
                         vpiArgument (1 items):
                           RefObj name:name start:41:15 end:41:19:
                             vpiParent: MethodFuncCall name:new
@@ -391,15 +387,18 @@ Design name:unnamed:
                         vpiParent: RefObj name:super.foo(name)
                         vpiName: super
                         vpiFullName: p2::c2::new::super
-                      SubroutineCall name:foo start:42:11 end:42:20:
+                        vpiActual: ClassDefn name:c1
+                      MethodFuncCall name:foo start:42:11 end:42:20:
                         vpiParent: RefObj name:super.foo(name)
                         vpiName Identifier name:foo start:42:11 end:42:14:
+                        vpiTaskFunc: Function name:foo
                         vpiArgument (1 items):
                           RefObj name:name start:42:15 end:42:19:
-                            vpiParent: SubroutineCall name:foo
+                            vpiParent: MethodFuncCall name:foo
                             vpiName: name
-                            vpiFullName: p2::c2::new::super.foo(name)::foo::name
+                            vpiFullName: p2::c2::new::super.foo(name)::name
                             vpiActual: IODecl name:name
+                    vpiActual: MethodFuncCall name:foo
                   RefObj name:this.id_actions.add(id, action) start:43:5 end:43:36:
                     vpiParent: Begin
                     vpiName: this.id_actions.add(id, action)
@@ -460,13 +459,17 @@ Design name:unnamed:
                         vpiParent: RefObj name:super.toto.len()
                         vpiName: super
                         vpiFullName: p2::c2::new::super
+                        vpiActual: ClassDefn name:c1
                       RefObj name:toto start:45:11 end:45:15:
                         vpiParent: RefObj name:super.toto.len()
                         vpiName: toto
                         vpiFullName: p2::c2::new::toto
+                        vpiActual: Variable name:toto
                       MethodFuncCall name:len start:45:16 end:45:21:
                         vpiParent: RefObj name:super.toto.len()
                         vpiName Identifier name:len start:45:16 end:45:19:
+                        vpiTaskFunc: Function name:len
+                    vpiActual: MethodFuncCall name:len
                   RefObj name:this.super.toto.len1() start:46:5 end:46:27:
                     vpiParent: Begin
                     vpiName: this.super.toto.len1()
@@ -481,10 +484,12 @@ Design name:unnamed:
                         vpiParent: RefObj name:this.super.toto.len1()
                         vpiName: super
                         vpiFullName: p2::c2::new::super
+                        vpiActual: ClassDefn name:c1
                       RefObj name:toto start:46:16 end:46:20:
                         vpiParent: RefObj name:this.super.toto.len1()
                         vpiName: toto
                         vpiFullName: p2::c2::new::toto
+                        vpiActual: Variable name:toto
                       SubroutineCall name:len1 start:46:21 end:46:27:
                         vpiParent: RefObj name:this.super.toto.len1()
                         vpiName Identifier name:len1 start:46:21 end:46:25:
@@ -549,8 +554,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 19
+[  ERROR] : 1
+[WARNING] : 11
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

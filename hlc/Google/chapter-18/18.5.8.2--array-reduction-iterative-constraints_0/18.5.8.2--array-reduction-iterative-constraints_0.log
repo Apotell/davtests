@@ -72,6 +72,7 @@ n<$Source01/18.5.8.2--array-reduction-iterative-constraints_0.sv> u<57> t<Top_le
 AST_DEBUG_END
 [WRN:CP5851] $Source01/18.5.8.2--array-reduction-iterative-constraints_0.sv:18:22: Failed to bind "sum".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:DB2038] $Source01/18.5.8.2--array-reduction-iterative-constraints_0.sv:18:18: 'vpiConstraintItem' property value has invalid objects.
 [ERR:LN7705] $Source01/18.5.8.2--array-reduction-iterative-constraints_0.sv:18:22: Null Actual: id:21, type:MethodFuncCall, name:sum, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
@@ -96,6 +97,7 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: B
           vpiFullName: a::B
+          vpiAutomatic: true
           vpiIsRandomized: true
           vpiRandType: rand (2)
           vpiVisibility: public (1)
@@ -138,35 +140,33 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: a::c
           vpiConstraintItem (1 items):
-            Distribution start:18:20 end:18:33:
+            Operation start:18:20 end:18:32:
               vpiParent: Constraint name:c
-              vpiExpr Operation start:18:20 end:18:32:
-                vpiParent: Distribution
-                vpiOpType: equal (14)
-                vpiOperand (2 items):
-                  RefObj name:B.sum() start:18:20 end:18:27:
-                    vpiParent: Operation
-                    vpiName: B.sum()
-                    vpiFullName: a::c::B.sum()
-                    vpiPathElem (2 items):
-                      RefObj name:B start:18:20 end:18:21:
-                        vpiParent: RefObj name:B.sum()
-                        vpiName: B
-                        vpiFullName: a::c::B
-                        vpiActual: Variable name:B
-                      MethodFuncCall name:sum start:18:22 end:18:27:
-                        vpiParent: RefObj name:B.sum()
-                        vpiName Identifier name:sum start:18:22 end:18:25:
-                  Constant start:18:31 end:18:32:
-                    vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: a::c
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "5"
-                    vpiValue: 5
+              vpiOpType: equal (14)
+              vpiOperand (2 items):
+                RefObj name:B.sum() start:18:20 end:18:27:
+                  vpiParent: Operation
+                  vpiName: B.sum()
+                  vpiFullName: a::c::B.sum()
+                  vpiPathElem (2 items):
+                    RefObj name:B start:18:20 end:18:21:
+                      vpiParent: RefObj name:B.sum()
+                      vpiName: B
+                      vpiFullName: a::c::B
+                      vpiActual: Variable name:B
+                    MethodFuncCall name:sum start:18:22 end:18:27:
+                      vpiParent: RefObj name:B.sum()
+                      vpiName Identifier name:sum start:18:22 end:18:25:
+                Constant start:18:31 end:18:32:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: a::c
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "5"
+                  vpiValue: 5
   vpiTypespec (2 items):
     ClassTypespec name:a start:16:7 end:16:8:
       vpiParent: Design name:unnamed
@@ -183,7 +183,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 2
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -228,7 +228,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.8.2--array-reduction-itera
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              25      25       0         0
 ----------------------------------------------------------------
-                                    26      26       0         0
+                                    25      25       0         0
 ===================== END REDUCTION RESULT =====================

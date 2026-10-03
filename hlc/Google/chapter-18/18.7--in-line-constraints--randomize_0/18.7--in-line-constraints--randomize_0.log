@@ -3132,6 +3132,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/18.7--in-line-constraints--randomize_0.sv:42:11: Failed to bind "drop_objection".
 [WRN:CP5851] $Source01/18.7--in-line-constraints--randomize_0.sv:53:5: Failed to bind "run_test".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:DB2038] $Source01/18.7--in-line-constraints--randomize_0.sv:21:18: 'vpiConstraintItem' property value has invalid objects.
+[ERR:DB2038] $Source01/18.7--in-line-constraints--randomize_0.sv:35:28: 'vpiConstraintItem' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -42875,6 +42877,7 @@ Design name:unnamed:
             vpiActual: BitTypespec
           vpiName: x
           vpiFullName: a::x
+          vpiAutomatic: true
           vpiIsRandomized: true
           vpiRandType: rand (2)
           vpiVisibility: public (1)
@@ -42887,6 +42890,7 @@ Design name:unnamed:
             vpiActual: BitTypespec
           vpiName: y
           vpiFullName: a::y
+          vpiAutomatic: true
           vpiIsRandomized: true
           vpiRandType: rand (2)
           vpiVisibility: public (1)
@@ -42899,6 +42903,7 @@ Design name:unnamed:
             vpiActual: BitTypespec
           vpiName: z
           vpiFullName: a::z
+          vpiAutomatic: true
           vpiIsRandomized: true
           vpiRandType: rand (2)
           vpiVisibility: public (1)
@@ -42945,31 +42950,29 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: a::c
           vpiConstraintItem (1 items):
-            Distribution start:21:20 end:21:31:
+            Operation start:21:20 end:21:30:
               vpiParent: Constraint name:c
-              vpiExpr Operation start:21:20 end:21:30:
-                vpiParent: Distribution
-                vpiOpType: equal (14)
-                vpiOperand (2 items):
-                  RefObj name:z start:21:20 end:21:21:
-                    vpiParent: Operation
-                    vpiName: z
-                    vpiFullName: a::c::z
-                    vpiActual: Variable name:z
-                  Operation start:21:25 end:21:30:
-                    vpiParent: Operation
-                    vpiOpType: add (24)
-                    vpiOperand (2 items):
-                      RefObj name:x start:21:25 end:21:26:
-                        vpiParent: Operation
-                        vpiName: x
-                        vpiFullName: a::c::x
-                        vpiActual: Variable name:x
-                      RefObj name:y start:21:29 end:21:30:
-                        vpiParent: Operation
-                        vpiName: y
-                        vpiFullName: a::c::y
-                        vpiActual: Variable name:y
+              vpiOpType: equal (14)
+              vpiOperand (2 items):
+                RefObj name:z start:21:20 end:21:21:
+                  vpiParent: Operation
+                  vpiName: z
+                  vpiFullName: a::c::z
+                  vpiActual: Variable name:z
+                Operation start:21:25 end:21:30:
+                  vpiParent: Operation
+                  vpiOpType: add (24)
+                  vpiOperand (2 items):
+                    RefObj name:x start:21:25 end:21:26:
+                      vpiParent: Operation
+                      vpiName: x
+                      vpiFullName: a::c::x
+                      vpiActual: Variable name:x
+                    RefObj name:y start:21:29 end:21:30:
+                      vpiParent: Operation
+                      vpiName: y
+                      vpiFullName: a::c::y
+                      vpiActual: Variable name:y
     ClassDefn name:env file:$Source01/18.7--in-line-constraints--randomize_0.sv start:24:1 end:45:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:env start:24:7 end:24:10:
@@ -42984,6 +42987,7 @@ Design name:unnamed:
             vpiActual: ClassTypespec name:a
           vpiName: obj
           vpiFullName: env::obj
+          vpiAutomatic: true
           vpiRandType: (1)
           vpiVisibility: public (1)
           vpiValue MethodFuncCall name:new start:26:11 end:26:14:
@@ -43135,20 +43139,18 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:randomize
                           vpiFullName: env::run_phase::obj.randomize()
                           vpiConstraintItem (1 items):
-                            Distribution start:35:30 end:35:36:
+                            Operation start:35:30 end:35:35:
                               vpiParent: Constraint
-                              vpiExpr Operation start:35:30 end:35:35:
-                                vpiParent: Distribution
-                                vpiOpType: less than (20)
-                                vpiOperand (2 items):
-                                  RefObj name:x start:35:30 end:35:31:
-                                    vpiParent: Operation
-                                    vpiName: x
-                                    vpiFullName: env::run_phase::obj.randomize()::x
-                                  RefObj name:y start:35:34 end:35:35:
-                                    vpiParent: Operation
-                                    vpiName: y
-                                    vpiFullName: env::run_phase::obj.randomize()::y
+                              vpiOpType: less than (20)
+                              vpiOperand (2 items):
+                                RefObj name:x start:35:30 end:35:31:
+                                  vpiParent: Operation
+                                  vpiName: x
+                                  vpiFullName: env::run_phase::obj.randomize()::x
+                                RefObj name:y start:35:34 end:35:35:
+                                  vpiParent: Operation
+                                  vpiName: y
+                                  vpiFullName: env::run_phase::obj.randomize()::y
                     vpiActual: MethodFuncCall name:randomize
                   IfElse start:36:7 end:40:10:
                     vpiParent: Begin
@@ -43685,7 +43687,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 2
 [WARNING] : 32
 [   NOTE] : 0
 ********************************************************************************
@@ -43730,7 +43732,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--rand
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                           38895   38895       0         0
+Others                           38893   38893       0         0
 ----------------------------------------------------------------
-                                 38895   38895       0         0
+                                 38893   38893       0         0
 ===================== END REDUCTION RESULT =====================

@@ -3135,6 +3135,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/18.7.1--local-scope-resolution_1.sv:47:11: Failed to bind "drop_objection".
 [WRN:CP5851] $Source01/18.7.1--local-scope-resolution_1.sv:58:5: Failed to bind "run_test".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:DB2038] $Source01/18.7.1--local-scope-resolution_1.sv:24:30: 'vpiConstraintItem' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -42878,6 +42879,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: x
           vpiFullName: a::x
+          vpiAutomatic: true
           vpiIsRandomized: true
           vpiRandType: rand (2)
           vpiVisibility: public (1)
@@ -42904,6 +42906,7 @@ Design name:unnamed:
             vpiActual: ClassTypespec name:a
           vpiName: obj
           vpiFullName: env::obj
+          vpiAutomatic: true
           vpiRandType: (1)
           vpiVisibility: public (1)
           vpiValue MethodFuncCall name:new start:29:11 end:29:14:
@@ -42919,6 +42922,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: x
           vpiFullName: env::x
+          vpiAutomatic: true
           vpiRandType: (1)
           vpiVisibility: public (1)
       vpiTypespec (2 items):
@@ -43547,27 +43551,25 @@ Design name:unnamed:
                         vpiParent: MethodFuncCall name:randomize
                         vpiFullName: F.obj.randomize()
                         vpiConstraintItem (1 items):
-                          Distribution start:24:31 end:24:37:
+                          Operation start:24:31 end:24:36:
                             vpiParent: Constraint
-                            vpiExpr Operation start:24:31 end:24:36:
-                              vpiParent: Distribution
-                              vpiOpType: greater than (18)
-                              vpiOperand (2 items):
-                                RefObj name:x start:24:31 end:24:32:
-                                  vpiParent: Operation
-                                  vpiName: x
-                                  vpiFullName: F.obj.randomize().x
-                                  vpiActual: IODecl name:x
-                                Constant start:24:35 end:24:36:
-                                  vpiParent: Operation
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: F.obj.randomize()
-                                    vpiActual: IntTypespec
-                                  vpiConstType: unsigned int (9)
-                                  vpiSize: 64
-                                  vpiDecompile: "0"
-                                  vpiValue: 0
+                            vpiOpType: greater than (18)
+                            vpiOperand (2 items):
+                              RefObj name:x start:24:31 end:24:32:
+                                vpiParent: Operation
+                                vpiName: x
+                                vpiFullName: F.obj.randomize().x
+                                vpiActual: IODecl name:x
+                              Constant start:24:35 end:24:36:
+                                vpiParent: Operation
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: F.obj.randomize()
+                                  vpiActual: IntTypespec
+                                vpiConstType: unsigned int (9)
+                                vpiSize: 64
+                                vpiDecompile: "0"
+                                vpiValue: 0
                   vpiActual: MethodFuncCall name:randomize
           RefObj name:x start:24:49 end:24:50:
             vpiParent: Begin
@@ -43585,7 +43587,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 3
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 30
 [   NOTE] : 0
 ********************************************************************************
@@ -43630,7 +43632,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.7.1--local-scope-resolution_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                           38879   38879       0         0
+Others                           38878   38878       0         0
 ----------------------------------------------------------------
-                                 38879   38879       0         0
+                                 38878   38878       0         0
 ===================== END REDUCTION RESULT =====================

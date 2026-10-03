@@ -3089,6 +3089,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/18.6.2--post-randomize_method_1.sv:47:11: Failed to bind "drop_objection".
 [WRN:CP5851] $Source01/18.6.2--post-randomize_method_1.sv:58:5: Failed to bind "run_test".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:DB2038] $Source01/18.6.2--post-randomize_method_1.sv:23:18: 'vpiConstraintItem' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -42832,6 +42833,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: b
           vpiFullName: a::b
+          vpiAutomatic: true
           vpiIsRandomized: true
           vpiRandType: rand (2)
           vpiVisibility: public (1)
@@ -42843,6 +42845,7 @@ Design name:unnamed:
             vpiActual: IntTypespec
           vpiName: d
           vpiFullName: a::d
+          vpiAutomatic: true
           vpiRandType: (1)
           vpiVisibility: public (1)
       vpiDefName: a
@@ -42889,27 +42892,25 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: a::c
           vpiConstraintItem (1 items):
-            Distribution start:23:20 end:23:27:
+            Operation start:23:20 end:23:26:
               vpiParent: Constraint name:c
-              vpiExpr Operation start:23:20 end:23:26:
-                vpiParent: Distribution
-                vpiOpType: equal (14)
-                vpiOperand (2 items):
-                  RefObj name:b start:23:20 end:23:21:
-                    vpiParent: Operation
-                    vpiName: b
-                    vpiFullName: a::c::b
-                    vpiActual: Variable name:b
-                  Constant start:23:25 end:23:26:
-                    vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: a::c
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "5"
-                    vpiValue: 5
+              vpiOpType: equal (14)
+              vpiOperand (2 items):
+                RefObj name:b start:23:20 end:23:21:
+                  vpiParent: Operation
+                  vpiName: b
+                  vpiFullName: a::c::b
+                  vpiActual: Variable name:b
+                Constant start:23:25 end:23:26:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: a::c
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "5"
+                  vpiValue: 5
     ClassDefn name:env file:$Source01/18.6.2--post-randomize_method_1.sv start:29:1 end:50:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:env start:29:7 end:29:10:
@@ -42924,6 +42925,7 @@ Design name:unnamed:
             vpiActual: ClassTypespec name:a
           vpiName: obj
           vpiFullName: env::obj
+          vpiAutomatic: true
           vpiRandType: (1)
           vpiVisibility: public (1)
           vpiValue MethodFuncCall name:new start:31:11 end:31:14:
@@ -43543,7 +43545,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 30
 [   NOTE] : 0
 ********************************************************************************
@@ -43588,7 +43590,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.6.2--post-randomize_method_1
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                           38876   38876       0         0
+Others                           38875   38875       0         0
 ----------------------------------------------------------------
-                                 38876   38876       0         0
+                                 38875   38875       0         0
 ===================== END REDUCTION RESULT =====================
