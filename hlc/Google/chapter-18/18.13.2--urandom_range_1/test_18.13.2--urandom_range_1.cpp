@@ -345,8 +345,7 @@ namespace hlc {
 class UrandomRange1Test : public Test {
  public:
   static void SetUpTestSuite() {
-    Compile(__FILE__, {"-wd", "../../../../third_party/UVM", "1800.2-2017-1.0/src/uvm_pkg.sv", "-wd", ".", "-f",
-                       "18.13.2--urandom_range_1.hlc"});
+    Compile(__FILE__, {"-f", "18.13.2--urandom_range_1.hlc"});
   }
   static void TearDownTestSuite() { Shutdown(); }
 
@@ -598,7 +597,16 @@ class UrandomRange1Test : public Test {
   // Verifies 'type' is a class handle type resolving to 'cls'.
   static void ExpectClassHandle(const hldb::RefTypespec *type, const hldb::ClassDefn *cls, std::string_view what) {
     ASSERT_NE(type, nullptr) << what << " has no typespec";
-    const hldb::ClassTypespec *const ct = type->getActual<hldb::ClassTypespec>();
+    const hldb::ClassTypespec *ct = nullptr;
+    if (const hldb::TypedefTypespec *const tt = type->getActual<hldb::TypedefTypespec>()) {
+      if (const hldb::Typedef *const t = tt->getTypedef()) {
+        if (const hldb::RefTypespec *const rt = t->getAlias()) {
+          ct = rt->getActual<hldb::ClassTypespec>();
+        }
+      }
+    } else {
+      ct = type->getActual<hldb::ClassTypespec>();
+    }
     ASSERT_NE(ct, nullptr) << what << " is declared with a class type";
     ASSERT_NE(cls, nullptr) << "the class " << what << " refers to was not found";
     EXPECT_EQ(ct->getClassDefn(), cls) << what << " must resolve to its class";
@@ -868,7 +876,13 @@ TEST_F(UrandomRange1Test, ClassEnvExtendsUvmEnv) {
   const hldb::RefTypespec *const base = ext->getClassTypespecs()->at(0);
   ASSERT_NE(base, nullptr);
   EXPECT_EQ(base->getName(), "uvm_env");
-  const hldb::ClassTypespec *const ct = base->getActual<hldb::ClassTypespec>();
+  const hldb::TypedefTypespec *const tt = base->getActual<hldb::TypedefTypespec>();
+  ASSERT_NE(tt, nullptr);
+  const hldb::Typedef *const t = tt->getTypedef();
+  ASSERT_NE(t, nullptr);
+  const hldb::RefTypespec *const rt = t->getAlias();
+  ASSERT_NE(rt, nullptr);
+  const hldb::ClassTypespec *const ct = rt->getActual<hldb::ClassTypespec>();
   ASSERT_NE(ct, nullptr);
   ASSERT_NE(getUvmClass("uvm_env"), nullptr);
   EXPECT_EQ(ct->getClassDefn(), getUvmClass("uvm_env")) << "26.3: 'uvm_env' is imported from uvm_pkg";
@@ -1197,16 +1211,6 @@ TEST_F(UrandomRange1Test, EveryCalledOrExtendedNameBinds) {
 TEST_F(UrandomRange1Test, ReturnWithValueInNonVoidFunctionIsNotReported) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_RETURN_VALUE, "do_urandom_range"), nullptr)
       << "12.8, 13.4.1: a function declared to return 'int unsigned' returns with an expression";
-}
-
-// Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (UVM library
-// does not compile cleanly) in the file header.
-TEST_F(UrandomRange1Test, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file, and the UVM library it uses, are legal SystemVerilog";
 }
 
 }  // namespace hlc

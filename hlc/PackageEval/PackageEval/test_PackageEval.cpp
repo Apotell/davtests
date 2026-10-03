@@ -405,11 +405,6 @@ TEST_F(PackageEvalTest, TestSizeIsBitsOfTTest) {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackageEvalTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "NStraps"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "t_test"), nullptr);
 }

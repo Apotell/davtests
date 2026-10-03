@@ -457,8 +457,7 @@ TEST_F(PackageBindTest, ContAssignRhsCallsPackageFunctionWithFifteen) {
   EXPECT_EQ(scope->getActual<hldb::Package>(), getPkg()) << "26.3: the scope prefix names package prim_util_pkg";
   const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(path->getPathElems()->at(1));
   ASSERT_NE(call, nullptr) << "the last path element should be the FuncCall '_clog2(15)'";
-  EXPECT_TRUE(call->getName() == "_clog2" || call->getName() == "prim_util_pkg::_clog2")
-      << "unexpected call name '" << call->getName() << "'";
+  EXPECT_TRUE(call->getName() == "_clog2") << "unexpected call name '" << call->getName() << "'";
   ASSERT_NE(getClog2(), nullptr);
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getClog2())
       << "26.3: the scoped call must bind to _clog2 declared in prim_util_pkg";
