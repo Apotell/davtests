@@ -147,11 +147,7 @@ TEST_F(InLineRandomVariableControl1Test, ConstraintCIsXLessThanVAndYGreaterThanW
   ASSERT_NE(items, nullptr);
   ASSERT_EQ(items->size(), 1u);
 
-  const hldb::Distribution *const dist = any_cast<hldb::Distribution>((*items)[0]);
-  ASSERT_NE(dist, nullptr);
-  EXPECT_EQ(dist->getDistItems(), nullptr);
-
-  const hldb::Operation *const logAnd = dist->getExpr<hldb::Operation>();
+  const hldb::Operation *const logAnd = any_cast<hldb::Operation>((*items)[0]);
   ASSERT_NE(logAnd, nullptr) << "'x < v && y > w' should be a single Operation";
   EXPECT_EQ(logAnd->getOpType(), vpiLogAndOp);
 

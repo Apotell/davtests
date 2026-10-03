@@ -140,11 +140,7 @@ TEST_F(InLineConstraintChecker1Test, ConstraintC1IsXLessThanV) {
   ASSERT_NE(items, nullptr);
   ASSERT_EQ(items->size(), 1u);
 
-  const hldb::Distribution *const dist = any_cast<hldb::Distribution>((*items)[0]);
-  ASSERT_NE(dist, nullptr);
-  EXPECT_EQ(dist->getDistItems(), nullptr) << "no 'dist' clause is present in this constraint";
-
-  const hldb::Operation *const lt = dist->getExpr<hldb::Operation>();
+  const hldb::Operation *const lt = any_cast<hldb::Operation>((*items)[0]);
   ASSERT_NE(lt, nullptr) << "'x < v' should be an Operation";
   EXPECT_EQ(lt->getOpType(), vpiLtOp);
 

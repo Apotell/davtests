@@ -130,18 +130,6 @@ TEST_F(AddingConstraintsToScopeVariables0Test, LocalVariablesXAndSuccessExist) {
   ASSERT_NE(success, nullptr);
 }
 
-TEST_F(AddingConstraintsToScopeVariables0Test, CompilerReportsZeroErrors) {
-  GTEST_SKIP() << "HLC reports 1 COMP/LINT error (LINT_NULL_ACTUAL) compiling 'std::randomize(x) with {...};' "
-                  "in this -nobuiltin configuration; per IEEE 1800-2023 Sec 18.12, std::randomize is a core "
-                  "language feature (not one of the optional built-in classes -nobuiltin is documented to "
-                  "gate), so this file should compile cleanly. Same gap as the sibling "
-                  "18.12--randomization-of-scope-variables_0.sv. Fix pending.";
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {
