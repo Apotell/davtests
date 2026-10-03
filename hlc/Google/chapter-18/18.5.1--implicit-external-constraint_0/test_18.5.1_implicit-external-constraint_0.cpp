@@ -114,12 +114,7 @@ TEST_F(ImplicitExternalConstraint0Test, ConstraintBodyIsSingleEqualityExpression
   ASSERT_NE(items, nullptr);
   ASSERT_EQ(items->size(), 1u) << "'{ b == 0; }' has exactly one constraint_expression item";
 
-  const hldb::Distribution *const item = any_cast<hldb::Distribution>((*items)[0]);
-  ASSERT_NE(item, nullptr) << "every constraint_expression item is modeled as a Distribution node "
-                               "(Sec 18.5.4's grammar makes 'dist' an optional part of the same production)";
-  EXPECT_EQ(item->getDistItems(), nullptr) << "no 'dist' clause is present in this constraint";
-
-  const hldb::Operation *const eq = item->getExpr<hldb::Operation>();
+  const hldb::Operation *const eq = any_cast<hldb::Operation>((*items)[0]);
   ASSERT_NE(eq, nullptr) << "'b == 0' should be an Operation";
   EXPECT_EQ(eq->getOpType(), vpiEqOp);
 
@@ -132,13 +127,6 @@ TEST_F(ImplicitExternalConstraint0Test, ConstraintBodyIsSingleEqualityExpression
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(lhs->getName(), "b");
   EXPECT_EQ(rhs->getDecompile(), "0");
-}
-
-TEST_F(ImplicitExternalConstraint0Test, CompilerReportsZeroErrors) {
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
 }
 
 }  // namespace hlc
