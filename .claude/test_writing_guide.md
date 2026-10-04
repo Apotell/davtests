@@ -182,6 +182,14 @@ EXPECT_EQ(ptr->getActual()->getAnyType(), hldb::AnyType::Net);
 ```
 rather than relying on a single templated-downcast comparison to carry both meanings.
 
+**Prefer `any->getXXX<SubClass>()` over `any_cast<SubClass>(any)`.** When downcasting an `Any*`-derived pointer to a concrete subclass, use the templated form of the accessor that produced the pointer (e.g. `ref->getActual<hldb::Parameter>()`, `ca->getRhs<hldb::Operation>()`) rather than wrapping the plain accessor's result in a free `any_cast<SubClass>(...)` call. The null check, per the pitfall above, always belongs on the bare (non-templated) accessor call -- never on the downcasted value:
+```cpp
+ASSERT_NE(ca->getRhs(), nullptr);                       // bare call: "is there a value at all"
+const hldb::Operation *const op = ca->getRhs<hldb::Operation>();  // templated: "and is it this type"
+ASSERT_NE(op, nullptr) << "rhs is not an Operation";
+```
+A downcast (whether via `getXXX<T>()` or `any_cast<T>(...)`) only tells you whether the pointer is of type `T`; it says nothing about whether the underlying value is null in the first place. Checking nullness on the bare call keeps those two facts separate, consistent with the pitfall guidance above.
+
 ## Look beyond existence and name
 
 Depending on the construct under test, also check properties like `getScalared()`/`getVectored()`, `getNetType()`, `getIsMethodCall()`, signed/unsigned, packed/unpacked, and similar flags. A test that only confirms a node exists and is named correctly is leaving real coverage on the table.
@@ -220,6 +228,14 @@ Depending on the construct under test, also check properties like `getScalared()
 
 - **Test class naming.** Test class names must be suffixed with `Test`
   (e.g. `class InterfaceIdentifiersTest : public Test`).
+
+- **No bare `const char*` in `EXPECT_XX`/`ASSERT_XX` arguments.** Wrap
+  `const char*` values in `std::string_view` before passing them to a
+  gtest assertion macro (e.g. `EXPECT_EQ(name->getName(), std::string_view{"foo"})`,
+  not `EXPECT_EQ(name->getName(), "foo")` when either side could decay to a
+  raw pointer). Left as a bare `const char*`, a failing assertion prints the
+  pointer address instead of the string contents, which is useless for
+  diagnosing the failure.
 
 ## License header
 

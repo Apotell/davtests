@@ -36,7 +36,14 @@
 //
 // Checked:
 //   - module "SimDTM" exists.
-//   - every ContAssign object carries a delay of Constant
+//   - each of the four net-decl-assignment nets: Net::getNetDeclAssign()
+//     is true, Net::getDelay() is nullptr (the delay is NOT the net's own
+//     intrinsic delay here), and Net::getValue() (the inline initializer)
+//     is non-null.
+//   - module has exactly 10 continuous assignments total: 4 implicit
+//     (one per net-decl-assignment net, each with getNetDeclAssign()==true)
+//     + 6 explicit "assign #0.1 ..." statements (getNetDeclAssign()==false).
+//   - every one of those 10 ContAssign objects carries a delay of Constant
 //     "0.1", vpiRealConst (IEEE 1800-2023 Sec 5.7.2: real literal
 //     constants), size 64.
 //   - each of the 6 explicit ContAssigns' lhs is a RefObj matching the
@@ -44,9 +51,6 @@
 //
 // NOT CHECKED (out of scope; no simulation/runtime behavior is observed --
 // HLC is a compiler/elaborator, not a simulator):
-//   - The implicit ContAssign relocation for net-decl-assignment nets
-//     (Sec 6.7.1) -- tracked separately from this real-vs-integer delay
-//     literal classification.
 //   - The exact decompiled shape of the RHS expressions (concatenation,
 //     part-selects) beyond confirming they are present and, where easy,
 //     their top-level operator.
@@ -103,6 +107,47 @@ class DelayAssignTest : public Test {
 
 TEST_F(DelayAssignTest, ModuleSimDTMExists) { ASSERT_NE(getTop(), nullptr) << "module 'SimDTM' not found"; }
 
+// --- net-decl-assignment nets: delay belongs to the implicit assign, not
+// to the net's own intrinsic delay (Sec 6.7.1) ----
+
+TEST_F(DelayAssignTest, NetDeclAssignNets_DelayNotOnNetItself) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getNets(), nullptr);
+
+  const char *const names[4] = {"__debug_req_ready", "__debug_resp_valid", "__debug_resp_bits_resp",
+                                 "__debug_resp_bits_data"};
+  for (const char *const name : names) {
+    const hldb::Net *const net = hldb::findByName<hldb::Net>(name, top->getNets());
+    ASSERT_NE(net, nullptr) << "net " << name;
+    EXPECT_TRUE(net->getNetDeclAssign()) << name << ": declared with an inline initializer (Sec 6.7.1)";
+    EXPECT_EQ(net->getDelay(), nullptr)
+        << name << ": the declaration's #0.1 belongs to the implicit continuous assignment, not the net itself";
+
+    // Per Sec 6.7.1, the inline initializer is equivalent to a separate
+    // continuous assignment -- so the initializer expression is carried by
+    // that implicit ContAssign's rhs, not by the Net itself. The compiler
+    // relocates (not duplicates) the initializer expr onto the ContAssign,
+    // clearing Net::getValue() back to nullptr.
+    EXPECT_EQ(net->getValue(), nullptr)
+        << name << ": the initializer is relocated onto the implicit ContAssign, not left on the net";
+
+    const hldb::ContAssign *const ca = findContAssignFor(top, name);
+    ASSERT_NE(ca, nullptr) << name << ": implicit ContAssign not found";
+    EXPECT_TRUE(ca->getNetDeclAssign()) << name << ": ContAssign must be flagged as net-decl-assign";
+    EXPECT_NE(ca->getRhs(), nullptr) << name << ": inline initializer expression must be captured on the ContAssign";
+  }
+}
+
+// --- continuous assignment count: 4 implicit + 6 explicit = 10 ----
+
+TEST_F(DelayAssignTest, ModuleHasTenContAssigns) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getContAssigns(), nullptr);
+  EXPECT_EQ(top->getContAssigns()->size(), 10u);
+}
+
 TEST_F(DelayAssignTest, AllContAssignsCarryPointOneDelay) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
@@ -110,6 +155,24 @@ TEST_F(DelayAssignTest, AllContAssignsCarryPointOneDelay) {
   for (const hldb::ContAssign *const ca : *top->getContAssigns()) {
     ExpectPointOneDelay(ca->getDelay());
   }
+}
+
+TEST_F(DelayAssignTest, FourContAssignsAreNetDeclAssigns) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(top->getContAssigns(), nullptr);
+
+  uint32_t netDeclCount = 0;
+  uint32_t explicitCount = 0;
+  for (const hldb::ContAssign *const ca : *top->getContAssigns()) {
+    if (ca->getNetDeclAssign()) {
+      ++netDeclCount;
+    } else {
+      ++explicitCount;
+    }
+  }
+  EXPECT_EQ(netDeclCount, 4u) << "one implicit ContAssign per net-decl-assignment net";
+  EXPECT_EQ(explicitCount, 6u) << "one ContAssign per explicit 'assign #0.1 ...' statement";
 }
 
 // --- explicit "assign #0.1 ..." statements ----
