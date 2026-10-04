@@ -132,7 +132,7 @@
 //     getTaskFunc<Task>() resolves to "process"'s own "await" method (a
 //     task, since "await()" returns nothing)
 //   - module "process_tb" has exactly one process, an Initial, whose
-//     statement is a Begin wrapping exactly one TaskCall resolving to
+//     statement is a Begin wrapping exactly one MethodTaskCall resolving to
 //     "test" with one Constant argument "8"
 //   - COMP_FAILED_TO_BIND is never raised: both "self" and "await" bind
 //     cleanly to the built-in "process" class's own methods
@@ -179,7 +179,6 @@
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/task.h>
-#include <hldb/task_call.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 #include <hldb/wait_stmt.h>
@@ -622,7 +621,7 @@ TEST_F(ProcessClsAwaitTest, ModuleHasOneInitialProcess) {
 
 TEST_F(ProcessClsAwaitTest, InitialCallsTestWithConstantEight) {
   const hldb::MethodTaskCall *const call = getTestCall();
-  ASSERT_NE(call, nullptr) << "'test(8);' should be a TaskCall";
+  ASSERT_NE(call, nullptr) << "'test(8);' should be a MethodTaskCall";
   EXPECT_EQ(call->getTaskFunc<hldb::Task>(), getTestTask()) << "'test(8)' should resolve to task 'test'";
 
   ASSERT_NE(call->getArguments(), nullptr);
