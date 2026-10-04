@@ -161,11 +161,11 @@ class ExponTimeIfElseGenTest : public Test {
     return any_cast<hldb::GenIfElse>(body->getStmts()->at(0));
   }
 
-  // Verifies "i == <name>" as the GenIfElse / GenIf condition.
-  template <typename T>
-  static void CheckConditionIsIEqualsNamedConst(const T *link, std::string_view name) {
-    ASSERT_NE(link, nullptr);
-    const hldb::Operation *const cond = link->getCondition<hldb::Operation>();
+  // Verifies "i == <name>" as a chain link's condition (pass link->getCondition() of the GenIfElse
+  // or GenIf).
+  static void CheckConditionIsIEqualsNamedConst(const hldb::Any *condition, std::string_view name) {
+    ASSERT_NE(condition, nullptr);
+    const hldb::Operation *const cond = any_cast<hldb::Operation>(condition);
     ASSERT_NE(cond, nullptr) << "'i == " << name << "' should be an Operation";
     EXPECT_EQ(cond->getOpType(), vpiEqOp);
     ASSERT_NE(cond->getOperands(), nullptr);
@@ -178,11 +178,10 @@ class ExponTimeIfElseGenTest : public Test {
     EXPECT_EQ(rhs->getName(), name);
   }
 
-  // Verifies the branch body resolves to: Begin -> Always(vpiAlwaysFF).
-  template <typename T>
-  static const hldb::Always *CheckBranchBodyIsSingleAlwaysFF(const T *link) {
-    if (link == nullptr) return nullptr;
-    const hldb::Begin *const branchBody = link->getStmt<hldb::Begin>();
+  // Verifies the branch body resolves to: Begin -> Always(vpiAlwaysFF) (pass link->getStmt() of the
+  // GenIfElse or GenIf).
+  static const hldb::Always *CheckBranchBodyIsSingleAlwaysFF(const hldb::Any *branchStmt) {
+    const hldb::Begin *const branchBody = any_cast<hldb::Begin>(branchStmt);
     if (branchBody == nullptr || branchBody->getStmts() == nullptr || branchBody->getStmts()->size() != 1u) {
       return nullptr;
     }
@@ -307,7 +306,7 @@ TEST_F(ExponTimeIfElseGenTest, IfElseChainHasTenLinksInSourceOrder) {
   for (std::size_t index = 0; index < kExpectedNames.size(); ++index) {
     SCOPED_TRACE(::testing::Message() << "chain link #" << index << " (" << kExpectedNames[index] << ")");
     ASSERT_NE(link, nullptr) << "expected " << kExpectedNames.size() << " chain links, chain ended early";
-    CheckConditionIsIEqualsNamedConst(link, kExpectedNames[index]);
+    CheckConditionIsIEqualsNamedConst(link->getCondition(), kExpectedNames[index]);
 
     ASSERT_NE(link->getElseStmt(), nullptr) << "'else if (...)' should chain via getElseStmt()";
     if (index + 2 < kExpectedNames.size()) {
@@ -320,7 +319,7 @@ TEST_F(ExponTimeIfElseGenTest, IfElseChainHasTenLinksInSourceOrder) {
       const hldb::GenIf *const last = link->getElseStmt<hldb::GenIf>();
       ASSERT_NE(last, nullptr) << "the final 'else if' has no trailing bare 'else', so it should be a GenIf";
       SCOPED_TRACE(::testing::Message() << "chain link #" << (index + 1) << " (" << kExpectedNames[index + 1] << ")");
-      CheckConditionIsIEqualsNamedConst(last, kExpectedNames[index + 1]);
+      CheckConditionIsIEqualsNamedConst(last->getCondition(), kExpectedNames[index + 1]);
       break;
     }
   }
@@ -333,7 +332,7 @@ TEST_F(ExponTimeIfElseGenTest, FirstBranchBodyIsAlwaysFFWithGuardedNonBlockingAs
   const hldb::GenIfElse *const first = getFirstGenIfElse();
   ASSERT_NE(first, nullptr);
 
-  const hldb::Always *const always = CheckBranchBodyIsSingleAlwaysFF(first);
+  const hldb::Always *const always = CheckBranchBodyIsSingleAlwaysFF(first->getStmt());
   ASSERT_NE(always, nullptr) << "branch body 'begin always_ff ... end' should be a Begin holding one Always";
   EXPECT_EQ(always->getAlwaysType(), vpiAlwaysFF);
 
@@ -398,7 +397,7 @@ TEST_F(ExponTimeIfElseGenTest, RemainingNineBranchesAreEachSingleAlwaysFF) {
   // Links #0..#8 are GenIfElse; link #9 (no trailing 'else') is a GenIf.
   for (int index = 0; index < 9; ++index) {
     ASSERT_NE(link, nullptr) << "chain ended early at link #" << index;
-    const hldb::Always *const always = CheckBranchBodyIsSingleAlwaysFF(link);
+    const hldb::Always *const always = CheckBranchBodyIsSingleAlwaysFF(link->getStmt());
     EXPECT_NE(always, nullptr) << "link #" << index << ": branch body should be a single Always";
     if (always != nullptr) {
       EXPECT_EQ(always->getAlwaysType(), vpiAlwaysFF) << "link #" << index;
@@ -409,7 +408,7 @@ TEST_F(ExponTimeIfElseGenTest, RemainingNineBranchesAreEachSingleAlwaysFF) {
     } else {
       const hldb::GenIf *const last = link->getElseStmt<hldb::GenIf>();
       ASSERT_NE(last, nullptr) << "link #9 should be a GenIf";
-      const hldb::Always *const lastAlways = CheckBranchBodyIsSingleAlwaysFF(last);
+      const hldb::Always *const lastAlways = CheckBranchBodyIsSingleAlwaysFF(last->getStmt());
       ASSERT_NE(lastAlways, nullptr) << "link #9: branch body should be a single Always";
       EXPECT_EQ(lastAlways->getAlwaysType(), vpiAlwaysFF) << "link #9";
     }
