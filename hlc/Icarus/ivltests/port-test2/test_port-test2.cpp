@@ -206,11 +206,11 @@ TEST_F(PortTest2Test, Port3InAndOutAreEightBitWireNets) {
     const hldb::Net *const net = prefix->getActual<hldb::Net>();
     ASSERT_NE(net, nullptr) << name;
     EXPECT_EQ(net->getNetType(), vpiWire) << name;
-    EXPECT_FALSE(net->getScalar()) << name;
-    EXPECT_TRUE(net->getVector()) << name;
 
     const hldb::LogicTypespec *const ts = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
     ASSERT_NE(ts, nullptr) << name;
+    EXPECT_FALSE(ts->getScalar()) << name;
+    EXPECT_TRUE(ts->getVector()) << name;
     ASSERT_NE(ts->getRanges(), nullptr) << name;
     EXPECT_EQ(ts->getRanges()->at(0)->getLeftExpr<hldb::Constant>()->getDecompile(), "7") << name;
     EXPECT_EQ(ts->getRanges()->at(0)->getRightExpr<hldb::Constant>()->getDecompile(), "0") << name;
@@ -234,8 +234,10 @@ TEST_F(PortTest2Test, Port3DummyPortsAreScalarWireNets) {
     const hldb::Net *const net = lowConn->getActual<hldb::Net>();
     ASSERT_NE(net, nullptr) << name;
     EXPECT_EQ(net->getNetType(), vpiWire) << name;
-    EXPECT_TRUE(net->getScalar()) << name;
-    EXPECT_FALSE(net->getVector()) << name;
+    const hldb::LogicTypespec *const ts = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
+    ASSERT_NE(ts, nullptr) << name;
+    EXPECT_TRUE(ts->getScalar()) << name;
+    EXPECT_FALSE(ts->getVector()) << name;
   }
 }
 

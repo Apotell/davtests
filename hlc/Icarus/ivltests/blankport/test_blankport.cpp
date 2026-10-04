@@ -103,6 +103,7 @@
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
+#include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/net.h>
@@ -182,8 +183,10 @@ TEST_F(BlankPortTest, OneTwoThreePortsAreScalarInputNets) {
       const hldb::Net *const net = lowConn->getActual<hldb::Net>();
       ASSERT_NE(net, nullptr) << moduleName << "." << port->getName();
       EXPECT_EQ(net->getNetType(), vpiWire) << moduleName << "." << port->getName();
-      EXPECT_TRUE(net->getScalar()) << moduleName << "." << port->getName();
-      EXPECT_FALSE(net->getVector()) << moduleName << "." << port->getName();
+      const hldb::LogicTypespec *const ts = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
+      ASSERT_NE(ts, nullptr) << moduleName << "." << port->getName();
+      EXPECT_TRUE(ts->getScalar()) << moduleName << "." << port->getName();
+      EXPECT_FALSE(ts->getVector()) << moduleName << "." << port->getName();
     }
   }
 }

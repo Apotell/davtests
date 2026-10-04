@@ -167,11 +167,22 @@ void CheckNet(const hldb::Module *mod, const NetExpectation &e) {
     EXPECT_EQ(hldb::getSigned(actual), static_cast<bool>(e.isSigned)) << "net '" << e.name << "' unexpected signedness";
   }
 
+  // Scalar/vector is a property of the bit/logic typespec only (Sec 6.9.1);
+  // every other type is neither.
+  bool tsScalar = false;
+  bool tsVector = false;
+  if (const hldb::LogicTypespec *const lt = any_cast<hldb::LogicTypespec>(actual)) {
+    tsScalar = lt->getScalar();
+    tsVector = lt->getVector();
+  } else if (const hldb::BitTypespec *const bt = any_cast<hldb::BitTypespec>(actual)) {
+    tsScalar = bt->getScalar();
+    tsVector = bt->getVector();
+  }
   if (e.isScalar >= 0) {
-    EXPECT_EQ(net->getScalar(), static_cast<bool>(e.isScalar)) << "net '" << e.name << "' unexpected scalar flag";
+    EXPECT_EQ(tsScalar, static_cast<bool>(e.isScalar)) << "net '" << e.name << "' unexpected scalar flag";
   }
   if (e.isVector >= 0) {
-    EXPECT_EQ(net->getVector(), static_cast<bool>(e.isVector)) << "net '" << e.name << "' unexpected vector flag";
+    EXPECT_EQ(tsVector, static_cast<bool>(e.isVector)) << "net '" << e.name << "' unexpected vector flag";
   }
 
   const std::string label = std::string("net '") + e.name + "'";
