@@ -243,7 +243,7 @@ TEST_F(VectorVectoredTest, NetTypespecIsNotScalar) {
   ASSERT_NE(net, nullptr);
   const hldb::LogicTypespec *const ts = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ts, nullptr);
-  EXPECT_FALSE(ts->getScalar());
+  EXPECT_FALSE(hldb::isScalar(ts));
 }
 
 TEST_F(VectorVectoredTest, NetIsNotArrayMember) {
@@ -307,7 +307,7 @@ TEST_F(VectorVectoredTest, NetTypespecIsVector) {
   ASSERT_NE(net, nullptr);
   const hldb::LogicTypespec *const ts = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ts, nullptr);
-  EXPECT_TRUE(ts->getVector());
+  EXPECT_TRUE(hldb::isVector(ts));
 }
 
 // --- net collections (all nullptr -- no connectivity in this module) ----------

@@ -185,8 +185,8 @@ TEST_F(BlankPortTest, OneTwoThreePortsAreScalarInputNets) {
       EXPECT_EQ(net->getNetType(), vpiWire) << moduleName << "." << port->getName();
       const hldb::LogicTypespec *const ts = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
       ASSERT_NE(ts, nullptr) << moduleName << "." << port->getName();
-      EXPECT_TRUE(ts->getScalar()) << moduleName << "." << port->getName();
-      EXPECT_FALSE(ts->getVector()) << moduleName << "." << port->getName();
+      EXPECT_TRUE(hldb::isScalar(ts)) << moduleName << "." << port->getName();
+      EXPECT_FALSE(hldb::isVector(ts)) << moduleName << "." << port->getName();
     }
   }
 }
