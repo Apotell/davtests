@@ -110,7 +110,7 @@ TEST_F(DefParamFromParamTest, Fifo_Width1Default_IsConstant9) {
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'parameter width1 = 9' RHS must be a Constant";
-  // EXPECT_EQ(std::string(rhs->getValue()), "9");
+  EXPECT_EQ(std::string(rhs->getValue()), "9");
   EXPECT_EQ(rhs->getDecompile(), std::string_view("9"));
 }
 
@@ -123,7 +123,7 @@ TEST_F(DefParamFromParamTest, Fifo_Width2Default_IsConstant8) {
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'parameter width2 = 8' RHS must be a Constant";
-  // EXPECT_EQ(std::string(rhs->getValue()), "8");
+  EXPECT_EQ(std::string(rhs->getValue()), "8");
   EXPECT_EQ(rhs->getDecompile(), std::string_view("8"));
 }
 
@@ -148,7 +148,7 @@ TEST_F(DefParamFromParamTest, Top_WidthADefault_IsConstant10) {
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'parameter width_a = 10' RHS must be a Constant";
-  // EXPECT_EQ(std::string(rhs->getValue()), "10");
+  EXPECT_EQ(std::string(rhs->getValue()), "10");
   EXPECT_EQ(rhs->getDecompile(), std::string_view("10"));
 }
 

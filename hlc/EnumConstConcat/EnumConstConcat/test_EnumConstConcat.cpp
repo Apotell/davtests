@@ -237,16 +237,14 @@ TEST_F(EnumConstConcatTest, Mubi4tHasTwoConstsTrueAndFalse) {
   ASSERT_NE(trueVal, nullptr) << "'MuBi4True = 4'hA' value must be a Constant";
   EXPECT_EQ(trueVal->getConstType(), vpiHexConst);
   EXPECT_EQ(trueVal->getSize(), 4);
-  // getValue() is HLC's internal value encoding; check the source literal text instead.
-  // EXPECT_EQ(std::string(trueVal->getValue()), "a");
+  EXPECT_EQ(std::string(trueVal->getValue()), "A");
   EXPECT_EQ(trueVal->getDecompile(), std::string_view{"4'hA"});
 
   const hldb::Constant *const falseVal = e->getEnumConsts()->at(1)->getValue<hldb::Constant>();
   ASSERT_NE(falseVal, nullptr) << "'MuBi4False = 4'h5' value must be a Constant";
   EXPECT_EQ(falseVal->getConstType(), vpiHexConst);
   EXPECT_EQ(falseVal->getSize(), 4);
-  // getValue() is HLC's internal value encoding; check the source literal text instead.
-  // EXPECT_EQ(std::string(falseVal->getValue()), "5");
+  EXPECT_EQ(std::string(falseVal->getValue()), "5");
   EXPECT_EQ(falseVal->getDecompile(), std::string_view{"4'h5"});
 }
 

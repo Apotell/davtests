@@ -284,11 +284,7 @@ TEST_F(ExponTimeIfElseGenTest, GenForBodyIsUnnamedBeginWithSingleIfElseChain) {
 }
 
 TEST_F(ExponTimeIfElseGenTest, IfElseChainHasTenLinksInSourceOrder) {
-  GTEST_SKIP() << "HLC wraps every 'else if (...)' generate_block in a synthetic unnamed Begin, so getElseStmt() is "
-                  "a Begin holding the next GenIfElse/GenIf; should be the nested if_generate_construct itself "
-                  "(a generate_block may be a single generate item without begin/end) per IEEE 1800-2023 Sec "
-                  "27.3. Fix pending.";
-  static constexpr std::array<std::string_view, 10> kExpectedNames = {
+    static constexpr std::array<std::string_view, 10> kExpectedNames = {
       "ADDR_OFFSET_PART_0",
       "ADDR_OFFSET_PART_1",
       "ADDR_OFFSET_PART_2",

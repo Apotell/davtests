@@ -148,16 +148,14 @@ TEST_F(EnumConcatTest, SoftwareMValueIsConcatOfOneAndThree) {
   ASSERT_NE(bit1, nullptr);
   EXPECT_EQ(bit1->getConstType(), vpiBinaryConst);
   EXPECT_EQ(bit1->getSize(), 1);
-  // getValue() is HLC's internal value encoding; check the source literal text instead.
-  // EXPECT_EQ(std::string(bit1->getValue()), "1");
+  EXPECT_EQ(std::string(bit1->getValue()), "1");
   EXPECT_EQ(bit1->getDecompile(), std::string_view{"1'b1"});
 
   const hldb::Constant *const dec3 = any_cast<hldb::Constant>(concat->getOperands()->at(1));
   ASSERT_NE(dec3, nullptr);
   EXPECT_EQ(dec3->getConstType(), vpiDecConst);
   EXPECT_EQ(dec3->getSize(), 5);
-  // getValue() is HLC's internal value encoding; check the source literal text instead.
-  // EXPECT_EQ(std::string(dec3->getValue()), "3");
+  EXPECT_EQ(std::string(dec3->getValue()), "03");
   EXPECT_EQ(dec3->getDecompile(), std::string_view{"5'd03"});
 }
 

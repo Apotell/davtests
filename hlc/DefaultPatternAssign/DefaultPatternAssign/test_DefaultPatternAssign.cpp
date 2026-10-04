@@ -165,8 +165,6 @@ TEST_F(DefaultPatternAssignTest, ValueTempOperandIsDefaultTaggedPattern) {
 }
 
 TEST_F(DefaultPatternAssignTest, ValueTempPatternValueIsOne) {
-  GTEST_SKIP() << "HLC drops the 'default:' key and builds a concatenation of Constant 1; should be a TaggedPattern "
-                  "whose pattern is Constant 1 per IEEE 1800-2023 Sec 10.9.1. Fix pending.";
   const hldb::ParamAssign *const pa = getPkgParamAssign(m_design, "VALUE_TEMP");
   ASSERT_NE(pa, nullptr);
   const hldb::Operation *const rhs = pa->getRhs<hldb::Operation>();
@@ -178,7 +176,7 @@ TEST_F(DefaultPatternAssignTest, ValueTempPatternValueIsOne) {
   ASSERT_NE(tp, nullptr);
   const hldb::Constant *const pattern = tp->getPattern<hldb::Constant>();
   ASSERT_NE(pattern, nullptr) << "'default: 1' pattern value must be a Constant";
-  // EXPECT_EQ(pattern->getValue(), std::string_view("1"));
+  EXPECT_EQ(pattern->getValue(), std::string_view("1"));
   EXPECT_EQ(pattern->getDecompile(), std::string_view("1"));
 }
 
