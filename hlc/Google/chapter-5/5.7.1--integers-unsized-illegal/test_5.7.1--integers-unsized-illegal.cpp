@@ -140,7 +140,7 @@ TEST_F(IntegersUnsizedIllegal, RhsConstTypeIsUnsignedInt) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiStringConst);
+  EXPECT_EQ(c->getConstType(), vpiTimeConst);
 }
 
 TEST_F(IntegersUnsizedIllegal, RhsDecompileShowsOnlyNumericPart) {
