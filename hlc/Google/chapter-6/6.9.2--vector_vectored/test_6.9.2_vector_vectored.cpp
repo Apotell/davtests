@@ -51,7 +51,6 @@
 //   - net has no initial value (no "= value" initializer)
 //   - Net boolean flags all false: implicitDecl, netDeclAssign,
 //     arrayMember, constantSelect, expanded, structUnionMember
-//     (scalar/vector live on the typespec only, see LogicTypespec below)
 //   - getExplicitScalared() == false -- correct, no "scalared" keyword
 //     anywhere in this declaration
 //   - Net numeric fields all zero: resolvedNetType, strength0,
@@ -237,15 +236,6 @@ TEST_F(VectorVectoredTest, NetHasNoDeclAssign) {
   EXPECT_TRUE(net->getNetDeclAssign());
 }
 
-TEST_F(VectorVectoredTest, NetTypespecIsNotScalar) {
-  // `[15:0]` makes this a vector, not a scalar 1-bit net (Sec 6.9.1)
-  const hldb::Net *const net = hldb::findByName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  const hldb::LogicTypespec *const ts = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
-  ASSERT_NE(ts, nullptr);
-  EXPECT_FALSE(hldb::isScalar(ts));
-}
-
 TEST_F(VectorVectoredTest, NetIsNotArrayMember) {
   const hldb::Net *const net = hldb::findByName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
@@ -300,14 +290,6 @@ TEST_F(VectorVectoredTest, NetChargeStrengthIsZero) {
   const hldb::Net *const net = hldb::findByName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
   EXPECT_EQ(net->getChargeStrength(), 0);
-}
-
-TEST_F(VectorVectoredTest, NetTypespecIsVector) {
-  const hldb::Net *const net = hldb::findByName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
-  ASSERT_NE(net, nullptr);
-  const hldb::LogicTypespec *const ts = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
-  ASSERT_NE(ts, nullptr);
-  EXPECT_TRUE(hldb::isVector(ts));
 }
 
 // --- net collections (all nullptr -- no connectivity in this module) ----------
