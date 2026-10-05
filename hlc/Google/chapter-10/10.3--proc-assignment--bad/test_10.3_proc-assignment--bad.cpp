@@ -141,19 +141,25 @@ TEST_F(ProcAssignmentBadTest, InitialStmtIsBlockingAssignmentToNetW) {
   EXPECT_NE(lhs->getActual<hldb::Net>(), nullptr) << "the compiler resolves 'w' to a Net, not a Variable";
 }
 
-TEST_F(ProcAssignmentBadTest, RhsIsDelayControlWrappingBitwiseAndOfAAndB) {
+// IEEE 1800-2023 Sec 37.64: vpiRhs is the expression; the intra-assignment delay is reached via
+// vpiDelayControl and its vpiStmt is NULL (Sec 37.65 Detail 1).
+TEST_F(ProcAssignmentBadTest, RhsIsBitwiseAndOfAAndBWithSeparateDelayControl) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
   const hldb::Assignment *const assign = init->getStmt<hldb::Assignment>();
   ASSERT_NE(assign, nullptr);
-  const hldb::DelayControl *const delayCtrl = assign->getRhs<hldb::DelayControl>();
+  const hldb::DelayControl *const delayCtrl = assign->getDelayControl();
   ASSERT_NE(delayCtrl, nullptr);
+  EXPECT_EQ(assign->getEventControl(), nullptr);
+  EXPECT_EQ(assign->getRepeatControl(), nullptr);
+  EXPECT_EQ(delayCtrl->getStmt(), nullptr);
   const hldb::Constant *const delay = delayCtrl->getDelay<hldb::Constant>();
   ASSERT_NE(delay, nullptr);
   EXPECT_EQ(delay->getDecompile(), "10");
-  const hldb::Operation *const op = delayCtrl->getStmt<hldb::Operation>();
+  ASSERT_NE(assign->getRhs(), nullptr);
+  const hldb::Operation *const op = assign->getRhs<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiBitAndOp);
   ASSERT_NE(op->getOperands(), nullptr);
