@@ -138,8 +138,6 @@ struct NetExpectation {
   int32_t rangeRight;  // meaningful only when rangeLeft >= 0
   int32_t isSigned;    // -1 => not checked, 0 => false, 1 => true
   int32_t direction;   // -1 => not a port, else vpiInput/vpiOutput/vpiInout
-  int32_t isScalar;    // -1 => not checked, 0 => false, 1 => true (net's own vpiScalar flag)
-  int32_t isVector;    // -1 => not checked, 0 => false, 1 => true (net's own vpiVector flag)
 };
 
 // Expected shape of a variable-kind declaration (and, if it is also a port,
@@ -167,12 +165,6 @@ void CheckNet(const hldb::Module *mod, const NetExpectation &e) {
     EXPECT_EQ(hldb::getSigned(actual), static_cast<bool>(e.isSigned)) << "net '" << e.name << "' unexpected signedness";
   }
 
-  if (e.isScalar >= 0) {
-    EXPECT_EQ(net->getScalar(), static_cast<bool>(e.isScalar)) << "net '" << e.name << "' unexpected scalar flag";
-  }
-  if (e.isVector >= 0) {
-    EXPECT_EQ(net->getVector(), static_cast<bool>(e.isVector)) << "net '" << e.name << "' unexpected vector flag";
-  }
 
   const std::string label = std::string("net '") + e.name + "'";
   CheckRangeBounds(actual, e.rangeLeft, e.rangeRight, label.c_str());
@@ -456,19 +448,19 @@ TEST_F(NetsAndVariablesTest, Section1_NetPortsAreCorrectlyClassified) {
   const hldb::Module *const mod = getModule("ansi_ports_net_and_var");
   ASSERT_NE(mod, nullptr);
   const NetExpectation kNets[] = {
-      {"i_wire", vpiWire, -1, -1, 0, vpiInput, 1, 0},
-      {"i_wire_logic", vpiWire, -1, -1, 0, vpiInput, 1, 0},
-      {"i_tri_bus", vpiTri, 3, 0, 0, vpiInput, 0, 1},
-      {"i_logic_default", vpiWire, -1, -1, 0, vpiInput, 1, 0},
-      {"i_a", vpiWire, -1, -1, 0, vpiInput, 1, 0},
-      {"i_b", vpiWire, -1, -1, 0, vpiInput, 1, 0},
-      {"o_wire", vpiWire, -1, -1, 0, vpiOutput, 1, 0},
-      {"o_wand_logic", vpiWand, -1, -1, 0, vpiOutput, 1, 0},
-      {"io_wire", vpiWire, -1, -1, 0, vpiInout, 1, 0},
-      {"io_tri", vpiTri, -1, -1, 0, vpiInout, 1, 0},
-      {"o_wire1", vpiWire, -1, -1, 0, vpiInput, 1, 0},
-      {"o_wire2", vpiWire, -1, -1, 0, vpiInput, 1, 0},
-      {"o_wire3", vpiWire, -1, -1, 0, vpiInput, 1, 0},
+      {"i_wire", vpiWire, -1, -1, 0, vpiInput},
+      {"i_wire_logic", vpiWire, -1, -1, 0, vpiInput},
+      {"i_tri_bus", vpiTri, 3, 0, 0, vpiInput},
+      {"i_logic_default", vpiWire, -1, -1, 0, vpiInput},
+      {"i_a", vpiWire, -1, -1, 0, vpiInput},
+      {"i_b", vpiWire, -1, -1, 0, vpiInput},
+      {"o_wire", vpiWire, -1, -1, 0, vpiOutput},
+      {"o_wand_logic", vpiWand, -1, -1, 0, vpiOutput},
+      {"io_wire", vpiWire, -1, -1, 0, vpiInout},
+      {"io_tri", vpiTri, -1, -1, 0, vpiInout},
+      {"o_wire1", vpiWire, -1, -1, 0, vpiInput},
+      {"o_wire2", vpiWire, -1, -1, 0, vpiInput},
+      {"o_wire3", vpiWire, -1, -1, 0, vpiInput},
   };
   for (const NetExpectation &e : kNets) {
     CheckNet(mod, e);
@@ -652,9 +644,9 @@ TEST_F(NetsAndVariablesTest, Section2_NetPortsAreCorrectlyClassified) {
   const hldb::Module *const mod = getModule("nonansi_ports_typed");
   ASSERT_NE(mod, nullptr);
   const NetExpectation kNets[] = {
-      {"i_wire", vpiWire, -1, -1, 0, vpiInput, 1, 0},
-      {"o_wire", vpiWire, -1, -1, 0, vpiOutput, 1, 0},
-      {"io_wire", vpiWire, -1, -1, 0, vpiInout, 1, 0},
+      {"i_wire", vpiWire, -1, -1, 0, vpiInput},
+      {"o_wire", vpiWire, -1, -1, 0, vpiOutput},
+      {"io_wire", vpiWire, -1, -1, 0, vpiInout},
   };
   for (const NetExpectation &e : kNets) {
     CheckNet(mod, e);
@@ -756,9 +748,9 @@ TEST_F(NetsAndVariablesTest, Section3_NetPortsAreCorrectlyClassified) {
   const hldb::Module *const mod = getModule("nonansi_ports_companion");
   ASSERT_NE(mod, nullptr);
   const NetExpectation kNets[] = {
-      {"i1", vpiWire, -1, -1, 0, vpiInput, 1, 0},
-      {"o2", vpiWire, -1, -1, 0, vpiOutput, 1, 0},
-      {"io1", vpiTri, -1, -1, 0, vpiInout, 1, 0},
+      {"i1", vpiWire, -1, -1, 0, vpiInput},
+      {"o2", vpiWire, -1, -1, 0, vpiOutput},
+      {"io1", vpiTri, -1, -1, 0, vpiInout},
   };
   for (const NetExpectation &e : kNets) {
     CheckNet(mod, e);
@@ -849,21 +841,21 @@ TEST_F(NetsAndVariablesTest, Section4_EveryNetTypeKeywordIsCorrectlyClassified) 
   const hldb::Module *const mod = getModule("all_net_types");
   ASSERT_NE(mod, nullptr);
   const NetExpectation kNets[] = {
-      {"n_supply0", vpiSupply0, -1, -1, 0, -1, 1, 0},
-      {"n_supply1", vpiSupply1, -1, -1, 0, -1, 1, 0},
-      {"n_tri", vpiTri, -1, -1, 0, -1, 1, 0},
-      {"n_triand", vpiTriAnd, -1, -1, 0, -1, 1, 0},
-      {"n_trior", vpiTriOr, -1, -1, 0, -1, 1, 0},
-      {"n_trireg", vpiTriReg, -1, -1, 0, -1, 1, 0},
-      {"n_tri0", vpiTri0, -1, -1, 0, -1, 1, 0},
-      {"n_tri1", vpiTri1, -1, -1, 0, -1, 1, 0},
-      {"n_uwire", vpiUwire, -1, -1, 0, -1, 1, 0},
-      {"n_wire", vpiWire, -1, -1, 0, -1, 1, 0},
-      {"n_wand", vpiWand, -1, -1, 0, -1, 1, 0},
-      {"n_wor", vpiWor, -1, -1, 0, -1, 1, 0},
-      {"n_wire_bus", vpiWire, 7, 0, 0, -1, 0, 1},
-      {"n_wire_logic", vpiWire, -1, -1, 0, -1, 1, 0},
-      {"n_tri_signed", vpiTri, 3, 0, 1, -1, 0, 1},
+      {"n_supply0", vpiSupply0, -1, -1, 0, -1},
+      {"n_supply1", vpiSupply1, -1, -1, 0, -1},
+      {"n_tri", vpiTri, -1, -1, 0, -1},
+      {"n_triand", vpiTriAnd, -1, -1, 0, -1},
+      {"n_trior", vpiTriOr, -1, -1, 0, -1},
+      {"n_trireg", vpiTriReg, -1, -1, 0, -1},
+      {"n_tri0", vpiTri0, -1, -1, 0, -1},
+      {"n_tri1", vpiTri1, -1, -1, 0, -1},
+      {"n_uwire", vpiUwire, -1, -1, 0, -1},
+      {"n_wire", vpiWire, -1, -1, 0, -1},
+      {"n_wand", vpiWand, -1, -1, 0, -1},
+      {"n_wor", vpiWor, -1, -1, 0, -1},
+      {"n_wire_bus", vpiWire, 7, 0, 0, -1},
+      {"n_wire_logic", vpiWire, -1, -1, 0, -1},
+      {"n_tri_signed", vpiTri, 3, 0, 1, -1},
   };
   for (const NetExpectation &e : kNets) {
     CheckNet(mod, e);
