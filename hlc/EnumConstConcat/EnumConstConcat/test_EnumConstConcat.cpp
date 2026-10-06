@@ -282,7 +282,7 @@ TEST_F(EnumConstConcatTest, ReadingLowValueIsConcatOfLiteralAndCrossPackageEnumC
   ASSERT_NE(literal, nullptr);
   EXPECT_EQ(literal->getConstType(), vpiBinaryConst);
   EXPECT_EQ(literal->getSize(), 6);
-  EXPECT_EQ(std::string(literal->getValue()), "1100");
+  EXPECT_EQ(literal->getValue(), std::string_view("001100"));
 
   // Sec 26.3 package_scope: "prim_mubi_pkg::MuBi4False" is a cross-package
   // reference to the enum constant declared in package "prim_mubi_pkg".
