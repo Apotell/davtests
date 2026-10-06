@@ -54,6 +54,8 @@
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/func_call.h>
+#include <hldb/function.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
@@ -140,9 +142,19 @@ TEST_F(HierPathTfArgTest, SecondDisplayArgIsHierPathBlkDotF) {
   ASSERT_NE(scopeElem, nullptr);
   EXPECT_EQ(scopeElem->getName(), std::string_view("blk"));
 
-  const hldb::SubroutineCall *const callElem = any_cast<hldb::SubroutineCall>(arg->getPathElems()->at(1));
-  ASSERT_NE(callElem, nullptr) << "expected a nested SubroutineCall for the 'f(0)' path element";
+  // const hldb::SubroutineCall *const callElem = any_cast<hldb::SubroutineCall>(arg->getPathElems()->at(1));
+  // ASSERT_NE(callElem, nullptr) << "expected a nested SubroutineCall for the 'f(0)' path element";
+  // 'blk' resolves to the generate block 'blk' (Sec 27.5), and 'f(0)' binds to the function declared
+  // in it, so the call is a FuncCall (Sec 23.6).
+  const hldb::Begin *const blk = scopeElem->getActual<hldb::Begin>();
+  ASSERT_NE(blk, nullptr) << "'blk' should resolve to the generate block 'blk'";
+  EXPECT_EQ(blk->getName(), std::string_view("blk"));
+  const hldb::FuncCall *const callElem = any_cast<hldb::FuncCall>(arg->getPathElems()->at(1));
+  ASSERT_NE(callElem, nullptr) << "expected the 'f(0)' path element to be a FuncCall bound to 'blk.f'";
   EXPECT_EQ(callElem->getName(), std::string_view("f"));
+  const hldb::Function *const fn = callElem->getTaskFunc<hldb::Function>();
+  ASSERT_NE(fn, nullptr) << "'blk.f(0)' should bind to a Function";
+  EXPECT_EQ(fn->getParent(), blk) << "'blk.f(0)' should bind to the 'f' declared in 'blk'";
   ASSERT_NE(callElem->getArguments(), nullptr);
   ASSERT_EQ(callElem->getArguments()->size(), 1u);
 }
@@ -162,9 +174,21 @@ TEST_F(HierPathTfArgTest, FourthDisplayArgIsHierPathIDotBlkDotF) {
 
   EXPECT_EQ(any_cast<hldb::RefObj>(arg->getPathElems()->at(0))->getName(), std::string_view("i"));
   EXPECT_EQ(any_cast<hldb::RefObj>(arg->getPathElems()->at(1))->getName(), std::string_view("blk"));
-  const hldb::SubroutineCall *const callElem = any_cast<hldb::SubroutineCall>(arg->getPathElems()->at(2));
-  ASSERT_NE(callElem, nullptr);
+  // const hldb::SubroutineCall *const callElem = any_cast<hldb::SubroutineCall>(arg->getPathElems()->at(2));
+  // ASSERT_NE(callElem, nullptr);
+  // 'i.blk' resolves to the generate block 'blk' nested in 'i' (not the outer 'blk'), and 'f(0)' binds to
+  // the function declared in it (Sec 23.6, 27.5).
+  const hldb::Begin *const iBlk = any_cast<hldb::RefObj>(arg->getPathElems()->at(0))->getActual<hldb::Begin>();
+  const hldb::Begin *const blk = any_cast<hldb::RefObj>(arg->getPathElems()->at(1))->getActual<hldb::Begin>();
+  ASSERT_NE(iBlk, nullptr) << "'i' should resolve to the generate block 'i'";
+  ASSERT_NE(blk, nullptr) << "'i.blk' should resolve to the generate block 'blk' inside 'i'";
+  EXPECT_EQ(hldb::getParent<hldb::Begin>(blk->getParent()), iBlk) << "'i.blk' should be the 'blk' nested inside 'i'";
+  const hldb::FuncCall *const callElem = any_cast<hldb::FuncCall>(arg->getPathElems()->at(2));
+  ASSERT_NE(callElem, nullptr) << "expected the 'f(0)' path element to be a FuncCall bound to 'i.blk.f'";
   EXPECT_EQ(callElem->getName(), std::string_view("f"));
+  const hldb::Function *const fn = callElem->getTaskFunc<hldb::Function>();
+  ASSERT_NE(fn, nullptr) << "'i.blk.f(0)' should bind to a Function";
+  EXPECT_EQ(fn->getParent(), blk) << "'i.blk.f(0)' should bind to the 'f' declared in 'i.blk'";
 }
 
 // $display(top.i.blk.f(0)) -- three-level hierarchical call rooted at the
