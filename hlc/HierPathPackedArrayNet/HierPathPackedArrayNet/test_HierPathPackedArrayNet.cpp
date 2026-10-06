@@ -32,7 +32,7 @@
 //   end
 //   endmodule
 //
-// "rvfi_i[i].trap" first array-selects an element of the unpacked-array port
+// "rvfi_i[i].trap" first bit-selects an element of the packed-array port
 // "rvfi_i" and then descends via a hierarchical path into the ".trap" field
 // of the packed struct element type -- the array-select is applied *before*
 // entering the hierarchical path (contrast with HierPathPackedStruct /
@@ -41,18 +41,17 @@
 //
 // "rvfi_i" is declared with a data type only ("input rvfi_pkg::rvfi_instr_t
 // ... rvfi_i") -- no "wire"/"var" keyword is written. Per IEEE 1800-2023
-// Sec 6.7/6.8, a port with no net-type keyword defaults to a variable, not
-// a net (the "default nettype" applies only to nets that ARE declared with
-// a net keyword or implicit single-bit wires); this is the same standard
-// citation already applied elsewhere in this suite for undecorated struct
-// port declarations.
+// Sec 23.2.2.3, an ANSI "input" port whose port kind is omitted defaults to
+// a net of the default net type (wire) even when a data type is given;
+// only an "output" port with an explicit data type defaults to a variable.
 //
 // Checked:
-//   - module "rvfi_tracer" exists and has one Variable-typed port "rvfi_i"
-//     (not a Net)
-//   - the always_ff / for / if nesting is present
+//   - module "rvfi_tracer" exists and its port "rvfi_i" is a wire Net (not
+//     a Variable)
+//   - the always_ff / begin / for / begin / if nesting is present
 //   - the if-condition is a hierarchical RefObj with 2 path elements:
-//     an ArraySelect named "rvfi_i" (index "i"), then RefObj "trap"
+//     a BitSelect "rvfi_i[i]" (prefix RefObj "rvfi_i" bound to the Net,
+//     index "i"), then RefObj "trap"
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -60,7 +59,6 @@
 
 #include <hldb/Utils.h>
 #include <hldb/always.h>
-#include <hldb/array_select.h>
 #include <hldb/begin.h>
 #include <hldb/bit_select.h>
 #include <hldb/design.h>
@@ -71,6 +69,7 @@
 #include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/variable.h>
+#include <hldb/vpi_user.h>
 
 #include <gtest/gtest.h>
 
@@ -88,8 +87,10 @@ class HierPathPackedArrayNetTest : public Test {
     return hldb::findByDefName<hldb::Module>("rvfi_tracer", m_design->getAllModules());
   }
 
-  // Descends always_ff -> event-control -> for -> begin -> if, returning the
-  // IfStmt's condition, or nullptr if any expected link is missing.
+  // Descends always_ff -> event-control -> begin -> for -> begin -> if,
+  // returning the IfStmt's condition, or nullptr if any expected link is
+  // missing.  The "begin" after "@(posedge clk_i)" is the user's own block
+  // and holds the for loop.  (The original helper skipped that begin.)
   static const hldb::Expr *findIfCondition(const hldb::Module *mod) {
     if (mod == nullptr || mod->getProcesses() == nullptr) return nullptr;
     for (const hldb::Any *const proc : *mod->getProcesses()) {
@@ -97,13 +98,18 @@ class HierPathPackedArrayNetTest : public Test {
       if (always == nullptr) continue;
       const hldb::EventControl *const evc = always->getStmt<hldb::EventControl>();
       if (evc == nullptr) continue;
-      const hldb::ForStmt *const forStmt = evc->getStmt<hldb::ForStmt>();
-      if (forStmt == nullptr) continue;
-      const hldb::Begin *const body = forStmt->getStmt<hldb::Begin>();
-      if (body == nullptr || body->getStmts() == nullptr) continue;
-      for (const hldb::Any *const s : *body->getStmts()) {
-        const hldb::IfStmt *const ifStmt = any_cast<hldb::IfStmt>(s);
-        if (ifStmt != nullptr) return ifStmt->getCondition();
+      // const hldb::ForStmt *const forStmt = evc->getStmt<hldb::ForStmt>();
+      const hldb::Begin *const outer = evc->getStmt<hldb::Begin>();
+      if (outer == nullptr || outer->getStmts() == nullptr) continue;
+      for (const hldb::Any *const o : *outer->getStmts()) {
+        const hldb::ForStmt *const forStmt = any_cast<hldb::ForStmt>(o);
+        if (forStmt == nullptr) continue;
+        const hldb::Begin *const body = forStmt->getStmt<hldb::Begin>();
+        if (body == nullptr || body->getStmts() == nullptr) continue;
+        for (const hldb::Any *const s : *body->getStmts()) {
+          const hldb::IfStmt *const ifStmt = any_cast<hldb::IfStmt>(s);
+          if (ifStmt != nullptr) return ifStmt->getCondition();
+        }
       }
     }
     return nullptr;
@@ -112,16 +118,22 @@ class HierPathPackedArrayNetTest : public Test {
 
 TEST_F(HierPathPackedArrayNetTest, ModuleExists) { EXPECT_NE(getTracer(), nullptr); }
 
-TEST_F(HierPathPackedArrayNetTest, RvfiIIsVariableNotNet) {
-  // Per IEEE 1800-2023 Sec 6.7/6.8: no net-type keyword on the port
-  // declaration means "rvfi_i" must be modeled as a Variable, never a Net,
-  // regardless of any `default_nettype.
+TEST_F(HierPathPackedArrayNetTest, RvfiIIsNetNotVariable) {
+  // Per IEEE 1800-2023 Sec 23.2.2.3: an ANSI "input" port with a data type
+  // but no port kind defaults to a net of the default net type (wire); the
+  // Sec 6.7/6.8 "no net-type keyword means variable" rule does not apply to
+  // input ports.
   const hldb::Module *const mod = getTracer();
   ASSERT_NE(mod, nullptr);
-  const hldb::Variable *const asVar = hldb::findByName<hldb::Variable>("rvfi_i", mod->getVariables());
-  EXPECT_NE(asVar, nullptr) << "'rvfi_i' has no net-type keyword and must be modeled as a Variable";
+  // const hldb::Variable *const asVar = hldb::findByName<hldb::Variable>("rvfi_i", mod->getVariables());
+  // EXPECT_NE(asVar, nullptr) << "'rvfi_i' has no net-type keyword and must be modeled as a Variable";
+  // const hldb::Net *const asNet = hldb::findByName<hldb::Net>("rvfi_i", mod->getNets());
+  // EXPECT_EQ(asNet, nullptr) << "'rvfi_i' must not be modeled as a Net (no net-type keyword given)";
   const hldb::Net *const asNet = hldb::findByName<hldb::Net>("rvfi_i", mod->getNets());
-  EXPECT_EQ(asNet, nullptr) << "'rvfi_i' must not be modeled as a Net (no net-type keyword given)";
+  ASSERT_NE(asNet, nullptr) << "'rvfi_i' is an input port and must be modeled as a Net";
+  EXPECT_EQ(asNet->getNetType(), vpiWire);
+  EXPECT_EQ(hldb::findByName<hldb::Variable>("rvfi_i", mod->getVariables()), nullptr)
+      << "'rvfi_i' is an input port -- it must not also appear in vpiVariables";
 }
 
 TEST_F(HierPathPackedArrayNetTest, IfConditionExists) { EXPECT_NE(findIfCondition(getTracer()), nullptr); }
@@ -137,9 +149,18 @@ TEST_F(HierPathPackedArrayNetTest, ConditionIsArraySelectThenHierPathToTrap) {
 
   const hldb::Any *const first = hierPath->getPathElems()->at(0);
   ASSERT_NE(first, nullptr);
-  EXPECT_EQ(first->getName(), std::string_view{"rvfi_i"});
-  const hldb::ArraySelect *const arraySel = any_cast<hldb::ArraySelect>(first);
-  ASSERT_NE(arraySel, nullptr) << "first path element 'rvfi_i[i]' should be an ArraySelect";
+  // A select's own name is its full text including the index; the selected
+  // object's name is carried by its prefix.
+  // EXPECT_EQ(first->getName(), std::string_view{"rvfi_i"});
+  EXPECT_EQ(first->getName(), std::string_view{"rvfi_i[i]"});
+  const hldb::BitSelect *const arraySel = any_cast<hldb::BitSelect>(first);
+  ASSERT_NE(arraySel, nullptr) << "first path element 'rvfi_i[i]' should be a BitSelect";
+  ASSERT_NE(arraySel->getPrefix(), nullptr);
+  const hldb::RefObj *const base = arraySel->getPrefix<hldb::RefObj>();
+  ASSERT_NE(base, nullptr) << "BitSelect prefix should be a RefObj";
+  EXPECT_EQ(base->getName(), std::string_view{"rvfi_i"});
+  ASSERT_NE(base->getActual(), nullptr);
+  EXPECT_EQ(base->getActual()->getAnyType(), hldb::AnyType::Net);
   ASSERT_NE(arraySel->getIndex(), nullptr);
   const hldb::RefObj *const idx = arraySel->getIndex<hldb::RefObj>();
   ASSERT_NE(idx, nullptr);
