@@ -58,10 +58,14 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/begin.h>
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
 #include <hldb/module.h>
+#include <hldb/module_typespec.h>
+#include <hldb/ref_instance.h>
 #include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -83,6 +87,14 @@ class GenScopeFullNameTest : public Test {
     }
     return nullptr;
   }
+
+  // 'begin : gen_modules ... end' is the
+  // loop's generate block, modeled as the GenFor's body Begin (Sec 27.4).
+  // GenScope objects only exist after elaboration.
+  static const hldb::Begin *getGenModules() {
+    const hldb::GenFor *const gf = findGenFor(getModule("dut"));
+    return (gf == nullptr) ? nullptr : gf->getStmt<hldb::Begin>();
+  }
 };
 
 TEST_F(GenScopeFullNameTest, BothModulesExist) {
@@ -103,23 +115,39 @@ TEST_F(GenScopeFullNameTest, DutHasExactlyOneGenFor) {
   EXPECT_EQ(count, 1u);
 }
 
-// The generate-for scope itself is named 'gen_modules' (Sec 27.3/27.4);
+// The generate-for's generate block is named 'gen_modules' (Sec 27.3/27.4);
 // this is the scope whose full hierarchical name is nominally under test.
 TEST_F(GenScopeFullNameTest, GenForIsNamedGenModules) {
   const hldb::GenFor *const gf = findGenFor(getModule("dut"));
   ASSERT_NE(gf, nullptr) << "'for (...) begin : gen_modules ... end' not found";
-  EXPECT_EQ(gf->getName(), std::string_view("gen_modules"));
+  // EXPECT_EQ(gf->getName(), std::string_view("gen_modules"));
+  // The label names the generate block (the GenFor's body), not the GenFor.
+  const hldb::Begin *const block = getGenModules();
+  ASSERT_NE(block, nullptr) << "the generate-for body should be a generate block (Begin)";
+  EXPECT_EQ(block->getName(), std::string_view("gen_modules"));
 }
 
 // 'ibex_counter module_in_genscope(.b(a[i]));' -- one module instance
-// declared inside the generate scope, reachable via GenScope::getModules().
+// declared inside the generate block 'gen_modules'.
 TEST_F(GenScopeFullNameTest, ModuleInGenscopeDeclaredInsideGenFor) {
   const hldb::GenFor *const gf = findGenFor(getModule("dut"));
   ASSERT_NE(gf, nullptr);
-  ASSERT_NE(gf->getModules(), nullptr) << "'gen_modules' should carry the 'module_in_genscope' instance";
-  const hldb::Module *const inst = hldb::findByName<hldb::Module>("module_in_genscope", gf->getModules());
+  // ASSERT_NE(gf->getModules(), nullptr) << "'gen_modules' should carry the 'module_in_genscope' instance";
+  // const hldb::Module *const inst = hldb::findByName<hldb::Module>("module_in_genscope", gf->getModules());
+  // ASSERT_NE(inst, nullptr);
+  // EXPECT_EQ(inst->getDefName(), std::string_view("ibex_counter"));
+  // Unelaborated model: the instance is a RefInstance item of the
+  // 'gen_modules' Begin; its module is reached through its typespec.
+  const hldb::Begin *const block = getGenModules();
+  ASSERT_NE(block, nullptr);
+  ASSERT_NE(block->getStmts(), nullptr) << "'gen_modules' should carry the 'module_in_genscope' instance";
+  const hldb::RefInstance *const inst = hldb::findByName<hldb::RefInstance>("module_in_genscope", block->getStmts());
   ASSERT_NE(inst, nullptr);
-  EXPECT_EQ(inst->getDefName(), std::string_view("ibex_counter"));
+  ASSERT_NE(inst->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt, nullptr) << "'module_in_genscope' should reference a module type";
+  EXPECT_EQ(mt->getDefName(), std::string_view("ibex_counter"));
+  EXPECT_EQ(mt->getModule(), getModule("ibex_counter"));
 }
 
 // The nominal target of this test: vpiFullName / Scope::getFullName() for
@@ -128,13 +156,13 @@ TEST_F(GenScopeFullNameTest, ModuleInGenscopeDeclaredInsideGenFor) {
 // rather than locking in incorrect output as "correct".
 TEST_F(GenScopeFullNameTest, GenForFullNameIsHierarchicalPath) {
   GTEST_SKIP() << "HLC's Scope::getFullName() / vpiFullName is a known-broken computed "
-                   "property (per this repo's .claude/test_writing_guide.md: 'Never call "
-                   "getFullName() / assert on vpiFullName... currently wrong in HLC'). Per "
-                   "IEEE 1800-2023's VPI object model for hierarchically-scoped objects "
-                   "(vpiFullName) and Sec 23.6 'Hierarchical names', the full name of the "
-                   "'gen_modules' generate scope should be the dot-separated path from the "
-                   "top instance down to it (e.g. 'dut.gen_modules'). Fix pending; getName() "
-                   "should be used instead until fixed.";
+                  "property (per this repo's .claude/test_writing_guide.md: 'Never call "
+                  "getFullName() / assert on vpiFullName... currently wrong in HLC'). Per "
+                  "IEEE 1800-2023's VPI object model for hierarchically-scoped objects "
+                  "(vpiFullName) and Sec 23.6 'Hierarchical names', the full name of the "
+                  "'gen_modules' generate scope should be the dot-separated path from the "
+                  "top instance down to it (e.g. 'dut.gen_modules'). Fix pending; getName() "
+                  "should be used instead until fixed.";
 }
 
 }  // namespace hlc

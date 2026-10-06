@@ -78,13 +78,17 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/begin.h>
 #include <hldb/bit_select.h>
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
 #include <hldb/module.h>
+#include <hldb/module_typespec.h>
 #include <hldb/operation.h>
 #include <hldb/param_assign.h>
+#include <hldb/ref_instance.h>
 #include <hldb/ref_obj.h>
+#include <hldb/ref_typespec.h>
 #include <hldb/select.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
@@ -109,12 +113,34 @@ class GenScopeHierPathTest : public Test {
     return nullptr;
   }
 
+  // Unelaborated model (no -d inst): 'begin : gen_dio_attr ... end' is the
+  // loop's generate block, modeled as the GenFor's body Begin (Sec 27.4).
+  // GenScope objects only exist after elaboration.
+  static const hldb::Begin *getGenDioAttr() {
+    const hldb::GenFor *const gf = findGenFor(getModule("top"));
+    return (gf == nullptr) ? nullptr : gf->getStmt<hldb::Begin>();
+  }
+
+  // 'u_prim_pad_attr' is a RefInstance item of the 'gen_dio_attr' Begin.
+  static const hldb::RefInstance *getUPrimPadAttr() {
+    const hldb::Begin *const block = getGenDioAttr();
+    if (block == nullptr || block->getStmts() == nullptr) return nullptr;
+    return hldb::findByName<hldb::RefInstance>("u_prim_pad_attr", block->getStmts());
+  }
+
   // Walk a Select/RefObj expression chain looking for a leaf RefObj named
   // 'k' (the loop's own genvar reference used as the bit-select index).
   static const hldb::RefObj *findKRef(const hldb::Any *expr) {
     if (expr == nullptr) return nullptr;
     if (const hldb::RefObj *const ro = any_cast<hldb::RefObj>(expr)) {
       if (ro->getName() == std::string_view("k")) return ro;
+      // A hierarchical reference such as 'TargetCfg.dio_pad_type[k]' is a
+      // RefObj whose path elements hold the selects (Sec 23.6).
+      if (ro->getPathElems() != nullptr) {
+        for (const hldb::Any *const elem : *ro->getPathElems()) {
+          if (const hldb::RefObj *const found = findKRef(elem)) return found;
+        }
+      }
       return nullptr;
     }
     if (const hldb::BitSelect *const bs = any_cast<hldb::BitSelect>(expr)) {
@@ -135,7 +161,8 @@ TEST_F(GenScopeHierPathTest, AllThreeModulesExist) {
 }
 
 // 'for (genvar k = 0; k < NDioPads; k++) begin : gen_dio_attr ... end' --
-// exactly one generate-for on 'top', named 'gen_dio_attr' (Sec 27.4).
+// exactly one generate-for on 'top', whose generate block is named
+// 'gen_dio_attr' (Sec 27.4).
 TEST_F(GenScopeHierPathTest, TopHasExactlyOneGenForNamedGenDioAttr) {
   const hldb::Module *const top = getModule("top");
   ASSERT_NE(top, nullptr);
@@ -148,7 +175,11 @@ TEST_F(GenScopeHierPathTest, TopHasExactlyOneGenForNamedGenDioAttr) {
 
   const hldb::GenFor *const gf = findGenFor(getModule("top"));
   ASSERT_NE(gf, nullptr);
-  EXPECT_EQ(gf->getName(), std::string_view("gen_dio_attr"));
+  // EXPECT_EQ(gf->getName(), std::string_view("gen_dio_attr"));
+  // The label names the generate block (the GenFor's body), not the GenFor.
+  const hldb::Begin *const block = getGenDioAttr();
+  ASSERT_NE(block, nullptr) << "the generate-for body should be a generate block (Begin)";
+  EXPECT_EQ(block->getName(), std::string_view("gen_dio_attr"));
 }
 
 // 'k < NDioPads' -- relational less-than condition (Sec 11.4.4, vpiLtOp).
@@ -162,14 +193,23 @@ TEST_F(GenScopeHierPathTest, GenForConditionIsKLessThanNDioPads) {
 }
 
 // 'prim_pad_attr #(...) u_prim_pad_attr(.b(o));' -- one module instance
-// declared inside the generate-for scope (GenScope::getModules()).
+// declared inside the generate-for's generate block 'gen_dio_attr'.
 TEST_F(GenScopeHierPathTest, UPrimPadAttrDeclaredInsideGenDioAttr) {
   const hldb::GenFor *const gf = findGenFor(getModule("top"));
   ASSERT_NE(gf, nullptr);
-  ASSERT_NE(gf->getModules(), nullptr) << "'gen_dio_attr' should carry the 'u_prim_pad_attr' instance";
-  const hldb::Module *const inst = hldb::findByName<hldb::Module>("u_prim_pad_attr", gf->getModules());
+  // ASSERT_NE(gf->getModules(), nullptr) << "'gen_dio_attr' should carry the 'u_prim_pad_attr' instance";
+  // const hldb::Module *const inst = hldb::findByName<hldb::Module>("u_prim_pad_attr", gf->getModules());
+  // ASSERT_NE(inst, nullptr);
+  // EXPECT_EQ(inst->getDefName(), std::string_view("prim_pad_attr"));
+  const hldb::Begin *const block = getGenDioAttr();
+  ASSERT_NE(block, nullptr);
+  ASSERT_NE(block->getStmts(), nullptr) << "'gen_dio_attr' should carry the 'u_prim_pad_attr' instance";
+  const hldb::RefInstance *const inst = getUPrimPadAttr();
   ASSERT_NE(inst, nullptr);
-  EXPECT_EQ(inst->getDefName(), std::string_view("prim_pad_attr"));
+  ASSERT_NE(inst->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt, nullptr) << "'u_prim_pad_attr' should reference a module type";
+  EXPECT_EQ(mt->getDefName(), std::string_view("prim_pad_attr"));
 }
 
 // '.PadType(TargetCfg.dio_pad_type[k])' -- the parameter override
@@ -179,12 +219,21 @@ TEST_F(GenScopeHierPathTest, UPrimPadAttrDeclaredInsideGenDioAttr) {
 TEST_F(GenScopeHierPathTest, PadTypeOverrideReferencesLoopScopedK) {
   const hldb::GenFor *const gf = findGenFor(getModule("top"));
   ASSERT_NE(gf, nullptr);
-  ASSERT_NE(gf->getModules(), nullptr);
-  const hldb::Module *const inst = hldb::findByName<hldb::Module>("u_prim_pad_attr", gf->getModules());
+  // ASSERT_NE(gf->getModules(), nullptr);
+  // const hldb::Module *const inst = hldb::findByName<hldb::Module>("u_prim_pad_attr", gf->getModules());
+  // ASSERT_NE(inst, nullptr);
+  //
+  // ASSERT_NE(inst->getParamAssigns(), nullptr);
+  // const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("PadType", inst->getParamAssigns());
+  // Unelaborated model: the overrides live on the instance's module typespec.
+  const hldb::RefInstance *const inst = getUPrimPadAttr();
   ASSERT_NE(inst, nullptr);
+  ASSERT_NE(inst->getTypespec(), nullptr);
+  const hldb::ModuleTypespec *const mt = inst->getTypespec()->getActual<hldb::ModuleTypespec>();
+  ASSERT_NE(mt, nullptr);
 
-  ASSERT_NE(inst->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("PadType", inst->getParamAssigns());
+  ASSERT_NE(mt->getParamAssigns(), nullptr);
+  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("PadType", mt->getParamAssigns());
   ASSERT_NE(pa, nullptr) << "'.PadType(TargetCfg.dio_pad_type[k])' ParamAssign not found";
   ASSERT_NE(pa->getRhs(), nullptr);
 

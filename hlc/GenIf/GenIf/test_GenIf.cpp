@@ -64,8 +64,8 @@
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
 #include <hldb/begin.h>
-#include <hldb/cont_assign.h>
 #include <hldb/constant.h>
+#include <hldb/cont_assign.h>
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
 #include <hldb/gen_if_else.h>
@@ -157,13 +157,22 @@ TEST_F(GenIfTest, ConditionIsIEqualsZero) {
   EXPECT_EQ(rhs->getDecompile(), "0");
 }
 
-// 'assign temp1 = a;' -- taken branch, no begin/end.
+// 'assign temp1 = a;' -- taken branch, written without begin/end (still a generate block).
 TEST_F(GenIfTest, ThenBranchIsContAssignTemp1FromA) {
   const hldb::GenIfElse *const ifElse = getIfElse();
   ASSERT_NE(ifElse, nullptr);
-  const hldb::ContAssign *const assign = ifElse->getStmt<hldb::ContAssign>();
+  // IEEE 1800-2023 Sec 27.5: a generate block may be a single item without begin-end, but "even if the
+  // begin-end keywords are absent, it is still a generate block" (a separate scope). So the then-branch
+  // is an implicit, unnamed generate block (Begin) holding the single ContAssign.
+  // const hldb::ContAssign *const assign = ifElse->getStmt<hldb::ContAssign>();
   ASSERT_NE(ifElse->getStmt(), nullptr);
-  ASSERT_NE(assign, nullptr) << "'assign temp1 = a;' must be a ContAssign, directly the then-branch (no begin/end)";
+  // ASSERT_NE(assign, nullptr) << "'assign temp1 = a;' must be a ContAssign, directly the then-branch (no begin/end)";
+  const hldb::Begin *const block = ifElse->getStmt<hldb::Begin>();
+  ASSERT_NE(block, nullptr) << "the then-branch should be an implicit generate block (Begin)";
+  ASSERT_NE(block->getStmts(), nullptr);
+  ASSERT_EQ(block->getStmts()->size(), 1u);
+  const hldb::ContAssign *const assign = any_cast<hldb::ContAssign>(block->getStmts()->at(0));
+  ASSERT_NE(assign, nullptr) << "'assign temp1 = a;' must be the single item of the then-branch generate block";
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), std::string_view{"temp1"});
@@ -172,13 +181,22 @@ TEST_F(GenIfTest, ThenBranchIsContAssignTemp1FromA) {
   EXPECT_EQ(rhs->getName(), std::string_view{"a"});
 }
 
-// 'assign temp2 = b;' -- else branch, no begin/end.
+// 'assign temp2 = b;' -- else branch, written without begin/end (still a generate block).
 TEST_F(GenIfTest, ElseBranchIsContAssignTemp2FromB) {
   const hldb::GenIfElse *const ifElse = getIfElse();
   ASSERT_NE(ifElse, nullptr);
-  const hldb::ContAssign *const assign = ifElse->getElseStmt<hldb::ContAssign>();
+  // IEEE 1800-2023 Sec 27.5: a generate block may be a single item without begin-end, but "even if the
+  // begin-end keywords are absent, it is still a generate block" (a separate scope). So the else-branch
+  // is an implicit, unnamed generate block (Begin) holding the single ContAssign.
+  // const hldb::ContAssign *const assign = ifElse->getElseStmt<hldb::ContAssign>();
   ASSERT_NE(ifElse->getElseStmt(), nullptr);
-  ASSERT_NE(assign, nullptr) << "'assign temp2 = b;' must be a ContAssign, directly the else-branch (no begin/end)";
+  // ASSERT_NE(assign, nullptr) << "'assign temp2 = b;' must be a ContAssign, directly the else-branch (no begin/end)";
+  const hldb::Begin *const block = ifElse->getElseStmt<hldb::Begin>();
+  ASSERT_NE(block, nullptr) << "the else-branch should be an implicit generate block (Begin)";
+  ASSERT_NE(block->getStmts(), nullptr);
+  ASSERT_EQ(block->getStmts()->size(), 1u);
+  const hldb::ContAssign *const assign = any_cast<hldb::ContAssign>(block->getStmts()->at(0));
+  ASSERT_NE(assign, nullptr) << "'assign temp2 = b;' must be the single item of the else-branch generate block";
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), std::string_view{"temp2"});

@@ -109,6 +109,15 @@ class GenerateBlock2Test : public Test {
     if (stmts == nullptr) return nullptr;
     for (const hldb::Any *const item : *stmts) {
       if (const hldb::GenFor *const gf = any_cast<hldb::GenFor>(unwrap(item))) return gf;
+      // A GenRegion holds a single statement, so a multi-item region
+      // ('genvar ...; wire ...; for (...) ...') keeps its items in an unnamed
+      // Begin container. The region adds no scope (Sec 27.3); look inside it.
+      if (any_cast<hldb::GenRegion>(item) != nullptr) {
+        const hldb::Begin *const items = any_cast<hldb::Begin>(unwrap(item));
+        if (items != nullptr && items->getName().empty()) {
+          if (const hldb::GenFor *const gf = findGenFor(items->getStmts())) return gf;
+        }
+      }
     }
     return nullptr;
   }
@@ -132,8 +141,7 @@ TEST_F(GenerateBlock2Test, DutHasNetIntStatus) {
   const hldb::Module *const m = getModule("dut");
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getNets(), nullptr) << "'wire [2:0] int_status;' -- module must have at least one net";
-  EXPECT_NE(hldb::findByName<hldb::Net>("int_status", m->getNets()), nullptr)
-      << "net 'int_status' not found on 'dut'";
+  EXPECT_NE(hldb::findByName<hldb::Net>("int_status", m->getNets()), nullptr) << "net 'int_status' not found on 'dut'";
 }
 
 // ---------------------------------------------------------------------------
@@ -154,7 +162,9 @@ TEST_F(GenerateBlock2Test, GenIfExists) {
   ASSERT_NE(gi->getStmt(), nullptr) << "GenIf has no body";
   const hldb::Begin *const blk = gi->getStmt<hldb::Begin>();
   ASSERT_NE(blk, nullptr) << "'begin : blk end' body must be a Begin";
-  EXPECT_EQ(blk->getEndLabel(), std::string_view{"blk"});
+  // No end label in the source ('end', not 'end : blk'); the label is the name.
+  // EXPECT_EQ(blk->getEndLabel(), std::string_view{"blk"});
+  EXPECT_EQ(blk->getName(), std::string_view{"blk"});
 }
 
 // ---------------------------------------------------------------------------
@@ -187,7 +197,10 @@ TEST_F(GenerateBlock2Test, GenForBodyIsGenBlkInstantiatingSub) {
   ASSERT_NE(gf->getStmt(), nullptr) << "GenFor has no body";
   const hldb::Begin *const genBlk = gf->getStmt<hldb::Begin>();
   ASSERT_NE(genBlk, nullptr) << "'begin : gen_blk ... end' body must be a Begin";
-  EXPECT_EQ(genBlk->getEndLabel(), std::string_view{"gen_blk"});
+  // No end label in the source ('end', not 'end : gen_blk'); the label is the
+  // name.
+  // EXPECT_EQ(genBlk->getEndLabel(), std::string_view{"gen_blk"});
+  EXPECT_EQ(genBlk->getName(), std::string_view{"gen_blk"});
 
   ASSERT_NE(genBlk->getStmts(), nullptr) << "'sub sub_i (...);' -- gen_blk must have at least one statement";
   const hldb::RefInstance *subI = nullptr;

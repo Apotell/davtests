@@ -52,6 +52,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/gen_if_else.h>
@@ -72,7 +73,10 @@ class GenBlockVarTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  // Module definitions are looked up by defName: a parameterized module's
+  // getName() is "top #(.AsyncOn(1'b0))", its getDefName() is "top".
+  // static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
+  static const hldb::Module *getTop() { return hldb::findByDefName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Parameter *findParam(const hldb::Module *m, std::string_view name) {
     if (m == nullptr || m->getParameters() == nullptr) return nullptr;
@@ -115,9 +119,14 @@ TEST_F(GenBlockVarTest, AsyncOnParamNotLocalWithDefaultZero) {
 
   const hldb::ParamAssign *const pa = findParamAssign(top, "AsyncOn");
   ASSERT_NE(pa, nullptr) << "default ParamAssign for 'AsyncOn' not found";
+  ASSERT_NE(pa->getRhs(), nullptr);
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'AsyncOn = 1'b0': default RHS must be a Constant";
-  EXPECT_EQ(std::string(rhs->getDecompile()), "0");
+  // getDecompile() is the source text of the literal, i.e. "1'b0".
+  // EXPECT_EQ(std::string(rhs->getDecompile()), "0");
+  EXPECT_EQ(rhs->getDecompile(), std::string_view{"1'b0"});
+  EXPECT_EQ(rhs->getConstType(), vpiBinaryConst);
+  EXPECT_EQ(rhs->getSize(), 1);
 }
 
 // ---------------------------------------------------------------------------
@@ -145,8 +154,10 @@ TEST_F(GenBlockVarTest, ThenBranchIsAnEmptyScope) {
                  "plausible representation of an empty scope.";
     return;
   }
-  const hldb::GenScope *const thenBranch = gie->getStmt<hldb::GenScope>();
-  ASSERT_NE(thenBranch, nullptr) << "unnamed 'begin end' branch should be a GenScope";
+  // const hldb::GenScope *const thenBranch = gie->getStmt<hldb::GenScope>();
+  const hldb::Begin *const thenBranch = gie->getStmt<hldb::Begin>();
+  // ASSERT_NE(thenBranch, nullptr) << "unnamed 'begin end' branch should be a GenScope";
+  ASSERT_NE(thenBranch, nullptr) << "unnamed 'begin end' branch should be a generate block (Begin)";
   EXPECT_TRUE(thenBranch->getVariables() == nullptr || thenBranch->getVariables()->empty())
       << "'begin end' is written empty in the source";
 }
@@ -157,8 +168,10 @@ TEST_F(GenBlockVarTest, ElseBranchIsNamedGenNoAsync) {
   const hldb::GenIfElse *const gie = findGenIfElse(top);
   ASSERT_NE(gie, nullptr);
   ASSERT_NE(gie->getElseStmt(), nullptr) << "'gen_no_async' else branch is missing";
-  const hldb::GenScope *const elseBranch = gie->getElseStmt<hldb::GenScope>();
-  ASSERT_NE(elseBranch, nullptr) << "'begin : gen_no_async ... end' should be a GenScope";
+  // const hldb::GenScope *const elseBranch = gie->getElseStmt<hldb::GenScope>();
+  const hldb::Begin *const elseBranch = gie->getElseStmt<hldb::Begin>();
+  // ASSERT_NE(elseBranch, nullptr) << "'begin : gen_no_async ... end' should be a GenScope";
+  ASSERT_NE(elseBranch, nullptr) << "'begin : gen_no_async ... end' should be a generate block (Begin)";
   EXPECT_EQ(elseBranch->getName(), std::string_view{"gen_no_async"});
 }
 
@@ -171,7 +184,9 @@ TEST_F(GenBlockVarTest, GenNoAsyncHasExactlyTwoLogicVariables) {
   ASSERT_NE(top, nullptr);
   const hldb::GenIfElse *const gie = findGenIfElse(top);
   ASSERT_NE(gie, nullptr);
-  const hldb::GenScope *const elseBranch = gie->getElseStmt<hldb::GenScope>();
+  // Unelaborated design: a generate-if branch is a Begin (generate block), not a GenScope (Sec 27.5).
+  // const hldb::GenScope *const elseBranch = gie->getElseStmt<hldb::GenScope>();
+  const hldb::Begin *const elseBranch = gie->getElseStmt<hldb::Begin>();
   ASSERT_NE(elseBranch, nullptr);
   ASSERT_NE(elseBranch->getVariables(), nullptr) << "'logic diff_pq, diff_pd;' must produce variables";
   EXPECT_EQ(elseBranch->getVariables()->size(), 2u);
@@ -182,7 +197,9 @@ TEST_F(GenBlockVarTest, DiffPqAndDiffPdAreLogicTyped) {
   ASSERT_NE(top, nullptr);
   const hldb::GenIfElse *const gie = findGenIfElse(top);
   ASSERT_NE(gie, nullptr);
-  const hldb::GenScope *const elseBranch = gie->getElseStmt<hldb::GenScope>();
+  // Unelaborated design: a generate-if branch is a Begin (generate block), not a GenScope (Sec 27.5).
+  // const hldb::GenScope *const elseBranch = gie->getElseStmt<hldb::GenScope>();
+  const hldb::Begin *const elseBranch = gie->getElseStmt<hldb::Begin>();
   ASSERT_NE(elseBranch, nullptr);
   ASSERT_NE(elseBranch->getVariables(), nullptr);
 
