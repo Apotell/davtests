@@ -193,9 +193,10 @@ TEST_F(AlwaysNoElabTest, DeviceSelReqIsAVectorLogic) {
 
   const hldb::Variable *const var = hldb::findByName<hldb::Variable>("device_sel_req", mod->getVariables());
   ASSERT_NE(var, nullptr);
-  EXPECT_TRUE(var->getVector());
   ASSERT_NE(var->getTypespec(), nullptr);
-  EXPECT_NE(var->getTypespec()->getActual<hldb::LogicTypespec>(), nullptr);
+  const hldb::LogicTypespec *const typespec = var->getTypespec()->getActual<hldb::LogicTypespec>();
+  ASSERT_NE(typespec, nullptr);
+  EXPECT_TRUE(typespec->getVector());
 }
 
 TEST_F(AlwaysNoElabTest, DeviceVariableHasInlineInitializerValue) {

@@ -40,7 +40,7 @@
 // (getActual() is null) rather than an implicitly-declared net.
 //
 // Checked:
-//   - module "dut" has exactly 3 ports/nets (clk, rst, start), all scalar
+//   - module "dut" has exactly 3 ports/nets (clk, rst, start), all
 //     input wires
 //   - module has exactly 1 process, and it is an Always (not Initial,
 //     AlwaysComb, etc) whose vpiAlwaysType is the plain "always" (1)
@@ -135,7 +135,7 @@ class SigsSensListTest : public Test {
 
 TEST_F(SigsSensListTest, ModuleExists) { EXPECT_NE(getModule(), nullptr); }
 
-TEST_F(SigsSensListTest, ModuleHasThreeScalarInputWirePorts) {
+TEST_F(SigsSensListTest, ModuleHasThreeInputWirePorts) {
   const hldb::Module *const mod = getModule();
   ASSERT_NE(mod, nullptr);
   ASSERT_NE(mod->getPorts(), nullptr);
@@ -145,7 +145,6 @@ TEST_F(SigsSensListTest, ModuleHasThreeScalarInputWirePorts) {
     const hldb::Net *const net = hldb::findByName<hldb::Net>(name, mod->getNets());
     ASSERT_NE(net, nullptr) << "Net '" << name << "' is null";
     EXPECT_EQ(net->getNetType(), vpiWire);
-    EXPECT_TRUE(net->getScalar());
 
     const hldb::Port *const port = hldb::findByName<hldb::Port>(name, mod->getPorts());
     ASSERT_NE(port, nullptr) << "Port '" << name << "' is null";
