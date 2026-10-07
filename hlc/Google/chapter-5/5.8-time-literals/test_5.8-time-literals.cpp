@@ -162,34 +162,24 @@ TEST_F(TimeLiterals, AllAssignmentsAreBlocking) {
 // See the ScaledPerSpec tests below (GTEST_SKIP'd) for the Sec 5.8-correct,
 // scaled numeric value that only applies to the elaborated model.
 // ----
-TEST_F(TimeLiterals, IntegerTimeLiterals_ConstTypeIsUnsignedInt) {
+TEST_F(TimeLiterals, IntegerTimeLiterals_ConstTypeIsTimeConstant) {
   for (std::size_t i = 0; i <= 5; ++i) {
     const auto *assign = getAssignment(m_design, i);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is null";
     const auto *c = assign->getRhs<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "stmt[" << i << "] RHS is not a Constant";
-    EXPECT_EQ(c->getConstType(), vpiStringConst) << "stmt[" << i << "]: non-elaborated integer time literal is "
-                                                     "stored as a string constant (6)";
+    EXPECT_EQ(c->getConstType(), vpiTimeConst) << "stmt[" << i << "]: non-elaborated integer time literal is "
+                                                     "stored as a time constant (8)";
   }
 }
 
-TEST_F(TimeLiterals, IntegerTimeLiterals_Size) {
+TEST_F(TimeLiterals, IntegerTimeLiterals_SizeIs32) {
   for (std::size_t i = 0; i <= 5; ++i) {
     const auto *assign = getAssignment(m_design, i);
     ASSERT_NE(assign, nullptr) << "stmt[" << i << "] is null";
     const auto *c = assign->getRhs<hldb::Constant>();
     ASSERT_NE(c, nullptr) << "stmt[" << i << "] RHS is not a Constant";
-    if (m_design->getElaborated()) {
-      EXPECT_EQ(c->getSize(), 64) << "stmt[" << i << "]: Sec 5.8 'time' is 64-bit -- size must be 64";
-    } else {
-      if (i == 5) {
-        EXPECT_EQ(c->getSize(), 16) << "stmt[" << i << "]: Sec 5.8 'time' should be 16-bits = (2 * 8 bits)";
-      } else if (i == 6) {
-        EXPECT_EQ(c->getSize(), 40) << "stmt[" << i << "]: Sec 5.8 'time' should be 40-bit2 = (5 * 8 bits)";
-      } else {
-        EXPECT_EQ(c->getSize(), 24) << "stmt[" << i << "]: Sec 5.8 'time' should be 24-bits = (3 * 8 bits)";
-      }
-    }
+    EXPECT_EQ(c->getSize(), 32) << "stmt[" << i << "]: Sec 5.8 'time' should be 64-bits";
   }
 }
 
@@ -265,22 +255,14 @@ TEST_F(TimeLiterals, Assignment5_1s_ScaledPerSpec) {
 TEST_F(TimeLiterals, RealTimeLiteral_ConstTypeIsReal) {
   const auto *c = getAssignment(m_design, 6)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(c->getConstType(), vpiRealConst) << "Sec 5.8: real time literal (2.1ms) must be stored as real const (2)";
-  } else {
-    EXPECT_EQ(c->getConstType(), vpiStringConst)
-        << "Sec 5.8: real time literal (2.1ms) must be stored as string const (6)";
-  }
+  EXPECT_EQ(c->getConstType(), vpiTimeConst)
+      << "Sec 5.8: real time literal (2.1ms) must be stored as time const (8)";
 }
 
 TEST_F(TimeLiterals, RealTimeLiteral_SizeIs64) {
   const auto *c = getAssignment(m_design, 6)->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(c->getSize(), 64) << "Sec 5.8: real time literal must be 64-bit (IEEE 754 double-precision)";
-  } else {
-    EXPECT_EQ(c->getSize(), 40) << "Sec 5.8: real time literal must be 80-bits (5 * 8 bits)";
-  }
+  EXPECT_EQ(c->getSize(), 64) << "Sec 5.8: real time literal must be 64-bit (IEEE 754 double-precision)";
 }
 
 // a = 2.1ms -- 2.1e-3s / 100e-12s = 21000000

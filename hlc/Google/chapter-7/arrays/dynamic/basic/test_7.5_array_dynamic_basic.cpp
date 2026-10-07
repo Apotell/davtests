@@ -32,7 +32,7 @@
 //
 // Not checked:
 //   - vpiVariableType (not set for bit-type variables -- getVariableType() returns 0)
-//   - Variable::getVector() (false -- vpiVector only set on BitTypespec, not on Variable node)
+//   - vpiScalar/vpiVector on the Variable (these live on the BitTypespec only)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>

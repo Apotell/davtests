@@ -4,10 +4,12 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/Google/chapter-18 -timescale=1ns/1ns -d ast -d db -nobuiltin 18.13.2--urandom_range_0.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-18/18.13.2--urandom_range_0
+COMMAND: -wd ../../../../tests/Google/chapter-18 -timescale=1ns/1ns -d ast -d db 18.13.2--urandom_range_0.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-18/18.13.2--urandom_range_0
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/18.13.2--urandom_range_0.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/18.13.2--urandom_range_0.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 87
 LIB: work
@@ -129,6 +131,7 @@ Design name:unnamed:
           vpiFullName: a::do_urandom_range
           vpiMethod: true
           vpiVisibility: public (1)
+          vpiAutomatic: true
           vpiIODecl (2 items):
             IODecl name:maxval start:17:48 end:17:54:
               vpiParent: Function name:do_urandom_range
@@ -158,6 +161,7 @@ Design name:unnamed:
                   vpiActual: IntTypespec
                 vpiName: val
                 vpiFullName: a::do_urandom_range::val
+                vpiAutomatic: true
             vpiStmt (3 items):
               Variable name:val:
               Assignment start:19:9 end:19:45:
@@ -171,6 +175,7 @@ Design name:unnamed:
                 vpiRhs SysFuncCall name:$urandom_range start:19:15 end:19:45:
                   vpiParent: Assignment
                   vpiName Identifier name:$urandom_range start:19:15 end:19:29:
+                  vpiTaskFunc: Function name:$urandom_range
                   vpiArgument (2 items):
                     RefObj name:maxval start:19:30 end:19:36:
                       vpiParent: SysFuncCall name:$urandom_range
@@ -193,7 +198,7 @@ Design name:unnamed:
             vpiParent: Function name:do_urandom_range
             vpiFullName: a::do_urandom_range
             vpiActual: IntTypespec
-  vpiTypespec (3 items):
+  vpiTypespec (8 items):
     ClassTypespec name:a start:16:7 end:16:8:
       vpiParent: Design name:unnamed
       vpiName Identifier name:a:
@@ -203,6 +208,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiSigned: true
     IntTypespec:
+      vpiParent: Design name:unnamed
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
       vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
@@ -256,7 +271,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.13.2--urandom_range_0/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              28      28       0         0
+Others                            1393    1393       0         0
 ----------------------------------------------------------------
-                                    28      28       0         0
+                                  1393    1393       0         0
 ===================== END REDUCTION RESULT =====================
