@@ -189,7 +189,9 @@ TEST_F(DollarBitsTest, BitsArgumentIsSingleOperandConcatOfIn) {
   ASSERT_NE(bits->getArguments(), nullptr);
   ASSERT_EQ(bits->getArguments()->size(), 1u);
 
-  const hldb::Operation *const concat = any_cast<hldb::Operation>(bits->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = bits->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Operation *const concat = arg0->getHighConn<hldb::Operation>();
   ASSERT_NE(concat, nullptr) << "Sec 11.4.12: '{in}' is a concatenation Operation";
   EXPECT_EQ(concat->getOpType(), vpiConcatOp);
   ASSERT_NE(concat->getOperands(), nullptr);

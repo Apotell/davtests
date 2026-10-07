@@ -165,8 +165,10 @@ static void ExpectConstantFunctionCallOrFoldedFive(const hldb::Any *rhs, std::st
     EXPECT_EQ(call->getName(), expectedCalleeName);
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);
-    const hldb::RefObj *const argRef = any_cast<hldb::RefObj>(call->getArguments()->at(0));
-    const hldb::Constant *const argConst = any_cast<hldb::Constant>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::RefObj *const argRef = arg0->getHighConn<hldb::RefObj>();
+    const hldb::Constant *const argConst = arg0->getHighConn<hldb::Constant>();
     EXPECT_TRUE(argRef != nullptr || argConst != nullptr)
         << "13.4.3 requires the argument to a constant function call to be a constant expression";
   } else if (const hldb::Constant *const folded = any_cast<hldb::Constant>(rhs)) {

@@ -158,7 +158,9 @@ class Delay2ParamTest : public Test {
         << "'clog2' is never declared in this file (it is not '$clog2') -- must not resolve (Sec 13.4.1)";
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);
-    const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
     ASSERT_NE(arg, nullptr) << lpName << ": clog2's argument must be a RefObj";
     EXPECT_EQ(arg->getName(), paramName);
 

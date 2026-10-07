@@ -337,10 +337,9 @@ TEST_F(ExtendClassMemberTest, OutOfBlockNewMemberAccessResolution) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ExtendClassMemberTest, CompilerReportsAtLeastOneError) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbError, 0) << "'extends uvm_sequencer_base' names an undeclared class (Sec 8.13/6.3) and "
-                                   "must be diagnosed as an error";
+  ASSERT_NE(findError(ErrorDefinition::ErrorType::COMP_FAILED_TO_BIND, "uvm_sequence_item", 9), nullptr);
+  ASSERT_NE(findError(ErrorDefinition::ErrorType::COMP_FAILED_TO_BIND, "uvm_sequence_item", 12), nullptr);
+  ASSERT_NE(findError(ErrorDefinition::ErrorType::COMP_FAILED_TO_BIND, "uvm_sequencer_base", 13), nullptr);
 }
 
 }  // namespace hlc

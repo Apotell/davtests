@@ -141,7 +141,9 @@ TEST_F(ElabSysCallTest, TopFatal_HasFatalSysTaskCallWithOneStringArgument) {
   EXPECT_EQ(call->getName(), "$fatal");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "'$fatal(\"...\")' called with a single message argument";
-  EXPECT_NE(any_cast<hldb::Constant>(call->getArguments()->at(0)), nullptr)
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_NE(arg0->getHighConn<hldb::Constant>(), nullptr)
       << "'$fatal's message argument must be a (string) Constant";
 }
 
@@ -157,7 +159,9 @@ TEST_F(ElabSysCallTest, TopError_HasErrorSysTaskCallWithOneStringArgument) {
   EXPECT_EQ(call->getName(), "$error");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  EXPECT_NE(any_cast<hldb::Constant>(call->getArguments()->at(0)), nullptr)
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_NE(arg0->getHighConn<hldb::Constant>(), nullptr)
       << "'$error's message argument must be a (string) Constant";
 }
 
@@ -173,7 +177,9 @@ TEST_F(ElabSysCallTest, TopWarning_HasWarningSysTaskCallWithOneStringArgument) {
   EXPECT_EQ(call->getName(), "$warning");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  EXPECT_NE(any_cast<hldb::Constant>(call->getArguments()->at(0)), nullptr)
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_NE(arg0->getHighConn<hldb::Constant>(), nullptr)
       << "'$warning's message argument must be a (string) Constant";
 }
 
@@ -189,7 +195,9 @@ TEST_F(ElabSysCallTest, TopInfo_HasInfoSysTaskCallWithOneStringArgument) {
   EXPECT_EQ(call->getName(), "$info");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  EXPECT_NE(any_cast<hldb::Constant>(call->getArguments()->at(0)), nullptr)
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_NE(arg0->getHighConn<hldb::Constant>(), nullptr)
       << "'$info's message argument must be a (string) Constant";
 }
 

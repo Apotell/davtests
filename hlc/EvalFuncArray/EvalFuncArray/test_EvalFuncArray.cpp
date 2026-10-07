@@ -142,7 +142,9 @@ TEST_F(EvalFuncArrayTest, ParamInfosPerBankCallsMaxInfoPagesWithFiveElementArray
     EXPECT_EQ(call->getName(), "max_info_pages");
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);
-    const hldb::Operation *const opArg = any_cast<hldb::Operation>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::Operation *const opArg = arg0->getHighConn<hldb::Operation>();
     ASSERT_NE(opArg, nullptr) << "'{10, 1, 14, 18, 12}' should be modeled as an Operation argument, actual "
                                    "AnyType: "
                                 << static_cast<int>(call->getArguments()->at(0)->getAnyType());

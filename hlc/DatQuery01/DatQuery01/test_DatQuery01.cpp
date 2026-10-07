@@ -151,7 +151,9 @@ TEST_F(DatQuery01Test, BitsOfI_IsSysFuncCallWithOneRefObjArgument) {
   ASSERT_NE(bits->getArguments(), nullptr);
   ASSERT_EQ(bits->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(bits->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = bits->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "$bits(i) argument must be a RefObj naming 'i'";
   EXPECT_EQ(arg->getName(), std::string_view("i"));
   EXPECT_NE(arg->getActual(), nullptr) << "'i' inside $bits(i) must resolve to tb's 'i' variable";
@@ -170,7 +172,9 @@ TEST_F(DatQuery01Test, BitsOfL8_IsSysFuncCallWithOneRefObjArgument) {
   ASSERT_NE(bits->getArguments(), nullptr);
   ASSERT_EQ(bits->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(bits->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = bits->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "$bits(l8) argument must be a RefObj naming 'l8'";
   EXPECT_EQ(arg->getName(), std::string_view("l8"));
   EXPECT_NE(arg->getActual(), nullptr) << "'l8' inside $bits(l8) must resolve to tb's 'l8' variable";
@@ -204,7 +208,9 @@ TEST_F(DatQuery01Test, TypenameOfS_IsSysFuncCallWithOneRefObjArgument) {
   ASSERT_NE(tn->getArguments(), nullptr);
   ASSERT_EQ(tn->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(tn->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = tn->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "$typename(s) argument must be a RefObj naming 's'";
   EXPECT_EQ(arg->getName(), std::string_view("s"));
   EXPECT_NE(arg->getActual(), nullptr) << "'s' inside $typename(s) must resolve to tb's 's' variable";
@@ -223,7 +229,9 @@ TEST_F(DatQuery01Test, TypenameOfI_IsSysFuncCallWithOneRefObjArgument) {
   ASSERT_NE(tn->getArguments(), nullptr);
   ASSERT_EQ(tn->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(tn->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = tn->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "$typename(i) argument must be a RefObj naming 'i'";
   EXPECT_EQ(arg->getName(), std::string_view("i"));
   EXPECT_NE(arg->getActual(), nullptr) << "'i' inside $typename(i) must resolve to tb's 'i' variable";

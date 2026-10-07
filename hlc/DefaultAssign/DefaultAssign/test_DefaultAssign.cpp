@@ -150,15 +150,15 @@ TEST_F(DefaultAssignTest, ContAssignRhsIsAssignmentPatternWithOneOperand) {
 // foo f(.data('{ default: 1 }));
 // ---------------------------------------------------------------------------
 
-TEST_F(DefaultAssignTest, FInstancePortDataIsConnected) {
+TEST_F(DefaultAssignTest, FInstanceArgumentsDataIsConnected) {
   const hldb::Module *const dut = getDut();
   ASSERT_NE(dut, nullptr);
   ASSERT_NE(dut->getRefInstances(), nullptr);
   const hldb::RefInstance *const f = hldb::findByName<hldb::RefInstance>("f", dut->getRefInstances());
   ASSERT_NE(f, nullptr);
-  ASSERT_NE(f->getPorts(), nullptr);
-  EXPECT_EQ(f->getPorts()->size(), 1u) << "'f(.data(...))' connects exactly one port";
-  EXPECT_NE(f->getPorts()->at(0), nullptr) << "the '.data('{ default: 1 })' connection must be captured";
+  ASSERT_NE(f->getArguments(), nullptr);
+  EXPECT_EQ(f->getArguments()->size(), 1u) << "'f(.data(...))' connects exactly one port";
+  EXPECT_NE(f->getArguments()->at(0), nullptr) << "the '.data('{ default: 1 })' connection must be captured";
 }
 
 // ---------------------------------------------------------------------------

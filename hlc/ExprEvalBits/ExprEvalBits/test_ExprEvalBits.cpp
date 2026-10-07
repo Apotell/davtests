@@ -275,7 +275,9 @@ TEST_F(ExprEvalBitsTest, InnermostOperationIsBitsMinus32) {
   EXPECT_EQ(bits->getName(), "$bits");
   ASSERT_NE(bits->getArguments(), nullptr);
   ASSERT_EQ(bits->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(bits->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = bits->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "PARAM");
   EXPECT_EQ(arg->getActual<hldb::Parameter>(), getParam());
