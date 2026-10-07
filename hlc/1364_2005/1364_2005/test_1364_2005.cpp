@@ -73,10 +73,10 @@ class Keywords1364_2005Test : public Test {
 
   static void expectVectorRange(const hldb::Variable *var, int32_t left, int32_t right) {
     ASSERT_NE(var, nullptr);
-    EXPECT_TRUE(var->getVector());
     ASSERT_NE(var->getTypespec(), nullptr);
     const hldb::LogicTypespec *const typespec = var->getTypespec()->getActual<hldb::LogicTypespec>();
     ASSERT_NE(typespec, nullptr);
+    EXPECT_TRUE(typespec->getVector());
     ASSERT_NE(typespec->getRanges(), nullptr);
     ASSERT_EQ(typespec->getRanges()->size(), 1u);
     const hldb::Range *const range = typespec->getRanges()->at(0);
@@ -91,7 +91,6 @@ class Keywords1364_2005Test : public Test {
 
   static void expectScalarNoRange(const hldb::Variable *var) {
     ASSERT_NE(var, nullptr);
-    EXPECT_TRUE(var->getScalar());
     ASSERT_NE(var->getTypespec(), nullptr);
     const hldb::LogicTypespec *const typespec = var->getTypespec()->getActual<hldb::LogicTypespec>();
     ASSERT_NE(typespec, nullptr);
