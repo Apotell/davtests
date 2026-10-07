@@ -237,10 +237,14 @@ TEST_F(AssociativeArrayDeleteTest, FirstDisplayAssertsSizeEqualsThree) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 3)");
-  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "map.size");
   ASSERT_NE(size->getPathElems(), nullptr);
@@ -276,7 +280,9 @@ TEST_F(AssociativeArrayDeleteTest, DeleteSadStatementIsRefObjWithMethodFuncCall)
   EXPECT_EQ(call->getName(), "delete");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getConstType(), vpiStringConst);
   EXPECT_EQ(arg->getValue(), "sad");
@@ -291,10 +297,14 @@ TEST_F(AssociativeArrayDeleteTest, SecondDisplayAssertsSizeEqualsTwo) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 2)");
-  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "map.size");
 }
@@ -331,10 +341,14 @@ TEST_F(AssociativeArrayDeleteTest, ThirdDisplayAssertsSizeEqualsZero) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(7));
   ASSERT_NE(disp, nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 0)");
-  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "map.size");
 }
@@ -367,7 +381,9 @@ TEST_F(AssociativeArrayDeleteTest, ArrRefObjsShouldResolve) {
 
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
   ASSERT_NE(varRef, nullptr);
@@ -401,12 +417,16 @@ TEST_F(AssociativeArrayDeleteTest, DeleteRuntimeEffectOnMapSizeRequiresSimulatio
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const afterDeleteSad = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
   ASSERT_NE(afterDeleteSad, nullptr);
-  const hldb::Constant *const fmt1 = any_cast<hldb::Constant>(afterDeleteSad->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = afterDeleteSad->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt1 = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt1, nullptr);
   EXPECT_EQ(fmt1->getValue(), ":assert: (%d == 2)");
   const hldb::SysFuncCall *const afterBareDelete = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(7));
   ASSERT_NE(afterBareDelete, nullptr);
-  const hldb::Constant *const fmt2 = any_cast<hldb::Constant>(afterBareDelete->getArguments()->at(0));
+  const hldb::NamedArgument *const fmt2Arg = afterBareDelete->getArguments()->at(0);
+  ASSERT_NE(fmt2Arg, nullptr);
+  const hldb::Constant *const fmt2 = fmt2Arg->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt2, nullptr);
   EXPECT_EQ(fmt2->getValue(), ":assert: (%d == 0)");
 }

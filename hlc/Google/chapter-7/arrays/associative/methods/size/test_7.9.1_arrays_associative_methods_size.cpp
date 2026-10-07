@@ -146,10 +146,14 @@ TEST_F(AssociativeArraySizeTest, FirstDisplayAssertsSizeEqualsZero) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 0)");
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
   ASSERT_NE(hp->getPathElems(), nullptr);
@@ -193,10 +197,14 @@ TEST_F(AssociativeArraySizeTest, SecondDisplayAssertsSizeEqualsOne) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 1)");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "arr.size");
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), "arr.size");
 }
 
 TEST_F(AssociativeArraySizeTest, SecondAssignmentSetsArrHexFfffToTwo) {
@@ -227,7 +235,9 @@ TEST_F(AssociativeArraySizeTest, ThirdDisplayAssertsSizeEqualsTwo) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 2)");
 }
@@ -261,7 +271,9 @@ TEST_F(AssociativeArraySizeTest, FourthDisplayAssertsSizeEqualsThree) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(6));
   ASSERT_NE(disp, nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 3)");
 }
@@ -277,7 +289,9 @@ TEST_F(AssociativeArraySizeTest, ArrRefObjShouldResolve) {
   for (const size_t idx : displayStmtIndices) {
     const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(idx));
     ASSERT_NE(disp, nullptr);
-    const hldb::RefObj *const hp = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+    ASSERT_NE(arg1, nullptr);
+    const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
     ASSERT_NE(hp, nullptr);
     const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
     ASSERT_NE(varRef, nullptr);

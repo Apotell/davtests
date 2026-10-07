@@ -172,10 +172,14 @@ TEST_F(MemoriesReadWriteTest, SecondStmtDisplaysMemFiveExpectingZero) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 0)");
-  const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::BitSelect *const sel = arg1->getHighConn<hldb::BitSelect>();
   ASSERT_NE(sel, nullptr);
   EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "mem");
   EXPECT_EQ(sel->getIndex<hldb::Constant>()->getDecompile(), "5");
@@ -203,10 +207,14 @@ TEST_F(MemoriesReadWriteTest, FourthStmtDisplaysMemFiveExpectingFive) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 5)");
-  const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::BitSelect *const sel = arg1->getHighConn<hldb::BitSelect>();
   ASSERT_NE(sel, nullptr);
   EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "mem");
   EXPECT_EQ(sel->getIndex<hldb::Constant>()->getDecompile(), "5");
@@ -249,11 +257,15 @@ TEST_F(MemoriesReadWriteTest, RuntimeMemFiveValueRequiresSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const firstDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(1));
   ASSERT_NE(firstDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(firstDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 0)")
+  const hldb::NamedArgument *const arg0 = firstDisplay->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (%d == 0)")
       << "expected mem[5] == 0 immediately after 'mem[5] = 0'";
   const hldb::SysTaskCall *const secondDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(secondDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(secondDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 5)")
+  const hldb::NamedArgument *const secondDisplayArg0 = secondDisplay->getArguments()->at(0);
+  ASSERT_NE(secondDisplayArg0, nullptr);
+  EXPECT_EQ(secondDisplayArg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (%d == 5)")
       << "expected mem[5] == 5 immediately after 'mem[5] = 5'";
 }
 

@@ -209,7 +209,9 @@ TEST_F(MailboxNonBlockingTest, TryPutShouldBeNonBlockingMethodFuncCallWithOneArg
   EXPECT_EQ(tryPut->getName(), "try_put");
   ASSERT_NE(tryPut->getArguments(), nullptr);
   ASSERT_EQ(tryPut->getArguments()->size(), 1u) << "try_put() takes exactly one argument, the message";
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(tryPut->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = tryPut->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "msg");
 }
@@ -241,7 +243,9 @@ TEST_F(MailboxNonBlockingTest, PeekShouldBeBlockingMethodTaskCallWithOneArgument
   EXPECT_EQ(peek->getName(), "peek");
   ASSERT_NE(peek->getArguments(), nullptr);
   ASSERT_EQ(peek->getArguments()->size(), 1u) << "peek() takes exactly one argument, the output variable";
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(peek->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = peek->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "r_peek");
 }
@@ -270,7 +274,9 @@ TEST_F(MailboxNonBlockingTest, TryGetShouldBeNonBlockingMethodFuncCallWithOneArg
   EXPECT_EQ(tryGet->getName(), "try_get");
   ASSERT_NE(tryGet->getArguments(), nullptr);
   ASSERT_EQ(tryGet->getArguments()->size(), 1u) << "try_get() takes exactly one argument, the output variable";
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(tryGet->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = tryGet->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "r");
 }
@@ -292,7 +298,9 @@ TEST_F(MailboxNonBlockingTest, NumShouldBeMethodFuncCallUsedAsDisplayArgumentBut
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u) << "$display() here takes the format string plus m.num()";
 
-  const hldb::Any *const secondArg = display->getArguments()->at(1);
+  const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Any *const secondArg = arg1->getHighConn();
   ASSERT_NE(secondArg, nullptr) << "'m.num()' should produce some expression";
   const hldb::RefObj *const hp = any_cast<hldb::RefObj>(secondArg);
   ASSERT_NE(hp, nullptr) << "m.put(msg) should be a RefObj";

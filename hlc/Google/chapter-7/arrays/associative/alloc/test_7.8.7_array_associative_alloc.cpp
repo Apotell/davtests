@@ -166,7 +166,9 @@ TEST_F(Alloc, FirstStmtIsDisplayWithAssertZero) {
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = sc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (%d == 0)\"");
 }
@@ -181,7 +183,9 @@ TEST_F(Alloc, FirstDisplaySecondArgIsArrSizeRefObj) {
   const hldb::SysTaskCall *const sc = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(0));
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(sc->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = sc->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
 }
@@ -195,7 +199,9 @@ TEST_F(Alloc, ArrSizeRefObjHasTwoElems) {
   ASSERT_NE(blk, nullptr);
   const hldb::SysTaskCall *const sc = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(0));
   ASSERT_NE(sc, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(sc->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = sc->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   EXPECT_EQ(hp->getPathElems()->size(), 2u);
@@ -267,7 +273,9 @@ TEST_F(Alloc, ThirdStmtIsDisplayWithAssertOne) {
   ASSERT_NE(sc, nullptr);
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = sc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (%d == 1)\"");
 }

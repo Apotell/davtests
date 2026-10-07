@@ -206,7 +206,9 @@ TEST_F(MailboxBlockingTest, PutShouldBeBlockingMethodTaskCallWithOneArgumentButD
   EXPECT_EQ(put->getName(), "put");
   ASSERT_NE(put->getArguments(), nullptr);
   ASSERT_EQ(put->getArguments()->size(), 1u) << "put() takes exactly one argument, the message";
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(put->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = put->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "msg");
 }
@@ -238,7 +240,9 @@ TEST_F(MailboxBlockingTest, PeekShouldBeBlockingMethodTaskCallWithOneArgumentBut
   EXPECT_EQ(peek->getName(), "peek");
   ASSERT_NE(peek->getArguments(), nullptr);
   ASSERT_EQ(peek->getArguments()->size(), 1u) << "peek() takes exactly one argument, the output variable";
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(peek->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = peek->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "r_peek");
 }
@@ -268,7 +272,9 @@ TEST_F(MailboxBlockingTest, GetShouldBeBlockingMethodTaskCallWithOneArgumentButD
   EXPECT_EQ(get->getName(), "get");
   ASSERT_NE(get->getArguments(), nullptr);
   ASSERT_EQ(get->getArguments()->size(), 1u) << "get() takes exactly one argument, the output variable";
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(get->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = get->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "r");
 }
@@ -290,9 +296,11 @@ TEST_F(MailboxBlockingTest, NumShouldBeMethodFuncCallUsedAsDisplayArgumentButDoe
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u) << "$display() here takes the format string plus m.num()";
 
-  const hldb::Any *const secondArg = display->getArguments()->at(1);
+  const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Any *const secondArg = arg1->getHighConn();
   ASSERT_NE(secondArg, nullptr) << "'m.num()' should produce some expression";
-    const hldb::RefObj *const hp = any_cast<hldb::RefObj>(secondArg);
+  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(secondArg);
   ASSERT_NE(hp, nullptr) << "m.put(msg) should be a RefObj";
   ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
   EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";

@@ -370,7 +370,9 @@ TEST_F(OpDeleteTest, FirstDisplaySecondArgIsArrSizeRefObj) {
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
 }
@@ -471,7 +473,9 @@ TEST_F(OpDeleteTest, SecondDisplaySecondArgIsArrSizeRefObj) {
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(3));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
 }

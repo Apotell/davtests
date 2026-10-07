@@ -116,7 +116,9 @@ class DistExponentialFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    if (arg1 == nullptr) return nullptr;
+    return arg1->getHighConn<hldb::SysFuncCall>();
   }
 };
 
@@ -177,7 +179,9 @@ TEST_F(DistExponentialFunctionTest, DisplayCallHasFormatAndDistExponentialArgume
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr) << "'\"%d\"' should be a Constant";
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getDecompile(), "\"%d\"");
@@ -198,12 +202,16 @@ TEST_F(DistExponentialFunctionTest, DistExponentialCallHasSeedAndMeanArguments) 
   ASSERT_EQ(call->getArguments()->size(), 2u)
       << "20.15: '$dist_exponential' takes an inout seed and an input mean argument";
 
-  const hldb::RefObj *const seedArg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const seedArg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(seedArg, nullptr) << "'seed' should be a RefObj";
   EXPECT_EQ(seedArg->getName(), "seed");
   EXPECT_EQ(seedArg->getActual<hldb::Variable>(), getSeedVariable());
 
-  const hldb::Constant *const mean = any_cast<hldb::Constant>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const mean = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mean, nullptr) << "'100' should be a Constant";
   EXPECT_EQ(mean->getConstType(), vpiUIntConst);
   EXPECT_EQ(mean->getDecompile(), "100");

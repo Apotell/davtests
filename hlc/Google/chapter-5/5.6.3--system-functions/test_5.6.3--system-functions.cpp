@@ -88,7 +88,9 @@ TEST_F(SystemFunctions, ArgumentIsStringConstant) {
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 1u);
 
-  const hldb::Constant *const arg = any_cast<hldb::Constant>((*c->getArguments())[0]);
+  const hldb::NamedArgument *const arg0 = c->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr) << "argument should be a Constant";
   // vpiStringConst = 6
   EXPECT_EQ(arg->getConstType(), 6) << "argument should have string const type";
@@ -100,7 +102,9 @@ TEST_F(SystemFunctions, ArgumentValueIsHelloWorld) {
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 1u);
 
-  const hldb::Constant *const arg = any_cast<hldb::Constant>((*c->getArguments())[0]);
+  const hldb::NamedArgument *const arg0 = c->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   // getValue() returns the raw string without surrounding quotes
   EXPECT_EQ(arg->getValue(), "hello world");

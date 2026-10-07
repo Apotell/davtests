@@ -166,11 +166,17 @@ TEST_F(PackedEqualityTest, FirstDisplayHasThreeArguments) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 3u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (('%h' == 'ff') and ('%h' == 'ff'))");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "arr_a");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(2))->getName(), "arr_b");
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), "arr_a");
+  const hldb::NamedArgument *const arg2 = disp->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  EXPECT_EQ(arg2->getHighConn<hldb::RefObj>()->getName(), "arr_b");
 }
 
 TEST_F(PackedEqualityTest, SecondDisplayArgIsEqualOperation) {
@@ -180,10 +186,14 @@ TEST_F(PackedEqualityTest, SecondDisplayArgIsEqualOperation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 1)");
-  const hldb::Operation *const op = any_cast<hldb::Operation>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Operation *const op = arg1->getHighConn<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiEqOp);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -199,10 +209,14 @@ TEST_F(PackedEqualityTest, ThirdDisplayArgIsNotEqualOperation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 0)");
-  const hldb::Operation *const op = any_cast<hldb::Operation>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Operation *const op = arg1->getHighConn<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiNeqOp);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -254,11 +268,15 @@ TEST_F(PackedEqualityTest, RuntimeComparisonResultsRequireSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const eqDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(eqDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(eqDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 1)")
+  const hldb::NamedArgument *const arg0 = eqDisplay->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (%d == 1)")
       << "expected (arr_a == arr_b) == 1 since both hold 8'hff";
   const hldb::SysTaskCall *const neqDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(neqDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(neqDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 0)")
+  const hldb::NamedArgument *const neqDisplayArg0 = neqDisplay->getArguments()->at(0);
+  ASSERT_NE(neqDisplayArg0, nullptr);
+  EXPECT_EQ(neqDisplayArg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (%d == 0)")
       << "expected (arr_a != arr_b) == 0 since both hold 8'hff";
 }
 

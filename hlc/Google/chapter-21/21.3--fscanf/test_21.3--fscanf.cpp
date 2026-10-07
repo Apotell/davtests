@@ -363,13 +363,17 @@ TEST_F(FscanfTest, FopenArgumentsAreFilenameAndMode) {
   ASSERT_NE(fopenCall->getArguments(), nullptr);
   ASSERT_EQ(fopenCall->getArguments()->size(), 2u) << "'$fopen(\"tmp.txt\", \"w\")' passes filename then mode";
 
-  const hldb::Constant *const filename = any_cast<hldb::Constant>(fopenCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = fopenCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const filename = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(filename, nullptr) << "arg[0] is the string literal \"tmp.txt\"";
   EXPECT_EQ(filename->getConstType(), vpiStringConst);
   EXPECT_EQ(filename->getValue(), "tmp.txt");
   EXPECT_EQ(filename->getSize(), 56) << "Sec 5.9: \"tmp.txt\" = 7 chars x 8 bits";
 
-  const hldb::Constant *const mode = any_cast<hldb::Constant>(fopenCall->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = fopenCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const mode = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mode, nullptr) << "arg[1] is the string literal \"w\"";
   EXPECT_EQ(mode->getConstType(), vpiStringConst);
   EXPECT_EQ(mode->getValue(), "w") << "Sec 21.3.1: \"w\" opens the file for writing";
@@ -402,15 +406,21 @@ TEST_F(FscanfTest, FscanfArgumentsAreDescriptorFormatThenDestination) {
   ASSERT_EQ(fscanfCall->getArguments()->size(), 3u)
       << "'$fscanf(fd, \"%d\", c)' passes descriptor, format string and one destination";
 
-  checkArgumentRefersTo(fscanfCall->getArguments()->at(0), "fd", "the $fscanf descriptor argument");
+  const hldb::NamedArgument *const arg0 = fscanfCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentRefersTo(arg0->getHighConn(), "fd", "the $fscanf descriptor argument");
 
-  const hldb::Constant *const format = any_cast<hldb::Constant>(fscanfCall->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = fscanfCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const format = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(format, nullptr) << "arg[1] is the format string literal";
   EXPECT_EQ(format->getConstType(), vpiStringConst);
   EXPECT_EQ(format->getValue(), "%d");
   EXPECT_EQ(format->getSize(), 16) << "Sec 5.9: \"%d\" = 2 chars x 8 bits";
 
-  checkArgumentRefersTo(fscanfCall->getArguments()->at(2), "c", "the $fscanf destination argument");
+  const hldb::NamedArgument *const arg2 = fscanfCall->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  checkArgumentRefersTo(arg2->getHighConn(), "c", "the $fscanf destination argument");
 }
 
 // The descriptor-first order of Sec 21.3.4.1 is the exact opposite of the
@@ -423,8 +433,12 @@ TEST_F(FscanfTest, FscanfDescriptorAndDestinationAreNotSwapped) {
   ASSERT_NE(fscanfCall->getArguments(), nullptr);
   ASSERT_EQ(fscanfCall->getArguments()->size(), 3u);
 
-  const hldb::RefObj *const first = any_cast<hldb::RefObj>(fscanfCall->getArguments()->at(0));
-  const hldb::RefObj *const last = any_cast<hldb::RefObj>(fscanfCall->getArguments()->at(2));
+  const hldb::NamedArgument *const arg0 = fscanfCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const first = arg0->getHighConn<hldb::RefObj>();
+  const hldb::NamedArgument *const arg2 = fscanfCall->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  const hldb::RefObj *const last = arg2->getHighConn<hldb::RefObj>();
   ASSERT_NE(first, nullptr);
   ASSERT_NE(last, nullptr);
 
@@ -458,7 +472,9 @@ TEST_F(FscanfTest, FinalBodyIsFcloseSysTaskCallOnTheSameFd) {
 
   ASSERT_NE(fcloseCall->getArguments(), nullptr);
   ASSERT_EQ(fcloseCall->getArguments()->size(), 1u) << "'$fclose(fd)' passes exactly one argument";
-  checkArgumentRefersTo(fcloseCall->getArguments()->at(0), "fd", "the $fclose descriptor argument");
+  const hldb::NamedArgument *const arg0 = fcloseCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentRefersTo(arg0->getHighConn(), "fd", "the $fclose descriptor argument");
 }
 
 // --- compiler diagnostics -----------------------------------------------------

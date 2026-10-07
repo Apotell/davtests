@@ -191,10 +191,14 @@ TEST_F(PackedStructSignedTest, SecondStmtDisplaysP1AsHex) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), std::string_view(":assert: ('%h' == 'c8')"));
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const arg = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), std::string_view("p1"));
 }
@@ -206,10 +210,14 @@ TEST_F(PackedStructSignedTest, ThirdStmtDisplaysP1AsSignedDecimal) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), std::string_view(":assert: (%d == -56)"));
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const arg = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), std::string_view("p1"));
 }
@@ -255,11 +263,15 @@ TEST_F(PackedStructSignedTest, RuntimePackedSignedValueRequiresSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const hexDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
   ASSERT_NE(hexDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(hexDisplay->getArguments()->at(0))->getValue(), std::string_view(":assert: ('%h' == 'c8')"))
+  const hldb::NamedArgument *const arg0 = hexDisplay->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), std::string_view(":assert: ('%h' == 'c8')"))
       << "expected p1 == 8'hc8 (== 8'd200)";
   const hldb::SysFuncCall *const signedDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
   ASSERT_NE(signedDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(signedDisplay->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == -56)"))
+  const hldb::NamedArgument *const signedDisplayArg0 = signedDisplay->getArguments()->at(0);
+  ASSERT_NE(signedDisplayArg0, nullptr);
+  EXPECT_EQ(signedDisplayArg0->getHighConn<hldb::Constant>()->getValue(), std::string_view(":assert: (%d == -56)"))
       << "expected p1 read back as -56 once the packed struct's 'signed' qualifier reinterprets "
          "8'd200 (== 8'hc8) as a signed 8-bit value";
 }

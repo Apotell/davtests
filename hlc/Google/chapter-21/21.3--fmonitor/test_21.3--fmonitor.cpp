@@ -247,13 +247,17 @@ class FmonitorTest : public Test {
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 2u) << expectedName << "(fd, a) passes exactly two arguments";
 
-    const hldb::RefObj *const descriptor = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::RefObj *const descriptor = arg0->getHighConn<hldb::RefObj>();
     ASSERT_NE(descriptor, nullptr) << "arg[0] is the file descriptor 'fd'";
     EXPECT_EQ(descriptor->getName(), "fd");
     EXPECT_EQ(descriptor->getActual<hldb::Variable>(), getVariable("fd"))
         << "Sec 21.3.2: the first argument of an 'f' output task is the descriptor";
 
-    const hldb::RefObj *const signal = any_cast<hldb::RefObj>(call->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+    ASSERT_NE(arg1, nullptr);
+    const hldb::RefObj *const signal = arg1->getHighConn<hldb::RefObj>();
     ASSERT_NE(signal, nullptr) << "arg[1] is the monitored signal 'a'";
     EXPECT_EQ(signal->getName(), "a");
     EXPECT_EQ(signal->getActual<hldb::Variable>(), getVariable("a"))
@@ -397,13 +401,17 @@ TEST_F(FmonitorTest, FopenArgumentsAreFilenameAndMode) {
   ASSERT_NE(fopenCall->getArguments(), nullptr);
   ASSERT_EQ(fopenCall->getArguments()->size(), 2u) << "'$fopen(\"tmp.txt\", \"w\")' passes filename then mode";
 
-  const hldb::Constant *const filename = any_cast<hldb::Constant>(fopenCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = fopenCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const filename = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(filename, nullptr) << "arg[0] is the string literal \"tmp.txt\"";
   EXPECT_EQ(filename->getConstType(), vpiStringConst);
   EXPECT_EQ(filename->getValue(), "tmp.txt");
   EXPECT_EQ(filename->getSize(), 56) << "Sec 5.9: \"tmp.txt\" = 7 chars x 8 bits";
 
-  const hldb::Constant *const mode = any_cast<hldb::Constant>(fopenCall->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = fopenCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const mode = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mode, nullptr) << "arg[1] is the string literal \"w\"";
   EXPECT_EQ(mode->getConstType(), vpiStringConst);
   EXPECT_EQ(mode->getValue(), "w") << "Sec 21.3.1: \"w\" opens the file for writing";
@@ -471,7 +479,9 @@ TEST_F(FmonitorTest, FinalBodyIsFcloseSysTaskCallOnTheSameFd) {
 
   ASSERT_NE(fcloseCall->getArguments(), nullptr);
   ASSERT_EQ(fcloseCall->getArguments()->size(), 1u) << "'$fclose(fd)' passes exactly one argument";
-  const hldb::RefObj *const descriptor = any_cast<hldb::RefObj>(fcloseCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = fcloseCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const descriptor = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(descriptor, nullptr) << "the argument is the descriptor 'fd'";
   EXPECT_EQ(descriptor->getName(), "fd");
   EXPECT_EQ(descriptor->getActual<hldb::Variable>(), getVariable("fd"))

@@ -207,7 +207,9 @@ TEST_F(Literals, FirstStmtIsDisplayWithDefaultHello) {
   ASSERT_NE(disp->getArguments(), nullptr);
   EXPECT_EQ(disp->getArguments()->size(), 2u);
   // second arg is BitSelect words[1]
-  const hldb::BitSelect *const bs = any_cast<hldb::BitSelect>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::BitSelect *const bs = arg1->getHighConn<hldb::BitSelect>();
   ASSERT_NE(bs, nullptr);
   EXPECT_EQ(bs->getName(), "words[1]");
 }
@@ -240,10 +242,14 @@ TEST_F(Literals, ThirdStmtIsDisplayWithBothValues) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   EXPECT_EQ(disp->getArguments()->size(), 3u);
-  const hldb::BitSelect *const words0 = any_cast<hldb::BitSelect>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::BitSelect *const words0 = arg1->getHighConn<hldb::BitSelect>();
   ASSERT_NE(words0, nullptr);
   EXPECT_EQ(words0->getName(), "words[0]");
-  const hldb::BitSelect *const words1 = any_cast<hldb::BitSelect>(disp->getArguments()->at(2));
+  const hldb::NamedArgument *const arg2 = disp->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  const hldb::BitSelect *const words1 = arg2->getHighConn<hldb::BitSelect>();
   ASSERT_NE(words1, nullptr);
   EXPECT_EQ(words1->getName(), "words[1]");
 }
@@ -256,7 +262,9 @@ TEST_F(Literals, ThirdStmtFormatStringIsHelloWorldAssert) {
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(body->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'hello') and ('%s' == 'world'))\"");
 }

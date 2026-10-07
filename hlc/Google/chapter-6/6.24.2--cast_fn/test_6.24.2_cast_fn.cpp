@@ -182,10 +182,12 @@ TEST_F(CastFnTest, CastArgZeroIsRefToVariableA) {
   ASSERT_NE(cond, nullptr);
   const hldb::SysFuncCall *const castFn = any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
   ASSERT_NE(castFn, nullptr);
-  const hldb::RefObj *const arg0 = any_cast<hldb::RefObj>(castFn->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = castFn->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
-  EXPECT_EQ(arg0->getName(), "a");
-  EXPECT_NE(arg0->getActual<hldb::Variable>(), nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
+  ASSERT_NE(arg, nullptr);
+  EXPECT_EQ(arg->getName(), "a");
+  EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(CastFnTest, CastArgOneIsMultiplyOperation) {
@@ -199,7 +201,9 @@ TEST_F(CastFnTest, CastArgOneIsMultiplyOperation) {
   ASSERT_NE(cond, nullptr);
   const hldb::SysFuncCall *const castFn = any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
   ASSERT_NE(castFn, nullptr);
-  const hldb::Operation *const multOp = any_cast<hldb::Operation>(castFn->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = castFn->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Operation *const multOp = arg1->getHighConn<hldb::Operation>();
   ASSERT_NE(multOp, nullptr);
   EXPECT_EQ(multOp->getOpType(), vpiMultOp);
   ASSERT_NE(multOp->getOperands(), nullptr);
@@ -229,7 +233,9 @@ TEST_F(CastFnTest, IfBodyIsDisplayCall) {
   EXPECT_EQ(display->getName(), "$display");
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 1u);
-  const hldb::Constant *const msg = any_cast<hldb::Constant>(display->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const msg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(msg, nullptr);
   EXPECT_EQ(msg->getConstType(), vpiStringConst);
   EXPECT_EQ(msg->getDecompile(), "\"cast failed\"");

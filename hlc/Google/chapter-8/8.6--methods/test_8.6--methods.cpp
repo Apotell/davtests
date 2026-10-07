@@ -199,7 +199,9 @@ class ClassMethodsTest : public Test {
     ASSERT_NE(disp->getArguments(), nullptr);
     ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-    const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::RefObj *const path = arg0->getHighConn<hldb::RefObj>();
     ASSERT_NE(path, nullptr) << "'test_obj.a' should be a RefObj";
     ASSERT_NE(path->getPathElems(), nullptr);
     ASSERT_EQ(path->getPathElems()->size(), 2u);
@@ -366,7 +368,9 @@ TEST_F(ClassMethodsTest, TestMethodFirstStmtDisplaysItsOwnName) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getValue(), "test_method");
 }
@@ -542,7 +546,9 @@ TEST_F(ClassMethodsTest, FourthStmtIsTestMethodCallRefObj) {
   EXPECT_EQ(call->getArguments()->size(), t->getIODecls()->size())
       << "the number of actual arguments at the call site (\"(9)\") must match the number of formal "
          "parameters declared on test_method (\"val\"), confirming positional binding lines up";
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getDecompile(), "9");
 }

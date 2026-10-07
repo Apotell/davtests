@@ -135,7 +135,9 @@ TEST_F(RepeatTest, LoopBodyIsDisplayOfRepeatLiteral) {
   EXPECT_EQ(display->getName(), "$display");
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 1u);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(display->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getConstType(), vpiStringConst);
   EXPECT_EQ(arg->getDecompile(), "\"repeat\"");

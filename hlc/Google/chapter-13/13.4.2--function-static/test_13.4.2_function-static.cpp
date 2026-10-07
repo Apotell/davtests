@@ -208,18 +208,24 @@ TEST_F(FunctionStaticTest, InitialBodyCallsAddFourTimesWithAccumulatingExpectedM
     ASSERT_NE(display->getArguments(), nullptr);
     ASSERT_EQ(display->getArguments()->size(), 2u);
 
-    const hldb::Constant *const fmt = any_cast<hldb::Constant>(display->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(fmt, nullptr);
     EXPECT_EQ(fmt->getDecompile(), expectedMessages[idx])
         << "the accumulating expected message documents this function's static (shared) storage semantics";
 
-    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(display->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    ASSERT_NE(arg1, nullptr);
+    const hldb::MethodFuncCall *const call = arg1->getHighConn<hldb::MethodFuncCall>();
     ASSERT_NE(call, nullptr);
     EXPECT_EQ(call->getName(), "add");
     EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getAdd());
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);
-    const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const argArg = call->getArguments()->at(0);
+    ASSERT_NE(argArg, nullptr);
+    const hldb::Constant *const arg = argArg->getHighConn<hldb::Constant>();
     ASSERT_NE(arg, nullptr);
     EXPECT_EQ(arg->getDecompile(), "5") << "every call passes the same argument, 5";
   }

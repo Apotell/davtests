@@ -194,7 +194,9 @@ TEST_F(ExprShortCircuitTest, FunctionFunBodyDisplaysFalseAssertThenReturnsItsArg
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (False)");
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (False)");
 
   const hldb::ReturnStmt *const ret = any_cast<hldb::ReturnStmt>(body->getStmts()->at(1));
   ASSERT_NE(ret, nullptr);
@@ -258,7 +260,9 @@ TEST_F(ExprShortCircuitTest, AssignmentRhsIsLogAndOfAAndLogOrOfBAndFunCall) {
   EXPECT_EQ(resolved->getName(), "fun");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  EXPECT_EQ(any_cast<hldb::RefObj>(call->getArguments()->at(0))->getName(), "c");
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::RefObj>()->getName(), "c");
 }
 
 TEST_F(ExprShortCircuitTest, SecondStatementDisplaysExpectedDValue) {
@@ -273,8 +277,12 @@ TEST_F(ExprShortCircuitTest, SecondStatementDisplaysExpectedDValue) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (1 == %d)");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "d");
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (1 == %d)");
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), "d");
 }
 
 // --- design-level typespecs / compiler diagnostics ----

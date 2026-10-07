@@ -177,8 +177,8 @@ TEST_F(InterconnectTest, EachRefInstanceHasOnePort) {
   ASSERT_NE(top->getRefInstances(), nullptr);
   for (const hldb::RefInstance *const ri : *top->getRefInstances()) {
     ASSERT_NE(ri, nullptr);
-    ASSERT_NE(ri->getPorts(), nullptr) << "RefInstance " << ri->getName();
-    EXPECT_EQ(ri->getPorts()->size(), 1u) << "RefInstance " << ri->getName();
+    ASSERT_NE(ri->getArguments(), nullptr) << "RefInstance " << ri->getName();
+    EXPECT_EQ(ri->getArguments()->size(), 1u) << "RefInstance " << ri->getName();
   }
 }
 
@@ -188,10 +188,10 @@ TEST_F(InterconnectTest, RefInstancePortHighConnIsBus) {
   ASSERT_NE(top->getRefInstances(), nullptr);
   for (const hldb::RefInstance *const ri : *top->getRefInstances()) {
     ASSERT_NE(ri, nullptr);
-    ASSERT_NE(ri->getPorts(), nullptr);
-    const hldb::Port *const port = static_cast<const hldb::Port *>(ri->getPorts()->at(0));
-    ASSERT_NE(port, nullptr) << "RefInstance " << ri->getName();
-    const hldb::RefObj *const hc = port->getHighConn<hldb::RefObj>();
+    ASSERT_NE(ri->getArguments(), nullptr);
+    const hldb::NamedArgument *const arg = static_cast<const hldb::NamedArgument *>(ri->getArguments()->at(0));
+    ASSERT_NE(arg, nullptr) << "RefInstance " << ri->getName();
+    const hldb::RefObj *const hc = arg->getHighConn<hldb::RefObj>();
     ASSERT_NE(hc, nullptr) << "RefInstance " << ri->getName();
     EXPECT_EQ(hc->getName(), "bus") << "RefInstance " << ri->getName();
   }

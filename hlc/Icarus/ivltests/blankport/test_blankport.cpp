@@ -197,7 +197,7 @@ TEST_F(BlankPortTest, BareEmptyParensAlwaysYieldsZeroConnectionsRegardlessOfPort
   for (const char *const instName : {"U1", "U2", "U3", "U6", "Ue"}) {
     const hldb::RefInstance *const inst = findInst(instName);
     ASSERT_NE(inst, nullptr) << instName;
-    EXPECT_EQ(inst->getPorts(), nullptr) << instName;
+    EXPECT_EQ(inst->getArguments(), nullptr) << instName;
   }
 }
 
@@ -206,10 +206,10 @@ TEST_F(BlankPortTest, BareEmptyParensAlwaysYieldsZeroConnectionsRegardlessOfPort
 TEST_F(BlankPortTest, U4ConnectsW1ToSoleOrderedPosition) {
   const hldb::RefInstance *const u4 = findInst("U4");
   ASSERT_NE(u4, nullptr);
-  ASSERT_NE(u4->getPorts(), nullptr);
-  ASSERT_EQ(u4->getPorts()->size(), 1u);
+  ASSERT_NE(u4->getArguments(), nullptr);
+  ASSERT_EQ(u4->getArguments()->size(), 1u);
 
-  const hldb::Port *const conn = any_cast<hldb::Port>(u4->getPorts()->at(0));
+  const hldb::NamedArgument *const conn = any_cast<hldb::NamedArgument>(u4->getArguments()->at(0));
   ASSERT_NE(conn, nullptr);
   const hldb::RefObj *const highConn = conn->getHighConn<hldb::RefObj>();
   ASSERT_NE(highConn, nullptr);
@@ -219,16 +219,16 @@ TEST_F(BlankPortTest, U4ConnectsW1ToSoleOrderedPosition) {
 TEST_F(BlankPortTest, U8ConnectsW3ToFirstPositionLeavesSecondBlank) {
   const hldb::RefInstance *const u8 = findInst("U8");
   ASSERT_NE(u8, nullptr);
-  ASSERT_NE(u8->getPorts(), nullptr);
-  ASSERT_EQ(u8->getPorts()->size(), 2u);
+  ASSERT_NE(u8->getArguments(), nullptr);
+  ASSERT_EQ(u8->getArguments()->size(), 2u);
 
-  const hldb::Port *const first = any_cast<hldb::Port>(u8->getPorts()->at(0));
+  const hldb::NamedArgument *const first = any_cast<hldb::NamedArgument>(u8->getArguments()->at(0));
   ASSERT_NE(first, nullptr);
   const hldb::RefObj *const highConn = first->getHighConn<hldb::RefObj>();
   ASSERT_NE(highConn, nullptr);
   EXPECT_EQ(highConn->getName(), "w3");
 
-  const hldb::Port *const second = any_cast<hldb::Port>(u8->getPorts()->at(1));
+  const hldb::NamedArgument *const second = any_cast<hldb::NamedArgument>(u8->getArguments()->at(1));
   ASSERT_NE(second, nullptr);
   // Sec 23.3.2.1: "A blank port connection shall represent the situation where the
   // port is not to be connected." Sec 37.14 detail 10 then fixes both handles
@@ -242,16 +242,16 @@ TEST_F(BlankPortTest, U8ConnectsW3ToFirstPositionLeavesSecondBlank) {
 TEST_F(BlankPortTest, U9LeavesFirstPositionBlankConnectsW4ToSecond) {
   const hldb::RefInstance *const u9 = findInst("U9");
   ASSERT_NE(u9, nullptr);
-  ASSERT_NE(u9->getPorts(), nullptr);
-  ASSERT_EQ(u9->getPorts()->size(), 2u);
+  ASSERT_NE(u9->getArguments(), nullptr);
+  ASSERT_EQ(u9->getArguments()->size(), 2u);
 
-  const hldb::Port *const first = any_cast<hldb::Port>(u9->getPorts()->at(0));
+  const hldb::NamedArgument *const first = any_cast<hldb::NamedArgument>(u9->getArguments()->at(0));
   ASSERT_NE(first, nullptr);
   // See U8 above (Sec 23.3.2.1 + Sec 37.14 detail 10).
   EXPECT_EQ(first->getHighConn(), nullptr);
   EXPECT_NE(first->getLowConn(), nullptr);
 
-  const hldb::Port *const second = any_cast<hldb::Port>(u9->getPorts()->at(1));
+  const hldb::NamedArgument *const second = any_cast<hldb::NamedArgument>(u9->getArguments()->at(1));
   ASSERT_NE(second, nullptr);
   const hldb::RefObj *const highConn = second->getHighConn<hldb::RefObj>();
   ASSERT_NE(highConn, nullptr);
@@ -261,15 +261,15 @@ TEST_F(BlankPortTest, U9LeavesFirstPositionBlankConnectsW4ToSecond) {
 TEST_F(BlankPortTest, UaConnectsW5AndW6ToBothPositions) {
   const hldb::RefInstance *const ua = findInst("Ua");
   ASSERT_NE(ua, nullptr);
-  ASSERT_NE(ua->getPorts(), nullptr);
-  ASSERT_EQ(ua->getPorts()->size(), 2u);
+  ASSERT_NE(ua->getArguments(), nullptr);
+  ASSERT_EQ(ua->getArguments()->size(), 2u);
 
-  const hldb::Port *const first = any_cast<hldb::Port>(ua->getPorts()->at(0));
+  const hldb::NamedArgument *const first = any_cast<hldb::NamedArgument>(ua->getArguments()->at(0));
   ASSERT_NE(first, nullptr);
   ASSERT_NE(first->getHighConn<hldb::RefObj>(), nullptr);
   EXPECT_EQ(first->getHighConn<hldb::RefObj>()->getName(), "w5");
 
-  const hldb::Port *const second = any_cast<hldb::Port>(ua->getPorts()->at(1));
+  const hldb::NamedArgument *const second = any_cast<hldb::NamedArgument>(ua->getArguments()->at(1));
   ASSERT_NE(second, nullptr);
   ASSERT_NE(second->getHighConn<hldb::RefObj>(), nullptr);
   EXPECT_EQ(second->getHighConn<hldb::RefObj>()->getName(), "w6");
@@ -280,10 +280,10 @@ TEST_F(BlankPortTest, UaConnectsW5AndW6ToBothPositions) {
 TEST_F(BlankPortTest, U5ConnectsW2ToNamedPortA) {
   const hldb::RefInstance *const u5 = findInst("U5");
   ASSERT_NE(u5, nullptr);
-  ASSERT_NE(u5->getPorts(), nullptr);
-  ASSERT_EQ(u5->getPorts()->size(), 1u);
+  ASSERT_NE(u5->getArguments(), nullptr);
+  ASSERT_EQ(u5->getArguments()->size(), 1u);
 
-  const hldb::Port *const conn = any_cast<hldb::Port>(u5->getPorts()->at(0));
+  const hldb::NamedArgument *const conn = any_cast<hldb::NamedArgument>(u5->getArguments()->at(0));
   ASSERT_NE(conn, nullptr);
   const hldb::RefObj *const lowConn = conn->getLowConn<hldb::RefObj>();
   ASSERT_NE(lowConn, nullptr);
@@ -298,9 +298,9 @@ TEST_F(BlankPortTest, UbAndUcEachConnectExactlyOneNamedPort) {
   // mentioned in "two Ub (.a(w7));", so there is no placeholder for it.
   const hldb::RefInstance *const ub = findInst("Ub");
   ASSERT_NE(ub, nullptr);
-  ASSERT_NE(ub->getPorts(), nullptr);
-  ASSERT_EQ(ub->getPorts()->size(), 1u);
-  const hldb::Port *const ubConn = any_cast<hldb::Port>(ub->getPorts()->at(0));
+  ASSERT_NE(ub->getArguments(), nullptr);
+  ASSERT_EQ(ub->getArguments()->size(), 1u);
+  const hldb::NamedArgument *const ubConn = any_cast<hldb::NamedArgument>(ub->getArguments()->at(0));
   ASSERT_NE(ubConn, nullptr);
   ASSERT_NE(ubConn->getLowConn<hldb::RefObj>(), nullptr);
   EXPECT_EQ(ubConn->getLowConn<hldb::RefObj>()->getName(), "a");
@@ -309,9 +309,9 @@ TEST_F(BlankPortTest, UbAndUcEachConnectExactlyOneNamedPort) {
 
   const hldb::RefInstance *const uc = findInst("Uc");
   ASSERT_NE(uc, nullptr);
-  ASSERT_NE(uc->getPorts(), nullptr);
-  ASSERT_EQ(uc->getPorts()->size(), 1u);
-  const hldb::Port *const ucConn = any_cast<hldb::Port>(uc->getPorts()->at(0));
+  ASSERT_NE(uc->getArguments(), nullptr);
+  ASSERT_EQ(uc->getArguments()->size(), 1u);
+  const hldb::NamedArgument *const ucConn = any_cast<hldb::NamedArgument>(uc->getArguments()->at(0));
   ASSERT_NE(ucConn, nullptr);
   ASSERT_NE(ucConn->getLowConn<hldb::RefObj>(), nullptr);
   EXPECT_EQ(ucConn->getLowConn<hldb::RefObj>()->getName(), "b");
@@ -324,17 +324,17 @@ TEST_F(BlankPortTest, UdConnectsBothNamedPortsInWrittenOrder) {
   // preserve source order, not re-sort to formal declaration order.
   const hldb::RefInstance *const ud = findInst("Ud");
   ASSERT_NE(ud, nullptr);
-  ASSERT_NE(ud->getPorts(), nullptr);
-  ASSERT_EQ(ud->getPorts()->size(), 2u);
+  ASSERT_NE(ud->getArguments(), nullptr);
+  ASSERT_EQ(ud->getArguments()->size(), 2u);
 
-  const hldb::Port *const first = any_cast<hldb::Port>(ud->getPorts()->at(0));
+  const hldb::NamedArgument *const first = any_cast<hldb::NamedArgument>(ud->getArguments()->at(0));
   ASSERT_NE(first, nullptr);
   ASSERT_NE(first->getLowConn<hldb::RefObj>(), nullptr);
   EXPECT_EQ(first->getLowConn<hldb::RefObj>()->getName(), "b");
   ASSERT_NE(first->getHighConn<hldb::RefObj>(), nullptr);
   EXPECT_EQ(first->getHighConn<hldb::RefObj>()->getName(), "w8");
 
-  const hldb::Port *const second = any_cast<hldb::Port>(ud->getPorts()->at(1));
+  const hldb::NamedArgument *const second = any_cast<hldb::NamedArgument>(ud->getArguments()->at(1));
   ASSERT_NE(second, nullptr);
   ASSERT_NE(second->getLowConn<hldb::RefObj>(), nullptr);
   EXPECT_EQ(second->getLowConn<hldb::RefObj>()->getName(), "a");
@@ -350,10 +350,10 @@ TEST_F(BlankPortTest, U7ReservesTwoUnconnectedPositions) {
   // positions, unlike a bare "()" which omits the list entirely.
   const hldb::RefInstance *const u7 = findInst("U7");
   ASSERT_NE(u7, nullptr);
-  ASSERT_NE(u7->getPorts(), nullptr);
-  ASSERT_EQ(u7->getPorts()->size(), 2u);
+  ASSERT_NE(u7->getArguments(), nullptr);
+  ASSERT_EQ(u7->getArguments()->size(), 2u);
   for (size_t i = 0; i < 2; ++i) {
-    const hldb::Port *const conn = any_cast<hldb::Port>(u7->getPorts()->at(i));
+    const hldb::NamedArgument *const conn = any_cast<hldb::NamedArgument>(u7->getArguments()->at(i));
     ASSERT_NE(conn, nullptr) << "connection index " << i;
     // See U8 above (Sec 23.3.2.1 + Sec 37.14 detail 10).
     EXPECT_EQ(conn->getHighConn(), nullptr) << "connection index " << i;
@@ -364,10 +364,10 @@ TEST_F(BlankPortTest, U7ReservesTwoUnconnectedPositions) {
 TEST_F(BlankPortTest, UgReservesThreeUnconnectedPositions) {
   const hldb::RefInstance *const ug = findInst("Ug");
   ASSERT_NE(ug, nullptr);
-  ASSERT_NE(ug->getPorts(), nullptr);
-  ASSERT_EQ(ug->getPorts()->size(), 3u);
+  ASSERT_NE(ug->getArguments(), nullptr);
+  ASSERT_EQ(ug->getArguments()->size(), 3u);
   for (size_t i = 0; i < 3; ++i) {
-    const hldb::Port *const conn = any_cast<hldb::Port>(ug->getPorts()->at(i));
+    const hldb::NamedArgument *const conn = any_cast<hldb::NamedArgument>(ug->getArguments()->at(i));
     ASSERT_NE(conn, nullptr) << "connection index " << i;
     // See U8 above (Sec 23.3.2.1 + Sec 37.14 detail 10).
     EXPECT_EQ(conn->getHighConn(), nullptr) << "connection index " << i;

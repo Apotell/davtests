@@ -112,12 +112,16 @@ TEST_F(HierPathTfArgTest, FirstDisplayArgIsPlainSubroutineCallF) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::SubroutineCall *const call = any_cast<hldb::SubroutineCall>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const dispArg0 = disp->getArguments()->at(0);
+  ASSERT_NE(dispArg0, nullptr);
+  const hldb::SubroutineCall *const call = dispArg0->getHighConn<hldb::SubroutineCall>();
   ASSERT_NE(call, nullptr) << "expected a plain SubroutineCall for 'f(0)'";
   EXPECT_EQ(call->getName(), std::string_view("f"));
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::Constant *const argZero = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const callArg0 = call->getArguments()->at(0);
+  ASSERT_NE(callArg0, nullptr);
+  const hldb::Constant *const argZero = callArg0->getHighConn<hldb::Constant>();
   ASSERT_NE(argZero, nullptr);
   EXPECT_EQ(argZero->getDecompile(), std::string_view("0"));
 }
@@ -130,7 +134,9 @@ TEST_F(HierPathTfArgTest, SecondDisplayArgIsHierPathBlkDotF) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "expected a RefObj hierarchical path for 'blk.f(0)'";
   EXPECT_EQ(arg->getName(), std::string_view("blk.f(0)"));
   ASSERT_NE(arg->getPathElems(), nullptr);
@@ -154,7 +160,9 @@ TEST_F(HierPathTfArgTest, FourthDisplayArgIsHierPathIDotBlkDotF) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), std::string_view("i.blk.f(0)"));
   ASSERT_NE(arg->getPathElems(), nullptr);
@@ -175,7 +183,9 @@ TEST_F(HierPathTfArgTest, EighthDisplayArgIsHierPathTopDotIDotBlkDotF) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), std::string_view("top.i.blk.f(0)"));
   ASSERT_NE(arg->getPathElems(), nullptr);

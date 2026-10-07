@@ -304,7 +304,9 @@ TEST_F(DisplayTest, DisplayArgumentIsRefObjValBoundToTheBlockLocalDeclaration) {
   ASSERT_EQ(call->getArguments()->size(), 1u);
   const hldb::Variable *const val = getVal();
   ASSERT_NE(val, nullptr);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "$display's argument is the name 'val', so it is a RefObj, not a folded Constant";
   EXPECT_EQ(arg->getName(), "val");
   EXPECT_EQ(arg->getActual<hldb::Variable>(), val)

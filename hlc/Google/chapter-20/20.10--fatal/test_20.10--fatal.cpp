@@ -131,12 +131,16 @@ TEST_F(FatalTaskTest, FatalCallHasFinishNumberAndStringArgument) {
   ASSERT_EQ(call->getArguments()->size(), 2u)
       << "20.10: '$fatal' takes a mandatory finish_number ahead of the message argument";
 
-  const hldb::Constant *const finishNumber = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const finishNumber = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(finishNumber, nullptr) << "'2' should be a Constant";
   EXPECT_EQ(finishNumber->getConstType(), vpiUIntConst);
   EXPECT_EQ(finishNumber->getDecompile(), "2");
 
-  const hldb::Constant *const msg = any_cast<hldb::Constant>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const msg = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(msg, nullptr) << "'\"fatal\"' should be a Constant";
   EXPECT_EQ(msg->getConstType(), vpiStringConst);
   EXPECT_EQ(msg->getDecompile(), "\"fatal\"");

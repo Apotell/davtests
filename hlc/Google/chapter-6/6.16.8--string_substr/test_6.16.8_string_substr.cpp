@@ -196,9 +196,11 @@ TEST_F(StringSubstrTest, SubstrFirstArgumentIsOne) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_GE(call->getArguments()->size(), 1u);
 
-  const hldb::Constant *const arg0 = any_cast<hldb::Constant>(call->getArguments()->at(0));
-  ASSERT_NE(arg0, nullptr) << "substr first argument is not a Constant";
-  EXPECT_EQ(arg0->getDecompile(), "1");
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
+  ASSERT_NE(arg, nullptr) << "substr first argument is not a Constant";
+  EXPECT_EQ(arg->getDecompile(), "1");
 }
 
 TEST_F(StringSubstrTest, SubstrSecondArgumentIsTwo) {
@@ -213,9 +215,11 @@ TEST_F(StringSubstrTest, SubstrSecondArgumentIsTwo) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_GE(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const arg1 = any_cast<hldb::Constant>(call->getArguments()->at(1));
-  ASSERT_NE(arg1, nullptr) << "substr second argument is not a Constant";
-  EXPECT_EQ(arg1->getDecompile(), "2");
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const arg = arg1->getHighConn<hldb::Constant>();
+  ASSERT_NE(arg, nullptr) << "substr second argument is not a Constant";
+  EXPECT_EQ(arg->getDecompile(), "2");
 }
 
 TEST_F(StringSubstrTest, SubstrArgumentsAreUIntConst) {
@@ -229,13 +233,17 @@ TEST_F(StringSubstrTest, SubstrArgumentsAreUIntConst) {
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_GE(call->getArguments()->size(), 2u);
-  const hldb::Constant *const arg0 = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
-  EXPECT_EQ(arg0->getConstType(), vpiUIntConst)
+  const hldb::Constant *const hc0 = arg0->getHighConn<hldb::Constant>();
+  ASSERT_NE(hc0, nullptr);
+  EXPECT_EQ(hc0->getConstType(), vpiUIntConst)
       << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
-  const hldb::Constant *const arg1 = any_cast<hldb::Constant>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  EXPECT_EQ(arg1->getConstType(), vpiUIntConst);
+  const hldb::Constant *const hc1 = arg1->getHighConn<hldb::Constant>();
+  ASSERT_NE(hc1, nullptr);
+  EXPECT_EQ(hc1->getConstType(), vpiUIntConst);
 }
 
 // ---------------------------------------------------------------------------

@@ -172,7 +172,9 @@ TEST_F(StringRealtoaTest, RealtoaArgumentIs4dot76) {
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr) << "realtoa argument is not a Constant";
   // The argument 4.76 is encoded as a real literal (vpiRealConst)
   EXPECT_EQ(arg->getConstType(), vpiRealConst);

@@ -394,9 +394,11 @@ TEST_F(PackageEvalTest, TestSizeIsBitsOfTTest) {
     EXPECT_EQ(call->getName(), "$bits");
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);
-    const hldb::Any *const arg = call->getArguments()->at(0);
+    const hldb::NamedArgument *const arg = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
     ASSERT_NE(arg, nullptr);
-    EXPECT_EQ(arg->getName(), "t_test") << "the single argument of $bits is the type 't_test'";
+    const hldb::Any *const hc0 = arg->getHighConn();
+    ASSERT_NE(hc0, nullptr);
+    EXPECT_EQ(hc0->getName(), "t_test") << "the single argument of $bits is the type 't_test'";
   }
 }
 

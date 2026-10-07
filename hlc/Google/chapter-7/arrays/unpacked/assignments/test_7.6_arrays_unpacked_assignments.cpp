@@ -206,12 +206,16 @@ TEST_F(UnpackedAssignmentsTest, SixthStmtDisplaysBIndicesInReverseOrder) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 5u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getConstType(), 6);  // string = 6
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 0) and (%d == 1) and (%d == 2) and (%d == 3))");
   for (uint32_t i = 0; i < 4u; ++i) {
-    const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(i + 1));
+    const hldb::NamedArgument *const selArg = disp->getArguments()->at(i + 1);
+    ASSERT_NE(selArg, nullptr);
+    const hldb::BitSelect *const sel = selArg->getHighConn<hldb::BitSelect>();
     ASSERT_NE(sel, nullptr) << "argument " << (i + 1);
     EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "B");
     EXPECT_EQ(sel->getIndex<hldb::Constant>()->getDecompile(), std::to_string(3 - i));
@@ -257,7 +261,9 @@ TEST_F(UnpackedAssignmentsTest, RuntimeArrayCopyContentsRequireSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(),
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(),
             ":assert: ((%d == 0) and (%d == 1) and (%d == 2) and (%d == 3))")
       << "expected B[3..0] == 0,1,2,3 after B = A copies A[0..3] == 0,1,2,3 element-for-element";
 }

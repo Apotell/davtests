@@ -378,13 +378,17 @@ TEST_F(FgetsTest, FopenArgumentsAreFilenameAndMode) {
   ASSERT_NE(fopenCall->getArguments(), nullptr);
   ASSERT_EQ(fopenCall->getArguments()->size(), 2u) << "'$fopen(\"tmp.txt\", \"w\")' passes filename then mode";
 
-  const hldb::Constant *const filename = any_cast<hldb::Constant>(fopenCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = fopenCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const filename = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(filename, nullptr) << "arg[0] is the string literal \"tmp.txt\"";
   EXPECT_EQ(filename->getConstType(), vpiStringConst);
   EXPECT_EQ(filename->getValue(), "tmp.txt");
   EXPECT_EQ(filename->getSize(), 56) << "Sec 5.9: \"tmp.txt\" = 7 chars x 8 bits";
 
-  const hldb::Constant *const mode = any_cast<hldb::Constant>(fopenCall->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = fopenCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const mode = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mode, nullptr) << "arg[1] is the string literal \"w\"";
   EXPECT_EQ(mode->getConstType(), vpiStringConst);
   EXPECT_EQ(mode->getValue(), "w") << "Sec 21.3.1: \"w\" opens the file for writing";
@@ -415,8 +419,12 @@ TEST_F(FgetsTest, FgetsArgumentsAreDestinationThenDescriptor) {
   ASSERT_NE(fgetsCall->getArguments(), nullptr);
   ASSERT_EQ(fgetsCall->getArguments()->size(), 2u) << "'$fgets(tmp, fd)' passes exactly two arguments";
 
-  checkArgumentRefersTo(fgetsCall->getArguments()->at(0), "tmp", "the $fgets destination argument");
-  checkArgumentRefersTo(fgetsCall->getArguments()->at(1), "fd", "the $fgets descriptor argument");
+  const hldb::NamedArgument *const arg0 = fgetsCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentRefersTo(arg0->getHighConn(), "tmp", "the $fgets destination argument");
+  const hldb::NamedArgument *const arg1 = fgetsCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  checkArgumentRefersTo(arg1->getHighConn(), "fd", "the $fgets descriptor argument");
 }
 
 // The destination-first order of Sec 21.3.4.2 is the exact opposite of
@@ -430,8 +438,12 @@ TEST_F(FgetsTest, FgetsDestinationAndDescriptorAreNotSwapped) {
   ASSERT_NE(fgetsCall->getArguments(), nullptr);
   ASSERT_EQ(fgetsCall->getArguments()->size(), 2u);
 
-  const hldb::RefObj *const first = any_cast<hldb::RefObj>(fgetsCall->getArguments()->at(0));
-  const hldb::RefObj *const second = any_cast<hldb::RefObj>(fgetsCall->getArguments()->at(1));
+  const hldb::NamedArgument *const arg0 = fgetsCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const first = arg0->getHighConn<hldb::RefObj>();
+  const hldb::NamedArgument *const arg1 = fgetsCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const second = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(first, nullptr);
   ASSERT_NE(second, nullptr);
 
@@ -477,7 +489,9 @@ TEST_F(FgetsTest, FinalBodyIsFcloseSysTaskCallOnTheSameFd) {
 
   ASSERT_NE(fcloseCall->getArguments(), nullptr);
   ASSERT_EQ(fcloseCall->getArguments()->size(), 1u) << "'$fclose(fd)' passes exactly one argument";
-  checkArgumentRefersTo(fcloseCall->getArguments()->at(0), "fd", "the $fclose descriptor argument");
+  const hldb::NamedArgument *const arg0 = fcloseCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentRefersTo(arg0->getHighConn(), "fd", "the $fclose descriptor argument");
 }
 
 // --- compiler diagnostics -----------------------------------------------------

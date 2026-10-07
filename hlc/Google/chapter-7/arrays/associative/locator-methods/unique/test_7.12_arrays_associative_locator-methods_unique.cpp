@@ -328,7 +328,9 @@ TEST_F(ArrayLocatorUniqueTest, FirstDisplayFormatStringIsSizeAssert) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 3)");
 }
@@ -340,7 +342,9 @@ TEST_F(ArrayLocatorUniqueTest, FirstDisplaySecondArgIsQiDotSize) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(init->getStmt<hldb::Begin>()->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
-  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "qi.size");
   ASSERT_NE(size->getPathElems(), nullptr);
@@ -367,7 +371,9 @@ TEST_F(ArrayLocatorUniqueTest, SecondDisplayFormatStringIsValueAssert) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 4u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 3) and (%d == 10) and (%d == 20))");
 }
@@ -382,7 +388,9 @@ TEST_F(ArrayLocatorUniqueTest, SecondDisplayThreeArgsAreQiBitSelectsZeroOneTwo) 
 
   static constexpr const char *kNames[3] = {"qi[0]", "qi[1]", "qi[2]"};
   for (size_t i = 0; i < 3; ++i) {
-    const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(i + 1));
+    const hldb::NamedArgument *const selArg = disp->getArguments()->at(i + 1);
+    ASSERT_NE(selArg, nullptr);
+    const hldb::BitSelect *const sel = selArg->getHighConn<hldb::BitSelect>();
     ASSERT_NE(sel, nullptr);
     EXPECT_EQ(sel->getName(), kNames[i]);
     const hldb::RefObj *const prefix = sel->getPrefix<hldb::RefObj>();

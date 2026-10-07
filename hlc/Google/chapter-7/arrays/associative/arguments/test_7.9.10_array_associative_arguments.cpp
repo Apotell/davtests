@@ -260,7 +260,9 @@ TEST_F(Arguments, TaskSecondStmtIsDisplayWithAssertADC) {
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
   EXPECT_EQ(sc->getArguments()->size(), 4u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = sc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'a') and ('%s' == 'd') and ('%s' == 'c'))\"");
 }
@@ -349,7 +351,9 @@ TEST_F(Arguments, InitialFourthStmtIsDisplayABC) {
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
   EXPECT_EQ(sc->getArguments()->size(), 4u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = sc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'a') and ('%s' == 'b') and ('%s' == 'c'))\"");
 }
@@ -366,7 +370,9 @@ TEST_F(Arguments, InitialFifthStmtIsTFCallWithArraya) {
   EXPECT_EQ(fc->getName(), "fun");
   ASSERT_NE(fc->getArguments(), nullptr);
   EXPECT_EQ(fc->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(fc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = fc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "arraya");
 }
@@ -384,7 +390,9 @@ TEST_F(Arguments, TFCallArgResolvesToArrayaVariable) {
   ASSERT_NE(blk, nullptr);
   const hldb::TFCall *const fc = any_cast<hldb::TFCall>(blk->getStmts()->at(4));
   ASSERT_NE(fc, nullptr);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(fc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = fc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getActual<hldb::Variable>(), arraya);
 }
@@ -401,7 +409,9 @@ TEST_F(Arguments, InitialSixthStmtIsDisplayABC) {
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
   EXPECT_EQ(sc->getArguments()->size(), 4u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = sc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'a') and ('%s' == 'b') and ('%s' == 'c'))\"");
 }

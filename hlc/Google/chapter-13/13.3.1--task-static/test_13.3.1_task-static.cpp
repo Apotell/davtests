@@ -200,7 +200,9 @@ TEST_F(TaskStaticTest, IfElseConditionIsIODeclTestWithBothDisplayBranches) {
   ASSERT_NE(thenDisplay, nullptr);
   ASSERT_NE(thenDisplay->getArguments(), nullptr);
   ASSERT_EQ(thenDisplay->getArguments()->size(), 2u);
-  const hldb::Constant *const thenFmt = any_cast<hldb::Constant>(thenDisplay->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = thenDisplay->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const thenFmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(thenFmt, nullptr);
   EXPECT_EQ(thenFmt->getDecompile(), "\":assert:(%d != 1)\"");
 }
@@ -218,7 +220,9 @@ TEST_F(TaskStaticTest, ElseBranchDisplaysEqualsOneMessage) {
   ASSERT_NE(elseDisplay, nullptr);
   ASSERT_NE(elseDisplay->getArguments(), nullptr);
   ASSERT_EQ(elseDisplay->getArguments()->size(), 2u);
-  const hldb::Constant *const elseFmt = any_cast<hldb::Constant>(elseDisplay->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = elseDisplay->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const elseFmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(elseFmt, nullptr);
   EXPECT_EQ(elseFmt->getDecompile(), "\":assert:(%d == 1)\"");
 }
@@ -246,7 +250,9 @@ TEST_F(TaskStaticTest, InitialBodyCallsMytaskFourTimesWithArguments) {
     EXPECT_EQ(call->getTaskFunc<hldb::Task>(), getMytask());
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);
-    const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(arg, nullptr);
     EXPECT_EQ(arg->getDecompile(), expectedArgs[idx]);
   }

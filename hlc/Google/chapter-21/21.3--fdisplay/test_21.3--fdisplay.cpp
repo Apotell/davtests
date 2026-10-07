@@ -329,13 +329,17 @@ TEST_F(FdisplayTest, AssignmentRhsIsFopenSysFuncCallWithFilenameAndMode) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u) << "the two-argument form '$fopen(filename, type)' is used here";
 
-  const hldb::Constant *const filename = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const filename = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(filename, nullptr) << "arg[0] should be the filename string literal";
   EXPECT_EQ(filename->getConstType(), vpiStringConst);
   EXPECT_EQ(filename->getValue(), "tmp.txt");
   EXPECT_EQ(filename->getSize(), 56) << "IEEE 1800-2023 Sec 5.9: \"tmp.txt\" = 7 characters x 8 bits = 56 bits";
 
-  const hldb::Constant *const mode = any_cast<hldb::Constant>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const mode = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mode, nullptr) << "arg[1] should be the type string literal";
   EXPECT_EQ(mode->getConstType(), vpiStringConst);
   EXPECT_EQ(mode->getValue(), "w");
@@ -360,16 +364,19 @@ TEST_F(FdisplayTest, FdisplayCallPassesDescriptorThenStringVariable) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u) << "'$fdisplay(fd, str)' passes a descriptor and one value";
 
-  const hldb::RefObj *const descriptor = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const descriptor = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(descriptor, nullptr) << "arg[0] must be the descriptor reference, not a literal";
   EXPECT_EQ(descriptor->getName(), "fd");
   EXPECT_EQ(descriptor->getActual<hldb::Variable>(), getVariable("fd"));
 
   // Unlike 21.2--display.sv, the payload here is a variable, not a
   // format string literal -- so it must be a RefObj, never a Constant.
-  EXPECT_EQ(any_cast<hldb::Constant>(call->getArguments()->at(1)), nullptr)
-      << "'str' is a variable reference, not a string literal";
-  const hldb::RefObj *const payload = any_cast<hldb::RefObj>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::Constant>(), nullptr) << "'str' is a variable reference, not a string literal";
+  const hldb::RefObj *const payload = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(payload, nullptr) << "arg[1] should be a RefObj";
   EXPECT_EQ(payload->getName(), "str");
   EXPECT_EQ(payload->getActual<hldb::Variable>(), getVariable("str"));
@@ -392,7 +399,9 @@ TEST_F(FdisplayTest, FinalStmtIsDirectlyAnFcloseSysTaskCall) {
 
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "'$fclose(fd)' takes exactly one descriptor argument";
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "the $fclose argument should be a RefObj";
   EXPECT_EQ(arg->getName(), "fd");
   EXPECT_EQ(arg->getActual<hldb::Variable>(), getVariable("fd"))
