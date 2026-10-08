@@ -682,16 +682,16 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/asicworld/code_verilog_tutorial_fsm_full_tb.v:2:1: Compile module "testbench".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/asicworld/code_verilog_tutorial_fsm_full_tb.v:42:1: Unsupported typespec "fsm_full".
-[ERR:LN7701] Invalid name: id:229, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:232, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:235, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:238, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:241, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:244, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:247, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:250, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:253, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:256, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:243, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:246, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:249, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:252, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:255, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:258, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:261, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:264, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:267, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:270, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -862,35 +862,41 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName Identifier name:$fopen start:11:10 end:11:16:
                   vpiArgument (1 items):
-                    Constant start:1:17 end:1:26:
+                    NamedArgument start:1:17 end:1:26:
                       vpiParent: SysFuncCall name:$fopen
+                      vpiHighConn Constant start:1:17 end:1:26:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: testbench
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 56
+                        vpiDecompile: "\"foo.txt\""
+                        vpiValue: foo.txt
+              SysTaskCall name:$fdisplay start:12:3 end:12:55:
+                vpiParent: Begin
+                vpiName Identifier name:$fdisplay start:12:3 end:12:12:
+                vpiArgument (2 items):
+                  NamedArgument start:12:13 end:12:17:
+                    vpiParent: SysTaskCall name:$fdisplay
+                    vpiHighConn RefObj name:file start:12:13 end:12:17:
+                      vpiParent: NamedArgument
+                      vpiName: file
+                      vpiFullName: testbench.file
+                      vpiActual: Variable name:file
+                  NamedArgument start:12:19 end:12:54:
+                    vpiParent: SysTaskCall name:$fdisplay
+                    vpiHighConn Constant start:12:19 end:12:54:
+                      vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
                         vpiFullName: testbench
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 56
-                      vpiDecompile: "\"foo.txt\""
-                      vpiValue: foo.txt
-              SysTaskCall name:$fdisplay start:12:3 end:12:55:
-                vpiParent: Begin
-                vpiName Identifier name:$fdisplay start:12:3 end:12:12:
-                vpiArgument (2 items):
-                  RefObj name:file start:12:13 end:12:17:
-                    vpiParent: SysTaskCall name:$fdisplay
-                    vpiName: file
-                    vpiFullName: testbench.file
-                    vpiActual: Variable name:file
-                  Constant start:12:19 end:12:54:
-                    vpiParent: SysTaskCall name:$fdisplay
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: testbench
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 256
-                    vpiDecompile: "\"Time\\t    R0 R1 R2 R3 G0 G1 G2 G3\""
-                    vpiValue: Time\t    R0 R1 R2 R3 G0 G1 G2 G3
+                      vpiSize: 256
+                      vpiDecompile: "\"Time\\t    R0 R1 R2 R3 G0 G1 G2 G3\""
+                      vpiValue: Time\t    R0 R1 R2 R3 G0 G1 G2 G3
               Assignment start:13:3 end:13:12:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1343,64 +1349,86 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName Identifier name:$fdisplay start:33:3 end:33:12:
               vpiArgument (11 items):
-                RefObj name:file start:33:13 end:33:17:
+                NamedArgument start:33:13 end:33:17:
                   vpiParent: SysTaskCall name:$fdisplay
-                  vpiName: file
-                  vpiFullName: testbench.file
-                  vpiActual: Variable name:file
-                Constant start:33:19 end:33:59:
+                  vpiHighConn RefObj name:file start:33:13 end:33:17:
+                    vpiParent: NamedArgument
+                    vpiName: file
+                    vpiFullName: testbench.file
+                    vpiActual: Variable name:file
+                NamedArgument start:33:19 end:33:59:
                   vpiParent: SysTaskCall name:$fdisplay
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: testbench
-                    vpiActual: StringTypespec
-                  vpiConstType: string (6)
-                  vpiSize: 296
-                  vpiDecompile: "\"%g\\t    %b  %b  %b  %b  %b  %b  %b  %b\""
-                  vpiValue: "%g\\t    %b  %b  %b  %b  %b  %b  %b  %b"
-                SysFuncCall name:$time start:34:5 end:34:10:
+                  vpiHighConn Constant start:33:19 end:33:59:
+                    vpiParent: NamedArgument
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: testbench
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 296
+                    vpiDecompile: "\"%g\\t    %b  %b  %b  %b  %b  %b  %b  %b\""
+                    vpiValue: "%g\\t    %b  %b  %b  %b  %b  %b  %b  %b"
+                NamedArgument start:34:5 end:34:10:
                   vpiParent: SysTaskCall name:$fdisplay
-                  vpiName Identifier name:$time start:34:5 end:34:10:
-                RefObj name:req_0 start:34:12 end:34:17:
+                  vpiHighConn SysFuncCall name:$time start:34:5 end:34:10:
+                    vpiParent: NamedArgument
+                    vpiName Identifier name:$time start:34:5 end:34:10:
+                NamedArgument start:34:12 end:34:17:
                   vpiParent: SysTaskCall name:$fdisplay
-                  vpiName: req_0
-                  vpiFullName: testbench.req_0
-                  vpiActual: Variable name:req_0
-                RefObj name:req_1 start:34:19 end:34:24:
+                  vpiHighConn RefObj name:req_0 start:34:12 end:34:17:
+                    vpiParent: NamedArgument
+                    vpiName: req_0
+                    vpiFullName: testbench.req_0
+                    vpiActual: Variable name:req_0
+                NamedArgument start:34:19 end:34:24:
                   vpiParent: SysTaskCall name:$fdisplay
-                  vpiName: req_1
-                  vpiFullName: testbench.req_1
-                  vpiActual: Variable name:req_1
-                RefObj name:req_2 start:34:26 end:34:31:
+                  vpiHighConn RefObj name:req_1 start:34:19 end:34:24:
+                    vpiParent: NamedArgument
+                    vpiName: req_1
+                    vpiFullName: testbench.req_1
+                    vpiActual: Variable name:req_1
+                NamedArgument start:34:26 end:34:31:
                   vpiParent: SysTaskCall name:$fdisplay
-                  vpiName: req_2
-                  vpiFullName: testbench.req_2
-                  vpiActual: Variable name:req_2
-                RefObj name:req_3 start:34:33 end:34:38:
+                  vpiHighConn RefObj name:req_2 start:34:26 end:34:31:
+                    vpiParent: NamedArgument
+                    vpiName: req_2
+                    vpiFullName: testbench.req_2
+                    vpiActual: Variable name:req_2
+                NamedArgument start:34:33 end:34:38:
                   vpiParent: SysTaskCall name:$fdisplay
-                  vpiName: req_3
-                  vpiFullName: testbench.req_3
-                  vpiActual: Variable name:req_3
-                RefObj name:gnt_0 start:34:40 end:34:45:
+                  vpiHighConn RefObj name:req_3 start:34:33 end:34:38:
+                    vpiParent: NamedArgument
+                    vpiName: req_3
+                    vpiFullName: testbench.req_3
+                    vpiActual: Variable name:req_3
+                NamedArgument start:34:40 end:34:45:
                   vpiParent: SysTaskCall name:$fdisplay
-                  vpiName: gnt_0
-                  vpiFullName: testbench.gnt_0
-                  vpiActual: Net name:gnt_0
-                RefObj name:gnt_1 start:34:47 end:34:52:
+                  vpiHighConn RefObj name:gnt_0 start:34:40 end:34:45:
+                    vpiParent: NamedArgument
+                    vpiName: gnt_0
+                    vpiFullName: testbench.gnt_0
+                    vpiActual: Net name:gnt_0
+                NamedArgument start:34:47 end:34:52:
                   vpiParent: SysTaskCall name:$fdisplay
-                  vpiName: gnt_1
-                  vpiFullName: testbench.gnt_1
-                  vpiActual: Net name:gnt_1
-                RefObj name:gnt_2 start:34:54 end:34:59:
+                  vpiHighConn RefObj name:gnt_1 start:34:47 end:34:52:
+                    vpiParent: NamedArgument
+                    vpiName: gnt_1
+                    vpiFullName: testbench.gnt_1
+                    vpiActual: Net name:gnt_1
+                NamedArgument start:34:54 end:34:59:
                   vpiParent: SysTaskCall name:$fdisplay
-                  vpiName: gnt_2
-                  vpiFullName: testbench.gnt_2
-                  vpiActual: Net name:gnt_2
-                RefObj name:gnt_3 start:34:61 end:34:66:
+                  vpiHighConn RefObj name:gnt_2 start:34:54 end:34:59:
+                    vpiParent: NamedArgument
+                    vpiName: gnt_2
+                    vpiFullName: testbench.gnt_2
+                    vpiActual: Net name:gnt_2
+                NamedArgument start:34:61 end:34:66:
                   vpiParent: SysTaskCall name:$fdisplay
-                  vpiName: gnt_3
-                  vpiFullName: testbench.gnt_3
-                  vpiActual: Net name:gnt_3
+                  vpiHighConn RefObj name:gnt_3 start:34:61 end:34:66:
+                    vpiParent: NamedArgument
+                    vpiName: gnt_3
+                    vpiFullName: testbench.gnt_3
+                    vpiActual: Net name:gnt_3
           vpiAlwaysType: always (1)
         Initial start:36:1 end:40:4:
           vpiParent: Module name:testbench
@@ -1462,104 +1490,104 @@ Design name:unnamed:
             vpiName: fsm_full
             vpiFullName: testbench.U_fsm_full.fsm_full
             vpiActual: UnsupportedTypespec name:fsm_full
-          vpiPort (10 items):
-            Port start:43:1 end:43:6:
+          vpiArgument (10 items):
+            NamedArgument start:43:1 end:43:6:
               vpiParent: RefInstance name:U_fsm_full
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: testbench.U_fsm_full
               vpiHighConn RefObj name:clock start:43:1 end:43:6:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clock
                 vpiFullName: testbench.U_fsm_full.clock
                 vpiActual: Variable name:clock
-            Port start:44:1 end:44:6:
+            NamedArgument start:44:1 end:44:6:
               vpiParent: RefInstance name:U_fsm_full
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: testbench.U_fsm_full
               vpiHighConn RefObj name:reset start:44:1 end:44:6:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: reset
                 vpiFullName: testbench.U_fsm_full.reset
                 vpiActual: Variable name:reset
-            Port start:45:1 end:45:6:
+            NamedArgument start:45:1 end:45:6:
               vpiParent: RefInstance name:U_fsm_full
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: testbench.U_fsm_full
               vpiHighConn RefObj name:req_0 start:45:1 end:45:6:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: req_0
                 vpiFullName: testbench.U_fsm_full.req_0
                 vpiActual: Variable name:req_0
-            Port start:46:1 end:46:6:
+            NamedArgument start:46:1 end:46:6:
               vpiParent: RefInstance name:U_fsm_full
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: testbench.U_fsm_full
               vpiHighConn RefObj name:req_1 start:46:1 end:46:6:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: req_1
                 vpiFullName: testbench.U_fsm_full.req_1
                 vpiActual: Variable name:req_1
-            Port start:47:1 end:47:6:
+            NamedArgument start:47:1 end:47:6:
               vpiParent: RefInstance name:U_fsm_full
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: testbench.U_fsm_full
               vpiHighConn RefObj name:req_2 start:47:1 end:47:6:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: req_2
                 vpiFullName: testbench.U_fsm_full.req_2
                 vpiActual: Variable name:req_2
-            Port start:48:1 end:48:6:
+            NamedArgument start:48:1 end:48:6:
               vpiParent: RefInstance name:U_fsm_full
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: testbench.U_fsm_full
               vpiHighConn RefObj name:req_3 start:48:1 end:48:6:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: req_3
                 vpiFullName: testbench.U_fsm_full.req_3
                 vpiActual: Variable name:req_3
-            Port start:49:1 end:49:6:
+            NamedArgument start:49:1 end:49:6:
               vpiParent: RefInstance name:U_fsm_full
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: testbench.U_fsm_full
               vpiHighConn RefObj name:gnt_0 start:49:1 end:49:6:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: gnt_0
                 vpiFullName: testbench.U_fsm_full.gnt_0
                 vpiActual: Net name:gnt_0
-            Port start:50:1 end:50:6:
+            NamedArgument start:50:1 end:50:6:
               vpiParent: RefInstance name:U_fsm_full
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: testbench.U_fsm_full
               vpiHighConn RefObj name:gnt_1 start:50:1 end:50:6:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: gnt_1
                 vpiFullName: testbench.U_fsm_full.gnt_1
                 vpiActual: Net name:gnt_1
-            Port start:51:1 end:51:6:
+            NamedArgument start:51:1 end:51:6:
               vpiParent: RefInstance name:U_fsm_full
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: testbench.U_fsm_full
               vpiHighConn RefObj name:gnt_2 start:51:1 end:51:6:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: gnt_2
                 vpiFullName: testbench.U_fsm_full.gnt_2
                 vpiActual: Net name:gnt_2
-            Port start:52:1 end:52:6:
+            NamedArgument start:52:1 end:52:6:
               vpiParent: RefInstance name:U_fsm_full
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: testbench.U_fsm_full
               vpiHighConn RefObj name:gnt_3 start:52:1 end:52:6:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: gnt_3
                 vpiFullName: testbench.U_fsm_full.gnt_3
                 vpiActual: Net name:gnt_3
@@ -1630,7 +1658,7 @@ Operation                            2       1       0         1
 RefObj                              51      50       0         1
 RefTypespec                         45      46       1         0
 ----------------------------------------------------------------
-Others                              89      89       0         0
+Others                             103     103       0         0
 ----------------------------------------------------------------
-                                   220     220       2         2
+                                   234     234       2         2
 ===================== END REDUCTION RESULT =====================

@@ -522,8 +522,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/top2.v:10:85: Failed to bind "sequence_id".
 [WRN:CP5851] $Source01/top2.v:10:67: Failed to bind "arb_sequence_q".
 [WRN:PA5506] $Source01/top2.v:3:1: No timescale set for "uvm_pkg".
-[ERR:LN7705] $Source01/top2.v:7:68: Null Actual: id:198, type:MethodFuncCall, name:size, relation:vpiPathElem.
-[ERR:LN7705] $Source01/top2.v:10:60: Null Actual: id:220, type:MethodFuncCall, name:name, relation:vpiPathElem.
+[ERR:LN7705] $Source01/top2.v:7:68: Null Actual: id:200, type:MethodFuncCall, name:size, relation:vpiPathElem.
+[ERR:LN7705] $Source01/top2.v:10:60: Null Actual: id:226, type:MethodFuncCall, name:name, relation:vpiPathElem.
 [ERR:CP5903] $Source01/top.v:61:6: Illegal use of wildcard-index associative array m_submaps2.
 ====== HLDB =======
 Design name:unnamed:
@@ -586,11 +586,13 @@ Design name:unnamed:
                     vpiParent: RefObj name:super.do_print(printer)
                     vpiName Identifier name:do_print start:6:11 end:6:19:
                     vpiArgument (1 items):
-                      RefObj name:printer start:6:20 end:6:27:
+                      NamedArgument start:6:20 end:6:27:
                         vpiParent: SubroutineCall name:do_print
-                        vpiName: printer
-                        vpiFullName: uvm_pkg::do_print::super.do_print(printer)::do_print::printer
-                        vpiActual: IODecl name:printer
+                        vpiHighConn RefObj name:printer start:6:20 end:6:27:
+                          vpiParent: NamedArgument
+                          vpiName: printer
+                          vpiFullName: uvm_pkg::do_print::super.do_print(printer)::do_print::printer
+                          vpiActual: IODecl name:printer
               "RefObj name:printer.print_array_header(\"arbitration_queue\", arb_sequence_q.size()) start:7:5 end:7:75":
                 vpiParent: Begin
                 vpiName: printer.print_array_header("arbitration_queue", arb_sequence_q.size())
@@ -605,28 +607,32 @@ Design name:unnamed:
                     vpiParent: "RefObj name:printer.print_array_header(\"arbitration_queue\", arb_sequence_q.size())"
                     vpiName Identifier name:print_array_header start:7:13 end:7:31:
                     vpiArgument (2 items):
-                      Constant start:7:32 end:7:51:
+                      NamedArgument start:7:32 end:7:51:
                         vpiParent: SubroutineCall name:print_array_header
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size())::print_array_header
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 136
-                        vpiDecompile: "\"arbitration_queue\""
-                        vpiValue: arbitration_queue
-                      RefObj name:arb_sequence_q.size() start:7:53 end:7:74:
+                        vpiHighConn Constant start:7:32 end:7:51:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size())::print_array_header
+                            vpiActual: StringTypespec
+                          vpiConstType: string (6)
+                          vpiSize: 136
+                          vpiDecompile: "\"arbitration_queue\""
+                          vpiValue: arbitration_queue
+                      NamedArgument start:7:53 end:7:74:
                         vpiParent: SubroutineCall name:print_array_header
-                        vpiName: arb_sequence_q.size()
-                        vpiFullName: uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size())::print_array_header::arb_sequence_q.size()
-                        vpiPathElem (2 items):
-                          RefObj name:arb_sequence_q start:7:53 end:7:67:
-                            vpiParent: RefObj name:arb_sequence_q.size()
-                            vpiName: arb_sequence_q
-                            vpiFullName: uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size())::print_array_header::arb_sequence_q
-                          MethodFuncCall name:size start:7:68 end:7:74:
-                            vpiParent: RefObj name:arb_sequence_q.size()
-                            vpiName Identifier name:size start:7:68 end:7:72:
+                        vpiHighConn RefObj name:arb_sequence_q.size() start:7:53 end:7:74:
+                          vpiParent: NamedArgument
+                          vpiName: arb_sequence_q.size()
+                          vpiFullName: uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size())::print_array_header::arb_sequence_q.size()
+                          vpiPathElem (2 items):
+                            RefObj name:arb_sequence_q start:7:53 end:7:67:
+                              vpiParent: RefObj name:arb_sequence_q.size()
+                              vpiName: arb_sequence_q
+                              vpiFullName: uvm_pkg::do_print::printer.print_array_header("arbitration_queue", arb_sequence_q.size())::print_array_header::arb_sequence_q
+                            MethodFuncCall name:size start:7:68 end:7:74:
+                              vpiParent: RefObj name:arb_sequence_q.size()
+                              vpiName Identifier name:size start:7:68 end:7:72:
               ForeachStmt start:8:5 end:10:104:
                 vpiParent: Begin
                 vpiFullName: uvm_pkg::do_print
@@ -656,98 +662,114 @@ Design name:unnamed:
                       vpiParent: "RefObj name:printer.print_string($sformatf(\"[%0d]\", i), $sformatf(\"%s@seqid%0d\", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), \"[\")"
                       vpiName Identifier name:print_string start:9:15 end:9:27:
                       vpiArgument (3 items):
-                        SysFuncCall name:$sformatf start:9:28 end:9:49:
+                        NamedArgument start:9:28 end:9:49:
                           vpiParent: SubroutineCall name:print_string
-                          vpiName Identifier name:$sformatf start:9:28 end:9:37:
-                          vpiTaskFunc: Function name:$sformatf
-                          vpiArgument (2 items):
-                            Constant start:9:38 end:9:45:
-                              vpiParent: SysFuncCall name:$sformatf
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string
-                                vpiActual: StringTypespec
-                              vpiConstType: string (6)
-                              vpiSize: 40
-                              vpiDecompile: "\"[%0d]\""
-                              vpiValue: "[%0d]"
-                            RefObj name:i start:9:47 end:9:48:
-                              vpiParent: SysFuncCall name:$sformatf
-                              vpiName: i
-                              vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::i
-                              vpiActual: Variable name:i
-                        SysFuncCall name:$sformatf start:10:10 end:10:97:
+                          vpiHighConn SysFuncCall name:$sformatf start:9:28 end:9:49:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$sformatf start:9:28 end:9:37:
+                            vpiTaskFunc: Function name:$sformatf
+                            vpiArgument (2 items):
+                              NamedArgument start:9:38 end:9:45:
+                                vpiParent: SysFuncCall name:$sformatf
+                                vpiHighConn Constant start:9:38 end:9:45:
+                                  vpiParent: NamedArgument
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string
+                                    vpiActual: StringTypespec
+                                  vpiConstType: string (6)
+                                  vpiSize: 40
+                                  vpiDecompile: "\"[%0d]\""
+                                  vpiValue: "[%0d]"
+                              NamedArgument start:9:47 end:9:48:
+                                vpiParent: SysFuncCall name:$sformatf
+                                vpiHighConn RefObj name:i start:9:47 end:9:48:
+                                  vpiParent: NamedArgument
+                                  vpiName: i
+                                  vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::i
+                                  vpiActual: Variable name:i
+                        NamedArgument start:10:10 end:10:97:
                           vpiParent: SubroutineCall name:print_string
-                          vpiName Identifier name:$sformatf start:10:10 end:10:19:
-                          vpiTaskFunc: Function name:$sformatf
-                          vpiArgument (3 items):
-                            Constant start:10:20 end:10:33:
-                              vpiParent: SysFuncCall name:$sformatf
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string
-                                vpiActual: StringTypespec
-                              vpiConstType: string (6)
-                              vpiSize: 88
-                              vpiDecompile: "\"%s@seqid%0d\""
-                              vpiValue: "%s@seqid%0d"
-                            RefObj name:arb_sequence_q[i].request.name() start:10:34 end:10:66:
-                              vpiParent: SysFuncCall name:$sformatf
-                              vpiName: arb_sequence_q[i].request.name()
-                              vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name()
-                              vpiPathElem (3 items):
-                                BitSelect name:arb_sequence_q[i] start:10:34 end:10:50:
-                                  vpiParent: RefObj name:arb_sequence_q[i].request.name()
-                                  vpiName: arb_sequence_q[i]
-                                  vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name()::arb_sequence_q[i]
-                                  vpiPrefix RefObj name:arb_sequence_q start:10:34 end:10:48:
-                                    vpiParent: BitSelect name:arb_sequence_q[i]
-                                    vpiName: arb_sequence_q
-                                    vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name()::arb_sequence_q
-                                  vpiIndex RefObj name:i start:10:49 end:10:50:
-                                    vpiParent: BitSelect name:arb_sequence_q[i]
-                                    vpiName: i
-                                    vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name()::i
-                                    vpiActual: Variable name:i
-                                RefObj name:request start:10:52 end:10:59:
-                                  vpiParent: RefObj name:arb_sequence_q[i].request.name()
-                                  vpiName: request
-                                  vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::request
-                                MethodFuncCall name:name start:10:60 end:10:66:
-                                  vpiParent: RefObj name:arb_sequence_q[i].request.name()
-                                  vpiName Identifier name:name start:10:60 end:10:64:
-                            RefObj name:arb_sequence_q[i].sequence_id start:10:67 end:10:96:
-                              vpiParent: SysFuncCall name:$sformatf
-                              vpiName: arb_sequence_q[i].sequence_id
-                              vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id
-                              vpiPathElem (2 items):
-                                BitSelect name:arb_sequence_q[i] start:10:67 end:10:83:
-                                  vpiParent: RefObj name:arb_sequence_q[i].sequence_id
-                                  vpiName: arb_sequence_q[i]
-                                  vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id::arb_sequence_q[i]
-                                  vpiPrefix RefObj name:arb_sequence_q start:10:67 end:10:81:
-                                    vpiParent: BitSelect name:arb_sequence_q[i]
-                                    vpiName: arb_sequence_q
-                                    vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id::arb_sequence_q
-                                  vpiIndex RefObj name:i start:10:82 end:10:83:
-                                    vpiParent: BitSelect name:arb_sequence_q[i]
-                                    vpiName: i
-                                    vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id::i
-                                    vpiActual: Variable name:i
-                                RefObj name:sequence_id start:10:85 end:10:96:
-                                  vpiParent: RefObj name:arb_sequence_q[i].sequence_id
-                                  vpiName: sequence_id
-                                  vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::sequence_id
-                        Constant start:10:99 end:10:102:
+                          vpiHighConn SysFuncCall name:$sformatf start:10:10 end:10:97:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$sformatf start:10:10 end:10:19:
+                            vpiTaskFunc: Function name:$sformatf
+                            vpiArgument (3 items):
+                              NamedArgument start:10:20 end:10:33:
+                                vpiParent: SysFuncCall name:$sformatf
+                                vpiHighConn Constant start:10:20 end:10:33:
+                                  vpiParent: NamedArgument
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string
+                                    vpiActual: StringTypespec
+                                  vpiConstType: string (6)
+                                  vpiSize: 88
+                                  vpiDecompile: "\"%s@seqid%0d\""
+                                  vpiValue: "%s@seqid%0d"
+                              NamedArgument start:10:34 end:10:66:
+                                vpiParent: SysFuncCall name:$sformatf
+                                vpiHighConn RefObj name:arb_sequence_q[i].request.name() start:10:34 end:10:66:
+                                  vpiParent: NamedArgument
+                                  vpiName: arb_sequence_q[i].request.name()
+                                  vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name()
+                                  vpiPathElem (3 items):
+                                    BitSelect name:arb_sequence_q[i] start:10:34 end:10:50:
+                                      vpiParent: RefObj name:arb_sequence_q[i].request.name()
+                                      vpiName: arb_sequence_q[i]
+                                      vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name()::arb_sequence_q[i]
+                                      vpiPrefix RefObj name:arb_sequence_q start:10:34 end:10:48:
+                                        vpiParent: BitSelect name:arb_sequence_q[i]
+                                        vpiName: arb_sequence_q
+                                        vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name()::arb_sequence_q
+                                      vpiIndex RefObj name:i start:10:49 end:10:50:
+                                        vpiParent: BitSelect name:arb_sequence_q[i]
+                                        vpiName: i
+                                        vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].request.name()::i
+                                        vpiActual: Variable name:i
+                                    RefObj name:request start:10:52 end:10:59:
+                                      vpiParent: RefObj name:arb_sequence_q[i].request.name()
+                                      vpiName: request
+                                      vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::request
+                                    MethodFuncCall name:name start:10:60 end:10:66:
+                                      vpiParent: RefObj name:arb_sequence_q[i].request.name()
+                                      vpiName Identifier name:name start:10:60 end:10:64:
+                              NamedArgument start:10:67 end:10:96:
+                                vpiParent: SysFuncCall name:$sformatf
+                                vpiHighConn RefObj name:arb_sequence_q[i].sequence_id start:10:67 end:10:96:
+                                  vpiParent: NamedArgument
+                                  vpiName: arb_sequence_q[i].sequence_id
+                                  vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id
+                                  vpiPathElem (2 items):
+                                    BitSelect name:arb_sequence_q[i] start:10:67 end:10:83:
+                                      vpiParent: RefObj name:arb_sequence_q[i].sequence_id
+                                      vpiName: arb_sequence_q[i]
+                                      vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id::arb_sequence_q[i]
+                                      vpiPrefix RefObj name:arb_sequence_q start:10:67 end:10:81:
+                                        vpiParent: BitSelect name:arb_sequence_q[i]
+                                        vpiName: arb_sequence_q
+                                        vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id::arb_sequence_q
+                                      vpiIndex RefObj name:i start:10:82 end:10:83:
+                                        vpiParent: BitSelect name:arb_sequence_q[i]
+                                        vpiName: i
+                                        vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::arb_sequence_q[i].sequence_id::i
+                                        vpiActual: Variable name:i
+                                    RefObj name:sequence_id start:10:85 end:10:96:
+                                      vpiParent: RefObj name:arb_sequence_q[i].sequence_id
+                                      vpiName: sequence_id
+                                      vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string::sequence_id
+                        NamedArgument start:10:99 end:10:102:
                           vpiParent: SubroutineCall name:print_string
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 8
-                          vpiDecompile: "\"[\""
-                          vpiValue: "["
+                          vpiHighConn Constant start:10:99 end:10:102:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: uvm_pkg::do_print::printer.print_string($sformatf("[%0d]", i), $sformatf("%s@seqid%0d", arb_sequence_q[i].request.name(), arb_sequence_q[i].sequence_id), "[")::print_string
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 8
+                            vpiDecompile: "\"[\""
+                            vpiValue: "["
           vpiReturn RefTypespec start:5:12 end:5:16:
             vpiParent: Function name:do_print
             vpiFullName: uvm_pkg::do_print
@@ -986,11 +1008,13 @@ Design name:unnamed:
                     vpiName Identifier name:push_back start:52:17 end:52:26:
                     vpiTaskFunc: Function name:push_back
                     vpiArgument (1 items):
-                      RefObj name:an_obj start:52:27 end:52:33:
+                      NamedArgument start:52:27 end:52:33:
                         vpiParent: MethodFuncCall name:push_back
-                        vpiName: an_obj
-                        vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3.push_back(an_obj)::an_obj
-                        vpiActual: Variable name:an_obj
+                        vpiHighConn RefObj name:an_obj start:52:27 end:52:33:
+                          vpiParent: NamedArgument
+                          vpiName: an_obj
+                          vpiFullName: uvm_reg_map::set_check_on_read::m_submaps3.push_back(an_obj)::an_obj
+                          vpiActual: Variable name:an_obj
                 vpiActual: MethodFuncCall name:push_back
               ForeachStmt start:54:6 end:59:10:
                 vpiParent: Begin
@@ -1376,7 +1400,7 @@ COMMAND: ${HLC_DIR}/regression/UnitForeach/UnitForeach/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1564    1564       0         0
+Others                            1576    1576       0         0
 ----------------------------------------------------------------
-                                  1564    1564       0         0
+                                  1576    1576       0         0
 ===================== END REDUCTION RESULT =====================

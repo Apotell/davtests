@@ -461,34 +461,44 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:15:9 end:15:17:
                 vpiArgument (5 items):
-                  SysFuncCall name:$time start:15:18 end:15:23:
+                  NamedArgument start:15:18 end:15:23:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:15:18 end:15:23:
-                  Constant start:15:25 end:15:40:
+                    vpiHighConn SysFuncCall name:$time start:15:18 end:15:23:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:15:18 end:15:23:
+                  NamedArgument start:15:25 end:15:40:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 104
-                    vpiDecompile: "\" %b | %b = %b\""
-                    vpiValue: "%b | %b = %b"
-                  RefObj name:a start:15:42 end:15:43:
+                    vpiHighConn Constant start:15:25 end:15:40:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 104
+                      vpiDecompile: "\" %b | %b = %b\""
+                      vpiValue: "%b | %b = %b"
+                  NamedArgument start:15:42 end:15:43:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: a
-                    vpiFullName: top.a
-                    vpiActual: Variable name:a
-                  RefObj name:b start:15:45 end:15:46:
+                    vpiHighConn RefObj name:a start:15:42 end:15:43:
+                      vpiParent: NamedArgument
+                      vpiName: a
+                      vpiFullName: top.a
+                      vpiActual: Variable name:a
+                  NamedArgument start:15:45 end:15:46:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: b
-                    vpiFullName: top.b
-                    vpiActual: Variable name:b
-                  RefObj name:result start:15:48 end:15:54:
+                    vpiHighConn RefObj name:b start:15:45 end:15:46:
+                      vpiParent: NamedArgument
+                      vpiName: b
+                      vpiFullName: top.b
+                      vpiActual: Variable name:b
+                  NamedArgument start:15:48 end:15:54:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: result
-                    vpiFullName: top.result
-                    vpiActual: Net name:result
+                    vpiHighConn RefObj name:result start:15:48 end:15:54:
+                      vpiParent: NamedArgument
+                      vpiName: result
+                      vpiFullName: top.result
+                      vpiActual: Net name:result
               Assignment start:16:9 end:16:23:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -742,40 +752,43 @@ Design name:unnamed:
             vpiName: Device
             vpiFullName: top.dut.Device
             vpiActual: UnsupportedTypespec name:Device
-          vpiPort (3 items):
-            Port start:9:9 end:9:14:
+          vpiArgument (3 items):
+            NamedArgument start:9:9 end:9:14:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:a start:9:10 end:9:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: top.dut.a
                 vpiActual: Variable name:a
               vpiHighConn RefObj name:a start:9:12 end:9:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: top.dut.a
                 vpiActual: Variable name:a
-            Port start:10:9 end:10:14:
+            NamedArgument start:10:9 end:10:14:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:b start:10:10 end:10:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: top.dut.b
                 vpiActual: Variable name:b
               vpiHighConn RefObj name:b start:10:12 end:10:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: top.dut.b
                 vpiActual: Variable name:b
-            Port start:11:9 end:11:24:
+            NamedArgument start:11:9 end:11:24:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:result start:11:10 end:11:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: result
                 vpiFullName: top.dut.result
                 vpiActual: Net name:result
               vpiHighConn RefObj name:result start:11:17 end:11:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: result
                 vpiFullName: top.dut.result
                 vpiActual: Net name:result
@@ -844,7 +857,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/inline_concat_tb_v/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             112     112       0         0
+Others                             117     117       0         0
 ----------------------------------------------------------------
-                                   112     112       0         0
+                                   117     117       0         0
 ===================== END REDUCTION RESULT =====================

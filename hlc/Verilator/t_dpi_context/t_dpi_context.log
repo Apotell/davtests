@@ -637,16 +637,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:19:7 end:19:13:
                 vpiArgument (1 items):
-                  Constant start:19:14 end:19:38:
+                  NamedArgument start:19:14 end:19:38:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: "*-* All Finished *-*\\n"
+                    vpiHighConn Constant start:19:14 end:19:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
               SysTaskCall name:$finish start:20:7 end:20:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:20:7 end:20:14:
@@ -660,16 +662,17 @@ Design name:unnamed:
             vpiName: sub
             vpiFullName: t.a.sub
             vpiActual: ModuleTypespec name:sub
-          vpiPort (1 items):
-            Port start:10:11 end:10:19:
+          vpiArgument (1 items):
+            NamedArgument start:10:11 end:10:19:
               vpiParent: RefInstance name:a
+              vpiConnByName: true
               vpiLowConn RefObj name:inst start:10:12 end:10:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: inst
                 vpiFullName: t.a.inst
                 vpiActual: Port name:inst
               vpiHighConn Constant start:10:17 end:10:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t.a
@@ -686,16 +689,17 @@ Design name:unnamed:
             vpiName: sub
             vpiFullName: t.b.sub
             vpiActual: ModuleTypespec name:sub
-          vpiPort (1 items):
-            Port start:11:11 end:11:19:
+          vpiArgument (1 items):
+            NamedArgument start:11:11 end:11:19:
               vpiParent: RefInstance name:b
+              vpiConnByName: true
               vpiLowConn RefObj name:inst start:11:12 end:11:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: inst
                 vpiFullName: t.b.inst
                 vpiActual: Port name:inst
               vpiHighConn Constant start:11:17 end:11:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t.b
@@ -851,25 +855,27 @@ Design name:unnamed:
                   vpiName Identifier name:dpic_save start:45:16 end:45:25:
                   vpiTaskFunc: Function name:dpic_save
                   vpiArgument (1 items):
-                    Operation start:45:26 end:45:33:
+                    NamedArgument start:45:26 end:45:33:
                       vpiParent: MethodFuncCall name:dpic_save
-                      vpiOpType: add (24)
-                      vpiOperand (2 items):
-                        Constant start:45:26 end:45:28:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: sub.test1
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "23"
-                          vpiValue: 23
-                        RefObj name:inst start:45:29 end:45:33:
-                          vpiParent: Operation
-                          vpiName: inst
-                          vpiFullName: sub.test1.inst
-                          vpiActual: Net name:inst
+                      vpiHighConn Operation start:45:26 end:45:33:
+                        vpiParent: NamedArgument
+                        vpiOpType: add (24)
+                        vpiOperand (2 items):
+                          Constant start:45:26 end:45:28:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: sub.test1
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "23"
+                            vpiValue: 23
+                          RefObj name:inst start:45:29 end:45:33:
+                            vpiParent: Operation
+                            vpiName: inst
+                            vpiFullName: sub.test1.inst
+                            vpiActual: Net name:inst
               IfStmt start:46:7 end:46:28:
                 vpiParent: Begin
                 vpiCondition Operation start:46:11 end:46:20:
@@ -1080,7 +1086,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_dpi_context/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             139     139       0         0
+Others                             141     141       0         0
 ----------------------------------------------------------------
-                                   139     139       0         0
+                                   141     141       0         0
 ===================== END REDUCTION RESULT =====================

@@ -571,34 +571,44 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:19:9 end:19:17:
                 vpiArgument (5 items):
-                  SysFuncCall name:$time start:19:18 end:19:23:
+                  NamedArgument start:19:18 end:19:23:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:19:18 end:19:23:
-                  Constant start:19:25 end:19:38:
+                    vpiHighConn SysFuncCall name:$time start:19:18 end:19:23:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:19:18 end:19:23:
+                  NamedArgument start:19:25 end:19:38:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 88
-                    vpiDecompile: "\" %h %h = %h\""
-                    vpiValue: "%h %h = %h"
-                  RefObj name:index start:19:40 end:19:45:
+                    vpiHighConn Constant start:19:25 end:19:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 88
+                      vpiDecompile: "\" %h %h = %h\""
+                      vpiValue: "%h %h = %h"
+                  NamedArgument start:19:40 end:19:45:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: index
-                    vpiFullName: top.index
-                    vpiActual: Net name:index
-                  RefObj name:offset start:19:47 end:19:53:
+                    vpiHighConn RefObj name:index start:19:40 end:19:45:
+                      vpiParent: NamedArgument
+                      vpiName: index
+                      vpiFullName: top.index
+                      vpiActual: Net name:index
+                  NamedArgument start:19:47 end:19:53:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: offset
-                    vpiFullName: top.offset
-                    vpiActual: Net name:offset
-                  RefObj name:flatRequest start:19:55 end:19:66:
+                    vpiHighConn RefObj name:offset start:19:47 end:19:53:
+                      vpiParent: NamedArgument
+                      vpiName: offset
+                      vpiFullName: top.offset
+                      vpiActual: Net name:offset
+                  NamedArgument start:19:55 end:19:66:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: flatRequest
-                    vpiFullName: top.flatRequest
-                    vpiActual: Net name:flatRequest
+                    vpiHighConn RefObj name:flatRequest start:19:55 end:19:66:
+                      vpiParent: NamedArgument
+                      vpiName: flatRequest
+                      vpiFullName: top.flatRequest
+                      vpiActual: Net name:flatRequest
               ForStmt start:20:9 end:26:12:
                 vpiParent: Begin
                 vpiFullName: top
@@ -736,16 +746,18 @@ Design name:unnamed:
                         vpiParent: IfStmt
                         vpiName Identifier name:$error start:23:17 end:23:23:
                         vpiArgument (1 items):
-                          Constant start:23:24 end:23:42:
+                          NamedArgument start:23:24 end:23:42:
                             vpiParent: SysTaskCall name:$error
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: top
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 128
-                            vpiDecompile: "\"Bad fixed values\""
-                            vpiValue: Bad fixed values
+                            vpiHighConn Constant start:23:24 end:23:42:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: top
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 128
+                              vpiDecompile: "\"Bad fixed values\""
+                              vpiValue: Bad fixed values
                     IfStmt start:24:13 end:25:44:
                       vpiParent: Begin
                       vpiCondition Operation start:24:17 end:24:51:
@@ -818,16 +830,18 @@ Design name:unnamed:
                         vpiParent: IfStmt
                         vpiName Identifier name:$error start:25:17 end:25:23:
                         vpiArgument (1 items):
-                          Constant start:25:24 end:25:42:
+                          NamedArgument start:25:24 end:25:42:
                             vpiParent: SysTaskCall name:$error
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: top
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 128
-                            vpiDecompile: "\"Bad index/offset\""
-                            vpiValue: Bad index/offset
+                            vpiHighConn Constant start:25:24 end:25:42:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: top
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 128
+                              vpiDecompile: "\"Bad index/offset\""
+                              vpiValue: Bad index/offset
       vpiContAssign (1 items):
         ContAssign start:16:12 end:16:41:
           vpiParent: Module name:top
@@ -885,40 +899,43 @@ Design name:unnamed:
             vpiName: CacheHelper
             vpiFullName: top.dut.CacheHelper
             vpiActual: UnsupportedTypespec name:CacheHelper
-          vpiPort (3 items):
-            Port start:11:9 end:11:22:
+          vpiArgument (3 items):
+            NamedArgument start:11:9 end:11:22:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:index start:11:10 end:11:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: index
                 vpiFullName: top.dut.index
                 vpiActual: Net name:index
               vpiHighConn RefObj name:index start:11:16 end:11:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: index
                 vpiFullName: top.dut.index
                 vpiActual: Net name:index
-            Port start:12:9 end:12:24:
+            NamedArgument start:12:9 end:12:24:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:offset start:12:10 end:12:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: offset
                 vpiFullName: top.dut.offset
                 vpiActual: Net name:offset
               vpiHighConn RefObj name:offset start:12:17 end:12:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: offset
                 vpiFullName: top.dut.offset
                 vpiActual: Net name:offset
-            Port start:13:9 end:13:34:
+            NamedArgument start:13:9 end:13:34:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:flatRequest start:13:10 end:13:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: flatRequest
                 vpiFullName: top.dut.flatRequest
                 vpiActual: Net name:flatRequest
               vpiHighConn RefObj name:flatRequest start:13:22 end:13:33:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: flatRequest
                 vpiFullName: top.dut.flatRequest
                 vpiActual: Net name:flatRequest
@@ -989,7 +1006,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/cache_request_tb_v/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             136     136       0         0
+Others                             143     143       0         0
 ----------------------------------------------------------------
-                                   136     136       0         0
+                                   143     143       0         0
 ===================== END REDUCTION RESULT =====================

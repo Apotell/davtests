@@ -1091,16 +1091,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:42:3 end:42:9:
                               vpiArgument (1 items):
-                                Constant start:42:10 end:42:34:
+                                NamedArgument start:42:10 end:42:34:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:42:10 end:42:34:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:43:3 end:43:10:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:43:3 end:43:10:
@@ -1148,11 +1150,11 @@ Design name:unnamed:
             vpiName: sub
             vpiFullName: t.sub.sub
             vpiActual: ModuleTypespec name:sub
-          vpiPort (1 items):
-            Port start:22:13 end:22:15:
+          vpiArgument (1 items):
+            NamedArgument start:22:13 end:22:15:
               vpiParent: RefInstance name:sub
               vpiLowConn RefObj name:.*:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.sub..*
   vpiTypespec (5 items):
@@ -1243,22 +1245,30 @@ Design name:unnamed:
             vpiParent: Begin
             vpiName Identifier name:sub start:59:8 end:59:11:
             vpiArgument (4 items):
-              RefObj name:fr_a start:61:4 end:61:8:
+              NamedArgument start:61:4 end:61:8:
                 vpiParent: SubroutineCall name:sub
-                vpiName: fr_a
-                vpiFullName: mon_eval.sub.fr_a
-              RefObj name:fr_b start:61:10 end:61:14:
+                vpiHighConn RefObj name:fr_a start:61:4 end:61:8:
+                  vpiParent: NamedArgument
+                  vpiName: fr_a
+                  vpiFullName: mon_eval.sub.fr_a
+              NamedArgument start:61:10 end:61:14:
                 vpiParent: SubroutineCall name:sub
-                vpiName: fr_b
-                vpiFullName: mon_eval.sub.fr_b
-              RefObj name:fr_chk start:61:16 end:61:22:
+                vpiHighConn RefObj name:fr_b start:61:10 end:61:14:
+                  vpiParent: NamedArgument
+                  vpiName: fr_b
+                  vpiFullName: mon_eval.sub.fr_b
+              NamedArgument start:61:16 end:61:22:
                 vpiParent: SubroutineCall name:sub
-                vpiName: fr_chk
-                vpiFullName: mon_eval.sub.fr_chk
-              RefObj name:in start:63:4 end:63:6:
+                vpiHighConn RefObj name:fr_chk start:61:16 end:61:22:
+                  vpiParent: NamedArgument
+                  vpiName: fr_chk
+                  vpiFullName: mon_eval.sub.fr_chk
+              NamedArgument start:63:4 end:63:6:
                 vpiParent: SubroutineCall name:sub
-                vpiName: in
-                vpiFullName: mon_eval.sub.in
+                vpiHighConn RefObj name:in start:63:4 end:63:6:
+                  vpiParent: NamedArgument
+                  vpiName: in
+                  vpiFullName: mon_eval.sub.in
           RefObj name:mon_class_name start:67:8 end:67:22:
             vpiParent: Begin
             vpiName: mon_class_name
@@ -1333,7 +1343,7 @@ Operation                           13       8       0         5
 RefObj                              29      24       0         5
 RefTypespec                         29      29       5         5
 ----------------------------------------------------------------
-Others                              79      79       0         0
+Others                              84      84       0         0
 ----------------------------------------------------------------
-                                   163     153      10        20
+                                   168     158      10        20
 ===================== END REDUCTION RESULT =====================

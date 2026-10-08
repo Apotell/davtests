@@ -692,26 +692,32 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName Identifier name:$display start:18:9 end:18:17:
                   vpiArgument (3 items):
-                    Constant start:18:18 end:18:35:
+                    NamedArgument start:18:18 end:18:35:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: ex1
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 120
-                      vpiDecompile: "\"out: %b, in: %b\""
-                      vpiValue: "out: %b, in: %b"
-                    RefObj name:outsig start:18:36 end:18:42:
+                      vpiHighConn Constant start:18:18 end:18:35:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: ex1
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 120
+                        vpiDecompile: "\"out: %b, in: %b\""
+                        vpiValue: "out: %b, in: %b"
+                    NamedArgument start:18:36 end:18:42:
                       vpiParent: SysTaskCall name:$display
-                      vpiName: outsig
-                      vpiFullName: ex1.outsig
-                      vpiActual: Variable name:outsig
-                    RefObj name:insig start:18:43 end:18:48:
+                      vpiHighConn RefObj name:outsig start:18:36 end:18:42:
+                        vpiParent: NamedArgument
+                        vpiName: outsig
+                        vpiFullName: ex1.outsig
+                        vpiActual: Variable name:outsig
+                    NamedArgument start:18:43 end:18:48:
                       vpiParent: SysTaskCall name:$display
-                      vpiName: insig
-                      vpiFullName: ex1.insig
-                      vpiActual: Net name:insig
+                      vpiHighConn RefObj name:insig start:18:43 end:18:48:
+                        vpiParent: NamedArgument
+                        vpiName: insig
+                        vpiFullName: ex1.insig
+                        vpiActual: Net name:insig
           vpiAlwaysType: always (1)
     Module name:main file:$Source01/pr590.v start:22:1 end:51:10:
       vpiParent: Design name:unnamed
@@ -835,16 +841,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:35:4 end:35:12:
                 vpiArgument (1 items):
-                  Constant start:35:14 end:35:43:
+                  NamedArgument start:35:14 end:35:43:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 200
-                    vpiDecompile: "\"\\n starting the testbench\\n\""
-                    vpiValue: "\\n starting the testbench\\n"
+                    vpiHighConn Constant start:35:14 end:35:43:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 200
+                      vpiDecompile: "\"\\n starting the testbench\\n\""
+                      vpiValue: "\\n starting the testbench\\n"
               Assignment start:37:4 end:37:21:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -999,19 +1007,23 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName Identifier name:$display start:49:3 end:49:11:
               vpiArgument (2 items):
-                SysFuncCall name:$time start:49:13 end:49:18:
+                NamedArgument start:49:13 end:49:18:
                   vpiParent: SysTaskCall name:$display
-                  vpiName Identifier name:$time start:49:13 end:49:18:
-                Constant start:49:20 end:49:54:
+                  vpiHighConn SysFuncCall name:$time start:49:13 end:49:18:
+                    vpiParent: NamedArgument
+                    vpiName Identifier name:$time start:49:13 end:49:18:
+                NamedArgument start:49:20 end:49:54:
                   vpiParent: SysTaskCall name:$display
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: main
-                    vpiActual: StringTypespec
-                  vpiConstType: string (6)
-                  vpiSize: 256
-                  vpiDecompile: "\"..................clock tickling\""
-                  vpiValue: "..................clock tickling"
+                  vpiHighConn Constant start:49:20 end:49:54:
+                    vpiParent: NamedArgument
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: main
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 256
+                    vpiDecompile: "\"..................clock tickling\""
+                    vpiValue: "..................clock tickling"
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
         RefInstance name:ex1 start:27:5 end:27:8:
@@ -1022,52 +1034,56 @@ Design name:unnamed:
             vpiName: ex1
             vpiFullName: main.ex1.ex1
             vpiActual: ModuleTypespec name:ex1
-          vpiPort (4 items):
-            Port start:28:2 end:28:11:
+          vpiArgument (4 items):
+            NamedArgument start:28:2 end:28:11:
               vpiParent: RefInstance name:ex1
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:28:3 end:28:6:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: main.ex1.clk
                 vpiActual: Variable name:clk
               vpiHighConn RefObj name:clk start:28:7 end:28:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: main.ex1.clk
                 vpiActual: Variable name:clk
-            Port start:29:2 end:29:15:
+            NamedArgument start:29:2 end:29:15:
               vpiParent: RefInstance name:ex1
+              vpiConnByName: true
               vpiLowConn RefObj name:reset start:29:3 end:29:8:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: reset
                 vpiFullName: main.ex1.reset
                 vpiActual: Variable name:reset
               vpiHighConn RefObj name:reset start:29:9 end:29:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: reset
                 vpiFullName: main.ex1.reset
                 vpiActual: Variable name:reset
-            Port start:30:2 end:30:15:
+            NamedArgument start:30:2 end:30:15:
               vpiParent: RefInstance name:ex1
+              vpiConnByName: true
               vpiLowConn RefObj name:insig start:30:3 end:30:8:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: insig
                 vpiFullName: main.ex1.insig
                 vpiActual: Variable name:insig
               vpiHighConn RefObj name:insig start:30:9 end:30:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: insig
                 vpiFullName: main.ex1.insig
                 vpiActual: Variable name:insig
-            Port start:31:2 end:31:17:
+            NamedArgument start:31:2 end:31:17:
               vpiParent: RefInstance name:ex1
+              vpiConnByName: true
               vpiLowConn RefObj name:outsig start:31:3 end:31:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: outsig
                 vpiFullName: main.ex1.outsig
                 vpiActual: Net name:outsig
               vpiHighConn RefObj name:outsig start:31:10 end:31:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: outsig
                 vpiFullName: main.ex1.outsig
                 vpiActual: Net name:outsig
@@ -1141,7 +1157,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr590/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             152     152       0         0
+Others                             158     158       0         0
 ----------------------------------------------------------------
-                                   152     152       0         0
+                                   158     158       0         0
 ===================== END REDUCTION RESULT =====================

@@ -369,16 +369,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:31:7 end:31:13:
                 vpiArgument (1 items):
-                  Constant start:31:14 end:31:38:
+                  NamedArgument start:31:14 end:31:38:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: "*-* All Finished *-*\\n"
+                    vpiHighConn Constant start:31:14 end:31:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
               SysTaskCall name:$finish start:32:7 end:32:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:32:7 end:32:14:
@@ -624,34 +626,40 @@ Design name:unnamed:
                                     vpiParent: Begin
                                     vpiName Identifier name:$display start:19:20 end:19:28:
                                     vpiArgument (3 items):
-                                      Constant start:19:29 end:19:66:
+                                      NamedArgument start:19:29 end:19:66:
                                         vpiParent: SysTaskCall name:$display
-                                        vpiTypespec RefTypespec:
-                                          vpiParent: Constant
-                                          vpiFullName: t.gen_m.gen_r
-                                          vpiActual: StringTypespec
-                                        vpiConstType: string (6)
-                                        vpiSize: 280
-                                        vpiDecompile: "\"%m: lparam != foo_inst.bar (%f, %f)\""
-                                        vpiValue: "%m: lparam != foo_inst.bar (%f, %f)"
-                                      RefObj name:lparam start:20:29 end:20:35:
+                                        vpiHighConn Constant start:19:29 end:19:66:
+                                          vpiParent: NamedArgument
+                                          vpiTypespec RefTypespec:
+                                            vpiParent: Constant
+                                            vpiFullName: t.gen_m.gen_r
+                                            vpiActual: StringTypespec
+                                          vpiConstType: string (6)
+                                          vpiSize: 280
+                                          vpiDecompile: "\"%m: lparam != foo_inst.bar (%f, %f)\""
+                                          vpiValue: "%m: lparam != foo_inst.bar (%f, %f)"
+                                      NamedArgument start:20:29 end:20:35:
                                         vpiParent: SysTaskCall name:$display
-                                        vpiName: lparam
-                                        vpiFullName: t.gen_m.gen_r.lparam
-                                        vpiActual: Parameter name:lparam
-                                      RefObj name:foo_inst.bar start:20:37 end:20:49:
+                                        vpiHighConn RefObj name:lparam start:20:29 end:20:35:
+                                          vpiParent: NamedArgument
+                                          vpiName: lparam
+                                          vpiFullName: t.gen_m.gen_r.lparam
+                                          vpiActual: Parameter name:lparam
+                                      NamedArgument start:20:37 end:20:49:
                                         vpiParent: SysTaskCall name:$display
-                                        vpiName: foo_inst.bar
-                                        vpiFullName: t.gen_m.gen_r.foo_inst.bar
-                                        vpiPathElem (2 items):
-                                          RefObj name:foo_inst start:20:37 end:20:45:
-                                            vpiParent: RefObj name:foo_inst.bar
-                                            vpiName: foo_inst
-                                            vpiFullName: t.gen_m.gen_r.foo_inst
-                                          RefObj name:bar start:20:46 end:20:49:
-                                            vpiParent: RefObj name:foo_inst.bar
-                                            vpiName: bar
-                                            vpiFullName: t.gen_m.gen_r.bar
+                                        vpiHighConn RefObj name:foo_inst.bar start:20:37 end:20:49:
+                                          vpiParent: NamedArgument
+                                          vpiName: foo_inst.bar
+                                          vpiFullName: t.gen_m.gen_r.foo_inst.bar
+                                          vpiPathElem (2 items):
+                                            RefObj name:foo_inst start:20:37 end:20:45:
+                                              vpiParent: RefObj name:foo_inst.bar
+                                              vpiName: foo_inst
+                                              vpiFullName: t.gen_m.gen_r.foo_inst
+                                            RefObj name:bar start:20:46 end:20:49:
+                                              vpiParent: RefObj name:foo_inst.bar
+                                              vpiName: bar
+                                              vpiFullName: t.gen_m.gen_r.bar
                                   SysTaskCall name:$stop start:21:20 end:21:27:
                                     vpiParent: Begin
                                     vpiName Identifier name:$stop start:21:20 end:21:25:
@@ -733,7 +741,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_real_param/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              99      99       0         0
+Others                             103     103       0         0
 ----------------------------------------------------------------
-                                    99      99       0         0
+                                   103     103       0         0
 ===================== END REDUCTION RESULT =====================

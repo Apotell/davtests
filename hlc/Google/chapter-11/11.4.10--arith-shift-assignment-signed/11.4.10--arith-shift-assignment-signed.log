@@ -185,6 +185,8 @@ n<$Source01/11.4.10--arith-shift-assignment-signed.sv> u<170> t<Top_level_rule> 
 AST_DEBUG_END
 [INF:CP5804] $Source01/11.4.10--arith-shift-assignment-signed.sv:16:1: Compile module "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[WRN:DB2033] $Source01/11.4.10--arith-shift-assignment-signed.sv:27:39: Critical: Signed vs Unsigned port connection "b".
+[WRN:DB2033] $Source01/11.4.10--arith-shift-assignment-signed.sv:28:39: Critical: Signed vs Unsigned port connection "c".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -372,40 +374,48 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:27:5 end:27:13:
                 vpiArgument (2 items):
-                  Constant start:27:14 end:27:37:
+                  NamedArgument start:27:14 end:27:37:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\":assert: (  64 == %d)\""
-                    vpiValue: ":assert: (  64 == %d)"
-                  RefObj name:b start:27:39 end:27:40:
+                    vpiHighConn Constant start:27:14 end:27:37:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\":assert: (  64 == %d)\""
+                      vpiValue: ":assert: (  64 == %d)"
+                  NamedArgument start:27:39 end:27:40:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: b
-                    vpiFullName: top.b
-                    vpiActual: Variable name:b
+                    vpiHighConn RefObj name:b start:27:39 end:27:40:
+                      vpiParent: NamedArgument
+                      vpiName: b
+                      vpiFullName: top.b
+                      vpiActual: Variable name:b
               SysTaskCall name:$display start:28:5 end:28:41:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:28:5 end:28:13:
                 vpiArgument (2 items):
-                  Constant start:28:14 end:28:37:
+                  NamedArgument start:28:14 end:28:37:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\":assert: ( -15 == %d)\""
-                    vpiValue: ":assert: ( -15 == %d)"
-                  RefObj name:c start:28:39 end:28:40:
+                    vpiHighConn Constant start:28:14 end:28:37:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\":assert: ( -15 == %d)\""
+                      vpiValue: ":assert: ( -15 == %d)"
+                  NamedArgument start:28:39 end:28:40:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: c
-                    vpiFullName: top.c
-                    vpiActual: Variable name:c
+                    vpiHighConn RefObj name:c start:28:39 end:28:40:
+                      vpiParent: NamedArgument
+                      vpiName: c
+                      vpiFullName: top.c
+                      vpiActual: Variable name:c
   vpiTypespec (3 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -425,7 +435,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -472,7 +482,7 @@ Constant                             7       7       1         1
 Operation                            3       2       0         1
 RefTypespec                         10      10       1         1
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    57      56       2         3
+                                    61      60       2         3
 ===================== END REDUCTION RESULT =====================

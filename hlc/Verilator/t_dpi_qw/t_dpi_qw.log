@@ -423,16 +423,18 @@ Design name:unnamed:
                 vpiName Identifier name:poke_value start:17:8 end:17:18:
                 vpiTaskFunc: Function name:poke_value
                 vpiArgument (1 items):
-                  Constant start:17:19 end:17:31:
+                  NamedArgument start:17:19 end:17:31:
                     vpiParent: MethodFuncCall name:poke_value
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t.poke_value
-                      vpiActual: IntTypespec
-                    vpiConstType: hexadecimal (5)
-                    vpiSize: 32
-                    vpiDecompile: "32'hdeadbeef"
-                    vpiValue: deadbeef
+                    vpiHighConn Constant start:17:19 end:17:31:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t.poke_value
+                        vpiActual: IntTypespec
+                      vpiConstType: hexadecimal (5)
+                      vpiSize: 32
+                      vpiDecompile: "32'hdeadbeef"
+                      vpiValue: deadbeef
               IfStmt start:18:8 end:21:11:
                 vpiParent: Begin
                 vpiCondition Operation start:18:12 end:18:32:
@@ -462,19 +464,23 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:19:4 end:19:12:
                       vpiArgument (2 items):
-                        Constant start:19:13 end:19:46:
+                        NamedArgument start:19:13 end:19:46:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.poke_value
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 248
-                          vpiDecompile: "\"[%0t] %%Error: t_dpi_qw: failed\""
-                          vpiValue: "[%0t] %%Error: t_dpi_qw: failed"
-                        SysFuncCall name:$time start:19:48 end:19:53:
+                          vpiHighConn Constant start:19:13 end:19:46:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t.poke_value
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 248
+                            vpiDecompile: "\"[%0t] %%Error: t_dpi_qw: failed\""
+                            vpiValue: "[%0t] %%Error: t_dpi_qw: failed"
+                        NamedArgument start:19:48 end:19:53:
                           vpiParent: SysTaskCall name:$display
-                          vpiName Identifier name:$time start:19:48 end:19:53:
+                          vpiHighConn SysFuncCall name:$time start:19:48 end:19:53:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$time start:19:48 end:19:53:
                     SysTaskCall name:$stop start:20:4 end:20:9:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:20:4 end:20:9:
@@ -483,16 +489,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:23:8 end:23:14:
                 vpiArgument (1 items):
-                  Constant start:23:15 end:23:39:
+                  NamedArgument start:23:15 end:23:39:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t.poke_value
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: "*-* All Finished *-*\\n"
+                    vpiHighConn Constant start:23:15 end:23:39:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t.poke_value
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
               SysTaskCall name:$finish start:24:8 end:24:15:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:24:8 end:24:15:
@@ -521,16 +529,17 @@ Design name:unnamed:
             vpiName: sub
             vpiFullName: t.a.sub
             vpiActual: ModuleTypespec name:sub
-          vpiPort (1 items):
-            Port start:11:11 end:11:22:
+          vpiArgument (1 items):
+            NamedArgument start:11:11 end:11:22:
               vpiParent: RefInstance name:a
+              vpiConnByName: true
               vpiLowConn RefObj name:value start:11:12 end:11:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: value
                 vpiFullName: t.a.value
                 vpiActual: Port name:value
               vpiHighConn RefObj name:out start:11:18 end:11:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out
                 vpiFullName: t.a.out
                 vpiActual: Net name:out
@@ -782,7 +791,7 @@ Operation                            3       1       0         2
 RefObj                              11       9       0         2
 RefTypespec                         19      19       2         2
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                    99      95       4         8
+                                   103      99       4         8
 ===================== END REDUCTION RESULT =====================

@@ -2045,48 +2045,60 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:47:3 end:47:9:
                               vpiArgument (1 items):
-                                Constant start:47:10 end:47:34:
+                                NamedArgument start:47:10 end:47:34:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:47:10 end:47:34:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$write start:48:3 end:48:60:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:48:3 end:48:9:
                               vpiArgument (5 items):
-                                Constant start:48:10 end:48:38:
+                                NamedArgument start:48:10 end:48:38:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 200
-                                  vpiDecompile: "\"[%0t] cyc==%0d crc=%x %x\\n\""
-                                  vpiValue: "[%0t] cyc==%0d crc=%x %x\\n"
-                                SysFuncCall name:$time start:48:39 end:48:44:
+                                  vpiHighConn Constant start:48:10 end:48:38:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 200
+                                    vpiDecompile: "\"[%0t] cyc==%0d crc=%x %x\\n\""
+                                    vpiValue: "[%0t] cyc==%0d crc=%x %x\\n"
+                                NamedArgument start:48:39 end:48:44:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName Identifier name:$time start:48:39 end:48:44:
-                                RefObj name:cyc start:48:46 end:48:49:
+                                  vpiHighConn SysFuncCall name:$time start:48:39 end:48:44:
+                                    vpiParent: NamedArgument
+                                    vpiName Identifier name:$time start:48:39 end:48:44:
+                                NamedArgument start:48:46 end:48:49:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: cyc
-                                  vpiFullName: t.cyc
-                                  vpiActual: Variable name:cyc
-                                RefObj name:crc start:48:51 end:48:54:
+                                  vpiHighConn RefObj name:cyc start:48:46 end:48:49:
+                                    vpiParent: NamedArgument
+                                    vpiName: cyc
+                                    vpiFullName: t.cyc
+                                    vpiActual: Variable name:cyc
+                                NamedArgument start:48:51 end:48:54:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: crc
-                                  vpiFullName: t.crc
-                                  vpiActual: Variable name:crc
-                                RefObj name:sum start:48:56 end:48:59:
+                                  vpiHighConn RefObj name:crc start:48:51 end:48:54:
+                                    vpiParent: NamedArgument
+                                    vpiName: crc
+                                    vpiFullName: t.crc
+                                    vpiActual: Variable name:crc
+                                NamedArgument start:48:56 end:48:59:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: sum
-                                  vpiFullName: t.sum
-                                  vpiActual: Variable name:sum
+                                  vpiHighConn RefObj name:sum start:48:56 end:48:59:
+                                    vpiParent: NamedArgument
+                                    vpiName: sum
+                                    vpiFullName: t.sum
+                                    vpiActual: Variable name:sum
                             IfStmt start:49:3 end:49:43:
                               vpiParent: Begin
                               vpiCondition Operation start:49:7 end:49:35:
@@ -2151,16 +2163,17 @@ Design name:unnamed:
             vpiName: Testit
             vpiFullName: t.testit.Testit
             vpiActual: ModuleTypespec name:Testit
-          vpiPort (4 items):
-            Port start:23:5 end:23:27:
+          vpiArgument (4 items):
+            NamedArgument start:23:5 end:23:27:
               vpiParent: RefInstance name:testit
+              vpiConnByName: true
               vpiLowConn RefObj name:Result start:23:6 end:23:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Result
                 vpiFullName: t.testit.Result
                 vpiActual: Net name:Result
               vpiHighConn PartSelect name:Result[3:0] start:23:15 end:23:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Result[3:0]
                 vpiFullName: t.testit.Result[3:0]
                 vpiPrefix RefObj name:Result start:23:15 end:23:21:
@@ -2190,15 +2203,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:24:5 end:24:29:
+            NamedArgument start:24:5 end:24:29:
               vpiParent: RefInstance name:testit
+              vpiConnByName: true
               vpiLowConn RefObj name:Result2 start:24:6 end:24:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Result2
                 vpiFullName: t.testit.Result2
                 vpiActual: Net name:Result2
               vpiHighConn PartSelect name:Result2[3:0] start:24:16 end:24:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Result2[3:0]
                 vpiFullName: t.testit.Result2[3:0]
                 vpiPrefix RefObj name:Result2 start:24:16 end:24:23:
@@ -2228,27 +2242,29 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:26:5 end:26:17:
+            NamedArgument start:26:5 end:26:17:
               vpiParent: RefInstance name:testit
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:26:6 end:26:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.testit.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:26:13 end:26:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.testit.clk
                 vpiActual: Net name:clk
-            Port start:27:5 end:27:25:
+            NamedArgument start:27:5 end:27:25:
               vpiParent: RefInstance name:testit
+              vpiConnByName: true
               vpiLowConn RefObj name:Value start:27:6 end:27:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Value
                 vpiFullName: t.testit.Value
                 vpiActual: Net name:Value
               vpiHighConn PartSelect name:Value[3:0] start:27:14 end:27:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Value[3:0]
                 vpiFullName: t.testit.Value[3:0]
                 vpiPrefix RefObj name:Value start:27:14 end:27:19:
@@ -2529,40 +2545,40 @@ Design name:unnamed:
             vpiName: Test
             vpiFullName: Test_wrap1.t.Test
             vpiActual: ModuleTypespec name:Test
-          vpiPort (3 items):
-            Port start:75:12 end:75:15:
+          vpiArgument (3 items):
+            NamedArgument start:75:12 end:75:15:
               vpiParent: RefInstance name:t
               vpiLowConn RefObj name:clk:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: Test_wrap1.t.clk
                 vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:75:12 end:75:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: Test_wrap1.t.clk
                 vpiActual: Net name:clk
-            Port start:75:17 end:75:22:
+            NamedArgument start:75:17 end:75:22:
               vpiParent: RefInstance name:t
               vpiLowConn RefObj name:Value:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Value
                 vpiFullName: Test_wrap1.t.Value
                 vpiActual: Port name:Value
               vpiHighConn RefObj name:Value start:75:17 end:75:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Value
                 vpiFullName: Test_wrap1.t.Value
                 vpiActual: Net name:Value
-            Port start:75:24 end:75:30:
+            NamedArgument start:75:24 end:75:30:
               vpiParent: RefInstance name:t
               vpiLowConn RefObj name:Result:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Result
                 vpiFullName: Test_wrap1.t.Result
                 vpiActual: Port name:Result
               vpiHighConn RefObj name:Result start:75:24 end:75:30:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Result
                 vpiFullName: Test_wrap1.t.Result
                 vpiActual: Net name:Result
@@ -2663,40 +2679,40 @@ Design name:unnamed:
             vpiName: Test
             vpiFullName: Test_wrap2.t.Test
             vpiActual: ModuleTypespec name:Test
-          vpiPort (3 items):
-            Port start:83:12 end:83:15:
+          vpiArgument (3 items):
+            NamedArgument start:83:12 end:83:15:
               vpiParent: RefInstance name:t
               vpiLowConn RefObj name:clk:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: Test_wrap2.t.clk
                 vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:83:12 end:83:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: Test_wrap2.t.clk
                 vpiActual: Net name:clk
-            Port start:83:17 end:83:22:
+            NamedArgument start:83:17 end:83:22:
               vpiParent: RefInstance name:t
               vpiLowConn RefObj name:Value:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Value
                 vpiFullName: Test_wrap2.t.Value
                 vpiActual: Port name:Value
               vpiHighConn RefObj name:Value start:83:17 end:83:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Value
                 vpiFullName: Test_wrap2.t.Value
                 vpiActual: Net name:Value
-            Port start:83:24 end:83:30:
+            NamedArgument start:83:24 end:83:30:
               vpiParent: RefInstance name:t
               vpiLowConn RefObj name:Result:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Result
                 vpiFullName: Test_wrap2.t.Result
                 vpiActual: Port name:Result
               vpiHighConn RefObj name:Result start:83:24 end:83:30:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Result
                 vpiFullName: Test_wrap2.t.Result
                 vpiActual: Net name:Result
@@ -3270,28 +3286,28 @@ Design name:unnamed:
                           vpiName: Test_wrap1
                           vpiFullName: Testit.a.gblk.test.Test_wrap1
                           vpiActual: ModuleTypespec name:Test_wrap1
-                        vpiPort (3 items):
-                          Port start:97:24 end:97:27:
+                        vpiArgument (3 items):
+                          NamedArgument start:97:24 end:97:27:
                             vpiParent: RefInstance name:test
                             vpiLowConn RefObj name:clk:
-                              vpiParent: Port
+                              vpiParent: NamedArgument
                               vpiName: clk
                               vpiFullName: Testit.a.gblk.test.clk
                               vpiActual: Port name:clk
                             vpiHighConn RefObj name:clk start:97:24 end:97:27:
-                              vpiParent: Port
+                              vpiParent: NamedArgument
                               vpiName: clk
                               vpiFullName: Testit.a.gblk.test.clk
                               vpiActual: Net name:clk
-                          Port start:97:29 end:97:37:
+                          NamedArgument start:97:29 end:97:37:
                             vpiParent: RefInstance name:test
                             vpiLowConn RefObj name:Value:
-                              vpiParent: Port
+                              vpiParent: NamedArgument
                               vpiName: Value
                               vpiFullName: Testit.a.gblk.test.Value
                               vpiActual: Port name:Value
                             vpiHighConn BitSelect name:Value[i] start:97:29 end:97:37:
-                              vpiParent: Port
+                              vpiParent: NamedArgument
                               vpiName: Value[i]
                               vpiFullName: Testit.a.gblk.test.Value[i]
                               vpiPrefix RefObj name:Value start:97:29 end:97:34:
@@ -3304,15 +3320,15 @@ Design name:unnamed:
                                 vpiName: i
                                 vpiFullName: Testit.a.gblk.test.i
                                 vpiActual: Variable name:i
-                          Port start:97:40 end:97:49:
+                          NamedArgument start:97:40 end:97:49:
                             vpiParent: RefInstance name:test
                             vpiLowConn RefObj name:Result:
-                              vpiParent: Port
+                              vpiParent: NamedArgument
                               vpiName: Result
                               vpiFullName: Testit.a.gblk.test.Result
                               vpiActual: Port name:Result
                             vpiHighConn BitSelect name:Result[i] start:97:40 end:97:49:
-                              vpiParent: Port
+                              vpiParent: NamedArgument
                               vpiName: Result[i]
                               vpiFullName: Testit.a.gblk.test.Result[i]
                               vpiPrefix RefObj name:Result start:97:40 end:97:46:
@@ -3344,28 +3360,28 @@ Design name:unnamed:
                           vpiName: Test_wrap2
                           vpiFullName: Testit.a.gblk.test.Test_wrap2
                           vpiActual: ModuleTypespec name:Test_wrap2
-                        vpiPort (3 items):
-                          Port start:100:24 end:100:27:
+                        vpiArgument (3 items):
+                          NamedArgument start:100:24 end:100:27:
                             vpiParent: RefInstance name:test
                             vpiLowConn RefObj name:clk:
-                              vpiParent: Port
+                              vpiParent: NamedArgument
                               vpiName: clk
                               vpiFullName: Testit.a.gblk.test.clk
                               vpiActual: Port name:clk
                             vpiHighConn RefObj name:clk start:100:24 end:100:27:
-                              vpiParent: Port
+                              vpiParent: NamedArgument
                               vpiName: clk
                               vpiFullName: Testit.a.gblk.test.clk
                               vpiActual: Net name:clk
-                          Port start:100:29 end:100:37:
+                          NamedArgument start:100:29 end:100:37:
                             vpiParent: RefInstance name:test
                             vpiLowConn RefObj name:Value:
-                              vpiParent: Port
+                              vpiParent: NamedArgument
                               vpiName: Value
                               vpiFullName: Testit.a.gblk.test.Value
                               vpiActual: Port name:Value
                             vpiHighConn BitSelect name:Value[i] start:100:29 end:100:37:
-                              vpiParent: Port
+                              vpiParent: NamedArgument
                               vpiName: Value[i]
                               vpiFullName: Testit.a.gblk.test.Value[i]
                               vpiPrefix RefObj name:Value start:100:29 end:100:34:
@@ -3378,15 +3394,15 @@ Design name:unnamed:
                                 vpiName: i
                                 vpiFullName: Testit.a.gblk.test.i
                                 vpiActual: Variable name:i
-                          Port start:100:39 end:100:48:
+                          NamedArgument start:100:39 end:100:48:
                             vpiParent: RefInstance name:test
                             vpiLowConn RefObj name:Result:
-                              vpiParent: Port
+                              vpiParent: NamedArgument
                               vpiName: Result
                               vpiFullName: Testit.a.gblk.test.Result
                               vpiActual: Port name:Result
                             vpiHighConn BitSelect name:Result[i] start:100:39 end:100:48:
-                              vpiParent: Port
+                              vpiParent: NamedArgument
                               vpiName: Result[i]
                               vpiFullName: Testit.a.gblk.test.Result[i]
                               vpiPrefix RefObj name:Result start:100:39 end:100:45:
@@ -3490,7 +3506,7 @@ Operation                           23      18       0         5
 RefObj                             121     116       0         5
 RefTypespec                        101     101       5         5
 ----------------------------------------------------------------
-Others                             197     197       0         0
+Others                             203     203       0         0
 ----------------------------------------------------------------
-                                   503     493      10        20
+                                   509     499      10        20
 ===================== END REDUCTION RESULT =====================

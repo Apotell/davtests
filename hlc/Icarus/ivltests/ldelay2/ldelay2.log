@@ -456,24 +456,30 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:37:2 end:37:10:
                 vpiArgument (3 items):
-                  Constant start:37:11 end:37:30:
+                  NamedArgument start:37:11 end:37:30:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 136
-                    vpiDecompile: "\"%0d: FAILED: q=%b\""
-                    vpiValue: "%0d: FAILED: q=%b"
-                  SysFuncCall name:$time start:37:32 end:37:37:
+                    vpiHighConn Constant start:37:11 end:37:30:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 136
+                      vpiDecompile: "\"%0d: FAILED: q=%b\""
+                      vpiValue: "%0d: FAILED: q=%b"
+                  NamedArgument start:37:32 end:37:37:
                     vpiParent: SysTaskCall name:$display
-                    vpiName Identifier name:$time start:37:32 end:37:37:
-                  RefObj name:q start:37:39 end:37:40:
+                    vpiHighConn SysFuncCall name:$time start:37:32 end:37:37:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:37:32 end:37:37:
+                  NamedArgument start:37:39 end:37:40:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: q
-                    vpiFullName: test.q
-                    vpiActual: Net name:q
+                    vpiHighConn RefObj name:q start:37:39 end:37:40:
+                      vpiParent: NamedArgument
+                      vpiName: q
+                      vpiFullName: test.q
+                      vpiActual: Net name:q
         Initial start:40:4 end:54:9:
           vpiParent: Module name:test
           vpiStmt Begin start:41:6 end:54:9:
@@ -646,16 +652,18 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName Identifier name:$display start:53:4 end:53:12:
                   vpiArgument (1 items):
-                    Constant start:53:13 end:53:21:
+                    NamedArgument start:53:13 end:53:21:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: test
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 48
-                      vpiDecompile: "\"PASSED\""
-                      vpiValue: PASSED
+                      vpiHighConn Constant start:53:13 end:53:21:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: test
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"PASSED\""
+                        vpiValue: PASSED
       vpiPrimitive (1 items):
         Gate:
           vpiParent: Module name:test
@@ -763,7 +771,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/ldelay2/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              95      95       0         0
+Others                              99      99       0         0
 ----------------------------------------------------------------
-                                    95      95       0         0
+                                    99      99       0         0
 ===================== END REDUCTION RESULT =====================

@@ -340,21 +340,25 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:35:3 end:35:11:
                       vpiArgument (2 items):
-                        Constant start:35:12 end:35:61:
+                        NamedArgument start:35:12 end:35:61:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: foo
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 376
-                          vpiDecompile: "\"FAILED -- parameter override of blah failed: %d\""
-                          vpiValue: "FAILED -- parameter override of blah failed: %d"
-                        RefObj name:blah start:35:63 end:35:67:
+                          vpiHighConn Constant start:35:12 end:35:61:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: foo
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 376
+                            vpiDecompile: "\"FAILED -- parameter override of blah failed: %d\""
+                            vpiValue: "FAILED -- parameter override of blah failed: %d"
+                        NamedArgument start:35:63 end:35:67:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: blah
-                          vpiFullName: foo.blah
-                          vpiActual: Parameter name:blah
+                          vpiHighConn RefObj name:blah start:35:63 end:35:67:
+                            vpiParent: NamedArgument
+                            vpiName: blah
+                            vpiFullName: foo.blah
+                            vpiActual: Parameter name:blah
                     SysTaskCall name:$finish start:36:3 end:36:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:36:3 end:36:10:
@@ -363,16 +367,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:39:7 end:39:15:
                 vpiArgument (1 items):
-                  Constant start:39:16 end:39:24:
+                  NamedArgument start:39:16 end:39:24:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: foo
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"PASSED\""
-                    vpiValue: PASSED
+                    vpiHighConn Constant start:39:16 end:39:24:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: foo
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"PASSED\""
+                      vpiValue: PASSED
     Module name:bar file:$Source01/param_times.v start:44:1 end:48:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:44:8 end:44:11:
@@ -442,18 +448,18 @@ Design name:unnamed:
             vpiName: foo
             vpiFullName: bar.yak.foo
             vpiActual: ModuleTypespec name:foo
-          vpiPort (2 items):
-            Port start:46:30 end:46:30:
+          vpiArgument (2 items):
+            NamedArgument start:46:30 end:46:30:
               vpiParent: RefInstance name:yak
               vpiLowConn RefObj name:in:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: in
                 vpiFullName: bar.yak.in
                 vpiActual: Port name:in
-            Port start:46:31 end:46:31:
+            NamedArgument start:46:31 end:46:31:
               vpiParent: RefInstance name:yak
               vpiLowConn RefObj name:out:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out
                 vpiFullName: bar.yak.out
                 vpiActual: Port name:out
@@ -529,7 +535,7 @@ Operation                            3       0       0         3
 RefObj                               9       8       0         1
 RefTypespec                         13      11       2         4
 ----------------------------------------------------------------
-Others                              48      48       0         0
+Others                              51      51       0         0
 ----------------------------------------------------------------
-                                    80      72       4        12
+                                    83      75       4        12
 ===================== END REDUCTION RESULT =====================

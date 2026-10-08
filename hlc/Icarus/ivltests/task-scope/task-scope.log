@@ -494,21 +494,25 @@ Design name:unnamed:
                       vpiParent: DelayControl
                       vpiName Identifier name:$display start:33:6 end:33:14:
                       vpiArgument (2 items):
-                        Constant start:33:15 end:33:21:
+                        NamedArgument start:33:15 end:33:21:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: nest.incr
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 32
-                          vpiDecompile: "\"R=%b\""
-                          vpiValue: R=%b
-                        RefObj name:r start:33:22 end:33:23:
+                          vpiHighConn Constant start:33:15 end:33:21:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: nest.incr
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 32
+                            vpiDecompile: "\"R=%b\""
+                            vpiValue: R=%b
+                        NamedArgument start:33:22 end:33:23:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: r
-                          vpiFullName: nest.incr.r
-                          vpiActual: Variable name:r
+                          vpiHighConn RefObj name:r start:33:22 end:33:23:
+                            vpiParent: NamedArgument
+                            vpiName: r
+                            vpiFullName: nest.incr.r
+                            vpiActual: Variable name:r
                     vpiDelay Constant start:33:4 end:33:5:
                       vpiParent: DelayControl
                       vpiTypespec RefTypespec:
@@ -597,16 +601,18 @@ Design name:unnamed:
                     vpiName Identifier name:incr start:50:5 end:50:9:
                     vpiTaskFunc: Task name:incr
                     vpiArgument (1 items):
-                      Constant start:50:10 end:50:11:
+                      NamedArgument start:50:10 end:50:11:
                         vpiParent: MethodTaskCall name:incr
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: test.increment.n.incr(1)
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
+                        vpiHighConn Constant start:50:10 end:50:11:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: test.increment.n.incr(1)
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
                 vpiActual: MethodTaskCall name:incr
       vpiNet (1 items):
         Net name:acc start:41:15 end:41:18:
@@ -748,30 +754,34 @@ Design name:unnamed:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:66:4 end:66:12:
                   vpiArgument (1 items):
-                    Constant start:66:13 end:66:21:
+                    NamedArgument start:66:13 end:66:21:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: test
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 48
-                      vpiDecompile: "\"PASSED\""
-                      vpiValue: PASSED
+                      vpiHighConn Constant start:66:13 end:66:21:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: test
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"PASSED\""
+                        vpiValue: PASSED
                 vpiElseStmt SysTaskCall name:$display start:68:4 end:68:22:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:68:4 end:68:12:
                   vpiArgument (1 items):
-                    Constant start:68:13 end:68:21:
+                    NamedArgument start:68:13 end:68:21:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: test
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 48
-                      vpiDecompile: "\"FAILED\""
-                      vpiValue: FAILED
+                      vpiHighConn Constant start:68:13 end:68:21:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: test
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"FAILED\""
+                        vpiValue: FAILED
       vpiRefInstance (1 items):
         RefInstance name:n start:43:9 end:43:10:
           vpiParent: Module name:test
@@ -781,16 +791,16 @@ Design name:unnamed:
             vpiName: nest
             vpiFullName: test.n.nest
             vpiActual: ModuleTypespec name:nest
-          vpiPort (1 items):
-            Port start:43:11 end:43:14:
+          vpiArgument (1 items):
+            NamedArgument start:43:11 end:43:14:
               vpiParent: RefInstance name:n
               vpiLowConn RefObj name:r:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: r
                 vpiFullName: test.n.r
                 vpiActual: Port name:r
               vpiHighConn RefObj name:acc start:43:11 end:43:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: acc
                 vpiFullName: test.n.acc
                 vpiActual: Net name:acc
@@ -862,7 +872,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/task-scope/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             115     115       0         0
+Others                             120     120       0         0
 ----------------------------------------------------------------
-                                   115     115       0         0
+                                   120     120       0         0
 ===================== END REDUCTION RESULT =====================

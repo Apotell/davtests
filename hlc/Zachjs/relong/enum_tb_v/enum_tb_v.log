@@ -302,29 +302,37 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:15:9 end:15:17:
                 vpiArgument (4 items):
-                  SysFuncCall name:$time start:15:18 end:15:23:
+                  NamedArgument start:15:18 end:15:23:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:15:18 end:15:23:
-                  Constant start:15:25 end:15:56:
+                    vpiHighConn SysFuncCall name:$time start:15:18 end:15:23:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:15:18 end:15:23:
+                  NamedArgument start:15:25 end:15:56:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 232
-                    vpiDecompile: "\" rawMode: %b rawOperation: %b\""
-                    vpiValue: "rawMode: %b rawOperation: %b"
-                  RefObj name:rawMode start:15:58 end:15:65:
+                    vpiHighConn Constant start:15:25 end:15:56:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 232
+                      vpiDecompile: "\" rawMode: %b rawOperation: %b\""
+                      vpiValue: "rawMode: %b rawOperation: %b"
+                  NamedArgument start:15:58 end:15:65:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: rawMode
-                    vpiFullName: top.rawMode
-                    vpiActual: Variable name:rawMode
-                  RefObj name:rawOperation start:15:67 end:15:79:
+                    vpiHighConn RefObj name:rawMode start:15:58 end:15:65:
+                      vpiParent: NamedArgument
+                      vpiName: rawMode
+                      vpiFullName: top.rawMode
+                      vpiActual: Variable name:rawMode
+                  NamedArgument start:15:67 end:15:79:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: rawOperation
-                    vpiFullName: top.rawOperation
-                    vpiActual: Net name:rawOperation
+                    vpiHighConn RefObj name:rawOperation start:15:67 end:15:79:
+                      vpiParent: NamedArgument
+                      vpiName: rawOperation
+                      vpiFullName: top.rawOperation
+                      vpiActual: Net name:rawOperation
               Assignment start:16:9 end:16:23:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -431,28 +439,30 @@ Design name:unnamed:
             vpiName: Example
             vpiFullName: top.dut.Example
             vpiActual: UnsupportedTypespec name:Example
-          vpiPort (2 items):
-            Port start:10:9 end:10:26:
+          vpiArgument (2 items):
+            NamedArgument start:10:9 end:10:26:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:rawMode start:10:10 end:10:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rawMode
                 vpiFullName: top.dut.rawMode
                 vpiActual: Variable name:rawMode
               vpiHighConn RefObj name:rawMode start:10:18 end:10:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rawMode
                 vpiFullName: top.dut.rawMode
                 vpiActual: Variable name:rawMode
-            Port start:11:9 end:11:36:
+            NamedArgument start:11:9 end:11:36:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:rawOperation start:11:10 end:11:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rawOperation
                 vpiFullName: top.dut.rawOperation
                 vpiActual: Net name:rawOperation
               vpiHighConn RefObj name:rawOperation start:11:23 end:11:35:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rawOperation
                 vpiFullName: top.dut.rawOperation
                 vpiActual: Net name:rawOperation
@@ -521,7 +531,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/enum_tb_v/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              69      69       0         0
+Others                              73      73       0         0
 ----------------------------------------------------------------
-                                    69      69       0         0
+                                    73      73       0         0
 ===================== END REDUCTION RESULT =====================

@@ -723,20 +723,24 @@ Design name:unnamed:
                       vpiName Identifier name:foo start:37:12 end:37:15:
                       vpiTaskFunc: Function name:foo
                       vpiArgument (1 items):
-                        Operation start:37:16 end:37:25:
+                        NamedArgument start:37:16 end:37:25:
                           vpiParent: MethodFuncCall name:foo
-                          vpiOpType: bitwise negation (4)
-                          vpiOperand (1 items):
-                            MethodFuncCall name:foo start:37:17 end:37:25:
-                              vpiParent: Operation
-                              vpiName Identifier name:foo start:37:17 end:37:20:
-                              vpiTaskFunc: Function name:foo
-                              vpiArgument (1 items):
-                                RefObj name:in1 start:37:21 end:37:24:
-                                  vpiParent: MethodFuncCall name:foo
-                                  vpiName: in1
-                                  vpiFullName: main.my_task.in1
-                                  vpiActual: IODecl name:in1
+                          vpiHighConn Operation start:37:16 end:37:25:
+                            vpiParent: NamedArgument
+                            vpiOpType: bitwise negation (4)
+                            vpiOperand (1 items):
+                              MethodFuncCall name:foo start:37:17 end:37:25:
+                                vpiParent: Operation
+                                vpiName Identifier name:foo start:37:17 end:37:20:
+                                vpiTaskFunc: Function name:foo
+                                vpiArgument (1 items):
+                                  NamedArgument start:37:21 end:37:24:
+                                    vpiParent: MethodFuncCall name:foo
+                                    vpiHighConn RefObj name:in1 start:37:21 end:37:24:
+                                      vpiParent: NamedArgument
+                                      vpiName: in1
+                                      vpiFullName: main.my_task.in1
+                                      vpiActual: IODecl name:in1
                   Assignment start:38:5 end:38:20:
                     vpiParent: Begin
                     vpiBlocking: true
@@ -750,11 +754,13 @@ Design name:unnamed:
                       vpiName Identifier name:foo start:38:12 end:38:15:
                       vpiTaskFunc: Function name:foo
                       vpiArgument (1 items):
-                        RefObj name:in2 start:38:16 end:38:19:
+                        NamedArgument start:38:16 end:38:19:
                           vpiParent: MethodFuncCall name:foo
-                          vpiName: in2
-                          vpiFullName: main.my_task.in2
-                          vpiActual: IODecl name:in2
+                          vpiHighConn RefObj name:in2 start:38:16 end:38:19:
+                            vpiParent: NamedArgument
+                            vpiName: in2
+                            vpiFullName: main.my_task.in2
+                            vpiActual: IODecl name:in2
       vpiProcess (1 items):
         Initial start:42:1 end:70:6:
           vpiParent: Module name:main
@@ -788,36 +794,44 @@ Design name:unnamed:
                 vpiName Identifier name:my_task start:45:5 end:45:12:
                 vpiTaskFunc: Task name:my_task
                 vpiArgument (4 items):
-                  Constant start:45:13 end:45:17:
+                  NamedArgument start:45:13 end:45:17:
                     vpiParent: MethodTaskCall name:my_task
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: BitTypespec
-                    vpiConstType: binary (3)
-                    vpiSize: 1
-                    vpiDecompile: "1'b1"
-                    vpiValue: "1"
-                  Constant start:45:18 end:45:22:
+                    vpiHighConn Constant start:45:13 end:45:17:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: BitTypespec
+                      vpiConstType: binary (3)
+                      vpiSize: 1
+                      vpiDecompile: "1'b1"
+                      vpiValue: "1"
+                  NamedArgument start:45:18 end:45:22:
                     vpiParent: MethodTaskCall name:my_task
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: BitTypespec
-                    vpiConstType: binary (3)
-                    vpiSize: 1
-                    vpiDecompile: "1'b0"
-                    vpiValue: "0"
-                  RefObj name:var1 start:45:23 end:45:27:
+                    vpiHighConn Constant start:45:18 end:45:22:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: BitTypespec
+                      vpiConstType: binary (3)
+                      vpiSize: 1
+                      vpiDecompile: "1'b0"
+                      vpiValue: "0"
+                  NamedArgument start:45:23 end:45:27:
                     vpiParent: MethodTaskCall name:my_task
-                    vpiName: var1
-                    vpiFullName: main.var1
-                    vpiActual: Variable name:var1
-                  RefObj name:var2 start:45:28 end:45:32:
+                    vpiHighConn RefObj name:var1 start:45:23 end:45:27:
+                      vpiParent: NamedArgument
+                      vpiName: var1
+                      vpiFullName: main.var1
+                      vpiActual: Variable name:var1
+                  NamedArgument start:45:28 end:45:32:
                     vpiParent: MethodTaskCall name:my_task
-                    vpiName: var2
-                    vpiFullName: main.var2
-                    vpiActual: Variable name:var2
+                    vpiHighConn RefObj name:var2 start:45:28 end:45:32:
+                      vpiParent: NamedArgument
+                      vpiName: var2
+                      vpiFullName: main.var2
+                      vpiActual: Variable name:var2
               IfStmt start:46:5 end:50:10:
                 vpiParent: Begin
                 vpiCondition Operation start:46:8 end:46:24:
@@ -854,16 +868,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:48:9 end:48:17:
                       vpiArgument (1 items):
-                        Constant start:48:18 end:48:67:
+                        NamedArgument start:48:18 end:48:67:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 376
-                          vpiDecompile: "\"FAILED - task 3.14E task calling a function (1)\""
-                          vpiValue: FAILED - task 3.14E task calling a function (1)
+                          vpiHighConn Constant start:48:18 end:48:67:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 376
+                            vpiDecompile: "\"FAILED - task 3.14E task calling a function (1)\""
+                            vpiValue: FAILED - task 3.14E task calling a function (1)
                     Assignment start:49:10 end:49:19:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -905,34 +921,42 @@ Design name:unnamed:
                 vpiName Identifier name:my_task start:53:5 end:53:12:
                 vpiTaskFunc: Task name:my_task
                 vpiArgument (4 items):
-                  Operation start:53:13 end:53:17:
+                  NamedArgument start:53:13 end:53:17:
                     vpiParent: MethodTaskCall name:my_task
-                    vpiOpType: bitwise negation (4)
-                    vpiOperand (1 items):
-                      RefObj name:in1 start:53:14 end:53:17:
-                        vpiParent: Operation
-                        vpiName: in1
-                        vpiFullName: main.in1
-                        vpiActual: Variable name:in1
-                  Operation start:53:18 end:53:22:
+                    vpiHighConn Operation start:53:13 end:53:17:
+                      vpiParent: NamedArgument
+                      vpiOpType: bitwise negation (4)
+                      vpiOperand (1 items):
+                        RefObj name:in1 start:53:14 end:53:17:
+                          vpiParent: Operation
+                          vpiName: in1
+                          vpiFullName: main.in1
+                          vpiActual: Variable name:in1
+                  NamedArgument start:53:18 end:53:22:
                     vpiParent: MethodTaskCall name:my_task
-                    vpiOpType: bitwise negation (4)
-                    vpiOperand (1 items):
-                      RefObj name:in1 start:53:19 end:53:22:
-                        vpiParent: Operation
-                        vpiName: in1
-                        vpiFullName: main.in1
-                        vpiActual: Variable name:in1
-                  RefObj name:var1 start:53:23 end:53:27:
+                    vpiHighConn Operation start:53:18 end:53:22:
+                      vpiParent: NamedArgument
+                      vpiOpType: bitwise negation (4)
+                      vpiOperand (1 items):
+                        RefObj name:in1 start:53:19 end:53:22:
+                          vpiParent: Operation
+                          vpiName: in1
+                          vpiFullName: main.in1
+                          vpiActual: Variable name:in1
+                  NamedArgument start:53:23 end:53:27:
                     vpiParent: MethodTaskCall name:my_task
-                    vpiName: var1
-                    vpiFullName: main.var1
-                    vpiActual: Variable name:var1
-                  RefObj name:var2 start:53:28 end:53:32:
+                    vpiHighConn RefObj name:var1 start:53:23 end:53:27:
+                      vpiParent: NamedArgument
+                      vpiName: var1
+                      vpiFullName: main.var1
+                      vpiActual: Variable name:var1
+                  NamedArgument start:53:28 end:53:32:
                     vpiParent: MethodTaskCall name:my_task
-                    vpiName: var2
-                    vpiFullName: main.var2
-                    vpiActual: Variable name:var2
+                    vpiHighConn RefObj name:var2 start:53:28 end:53:32:
+                      vpiParent: NamedArgument
+                      vpiName: var2
+                      vpiFullName: main.var2
+                      vpiActual: Variable name:var2
               IfStmt start:54:5 end:58:10:
                 vpiParent: Begin
                 vpiCondition Operation start:54:8 end:54:23:
@@ -965,16 +989,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:56:10 end:56:18:
                       vpiArgument (1 items):
-                        Constant start:56:19 end:56:67:
+                        NamedArgument start:56:19 end:56:67:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 368
-                          vpiDecompile: "\"FAILED - task 3.14E task calling a function(2)\""
-                          vpiValue: FAILED - task 3.14E task calling a function(2)
+                          vpiHighConn Constant start:56:19 end:56:67:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 368
+                            vpiDecompile: "\"FAILED - task 3.14E task calling a function(2)\""
+                            vpiValue: FAILED - task 3.14E task calling a function(2)
                     Assignment start:57:10 end:57:19:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -1016,26 +1042,34 @@ Design name:unnamed:
                 vpiName Identifier name:my_task start:61:5 end:61:12:
                 vpiTaskFunc: Task name:my_task
                 vpiArgument (4 items):
-                  RefObj name:in1 start:61:13 end:61:16:
+                  NamedArgument start:61:13 end:61:16:
                     vpiParent: MethodTaskCall name:my_task
-                    vpiName: in1
-                    vpiFullName: main.in1
-                    vpiActual: Variable name:in1
-                  RefObj name:in1 start:61:17 end:61:20:
+                    vpiHighConn RefObj name:in1 start:61:13 end:61:16:
+                      vpiParent: NamedArgument
+                      vpiName: in1
+                      vpiFullName: main.in1
+                      vpiActual: Variable name:in1
+                  NamedArgument start:61:17 end:61:20:
                     vpiParent: MethodTaskCall name:my_task
-                    vpiName: in1
-                    vpiFullName: main.in1
-                    vpiActual: Variable name:in1
-                  RefObj name:var1 start:61:21 end:61:25:
+                    vpiHighConn RefObj name:in1 start:61:17 end:61:20:
+                      vpiParent: NamedArgument
+                      vpiName: in1
+                      vpiFullName: main.in1
+                      vpiActual: Variable name:in1
+                  NamedArgument start:61:21 end:61:25:
                     vpiParent: MethodTaskCall name:my_task
-                    vpiName: var1
-                    vpiFullName: main.var1
-                    vpiActual: Variable name:var1
-                  RefObj name:var2 start:61:26 end:61:30:
+                    vpiHighConn RefObj name:var1 start:61:21 end:61:25:
+                      vpiParent: NamedArgument
+                      vpiName: var1
+                      vpiFullName: main.var1
+                      vpiActual: Variable name:var1
+                  NamedArgument start:61:26 end:61:30:
                     vpiParent: MethodTaskCall name:my_task
-                    vpiName: var2
-                    vpiFullName: main.var2
-                    vpiActual: Variable name:var2
+                    vpiHighConn RefObj name:var2 start:61:26 end:61:30:
+                      vpiParent: NamedArgument
+                      vpiName: var2
+                      vpiFullName: main.var2
+                      vpiActual: Variable name:var2
               IfStmt start:62:5 end:66:10:
                 vpiParent: Begin
                 vpiCondition Operation start:62:8 end:62:23:
@@ -1068,16 +1102,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:64:10 end:64:18:
                       vpiArgument (1 items):
-                        Constant start:64:19 end:64:67:
+                        NamedArgument start:64:19 end:64:67:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 368
-                          vpiDecompile: "\"FAILED - task 3.14E task calling a function(3)\""
-                          vpiValue: FAILED - task 3.14E task calling a function(3)
+                          vpiHighConn Constant start:64:19 end:64:67:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 368
+                            vpiDecompile: "\"FAILED - task 3.14E task calling a function(3)\""
+                            vpiValue: FAILED - task 3.14E task calling a function(3)
                     Assignment start:65:10 end:65:19:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -1121,16 +1157,18 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName Identifier name:$display start:69:8 end:69:16:
                   vpiArgument (1 items):
-                    Constant start:69:17 end:69:25:
+                    NamedArgument start:69:17 end:69:25:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: main
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 48
-                      vpiDecompile: "\"PASSED\""
-                      vpiValue: PASSED
+                      vpiHighConn Constant start:69:17 end:69:25:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: main
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"PASSED\""
+                        vpiValue: PASSED
   vpiTypespec (3 items):
     ModuleTypespec name:main:
       vpiParent: Design name:unnamed
@@ -1194,7 +1232,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/task3.14E/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             158     158       0         0
+Others                             177     177       0         0
 ----------------------------------------------------------------
-                                   158     158       0         0
+                                   177     177       0         0
 ===================== END REDUCTION RESULT =====================

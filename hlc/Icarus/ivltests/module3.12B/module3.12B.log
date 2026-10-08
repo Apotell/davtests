@@ -277,30 +277,34 @@ Design name:unnamed:
               vpiParent: IfElse
               vpiName Identifier name:$display start:34:9 end:34:17:
               vpiArgument (1 items):
-                Constant start:34:18 end:34:67:
+                NamedArgument start:34:18 end:34:67:
                   vpiParent: SysTaskCall name:$display
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: main
-                    vpiActual: StringTypespec
-                  vpiConstType: string (6)
-                  vpiSize: 376
-                  vpiDecompile: "\"FAILED - 3.12B - Module with output only failed\""
-                  vpiValue: FAILED - 3.12B - Module with output only failed
+                  vpiHighConn Constant start:34:18 end:34:67:
+                    vpiParent: NamedArgument
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: main
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 376
+                    vpiDecompile: "\"FAILED - 3.12B - Module with output only failed\""
+                    vpiValue: FAILED - 3.12B - Module with output only failed
             vpiElseStmt SysTaskCall name:$display start:36:9 end:36:27:
               vpiParent: IfElse
               vpiName Identifier name:$display start:36:9 end:36:17:
               vpiArgument (1 items):
-                Constant start:36:18 end:36:26:
+                NamedArgument start:36:18 end:36:26:
                   vpiParent: SysTaskCall name:$display
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: main
-                    vpiActual: StringTypespec
-                  vpiConstType: string (6)
-                  vpiSize: 48
-                  vpiDecompile: "\"PASSED\""
-                  vpiValue: PASSED
+                  vpiHighConn Constant start:36:18 end:36:26:
+                    vpiParent: NamedArgument
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: main
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 48
+                    vpiDecompile: "\"PASSED\""
+                    vpiValue: PASSED
       vpiRefInstance (2 items):
         RefInstance name:foo1 start:29:7 end:29:11:
           vpiParent: Module name:main
@@ -310,11 +314,12 @@ Design name:unnamed:
             vpiName: foo
             vpiFullName: main.foo1.foo
             vpiActual: ModuleTypespec name:foo
-          vpiPort (1 items):
-            Port start:29:13 end:29:17:
+          vpiArgument (1 items):
+            NamedArgument start:29:13 end:29:17:
               vpiParent: RefInstance name:foo1
+              vpiConnByName: true
               vpiLowConn RefObj name:a start:29:14 end:29:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: main.foo1.a
                 vpiActual: Port name:a
@@ -326,16 +331,17 @@ Design name:unnamed:
             vpiName: foo
             vpiFullName: main.foo2.foo
             vpiActual: ModuleTypespec name:foo
-          vpiPort (1 items):
-            Port start:30:13 end:30:18:
+          vpiArgument (1 items):
+            NamedArgument start:30:13 end:30:18:
               vpiParent: RefInstance name:foo2
+              vpiConnByName: true
               vpiLowConn RefObj name:a start:30:14 end:30:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: main.foo2.a
                 vpiActual: Port name:a
               vpiHighConn RefObj name:b start:30:16 end:30:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: main.foo2.b
                 vpiActual: Net name:b
@@ -404,7 +410,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/module3.12B/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              50      50       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    50      50       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

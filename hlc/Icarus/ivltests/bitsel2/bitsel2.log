@@ -493,26 +493,32 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:34:7 end:34:15:
                 vpiArgument (3 items):
-                  Constant start:34:16 end:34:28:
+                  NamedArgument start:34:16 end:34:28:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 80
-                    vpiDecompile: "\"a=%b, b=%b\""
-                    vpiValue: a=%b, b=%b
-                  RefObj name:a start:34:30 end:34:31:
+                    vpiHighConn Constant start:34:16 end:34:28:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 80
+                      vpiDecompile: "\"a=%b, b=%b\""
+                      vpiValue: a=%b, b=%b
+                  NamedArgument start:34:30 end:34:31:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: a
-                    vpiFullName: test.a
-                    vpiActual: Variable name:a
-                  RefObj name:b start:34:33 end:34:34:
+                    vpiHighConn RefObj name:a start:34:30 end:34:31:
+                      vpiParent: NamedArgument
+                      vpiName: a
+                      vpiFullName: test.a
+                      vpiActual: Variable name:a
+                  NamedArgument start:34:33 end:34:34:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: b
-                    vpiFullName: test.b
-                    vpiActual: Variable name:b
+                    vpiHighConn RefObj name:b start:34:33 end:34:34:
+                      vpiParent: NamedArgument
+                      vpiName: b
+                      vpiFullName: test.b
+                      vpiActual: Variable name:b
               IfStmt start:35:7 end:38:10:
                 vpiParent: Begin
                 vpiCondition Operation start:35:11 end:35:24:
@@ -542,21 +548,25 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:36:3 end:36:11:
                       vpiArgument (2 items):
-                        Constant start:36:12 end:36:31:
+                        NamedArgument start:36:12 end:36:31:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: test
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 136
-                          vpiDecompile: "\"FAILED -- b == %b\""
-                          vpiValue: FAILED -- b == %b
-                        RefObj name:b start:36:33 end:36:34:
+                          vpiHighConn Constant start:36:12 end:36:31:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: test
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 136
+                            vpiDecompile: "\"FAILED -- b == %b\""
+                            vpiValue: FAILED -- b == %b
+                        NamedArgument start:36:33 end:36:34:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: b
-                          vpiFullName: test.b
-                          vpiActual: Variable name:b
+                          vpiHighConn RefObj name:b start:36:33 end:36:34:
+                            vpiParent: NamedArgument
+                            vpiName: b
+                            vpiFullName: test.b
+                            vpiActual: Variable name:b
                     SysTaskCall name:$finish start:37:3 end:37:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:37:3 end:37:10:
@@ -565,16 +575,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:40:7 end:40:15:
                 vpiArgument (1 items):
-                  Constant start:40:16 end:40:24:
+                  NamedArgument start:40:16 end:40:24:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"PASSED\""
-                    vpiValue: PASSED
+                    vpiHighConn Constant start:40:16 end:40:24:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"PASSED\""
+                      vpiValue: PASSED
   vpiTypespec (4 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -640,7 +652,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/bitsel2/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              81      81       0         0
+Others                              87      87       0         0
 ----------------------------------------------------------------
-                                    81      81       0         0
+                                    87      87       0         0
 ===================== END REDUCTION RESULT =====================

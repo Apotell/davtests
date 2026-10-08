@@ -381,20 +381,24 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:8:19 end:8:26:
                         vpiArgument (1 items):
-                          RefObj name:a start:8:27 end:8:28:
+                          NamedArgument start:8:27 end:8:28:
                             vpiParent: SysFuncCall name:$signed
-                            vpiName: a
-                            vpiFullName: main.a
-                            vpiActual: Net name:a
+                            vpiHighConn RefObj name:a start:8:27 end:8:28:
+                              vpiParent: NamedArgument
+                              vpiName: a
+                              vpiFullName: main.a
+                              vpiActual: Net name:a
                       SysFuncCall name:$signed start:8:32 end:8:42:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:8:32 end:8:39:
                         vpiArgument (1 items):
-                          RefObj name:b start:8:40 end:8:41:
+                          NamedArgument start:8:40 end:8:41:
                             vpiParent: SysFuncCall name:$signed
-                            vpiName: b
-                            vpiFullName: main.b
-                            vpiActual: Net name:b
+                            vpiHighConn RefObj name:b start:8:40 end:8:41:
+                              vpiParent: NamedArgument
+                              vpiName: b
+                              vpiFullName: main.b
+                              vpiActual: Net name:b
                 vpiDelay Constant start:8:10 end:8:11:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -430,35 +434,41 @@ Design name:unnamed:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:11:13 end:11:21:
                   vpiArgument (1 items):
-                    Constant start:11:22 end:11:30:
+                    NamedArgument start:11:22 end:11:30:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: main
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 48
-                      vpiDecompile: "\"PASSED\""
-                      vpiValue: PASSED
+                      vpiHighConn Constant start:11:22 end:11:30:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: main
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"PASSED\""
+                        vpiValue: PASSED
                 vpiElseStmt SysTaskCall name:$display start:13:13 end:13:39:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:13:13 end:13:21:
                   vpiArgument (2 items):
-                    Constant start:13:22 end:13:34:
+                    NamedArgument start:13:22 end:13:34:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: main
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 80
-                      vpiDecompile: "\"failed: %b\""
-                      vpiValue: "failed: %b"
-                    RefObj name:sum start:13:35 end:13:38:
+                      vpiHighConn Constant start:13:22 end:13:34:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: main
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 80
+                        vpiDecompile: "\"failed: %b\""
+                        vpiValue: "failed: %b"
+                    NamedArgument start:13:35 end:13:38:
                       vpiParent: SysTaskCall name:$display
-                      vpiName: sum
-                      vpiFullName: main.sum
-                      vpiActual: Variable name:sum
+                      vpiHighConn RefObj name:sum start:13:35 end:13:38:
+                        vpiParent: NamedArgument
+                        vpiName: sum
+                        vpiFullName: main.sum
+                        vpiActual: Variable name:sum
               SysTaskCall name:$finish start:15:9 end:15:16:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:15:9 end:15:16:
@@ -529,6 +539,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            12      13       1         0
 Identifier                           7       5       0         2
+NamedArgument                        5       3       0         2
 Operation                            2       1       0         1
 RefObj                               6       4       0         2
 RefTypespec                         15      16       1         0
@@ -536,5 +547,5 @@ SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
 Others                              25      25       0         0
 ----------------------------------------------------------------
-                                    69      64       2         7
+                                    74      67       2         9
 ===================== END REDUCTION RESULT =====================

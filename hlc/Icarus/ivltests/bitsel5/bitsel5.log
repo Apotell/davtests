@@ -612,26 +612,32 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiName Identifier name:$display start:33:10 end:33:18:
                   vpiArgument (3 items):
-                    Constant start:33:19 end:33:36:
+                    NamedArgument start:33:19 end:33:36:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: main
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 120
-                      vpiDecompile: "\"vect=%b, tmp=%b\""
-                      vpiValue: vect=%b, tmp=%b
-                    RefObj name:vect start:33:38 end:33:42:
+                      vpiHighConn Constant start:33:19 end:33:36:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: main
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 120
+                        vpiDecompile: "\"vect=%b, tmp=%b\""
+                        vpiValue: vect=%b, tmp=%b
+                    NamedArgument start:33:38 end:33:42:
                       vpiParent: SysTaskCall name:$display
-                      vpiName: vect
-                      vpiFullName: main.vect
-                      vpiActual: Variable name:vect
-                    RefObj name:tmp start:33:44 end:33:47:
+                      vpiHighConn RefObj name:vect start:33:38 end:33:42:
+                        vpiParent: NamedArgument
+                        vpiName: vect
+                        vpiFullName: main.vect
+                        vpiActual: Variable name:vect
+                    NamedArgument start:33:44 end:33:47:
                       vpiParent: SysTaskCall name:$display
-                      vpiName: tmp
-                      vpiFullName: main.tmp
-                      vpiActual: Net name:tmp
+                      vpiHighConn RefObj name:tmp start:33:44 end:33:47:
+                        vpiParent: NamedArgument
+                        vpiName: tmp
+                        vpiFullName: main.tmp
+                        vpiActual: Net name:tmp
                 vpiDelay Constant start:33:8 end:33:9:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -719,49 +725,57 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:36:3 end:36:11:
                       vpiArgument (4 items):
-                        Constant start:36:12 end:36:37:
+                        NamedArgument start:36:12 end:36:37:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 184
-                          vpiDecompile: "\"idx=%d: vect=%b, tmp=%b\""
-                          vpiValue: "idx=%d: vect=%b, tmp=%b"
-                        RefObj name:idx start:36:39 end:36:42:
+                          vpiHighConn Constant start:36:12 end:36:37:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 184
+                            vpiDecompile: "\"idx=%d: vect=%b, tmp=%b\""
+                            vpiValue: "idx=%d: vect=%b, tmp=%b"
+                        NamedArgument start:36:39 end:36:42:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: idx
-                          vpiFullName: main.idx
-                          vpiActual: Variable name:idx
-                        BitSelect name:vect[idx] start:36:44 end:36:53:
-                          vpiParent: SysTaskCall name:$display
-                          vpiName: vect[idx]
-                          vpiFullName: main.vect[idx]
-                          vpiPrefix RefObj name:vect start:36:44 end:36:48:
-                            vpiParent: BitSelect name:vect[idx]
-                            vpiName: vect
-                            vpiFullName: main.vect
-                            vpiActual: Variable name:vect
-                          vpiIndex RefObj name:idx start:36:49 end:36:52:
-                            vpiParent: BitSelect name:vect[idx]
+                          vpiHighConn RefObj name:idx start:36:39 end:36:42:
+                            vpiParent: NamedArgument
                             vpiName: idx
                             vpiFullName: main.idx
                             vpiActual: Variable name:idx
-                        BitSelect name:tmp[idx] start:36:55 end:36:63:
+                        NamedArgument start:36:44 end:36:53:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: tmp[idx]
-                          vpiFullName: main.tmp[idx]
-                          vpiPrefix RefObj name:tmp start:36:55 end:36:58:
-                            vpiParent: BitSelect name:tmp[idx]
-                            vpiName: tmp
-                            vpiFullName: main.tmp
-                            vpiActual: Net name:tmp
-                          vpiIndex RefObj name:idx start:36:59 end:36:62:
-                            vpiParent: BitSelect name:tmp[idx]
-                            vpiName: idx
-                            vpiFullName: main.idx
-                            vpiActual: Variable name:idx
+                          vpiHighConn BitSelect name:vect[idx] start:36:44 end:36:53:
+                            vpiParent: NamedArgument
+                            vpiName: vect[idx]
+                            vpiFullName: main.vect[idx]
+                            vpiPrefix RefObj name:vect start:36:44 end:36:48:
+                              vpiParent: BitSelect name:vect[idx]
+                              vpiName: vect
+                              vpiFullName: main.vect
+                              vpiActual: Variable name:vect
+                            vpiIndex RefObj name:idx start:36:49 end:36:52:
+                              vpiParent: BitSelect name:vect[idx]
+                              vpiName: idx
+                              vpiFullName: main.idx
+                              vpiActual: Variable name:idx
+                        NamedArgument start:36:55 end:36:63:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn BitSelect name:tmp[idx] start:36:55 end:36:63:
+                            vpiParent: NamedArgument
+                            vpiName: tmp[idx]
+                            vpiFullName: main.tmp[idx]
+                            vpiPrefix RefObj name:tmp start:36:55 end:36:58:
+                              vpiParent: BitSelect name:tmp[idx]
+                              vpiName: tmp
+                              vpiFullName: main.tmp
+                              vpiActual: Net name:tmp
+                            vpiIndex RefObj name:idx start:36:59 end:36:62:
+                              vpiParent: BitSelect name:tmp[idx]
+                              vpiName: idx
+                              vpiFullName: main.idx
+                              vpiActual: Variable name:idx
                     IfStmt start:37:3 end:40:6:
                       vpiParent: Begin
                       vpiCondition Operation start:37:7 end:37:31:
@@ -818,16 +832,18 @@ Design name:unnamed:
                             vpiParent: Begin
                             vpiName Identifier name:$display start:38:6 end:38:14:
                             vpiArgument (1 items):
-                              Constant start:38:15 end:38:23:
+                              NamedArgument start:38:15 end:38:23:
                                 vpiParent: SysTaskCall name:$display
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: main
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiSize: 48
-                                vpiDecompile: "\"FAILED\""
-                                vpiValue: FAILED
+                                vpiHighConn Constant start:38:15 end:38:23:
+                                  vpiParent: NamedArgument
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: main
+                                    vpiActual: StringTypespec
+                                  vpiConstType: string (6)
+                                  vpiSize: 48
+                                  vpiDecompile: "\"FAILED\""
+                                  vpiValue: FAILED
                           SysTaskCall name:$finish start:39:6 end:39:13:
                             vpiParent: Begin
                             vpiName Identifier name:$finish start:39:6 end:39:13:
@@ -836,16 +852,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:43:7 end:43:15:
                 vpiArgument (1 items):
-                  Constant start:43:16 end:43:24:
+                  NamedArgument start:43:16 end:43:24:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"PASSED\""
-                    vpiValue: PASSED
+                    vpiHighConn Constant start:43:16 end:43:24:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"PASSED\""
+                      vpiValue: PASSED
   vpiTypespec (4 items):
     ModuleTypespec name:main:
       vpiParent: Design name:unnamed
@@ -911,7 +929,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/bitsel5/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             118     118       0         0
+Others                             127     127       0         0
 ----------------------------------------------------------------
-                                   118     118       0         0
+                                   127     127       0         0
 ===================== END REDUCTION RESULT =====================

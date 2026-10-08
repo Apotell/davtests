@@ -1020,6 +1020,8 @@ AST_DEBUG_END
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/macc_tb.v:77:2: Unsupported typespec "macc2".
 [ERR:DB2029] $Source01/macc_tb.v:87:2: Unsupported typespec "macc2_uut".
+[WRN:DB2033] $Source01/macc_tb.v:24:80: Critical: Signed vs Unsigned port connection "REF_accum_out".
+[WRN:DB2033] $Source01/macc_tb.v:24:95: Critical: Signed vs Unsigned port connection "accum_out".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1366,43 +1368,53 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:24:5 end:24:13:
                       vpiArgument (5 items):
-                        Constant start:24:14 end:24:71:
+                        NamedArgument start:24:14 end:24:71:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: testbench.clkcycle
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 440
-                          vpiDecompile: "\"ERROR at %1t: REF_accum_out=%b UUT_accum_out=%b DIFF=%b\""
-                          vpiValue: "ERROR at %1t: REF_accum_out=%b UUT_accum_out=%b DIFF=%b"
-                        SysFuncCall name:$time start:24:73 end:24:78:
+                          vpiHighConn Constant start:24:14 end:24:71:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: testbench.clkcycle
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 440
+                            vpiDecompile: "\"ERROR at %1t: REF_accum_out=%b UUT_accum_out=%b DIFF=%b\""
+                            vpiValue: "ERROR at %1t: REF_accum_out=%b UUT_accum_out=%b DIFF=%b"
+                        NamedArgument start:24:73 end:24:78:
                           vpiParent: SysTaskCall name:$display
-                          vpiName Identifier name:$time start:24:73 end:24:78:
-                        RefObj name:REF_accum_out start:24:80 end:24:93:
+                          vpiHighConn SysFuncCall name:$time start:24:73 end:24:78:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$time start:24:73 end:24:78:
+                        NamedArgument start:24:80 end:24:93:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: REF_accum_out
-                          vpiFullName: testbench.clkcycle.REF_accum_out
-                          vpiActual: Variable name:REF_accum_out
-                        RefObj name:accum_out start:24:95 end:24:104:
+                          vpiHighConn RefObj name:REF_accum_out start:24:80 end:24:93:
+                            vpiParent: NamedArgument
+                            vpiName: REF_accum_out
+                            vpiFullName: testbench.clkcycle.REF_accum_out
+                            vpiActual: Variable name:REF_accum_out
+                        NamedArgument start:24:95 end:24:104:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: accum_out
-                          vpiFullName: testbench.clkcycle.accum_out
-                          vpiActual: Variable name:accum_out
-                        Operation start:24:106 end:24:131:
+                          vpiHighConn RefObj name:accum_out start:24:95 end:24:104:
+                            vpiParent: NamedArgument
+                            vpiName: accum_out
+                            vpiFullName: testbench.clkcycle.accum_out
+                            vpiActual: Variable name:accum_out
+                        NamedArgument start:24:106 end:24:131:
                           vpiParent: SysTaskCall name:$display
-                          vpiOpType: bitwise xor (30)
-                          vpiOperand (2 items):
-                            RefObj name:REF_accum_out start:24:106 end:24:119:
-                              vpiParent: Operation
-                              vpiName: REF_accum_out
-                              vpiFullName: testbench.clkcycle.REF_accum_out
-                              vpiActual: Variable name:REF_accum_out
-                            RefObj name:accum_out start:24:122 end:24:131:
-                              vpiParent: Operation
-                              vpiName: accum_out
-                              vpiFullName: testbench.clkcycle.accum_out
-                              vpiActual: Variable name:accum_out
+                          vpiHighConn Operation start:24:106 end:24:131:
+                            vpiParent: NamedArgument
+                            vpiOpType: bitwise xor (30)
+                            vpiOperand (2 items):
+                              RefObj name:REF_accum_out start:24:106 end:24:119:
+                                vpiParent: Operation
+                                vpiName: REF_accum_out
+                                vpiFullName: testbench.clkcycle.REF_accum_out
+                                vpiActual: Variable name:REF_accum_out
+                              RefObj name:accum_out start:24:122 end:24:131:
+                                vpiParent: Operation
+                                vpiName: accum_out
+                                vpiFullName: testbench.clkcycle.accum_out
+                                vpiActual: Variable name:accum_out
                     Assignment start:25:5 end:25:28:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -1470,39 +1482,49 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:29:5 end:29:13:
                       vpiArgument (5 items):
-                        Constant start:29:14 end:29:69:
+                        NamedArgument start:29:14 end:29:69:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: testbench.clkcycle
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 424
-                          vpiDecompile: "\"ERROR at %1t: REF_overflow=%b UUT_overflow=%b DIFF=%b\""
-                          vpiValue: "ERROR at %1t: REF_overflow=%b UUT_overflow=%b DIFF=%b"
-                        SysFuncCall name:$time start:29:71 end:29:76:
+                          vpiHighConn Constant start:29:14 end:29:69:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: testbench.clkcycle
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 424
+                            vpiDecompile: "\"ERROR at %1t: REF_overflow=%b UUT_overflow=%b DIFF=%b\""
+                            vpiValue: "ERROR at %1t: REF_overflow=%b UUT_overflow=%b DIFF=%b"
+                        NamedArgument start:29:71 end:29:76:
                           vpiParent: SysTaskCall name:$display
-                          vpiName Identifier name:$time start:29:71 end:29:76:
-                        RefObj name:REF_overflow start:29:78 end:29:90:
+                          vpiHighConn SysFuncCall name:$time start:29:71 end:29:76:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$time start:29:71 end:29:76:
+                        NamedArgument start:29:78 end:29:90:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: REF_overflow
-                          vpiFullName: testbench.clkcycle.REF_overflow
-                        RefObj name:overflow start:29:92 end:29:100:
+                          vpiHighConn RefObj name:REF_overflow start:29:78 end:29:90:
+                            vpiParent: NamedArgument
+                            vpiName: REF_overflow
+                            vpiFullName: testbench.clkcycle.REF_overflow
+                        NamedArgument start:29:92 end:29:100:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: overflow
-                          vpiFullName: testbench.clkcycle.overflow
-                        Operation start:29:102 end:29:125:
+                          vpiHighConn RefObj name:overflow start:29:92 end:29:100:
+                            vpiParent: NamedArgument
+                            vpiName: overflow
+                            vpiFullName: testbench.clkcycle.overflow
+                        NamedArgument start:29:102 end:29:125:
                           vpiParent: SysTaskCall name:$display
-                          vpiOpType: bitwise xor (30)
-                          vpiOperand (2 items):
-                            RefObj name:REF_overflow start:29:102 end:29:114:
-                              vpiParent: Operation
-                              vpiName: REF_overflow
-                              vpiFullName: testbench.clkcycle.REF_overflow
-                            RefObj name:overflow start:29:117 end:29:125:
-                              vpiParent: Operation
-                              vpiName: overflow
-                              vpiFullName: testbench.clkcycle.overflow
+                          vpiHighConn Operation start:29:102 end:29:125:
+                            vpiParent: NamedArgument
+                            vpiOpType: bitwise xor (30)
+                            vpiOperand (2 items):
+                              RefObj name:REF_overflow start:29:102 end:29:114:
+                                vpiParent: Operation
+                                vpiName: REF_overflow
+                                vpiFullName: testbench.clkcycle.REF_overflow
+                              RefObj name:overflow start:29:117 end:29:125:
+                                vpiParent: Operation
+                                vpiName: overflow
+                                vpiFullName: testbench.clkcycle.overflow
                     Assignment start:30:5 end:30:28:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -2009,16 +2031,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:69:4 end:69:12:
                       vpiArgument (1 items):
-                        Constant start:69:13 end:69:32:
+                        NamedArgument start:69:13 end:69:32:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: testbench
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 136
-                          vpiDecompile: "\"All tests passed.\""
-                          vpiValue: All tests passed.
+                          vpiHighConn Constant start:69:13 end:69:32:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: testbench
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 136
+                            vpiDecompile: "\"All tests passed.\""
+                            vpiValue: All tests passed.
                     SysTaskCall name:$finish start:70:4 end:70:11:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:70:4 end:70:11:
@@ -2031,21 +2055,25 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:72:4 end:72:12:
                       vpiArgument (2 items):
-                        Constant start:72:13 end:72:33:
+                        NamedArgument start:72:13 end:72:33:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: testbench
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 144
-                          vpiDecompile: "\"Caught %1d errors.\""
-                          vpiValue: Caught %1d errors.
-                        RefObj name:errcount start:72:35 end:72:43:
+                          vpiHighConn Constant start:72:13 end:72:33:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: testbench
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 144
+                            vpiDecompile: "\"Caught %1d errors.\""
+                            vpiValue: Caught %1d errors.
+                        NamedArgument start:72:35 end:72:43:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: errcount
-                          vpiFullName: testbench.errcount
-                          vpiActual: Variable name:errcount
+                          vpiHighConn RefObj name:errcount start:72:35 end:72:43:
+                            vpiParent: NamedArgument
+                            vpiName: errcount
+                            vpiFullName: testbench.errcount
+                            vpiActual: Variable name:errcount
                     SysTaskCall name:$stop start:73:4 end:73:9:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:73:4 end:73:9:
@@ -2059,87 +2087,94 @@ Design name:unnamed:
             vpiName: macc2
             vpiFullName: testbench.ref.macc2
             vpiActual: UnsupportedTypespec name:macc2
-          vpiPort (7 items):
-            Port start:78:9 end:78:18:
+          vpiArgument (7 items):
+            NamedArgument start:78:9 end:78:18:
               vpiParent: RefInstance name:ref
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:78:10 end:78:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: testbench.ref.clk
                 vpiActual: Variable name:clk
               vpiHighConn RefObj name:clk start:78:14 end:78:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: testbench.ref.clk
                 vpiActual: Variable name:clk
-            Port start:79:9 end:79:16:
+            NamedArgument start:79:9 end:79:16:
               vpiParent: RefInstance name:ref
+              vpiConnByName: true
               vpiLowConn RefObj name:ce start:79:10 end:79:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ce
                 vpiFullName: testbench.ref.ce
                 vpiActual: Variable name:ce
               vpiHighConn RefObj name:ce start:79:13 end:79:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ce
                 vpiFullName: testbench.ref.ce
                 vpiActual: Variable name:ce
-            Port start:80:9 end:80:18:
+            NamedArgument start:80:9 end:80:18:
               vpiParent: RefInstance name:ref
+              vpiConnByName: true
               vpiLowConn RefObj name:rst start:80:10 end:80:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: testbench.ref.rst
                 vpiActual: Variable name:rst
               vpiHighConn RefObj name:rst start:80:14 end:80:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: testbench.ref.rst
                 vpiActual: Variable name:rst
-            Port start:81:9 end:81:14:
+            NamedArgument start:81:9 end:81:14:
               vpiParent: RefInstance name:ref
+              vpiConnByName: true
               vpiLowConn RefObj name:a start:81:10 end:81:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: testbench.ref.a
                 vpiActual: Variable name:a
               vpiHighConn RefObj name:a start:81:12 end:81:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: testbench.ref.a
                 vpiActual: Variable name:a
-            Port start:82:9 end:82:14:
+            NamedArgument start:82:9 end:82:14:
               vpiParent: RefInstance name:ref
+              vpiConnByName: true
               vpiLowConn RefObj name:b start:82:10 end:82:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: testbench.ref.b
                 vpiActual: Variable name:b
               vpiHighConn RefObj name:b start:82:12 end:82:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: testbench.ref.b
                 vpiActual: Variable name:b
-            Port start:83:9 end:83:34:
+            NamedArgument start:83:9 end:83:34:
               vpiParent: RefInstance name:ref
+              vpiConnByName: true
               vpiLowConn RefObj name:accum_out start:83:10 end:83:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: accum_out
                 vpiFullName: testbench.ref.accum_out
                 vpiActual: Variable name:accum_out
               vpiHighConn RefObj name:REF_accum_out start:83:20 end:83:33:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: REF_accum_out
                 vpiFullName: testbench.ref.REF_accum_out
                 vpiActual: Variable name:REF_accum_out
-            Port start:84:9 end:84:32:
+            NamedArgument start:84:9 end:84:32:
               vpiParent: RefInstance name:ref
+              vpiConnByName: true
               vpiLowConn RefObj name:overflow start:84:10 end:84:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: overflow
                 vpiFullName: testbench.ref.overflow
               vpiHighConn RefObj name:REF_overflow start:84:19 end:84:31:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: REF_overflow
                 vpiFullName: testbench.ref.REF_overflow
         RefInstance name:uut start:87:12 end:87:15:
@@ -2150,87 +2185,94 @@ Design name:unnamed:
             vpiName: macc2_uut
             vpiFullName: testbench.uut.macc2_uut
             vpiActual: UnsupportedTypespec name:macc2_uut
-          vpiPort (7 items):
-            Port start:88:9 end:88:18:
+          vpiArgument (7 items):
+            NamedArgument start:88:9 end:88:18:
               vpiParent: RefInstance name:uut
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:88:10 end:88:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: testbench.uut.clk
                 vpiActual: Variable name:clk
               vpiHighConn RefObj name:clk start:88:14 end:88:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: testbench.uut.clk
                 vpiActual: Variable name:clk
-            Port start:89:9 end:89:16:
+            NamedArgument start:89:9 end:89:16:
               vpiParent: RefInstance name:uut
+              vpiConnByName: true
               vpiLowConn RefObj name:ce start:89:10 end:89:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ce
                 vpiFullName: testbench.uut.ce
                 vpiActual: Variable name:ce
               vpiHighConn RefObj name:ce start:89:13 end:89:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ce
                 vpiFullName: testbench.uut.ce
                 vpiActual: Variable name:ce
-            Port start:90:9 end:90:18:
+            NamedArgument start:90:9 end:90:18:
               vpiParent: RefInstance name:uut
+              vpiConnByName: true
               vpiLowConn RefObj name:rst start:90:10 end:90:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: testbench.uut.rst
                 vpiActual: Variable name:rst
               vpiHighConn RefObj name:rst start:90:14 end:90:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: testbench.uut.rst
                 vpiActual: Variable name:rst
-            Port start:91:9 end:91:14:
+            NamedArgument start:91:9 end:91:14:
               vpiParent: RefInstance name:uut
+              vpiConnByName: true
               vpiLowConn RefObj name:a start:91:10 end:91:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: testbench.uut.a
                 vpiActual: Variable name:a
               vpiHighConn RefObj name:a start:91:12 end:91:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: testbench.uut.a
                 vpiActual: Variable name:a
-            Port start:92:9 end:92:14:
+            NamedArgument start:92:9 end:92:14:
               vpiParent: RefInstance name:uut
+              vpiConnByName: true
               vpiLowConn RefObj name:b start:92:10 end:92:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: testbench.uut.b
                 vpiActual: Variable name:b
               vpiHighConn RefObj name:b start:92:12 end:92:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: testbench.uut.b
                 vpiActual: Variable name:b
-            Port start:93:9 end:93:30:
+            NamedArgument start:93:9 end:93:30:
               vpiParent: RefInstance name:uut
+              vpiConnByName: true
               vpiLowConn RefObj name:accum_out start:93:10 end:93:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: accum_out
                 vpiFullName: testbench.uut.accum_out
                 vpiActual: Variable name:accum_out
               vpiHighConn RefObj name:accum_out start:93:20 end:93:29:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: accum_out
                 vpiFullName: testbench.uut.accum_out
                 vpiActual: Variable name:accum_out
-            Port start:94:9 end:94:28:
+            NamedArgument start:94:9 end:94:28:
               vpiParent: RefInstance name:uut
+              vpiConnByName: true
               vpiLowConn RefObj name:overflow start:94:10 end:94:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: overflow
                 vpiFullName: testbench.uut.overflow
               vpiHighConn RefObj name:overflow start:94:19 end:94:27:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: overflow
                 vpiFullName: testbench.uut.overflow
   vpiTypespec (3 items):
@@ -2252,7 +2294,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 2
-[WARNING] : 4
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2300,7 +2342,7 @@ Operation                           18       8       0        10
 RefObj                              73      67       0         6
 RefTypespec                         55      53       6         8
 ----------------------------------------------------------------
-Others                             114     114       0         0
+Others                             127     127       0         0
 ----------------------------------------------------------------
-                                   302     282      12        32
+                                   315     295      12        32
 ===================== END REDUCTION RESULT =====================

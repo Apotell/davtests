@@ -42,15 +42,15 @@ COMMAND: -wd ../../../tests/YosysSmall +incdir+. -sverilog -writepp -fileunit ci
 [WRN:PA5506] $Source01/pwm256_tb.v:6:1: No timescale set for "tb".
 [WRN:PA5506] $Source01/pwm256.v:6:1: No timescale set for "pwm256".
 [ERR:DB2029] $Source01/dspmac_16_40_tb.v:19:1: Unsupported typespec "dspmac_16_40".
-[ERR:LN7701] Invalid name: id:3027, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3030, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3033, type:RefObj, name:, relation:vpiLowConn.
-[WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:38: Critical: Signed vs Unsigned port connection "".
-[ERR:LN7701] Invalid name: id:3036, type:RefObj, name:, relation:vpiLowConn.
-[WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:45: Critical: Signed vs Unsigned port connection "".
-[ERR:LN7701] Invalid name: id:3039, type:RefObj, name:, relation:vpiLowConn.
-[WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:52: Critical: Signed vs Unsigned port connection "".
-[ERR:LN7701] Invalid name: id:3042, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3028, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3031, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3034, type:RefObj, name:, relation:vpiLowConn.
+[WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:38: Critical: Signed vs Unsigned port connection "a_bus".
+[ERR:LN7701] Invalid name: id:3037, type:RefObj, name:, relation:vpiLowConn.
+[WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:45: Critical: Signed vs Unsigned port connection "b_bus".
+[ERR:LN7701] Invalid name: id:3040, type:RefObj, name:, relation:vpiLowConn.
+[WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:52: Critical: Signed vs Unsigned port connection "result".
+[ERR:LN7701] Invalid name: id:3043, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -291,16 +291,18 @@ Design name:unnamed:
                 vpiName Identifier name:$dumpfile start:24:5 end:24:14:
                 vpiTaskFunc: Task name:$dumpfile
                 vpiArgument (1 items):
-                  Constant start:24:15 end:24:28:
+                  NamedArgument start:24:15 end:24:28:
                     vpiParent: SysTaskCall name:$dumpfile
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: tb
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 88
-                    vpiDecompile: "\"cic5_tb.vcd\""
-                    vpiValue: cic5_tb.vcd
+                    vpiHighConn Constant start:24:15 end:24:28:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: tb
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 88
+                      vpiDecompile: "\"cic5_tb.vcd\""
+                      vpiValue: cic5_tb.vcd
               SysTaskCall name:$dumpvars start:25:5 end:25:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:25:5 end:25:14:
@@ -415,64 +417,64 @@ Design name:unnamed:
             vpiName: cic5
             vpiFullName: tb.dut.cic5
             vpiActual: ModuleTypespec name:cic5
-          vpiPort (5 items):
-            Port start:20:10 end:20:13:
+          vpiArgument (5 items):
+            NamedArgument start:20:10 end:20:13:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:clk:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: tb.dut.clk
                 vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:20:10 end:20:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: tb.dut.clk
                 vpiActual: Variable name:clk
-            Port start:20:15 end:20:20:
+            NamedArgument start:20:15 end:20:20:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:rst_n:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst_n
                 vpiFullName: tb.dut.rst_n
                 vpiActual: Port name:rst_n
               vpiHighConn RefObj name:rst_n start:20:15 end:20:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst_n
                 vpiFullName: tb.dut.rst_n
                 vpiActual: Variable name:rst_n
-            Port start:20:22 end:20:26:
+            NamedArgument start:20:22 end:20:26:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:d_in:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_in
                 vpiFullName: tb.dut.d_in
                 vpiActual: Port name:d_in
               vpiHighConn RefObj name:d_in start:20:22 end:20:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_in
                 vpiFullName: tb.dut.d_in
                 vpiActual: Variable name:d_in
-            Port start:20:28 end:20:33:
+            NamedArgument start:20:28 end:20:33:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:d_out:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_out
                 vpiFullName: tb.dut.d_out
                 vpiActual: Port name:d_out
               vpiHighConn RefObj name:d_out start:20:28 end:20:33:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_out
                 vpiFullName: tb.dut.d_out
                 vpiActual: Net name:d_out
-            Port start:20:35 end:20:46:
+            NamedArgument start:20:35 end:20:46:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:d_out_valid:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_out_valid
                 vpiFullName: tb.dut.d_out_valid
                 vpiActual: Port name:d_out_valid
               vpiHighConn RefObj name:d_out_valid start:20:35 end:20:46:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_out_valid
                 vpiFullName: tb.dut.d_out_valid
                 vpiActual: Net name:d_out_valid
@@ -10350,16 +10352,18 @@ Design name:unnamed:
                 vpiName Identifier name:$dumpfile start:23:5 end:23:14:
                 vpiTaskFunc: Task name:$dumpfile
                 vpiArgument (1 items):
-                  Constant start:23:15 end:23:36:
+                  NamedArgument start:23:15 end:23:36:
                     vpiParent: SysTaskCall name:$dumpfile
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: tb
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 152
-                    vpiDecompile: "\"dspmac_16_40_tb.vcd\""
-                    vpiValue: dspmac_16_40_tb.vcd
+                    vpiHighConn Constant start:23:15 end:23:36:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: tb
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 152
+                      vpiDecompile: "\"dspmac_16_40_tb.vcd\""
+                      vpiValue: dspmac_16_40_tb.vcd
               SysTaskCall name:$dumpvars start:24:5 end:24:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:24:5 end:24:14:
@@ -10588,64 +10592,64 @@ Design name:unnamed:
             vpiName: dspmac_16_40
             vpiFullName: tb.dut.dspmac_16_40
             vpiActual: UnsupportedTypespec name:dspmac_16_40
-          vpiPort (6 items):
-            Port start:19:18 end:19:21:
+          vpiArgument (6 items):
+            NamedArgument start:19:18 end:19:21:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: tb.dut
               vpiHighConn RefObj name:clk start:19:18 end:19:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: tb.dut.clk
                 vpiActual: Variable name:clk
-            Port start:19:23 end:19:28:
+            NamedArgument start:19:23 end:19:28:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: tb.dut
               vpiHighConn RefObj name:rst_n start:19:23 end:19:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst_n
                 vpiFullName: tb.dut.rst_n
                 vpiActual: Variable name:rst_n
-            Port start:19:30 end:19:36:
+            NamedArgument start:19:30 end:19:36:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: tb.dut
               vpiHighConn RefObj name:opcode start:19:30 end:19:36:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: opcode
                 vpiFullName: tb.dut.opcode
                 vpiActual: Variable name:opcode
-            Port start:19:38 end:19:43:
+            NamedArgument start:19:38 end:19:43:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: tb.dut
               vpiHighConn RefObj name:a_bus start:19:38 end:19:43:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a_bus
                 vpiFullName: tb.dut.a_bus
                 vpiActual: Variable name:a_bus
-            Port start:19:45 end:19:50:
+            NamedArgument start:19:45 end:19:50:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: tb.dut
               vpiHighConn RefObj name:b_bus start:19:45 end:19:50:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b_bus
                 vpiFullName: tb.dut.b_bus
                 vpiActual: Variable name:b_bus
-            Port start:19:52 end:19:58:
+            NamedArgument start:19:52 end:19:58:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: tb.dut
               vpiHighConn RefObj name:result start:19:52 end:19:58:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: result
                 vpiFullName: tb.dut.result
                 vpiActual: Net name:result
@@ -11037,16 +11041,18 @@ Design name:unnamed:
                 vpiName Identifier name:$dumpfile start:21:5 end:21:14:
                 vpiTaskFunc: Task name:$dumpfile
                 vpiArgument (1 items):
-                  Constant start:21:15 end:21:30:
+                  NamedArgument start:21:15 end:21:30:
                     vpiParent: SysTaskCall name:$dumpfile
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: tb
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 104
-                    vpiDecompile: "\"pwm256_tb.vcd\""
-                    vpiValue: pwm256_tb.vcd
+                    vpiHighConn Constant start:21:15 end:21:30:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: tb
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 104
+                      vpiDecompile: "\"pwm256_tb.vcd\""
+                      vpiValue: pwm256_tb.vcd
               SysTaskCall name:$dumpvars start:22:5 end:22:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:22:5 end:22:14:
@@ -11172,52 +11178,52 @@ Design name:unnamed:
             vpiName: pwm256
             vpiFullName: tb.dut.pwm256
             vpiActual: ModuleTypespec name:pwm256
-          vpiPort (4 items):
-            Port start:17:12 end:17:15:
+          vpiArgument (4 items):
+            NamedArgument start:17:12 end:17:15:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:clk:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: tb.dut.clk
                 vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:17:12 end:17:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: tb.dut.clk
                 vpiActual: Variable name:clk
-            Port start:17:17 end:17:22:
+            NamedArgument start:17:17 end:17:22:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:rst_n:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst_n
                 vpiFullName: tb.dut.rst_n
                 vpiActual: Port name:rst_n
               vpiHighConn RefObj name:rst_n start:17:17 end:17:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst_n
                 vpiFullName: tb.dut.rst_n
                 vpiActual: Variable name:rst_n
-            Port start:17:24 end:17:28:
+            NamedArgument start:17:24 end:17:28:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:d_in:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_in
                 vpiFullName: tb.dut.d_in
                 vpiActual: Port name:d_in
               vpiHighConn RefObj name:d_in start:17:24 end:17:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_in
                 vpiFullName: tb.dut.d_in
                 vpiActual: Variable name:d_in
-            Port start:17:30 end:17:33:
+            NamedArgument start:17:30 end:17:33:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:pwm_out:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: pwm_out
                 vpiFullName: tb.dut.pwm_out
                 vpiActual: Port name:pwm_out
               vpiHighConn RefObj name:pwm start:17:30 end:17:33:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: pwm
                 vpiFullName: tb.dut.pwm
                 vpiActual: Net name:pwm
@@ -11694,7 +11700,7 @@ Operation                           34      30       0         4
 RefObj                             417     414       0         3
 RefTypespec                       1053    1056       4         1
 ----------------------------------------------------------------
-Others                            1846    1846       0         0
+Others                            1849    1849       0         0
 ----------------------------------------------------------------
-                                  4015    4014       8         9
+                                  4018    4017       8         9
 ===================== END REDUCTION RESULT =====================

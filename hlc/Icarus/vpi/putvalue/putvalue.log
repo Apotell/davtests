@@ -198,21 +198,25 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:9:2 end:9:10:
                 vpiArgument (2 items):
-                  Constant start:9:11 end:9:27:
+                  NamedArgument start:9:11 end:9:27:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 112
-                    vpiDecompile: "\"<monitor> r = \""
-                    vpiValue: "<monitor> r ="
-                  RefObj name:r start:9:29 end:9:30:
+                    vpiHighConn Constant start:9:11 end:9:27:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 112
+                      vpiDecompile: "\"<monitor> r = \""
+                      vpiValue: "<monitor> r ="
+                  NamedArgument start:9:29 end:9:30:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: r
-                    vpiFullName: test.r
-                    vpiActual: Variable name:r
+                    vpiHighConn RefObj name:r start:9:29 end:9:30:
+                      vpiParent: NamedArgument
+                      vpiName: r
+                      vpiFullName: test.r
+                      vpiActual: Variable name:r
               Assignment start:10:2 end:10:10:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -261,24 +265,30 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName Identifier name:$display start:13:17 end:13:25:
               vpiArgument (3 items):
-                Constant start:13:26 end:13:50:
+                NamedArgument start:13:26 end:13:50:
                   vpiParent: SysTaskCall name:$display
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: test
-                    vpiActual: StringTypespec
-                  vpiConstType: string (6)
-                  vpiSize: 176
-                  vpiDecompile: "\"<display> r = %b @ %0t\""
-                  vpiValue: "<display> r = %b @ %0t"
-                RefObj name:r start:13:52 end:13:53:
+                  vpiHighConn Constant start:13:26 end:13:50:
+                    vpiParent: NamedArgument
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: test
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 176
+                    vpiDecompile: "\"<display> r = %b @ %0t\""
+                    vpiValue: "<display> r = %b @ %0t"
+                NamedArgument start:13:52 end:13:53:
                   vpiParent: SysTaskCall name:$display
-                  vpiName: r
-                  vpiFullName: test.r
-                  vpiActual: Variable name:r
-                SysFuncCall name:$time start:13:55 end:13:60:
+                  vpiHighConn RefObj name:r start:13:52 end:13:53:
+                    vpiParent: NamedArgument
+                    vpiName: r
+                    vpiFullName: test.r
+                    vpiActual: Variable name:r
+                NamedArgument start:13:55 end:13:60:
                   vpiParent: SysTaskCall name:$display
-                  vpiName Identifier name:$time start:13:55 end:13:60:
+                  vpiHighConn SysFuncCall name:$time start:13:55 end:13:60:
+                    vpiParent: NamedArgument
+                    vpiName Identifier name:$time start:13:55 end:13:60:
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     ModuleTypespec name:test:
@@ -343,7 +353,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/vpi/putvalue/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

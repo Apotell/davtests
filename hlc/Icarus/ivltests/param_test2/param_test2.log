@@ -786,21 +786,25 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:61:5 end:61:11:
                 vpiArgument (2 items):
-                  Constant start:61:12 end:61:25:
+                  NamedArgument start:61:12 end:61:25:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: parameter_test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 80
-                    vpiDecompile: "\"foo = %0h\\n\""
-                    vpiValue: foo = %0h\n
-                  RefObj name:foo start:61:27 end:61:30:
+                    vpiHighConn Constant start:61:12 end:61:25:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: parameter_test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 80
+                      vpiDecompile: "\"foo = %0h\\n\""
+                      vpiValue: foo = %0h\n
+                  NamedArgument start:61:27 end:61:30:
                     vpiParent: SysTaskCall name:$write
-                    vpiName: foo
-                    vpiFullName: parameter_test.foo
-                    vpiActual: Variable name:foo
+                    vpiHighConn RefObj name:foo start:61:27 end:61:30:
+                      vpiParent: NamedArgument
+                      vpiName: foo
+                      vpiFullName: parameter_test.foo
+                      vpiActual: Variable name:foo
               SysTaskCall name:$finish start:62:5 end:62:12:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:62:5 end:62:12:
@@ -872,7 +876,7 @@ Operation                           14       2       0        12
 RefObj                              18      16       0         2
 RefTypespec                         26      16       4        14
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              39      39       0         0
 ----------------------------------------------------------------
-                                   114      80       8        42
+                                   116      82       8        42
 ===================== END REDUCTION RESULT =====================

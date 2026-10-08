@@ -110,6 +110,7 @@ n<$Source01/dut.sv> u<93> t<Top_level_rule> c<1> l<2:1> el<8:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:2:1: Compile module "dut".
 [WRN:PA5506] $Source01/dut.sv:2:1: No timescale set for "dut".
+[WRN:DB2033] $Source01/dut.sv:4:25: Critical: Signed vs Unsigned port connection "a".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -278,11 +279,13 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName Identifier name:$unsigned start:4:15 end:4:24:
             vpiArgument (1 items):
-              RefObj name:a start:4:25 end:4:26:
+              NamedArgument start:4:25 end:4:26:
                 vpiParent: SysFuncCall name:$unsigned
-                vpiName: a
-                vpiFullName: dut.a
-                vpiActual: Net name:a
+                vpiHighConn RefObj name:a start:4:25 end:4:26:
+                  vpiParent: NamedArgument
+                  vpiName: a
+                  vpiFullName: dut.a
+                  vpiActual: Net name:a
   vpiTypespec (8 items):
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
@@ -312,7 +315,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -356,7 +359,7 @@ COMMAND: ${HLC_DIR}/regression/SignedPort/SignedPort/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1410    1410       0         0
+Others                            1411    1411       0         0
 ----------------------------------------------------------------
-                                  1410    1410       0         0
+                                  1411    1411       0         0
 ===================== END REDUCTION RESULT =====================

@@ -704,6 +704,8 @@ n<$Source01/t_math_signed2.v> u<689> t<Top_level_rule> c<1> l<6:1> el<67:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_math_signed2.v:6:1: Compile module "t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[WRN:DB2033] $Source01/t_math_signed2.v:49:35: Critical: Signed vs Unsigned port connection "max".
+[WRN:DB2033] $Source01/t_math_signed2.v:51:35: Critical: Signed vs Unsigned port connection "min".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1417,11 +1419,13 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName Identifier name:$signed start:49:27 end:49:34:
                               vpiArgument (1 items):
-                                RefObj name:max start:49:35 end:49:38:
+                                NamedArgument start:49:35 end:49:38:
                                   vpiParent: SysFuncCall name:$signed
-                                  vpiName: max
-                                  vpiFullName: t.max
-                                  vpiActual: Variable name:max
+                                  vpiHighConn RefObj name:max start:49:35 end:49:38:
+                                    vpiParent: NamedArgument
+                                    vpiName: max
+                                    vpiFullName: t.max
+                                    vpiActual: Variable name:max
                         vpiStmt Assignment start:50:5 end:50:26:
                           vpiParent: IfStmt
                           vpiBlocking: true
@@ -1468,11 +1472,13 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName Identifier name:$signed start:51:27 end:51:34:
                               vpiArgument (1 items):
-                                RefObj name:min start:51:35 end:51:38:
+                                NamedArgument start:51:35 end:51:38:
                                   vpiParent: SysFuncCall name:$signed
-                                  vpiName: min
-                                  vpiFullName: t.min
-                                  vpiActual: Variable name:min
+                                  vpiHighConn RefObj name:min start:51:35 end:51:38:
+                                    vpiParent: NamedArgument
+                                    vpiName: min
+                                    vpiFullName: t.min
+                                    vpiActual: Variable name:min
                         vpiStmt Assignment start:52:5 end:52:26:
                           vpiParent: IfStmt
                           vpiBlocking: true
@@ -1557,16 +1563,18 @@ Design name:unnamed:
                           vpiParent: Begin
                           vpiName Identifier name:$write start:62:3 end:62:9:
                           vpiArgument (1 items):
-                            Constant start:62:10 end:62:34:
+                            NamedArgument start:62:10 end:62:34:
                               vpiParent: SysTaskCall name:$write
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: StringTypespec
-                              vpiConstType: string (6)
-                              vpiSize: 168
-                              vpiDecompile: "\"*-* All Finished *-*\\n\""
-                              vpiValue: "*-* All Finished *-*\\n"
+                              vpiHighConn Constant start:62:10 end:62:34:
+                                vpiParent: NamedArgument
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: t
+                                  vpiActual: StringTypespec
+                                vpiConstType: string (6)
+                                vpiSize: 168
+                                vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                vpiValue: "*-* All Finished *-*\\n"
                         SysTaskCall name:$finish start:63:3 end:63:10:
                           vpiParent: Begin
                           vpiName Identifier name:$finish start:63:3 end:63:10:
@@ -1584,37 +1592,39 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName Identifier name:$signed start:25:27 end:25:34:
             vpiArgument (1 items):
-              PartSelect name:in[10:3] start:25:35 end:25:43:
+              NamedArgument start:25:35 end:25:43:
                 vpiParent: SysFuncCall name:$signed
-                vpiName: in[10:3]
-                vpiFullName: t.in[10:3]
-                vpiPrefix RefObj name:in start:25:35 end:25:37:
-                  vpiParent: PartSelect name:in[10:3]
-                  vpiName: in
-                  vpiFullName: t.in[10:3].in
-                  vpiActual: Variable name:in
-                vpiRange Range start:25:38 end:25:42:
-                  vpiParent: PartSelect name:in[10:3]
-                  vpiLeftRange Constant start:25:38 end:25:40:
-                    vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t.in[10:3]
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "10"
-                    vpiValue: 10
-                  vpiRightRange Constant start:25:41 end:25:42:
-                    vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t.in[10:3]
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "3"
-                    vpiValue: 3
+                vpiHighConn PartSelect name:in[10:3] start:25:35 end:25:43:
+                  vpiParent: NamedArgument
+                  vpiName: in[10:3]
+                  vpiFullName: t.in[10:3]
+                  vpiPrefix RefObj name:in start:25:35 end:25:37:
+                    vpiParent: PartSelect name:in[10:3]
+                    vpiName: in
+                    vpiFullName: t.in[10:3].in
+                    vpiActual: Variable name:in
+                  vpiRange Range start:25:38 end:25:42:
+                    vpiParent: PartSelect name:in[10:3]
+                    vpiLeftRange Constant start:25:38 end:25:40:
+                      vpiParent: Range
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t.in[10:3]
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "10"
+                      vpiValue: 10
+                    vpiRightRange Constant start:25:41 end:25:42:
+                      vpiParent: Range
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t.in[10:3]
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "3"
+                      vpiValue: 3
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1636,7 +1646,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1683,7 +1693,7 @@ Constant                            33      33       2         2
 Operation                           15      13       0         2
 RefTypespec                         42      42       2         2
 ----------------------------------------------------------------
-Others                             130     130       0         0
+Others                             134     134       0         0
 ----------------------------------------------------------------
-                                   220     218       4         6
+                                   224     222       4         6
 ===================== END REDUCTION RESULT =====================
