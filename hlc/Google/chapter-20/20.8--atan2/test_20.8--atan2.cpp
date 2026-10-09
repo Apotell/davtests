@@ -30,13 +30,11 @@
 //   - the Initial's body is a Begin (from the explicit "begin ... end")
 //     wrapping exactly 1 statement and no variables
 //   - that statement is a SysTaskCall named "$display" with exactly 2
-//     NamedArgument arguments: the first's high conn is a Constant string
-//     "%f" (size 16) and the second's high conn is a SysFuncCall named
+//     arguments: a Constant string "%f" (size 16) and a SysFuncCall named
 //     "$atan2"
-//   - the "$atan2" SysFuncCall has exactly 2 NamedArgument arguments whose
-//     high conns are, in order, a Constant real "2.1" (y) and a Constant
-//     real "3.7" (x), each size 64 with a typespec that resolves to a
-//     RealTypespec
+//   - the "$atan2" SysFuncCall has exactly 2 arguments, in order: a Constant
+//     real "2.1" (y) and a Constant real "3.7" (x), each size 64 with a
+//     typespec that resolves to a RealTypespec
 //   - compiler reports zero errors
 //
 // NOT CHECKED: runtime effects (the numeric value of atan2(2.1, 3.7) that
@@ -56,7 +54,6 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
-#include <hldb/named_argument.h>
 #include <hldb/real_typespec.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
@@ -104,17 +101,11 @@ class Atan2FunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    const hldb::NamedArgument *const arg1 = any_cast<hldb::NamedArgument>(display->getArguments()->at(1));
-    if (arg1 == nullptr) {
-      return nullptr;
-    }
-    return arg1->getHighConn<hldb::SysFuncCall>();
+    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
   }
 
-  static void expectRealConstant(const hldb::NamedArgument *argument, std::string_view decompile) {
-    ASSERT_NE(argument, nullptr);
-    const hldb::Constant *const constant = argument->getHighConn<hldb::Constant>();
-    ASSERT_NE(constant, nullptr) << "a real literal argument should be a Constant";
+  static void expectRealConstant(const hldb::Constant *constant, std::string_view decompile) {
+    ASSERT_NE(constant, nullptr);
     EXPECT_EQ(constant->getConstType(), vpiRealConst);
     EXPECT_EQ(constant->getSize(), 64);
     EXPECT_EQ(constant->getDecompile(), decompile);
@@ -160,9 +151,7 @@ TEST_F(Atan2FunctionTest, DisplayCallHasFormatAndAtan2Argument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
-  ASSERT_NE(arg0, nullptr);
-  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getSize(), 16) << "2 characters * 8 bits";
@@ -194,7 +183,7 @@ TEST_F(Atan2FunctionTest, Atan2FirstArgumentIsRealY) {
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
-  expectRealConstant(any_cast<hldb::NamedArgument>(call->getArguments()->at(0)), "2.1");
+  expectRealConstant(any_cast<hldb::Constant>(call->getArguments()->at(0)), "2.1");
 }
 
 TEST_F(Atan2FunctionTest, Atan2SecondArgumentIsRealX) {
@@ -202,7 +191,7 @@ TEST_F(Atan2FunctionTest, Atan2SecondArgumentIsRealX) {
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
-  expectRealConstant(any_cast<hldb::NamedArgument>(call->getArguments()->at(1)), "3.7");
+  expectRealConstant(any_cast<hldb::Constant>(call->getArguments()->at(1)), "3.7");
 }
 
 // --- compiler diagnostics -----------------------------------------------------
