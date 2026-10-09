@@ -44,11 +44,15 @@ class TimescaleTest : public Test {
   static const hldb::Module *getM1() { return hldb::findByName<hldb::Module>("m1", m_design->getAllModules()); }
 };
 
+// The SourceFile is the compilation-unit scope. dut.sv has no timeunit/timeprecision
+// outside its modules, and per IEEE 1800-2023 Sec 3.14.2.3 "The time unit of the
+// compilation-unit scope can only be set by a timeunit declaration, not a `timescale
+// directive", so the `timescale 1 ns/1 ps before m2 leaves it unset.
 TEST_F(TimescaleTest, SourceFileTimescale) {
   const hldb::SourceFile *const s = hldb::findByName<hldb::SourceFile>("dut.sv", m_design->getSourceFiles());
   ASSERT_NE(s, nullptr) << "SourceFile s is null";
-  EXPECT_EQ(s->getTimeUnit(), -9);
-  EXPECT_EQ(s->getTimePrecision(), -12);
+  EXPECT_EQ(s->getTimeUnit(), 0);
+  EXPECT_EQ(s->getTimePrecision(), 0);
 }
 
 // m1: explicit "timeunit 10 ns/1 ps;" -> unit 10ns (1e-8), precision 1ps (1e-12).
@@ -75,10 +79,6 @@ TEST_F(TimescaleTest, M11ExplicitTimescale) {
 // time unit shall be inherited from the enclosing module m1 (10 ns, -8), not
 // left at an unspecified/default value.
 TEST_F(TimescaleTest, M12InheritsTimeUnitFromEnclosingModule) {
-  GTEST_SKIP() << "HLC does not inherit the enclosing module's time unit for "
-                  "a nested module that declares only timeprecision (produces "
-                  "an unspecified/default time unit instead of -8); should "
-                  "inherit per IEEE 1800-2023 Sec 3.14.2.3 rule (a). Fix pending.";
   const hldb::Module *const m1 = getM1();
   ASSERT_NE(m1, nullptr) << "Module m1 is null";
   const hldb::Module *const m12 = hldb::findByName<hldb::Module>("m12", m1->getModules());
