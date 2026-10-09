@@ -140,7 +140,7 @@ class ShortRealBitsConvFunctionTest : public Test {
     if (outer == nullptr || outer->getArguments() == nullptr || outer->getArguments()->empty()) {
       return nullptr;
     }
-    const hldb::NamedArgument *const arg0 = outer->getArguments()->at(0);
+    const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(outer->getArguments()->at(0));
     if (arg0 == nullptr) {
       return nullptr;
     }
@@ -160,7 +160,7 @@ class ShortRealBitsConvFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    const hldb::NamedArgument *const arg1 = any_cast<hldb::NamedArgument>(display->getArguments()->at(1));
     if (arg1 == nullptr) {
       return nullptr;
     }
@@ -266,7 +266,7 @@ TEST_F(ShortRealBitsConvFunctionTest, ShortRealToBitsCallHasOneRealArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "20.5: '$shortrealtobits' takes a single shortreal_val argument";
 
-  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
   ASSERT_NE(arg0, nullptr);
   const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr) << "'12.45' should be a Constant";
@@ -288,7 +288,7 @@ TEST_F(ShortRealBitsConvFunctionTest, Stmt1IsDisplayWithFormatAndLogAnd) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
   ASSERT_NE(arg0, nullptr);
   const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
