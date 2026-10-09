@@ -449,8 +449,12 @@ TEST_F(UrandomRange0Test, UrandomRangeArgumentsAreMaxvalThenMinval) {
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
-  ExpectBoundRef(call->getArguments()->at(0), "maxval", getFormal("maxval"));
-  ExpectBoundRef(call->getArguments()->at(1), "minval", getFormal("minval"));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  ExpectBoundRef(arg0->getHighConn(), "maxval", getFormal("maxval"));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  ExpectBoundRef(arg1->getHighConn(), "minval", getFormal("minval"));
 }
 
 // ---------------------------------------------------------------------------

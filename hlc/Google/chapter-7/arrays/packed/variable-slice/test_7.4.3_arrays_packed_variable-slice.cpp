@@ -172,8 +172,9 @@ TEST_F(PackedVariableSliceTest, FirstDisplayHasThreeArguments) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 3u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(),
-            ":assert: (('%h' == 'ff') and ('%h' == '00'))");
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (('%h' == 'ff') and ('%h' == '00'))");
 }
 
 TEST_F(PackedVariableSliceTest, ThirdAssignmentCopiesIndexedPartSelects) {
@@ -217,8 +218,12 @@ TEST_F(PackedVariableSliceTest, SecondDisplayAssertsBitPattern) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: ('%b' == '01110000')");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "arr_b");
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: ('%b' == '01110000')");
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), "arr_b");
 }
 
 // --- design-level typespecs / compiler diagnostics ----
@@ -252,7 +257,9 @@ TEST_F(PackedVariableSliceTest, RuntimeValueRequiresSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: ('%b' == '01110000')")
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: ('%b' == '01110000')")
       << "expected arr_b == 8'b01110000 after copying arr_a[1+:3] (0xff -> 3'b111) into arr_b[4+:3]";
 }
 

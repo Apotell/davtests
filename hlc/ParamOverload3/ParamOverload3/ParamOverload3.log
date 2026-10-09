@@ -843,11 +843,13 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName Identifier name:$clog2 start:4:44 end:4:50:
             vpiArgument (1 items):
-              RefObj name:NUM_FP_FORMATS start:4:51 end:4:65:
+              NamedArgument start:4:51 end:4:65:
                 vpiParent: SysFuncCall name:$clog2
-                vpiName: NUM_FP_FORMATS
-                vpiFullName: fpnew_pkg::NUM_FP_FORMATS
-                vpiActual: Parameter name:NUM_FP_FORMATS
+                vpiHighConn RefObj name:NUM_FP_FORMATS start:4:51 end:4:65:
+                  vpiParent: NamedArgument
+                  vpiName: NUM_FP_FORMATS
+                  vpiFullName: fpnew_pkg::NUM_FP_FORMATS
+                  vpiActual: Parameter name:NUM_FP_FORMATS
         ParamAssign start:20:49 end:27:4:
           vpiParent: Package name:fpnew_pkg
           vpiLhs RefObj name:FP_ENCODINGS start:20:49 end:20:61:
@@ -1475,31 +1477,33 @@ Design name:unnamed:
                       vpiName Identifier name:fp_width start:50:51 end:50:59:
                       vpiTaskFunc: Function name:fp_width
                       vpiArgument (1 items):
-                        Operation start:50:60 end:50:88:
+                        NamedArgument start:50:60 end:50:88:
                           vpiParent: FuncCall name:fp_width
-                          vpiTypespec RefTypespec name:fpnew_pkg::fp_format_e start:50:60 end:50:82:
-                            vpiParent: Operation
-                            vpiName: fpnew_pkg::fp_format_e
-                            vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg::fp_format_e
-                            vpiPathElem (2 items):
-                              RefObj name:fpnew_pkg start:50:60 end:50:69:
-                                vpiParent: RefTypespec name:fpnew_pkg::fp_format_e
-                                vpiName: fpnew_pkg
-                                vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg
-                                vpiActual: Package name:fpnew_pkg
-                              RefTypespec name:fp_format_e start:50:71 end:50:82:
-                                vpiParent: RefTypespec name:fpnew_pkg::fp_format_e
-                                vpiName: fp_format_e
-                                vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg::fp_format_e.fp_format_e
-                                vpiActual: TypedefTypespec name:fp_format_e
-                            vpiActual: TypedefTypespec name:fp_format_e
-                          vpiOpType: cast (81)
-                          vpiOperand (1 items):
-                            RefObj name:fmt start:50:84 end:50:87:
+                          vpiHighConn Operation start:50:60 end:50:88:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec name:fpnew_pkg::fp_format_e start:50:60 end:50:82:
                               vpiParent: Operation
-                              vpiName: fmt
-                              vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fmt
-                              vpiActual: Variable name:fmt
+                              vpiName: fpnew_pkg::fp_format_e
+                              vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg::fp_format_e
+                              vpiPathElem (2 items):
+                                RefObj name:fpnew_pkg start:50:60 end:50:69:
+                                  vpiParent: RefTypespec name:fpnew_pkg::fp_format_e
+                                  vpiName: fpnew_pkg
+                                  vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg
+                                  vpiActual: Package name:fpnew_pkg
+                                RefTypespec name:fp_format_e start:50:71 end:50:82:
+                                  vpiParent: RefTypespec name:fpnew_pkg::fp_format_e
+                                  vpiName: fp_format_e
+                                  vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fpnew_pkg::fp_format_e.fp_format_e
+                                  vpiActual: TypedefTypespec name:fp_format_e
+                              vpiActual: TypedefTypespec name:fp_format_e
+                            vpiOpType: cast (81)
+                            vpiOperand (1 items):
+                              RefObj name:fmt start:50:84 end:50:87:
+                                vpiParent: Operation
+                                vpiName: fmt
+                                vpiFullName: top.gen_nanbox_check.fpnew_pkg::fp_width().fmt
+                                vpiActual: Variable name:fmt
                   vpiActual: FuncCall name:fp_width
             vpiStmt (3 items):
               Parameter name:FP_WIDTH:
@@ -1806,6 +1810,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            32      33       3         2
 Identifier                          19      18       0         1
+NamedArgument                        2       1       0         1
 Operation                           24      22       0         2
 RefObj                              61      58       0         3
 RefTypespec                         53      53       2         2
@@ -1813,5 +1818,5 @@ SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
 Others                              78      78       0         0
 ----------------------------------------------------------------
-                                   268     262       5        11
+                                   270     263       5        12
 ===================== END REDUCTION RESULT =====================

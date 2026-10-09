@@ -288,10 +288,14 @@ TEST_F(QueuesPersistenceTest, TaskFirstStmtDisplaysEEqualsTwo) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 2)");
-  const hldb::RefObj *const eRef = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const eRef = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(eRef, nullptr);
   EXPECT_EQ(eRef->getName(), "e");
   EXPECT_NE(eRef->getActual<hldb::IODecl>(), nullptr) << "'e' should resolve to the task's IODecl";
@@ -328,10 +332,14 @@ TEST_F(QueuesPersistenceTest, TaskThirdStmtDisplaysEEqualsTen) {
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 10)");
-  const hldb::RefObj *const eRef = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const eRef = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(eRef, nullptr);
   EXPECT_EQ(eRef->getName(), "e");
   EXPECT_NE(eRef->getActual<hldb::IODecl>(), nullptr);
@@ -371,7 +379,9 @@ TEST_F(QueuesPersistenceTest, FirstInitialPushBacksOneTwoThree) {
     const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
     ASSERT_NE(call, nullptr);
     EXPECT_EQ(call->getName(), "push_back");
-    const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(arg, nullptr);
     EXPECT_EQ(arg->getDecompile(), std::to_string(i + 1));
   }
@@ -384,12 +394,16 @@ TEST_F(QueuesPersistenceTest, FirstInitialFourthStmtDisplaysThreeElemAssert) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 4u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 1) and (%d == 2) and (%d == 3))");
 
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(i + 1));
+    const hldb::NamedArgument *const selArg = disp->getArguments()->at(i + 1);
+    ASSERT_NE(selArg, nullptr);
+    const hldb::BitSelect *const sel = selArg->getHighConn<hldb::BitSelect>();
     ASSERT_NE(sel, nullptr) << "argument " << (i + 1) << " should be a BitSelect";
     EXPECT_NE(sel->getPrefix<hldb::RefObj>()->getActual<hldb::Variable>(), nullptr);
     EXPECT_EQ(sel->getIndex<hldb::Constant>()->getDecompile(), std::to_string(i));
@@ -405,7 +419,9 @@ TEST_F(QueuesPersistenceTest, FirstInitialFifthStmtIsFunCallWithQAtOne) {
   ASSERT_NE(mtc->getArguments(), nullptr);
   ASSERT_EQ(mtc->getArguments()->size(), 1u);
 
-  const hldb::BitSelect *const arg = any_cast<hldb::BitSelect>(mtc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = mtc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::BitSelect *const arg = arg0->getHighConn<hldb::BitSelect>();
   ASSERT_NE(arg, nullptr) << "the 'ref' argument should be the BitSelect 'q[1]'";
   EXPECT_EQ(arg->getName(), "q[1]");
   const hldb::RefObj *const prefix = arg->getPrefix<hldb::RefObj>();
@@ -439,10 +455,14 @@ TEST_F(QueuesPersistenceTest, SecondInitialFirstStmtIsDelayedDisplayOfQAtOne) {
   ASSERT_NE(disp, nullptr) << "the delayed statement should be the $display call";
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 2)");
-  const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::BitSelect *const sel = arg1->getHighConn<hldb::BitSelect>();
   ASSERT_NE(sel, nullptr);
   EXPECT_EQ(sel->getName(), "q[1]");
   EXPECT_EQ(sel->getIndex<hldb::Constant>()->getDecompile(), "1");
@@ -488,11 +508,15 @@ TEST_F(QueuesPersistenceTest, SecondInitialFourthStmtDisplaysSizeAssert) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 0)");
 
-  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "q.size");
   ASSERT_NE(size->getPathElems(), nullptr);

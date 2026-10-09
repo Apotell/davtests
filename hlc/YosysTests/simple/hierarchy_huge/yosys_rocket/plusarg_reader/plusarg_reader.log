@@ -331,16 +331,20 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$value$plusargs start:18:9 end:18:24:
                       vpiArgument (2 items):
-                        RefObj name:FORMAT start:18:25 end:18:31:
+                        NamedArgument start:18:25 end:18:31:
                           vpiParent: SysFuncCall name:$value$plusargs
-                          vpiName: FORMAT
-                          vpiFullName: plusarg_reader #(.FORMAT("borked=%d"), .DEFAULT(0)).FORMAT
-                          vpiActual: Parameter name:FORMAT
-                        RefObj name:myplus start:18:33 end:18:39:
+                          vpiHighConn RefObj name:FORMAT start:18:25 end:18:31:
+                            vpiParent: NamedArgument
+                            vpiName: FORMAT
+                            vpiFullName: plusarg_reader #(.FORMAT("borked=%d"), .DEFAULT(0)).FORMAT
+                            vpiActual: Parameter name:FORMAT
+                        NamedArgument start:18:33 end:18:39:
                           vpiParent: SysFuncCall name:$value$plusargs
-                          vpiName: myplus
-                          vpiFullName: plusarg_reader #(.FORMAT("borked=%d"), .DEFAULT(0)).myplus
-                          vpiActual: Variable name:myplus
+                          vpiHighConn RefObj name:myplus start:18:33 end:18:39:
+                            vpiParent: NamedArgument
+                            vpiName: myplus
+                            vpiFullName: plusarg_reader #(.FORMAT("borked=%d"), .DEFAULT(0)).myplus
+                            vpiActual: Variable name:myplus
                 vpiStmt Assignment start:18:42 end:18:58:
                   vpiParent: IfStmt
                   vpiBlocking: true
@@ -430,7 +434,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/simple/hierarchy_huge/yosys_rocket/plu
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              58      58       0         0
 ----------------------------------------------------------------
-                                    56      56       0         0
+                                    58      58       0         0
 ===================== END REDUCTION RESULT =====================

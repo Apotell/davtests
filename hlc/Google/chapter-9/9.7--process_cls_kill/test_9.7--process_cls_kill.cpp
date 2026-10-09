@@ -238,9 +238,11 @@ TEST_F(ProcessClsKillTest, InitialCallsTestWithArgumentEight) {
   EXPECT_EQ(call->getName(), "test");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->front());
+  const hldb::NamedArgument *const arg = call->getArguments()->front();
   ASSERT_NE(arg, nullptr);
-  EXPECT_EQ(arg->getDecompile(), "8");
+  const hldb::Constant *const hc = arg->getHighConn<hldb::Constant>();
+  ASSERT_NE(hc, nullptr);
+  EXPECT_EQ(hc->getDecompile(), "8");
 }
 }  // namespace hlc
 

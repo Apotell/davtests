@@ -486,7 +486,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/signed7.v:23:1: Compile module "main".
 [INF:CP5804] $Source01/signed7.v:32:1: Compile module "sub".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DB2033] $Source01/signed7.v:29:19: Critical: Signed vs Unsigned port connection "".
+[WRN:DB2033] $Source01/signed7.v:29:19: Critical: Signed vs Unsigned port connection "val_ws".
+[WRN:DB2033] $Source01/signed7.v:41:41: Critical: Signed vs Unsigned port connection "val_ws".
+[WRN:DB2033] $Source01/signed7.v:49:45: Critical: Signed vs Unsigned port connection "val_ws".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -685,28 +687,28 @@ Design name:unnamed:
             vpiName: sub
             vpiFullName: main.dut.sub
             vpiActual: ModuleTypespec name:sub
-          vpiPort (2 items):
-            Port start:29:12 end:29:17:
+          vpiArgument (2 items):
+            NamedArgument start:29:12 end:29:17:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:val_w:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: val_w
                 vpiFullName: main.dut.val_w
                 vpiActual: Port name:val_w
               vpiHighConn RefObj name:val_w start:29:12 end:29:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: val_w
                 vpiFullName: main.dut.val_w
                 vpiActual: Net name:val_w
-            Port start:29:19 end:29:25:
+            NamedArgument start:29:19 end:29:25:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:val_ws:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: val_ws
                 vpiFullName: main.dut.val_ws
                 vpiActual: Port name:val_ws
               vpiHighConn RefObj name:val_ws start:29:19 end:29:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: val_ws
                 vpiFullName: main.dut.val_ws
                 vpiActual: Net name:val_ws
@@ -830,26 +832,32 @@ Design name:unnamed:
                   vpiParent: DelayControl
                   vpiName Identifier name:$display start:41:2 end:41:10:
                   vpiArgument (3 items):
-                    Constant start:41:11 end:41:32:
+                    NamedArgument start:41:11 end:41:32:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: sub
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 152
-                      vpiDecompile: "\"val_w=%d, val_ws=%d\""
-                      vpiValue: val_w=%d, val_ws=%d
-                    RefObj name:val_w start:41:34 end:41:39:
+                      vpiHighConn Constant start:41:11 end:41:32:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: sub
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 152
+                        vpiDecompile: "\"val_w=%d, val_ws=%d\""
+                        vpiValue: val_w=%d, val_ws=%d
+                    NamedArgument start:41:34 end:41:39:
                       vpiParent: SysTaskCall name:$display
-                      vpiName: val_w
-                      vpiFullName: sub.val_w
-                      vpiActual: Net name:val_w
-                    RefObj name:val_ws start:41:41 end:41:47:
+                      vpiHighConn RefObj name:val_w start:41:34 end:41:39:
+                        vpiParent: NamedArgument
+                        vpiName: val_w
+                        vpiFullName: sub.val_w
+                        vpiActual: Net name:val_w
+                    NamedArgument start:41:41 end:41:47:
                       vpiParent: SysTaskCall name:$display
-                      vpiName: val_ws
-                      vpiFullName: sub.val_ws
-                      vpiActual: Net name:val_ws
+                      vpiHighConn RefObj name:val_ws start:41:41 end:41:47:
+                        vpiParent: NamedArgument
+                        vpiName: val_ws
+                        vpiFullName: sub.val_ws
+                        vpiActual: Net name:val_ws
                 vpiDelay Constant start:40:8 end:40:9:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -889,21 +897,25 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:44:3 end:44:11:
                       vpiArgument (2 items):
-                        Constant start:44:12 end:44:42:
+                        NamedArgument start:44:12 end:44:42:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: sub
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 224
-                          vpiDecompile: "\"FAILED -- val_w is wrong: %b\""
-                          vpiValue: "FAILED -- val_w is wrong: %b"
-                        RefObj name:val_w start:44:44 end:44:49:
+                          vpiHighConn Constant start:44:12 end:44:42:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: sub
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 224
+                            vpiDecompile: "\"FAILED -- val_w is wrong: %b\""
+                            vpiValue: "FAILED -- val_w is wrong: %b"
+                        NamedArgument start:44:44 end:44:49:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: val_w
-                          vpiFullName: sub.val_w
-                          vpiActual: Net name:val_w
+                          vpiHighConn RefObj name:val_w start:44:44 end:44:49:
+                            vpiParent: NamedArgument
+                            vpiName: val_w
+                            vpiFullName: sub.val_w
+                            vpiActual: Net name:val_w
                     SysTaskCall name:$finish start:45:3 end:45:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:45:3 end:45:10:
@@ -941,21 +953,25 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:49:3 end:49:11:
                       vpiArgument (2 items):
-                        Constant start:49:12 end:49:43:
+                        NamedArgument start:49:12 end:49:43:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: sub
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 232
-                          vpiDecompile: "\"FAILED == val_ws is wrong: %b\""
-                          vpiValue: "FAILED == val_ws is wrong: %b"
-                        RefObj name:val_ws start:49:45 end:49:51:
+                          vpiHighConn Constant start:49:12 end:49:43:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: sub
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 232
+                            vpiDecompile: "\"FAILED == val_ws is wrong: %b\""
+                            vpiValue: "FAILED == val_ws is wrong: %b"
+                        NamedArgument start:49:45 end:49:51:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: val_ws
-                          vpiFullName: sub.val_ws
-                          vpiActual: Net name:val_ws
+                          vpiHighConn RefObj name:val_ws start:49:45 end:49:51:
+                            vpiParent: NamedArgument
+                            vpiName: val_ws
+                            vpiFullName: sub.val_ws
+                            vpiActual: Net name:val_ws
                     SysTaskCall name:$finish start:50:3 end:50:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:50:3 end:50:10:
@@ -989,16 +1005,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:54:3 end:54:11:
                       vpiArgument (1 items):
-                        Constant start:54:12 end:54:52:
+                        NamedArgument start:54:12 end:54:52:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: sub
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 304
-                          vpiDecompile: "\"FAILED -- signed test of val_ws failed\""
-                          vpiValue: FAILED -- signed test of val_ws failed
+                          vpiHighConn Constant start:54:12 end:54:52:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: sub
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 304
+                            vpiDecompile: "\"FAILED -- signed test of val_ws failed\""
+                            vpiValue: FAILED -- signed test of val_ws failed
                     SysTaskCall name:$finish start:55:3 end:55:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:55:3 end:55:10:
@@ -1032,16 +1050,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:59:3 end:59:11:
                       vpiArgument (1 items):
-                        Constant start:59:12 end:59:51:
+                        NamedArgument start:59:12 end:59:51:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: sub
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 296
-                          vpiDecompile: "\"FAILED -- signed test of val_w failed\""
-                          vpiValue: FAILED -- signed test of val_w failed
+                          vpiHighConn Constant start:59:12 end:59:51:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: sub
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 296
+                            vpiDecompile: "\"FAILED -- signed test of val_w failed\""
+                            vpiValue: FAILED -- signed test of val_w failed
                     SysTaskCall name:$finish start:60:3 end:60:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:60:3 end:60:10:
@@ -1050,16 +1070,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:63:7 end:63:15:
                 vpiArgument (1 items):
-                  Constant start:63:16 end:63:24:
+                  NamedArgument start:63:16 end:63:24:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: sub
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"PASSED\""
-                    vpiValue: PASSED
+                    vpiHighConn Constant start:63:16 end:63:24:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: sub
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"PASSED\""
+                      vpiValue: PASSED
   vpiTypespec (4 items):
     ModuleTypespec name:main:
       vpiParent: Design name:unnamed
@@ -1084,7 +1106,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1132,7 +1154,7 @@ Operation                            8       4       0         4
 RefObj                              18      16       0         2
 RefTypespec                         30      30       4         4
 ----------------------------------------------------------------
-Others                              66      66       0         0
+Others                              76      76       0         0
 ----------------------------------------------------------------
-                                   146     140       8        14
+                                   156     150       8        14
 ===================== END REDUCTION RESULT =====================

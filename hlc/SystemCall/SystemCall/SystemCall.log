@@ -117,15 +117,19 @@ Design name:unnamed:
             vpiParent: LetDecl name:p2
             vpiName Identifier name:$past start:3:13 end:3:18:
             vpiArgument (2 items):
-              RefObj name:x start:3:19 end:3:20:
+              NamedArgument start:3:19 end:3:20:
                 vpiParent: SysFuncCall name:$past
-                vpiName: x
-                vpiFullName: m2.p2.x
-                vpiActual: SeqFormalDecl name:x
-              RefObj name:clock start:3:23 end:3:28:
+                vpiHighConn RefObj name:x start:3:19 end:3:20:
+                  vpiParent: NamedArgument
+                  vpiName: x
+                  vpiFullName: m2.p2.x
+                  vpiActual: SeqFormalDecl name:x
+              NamedArgument start:3:23 end:3:28:
                 vpiParent: SysFuncCall name:$past
-                vpiName: clock
-                vpiFullName: m2.p2.clock
+                vpiHighConn RefObj name:clock start:3:23 end:3:28:
+                  vpiParent: NamedArgument
+                  vpiName: clock
+                  vpiFullName: m2.p2.clock
           vpiSeqFormalDecl (1 items):
             SeqFormalDecl name:x start:3:8 end:3:9:
               vpiParent: LetDecl name:p2
@@ -153,20 +157,24 @@ Design name:unnamed:
             vpiParent: ContAssign
             vpiName Identifier name:$past start:4:12 end:4:17:
             vpiArgument (2 items):
-              RefObj name:x start:4:18 end:4:19:
+              NamedArgument start:4:18 end:4:19:
                 vpiParent: SysFuncCall name:$past
-                vpiName: x
-                vpiFullName: m2.x
-              EventControl start:4:22 end:4:38:
+                vpiHighConn RefObj name:x start:4:18 end:4:19:
+                  vpiParent: NamedArgument
+                  vpiName: x
+                  vpiFullName: m2.x
+              NamedArgument start:4:22 end:4:38:
                 vpiParent: SysFuncCall name:$past
-                vpiCondition Operation start:4:24 end:4:37:
-                  vpiParent: EventControl
-                  vpiOpType: posedge (39)
-                  vpiOperand (1 items):
-                    RefObj name:clock start:4:32 end:4:37:
-                      vpiParent: Operation
-                      vpiName: clock
-                      vpiFullName: m2.clock
+                vpiHighConn EventControl start:4:22 end:4:38:
+                  vpiParent: NamedArgument
+                  vpiCondition Operation start:4:24 end:4:37:
+                    vpiParent: EventControl
+                    vpiOpType: posedge (39)
+                    vpiOperand (1 items):
+                      RefObj name:clock start:4:32 end:4:37:
+                        vpiParent: Operation
+                        vpiName: clock
+                        vpiFullName: m2.clock
   vpiTypespec (1 items):
     ModuleTypespec name:m2:
       vpiParent: Design name:unnamed
@@ -225,7 +233,7 @@ COMMAND: ${HLC_DIR}/regression/SystemCall/SystemCall/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    26      26       0         0
+                                    30      30       0         0
 ===================== END REDUCTION RESULT =====================

@@ -356,29 +356,37 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:16:9 end:16:17:
                 vpiArgument (4 items):
-                  SysFuncCall name:$time start:16:18 end:16:23:
+                  NamedArgument start:16:18 end:16:23:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:16:18 end:16:23:
-                  Constant start:16:25 end:16:43:
+                    vpiHighConn SysFuncCall name:$time start:16:18 end:16:23:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:16:18 end:16:23:
+                  NamedArgument start:16:25 end:16:43:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 128
-                    vpiDecompile: "\"i: %b result: %b\""
-                    vpiValue: "i: %b result: %b"
-                  RefObj name:__input start:16:45 end:16:52:
+                    vpiHighConn Constant start:16:25 end:16:43:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 128
+                      vpiDecompile: "\"i: %b result: %b\""
+                      vpiValue: "i: %b result: %b"
+                  NamedArgument start:16:45 end:16:52:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: "__input"
-                    vpiFullName: top.__input
-                    vpiActual: Variable name:__input
-                  RefObj name:result start:16:54 end:16:60:
+                    vpiHighConn RefObj name:__input start:16:45 end:16:52:
+                      vpiParent: NamedArgument
+                      vpiName: "__input"
+                      vpiFullName: top.__input
+                      vpiActual: Variable name:__input
+                  NamedArgument start:16:54 end:16:60:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: result
-                    vpiFullName: top.result
-                    vpiActual: Net name:result
+                    vpiHighConn RefObj name:result start:16:54 end:16:60:
+                      vpiParent: NamedArgument
+                      vpiName: result
+                      vpiFullName: top.result
+                      vpiActual: Net name:result
               ForStmt start:17:9 end:19:12:
                 vpiParent: Begin
                 vpiFullName: top
@@ -478,15 +486,16 @@ Design name:unnamed:
             vpiName: Example
             vpiFullName: top.dut.Example
             vpiActual: UnsupportedTypespec name:Example
-          vpiPort (3 items):
-            Port start:9:9 end:9:25:
+          vpiArgument (3 items):
+            NamedArgument start:9:9 end:9:25:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:a start:9:10 end:9:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: top.dut.a
               vpiHighConn PartSelect name:__input[3:2] start:9:12 end:9:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: "__input[3:2]"
                 vpiFullName: top.dut.__input[3:2]
                 vpiPrefix RefObj name:__input start:9:12 end:9:19:
@@ -516,14 +525,15 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "2"
                     vpiValue: 2
-            Port start:10:9 end:10:25:
+            NamedArgument start:10:9 end:10:25:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:b start:10:10 end:10:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: top.dut.b
               vpiHighConn PartSelect name:__input[1:0] start:10:12 end:10:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: "__input[1:0]"
                 vpiFullName: top.dut.__input[1:0]
                 vpiPrefix RefObj name:__input start:10:12 end:10:19:
@@ -553,15 +563,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:11:9 end:11:24:
+            NamedArgument start:11:9 end:11:24:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:result start:11:10 end:11:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: result
                 vpiFullName: top.dut.result
                 vpiActual: Net name:result
               vpiHighConn RefObj name:result start:11:17 end:11:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: result
                 vpiFullName: top.dut.result
                 vpiActual: Net name:result
@@ -630,7 +641,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/split_struct_tb_v/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              86      86       0         0
+Others                              90      90       0         0
 ----------------------------------------------------------------
-                                    86      86       0         0
+                                    90      90       0         0
 ===================== END REDUCTION RESULT =====================

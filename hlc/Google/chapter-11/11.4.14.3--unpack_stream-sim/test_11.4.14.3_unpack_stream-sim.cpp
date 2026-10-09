@@ -181,12 +181,21 @@ TEST_F(UnpackStreamSimTest, DisplayStatementIsSeparateFromVariableDeclaration) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 5u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(),
-            ":assert: (((%d << 64) + (%d << 32) + %d) == %d)");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "c");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(2))->getName(), "b");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(3))->getName(), "a");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(4))->getName(), "d");
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (((%d << 64) + (%d << 32) + %d) == %d)");
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), "c");
+  const hldb::NamedArgument *const arg2 = disp->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  EXPECT_EQ(arg2->getHighConn<hldb::RefObj>()->getName(), "b");
+  const hldb::NamedArgument *const arg3 = disp->getArguments()->at(3);
+  ASSERT_NE(arg3, nullptr);
+  EXPECT_EQ(arg3->getHighConn<hldb::RefObj>()->getName(), "a");
+  const hldb::NamedArgument *const arg4 = disp->getArguments()->at(4);
+  ASSERT_NE(arg4, nullptr);
+  EXPECT_EQ(arg4->getHighConn<hldb::RefObj>()->getName(), "d");
 }
 
 // --- design-level typespecs / compiler diagnostics -------------------------

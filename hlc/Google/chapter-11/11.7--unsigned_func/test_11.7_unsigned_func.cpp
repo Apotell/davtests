@@ -162,7 +162,9 @@ TEST_F(UnsignedFuncTest, AssignmentRhsIsUnsignedCallOfUnaryMinusFourOperation) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
 
-  const hldb::Operation *const minus = any_cast<hldb::Operation>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Operation *const minus = arg0->getHighConn<hldb::Operation>();
   ASSERT_NE(minus, nullptr) << "'-4' should be an unfolded unary-minus Operation, not a plain Constant";
   EXPECT_EQ(minus->getOpType(), vpiMinusOp);
   ASSERT_NE(minus->getOperands(), nullptr);

@@ -186,7 +186,9 @@ class QueuesSliceTest : public Test {
     EXPECT_EQ(call->getName(), "push_back");
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);
-    const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(arg, nullptr);
     EXPECT_EQ(arg->getDecompile(), value);
   }
@@ -203,11 +205,15 @@ class QueuesSliceTest : public Test {
     ASSERT_NE(disp->getArguments(), nullptr);
     ASSERT_EQ(disp->getArguments()->size(), 2u);
 
-    const hldb::Constant *const fmtArg = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::Constant *const fmtArg = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(fmtArg, nullptr);
     EXPECT_EQ(fmtArg->getValue(), fmt);
 
-    const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+    ASSERT_NE(arg1, nullptr);
+    const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
     ASSERT_NE(size, nullptr);
     ASSERT_NE(size->getPathElems(), nullptr);
     ASSERT_EQ(size->getPathElems()->size(), 2u);

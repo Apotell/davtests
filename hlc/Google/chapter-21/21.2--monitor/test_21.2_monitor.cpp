@@ -271,9 +271,11 @@ TEST_F(MonitorTaskTest, EveryFormattedMonitorCallReferencesTheModuleVariableA) {
 
     const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(stmts->at(i));
     ASSERT_EQ(sizeOf(call->getArguments()), 1u);
-    ASSERT_EQ(anyTypeOf(call->getArguments()->front()), hldb::AnyType::RefObj);
+    const hldb::NamedArgument *const arg = call->getArguments()->front();
+    ASSERT_NE(arg, nullptr);
+    ASSERT_EQ(anyTypeOf(arg->getHighConn()), hldb::AnyType::RefObj);
 
-    const hldb::RefObj *const ref = any_cast<hldb::RefObj>(call->getArguments()->front());
+    const hldb::RefObj *const ref = arg->getHighConn<hldb::RefObj>();
     EXPECT_EQ(ref->getName(), "a");
     EXPECT_EQ(ref->getActual<hldb::Variable>(), a);
   }

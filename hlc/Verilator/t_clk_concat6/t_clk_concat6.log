@@ -702,7 +702,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_clk_concat6.v:66:4: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_clk_concat6.v:99:4: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7701] Invalid name: id:314, type:RefTypespec, name:, relation:vpiTypespec.
+[ERR:LN7701] Invalid name: id:316, type:RefTypespec, name:, relation:vpiTypespec.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -951,16 +951,18 @@ Design name:unnamed:
                         vpiParent: CaseItem
                         vpiName Identifier name:$display start:23:11 end:23:19:
                         vpiArgument (1 items):
-                          Constant start:23:21 end:23:50:
+                          NamedArgument start:23:21 end:23:50:
                             vpiParent: SysTaskCall name:$display
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: some_module
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 216
-                            vpiDecompile: "\"This is a display statement\""
-                            vpiValue: This is a display statement
+                            vpiHighConn Constant start:23:21 end:23:50:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: some_module
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 216
+                              vpiDecompile: "\"This is a display statement\""
+                              vpiValue: This is a display statement
                 IfStmt start:26:7 end:27:31:
                   vpiParent: Begin
                   vpiCondition RefObj name:the_clk start:26:11 end:26:18:
@@ -989,16 +991,18 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:29:7 end:29:13:
                   vpiArgument (1 items):
-                    Constant start:29:14 end:29:38:
+                    NamedArgument start:29:14 end:29:38:
                       vpiParent: SysTaskCall name:$write
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: some_module
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 168
-                      vpiDecompile: "\"*-* All Finished *-*\\n\""
-                      vpiValue: "*-* All Finished *-*\\n"
+                      vpiHighConn Constant start:29:14 end:29:38:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: some_module
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 168
+                        vpiDecompile: "\"*-* All Finished *-*\\n\""
+                        vpiValue: "*-* All Finished *-*\\n"
                 SysTaskCall name:$finish start:30:7 end:30:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:30:7 end:30:14:
@@ -1154,16 +1158,17 @@ Design name:unnamed:
             vpiName: some_module
             vpiFullName: t1.some_module.some_module
             vpiActual: ModuleTypespec name:some_module
-          vpiPort (1 items):
-            Port start:46:2 end:46:18:
+          vpiArgument (1 items):
+            NamedArgument start:46:2 end:46:18:
               vpiParent: RefInstance name:some_module
+              vpiConnByName: true
               vpiLowConn RefObj name:i_clks start:46:3 end:46:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_clks
                 vpiFullName: t1.some_module.i_clks
                 vpiActual: Net name:i_clks
               vpiHighConn RefObj name:i_clks start:46:11 end:46:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_clks
                 vpiFullName: t1.some_module.i_clks
                 vpiActual: Net name:i_clks
@@ -1500,28 +1505,30 @@ Design name:unnamed:
             vpiName: ident
             vpiFullName: t2.ident.ident
             vpiActual: ModuleTypespec name:ident
-          vpiPort (2 items):
-            Port start:75:2 end:75:19:
+          vpiArgument (2 items):
+            NamedArgument start:75:2 end:75:19:
               vpiParent: RefInstance name:ident
+              vpiConnByName: true
               vpiLowConn RefObj name:i_ident start:75:3 end:75:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_ident
                 vpiFullName: t2.ident.i_ident
                 vpiActual: Port name:i_ident
               vpiHighConn RefObj name:i_clk1 start:75:12 end:75:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_clk1
                 vpiFullName: t2.ident.i_clk1
                 vpiActual: Net name:i_clk1
-            Port start:76:2 end:76:23:
+            NamedArgument start:76:2 end:76:23:
               vpiParent: RefInstance name:ident
+              vpiConnByName: true
               vpiLowConn RefObj name:o_ident start:76:3 end:76:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o_ident
                 vpiFullName: t2.ident.o_ident
                 vpiActual: Port name:o_ident
               vpiHighConn RefObj name:ident_clk1 start:76:12 end:76:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ident_clk1
                 vpiFullName: t2.ident.ident_clk1
                 vpiActual: Variable name:ident_clk1
@@ -1533,16 +1540,17 @@ Design name:unnamed:
             vpiName: t1
             vpiFullName: t2.t1.t1
             vpiActual: ModuleTypespec name:t1
-          vpiPort (3 items):
-            Port start:81:7 end:81:57:
+          vpiArgument (3 items):
+            NamedArgument start:81:7 end:81:57:
               vpiParent: RefInstance name:t1
+              vpiConnByName: true
               vpiLowConn RefObj name:i_clks start:81:8 end:81:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_clks
                 vpiFullName: t2.t1.i_clks
                 vpiActual: Net name:i_clks
               vpiHighConn Operation start:81:16 end:81:56:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiOpType: concatenation (33)
                 vpiOperand (4 items):
                   RefObj name:ident_clk1 start:81:17 end:81:27:
@@ -1565,27 +1573,29 @@ Design name:unnamed:
                     vpiName: i_clk0
                     vpiFullName: t2.t1.i_clk0
                     vpiActual: Net name:i_clk0
-            Port start:82:7 end:82:23:
+            NamedArgument start:82:7 end:82:23:
               vpiParent: RefInstance name:t1
+              vpiConnByName: true
               vpiLowConn RefObj name:i_clk0 start:82:8 end:82:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_clk0
                 vpiFullName: t2.t1.i_clk0
                 vpiActual: Net name:i_clk0
               vpiHighConn RefObj name:i_clk0 start:82:16 end:82:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_clk0
                 vpiFullName: t2.t1.i_clk0
                 vpiActual: Net name:i_clk0
-            Port start:83:7 end:83:23:
+            NamedArgument start:83:7 end:83:23:
               vpiParent: RefInstance name:t1
+              vpiConnByName: true
               vpiLowConn RefObj name:i_clk1 start:83:8 end:83:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_clk1
                 vpiFullName: t2.t1.i_clk1
                 vpiActual: Net name:i_clk1
               vpiHighConn RefObj name:i_clk1 start:83:16 end:83:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_clk1
                 vpiFullName: t2.t1.i_clk1
                 vpiActual: Net name:i_clk1
@@ -1799,64 +1809,69 @@ Design name:unnamed:
             vpiName: t2
             vpiFullName: t.t2.t2
             vpiActual: ModuleTypespec name:t2
-          vpiPort (5 items):
-            Port start:106:2 end:106:16:
+          vpiArgument (5 items):
+            NamedArgument start:106:2 end:106:16:
               vpiParent: RefInstance name:t2
+              vpiConnByName: true
               vpiLowConn RefObj name:i_clks start:106:3 end:106:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_clks
                 vpiFullName: t.t2.i_clks
                 vpiActual: Port name:i_clks
               vpiHighConn RefObj name:clks start:106:11 end:106:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clks
                 vpiFullName: t.t2.clks
                 vpiActual: Variable name:clks
-            Port start:107:2 end:107:16:
+            NamedArgument start:107:2 end:107:16:
               vpiParent: RefInstance name:t2
+              vpiConnByName: true
               vpiLowConn RefObj name:i_clk0 start:107:3 end:107:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_clk0
                 vpiFullName: t.t2.i_clk0
                 vpiActual: Port name:i_clk0
               vpiHighConn RefObj name:clk0 start:107:11 end:107:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk0
                 vpiFullName: t.t2.clk0
                 vpiActual: Net name:clk0
-            Port start:108:2 end:108:15:
+            NamedArgument start:108:2 end:108:15:
               vpiParent: RefInstance name:t2
+              vpiConnByName: true
               vpiLowConn RefObj name:i_clk1 start:108:3 end:108:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_clk1
                 vpiFullName: t.t2.i_clk1
                 vpiActual: Port name:i_clk1
               vpiHighConn RefObj name:clk start:108:11 end:108:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.t2.clk
                 vpiActual: Net name:clk
-            Port start:109:2 end:109:16:
+            NamedArgument start:109:2 end:109:16:
               vpiParent: RefInstance name:t2
+              vpiConnByName: true
               vpiLowConn RefObj name:i_clk2 start:109:3 end:109:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_clk2
                 vpiFullName: t.t2.i_clk2
                 vpiActual: Port name:i_clk2
               vpiHighConn RefObj name:clk2 start:109:11 end:109:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk2
                 vpiFullName: t.t2.clk2
                 vpiActual: Net name:clk2
-            Port start:110:2 end:110:19:
+            NamedArgument start:110:2 end:110:19:
               vpiParent: RefInstance name:t2
+              vpiConnByName: true
               vpiLowConn RefObj name:i_data start:110:3 end:110:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i_data
                 vpiFullName: t.t2.i_data
                 vpiActual: Port name:i_data
               vpiHighConn RefObj name:data_in start:110:11 end:110:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: data_in
                 vpiFullName: t.t2.data_in
                 vpiActual: Net name:data_in
@@ -1945,7 +1960,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_clk_concat6/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             290     290       0         0
+Others                             292     292       0         0
 ----------------------------------------------------------------
-                                   290     290       0         0
+                                   292     292       0         0
 ===================== END REDUCTION RESULT =====================

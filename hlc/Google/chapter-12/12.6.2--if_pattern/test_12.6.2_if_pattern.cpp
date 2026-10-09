@@ -206,10 +206,14 @@ TEST_F(IfPatternTest, TrueArmDisplayReferencesPatternBoundV) {
   EXPECT_EQ(display->getName(), std::string_view("$display"));
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(display->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), std::string_view("\"a %d\""));
-  const hldb::RefObj *const vArg = any_cast<hldb::RefObj>(display->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const vArg = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(vArg, nullptr);
   EXPECT_EQ(vArg->getName(), std::string_view("v"));
   EXPECT_NE(vArg->getActual<hldb::AnyPattern>(), nullptr)

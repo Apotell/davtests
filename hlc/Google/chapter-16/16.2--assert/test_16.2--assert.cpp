@@ -140,7 +140,8 @@ static const hldb::TFCall *getFailCall(const hldb::Design *d) {
 
 static const hldb::Constant *getFirstArg(const hldb::TFCall *call) {
   if (!call || !call->getArguments() || call->getArguments()->empty()) return nullptr;
-  return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  return arg0->getHighConn<hldb::Constant>();
 }
 
 // ----

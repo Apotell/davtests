@@ -1614,16 +1614,17 @@ Design name:unnamed:
             vpiName: targetmod
             vpiFullName: t.i_targetmod.targetmod
             vpiActual: ModuleTypespec name:targetmod
-          vpiPort (1 items):
-            Port start:31:6 end:31:18:
+          vpiArgument (1 items):
+            NamedArgument start:31:6 end:31:18:
               vpiParent: RefInstance name:i_targetmod
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:31:7 end:31:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.i_targetmod.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:31:14 end:31:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.i_targetmod.clk
                 vpiActual: Net name:clk
@@ -1643,35 +1644,37 @@ Design name:unnamed:
               vpiName: mycheck
               vpiFullName: t.i_mycheck.mycheck
               vpiActual: ModuleTypespec name:mycheck
-            vpiPort (3 items):
-              Port start:47:15 end:47:22:
+            vpiArgument (3 items):
+              NamedArgument start:47:15 end:47:22:
                 vpiParent: RefInstance name:i_mycheck
+                vpiConnByName: true
                 vpiLowConn RefObj name:p2 start:47:16 end:47:18:
-                  vpiParent: Port
+                  vpiParent: NamedArgument
                   vpiName: p2
                   vpiFullName: t.i_mycheck.p2
                   vpiActual: Variable name:p2
                 vpiHighConn RefObj name:p2 start:47:19 end:47:21:
-                  vpiParent: Port
+                  vpiParent: NamedArgument
                   vpiName: p2
                   vpiFullName: t.i_mycheck.p2
                   vpiActual: Variable name:p2
-              Port start:47:24 end:47:31:
+              NamedArgument start:47:24 end:47:31:
                 vpiParent: RefInstance name:i_mycheck
+                vpiConnByName: true
                 vpiLowConn RefObj name:p3 start:47:25 end:47:27:
-                  vpiParent: Port
+                  vpiParent: NamedArgument
                   vpiName: p3
                   vpiFullName: t.i_mycheck.p3
                   vpiActual: Variable name:p3
                 vpiHighConn RefObj name:p3 start:47:28 end:47:30:
-                  vpiParent: Port
+                  vpiParent: NamedArgument
                   vpiName: p3
                   vpiFullName: t.i_mycheck.p3
                   vpiActual: Variable name:p3
-              Port start:47:33 end:47:35:
+              NamedArgument start:47:33 end:47:35:
                 vpiParent: RefInstance name:i_mycheck
                 vpiLowConn RefObj name:.*:
-                  vpiParent: Port
+                  vpiParent: NamedArgument
                   vpiName: ".*"
                   vpiFullName: t.i_mycheck..*
     Module name:targetmod file:$Source01/t_bind2.v start:51:1 end:65:10:
@@ -2237,16 +2240,18 @@ Design name:unnamed:
           vpiParent: Module name:mycheck
           vpiName Identifier name:write start:88:8 end:88:13:
           vpiArgument (1 items):
-            Constant start:88:14 end:88:38:
+            NamedArgument start:88:14 end:88:38:
               vpiParent: SysTaskCall name:write
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: mycheck
-                vpiActual: StringTypespec
-              vpiConstType: string (6)
-              vpiSize: 168
-              vpiDecompile: "\"*-* All Finished *-*\\n\""
-              vpiValue: "*-* All Finished *-*\\n"
+              vpiHighConn Constant start:88:14 end:88:38:
+                vpiParent: NamedArgument
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: mycheck
+                  vpiActual: StringTypespec
+                vpiConstType: string (6)
+                vpiSize: 168
+                vpiDecompile: "\"*-* All Finished *-*\\n\""
+                vpiValue: "*-* All Finished *-*\\n"
         SysTaskCall name:finish start:89:7 end:89:15:
           vpiParent: Module name:mycheck
           vpiName Identifier name:finish start:89:8 end:89:14:
@@ -2280,51 +2285,61 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:8:63 end:8:68:
                 vpiArgument (5 items):
-                  Constant start:8:69 end:8:108:
+                  NamedArgument start:8:69 end:8:108:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 288
-                    vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
-                    vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
-                  Constant start:8:110 end:8:131:
+                    vpiHighConn Constant start:8:69 end:8:108:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 288
+                      vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
+                      vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
+                  NamedArgument start:8:110 end:8:131:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 152
-                    vpiDecompile: "\"$Source01/t_bind2.v\""
-                    vpiValue: "$Source01/t_bind2.v"
-                  Constant start:8:132 end:8:134:
+                    vpiHighConn Constant start:8:110 end:8:131:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 152
+                      vpiDecompile: "\"$Source01/t_bind2.v\""
+                      vpiValue: "$Source01/t_bind2.v"
+                  NamedArgument start:8:132 end:8:134:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "82"
-                    vpiValue: 82
-                  RefObj name:param1 start:8:137 end:8:143:
+                    vpiHighConn Constant start:8:132 end:8:134:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "82"
+                      vpiValue: 82
+                  NamedArgument start:8:136 end:8:144:
                     vpiParent: SysTaskCall name:write
-                    vpiName: param1
-                    vpiFullName: mycheck.param1
-                    vpiActual: Parameter name:param1
-                  Constant start:8:147 end:8:152:
+                    vpiHighConn RefObj name:param1 start:8:137 end:8:143:
+                      vpiParent: NamedArgument
+                      vpiName: param1
+                      vpiFullName: mycheck.param1
+                      vpiActual: Parameter name:param1
+                  NamedArgument start:8:146 end:8:153:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: IntTypespec
-                    vpiConstType: hexadecimal (5)
-                    vpiSize: 8
-                    vpiDecompile: "8'h31"
-                    vpiValue: "31"
+                    vpiHighConn Constant start:8:147 end:8:152:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: IntTypespec
+                      vpiConstType: hexadecimal (5)
+                      vpiSize: 8
+                      vpiDecompile: "8'h31"
+                      vpiValue: "31"
               SysTaskCall name:stop start:8:156 end:8:162:
                 vpiParent: Begin
                 vpiName Identifier name:stop start:8:157 end:8:161:
@@ -2357,51 +2372,61 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:8:63 end:8:68:
                 vpiArgument (5 items):
-                  Constant start:8:69 end:8:108:
+                  NamedArgument start:8:69 end:8:108:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 288
-                    vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
-                    vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
-                  Constant start:8:110 end:8:131:
+                    vpiHighConn Constant start:8:69 end:8:108:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 288
+                      vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
+                      vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
+                  NamedArgument start:8:110 end:8:131:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 152
-                    vpiDecompile: "\"$Source01/t_bind2.v\""
-                    vpiValue: "$Source01/t_bind2.v"
-                  Constant start:8:132 end:8:134:
+                    vpiHighConn Constant start:8:110 end:8:131:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 152
+                      vpiDecompile: "\"$Source01/t_bind2.v\""
+                      vpiValue: "$Source01/t_bind2.v"
+                  NamedArgument start:8:132 end:8:134:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "83"
-                    vpiValue: 83
-                  RefObj name:param2 start:8:137 end:8:143:
+                    vpiHighConn Constant start:8:132 end:8:134:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "83"
+                      vpiValue: 83
+                  NamedArgument start:8:136 end:8:144:
                     vpiParent: SysTaskCall name:write
-                    vpiName: param2
-                    vpiFullName: mycheck.param2
-                    vpiActual: Parameter name:param2
-                  Constant start:8:147 end:8:152:
+                    vpiHighConn RefObj name:param2 start:8:137 end:8:143:
+                      vpiParent: NamedArgument
+                      vpiName: param2
+                      vpiFullName: mycheck.param2
+                      vpiActual: Parameter name:param2
+                  NamedArgument start:8:146 end:8:153:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: IntTypespec
-                    vpiConstType: hexadecimal (5)
-                    vpiSize: 8
-                    vpiDecompile: "8'h22"
-                    vpiValue: "22"
+                    vpiHighConn Constant start:8:147 end:8:152:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: IntTypespec
+                      vpiConstType: hexadecimal (5)
+                      vpiSize: 8
+                      vpiDecompile: "8'h22"
+                      vpiValue: "22"
               SysTaskCall name:stop start:8:156 end:8:162:
                 vpiParent: Begin
                 vpiName Identifier name:stop start:8:157 end:8:161:
@@ -2434,51 +2459,61 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:8:63 end:8:68:
                 vpiArgument (5 items):
-                  Constant start:8:69 end:8:108:
+                  NamedArgument start:8:69 end:8:108:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 288
-                    vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
-                    vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
-                  Constant start:8:110 end:8:131:
+                    vpiHighConn Constant start:8:69 end:8:108:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 288
+                      vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
+                      vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
+                  NamedArgument start:8:110 end:8:131:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 152
-                    vpiDecompile: "\"$Source01/t_bind2.v\""
-                    vpiValue: "$Source01/t_bind2.v"
-                  Constant start:8:132 end:8:134:
+                    vpiHighConn Constant start:8:110 end:8:131:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 152
+                      vpiDecompile: "\"$Source01/t_bind2.v\""
+                      vpiValue: "$Source01/t_bind2.v"
+                  NamedArgument start:8:132 end:8:134:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "84"
-                    vpiValue: 84
-                  RefObj name:param3 start:8:137 end:8:143:
+                    vpiHighConn Constant start:8:132 end:8:134:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "84"
+                      vpiValue: 84
+                  NamedArgument start:8:136 end:8:144:
                     vpiParent: SysTaskCall name:write
-                    vpiName: param3
-                    vpiFullName: mycheck.param3
-                    vpiActual: Parameter name:param3
-                  Constant start:8:147 end:8:152:
+                    vpiHighConn RefObj name:param3 start:8:137 end:8:143:
+                      vpiParent: NamedArgument
+                      vpiName: param3
+                      vpiFullName: mycheck.param3
+                      vpiActual: Parameter name:param3
+                  NamedArgument start:8:146 end:8:153:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: IntTypespec
-                    vpiConstType: hexadecimal (5)
-                    vpiSize: 8
-                    vpiDecompile: "8'h23"
-                    vpiValue: "23"
+                    vpiHighConn Constant start:8:147 end:8:152:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: IntTypespec
+                      vpiConstType: hexadecimal (5)
+                      vpiSize: 8
+                      vpiDecompile: "8'h23"
+                      vpiValue: "23"
               SysTaskCall name:stop start:8:156 end:8:162:
                 vpiParent: Begin
                 vpiName Identifier name:stop start:8:157 end:8:161:
@@ -2511,51 +2546,61 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:8:59 end:8:64:
                 vpiArgument (5 items):
-                  Constant start:8:65 end:8:104:
+                  NamedArgument start:8:65 end:8:104:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 288
-                    vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
-                    vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
-                  Constant start:8:106 end:8:127:
+                    vpiHighConn Constant start:8:65 end:8:104:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 288
+                      vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
+                      vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
+                  NamedArgument start:8:106 end:8:127:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 152
-                    vpiDecompile: "\"$Source01/t_bind2.v\""
-                    vpiValue: "$Source01/t_bind2.v"
-                  Constant start:8:128 end:8:130:
+                    vpiHighConn Constant start:8:106 end:8:127:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 152
+                      vpiDecompile: "\"$Source01/t_bind2.v\""
+                      vpiValue: "$Source01/t_bind2.v"
+                  NamedArgument start:8:128 end:8:130:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "85"
-                    vpiValue: 85
-                  RefObj name:p1 start:8:133 end:8:135:
+                    vpiHighConn Constant start:8:128 end:8:130:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "85"
+                      vpiValue: 85
+                  NamedArgument start:8:132 end:8:136:
                     vpiParent: SysTaskCall name:write
-                    vpiName: p1
-                    vpiFullName: mycheck.p1
-                    vpiActual: Net name:p1
-                  Constant start:8:139 end:8:144:
+                    vpiHighConn RefObj name:p1 start:8:133 end:8:135:
+                      vpiParent: NamedArgument
+                      vpiName: p1
+                      vpiFullName: mycheck.p1
+                      vpiActual: Net name:p1
+                  NamedArgument start:8:138 end:8:145:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: IntTypespec
-                    vpiConstType: hexadecimal (5)
-                    vpiSize: 8
-                    vpiDecompile: "8'h04"
-                    vpiValue: "04"
+                    vpiHighConn Constant start:8:139 end:8:144:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: IntTypespec
+                      vpiConstType: hexadecimal (5)
+                      vpiSize: 8
+                      vpiDecompile: "8'h04"
+                      vpiValue: "04"
               SysTaskCall name:stop start:8:148 end:8:154:
                 vpiParent: Begin
                 vpiName Identifier name:stop start:8:149 end:8:153:
@@ -2588,51 +2633,61 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:8:59 end:8:64:
                 vpiArgument (5 items):
-                  Constant start:8:65 end:8:104:
+                  NamedArgument start:8:65 end:8:104:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 288
-                    vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
-                    vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
-                  Constant start:8:106 end:8:127:
+                    vpiHighConn Constant start:8:65 end:8:104:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 288
+                      vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
+                      vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
+                  NamedArgument start:8:106 end:8:127:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 152
-                    vpiDecompile: "\"$Source01/t_bind2.v\""
-                    vpiValue: "$Source01/t_bind2.v"
-                  Constant start:8:128 end:8:130:
+                    vpiHighConn Constant start:8:106 end:8:127:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 152
+                      vpiDecompile: "\"$Source01/t_bind2.v\""
+                      vpiValue: "$Source01/t_bind2.v"
+                  NamedArgument start:8:128 end:8:130:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "86"
-                    vpiValue: 86
-                  RefObj name:p2 start:8:133 end:8:135:
+                    vpiHighConn Constant start:8:128 end:8:130:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "86"
+                      vpiValue: 86
+                  NamedArgument start:8:132 end:8:136:
                     vpiParent: SysTaskCall name:write
-                    vpiName: p2
-                    vpiFullName: mycheck.p2
-                    vpiActual: Net name:p2
-                  Constant start:8:139 end:8:144:
+                    vpiHighConn RefObj name:p2 start:8:133 end:8:135:
+                      vpiParent: NamedArgument
+                      vpiName: p2
+                      vpiFullName: mycheck.p2
+                      vpiActual: Net name:p2
+                  NamedArgument start:8:138 end:8:145:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: IntTypespec
-                    vpiConstType: hexadecimal (5)
-                    vpiSize: 8
-                    vpiDecompile: "8'h05"
-                    vpiValue: "05"
+                    vpiHighConn Constant start:8:139 end:8:144:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: IntTypespec
+                      vpiConstType: hexadecimal (5)
+                      vpiSize: 8
+                      vpiDecompile: "8'h05"
+                      vpiValue: "05"
               SysTaskCall name:stop start:8:148 end:8:154:
                 vpiParent: Begin
                 vpiName Identifier name:stop start:8:149 end:8:153:
@@ -2665,51 +2720,61 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:8:59 end:8:64:
                 vpiArgument (5 items):
-                  Constant start:8:65 end:8:104:
+                  NamedArgument start:8:65 end:8:104:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 288
-                    vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
-                    vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
-                  Constant start:8:106 end:8:127:
+                    vpiHighConn Constant start:8:65 end:8:104:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 288
+                      vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
+                      vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
+                  NamedArgument start:8:106 end:8:127:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 152
-                    vpiDecompile: "\"$Source01/t_bind2.v\""
-                    vpiValue: "$Source01/t_bind2.v"
-                  Constant start:8:128 end:8:130:
+                    vpiHighConn Constant start:8:106 end:8:127:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 152
+                      vpiDecompile: "\"$Source01/t_bind2.v\""
+                      vpiValue: "$Source01/t_bind2.v"
+                  NamedArgument start:8:128 end:8:130:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "87"
-                    vpiValue: 87
-                  RefObj name:p3 start:8:133 end:8:135:
+                    vpiHighConn Constant start:8:128 end:8:130:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "87"
+                      vpiValue: 87
+                  NamedArgument start:8:132 end:8:136:
                     vpiParent: SysTaskCall name:write
-                    vpiName: p3
-                    vpiFullName: mycheck.p3
-                    vpiActual: Net name:p3
-                  Constant start:8:139 end:8:144:
+                    vpiHighConn RefObj name:p3 start:8:133 end:8:135:
+                      vpiParent: NamedArgument
+                      vpiName: p3
+                      vpiFullName: mycheck.p3
+                      vpiActual: Net name:p3
+                  NamedArgument start:8:138 end:8:145:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mycheck
-                      vpiActual: IntTypespec
-                    vpiConstType: hexadecimal (5)
-                    vpiSize: 8
-                    vpiDecompile: "8'h06"
-                    vpiValue: "06"
+                    vpiHighConn Constant start:8:139 end:8:144:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mycheck
+                        vpiActual: IntTypespec
+                      vpiConstType: hexadecimal (5)
+                      vpiSize: 8
+                      vpiDecompile: "8'h06"
+                      vpiValue: "06"
               SysTaskCall name:stop start:8:148 end:8:154:
                 vpiParent: Begin
                 vpiName Identifier name:stop start:8:149 end:8:153:
@@ -2792,7 +2857,7 @@ Operation                            7       4       0         3
 RefObj                              49      46       0         3
 RefTypespec                         93      90       0         3
 ----------------------------------------------------------------
-Others                             228     228       0         0
+Others                             259     259       0         0
 ----------------------------------------------------------------
-                                   441     432       3        12
+                                   472     463       3        12
 ===================== END REDUCTION RESULT =====================

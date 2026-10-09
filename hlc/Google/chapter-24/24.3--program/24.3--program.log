@@ -136,8 +136,8 @@ AST_DEBUG_END
 [WRN:CP5815] $Source01/24.3--program.sv:16:9: Using programs is discouraged "prog", programs are obsoleted by UVM.
 [INF:CP5804] $Source01/24.3--program.sv:20:1: Compile module "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7701] Invalid name: id:50, type:RefObj, name:, relation:vpiLowConn.
 [ERR:LN7701] Invalid name: id:53, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:56, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -188,26 +188,32 @@ Design name:unnamed:
             vpiParent: Initial
             vpiName Identifier name:$display start:17:10 end:17:18:
             vpiArgument (3 items):
-              Constant start:17:19 end:17:40:
+              NamedArgument start:17:19 end:17:40:
                 vpiParent: SysTaskCall name:$display
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: prog
-                  vpiActual: StringTypespec
-                vpiConstType: string (6)
-                vpiSize: 152
-                vpiDecompile: "\":assert: (%d == %d)\""
-                vpiValue: ":assert: (%d == %d)"
-              RefObj name:a start:17:42 end:17:43:
+                vpiHighConn Constant start:17:19 end:17:40:
+                  vpiParent: NamedArgument
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: prog
+                    vpiActual: StringTypespec
+                  vpiConstType: string (6)
+                  vpiSize: 152
+                  vpiDecompile: "\":assert: (%d == %d)\""
+                  vpiValue: ":assert: (%d == %d)"
+              NamedArgument start:17:42 end:17:43:
                 vpiParent: SysTaskCall name:$display
-                vpiName: a
-                vpiFullName: prog.a
-                vpiActual: Net name:a
-              RefObj name:b start:17:45 end:17:46:
+                vpiHighConn RefObj name:a start:17:42 end:17:43:
+                  vpiParent: NamedArgument
+                  vpiName: a
+                  vpiFullName: prog.a
+                  vpiActual: Net name:a
+              NamedArgument start:17:45 end:17:46:
                 vpiParent: SysTaskCall name:$display
-                vpiName: b
-                vpiFullName: prog.b
-                vpiActual: Net name:b
+                vpiHighConn RefObj name:b start:17:45 end:17:46:
+                  vpiParent: NamedArgument
+                  vpiName: b
+                  vpiFullName: prog.b
+                  vpiActual: Net name:b
       vpiPort (2 items):
         Port name:a start:16:25 end:16:26:
           vpiParent: Program name:prog
@@ -305,24 +311,24 @@ Design name:unnamed:
             vpiName: prog
             vpiFullName: top.p.prog
             vpiActual: ProgramTypespec name:prog
-          vpiPort (2 items):
-            Port start:25:11 end:25:12:
+          vpiArgument (2 items):
+            NamedArgument start:25:11 end:25:12:
               vpiParent: RefInstance name:p
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: top.p
               vpiHighConn RefObj name:a start:25:11 end:25:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: top.p.a
                 vpiActual: Net name:a
-            Port start:25:14 end:25:15:
+            NamedArgument start:25:14 end:25:15:
               vpiParent: RefInstance name:p
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: top.p
               vpiHighConn RefObj name:b start:25:14 end:25:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: top.p.b
                 vpiActual: Net name:b
@@ -394,7 +400,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-24/24.3--program/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              52      52       0         0
+Others                              55      55       0         0
 ----------------------------------------------------------------
-                                    52      52       0         0
+                                    55      55       0         0
 ===================== END REDUCTION RESULT =====================

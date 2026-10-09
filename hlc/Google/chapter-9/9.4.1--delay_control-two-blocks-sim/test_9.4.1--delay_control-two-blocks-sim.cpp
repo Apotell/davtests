@@ -98,6 +98,7 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
 #include <hldb/process_stmt.h>
 #include <hldb/sys_func_call.h>
 #include <hldb/sys_task_call.h>
@@ -112,9 +113,14 @@ const hldb::SysTaskCall *CheckDisplayOfTime(const hldb::Any *stmt) {
 
   if (display->getArguments() == nullptr || display->getArguments()->size() != 2u) return nullptr;
 
-  if (any_cast<hldb::Constant>(display->getArguments()->at(0)) == nullptr) return nullptr;
+  hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+  if (arg0 == nullptr) return nullptr;
 
-  const hldb::SysFuncCall *const time = any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+  if (arg0->getHighConn<hldb::Constant>() == nullptr) return nullptr;
+
+  hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+
+  const hldb::SysFuncCall *const time = arg1->getHighConn<hldb::SysFuncCall>();
   if (time == nullptr || time->getName() != "$time") return nullptr;
   if (time->getArguments() != nullptr && !time->getArguments()->empty()) return nullptr;
 

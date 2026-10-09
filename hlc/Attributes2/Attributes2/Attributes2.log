@@ -1660,10 +1660,10 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:112:3: No timescale set for "Attributes2_nested_program".
 [WRN:PA5506] $Source01/dut.sv:117:1: No timescale set for "Attributes2_program_nonansi".
 [WRN:PA5506] $Source01/dut.sv:123:1: No timescale set for "Attributes2_program_ansi".
-[ERR:LN7705] $Source01/dut.sv:239:19: Null Actual: id:646, type:MethodFuncCall, name:sum, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:239:25: Null Actual: id:641, type:MethodFuncCall, name:sum, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:243:19: Null Actual: id:658, type:MethodFuncCall, name:sum, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:243:25: Null Actual: id:652, type:MethodFuncCall, name:sum, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:239:19: Null Actual: id:649, type:MethodFuncCall, name:sum, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:239:25: Null Actual: id:644, type:MethodFuncCall, name:sum, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:243:19: Null Actual: id:662, type:MethodFuncCall, name:sum, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:243:25: Null Actual: id:656, type:MethodFuncCall, name:sum, relation:vpiPathElem.
 [ERR:DB2038] $Source01/dut.sv:202:16: 'vpiStmt' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
@@ -2514,32 +2514,34 @@ Design name:unnamed:
             vpiName: bar
             vpiFullName: foo.bar_named.bar
             vpiActual: ModuleTypespec name:bar
-          vpiPort (2 items):
-            Port start:62:18 end:62:57:
+          vpiArgument (2 items):
+            NamedArgument start:62:18 end:62:57:
               vpiParent: RefInstance name:bar_named
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:62:49 end:62:52:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: foo.bar_named.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:62:53 end:62:56:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: foo.bar_named.clk
                 vpiActual: Net name:clk
               vpiAttribute (1 items):
                 Attribute name:a_named_port_connection start:62:21 end:62:44:
-                  vpiParent: Port
+                  vpiParent: NamedArgument
                   vpiName: a_named_port_connection
-            Port start:62:59 end:62:68:
+            NamedArgument start:62:59 end:62:68:
               vpiParent: RefInstance name:bar_named
+              vpiConnByName: true
               vpiLowConn RefObj name:rst start:62:60 end:62:63:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: foo.bar_named.rst
                 vpiActual: Net name:rst
               vpiHighConn RefObj name:rst start:62:64 end:62:67:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: foo.bar_named.rst
                 vpiActual: Net name:rst
@@ -2551,16 +2553,16 @@ Design name:unnamed:
             vpiName: bar
             vpiFullName: foo.bar_ordered.bar
             vpiActual: ModuleTypespec name:bar
-          vpiPort (2 items):
-            Port start:63:20 end:63:55:
+          vpiArgument (2 items):
+            NamedArgument start:63:20 end:63:55:
               vpiParent: RefInstance name:bar_ordered
               vpiLowConn RefObj name:clk:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: foo.bar_ordered.clk
                 vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:63:52 end:63:55:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiAttribute (1 items):
                   Attribute name:a_ordered_port_connection start:63:23 end:63:48:
                     vpiParent: RefObj name:clk
@@ -2568,15 +2570,15 @@ Design name:unnamed:
                 vpiName: clk
                 vpiFullName: foo.bar_ordered.clk
                 vpiActual: Net name:clk
-            Port start:63:57 end:63:60:
+            NamedArgument start:63:57 end:63:60:
               vpiParent: RefInstance name:bar_ordered
               vpiLowConn RefObj name:rst:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: foo.bar_ordered.rst
                 vpiActual: Port name:rst
               vpiHighConn RefObj name:rst start:63:57 end:63:60:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: foo.bar_ordered.rst
                 vpiActual: Net name:rst
@@ -3328,11 +3330,13 @@ Design name:unnamed:
             vpiName Identifier name:Attributes2_func start:198:5 end:198:21:
             vpiTaskFunc: Function name:Attributes2_func
             vpiArgument (1 items):
-              RefObj name:ta start:198:22 end:198:24:
+              NamedArgument start:198:22 end:198:24:
                 vpiParent: MethodFuncCall name:Attributes2_func
-                vpiName: ta
-                vpiFullName: Attributes2_top.Attributes2_task.ta
-                vpiActual: IODecl name:ta
+                vpiHighConn RefObj name:ta start:198:22 end:198:24:
+                  vpiParent: NamedArgument
+                  vpiName: ta
+                  vpiFullName: Attributes2_top.Attributes2_task.ta
+                  vpiActual: IODecl name:ta
       vpiNet (6 items):
         Net name:clk start:134:16 end:134:19:
           vpiParent: Module name:Attributes2_top
@@ -3590,20 +3594,22 @@ Design name:unnamed:
                 vpiName Identifier name:Attributes2_func start:235:11 end:235:27:
                 vpiTaskFunc: Function name:Attributes2_func
                 vpiArgument (1 items):
-                  Constant start:235:53 end:235:54:
+                  NamedArgument start:235:53 end:235:54:
                     vpiParent: MethodFuncCall name:Attributes2_func
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: Attributes2_top
-                      vpiActual: IntTypespec
+                    vpiHighConn Constant start:235:53 end:235:54:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: Attributes2_top
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "1"
+                      vpiValue: 1
                     vpiAttribute (1 items):
                       Attribute name:a_subroutine_call start:235:31 end:235:48:
-                        vpiParent: Constant
+                        vpiParent: NamedArgument
                         vpiName: a_subroutine_call
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "1"
-                    vpiValue: 1
               RefObj name:dyn_arr.sum().sum(1) start:239:11 end:239:57:
                 vpiParent: Begin
                 vpiName: dyn_arr.sum().sum(1)
@@ -3621,20 +3627,22 @@ Design name:unnamed:
                     vpiParent: RefObj name:dyn_arr.sum().sum(1)
                     vpiName Identifier name:sum start:239:25 end:239:28:
                     vpiArgument (1 items):
-                      Constant start:239:55 end:239:56:
+                      NamedArgument start:239:55 end:239:56:
                         vpiParent: MethodFuncCall name:sum
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: Attributes2_top.dyn_arr.sum().sum(1)
-                          vpiActual: IntTypespec
+                        vpiHighConn Constant start:239:55 end:239:56:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: Attributes2_top.dyn_arr.sum().sum(1)
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
                         vpiAttribute (1 items):
                           Attribute name:a_method_call_body start:239:32 end:239:50:
-                            vpiParent: Constant
+                            vpiParent: NamedArgument
                             vpiName: a_method_call_body
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
               RefObj name:dyn_arr.sum().sum(1) start:243:11 end:243:76:
                 vpiParent: Begin
                 vpiName: dyn_arr.sum().sum(1)
@@ -3652,20 +3660,22 @@ Design name:unnamed:
                     vpiParent: RefObj name:dyn_arr.sum().sum(1)
                     vpiName Identifier name:sum start:243:25 end:243:28:
                     vpiArgument (1 items):
-                      Constant start:243:62 end:243:63:
+                      NamedArgument start:243:62 end:243:63:
                         vpiParent: MethodFuncCall name:sum
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: Attributes2_top.dyn_arr.sum().sum(1)
-                          vpiActual: IntTypespec
+                        vpiHighConn Constant start:243:62 end:243:63:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: Attributes2_top.dyn_arr.sum().sum(1)
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
                         vpiAttribute (1 items):
                           Attribute name:a_array_manipulation_call start:243:32 end:243:57:
-                            vpiParent: Constant
+                            vpiParent: NamedArgument
                             vpiName: a_array_manipulation_call
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
                     vpiWith RefObj name:item start:243:71 end:243:75:
                       vpiParent: MethodFuncCall name:sum
                       vpiName: item
@@ -3827,26 +3837,28 @@ Design name:unnamed:
               vpiName: Attributes2_checker
               vpiFullName: Attributes2_top.bound_checker.Attributes2_checker
               vpiActual: CheckerTypespec name:Attributes2_checker
-            vpiPort (2 items):
-              CheckerInstPort start:155:86 end:155:94:
+            vpiArgument (2 items):
+              NamedArgument start:155:86 end:155:94:
                 vpiParent: RefInstance name:bound_checker
+                vpiConnByName: true
                 vpiLowConn RefObj name:c1:
-                  vpiParent: CheckerInstPort
+                  vpiParent: NamedArgument
                   vpiName: c1
                   vpiFullName: Attributes2_top.bound_checker.c1
-                vpiActual RefObj name:clk start:155:90 end:155:93:
-                  vpiParent: CheckerInstPort
+                vpiHighConn RefObj name:clk start:155:90 end:155:93:
+                  vpiParent: NamedArgument
                   vpiName: clk
                   vpiFullName: Attributes2_top.bound_checker.clk
                   vpiActual: Net name:clk
-              CheckerInstPort start:155:96 end:155:104:
+              NamedArgument start:155:96 end:155:104:
                 vpiParent: RefInstance name:bound_checker
+                vpiConnByName: true
                 vpiLowConn RefObj name:c2:
-                  vpiParent: CheckerInstPort
+                  vpiParent: NamedArgument
                   vpiName: c2
                   vpiFullName: Attributes2_top.bound_checker.c2
-                vpiActual RefObj name:rst start:155:100 end:155:103:
-                  vpiParent: CheckerInstPort
+                vpiHighConn RefObj name:rst start:155:100 end:155:103:
+                  vpiParent: NamedArgument
                   vpiName: rst
                   vpiFullName: Attributes2_top.bound_checker.rst
                   vpiActual: Net name:rst
@@ -4223,7 +4235,7 @@ Operation                           16      15       0         1
 RefObj                              99      98       0         1
 RefTypespec                        124     124       1         1
 ----------------------------------------------------------------
-Others                             348     348       0         0
+Others                             352     352       0         0
 ----------------------------------------------------------------
-                                   628     626       2         4
+                                   632     630       2         4
 ===================== END REDUCTION RESULT =====================

@@ -1036,24 +1036,30 @@ Design name:unnamed:
                     vpiParent: Begin
                     vpiName Identifier name:$display start:42:5 end:42:13:
                     vpiArgument (3 items):
-                      Constant start:42:14 end:42:44:
+                      NamedArgument start:42:14 end:42:44:
                         vpiParent: SysTaskCall name:$display
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: test_mod
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 216
-                        vpiDecompile: "\"saw a clk at %d, out is %b\\n\""
-                        vpiValue: saw a clk at %d, out is %b\n
-                      SysFuncCall name:$time start:42:45 end:42:50:
+                        vpiHighConn Constant start:42:14 end:42:44:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: test_mod
+                            vpiActual: StringTypespec
+                          vpiConstType: string (6)
+                          vpiSize: 216
+                          vpiDecompile: "\"saw a clk at %d, out is %b\\n\""
+                          vpiValue: saw a clk at %d, out is %b\n
+                      NamedArgument start:42:45 end:42:50:
                         vpiParent: SysTaskCall name:$display
-                        vpiName Identifier name:$time start:42:45 end:42:50:
-                      RefObj name:out start:42:51 end:42:54:
+                        vpiHighConn SysFuncCall name:$time start:42:45 end:42:50:
+                          vpiParent: NamedArgument
+                          vpiName Identifier name:$time start:42:45 end:42:50:
+                      NamedArgument start:42:51 end:42:54:
                         vpiParent: SysTaskCall name:$display
-                        vpiName: out
-                        vpiFullName: test_mod.out
-                        vpiActual: Variable name:out
+                        vpiHighConn RefObj name:out start:42:51 end:42:54:
+                          vpiParent: NamedArgument
+                          vpiName: out
+                          vpiFullName: test_mod.out
+                          vpiActual: Variable name:out
           vpiAlwaysType: always (1)
     Module name:main file:$Source01/sdw_instmod1.v start:47:1 end:115:10:
       vpiParent: Design name:unnamed
@@ -1217,44 +1223,58 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:61:5 end:61:13:
                 vpiArgument (7 items):
-                  Constant start:61:14 end:61:57:
+                  NamedArgument start:61:14 end:61:57:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 320
-                    vpiDecompile: "\"time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\\n\""
-                    vpiValue: time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\n
-                  SysFuncCall name:$time start:61:58 end:61:63:
+                    vpiHighConn Constant start:61:14 end:61:57:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 320
+                      vpiDecompile: "\"time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\\n\""
+                      vpiValue: time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\n
+                  NamedArgument start:61:58 end:61:63:
                     vpiParent: SysTaskCall name:$display
-                    vpiName Identifier name:$time start:61:58 end:61:63:
-                  RefObj name:reset start:61:64 end:61:69:
+                    vpiHighConn SysFuncCall name:$time start:61:58 end:61:63:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:61:58 end:61:63:
+                  NamedArgument start:61:64 end:61:69:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: reset
-                    vpiFullName: main.reset
-                    vpiActual: Variable name:reset
-                  RefObj name:clk_0 start:61:70 end:61:75:
+                    vpiHighConn RefObj name:reset start:61:64 end:61:69:
+                      vpiParent: NamedArgument
+                      vpiName: reset
+                      vpiFullName: main.reset
+                      vpiActual: Variable name:reset
+                  NamedArgument start:61:70 end:61:75:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: clk_0
-                    vpiFullName: main.clk_0
-                    vpiActual: Variable name:clk_0
-                  RefObj name:clk_1 start:62:15 end:62:20:
+                    vpiHighConn RefObj name:clk_0 start:61:70 end:61:75:
+                      vpiParent: NamedArgument
+                      vpiName: clk_0
+                      vpiFullName: main.clk_0
+                      vpiActual: Variable name:clk_0
+                  NamedArgument start:62:15 end:62:20:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: clk_1
-                    vpiFullName: main.clk_1
-                    vpiActual: Variable name:clk_1
-                  RefObj name:out_0 start:62:21 end:62:26:
+                    vpiHighConn RefObj name:clk_1 start:62:15 end:62:20:
+                      vpiParent: NamedArgument
+                      vpiName: clk_1
+                      vpiFullName: main.clk_1
+                      vpiActual: Variable name:clk_1
+                  NamedArgument start:62:21 end:62:26:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: out_0
-                    vpiFullName: main.out_0
-                    vpiActual: Net name:out_0
-                  RefObj name:out_1 start:62:27 end:62:32:
+                    vpiHighConn RefObj name:out_0 start:62:21 end:62:26:
+                      vpiParent: NamedArgument
+                      vpiName: out_0
+                      vpiFullName: main.out_0
+                      vpiActual: Net name:out_0
+                  NamedArgument start:62:27 end:62:32:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: out_1
-                    vpiFullName: main.out_1
-                    vpiActual: Net name:out_1
+                    vpiHighConn RefObj name:out_1 start:62:27 end:62:32:
+                      vpiParent: NamedArgument
+                      vpiName: out_1
+                      vpiFullName: main.out_1
+                      vpiActual: Net name:out_1
               IfStmt start:64:5 end:68:10:
                 vpiParent: Begin
                 vpiCondition RefObj name:out_0 start:64:8 end:64:13:
@@ -1270,16 +1290,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:66:9 end:66:17:
                       vpiArgument (1 items):
-                        Constant start:66:18 end:66:46:
+                        NamedArgument start:66:18 end:66:46:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 200
-                          vpiDecompile: "\"FAILED - out_0 not reset\\n\""
-                          vpiValue: FAILED - out_0 not reset\n
+                          vpiHighConn Constant start:66:18 end:66:46:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 200
+                            vpiDecompile: "\"FAILED - out_0 not reset\\n\""
+                            vpiValue: FAILED - out_0 not reset\n
                     SysTaskCall name:$finish start:67:9 end:67:16:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:67:9 end:67:16:
@@ -1299,16 +1321,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:72:9 end:72:17:
                       vpiArgument (1 items):
-                        Constant start:72:18 end:72:46:
+                        NamedArgument start:72:18 end:72:46:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 200
-                          vpiDecompile: "\"FAILED - out_1 not reset\\n\""
-                          vpiValue: FAILED - out_1 not reset\n
+                          vpiHighConn Constant start:72:18 end:72:46:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 200
+                            vpiDecompile: "\"FAILED - out_1 not reset\\n\""
+                            vpiValue: FAILED - out_1 not reset\n
                     SysTaskCall name:$finish start:73:9 end:73:16:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:73:9 end:73:16:
@@ -1335,44 +1359,58 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:76:5 end:76:13:
                 vpiArgument (7 items):
-                  Constant start:76:14 end:76:57:
+                  NamedArgument start:76:14 end:76:57:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 320
-                    vpiDecompile: "\"time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\\n\""
-                    vpiValue: time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\n
-                  SysFuncCall name:$time start:76:58 end:76:63:
+                    vpiHighConn Constant start:76:14 end:76:57:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 320
+                      vpiDecompile: "\"time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\\n\""
+                      vpiValue: time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\n
+                  NamedArgument start:76:58 end:76:63:
                     vpiParent: SysTaskCall name:$display
-                    vpiName Identifier name:$time start:76:58 end:76:63:
-                  RefObj name:reset start:76:64 end:76:69:
+                    vpiHighConn SysFuncCall name:$time start:76:58 end:76:63:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:76:58 end:76:63:
+                  NamedArgument start:76:64 end:76:69:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: reset
-                    vpiFullName: main.reset
-                    vpiActual: Variable name:reset
-                  RefObj name:clk_0 start:76:70 end:76:75:
+                    vpiHighConn RefObj name:reset start:76:64 end:76:69:
+                      vpiParent: NamedArgument
+                      vpiName: reset
+                      vpiFullName: main.reset
+                      vpiActual: Variable name:reset
+                  NamedArgument start:76:70 end:76:75:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: clk_0
-                    vpiFullName: main.clk_0
-                    vpiActual: Variable name:clk_0
-                  RefObj name:clk_1 start:77:15 end:77:20:
+                    vpiHighConn RefObj name:clk_0 start:76:70 end:76:75:
+                      vpiParent: NamedArgument
+                      vpiName: clk_0
+                      vpiFullName: main.clk_0
+                      vpiActual: Variable name:clk_0
+                  NamedArgument start:77:15 end:77:20:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: clk_1
-                    vpiFullName: main.clk_1
-                    vpiActual: Variable name:clk_1
-                  RefObj name:out_0 start:77:21 end:77:26:
+                    vpiHighConn RefObj name:clk_1 start:77:15 end:77:20:
+                      vpiParent: NamedArgument
+                      vpiName: clk_1
+                      vpiFullName: main.clk_1
+                      vpiActual: Variable name:clk_1
+                  NamedArgument start:77:21 end:77:26:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: out_0
-                    vpiFullName: main.out_0
-                    vpiActual: Net name:out_0
-                  RefObj name:out_1 start:77:27 end:77:32:
+                    vpiHighConn RefObj name:out_0 start:77:21 end:77:26:
+                      vpiParent: NamedArgument
+                      vpiName: out_0
+                      vpiFullName: main.out_0
+                      vpiActual: Net name:out_0
+                  NamedArgument start:77:27 end:77:32:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: out_1
-                    vpiFullName: main.out_1
-                    vpiActual: Net name:out_1
+                    vpiHighConn RefObj name:out_1 start:77:27 end:77:32:
+                      vpiParent: NamedArgument
+                      vpiName: out_1
+                      vpiFullName: main.out_1
+                      vpiActual: Net name:out_1
               DelayControl start:78:6 end:78:9:
                 vpiParent: Begin
                 vpiDelay: 2
@@ -1421,44 +1459,58 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:81:5 end:81:13:
                 vpiArgument (7 items):
-                  Constant start:81:14 end:81:57:
+                  NamedArgument start:81:14 end:81:57:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 320
-                    vpiDecompile: "\"time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\\n\""
-                    vpiValue: time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\n
-                  SysFuncCall name:$time start:81:58 end:81:63:
+                    vpiHighConn Constant start:81:14 end:81:57:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 320
+                      vpiDecompile: "\"time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\\n\""
+                      vpiValue: time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\n
+                  NamedArgument start:81:58 end:81:63:
                     vpiParent: SysTaskCall name:$display
-                    vpiName Identifier name:$time start:81:58 end:81:63:
-                  RefObj name:reset start:81:64 end:81:69:
+                    vpiHighConn SysFuncCall name:$time start:81:58 end:81:63:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:81:58 end:81:63:
+                  NamedArgument start:81:64 end:81:69:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: reset
-                    vpiFullName: main.reset
-                    vpiActual: Variable name:reset
-                  RefObj name:clk_0 start:81:70 end:81:75:
+                    vpiHighConn RefObj name:reset start:81:64 end:81:69:
+                      vpiParent: NamedArgument
+                      vpiName: reset
+                      vpiFullName: main.reset
+                      vpiActual: Variable name:reset
+                  NamedArgument start:81:70 end:81:75:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: clk_0
-                    vpiFullName: main.clk_0
-                    vpiActual: Variable name:clk_0
-                  RefObj name:clk_1 start:82:15 end:82:20:
+                    vpiHighConn RefObj name:clk_0 start:81:70 end:81:75:
+                      vpiParent: NamedArgument
+                      vpiName: clk_0
+                      vpiFullName: main.clk_0
+                      vpiActual: Variable name:clk_0
+                  NamedArgument start:82:15 end:82:20:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: clk_1
-                    vpiFullName: main.clk_1
-                    vpiActual: Variable name:clk_1
-                  RefObj name:out_0 start:82:21 end:82:26:
+                    vpiHighConn RefObj name:clk_1 start:82:15 end:82:20:
+                      vpiParent: NamedArgument
+                      vpiName: clk_1
+                      vpiFullName: main.clk_1
+                      vpiActual: Variable name:clk_1
+                  NamedArgument start:82:21 end:82:26:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: out_0
-                    vpiFullName: main.out_0
-                    vpiActual: Net name:out_0
-                  RefObj name:out_1 start:82:27 end:82:32:
+                    vpiHighConn RefObj name:out_0 start:82:21 end:82:26:
+                      vpiParent: NamedArgument
+                      vpiName: out_0
+                      vpiFullName: main.out_0
+                      vpiActual: Net name:out_0
+                  NamedArgument start:82:27 end:82:32:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: out_1
-                    vpiFullName: main.out_1
-                    vpiActual: Net name:out_1
+                    vpiHighConn RefObj name:out_1 start:82:27 end:82:32:
+                      vpiParent: NamedArgument
+                      vpiName: out_1
+                      vpiFullName: main.out_1
+                      vpiActual: Net name:out_1
               IfStmt start:83:5 end:87:10:
                 vpiParent: Begin
                 vpiCondition Operation start:83:8 end:83:14:
@@ -1478,16 +1530,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:85:9 end:85:17:
                       vpiArgument (1 items):
-                        Constant start:85:18 end:85:56:
+                        NamedArgument start:85:18 end:85:56:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 280
-                          vpiDecompile: "\"FAILED - out_0 didn't set on clk_0\\n\""
-                          vpiValue: "FAILED - out_0 didn't set on clk_0\\n"
+                          vpiHighConn Constant start:85:18 end:85:56:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 280
+                            vpiDecompile: "\"FAILED - out_0 didn't set on clk_0\\n\""
+                            vpiValue: "FAILED - out_0 didn't set on clk_0\\n"
                     SysTaskCall name:$finish start:86:9 end:86:16:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:86:9 end:86:16:
@@ -1507,16 +1561,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:91:9 end:91:17:
                       vpiArgument (1 items):
-                        Constant start:91:18 end:91:54:
+                        NamedArgument start:91:18 end:91:54:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 264
-                          vpiDecompile: "\"FAILED - out_1 set on wrong clk!\\n\""
-                          vpiValue: FAILED - out_1 set on wrong clk!\n
+                          vpiHighConn Constant start:91:18 end:91:54:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 264
+                            vpiDecompile: "\"FAILED - out_1 set on wrong clk!\\n\""
+                            vpiValue: FAILED - out_1 set on wrong clk!\n
                     SysTaskCall name:$finish start:92:9 end:92:16:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:92:9 end:92:16:
@@ -1556,44 +1612,58 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:97:5 end:97:13:
                 vpiArgument (7 items):
-                  Constant start:97:14 end:97:57:
+                  NamedArgument start:97:14 end:97:57:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 320
-                    vpiDecompile: "\"time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\\n\""
-                    vpiValue: time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\n
-                  SysFuncCall name:$time start:97:58 end:97:63:
+                    vpiHighConn Constant start:97:14 end:97:57:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 320
+                      vpiDecompile: "\"time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\\n\""
+                      vpiValue: time %d r=%b, c0=%b, c1=%b, o0=%b,o1=%b\n
+                  NamedArgument start:97:58 end:97:63:
                     vpiParent: SysTaskCall name:$display
-                    vpiName Identifier name:$time start:97:58 end:97:63:
-                  RefObj name:reset start:97:64 end:97:69:
+                    vpiHighConn SysFuncCall name:$time start:97:58 end:97:63:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:97:58 end:97:63:
+                  NamedArgument start:97:64 end:97:69:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: reset
-                    vpiFullName: main.reset
-                    vpiActual: Variable name:reset
-                  RefObj name:clk_0 start:97:70 end:97:75:
+                    vpiHighConn RefObj name:reset start:97:64 end:97:69:
+                      vpiParent: NamedArgument
+                      vpiName: reset
+                      vpiFullName: main.reset
+                      vpiActual: Variable name:reset
+                  NamedArgument start:97:70 end:97:75:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: clk_0
-                    vpiFullName: main.clk_0
-                    vpiActual: Variable name:clk_0
-                  RefObj name:clk_1 start:98:15 end:98:20:
+                    vpiHighConn RefObj name:clk_0 start:97:70 end:97:75:
+                      vpiParent: NamedArgument
+                      vpiName: clk_0
+                      vpiFullName: main.clk_0
+                      vpiActual: Variable name:clk_0
+                  NamedArgument start:98:15 end:98:20:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: clk_1
-                    vpiFullName: main.clk_1
-                    vpiActual: Variable name:clk_1
-                  RefObj name:out_0 start:98:21 end:98:26:
+                    vpiHighConn RefObj name:clk_1 start:98:15 end:98:20:
+                      vpiParent: NamedArgument
+                      vpiName: clk_1
+                      vpiFullName: main.clk_1
+                      vpiActual: Variable name:clk_1
+                  NamedArgument start:98:21 end:98:26:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: out_0
-                    vpiFullName: main.out_0
-                    vpiActual: Net name:out_0
-                  RefObj name:out_1 start:98:27 end:98:32:
+                    vpiHighConn RefObj name:out_0 start:98:21 end:98:26:
+                      vpiParent: NamedArgument
+                      vpiName: out_0
+                      vpiFullName: main.out_0
+                      vpiActual: Net name:out_0
+                  NamedArgument start:98:27 end:98:32:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: out_1
-                    vpiFullName: main.out_1
-                    vpiActual: Net name:out_1
+                    vpiHighConn RefObj name:out_1 start:98:27 end:98:32:
+                      vpiParent: NamedArgument
+                      vpiName: out_1
+                      vpiFullName: main.out_1
+                      vpiActual: Net name:out_1
               IfStmt start:99:5 end:103:10:
                 vpiParent: Begin
                 vpiCondition Operation start:99:8 end:99:14:
@@ -1613,16 +1683,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:101:9 end:101:17:
                       vpiArgument (1 items):
-                        Constant start:101:18 end:101:56:
+                        NamedArgument start:101:18 end:101:56:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 280
-                          vpiDecompile: "\"FAILED - out_1 didn't set on clk_1\\n\""
-                          vpiValue: "FAILED - out_1 didn't set on clk_1\\n"
+                          vpiHighConn Constant start:101:18 end:101:56:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 280
+                            vpiDecompile: "\"FAILED - out_1 didn't set on clk_1\\n\""
+                            vpiValue: "FAILED - out_1 didn't set on clk_1\\n"
                     SysTaskCall name:$finish start:102:9 end:102:16:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:102:9 end:102:16:
@@ -1646,16 +1718,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:107:9 end:107:17:
                       vpiArgument (1 items):
-                        Constant start:107:18 end:107:57:
+                        NamedArgument start:107:18 end:107:57:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 288
-                          vpiDecompile: "\"FAILED - out_0 changed due to clk_0\\n\""
-                          vpiValue: FAILED - out_0 changed due to clk_0\n
+                          vpiHighConn Constant start:107:18 end:107:57:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 288
+                            vpiDecompile: "\"FAILED - out_0 changed due to clk_0\\n\""
+                            vpiValue: FAILED - out_0 changed due to clk_0\n
                     SysTaskCall name:$finish start:108:9 end:108:16:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:108:9 end:108:16:
@@ -1664,16 +1738,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:112:5 end:112:13:
                 vpiArgument (1 items):
-                  Constant start:112:14 end:112:24:
+                  NamedArgument start:112:14 end:112:24:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 56
-                    vpiDecompile: "\"PASSED\\n\""
-                    vpiValue: PASSED\n
+                    vpiHighConn Constant start:112:14 end:112:24:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 56
+                      vpiDecompile: "\"PASSED\\n\""
+                      vpiValue: PASSED\n
               SysTaskCall name:$finish start:113:5 end:113:12:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:113:5 end:113:12:
@@ -1687,40 +1763,40 @@ Design name:unnamed:
             vpiName: test_mod
             vpiFullName: main.module_1.test_mod
             vpiActual: ModuleTypespec name:test_mod
-          vpiPort (3 items):
-            Port start:52:20 end:52:25:
+          vpiArgument (3 items):
+            NamedArgument start:52:20 end:52:25:
               vpiParent: RefInstance name:module_1
               vpiLowConn RefObj name:reset:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: reset
                 vpiFullName: main.module_1.reset
                 vpiActual: Port name:reset
               vpiHighConn RefObj name:reset start:52:20 end:52:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: reset
                 vpiFullName: main.module_1.reset
                 vpiActual: Variable name:reset
-            Port start:52:26 end:52:31:
+            NamedArgument start:52:26 end:52:31:
               vpiParent: RefInstance name:module_1
               vpiLowConn RefObj name:clka:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clka
                 vpiFullName: main.module_1.clka
                 vpiActual: Port name:clka
               vpiHighConn RefObj name:clk_0 start:52:26 end:52:31:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk_0
                 vpiFullName: main.module_1.clk_0
                 vpiActual: Variable name:clk_0
-            Port start:52:32 end:52:37:
+            NamedArgument start:52:32 end:52:37:
               vpiParent: RefInstance name:module_1
               vpiLowConn RefObj name:out:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out
                 vpiFullName: main.module_1.out
                 vpiActual: Port name:out
               vpiHighConn RefObj name:out_0 start:52:32 end:52:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out_0
                 vpiFullName: main.module_1.out_0
                 vpiActual: Net name:out_0
@@ -1732,40 +1808,40 @@ Design name:unnamed:
             vpiName: test_mod
             vpiFullName: main.module_2.test_mod
             vpiActual: ModuleTypespec name:test_mod
-          vpiPort (3 items):
-            Port start:53:20 end:53:25:
+          vpiArgument (3 items):
+            NamedArgument start:53:20 end:53:25:
               vpiParent: RefInstance name:module_2
               vpiLowConn RefObj name:reset:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: reset
                 vpiFullName: main.module_2.reset
                 vpiActual: Port name:reset
               vpiHighConn RefObj name:reset start:53:20 end:53:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: reset
                 vpiFullName: main.module_2.reset
                 vpiActual: Variable name:reset
-            Port start:53:26 end:53:31:
+            NamedArgument start:53:26 end:53:31:
               vpiParent: RefInstance name:module_2
               vpiLowConn RefObj name:clka:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clka
                 vpiFullName: main.module_2.clka
                 vpiActual: Port name:clka
               vpiHighConn RefObj name:clk_1 start:53:26 end:53:31:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk_1
                 vpiFullName: main.module_2.clk_1
                 vpiActual: Variable name:clk_1
-            Port start:53:32 end:53:37:
+            NamedArgument start:53:32 end:53:37:
               vpiParent: RefInstance name:module_2
               vpiLowConn RefObj name:out:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out
                 vpiFullName: main.module_2.out
                 vpiActual: Port name:out
               vpiHighConn RefObj name:out_1 start:53:32 end:53:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out_1
                 vpiFullName: main.module_2.out_1
                 vpiActual: Net name:out_1
@@ -1837,7 +1913,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/sdw_instmod1/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             240     240       0         0
+Others                             278     278       0         0
 ----------------------------------------------------------------
-                                   240     240       0         0
+                                   278     278       0         0
 ===================== END REDUCTION RESULT =====================

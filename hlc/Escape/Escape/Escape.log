@@ -38,8 +38,8 @@ COMMAND: -wd ../../../tests/Escape top.v top1.v -writepp -d 0 -fileunit -wd ${HL
 [WRN:PA5506] $Source01/top.v:27:1: No timescale set for "bottom2".
 [WRN:PA5506] $Source01/top1.v:26:1: No timescale set for "bottom2".
 [WRN:PA5506] $Source01/top1.v:2:1: No timescale set for "my_interface".
-[ERR:LN7701] Invalid name: id:366, type:RefObj, name:, relation:vpiLowConn.
 [ERR:LN7701] Invalid name: id:369, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:372, type:RefObj, name:, relation:vpiLowConn.
 [ERR:DB2029] $Source01/top.v:62:2: Unsupported typespec "ddr".
 ====== HLDB =======
 Design name:unnamed:
@@ -363,23 +363,29 @@ Design name:unnamed:
                   vpiParent: "RefObj name:uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), \"add_sub_if\", m_if)"
                   vpiName Identifier name:read_by_name start:13:50 end:13:62:
                   vpiArgument (3 items):
-                    SubroutineCall name:get_full_name start:13:64 end:13:79:
+                    NamedArgument start:13:64 end:13:79:
                       vpiParent: SubroutineCall name:read_by_name
-                      vpiName Identifier name:get_full_name start:13:64 end:13:77:
-                    Constant start:13:81 end:13:93:
+                      vpiHighConn SubroutineCall name:get_full_name start:13:64 end:13:79:
+                        vpiParent: NamedArgument
+                        vpiName Identifier name:get_full_name start:13:64 end:13:77:
+                    NamedArgument start:13:81 end:13:93:
                       vpiParent: SubroutineCall name:read_by_name
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: env::connect_phase::uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)::read_by_name
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 80
-                      vpiDecompile: "\"add_sub_if\""
-                      vpiValue: add_sub_if
-                    RefObj name:m_if start:13:95 end:13:99:
+                      vpiHighConn Constant start:13:81 end:13:93:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: env::connect_phase::uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)::read_by_name
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 80
+                        vpiDecompile: "\"add_sub_if\""
+                        vpiValue: add_sub_if
+                    NamedArgument start:13:95 end:13:99:
                       vpiParent: SubroutineCall name:read_by_name
-                      vpiName: m_if
-                      vpiFullName: env::connect_phase::uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)::read_by_name::m_if
+                      vpiHighConn RefObj name:m_if start:13:95 end:13:99:
+                        vpiParent: NamedArgument
+                        vpiName: m_if
+                        vpiFullName: env::connect_phase::uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)::read_by_name::m_if
           vpiReturn RefTypespec start:11:12 end:11:16:
             vpiParent: Function name:connect_phase
             vpiFullName: env::connect_phase
@@ -620,16 +626,16 @@ Design name:unnamed:
             vpiName: bottom2
             vpiFullName: bottom1.u1.bottom2
             vpiActual: ModuleTypespec name:bottom2
-          vpiPort (2 items):
-            Port start:20:14 end:20:18:
+          vpiArgument (2 items):
+            NamedArgument start:20:14 end:20:18:
               vpiParent: RefInstance name:u1
               vpiLowConn RefObj name:a:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: bottom1.u1.a
                 vpiActual: Port name:a
               vpiHighConn BitSelect name:a[0] start:20:14 end:20:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a[0]
                 vpiFullName: bottom1.u1.a[0]
                 vpiPrefix RefObj name:a start:20:14 end:20:15:
@@ -647,15 +653,15 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-            Port start:20:20 end:20:21:
+            NamedArgument start:20:20 end:20:21:
               vpiParent: RefInstance name:u1
               vpiLowConn RefObj name:b:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: bottom1.u1.b
                 vpiActual: Port name:b
               vpiHighConn RefObj name:b start:20:20 end:20:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: bottom1.u1.b
                 vpiActual: Net name:b
@@ -667,14 +673,14 @@ Design name:unnamed:
             vpiName: bottom3
             vpiFullName: bottom1.u2.bottom3
             vpiActual: ModuleTypespec name:bottom3
-          vpiPort (2 items):
-            Port start:21:14 end:21:18:
+          vpiArgument (2 items):
+            NamedArgument start:21:14 end:21:18:
               vpiParent: RefInstance name:u2
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: bottom1.u2
               vpiHighConn BitSelect name:a[0] start:21:14 end:21:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a[0]
                 vpiFullName: bottom1.u2.a[0]
                 vpiPrefix RefObj name:a start:21:14 end:21:15:
@@ -692,13 +698,13 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-            Port start:21:20 end:21:21:
+            NamedArgument start:21:20 end:21:21:
               vpiParent: RefInstance name:u2
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: bottom1.u2
               vpiHighConn RefObj name:b start:21:20 end:21:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: bottom1.u2.b
                 vpiActual: Net name:b
@@ -710,11 +716,11 @@ Design name:unnamed:
             vpiName: my_interface
             vpiFullName: bottom1.my_interface.my_interface
             vpiActual: InterfaceTypespec name:my_interface
-          vpiPort (1 items):
-            Port start:23:28 end:23:30:
+          vpiArgument (1 items):
+            NamedArgument start:23:28 end:23:30:
               vpiParent: RefInstance name:my_interface
               vpiLowConn RefObj name:.*:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: bottom1.my_interface..*
     Module name:bottom2 file:$Source01/top.v start:27:1 end:29:10:
@@ -829,25 +835,27 @@ Design name:unnamed:
             vpiName: ddr
             vpiFullName: bottom3.g_datapath:0:g_io.ddr
             vpiActual: UnsupportedTypespec name:ddr
-          vpiPort (2 items):
-            Port start:64:7 end:64:25:
+          vpiArgument (2 items):
+            NamedArgument start:64:7 end:64:25:
               vpiParent: RefInstance name:g_datapath:0:g_io
+              vpiConnByName: true
               vpiLowConn RefObj name:capture start:64:8 end:64:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: capture
                 vpiFullName: bottom3.g_datapath:0:g_io.capture
               vpiHighConn RefObj name:capture start:64:17 end:64:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: capture
                 vpiFullName: bottom3.g_datapath:0:g_io.capture
-            Port start:65:7 end:65:17:
+            NamedArgument start:65:7 end:65:17:
               vpiParent: RefInstance name:g_datapath:0:g_io
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:65:8 end:65:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: bottom3.g_datapath:0:g_io.clk
               vpiHighConn RefObj name:clk start:65:13 end:65:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: bottom3.g_datapath:0:g_io.clk
     Module name:top file:$Source01/top1.v start:15:1 end:18:10:
@@ -1120,7 +1128,7 @@ COMMAND: ${HLC_DIR}/regression/Escape/Escape/design.hldb ${HLC_DIR}/regression/E
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1798    1798       0         0
+Others                            1801    1801       0         0
 ----------------------------------------------------------------
-                                  1798    1798       0         0
+                                  1801    1801       0         0
 ===================== END REDUCTION RESULT =====================

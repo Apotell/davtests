@@ -662,7 +662,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_gen_self_return.v:49:11: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_gen_self_return.v:49:11: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7722] $Source01/t_gen_self_return.v:33:37: Select name does not match pretty-printed expression: id:228, type:BitSelect, name:RAM_BLOCK_INDEX[i + 1], relation:vpiOperand.
+[ERR:LN7722] $Source01/t_gen_self_return.v:33:37: Select name does not match pretty-printed expression: id:231, type:BitSelect, name:RAM_BLOCK_INDEX[i + 1], relation:vpiOperand.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -811,11 +811,13 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName Identifier name:$clog2 start:16:32 end:16:38:
             vpiArgument (1 items):
-              RefObj name:DEPTH start:16:39 end:16:44:
+              NamedArgument start:16:39 end:16:44:
                 vpiParent: SysFuncCall name:$clog2
-                vpiName: DEPTH
-                vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).DEPTH
-                vpiActual: Parameter name:DEPTH
+                vpiHighConn RefObj name:DEPTH start:16:39 end:16:44:
+                  vpiParent: NamedArgument
+                  vpiName: DEPTH
+                  vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).DEPTH
+                  vpiActual: Parameter name:DEPTH
         ParamAssign start:17:15 end:17:98:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
           vpiLhs RefObj name:NUM_RAM_BLOCKS start:17:15 end:17:29:
@@ -895,16 +897,20 @@ Design name:unnamed:
             vpiName Identifier name:index_calc start:28:47 end:28:57:
             vpiTaskFunc: Function name:index_calc
             vpiArgument (2 items):
-              RefObj name:WIDTH start:28:58 end:28:63:
+              NamedArgument start:28:58 end:28:63:
                 vpiParent: MethodFuncCall name:index_calc
-                vpiName: WIDTH
-                vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).WIDTH
-                vpiActual: Parameter name:WIDTH
-              RefObj name:NUM_RAM_BLOCKS start:28:65 end:28:79:
+                vpiHighConn RefObj name:WIDTH start:28:58 end:28:63:
+                  vpiParent: NamedArgument
+                  vpiName: WIDTH
+                  vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).WIDTH
+                  vpiActual: Parameter name:WIDTH
+              NamedArgument start:28:65 end:28:79:
                 vpiParent: MethodFuncCall name:index_calc
-                vpiName: NUM_RAM_BLOCKS
-                vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).NUM_RAM_BLOCKS
-                vpiActual: Parameter name:NUM_RAM_BLOCKS
+                vpiHighConn RefObj name:NUM_RAM_BLOCKS start:28:65 end:28:79:
+                  vpiParent: NamedArgument
+                  vpiName: NUM_RAM_BLOCKS
+                  vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).NUM_RAM_BLOCKS
+                  vpiActual: Parameter name:NUM_RAM_BLOCKS
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
@@ -1429,16 +1435,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:40:7 end:40:13:
                 vpiArgument (1 items):
-                  Constant start:40:14 end:40:38:
+                  NamedArgument start:40:14 end:40:38:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: "*-* All Finished *-*\\n"
+                    vpiHighConn Constant start:40:14 end:40:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
               SysTaskCall name:$finish start:41:7 end:41:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:41:7 end:41:14:
@@ -1692,11 +1700,11 @@ Design name:unnamed:
             vpiName: dut
             vpiFullName: t.dut0.dut
             vpiActual: ModuleTypespec name:dut
-          vpiPort (1 items):
-            Port start:52:13 end:52:15:
+          vpiArgument (1 items):
+            NamedArgument start:52:13 end:52:15:
               vpiParent: RefInstance name:dut0
               vpiLowConn RefObj name:.*:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.dut0..*
   vpiTypespec (5 items):
@@ -1771,12 +1779,13 @@ Name                            Before   After   Added   Removed
 Constant                            28      26       4         6
 Identifier                          14      13       0         1
 LogicTypespec                        3       4       1         0
+NamedArgument                        5       4       0         1
 Operation                           25      18       0         7
 RefObj                              51      45       0         6
 RefTypespec                         51      47       2         6
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                              80      80       0         0
+Others                              79      79       0         0
 ----------------------------------------------------------------
-                                   253     233       7        27
+                                   257     236       7        28
 ===================== END REDUCTION RESULT =====================

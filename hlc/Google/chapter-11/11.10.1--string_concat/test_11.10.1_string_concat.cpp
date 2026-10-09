@@ -181,8 +181,12 @@ TEST_F(StringConcatTest, ThirdStatementDisplaysTESTInConcatOfAAndB) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: ('TEST' in '%s')");
-  expectConcatOfAAndB(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: ('TEST' in '%s')");
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  expectConcatOfAAndB(arg1->getHighConn());
 }
 
 TEST_F(StringConcatTest, FourthStatementDisplaysTestInItsOwnIndependentConcatOfAAndB) {
@@ -193,11 +197,16 @@ TEST_F(StringConcatTest, FourthStatementDisplaysTestInItsOwnIndependentConcatOfA
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: ('Test' in '%s')");
-  const hldb::Any *const thirdArg = blk->getStmts()->size() > 2
-                                         ? any_cast<hldb::SysTaskCall>(blk->getStmts()->at(2))->getArguments()->at(1)
-                                         : nullptr;
-  const hldb::Any *const fourthArg = disp->getArguments()->at(1);
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: ('Test' in '%s')");
+  const hldb::Any *const thirdArg =
+      blk->getStmts()->size() > 2
+          ? any_cast<hldb::SysTaskCall>(blk->getStmts()->at(2))->getArguments()->at(1)->getHighConn()
+          : nullptr;
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Any *const fourthArg = arg1->getHighConn();
   EXPECT_NE(fourthArg, thirdArg) << "the two '{a, b}' occurrences must be independent Operation nodes";
   expectConcatOfAAndB(fourthArg);
 }

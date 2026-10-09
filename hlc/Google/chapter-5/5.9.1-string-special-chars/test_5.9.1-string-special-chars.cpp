@@ -100,7 +100,8 @@ static const hldb::SysTaskCall *getDisplayCall(const hldb::Design *d, std::size_
 
 static const hldb::Constant *getStringArg(const hldb::SysTaskCall *call) {
   if (!call || !call->getArguments() || call->getArguments()->empty()) return nullptr;
-  return any_cast<const hldb::Constant *>((*call->getArguments())[0]);
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  return arg0->getHighConn<hldb::Constant>();
 }
 
 // ----

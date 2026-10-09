@@ -434,11 +434,13 @@ Design name:unnamed:
                 vpiParent: ParamAssign
                 vpiName Identifier name:$bits start:16:16 end:16:21:
                 vpiArgument (1 items):
-                  RefObj name:key_init_we start:16:22 end:16:33:
+                  NamedArgument start:16:22 end:16:33:
                     vpiParent: SysFuncCall name:$bits
-                    vpiName: key_init_we
-                    vpiFullName: top.aes_reg_status.key_init_we
-                    vpiActual: Variable name:key_init_we
+                    vpiHighConn RefObj name:key_init_we start:16:22 end:16:33:
+                      vpiParent: NamedArgument
+                      vpiName: key_init_we
+                      vpiFullName: top.aes_reg_status.key_init_we
+                      vpiActual: Variable name:key_init_we
           vpiModule: Module name:aes_reg_status #(.Width(1))
       vpiDefName: top
       vpiDefNetType: wire (1)
@@ -457,16 +459,17 @@ Design name:unnamed:
             vpiName: aes_reg_status
             vpiFullName: top.u_reg_status_key_init.aes_reg_status
             vpiActual: ModuleTypespec name:aes_reg_status
-          vpiPort (1 items):
-            Port start:18:7 end:18:48:
+          vpiArgument (1 items):
+            NamedArgument start:18:7 end:18:48:
               vpiParent: RefInstance name:u_reg_status_key_init
+              vpiConnByName: true
               vpiLowConn RefObj name:we_i start:18:8 end:18:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: we_i
                 vpiFullName: top.u_reg_status_key_init.we_i
                 vpiActual: Port name:we_i
               vpiHighConn Operation start:18:14 end:18:46:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiOpType: concatenation (33)
                 vpiOperand (2 items):
                   BitSelect name:key_init_we[1] start:18:15 end:18:29:
@@ -542,25 +545,27 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName Identifier name:$bits start:27:18 end:27:23:
             vpiArgument (1 items):
-              BitSelect name:fcoe_reserved_before_sof[0] start:27:24 end:27:51:
+              NamedArgument start:27:24 end:27:51:
                 vpiParent: SysFuncCall name:$bits
-                vpiName: fcoe_reserved_before_sof[0]
-                vpiFullName: toto.fcoe_reserved_before_sof[0]
-                vpiPrefix RefObj name:fcoe_reserved_before_sof start:27:24 end:27:48:
-                  vpiParent: BitSelect name:fcoe_reserved_before_sof[0]
-                  vpiName: fcoe_reserved_before_sof
-                  vpiFullName: toto.fcoe_reserved_before_sof
-                  vpiActual: Variable name:fcoe_reserved_before_sof
-                vpiIndex Constant start:27:49 end:27:50:
-                  vpiParent: BitSelect name:fcoe_reserved_before_sof[0]
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: toto.fcoe_reserved_before_sof[0]
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "0"
-                  vpiValue: 0
+                vpiHighConn BitSelect name:fcoe_reserved_before_sof[0] start:27:24 end:27:51:
+                  vpiParent: NamedArgument
+                  vpiName: fcoe_reserved_before_sof[0]
+                  vpiFullName: toto.fcoe_reserved_before_sof[0]
+                  vpiPrefix RefObj name:fcoe_reserved_before_sof start:27:24 end:27:48:
+                    vpiParent: BitSelect name:fcoe_reserved_before_sof[0]
+                    vpiName: fcoe_reserved_before_sof
+                    vpiFullName: toto.fcoe_reserved_before_sof
+                    vpiActual: Variable name:fcoe_reserved_before_sof
+                  vpiIndex Constant start:27:49 end:27:50:
+                    vpiParent: BitSelect name:fcoe_reserved_before_sof[0]
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: toto.fcoe_reserved_before_sof[0]
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
       vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:toto
@@ -658,7 +663,7 @@ Operation                            3       2       0         1
 RefObj                              13      12       0         1
 RefTypespec                         20      20       1         1
 ----------------------------------------------------------------
-Others                              50      50       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    95      93       2         4
+                                    97      95       2         4
 ===================== END REDUCTION RESULT =====================

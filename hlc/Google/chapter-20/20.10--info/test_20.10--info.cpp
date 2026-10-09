@@ -125,7 +125,9 @@ TEST_F(InfoTaskTest, InfoCallHasOneStringArgument) {
   ASSERT_EQ(call->getArguments()->size(), 1u)
       << "20.10: '$info' takes no finish_number, unlike '$fatal' -- only the message argument";
 
-  const hldb::Constant *const msg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const msg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(msg, nullptr) << "'\"info\"' should be a Constant";
   EXPECT_EQ(msg->getConstType(), vpiStringConst);
   EXPECT_EQ(msg->getDecompile(), "\"info\"");

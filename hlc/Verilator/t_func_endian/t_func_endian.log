@@ -2066,48 +2066,60 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:56:3 end:56:9:
                               vpiArgument (1 items):
-                                Constant start:56:10 end:56:34:
+                                NamedArgument start:56:10 end:56:34:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:56:10 end:56:34:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$write start:57:3 end:57:64:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:57:3 end:57:9:
                               vpiArgument (5 items):
-                                Constant start:57:10 end:57:42:
+                                NamedArgument start:57:10 end:57:42:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 232
-                                  vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
-                                  vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
-                                SysFuncCall name:$time start:57:43 end:57:48:
+                                  vpiHighConn Constant start:57:10 end:57:42:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 232
+                                    vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
+                                    vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
+                                NamedArgument start:57:43 end:57:48:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName Identifier name:$time start:57:43 end:57:48:
-                                RefObj name:cyc start:57:50 end:57:53:
+                                  vpiHighConn SysFuncCall name:$time start:57:43 end:57:48:
+                                    vpiParent: NamedArgument
+                                    vpiName Identifier name:$time start:57:43 end:57:48:
+                                NamedArgument start:57:50 end:57:53:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: cyc
-                                  vpiFullName: t.cyc
-                                  vpiActual: Variable name:cyc
-                                RefObj name:crc start:57:55 end:57:58:
+                                  vpiHighConn RefObj name:cyc start:57:50 end:57:53:
+                                    vpiParent: NamedArgument
+                                    vpiName: cyc
+                                    vpiFullName: t.cyc
+                                    vpiActual: Variable name:cyc
+                                NamedArgument start:57:55 end:57:58:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: crc
-                                  vpiFullName: t.crc
-                                  vpiActual: Variable name:crc
-                                RefObj name:sum start:57:60 end:57:63:
+                                  vpiHighConn RefObj name:crc start:57:55 end:57:58:
+                                    vpiParent: NamedArgument
+                                    vpiName: crc
+                                    vpiFullName: t.crc
+                                    vpiActual: Variable name:crc
+                                NamedArgument start:57:60 end:57:63:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: sum
-                                  vpiFullName: t.sum
-                                  vpiActual: Variable name:sum
+                                  vpiHighConn RefObj name:sum start:57:60 end:57:63:
+                                    vpiParent: NamedArgument
+                                    vpiName: sum
+                                    vpiFullName: t.sum
+                                    vpiActual: Variable name:sum
                             IfStmt start:58:3 end:58:43:
                               vpiParent: Begin
                               vpiCondition Operation start:58:7 end:58:35:
@@ -2172,16 +2184,17 @@ Design name:unnamed:
             vpiName: Test
             vpiFullName: t.test.Test
             vpiActual: ModuleTypespec name:Test
-          vpiPort (5 items):
-            Port start:28:8 end:28:26:
+          vpiArgument (5 items):
+            NamedArgument start:28:8 end:28:26:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:out start:28:9 end:28:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out
                 vpiFullName: t.test.out
                 vpiActual: Net name:out
               vpiHighConn PartSelect name:out[31:0] start:28:16 end:28:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out[31:0]
                 vpiFullName: t.test.out[31:0]
                 vpiPrefix RefObj name:out start:28:16 end:28:19:
@@ -2211,51 +2224,55 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:30:8 end:30:20:
+            NamedArgument start:30:8 end:30:20:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:30:9 end:30:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.test.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:30:16 end:30:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.test.clk
                 vpiActual: Net name:clk
-            Port start:31:8 end:31:26:
+            NamedArgument start:31:8 end:31:26:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:noswap start:31:9 end:31:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: noswap
                 vpiFullName: t.test.noswap
                 vpiActual: Net name:noswap
               vpiHighConn RefObj name:noswap start:31:19 end:31:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: noswap
                 vpiFullName: t.test.noswap
                 vpiActual: Net name:noswap
-            Port start:32:8 end:32:26:
+            NamedArgument start:32:8 end:32:26:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:nibble start:32:9 end:32:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: nibble
                 vpiFullName: t.test.nibble
                 vpiActual: Net name:nibble
               vpiHighConn RefObj name:nibble start:32:19 end:32:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: nibble
                 vpiFullName: t.test.nibble
                 vpiActual: Net name:nibble
-            Port start:33:8 end:33:24:
+            NamedArgument start:33:8 end:33:24:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:in start:33:9 end:33:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: in
                 vpiFullName: t.test.in
                 vpiActual: Net name:in
               vpiHighConn PartSelect name:in[31:0] start:33:15 end:33:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: in[31:0]
                 vpiFullName: t.test.in[31:0]
                 vpiPrefix RefObj name:in start:33:15 end:33:17:
@@ -2911,42 +2928,46 @@ Design name:unnamed:
                 vpiName Identifier name:EndianSwap start:91:6 end:91:16:
                 vpiTaskFunc: Function name:EndianSwap
                 vpiArgument (2 items):
-                  RefObj name:nibble start:91:17 end:91:23:
+                  NamedArgument start:91:17 end:91:23:
                     vpiParent: MethodFuncCall name:EndianSwap
-                    vpiName: nibble
-                    vpiFullName: Test.nibble
-                    vpiActual: Net name:nibble
-                  PartSelect name:in[31:24] start:91:25 end:91:34:
+                    vpiHighConn RefObj name:nibble start:91:17 end:91:23:
+                      vpiParent: NamedArgument
+                      vpiName: nibble
+                      vpiFullName: Test.nibble
+                      vpiActual: Net name:nibble
+                  NamedArgument start:91:25 end:91:34:
                     vpiParent: MethodFuncCall name:EndianSwap
-                    vpiName: in[31:24]
-                    vpiFullName: Test.in[31:24]
-                    vpiPrefix RefObj name:in start:91:25 end:91:27:
-                      vpiParent: PartSelect name:in[31:24]
-                      vpiName: in
-                      vpiFullName: Test.in[31:24].in
-                      vpiActual: Net name:in
-                    vpiRange Range start:91:28 end:91:33:
-                      vpiParent: PartSelect name:in[31:24]
-                      vpiLeftRange Constant start:91:28 end:91:30:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: Test.in[31:24]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "31"
-                        vpiValue: 31
-                      vpiRightRange Constant start:91:31 end:91:33:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: Test.in[31:24]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "24"
-                        vpiValue: 24
+                    vpiHighConn PartSelect name:in[31:24] start:91:25 end:91:34:
+                      vpiParent: NamedArgument
+                      vpiName: in[31:24]
+                      vpiFullName: Test.in[31:24]
+                      vpiPrefix RefObj name:in start:91:25 end:91:27:
+                        vpiParent: PartSelect name:in[31:24]
+                        vpiName: in
+                        vpiFullName: Test.in[31:24].in
+                        vpiActual: Net name:in
+                      vpiRange Range start:91:28 end:91:33:
+                        vpiParent: PartSelect name:in[31:24]
+                        vpiLeftRange Constant start:91:28 end:91:30:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: Test.in[31:24]
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "31"
+                          vpiValue: 31
+                        vpiRightRange Constant start:91:31 end:91:33:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: Test.in[31:24]
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "24"
+                          vpiValue: 24
         ContAssign start:92:11 end:93:36:
           vpiParent: Module name:Test
           vpiLhs PartSelect name:out[23:16] start:92:11 end:92:21:
@@ -3025,42 +3046,46 @@ Design name:unnamed:
                 vpiName Identifier name:EndianSwap start:93:6 end:93:16:
                 vpiTaskFunc: Function name:EndianSwap
                 vpiArgument (2 items):
-                  RefObj name:nibble start:93:17 end:93:23:
+                  NamedArgument start:93:17 end:93:23:
                     vpiParent: MethodFuncCall name:EndianSwap
-                    vpiName: nibble
-                    vpiFullName: Test.nibble
-                    vpiActual: Net name:nibble
-                  PartSelect name:in[23:16] start:93:25 end:93:34:
+                    vpiHighConn RefObj name:nibble start:93:17 end:93:23:
+                      vpiParent: NamedArgument
+                      vpiName: nibble
+                      vpiFullName: Test.nibble
+                      vpiActual: Net name:nibble
+                  NamedArgument start:93:25 end:93:34:
                     vpiParent: MethodFuncCall name:EndianSwap
-                    vpiName: in[23:16]
-                    vpiFullName: Test.in[23:16]
-                    vpiPrefix RefObj name:in start:93:25 end:93:27:
-                      vpiParent: PartSelect name:in[23:16]
-                      vpiName: in
-                      vpiFullName: Test.in[23:16].in
-                      vpiActual: Net name:in
-                    vpiRange Range start:93:28 end:93:33:
-                      vpiParent: PartSelect name:in[23:16]
-                      vpiLeftRange Constant start:93:28 end:93:30:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: Test.in[23:16]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "23"
-                        vpiValue: 23
-                      vpiRightRange Constant start:93:31 end:93:33:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: Test.in[23:16]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "16"
-                        vpiValue: 16
+                    vpiHighConn PartSelect name:in[23:16] start:93:25 end:93:34:
+                      vpiParent: NamedArgument
+                      vpiName: in[23:16]
+                      vpiFullName: Test.in[23:16]
+                      vpiPrefix RefObj name:in start:93:25 end:93:27:
+                        vpiParent: PartSelect name:in[23:16]
+                        vpiName: in
+                        vpiFullName: Test.in[23:16].in
+                        vpiActual: Net name:in
+                      vpiRange Range start:93:28 end:93:33:
+                        vpiParent: PartSelect name:in[23:16]
+                        vpiLeftRange Constant start:93:28 end:93:30:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: Test.in[23:16]
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "23"
+                          vpiValue: 23
+                        vpiRightRange Constant start:93:31 end:93:33:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: Test.in[23:16]
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "16"
+                          vpiValue: 16
         ContAssign start:94:11 end:95:35:
           vpiParent: Module name:Test
           vpiLhs PartSelect name:out[15:8] start:94:11 end:94:20:
@@ -3139,42 +3164,46 @@ Design name:unnamed:
                 vpiName Identifier name:EndianSwap start:95:6 end:95:16:
                 vpiTaskFunc: Function name:EndianSwap
                 vpiArgument (2 items):
-                  RefObj name:nibble start:95:17 end:95:23:
+                  NamedArgument start:95:17 end:95:23:
                     vpiParent: MethodFuncCall name:EndianSwap
-                    vpiName: nibble
-                    vpiFullName: Test.nibble
-                    vpiActual: Net name:nibble
-                  PartSelect name:in[15:8] start:95:25 end:95:33:
+                    vpiHighConn RefObj name:nibble start:95:17 end:95:23:
+                      vpiParent: NamedArgument
+                      vpiName: nibble
+                      vpiFullName: Test.nibble
+                      vpiActual: Net name:nibble
+                  NamedArgument start:95:25 end:95:33:
                     vpiParent: MethodFuncCall name:EndianSwap
-                    vpiName: in[15:8]
-                    vpiFullName: Test.in[15:8]
-                    vpiPrefix RefObj name:in start:95:25 end:95:27:
-                      vpiParent: PartSelect name:in[15:8]
-                      vpiName: in
-                      vpiFullName: Test.in[15:8].in
-                      vpiActual: Net name:in
-                    vpiRange Range start:95:28 end:95:32:
-                      vpiParent: PartSelect name:in[15:8]
-                      vpiLeftRange Constant start:95:28 end:95:30:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: Test.in[15:8]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "15"
-                        vpiValue: 15
-                      vpiRightRange Constant start:95:31 end:95:32:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: Test.in[15:8]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "8"
-                        vpiValue: 8
+                    vpiHighConn PartSelect name:in[15:8] start:95:25 end:95:33:
+                      vpiParent: NamedArgument
+                      vpiName: in[15:8]
+                      vpiFullName: Test.in[15:8]
+                      vpiPrefix RefObj name:in start:95:25 end:95:27:
+                        vpiParent: PartSelect name:in[15:8]
+                        vpiName: in
+                        vpiFullName: Test.in[15:8].in
+                        vpiActual: Net name:in
+                      vpiRange Range start:95:28 end:95:32:
+                        vpiParent: PartSelect name:in[15:8]
+                        vpiLeftRange Constant start:95:28 end:95:30:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: Test.in[15:8]
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "15"
+                          vpiValue: 15
+                        vpiRightRange Constant start:95:31 end:95:32:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: Test.in[15:8]
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "8"
+                          vpiValue: 8
         ContAssign start:96:11 end:97:34:
           vpiParent: Module name:Test
           vpiLhs PartSelect name:out[7:0] start:96:11 end:96:19:
@@ -3253,42 +3282,46 @@ Design name:unnamed:
                 vpiName Identifier name:EndianSwap start:97:6 end:97:16:
                 vpiTaskFunc: Function name:EndianSwap
                 vpiArgument (2 items):
-                  RefObj name:nibble start:97:17 end:97:23:
+                  NamedArgument start:97:17 end:97:23:
                     vpiParent: MethodFuncCall name:EndianSwap
-                    vpiName: nibble
-                    vpiFullName: Test.nibble
-                    vpiActual: Net name:nibble
-                  PartSelect name:in[7:0] start:97:25 end:97:32:
+                    vpiHighConn RefObj name:nibble start:97:17 end:97:23:
+                      vpiParent: NamedArgument
+                      vpiName: nibble
+                      vpiFullName: Test.nibble
+                      vpiActual: Net name:nibble
+                  NamedArgument start:97:25 end:97:32:
                     vpiParent: MethodFuncCall name:EndianSwap
-                    vpiName: in[7:0]
-                    vpiFullName: Test.in[7:0]
-                    vpiPrefix RefObj name:in start:97:25 end:97:27:
-                      vpiParent: PartSelect name:in[7:0]
-                      vpiName: in
-                      vpiFullName: Test.in[7:0].in
-                      vpiActual: Net name:in
-                    vpiRange Range start:97:28 end:97:31:
-                      vpiParent: PartSelect name:in[7:0]
-                      vpiLeftRange Constant start:97:28 end:97:29:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: Test.in[7:0]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "7"
-                        vpiValue: 7
-                      vpiRightRange Constant start:97:30 end:97:31:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: Test.in[7:0]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "0"
-                        vpiValue: 0
+                    vpiHighConn PartSelect name:in[7:0] start:97:25 end:97:32:
+                      vpiParent: NamedArgument
+                      vpiName: in[7:0]
+                      vpiFullName: Test.in[7:0]
+                      vpiPrefix RefObj name:in start:97:25 end:97:27:
+                        vpiParent: PartSelect name:in[7:0]
+                        vpiName: in
+                        vpiFullName: Test.in[7:0].in
+                        vpiActual: Net name:in
+                      vpiRange Range start:97:28 end:97:31:
+                        vpiParent: PartSelect name:in[7:0]
+                        vpiLeftRange Constant start:97:28 end:97:29:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: Test.in[7:0]
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "7"
+                          vpiValue: 7
+                        vpiRightRange Constant start:97:30 end:97:31:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: Test.in[7:0]
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
   vpiTypespec (6 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -3365,7 +3398,7 @@ Operation                           23      18       0         5
 RefObj                              81      76       0         5
 RefTypespec                        112     112       5         5
 ----------------------------------------------------------------
-Others                             170     170       0         0
+Others                             184     184       0         0
 ----------------------------------------------------------------
-                                   472     462      10        20
+                                   486     476      10        20
 ===================== END REDUCTION RESULT =====================

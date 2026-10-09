@@ -238,11 +238,17 @@ TEST_F(UnpackedStructDefaultValueTest, SecondStmtDisplaysHiAndLoFields) {
   EXPECT_EQ(disp->getName(), std::string_view("$display"));
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 3u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::NamedArgument *const arg2 = disp->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), std::string_view(":assert: (('%h' == 'a') and ('%h' == '5'))"));
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), std::string_view("p1.hi"));
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(2))->getName(), std::string_view("p1.lo"));
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), std::string_view("p1.hi"));
+  EXPECT_EQ(arg2->getHighConn<hldb::RefObj>()->getName(), std::string_view("p1.lo"));
 }
 
 // --- design-level typespecs / compiler diagnostics ----
@@ -293,8 +299,9 @@ TEST_F(UnpackedStructDefaultValueTest, RuntimeDefaultValueRequiresSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
   ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(),
-            ":assert: (('%h' == 'a') and ('%h' == '5'))")
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (('%h' == 'a') and ('%h' == '5'))")
       << "expected p1.hi == 4'ha (explicitly assigned) and p1.lo == 4'h5 (from its declared default "
          "value 'c', never explicitly assigned)";
 }

@@ -208,10 +208,14 @@ TEST_F(MultiDimCopyTest, FirstDisplayAssertsArrAOneIsDeadbeef) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ('%h' == 'deadbeef')");
-  const hldb::BitSelect *const arg = any_cast<hldb::BitSelect>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::BitSelect *const arg = arg1->getHighConn<hldb::BitSelect>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "arr_a[1]");
   EXPECT_EQ(arg->getPrefix<hldb::RefObj>()->getName(), "arr_a");
@@ -251,10 +255,14 @@ TEST_F(MultiDimCopyTest, SecondDisplayAssertsArrBTwoIsDeadbeef) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ('%h' == 'deadbeef')");
-  const hldb::BitSelect *const arg = any_cast<hldb::BitSelect>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::BitSelect *const arg = arg1->getHighConn<hldb::BitSelect>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "arr_b[2]");
 }
@@ -301,13 +309,15 @@ TEST_F(MultiDimCopyTest, RuntimeValuesRequireSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const firstDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
   ASSERT_NE(firstDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(firstDisplay->getArguments()->at(0))->getValue(),
-            ":assert: ('%h' == 'deadbeef')")
+  const hldb::NamedArgument *const arg0 = firstDisplay->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: ('%h' == 'deadbeef')")
       << "expected arr_a[1] == 32'hdeadbeef after the direct assignment";
   const hldb::SysFuncCall *const secondDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(3));
   ASSERT_NE(secondDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(secondDisplay->getArguments()->at(0))->getValue(),
-            ":assert: ('%h' == 'deadbeef')")
+  const hldb::NamedArgument *const secondDisplayArg0 = secondDisplay->getArguments()->at(0);
+  ASSERT_NE(secondDisplayArg0, nullptr);
+  EXPECT_EQ(secondDisplayArg0->getHighConn<hldb::Constant>()->getValue(), ":assert: ('%h' == 'deadbeef')")
       << "expected arr_b[2] == 32'hdeadbeef after the word copy from arr_a[1]";
 }
 

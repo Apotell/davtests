@@ -411,52 +411,62 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:20:9 end:20:17:
                 vpiArgument (5 items):
-                  SysFuncCall name:$time start:20:18 end:20:23:
+                  NamedArgument start:20:18 end:20:23:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:20:18 end:20:23:
-                  Constant start:20:25 end:20:65:
+                    vpiHighConn SysFuncCall name:$time start:20:18 end:20:23:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:20:18 end:20:23:
+                  NamedArgument start:20:25 end:20:65:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 304
-                    vpiDecompile: "\" success: %b data_out: %h mode_out: %h\""
-                    vpiValue: "success: %b data_out: %h mode_out: %h"
-                  RefObj name:success start:20:67 end:20:74:
+                    vpiHighConn Constant start:20:25 end:20:65:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 304
+                      vpiDecompile: "\" success: %b data_out: %h mode_out: %h\""
+                      vpiValue: "success: %b data_out: %h mode_out: %h"
+                  NamedArgument start:20:67 end:20:74:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: success
-                    vpiFullName: top.success
-                    vpiActual: Net name:success
-                  RefObj name:dut.data_out start:20:76 end:20:88:
+                    vpiHighConn RefObj name:success start:20:67 end:20:74:
+                      vpiParent: NamedArgument
+                      vpiName: success
+                      vpiFullName: top.success
+                      vpiActual: Net name:success
+                  NamedArgument start:20:76 end:20:88:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: dut.data_out
-                    vpiFullName: top.dut.data_out
-                    vpiPathElem (2 items):
-                      RefObj name:dut start:20:76 end:20:79:
-                        vpiParent: RefObj name:dut.data_out
-                        vpiName: dut
-                        vpiFullName: top.dut
-                        vpiActual: RefInstance name:dut
-                      RefObj name:data_out start:20:80 end:20:88:
-                        vpiParent: RefObj name:dut.data_out
-                        vpiName: data_out
-                        vpiFullName: top.data_out
-                  RefObj name:dut.mode_out start:20:90 end:20:102:
+                    vpiHighConn RefObj name:dut.data_out start:20:76 end:20:88:
+                      vpiParent: NamedArgument
+                      vpiName: dut.data_out
+                      vpiFullName: top.dut.data_out
+                      vpiPathElem (2 items):
+                        RefObj name:dut start:20:76 end:20:79:
+                          vpiParent: RefObj name:dut.data_out
+                          vpiName: dut
+                          vpiFullName: top.dut
+                          vpiActual: RefInstance name:dut
+                        RefObj name:data_out start:20:80 end:20:88:
+                          vpiParent: RefObj name:dut.data_out
+                          vpiName: data_out
+                          vpiFullName: top.data_out
+                  NamedArgument start:20:90 end:20:102:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: dut.mode_out
-                    vpiFullName: top.dut.mode_out
-                    vpiPathElem (2 items):
-                      RefObj name:dut start:20:90 end:20:93:
-                        vpiParent: RefObj name:dut.mode_out
-                        vpiName: dut
-                        vpiFullName: top.dut
-                        vpiActual: RefInstance name:dut
-                      RefObj name:mode_out start:20:94 end:20:102:
-                        vpiParent: RefObj name:dut.mode_out
-                        vpiName: mode_out
-                        vpiFullName: top.mode_out
+                    vpiHighConn RefObj name:dut.mode_out start:20:90 end:20:102:
+                      vpiParent: NamedArgument
+                      vpiName: dut.mode_out
+                      vpiFullName: top.dut.mode_out
+                      vpiPathElem (2 items):
+                        RefObj name:dut start:20:90 end:20:93:
+                          vpiParent: RefObj name:dut.mode_out
+                          vpiName: dut
+                          vpiFullName: top.dut
+                          vpiActual: RefInstance name:dut
+                        RefObj name:mode_out start:20:94 end:20:102:
+                          vpiParent: RefObj name:dut.mode_out
+                          vpiName: mode_out
+                          vpiFullName: top.mode_out
               Assignment start:21:9 end:21:21:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -552,40 +562,43 @@ Design name:unnamed:
             vpiName: Example
             vpiFullName: top.dut.Example
             vpiActual: UnsupportedTypespec name:Example
-          vpiPort (3 items):
-            Port start:9:9 end:9:22:
+          vpiArgument (3 items):
+            NamedArgument start:9:9 end:9:22:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:clock start:9:10 end:9:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clock
                 vpiFullName: top.dut.clock
                 vpiActual: Variable name:clock
               vpiHighConn RefObj name:clock start:9:16 end:9:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clock
                 vpiFullName: top.dut.clock
                 vpiActual: Variable name:clock
-            Port start:10:9 end:10:22:
+            NamedArgument start:10:9 end:10:22:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:clear start:10:10 end:10:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clear
                 vpiFullName: top.dut.clear
                 vpiActual: Variable name:clear
               vpiHighConn RefObj name:clear start:10:16 end:10:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clear
                 vpiFullName: top.dut.clear
                 vpiActual: Variable name:clear
-            Port start:11:9 end:11:26:
+            NamedArgument start:11:9 end:11:26:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:success start:11:10 end:11:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: success
                 vpiFullName: top.dut.success
                 vpiActual: Net name:success
               vpiHighConn RefObj name:success start:11:18 end:11:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: success
                 vpiFullName: top.dut.success
                 vpiActual: Net name:success
@@ -654,7 +667,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/struct_tb_v/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              86      86       0         0
+Others                              91      91       0         0
 ----------------------------------------------------------------
-                                    86      86       0         0
+                                    91      91       0         0
 ===================== END REDUCTION RESULT =====================

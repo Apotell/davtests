@@ -1254,16 +1254,16 @@ Design name:unnamed:
             vpiName: speak
             vpiFullName: top.i0.speak
             vpiActual: ModuleTypespec name:speak
-          vpiPort (3 items):
-            Port start:13:19 end:13:23:
+          vpiArgument (3 items):
+            NamedArgument start:13:19 end:13:23:
               vpiParent: RefInstance name:i0
               vpiLowConn RefObj name:x1:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: x1
                 vpiFullName: top.i0.x1
                 vpiActual: Port name:x1
               vpiHighConn BitSelect name:x[0] start:13:19 end:13:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: x[0]
                 vpiFullName: top.i0.x[0]
                 vpiPrefix RefObj name:x start:13:19 end:13:20:
@@ -1281,15 +1281,15 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-            Port start:13:25 end:13:29:
+            NamedArgument start:13:25 end:13:29:
               vpiParent: RefInstance name:i0
               vpiLowConn RefObj name:x2:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: x2
                 vpiFullName: top.i0.x2
                 vpiActual: Port name:x2
               vpiHighConn BitSelect name:x[1] start:13:25 end:13:29:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: x[1]
                 vpiFullName: top.i0.x[1]
                 vpiPrefix RefObj name:x start:13:25 end:13:26:
@@ -1307,15 +1307,15 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-            Port start:13:31 end:13:35:
+            NamedArgument start:13:31 end:13:35:
               vpiParent: RefInstance name:i0
               vpiLowConn RefObj name:x3:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: x3
                 vpiFullName: top.i0.x3
                 vpiActual: Port name:x3
               vpiHighConn BitSelect name:x[2] start:13:31 end:13:35:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: x[2]
                 vpiFullName: top.i0.x[2]
                 vpiPrefix RefObj name:x start:13:31 end:13:32:
@@ -1462,34 +1462,44 @@ Design name:unnamed:
               vpiParent: DelayControl
               vpiName Identifier name:$display start:32:17 end:32:25:
               vpiArgument (5 items):
-                Constant start:32:27 end:32:52:
+                NamedArgument start:32:27 end:32:52:
                   vpiParent: SysTaskCall name:$display
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: speak
-                    vpiActual: StringTypespec
-                  vpiConstType: string (6)
-                  vpiSize: 184
-                  vpiDecompile: "\"%d: x1=%d, x2=%d, x3=%d\""
-                  vpiValue: "%d: x1=%d, x2=%d, x3=%d"
-                SysFuncCall name:$time start:32:54 end:32:59:
+                  vpiHighConn Constant start:32:27 end:32:52:
+                    vpiParent: NamedArgument
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: speak
+                      vpiActual: StringTypespec
+                    vpiConstType: string (6)
+                    vpiSize: 184
+                    vpiDecompile: "\"%d: x1=%d, x2=%d, x3=%d\""
+                    vpiValue: "%d: x1=%d, x2=%d, x3=%d"
+                NamedArgument start:32:54 end:32:59:
                   vpiParent: SysTaskCall name:$display
-                  vpiName Identifier name:$time start:32:54 end:32:59:
-                RefObj name:x1 start:32:61 end:32:63:
+                  vpiHighConn SysFuncCall name:$time start:32:54 end:32:59:
+                    vpiParent: NamedArgument
+                    vpiName Identifier name:$time start:32:54 end:32:59:
+                NamedArgument start:32:61 end:32:63:
                   vpiParent: SysTaskCall name:$display
-                  vpiName: x1
-                  vpiFullName: speak.x1
-                  vpiActual: Net name:x1
-                RefObj name:x2 start:32:65 end:32:67:
+                  vpiHighConn RefObj name:x1 start:32:61 end:32:63:
+                    vpiParent: NamedArgument
+                    vpiName: x1
+                    vpiFullName: speak.x1
+                    vpiActual: Net name:x1
+                NamedArgument start:32:65 end:32:67:
                   vpiParent: SysTaskCall name:$display
-                  vpiName: x2
-                  vpiFullName: speak.x2
-                  vpiActual: Net name:x2
-                RefObj name:x3 start:32:69 end:32:71:
+                  vpiHighConn RefObj name:x2 start:32:65 end:32:67:
+                    vpiParent: NamedArgument
+                    vpiName: x2
+                    vpiFullName: speak.x2
+                    vpiActual: Net name:x2
+                NamedArgument start:32:69 end:32:71:
                   vpiParent: SysTaskCall name:$display
-                  vpiName: x3
-                  vpiFullName: speak.x3
-                  vpiActual: Net name:x3
+                  vpiHighConn RefObj name:x3 start:32:69 end:32:71:
+                    vpiParent: NamedArgument
+                    vpiName: x3
+                    vpiFullName: speak.x3
+                    vpiActual: Net name:x3
             vpiDelay Constant start:31:17 end:31:20:
               vpiParent: DelayControl
               vpiTypespec RefTypespec:
@@ -1630,16 +1640,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$display start:39:31 end:39:39:
                         vpiArgument (1 items):
-                          Constant start:39:40 end:39:48:
+                          NamedArgument start:39:40 end:39:48:
                             vpiParent: SysTaskCall name:$display
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: speak
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 48
-                            vpiDecompile: "\"FAILED\""
-                            vpiValue: FAILED
+                            vpiHighConn Constant start:39:40 end:39:48:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: speak
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 48
+                              vpiDecompile: "\"FAILED\""
+                              vpiValue: FAILED
                 vpiDelay Constant start:38:3 end:38:6:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1755,16 +1767,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$display start:41:31 end:41:39:
                         vpiArgument (1 items):
-                          Constant start:41:40 end:41:48:
+                          NamedArgument start:41:40 end:41:48:
                             vpiParent: SysTaskCall name:$display
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: speak
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 48
-                            vpiDecompile: "\"FAILED\""
-                            vpiValue: FAILED
+                            vpiHighConn Constant start:41:40 end:41:48:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: speak
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 48
+                              vpiDecompile: "\"FAILED\""
+                              vpiValue: FAILED
                 vpiDelay Constant start:40:3 end:40:6:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1880,16 +1894,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$display start:43:31 end:43:39:
                         vpiArgument (1 items):
-                          Constant start:43:40 end:43:48:
+                          NamedArgument start:43:40 end:43:48:
                             vpiParent: SysTaskCall name:$display
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: speak
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 48
-                            vpiDecompile: "\"FAILED\""
-                            vpiValue: FAILED
+                            vpiHighConn Constant start:43:40 end:43:48:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: speak
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 48
+                              vpiDecompile: "\"FAILED\""
+                              vpiValue: FAILED
                 vpiDelay Constant start:42:3 end:42:6:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -2005,16 +2021,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$display start:45:31 end:45:39:
                         vpiArgument (1 items):
-                          Constant start:45:40 end:45:48:
+                          NamedArgument start:45:40 end:45:48:
                             vpiParent: SysTaskCall name:$display
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: speak
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 48
-                            vpiDecompile: "\"FAILED\""
-                            vpiValue: FAILED
+                            vpiHighConn Constant start:45:40 end:45:48:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: speak
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 48
+                              vpiDecompile: "\"FAILED\""
+                              vpiValue: FAILED
                 vpiDelay Constant start:44:3 end:44:6:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -2050,16 +2068,18 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName Identifier name:$display start:47:4 end:47:12:
                   vpiArgument (1 items):
-                    Constant start:47:13 end:47:21:
+                    NamedArgument start:47:13 end:47:21:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: speak
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 48
-                      vpiDecompile: "\"PASSED\""
-                      vpiValue: PASSED
+                      vpiHighConn Constant start:47:13 end:47:21:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: speak
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"PASSED\""
+                        vpiValue: PASSED
   vpiTypespec (5 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -2130,7 +2150,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/mem2port/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             296     296       0         0
+Others                             306     306       0         0
 ----------------------------------------------------------------
-                                   296     296       0         0
+                                   306     306       0         0
 ===================== END REDUCTION RESULT =====================

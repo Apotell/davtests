@@ -803,9 +803,9 @@ TEST_F(PackageFuncCallTest, ContAssignRhsCallsPackageFunction) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  ExpectUnboundRef(call->getArguments()->at(0), "data_state_xor");
+  ExpectUnboundRef(call->getArguments()->at(0)->getHighConn(), "data_state_xor");
 
-  ExpectPackagePath(call->getArguments()->at(1), "prim_cipher_pkg::PRESENT_SBOX4", &item);
+  ExpectPackagePath(call->getArguments()->at(1)->getHighConn(), "prim_cipher_pkg::PRESENT_SBOX4", &item);
   const hldb::RefObj *const sboxArg = any_cast<hldb::RefObj>(item);
   ASSERT_NE(sboxArg, nullptr) << "the last path element should be a reference to PRESENT_SBOX4";
   EXPECT_TRUE(isScopedName(sboxArg->getName(), "PRESENT_SBOX4"))

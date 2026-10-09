@@ -197,10 +197,14 @@ TEST_F(PackedStructBasicTest, SecondStmtDisplaysP1AsHex) {
   EXPECT_EQ(disp->getName(), std::string_view("$display"));
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), std::string_view(":assert: ('%h' == '5a')"));
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const arg = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), std::string_view("p1"));
   EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
@@ -213,11 +217,15 @@ TEST_F(PackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 3u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), std::string_view(":assert: (('%h' == 'a') and ('%h' == '5'))"));
 
-  const hldb::RefObj *const hi = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hi = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hi, nullptr);
   EXPECT_EQ(hi->getName(), std::string_view("p1.hi"));
   ASSERT_NE(hi->getPathElems(), nullptr);
@@ -225,7 +233,9 @@ TEST_F(PackedStructBasicTest, ThirdStmtDisplaysHiAndLoFields) {
   EXPECT_NE(any_cast<hldb::RefObj>(hi->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
   EXPECT_NE(any_cast<hldb::RefObj>(hi->getPathElems()->at(1))->getActual<hldb::TypespecMember>(), nullptr);
 
-  const hldb::RefObj *const lo = any_cast<hldb::RefObj>(disp->getArguments()->at(2));
+  const hldb::NamedArgument *const arg2 = disp->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  const hldb::RefObj *const lo = arg2->getHighConn<hldb::RefObj>();
   ASSERT_NE(lo, nullptr);
   EXPECT_EQ(lo->getName(), std::string_view("p1.lo"));
   ASSERT_NE(lo->getPathElems(), nullptr);
@@ -274,12 +284,15 @@ TEST_F(PackedStructBasicTest, RuntimePackedFieldValuesRequireSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const firstDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
   ASSERT_NE(firstDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(firstDisplay->getArguments()->at(0))->getValue(), std::string_view(":assert: ('%h' == '5a')"))
+  const hldb::NamedArgument *const arg0 = firstDisplay->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), std::string_view(":assert: ('%h' == '5a')"))
       << "expected p1 == 8'h5a immediately after 'p1 = 8'h5a'";
   const hldb::SysFuncCall *const secondDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
   ASSERT_NE(secondDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(secondDisplay->getArguments()->at(0))->getValue(),
-            ":assert: (('%h' == 'a') and ('%h' == '5'))")
+  const hldb::NamedArgument *const secondDisplayArg0 = secondDisplay->getArguments()->at(0);
+  ASSERT_NE(secondDisplayArg0, nullptr);
+  EXPECT_EQ(secondDisplayArg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (('%h' == 'a') and ('%h' == '5'))")
       << "expected p1.hi == 4'ha and p1.lo == 4'h5, matching the 8'h5a bit pattern";
 }
 

@@ -149,9 +149,13 @@ TEST_F(EmptyStringSimTest, SecondStatementDisplaysAEqualsZeroComparison) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (1 == %d)");
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (1 == %d)");
 
-  const hldb::Operation *const cond = any_cast<hldb::Operation>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Operation *const cond = arg1->getHighConn<hldb::Operation>();
   ASSERT_NE(cond, nullptr) << "'a == 0' should be an Operation";
   EXPECT_EQ(cond->getOpType(), vpiEqOp);
   ASSERT_NE(cond->getOperands(), nullptr);

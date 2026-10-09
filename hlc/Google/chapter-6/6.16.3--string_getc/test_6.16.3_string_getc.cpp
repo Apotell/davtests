@@ -201,7 +201,9 @@ TEST_F(StringGetcTest, GetcArgumentIsTwo) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
 
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr) << "getc argument is not a Constant";
   EXPECT_EQ(arg->getDecompile(), "2");
 }
@@ -215,7 +217,9 @@ TEST_F(StringGetcTest, GetcArgumentIsUIntConst) {
   ASSERT_NE(hp, nullptr);
   const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
   ASSERT_NE(call, nullptr);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getConstType(), vpiUIntConst)
       << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";

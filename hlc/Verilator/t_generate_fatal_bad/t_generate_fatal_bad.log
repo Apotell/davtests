@@ -551,11 +551,13 @@ Design name:unnamed:
             vpiName Identifier name:get_baz start:12:29 end:12:36:
             vpiTaskFunc: Function name:get_baz
             vpiArgument (1 items):
-              RefObj name:BAR start:12:37 end:12:40:
+              NamedArgument start:12:37 end:12:40:
                 vpiParent: FuncCall name:get_baz
-                vpiName: BAR
-                vpiFullName: foo #(.BAR(0)).BAR
-                vpiActual: Parameter name:BAR
+                vpiHighConn RefObj name:BAR start:12:37 end:12:40:
+                  vpiParent: NamedArgument
+                  vpiName: BAR
+                  vpiFullName: foo #(.BAR(0)).BAR
+                  vpiActual: Parameter name:BAR
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:foo #(.BAR(0))
@@ -1286,26 +1288,30 @@ Design name:unnamed:
             vpiParent: Begin
             vpiName Identifier name:$fatal start:8:4 end:8:10:
             vpiArgument (2 items):
-              Constant start:8:11 end:8:12:
+              NamedArgument start:8:11 end:8:12:
                 vpiParent: SysTaskCall name:$fatal
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: get_baz
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "2"
-                vpiValue: 2
-              Constant start:8:14 end:8:20:
+                vpiHighConn Constant start:8:11 end:8:12:
+                  vpiParent: NamedArgument
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: get_baz
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "2"
+                  vpiValue: 2
+              NamedArgument start:8:14 end:8:20:
                 vpiParent: SysTaskCall name:$fatal
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: get_baz
-                  vpiActual: StringTypespec
-                vpiConstType: string (6)
-                vpiSize: 32
-                vpiDecompile: "\"boom\""
-                vpiValue: boom
+                vpiHighConn Constant start:8:14 end:8:20:
+                  vpiParent: NamedArgument
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: get_baz
+                    vpiActual: StringTypespec
+                  vpiConstType: string (6)
+                  vpiSize: 32
+                  vpiDecompile: "\"boom\""
+                  vpiValue: boom
       vpiReturn RefTypespec start:6:10 end:6:17:
         vpiParent: Function name:get_baz
         vpiFullName: get_baz
@@ -1365,7 +1371,7 @@ Constant                            22      20       2         4
 Operation                           15      13       0         2
 RefTypespec                         33      31       2         4
 ----------------------------------------------------------------
-Others                             129     129       0         0
+Others                             132     132       0         0
 ----------------------------------------------------------------
-                                   199     193       4        10
+                                   202     196       4        10
 ===================== END REDUCTION RESULT =====================

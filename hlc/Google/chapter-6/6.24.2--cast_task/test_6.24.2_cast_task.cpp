@@ -139,10 +139,12 @@ TEST_F(CastTaskTest, CastArgZeroIsRefToVariableA) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const castFn = init->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(castFn, nullptr);
-  const hldb::RefObj *const arg0 = any_cast<hldb::RefObj>(castFn->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = castFn->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
-  EXPECT_EQ(arg0->getName(), "a");
-  EXPECT_NE(arg0->getActual<hldb::Variable>(), nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
+  ASSERT_NE(arg, nullptr);
+  EXPECT_EQ(arg->getName(), "a");
+  EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(CastTaskTest, CastArgOneIsMultiplyOperation) {
@@ -152,7 +154,9 @@ TEST_F(CastTaskTest, CastArgOneIsMultiplyOperation) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const castFn = init->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(castFn, nullptr);
-  const hldb::Operation *const multOp = any_cast<hldb::Operation>(castFn->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = castFn->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Operation *const multOp = arg1->getHighConn<hldb::Operation>();
   ASSERT_NE(multOp, nullptr);
   EXPECT_EQ(multOp->getOpType(), vpiMultOp);
   ASSERT_NE(multOp->getOperands(), nullptr);

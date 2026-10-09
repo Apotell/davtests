@@ -276,11 +276,15 @@ TEST_F(ClassCastFuncTest, FirstStmtIsIfNotCastValFive) {
   EXPECT_EQ(cast->getName(), std::string_view("$cast"));
   ASSERT_NE(cast->getArguments(), nullptr);
   ASSERT_EQ(cast->getArguments()->size(), 2u);
-  const hldb::RefObj *const valArg = any_cast<hldb::RefObj>(cast->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = cast->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const valArg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(valArg, nullptr);
   EXPECT_EQ(valArg->getName(), std::string_view("val"));
   EXPECT_EQ(valArg->getActual<hldb::Variable>(), getVariableVal());
-  const hldb::Constant *const fiveArg = any_cast<hldb::Constant>(cast->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = cast->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const fiveArg = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(fiveArg, nullptr);
   EXPECT_EQ(fiveArg->getDecompile(), std::string_view("5"));
 
@@ -289,7 +293,9 @@ TEST_F(ClassCastFuncTest, FirstStmtIsIfNotCastValFive) {
   EXPECT_EQ(thenBranch->getName(), std::string_view("$display"));
   ASSERT_NE(thenBranch->getArguments(), nullptr);
   ASSERT_EQ(thenBranch->getArguments()->size(), 1u);
-  const hldb::Constant *const msg = any_cast<hldb::Constant>(thenBranch->getArguments()->at(0));
+  const hldb::NamedArgument *const msgArg = thenBranch->getArguments()->at(0);
+  ASSERT_NE(msgArg, nullptr);
+  const hldb::Constant *const msg = msgArg->getHighConn<hldb::Constant>();
   ASSERT_NE(msg, nullptr);
   EXPECT_EQ(msg->getDecompile(), std::string_view("\"$cast failed\""));
 }
@@ -305,7 +311,9 @@ TEST_F(ClassCastFuncTest, SecondStmtDisplaysVal) {
   EXPECT_EQ(disp->getName(), std::string_view("$display"));
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
-  const hldb::RefObj *const valArg = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const valArg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(valArg, nullptr);
   EXPECT_EQ(valArg->getName(), std::string_view("val"));
   EXPECT_EQ(valArg->getActual<hldb::Variable>(), getVariableVal());

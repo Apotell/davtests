@@ -506,29 +506,37 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:14:9 end:14:17:
                 vpiArgument (4 items):
-                  SysFuncCall name:$time start:14:18 end:14:23:
+                  NamedArgument start:14:18 end:14:23:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:14:18 end:14:23:
-                  Constant start:14:25 end:14:47:
+                    vpiHighConn SysFuncCall name:$time start:14:18 end:14:23:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:14:18 end:14:23:
+                  NamedArgument start:14:25 end:14:47:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 160
-                    vpiDecompile: "\" data: %h parity: %b\""
-                    vpiValue: "data: %h parity: %b"
-                  RefObj name:data start:14:49 end:14:53:
+                    vpiHighConn Constant start:14:25 end:14:47:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 160
+                      vpiDecompile: "\" data: %h parity: %b\""
+                      vpiValue: "data: %h parity: %b"
+                  NamedArgument start:14:49 end:14:53:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: data
-                    vpiFullName: top.data
-                    vpiActual: Variable name:data
-                  RefObj name:parity start:14:55 end:14:61:
+                    vpiHighConn RefObj name:data start:14:49 end:14:53:
+                      vpiParent: NamedArgument
+                      vpiName: data
+                      vpiFullName: top.data
+                      vpiActual: Variable name:data
+                  NamedArgument start:14:55 end:14:61:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: parity
-                    vpiFullName: top.parity
-                    vpiActual: Net name:parity
+                    vpiHighConn RefObj name:parity start:14:55 end:14:61:
+                      vpiParent: NamedArgument
+                      vpiName: parity
+                      vpiFullName: top.parity
+                      vpiActual: Net name:parity
               Assignment start:15:9 end:15:21:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -914,28 +922,30 @@ Design name:unnamed:
             vpiName: Device
             vpiFullName: top.dut.Device
             vpiActual: UnsupportedTypespec name:Device
-          vpiPort (2 items):
-            Port start:9:9 end:9:20:
+          vpiArgument (2 items):
+            NamedArgument start:9:9 end:9:20:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:data start:9:10 end:9:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: data
                 vpiFullName: top.dut.data
                 vpiActual: Variable name:data
               vpiHighConn RefObj name:data start:9:15 end:9:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: data
                 vpiFullName: top.dut.data
                 vpiActual: Variable name:data
-            Port start:10:9 end:10:24:
+            NamedArgument start:10:9 end:10:24:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:parity start:10:10 end:10:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: parity
                 vpiFullName: top.dut.parity
                 vpiActual: Net name:parity
               vpiHighConn RefObj name:parity start:10:17 end:10:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: parity
                 vpiFullName: top.dut.parity
                 vpiActual: Net name:parity
@@ -1006,7 +1016,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/port_connections_tb_v/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             132     132       0         0
+Others                             136     136       0         0
 ----------------------------------------------------------------
-                                   132     132       0         0
+                                   136     136       0         0
 ===================== END REDUCTION RESULT =====================

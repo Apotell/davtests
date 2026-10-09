@@ -213,7 +213,9 @@ TEST_F(AssociativeArrayTraversalTest, SecondAssignmentAssignsRcFromMapFirstIx) {
   EXPECT_EQ(call->getName(), "first");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "ix");
   EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
@@ -231,14 +233,20 @@ TEST_F(AssociativeArrayTraversalTest, DisplayAssertsRcAndIxFormatted) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 3u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ( ('%0d' == '1') and ('%b' == '11101000') )");
-  const hldb::RefObj *const rcRef = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const rcRef = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(rcRef, nullptr);
   EXPECT_EQ(rcRef->getName(), "rc");
   EXPECT_NE(rcRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::RefObj *const ixRef = any_cast<hldb::RefObj>(disp->getArguments()->at(2));
+  const hldb::NamedArgument *const arg2 = disp->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  const hldb::RefObj *const ixRef = arg2->getHighConn<hldb::RefObj>();
   ASSERT_NE(ixRef, nullptr);
   EXPECT_EQ(ixRef->getName(), "ix");
   EXPECT_NE(ixRef->getActual<hldb::Variable>(), nullptr);
@@ -257,7 +265,9 @@ TEST_F(AssociativeArrayTraversalTest, RuntimeValuesOfRcAndIxRequireSimulation) {
   ASSERT_NE(init, nullptr);
   const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
   ASSERT_NE(disp, nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ( ('%0d' == '1') and ('%b' == '11101000') )")
       << "expected rc == 1 and ix == 8'b11101000 (1000 truncated to a byte) after first()";

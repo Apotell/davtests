@@ -611,26 +611,32 @@ Design name:unnamed:
                         vpiParent: DelayControl
                         vpiName Identifier name:$display start:35:6 end:35:14:
                         vpiArgument (3 items):
-                          Constant start:35:15 end:35:29:
+                          NamedArgument start:35:15 end:35:29:
                             vpiParent: SysTaskCall name:$display
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: test
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 96
-                            vpiDecompile: "\"dut[%h] = %b\""
-                            vpiValue: dut[%h] = %b
-                          RefObj name:a start:35:31 end:35:32:
+                            vpiHighConn Constant start:35:15 end:35:29:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: test
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 96
+                              vpiDecompile: "\"dut[%h] = %b\""
+                              vpiValue: dut[%h] = %b
+                          NamedArgument start:35:31 end:35:32:
                             vpiParent: SysTaskCall name:$display
-                            vpiName: a
-                            vpiFullName: test.a
-                            vpiActual: Variable name:a
-                          RefObj name:o start:35:34 end:35:35:
+                            vpiHighConn RefObj name:a start:35:31 end:35:32:
+                              vpiParent: NamedArgument
+                              vpiName: a
+                              vpiFullName: test.a
+                              vpiActual: Variable name:a
+                          NamedArgument start:35:34 end:35:35:
                             vpiParent: SysTaskCall name:$display
-                            vpiName: o
-                            vpiFullName: test.o
-                            vpiActual: Net name:o
+                            vpiHighConn RefObj name:o start:35:34 end:35:35:
+                              vpiParent: NamedArgument
+                              vpiName: o
+                              vpiFullName: test.o
+                              vpiActual: Net name:o
                       vpiDelay Constant start:35:4 end:35:5:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
@@ -684,28 +690,28 @@ Design name:unnamed:
             vpiName: RAM
             vpiFullName: test.dut.RAM
             vpiActual: ModuleTypespec name:RAM
-          vpiPort (2 items):
-            Port start:30:12 end:30:13:
+          vpiArgument (2 items):
+            NamedArgument start:30:12 end:30:13:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:O:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: O
                 vpiFullName: test.dut.O
                 vpiActual: Port name:O
               vpiHighConn RefObj name:o start:30:12 end:30:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: test.dut.o
                 vpiActual: Net name:o
-            Port start:30:15 end:30:21:
+            NamedArgument start:30:15 end:30:21:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:A:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: A
                 vpiFullName: test.dut.A
                 vpiActual: Port name:A
               vpiHighConn PartSelect name:a[3:0] start:30:15 end:30:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a[3:0]
                 vpiFullName: test.dut.a[3:0]
                 vpiPrefix RefObj name:a start:30:15 end:30:16:
@@ -1167,7 +1173,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/select3/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             160     160       0         0
+Others                             163     163       0         0
 ----------------------------------------------------------------
-                                   160     160       0         0
+                                   163     163       0         0
 ===================== END REDUCTION RESULT =====================

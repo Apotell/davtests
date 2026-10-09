@@ -273,24 +273,30 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:48:5 end:48:13:
                 vpiArgument (3 items):
-                  Constant start:48:14 end:48:33:
+                  NamedArgument start:48:14 end:48:33:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: stim
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 136
-                    vpiDecompile: "\"Time = %0d a = %b\""
-                    vpiValue: Time = %0d a = %b
-                  SysFuncCall name:$time start:48:35 end:48:40:
+                    vpiHighConn Constant start:48:14 end:48:33:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: stim
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 136
+                      vpiDecompile: "\"Time = %0d a = %b\""
+                      vpiValue: Time = %0d a = %b
+                  NamedArgument start:48:35 end:48:40:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:48:35 end:48:40:
-                  RefObj name:a start:48:42 end:48:43:
+                    vpiHighConn SysFuncCall name:$time start:48:35 end:48:40:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:48:35 end:48:40:
+                  NamedArgument start:48:42 end:48:43:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: a
-                    vpiFullName: stim.a
-                    vpiActual: Variable name:a
+                    vpiHighConn RefObj name:a start:48:42 end:48:43:
+                      vpiParent: NamedArgument
+                      vpiName: a
+                      vpiFullName: stim.a
+                      vpiActual: Variable name:a
   vpiTypespec (3 items):
     ModuleTypespec name:stim:
       vpiParent: Design name:unnamed
@@ -354,7 +360,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/monitor2/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              42      42       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    42      42       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

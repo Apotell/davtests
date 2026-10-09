@@ -143,15 +143,19 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName Identifier name:$clog2 start:5:17 end:5:23:
               vpiArgument (1 items):
-                SysFuncCall name:$bits start:5:24 end:5:36:
+                NamedArgument start:5:24 end:5:36:
                   vpiParent: SysFuncCall name:$clog2
-                  vpiName Identifier name:$bits start:5:24 end:5:29:
-                  vpiArgument (1 items):
-                    RefObj name:depth start:5:30 end:5:35:
-                      vpiParent: SysFuncCall name:$bits
-                      vpiName: depth
-                      vpiFullName: top.doFoo.depth
-                      vpiActual: IODecl name:depth
+                  vpiHighConn SysFuncCall name:$bits start:5:24 end:5:36:
+                    vpiParent: NamedArgument
+                    vpiName Identifier name:$bits start:5:24 end:5:29:
+                    vpiArgument (1 items):
+                      NamedArgument start:5:30 end:5:35:
+                        vpiParent: SysFuncCall name:$bits
+                        vpiHighConn RefObj name:depth start:5:30 end:5:35:
+                          vpiParent: NamedArgument
+                          vpiName: depth
+                          vpiFullName: top.doFoo.depth
+                          vpiActual: IODecl name:depth
           vpiReturn RefTypespec start:4:14 end:4:21:
             vpiParent: Function name:doFoo
             vpiFullName: top.doFoo
@@ -216,7 +220,7 @@ COMMAND: ${HLC_DIR}/regression/LateBindingFuncArg/LateBindingFuncArg/design.hldb
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              25      25       0         0
+Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    25      25       0         0
+                                    27      27       0         0
 ===================== END REDUCTION RESULT =====================

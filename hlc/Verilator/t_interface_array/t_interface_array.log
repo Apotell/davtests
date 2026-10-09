@@ -1414,26 +1414,32 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$display start:68:3 end:68:11:
                         vpiArgument (3 items):
-                          Constant start:68:12 end:68:80:
+                          NamedArgument start:68:12 end:68:80:
                             vpiParent: SysTaskCall name:$display
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 528
-                            vpiDecompile: "\"%%Error: Interface and non-interface paths do not match: 0b%b 0b%b\""
-                            vpiValue: "%%Error: Interface and non-interface paths do not match: 0b%b 0b%b"
-                          RefObj name:ack_out start:69:5 end:69:12:
+                            vpiHighConn Constant start:68:12 end:68:80:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 528
+                              vpiDecompile: "\"%%Error: Interface and non-interface paths do not match: 0b%b 0b%b\""
+                              vpiValue: "%%Error: Interface and non-interface paths do not match: 0b%b 0b%b"
+                          NamedArgument start:69:5 end:69:12:
                             vpiParent: SysTaskCall name:$display
-                            vpiName: ack_out
-                            vpiFullName: t.ack_out
-                            vpiActual: Variable name:ack_out
-                          RefObj name:a_out start:69:14 end:69:19:
+                            vpiHighConn RefObj name:ack_out start:69:5 end:69:12:
+                              vpiParent: NamedArgument
+                              vpiName: ack_out
+                              vpiFullName: t.ack_out
+                              vpiActual: Variable name:ack_out
+                          NamedArgument start:69:14 end:69:19:
                             vpiParent: SysTaskCall name:$display
-                            vpiName: a_out
-                            vpiFullName: t.a_out
-                            vpiActual: Variable name:a_out
+                            vpiHighConn RefObj name:a_out start:69:14 end:69:19:
+                              vpiParent: NamedArgument
+                              vpiName: a_out
+                              vpiFullName: t.a_out
+                              vpiActual: Variable name:a_out
                       SysTaskCall name:$stop start:70:3 end:70:8:
                         vpiParent: Begin
                         vpiName Identifier name:$stop start:70:3 end:70:8:
@@ -1457,16 +1463,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:74:3 end:74:9:
                         vpiArgument (1 items):
-                          Constant start:74:10 end:74:34:
+                          NamedArgument start:74:10 end:74:34:
                             vpiParent: SysTaskCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 168
-                            vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: "*-* All Finished *-*\\n"
+                            vpiHighConn Constant start:74:10 end:74:34:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 168
+                              vpiDecompile: "\"*-* All Finished *-*\\n\""
+                              vpiValue: "*-* All Finished *-*\\n"
                       SysTaskCall name:$finish start:75:3 end:75:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:75:3 end:75:10:
@@ -1789,25 +1797,27 @@ Design name:unnamed:
               vpiName Identifier name:identity start:59:19 end:59:27:
               vpiTaskFunc: Function name:identity
               vpiArgument (1 items):
-                Operation start:59:28 end:59:31:
+                NamedArgument start:59:28 end:59:31:
                   vpiParent: FuncCall name:identity
-                  vpiOpType: subtract (11)
-                  vpiOperand (2 items):
-                    RefObj name:N start:59:28 end:59:29:
-                      vpiParent: Operation
-                      vpiName: N
-                      vpiFullName: t.ack_out[identity(N - 1)].N
-                      vpiActual: Parameter name:N
-                    Constant start:59:30 end:59:31:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.ack_out[identity(N - 1)]
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
+                  vpiHighConn Operation start:59:28 end:59:31:
+                    vpiParent: NamedArgument
+                    vpiOpType: subtract (11)
+                    vpiOperand (2 items):
+                      RefObj name:N start:59:28 end:59:29:
+                        vpiParent: Operation
+                        vpiName: N
+                        vpiFullName: t.ack_out[identity(N - 1)].N
+                        vpiActual: Parameter name:N
+                      Constant start:59:30 end:59:31:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t.ack_out[identity(N - 1)]
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
           vpiRhs BitSelect name:a_in[identity(N - 1)] start:59:36 end:59:55:
             vpiParent: ContAssign
             vpiName: a_in[identity(N - 1)]
@@ -1822,25 +1832,27 @@ Design name:unnamed:
               vpiName Identifier name:identity start:59:41 end:59:49:
               vpiTaskFunc: Function name:identity
               vpiArgument (1 items):
-                Operation start:59:50 end:59:53:
+                NamedArgument start:59:50 end:59:53:
                   vpiParent: FuncCall name:identity
-                  vpiOpType: subtract (11)
-                  vpiOperand (2 items):
-                    RefObj name:N start:59:50 end:59:51:
-                      vpiParent: Operation
-                      vpiName: N
-                      vpiFullName: t.a_in[identity(N - 1)].N
-                      vpiActual: Parameter name:N
-                    Constant start:59:52 end:59:53:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.a_in[identity(N - 1)]
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
+                  vpiHighConn Operation start:59:50 end:59:53:
+                    vpiParent: NamedArgument
+                    vpiOpType: subtract (11)
+                    vpiOperand (2 items):
+                      RefObj name:N start:59:50 end:59:51:
+                        vpiParent: Operation
+                        vpiName: N
+                        vpiFullName: t.a_in[identity(N - 1)].N
+                        vpiActual: Parameter name:N
+                      Constant start:59:52 end:59:53:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t.a_in[identity(N - 1)]
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
         ContAssign start:60:11 end:60:54:
           vpiParent: Module name:t
           vpiLhs RefObj name:foos[identity(N - 1)].a start:60:11 end:60:32:
@@ -1862,25 +1874,27 @@ Design name:unnamed:
                   vpiName Identifier name:identity start:60:16 end:60:24:
                   vpiTaskFunc: Function name:identity
                   vpiArgument (1 items):
-                    Operation start:60:25 end:60:28:
+                    NamedArgument start:60:25 end:60:28:
                       vpiParent: FuncCall name:identity
-                      vpiOpType: subtract (11)
-                      vpiOperand (2 items):
-                        RefObj name:N start:60:25 end:60:26:
-                          vpiParent: Operation
-                          vpiName: N
-                          vpiFullName: t.foos[identity(N - 1)].a.foos[identity(N - 1)].N
-                          vpiActual: Parameter name:N
-                        Constant start:60:27 end:60:28:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.foos[identity(N - 1)].a.foos[identity(N - 1)]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
+                      vpiHighConn Operation start:60:25 end:60:28:
+                        vpiParent: NamedArgument
+                        vpiOpType: subtract (11)
+                        vpiOperand (2 items):
+                          RefObj name:N start:60:25 end:60:26:
+                            vpiParent: Operation
+                            vpiName: N
+                            vpiFullName: t.foos[identity(N - 1)].a.foos[identity(N - 1)].N
+                            vpiActual: Parameter name:N
+                          Constant start:60:27 end:60:28:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t.foos[identity(N - 1)].a.foos[identity(N - 1)]
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
               RefObj name:a start:60:31 end:60:32:
                 vpiParent: RefObj name:foos[identity(N - 1)].a
                 vpiName: a
@@ -1899,25 +1913,27 @@ Design name:unnamed:
               vpiName Identifier name:identity start:60:40 end:60:48:
               vpiTaskFunc: Function name:identity
               vpiArgument (1 items):
-                Operation start:60:49 end:60:52:
+                NamedArgument start:60:49 end:60:52:
                   vpiParent: FuncCall name:identity
-                  vpiOpType: subtract (11)
-                  vpiOperand (2 items):
-                    RefObj name:N start:60:49 end:60:50:
-                      vpiParent: Operation
-                      vpiName: N
-                      vpiFullName: t.a_in[identity(N - 1)].N
-                      vpiActual: Parameter name:N
-                    Constant start:60:51 end:60:52:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.a_in[identity(N - 1)]
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
+                  vpiHighConn Operation start:60:49 end:60:52:
+                    vpiParent: NamedArgument
+                    vpiOpType: subtract (11)
+                    vpiOperand (2 items):
+                      RefObj name:N start:60:49 end:60:50:
+                        vpiParent: Operation
+                        vpiName: N
+                        vpiFullName: t.a_in[identity(N - 1)].N
+                        vpiActual: Parameter name:N
+                      Constant start:60:51 end:60:52:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t.a_in[identity(N - 1)]
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
         ContAssign start:61:11 end:61:55:
           vpiParent: Module name:t
           vpiLhs BitSelect name:a_out[identity(N - 1)] start:61:11 end:61:31:
@@ -1934,25 +1950,27 @@ Design name:unnamed:
               vpiName Identifier name:identity start:61:17 end:61:25:
               vpiTaskFunc: Function name:identity
               vpiArgument (1 items):
-                Operation start:61:26 end:61:29:
+                NamedArgument start:61:26 end:61:29:
                   vpiParent: FuncCall name:identity
-                  vpiOpType: subtract (11)
-                  vpiOperand (2 items):
-                    RefObj name:N start:61:26 end:61:27:
-                      vpiParent: Operation
-                      vpiName: N
-                      vpiFullName: t.a_out[identity(N - 1)].N
-                      vpiActual: Parameter name:N
-                    Constant start:61:28 end:61:29:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.a_out[identity(N - 1)]
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
+                  vpiHighConn Operation start:61:26 end:61:29:
+                    vpiParent: NamedArgument
+                    vpiOpType: subtract (11)
+                    vpiOperand (2 items):
+                      RefObj name:N start:61:26 end:61:27:
+                        vpiParent: Operation
+                        vpiName: N
+                        vpiFullName: t.a_out[identity(N - 1)].N
+                        vpiActual: Parameter name:N
+                      Constant start:61:28 end:61:29:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t.a_out[identity(N - 1)]
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
           vpiRhs RefObj name:foos[identity(N - 1)].a start:61:34 end:61:55:
             vpiParent: ContAssign
             vpiName: foos[identity(N - 1)].a
@@ -1972,25 +1990,27 @@ Design name:unnamed:
                   vpiName Identifier name:identity start:61:39 end:61:47:
                   vpiTaskFunc: Function name:identity
                   vpiArgument (1 items):
-                    Operation start:61:48 end:61:51:
+                    NamedArgument start:61:48 end:61:51:
                       vpiParent: FuncCall name:identity
-                      vpiOpType: subtract (11)
-                      vpiOperand (2 items):
-                        RefObj name:N start:61:48 end:61:49:
-                          vpiParent: Operation
-                          vpiName: N
-                          vpiFullName: t.foos[identity(N - 1)].a.foos[identity(N - 1)].N
-                          vpiActual: Parameter name:N
-                        Constant start:61:50 end:61:51:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.foos[identity(N - 1)].a.foos[identity(N - 1)]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
+                      vpiHighConn Operation start:61:48 end:61:51:
+                        vpiParent: NamedArgument
+                        vpiOpType: subtract (11)
+                        vpiOperand (2 items):
+                          RefObj name:N start:61:48 end:61:49:
+                            vpiParent: Operation
+                            vpiName: N
+                            vpiFullName: t.foos[identity(N - 1)].a.foos[identity(N - 1)].N
+                            vpiActual: Parameter name:N
+                          Constant start:61:50 end:61:51:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t.foos[identity(N - 1)].a.foos[identity(N - 1)]
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
               RefObj name:a start:61:54 end:61:55:
                 vpiParent: RefObj name:foos[identity(N - 1)].a
                 vpiName: a
@@ -2292,7 +2312,7 @@ Operation                           28       6       0        22
 RefObj                              88      69       0        19
 RefTypespec                         45      42      18        21
 ----------------------------------------------------------------
-Others                             120     120       0         0
+Others                             130     130       0         0
 ----------------------------------------------------------------
-                                   311     265      37        83
+                                   321     275      37        83
 ===================== END REDUCTION RESULT =====================

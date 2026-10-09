@@ -1460,16 +1460,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:40:6 end:40:12:
                               vpiArgument (1 items):
-                                Constant start:40:13 end:40:37:
+                                NamedArgument start:40:13 end:40:37:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:40:13 end:40:37:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:41:6 end:41:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:41:6 end:41:13:
@@ -1484,52 +1486,52 @@ Design name:unnamed:
             vpiName: mytop
             vpiFullName: t.u0.mytop
             vpiActual: ModuleTypespec name:mytop
-          vpiPort (4 items):
-            Port start:13:15 end:13:16:
+          vpiArgument (4 items):
+            NamedArgument start:13:15 end:13:16:
               vpiParent: RefInstance name:u0
               vpiLowConn RefObj name:a:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: t.u0.a
                 vpiActual: Port name:a
               vpiHighConn RefObj name:a start:13:15 end:13:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: t.u0.a
                 vpiActual: Variable name:a
-            Port start:13:18 end:13:19:
+            NamedArgument start:13:18 end:13:19:
               vpiParent: RefInstance name:u0
               vpiLowConn RefObj name:b:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: t.u0.b
                 vpiActual: Port name:b
               vpiHighConn RefObj name:b start:13:18 end:13:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: t.u0.b
                 vpiActual: Variable name:b
-            Port start:13:21 end:13:24:
+            NamedArgument start:13:21 end:13:24:
               vpiParent: RefInstance name:u0
               vpiLowConn RefObj name:clk:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.u0.clk
                 vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:13:21 end:13:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.u0.clk
                 vpiActual: Net name:clk
-            Port start:13:26 end:13:27:
+            NamedArgument start:13:26 end:13:27:
               vpiParent: RefInstance name:u0
               vpiLowConn RefObj name:z:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: z
                 vpiFullName: t.u0.z
                 vpiActual: Port name:z
               vpiHighConn RefObj name:z start:13:26 end:13:27:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: z
                 vpiFullName: t.u0.z
                 vpiActual: Net name:z
@@ -2040,16 +2042,20 @@ Design name:unnamed:
                     vpiName Identifier name:myadd start:70:12 end:70:17:
                     vpiTaskFunc: Function name:myadd
                     vpiArgument (2 items):
-                      RefObj name:a start:70:19 end:70:20:
+                      NamedArgument start:70:19 end:70:20:
                         vpiParent: MethodFuncCall name:myadd
-                        vpiName: a
-                        vpiFullName: ftest.a
-                        vpiActual: Net name:a
-                      RefObj name:zi start:70:22 end:70:24:
+                        vpiHighConn RefObj name:a start:70:19 end:70:20:
+                          vpiParent: NamedArgument
+                          vpiName: a
+                          vpiFullName: ftest.a
+                          vpiActual: Net name:a
+                      NamedArgument start:70:22 end:70:24:
                         vpiParent: MethodFuncCall name:myadd
-                        vpiName: zi
-                        vpiFullName: ftest.zi
-                        vpiActual: Net name:zi
+                        vpiHighConn RefObj name:zi start:70:22 end:70:24:
+                          vpiParent: NamedArgument
+                          vpiName: zi
+                          vpiFullName: ftest.zi
+                          vpiActual: Net name:zi
           vpiAlwaysType: always (1)
       vpiRefInstance (1 items):
         RefInstance name:u1 start:65:8 end:65:10:
@@ -2060,38 +2066,44 @@ Design name:unnamed:
             vpiName: inv
             vpiFullName: ftest.u1.inv
             vpiActual: ModuleTypespec name:inv
-          vpiPort (2 items):
-            Port start:65:12 end:65:26:
+          vpiArgument (2 items):
+            NamedArgument start:65:12 end:65:26:
               vpiParent: RefInstance name:u1
+              vpiConnByName: true
               vpiLowConn RefObj name:a start:65:13 end:65:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: ftest.u1.a
                 vpiActual: Net name:a
               vpiHighConn MethodFuncCall name:myadd start:65:15 end:65:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName Identifier name:myadd start:65:15 end:65:20:
                 vpiTaskFunc: Function name:myadd
                 vpiArgument (2 items):
-                  RefObj name:a start:65:21 end:65:22:
+                  NamedArgument start:65:21 end:65:22:
                     vpiParent: MethodFuncCall name:myadd
-                    vpiName: a
-                    vpiFullName: ftest.u1.a
-                    vpiActual: Net name:a
-                  RefObj name:b start:65:23 end:65:24:
+                    vpiHighConn RefObj name:a start:65:21 end:65:22:
+                      vpiParent: NamedArgument
+                      vpiName: a
+                      vpiFullName: ftest.u1.a
+                      vpiActual: Net name:a
+                  NamedArgument start:65:23 end:65:24:
                     vpiParent: MethodFuncCall name:myadd
-                    vpiName: b
-                    vpiFullName: ftest.u1.b
-                    vpiActual: Net name:b
-            Port start:66:5 end:66:11:
+                    vpiHighConn RefObj name:b start:65:23 end:65:24:
+                      vpiParent: NamedArgument
+                      vpiName: b
+                      vpiFullName: ftest.u1.b
+                      vpiActual: Net name:b
+            NamedArgument start:66:5 end:66:11:
               vpiParent: RefInstance name:u1
+              vpiConnByName: true
               vpiLowConn RefObj name:z start:66:6 end:66:7:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: z
                 vpiFullName: ftest.u1.z
                 vpiActual: Variable name:z
               vpiHighConn RefObj name:zi start:66:8 end:66:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: zi
                 vpiFullName: ftest.u1.zi
                 vpiActual: Net name:zi
@@ -2266,52 +2278,52 @@ Design name:unnamed:
             vpiName: ftest
             vpiFullName: mytop.u0.ftest
             vpiActual: ModuleTypespec name:ftest
-          vpiPort (4 items):
-            Port start:91:14 end:91:15:
+          vpiArgument (4 items):
+            NamedArgument start:91:14 end:91:15:
               vpiParent: RefInstance name:u0
               vpiLowConn RefObj name:a:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: mytop.u0.a
                 vpiActual: Port name:a
               vpiHighConn RefObj name:a start:91:14 end:91:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: mytop.u0.a
                 vpiActual: Net name:a
-            Port start:91:17 end:91:18:
+            NamedArgument start:91:17 end:91:18:
               vpiParent: RefInstance name:u0
               vpiLowConn RefObj name:b:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: mytop.u0.b
                 vpiActual: Port name:b
               vpiHighConn RefObj name:b start:91:17 end:91:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: mytop.u0.b
                 vpiActual: Net name:b
-            Port start:91:20 end:91:23:
+            NamedArgument start:91:20 end:91:23:
               vpiParent: RefInstance name:u0
               vpiLowConn RefObj name:clk:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: mytop.u0.clk
                 vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:91:20 end:91:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: mytop.u0.clk
                 vpiActual: Net name:clk
-            Port start:91:25 end:91:26:
+            NamedArgument start:91:25 end:91:26:
               vpiParent: RefInstance name:u0
               vpiLowConn RefObj name:z:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: z
                 vpiFullName: mytop.u0.z
                 vpiActual: Port name:z
               vpiHighConn RefObj name:z start:91:25 end:91:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: z
                 vpiFullName: mytop.u0.z
                 vpiActual: Net name:z
@@ -2395,7 +2407,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_outp/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             354     354       0         0
+Others                             359     359       0         0
 ----------------------------------------------------------------
-                                   354     354       0         0
+                                   359     359       0         0
 ===================== END REDUCTION RESULT =====================

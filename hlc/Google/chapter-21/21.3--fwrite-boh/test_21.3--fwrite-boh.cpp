@@ -279,14 +279,18 @@ class FwriteBohTest : public Test {
 
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 2u) << expectedName << "(fd, str) passes exactly two arguments";
-    checkArgumentRefersTo(call->getArguments()->at(0), "fd", "the descriptor argument");
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    checkArgumentRefersTo(arg0->getHighConn(), "fd", "the descriptor argument");
 
     // The value written is the identifier "str", so it must survive as a
     // reference and must not be folded into a Constant carrying "abc".
-    EXPECT_EQ(any_cast<hldb::Constant>(call->getArguments()->at(1)), nullptr)
+    const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+    ASSERT_NE(arg1, nullptr);
+    EXPECT_EQ(arg1->getHighConn<hldb::Constant>(), nullptr)
         << "the source wrote the identifier 'str', so the value argument must be a reference, not a "
            "Constant carrying an inlined copy of its initializer";
-    checkArgumentRefersTo(call->getArguments()->at(1), "str", "the value argument");
+    checkArgumentRefersTo(arg1->getHighConn(), "str", "the value argument");
   }
 };
 
@@ -425,13 +429,17 @@ TEST_F(FwriteBohTest, FopenArgumentsAreFilenameAndMode) {
   ASSERT_NE(fopenCall->getArguments(), nullptr);
   ASSERT_EQ(fopenCall->getArguments()->size(), 2u) << "'$fopen(\"tmp.txt\", \"w\")' passes filename then mode";
 
-  const hldb::Constant *const filename = any_cast<hldb::Constant>(fopenCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = fopenCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const filename = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(filename, nullptr) << "arg[0] is the string literal \"tmp.txt\"";
   EXPECT_EQ(filename->getConstType(), vpiStringConst);
   EXPECT_EQ(filename->getValue(), "tmp.txt");
   EXPECT_EQ(filename->getSize(), 56) << "Sec 5.9: \"tmp.txt\" = 7 chars x 8 bits";
 
-  const hldb::Constant *const mode = any_cast<hldb::Constant>(fopenCall->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = fopenCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const mode = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mode, nullptr) << "arg[1] is the string literal \"w\"";
   EXPECT_EQ(mode->getConstType(), vpiStringConst);
   EXPECT_EQ(mode->getValue(), "w") << "Sec 21.3.1: \"w\" opens the file for writing";
@@ -495,8 +503,12 @@ TEST_F(FwriteBohTest, EachVariantTakesDescriptorThenTheStringVariable) {
     ASSERT_NE(calls[i]->getArguments(), nullptr) << "stmt[" << (i + 1u) << "]";
     ASSERT_EQ(calls[i]->getArguments()->size(), 2u) << "stmt[" << (i + 1u) << "] passes (fd, str)";
 
-    const hldb::RefObj *const descriptor = any_cast<hldb::RefObj>(calls[i]->getArguments()->at(0));
-    const hldb::RefObj *const value = any_cast<hldb::RefObj>(calls[i]->getArguments()->at(1));
+    const hldb::NamedArgument *const arg0 = calls[i]->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::RefObj *const descriptor = arg0->getHighConn<hldb::RefObj>();
+    const hldb::NamedArgument *const arg1 = calls[i]->getArguments()->at(1);
+    ASSERT_NE(arg1, nullptr);
+    const hldb::RefObj *const value = arg1->getHighConn<hldb::RefObj>();
     ASSERT_NE(descriptor, nullptr) << "stmt[" << (i + 1u) << "] arg[0]";
     ASSERT_NE(value, nullptr) << "stmt[" << (i + 1u) << "] arg[1]";
     EXPECT_EQ(descriptor->getActual<hldb::Variable>(), getVariable("fd"))
@@ -534,7 +546,9 @@ TEST_F(FwriteBohTest, FinalBodyIsFcloseSysTaskCallOnTheSameFd) {
 
   ASSERT_NE(fcloseCall->getArguments(), nullptr);
   ASSERT_EQ(fcloseCall->getArguments()->size(), 1u) << "'$fclose(fd)' passes exactly one argument";
-  checkArgumentRefersTo(fcloseCall->getArguments()->at(0), "fd", "the $fclose descriptor argument");
+  const hldb::NamedArgument *const arg0 = fcloseCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentRefersTo(arg0->getHighConn(), "fd", "the $fclose descriptor argument");
 }
 
 // --- compiler diagnostics -----------------------------------------------------

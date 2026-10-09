@@ -184,26 +184,32 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:20:2 end:20:10:
                 vpiArgument (3 items):
-                  Constant start:20:11 end:20:19:
+                  NamedArgument start:20:11 end:20:19:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top.add
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"%d+%d=\""
-                    vpiValue: "%d+%d="
-                  RefObj name:a start:20:21 end:20:22:
+                    vpiHighConn Constant start:20:11 end:20:19:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top.add
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"%d+%d=\""
+                      vpiValue: "%d+%d="
+                  NamedArgument start:20:21 end:20:22:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: a
-                    vpiFullName: top.add.a
-                    vpiActual: IODecl name:a
-                  RefObj name:b start:20:24 end:20:25:
+                    vpiHighConn RefObj name:a start:20:21 end:20:22:
+                      vpiParent: NamedArgument
+                      vpiName: a
+                      vpiFullName: top.add.a
+                      vpiActual: IODecl name:a
+                  NamedArgument start:20:24 end:20:25:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: b
-                    vpiFullName: top.add.b
-                    vpiActual: IODecl name:b
+                    vpiHighConn RefObj name:b start:20:24 end:20:25:
+                      vpiParent: NamedArgument
+                      vpiName: b
+                      vpiFullName: top.add.b
+                      vpiActual: IODecl name:b
               ReturnStmt start:21:2 end:21:15:
                 vpiParent: Begin
                 vpiCondition Operation start:21:9 end:21:14:
@@ -231,41 +237,49 @@ Design name:unnamed:
             vpiParent: Initial
             vpiName Identifier name:$display start:25:2 end:25:10:
             vpiArgument (2 items):
-              Constant start:25:11 end:25:15:
+              NamedArgument start:25:11 end:25:15:
                 vpiParent: SysTaskCall name:$display
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top
-                  vpiActual: StringTypespec
-                vpiConstType: string (6)
-                vpiSize: 16
-                vpiDecompile: "\"%d\""
-                vpiValue: "%d"
-              MethodFuncCall name:add start:25:17 end:25:28:
+                vpiHighConn Constant start:25:11 end:25:15:
+                  vpiParent: NamedArgument
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top
+                    vpiActual: StringTypespec
+                  vpiConstType: string (6)
+                  vpiSize: 16
+                  vpiDecompile: "\"%d\""
+                  vpiValue: "%d"
+              NamedArgument start:25:17 end:25:28:
                 vpiParent: SysTaskCall name:$display
-                vpiName Identifier name:add start:25:17 end:25:20:
-                vpiTaskFunc: Function name:add
-                vpiArgument (2 items):
-                  Constant start:25:21 end:25:23:
-                    vpiParent: MethodFuncCall name:add
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "45"
-                    vpiValue: 45
-                  Constant start:25:25 end:25:27:
-                    vpiParent: MethodFuncCall name:add
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "90"
-                    vpiValue: 90
+                vpiHighConn MethodFuncCall name:add start:25:17 end:25:28:
+                  vpiParent: NamedArgument
+                  vpiName Identifier name:add start:25:17 end:25:20:
+                  vpiTaskFunc: Function name:add
+                  vpiArgument (2 items):
+                    NamedArgument start:25:21 end:25:23:
+                      vpiParent: MethodFuncCall name:add
+                      vpiHighConn Constant start:25:21 end:25:23:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "45"
+                        vpiValue: 45
+                    NamedArgument start:25:25 end:25:27:
+                      vpiParent: MethodFuncCall name:add
+                      vpiHighConn Constant start:25:25 end:25:27:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "90"
+                        vpiValue: 90
   vpiTypespec (4 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -331,7 +345,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-13/13.4.1--function-void-return/de
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    47      47       0         0
 ===================== END REDUCTION RESULT =====================

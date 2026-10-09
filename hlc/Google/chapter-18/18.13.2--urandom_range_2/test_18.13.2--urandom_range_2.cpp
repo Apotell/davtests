@@ -646,7 +646,9 @@ class UrandomRange2Test : public Test {
     EXPECT_EQ(target->getName(), method);
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u) << "only 'this' is written";
-    const hldb::RefObj *const self = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::RefObj *const self = arg0->getHighConn<hldb::RefObj>();
     ASSERT_NE(self, nullptr) << "'this' should be a RefObj";
     EXPECT_EQ(self->getName(), "this");
     ASSERT_NE(getEnv(), nullptr);
@@ -661,8 +663,12 @@ class UrandomRange2Test : public Test {
     EXPECT_EQ(call->getName(), "$sformatf");
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 2u) << "a format string and 'ret'";
-    ExpectStringLiteral(call->getArguments()->at(0), format);
-    ExpectBoundRef(call->getArguments()->at(1), "ret", getProperty("ret"));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    ExpectStringLiteral(arg0->getHighConn(), format);
+    const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+    ASSERT_NE(arg1, nullptr);
+    ExpectBoundRef(arg1->getHighConn(), "ret", getProperty("ret"));
   }
 
   // Verifies 'branch' is a begin-end starting with the expansion of a UVM
@@ -689,18 +695,30 @@ class UrandomRange2Test : public Test {
     EXPECT_EQ(enabled->getName(), "uvm_report_enabled");
     ASSERT_NE(enabled->getArguments(), nullptr);
     ASSERT_EQ(enabled->getArguments()->size(), 3u);
-    ExpectEnumConstRef(enabled->getArguments()->at(0), verbosity);
-    ExpectEnumConstRef(enabled->getArguments()->at(1), severity);
-    ExpectStringLiteral(enabled->getArguments()->at(2), "\"RESULT\"");
+    const hldb::NamedArgument *const enabledArg0 = enabled->getArguments()->at(0);
+    ASSERT_NE(enabledArg0, nullptr);
+    ExpectEnumConstRef(enabledArg0->getHighConn(), verbosity);
+    const hldb::NamedArgument *const enabledArg1 = enabled->getArguments()->at(1);
+    ASSERT_NE(enabledArg1, nullptr);
+    ExpectEnumConstRef(enabledArg1->getHighConn(), severity);
+    const hldb::NamedArgument *const arg2 = enabled->getArguments()->at(2);
+    ASSERT_NE(arg2, nullptr);
+    ExpectStringLiteral(arg2->getHighConn(), "\"RESULT\"");
 
     const hldb::TFCall *const report = guard->getStmt<hldb::TFCall>();
     ASSERT_NE(report, nullptr) << "the if action is a call";
     EXPECT_EQ(report->getName(), reportFn);
     ASSERT_NE(report->getArguments(), nullptr);
     ASSERT_GE(report->getArguments()->size(), 3u);
-    ExpectStringLiteral(report->getArguments()->at(0), "\"RESULT\"");
-    ExpectSformatfOfRet(report->getArguments()->at(1), format);
-    ExpectEnumConstRef(report->getArguments()->at(2), verbosity);
+    const hldb::NamedArgument *const reportArg0 = report->getArguments()->at(0);
+    ASSERT_NE(reportArg0, nullptr);
+    ExpectStringLiteral(reportArg0->getHighConn(), "\"RESULT\"");
+    const hldb::NamedArgument *const reportArg1 = report->getArguments()->at(1);
+    ASSERT_NE(reportArg1, nullptr);
+    ExpectSformatfOfRet(reportArg1->getHighConn(), format);
+    const hldb::NamedArgument *const reportArg2 = report->getArguments()->at(2);
+    ASSERT_NE(reportArg2, nullptr);
+    ExpectEnumConstRef(reportArg2->getHighConn(), verbosity);
   }
 };
 
@@ -843,8 +861,12 @@ TEST_F(UrandomRange2Test, UrandomRangeArgumentsAreMaxvalThenMinval) {
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u) << "both arguments are written; minval's default of 0 is not used";
-  ExpectBoundRef(call->getArguments()->at(0), "maxval", getFormal("maxval"));
-  ExpectBoundRef(call->getArguments()->at(1), "minval", getFormal("minval"));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  ExpectBoundRef(arg0->getHighConn(), "maxval", getFormal("maxval"));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  ExpectBoundRef(arg1->getHighConn(), "minval", getFormal("minval"));
 }
 
 TEST_F(UrandomRange2Test, DoUrandomRangeReturnsVal) {
@@ -1004,8 +1026,12 @@ TEST_F(UrandomRange2Test, EnvNewBodyIsSuperNewOfNameAndParent) {
   EXPECT_EQ(call->getTaskFunc(), getUvmEnvNew()) << "8.15: 'super.new' calls uvm_env's own constructor";
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
-  ExpectBoundRef(call->getArguments()->at(0), "name", hldb::findByName<hldb::IODecl>("name", ctor->getIODecls()));
-  ExpectBoundRef(call->getArguments()->at(1), "parent", hldb::findByName<hldb::IODecl>("parent", ctor->getIODecls()));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  ExpectBoundRef(arg0->getHighConn(), "name", hldb::findByName<hldb::IODecl>("name", ctor->getIODecls()));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  ExpectBoundRef(arg1->getHighConn(), "parent", hldb::findByName<hldb::IODecl>("parent", ctor->getIODecls()));
 }
 
 // ---------------------------------------------------------------------------
@@ -1089,8 +1115,12 @@ TEST_F(UrandomRange2Test, DoUrandomRangeArgumentsAreMinThenMax) {
   // 13.5: arguments bind by position, so 'min' feeds 'maxval' and 'max'
   // feeds 'minval' -- the reverse of urandom_range_1. The swap 18.13.2
   // applies when maxval < minval happens only when the call executes.
-  ExpectBoundRef(call->getArguments()->at(0), "min", getProperty("min"));
-  ExpectBoundRef(call->getArguments()->at(1), "max", getProperty("max"));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  ExpectBoundRef(arg0->getHighConn(), "min", getProperty("min"));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  ExpectBoundRef(arg1->getHighConn(), "max", getProperty("max"));
 }
 
 // ---------------------------------------------------------------------------
@@ -1180,7 +1210,9 @@ TEST_F(UrandomRange2Test, InitialConstructsEnvironment) {
       << "8.7: the target 'environment' has type env, so 'new' is env's constructor";
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "only 'name' is written; 'parent' takes its default";
-  ExpectStringLiteral(call->getArguments()->at(0), "\"env\"");
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  ExpectStringLiteral(arg0->getHighConn(), "\"env\"");
 }
 
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (wildcard

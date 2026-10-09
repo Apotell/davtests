@@ -194,7 +194,9 @@ class TestPlusargsTest : public Test {
     ASSERT_NE(call->getArguments(), nullptr) << where;
     ASSERT_EQ(call->getArguments()->size(), 1u) << where << ": the call passes just the text to print";
 
-    const hldb::Constant *const text = any_cast<hldb::Constant>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr) << where;
+    const hldb::Constant *const text = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(text, nullptr) << where << ": the argument is a string literal";
     EXPECT_EQ(text->getConstType(), vpiStringConst) << where;
     EXPECT_EQ(text->getValue(), expectedText) << where;
@@ -284,7 +286,9 @@ TEST_F(TestPlusargsTest, IfConditionIsTestPlusargsOnTheStringTEST) {
 
   ASSERT_NE(cond->getArguments(), nullptr);
   ASSERT_EQ(cond->getArguments()->size(), 1u) << "'$test$plusargs(\"TEST\")' takes exactly one argument";
-  const hldb::Constant *const match = any_cast<hldb::Constant>(cond->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = cond->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const match = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(match, nullptr) << "the argument is the string literal \"TEST\"";
   EXPECT_EQ(match->getConstType(), vpiStringConst);
   EXPECT_EQ(match->getValue(), "TEST");
@@ -335,8 +339,12 @@ TEST_F(TestPlusargsTest, TheTwoArmsAreDistinctCallsWithDistinctText) {
   ASSERT_EQ(thenCall->getArguments()->size(), 1u);
   ASSERT_NE(elseCall->getArguments(), nullptr);
   ASSERT_EQ(elseCall->getArguments()->size(), 1u);
-  const hldb::Constant *const thenText = any_cast<hldb::Constant>(thenCall->getArguments()->at(0));
-  const hldb::Constant *const elseText = any_cast<hldb::Constant>(elseCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = thenCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const thenText = arg0->getHighConn<hldb::Constant>();
+  const hldb::NamedArgument *const elseTextArg = elseCall->getArguments()->at(0);
+  ASSERT_NE(elseTextArg, nullptr);
+  const hldb::Constant *const elseText = elseTextArg->getHighConn<hldb::Constant>();
   ASSERT_NE(thenText, nullptr);
   ASSERT_NE(elseText, nullptr);
   EXPECT_NE(thenText->getValue(), elseText->getValue())

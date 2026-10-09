@@ -239,29 +239,37 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:25:7 end:25:15:
                 vpiArgument (4 items):
-                  Constant start:25:16 end:25:32:
+                  NamedArgument start:25:16 end:25:32:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 112
-                    vpiDecompile: "\"%t: x=%f, y=%f\""
-                    vpiValue: "%t: x=%f, y=%f"
-                  SysFuncCall name:$time start:25:34 end:25:39:
+                    vpiHighConn Constant start:25:16 end:25:32:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 112
+                      vpiDecompile: "\"%t: x=%f, y=%f\""
+                      vpiValue: "%t: x=%f, y=%f"
+                  NamedArgument start:25:34 end:25:39:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:25:34 end:25:39:
-                  RefObj name:x start:25:41 end:25:42:
+                    vpiHighConn SysFuncCall name:$time start:25:34 end:25:39:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:25:34 end:25:39:
+                  NamedArgument start:25:41 end:25:42:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: x
-                    vpiFullName: main.x
-                    vpiActual: Variable name:x
-                  RefObj name:y start:25:44 end:25:45:
+                    vpiHighConn RefObj name:x start:25:41 end:25:42:
+                      vpiParent: NamedArgument
+                      vpiName: x
+                      vpiFullName: main.x
+                      vpiActual: Variable name:x
+                  NamedArgument start:25:44 end:25:45:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: y
-                    vpiFullName: main.y
-                    vpiActual: Variable name:y
+                    vpiHighConn RefObj name:y start:25:44 end:25:45:
+                      vpiParent: NamedArgument
+                      vpiName: y
+                      vpiFullName: main.y
+                      vpiActual: Variable name:y
               DelayControl start:26:7 end:26:18:
                 vpiParent: Begin
                 vpiDelay: 1
@@ -468,7 +476,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/monitor3/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              58      58       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                    58      58       0         0
+                                    62      62       0         0
 ===================== END REDUCTION RESULT =====================

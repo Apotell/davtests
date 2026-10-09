@@ -412,29 +412,37 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:15:9 end:15:17:
                 vpiArgument (4 items):
-                  SysFuncCall name:$time start:15:18 end:15:23:
+                  NamedArgument start:15:18 end:15:23:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:15:18 end:15:23:
-                  Constant start:15:25 end:15:52:
+                    vpiHighConn SysFuncCall name:$time start:15:18 end:15:23:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:15:18 end:15:23:
+                  NamedArgument start:15:25 end:15:52:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 200
-                    vpiDecompile: "\" data_in: %h data_out: %h\""
-                    vpiValue: "data_in: %h data_out: %h"
-                  RefObj name:data_in start:15:54 end:15:61:
+                    vpiHighConn Constant start:15:25 end:15:52:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 200
+                      vpiDecompile: "\" data_in: %h data_out: %h\""
+                      vpiValue: "data_in: %h data_out: %h"
+                  NamedArgument start:15:54 end:15:61:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: data_in
-                    vpiFullName: top.data_in
-                    vpiActual: Variable name:data_in
-                  RefObj name:data_out start:15:63 end:15:71:
+                    vpiHighConn RefObj name:data_in start:15:54 end:15:61:
+                      vpiParent: NamedArgument
+                      vpiName: data_in
+                      vpiFullName: top.data_in
+                      vpiActual: Variable name:data_in
+                  NamedArgument start:15:63 end:15:71:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: data_out
-                    vpiFullName: top.data_out
-                    vpiActual: Net name:data_out
+                    vpiHighConn RefObj name:data_out start:15:63 end:15:71:
+                      vpiParent: NamedArgument
+                      vpiName: data_out
+                      vpiFullName: top.data_out
+                      vpiActual: Net name:data_out
               Assignment start:16:9 end:16:23:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -574,28 +582,30 @@ Design name:unnamed:
             vpiName: Example
             vpiFullName: top.dut.Example
             vpiActual: UnsupportedTypespec name:Example
-          vpiPort (2 items):
-            Port start:9:9 end:9:26:
+          vpiArgument (2 items):
+            NamedArgument start:9:9 end:9:26:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:data_in start:9:10 end:9:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: data_in
                 vpiFullName: top.dut.data_in
                 vpiActual: Variable name:data_in
               vpiHighConn RefObj name:data_in start:9:18 end:9:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: data_in
                 vpiFullName: top.dut.data_in
                 vpiActual: Variable name:data_in
-            Port start:10:9 end:10:28:
+            NamedArgument start:10:9 end:10:28:
               vpiParent: RefInstance name:dut
+              vpiConnByName: true
               vpiLowConn RefObj name:data_out start:10:10 end:10:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: data_out
                 vpiFullName: top.dut.data_out
                 vpiActual: Net name:data_out
               vpiHighConn RefObj name:data_out start:10:19 end:10:27:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: data_out
                 vpiFullName: top.dut.data_out
                 vpiActual: Net name:data_out
@@ -666,7 +676,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/typedef_tb_v/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              89      89       0         0
+Others                              93      93       0         0
 ----------------------------------------------------------------
-                                    89      89       0         0
+                                    93      93       0         0
 ===================== END REDUCTION RESULT =====================

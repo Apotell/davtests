@@ -406,11 +406,15 @@ TEST_F(ReadmembTest, ReadmembArgumentsAreFilenameThenMemory) {
 
   // The file name is passed as the identifier "fname0", so it must survive as
   // a reference and must not be folded into a Constant carrying "test0.mem".
-  EXPECT_EQ(any_cast<hldb::Constant>(call->getArguments()->at(0)), nullptr)
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>(), nullptr)
       << "the source wrote the identifier 'fname0', so arg[0] must be a reference, not a Constant "
          "carrying an inlined copy of its initializer";
-  checkArgumentRefersTo(call->getArguments()->at(0), "fname0", "the $readmemb file-name argument");
-  checkArgumentRefersTo(call->getArguments()->at(1), "mem0", "the $readmemb memory argument");
+  checkArgumentRefersTo(arg0->getHighConn(), "fname0", "the $readmemb file-name argument");
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  checkArgumentRefersTo(arg1->getHighConn(), "mem0", "the $readmemb memory argument");
 }
 
 // Because "fname0" and "mem0" differ in TYPE as well as in name, a swap of the
@@ -423,8 +427,12 @@ TEST_F(ReadmembTest, ReadmembFilenameAndMemoryAreNotSwapped) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::RefObj *const first = any_cast<hldb::RefObj>(call->getArguments()->at(0));
-  const hldb::RefObj *const second = any_cast<hldb::RefObj>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const first = arg0->getHighConn<hldb::RefObj>();
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const second = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(first, nullptr);
   ASSERT_NE(second, nullptr);
 

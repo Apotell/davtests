@@ -255,7 +255,9 @@ class FposTest : public Test {
     ASSERT_NE(display->getArguments(), nullptr);
     ASSERT_EQ(display->getArguments()->size(), 2u) << "$display here passes a format string and one value";
 
-    const hldb::Constant *const format = any_cast<hldb::Constant>(display->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::Constant *const format = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(format, nullptr) << "arg[0] is the format string literal";
     EXPECT_EQ(format->getConstType(), vpiStringConst);
     EXPECT_EQ(format->getValue(), expectedFormat);
@@ -263,15 +265,19 @@ class FposTest : public Test {
 
     // Sec 21.3.5: $ftell returns the current position, so in this argument
     // position it must be a function call, never a task call.
-    EXPECT_EQ(any_cast<hldb::SysTaskCall>(display->getArguments()->at(1)), nullptr)
+    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    ASSERT_NE(arg1, nullptr);
+    EXPECT_EQ(arg1->getHighConn<hldb::SysTaskCall>(), nullptr)
         << "IEEE 1800-2023 Sec 21.3.5: $ftell returns an integer position, so it is a system "
            "function, not a system task";
-    const hldb::SysFuncCall *const ftell = any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    const hldb::SysFuncCall *const ftell = arg1->getHighConn<hldb::SysFuncCall>();
     ASSERT_NE(ftell, nullptr) << "arg[1] is the '$ftell(fd)' call";
     EXPECT_EQ(ftell->getName(), "$ftell");
     ASSERT_NE(ftell->getArguments(), nullptr);
     ASSERT_EQ(ftell->getArguments()->size(), 1u) << "'$ftell(fd)' takes the descriptor alone";
-    checkArgumentIsFd(ftell->getArguments()->at(0), "the $ftell descriptor argument");
+    const hldb::NamedArgument *const ftellArg0 = ftell->getArguments()->at(0);
+    ASSERT_NE(ftellArg0, nullptr);
+    checkArgumentIsFd(ftellArg0->getHighConn(), "the $ftell descriptor argument");
   }
 };
 
@@ -373,13 +379,17 @@ TEST_F(FposTest, FopenArgumentsAreFilenameAndMode) {
   ASSERT_NE(fopenCall->getArguments(), nullptr);
   ASSERT_EQ(fopenCall->getArguments()->size(), 2u) << "'$fopen(\"tmp.txt\", \"w\")' passes filename then mode";
 
-  const hldb::Constant *const filename = any_cast<hldb::Constant>(fopenCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = fopenCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const filename = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(filename, nullptr) << "arg[0] is the string literal \"tmp.txt\"";
   EXPECT_EQ(filename->getConstType(), vpiStringConst);
   EXPECT_EQ(filename->getValue(), "tmp.txt");
   EXPECT_EQ(filename->getSize(), 56) << "Sec 5.9: \"tmp.txt\" = 7 chars x 8 bits";
 
-  const hldb::Constant *const mode = any_cast<hldb::Constant>(fopenCall->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = fopenCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const mode = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mode, nullptr) << "arg[1] is the string literal \"w\"";
   EXPECT_EQ(mode->getConstType(), vpiStringConst);
   EXPECT_EQ(mode->getValue(), "w") << "Sec 21.3.1: \"w\" opens the file for writing";
@@ -425,14 +435,20 @@ TEST_F(FposTest, FseekArgumentsAreFdOffsetTwelveAndWhenceZero) {
   ASSERT_NE(fseek->getArguments(), nullptr);
   ASSERT_EQ(fseek->getArguments()->size(), 3u) << "'$fseek(fd, 12, 0)' passes descriptor, offset and operation";
 
-  checkArgumentIsFd(fseek->getArguments()->at(0), "the $fseek descriptor argument");
+  const hldb::NamedArgument *const arg0 = fseek->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentIsFd(arg0->getHighConn(), "the $fseek descriptor argument");
 
-  const hldb::Constant *const offset = any_cast<hldb::Constant>(fseek->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = fseek->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const offset = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(offset, nullptr) << "arg[1] is the byte offset literal 12";
   EXPECT_EQ(offset->getDecompile(), "12");
   EXPECT_EQ(offset->getConstType(), vpiUIntConst) << "Sec 5.7.1: a bare decimal literal is unsigned";
 
-  const hldb::Constant *const operation = any_cast<hldb::Constant>(fseek->getArguments()->at(2));
+  const hldb::NamedArgument *const arg2 = fseek->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  const hldb::Constant *const operation = arg2->getHighConn<hldb::Constant>();
   ASSERT_NE(operation, nullptr) << "arg[2] is the operation literal 0";
   EXPECT_EQ(operation->getDecompile(), "0") << "Sec 21.3.5: operation 0 seeks from the start of the file";
   EXPECT_EQ(operation->getConstType(), vpiUIntConst) << "Sec 5.7.1: a bare decimal literal is unsigned";
@@ -458,7 +474,9 @@ TEST_F(FposTest, RewindIsItsOwnCallOnFd) {
 
   ASSERT_NE(rewind->getArguments(), nullptr);
   ASSERT_EQ(rewind->getArguments()->size(), 1u) << "'$rewind(fd)' takes the descriptor alone";
-  checkArgumentIsFd(rewind->getArguments()->at(0), "the $rewind descriptor argument");
+  const hldb::NamedArgument *const arg0 = rewind->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentIsFd(arg0->getHighConn(), "the $rewind descriptor argument");
 }
 
 // --- stmt[6]: $fclose(fd); ----------------------------------------------------
@@ -478,7 +496,9 @@ TEST_F(FposTest, LastStatementIsFcloseOnTheSameFd) {
 
   ASSERT_NE(fclose->getArguments(), nullptr);
   ASSERT_EQ(fclose->getArguments()->size(), 1u) << "'$fclose(fd)' passes exactly one argument";
-  checkArgumentIsFd(fclose->getArguments()->at(0), "the $fclose descriptor argument");
+  const hldb::NamedArgument *const arg0 = fclose->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentIsFd(arg0->getHighConn(), "the $fclose descriptor argument");
 }
 
 // --- compiler diagnostics -----------------------------------------------------

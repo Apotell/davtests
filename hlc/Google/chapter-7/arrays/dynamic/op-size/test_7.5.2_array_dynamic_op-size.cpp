@@ -345,7 +345,9 @@ TEST_F(DynamicArrayOpSizeTest, FirstDisplayNameAndFormatString) {
   EXPECT_EQ(call->getName(), "$display");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 16)");
 }
@@ -358,7 +360,9 @@ TEST_F(DynamicArrayOpSizeTest, FirstDisplaySecondArgIsArrSizeRefObj) {
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(1));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
   ASSERT_NE(hp->getPathElems(), nullptr);
@@ -424,7 +428,9 @@ TEST_F(DynamicArrayOpSizeTest, SecondDisplayNameAndFormatString) {
   EXPECT_EQ(call->getName(), "$display");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 8)");
 }
@@ -437,7 +443,9 @@ TEST_F(DynamicArrayOpSizeTest, SecondDisplaySecondArgIsArrSizeRefObj) {
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(3));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   EXPECT_EQ(hp->getName(), "arr.size");
 }

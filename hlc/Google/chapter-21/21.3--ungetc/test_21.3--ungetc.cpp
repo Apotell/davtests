@@ -385,13 +385,17 @@ TEST_F(UngetcTest, FopenArgumentsAreFilenameAndMode) {
   ASSERT_NE(fopenCall->getArguments(), nullptr);
   ASSERT_EQ(fopenCall->getArguments()->size(), 2u) << "'$fopen(\"tmp.txt\", \"w\")' passes filename then mode";
 
-  const hldb::Constant *const filename = any_cast<hldb::Constant>(fopenCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = fopenCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const filename = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(filename, nullptr) << "arg[0] is the string literal \"tmp.txt\"";
   EXPECT_EQ(filename->getConstType(), vpiStringConst);
   EXPECT_EQ(filename->getValue(), "tmp.txt");
   EXPECT_EQ(filename->getSize(), 56) << "Sec 5.9: \"tmp.txt\" = 7 chars x 8 bits";
 
-  const hldb::Constant *const mode = any_cast<hldb::Constant>(fopenCall->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = fopenCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const mode = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mode, nullptr) << "arg[1] is the string literal \"w\"";
   EXPECT_EQ(mode->getConstType(), vpiStringConst);
   EXPECT_EQ(mode->getValue(), "w") << "Sec 21.3.1: \"w\" opens the file for writing";
@@ -425,12 +429,16 @@ TEST_F(UngetcTest, UngetcArgumentsAreCharacterThenDescriptor) {
   ASSERT_NE(ungetcCall->getArguments(), nullptr);
   ASSERT_EQ(ungetcCall->getArguments()->size(), 2u) << "'$ungetc(123, fd)' passes the character then the descriptor";
 
-  EXPECT_EQ(any_cast<hldb::RefObj>(ungetcCall->getArguments()->at(0)), nullptr)
+  const hldb::NamedArgument *const arg0 = ungetcCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::RefObj>(), nullptr)
       << "Sec 21.3.5: $ungetc's first argument is a value pushed back, not a destination -- the "
          "source wrote the literal 123, so it must not appear as a reference";
-  checkIsDecimalLiteral(ungetcCall->getArguments()->at(0), "123", "the $ungetc character argument");
+  checkIsDecimalLiteral(arg0->getHighConn(), "123", "the $ungetc character argument");
 
-  checkArgumentIsFd(ungetcCall->getArguments()->at(1), "the $ungetc descriptor argument");
+  const hldb::NamedArgument *const arg1 = ungetcCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  checkArgumentIsFd(arg1->getHighConn(), "the $ungetc descriptor argument");
 }
 
 // --- stmt[2]: $display(":assert: (%d == %d)", 123, $fgetc(fd)); --------------
@@ -450,13 +458,17 @@ TEST_F(UngetcTest, DisplayComparesLiteral123AgainstFgetc) {
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 3u) << "the call passes a format string and two values";
 
-  const hldb::Constant *const format = any_cast<hldb::Constant>(display->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const format = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(format, nullptr) << "arg[0] is the format string literal";
   EXPECT_EQ(format->getConstType(), vpiStringConst);
   EXPECT_EQ(format->getValue(), ":assert: (%d == %d)");
   EXPECT_EQ(format->getSize(), 152) << "Sec 5.9: \":assert: (%d == %d)\" = 19 chars x 8 bits";
 
-  checkIsDecimalLiteral(display->getArguments()->at(1), "123", "the first value printed");
+  const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  checkIsDecimalLiteral(arg1->getHighConn(), "123", "the first value printed");
 }
 
 // Sec 21.3.4.3: "integer code = $fgetc(fd);" -- a system function taking the
@@ -469,16 +481,20 @@ TEST_F(UngetcTest, FgetcTakesTheDescriptorAlone) {
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 3u);
 
-  EXPECT_EQ(any_cast<hldb::SysTaskCall>(display->getArguments()->at(2)), nullptr)
+  const hldb::NamedArgument *const arg2 = display->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  EXPECT_EQ(arg2->getHighConn<hldb::SysTaskCall>(), nullptr)
       << "IEEE 1800-2023 Sec 21.3.4.3: $fgetc returns the character read, so it is a system "
          "function, not a system task";
-  const hldb::SysFuncCall *const fgetc = any_cast<hldb::SysFuncCall>(display->getArguments()->at(2));
+  const hldb::SysFuncCall *const fgetc = arg2->getHighConn<hldb::SysFuncCall>();
   ASSERT_NE(fgetc, nullptr) << "arg[2] is the '$fgetc(fd)' call";
   EXPECT_EQ(fgetc->getName(), "$fgetc");
 
   ASSERT_NE(fgetc->getArguments(), nullptr);
   ASSERT_EQ(fgetc->getArguments()->size(), 1u) << "'$fgetc(fd)' takes the descriptor alone";
-  checkArgumentIsFd(fgetc->getArguments()->at(0), "the $fgetc descriptor argument");
+  const hldb::NamedArgument *const arg0 = fgetc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentIsFd(arg0->getHighConn(), "the $fgetc descriptor argument");
 }
 
 // --- final $fclose(fd); -------------------------------------------------------
@@ -503,7 +519,9 @@ TEST_F(UngetcTest, FinalBodyIsFcloseSysTaskCallOnTheSameFd) {
 
   ASSERT_NE(fcloseCall->getArguments(), nullptr);
   ASSERT_EQ(fcloseCall->getArguments()->size(), 1u) << "'$fclose(fd)' passes exactly one argument";
-  checkArgumentIsFd(fcloseCall->getArguments()->at(0), "the $fclose descriptor argument");
+  const hldb::NamedArgument *const arg0 = fcloseCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentIsFd(arg0->getHighConn(), "the $fclose descriptor argument");
 }
 
 // --- compiler diagnostics -----------------------------------------------------

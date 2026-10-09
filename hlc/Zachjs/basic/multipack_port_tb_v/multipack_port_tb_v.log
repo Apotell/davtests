@@ -328,24 +328,30 @@ Design name:unnamed:
                 vpiParent: Begin name:foo
                 vpiName Identifier name:$monitor start:12:9 end:12:17:
                 vpiArgument (3 items):
-                  Constant start:12:18 end:12:25:
+                  NamedArgument start:12:18 end:12:25:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top.foo
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 40
-                    vpiDecompile: "\"%d %b\""
-                    vpiValue: "%d %b"
-                  SysFuncCall name:$time start:12:27 end:12:32:
+                    vpiHighConn Constant start:12:18 end:12:25:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top.foo
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 40
+                      vpiDecompile: "\"%d %b\""
+                      vpiValue: "%d %b"
+                  NamedArgument start:12:27 end:12:32:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:12:27 end:12:32:
-                  RefObj name:data start:12:34 end:12:38:
+                    vpiHighConn SysFuncCall name:$time start:12:27 end:12:32:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:12:27 end:12:32:
+                  NamedArgument start:12:34 end:12:38:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: data
-                    vpiFullName: top.foo.data
-                    vpiActual: Net name:data
+                    vpiHighConn RefObj name:data start:12:34 end:12:38:
+                      vpiParent: NamedArgument
+                      vpiName: data
+                      vpiFullName: top.foo.data
+                      vpiActual: Net name:data
               DelayControl start:13:9 end:13:13:
                 vpiParent: Begin name:foo
                 vpiDelay: 100
@@ -371,24 +377,24 @@ Design name:unnamed:
             vpiName: foo
             vpiFullName: top.f.foo
             vpiActual: UnsupportedTypespec name:foo
-          vpiPort (2 items):
-            Port start:4:11 end:4:16:
+          vpiArgument (2 items):
+            NamedArgument start:4:11 end:4:16:
               vpiParent: RefInstance name:f
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: top.f
               vpiHighConn RefObj name:clock start:4:11 end:4:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clock
                 vpiFullName: top.f.clock
                 vpiActual: Variable name:clock
-            Port start:4:18 end:4:22:
+            NamedArgument start:4:18 end:4:22:
               vpiParent: RefInstance name:f
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: top.f
               vpiHighConn RefObj name:data start:4:18 end:4:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: data
                 vpiFullName: top.f.data
                 vpiActual: Net name:data
@@ -455,7 +461,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/basic/multipack_port_tb_v/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              63      63       0         0
 ----------------------------------------------------------------
-                                    60      60       0         0
+                                    63      63       0         0
 ===================== END REDUCTION RESULT =====================

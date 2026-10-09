@@ -1945,16 +1945,17 @@ Design name:unnamed:
                                 vpiName: ArrayOrReduction
                                 vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.top.ArrayOrReduction
                                 vpiActual: ModuleTypespec name:ArrayOrReduction
-                              vpiPort (2 items):
-                                Port start:33:66 end:33:112:
+                              vpiArgument (2 items):
+                                NamedArgument start:33:66 end:33:112:
                                   vpiParent: RefInstance name:top
+                                  vpiConnByName: true
                                   vpiLowConn RefObj name:inputs start:33:67 end:33:73:
-                                    vpiParent: Port
+                                    vpiParent: NamedArgument
                                     vpiName: inputs
                                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.top.inputs
                                     vpiActual: Net name:inputs
                                   vpiHighConn PartSelect name:inputs[SIZE*WIDTH-1:SIZE*WIDTH/2] start:33:74 end:33:111:
-                                    vpiParent: Port
+                                    vpiParent: NamedArgument
                                     vpiName: inputs[SIZE*WIDTH-1:SIZE*WIDTH/2]
                                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.top.inputs[SIZE*WIDTH-1:SIZE*WIDTH/2]
                                     vpiPrefix RefObj name:inputs start:33:74 end:33:80:
@@ -2020,15 +2021,16 @@ Design name:unnamed:
                                             vpiSize: 64
                                             vpiDecompile: "2"
                                             vpiValue: 2
-                                Port start:33:114 end:33:136:
+                                NamedArgument start:33:114 end:33:136:
                                   vpiParent: RefInstance name:top
+                                  vpiConnByName: true
                                   vpiLowConn RefObj name:result start:33:115 end:33:121:
-                                    vpiParent: Port
+                                    vpiParent: NamedArgument
                                     vpiName: result
                                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.top.result
                                     vpiActual: Net name:result
                                   vpiHighConn BitSelect name:subResults[1] start:33:122 end:33:135:
-                                    vpiParent: Port
+                                    vpiParent: NamedArgument
                                     vpiName: subResults[1]
                                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.top.subResults[1]
                                     vpiPrefix RefObj name:subResults start:33:122 end:33:132:
@@ -2054,16 +2056,17 @@ Design name:unnamed:
                                 vpiName: ArrayOrReduction
                                 vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.bot.ArrayOrReduction
                                 vpiActual: ModuleTypespec name:ArrayOrReduction
-                              vpiPort (2 items):
-                                Port start:34:66 end:34:103:
+                              vpiArgument (2 items):
+                                NamedArgument start:34:66 end:34:103:
                                   vpiParent: RefInstance name:bot
+                                  vpiConnByName: true
                                   vpiLowConn RefObj name:inputs start:34:67 end:34:73:
-                                    vpiParent: Port
+                                    vpiParent: NamedArgument
                                     vpiName: inputs
                                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.bot.inputs
                                     vpiActual: Net name:inputs
                                   vpiHighConn PartSelect name:inputs[SIZE*WIDTH/2-1:0] start:34:74 end:34:102:
-                                    vpiParent: Port
+                                    vpiParent: NamedArgument
                                     vpiName: inputs[SIZE*WIDTH/2-1:0]
                                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.bot.inputs[SIZE*WIDTH/2-1:0]
                                     vpiPrefix RefObj name:inputs start:34:74 end:34:80:
@@ -2125,15 +2128,16 @@ Design name:unnamed:
                                         vpiSize: 64
                                         vpiDecompile: "0"
                                         vpiValue: 0
-                                Port start:34:105 end:34:127:
+                                NamedArgument start:34:105 end:34:127:
                                   vpiParent: RefInstance name:bot
+                                  vpiConnByName: true
                                   vpiLowConn RefObj name:result start:34:106 end:34:112:
-                                    vpiParent: Port
+                                    vpiParent: NamedArgument
                                     vpiName: result
                                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.bot.result
                                     vpiActual: Net name:result
                                   vpiHighConn BitSelect name:subResults[0] start:34:113 end:34:126:
-                                    vpiParent: Port
+                                    vpiParent: NamedArgument
                                     vpiName: subResults[0]
                                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.bot.subResults[0]
                                     vpiPrefix RefObj name:subResults start:34:113 end:34:123:
@@ -2333,11 +2337,13 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName Identifier name:$clog2 start:44:15 end:44:21:
                     vpiArgument (1 items):
-                      RefObj name:ELEMENTS start:44:22 end:44:30:
+                      NamedArgument start:44:22 end:44:30:
                         vpiParent: SysFuncCall name:$clog2
-                        vpiName: ELEMENTS
-                        vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).ELEMENTS
-                        vpiActual: Parameter name:ELEMENTS
+                        vpiHighConn RefObj name:ELEMENTS start:44:22 end:44:30:
+                          vpiParent: NamedArgument
+                          vpiName: ELEMENTS
+                          vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).ELEMENTS
+                          vpiActual: Parameter name:ELEMENTS
                   Constant start:44:32 end:44:33:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -3040,12 +3046,13 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            53      53      20        20
 Identifier                          14      13       0         1
+NamedArgument                        5       4       0         1
 Operation                           42      15       0        27
 RefObj                             101      76       0        25
 RefTypespec                         86      84      18        20
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                             144     144       0         0
+Others                             140     140       0         0
 ----------------------------------------------------------------
-                                   441     385      38        94
+                                   442     385      38        95
 ===================== END REDUCTION RESULT =====================

@@ -226,7 +226,9 @@ TEST_F(ReturnTest, SecondDisplayReferencesAAndFinalReturnHasNoExpression) {
   ASSERT_NE(display, nullptr);
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 1u);
-  const hldb::RefObj *const aArg = any_cast<hldb::RefObj>(display->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const aArg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(aArg, nullptr);
   EXPECT_EQ(aArg->getName(), "a");
   EXPECT_NE(aArg->getActual<hldb::IODecl>(), nullptr);
@@ -261,7 +263,9 @@ TEST_F(ReturnTest, LoopBodyCallsFunWithIAndResolvesBackToFun) {
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getFun()) << "call should resolve back to the 'fun' declaration";
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "i");
   EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);

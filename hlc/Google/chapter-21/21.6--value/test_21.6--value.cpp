@@ -344,7 +344,9 @@ TEST_F(ValuePlusargsTest, IfConditionIsValuePlusargsMatchingTestEqualsPercentD) 
   ASSERT_EQ(cond->getArguments()->size(), 2u)
       << "Sec 21.6: '$value$plusargs(user_string, variable)' takes TWO arguments, unlike the "
          "one-argument $test$plusargs of the sibling fixture";
-  checkStringLiteral(cond->getArguments()->at(0), "TEST=%d", 56, "the $value$plusargs user_string");
+  const hldb::NamedArgument *const arg0 = cond->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkStringLiteral(arg0->getHighConn(), "TEST=%d", 56, "the $value$plusargs user_string");
 }
 
 // Sec 21.6: on a match the routine writes the extracted value INTO the second
@@ -359,10 +361,12 @@ TEST_F(ValuePlusargsTest, ValuePlusargsSecondArgumentIsTheDestinationVariable) {
   ASSERT_NE(cond->getArguments(), nullptr);
   ASSERT_EQ(cond->getArguments()->size(), 2u);
 
-  EXPECT_EQ(any_cast<hldb::Constant>(cond->getArguments()->at(1)), nullptr)
+  const hldb::NamedArgument *const arg1 = cond->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::Constant>(), nullptr)
       << "Sec 21.6: the second argument is the destination the extracted value is written into, so it "
          "must be a reference to a declared object and never a literal";
-  checkArgumentIsI(cond->getArguments()->at(1), "the $value$plusargs destination argument");
+  checkArgumentIsI(arg1->getHighConn(), "the $value$plusargs destination argument");
 }
 
 // --- the two arms -------------------------------------------------------------
@@ -383,8 +387,12 @@ TEST_F(ValuePlusargsTest, ThenBranchDisplaysTheExtractedValue) {
   EXPECT_EQ(call->getName(), "$display");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u) << "'$display(\"i=%d\", i)' passes a format string and one value";
-  checkStringLiteral(call->getArguments()->at(0), "i=%d", 32, "the then-branch format string");
-  checkArgumentIsI(call->getArguments()->at(1), "the then-branch printed value");
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkStringLiteral(arg0->getHighConn(), "i=%d", 32, "the then-branch format string");
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  checkArgumentIsI(arg1->getHighConn(), "the then-branch printed value");
 }
 
 // Sec 12.4: likewise for the else-arm -- writing its body on the next line
@@ -405,7 +413,9 @@ TEST_F(ValuePlusargsTest, ElseBranchDisplaysTestNotFound) {
   EXPECT_EQ(call->getName(), "$display");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "'$display(\"TEST not found\")' passes only the message";
-  checkStringLiteral(call->getArguments()->at(0), "TEST not found", 112, "the else-branch message");
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkStringLiteral(arg0->getHighConn(), "TEST not found", 112, "the else-branch message");
 }
 
 // The two arms are separately written calls, and here they differ in argument
@@ -427,8 +437,12 @@ TEST_F(ValuePlusargsTest, TheTwoArmsAreDistinctCallsWithDifferentArgumentCounts)
   EXPECT_EQ(thenCall->getArguments()->size(), 2u) << "the then-arm prints the extracted value alongside its format";
   EXPECT_EQ(elseCall->getArguments()->size(), 1u) << "the else-arm has no value to print";
 
-  const hldb::Constant *const thenText = any_cast<hldb::Constant>(thenCall->getArguments()->at(0));
-  const hldb::Constant *const elseText = any_cast<hldb::Constant>(elseCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = thenCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const thenText = arg0->getHighConn<hldb::Constant>();
+  const hldb::NamedArgument *const elseTextArg = elseCall->getArguments()->at(0);
+  ASSERT_NE(elseTextArg, nullptr);
+  const hldb::Constant *const elseText = elseTextArg->getHighConn<hldb::Constant>();
   ASSERT_NE(thenText, nullptr);
   ASSERT_NE(elseText, nullptr);
   EXPECT_NE(thenText->getValue(), elseText->getValue()) << "the two arms print different text";

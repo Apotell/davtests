@@ -183,11 +183,15 @@ TEST_F(UnpackedOperationsTest, ThreeDisplaysReadEightBitSelectsEach) {
     ASSERT_NE(disp, nullptr) << "stmt[" << stmtIdx[s] << "]";
     ASSERT_NE(disp->getArguments(), nullptr);
     ASSERT_EQ(disp->getArguments()->size(), 9u);
-    const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(fmt, nullptr);
     EXPECT_EQ(fmt->getValue(), formats[s]);
     for (uint32_t i = 0; i < 8u; ++i) {
-      const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(i + 1));
+      const hldb::NamedArgument *const selArg = disp->getArguments()->at(i + 1);
+      ASSERT_NE(selArg, nullptr);
+      const hldb::BitSelect *const sel = selArg->getHighConn<hldb::BitSelect>();
       ASSERT_NE(sel, nullptr) << "read " << s << " argument " << (i + 1);
       EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "arr");
       EXPECT_EQ(sel->getIndex<hldb::Constant>()->getDecompile(), std::to_string(7 - i));
@@ -234,8 +238,9 @@ TEST_F(UnpackedOperationsTest, RuntimeArrValuesRequireSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const thirdDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(thirdDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(thirdDisplay->getArguments()->at(0))->getValue(),
-            ":assert: ('%b%b%b%b_%b%b%b%b' == '1010_1101')")
+  const hldb::NamedArgument *const arg0 = thirdDisplay->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: ('%b%b%b%b_%b%b%b%b' == '1010_1101')")
       << "expected arr == 1010_1101 after the third assign-pattern write";
 }
 

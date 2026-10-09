@@ -128,7 +128,9 @@ TEST_F(PackedQueryIncrementTest, DisplayCallHasTwoArgumentsFirstIsAssertString) 
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getConstType(), 6);  // string = 6
   EXPECT_EQ(fmt->getSize(), 144);
@@ -142,12 +144,16 @@ TEST_F(PackedQueryIncrementTest, NestedIncrementCallHasArrArgument) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(0));
   ASSERT_NE(disp, nullptr);
-  const hldb::SysFuncCall *const inc = any_cast<hldb::SysFuncCall>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::SysFuncCall *const inc = arg1->getHighConn<hldb::SysFuncCall>();
   ASSERT_NE(inc, nullptr);
   EXPECT_EQ(inc->getName(), "$increment");
   ASSERT_NE(inc->getArguments(), nullptr);
   ASSERT_EQ(inc->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(inc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = inc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "arr");
   EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
@@ -203,7 +209,9 @@ TEST_F(PackedQueryIncrementTest, RuntimeIncrementValueRequiresSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(0));
   ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (%d == 1)")
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (%d == 1)")
       << "expected $increment(arr) == 1 since arr's packed range [7:0] is left-to-right descending "
          "(ascending increment direction)";
 }

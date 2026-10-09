@@ -461,11 +461,13 @@ Design name:unnamed:
                     vpiName Identifier name:tdw start:9:17 end:9:20:
                     vpiTaskFunc: Function name:tdw
                     vpiArgument (1 items):
-                      RefObj name:sz start:9:21 end:9:23:
+                      NamedArgument start:9:21 end:9:23:
                         vpiParent: MethodFuncCall name:tdw
-                        vpiName: sz
-                        vpiFullName: t #(.sz(4096)).sz
-                        vpiActual: Parameter name:sz
+                        vpiHighConn RefObj name:sz start:9:21 end:9:23:
+                          vpiParent: NamedArgument
+                          vpiName: sz
+                          vpiFullName: t #(.sz(4096)).sz
+                          vpiActual: Parameter name:sz
                   Constant start:9:25 end:9:26:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -730,11 +732,13 @@ Design name:unnamed:
               vpiName Identifier name:clog2 start:22:13 end:22:18:
               vpiTaskFunc: Function name:clog2
               vpiArgument (1 items):
-                RefObj name:sz start:22:19 end:22:21:
+                NamedArgument start:22:19 end:22:21:
                   vpiParent: MethodFuncCall name:clog2
-                  vpiName: sz
-                  vpiFullName: t #(.sz(4096)).tdw.sz
-                  vpiActual: IODecl name:sz
+                  vpiHighConn RefObj name:sz start:22:19 end:22:21:
+                    vpiParent: NamedArgument
+                    vpiName: sz
+                    vpiFullName: t #(.sz(4096)).tdw.sz
+                    vpiActual: IODecl name:sz
           vpiReturn RefTypespec start:21:13 end:21:20:
             vpiParent: Function name:tdw
             vpiFullName: t #(.sz(4096)).tdw
@@ -857,11 +861,13 @@ Design name:unnamed:
                     vpiName Identifier name:tdw start:28:18 end:28:21:
                     vpiTaskFunc: Function name:tdw
                     vpiArgument (1 items):
-                      RefObj name:sz start:28:22 end:28:24:
+                      NamedArgument start:28:22 end:28:24:
                         vpiParent: MethodFuncCall name:tdw
-                        vpiName: sz
-                        vpiFullName: t #(.sz(4096)).sz
-                        vpiActual: Parameter name:sz
+                        vpiHighConn RefObj name:sz start:28:22 end:28:24:
+                          vpiParent: NamedArgument
+                          vpiName: sz
+                          vpiFullName: t #(.sz(4096)).sz
+                          vpiActual: Parameter name:sz
               vpiStmt IfStmt start:29:8 end:30:70:
                 vpiParent: ForStmt
                 vpiCondition Operation start:29:13 end:29:29:
@@ -896,19 +902,23 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName Identifier name:$display start:30:10 end:30:18:
                   vpiArgument (2 items):
-                    Constant start:30:19 end:30:61:
+                    NamedArgument start:30:19 end:30:61:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t #(.sz(4096))
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 320
-                      vpiDecompile: "\"WARNING: %1t Writing X's to tag RAM [%m]\""
-                      vpiValue: "WARNING: %1t Writing X's to tag RAM [%m]"
-                    SysFuncCall name:$time start:30:63 end:30:68:
+                      vpiHighConn Constant start:30:19 end:30:61:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t #(.sz(4096))
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 320
+                        vpiDecompile: "\"WARNING: %1t Writing X's to tag RAM [%m]\""
+                        vpiValue: "WARNING: %1t Writing X's to tag RAM [%m]"
+                    NamedArgument start:30:63 end:30:68:
                       vpiParent: SysTaskCall name:$display
-                      vpiName Identifier name:$time start:30:63 end:30:68:
+                      vpiHighConn SysFuncCall name:$time start:30:63 end:30:68:
+                        vpiParent: NamedArgument
+                        vpiName Identifier name:$time start:30:63 end:30:68:
           vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     ModuleTypespec name:t:
@@ -973,7 +983,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_while/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             130     130       0         0
+Others                             135     135       0         0
 ----------------------------------------------------------------
-                                   130     130       0         0
+                                   135     135       0         0
 ===================== END REDUCTION RESULT =====================

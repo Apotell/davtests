@@ -375,18 +375,24 @@ TEST_F(SscanfTest, SscanfArgumentsAreSourceFormatThenDestination) {
 
   // The scanned source is the identifier "str", so it must survive as a
   // reference and must not be folded into a Constant carrying "1234".
-  EXPECT_EQ(any_cast<hldb::Constant>(sscanfCall->getArguments()->at(0)), nullptr)
+  const hldb::NamedArgument *const arg0 = sscanfCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>(), nullptr)
       << "the source wrote the identifier 'str', so arg[0] must be a reference, not a Constant "
          "carrying an inlined copy of its initializer";
-  checkArgumentRefersTo(sscanfCall->getArguments()->at(0), "str", "the $sscanf scanned-string argument");
+  checkArgumentRefersTo(arg0->getHighConn(), "str", "the $sscanf scanned-string argument");
 
-  const hldb::Constant *const format = any_cast<hldb::Constant>(sscanfCall->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = sscanfCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const format = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(format, nullptr) << "arg[1] is the format string literal";
   EXPECT_EQ(format->getConstType(), vpiStringConst);
   EXPECT_EQ(format->getValue(), "%d");
   EXPECT_EQ(format->getSize(), 16) << "Sec 5.9: \"%d\" = 2 chars x 8 bits";
 
-  checkArgumentRefersTo(sscanfCall->getArguments()->at(2), "c", "the $sscanf destination argument");
+  const hldb::NamedArgument *const arg2 = sscanfCall->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  checkArgumentRefersTo(arg2->getHighConn(), "c", "the $sscanf destination argument");
 }
 
 // Because "str" and "c" differ in TYPE as well as in name, a swap of the
@@ -399,8 +405,12 @@ TEST_F(SscanfTest, SscanfSourceAndDestinationAreNotSwapped) {
   ASSERT_NE(sscanfCall->getArguments(), nullptr);
   ASSERT_EQ(sscanfCall->getArguments()->size(), 3u);
 
-  const hldb::RefObj *const first = any_cast<hldb::RefObj>(sscanfCall->getArguments()->at(0));
-  const hldb::RefObj *const last = any_cast<hldb::RefObj>(sscanfCall->getArguments()->at(2));
+  const hldb::NamedArgument *const arg0 = sscanfCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const first = arg0->getHighConn<hldb::RefObj>();
+  const hldb::NamedArgument *const arg2 = sscanfCall->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  const hldb::RefObj *const last = arg2->getHighConn<hldb::RefObj>();
   ASSERT_NE(first, nullptr);
   ASSERT_NE(last, nullptr);
 
@@ -436,14 +446,20 @@ TEST_F(SscanfTest, DisplayFormatsCThenStrAgainstTheAssertText) {
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 3u) << "the call passes a format string and two values";
 
-  const hldb::Constant *const format = any_cast<hldb::Constant>(display->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const format = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(format, nullptr) << "arg[0] is the format string literal";
   EXPECT_EQ(format->getConstType(), vpiStringConst);
   EXPECT_EQ(format->getValue(), ":assert: (%d == %s)");
   EXPECT_EQ(format->getSize(), 152) << "Sec 5.9: \":assert: (%d == %s)\" = 19 chars x 8 bits";
 
-  checkArgumentRefersTo(display->getArguments()->at(1), "c", "the value printed for '%d'");
-  checkArgumentRefersTo(display->getArguments()->at(2), "str", "the value printed for '%s'");
+  const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  checkArgumentRefersTo(arg1->getHighConn(), "c", "the value printed for '%d'");
+  const hldb::NamedArgument *const arg2 = display->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  checkArgumentRefersTo(arg2->getHighConn(), "str", "the value printed for '%s'");
 }
 
 // --- compiler diagnostics -----------------------------------------------------

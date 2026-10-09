@@ -349,11 +349,13 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiName Identifier name:$display start:4:4 end:4:12:
               vpiArgument (1 items):
-                RefObj name:A start:4:14 end:4:15:
+                NamedArgument start:4:14 end:4:15:
                   vpiParent: SysTaskCall name:$display
-                  vpiName: A
-                  vpiFullName: dummy.A
-                  vpiActual: Net name:A
+                  vpiHighConn RefObj name:A start:4:14 end:4:15:
+                    vpiParent: NamedArgument
+                    vpiName: A
+                    vpiFullName: dummy.A
+                    vpiActual: Net name:A
           vpiAlwaysType: always (1)
     Module name:test file:$Source01/pr377.v start:7:1 end:19:10:
       vpiParent: Design name:unnamed
@@ -546,16 +548,16 @@ Design name:unnamed:
             vpiName: dummy
             vpiFullName: test.dummy.dummy
             vpiActual: ModuleTypespec name:dummy
-          vpiPort (1 items):
-            Port start:10:13 end:10:19:
+          vpiArgument (1 items):
+            NamedArgument start:10:13 end:10:19:
               vpiParent: RefInstance name:dummy
               vpiLowConn RefObj name:A:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: A
                 vpiFullName: test.dummy.A
                 vpiActual: Port name:A
               vpiHighConn PartSelect name:A[1:0] start:10:13 end:10:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: A[1:0]
                 vpiFullName: test.dummy.A[1:0]
                 vpiPrefix RefObj name:A start:10:13 end:10:14:
@@ -653,7 +655,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr377/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              86      86       0         0
 ----------------------------------------------------------------
-                                    85      85       0         0
+                                    86      86       0         0
 ===================== END REDUCTION RESULT =====================

@@ -324,7 +324,9 @@ TEST_F(ClassShallowCopyTest, FirstMethodStmtDisplaysTestMethod) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getDecompile(), "\"test_method\"");
 }
@@ -462,7 +464,9 @@ TEST_F(ClassShallowCopyTest, ThirdStmtDisplaysTestObj0A) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const path = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(path, nullptr) << "'test_obj0.a' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
@@ -504,7 +508,10 @@ TEST_F(ClassShallowCopyTest, FourthStmtIsTestObj1ShallowCopyOfTestObj0) {
 
   ASSERT_NE(newCall->getArguments(), nullptr);
   ASSERT_EQ(newCall->getArguments()->size(), 1u);
-  const hldb::RefObj *const sourceRef = any_cast<hldb::RefObj>(newCall->getArguments()->at(0));
+
+  const hldb::NamedArgument *const arg0 = newCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const sourceRef = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(sourceRef, nullptr) << "the shallow copy's source handle should be a plain RefObj argument";
   EXPECT_EQ(sourceRef->getName(), "test_obj0");
   EXPECT_EQ(sourceRef->getActual<hldb::Variable>(), getVariableTestObj0());
@@ -532,7 +539,10 @@ TEST_F(ClassShallowCopyTest, FifthStmtCallsTestObj0TestMethodWithNine) {
   EXPECT_EQ(call->getTaskFunc(), getTestMethodTask());
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getDecompile(), "9");
 }
@@ -549,7 +559,9 @@ TEST_F(ClassShallowCopyTest, SixthStmtDisplaysTestObj1A) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const path = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(path, nullptr) << "'test_obj1.a' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);

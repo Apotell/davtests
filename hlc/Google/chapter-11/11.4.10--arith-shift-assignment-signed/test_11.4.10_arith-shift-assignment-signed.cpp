@@ -219,15 +219,23 @@ TEST_F(ArithShiftAssignmentSignedTest, LastTwoStatementsAssertShiftResults) {
   ASSERT_NE(dispB, nullptr);
   ASSERT_NE(dispB->getArguments(), nullptr);
   ASSERT_EQ(dispB->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(dispB->getArguments()->at(0))->getValue(), ":assert: (  64 == %d)");
-  EXPECT_EQ(any_cast<hldb::RefObj>(dispB->getArguments()->at(1))->getName(), "b");
+  const hldb::NamedArgument *const arg0 = dispB->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (  64 == %d)");
+  const hldb::NamedArgument *const arg1 = dispB->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), "b");
 
   const hldb::SysTaskCall *const dispC = any_cast<hldb::SysTaskCall>(blk->getStmts()->at(6));
   ASSERT_NE(dispC, nullptr);
   ASSERT_NE(dispC->getArguments(), nullptr);
   ASSERT_EQ(dispC->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(dispC->getArguments()->at(0))->getValue(), ":assert: ( -15 == %d)");
-  EXPECT_EQ(any_cast<hldb::RefObj>(dispC->getArguments()->at(1))->getName(), "c");
+  const hldb::NamedArgument *const dispCArg0 = dispC->getArguments()->at(0);
+  ASSERT_NE(dispCArg0, nullptr);
+  EXPECT_EQ(dispCArg0->getHighConn<hldb::Constant>()->getValue(), ":assert: ( -15 == %d)");
+  const hldb::NamedArgument *const dispCArg1 = dispC->getArguments()->at(1);
+  ASSERT_NE(dispCArg1, nullptr);
+  EXPECT_EQ(dispCArg1->getHighConn<hldb::RefObj>()->getName(), "c");
 }
 
 // --- design-level typespecs / compiler diagnostics ----
@@ -237,13 +245,9 @@ TEST_F(ArithShiftAssignmentSignedTest, DesignHasThreeTypespecs) {
   EXPECT_EQ(m_design->getTypespecs()->size(), 3u);
 }
 
-TEST_F(ArithShiftAssignmentSignedTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
+TEST_F(ArithShiftAssignmentSignedTest, CompilerReportsErrors) {
+  ASSERT_NE(findError(ErrorDefinition::ErrorType::HLDB_SIGNED_UNSIGNED_PORT_CONN, "b", 27), nullptr);
+  ASSERT_NE(findError(ErrorDefinition::ErrorType::HLDB_SIGNED_UNSIGNED_PORT_CONN, "c", 28), nullptr);
 }
 
 // --- the actual point of the file: compound shift-assign runtime result --

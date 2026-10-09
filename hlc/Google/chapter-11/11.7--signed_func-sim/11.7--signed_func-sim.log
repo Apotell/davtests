@@ -107,6 +107,7 @@ n<$Source01/11.7--signed_func-sim.sv> u<92> t<Top_level_rule> c<1> l<16:1> el<26
 AST_DEBUG_END
 [INF:CP5804] $Source01/11.7--signed_func-sim.sv:16:1: Compile module "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[WRN:DB2033] $Source01/11.7--signed_func-sim.sv:22:37: Critical: Signed vs Unsigned port connection "a".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -184,35 +185,41 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName Identifier name:$signed start:21:6 end:21:13:
                   vpiArgument (1 items):
-                    Constant start:21:14 end:21:21:
+                    NamedArgument start:21:14 end:21:21:
                       vpiParent: SysFuncCall name:$signed
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: top
-                        vpiActual: LogicTypespec
-                      vpiConstType: binary (3)
-                      vpiSize: 4
-                      vpiDecompile: "4'b1000"
-                      vpiValue: "1000"
+                      vpiHighConn Constant start:21:14 end:21:21:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top
+                          vpiActual: LogicTypespec
+                        vpiConstType: binary (3)
+                        vpiSize: 4
+                        vpiDecompile: "4'b1000"
+                        vpiValue: "1000"
               SysTaskCall name:$display start:22:5 end:22:39:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:22:5 end:22:13:
                 vpiArgument (2 items):
-                  Constant start:22:14 end:22:35:
+                  NamedArgument start:22:14 end:22:35:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 152
-                    vpiDecompile: "\":assert: (-8 == %d)\""
-                    vpiValue: ":assert: (-8 == %d)"
-                  RefObj name:a start:22:37 end:22:38:
+                    vpiHighConn Constant start:22:14 end:22:35:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 152
+                      vpiDecompile: "\":assert: (-8 == %d)\""
+                      vpiValue: ":assert: (-8 == %d)"
+                  NamedArgument start:22:37 end:22:38:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: a
-                    vpiFullName: top.a
-                    vpiActual: Variable name:a
+                    vpiHighConn RefObj name:a start:22:37 end:22:38:
+                      vpiParent: NamedArgument
+                      vpiName: a
+                      vpiFullName: top.a
+                      vpiActual: Variable name:a
   vpiTypespec (4 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -234,7 +241,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -279,10 +286,11 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             4       4       1         1
 Identifier                           4       3       0         1
+NamedArgument                        3       2       0         1
 RefTypespec                          5       4       0         1
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
 Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    32      29       1         4
+                                    35      31       1         5
 ===================== END REDUCTION RESULT =====================

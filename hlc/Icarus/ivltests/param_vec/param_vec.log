@@ -232,11 +232,13 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:6:11 end:6:16:
                       vpiArgument (1 items):
-                        RefObj name:foo start:6:17 end:6:20:
+                        NamedArgument start:6:17 end:6:20:
                           vpiParent: SysFuncCall name:$bits
-                          vpiName: foo
-                          vpiFullName: test.foo
-                          vpiActual: Parameter name:foo
+                          vpiHighConn RefObj name:foo start:6:17 end:6:20:
+                            vpiParent: NamedArgument
+                            vpiName: foo
+                            vpiFullName: test.foo
+                            vpiActual: Parameter name:foo
                     Constant start:6:25 end:6:27:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -255,25 +257,31 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:7:3 end:7:11:
                       vpiArgument (2 items):
-                        Constant start:7:12 end:7:40:
+                        NamedArgument start:7:12 end:7:40:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: test
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 208
-                          vpiDecompile: "\"FAILED -- $bits(foo) == %d\""
-                          vpiValue: FAILED -- $bits(foo) == %d
-                        SysFuncCall name:$bits start:7:42 end:7:52:
+                          vpiHighConn Constant start:7:12 end:7:40:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: test
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 208
+                            vpiDecompile: "\"FAILED -- $bits(foo) == %d\""
+                            vpiValue: FAILED -- $bits(foo) == %d
+                        NamedArgument start:7:42 end:7:52:
                           vpiParent: SysTaskCall name:$display
-                          vpiName Identifier name:$bits start:7:42 end:7:47:
-                          vpiArgument (1 items):
-                            RefObj name:foo start:7:48 end:7:51:
-                              vpiParent: SysFuncCall name:$bits
-                              vpiName: foo
-                              vpiFullName: test.foo
-                              vpiActual: Parameter name:foo
+                          vpiHighConn SysFuncCall name:$bits start:7:42 end:7:52:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$bits start:7:42 end:7:47:
+                            vpiArgument (1 items):
+                              NamedArgument start:7:48 end:7:51:
+                                vpiParent: SysFuncCall name:$bits
+                                vpiHighConn RefObj name:foo start:7:48 end:7:51:
+                                  vpiParent: NamedArgument
+                                  vpiName: foo
+                                  vpiFullName: test.foo
+                                  vpiActual: Parameter name:foo
                     SysTaskCall name:$finish start:8:3 end:8:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:8:3 end:8:10:
@@ -282,16 +290,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:11:7 end:11:15:
                 vpiArgument (1 items):
-                  Constant start:11:16 end:11:24:
+                  NamedArgument start:11:16 end:11:24:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"PASSED\""
-                    vpiValue: PASSED
+                    vpiHighConn Constant start:11:16 end:11:24:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"PASSED\""
+                      vpiValue: PASSED
   vpiTypespec (3 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -356,6 +366,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             6       7       2         1
 Identifier                           7       5       0         2
+NamedArgument                        5       3       0         2
 Operation                            1       0       0         1
 RefObj                               4       2       0         2
 RefTypespec                          7       7       1         1
@@ -363,5 +374,5 @@ SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
 Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    45      39       3         9
+                                    50      42       3        11
 ===================== END REDUCTION RESULT =====================

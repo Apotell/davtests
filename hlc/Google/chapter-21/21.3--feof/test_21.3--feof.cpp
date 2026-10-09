@@ -295,13 +295,17 @@ TEST_F(FeofTest, AssignmentRhsIsFopenSysFuncCallWithFilenameAndMode) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u) << "the two-argument form '$fopen(filename, type)' is used here";
 
-  const hldb::Constant *const filename = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const filename = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(filename, nullptr) << "arg[0] should be the filename string literal";
   EXPECT_EQ(filename->getConstType(), vpiStringConst);
   EXPECT_EQ(filename->getValue(), "tmp.txt");
   EXPECT_EQ(filename->getSize(), 56) << "IEEE 1800-2023 Sec 5.9: \"tmp.txt\" = 7 characters x 8 bits = 56 bits";
 
-  const hldb::Constant *const mode = any_cast<hldb::Constant>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const mode = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mode, nullptr) << "arg[1] should be the type string literal";
   EXPECT_EQ(mode->getConstType(), vpiStringConst);
   EXPECT_EQ(mode->getValue(), "w");
@@ -320,9 +324,10 @@ TEST_F(FeofTest, DisplayCallTakesExactlyOneComputedValue) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u) << "'$display($feof(fd))' passes exactly one argument";
 
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0)), nullptr)
-      << "the argument is a call to be evaluated, not a literal";
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(0)), nullptr)
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>(), nullptr) << "the argument is a call to be evaluated, not a literal";
+  EXPECT_EQ(arg0->getHighConn<hldb::RefObj>(), nullptr)
       << "the argument is '$feof(fd)', not the bare name 'fd' -- the call must not be flattened away";
 }
 
@@ -335,14 +340,18 @@ TEST_F(FeofTest, DisplayArgumentIsFeofSysFuncCallOnFd) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::SysFuncCall *const feof = any_cast<hldb::SysFuncCall>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::SysFuncCall *const feof = arg0->getHighConn<hldb::SysFuncCall>();
   ASSERT_NE(feof, nullptr)
       << "IEEE 1800-2023 Sec 21.3.8: $feof returns a value, so it must be a SysFuncCall, not a SysTaskCall";
   EXPECT_EQ(feof->getName(), "$feof");
 
   ASSERT_NE(feof->getArguments(), nullptr);
   ASSERT_EQ(feof->getArguments()->size(), 1u) << "'$feof(fd)' takes exactly one descriptor argument";
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(feof->getArguments()->at(0));
+  const hldb::NamedArgument *const argArg = feof->getArguments()->at(0);
+  ASSERT_NE(argArg, nullptr);
+  const hldb::RefObj *const arg = argArg->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "the $feof argument should be a RefObj";
   EXPECT_EQ(arg->getName(), "fd");
   EXPECT_EQ(arg->getActual<hldb::Variable>(), getLocalFd())
@@ -357,7 +366,9 @@ TEST_F(FeofTest, FcloseCallClosesTheSameDescriptor) {
   EXPECT_EQ(call->getName(), "$fclose");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "'$fclose(fd)' takes exactly one descriptor argument";
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "the $fclose argument should be a RefObj";
   EXPECT_EQ(arg->getName(), "fd");
   EXPECT_EQ(arg->getActual<hldb::Variable>(), getLocalFd())

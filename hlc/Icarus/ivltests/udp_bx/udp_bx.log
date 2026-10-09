@@ -844,34 +844,44 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:28:2 end:28:10:
                 vpiArgument (5 items):
-                  SysFuncCall name:$time start:28:12 end:28:17:
+                  NamedArgument start:28:12 end:28:17:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:28:12 end:28:17:
-                  Constant start:28:20 end:28:45:
+                    vpiHighConn SysFuncCall name:$time start:28:12 end:28:17:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:28:12 end:28:17:
+                  NamedArgument start:28:20 end:28:45:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 184
-                    vpiDecompile: "\"CL = %b, D = %b, Q = %b\""
-                    vpiValue: CL = %b, D = %b, Q = %b
-                  RefObj name:CL start:28:47 end:28:49:
+                    vpiHighConn Constant start:28:20 end:28:45:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 184
+                      vpiDecompile: "\"CL = %b, D = %b, Q = %b\""
+                      vpiValue: CL = %b, D = %b, Q = %b
+                  NamedArgument start:28:47 end:28:49:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: CL
-                    vpiFullName: test.CL
-                    vpiActual: Variable name:CL
-                  RefObj name:D start:28:51 end:28:52:
+                    vpiHighConn RefObj name:CL start:28:47 end:28:49:
+                      vpiParent: NamedArgument
+                      vpiName: CL
+                      vpiFullName: test.CL
+                      vpiActual: Variable name:CL
+                  NamedArgument start:28:51 end:28:52:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: D
-                    vpiFullName: test.D
-                    vpiActual: Variable name:D
-                  RefObj name:Q start:28:54 end:28:55:
+                    vpiHighConn RefObj name:D start:28:51 end:28:52:
+                      vpiParent: NamedArgument
+                      vpiName: D
+                      vpiFullName: test.D
+                      vpiActual: Variable name:D
+                  NamedArgument start:28:54 end:28:55:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: Q
-                    vpiFullName: test.Q
-                    vpiActual: Net name:Q
+                    vpiHighConn RefObj name:Q start:28:54 end:28:55:
+                      vpiParent: NamedArgument
+                      vpiName: Q
+                      vpiFullName: test.Q
+                      vpiActual: Net name:Q
               Assignment start:29:2 end:29:11:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1119,52 +1129,52 @@ Design name:unnamed:
             vpiName: flop
             vpiFullName: test.ff.flop
             vpiActual: ModuleTypespec name:flop
-          vpiPort (4 items):
-            Port start:45:14 end:45:15:
+          vpiArgument (4 items):
+            NamedArgument start:45:14 end:45:15:
               vpiParent: RefInstance name:ff
               vpiLowConn RefObj name:Q:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Q
                 vpiFullName: test.ff.Q
                 vpiActual: Port name:Q
               vpiHighConn RefObj name:Q start:45:14 end:45:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: Q
                 vpiFullName: test.ff.Q
                 vpiActual: Net name:Q
-            Port start:45:17 end:45:19:
+            NamedArgument start:45:17 end:45:19:
               vpiParent: RefInstance name:ff
               vpiLowConn RefObj name:CK:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: CK
                 vpiFullName: test.ff.CK
                 vpiActual: Port name:CK
               vpiHighConn RefObj name:CK start:45:17 end:45:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: CK
                 vpiFullName: test.ff.CK
                 vpiActual: Variable name:CK
-            Port start:45:21 end:45:22:
+            NamedArgument start:45:21 end:45:22:
               vpiParent: RefInstance name:ff
               vpiLowConn RefObj name:DAT:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: DAT
                 vpiFullName: test.ff.DAT
                 vpiActual: Port name:DAT
               vpiHighConn RefObj name:D start:45:21 end:45:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: D
                 vpiFullName: test.ff.D
                 vpiActual: Variable name:D
-            Port start:45:24 end:45:26:
+            NamedArgument start:45:24 end:45:26:
               vpiParent: RefInstance name:ff
               vpiLowConn RefObj name:CL:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: CL
                 vpiFullName: test.ff.CL
                 vpiActual: Port name:CL
               vpiHighConn RefObj name:CL start:45:24 end:45:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: CL
                 vpiFullName: test.ff.CL
                 vpiActual: Variable name:CL
@@ -1240,7 +1250,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/udp_bx/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             171     171       0         0
+Others                             176     176       0         0
 ----------------------------------------------------------------
-                                   171     171       0         0
+                                   176     176       0         0
 ===================== END REDUCTION RESULT =====================

@@ -222,8 +222,8 @@ TEST_F(ImplicitPortConnectionTest, TopRefInstanceHasThreePorts) {
 
   const hldb::RefInstance *const inst = any_cast<hldb::RefInstance>(top->getRefInstances()->at(0));
   ASSERT_NE(inst, nullptr);
-  ASSERT_NE(inst->getPorts(), nullptr);
-  EXPECT_EQ(inst->getPorts()->size(), 3u);
+  ASSERT_NE(inst->getArguments(), nullptr);
+  EXPECT_EQ(inst->getArguments()->size(), 3u);
 }
 
 TEST_F(ImplicitPortConnectionTest, TopPortCConnectionHasNoActual) {
@@ -233,14 +233,14 @@ TEST_F(ImplicitPortConnectionTest, TopPortCConnectionHasNoActual) {
 
   const hldb::RefInstance *const inst = any_cast<hldb::RefInstance>(top->getRefInstances()->at(0));
   ASSERT_NE(inst, nullptr);
-  ASSERT_NE(inst->getPorts(), nullptr);
-  ASSERT_EQ(inst->getPorts()->size(), 3u);
+  ASSERT_NE(inst->getArguments(), nullptr);
+  ASSERT_EQ(inst->getArguments()->size(), 3u);
 
   // Third port connection is 'c' -- the legal 6.10 implicit-net circumstance; stays unresolved
-  const hldb::Port *const port_c = any_cast<hldb::Port>(inst->getPorts()->at(2));
-  ASSERT_NE(port_c, nullptr);
-  const hldb::RefObj *const hc = port_c->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hc, nullptr) << "port c highConn is not a RefObj";
+  const hldb::NamedArgument *const arg_c = any_cast<hldb::NamedArgument>(inst->getArguments()->at(2));
+  ASSERT_NE(arg_c, nullptr);
+  const hldb::RefObj *const hc = arg_c->getHighConn<hldb::RefObj>();
+  ASSERT_NE(hc, nullptr) << "arg c highConn is not a RefObj";
   EXPECT_EQ(hc->getName(), "c");
   EXPECT_EQ(hc->getActual<hldb::Net>(), nullptr)
       << "'c' is the legal IEEE 1800-2023 6.10 implicit-net circumstance in the port connection "

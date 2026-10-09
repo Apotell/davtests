@@ -672,16 +672,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:26:3 end:26:9:
                         vpiArgument (1 items):
-                          Constant start:26:10 end:26:34:
+                          NamedArgument start:26:10 end:26:34:
                             vpiParent: SysTaskCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 168
-                            vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: "*-* All Finished *-*\\n"
+                            vpiHighConn Constant start:26:10 end:26:34:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 168
+                              vpiDecompile: "\"*-* All Finished *-*\\n\""
+                              vpiValue: "*-* All Finished *-*\\n"
                       SysTaskCall name:$finish start:27:3 end:27:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:27:3 end:27:10:
@@ -696,16 +698,17 @@ Design name:unnamed:
             vpiName: m3
             vpiFullName: t.m3.m3
             vpiActual: ModuleTypespec name:m3
-          vpiPort (1 items):
-            Port start:20:9 end:20:18:
+          vpiArgument (1 items):
+            NamedArgument start:20:9 end:20:18:
               vpiParent: RefInstance name:m3
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:20:10 end:20:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.m3.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:20:14 end:20:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.m3.clk
                 vpiActual: Net name:clk
@@ -913,31 +916,39 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:50:7 end:50:15:
                 vpiArgument (4 items):
-                  Constant start:50:16 end:50:26:
+                  NamedArgument start:50:16 end:50:26:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: m3 #(.UNCH(99), .P1(10), .P2(20), .P3(30))
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 64
-                    vpiDecompile: "\"%x %x %x\""
-                    vpiValue: "%x %x %x"
-                  RefObj name:P1 start:50:27 end:50:29:
+                    vpiHighConn Constant start:50:16 end:50:26:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: m3 #(.UNCH(99), .P1(10), .P2(20), .P3(30))
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 64
+                      vpiDecompile: "\"%x %x %x\""
+                      vpiValue: "%x %x %x"
+                  NamedArgument start:50:27 end:50:29:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: P1
-                    vpiFullName: m3 #(.UNCH(99), .P1(10), .P2(20), .P3(30)).P1
-                    vpiActual: Parameter name:P1
-                  RefObj name:P2 start:50:30 end:50:32:
+                    vpiHighConn RefObj name:P1 start:50:27 end:50:29:
+                      vpiParent: NamedArgument
+                      vpiName: P1
+                      vpiFullName: m3 #(.UNCH(99), .P1(10), .P2(20), .P3(30)).P1
+                      vpiActual: Parameter name:P1
+                  NamedArgument start:50:30 end:50:32:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: P2
-                    vpiFullName: m3 #(.UNCH(99), .P1(10), .P2(20), .P3(30)).P2
-                    vpiActual: Parameter name:P2
-                  RefObj name:P3 start:50:33 end:50:35:
+                    vpiHighConn RefObj name:P2 start:50:30 end:50:32:
+                      vpiParent: NamedArgument
+                      vpiName: P2
+                      vpiFullName: m3 #(.UNCH(99), .P1(10), .P2(20), .P3(30)).P2
+                      vpiActual: Parameter name:P2
+                  NamedArgument start:50:33 end:50:35:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: P3
-                    vpiFullName: m3 #(.UNCH(99), .P1(10), .P2(20), .P3(30)).P3
-                    vpiActual: Parameter name:P3
+                    vpiHighConn RefObj name:P3 start:50:33 end:50:35:
+                      vpiParent: NamedArgument
+                      vpiName: P3
+                      vpiFullName: m3 #(.UNCH(99), .P1(10), .P2(20), .P3(30)).P3
+                      vpiActual: Parameter name:P3
         Always start:52:4 end:60:7:
           vpiParent: Module name:m3 #(.UNCH(99), .P1(10), .P2(20), .P3(30))
           vpiStmt EventControl start:52:11 end:60:7:
@@ -1128,7 +1139,7 @@ Operation                            8       2       0         6
 RefObj                              28      22       0         6
 RefTypespec                         30      26       2         6
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              75      75       0         0
 ----------------------------------------------------------------
-                                   153     137       8        24
+                                   158     142       8        24
 ===================== END REDUCTION RESULT =====================

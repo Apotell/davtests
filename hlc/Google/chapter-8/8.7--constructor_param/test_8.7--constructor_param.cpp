@@ -347,7 +347,9 @@ TEST_F(ClassConstructorParamTest, LocalTestObjValueIsNewCallWithArgThirtySeven) 
   EXPECT_EQ(newCall->getName(), "new");
   ASSERT_NE(newCall->getArguments(), nullptr);
   ASSERT_EQ(newCall->getArguments()->size(), 1u);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(newCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = newCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getDecompile(), "37") << "the call site's explicit argument (37) must be distinct from and "
                                           "not confused with the IODecl's own default (42)";
@@ -385,7 +387,9 @@ TEST_F(ClassConstructorParamTest, DisplayFirstArgIsAssertStringLiteral) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_GT(disp->getArguments()->size(), 0u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert:(%d == 37)");
 }
@@ -398,7 +402,9 @@ TEST_F(ClassConstructorParamTest, DisplaySecondArgIsTestObjDotA) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_GT(disp->getArguments()->size(), 1u);
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const path = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(path, nullptr) << "'test_obj.a' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);

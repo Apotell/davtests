@@ -334,7 +334,9 @@ TEST_F(MultiDimSubarraysTest, DisplayHasFiveArgumentsAndCorrectFormatString) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 5u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 5) and (%d == 6) and (%d == 7) and (%d == 8))");
 }
@@ -351,7 +353,9 @@ TEST_F(MultiDimSubarraysTest, DisplayArgumentsAreBOneOneZeroThroughThree) {
   const char *const expectedNames[4] = {"B[1][1][0]", "B[1][1][1]", "B[1][1][2]", "B[1][1][3]"};
   const char *const expectedOuterIndex[4] = {"0", "1", "2", "3"};
   for (size_t i = 0; i < 4; ++i) {
-    const hldb::BitSelect *const outer = any_cast<hldb::BitSelect>(disp->getArguments()->at(i + 1));
+    const hldb::NamedArgument *const outerArg = disp->getArguments()->at(i + 1);
+    ASSERT_NE(outerArg, nullptr);
+    const hldb::BitSelect *const outer = outerArg->getHighConn<hldb::BitSelect>();
     ASSERT_NE(outer, nullptr);
     EXPECT_EQ(outer->getName(), expectedNames[i]);
     EXPECT_EQ(outer->getIndex<hldb::Constant>()->getDecompile(), expectedOuterIndex[i]);
@@ -411,7 +415,9 @@ TEST_F(MultiDimSubarraysTest, RuntimeValuesRequireSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const disp = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 5) and (%d == 6) and (%d == 7) and (%d == 8))")
       << "expected B[1][1] == {5, 6, 7, 8} after copying A[0][2]";

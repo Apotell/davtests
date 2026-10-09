@@ -103,9 +103,9 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/dut.sv:10:27: Failed to bind "next".
 [WRN:CP5851] $Source01/dut.sv:10:32: Failed to bind "key".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "toto".
-[ERR:LN7705] $Source01/dut.sv:10:27: Null Actual: id:58, type:MethodFuncCall, name:next, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:10:27: Null Actual: id:60, type:MethodFuncCall, name:next, relation:vpiPathElem.
 [ERR:CP5907] $Source01/dut.sv:7:5: Illegal timing control in function print.
-[ERR:LN7705] $Source01/dut.sv:8:8: Null Actual: id:53, type:MethodFuncCall, name:push_back, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:8:8: Null Actual: id:54, type:MethodFuncCall, name:push_back, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -152,10 +152,12 @@ Design name:unnamed:
                   vpiParent: RefObj name:m_type_names.next(key)
                   vpiName Identifier name:next start:10:27 end:10:31:
                   vpiArgument (1 items):
-                    RefObj name:key start:10:32 end:10:35:
+                    NamedArgument start:10:32 end:10:35:
                       vpiParent: MethodFuncCall name:next
-                      vpiName: key
-                      vpiFullName: toto::print::m_type_names.next(key)::key
+                      vpiHighConn RefObj name:key start:10:32 end:10:35:
+                        vpiParent: NamedArgument
+                        vpiName: key
+                        vpiFullName: toto::print::m_type_names.next(key)::key
             vpiStmt Begin start:6:6 end:10:7:
               vpiParent: DoWhile
               vpiFullName: toto::print
@@ -204,16 +206,18 @@ Design name:unnamed:
                       vpiParent: "RefObj name:qs.push_back(\"  Type Name\\n\")"
                       vpiName Identifier name:push_back start:8:8 end:8:17:
                       vpiArgument (1 items):
-                        Constant start:8:18 end:8:33:
+                        NamedArgument start:8:18 end:8:33:
                           vpiParent: MethodFuncCall name:push_back
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: toto::print::qs.push_back("  Type Name\n")
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 96
-                          vpiDecompile: "\"  Type Name\\n\""
-                          vpiValue: Type Name\n
+                          vpiHighConn Constant start:8:18 end:8:33:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: toto::print::qs.push_back("  Type Name\n")
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 96
+                            vpiDecompile: "\"  Type Name\\n\""
+                            vpiValue: Type Name\n
           vpiReturn RefTypespec start:4:10 end:4:14:
             vpiParent: Function name:print
             vpiFullName: toto::print
@@ -286,7 +290,7 @@ COMMAND: ${HLC_DIR}/regression/DoWhile/DoWhile/design.hldb ${HLC_DIR}/regression
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1398    1398       0         0
+Others                            1400    1400       0         0
 ----------------------------------------------------------------
-                                  1398    1398       0         0
+                                  1400    1400       0         0
 ===================== END REDUCTION RESULT =====================

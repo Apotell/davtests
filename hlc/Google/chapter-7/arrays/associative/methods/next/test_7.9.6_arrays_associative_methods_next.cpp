@@ -175,7 +175,9 @@ TEST_F(AssociativeArrayNextTest, FirstCallAssignsRcFromMapFirstS) {
   EXPECT_EQ(call->getName(), "first");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "s");
   EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
@@ -190,11 +192,17 @@ TEST_F(AssociativeArrayNextTest, FirstDisplayAssertsRcOneAndSHello) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 3u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 1) and ('%s' == 'hello'))");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "rc");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(2))->getName(), "s");
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), "rc");
+  const hldb::NamedArgument *const arg2 = disp->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  EXPECT_EQ(arg2->getHighConn<hldb::RefObj>()->getName(), "s");
 }
 
 // --- rc = map.next(s); ----
@@ -222,7 +230,9 @@ TEST_F(AssociativeArrayNextTest, SecondCallAssignsRcFromMapNextS) {
   EXPECT_EQ(call->getName(), "next");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "s");
   EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);
@@ -237,11 +247,17 @@ TEST_F(AssociativeArrayNextTest, SecondDisplayAssertsRcOneAndSSad) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 3u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 1) and ('%s' == 'sad'))");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "rc");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(2))->getName(), "s");
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), "rc");
+  const hldb::NamedArgument *const arg2 = disp->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  EXPECT_EQ(arg2->getHighConn<hldb::RefObj>()->getName(), "s");
 }
 
 // --- known gap: runtime values require simulation ----
@@ -259,13 +275,17 @@ TEST_F(AssociativeArrayNextTest, RuntimeValuesOfRcAndSRequireSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const afterFirstDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(4));
   ASSERT_NE(afterFirstDisplay, nullptr);
-  const hldb::Constant *const firstFmt = any_cast<hldb::Constant>(afterFirstDisplay->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = afterFirstDisplay->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const firstFmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(firstFmt, nullptr);
   EXPECT_EQ(firstFmt->getValue(), ":assert: ((%d == 1) and ('%s' == 'hello'))")
       << "expected rc == 1 and s == 'hello' after first()";
   const hldb::SysFuncCall *const afterNextDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(6));
   ASSERT_NE(afterNextDisplay, nullptr);
-  const hldb::Constant *const nextFmt = any_cast<hldb::Constant>(afterNextDisplay->getArguments()->at(0));
+  const hldb::NamedArgument *const nextFmtArg = afterNextDisplay->getArguments()->at(0);
+  ASSERT_NE(nextFmtArg, nullptr);
+  const hldb::Constant *const nextFmt = nextFmtArg->getHighConn<hldb::Constant>();
   ASSERT_NE(nextFmt, nullptr);
   EXPECT_EQ(nextFmt->getValue(), ":assert: ((%d == 1) and ('%s' == 'sad'))")
       << "expected rc == 1 and s == 'sad' after next()";

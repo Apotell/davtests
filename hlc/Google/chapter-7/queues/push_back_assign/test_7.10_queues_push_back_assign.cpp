@@ -274,11 +274,15 @@ TEST_F(QueuesPushBackAssignTest, FourthStmtDisplayAssertsSizeThree) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 3)");
 
-  const hldb::RefObj *const size = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(size, nullptr);
   EXPECT_EQ(size->getName(), "q.size");
   ASSERT_NE(size->getPathElems(), nullptr);
@@ -306,11 +310,15 @@ TEST_F(QueuesPushBackAssignTest, FifthStmtDisplayAssertsQAtZeroEqualsFour) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 4)");
 
-  const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::BitSelect *const sel = arg1->getHighConn<hldb::BitSelect>();
   ASSERT_NE(sel, nullptr) << "'q[0]' should be a BitSelect -- confirms the FIRST appended value stays at the front";
   EXPECT_EQ(sel->getName(), "q[0]");
   const hldb::RefObj *const prefix = sel->getPrefix<hldb::RefObj>();
