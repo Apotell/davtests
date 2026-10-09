@@ -27,9 +27,10 @@
 // resolved type of its argument." Here it is called with the second form:
 // a data_type argument, the built-in type "logic".
 //
-// HLC records the data_type as the call's single argument: a NamedArgument
-// whose high conn is a RefTypespec resolving to the LogicTypespec created
-// for "logic".
+// A data_type is not an expression, so it cannot appear in the call's
+// argument list. HLC records it on the SysFuncCall's own typespec instead
+// (the same representation used for "$typename(logic)" / "$typename(int)"
+// in the Typename test), and the call has no arguments.
 //
 // Checked:
 //   - design has module "top" with exactly 1 process, and it is an Initial
@@ -37,13 +38,11 @@
 //     wrapping exactly 1 statement and no variables, and owning exactly 1
 //     typespec: the LogicTypespec created for the "logic" argument
 //   - the statement is a SysTaskCall named "$display" with exactly 2
-//     NamedArgument arguments: the first's high conn is a Constant string
-//     ":assert: ('%s' == 'logic')" (size 208) and the second's high conn is
-//     a SysFuncCall named "$typename"
-//   - the "$typename" SysFuncCall has exactly 1 NamedArgument argument
-//     whose high conn is a RefTypespec resolving to that Begin-owned
-//     LogicTypespec, which is scalar (not a vector, no packed ranges) since
-//     "logic" declares no dimensions
+//     arguments: a Constant string ":assert: ('%s' == 'logic')" (size 208)
+//     and a SysFuncCall named "$typename"
+//   - the "$typename" SysFuncCall has no expression arguments; its typespec
+//     resolves to that Begin-owned LogicTypespec, which is scalar (not a
+//     vector, no packed ranges) since "logic" declares no dimensions
 //   - compiler reports zero errors
 //
 // NOT CHECKED: runtime effects (that $typename(logic) actually returns
@@ -64,7 +63,6 @@
 #include <hldb/initial.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
-#include <hldb/named_argument.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sv_vpi_user.h>
@@ -111,31 +109,15 @@ class TypenameTypeFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    const hldb::NamedArgument *const arg1 = any_cast<hldb::NamedArgument>(display->getArguments()->at(1));
-    if (arg1 == nullptr) {
-      return nullptr;
-    }
-    return arg1->getHighConn<hldb::SysFuncCall>();
-  }
-
-  static const hldb::RefTypespec *getTypenameArgument() {
-    const hldb::SysFuncCall *const call = getTypenameCall();
-    if (call == nullptr || call->getArguments() == nullptr || call->getArguments()->empty()) {
-      return nullptr;
-    }
-    const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
-    if (arg0 == nullptr) {
-      return nullptr;
-    }
-    return arg0->getHighConn<hldb::RefTypespec>();
+    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
   }
 
   static const hldb::LogicTypespec *getTypenameArgumentType() {
-    const hldb::RefTypespec *const ref = getTypenameArgument();
-    if (ref == nullptr) {
+    const hldb::SysFuncCall *const call = getTypenameCall();
+    if (call == nullptr || call->getTypespec() == nullptr) {
       return nullptr;
     }
-    return ref->getActual<hldb::LogicTypespec>();
+    return call->getTypespec()->getActual<hldb::LogicTypespec>();
   }
 };
 
@@ -182,9 +164,7 @@ TEST_F(TypenameTypeFunctionTest, DisplayCallHasFormatAndTypenameArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
-  ASSERT_NE(arg0, nullptr);
-  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getSize(), 208) << "26 characters * 8 bits";
@@ -204,20 +184,18 @@ TEST_F(TypenameTypeFunctionTest, TypenameCallIsNamedCorrectly) {
   EXPECT_EQ(call->getName(), "$typename");
 }
 
-TEST_F(TypenameTypeFunctionTest, TypenameCallHasOneTypespecArgument) {
+TEST_F(TypenameTypeFunctionTest, TypenameCallHasNoExpressionArguments) {
   const hldb::SysFuncCall *const call = getTypenameCall();
   ASSERT_NE(call, nullptr);
-  ASSERT_NE(call->getArguments(), nullptr);
-  ASSERT_EQ(call->getArguments()->size(), 1u) << "20.6.1: '$typename' takes a single expression or data_type";
-
-  const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
-  ASSERT_NE(arg0, nullptr);
-  EXPECT_NE(arg0->getHighConn<hldb::RefTypespec>(), nullptr) << "the 'logic' data_type should be a RefTypespec";
+  EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
+      << "20.6.1: 'logic' is a data_type, not an expression, so it is not an argument";
 }
 
-TEST_F(TypenameTypeFunctionTest, TypenameArgumentIsScalarLogic) {
-  const hldb::RefTypespec *const ref = getTypenameArgument();
-  ASSERT_NE(ref, nullptr) << "the 'logic' data_type argument should be a RefTypespec";
+TEST_F(TypenameTypeFunctionTest, TypenameCallTypespecIsScalarLogic) {
+  const hldb::SysFuncCall *const call = getTypenameCall();
+  ASSERT_NE(call, nullptr);
+  const hldb::RefTypespec *const ref = call->getTypespec();
+  ASSERT_NE(ref, nullptr) << "the 'logic' data_type argument should be recorded as the call's typespec";
   ASSERT_NE(ref->getActual(), nullptr);
   EXPECT_EQ(ref->getActual()->getVpiType(), vpiLogicTypespec);
 

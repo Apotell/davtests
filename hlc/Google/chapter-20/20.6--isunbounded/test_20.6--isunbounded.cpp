@@ -36,14 +36,12 @@
 //     Parameter, Rhs Constant vpiUnboundedConst "$"
 //   - module has exactly 1 process, an Initial whose body is a Begin
 //     wrapping exactly 2 statements and no variables
-//   - both statements are SysTaskCall "$display" with exactly 2
-//     NamedArgument arguments: the first's high conn is a Constant string
-//     format (size 144) and the second's high conn is a SysFuncCall
-//     "$isunbounded"
-//   - the first "$isunbounded" has exactly 1 NamedArgument argument whose
-//     high conn is a Constant unsigned int "1" (size 64, IntTypespec)
-//   - the second "$isunbounded" has exactly 1 NamedArgument argument whose
-//     high conn is a RefObj "i" resolving to the Parameter "i"
+//   - both statements are SysTaskCall "$display" with exactly 2 arguments:
+//     a Constant string format (size 144) and a SysFuncCall "$isunbounded"
+//   - the first "$isunbounded" has exactly 1 argument: a Constant unsigned
+//     int "1" (size 64, IntTypespec)
+//   - the second "$isunbounded" has exactly 1 argument: a RefObj "i"
+//     resolving to the Parameter "i"
 //   - compiler reports zero errors
 //
 // NOT CHECKED:
@@ -68,7 +66,6 @@
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
-#include <hldb/named_argument.h>
 #include <hldb/param_assign.h>
 #include <hldb/parameter.h>
 #include <hldb/ref_obj.h>
@@ -134,11 +131,7 @@ class IsUnboundedFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    const hldb::NamedArgument *const arg1 = any_cast<hldb::NamedArgument>(display->getArguments()->at(1));
-    if (arg1 == nullptr) {
-      return nullptr;
-    }
-    return arg1->getHighConn<hldb::SysFuncCall>();
+    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
   }
 
   // Checks one '$display(<format>, $isunbounded(...))' statement: the format
@@ -151,9 +144,7 @@ class IsUnboundedFunctionTest : public Test {
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 2u);
 
-    const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
-    ASSERT_NE(arg0, nullptr);
-    const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
+    const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
     ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
     EXPECT_EQ(fmt->getConstType(), vpiStringConst);
     EXPECT_EQ(fmt->getSize(), 144) << "18 characters * 8 bits";
@@ -238,9 +229,7 @@ TEST_F(IsUnboundedFunctionTest, FirstIsUnboundedArgumentIsLiteral1) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
 
-  const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
-  ASSERT_NE(arg0, nullptr);
-  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
+  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(arg, nullptr) << "'1' should be a Constant";
   EXPECT_EQ(arg->getConstType(), vpiUIntConst);
   EXPECT_EQ(arg->getSize(), 64);
@@ -260,9 +249,7 @@ TEST_F(IsUnboundedFunctionTest, SecondIsUnboundedArgumentIsParameterI) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
 
-  const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
-  ASSERT_NE(arg0, nullptr);
-  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
+  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
   ASSERT_NE(arg, nullptr) << "'i' should be a RefObj";
   EXPECT_EQ(arg->getName(), "i");
   EXPECT_EQ(arg->getActual<hldb::Parameter>(), getParameterI());

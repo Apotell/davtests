@@ -47,15 +47,14 @@
 //     size 64, IntTypespec)
 //   - module has exactly 1 process, an Initial whose body is a Begin
 //     wrapping exactly 9 statements and no variables
-//   - each statement is a SysTaskCall "$display" with exactly 2
-//     NamedArgument arguments: the first's high conn is a Constant string
-//     format (size 144 for 18 characters, 152 for 19) and the second's high
-//     conn is a SysFuncCall naming the array query function, in source order
-//   - each array query SysFuncCall's first NamedArgument has a high conn
-//     that is a RefObj "arr" resolving to the module Variable "arr"
-//   - "$dimensions" has exactly 1 NamedArgument argument; every other call
-//     has exactly 2, the second's high conn being a Constant unsigned int
-//     dimension "1" or "2" (size 64, IntTypespec)
+//   - each statement is a SysTaskCall "$display" with exactly 2 arguments:
+//     a Constant string format (size 144 for 18 characters, 152 for 19)
+//     and a SysFuncCall naming the array query function, in source order
+//   - each array query SysFuncCall's first argument is a RefObj "arr"
+//     resolving to the module Variable "arr"
+//   - "$dimensions" has exactly 1 argument; every other call has exactly 2,
+//     the second being a Constant unsigned int dimension "1" or "2"
+//     (size 64, IntTypespec)
 //   - compiler reports zero errors
 //
 // NOT CHECKED: runtime effects (the values the queries return and that the
@@ -78,7 +77,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
-#include <hldb/named_argument.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -148,11 +146,7 @@ class ArrayQueriesMultiDimTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    const hldb::NamedArgument *const arg1 = any_cast<hldb::NamedArgument>(display->getArguments()->at(1));
-    if (arg1 == nullptr) {
-      return nullptr;
-    }
-    return arg1->getHighConn<hldb::SysFuncCall>();
+    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
   }
 
   // Checks one unsigned int Constant: the given decompiled text, size 64,
@@ -180,9 +174,7 @@ class ArrayQueriesMultiDimTest : public Test {
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 2u);
 
-    const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
-    ASSERT_NE(arg0, nullptr);
-    const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
+    const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
     ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
     EXPECT_EQ(fmt->getConstType(), vpiStringConst);
     EXPECT_EQ(fmt->getSize(), size) << "format length * 8 bits";
@@ -200,17 +192,13 @@ class ArrayQueriesMultiDimTest : public Test {
         << "'" << query << "' is called with the array identifier"
         << (dimension.empty() ? " only" : " and a dimension expression");
 
-    const hldb::NamedArgument *const queryArg0 = any_cast<hldb::NamedArgument>(queryCall->getArguments()->at(0));
-    ASSERT_NE(queryArg0, nullptr);
-    const hldb::RefObj *const arg = queryArg0->getHighConn<hldb::RefObj>();
+    const hldb::RefObj *const arg = any_cast<hldb::RefObj>(queryCall->getArguments()->at(0));
     ASSERT_NE(arg, nullptr) << "'arr' should be a RefObj";
     EXPECT_EQ(arg->getName(), "arr");
     EXPECT_EQ(arg->getActual<hldb::Variable>(), getArrVariable());
 
     if (!dimension.empty()) {
-      const hldb::NamedArgument *const queryArg1 = any_cast<hldb::NamedArgument>(queryCall->getArguments()->at(1));
-      ASSERT_NE(queryArg1, nullptr);
-      checkUIntConstant(queryArg1->getHighConn<hldb::Constant>(), dimension);
+      checkUIntConstant(any_cast<hldb::Constant>(queryCall->getArguments()->at(1)), dimension);
     }
   }
 };

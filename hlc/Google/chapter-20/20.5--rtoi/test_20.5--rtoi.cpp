@@ -31,12 +31,10 @@
 //   - the Initial's body is a Begin (from the explicit "begin ... end")
 //     wrapping exactly 1 statement and no variables
 //   - that statement is a SysTaskCall named "$display" with exactly 2
-//     NamedArgument arguments: the first's high conn is a Constant string
-//     ":assert: (%d == 21)" (size 152) and the second's high conn is a
+//     arguments: a Constant string ":assert: (%d == 21)" (size 152) and a
 //     SysFuncCall named "$rtoi"
-//   - the "$rtoi" SysFuncCall has exactly 1 NamedArgument argument whose
-//     high conn is a Constant real "21.37" (size 64) with a typespec that
-//     resolves to a RealTypespec
+//   - the "$rtoi" SysFuncCall has exactly 1 argument: a Constant real
+//     "21.37" (size 64) whose typespec resolves to a RealTypespec
 //   - compiler reports zero errors
 //
 // NOT CHECKED: runtime effects (that $rtoi(21.37) actually truncates to 21
@@ -56,7 +54,6 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
-#include <hldb/named_argument.h>
 #include <hldb/real_typespec.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
@@ -104,11 +101,7 @@ class RtoiFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    const hldb::NamedArgument *const arg1 = any_cast<hldb::NamedArgument>(display->getArguments()->at(1));
-    if (arg1 == nullptr) {
-      return nullptr;
-    }
-    return arg1->getHighConn<hldb::SysFuncCall>();
+    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
   }
 };
 
@@ -147,9 +140,7 @@ TEST_F(RtoiFunctionTest, DisplayCallHasFormatAndRtoiArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
-  ASSERT_NE(arg0, nullptr);
-  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getSize(), 152) << "19 characters * 8 bits";
@@ -175,9 +166,7 @@ TEST_F(RtoiFunctionTest, RtoiCallHasOneRealArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "20.5: '$rtoi' takes a single real_val argument";
 
-  const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
-  ASSERT_NE(arg0, nullptr);
-  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
+  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(arg, nullptr) << "'21.37' should be a Constant";
   EXPECT_EQ(arg->getConstType(), vpiRealConst);
   EXPECT_EQ(arg->getSize(), 64);
