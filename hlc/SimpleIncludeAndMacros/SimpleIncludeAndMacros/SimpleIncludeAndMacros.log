@@ -147,9 +147,12 @@ COMMAND: -wd ../../../tests/SimpleIncludeAndMacros top.v top_1.v top_2.v top_3.v
 [INF:PA5502] Parsing source file "$Source01/top_4.v".
 [INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/lib.v".
-[SNT:PA5508] $Source01/top_3.v:5: Syntax error: mismatched input '1' expecting <EOF>,
-1 + 1 + 42 + 100 + c
-^-- $Source01/top_3.v:5:0:.
+[SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
+initial $display("start", "msg1" , "msg2", "end");
+^-- $Source01/mode.vh:26:0:.
+[SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
+initial $display("start", "msg1" , "msg2", "end");
+^-- $Source01/mode.vh:26:0:.
 [SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
 initial $display("start", "msg1" , "msg2", "end");
 ^-- $Source01/mode.vh:26:0:.
@@ -157,12 +160,9 @@ initial $display("start", "msg1" , "msg2", "end");
 [SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
 initial $display("start", "msg1" , "msg2", "end");
 ^-- $Source01/mode.vh:26:0:.
-[SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
-initial $display("start", "msg1" , "msg2", "end");
-^-- $Source01/mode.vh:26:0:.
-[SNT:PA5508] $Source01/mode.vh:26: Syntax error: mismatched input 'initial' expecting <EOF>,
-initial $display("start", "msg1" , "msg2", "end");
-^-- $Source01/mode.vh:26:0:.
+[SNT:PA5508] $Source01/top_3.v:5: Syntax error: mismatched input '1' expecting <EOF>,
+1 + 1 + 42 + 100 + c
+^-- $Source01/top_3.v:5:0:.
 [INF:CP5804] $Source01/lib.v:2:1: Compile module "FAKELIB_NAND2".
 [NTE:CP5810] $Source01/lib.v:2:29: Implicit port type (wire) for "OUT".
 [INF:CP5804] $Source01/lib.v:5:1: Compile module "FAKELIB_NAND4".
@@ -3082,6 +3082,13 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: lib.v
       vpiPreprocFile: "$Output/lib/work/lib.v"
+      vpiDirective (2 items):
+        GenericDirective start:1:1 end:1:12:
+          vpiParent: SourceFile name:lib.v
+          vpiDirectiveType: celldefine (4)
+        GenericDirective start:24:1 end:24:15:
+          vpiParent: SourceFile name:lib.v
+          vpiDirectiveType: endcelldefine (14)
   vpiAllUdps (1 items):
     UdpDefn name:FAKELIB_DFF_PRIMITIVE start:25:1 end:35:13:
       vpiParent: Design name:unnamed
@@ -3210,7 +3217,10 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:FAKELIB_NAND2
       vpiDefName: FAKELIB_NAND2
+      vpiCellInstance: true
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:2:8 end:2:21:
         vpiParent: Module name:FAKELIB_NAND2
         vpiName: work
@@ -3322,7 +3332,10 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:FAKELIB_NAND4
       vpiDefName: FAKELIB_NAND4
+      vpiCellInstance: true
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:5:8 end:5:21:
         vpiParent: Module name:FAKELIB_NAND4
         vpiName: work
@@ -3498,7 +3511,10 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:FAKELIB_NOR2
       vpiDefName: FAKELIB_NOR2
+      vpiCellInstance: true
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:8:8 end:8:20:
         vpiParent: Module name:FAKELIB_NOR2
         vpiName: work
@@ -3610,7 +3626,10 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:FAKELIB_INV
       vpiDefName: FAKELIB_INV
+      vpiCellInstance: true
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:11:8 end:11:19:
         vpiParent: Module name:FAKELIB_INV
         vpiName: work
@@ -3690,7 +3709,10 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:FAKELIB_BUF
       vpiDefName: FAKELIB_BUF
+      vpiCellInstance: true
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:14:8 end:14:19:
         vpiParent: Module name:FAKELIB_BUF
         vpiName: work
@@ -3766,7 +3788,10 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:FAKELIB_BUF_BIGLOAD
       vpiDefName: FAKELIB_BUF_BIGLOAD
+      vpiCellInstance: true
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:17:8 end:17:27:
         vpiParent: Module name:FAKELIB_BUF_BIGLOAD
         vpiName: work
@@ -3856,7 +3881,10 @@ Design name:unnamed:
           vpiName: FAKELIB_DFF_PRIMITIVE
           vpiUdpDefn: UdpDefn name:FAKELIB_DFF_PRIMITIVE
       vpiDefName: FAKELIB_DFF
+      vpiCellInstance: true
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:20:8 end:20:19:
         vpiParent: Module name:FAKELIB_DFF
         vpiName: work
@@ -4099,13 +4127,12 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/mounts.json
 
 
-{'result': {'coverage': 38.79,
+{'result': {'coverage': 39.25,
             'error_count': 0,
             'file_count': 6,
-            'files': {'$Output/lib/work/lib.v': {'post_len': 25,
-                                                 'pre_len': 880},
-                      '$Output/lib/work/top.v': {'post_len': 693,
-                                                 'pre_len': 984},
+            'files': {'$Output/lib/work/lib.v': {'post_len': 0, 'pre_len': 880},
+                      '$Output/lib/work/top.v': {'post_len': 684,
+                                                 'pre_len': 975},
                       '$Output/lib/work/top_1.v': {'post_len': 664,
                                                    'pre_len': 950},
                       '$Output/lib/work/top_2.v': {'post_len': 856,
@@ -4114,25 +4141,25 @@ mounts-filepath: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMa
                                                    'pre_len': 1082},
                       '$Output/lib/work/top_4.v': {'post_len': 764,
                                                    'pre_len': 1082}},
-            'post_len': 3772,
-            'pre_len': 6162,
+            'post_len': 3738,
+            'pre_len': 6153,
             'test_name': 'SimpleIncludeAndMacros/SimpleIncludeAndMacros'}}
 
 +--------------------------+----------+-----------+
 | INPUT                    |   PRELEN |   POSTLEN |
 +==========================+==========+===========+
-| $Output/lib/work/top.v   |      984 |       693 |
+| $Output/lib/work/top.v   |      975 |       684 |
 | $Output/lib/work/top_1.v |      950 |       664 |
 | $Output/lib/work/top_2.v |     1184 |       856 |
 | $Output/lib/work/top_3.v |     1082 |       770 |
 | $Output/lib/work/top_4.v |     1082 |       764 |
-| $Output/lib/work/lib.v   |      880 |        25 |
+| $Output/lib/work/lib.v   |      880 |         0 |
 +==========================+==========+===========+
-|                          |     6162 |      3772 |
+|                          |     6153 |      3738 |
 +--------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 38.79
+[COVERAGE] : 39.25
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -4143,7 +4170,7 @@ COMMAND: ${HLC_DIR}/regression/SimpleIncludeAndMacros/SimpleIncludeAndMacros/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            3578    3578       0         0
+Others                            3580    3580       0         0
 ----------------------------------------------------------------
-                                  3578    3578       0         0
+                                  3580    3580       0         0
 ===================== END REDUCTION RESULT =====================
