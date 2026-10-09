@@ -41,12 +41,10 @@
 //     pointing back to that Typedef
 //   - module has exactly 1 process, an Initial whose body is a Begin
 //     wrapping exactly 1 statement and no variables
-//   - that statement is a SysTaskCall "$display" with exactly 2
-//     NamedArgument arguments: the first's high conn is a Constant string
-//     ":assert: (%d == 9)" (size 144) and the second's high conn is a
-//     SysFuncCall "$bits"
-//   - "$bits" has exactly 1 NamedArgument argument whose high conn is a
-//     RefObj named "mystruct"
+//   - that statement is a SysTaskCall "$display" with exactly 2 arguments:
+//     a Constant string ":assert: (%d == 9)" (size 144) and a SysFuncCall
+//     "$bits"
+//   - "$bits" has exactly 1 argument: a RefObj named "mystruct"
 //   - compiler reports no COMP_FAILED_TO_BIND
 //
 // SKIPPED (known HLC bug, fix pending):
@@ -78,7 +76,6 @@
 #include <hldb/int_typespec.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
-#include <hldb/named_argument.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -156,11 +153,7 @@ class BitsTypeFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    const hldb::NamedArgument *const arg1 = any_cast<hldb::NamedArgument>(display->getArguments()->at(1));
-    if (arg1 == nullptr) {
-      return nullptr;
-    }
-    return arg1->getHighConn<hldb::SysFuncCall>();
+    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
   }
 
   static const hldb::RefObj *getBitsArgument() {
@@ -168,11 +161,7 @@ class BitsTypeFunctionTest : public Test {
     if (call == nullptr || call->getArguments() == nullptr || call->getArguments()->empty()) {
       return nullptr;
     }
-    const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
-    if (arg0 == nullptr) {
-      return nullptr;
-    }
-    return arg0->getHighConn<hldb::RefObj>();
+    return any_cast<hldb::RefObj>(call->getArguments()->at(0));
   }
 
   // Checks one range bound: a Constant unsigned int with the given decompiled
@@ -294,9 +283,7 @@ TEST_F(BitsTypeFunctionTest, DisplayCallHasFormatAndBitsArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
-  ASSERT_NE(arg0, nullptr);
-  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
+  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getSize(), 144) << "18 characters * 8 bits";
