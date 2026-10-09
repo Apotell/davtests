@@ -39,13 +39,15 @@
 //     wrapping exactly 2 statements and no variables
 //   - statement 0 is a blocking Assignment: Lhs RefObj "s" resolving to the
 //     module Variable "s", Rhs SysFuncCall "$bitstoshortreal"
-//   - "$bitstoshortreal" has exactly 1 argument: a nested SysFuncCall
-//     "$shortrealtobits"
-//   - "$shortrealtobits" has exactly 1 argument: a Constant real "12.45"
-//     (size 64) whose typespec resolves to a RealTypespec
-//   - statement 1 is a SysTaskCall "$display" with exactly 2 arguments: a
-//     Constant string ":assert: (%0d == 1)" (size 152) and an Operation
-//     vpiLogAndOp with 2 operands
+//   - "$bitstoshortreal" has exactly 1 NamedArgument argument whose high
+//     conn is a nested SysFuncCall "$shortrealtobits"
+//   - "$shortrealtobits" has exactly 1 NamedArgument argument whose high
+//     conn is a Constant real "12.45" (size 64) with a typespec that
+//     resolves to a RealTypespec
+//   - statement 1 is a SysTaskCall "$display" with exactly 2 NamedArgument
+//     arguments: the first's high conn is a Constant string
+//     ":assert: (%0d == 1)" (size 152) and the second's high conn is an
+//     Operation vpiLogAndOp with 2 operands
 //   - the "&&" operands are vpiGtOp (s > 12.449) and vpiLtOp (s < 12.451),
 //     each with 2 operands: RefObj "s" resolving to the module Variable "s"
 //     and a Constant real (size 64, RealTypespec)
@@ -70,6 +72,7 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
 #include <hldb/operation.h>
 #include <hldb/real_typespec.h>
 #include <hldb/ref_obj.h>
@@ -137,7 +140,11 @@ class ShortRealBitsConvFunctionTest : public Test {
     if (outer == nullptr || outer->getArguments() == nullptr || outer->getArguments()->empty()) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(outer->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = outer->getArguments()->at(0);
+    if (arg0 == nullptr) {
+      return nullptr;
+    }
+    return arg0->getHighConn<hldb::SysFuncCall>();
   }
 
   static const hldb::SysTaskCall *getDisplayCall() {
@@ -153,7 +160,11 @@ class ShortRealBitsConvFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    return any_cast<hldb::Operation>(display->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    if (arg1 == nullptr) {
+      return nullptr;
+    }
+    return arg1->getHighConn<hldb::Operation>();
   }
 
   static const hldb::Operation *getComparison(size_t index) {
@@ -255,7 +266,9 @@ TEST_F(ShortRealBitsConvFunctionTest, ShortRealToBitsCallHasOneRealArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "20.5: '$shortrealtobits' takes a single shortreal_val argument";
 
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr) << "'12.45' should be a Constant";
   EXPECT_EQ(arg->getConstType(), vpiRealConst);
   EXPECT_EQ(arg->getSize(), 64);
@@ -275,7 +288,9 @@ TEST_F(ShortRealBitsConvFunctionTest, Stmt1IsDisplayWithFormatAndLogAnd) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getSize(), 152) << "19 characters * 8 bits";
