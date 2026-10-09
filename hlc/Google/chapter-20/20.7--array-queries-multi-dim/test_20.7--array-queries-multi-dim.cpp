@@ -148,7 +148,7 @@ class ArrayQueriesMultiDimTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    const hldb::NamedArgument *const arg1 = any_cast<hldb::NamedArgument>(display->getArguments()->at(1));
     if (arg1 == nullptr) {
       return nullptr;
     }
@@ -180,7 +180,7 @@ class ArrayQueriesMultiDimTest : public Test {
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 2u);
 
-    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
     ASSERT_NE(arg0, nullptr);
     const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
@@ -200,7 +200,7 @@ class ArrayQueriesMultiDimTest : public Test {
         << "'" << query << "' is called with the array identifier"
         << (dimension.empty() ? " only" : " and a dimension expression");
 
-    const hldb::NamedArgument *const queryArg0 = queryCall->getArguments()->at(0);
+    const hldb::NamedArgument *const queryArg0 = any_cast<hldb::NamedArgument>(queryCall->getArguments()->at(0));
     ASSERT_NE(queryArg0, nullptr);
     const hldb::RefObj *const arg = queryArg0->getHighConn<hldb::RefObj>();
     ASSERT_NE(arg, nullptr) << "'arr' should be a RefObj";
@@ -208,7 +208,7 @@ class ArrayQueriesMultiDimTest : public Test {
     EXPECT_EQ(arg->getActual<hldb::Variable>(), getArrVariable());
 
     if (!dimension.empty()) {
-      const hldb::NamedArgument *const queryArg1 = queryCall->getArguments()->at(1);
+      const hldb::NamedArgument *const queryArg1 = any_cast<hldb::NamedArgument>(queryCall->getArguments()->at(1));
       ASSERT_NE(queryArg1, nullptr);
       checkUIntConstant(queryArg1->getHighConn<hldb::Constant>(), dimension);
     }

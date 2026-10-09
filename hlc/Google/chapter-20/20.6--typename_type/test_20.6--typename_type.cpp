@@ -111,7 +111,7 @@ class TypenameTypeFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    const hldb::NamedArgument *const arg1 = any_cast<hldb::NamedArgument>(display->getArguments()->at(1));
     if (arg1 == nullptr) {
       return nullptr;
     }
@@ -123,7 +123,7 @@ class TypenameTypeFunctionTest : public Test {
     if (call == nullptr || call->getArguments() == nullptr || call->getArguments()->empty()) {
       return nullptr;
     }
-    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
     if (arg0 == nullptr) {
       return nullptr;
     }
@@ -182,7 +182,7 @@ TEST_F(TypenameTypeFunctionTest, DisplayCallHasFormatAndTypenameArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
   ASSERT_NE(arg0, nullptr);
   const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
@@ -210,7 +210,7 @@ TEST_F(TypenameTypeFunctionTest, TypenameCallHasOneTypespecArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "20.6.1: '$typename' takes a single expression or data_type";
 
-  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  const hldb::NamedArgument *const arg0 = any_cast<hldb::NamedArgument>(call->getArguments()->at(0));
   ASSERT_NE(arg0, nullptr);
   EXPECT_NE(arg0->getHighConn<hldb::RefTypespec>(), nullptr) << "the 'logic' data_type should be a RefTypespec";
 }
