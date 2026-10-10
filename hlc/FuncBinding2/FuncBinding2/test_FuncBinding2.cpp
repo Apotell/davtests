@@ -150,9 +150,12 @@ TEST_F(FuncBinding2Test, FsmFunctionDeclaredWithOneInputIODecl) {
   EXPECT_EQ(io->getName(), std::string_view("fsm_PRES_STATE"));
   EXPECT_EQ(io->getDirection(), vpiInput);
 
+  const hldb::Begin *const body = fn->getStmt<hldb::Begin>();
+  ASSERT_NE(body, nullptr);
+
   // 'reg fsm_newspaper;' -- a local variable of the function's own scope.
-  ASSERT_NE(fn->getVariables(), nullptr);
-  EXPECT_NE(hldb::findByName<hldb::Variable>("fsm_newspaper", fn->getVariables()), nullptr)
+  ASSERT_NE(body->getVariables(), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("fsm_newspaper", body->getVariables()), nullptr)
       << "'reg fsm_newspaper;' not found among the function's local variables";
 }
 

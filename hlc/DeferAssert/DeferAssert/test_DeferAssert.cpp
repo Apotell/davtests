@@ -272,8 +272,9 @@ TEST_F(DeferAssertTest, Assert_RightOperand_ValueIsZero) {
 TEST_F(DeferAssertTest, Assert_NoPassActionBlock) {
   const hldb::ImmediateAssert *const ia = getAssert(m_design);
   ASSERT_NE(ia, nullptr);
-  EXPECT_EQ(ia->getStmt(), nullptr) << "sec. 16.4: 'assert #0 (a != 0);' has no explicit pass action block -- "
+  ASSERT_NE(ia->getStmt(), nullptr) << "sec. 16.4: 'assert #0 (a != 0);' has no explicit pass action block -- "
                                        "getStmt() must be null";
+  EXPECT_EQ(ia->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 }
 
 TEST_F(DeferAssertTest, Assert_NoFailActionBlock) {

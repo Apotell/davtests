@@ -460,7 +460,8 @@ TEST_F(FSMBsp13Test, Fsm2ClkGeneratorStartsWithNullDelayStatement) {
   const hldb::Constant *const amount = dc->getDelay<hldb::Constant>();
   ASSERT_NE(amount, nullptr);
   EXPECT_EQ(amount->getDecompile(), std::string_view{"1"});
-  EXPECT_EQ(dc->getStmt(), nullptr) << "'#1;' controls a null statement";
+  ASSERT_NE(dc->getStmt(), nullptr) << "'#1;' controls a null statement";
+  EXPECT_EQ(dc->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 
   expectBlockingConstAssign(body->getStmts()->at(1), "fsm2clk", "0");
 

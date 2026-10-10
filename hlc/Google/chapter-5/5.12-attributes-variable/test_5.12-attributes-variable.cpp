@@ -120,7 +120,9 @@ TEST_F(AttributesVariable, VariableAHasFsmStateFlagAttribute) {
   const hldb::Attribute *const attr = (*a->getAttributes())[0];
   ASSERT_NE(attr, nullptr);
   EXPECT_EQ(attr->getName(), "fsm_state");
-  EXPECT_EQ(attr->getValue(), nullptr) << "(* fsm_state *) is a flag attribute and should have no value";
+  ASSERT_NE(attr->getValue(), nullptr) << "(* fsm_state *) is a flag attribute and should have default value";
+  ASSERT_NE(attr->getValue<hldb::Constant>(), nullptr);
+  EXPECT_EQ(attr->getValue<hldb::Constant>()->getValue(), std::string_view("1"));
 }
 
 // ----

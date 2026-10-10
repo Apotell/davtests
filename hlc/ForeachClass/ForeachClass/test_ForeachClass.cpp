@@ -144,7 +144,7 @@ TEST_F(ForeachClassTest, F1BodyHasVariableDeclThenForeach) {
 TEST_F(ForeachClassTest, ForeachArrayIsClassMemberPath) {
   const hldb::ForeachStmt *const fe = getForeach();
   ASSERT_NE(fe, nullptr);
-  const hldb::RefObj *const arr = fe->getVariable();
+  const hldb::RefObj *const arr = fe->getVariable<hldb::RefObj>();
   ASSERT_NE(arr, nullptr) << "12.7.3: foreach shall name the array being iterated";
   EXPECT_EQ(arr->getName(), std::string_view{"top_map.m_mems_by_offset"});
   ASSERT_NE(arr->getPathElems(), nullptr);

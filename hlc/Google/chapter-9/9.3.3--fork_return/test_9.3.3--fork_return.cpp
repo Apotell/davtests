@@ -135,7 +135,8 @@ TEST_F(ForkReturnTest, ForkTestBodyIsJoinNoneForkWithDelayAndReturn) {
 
   const hldb::DelayControl *const delay = any_cast<hldb::DelayControl>(fork->getStmts()->at(0));
   ASSERT_NE(delay, nullptr) << "'#20;' should produce a DelayControl";
-  EXPECT_EQ(delay->getStmt(), nullptr) << "'#20;' has no controlled statement -- getStmt() should be null";
+  ASSERT_NE(delay->getStmt(), nullptr) << "'#20;' has no controlled statement -- getStmt() should be NullStmt";
+  EXPECT_EQ(delay->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 
   const hldb::ReturnStmt *const ret = any_cast<hldb::ReturnStmt>(fork->getStmts()->at(1));
   ASSERT_NE(ret, nullptr) << "'return;' should produce a ReturnStmt";

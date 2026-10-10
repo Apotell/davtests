@@ -309,8 +309,9 @@ TEST_F(ExpectUvmFailTest, ExpectStmtHasNoPassStmtButHasElseStmt) {
   const hldb::ExpectStmt *const expectStmt = FindExpectStmtInModule(top);
   ASSERT_NE(expectStmt, nullptr);
 
-  EXPECT_EQ(expectStmt->getStmt(), nullptr) << "the source gives no explicit pass action";
-  EXPECT_NE(expectStmt->getElseStmt(), nullptr) << "'else `uvm_error(...)' should produce an else-clause";
+  ASSERT_NE(expectStmt->getStmt(), nullptr) << "the source gives no explicit pass action";
+  ASSERT_NE(expectStmt->getElseStmt(), nullptr) << "'else `uvm_error(...)' should produce an else-clause";
+  EXPECT_EQ(expectStmt->getElseStmt()->getAnyType(), hldb::AnyType::NullStmt);
 }
 
 }  // namespace hlc

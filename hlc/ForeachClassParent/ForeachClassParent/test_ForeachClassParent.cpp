@@ -151,7 +151,7 @@ TEST_F(ForeachClassParentTest, MethodBodyIsDirectlyForeach) {
 TEST_F(ForeachClassParentTest, ForeachArrayResolvesToInheritedBaseMember) {
   const hldb::ForeachStmt *const fe = getForeach();
   ASSERT_NE(fe, nullptr);
-  const hldb::RefObj *const arr = fe->getVariable();
+  const hldb::RefObj *const arr = fe->getVariable<hldb::RefObj>();
   ASSERT_NE(arr, nullptr) << "12.7.3: foreach shall name the array being iterated";
   EXPECT_EQ(arr->getName(), std::string_view{"m_type_overrides"});
 

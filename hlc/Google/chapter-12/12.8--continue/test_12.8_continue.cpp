@@ -135,7 +135,7 @@ TEST_F(ContinueTest, ForInitStmtDeclaresIAsZero) {
   ASSERT_EQ(forStmt->getForInitStmts()->size(), 1u);
   const hldb::Assignment *const init = any_cast<hldb::Assignment>(forStmt->getForInitStmts()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::Variable *const lhs = init->getLhs<hldb::Variable>();
+  const hldb::RefObj *const lhs = init->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "for_initialization LHS should be the Variable 'i' directly (its own declaration)";
   EXPECT_EQ(lhs->getName(), "i");
   const hldb::Constant *const rhs = init->getRhs<hldb::Constant>();

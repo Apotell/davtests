@@ -230,7 +230,8 @@ TEST_F(PropertyTest, ConcAssert_Collection_HasTwoEntries) {
 TEST_F(PropertyTest, ConcAssert0_HasNoActionBlock) {
   const auto *ca = getAssertAt(m_design, 0);
   ASSERT_NE(ca, nullptr);
-  EXPECT_EQ(ca->getStmt(), nullptr) << "assert has no action block -- getStmt() must be null";
+  ASSERT_NE(ca->getStmt(), nullptr) << "assert has no action block -- getStmt() must be NullStmt";
+  EXPECT_EQ(ca->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 }
 
 TEST_F(PropertyTest, ConcAssert0_Property_IsPropertySpec) {
@@ -335,7 +336,8 @@ TEST_F(PropertyTest, ConcAssert0_PropertyExpr_RightOperand_IsUnsignedInt) {
 TEST_F(PropertyTest, ConcAssert1_HasNoActionBlock) {
   const auto *ca = getAssertAt(m_design, 1);
   ASSERT_NE(ca, nullptr);
-  EXPECT_EQ(ca->getStmt(), nullptr) << "'assert property (not ...);' has no action block";
+  ASSERT_NE(ca->getStmt(), nullptr) << "'assert property (not ...);' has no action block";
+  EXPECT_EQ(ca->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 }
 
 TEST_F(PropertyTest, ConcAssert1_Property_IsPropertySpec) {

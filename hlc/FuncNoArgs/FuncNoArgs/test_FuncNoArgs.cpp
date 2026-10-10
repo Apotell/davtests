@@ -130,8 +130,10 @@ TEST_F(FuncNoArgsTest, FunctionReturnsInteger) {
 TEST_F(FuncNoArgsTest, FunctionHasLocalIntegerVariableI) {
   const hldb::Function *const f = getCountNonconstBits();
   ASSERT_NE(f, nullptr);
-  ASSERT_NE(f->getVariables(), nullptr);
-  const hldb::Variable *const i = hldb::findByName<hldb::Variable>("i", f->getVariables());
+  const hldb::Begin *const b = f->getStmt<hldb::Begin>();
+  ASSERT_NE(b, nullptr);
+  ASSERT_NE(b->getVariables(), nullptr);
+  const hldb::Variable *const i = hldb::findByName<hldb::Variable>("i", b->getVariables());
   ASSERT_NE(i, nullptr) << "'integer i;' should be a local Variable in the function's own scope";
   ASSERT_NE(i->getTypespec(), nullptr);
   EXPECT_NE(i->getTypespec()->getActual<hldb::IntegerTypespec>(), nullptr);
@@ -140,7 +142,12 @@ TEST_F(FuncNoArgsTest, FunctionHasLocalIntegerVariableI) {
 TEST_F(FuncNoArgsTest, FunctionBodyIsBeginBlockWithAssignmentThenForStmt) {
   const hldb::Function *const f = getCountNonconstBits();
   ASSERT_NE(f, nullptr);
-  const hldb::Begin *const body = f->getStmt<hldb::Begin>();
+  const hldb::Begin *const outer = f->getStmt<hldb::Begin>();
+  ASSERT_NE(outer, nullptr);
+  ASSERT_NE(outer->getStmts(), nullptr);
+  ASSERT_EQ(outer->getStmts()->size(), 2u);
+
+  const hldb::Begin *const body = any_cast<hldb::Begin>(outer->getStmts()->at(1));
   ASSERT_NE(body, nullptr) << "'begin ... end' should produce a Begin block";
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 2u);

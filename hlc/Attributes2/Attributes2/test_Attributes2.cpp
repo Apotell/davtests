@@ -341,7 +341,7 @@ TEST_F(Attributes2, ArrayManipulationCall) {
   expectAttributeParentedTo<hldb::NamedArgument>("a_array_manipulation_call");
 }
 
-TEST_F(Attributes2, SubroutineCall) { expectAttributeParentedTo<hldb::NamedArgument>("a_subroutine_call"); }
+TEST_F(Attributes2, SubroutineCall) { expectAttributeParentedTo<hldb::MethodFuncCall>("a_subroutine_call"); }
 
 }  // namespace hlc
 

@@ -172,7 +172,8 @@ TEST_F(EventOrderTest, FirstBranchAssignsDelaysThenTriggersEvNonBlocking) {
 
   const hldb::DelayControl *const delay = any_cast<hldb::DelayControl>(first->getStmts()->at(1));
   ASSERT_NE(delay, nullptr) << "'#20;' should produce a DelayControl";
-  EXPECT_EQ(delay->getStmt(), nullptr) << "'#20;' has no controlled statement -- getStmt() should be null";
+  ASSERT_NE(delay->getStmt(), nullptr) << "'#20;' has no controlled statement -- getStmt() should be NullStmt";
+  EXPECT_EQ(delay->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
   const hldb::Constant *const delayValue = delay->getDelay<hldb::Constant>();
   ASSERT_NE(delayValue, nullptr) << "the delay value should be a Constant";
   EXPECT_EQ(delayValue->getDecompile(), "20");

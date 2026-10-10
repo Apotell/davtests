@@ -86,7 +86,9 @@ TEST_F(AttributesModule, TopaOptimizePowerIsFlagAttribute) {
 
   const hldb::Attribute *const attr = findAttr(topa, "optimize_power");
   ASSERT_NE(attr, nullptr) << "topa should have 'optimize_power' attribute";
-  EXPECT_EQ(attr->getValue(), nullptr) << "(* optimize_power *) is a flag -- getValue() should be null";
+  ASSERT_NE(attr->getValue(), nullptr) << "(* optimize_power *) is a flag -- getValue() should defalt value";
+  ASSERT_NE(attr->getValue<hldb::Constant>(), nullptr);
+  EXPECT_EQ(attr->getValue<hldb::Constant>()->getValue(), std::string_view("1"));
 }
 
 // ----

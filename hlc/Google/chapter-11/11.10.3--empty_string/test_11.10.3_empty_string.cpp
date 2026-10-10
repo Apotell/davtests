@@ -158,7 +158,8 @@ TEST_F(EmptyStringTest, SecondStatementIsImmediateAssertOfAEqualsZero) {
   ASSERT_NE(blk, nullptr);
   const hldb::ImmediateAssert *const assertStmt = any_cast<hldb::ImmediateAssert>(blk->getStmts()->at(1));
   ASSERT_NE(assertStmt, nullptr) << "'assert(a == 0);' should elaborate as an ImmediateAssert";
-  EXPECT_EQ(assertStmt->getStmt(), nullptr) << "no pass action was given";
+  ASSERT_NE(assertStmt->getStmt(), nullptr) << "no pass action was given";
+  EXPECT_EQ(assertStmt->getStmt()->getAnyType(), hldb::AnyType::NullStmt) << "defaults to null";
   EXPECT_EQ(assertStmt->getElseStmt(), nullptr) << "no 'else' action was given";
 
   const hldb::Operation *const cond = assertStmt->getExpr<hldb::Operation>();

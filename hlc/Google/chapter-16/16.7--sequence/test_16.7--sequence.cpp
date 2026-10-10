@@ -427,8 +427,9 @@ TEST_F(NamedSequenceTest, ConcAssert_HasNoActionBlock) {
   // SV source: 'assert property (seq);' -- no pass or fail statement.
   const auto *ca = getAssert(m_design);
   ASSERT_NE(ca, nullptr);
-  EXPECT_EQ(ca->getStmt(), nullptr) << "sec. 16.7: 'assert property (seq);' has no action block -- "
-                                       "getStmt() must be null";
+  ASSERT_NE(ca->getStmt(), nullptr) << "sec. 16.7: 'assert property (seq);' has no action block -- "
+                                       "getStmt() must be NullStmt";
+  EXPECT_EQ(ca->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 }
 
 TEST_F(NamedSequenceTest, ConcAssert_HasProperty) {
