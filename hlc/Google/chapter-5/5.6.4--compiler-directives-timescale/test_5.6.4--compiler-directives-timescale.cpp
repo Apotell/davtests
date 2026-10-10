@@ -15,7 +15,7 @@
 */
 
 // Validates that the `timescale directive is parsed and its values are
-// propagated to both the SourceFile and the compiled Module in UHDM.
+// applied to the module that follows it in UHDM.
 //
 // SV source:
 //   `timescale 1 ns / 1 ps
@@ -26,7 +26,10 @@
 //   1 ns = 10^-9  -> vpiTimeUnit      = -9
 //   1 ps = 10^-12 -> vpiTimePrecision = -12
 //
-// Both the SourceFile and the Module receive the same timescale values.
+// The module takes the `timescale values (IEEE 1800-2023 Sec 22.7). The SourceFile
+// (the compilation-unit scope) does not: "The time unit of the compilation-unit scope
+// can only be set by a timeunit declaration, not a `timescale directive"
+// (Sec 3.14.2.3).
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -87,18 +90,19 @@ TEST_F(CompilerDirectivesTimescale, ModuleTimePrecisionIsPicosecond) {
 }
 
 // ----
-// SourceFile timescale -- same values propagated to the file scope
+// SourceFile timescale -- the compilation-unit scope has no timeunit/timeprecision
+// declaration, and a `timescale cannot set it (Sec 3.14.2.3), so it stays unset.
 // ----
-TEST_F(CompilerDirectivesTimescale, SourceFileTimeUnitIsNanosecond) {
+TEST_F(CompilerDirectivesTimescale, SourceFileTimeUnitNotSetByTimescale) {
   const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);
-  EXPECT_EQ(sf->getTimeUnit(), -9) << "source file time unit should be -9 (1 ns = 10^-9 s)";
+  EXPECT_EQ(sf->getTimeUnit(), 0) << "`timescale must not set the compilation-unit time unit";
 }
 
-TEST_F(CompilerDirectivesTimescale, SourceFileTimePrecisionIsPicosecond) {
+TEST_F(CompilerDirectivesTimescale, SourceFileTimePrecisionNotSetByTimescale) {
   const hldb::SourceFile *const sf = getSourceFile(m_design);
   ASSERT_NE(sf, nullptr);
-  EXPECT_EQ(sf->getTimePrecision(), -12) << "source file time precision should be -12 (1 ps = 10^-12 s)";
+  EXPECT_EQ(sf->getTimePrecision(), 0) << "`timescale must not set the compilation-unit time precision";
 }
 
 }  // namespace hlc
