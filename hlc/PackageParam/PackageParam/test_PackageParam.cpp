@@ -534,7 +534,9 @@ TEST_F(PackageParamTest, OtpAddrWidthSubtractsClog2FromImportedOtpByteAddrWidth)
   EXPECT_EQ(clog2->getName(), "$clog2");
   ASSERT_NE(clog2->getArguments(), nullptr);
   ASSERT_EQ(clog2->getArguments()->size(), 1u);
-  const hldb::Operation *const div = any_cast<hldb::Operation>(clog2->getArguments()->at(0));
+  const hldb::NamedArgument *const clog2Arg = clog2->getArguments()->at(0);
+  ASSERT_NE(clog2Arg, nullptr);
+  const hldb::Operation *const div = clog2Arg->getHighConn<hldb::Operation>();
   ASSERT_NE(div, nullptr) << "the argument 'OtpWidth/8' is an Operation";
   EXPECT_EQ(div->getOpType(), vpiDivOp);
   ASSERT_NE(div->getOperands(), nullptr);

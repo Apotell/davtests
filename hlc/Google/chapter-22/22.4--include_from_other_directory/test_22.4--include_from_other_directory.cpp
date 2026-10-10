@@ -326,7 +326,7 @@ TEST_F(IncludeFromOtherDirectoryTest, ModuleTopHasOneNullPort) {
   EXPECT_EQ(port->getPortType(), vpiPort) << "Sec 37.14 detail 1";
   EXPECT_EQ(port->getLowConn(), nullptr) << "Sec 37.14 detail 10: a null port has no low connection";
   EXPECT_EQ(port->getHighConn(), nullptr) << "Sec 37.14 detail 10: 'top' is never instantiated";
-  EXPECT_EQ(port->getSize(), 0) << "Sec 37.14 detail 11: vpiSize of a null port is 0";
+  EXPECT_EQ(port->getTypespec(), nullptr) << "Sec 37.14 detail 11: a null port has no type, so its vpiSize is 0";
 }
 
 TEST_F(IncludeFromOtherDirectoryTest, ModuleTopBodyIsEmpty) {
@@ -369,7 +369,7 @@ TEST_F(IncludeFromOtherDirectoryTest, TopIsTheOnlyTopLevelInstance) {
     EXPECT_EQ(port->getName(), "") << "Sec 37.14 detail 8";
     EXPECT_EQ(port->getLowConn(), nullptr) << "Sec 37.14 detail 10";
     EXPECT_EQ(port->getHighConn(), nullptr) << "Sec 37.14 detail 10";
-    EXPECT_EQ(port->getSize(), 0) << "Sec 37.14 detail 11";
+    EXPECT_EQ(port->getTypespec(), nullptr) << "Sec 37.14 detail 11";
   } else {
     // Sec 3.12: the instance tree is built by elaboration; before it there
     // are no top-level instances.

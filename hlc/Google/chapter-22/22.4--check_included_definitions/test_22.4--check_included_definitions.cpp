@@ -259,7 +259,8 @@ class CheckIncludedDefinitionsTest : public Test {
   // The index-th argument of a call, as a constant.
   static const hldb::Constant *getConstantArgument(const hldb::SysTaskCall *call, size_t index) {
     if ((call == nullptr) || (countOf(call->getArguments()) <= index)) return nullptr;
-    return any_cast<hldb::Constant>(call->getArguments()->at(index));
+    const hldb::NamedArgument *const arg = call->getArguments()->at(index);
+    return (arg == nullptr) ? nullptr : arg->getHighConn<hldb::Constant>();
   }
 };
 
@@ -376,7 +377,7 @@ TEST_F(CheckIncludedDefinitionsTest, ModuleTopHasOneNullPort) {
   EXPECT_EQ(port->getPortType(), vpiPort) << "Sec 37.14 detail 1";
   EXPECT_EQ(port->getLowConn(), nullptr) << "Sec 37.14 detail 10: a null port has no low connection";
   EXPECT_EQ(port->getHighConn(), nullptr) << "Sec 37.14 detail 10: 'top' is never instantiated";
-  EXPECT_EQ(port->getSize(), 0) << "Sec 37.14 detail 11: vpiSize of a null port is 0";
+  EXPECT_EQ(port->getTypespec(), nullptr) << "Sec 37.14 detail 11: a null port has no type, so its vpiSize is 0";
 }
 
 TEST_F(CheckIncludedDefinitionsTest, ModuleTopHoldsOnlyOneProcess) {
