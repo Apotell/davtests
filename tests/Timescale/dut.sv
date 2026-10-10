@@ -1,12 +1,12 @@
 module  m1(input logic a);
-  timeunit 10 ns/1 ps;
+  timeunit 10ns/1ps;
 
   module m11(input logic a);
-    timeunit 10 ns/10 ps;
+    timeunit 10ns/10ps;
   endmodule
 
   module  m12(input logic a);
-    timeprecision 1 ps;
+    timeprecision 1ps;
   endmodule
 endmodule
 

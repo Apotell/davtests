@@ -16,8 +16,31 @@ module e_not_first;                     // Sec 3.14.2.2: the declarations shall 
   timeunit 1ns;
 endmodule
 
-module e_step;                          // Sec 3.14.3: step cannot set the time unit
+module e_step;                          // Annex A time_unit has no step; Sec 3.14.3: step cannot set the time unit
   timeunit 1step;
+endmodule
+
+module e_bad_magnitude;                 // Sec 3.14: the magnitude is 1, 10 or 100
+  timeunit 3ns;
+endmodule
+
+module e_fixed_point;                   // Sec 3.14: the magnitude is 1, 10 or 100
+  timeunit 1.5ns;
+endmodule
+
+module e_space_unit;                    // Annex A footnote 49: no white_space inside a time_literal
+  timeunit 10 ns;
+endmodule
+
+module e_space_precision;               // Annex A footnote 49: no white_space inside a time_literal
+  timeprecision 1 ps;
+endmodule
+
+module e_parent;                        // 1ns / default
+  timeunit 1ns;
+  module e_child_coarse;                // Sec 3.14: precision 1us is longer than the inherited 1ns unit
+    timeprecision 1us;
+  endmodule
 endmodule
 
 `timescale 1ns / 1us

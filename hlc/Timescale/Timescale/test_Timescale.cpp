@@ -14,8 +14,12 @@
  limitations under the License.
 */
 
+#include <hlc/Common/FileSystem.h>
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/Error.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/ErrorReporting/Location.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -53,6 +57,7 @@
 //   units.sv                   every legal magnitude and unit
 //   errors.sv                  illegal declarations and `timescale values
 //   errors_timescale_inside.sv `timescale inside a design element
+//   errors_cu_late.sv          compilation-unit timeunit after another item
 
 namespace hlc {
 
@@ -108,6 +113,31 @@ class TimescaleTest : public Test {
     return hldb::findByName<hldb::SourceFile>(name, m_design->getSourceFiles());
   }
 
+  // True if an error (any code with ERROR, SYNTAX or FATAL severity) is reported on
+  // 'line' of the file named 'fileName'. The standard says which constructs are errors,
+  // not which diagnostic reports them.
+  static bool hasErrorAt(std::string_view fileName, uint32_t line) {
+    const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
+    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+      const ErrorDefinition::ErrorMap::const_iterator it = infos.find(error.getType());
+      if (it == infos.cend()) continue;
+      const ErrorDefinition::ErrorSeverity severity = it->second.m_severity;
+      if ((severity != ErrorDefinition::ERROR) && (severity != ErrorDefinition::SYNTAX) &&
+          (severity != ErrorDefinition::FATAL)) {
+        continue;
+      }
+      for (const Location &loc : error.getLocations()) {
+        if (loc.m_line != line) continue;
+        const std::string_view path = FileSystem::toPath(loc.m_fileId);
+        if ((path.size() > fileName.size()) && (path.substr(path.size() - fileName.size()) == fileName) &&
+            (path[path.size() - fileName.size() - 1] == '/')) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   static void expectAll(const std::vector<Expected> &expected) {
     for (const Expected &e : expected) {
       const hldb::Instance *const instance = findInstance(e.m_name);
@@ -133,7 +163,7 @@ TEST_F(TimescaleTest, SourceFileTimescale) {
   EXPECT_EQ(s->getTimePrecision(), 0);
 }
 
-// m1: explicit "timeunit 10 ns/1 ps;" -> unit 10ns (1e-8), precision 1ps (1e-12).
+// m1: explicit "timeunit 10ns/1ps;" -> unit 10ns (1e-8), precision 1ps (1e-12).
 TEST_F(TimescaleTest, M1ExplicitTimescale) {
   const hldb::Module *const m1 = getM1();
   ASSERT_NE(m1, nullptr) << "Module m1 is null";
@@ -141,7 +171,7 @@ TEST_F(TimescaleTest, M1ExplicitTimescale) {
   EXPECT_EQ(m1->getTimePrecision(), -12);
 }
 
-// m11 (nested in m1): explicit "timeunit 10 ns/10 ps;" -> unit 10ns (1e-8),
+// m11 (nested in m1): explicit "timeunit 10ns/10ps;" -> unit 10ns (1e-8),
 // precision 10ps (1e-11).
 TEST_F(TimescaleTest, M11ExplicitTimescale) {
   const hldb::Module *const m1 = getM1();
@@ -152,7 +182,7 @@ TEST_F(TimescaleTest, M11ExplicitTimescale) {
   EXPECT_EQ(m11->getTimePrecision(), -11);
 }
 
-// m12 (nested in m1): only "timeprecision 1 ps;" -- no timeunit of its own.
+// m12 (nested in m1): only "timeprecision 1ps;" -- no timeunit of its own.
 // Per IEEE 1800-2023 3.14.2.3 rule (a), since m12 is nested inside m1, its
 // time unit shall be inherited from the enclosing module m1 (10 ns, -8), not
 // left at an unspecified/default value.
@@ -356,6 +386,12 @@ TEST_F(TimescaleTest, TimescaleBeatsCompilationUnit) {
 TEST_F(TimescaleTest, ResetallDoesNotResetCompilationUnit) {
   // Sec 22.3: `resetall resets compiler directives; the compilation-unit timeunit is a
   // declaration, so after `resetall rule (c) applies again.
+  //
+  // This is an interpretation. Sec 22.7 says that once a `timescale "has been reset by a
+  // `resetall directive" the default applies, which reads as "no `timescale in effect",
+  // so rule (b) no longer applies and rule (c) does. Rule (b)'s own wording, "if a
+  // `timescale directive has been previously specified", could be read as still
+  // holding after the reset.
   expectAll({{"c_after_resetall", -6, -9}});
 }
 
@@ -387,11 +423,18 @@ TEST_F(TimescaleTest, EveryLegalTimePrecision) {
   });
 }
 
+// The u_unit_1s and u_prec_1s rows above expect 0, which is also the "not set" value,
+// so on their own they would pass even if the 1s declaration were ignored. This test
+// is the one that tells the two apart: both elements declare a time unit and a
+// precision, so neither may be reported as missing time information.
 TEST_F(TimescaleTest, OneSecondIsDistinguishableFromUnset) {
   GTEST_SKIP() << "Known HLC gap: 1s encodes as 10^0 = 0, the same value used for \"not set\", so "
-                  "u_unit_1s and u_prec_1s cannot be told apart from an element with no time unit / "
-                  "precision (Sec 3.14 Table 3-1 lists s as a legal unit).";
-  EXPECT_NE(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "u_prec_1s"), nullptr);
+                  "u_unit_1s and u_prec_1s are reported as having no time unit / precision although "
+                  "they declare one (Sec 3.14 Table 3-1 lists s as a legal unit).";
+  EXPECT_EQ(findError(ErrorDefinition::PA_MISSING_TIMEUNIT, "u_unit_1s"), nullptr);
+  EXPECT_EQ(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "u_unit_1s"), nullptr);
+  EXPECT_EQ(findError(ErrorDefinition::PA_MISSING_TIMEUNIT, "u_prec_1s"), nullptr);
+  EXPECT_EQ(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "u_prec_1s"), nullptr);
 }
 
 // ----
@@ -417,9 +460,41 @@ TEST_F(TimescaleTest, DeclarationAfterAnotherItemIsAnError) {
 }
 
 TEST_F(TimescaleTest, StepAsTimeUnitIsAnError) {
-  // Sec 3.14.3: "a step cannot be used to set or modify either the precision or the
-  // time unit." timeunit 1step;
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "e_step"), nullptr);
+  // timeunit 1step; (errors.sv:20). Annex A time_unit ::= s | ms | us | ns | ps | fs has
+  // no step, so this is a syntax error; Sec 3.14.3 also says "a step cannot be used to
+  // set or modify either the precision or the time unit." Any error is correct.
+  EXPECT_TRUE(hasErrorAt("errors.sv", 20));
+}
+
+TEST_F(TimescaleTest, TimeunitMagnitudeMustBe1Or10Or100) {
+  GTEST_SKIP() << "Known HLC gap: timeunit 3ns; and timeunit 1.5ns; are accepted (and stored as 1ns). "
+                  "Sec 3.14: time values are \"s, ms, us, ns, ps, and fs with an order of magnitude of 1, "
+                  "10, or 100\".";
+  EXPECT_TRUE(hasErrorAt("errors.sv", 24)) << "timeunit 3ns;";
+  EXPECT_TRUE(hasErrorAt("errors.sv", 28)) << "timeunit 1.5ns;";
+}
+
+TEST_F(TimescaleTest, WhitespaceInsideTimeLiteralIsAnError) {
+  GTEST_SKIP() << "Known HLC gap: timeunit 10 ns; and timeprecision 1 ps; are accepted. Annex A footnote 49: "
+                  "\"The unsigned number or fixed-point number in time_literal shall not be followed by "
+                  "white_space.\" (`timescale 1 ns / 1 ps is fine: it is not a time_literal.)";
+  EXPECT_TRUE(hasErrorAt("errors.sv", 32)) << "timeunit 10 ns;";
+  EXPECT_TRUE(hasErrorAt("errors.sv", 36)) << "timeprecision 1 ps;";
+}
+
+TEST_F(TimescaleTest, PrecisionLongerThanInheritedUnitIsAnError) {
+  GTEST_SKIP() << "Known HLC gap: a nested module with timeprecision 1us; inside a parent with a 1ns unit "
+                  "is accepted. Sec 3.14: \"The time precision of a design element shall be at least as "
+                  "precise as the time unit\", and its unit is the inherited 1ns (Sec 3.14.2.3 a).";
+  EXPECT_TRUE(hasErrorAt("errors.sv", 42)) << "timeprecision 1us; in e_child_coarse";
+}
+
+TEST_F(TimescaleTest, CompilationUnitTimeunitAfterAnItemIsAnError) {
+  GTEST_SKIP() << "Known HLC gap: a compilation-unit timeunit after a module is accepted. Sec 3.14.2.2: "
+                  "\"There shall be at most one time unit and one time precision for any ... "
+                  "compilation-unit scope ... the timeunit and timeprecision declarations shall precede any "
+                  "other items in the current time scope.\"";
+  EXPECT_TRUE(hasErrorAt("errors_cu_late.sv", 9)) << "timeunit 1ns; after module e_cu_before";
 }
 
 TEST_F(TimescaleTest, TimescaleInsideDesignElementIsAnError) {
