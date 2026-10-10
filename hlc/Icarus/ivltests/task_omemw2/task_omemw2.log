@@ -238,7 +238,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: val
           vpiFullName: test.val
-          vpiVector: true
         Variable name:tmp start:26:25 end:26:28:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:26:4 end:26:14:
@@ -247,7 +246,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: tmp
           vpiFullName: test.tmp
-          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -401,25 +399,27 @@ Design name:unnamed:
                 vpiName Identifier name:testT start:37:6 end:37:11:
                 vpiTaskFunc: Task name:testT
                 vpiArgument (1 items):
-                  BitSelect name:val[0] start:37:12 end:37:18:
+                  NamedArgument start:37:12 end:37:18:
                     vpiParent: MethodTaskCall name:testT
-                    vpiName: val[0]
-                    vpiFullName: test.val[0]
-                    vpiPrefix RefObj name:val start:37:12 end:37:15:
-                      vpiParent: BitSelect name:val[0]
-                      vpiName: val
-                      vpiFullName: test.val
-                      vpiActual: Variable name:val
-                    vpiIndex Constant start:37:16 end:37:17:
-                      vpiParent: BitSelect name:val[0]
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: test.val[0]
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
+                    vpiHighConn BitSelect name:val[0] start:37:12 end:37:18:
+                      vpiParent: NamedArgument
+                      vpiName: val[0]
+                      vpiFullName: test.val[0]
+                      vpiPrefix RefObj name:val start:37:12 end:37:15:
+                        vpiParent: BitSelect name:val[0]
+                        vpiName: val
+                        vpiFullName: test.val
+                        vpiActual: Variable name:val
+                      vpiIndex Constant start:37:16 end:37:17:
+                        vpiParent: BitSelect name:val[0]
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: test.val[0]
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "0"
+                        vpiValue: 0
               IfElse start:38:6 end:41:50:
                 vpiParent: Begin
                 vpiCondition Operation start:38:10 end:38:25:
@@ -459,49 +459,55 @@ Design name:unnamed:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:39:8 end:39:16:
                   vpiArgument (1 items):
-                    Constant start:39:17 end:39:25:
+                    NamedArgument start:39:17 end:39:25:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: test
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 48
-                      vpiDecompile: "\"PASSED\""
-                      vpiValue: PASSED
+                      vpiHighConn Constant start:39:17 end:39:25:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: test
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"PASSED\""
+                        vpiValue: PASSED
                 vpiElseStmt SysTaskCall name:$display start:41:8 end:41:49:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:41:8 end:41:16:
                   vpiArgument (2 items):
-                    Constant start:41:17 end:41:41:
+                    NamedArgument start:41:17 end:41:41:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: test
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 176
-                      vpiDecompile: "\"FAILED -- val[0] == %b\""
-                      vpiValue: FAILED -- val[0] == %b
-                    BitSelect name:val[0] start:41:42 end:41:48:
-                      vpiParent: SysTaskCall name:$display
-                      vpiName: val[0]
-                      vpiFullName: test.val[0]
-                      vpiPrefix RefObj name:val start:41:42 end:41:45:
-                        vpiParent: BitSelect name:val[0]
-                        vpiName: val
-                        vpiFullName: test.val
-                        vpiActual: Variable name:val
-                      vpiIndex Constant start:41:46 end:41:47:
-                        vpiParent: BitSelect name:val[0]
+                      vpiHighConn Constant start:41:17 end:41:41:
+                        vpiParent: NamedArgument
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: test.val[0]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "0"
-                        vpiValue: 0
+                          vpiFullName: test
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 176
+                        vpiDecompile: "\"FAILED -- val[0] == %b\""
+                        vpiValue: FAILED -- val[0] == %b
+                    NamedArgument start:41:42 end:41:48:
+                      vpiParent: SysTaskCall name:$display
+                      vpiHighConn BitSelect name:val[0] start:41:42 end:41:48:
+                        vpiParent: NamedArgument
+                        vpiName: val[0]
+                        vpiFullName: test.val[0]
+                        vpiPrefix RefObj name:val start:41:42 end:41:45:
+                          vpiParent: BitSelect name:val[0]
+                          vpiName: val
+                          vpiFullName: test.val
+                          vpiActual: Variable name:val
+                        vpiIndex Constant start:41:46 end:41:47:
+                          vpiParent: BitSelect name:val[0]
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: test.val[0]
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
   vpiTypespec (3 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -565,7 +571,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/task_omemw2/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              73      73       0         0
+Others                              77      77       0         0
 ----------------------------------------------------------------
-                                    73      73       0         0
+                                    77      77       0         0
 ===================== END REDUCTION RESULT =====================

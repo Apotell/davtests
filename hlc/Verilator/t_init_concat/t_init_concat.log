@@ -901,7 +901,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: wr_data
           vpiFullName: t.wr_data
-          vpiVector: true
         Variable name:wr_en start:15:16 end:15:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:4 end:15:7:
@@ -910,7 +909,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: wr_en
           vpiFullName: t.wr_en
-          vpiScalar: true
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1046,7 +1044,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:rd_data start:16:16 end:16:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:9 end:16:15:
@@ -1057,7 +1054,6 @@ Design name:unnamed:
           vpiFullName: t.rd_data
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:rd_guards start:17:16 end:17:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:9 end:17:14:
@@ -1068,7 +1064,6 @@ Design name:unnamed:
           vpiFullName: t.rd_guards
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:rd_guardsok start:18:16 end:18:27:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:9 end:18:14:
@@ -1079,7 +1074,6 @@ Design name:unnamed:
           vpiFullName: t.rd_guardsok
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1511,16 +1505,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:51:6 end:51:12:
                               vpiArgument (1 items):
-                                Constant start:51:13 end:51:37:
+                                NamedArgument start:51:13 end:51:37:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:51:13 end:51:37:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:52:6 end:52:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:52:6 end:52:13:
@@ -1535,16 +1531,17 @@ Design name:unnamed:
             vpiName: regfile
             vpiFullName: t.regfile.regfile
             vpiActual: ModuleTypespec name:regfile
-          vpiPort (6 items):
-            Port start:22:7 end:22:32:
+          vpiArgument (6 items):
+            NamedArgument start:22:7 end:22:32:
               vpiParent: RefInstance name:regfile
+              vpiConnByName: true
               vpiLowConn RefObj name:rd_data start:22:8 end:22:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rd_data
                 vpiFullName: t.regfile.rd_data
                 vpiActual: Net name:rd_data
               vpiHighConn PartSelect name:rd_data[31:0] start:22:18 end:22:31:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rd_data[31:0]
                 vpiFullName: t.regfile.rd_data[31:0]
                 vpiPrefix RefObj name:rd_data start:22:18 end:22:25:
@@ -1574,15 +1571,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:23:7 end:23:35:
+            NamedArgument start:23:7 end:23:35:
               vpiParent: RefInstance name:regfile
+              vpiConnByName: true
               vpiLowConn RefObj name:rd_guards start:23:8 end:23:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rd_guards
                 vpiFullName: t.regfile.rd_guards
                 vpiActual: Net name:rd_guards
               vpiHighConn PartSelect name:rd_guards[1:0] start:23:20 end:23:34:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rd_guards[1:0]
                 vpiFullName: t.regfile.rd_guards[1:0]
                 vpiPrefix RefObj name:rd_guards start:23:20 end:23:29:
@@ -1612,15 +1610,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:24:7 end:24:38:
+            NamedArgument start:24:7 end:24:38:
               vpiParent: RefInstance name:regfile
+              vpiConnByName: true
               vpiLowConn RefObj name:rd_guardsok start:24:8 end:24:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rd_guardsok
                 vpiFullName: t.regfile.rd_guardsok
                 vpiActual: Net name:rd_guardsok
               vpiHighConn PartSelect name:rd_guardsok[1:0] start:24:21 end:24:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rd_guardsok[1:0]
                 vpiFullName: t.regfile.rd_guardsok[1:0]
                 vpiPrefix RefObj name:rd_guardsok start:24:21 end:24:32:
@@ -1650,15 +1649,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:26:7 end:26:32:
+            NamedArgument start:26:7 end:26:32:
               vpiParent: RefInstance name:regfile
+              vpiConnByName: true
               vpiLowConn RefObj name:wr_data start:26:8 end:26:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: wr_data
                 vpiFullName: t.regfile.wr_data
                 vpiActual: Variable name:wr_data
               vpiHighConn PartSelect name:wr_data[31:0] start:26:18 end:26:31:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: wr_data[31:0]
                 vpiFullName: t.regfile.wr_data[31:0]
                 vpiPrefix RefObj name:wr_data start:26:18 end:26:25:
@@ -1688,27 +1688,29 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:27:7 end:27:22:
+            NamedArgument start:27:7 end:27:22:
               vpiParent: RefInstance name:regfile
+              vpiConnByName: true
               vpiLowConn RefObj name:wr_en start:27:8 end:27:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: wr_en
                 vpiFullName: t.regfile.wr_en
                 vpiActual: Variable name:wr_en
               vpiHighConn RefObj name:wr_en start:27:16 end:27:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: wr_en
                 vpiFullName: t.regfile.wr_en
                 vpiActual: Variable name:wr_en
-            Port start:28:7 end:28:18:
+            NamedArgument start:28:7 end:28:18:
               vpiParent: RefInstance name:regfile
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:28:8 end:28:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.regfile.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:28:14 end:28:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.regfile.clk
                 vpiActual: Net name:clk
@@ -1725,7 +1727,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rd_data
           vpiFullName: regfile.rd_data
-          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:regfile
@@ -1855,7 +1856,6 @@ Design name:unnamed:
           vpiName: wr_data
           vpiFullName: regfile.wr_data
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:wr_en start:61:27 end:61:32:
           vpiParent: Module name:regfile
           vpiTypespec RefTypespec:
@@ -1865,7 +1865,6 @@ Design name:unnamed:
           vpiName: wr_en
           vpiFullName: regfile.wr_en
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:rd_guards start:63:27 end:63:36:
           vpiParent: Module name:regfile
           vpiTypespec RefTypespec start:63:10 end:63:15:
@@ -1875,7 +1874,6 @@ Design name:unnamed:
           vpiName: rd_guards
           vpiFullName: regfile.rd_guards
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:rd_guardsok start:64:27 end:64:38:
           vpiParent: Module name:regfile
           vpiTypespec RefTypespec start:64:10 end:64:15:
@@ -1885,7 +1883,6 @@ Design name:unnamed:
           vpiName: rd_guardsok
           vpiFullName: regfile.rd_guardsok
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:clk start:65:27 end:65:30:
           vpiParent: Module name:regfile
           vpiTypespec RefTypespec:
@@ -1895,7 +1892,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: regfile.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (6 items):
         Port name:wr_data start:60:27 end:60:34:
           vpiParent: Module name:regfile
@@ -2201,7 +2197,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_init_concat/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             309     309       0         0
+Others                             310     310       0         0
 ----------------------------------------------------------------
-                                   309     309       0         0
+                                   310     310       0         0
 ===================== END REDUCTION RESULT =====================

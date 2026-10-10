@@ -590,7 +590,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sysused
           vpiFullName: t.sysused
-          vpiScalar: true
         Variable name:infile start:28:12 end:28:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:28:4 end:28:11:
@@ -642,7 +641,6 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: t.in
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:out start:16:11 end:16:14:
           vpiParent: Module name:t
           vpiTypespec RefTypespec:
@@ -652,7 +650,6 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: t.out
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:_unused_ok start:38:11 end:38:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec:
@@ -663,7 +660,6 @@ Design name:unnamed:
           vpiFullName: t._unused_ok
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:out start:10:4 end:10:7:
           vpiParent: Module name:t
@@ -698,11 +694,13 @@ Design name:unnamed:
             vpiParent: Initial
             vpiName Identifier name:$bboxed start:25:12 end:25:19:
             vpiArgument (1 items):
-              RefObj name:sysused start:25:20 end:25:27:
+              NamedArgument start:25:20 end:25:27:
                 vpiParent: SysFuncCall name:$bboxed
-                vpiName: sysused
-                vpiFullName: t.sysused
-                vpiActual: Variable name:sysused
+                vpiHighConn RefObj name:sysused start:25:20 end:25:27:
+                  vpiParent: NamedArgument
+                  vpiName: sysused
+                  vpiFullName: t.sysused
+                  vpiActual: Variable name:sysused
         Initial start:30:4 end:36:7:
           vpiParent: Module name:t
           vpiStmt Begin start:30:12 end:36:7:
@@ -721,68 +719,78 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName Identifier name:$fopen start:31:17 end:31:23:
                   vpiArgument (2 items):
-                    Operation start:31:24 end:31:63:
+                    NamedArgument start:31:24 end:31:63:
                       vpiParent: SysFuncCall name:$fopen
-                      vpiOpType: concatenation (33)
-                      vpiOperand (2 items):
-                        Constant start:6:22 end:6:37:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 104
-                          vpiDecompile: "\"`TEST_OBJ_DIR\""
-                          vpiValue: "`TEST_OBJ_DIR"
-                        Constant start:31:51 end:31:62:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 72
-                          vpiDecompile: "\"/open.log\""
-                          vpiValue: "/open.log"
-                    Constant start:31:65 end:31:68:
+                      vpiHighConn Operation start:31:24 end:31:63:
+                        vpiParent: NamedArgument
+                        vpiOpType: concatenation (33)
+                        vpiOperand (2 items):
+                          Constant start:6:22 end:6:37:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 104
+                            vpiDecompile: "\"`TEST_OBJ_DIR\""
+                            vpiValue: "`TEST_OBJ_DIR"
+                          Constant start:31:51 end:31:62:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 72
+                            vpiDecompile: "\"/open.log\""
+                            vpiValue: "/open.log"
+                    NamedArgument start:31:65 end:31:68:
                       vpiParent: SysFuncCall name:$fopen
+                      vpiHighConn Constant start:31:65 end:31:68:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 8
+                        vpiDecompile: "\"w\""
+                        vpiValue: w
+              SysTaskCall name:$fwrite start:32:7 end:32:30:
+                vpiParent: Begin
+                vpiName Identifier name:$fwrite start:32:7 end:32:14:
+                vpiArgument (2 items):
+                  NamedArgument start:32:15 end:32:22:
+                    vpiParent: SysTaskCall name:$fwrite
+                    vpiHighConn RefObj name:outfile start:32:15 end:32:22:
+                      vpiParent: NamedArgument
+                      vpiName: outfile
+                      vpiFullName: t.outfile
+                      vpiActual: Variable name:outfile
+                  NamedArgument start:32:24 end:32:29:
+                    vpiParent: SysTaskCall name:$fwrite
+                    vpiHighConn Constant start:32:24 end:32:29:
+                      vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
                         vpiFullName: t
                         vpiActual: StringTypespec
                       vpiConstType: string (6)
-                      vpiSize: 8
-                      vpiDecompile: "\"w\""
-                      vpiValue: w
-              SysTaskCall name:$fwrite start:32:7 end:32:30:
-                vpiParent: Begin
-                vpiName Identifier name:$fwrite start:32:7 end:32:14:
-                vpiArgument (2 items):
-                  RefObj name:outfile start:32:15 end:32:22:
-                    vpiParent: SysTaskCall name:$fwrite
-                    vpiName: outfile
-                    vpiFullName: t.outfile
-                    vpiActual: Variable name:outfile
-                  Constant start:32:24 end:32:29:
-                    vpiParent: SysTaskCall name:$fwrite
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 16
-                    vpiDecompile: "\"1\\n\""
-                    vpiValue: "1\\n"
+                      vpiSize: 16
+                      vpiDecompile: "\"1\\n\""
+                      vpiValue: "1\\n"
               SysTaskCall name:$fclose start:33:7 end:33:23:
                 vpiParent: Begin
                 vpiName Identifier name:$fclose start:33:7 end:33:14:
                 vpiArgument (1 items):
-                  RefObj name:outfile start:33:15 end:33:22:
+                  NamedArgument start:33:15 end:33:22:
                     vpiParent: SysTaskCall name:$fclose
-                    vpiName: outfile
-                    vpiFullName: t.outfile
-                    vpiActual: Variable name:outfile
+                    vpiHighConn RefObj name:outfile start:33:15 end:33:22:
+                      vpiParent: NamedArgument
+                      vpiName: outfile
+                      vpiFullName: t.outfile
+                      vpiActual: Variable name:outfile
               Assignment start:34:7 end:34:68:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -795,40 +803,44 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName Identifier name:$fopen start:34:16 end:34:22:
                   vpiArgument (2 items):
-                    Operation start:34:23 end:34:62:
+                    NamedArgument start:34:23 end:34:62:
                       vpiParent: SysFuncCall name:$fopen
-                      vpiOpType: concatenation (33)
-                      vpiOperand (2 items):
-                        Constant start:6:22 end:6:37:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 104
-                          vpiDecompile: "\"`TEST_OBJ_DIR\""
-                          vpiValue: "`TEST_OBJ_DIR"
-                        Constant start:34:50 end:34:61:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 72
-                          vpiDecompile: "\"/open.log\""
-                          vpiValue: "/open.log"
-                    Constant start:34:64 end:34:67:
+                      vpiHighConn Operation start:34:23 end:34:62:
+                        vpiParent: NamedArgument
+                        vpiOpType: concatenation (33)
+                        vpiOperand (2 items):
+                          Constant start:6:22 end:6:37:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 104
+                            vpiDecompile: "\"`TEST_OBJ_DIR\""
+                            vpiValue: "`TEST_OBJ_DIR"
+                          Constant start:34:50 end:34:61:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 72
+                            vpiDecompile: "\"/open.log\""
+                            vpiValue: "/open.log"
+                    NamedArgument start:34:64 end:34:67:
                       vpiParent: SysFuncCall name:$fopen
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 8
-                      vpiDecompile: "\"r\""
-                      vpiValue: r
+                      vpiHighConn Constant start:34:64 end:34:67:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 8
+                        vpiDecompile: "\"r\""
+                        vpiValue: r
               IfStmt start:35:7 end:35:43:
                 vpiParent: Begin
                 vpiCondition Operation start:35:11 end:35:32:
@@ -839,11 +851,13 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$fgetc start:35:11 end:35:17:
                       vpiArgument (1 items):
-                        RefObj name:infile start:35:18 end:35:24:
+                        NamedArgument start:35:18 end:35:24:
                           vpiParent: SysFuncCall name:$fgetc
-                          vpiName: infile
-                          vpiFullName: t.infile
-                          vpiActual: Variable name:infile
+                          vpiHighConn RefObj name:infile start:35:18 end:35:24:
+                            vpiParent: NamedArgument
+                            vpiName: infile
+                            vpiFullName: t.infile
+                            vpiActual: Variable name:infile
                     Constant start:35:29 end:35:32:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -964,7 +978,6 @@ Design name:unnamed:
           vpiFullName: sub.pub
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
   vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1040,7 +1053,7 @@ Constant                            15      13       2         4
 Operation                            3       1       0         2
 RefTypespec                         26      22       0         4
 ----------------------------------------------------------------
-Others                             102     102       0         0
+Others                             111     111       0         0
 ----------------------------------------------------------------
-                                   146     138       2        10
+                                   155     147       2        10
 ===================== END REDUCTION RESULT =====================

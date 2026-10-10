@@ -43,7 +43,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: o
           vpiFullName: dut.o
-          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -68,7 +67,6 @@ Design name:unnamed:
           vpiFullName: dut.i
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:i start:1:13 end:1:14:
           vpiParent: Module name:dut
@@ -143,16 +141,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpfile start:5:5 end:5:14:
                 vpiArgument (1 items):
-                  Constant start:5:15 end:5:25:
+                  NamedArgument start:5:15 end:5:25:
                     vpiParent: SysTaskCall name:$dumpfile
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: tb
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 64
-                    vpiDecompile: "\"test.vcd\""
-                    vpiValue: test.vcd
+                    vpiHighConn Constant start:5:15 end:5:25:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: tb
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 64
+                      vpiDecompile: "\"test.vcd\""
+                      vpiValue: test.vcd
               SysTaskCall name:$dumpvars start:6:5 end:6:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:6:5 end:6:14:
@@ -161,31 +161,40 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:7:5 end:7:13:
                 vpiArgument (4 items):
-                  Constant start:7:14 end:7:39:
+                  NamedArgument start:7:14 end:7:39:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: tb
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 184
-                    vpiDecompile: "\"@%0dns i = %0d, o = %0d\""
-                    vpiValue: "@%0dns i = %0d, o = %0d"
-                  SysFuncCall name:$time start:7:40 end:7:45:
+                    vpiHighConn Constant start:7:14 end:7:39:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: tb
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 184
+                      vpiDecompile: "\"@%0dns i = %0d, o = %0d\""
+                      vpiValue: "@%0dns i = %0d, o = %0d"
+                  NamedArgument start:7:40 end:7:45:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:7:40 end:7:45:
-                  RefObj name:i start:7:46 end:7:47:
+                    vpiHighConn SysFuncCall name:$time start:7:40 end:7:45:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:7:40 end:7:45:
+                  NamedArgument start:7:46 end:7:47:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: i
-                    vpiFullName: tb.i
-                    vpiActual: Variable name:i
-                  RefObj name:o start:7:49 end:7:50:
+                    vpiHighConn RefObj name:i start:7:46 end:7:47:
+                      vpiParent: NamedArgument
+                      vpiName: i
+                      vpiFullName: tb.i
+                      vpiActual: Variable name:i
+                  NamedArgument start:7:49 end:7:50:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: o
-                    vpiFullName: tb.o
-                    vpiActual: Variable name:o
+                    vpiHighConn RefObj name:o start:7:49 end:7:50:
+                      vpiParent: NamedArgument
+                      vpiName: o
+                      vpiFullName: tb.o
+                      vpiActual: Variable name:o
               DelayControl start:8:5 end:8:20:
                 vpiParent: Begin
+                vpiDelay: 100
                 vpiStmt SysTaskCall name:$finish start:8:10 end:8:19:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:8:10 end:8:17:
@@ -225,6 +234,7 @@ Design name:unnamed:
                   vpiValue: 0
               DelayControl start:14:5 end:14:66:
                 vpiParent: Begin
+                vpiDelay: 1
                 vpiStmt ImmediateAssert start:14:8 end:14:66:
                   vpiParent: DelayControl
                   vpiExpr Operation start:14:15 end:14:21:
@@ -245,40 +255,46 @@ Design name:unnamed:
                     vpiParent: ImmediateAssert
                     vpiName Identifier name:$display start:14:23 end:14:31:
                     vpiArgument (1 items):
-                      Constant start:14:32 end:14:37:
+                      NamedArgument start:14:32 end:14:37:
                         vpiParent: SysTaskCall name:$display
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: tb
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 24
-                        vpiDecompile: "\"OK!\""
-                        vpiValue: OK!
+                        vpiHighConn Constant start:14:32 end:14:37:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: tb
+                            vpiActual: StringTypespec
+                          vpiConstType: string (6)
+                          vpiSize: 24
+                          vpiDecompile: "\"OK!\""
+                          vpiValue: OK!
                   vpiElseStmt SysTaskCall name:$fatal start:14:45 end:14:65:
                     vpiParent: ImmediateAssert
                     vpiName Identifier name:$fatal start:14:45 end:14:51:
                     vpiArgument (2 items):
-                      Constant start:14:52 end:14:53:
+                      NamedArgument start:14:52 end:14:53:
                         vpiParent: SysTaskCall name:$fatal
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: tb
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                      Constant start:14:55 end:14:64:
+                        vpiHighConn Constant start:14:52 end:14:53:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: tb
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                      NamedArgument start:14:55 end:14:64:
                         vpiParent: SysTaskCall name:$fatal
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: tb
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 56
-                        vpiDecompile: "\"i != o!\""
-                        vpiValue: i != o!
+                        vpiHighConn Constant start:14:55 end:14:64:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: tb
+                            vpiActual: StringTypespec
+                          vpiConstType: string (6)
+                          vpiSize: 56
+                          vpiDecompile: "\"i != o!\""
+                          vpiValue: i != o!
                 vpiDelay Constant start:14:6 end:14:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -291,6 +307,7 @@ Design name:unnamed:
                   vpiValue: 1
               DelayControl start:15:5 end:15:14:
                 vpiParent: Begin
+                vpiDelay: 5
                 vpiStmt Assignment start:15:8 end:15:13:
                   vpiParent: DelayControl
                   vpiBlocking: true
@@ -321,6 +338,7 @@ Design name:unnamed:
                   vpiValue: 5
               DelayControl start:16:5 end:16:66:
                 vpiParent: Begin
+                vpiDelay: 1
                 vpiStmt ImmediateAssert start:16:8 end:16:66:
                   vpiParent: DelayControl
                   vpiExpr Operation start:16:15 end:16:21:
@@ -341,40 +359,46 @@ Design name:unnamed:
                     vpiParent: ImmediateAssert
                     vpiName Identifier name:$display start:16:23 end:16:31:
                     vpiArgument (1 items):
-                      Constant start:16:32 end:16:37:
+                      NamedArgument start:16:32 end:16:37:
                         vpiParent: SysTaskCall name:$display
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: tb
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 24
-                        vpiDecompile: "\"OK!\""
-                        vpiValue: OK!
+                        vpiHighConn Constant start:16:32 end:16:37:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: tb
+                            vpiActual: StringTypespec
+                          vpiConstType: string (6)
+                          vpiSize: 24
+                          vpiDecompile: "\"OK!\""
+                          vpiValue: OK!
                   vpiElseStmt SysTaskCall name:$fatal start:16:45 end:16:65:
                     vpiParent: ImmediateAssert
                     vpiName Identifier name:$fatal start:16:45 end:16:51:
                     vpiArgument (2 items):
-                      Constant start:16:52 end:16:53:
+                      NamedArgument start:16:52 end:16:53:
                         vpiParent: SysTaskCall name:$fatal
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: tb
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                      Constant start:16:55 end:16:64:
+                        vpiHighConn Constant start:16:52 end:16:53:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: tb
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                      NamedArgument start:16:55 end:16:64:
                         vpiParent: SysTaskCall name:$fatal
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: tb
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 56
-                        vpiDecompile: "\"i != o!\""
-                        vpiValue: i != o!
+                        vpiHighConn Constant start:16:55 end:16:64:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: tb
+                            vpiActual: StringTypespec
+                          vpiConstType: string (6)
+                          vpiSize: 56
+                          vpiDecompile: "\"i != o!\""
+                          vpiValue: i != o!
                 vpiDelay Constant start:16:6 end:16:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -394,28 +418,28 @@ Design name:unnamed:
             vpiName: dut
             vpiFullName: tb.dut1.dut
             vpiActual: ModuleTypespec name:dut
-          vpiPort (2 items):
-            Port start:19:12 end:19:13:
+          vpiArgument (2 items):
+            NamedArgument start:19:12 end:19:13:
               vpiParent: RefInstance name:dut1
               vpiLowConn RefObj name:i:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i
                 vpiFullName: tb.dut1.i
                 vpiActual: Port name:i
               vpiHighConn RefObj name:i start:19:12 end:19:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i
                 vpiFullName: tb.dut1.i
                 vpiActual: Variable name:i
-            Port start:19:14 end:19:15:
+            NamedArgument start:19:14 end:19:15:
               vpiParent: RefInstance name:dut1
               vpiLowConn RefObj name:o:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: tb.dut1.o
                 vpiActual: Port name:o
               vpiHighConn RefObj name:o start:19:14 end:19:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: tb.dut1.o
                 vpiActual: Variable name:o
@@ -488,7 +512,7 @@ COMMAND: ${HLC_DIR}/regression/OneNetNonAnsi/OneNetNonAnsi/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             108     108       0         0
+Others                             119     119       0         0
 ----------------------------------------------------------------
-                                   108     108       0         0
+                                   119     119       0         0
 ===================== END REDUCTION RESULT =====================

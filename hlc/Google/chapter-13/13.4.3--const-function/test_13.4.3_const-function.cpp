@@ -204,7 +204,9 @@ TEST_F(ConstFunctionTest, ParamAExprIsPresentAndDescribesTheConstantFunctionCall
     EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getFun()) << "call should resolve back to the 'fun' declaration";
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);
-    const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(arg, nullptr)
         << "13.4.3 requires the argument to a constant function call to be a constant expression";
     EXPECT_EQ(arg->getDecompile(), "3");
@@ -276,10 +278,14 @@ TEST_F(ConstFunctionTest, InitialBodyDisplaysParamAResolvingToTheLocalparam) {
   ASSERT_NE(display, nullptr) << "initial body should be a plain SysTaskCall (single statement, no begin-end)";
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(display->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (%d == 4)\"");
-  const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(display->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const aRef = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(aRef, nullptr);
   EXPECT_EQ(aRef->getName(), "a");
   EXPECT_NE(aRef->getActual<hldb::Parameter>(), nullptr) << "'a' should resolve to the Parameter (localparam)";

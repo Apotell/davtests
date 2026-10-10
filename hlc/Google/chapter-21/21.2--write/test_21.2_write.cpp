@@ -140,7 +140,9 @@ TEST_F(WriteTaskTest, InitialBlockHasOneStatementWritingVal) {
   EXPECT_EQ(write->getName(), "$write");
   ASSERT_NE(write->getArguments(), nullptr);
   ASSERT_EQ(write->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(write->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = write->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "val");
   EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr) << "'$write(val)' should reference the 'val' declared above";

@@ -136,8 +136,9 @@ TEST_F(PackedSliceEqualityTest, FirstDisplayHasThreeArguments) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 3u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(),
-            ":assert: (('%h' == 'f0') and ('%h' == '0f'))");
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (('%h' == 'f0') and ('%h' == '0f'))");
 }
 
 TEST_F(PackedSliceEqualityTest, SecondDisplayArgIsEqualOperationOnSlices) {
@@ -147,8 +148,12 @@ TEST_F(PackedSliceEqualityTest, SecondDisplayArgIsEqualOperationOnSlices) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (%d == 1)");
-  const hldb::Operation *const op = any_cast<hldb::Operation>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (%d == 1)");
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Operation *const op = arg1->getHighConn<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiEqOp);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -174,8 +179,12 @@ TEST_F(PackedSliceEqualityTest, ThirdDisplayArgIsNotEqualOperationOnSlices) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (%d == 0)");
-  const hldb::Operation *const op = any_cast<hldb::Operation>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (%d == 0)");
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Operation *const op = arg1->getHighConn<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   EXPECT_EQ(op->getOpType(), vpiNeqOp);
   ASSERT_NE(op->getOperands(), nullptr);
@@ -215,11 +224,15 @@ TEST_F(PackedSliceEqualityTest, RuntimeComparisonResultsRequireSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const eqDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(3));
   ASSERT_NE(eqDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(eqDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 1)")
+  const hldb::NamedArgument *const arg0 = eqDisplay->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (%d == 1)")
       << "expected (arr_a[7:4] == arr_b[3:0]) == 1 since both slices hold 4'hf";
   const hldb::SysTaskCall *const neqDisplay = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(neqDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(neqDisplay->getArguments()->at(0))->getValue(), ":assert: (%d == 0)")
+  const hldb::NamedArgument *const neqDisplayArg0 = neqDisplay->getArguments()->at(0);
+  ASSERT_NE(neqDisplayArg0, nullptr);
+  EXPECT_EQ(neqDisplayArg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (%d == 0)")
       << "expected (arr_a[7:4] != arr_b[3:0]) == 0 since both slices hold 4'hf";
 }
 

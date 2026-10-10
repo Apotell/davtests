@@ -206,8 +206,6 @@ TEST_F(PortTest2Test, Port3InAndOutAreEightBitWireNets) {
     const hldb::Net *const net = prefix->getActual<hldb::Net>();
     ASSERT_NE(net, nullptr) << name;
     EXPECT_EQ(net->getNetType(), vpiWire) << name;
-    EXPECT_FALSE(net->getScalar()) << name;
-    EXPECT_TRUE(net->getVector()) << name;
 
     const hldb::LogicTypespec *const ts = net->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
     ASSERT_NE(ts, nullptr) << name;
@@ -234,8 +232,6 @@ TEST_F(PortTest2Test, Port3DummyPortsAreScalarWireNets) {
     const hldb::Net *const net = lowConn->getActual<hldb::Net>();
     ASSERT_NE(net, nullptr) << name;
     EXPECT_EQ(net->getNetType(), vpiWire) << name;
-    EXPECT_TRUE(net->getScalar()) << name;
-    EXPECT_FALSE(net->getVector()) << name;
   }
 }
 
@@ -303,11 +299,11 @@ TEST_F(PortTest2Test, PortTestDut3HasSixPositionalConnectionsMatchingPort3) {
   ASSERT_NE(portTest, nullptr);
   const hldb::RefInstance *const dut3 = hldb::findByName<hldb::RefInstance>("dut_3", portTest->getRefInstances());
   ASSERT_NE(dut3, nullptr);
-  ASSERT_NE(dut3->getPorts(), nullptr);
-  ASSERT_EQ(dut3->getPorts()->size(), 6u);
+  ASSERT_NE(dut3->getArguments(), nullptr);
+  ASSERT_EQ(dut3->getArguments()->size(), 6u);
 
   for (const size_t i : {size_t{0}, size_t{1}, size_t{3}, size_t{5}}) {
-    const hldb::Port *const conn = any_cast<hldb::Port>(dut3->getPorts()->at(i));
+    const hldb::NamedArgument *const conn = any_cast<hldb::NamedArgument>(dut3->getArguments()->at(i));
     ASSERT_NE(conn, nullptr) << "connection index " << i;
     EXPECT_EQ(conn->getHighConn(), nullptr) << "connection index " << i;
     EXPECT_NE(conn->getLowConn(), nullptr) << "connection index " << i;
@@ -319,10 +315,10 @@ TEST_F(PortTest2Test, PortTestDut3ConnectsDataBitsToIn) {
   ASSERT_NE(portTest, nullptr);
   const hldb::RefInstance *const dut3 = hldb::findByName<hldb::RefInstance>("dut_3", portTest->getRefInstances());
   ASSERT_NE(dut3, nullptr);
-  ASSERT_NE(dut3->getPorts(), nullptr);
-  ASSERT_EQ(dut3->getPorts()->size(), 6u);
+  ASSERT_NE(dut3->getArguments(), nullptr);
+  ASSERT_EQ(dut3->getArguments()->size(), 6u);
 
-  const hldb::Port *const conn = any_cast<hldb::Port>(dut3->getPorts()->at(2));
+  const hldb::NamedArgument *const conn = any_cast<hldb::NamedArgument>(dut3->getArguments()->at(2));
   ASSERT_NE(conn, nullptr);
   const hldb::PartSelect *const sel = conn->getHighConn<hldb::PartSelect>();
   ASSERT_NE(sel, nullptr);
@@ -337,10 +333,10 @@ TEST_F(PortTest2Test, PortTestDut3ConnectsOut3BitsToOut) {
   ASSERT_NE(portTest, nullptr);
   const hldb::RefInstance *const dut3 = hldb::findByName<hldb::RefInstance>("dut_3", portTest->getRefInstances());
   ASSERT_NE(dut3, nullptr);
-  ASSERT_NE(dut3->getPorts(), nullptr);
-  ASSERT_EQ(dut3->getPorts()->size(), 6u);
+  ASSERT_NE(dut3->getArguments(), nullptr);
+  ASSERT_EQ(dut3->getArguments()->size(), 6u);
 
-  const hldb::Port *const conn = any_cast<hldb::Port>(dut3->getPorts()->at(4));
+  const hldb::NamedArgument *const conn = any_cast<hldb::NamedArgument>(dut3->getArguments()->at(4));
   ASSERT_NE(conn, nullptr);
   const hldb::PartSelect *const sel = conn->getHighConn<hldb::PartSelect>();
   ASSERT_NE(sel, nullptr);

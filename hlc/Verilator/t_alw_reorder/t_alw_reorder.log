@@ -491,7 +491,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: m_din
           vpiFullName: t.m_din
-          vpiVector: true
         Variable name:v1 start:16:15 end:16:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:4 end:16:14:
@@ -500,7 +499,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: v1
           vpiFullName: t.v1
-          vpiVector: true
         Variable name:v2 start:17:15 end:17:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:4 end:17:14:
@@ -509,7 +507,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: v2
           vpiFullName: t.v2
-          vpiVector: true
         Variable name:v3 start:18:15 end:18:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:4 end:18:14:
@@ -518,7 +515,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: v3
           vpiFullName: t.v3
-          vpiVector: true
         Variable name:nosplit start:19:15 end:19:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:19:4 end:19:11:
@@ -657,7 +653,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -714,31 +709,39 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:23:7 end:23:13:
                   vpiArgument (4 items):
-                    Constant start:23:14 end:23:34:
+                    NamedArgument start:23:14 end:23:34:
                       vpiParent: SysTaskCall name:$write
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 136
-                      vpiDecompile: "\" values %x %x %x\\n\""
-                      vpiValue: values %x %x %x\n
-                    RefObj name:v1 start:23:36 end:23:38:
+                      vpiHighConn Constant start:23:14 end:23:34:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 136
+                        vpiDecompile: "\" values %x %x %x\\n\""
+                        vpiValue: values %x %x %x\n
+                    NamedArgument start:23:36 end:23:38:
                       vpiParent: SysTaskCall name:$write
-                      vpiName: v1
-                      vpiFullName: t.v1
-                      vpiActual: Variable name:v1
-                    RefObj name:v2 start:23:40 end:23:42:
+                      vpiHighConn RefObj name:v1 start:23:36 end:23:38:
+                        vpiParent: NamedArgument
+                        vpiName: v1
+                        vpiFullName: t.v1
+                        vpiActual: Variable name:v1
+                    NamedArgument start:23:40 end:23:42:
                       vpiParent: SysTaskCall name:$write
-                      vpiName: v2
-                      vpiFullName: t.v2
-                      vpiActual: Variable name:v2
-                    RefObj name:v3 start:23:44 end:23:46:
+                      vpiHighConn RefObj name:v2 start:23:40 end:23:42:
+                        vpiParent: NamedArgument
+                        vpiName: v2
+                        vpiFullName: t.v2
+                        vpiActual: Variable name:v2
+                    NamedArgument start:23:44 end:23:46:
                       vpiParent: SysTaskCall name:$write
-                      vpiName: v3
-                      vpiFullName: t.v3
-                      vpiActual: Variable name:v3
+                      vpiHighConn RefObj name:v3 start:23:44 end:23:46:
+                        vpiParent: NamedArgument
+                        vpiName: v3
+                        vpiFullName: t.v3
+                        vpiActual: Variable name:v3
                 Assignment start:29:7 end:29:20:
                   vpiParent: Begin
                   vpiBlocking: true
@@ -953,16 +956,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:49:13 end:49:19:
                               vpiArgument (1 items):
-                                Constant start:49:20 end:49:44:
+                                NamedArgument start:49:20 end:49:44:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:49:20 end:49:44:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:50:13 end:50:20:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:50:13 end:50:20:
@@ -1033,7 +1038,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_alw_reorder/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             128     128       0         0
+Others                             133     133       0         0
 ----------------------------------------------------------------
-                                   128     128       0         0
+                                   133     133       0         0
 ===================== END REDUCTION RESULT =====================

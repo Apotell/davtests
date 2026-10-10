@@ -346,7 +346,9 @@ TEST_F(FdisplayBohTest, FopenArgumentsAreFileNameThenModeStringLiterals) {
   const char *const values[2] = {"tmp.txt", "w"};
   const int sizes[2] = {56, 8};
   for (uint32_t i = 0; i < 2u; ++i) {
-    const hldb::Constant *const arg = any_cast<hldb::Constant>(fopen->getArguments()->at(i));
+    const hldb::NamedArgument *const argArg = fopen->getArguments()->at(i);
+    ASSERT_NE(argArg, nullptr);
+    const hldb::Constant *const arg = argArg->getHighConn<hldb::Constant>();
     ASSERT_NE(arg, nullptr) << "argument " << i << " should be a string literal Constant";
     EXPECT_EQ(arg->getConstType(), vpiStringConst) << "argument " << i;
     EXPECT_EQ(arg->getValue(), values[i]) << "argument " << i << " (file name first, then open mode)";
@@ -396,15 +398,19 @@ TEST_F(FdisplayBohTest, EachFdisplayTakesDescriptorThenValueAndNoFormatString) {
     // Sec 21.3.2: the file descriptor is the FIRST argument -- unlike the
     // Sec 21.2 display tasks, whose first argument is typically a format
     // string. There is no format string anywhere in this file.
-    EXPECT_EQ(any_cast<hldb::Constant>(call->getArguments()->at(0)), nullptr)
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    EXPECT_EQ(arg0->getHighConn<hldb::Constant>(), nullptr)
         << "statement " << i << ": argument 0 is the descriptor, not a format string";
-    const hldb::RefObj *const descriptor = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+    const hldb::RefObj *const descriptor = arg0->getHighConn<hldb::RefObj>();
     ASSERT_NE(descriptor, nullptr) << "statement " << i;
     EXPECT_EQ(descriptor->getName(), "fd");
     EXPECT_EQ(descriptor->getActual<hldb::Variable>(), fd)
         << "statement " << i << ": the descriptor must bind to the module-level 'fd'";
 
-    const hldb::RefObj *const value = any_cast<hldb::RefObj>(call->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+    ASSERT_NE(arg1, nullptr);
+    const hldb::RefObj *const value = arg1->getHighConn<hldb::RefObj>();
     ASSERT_NE(value, nullptr) << "statement " << i << ": argument 1 should be a plain variable reference";
     EXPECT_EQ(value->getName(), "str");
     EXPECT_EQ(value->getActual<hldb::Variable>(), str)
@@ -427,7 +433,9 @@ TEST_F(FdisplayBohTest, FinalProcessClosesFdDirectlyWithNoBeginWrapper) {
   ASSERT_NE(fclose->getArguments(), nullptr);
   ASSERT_EQ(fclose->getArguments()->size(), 1u) << "'$fclose(fd)' passes only the descriptor";
 
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(fclose->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = fclose->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "fd");
   EXPECT_EQ(arg->getActual<hldb::Variable>(), getFd())

@@ -285,9 +285,11 @@ TEST_F(WriteBohTest, EachWriteTaskTakesValAsItsOnlyArgumentWithNoFormatString) {
     ASSERT_NE(call->getArguments(), nullptr) << "statement " << i;
     ASSERT_EQ(call->getArguments()->size(), 1u) << "statement " << i << " is written as '(val)' -- one argument";
 
-    EXPECT_EQ(any_cast<hldb::Constant>(call->getArguments()->at(0)), nullptr)
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    EXPECT_EQ(arg0->getHighConn<hldb::Constant>(), nullptr)
         << "statement " << i << " has no leading format string; its sole argument is the operand itself";
-    const hldb::RefObj *const ref = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+    const hldb::RefObj *const ref = arg0->getHighConn<hldb::RefObj>();
     ASSERT_NE(ref, nullptr) << "statement " << i << " should pass a plain variable reference";
     EXPECT_EQ(ref->getName(), "val");
     EXPECT_EQ(ref->getActual<hldb::Variable>(), val)

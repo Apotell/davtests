@@ -953,7 +953,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1357,40 +1356,43 @@ Design name:unnamed:
             vpiName: has_array
             vpiFullName: t.am1.has_array
             vpiActual: ModuleTypespec name:has_array
-          vpiPort (3 items):
-            Port start:16:19 end:16:28:
+          vpiArgument (3 items):
+            NamedArgument start:16:19 end:16:28:
               vpiParent: RefInstance name:am1
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:16:20 end:16:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.am1.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:16:24 end:16:27:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.am1.clk
                 vpiActual: Net name:clk
-            Port start:16:30 end:16:40:
+            NamedArgument start:16:30 end:16:40:
               vpiParent: RefInstance name:am1
+              vpiConnByName: true
               vpiLowConn RefObj name:arri start:16:31 end:16:35:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: arri
                 vpiFullName: t.am1.arri
                 vpiActual: Variable name:arri
               vpiHighConn RefObj name:arr start:16:36 end:16:39:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: arr
                 vpiFullName: t.am1.arr
                 vpiActual: Variable name:arr
-            Port start:16:42 end:16:53:
+            NamedArgument start:16:42 end:16:53:
               vpiParent: RefInstance name:am1
+              vpiConnByName: true
               vpiLowConn RefObj name:arro start:16:43 end:16:47:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: arro
                 vpiFullName: t.am1.arro
                 vpiActual: Port name:arro
               vpiHighConn RefObj name:arri start:16:48 end:16:52:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: arri
                 vpiFullName: t.am1.arri
                 vpiActual: Variable name:arri
@@ -1563,7 +1565,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: has_array.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:arri start:41:22 end:41:26:
           vpiParent: Module name:has_array
           vpiTypespec RefTypespec name:logic [7:0] [7:0] start:41:10 end:41:21:
@@ -1746,16 +1747,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:50:3 end:50:9:
                         vpiArgument (1 items):
-                          Constant start:50:10 end:50:34:
+                          NamedArgument start:50:10 end:50:34:
                             vpiParent: SysTaskCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: has_array
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 168
-                            vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: "*-* All Finished *-*\\n"
+                            vpiHighConn Constant start:50:10 end:50:34:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: has_array
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 168
+                              vpiDecompile: "\"*-* All Finished *-*\\n\""
+                              vpiValue: "*-* All Finished *-*\\n"
                       SysTaskCall name:$finish start:51:3 end:51:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:51:3 end:51:10:
@@ -2010,7 +2013,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_mem_multi_io/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             283     283       0         0
+Others                             284     284       0         0
 ----------------------------------------------------------------
-                                   283     283       0         0
+                                   284     284       0         0
 ===================== END REDUCTION RESULT =====================

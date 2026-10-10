@@ -874,7 +874,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: runnerm1
           vpiFullName: t.runnerm1
-          vpiVector: true
         Variable name:runner start:18:27 end:18:33:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:4 end:18:14:
@@ -883,7 +882,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: runner
           vpiFullName: t.runner
-          vpiVector: true
         Variable name:runcount start:19:17 end:19:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:19:4 end:19:14:
@@ -892,7 +890,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: runcount
           vpiFullName: t.runcount
-          vpiVector: true
         Variable name:clkrun start:20:17 end:20:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:20:4 end:20:14:
@@ -901,7 +898,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clkrun
           vpiFullName: t.clkrun
-          vpiVector: true
         Variable name:clkcount start:21:17 end:21:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:21:4 end:21:14:
@@ -910,7 +906,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clkcount
           vpiFullName: t.clkcount
-          vpiVector: true
         Variable name:run0 start:25:8 end:25:12:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:25:4 end:25:7:
@@ -919,7 +914,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: run0
           vpiFullName: t.run0
-          vpiScalar: true
         Variable name:cyc start:43:14 end:43:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:43:4 end:43:13:
@@ -928,7 +922,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: cyc
           vpiFullName: t.cyc
-          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1082,7 +1075,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1315,26 +1307,32 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:30:3 end:30:9:
                         vpiArgument (3 items):
-                          Constant start:30:11 end:30:49:
+                          NamedArgument start:30:11 end:30:49:
                             vpiParent: SysTaskCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 280
-                            vpiDecompile: "\"     seq runcount=%0d  runner =%0x\\n\""
-                            vpiValue: seq runcount=%0d  runner =%0x\n
-                          RefObj name:runcount start:30:50 end:30:58:
+                            vpiHighConn Constant start:30:11 end:30:49:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 280
+                              vpiDecompile: "\"     seq runcount=%0d  runner =%0x\\n\""
+                              vpiValue: seq runcount=%0d  runner =%0x\n
+                          NamedArgument start:30:50 end:30:58:
                             vpiParent: SysTaskCall name:$write
-                            vpiName: runcount
-                            vpiFullName: t.runcount
-                            vpiActual: Variable name:runcount
-                          RefObj name:runnerm1 start:30:60 end:30:68:
+                            vpiHighConn RefObj name:runcount start:30:50 end:30:58:
+                              vpiParent: NamedArgument
+                              vpiName: runcount
+                              vpiFullName: t.runcount
+                              vpiActual: Variable name:runcount
+                          NamedArgument start:30:60 end:30:68:
                             vpiParent: SysTaskCall name:$write
-                            vpiName: runnerm1
-                            vpiFullName: t.runnerm1
-                            vpiActual: Variable name:runnerm1
+                            vpiHighConn RefObj name:runnerm1 start:30:60 end:30:68:
+                              vpiParent: NamedArgument
+                              vpiName: runnerm1
+                              vpiFullName: t.runnerm1
+                              vpiActual: Variable name:runnerm1
                 Assignment start:32:7 end:32:48:
                   vpiParent: Begin
                   vpiBlocking: true
@@ -1606,24 +1604,30 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:40:7 end:40:13:
                   vpiArgument (3 items):
-                    Constant start:40:15 end:40:45:
+                    NamedArgument start:40:15 end:40:45:
                       vpiParent: SysTaskCall name:$write
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 216
-                      vpiDecompile: "\"[%0t]   posedge runner=%0x\\n\""
-                      vpiValue: "[%0t]   posedge runner=%0x\\n"
-                    SysFuncCall name:$time start:40:47 end:40:52:
+                      vpiHighConn Constant start:40:15 end:40:45:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 216
+                        vpiDecompile: "\"[%0t]   posedge runner=%0x\\n\""
+                        vpiValue: "[%0t]   posedge runner=%0x\\n"
+                    NamedArgument start:40:47 end:40:52:
                       vpiParent: SysTaskCall name:$write
-                      vpiName Identifier name:$time start:40:47 end:40:52:
-                    RefObj name:runner start:40:54 end:40:60:
+                      vpiHighConn SysFuncCall name:$time start:40:47 end:40:52:
+                        vpiParent: NamedArgument
+                        vpiName Identifier name:$time start:40:47 end:40:52:
+                    NamedArgument start:40:54 end:40:60:
                       vpiParent: SysTaskCall name:$write
-                      vpiName: runner
-                      vpiFullName: t.runner
-                      vpiActual: Variable name:runner
+                      vpiHighConn RefObj name:runner start:40:54 end:40:60:
+                        vpiParent: NamedArgument
+                        vpiName: runner
+                        vpiFullName: t.runner
+                        vpiActual: Variable name:runner
           vpiAlwaysType: always (1)
         Initial start:43:19 end:43:33:
           vpiParent: Module name:t
@@ -1666,34 +1670,44 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:45:7 end:45:13:
                   vpiArgument (5 items):
-                    Constant start:45:14 end:45:42:
+                    NamedArgument start:45:14 end:45:42:
                       vpiParent: SysTaskCall name:$write
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 200
-                      vpiDecompile: "\"[%0t] %x  counts %0x %0x\\n\""
-                      vpiValue: "[%0t] %x  counts %0x %0x\\n"
-                    SysFuncCall name:$time start:45:43 end:45:48:
+                      vpiHighConn Constant start:45:14 end:45:42:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 200
+                        vpiDecompile: "\"[%0t] %x  counts %0x %0x\\n\""
+                        vpiValue: "[%0t] %x  counts %0x %0x\\n"
+                    NamedArgument start:45:43 end:45:48:
                       vpiParent: SysTaskCall name:$write
-                      vpiName Identifier name:$time start:45:43 end:45:48:
-                    RefObj name:cyc start:45:49 end:45:52:
+                      vpiHighConn SysFuncCall name:$time start:45:43 end:45:48:
+                        vpiParent: NamedArgument
+                        vpiName Identifier name:$time start:45:43 end:45:48:
+                    NamedArgument start:45:49 end:45:52:
                       vpiParent: SysTaskCall name:$write
-                      vpiName: cyc
-                      vpiFullName: t.cyc
-                      vpiActual: Variable name:cyc
-                    RefObj name:runcount start:45:53 end:45:61:
+                      vpiHighConn RefObj name:cyc start:45:49 end:45:52:
+                        vpiParent: NamedArgument
+                        vpiName: cyc
+                        vpiFullName: t.cyc
+                        vpiActual: Variable name:cyc
+                    NamedArgument start:45:53 end:45:61:
                       vpiParent: SysTaskCall name:$write
-                      vpiName: runcount
-                      vpiFullName: t.runcount
-                      vpiActual: Variable name:runcount
-                    RefObj name:clkcount start:45:62 end:45:70:
+                      vpiHighConn RefObj name:runcount start:45:53 end:45:61:
+                        vpiParent: NamedArgument
+                        vpiName: runcount
+                        vpiFullName: t.runcount
+                        vpiActual: Variable name:runcount
+                    NamedArgument start:45:62 end:45:70:
                       vpiParent: SysTaskCall name:$write
-                      vpiName: clkcount
-                      vpiFullName: t.clkcount
-                      vpiActual: Variable name:clkcount
+                      vpiHighConn RefObj name:clkcount start:45:62 end:45:70:
+                        vpiParent: NamedArgument
+                        vpiName: clkcount
+                        vpiFullName: t.clkcount
+                        vpiActual: Variable name:clkcount
                 Assignment start:46:7 end:46:24:
                   vpiParent: Begin
                   vpiLhs RefObj name:cyc start:46:7 end:46:10:
@@ -1896,16 +1910,18 @@ Design name:unnamed:
                             vpiParent: Begin
                             vpiName Identifier name:$write start:62:5 end:62:11:
                             vpiArgument (1 items):
-                              Constant start:62:12 end:62:36:
+                              NamedArgument start:62:12 end:62:36:
                                 vpiParent: SysTaskCall name:$write
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: t
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiSize: 168
-                                vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                vpiValue: "*-* All Finished *-*\\n"
+                                vpiHighConn Constant start:62:12 end:62:36:
+                                  vpiParent: NamedArgument
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: t
+                                    vpiActual: StringTypespec
+                                  vpiConstType: string (6)
+                                  vpiSize: 168
+                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                  vpiValue: "*-* All Finished *-*\\n"
                           SysTaskCall name:$finish start:63:5 end:63:12:
                             vpiParent: Begin
                             vpiName Identifier name:$finish start:63:5 end:63:12:
@@ -1978,7 +1994,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_order_comboclkloop/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             263     263       0         0
+Others                             275     275       0         0
 ----------------------------------------------------------------
-                                   263     263       0         0
+                                   275     275       0         0
 ===================== END REDUCTION RESULT =====================

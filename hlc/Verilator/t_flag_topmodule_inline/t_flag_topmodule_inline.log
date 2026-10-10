@@ -236,16 +236,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:9:7 end:9:13:
                 vpiArgument (1 items):
-                  Constant start:9:14 end:9:33:
+                  NamedArgument start:9:14 end:9:33:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: a
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 128
-                    vpiDecompile: "\"Bad top modules\\n\""
-                    vpiValue: Bad top modules\n
+                    vpiHighConn Constant start:9:14 end:9:33:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: a
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 128
+                      vpiDecompile: "\"Bad top modules\\n\""
+                      vpiValue: Bad top modules\n
               SysTaskCall name:$stop start:10:7 end:10:12:
                 vpiParent: Begin
                 vpiName Identifier name:$stop start:10:7 end:10:12:
@@ -259,16 +261,17 @@ Design name:unnamed:
             vpiName: a2
             vpiFullName: a.a2.a2
             vpiActual: ModuleTypespec name:a2
-          vpiPort (1 items):
-            Port start:7:11 end:7:21:
+          vpiArgument (1 items):
+            NamedArgument start:7:11 end:7:21:
               vpiParent: RefInstance name:a2
+              vpiConnByName: true
               vpiLowConn RefObj name:tmp start:7:12 end:7:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: tmp
                 vpiFullName: a.a2.tmp
                 vpiActual: Port name:tmp
               vpiHighConn Constant start:7:16 end:7:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: a.a2
@@ -309,7 +312,6 @@ Design name:unnamed:
           vpiName: tmp
           vpiFullName: a2.tmp
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:tmp start:14:18 end:14:21:
           vpiParent: Module name:a2
@@ -333,16 +335,17 @@ Design name:unnamed:
             vpiName: l3
             vpiFullName: a2.l3.l3
             vpiActual: ModuleTypespec name:l3
-          vpiPort (1 items):
-            Port start:15:11 end:15:20:
+          vpiArgument (1 items):
+            NamedArgument start:15:11 end:15:20:
               vpiParent: RefInstance name:l3
+              vpiConnByName: true
               vpiLowConn RefObj name:tmp start:15:12 end:15:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: tmp
                 vpiFullName: a2.l3.tmp
                 vpiActual: Net name:tmp
               vpiHighConn RefObj name:tmp start:15:16 end:15:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: tmp
                 vpiFullName: a2.l3.tmp
                 vpiActual: Net name:tmp
@@ -377,16 +380,17 @@ Design name:unnamed:
             vpiName: l3
             vpiFullName: b.l3.l3
             vpiActual: ModuleTypespec name:l3
-          vpiPort (1 items):
-            Port start:19:11 end:19:21:
+          vpiArgument (1 items):
+            NamedArgument start:19:11 end:19:21:
               vpiParent: RefInstance name:l3
+              vpiConnByName: true
               vpiLowConn RefObj name:tmp start:19:12 end:19:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: tmp
                 vpiFullName: b.l3.tmp
                 vpiActual: Port name:tmp
               vpiHighConn Constant start:19:16 end:19:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: b.l3
@@ -422,7 +426,6 @@ Design name:unnamed:
           vpiName: tmp
           vpiFullName: l3.tmp
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:tmp start:22:18 end:22:21:
           vpiParent: Module name:l3
@@ -459,16 +462,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$write start:25:3 end:25:9:
                       vpiArgument (1 items):
-                        Constant start:25:10 end:25:34:
+                        NamedArgument start:25:10 end:25:34:
                           vpiParent: SysTaskCall name:$write
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: l3
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 168
-                          vpiDecompile: "\"*-* All Finished *-*\\n\""
-                          vpiValue: "*-* All Finished *-*\\n"
+                          vpiHighConn Constant start:25:10 end:25:34:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: l3
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 168
+                            vpiDecompile: "\"*-* All Finished *-*\\n\""
+                            vpiValue: "*-* All Finished *-*\\n"
                     SysTaskCall name:$finish start:26:3 end:26:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:26:3 end:26:10:
@@ -548,7 +553,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_flag_topmodule_inline/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              80      80       0         0
+Others                              82      82       0         0
 ----------------------------------------------------------------
-                                    80      80       0         0
+                                    82      82       0         0
 ===================== END REDUCTION RESULT =====================

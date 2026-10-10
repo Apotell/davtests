@@ -544,7 +544,6 @@ Design name:unnamed:
           vpiName: si
           vpiFullName: Prog.si
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiProcess (1 items):
         Initial start:45:4 end:45:30:
           vpiParent: Program name:Prog
@@ -608,7 +607,6 @@ Design name:unnamed:
           vpiName: si
           vpiFullName: Prog2.si
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiProcess (1 items):
         Initial start:76:4 end:76:30:
           vpiParent: Program name:Prog2
@@ -709,7 +707,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:o start:14:16 end:14:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:9 end:14:15:
@@ -720,7 +717,6 @@ Design name:unnamed:
           vpiFullName: t.o
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:si start:15:16 end:15:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec:
@@ -731,7 +727,6 @@ Design name:unnamed:
           vpiFullName: t.si
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
           vpiValue Constant start:15:21 end:15:25:
             vpiParent: Net name:si
             vpiTypespec RefTypespec:
@@ -808,16 +803,18 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:31:7 end:31:13:
                   vpiArgument (1 items):
-                    Constant start:31:14 end:31:38:
+                    NamedArgument start:31:14 end:31:38:
                       vpiParent: SysTaskCall name:$write
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 168
-                      vpiDecompile: "\"*-* All Finished *-*\\n\""
-                      vpiValue: "*-* All Finished *-*\\n"
+                      vpiHighConn Constant start:31:14 end:31:38:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 168
+                        vpiDecompile: "\"*-* All Finished *-*\\n\""
+                        vpiValue: "*-* All Finished *-*\\n"
                 SysTaskCall name:$finish start:32:7 end:32:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:32:7 end:32:14:
@@ -832,16 +829,17 @@ Design name:unnamed:
             vpiName: ExampInst
             vpiFullName: t.i.ExampInst
             vpiActual: ModuleTypespec name:ExampInst
-          vpiPort (2 items):
-            Port start:19:7 end:19:19:
+          vpiArgument (2 items):
+            NamedArgument start:19:7 end:19:19:
               vpiParent: RefInstance name:i
+              vpiConnByName: true
               vpiLowConn RefObj name:o start:19:8 end:19:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: t.i.o
                 vpiActual: Net name:o
               vpiHighConn PartSelect name:o[31:0] start:19:11 end:19:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o[31:0]
                 vpiFullName: t.i.o[31:0]
                 vpiPrefix RefObj name:o start:19:11 end:19:12:
@@ -871,15 +869,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:21:7 end:21:16:
+            NamedArgument start:21:7 end:21:16:
               vpiParent: RefInstance name:i
+              vpiConnByName: true
               vpiLowConn RefObj name:i start:21:8 end:21:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i
                 vpiFullName: t.i.i
                 vpiActual: RefInstance name:i
               vpiHighConn Constant start:21:11 end:21:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t.i
@@ -896,16 +895,17 @@ Design name:unnamed:
             vpiName: Prog
             vpiFullName: t.p.Prog
             vpiActual: ProgramTypespec name:Prog
-          vpiPort (1 items):
-            Port start:26:5 end:26:16:
+          vpiArgument (1 items):
+            NamedArgument start:26:5 end:26:16:
               vpiParent: RefInstance name:p
+              vpiConnByName: true
               vpiLowConn RefObj name:si start:26:6 end:26:8:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: si
                 vpiFullName: t.p.si
                 vpiActual: Net name:si
               vpiHighConn RefObj name:si start:26:13 end:26:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: si
                 vpiFullName: t.p.si
                 vpiActual: Net name:si
@@ -976,7 +976,6 @@ Design name:unnamed:
           vpiName: si
           vpiFullName: InstModule.si
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:so start:38:24 end:38:26:
           vpiParent: Module name:InstModule
@@ -1112,7 +1111,6 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: ExampInst.i
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:o start:48:19 end:48:20:
           vpiParent: Module name:ExampInst
@@ -1150,16 +1148,17 @@ Design name:unnamed:
             vpiName: InstModule
             vpiFullName: ExampInst.instName.InstModule
             vpiActual: ModuleTypespec name:InstModule
-          vpiPort (2 items):
-            Port start:54:7 end:54:20:
+          vpiArgument (2 items):
+            NamedArgument start:54:7 end:54:20:
               vpiParent: RefInstance name:instName
+              vpiConnByName: true
               vpiLowConn RefObj name:so start:54:8 end:54:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: so
                 vpiFullName: ExampInst.instName.so
                 vpiActual: Port name:so
               vpiHighConn PartSelect name:o[31:0] start:54:12 end:54:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o[31:0]
                 vpiFullName: ExampInst.instName.o[31:0]
                 vpiPrefix RefObj name:o start:54:12 end:54:13:
@@ -1189,15 +1188,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:56:7 end:56:14:
+            NamedArgument start:56:7 end:56:14:
               vpiParent: RefInstance name:instName
+              vpiConnByName: true
               vpiLowConn RefObj name:si start:56:8 end:56:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: si
                 vpiFullName: ExampInst.instName.si
                 vpiActual: Port name:si
               vpiHighConn RefObj name:i start:56:12 end:56:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i
                 vpiFullName: ExampInst.instName.i
                 vpiActual: Net name:i
@@ -1217,15 +1217,16 @@ Design name:unnamed:
               vpiName: Prog
               vpiFullName: ExampInst.instProg.Prog
               vpiActual: ProgramTypespec name:Prog
-            vpiPort (1 items):
-              Port start:65:7 end:65:20:
+            vpiArgument (1 items):
+              NamedArgument start:65:7 end:65:20:
                 vpiParent: RefInstance name:instProg
+                vpiConnByName: true
                 vpiLowConn RefObj name:si start:65:8 end:65:10:
-                  vpiParent: Port
+                  vpiParent: NamedArgument
                   vpiName: si
                   vpiFullName: ExampInst.instProg.si
                 vpiHighConn RefObj name:si start:65:17 end:65:19:
-                  vpiParent: Port
+                  vpiParent: NamedArgument
                   vpiName: si
                   vpiFullName: ExampInst.instProg.si
   vpiTypespec (8 items):
@@ -1296,15 +1297,16 @@ Design name:unnamed:
           vpiName: Prog2
           vpiFullName: instProg2.Prog2
           vpiActual: ProgramTypespec name:Prog2
-        vpiPort (1 items):
-          Port start:72:4 end:72:17:
+        vpiArgument (1 items):
+          NamedArgument start:72:4 end:72:17:
             vpiParent: RefInstance name:instProg2
+            vpiConnByName: true
             vpiLowConn RefObj name:si start:72:5 end:72:7:
-              vpiParent: Port
+              vpiParent: NamedArgument
               vpiName: si
               vpiFullName: instProg2.si
             vpiHighConn RefObj name:si start:72:14 end:72:16:
-              vpiParent: Port
+              vpiParent: NamedArgument
               vpiName: si
               vpiFullName: instProg2.si
   vpiLibrary (1 items):
@@ -1359,7 +1361,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_bind/design.hldb ${HLC_DIR}/regressio
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             199     199       0         0
+Others                             200     200       0         0
 ----------------------------------------------------------------
-                                   199     199       0         0
+                                   200     200       0         0
 ===================== END REDUCTION RESULT =====================

@@ -4,10 +4,12 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../../tests/Google/chapter-18 -timescale=1ns/1ns -d ast -d db -nobuiltin 18.13.1--urandom_0.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-18/18.13.1--urandom_0
+COMMAND: -wd ../../../../tests/Google/chapter-18 -timescale=1ns/1ns -d ast -d db 18.13.1--urandom_0.sv -wd ${HLC_DIR}/third_party/UVM -I1800.2-2017-1.0/src -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Google/chapter-18/18.13.1--urandom_0
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/18.13.1--urandom_0.sv".
+[INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/18.13.1--urandom_0.sv".
+[INF:PA5502] Parsing source file "$Scratch/0_builtin.sv".
 AST_DEBUG_BEGIN
 Count: 67
 LIB: work
@@ -109,6 +111,7 @@ Design name:unnamed:
           vpiFullName: a::do_urandom
           vpiMethod: true
           vpiVisibility: public (1)
+          vpiAutomatic: true
           vpiStmt Begin:
             vpiParent: Function name:do_urandom
             vpiFullName: a::do_urandom
@@ -121,6 +124,7 @@ Design name:unnamed:
                   vpiActual: IntTypespec
                 vpiName: x
                 vpiFullName: a::do_urandom::x
+                vpiAutomatic: true
             vpiStmt (3 items):
               Variable name:x:
               Assignment start:19:9 end:19:23:
@@ -134,6 +138,7 @@ Design name:unnamed:
                 vpiRhs SysFuncCall name:$urandom start:19:13 end:19:23:
                   vpiParent: Assignment
                   vpiName Identifier name:$urandom start:19:13 end:19:21:
+                  vpiTaskFunc: Function name:$urandom
               ReturnStmt start:20:9 end:20:18:
                 vpiParent: Begin
                 vpiCondition RefObj name:x start:20:16 end:20:17:
@@ -145,13 +150,26 @@ Design name:unnamed:
             vpiParent: Function name:do_urandom
             vpiFullName: a::do_urandom
             vpiActual: IntTypespec
-  vpiTypespec (2 items):
+  vpiTypespec (8 items):
     ClassTypespec name:a start:16:7 end:16:8:
       vpiParent: Design name:unnamed
       vpiName Identifier name:a:
       vpiDefName: a
       vpiClassDefn: ClassDefn name:a
     IntTypespec:
+      vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
+      vpiSigned: true
+    VoidTypespec:
+      vpiParent: Design name:unnamed
+    StringTypespec:
+      vpiParent: Design name:unnamed
+    RealTypespec:
+      vpiParent: Design name:unnamed
+    ShortRealTypespec:
+      vpiParent: Design name:unnamed
+    TimeTypespec:
       vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
@@ -205,7 +223,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.13.1--urandom_0/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              21      21       0         0
+Others                            1387    1387       0         0
 ----------------------------------------------------------------
-                                    21      21       0         0
+                                  1387    1387       0         0
 ===================== END REDUCTION RESULT =====================

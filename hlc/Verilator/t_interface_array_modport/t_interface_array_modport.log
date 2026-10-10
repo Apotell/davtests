@@ -465,16 +465,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:36:7 end:36:13:
                 vpiArgument (1 items):
-                  Constant start:36:14 end:36:38:
+                  NamedArgument start:36:14 end:36:38:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: "*-* All Finished *-*\\n"
+                    vpiHighConn Constant start:36:14 end:36:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
               SysTaskCall name:$finish start:37:7 end:37:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:37:7 end:37:14:
@@ -504,16 +506,17 @@ Design name:unnamed:
             vpiName: foo_mod
             vpiFullName: t.foo_mod.foo_mod
             vpiActual: ModuleTypespec name:foo_mod
-          vpiPort (2 items):
-            Port start:30:2 end:30:16:
+          vpiArgument (2 items):
+            NamedArgument start:30:2 end:30:16:
               vpiParent: RefInstance name:foo_mod
+              vpiConnByName: true
               vpiLowConn RefObj name:foo start:30:3 end:30:6:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: foo
                 vpiFullName: t.foo_mod.foo
                 vpiActual: Port name:foo
               vpiHighConn BitSelect name:foos[2] start:30:8 end:30:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: foos[2]
                 vpiFullName: t.foo_mod.foos[2]
                 vpiPrefix RefObj name:foos start:30:8 end:30:12:
@@ -531,15 +534,16 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "2"
                   vpiValue: 2
-            Port start:31:5 end:31:17:
+            NamedArgument start:31:5 end:31:17:
               vpiParent: RefInstance name:foo_mod
+              vpiConnByName: true
               vpiLowConn RefObj name:bars start:31:6 end:31:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bars
                 vpiFullName: t.foo_mod.bars
                 vpiActual: RefInstance name:bars
               vpiHighConn RefObj name:bars start:31:12 end:31:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bars
                 vpiFullName: t.foo_mod.bars
                 vpiActual: RefInstance name:bars
@@ -620,7 +624,7 @@ Operation                            3       2       0         1
 RefObj                              13      12       0         1
 RefTypespec                         18      18       1         1
 ----------------------------------------------------------------
-Others                              47      47       0         0
+Others                              48      48       0         0
 ----------------------------------------------------------------
-                                    87      85       2         4
+                                    88      86       2         4
 ===================== END REDUCTION RESULT =====================

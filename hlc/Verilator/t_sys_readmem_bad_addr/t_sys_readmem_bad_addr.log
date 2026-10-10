@@ -136,7 +136,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: hex
           vpiFullName: t.hex
-          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -214,35 +213,41 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$readmemh start:10:7 end:10:16:
                 vpiArgument (2 items):
-                  Constant start:10:17 end:10:47:
+                  NamedArgument start:10:17 end:10:47:
                     vpiParent: SysTaskCall name:$readmemh
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 224
-                    vpiDecompile: "\"t/t_sys_readmem_bad_addr.mem\""
-                    vpiValue: t/t_sys_readmem_bad_addr.mem
-                  RefObj name:hex start:10:49 end:10:52:
+                    vpiHighConn Constant start:10:17 end:10:47:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 224
+                      vpiDecompile: "\"t/t_sys_readmem_bad_addr.mem\""
+                      vpiValue: t/t_sys_readmem_bad_addr.mem
+                  NamedArgument start:10:49 end:10:52:
                     vpiParent: SysTaskCall name:$readmemh
-                    vpiName: hex
-                    vpiFullName: t.hex
-                    vpiActual: Variable name:hex
+                    vpiHighConn RefObj name:hex start:10:49 end:10:52:
+                      vpiParent: NamedArgument
+                      vpiName: hex
+                      vpiFullName: t.hex
+                      vpiActual: Variable name:hex
               SysTaskCall name:$write start:11:7 end:11:39:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:11:7 end:11:13:
                 vpiArgument (1 items):
-                  Constant start:11:14 end:11:38:
+                  NamedArgument start:11:14 end:11:38:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: "*-* All Finished *-*\\n"
+                    vpiHighConn Constant start:11:14 end:11:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
               SysTaskCall name:$finish start:12:7 end:12:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:12:7 end:12:14:
@@ -310,7 +315,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sys_readmem_bad_addr/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              38      38       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    38      38       0         0
+                                    41      41       0         0
 ===================== END REDUCTION RESULT =====================

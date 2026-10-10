@@ -158,6 +158,7 @@ n<$Source01/signed10.v> u<143> t<Top_level_rule> c<1> l<20:1> el<36:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/signed10.v:20:1: Compile module "displaysigned".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[WRN:DB2033] $Source01/signed10.v:30:7: Critical: Signed vs Unsigned port connection "foo".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -180,7 +181,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: foo
           vpiFullName: displaysigned.foo
-          vpiVector: true
         Variable name:bar start:23:11 end:23:14:
           vpiParent: Module name:displaysigned
           vpiTypespec RefTypespec start:23:1 end:23:10:
@@ -189,7 +189,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: bar
           vpiFullName: displaysigned.bar
-          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:displaysigned
@@ -300,35 +299,45 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:29:5 end:29:13:
                 vpiArgument (4 items):
-                  Constant start:29:14 end:29:50:
+                  NamedArgument start:29:14 end:29:50:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: displaysigned
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 272
-                    vpiDecompile: "\"foo=%0d  bar=%0d  $signed(bar)=%0d\""
-                    vpiValue: foo=%0d  bar=%0d  $signed(bar)=%0d
-                  RefObj name:foo start:30:7 end:30:10:
+                    vpiHighConn Constant start:29:14 end:29:50:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: displaysigned
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 272
+                      vpiDecompile: "\"foo=%0d  bar=%0d  $signed(bar)=%0d\""
+                      vpiValue: foo=%0d  bar=%0d  $signed(bar)=%0d
+                  NamedArgument start:30:7 end:30:10:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: foo
-                    vpiFullName: displaysigned.foo
-                    vpiActual: Variable name:foo
-                  RefObj name:bar start:30:12 end:30:15:
+                    vpiHighConn RefObj name:foo start:30:7 end:30:10:
+                      vpiParent: NamedArgument
+                      vpiName: foo
+                      vpiFullName: displaysigned.foo
+                      vpiActual: Variable name:foo
+                  NamedArgument start:30:12 end:30:15:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: bar
-                    vpiFullName: displaysigned.bar
-                    vpiActual: Variable name:bar
-                  SysFuncCall name:$signed start:30:17 end:30:29:
+                    vpiHighConn RefObj name:bar start:30:12 end:30:15:
+                      vpiParent: NamedArgument
+                      vpiName: bar
+                      vpiFullName: displaysigned.bar
+                      vpiActual: Variable name:bar
+                  NamedArgument start:30:17 end:30:29:
                     vpiParent: SysTaskCall name:$display
-                    vpiName Identifier name:$signed start:30:17 end:30:24:
-                    vpiArgument (1 items):
-                      RefObj name:bar start:30:25 end:30:28:
-                        vpiParent: SysFuncCall name:$signed
-                        vpiName: bar
-                        vpiFullName: displaysigned.bar
-                        vpiActual: Variable name:bar
+                    vpiHighConn SysFuncCall name:$signed start:30:17 end:30:29:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$signed start:30:17 end:30:24:
+                      vpiArgument (1 items):
+                        NamedArgument start:30:25 end:30:28:
+                          vpiParent: SysFuncCall name:$signed
+                          vpiHighConn RefObj name:bar start:30:25 end:30:28:
+                            vpiParent: NamedArgument
+                            vpiName: bar
+                            vpiFullName: displaysigned.bar
+                            vpiActual: Variable name:bar
               SysTaskCall name:$finish start:32:5 end:32:12:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:32:5 end:32:12:
@@ -352,7 +361,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -399,7 +408,7 @@ Constant                             6       6       1         1
 Operation                            1       0       0         1
 RefTypespec                          8       8       1         1
 ----------------------------------------------------------------
-Others                              32      32       0         0
+Others                              37      37       0         0
 ----------------------------------------------------------------
-                                    47      46       2         3
+                                    52      51       2         3
 ===================== END REDUCTION RESULT =====================

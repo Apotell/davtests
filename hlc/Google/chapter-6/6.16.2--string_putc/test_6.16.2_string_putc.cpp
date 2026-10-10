@@ -183,9 +183,11 @@ TEST_F(StringPutcTest, PutcFirstArgumentIsTwo) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_GE(call->getArguments()->size(), 1u);
 
-  const hldb::Constant *const arg0 = any_cast<hldb::Constant>(call->getArguments()->at(0));
-  ASSERT_NE(arg0, nullptr) << "putc first argument is not a Constant";
-  EXPECT_EQ(arg0->getDecompile(), "2");
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
+  ASSERT_NE(arg, nullptr) << "putc first argument is not a Constant";
+  EXPECT_EQ(arg->getDecompile(), "2");
 }
 
 TEST_F(StringPutcTest, PutcSecondArgumentIsB) {
@@ -200,10 +202,12 @@ TEST_F(StringPutcTest, PutcSecondArgumentIsB) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_GE(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const arg1 = any_cast<hldb::Constant>(call->getArguments()->at(1));
-  ASSERT_NE(arg1, nullptr) << "putc second argument is not a Constant";
-  EXPECT_EQ(arg1->getConstType(), vpiStringConst);
-  EXPECT_EQ(arg1->getDecompile(), "\"B\"");
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const arg = arg1->getHighConn<hldb::Constant>();
+  ASSERT_NE(arg, nullptr) << "putc second argument is not a Constant";
+  EXPECT_EQ(arg->getConstType(), vpiStringConst);
+  EXPECT_EQ(arg->getDecompile(), "\"B\"");
 }
 
 // ---------------------------------------------------------------------------

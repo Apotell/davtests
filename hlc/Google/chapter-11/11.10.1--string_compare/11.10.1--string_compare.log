@@ -176,7 +176,6 @@ Design name:unnamed:
             vpiActual: BitTypespec
           vpiName: a
           vpiFullName: top.a
-          vpiVector: true
         Variable name:b start:19:14 end:19:15:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:19:1 end:19:13:
@@ -185,7 +184,6 @@ Design name:unnamed:
             vpiActual: BitTypespec
           vpiName: b
           vpiFullName: top.b
-          vpiVector: true
       vpiTypespec (2 items):
         BitTypespec:
           vpiParent: Module name:top
@@ -324,26 +322,32 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:24:2 end:24:10:
                 vpiArgument (3 items):
-                  Constant start:24:11 end:24:35:
+                  NamedArgument start:24:11 end:24:35:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 176
-                    vpiDecompile: "\":assert:('%s' == '%s')\""
-                    vpiValue: ":assert:('%s' == '%s')"
-                  RefObj name:a start:24:37 end:24:38:
+                    vpiHighConn Constant start:24:11 end:24:35:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 176
+                      vpiDecompile: "\":assert:('%s' == '%s')\""
+                      vpiValue: ":assert:('%s' == '%s')"
+                  NamedArgument start:24:37 end:24:38:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: a
-                    vpiFullName: top.a
-                    vpiActual: Variable name:a
-                  RefObj name:b start:24:40 end:24:41:
+                    vpiHighConn RefObj name:a start:24:37 end:24:38:
+                      vpiParent: NamedArgument
+                      vpiName: a
+                      vpiFullName: top.a
+                      vpiActual: Variable name:a
+                  NamedArgument start:24:40 end:24:41:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: b
-                    vpiFullName: top.b
-                    vpiActual: Variable name:b
+                    vpiHighConn RefObj name:b start:24:40 end:24:41:
+                      vpiParent: NamedArgument
+                      vpiName: b
+                      vpiFullName: top.b
+                      vpiActual: Variable name:b
   vpiTypespec (3 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -410,7 +414,7 @@ Constant                             9       7       2         4
 Operation                            2       0       0         2
 RefTypespec                         11       9       2         4
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              29      29       0         0
 ----------------------------------------------------------------
-                                    48      42       4        10
+                                    51      45       4        10
 ===================== END REDUCTION RESULT =====================

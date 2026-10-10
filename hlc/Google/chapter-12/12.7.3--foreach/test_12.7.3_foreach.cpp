@@ -178,12 +178,16 @@ TEST_F(ForeachTest, LoopBodyDisplaysIAndTestOfI) {
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u);
 
-  const hldb::RefObj *const iArg = any_cast<hldb::RefObj>(display->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const iArg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(iArg, nullptr);
   EXPECT_EQ(iArg->getName(), "i");
   EXPECT_NE(iArg->getActual<hldb::Variable>(), nullptr) << "'i' should resolve to the loop Variable";
 
-  const hldb::BitSelect *const testI = any_cast<hldb::BitSelect>(display->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::BitSelect *const testI = arg1->getHighConn<hldb::BitSelect>();
   ASSERT_NE(testI, nullptr) << "'test[i]' should be a BitSelect";
   EXPECT_EQ(testI->getName(), "test[i]");
   const hldb::RefObj *const prefix = testI->getPrefix<hldb::RefObj>();

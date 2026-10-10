@@ -269,7 +269,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: msg
           vpiFullName: t.msg
-          vpiVector: true
       vpiParameter (2 items):
         Parameter name:MSG_PORT_WIDTH start:8:14 end:8:28:
           vpiParent: Module name:t
@@ -498,11 +497,13 @@ Design name:unnamed:
                 vpiName Identifier name:func start:16:7 end:16:11:
                 vpiTaskFunc: Function name:func
                 vpiArgument (1 items):
-                  RefObj name:msg start:16:12 end:16:15:
+                  NamedArgument start:16:12 end:16:15:
                     vpiParent: MethodFuncCall name:func
-                    vpiName: msg
-                    vpiFullName: t.msg
-                    vpiActual: Variable name:msg
+                    vpiHighConn RefObj name:msg start:16:12 end:16:15:
+                      vpiParent: NamedArgument
+                      vpiName: msg
+                      vpiFullName: t.msg
+                      vpiActual: Variable name:msg
               IfStmt start:18:7 end:18:49:
                 vpiParent: Begin
                 vpiCondition Operation start:18:11 end:18:41:
@@ -545,16 +546,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:19:7 end:19:13:
                 vpiArgument (1 items):
-                  Constant start:19:14 end:19:38:
+                  NamedArgument start:19:14 end:19:38:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: "*-* All Finished *-*\\n"
+                    vpiHighConn Constant start:19:14 end:19:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
               SysTaskCall name:$finish start:20:7 end:20:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:20:7 end:20:14:
@@ -626,7 +629,7 @@ Operation                            7       1       0         6
 RefObj                              10       6       0         4
 RefTypespec                         16      14       2         4
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    82      70       6        18
+                                    84      72       6        18
 ===================== END REDUCTION RESULT =====================

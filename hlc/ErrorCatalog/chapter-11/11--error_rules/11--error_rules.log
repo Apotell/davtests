@@ -793,7 +793,7 @@ AST_DEBUG_END
 [ERR:CP5929] $Source01/11--error_rules.sv:14:10: Illegal expression in this context: r333_m.
 [ERR:DB2038] $Source01/11--error_rules.sv:14:10: 'vpiCondition' property value on object is invalid.
 [ERR:CP5927] $Source01/11--error_rules.sv:51:11: Illegal left-hand side of assignment: r343_m.
-[ERR:DB2038] $Source01/11--error_rules.sv:69:11: 'vpiArgument' property value has invalid objects.
+[ERR:DB2038] $Source01/11--error_rules.sv:69:20: 'vpiHighConn' property value on object is invalid.
 [ERR:CP5935] $Source01/11--error_rules.sv:69:20: Expression type cannot be determined from context: Valid.
 [ERR:CP5936] $Source01/11--error_rules.sv:78:22: Undefined member Bogus.
 [ERR:CP5940] $Source01/11--error_rules.sv:85:9: Illegal formal argument type: x.
@@ -878,7 +878,6 @@ Design name:unnamed:
           vpiFullName: r333_m.w
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiProcess (2 items):
         Always start:14:3 end:14:22:
           vpiParent: Module name:r333_m
@@ -966,7 +965,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: r340_m.a
-          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:r340_m
@@ -996,7 +994,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: o
           vpiFullName: r341_sub.o
-          vpiVector: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:r341_sub
@@ -1061,7 +1058,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: r341_m.a
-          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:r341_m
@@ -1089,16 +1085,16 @@ Design name:unnamed:
             vpiName: r341_sub
             vpiFullName: r341_m.u1.r341_sub
             vpiActual: ModuleTypespec name:r341_sub
-          vpiPort (1 items):
-            Port start:43:15 end:43:21:
+          vpiArgument (1 items):
+            NamedArgument start:43:15 end:43:21:
               vpiParent: RefInstance name:u1
               vpiLowConn RefObj name:o:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: r341_m.u1.o
                 vpiActual: Port name:o
               vpiHighConn Operation start:43:15 end:43:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiOpType: multi-concatenation (34)
                 vpiOperand (2 items):
                   Constant start:43:16 end:43:17:
@@ -1274,19 +1270,21 @@ Design name:unnamed:
             vpiParent: Initial
             vpiName Identifier name:$display start:69:11 end:69:19:
             vpiArgument (1 items):
-              TaggedPattern name:Valid start:69:20 end:69:36:
+              NamedArgument start:69:20 end:69:36:
                 vpiParent: SysTaskCall name:$display
-                vpiName Identifier name:Valid start:69:27 end:69:32:
-                vpiTag Constant start:69:34 end:69:35:
-                  vpiParent: TaggedPattern name:Valid
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: r362_m.Valid
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "1"
-                  vpiValue: 1
+                vpiHighConn TaggedPattern name:Valid start:69:20 end:69:36:
+                  vpiParent: NamedArgument
+                  vpiName Identifier name:Valid start:69:27 end:69:32:
+                  vpiTag Constant start:69:34 end:69:35:
+                    vpiParent: TaggedPattern name:Valid
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: r362_m.Valid
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
     Module name:r363_m file:$Source01/11--error_rules.sv start:76:1 end:79:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r363_m start:76:8 end:76:14:
@@ -1387,7 +1385,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: r369_m.clk
-          vpiScalar: true
         Variable name:a start:93:14 end:93:15:
           vpiParent: Module name:r369_m
           vpiTypespec RefTypespec start:93:3 end:93:8:
@@ -1396,7 +1393,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: r369_m.a
-          vpiScalar: true
         Variable name:x start:94:7 end:94:8:
           vpiParent: Module name:r369_m
           vpiTypespec RefTypespec start:94:3 end:94:6:
@@ -1473,7 +1469,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: r373_m.a
-          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:r373_m
@@ -1488,11 +1483,13 @@ Design name:unnamed:
               LetExpr start:103:14 end:103:18:
                 vpiParent: Operation
                 vpiArgument (1 items):
-                  RefObj name:x start:103:16 end:103:17:
+                  NamedArgument start:103:16 end:103:17:
                     vpiParent: LetExpr
-                    vpiName: x
-                    vpiFullName: r373_m.r.x
-                    vpiActual: SeqFormalDecl name:x
+                    vpiHighConn RefObj name:x start:103:16 end:103:17:
+                      vpiParent: NamedArgument
+                      vpiName: x
+                      vpiFullName: r373_m.r.x
+                      vpiActual: SeqFormalDecl name:x
                 vpiLetDecl: LetDecl name:r
               RefObj name:x start:103:22 end:103:23:
                 vpiParent: Operation
@@ -1712,7 +1709,7 @@ COMMAND: ${HLC_DIR}/regression/ErrorCatalog/chapter-11/11--error_rules/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             228     228       0         0
+Others                             230     230       0         0
 ----------------------------------------------------------------
-                                   228     228       0         0
+                                   230     230       0         0
 ===================== END REDUCTION RESULT =====================

@@ -127,7 +127,6 @@ Design name:unnamed:
                   vpiActual: LogicTypespec
                 vpiName: val
                 vpiFullName: top.val
-                vpiVector: true
             vpiTypespec (1 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -160,25 +159,31 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:21:2 end:21:10:
                 vpiArgument (2 items):
-                  Constant start:21:11 end:21:32:
+                  NamedArgument start:21:11 end:21:32:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 152
-                    vpiDecompile: "\":assert: (%d == 32)\""
-                    vpiValue: ":assert: (%d == 32)"
-                  SysFuncCall name:$bits start:21:34 end:21:44:
+                    vpiHighConn Constant start:21:11 end:21:32:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 152
+                      vpiDecompile: "\":assert: (%d == 32)\""
+                      vpiValue: ":assert: (%d == 32)"
+                  NamedArgument start:21:34 end:21:44:
                     vpiParent: SysTaskCall name:$display
-                    vpiName Identifier name:$bits start:21:34 end:21:39:
-                    vpiArgument (1 items):
-                      RefObj name:val start:21:40 end:21:43:
-                        vpiParent: SysFuncCall name:$bits
-                        vpiName: val
-                        vpiFullName: top.val
-                        vpiActual: Variable name:val
+                    vpiHighConn SysFuncCall name:$bits start:21:34 end:21:44:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$bits start:21:34 end:21:39:
+                      vpiArgument (1 items):
+                        NamedArgument start:21:40 end:21:43:
+                          vpiParent: SysFuncCall name:$bits
+                          vpiHighConn RefObj name:val start:21:40 end:21:43:
+                            vpiParent: NamedArgument
+                            vpiName: val
+                            vpiFullName: top.val
+                            vpiActual: Variable name:val
   vpiTypespec (3 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -242,7 +247,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-20/20.6--bits/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              27      27       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    27      27       0         0
+                                    30      30       0         0
 ===================== END REDUCTION RESULT =====================

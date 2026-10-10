@@ -48,7 +48,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: m1.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:out start:1:29 end:1:32:
           vpiParent: Module name:m1
           vpiTypespec RefTypespec:
@@ -58,7 +57,6 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: m1.out
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:clk start:1:17 end:1:20:
           vpiParent: Module name:m1
@@ -97,21 +95,25 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:3:5 end:3:13:
                 vpiArgument (2 items):
-                  Constant start:3:14 end:3:18:
+                  NamedArgument start:3:14 end:3:18:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: m1
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 16
-                    vpiDecompile: "\"%d\""
-                    vpiValue: "%d"
-                  RefObj name:clk start:3:20 end:3:23:
+                    vpiHighConn Constant start:3:14 end:3:18:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: m1
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 16
+                      vpiDecompile: "\"%d\""
+                      vpiValue: "%d"
+                  NamedArgument start:3:20 end:3:23:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: clk
-                    vpiFullName: m1.clk
-                    vpiActual: Net name:clk
+                    vpiHighConn RefObj name:clk start:3:20 end:3:23:
+                      vpiParent: NamedArgument
+                      vpiName: clk
+                      vpiFullName: m1.clk
+                      vpiActual: Net name:clk
   vpiTypespec (2 items):
     ModuleTypespec name:m1:
       vpiParent: Design name:unnamed
@@ -171,7 +173,7 @@ COMMAND: ${HLC_DIR}/regression/TfCalls/TfCalls/design.hldb ${HLC_DIR}/regression
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              27      27       0         0
+Others                              29      29       0         0
 ----------------------------------------------------------------
-                                    27      27       0         0
+                                    29      29       0         0
 ===================== END REDUCTION RESULT =====================

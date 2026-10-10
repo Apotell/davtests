@@ -713,7 +713,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y
           vpiFullName: t.y
-          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -850,7 +849,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:x start:26:21 end:26:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:26:9 end:26:19:
@@ -861,7 +859,6 @@ Design name:unnamed:
           vpiFullName: t.x
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:21:4 end:21:7:
           vpiParent: Module name:t
@@ -898,16 +895,18 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:33:7 end:33:13:
                   vpiArgument (1 items):
-                    Constant start:33:14 end:33:38:
+                    NamedArgument start:33:14 end:33:38:
                       vpiParent: SysTaskCall name:$write
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 168
-                      vpiDecompile: "\"*-* All Finished *-*\\n\""
-                      vpiValue: "*-* All Finished *-*\\n"
+                      vpiHighConn Constant start:33:14 end:33:38:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 168
+                        vpiDecompile: "\"*-* All Finished *-*\\n\""
+                        vpiValue: "*-* All Finished *-*\\n"
                 SysTaskCall name:$finish start:34:7 end:34:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:34:7 end:34:14:
@@ -922,40 +921,43 @@ Design name:unnamed:
             vpiName: foo
             vpiFullName: t.foo_i.foo
             vpiActual: ModuleTypespec name:foo
-          vpiPort (3 items):
-            Port start:28:15 end:28:23:
+          vpiArgument (3 items):
+            NamedArgument start:28:15 end:28:23:
               vpiParent: RefInstance name:foo_i
+              vpiConnByName: true
               vpiLowConn RefObj name:y start:28:16 end:28:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: y
                 vpiFullName: t.foo_i.y
                 vpiActual: Variable name:y
               vpiHighConn RefObj name:y start:28:21 end:28:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: y
                 vpiFullName: t.foo_i.y
                 vpiActual: Variable name:y
-            Port start:29:8 end:29:16:
+            NamedArgument start:29:8 end:29:16:
               vpiParent: RefInstance name:foo_i
+              vpiConnByName: true
               vpiLowConn RefObj name:x start:29:9 end:29:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: x
                 vpiFullName: t.foo_i.x
                 vpiActual: Net name:x
               vpiHighConn RefObj name:x start:29:14 end:29:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: x
                 vpiFullName: t.foo_i.x
                 vpiActual: Net name:x
-            Port start:30:8 end:30:18:
+            NamedArgument start:30:8 end:30:18:
               vpiParent: RefInstance name:foo_i
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:30:9 end:30:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.foo_i.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:30:14 end:30:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.foo_i.clk
                 vpiActual: Net name:clk
@@ -1208,7 +1210,6 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: foo.y
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:x start:41:27 end:41:28:
           vpiParent: Module name:foo
           vpiTypespec RefTypespec start:41:16 end:41:26:
@@ -1218,7 +1219,6 @@ Design name:unnamed:
           vpiName: x
           vpiFullName: foo.x
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:clk start:42:19 end:42:22:
           vpiParent: Module name:foo
           vpiTypespec RefTypespec:
@@ -1228,7 +1228,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: foo.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (3 items):
         Port name:y start:40:35 end:40:36:
           vpiParent: Module name:foo
@@ -1375,16 +1374,17 @@ Design name:unnamed:
                     vpiName: bar
                     vpiFullName: foo.bar_inst.i_bar.bar
                     vpiActual: ModuleTypespec name:bar
-                  vpiPort (3 items):
-                    Port start:52:20 end:52:31:
+                  vpiArgument (3 items):
+                    NamedArgument start:52:20 end:52:31:
                       vpiParent: RefInstance name:i_bar
+                      vpiConnByName: true
                       vpiLowConn RefObj name:x start:52:21 end:52:22:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: x
                         vpiFullName: foo.bar_inst.i_bar.x
                         vpiActual: Net name:x
                       vpiHighConn BitSelect name:x[g] start:52:26 end:52:30:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: x[g]
                         vpiFullName: foo.bar_inst.i_bar.x[g]
                         vpiPrefix RefObj name:x start:52:26 end:52:27:
@@ -1397,15 +1397,16 @@ Design name:unnamed:
                           vpiName: g
                           vpiFullName: foo.bar_inst.i_bar.g
                           vpiActual: Variable name:g
-                    Port start:53:6 end:53:17:
+                    NamedArgument start:53:6 end:53:17:
                       vpiParent: RefInstance name:i_bar
+                      vpiConnByName: true
                       vpiLowConn RefObj name:y start:53:7 end:53:8:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: y
                         vpiFullName: foo.bar_inst.i_bar.y
                         vpiActual: Net name:y
                       vpiHighConn BitSelect name:y[g] start:53:12 end:53:16:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: y[g]
                         vpiFullName: foo.bar_inst.i_bar.y[g]
                         vpiPrefix RefObj name:y start:53:12 end:53:13:
@@ -1418,15 +1419,16 @@ Design name:unnamed:
                           vpiName: g
                           vpiFullName: foo.bar_inst.i_bar.g
                           vpiActual: Variable name:g
-                    Port start:54:6 end:54:16:
+                    NamedArgument start:54:6 end:54:16:
                       vpiParent: RefInstance name:i_bar
+                      vpiConnByName: true
                       vpiLowConn RefObj name:clk start:54:7 end:54:10:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: clk
                         vpiFullName: foo.bar_inst.i_bar.clk
                         vpiActual: Net name:clk
                       vpiHighConn RefObj name:clk start:54:12 end:54:15:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: clk
                         vpiFullName: foo.bar_inst.i_bar.clk
                         vpiActual: Net name:clk
@@ -1444,7 +1446,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: r
           vpiFullName: bar.r
-          vpiScalar: true
           vpiValue Constant start:65:12 end:65:13:
             vpiParent: Variable name:r
             vpiTypespec RefTypespec:
@@ -1478,7 +1479,6 @@ Design name:unnamed:
           vpiName: y
           vpiFullName: bar.y
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:x start:62:16 end:62:17:
           vpiParent: Module name:bar
           vpiTypespec RefTypespec:
@@ -1488,7 +1488,6 @@ Design name:unnamed:
           vpiName: x
           vpiFullName: bar.x
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:clk start:63:16 end:63:19:
           vpiParent: Module name:bar
           vpiTypespec RefTypespec:
@@ -1498,7 +1497,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: bar.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (3 items):
         Port name:y start:61:24 end:61:25:
           vpiParent: Module name:bar
@@ -1679,7 +1677,7 @@ Constant                            25      15       6        16
 Operation                           16       6       0        10
 RefTypespec                         45      35       6        16
 ----------------------------------------------------------------
-Others                             203     203       0         0
+Others                             204     204       0         0
 ----------------------------------------------------------------
-                                   289     259      12        42
+                                   290     260      12        42
 ===================== END REDUCTION RESULT =====================

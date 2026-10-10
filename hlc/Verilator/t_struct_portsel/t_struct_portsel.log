@@ -1036,7 +1036,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: crc
           vpiFullName: t.crc
-          vpiVector: true
         Variable name:sum start:14:16 end:14:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:4 end:14:14:
@@ -1045,7 +1044,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sum
           vpiFullName: t.sum
-          vpiVector: true
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1207,7 +1205,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:in start:17:17 end:17:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:9 end:17:15:
@@ -1218,7 +1215,6 @@ Design name:unnamed:
           vpiFullName: t.in
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue PartSelect name:crc[19:0] start:17:22 end:17:31:
             vpiParent: Net name:in
             vpiName: crc[19:0]
@@ -1260,7 +1256,6 @@ Design name:unnamed:
           vpiFullName: t.out
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:result start:31:16 end:31:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:31:9 end:31:15:
@@ -1271,7 +1266,6 @@ Design name:unnamed:
           vpiFullName: t.result
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:31:25 end:31:37:
             vpiParent: Net name:result
             vpiOpType: concatenation (33)
@@ -1726,34 +1720,44 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:52:3 end:52:9:
                               vpiArgument (5 items):
-                                Constant start:52:10 end:52:42:
+                                NamedArgument start:52:10 end:52:42:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 232
-                                  vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
-                                  vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
-                                SysFuncCall name:$time start:52:43 end:52:48:
+                                  vpiHighConn Constant start:52:10 end:52:42:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 232
+                                    vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
+                                    vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
+                                NamedArgument start:52:43 end:52:48:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName Identifier name:$time start:52:43 end:52:48:
-                                RefObj name:cyc start:52:50 end:52:53:
+                                  vpiHighConn SysFuncCall name:$time start:52:43 end:52:48:
+                                    vpiParent: NamedArgument
+                                    vpiName Identifier name:$time start:52:43 end:52:48:
+                                NamedArgument start:52:50 end:52:53:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: cyc
-                                  vpiFullName: t.cyc
-                                  vpiActual: Variable name:cyc
-                                RefObj name:crc start:52:55 end:52:58:
+                                  vpiHighConn RefObj name:cyc start:52:50 end:52:53:
+                                    vpiParent: NamedArgument
+                                    vpiName: cyc
+                                    vpiFullName: t.cyc
+                                    vpiActual: Variable name:cyc
+                                NamedArgument start:52:55 end:52:58:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: crc
-                                  vpiFullName: t.crc
-                                  vpiActual: Variable name:crc
-                                RefObj name:sum start:52:60 end:52:63:
+                                  vpiHighConn RefObj name:crc start:52:55 end:52:58:
+                                    vpiParent: NamedArgument
+                                    vpiName: crc
+                                    vpiFullName: t.crc
+                                    vpiActual: Variable name:crc
+                                NamedArgument start:52:60 end:52:63:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: sum
-                                  vpiFullName: t.sum
-                                  vpiActual: Variable name:sum
+                                  vpiHighConn RefObj name:sum start:52:60 end:52:63:
+                                    vpiParent: NamedArgument
+                                    vpiName: sum
+                                    vpiFullName: t.sum
+                                    vpiActual: Variable name:sum
                             IfStmt start:53:3 end:53:43:
                               vpiParent: Begin
                               vpiCondition Operation start:53:7 end:53:35:
@@ -1808,16 +1812,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:57:3 end:57:9:
                               vpiArgument (1 items):
-                                Constant start:57:10 end:57:34:
+                                NamedArgument start:57:10 end:57:34:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:57:10 end:57:34:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:58:3 end:58:10:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:58:3 end:58:10:
@@ -1832,16 +1838,17 @@ Design name:unnamed:
             vpiName: Test
             vpiFullName: t.test.Test
             vpiActual: ModuleTypespec name:Test
-          vpiPort (2 items):
-            Port start:26:8 end:26:26:
+          vpiArgument (2 items):
+            NamedArgument start:26:8 end:26:26:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:out start:26:9 end:26:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out
                 vpiFullName: t.test.out
                 vpiActual: Net name:out
               vpiHighConn PartSelect name:out[19:0] start:26:16 end:26:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out[19:0]
                 vpiFullName: t.test.out[19:0]
                 vpiPrefix RefObj name:out start:26:16 end:26:19:
@@ -1871,15 +1878,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:28:8 end:28:24:
+            NamedArgument start:28:8 end:28:24:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:in start:28:9 end:28:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: in
                 vpiFullName: t.test.in
                 vpiActual: Net name:in
               vpiHighConn PartSelect name:in[19:0] start:28:15 end:28:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: in[19:0]
                 vpiFullName: t.test.in[19:0]
                 vpiPrefix RefObj name:in start:28:15 end:28:17:
@@ -2072,7 +2080,6 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: Test.in
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:out start:78:18 end:78:21:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:78:11 end:78:17:
@@ -2082,7 +2089,6 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: Test.out
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (2 items):
         Port name:out start:72:4 end:72:7:
           vpiParent: Module name:Test
@@ -2144,16 +2150,17 @@ Design name:unnamed:
             vpiName: sub
             vpiFullName: Test.sub.sub
             vpiActual: ModuleTypespec name:sub
-          vpiPort (2 items):
-            Port start:88:7 end:88:20:
+          vpiArgument (2 items):
+            NamedArgument start:88:7 end:88:20:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:i start:88:8 end:88:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i
                 vpiFullName: Test.sub.i
                 vpiActual: Variable name:i
               vpiHighConn PartSelect name:i[1:0] start:88:13 end:88:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i[1:0]
                 vpiFullName: Test.sub.i[1:0]
                 vpiPrefix RefObj name:i start:88:13 end:88:14:
@@ -2183,15 +2190,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:89:7 end:89:20:
+            NamedArgument start:89:7 end:89:20:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:o start:89:8 end:89:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: Test.sub.o
                 vpiActual: Variable name:o
               vpiHighConn PartSelect name:o[1:0] start:89:13 end:89:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o[1:0]
                 vpiFullName: Test.sub.o[1:0]
                 vpiPrefix RefObj name:o start:89:13 end:89:14:
@@ -2513,7 +2521,7 @@ Operation                           16      11       0         5
 RefObj                              50      45       0         5
 RefTypespec                         87      87       5         5
 ----------------------------------------------------------------
-Others                             142     142       0         0
+Others                             148     148       0         0
 ----------------------------------------------------------------
-                                   353     343      10        20
+                                   359     349      10        20
 ===================== END REDUCTION RESULT =====================

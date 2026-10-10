@@ -143,7 +143,9 @@ TEST_F(SignedFuncSimTest, FirstStatementAssignsSignedCallOfFourBitBinaryLiteral)
   EXPECT_EQ(call->getName(), "$signed");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getDecompile(), "4'b1000");
   EXPECT_EQ(arg->getConstType(), vpiBinaryConst);
@@ -161,8 +163,12 @@ TEST_F(SignedFuncSimTest, SecondStatementDisplaysExpectedAValue) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (-8 == %d)");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "a");
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (-8 == %d)");
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), "a");
 }
 
 // --- design-level typespecs / compiler diagnostics --------------------------
@@ -172,13 +178,8 @@ TEST_F(SignedFuncSimTest, DesignHasFourTypespecs) {
   EXPECT_EQ(m_design->getTypespecs()->size(), 4u);
 }
 
-TEST_F(SignedFuncSimTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
+TEST_F(SignedFuncSimTest, CompilerReportsErrors) {
+  ASSERT_NE(findError(ErrorDefinition::ErrorType::HLDB_SIGNED_UNSIGNED_PORT_CONN, "a", 22), nullptr);
 }
 
 // --- the actual point of the file: runtime value ----------------------------

@@ -145,7 +145,9 @@ TEST_F(UnsignedFuncSimTest, FirstStatementAssignsUnsignedCallOfUnaryMinusFourOpe
   EXPECT_EQ(call->getName(), "$unsigned");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::Operation *const minus = any_cast<hldb::Operation>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Operation *const minus = arg0->getHighConn<hldb::Operation>();
   ASSERT_NE(minus, nullptr) << "'-4' should be an unfolded unary-minus Operation, not a plain Constant";
   EXPECT_EQ(minus->getOpType(), vpiMinusOp);
   ASSERT_NE(minus->getOperands(), nullptr);
@@ -165,8 +167,12 @@ TEST_F(UnsignedFuncSimTest, SecondStatementDisplaysExpectedAValue) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), ":assert: (0b11111100 == %d)");
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), "a");
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: (0b11111100 == %d)");
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), "a");
 }
 
 // --- design-level typespecs / compiler diagnostics --------------------------

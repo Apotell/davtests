@@ -230,7 +230,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: mi
           vpiFullName: t.mi
-          vpiVector: true
         Variable name:sel start:10:15 end:10:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:10:4 end:10:7:
@@ -239,7 +238,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sel
           vpiFullName: t.sel
-          vpiScalar: true
         Variable name:sel2 start:11:15 end:11:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:11:4 end:11:13:
@@ -248,7 +246,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sel2
           vpiFullName: t.sel2
-          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -324,7 +321,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:6:11 end:6:14:
           vpiParent: Module name:t
@@ -445,26 +441,32 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:17:7 end:17:13:
                   vpiArgument (3 items):
-                    Constant start:17:15 end:17:35:
+                    NamedArgument start:17:15 end:17:35:
                       vpiParent: SysTaskCall name:$write
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 136
-                      vpiDecompile: "\"Bad select %x %x\\n\""
-                      vpiValue: Bad select %x %x\n
-                    RefObj name:sel start:17:37 end:17:40:
+                      vpiHighConn Constant start:17:15 end:17:35:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 136
+                        vpiDecompile: "\"Bad select %x %x\\n\""
+                        vpiValue: Bad select %x %x\n
+                    NamedArgument start:17:37 end:17:40:
                       vpiParent: SysTaskCall name:$write
-                      vpiName: sel
-                      vpiFullName: t.sel
-                      vpiActual: Variable name:sel
-                    RefObj name:sel2 start:17:42 end:17:46:
+                      vpiHighConn RefObj name:sel start:17:37 end:17:40:
+                        vpiParent: NamedArgument
+                        vpiName: sel
+                        vpiFullName: t.sel
+                        vpiActual: Variable name:sel
+                    NamedArgument start:17:42 end:17:46:
                       vpiParent: SysTaskCall name:$write
-                      vpiName: sel2
-                      vpiFullName: t.sel2
-                      vpiActual: Variable name:sel2
+                      vpiHighConn RefObj name:sel2 start:17:42 end:17:46:
+                        vpiParent: NamedArgument
+                        vpiName: sel2
+                        vpiFullName: t.sel2
+                        vpiActual: Variable name:sel2
           vpiAlwaysType: always (1)
   vpiTypespec (4 items):
     ModuleTypespec name:t:
@@ -531,7 +533,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_select_bad_range/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              65      65       0         0
+Others                              68      68       0         0
 ----------------------------------------------------------------
-                                    65      65       0         0
+                                    68      68       0         0
 ===================== END REDUCTION RESULT =====================

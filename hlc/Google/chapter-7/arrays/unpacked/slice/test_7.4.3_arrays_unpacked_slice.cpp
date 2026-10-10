@@ -193,7 +193,9 @@ TEST_F(UnpackedSliceTest, SixthStmtDisplaysArrBBitsAfterSliceWrite) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ('%b%b%b%b_%b%b%b%b' == '0011_1000')");
 }
@@ -237,8 +239,9 @@ TEST_F(UnpackedSliceTest, RuntimeArrBBitPatternRequiresSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysTaskCall *const disp = any_cast<hldb::SysTaskCall>(begin->getStmts()->at(5));
   ASSERT_NE(disp, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(),
-            ":assert: ('%b%b%b%b_%b%b%b%b' == '0011_1000')")
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), ":assert: ('%b%b%b%b_%b%b%b%b' == '0011_1000')")
       << "expected arr_b == 0011_1000 after copying arr_a[2:0] (== 111) into arr_b[5:3]";
 }
 

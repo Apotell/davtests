@@ -486,7 +486,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:33:4 end:33:7:
           vpiParent: Module name:t
@@ -518,16 +517,17 @@ Design name:unnamed:
             vpiName: testmod_callee
             vpiFullName: t.testmod_callee_i.testmod_callee
             vpiActual: ModuleTypespec name:testmod_callee
-          vpiPort (1 items):
-            Port start:39:37 end:39:49:
+          vpiArgument (1 items):
+            NamedArgument start:39:37 end:39:49:
               vpiParent: RefInstance name:testmod_callee_i
+              vpiConnByName: true
               vpiLowConn RefObj name:ie start:39:38 end:39:40:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ie
                 vpiFullName: t.testmod_callee_i.ie
                 vpiActual: Port name:ie
               vpiHighConn RefObj name:i.mp_e start:39:42 end:39:48:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i.mp_e
                 vpiFullName: t.testmod_callee_i.i.mp_e
                 vpiPathElem (2 items):
@@ -548,28 +548,30 @@ Design name:unnamed:
             vpiName: testmod_caller
             vpiFullName: t.testmod_caller_i.testmod_caller
             vpiActual: ModuleTypespec name:testmod_caller
-          vpiPort (2 items):
-            Port start:40:37 end:40:47:
+          vpiArgument (2 items):
+            NamedArgument start:40:37 end:40:47:
               vpiParent: RefInstance name:testmod_caller_i
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:40:38 end:40:41:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.testmod_caller_i.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:40:43 end:40:46:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.testmod_caller_i.clk
                 vpiActual: Net name:clk
-            Port start:41:9 end:41:21:
+            NamedArgument start:41:9 end:41:21:
               vpiParent: RefInstance name:testmod_caller_i
+              vpiConnByName: true
               vpiLowConn RefObj name:ii start:41:10 end:41:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ii
                 vpiFullName: t.testmod_caller_i.ii
                 vpiActual: Port name:ii
               vpiHighConn RefObj name:i.mp_i start:41:14 end:41:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i.mp_i
                 vpiFullName: t.testmod_caller_i.i.mp_i
                 vpiPathElem (2 items):
@@ -704,7 +706,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: testmod_caller.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:clk start:60:10 end:60:13:
           vpiParent: Module name:testmod_caller
@@ -803,16 +804,18 @@ Design name:unnamed:
                         vpiParent: "RefObj name:ii.myfunc(1'b0)"
                         vpiName Identifier name:myfunc start:66:14 end:66:20:
                         vpiArgument (1 items):
-                          Constant start:66:22 end:66:26:
+                          NamedArgument start:66:22 end:66:26:
                             vpiParent: SubroutineCall name:myfunc
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: "testmod_caller.ii.myfunc(1'b0).myfunc"
-                              vpiActual: BitTypespec
-                            vpiConstType: binary (3)
-                            vpiSize: 1
-                            vpiDecompile: "1'b0"
-                            vpiValue: "0"
+                            vpiHighConn Constant start:66:22 end:66:26:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: "testmod_caller.ii.myfunc(1'b0).myfunc"
+                                vpiActual: BitTypespec
+                              vpiConstType: binary (3)
+                              vpiSize: 1
+                              vpiDecompile: "1'b0"
+                              vpiValue: "0"
                   vpiStmt Begin start:66:29 end:69:10:
                     vpiParent: IfElse
                     vpiFullName: testmod_caller
@@ -821,16 +824,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:67:3 end:67:9:
                         vpiArgument (1 items):
-                          Constant start:67:10 end:67:34:
+                          NamedArgument start:67:10 end:67:34:
                             vpiParent: SysTaskCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: testmod_caller
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 168
-                            vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: "*-* All Finished *-*\\n"
+                            vpiHighConn Constant start:67:10 end:67:34:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: testmod_caller
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 168
+                              vpiDecompile: "\"*-* All Finished *-*\\n\""
+                              vpiValue: "*-* All Finished *-*\\n"
                       SysTaskCall name:$finish start:68:3 end:68:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:68:3 end:68:10:
@@ -919,7 +924,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_export/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             126     126       0         0
+Others                             128     128       0         0
 ----------------------------------------------------------------
-                                   126     126       0         0
+                                   128     128       0         0
 ===================== END REDUCTION RESULT =====================

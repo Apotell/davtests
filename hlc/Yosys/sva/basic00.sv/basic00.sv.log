@@ -209,25 +209,31 @@ Design name:unnamed:
             vpiParent: Assert
             vpiName Identifier name:$error start:10:9 end:10:15:
             vpiArgument (2 items):
-              Constant start:10:16 end:10:43:
+              NamedArgument start:10:16 end:10:43:
                 vpiParent: SysTaskCall name:$error
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top
-                  vpiActual: StringTypespec
-                vpiConstType: string (6)
-                vpiSize: 200
-                vpiDecompile: "\"Failed with consequent = \""
-                vpiValue: Failed with consequent =
-              SysFuncCall name:$sampled start:10:45 end:10:65:
+                vpiHighConn Constant start:10:16 end:10:43:
+                  vpiParent: NamedArgument
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top
+                    vpiActual: StringTypespec
+                  vpiConstType: string (6)
+                  vpiSize: 200
+                  vpiDecompile: "\"Failed with consequent = \""
+                  vpiValue: Failed with consequent =
+              NamedArgument start:10:45 end:10:65:
                 vpiParent: SysTaskCall name:$error
-                vpiName Identifier name:$sampled start:10:45 end:10:53:
-                vpiArgument (1 items):
-                  RefObj name:consequent start:10:54 end:10:64:
-                    vpiParent: SysFuncCall name:$sampled
-                    vpiName: consequent
-                    vpiFullName: top.consequent
-                    vpiActual: Variable name:consequent
+                vpiHighConn SysFuncCall name:$sampled start:10:45 end:10:65:
+                  vpiParent: NamedArgument
+                  vpiName Identifier name:$sampled start:10:45 end:10:53:
+                  vpiArgument (1 items):
+                    NamedArgument start:10:54 end:10:64:
+                      vpiParent: SysFuncCall name:$sampled
+                      vpiHighConn RefObj name:consequent start:10:54 end:10:64:
+                        vpiParent: NamedArgument
+                        vpiName: consequent
+                        vpiFullName: top.consequent
+                        vpiActual: Variable name:consequent
       vpiVariable (1 items):
         Variable name:consequent start:1:54 end:1:64:
           vpiParent: Module name:top
@@ -237,7 +243,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: consequent
           vpiFullName: top.consequent
-          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -261,7 +266,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: top.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:reset start:1:24 end:1:29:
           vpiParent: Module name:top
           vpiTypespec RefTypespec:
@@ -271,7 +275,6 @@ Design name:unnamed:
           vpiName: reset
           vpiFullName: top.reset
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:antecedent start:1:31 end:1:41:
           vpiParent: Module name:top
           vpiTypespec RefTypespec:
@@ -281,7 +284,6 @@ Design name:unnamed:
           vpiName: antecedent
           vpiFullName: top.antecedent
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (4 items):
         Port name:clk start:1:19 end:1:22:
           vpiParent: Module name:top
@@ -444,7 +446,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/sva/basic00.sv/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                    59      59       0         0
+                                    62      62       0         0
 ===================== END REDUCTION RESULT =====================

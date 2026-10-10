@@ -240,7 +240,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: write_en
           vpiFullName: io_bus_interface.write_en
-          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:io_bus_interface
@@ -327,11 +326,13 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName Identifier name:$clog2 start:10:16 end:10:22:
                     vpiArgument (1 items):
-                      RefObj name:NUM_PERIPHERALS start:10:23 end:10:38:
+                      NamedArgument start:10:23 end:10:38:
                         vpiParent: SysFuncCall name:$clog2
-                        vpiName: NUM_PERIPHERALS
-                        vpiFullName: soc_tb.NUM_PERIPHERALS
-                        vpiActual: Parameter name:NUM_PERIPHERALS
+                        vpiHighConn RefObj name:NUM_PERIPHERALS start:10:23 end:10:38:
+                          vpiParent: NamedArgument
+                          vpiName: NUM_PERIPHERALS
+                          vpiFullName: soc_tb.NUM_PERIPHERALS
+                          vpiActual: Parameter name:NUM_PERIPHERALS
                   Constant start:10:42 end:10:43:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -609,6 +610,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             8       8       2         2
 Identifier                           7       6       0         1
+NamedArgument                        1       0       0         1
 Operation                            4       2       0         2
 RefObj                              16      14       0         2
 RefTypespec                         14      14       2         2
@@ -616,5 +618,5 @@ SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
 Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    83      77       4        10
+                                    84      77       4        11
 ===================== END REDUCTION RESULT =====================

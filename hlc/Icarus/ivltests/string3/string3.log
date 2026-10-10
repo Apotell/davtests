@@ -235,7 +235,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: foo
           vpiFullName: main.foo
-          vpiVector: true
         Variable name:tmp start:25:16 end:25:19:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:25:4 end:25:13:
@@ -244,7 +243,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: tmp
           vpiFullName: main.tmp
-          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:main
@@ -457,21 +455,25 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:34:5 end:34:13:
                       vpiArgument (2 items):
-                        Constant start:34:14 end:34:42:
+                        NamedArgument start:34:14 end:34:42:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 208
-                          vpiDecompile: "\"FAILED -- high bits are %b\""
-                          vpiValue: FAILED -- high bits are %b
-                        RefObj name:tmp start:34:44 end:34:47:
+                          vpiHighConn Constant start:34:14 end:34:42:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 208
+                            vpiDecompile: "\"FAILED -- high bits are %b\""
+                            vpiValue: FAILED -- high bits are %b
+                        NamedArgument start:34:44 end:34:47:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: tmp
-                          vpiFullName: main.tmp
-                          vpiActual: Variable name:tmp
+                          vpiHighConn RefObj name:tmp start:34:44 end:34:47:
+                            vpiParent: NamedArgument
+                            vpiName: tmp
+                            vpiFullName: main.tmp
+                            vpiActual: Variable name:tmp
                     SysTaskCall name:$finish start:35:5 end:35:12:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:35:5 end:35:12:
@@ -480,21 +482,25 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:37:2 end:37:10:
                 vpiArgument (2 items):
-                  Constant start:37:11 end:37:15:
+                  NamedArgument start:37:11 end:37:15:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 16
-                    vpiDecompile: "\"%s\""
-                    vpiValue: "%s"
-                  RefObj name:foo start:37:17 end:37:20:
+                    vpiHighConn Constant start:37:11 end:37:15:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 16
+                      vpiDecompile: "\"%s\""
+                      vpiValue: "%s"
+                  NamedArgument start:37:17 end:37:20:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: foo
-                    vpiFullName: main.foo
-                    vpiActual: Variable name:foo
+                    vpiHighConn RefObj name:foo start:37:17 end:37:20:
+                      vpiParent: NamedArgument
+                      vpiName: foo
+                      vpiFullName: main.foo
+                      vpiActual: Variable name:foo
   vpiTypespec (4 items):
     ModuleTypespec name:main:
       vpiParent: Design name:unnamed
@@ -563,7 +569,7 @@ Constant                            14      10       3         7
 Operation                            5       1       0         4
 RefTypespec                         16      12       3         7
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    72      60       6        18
+                                    76      64       6        18
 ===================== END REDUCTION RESULT =====================

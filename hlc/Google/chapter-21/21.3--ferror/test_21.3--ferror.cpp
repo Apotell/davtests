@@ -357,13 +357,17 @@ TEST_F(FerrorTest, FopenRhsIsSysFuncCallWithFilenameAndMode) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u) << "the two-argument form '$fopen(filename, type)' is used here";
 
-  const hldb::Constant *const filename = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const filename = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(filename, nullptr) << "arg[0] should be the filename string literal";
   EXPECT_EQ(filename->getConstType(), vpiStringConst);
   EXPECT_EQ(filename->getValue(), "tmp.txt");
   EXPECT_EQ(filename->getSize(), 56) << "IEEE 1800-2023 Sec 5.9: \"tmp.txt\" = 7 characters x 8 bits = 56 bits";
 
-  const hldb::Constant *const mode = any_cast<hldb::Constant>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const mode = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mode, nullptr) << "arg[1] should be the type string literal";
   EXPECT_EQ(mode->getConstType(), vpiStringConst);
   EXPECT_EQ(mode->getValue(), "w");
@@ -401,15 +405,19 @@ TEST_F(FerrorTest, FerrorRhsIsSysFuncCallOnDescriptorAndStringVariable) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u) << "'$ferror(fd, str)' takes a descriptor and a string variable";
 
-  const hldb::RefObj *const descriptor = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const descriptor = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(descriptor, nullptr) << "arg[0] should be a RefObj";
   EXPECT_EQ(descriptor->getName(), "fd");
   EXPECT_EQ(descriptor->getActual<hldb::Variable>(), getLocal("fd"))
       << "the descriptor queried must be the same block-local 'fd' the $fopen assignment wrote";
 
-  EXPECT_EQ(any_cast<hldb::Constant>(call->getArguments()->at(1)), nullptr)
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::Constant>(), nullptr)
       << "IEEE 1800-2023 Sec 21.3.7: arg[1] is the string variable $ferror fills in, not a literal message";
-  const hldb::RefObj *const message = any_cast<hldb::RefObj>(call->getArguments()->at(1));
+  const hldb::RefObj *const message = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(message, nullptr) << "arg[1] should be a RefObj";
   EXPECT_EQ(message->getName(), "str");
   EXPECT_EQ(message->getActual<hldb::Variable>(), getLocal("str"))
@@ -427,9 +435,11 @@ TEST_F(FerrorTest, DisplayErrnoPassesTheIntegerVariable) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u) << "'$display(errno)' passes exactly one argument";
 
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0)), nullptr)
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>(), nullptr)
       << "the argument is the variable 'errno', not a format string literal";
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "the argument should be a RefObj";
   EXPECT_EQ(arg->getName(), "errno");
   EXPECT_EQ(arg->getActual<hldb::Variable>(), getLocal("errno"))
@@ -443,9 +453,10 @@ TEST_F(FerrorTest, DisplayStrPassesTheStringVariable) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u) << "'$display(str)' passes exactly one argument";
 
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0)), nullptr)
-      << "the argument is the variable 'str', not a string literal";
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>(), nullptr) << "the argument is the variable 'str', not a string literal";
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "the argument should be a RefObj";
   EXPECT_EQ(arg->getName(), "str");
   EXPECT_EQ(arg->getActual<hldb::Variable>(), getLocal("str"))
@@ -470,7 +481,9 @@ TEST_F(FerrorTest, FcloseCallClosesTheSameDescriptor) {
   EXPECT_EQ(call->getName(), "$fclose");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "'$fclose(fd)' takes exactly one descriptor argument";
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr) << "the $fclose argument should be a RefObj";
   EXPECT_EQ(arg->getName(), "fd");
   EXPECT_EQ(arg->getActual<hldb::Variable>(), getLocal("fd"))

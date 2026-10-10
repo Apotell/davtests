@@ -1234,7 +1234,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: crc
           vpiFullName: t.crc
-          vpiVector: true
         Variable name:sum start:47:16 end:47:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:47:4 end:47:14:
@@ -1243,7 +1242,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sum
           vpiFullName: t.sum
-          vpiVector: true
       vpiTypespec (20 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1657,7 +1655,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:bitout start:12:17 end:12:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:12:9 end:12:16:
@@ -1668,7 +1665,6 @@ Design name:unnamed:
           vpiFullName: t.bitout
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:short_bitout start:13:17 end:13:29:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:13:9 end:13:16:
@@ -1679,7 +1675,6 @@ Design name:unnamed:
           vpiFullName: t.short_bitout
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:allbits start:14:16 end:14:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:9 end:14:14:
@@ -1690,7 +1685,6 @@ Design name:unnamed:
           vpiFullName: t.allbits
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:twobits start:15:17 end:15:24:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:9 end:15:15:
@@ -1701,7 +1695,6 @@ Design name:unnamed:
           vpiFullName: t.twobits
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:result start:52:16 end:52:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:52:9 end:52:15:
@@ -1712,7 +1705,6 @@ Design name:unnamed:
           vpiFullName: t.result
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:52:25 end:52:54:
             vpiParent: Net name:result
             vpiOpType: concatenation (33)
@@ -2172,34 +2164,44 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:73:3 end:73:9:
                               vpiArgument (5 items):
-                                Constant start:73:10 end:73:42:
+                                NamedArgument start:73:10 end:73:42:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 232
-                                  vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
-                                  vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
-                                SysFuncCall name:$time start:73:43 end:73:48:
+                                  vpiHighConn Constant start:73:10 end:73:42:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 232
+                                    vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
+                                    vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
+                                NamedArgument start:73:43 end:73:48:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName Identifier name:$time start:73:43 end:73:48:
-                                RefObj name:cyc start:73:50 end:73:53:
+                                  vpiHighConn SysFuncCall name:$time start:73:43 end:73:48:
+                                    vpiParent: NamedArgument
+                                    vpiName Identifier name:$time start:73:43 end:73:48:
+                                NamedArgument start:73:50 end:73:53:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: cyc
-                                  vpiFullName: t.cyc
-                                  vpiActual: Variable name:cyc
-                                RefObj name:crc start:73:55 end:73:58:
+                                  vpiHighConn RefObj name:cyc start:73:50 end:73:53:
+                                    vpiParent: NamedArgument
+                                    vpiName: cyc
+                                    vpiFullName: t.cyc
+                                    vpiActual: Variable name:cyc
+                                NamedArgument start:73:55 end:73:58:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: crc
-                                  vpiFullName: t.crc
-                                  vpiActual: Variable name:crc
-                                RefObj name:sum start:73:60 end:73:63:
+                                  vpiHighConn RefObj name:crc start:73:55 end:73:58:
+                                    vpiParent: NamedArgument
+                                    vpiName: crc
+                                    vpiFullName: t.crc
+                                    vpiActual: Variable name:crc
+                                NamedArgument start:73:60 end:73:63:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: sum
-                                  vpiFullName: t.sum
-                                  vpiActual: Variable name:sum
+                                  vpiHighConn RefObj name:sum start:73:60 end:73:63:
+                                    vpiParent: NamedArgument
+                                    vpiName: sum
+                                    vpiFullName: t.sum
+                                    vpiActual: Variable name:sum
                             IfStmt start:74:3 end:74:43:
                               vpiParent: Begin
                               vpiCondition Operation start:74:7 end:74:35:
@@ -2254,16 +2256,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:78:3 end:78:9:
                               vpiArgument (1 items):
-                                Constant start:78:10 end:78:34:
+                                NamedArgument start:78:10 end:78:34:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:78:10 end:78:34:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:79:3 end:79:10:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:79:3 end:79:10:
@@ -2355,28 +2359,30 @@ Design name:unnamed:
             vpiName: sub [7:4]
             vpiFullName: t.i_sub1.sub [7:4]
             vpiActual: ArrayTypespec
-          vpiPort (3 items):
-            Port start:18:20 end:18:38:
+          vpiArgument (3 items):
+            NamedArgument start:18:20 end:18:38:
               vpiParent: RefInstance name:i_sub1
+              vpiConnByName: true
               vpiLowConn RefObj name:allbits start:18:21 end:18:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: allbits
                 vpiFullName: t.i_sub1.allbits
                 vpiActual: Net name:allbits
               vpiHighConn RefObj name:allbits start:18:30 end:18:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: allbits
                 vpiFullName: t.i_sub1.allbits
                 vpiActual: Net name:allbits
-            Port start:19:6 end:19:30:
+            NamedArgument start:19:6 end:19:30:
               vpiParent: RefInstance name:i_sub1
+              vpiConnByName: true
               vpiLowConn RefObj name:twobits start:19:7 end:19:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: twobits
                 vpiFullName: t.i_sub1.twobits
                 vpiActual: Net name:twobits
               vpiHighConn PartSelect name:twobits[15:8] start:19:16 end:19:29:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: twobits[15:8]
                 vpiFullName: t.i_sub1.twobits[15:8]
                 vpiPrefix RefObj name:twobits start:19:16 end:19:23:
@@ -2406,15 +2412,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "8"
                     vpiValue: 8
-            Port start:20:6 end:20:29:
+            NamedArgument start:20:6 end:20:29:
               vpiParent: RefInstance name:i_sub1
+              vpiConnByName: true
               vpiLowConn RefObj name:bitout start:20:7 end:20:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bitout
                 vpiFullName: t.i_sub1.bitout
                 vpiActual: Net name:bitout
               vpiHighConn PartSelect name:bitout[17:14] start:20:15 end:20:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bitout[17:14]
                 vpiFullName: t.i_sub1.bitout[17:14]
                 vpiPrefix RefObj name:bitout start:20:15 end:20:21:
@@ -2452,28 +2459,30 @@ Design name:unnamed:
             vpiName: sub [3:0]
             vpiFullName: t.i_sub2.sub [3:0]
             vpiActual: ArrayTypespec
-          vpiPort (3 items):
-            Port start:21:20 end:21:38:
+          vpiArgument (3 items):
+            NamedArgument start:21:20 end:21:38:
               vpiParent: RefInstance name:i_sub2
+              vpiConnByName: true
               vpiLowConn RefObj name:allbits start:21:21 end:21:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: allbits
                 vpiFullName: t.i_sub2.allbits
                 vpiActual: Net name:allbits
               vpiHighConn RefObj name:allbits start:21:30 end:21:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: allbits
                 vpiFullName: t.i_sub2.allbits
                 vpiActual: Net name:allbits
-            Port start:22:6 end:22:29:
+            NamedArgument start:22:6 end:22:29:
               vpiParent: RefInstance name:i_sub2
+              vpiConnByName: true
               vpiLowConn RefObj name:twobits start:22:7 end:22:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: twobits
                 vpiFullName: t.i_sub2.twobits
                 vpiActual: Net name:twobits
               vpiHighConn PartSelect name:twobits[7:0] start:22:16 end:22:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: twobits[7:0]
                 vpiFullName: t.i_sub2.twobits[7:0]
                 vpiPrefix RefObj name:twobits start:22:16 end:22:23:
@@ -2503,15 +2512,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:23:6 end:23:29:
+            NamedArgument start:23:6 end:23:29:
               vpiParent: RefInstance name:i_sub2
+              vpiConnByName: true
               vpiLowConn RefObj name:bitout start:23:7 end:23:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bitout
                 vpiFullName: t.i_sub2.bitout
                 vpiActual: Net name:bitout
               vpiHighConn PartSelect name:bitout[13:10] start:23:15 end:23:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bitout[13:10]
                 vpiFullName: t.i_sub2.bitout[13:10]
                 vpiPrefix RefObj name:bitout start:23:15 end:23:21:
@@ -2549,28 +2559,30 @@ Design name:unnamed:
             vpiName: sub [7:4]
             vpiFullName: t.i_sub3.sub [7:4]
             vpiActual: ArrayTypespec
-          vpiPort (3 items):
-            Port start:26:20 end:26:38:
+          vpiArgument (3 items):
+            NamedArgument start:26:20 end:26:38:
               vpiParent: RefInstance name:i_sub3
+              vpiConnByName: true
               vpiLowConn RefObj name:allbits start:26:21 end:26:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: allbits
                 vpiFullName: t.i_sub3.allbits
                 vpiActual: Net name:allbits
               vpiHighConn RefObj name:allbits start:26:30 end:26:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: allbits
                 vpiFullName: t.i_sub3.allbits
                 vpiActual: Net name:allbits
-            Port start:27:6 end:27:30:
+            NamedArgument start:27:6 end:27:30:
               vpiParent: RefInstance name:i_sub3
+              vpiConnByName: true
               vpiLowConn RefObj name:twobits start:27:7 end:27:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: twobits
                 vpiFullName: t.i_sub3.twobits
                 vpiActual: Net name:twobits
               vpiHighConn PartSelect name:twobits[15:8] start:27:16 end:27:29:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: twobits[15:8]
                 vpiFullName: t.i_sub3.twobits[15:8]
                 vpiPrefix RefObj name:twobits start:27:16 end:27:23:
@@ -2600,15 +2612,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "8"
                     vpiValue: 8
-            Port start:28:6 end:28:29:
+            NamedArgument start:28:6 end:28:29:
               vpiParent: RefInstance name:i_sub3
+              vpiConnByName: true
               vpiLowConn RefObj name:bitout start:28:7 end:28:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bitout
                 vpiFullName: t.i_sub3.bitout
                 vpiActual: Net name:bitout
               vpiHighConn PartSelect name:bitout[17:14] start:28:15 end:28:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bitout[17:14]
                 vpiFullName: t.i_sub3.bitout[17:14]
                 vpiPrefix RefObj name:bitout start:28:15 end:28:21:
@@ -2646,28 +2659,30 @@ Design name:unnamed:
             vpiName: sub [7:4]
             vpiFullName: t.i_sub4.sub [7:4]
             vpiActual: ArrayTypespec
-          vpiPort (3 items):
-            Port start:31:20 end:31:38:
+          vpiArgument (3 items):
+            NamedArgument start:31:20 end:31:38:
               vpiParent: RefInstance name:i_sub4
+              vpiConnByName: true
               vpiLowConn RefObj name:allbits start:31:21 end:31:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: allbits
                 vpiFullName: t.i_sub4.allbits
                 vpiActual: Net name:allbits
               vpiHighConn RefObj name:allbits start:31:30 end:31:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: allbits
                 vpiFullName: t.i_sub4.allbits
                 vpiActual: Net name:allbits
-            Port start:32:6 end:32:30:
+            NamedArgument start:32:6 end:32:30:
               vpiParent: RefInstance name:i_sub4
+              vpiConnByName: true
               vpiLowConn RefObj name:twobits start:32:7 end:32:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: twobits
                 vpiFullName: t.i_sub4.twobits
                 vpiActual: Net name:twobits
               vpiHighConn PartSelect name:twobits[15:8] start:32:16 end:32:29:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: twobits[15:8]
                 vpiFullName: t.i_sub4.twobits[15:8]
                 vpiPrefix RefObj name:twobits start:32:16 end:32:23:
@@ -2697,15 +2712,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "8"
                     vpiValue: 8
-            Port start:33:6 end:33:35:
+            NamedArgument start:33:6 end:33:35:
               vpiParent: RefInstance name:i_sub4
+              vpiConnByName: true
               vpiLowConn RefObj name:bitout start:33:7 end:33:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bitout
                 vpiFullName: t.i_sub4.bitout
                 vpiActual: Net name:bitout
               vpiHighConn PartSelect name:short_bitout[27:24] start:33:15 end:33:34:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: short_bitout[27:24]
                 vpiFullName: t.i_sub4.short_bitout[27:24]
                 vpiPrefix RefObj name:short_bitout start:33:15 end:33:27:
@@ -2743,40 +2759,43 @@ Design name:unnamed:
             vpiName: sub [7:0]
             vpiFullName: t.i_sub5.sub [7:0]
             vpiActual: ArrayTypespec
-          vpiPort (3 items):
-            Port start:36:20 end:36:38:
+          vpiArgument (3 items):
+            NamedArgument start:36:20 end:36:38:
               vpiParent: RefInstance name:i_sub5
+              vpiConnByName: true
               vpiLowConn RefObj name:allbits start:36:21 end:36:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: allbits
                 vpiFullName: t.i_sub5.allbits
                 vpiActual: Net name:allbits
               vpiHighConn RefObj name:allbits start:36:30 end:36:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: allbits
                 vpiFullName: t.i_sub5.allbits
                 vpiActual: Net name:allbits
-            Port start:37:6 end:37:24:
+            NamedArgument start:37:6 end:37:24:
               vpiParent: RefInstance name:i_sub5
+              vpiConnByName: true
               vpiLowConn RefObj name:twobits start:37:7 end:37:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: twobits
                 vpiFullName: t.i_sub5.twobits
                 vpiActual: Net name:twobits
               vpiHighConn RefObj name:twobits start:37:16 end:37:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: twobits
                 vpiFullName: t.i_sub5.twobits
                 vpiActual: Net name:twobits
-            Port start:38:6 end:38:29:
+            NamedArgument start:38:6 end:38:29:
               vpiParent: RefInstance name:i_sub5
+              vpiConnByName: true
               vpiLowConn RefObj name:bitout start:38:7 end:38:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bitout
                 vpiFullName: t.i_sub5.bitout
                 vpiActual: Net name:bitout
               vpiHighConn PartSelect name:bitout[17:10] start:38:15 end:38:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bitout[17:10]
                 vpiFullName: t.i_sub5.bitout[17:10]
                 vpiPrefix RefObj name:bitout start:38:15 end:38:21:
@@ -2814,28 +2833,30 @@ Design name:unnamed:
             vpiName: sub [7:4]
             vpiFullName: t.i_sub6.sub [7:4]
             vpiActual: ArrayTypespec
-          vpiPort (3 items):
-            Port start:41:20 end:41:38:
+          vpiArgument (3 items):
+            NamedArgument start:41:20 end:41:38:
               vpiParent: RefInstance name:i_sub6
+              vpiConnByName: true
               vpiLowConn RefObj name:allbits start:41:21 end:41:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: allbits
                 vpiFullName: t.i_sub6.allbits
                 vpiActual: Net name:allbits
               vpiHighConn RefObj name:allbits start:41:30 end:41:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: allbits
                 vpiFullName: t.i_sub6.allbits
                 vpiActual: Net name:allbits
-            Port start:42:6 end:42:30:
+            NamedArgument start:42:6 end:42:30:
               vpiParent: RefInstance name:i_sub6
+              vpiConnByName: true
               vpiLowConn RefObj name:twobits start:42:7 end:42:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: twobits
                 vpiFullName: t.i_sub6.twobits
                 vpiActual: Net name:twobits
               vpiHighConn PartSelect name:twobits[15:8] start:42:16 end:42:29:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: twobits[15:8]
                 vpiFullName: t.i_sub6.twobits[15:8]
                 vpiPrefix RefObj name:twobits start:42:16 end:42:23:
@@ -2865,15 +2886,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "8"
                     vpiValue: 8
-            Port start:43:6 end:43:51:
+            NamedArgument start:43:6 end:43:51:
               vpiParent: RefInstance name:i_sub6
+              vpiConnByName: true
               vpiLowConn RefObj name:bitout start:43:7 end:43:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bitout
                 vpiFullName: t.i_sub6.bitout
                 vpiActual: Net name:bitout
               vpiHighConn Operation start:43:15 end:43:50:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiOpType: concatenation (33)
                 vpiOperand (2 items):
                   IndexedPartSelect name:bitout[18+:2] start:43:16 end:43:29:
@@ -3015,7 +3037,6 @@ Design name:unnamed:
           vpiName: allbits
           vpiFullName: sub.allbits
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:twobits start:88:23 end:88:30:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:88:17 end:88:22:
@@ -3025,7 +3046,6 @@ Design name:unnamed:
           vpiName: twobits
           vpiFullName: sub.twobits
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:bitout start:89:23 end:89:29:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec:
@@ -3035,7 +3055,6 @@ Design name:unnamed:
           vpiName: bitout
           vpiFullName: sub.bitout
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (3 items):
         Port name:allbits start:87:23 end:87:30:
           vpiParent: Module name:sub
@@ -3182,7 +3201,7 @@ Operation                           20      15       0         5
 RefObj                              78      73       0         5
 RefTypespec                        110     110       5         5
 ----------------------------------------------------------------
-Others                             174     174       0         0
+Others                             180     180       0         0
 ----------------------------------------------------------------
-                                   464     454      10        20
+                                   470     460      10        20
 ===================== END REDUCTION RESULT =====================

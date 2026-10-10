@@ -877,7 +877,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:17 end:8:20:
           vpiParent: Module name:t
@@ -901,14 +900,14 @@ Design name:unnamed:
             vpiName: simple_bus
             vpiFullName: t.sb_intf.simple_bus
             vpiActual: InterfaceTypespec name:simple_bus
-          vpiPort (1 items):
-            Port start:9:23 end:9:26:
+          vpiArgument (1 items):
+            NamedArgument start:9:23 end:9:26:
               vpiParent: RefInstance name:sb_intf
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: t.sb_intf
               vpiHighConn RefObj name:clk start:9:23 end:9:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.sb_intf.clk
                 vpiActual: Net name:clk
@@ -919,14 +918,14 @@ Design name:unnamed:
             vpiParent: RefInstance name:wide_intf
             vpiFullName: t.wide_intf
             vpiActual: UnsupportedTypespec
-          vpiPort (1 items):
-            Port start:10:40 end:10:43:
+          vpiArgument (1 items):
+            NamedArgument start:10:40 end:10:43:
               vpiParent: RefInstance name:wide_intf
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: t.wide_intf
               vpiHighConn RefObj name:clk start:10:40 end:10:43:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.wide_intf.clk
                 vpiActual: Net name:clk
@@ -938,16 +937,16 @@ Design name:unnamed:
             vpiName: mem
             vpiFullName: t.mem.mem
             vpiActual: ModuleTypespec name:mem
-          vpiPort (1 items):
-            Port start:11:12 end:11:25:
+          vpiArgument (1 items):
+            NamedArgument start:11:12 end:11:25:
               vpiParent: RefInstance name:mem
               vpiLowConn RefObj name:a:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: t.mem.a
                 vpiActual: Port name:a
               vpiHighConn RefObj name:sb_intf.slave start:11:12 end:11:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: sb_intf.slave
                 vpiFullName: t.mem.sb_intf.slave
                 vpiPathElem (2 items):
@@ -968,16 +967,16 @@ Design name:unnamed:
             vpiName: cpu
             vpiFullName: t.cpu.cpu
             vpiActual: ModuleTypespec name:cpu
-          vpiPort (1 items):
-            Port start:12:12 end:12:26:
+          vpiArgument (1 items):
+            NamedArgument start:12:12 end:12:26:
               vpiParent: RefInstance name:cpu
               vpiLowConn RefObj name:b:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: t.cpu.b
                 vpiActual: Port name:b
               vpiHighConn RefObj name:sb_intf.master start:12:12 end:12:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: sb_intf.master
                 vpiFullName: t.cpu.sb_intf.master
                 vpiPathElem (2 items):
@@ -998,16 +997,16 @@ Design name:unnamed:
             vpiName: mem
             vpiFullName: t.memW.mem
             vpiActual: ModuleTypespec name:mem
-          vpiPort (1 items):
-            Port start:13:13 end:13:28:
+          vpiArgument (1 items):
+            NamedArgument start:13:13 end:13:28:
               vpiParent: RefInstance name:memW
               vpiLowConn RefObj name:a:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: t.memW.a
                 vpiActual: Port name:a
               vpiHighConn RefObj name:wide_intf.slave start:13:13 end:13:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: wide_intf.slave
                 vpiFullName: t.memW.wide_intf.slave
                 vpiPathElem (2 items):
@@ -1028,16 +1027,16 @@ Design name:unnamed:
             vpiName: cpu
             vpiFullName: t.cpuW.cpu
             vpiActual: ModuleTypespec name:cpu
-          vpiPort (1 items):
-            Port start:14:13 end:14:29:
+          vpiArgument (1 items):
+            NamedArgument start:14:13 end:14:29:
               vpiParent: RefInstance name:cpuW
               vpiLowConn RefObj name:b:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: t.cpuW.b
                 vpiActual: Port name:b
               vpiHighConn RefObj name:wide_intf.master start:14:13 end:14:29:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: wide_intf.master
                 vpiFullName: t.cpuW.wide_intf.master
                 vpiPathElem (2 items):
@@ -1165,19 +1164,21 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:42:11 end:42:16:
                       vpiArgument (1 items):
-                        RefObj name:a.data start:42:17 end:42:23:
+                        NamedArgument start:42:17 end:42:23:
                           vpiParent: SysFuncCall name:$bits
-                          vpiName: a.data
-                          vpiFullName: mem.a.data
-                          vpiPathElem (2 items):
-                            RefObj name:a start:42:17 end:42:18:
-                              vpiParent: RefObj name:a.data
-                              vpiName: a
-                              vpiFullName: mem.a
-                            RefObj name:data start:42:19 end:42:23:
-                              vpiParent: RefObj name:a.data
-                              vpiName: data
-                              vpiFullName: mem.data
+                          vpiHighConn RefObj name:a.data start:42:17 end:42:23:
+                            vpiParent: NamedArgument
+                            vpiName: a.data
+                            vpiFullName: mem.a.data
+                            vpiPathElem (2 items):
+                              RefObj name:a start:42:17 end:42:18:
+                                vpiParent: RefObj name:a.data
+                                vpiName: a
+                                vpiFullName: mem.a
+                              RefObj name:data start:42:19 end:42:23:
+                                vpiParent: RefObj name:a.data
+                                vpiName: data
+                                vpiFullName: mem.data
                     Constant start:42:28 end:42:30:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -1196,16 +1197,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:43:7 end:43:13:
                 vpiArgument (1 items):
-                  Constant start:43:14 end:43:38:
+                  NamedArgument start:43:14 end:43:38:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: mem
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: "*-* All Finished *-*\\n"
+                    vpiHighConn Constant start:43:14 end:43:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mem
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
               SysTaskCall name:$finish start:44:7 end:44:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:44:7 end:44:14:
@@ -1322,7 +1325,7 @@ Operation                            6       3       0         3
 RefObj                              48      45       0         3
 RefTypespec                         30      30       3         3
 ----------------------------------------------------------------
-Others                             100     100       0         0
+Others                             102     102       0         0
 ----------------------------------------------------------------
-                                   195     189       6        12
+                                   197     191       6        12
 ===================== END REDUCTION RESULT =====================

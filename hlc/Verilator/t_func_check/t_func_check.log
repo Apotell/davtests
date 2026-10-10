@@ -763,7 +763,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: crc
           vpiFullName: t.crc
-          vpiVector: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -823,7 +822,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:7:4 end:7:7:
           vpiParent: Module name:t
@@ -1104,16 +1102,18 @@ Design name:unnamed:
                             vpiParent: Begin
                             vpiName Identifier name:$write start:27:3 end:27:9:
                             vpiArgument (1 items):
-                              Constant start:27:10 end:27:34:
+                              NamedArgument start:27:10 end:27:34:
                                 vpiParent: SysTaskCall name:$write
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: t
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiSize: 168
-                                vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                vpiValue: "*-* All Finished *-*\\n"
+                                vpiHighConn Constant start:27:10 end:27:34:
+                                  vpiParent: NamedArgument
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: t
+                                    vpiActual: StringTypespec
+                                  vpiConstType: string (6)
+                                  vpiSize: 168
+                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                  vpiValue: "*-* All Finished *-*\\n"
                           SysTaskCall name:$finish start:28:3 end:28:10:
                             vpiParent: Begin
                             vpiName Identifier name:$finish start:28:3 end:28:10:
@@ -1128,28 +1128,30 @@ Design name:unnamed:
             vpiName: chk
             vpiFullName: t.chk.chk
             vpiActual: ModuleTypespec name:chk
-          vpiPort (3 items):
-            Port start:13:13 end:13:23:
+          vpiArgument (3 items):
+            NamedArgument start:13:13 end:13:23:
               vpiParent: RefInstance name:chk
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:13:14 end:13:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.chk.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:13:19 end:13:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.chk.clk
                 vpiActual: Net name:clk
-            Port start:14:6 end:14:19:
+            NamedArgument start:14:6 end:14:19:
               vpiParent: RefInstance name:chk
+              vpiConnByName: true
               vpiLowConn RefObj name:rst_l start:14:7 end:14:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst_l
                 vpiFullName: t.chk.rst_l
                 vpiActual: Port name:rst_l
               vpiHighConn Constant start:14:14 end:14:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t.chk
@@ -1158,15 +1160,16 @@ Design name:unnamed:
                 vpiSize: 1
                 vpiDecompile: "1'b1"
                 vpiValue: "1"
-            Port start:15:6 end:15:18:
+            NamedArgument start:15:6 end:15:18:
               vpiParent: RefInstance name:chk
+              vpiConnByName: true
               vpiLowConn RefObj name:expr start:15:7 end:15:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: expr
                 vpiFullName: t.chk.expr
                 vpiActual: Port name:expr
               vpiHighConn Operation start:15:13 end:15:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiOpType: unary or (7)
                 vpiOperand (1 items):
                   RefObj name:crc start:15:14 end:15:17:
@@ -1195,7 +1198,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: hasx
           vpiFullName: chk.hasx
-          vpiScalar: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:chk
@@ -1316,21 +1318,25 @@ Design name:unnamed:
                     vpiParent: Begin
                     vpiName Identifier name:$write start:41:3 end:41:9:
                     vpiArgument (2 items):
-                      Constant start:41:10 end:41:26:
+                      NamedArgument start:41:10 end:41:26:
                         vpiParent: SysTaskCall name:$write
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: chk.printerr
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 104
-                        vpiDecompile: "\"%%Error: %0s\\n\""
-                        vpiValue: "%%Error: %0s\\n"
-                      RefObj name:msg start:41:28 end:41:31:
+                        vpiHighConn Constant start:41:10 end:41:26:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: chk.printerr
+                            vpiActual: StringTypespec
+                          vpiConstType: string (6)
+                          vpiSize: 104
+                          vpiDecompile: "\"%%Error: %0s\\n\""
+                          vpiValue: "%%Error: %0s\\n"
+                      NamedArgument start:41:28 end:41:31:
                         vpiParent: SysTaskCall name:$write
-                        vpiName: msg
-                        vpiFullName: chk.printerr.msg
-                        vpiActual: IODecl name:msg
+                        vpiHighConn RefObj name:msg start:41:28 end:41:31:
+                          vpiParent: NamedArgument
+                          vpiName: msg
+                          vpiFullName: chk.printerr.msg
+                          vpiActual: IODecl name:msg
                   SysTaskCall name:$stop start:42:3 end:42:8:
                     vpiParent: Begin
                     vpiName Identifier name:$stop start:42:3 end:42:8:
@@ -1345,7 +1351,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: chk.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:rst_l start:33:30 end:33:35:
           vpiParent: Module name:chk
           vpiTypespec RefTypespec:
@@ -1355,7 +1360,6 @@ Design name:unnamed:
           vpiName: rst_l
           vpiFullName: chk.rst_l
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:expr start:33:43 end:33:47:
           vpiParent: Module name:chk
           vpiTypespec RefTypespec:
@@ -1365,7 +1369,6 @@ Design name:unnamed:
           vpiName: expr
           vpiFullName: chk.expr
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:noxs start:54:9 end:54:13:
           vpiParent: Module name:chk
           vpiTypespec RefTypespec:
@@ -1376,7 +1379,6 @@ Design name:unnamed:
           vpiFullName: chk.noxs
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
           vpiValue Operation start:54:17 end:54:38:
             vpiParent: Net name:noxs
             vpiOpType: equal (14)
@@ -1527,16 +1529,18 @@ Design name:unnamed:
                               vpiName Identifier name:printerr start:49:13 end:49:21:
                               vpiTaskFunc: Task name:printerr
                               vpiArgument (1 items):
-                                Constant start:49:22 end:49:41:
+                                NamedArgument start:49:22 end:49:41:
                                   vpiParent: MethodTaskCall name:printerr
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: chk
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 136
-                                  vpiDecompile: "\"expr not asserted\""
-                                  vpiValue: expr not asserted
+                                  vpiHighConn Constant start:49:22 end:49:41:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: chk
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 136
+                                    vpiDecompile: "\"expr not asserted\""
+                                    vpiValue: expr not asserted
           vpiAlwaysType: always (1)
         Always start:57:4 end:64:7:
           vpiParent: Module name:chk
@@ -1653,16 +1657,18 @@ Design name:unnamed:
                               vpiName Identifier name:printerr start:69:13 end:69:21:
                               vpiTaskFunc: Task name:printerr
                               vpiArgument (1 items):
-                                Constant start:69:22 end:69:41:
+                                NamedArgument start:69:22 end:69:41:
                                   vpiParent: MethodTaskCall name:printerr
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: chk
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 136
-                                  vpiDecompile: "\"expr has unknowns\""
-                                  vpiValue: expr has unknowns
+                                  vpiHighConn Constant start:69:22 end:69:41:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: chk
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 136
+                                    vpiDecompile: "\"expr has unknowns\""
+                                    vpiValue: expr has unknowns
           vpiAlwaysType: always (1)
   vpiTypespec (6 items):
     ModuleTypespec name:t:
@@ -1740,7 +1746,7 @@ Operation                           16      11       0         5
 RefObj                              40      36       0         4
 RefTypespec                         44      43       5         6
 ----------------------------------------------------------------
-Others                             109     109       0         0
+Others                             114     114       0         0
 ----------------------------------------------------------------
-                                   237     226      10        21
+                                   242     231      10        21
 ===================== END REDUCTION RESULT =====================

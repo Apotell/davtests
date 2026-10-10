@@ -179,7 +179,6 @@
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/task.h>
-#include <hldb/task_call.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 #include <hldb/wait_stmt.h>
@@ -518,12 +517,16 @@ TEST_F(ProcessClsAwaitTest, DisplayCallHasStringAndKArguments) {
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(display->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getDecompile(), "\"process %d\"");
 
-  const hldb::RefObj *const kArg = any_cast<hldb::RefObj>(display->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const kArg = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(kArg, nullptr);
   EXPECT_EQ(kArg->getName(), "k");
   EXPECT_EQ(kArg->getActual<hldb::Variable>(), getKVariable());
@@ -622,12 +625,15 @@ TEST_F(ProcessClsAwaitTest, ModuleHasOneInitialProcess) {
 
 TEST_F(ProcessClsAwaitTest, InitialCallsTestWithConstantEight) {
   const hldb::MethodTaskCall *const call = getTestCall();
-  ASSERT_NE(call, nullptr) << "'test(8);' should be a TaskCall";
+  ASSERT_NE(call, nullptr) << "'test(8);' should be a MethodTaskCall";
   EXPECT_EQ(call->getTaskFunc<hldb::Task>(), getTestTask()) << "'test(8)' should resolve to task 'test'";
 
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getDecompile(), "8");
   EXPECT_EQ(arg->getConstType(), vpiUIntConst);

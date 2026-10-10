@@ -376,7 +376,9 @@ TEST_F(ClassPropertiesEnumTest, DisplayArgIsTestObjDotC) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_GT(disp->getArguments()->size(), 0u);
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const path = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(path, nullptr) << "'test_obj.C' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);

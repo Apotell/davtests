@@ -3529,6 +3529,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_math_signed.v:6:1: Compile module "t".
 [INF:CP5804] $Source01/t_math_signed.v:167:1: Compile module "by_width".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[WRN:DB2033] $Source01/t_math_signed.v:43:25: Critical: Signed vs Unsigned port connection "a".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -3551,7 +3552,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: t.a
-          vpiVector: true
         Variable name:b start:25:23 end:25:24:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:25:4 end:25:22:
@@ -3560,7 +3560,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: t.b
-          vpiVector: true
         Variable name:sr start:27:24 end:27:26:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:27:4 end:27:23:
@@ -3569,7 +3568,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sr
           vpiFullName: t.sr
-          vpiVector: true
         Variable name:srs start:27:27 end:27:30:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:27:4 end:27:23:
@@ -3578,7 +3576,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: srs
           vpiFullName: t.srs
-          vpiVector: true
         Variable name:sl start:27:31 end:27:33:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:27:4 end:27:23:
@@ -3587,7 +3584,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sl
           vpiFullName: t.sl
-          vpiVector: true
         Variable name:sls start:27:34 end:27:37:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:27:4 end:27:23:
@@ -3596,7 +3592,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sls
           vpiFullName: t.sls
-          vpiVector: true
         Variable name:b_s start:29:16 end:29:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:29:4 end:29:15:
@@ -3605,7 +3600,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b_s
           vpiFullName: t.b_s
-          vpiVector: true
         Variable name:b_us start:30:16 end:30:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:30:4 end:30:15:
@@ -3614,7 +3608,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b_us
           vpiFullName: t.b_us
-          vpiVector: true
         Variable name:bug349 start:56:22 end:56:28:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:56:4 end:56:21:
@@ -3623,7 +3616,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: bug349
           vpiFullName: t.bug349
-          vpiVector: true
         Variable name:i start:61:12 end:61:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:61:4 end:61:11:
@@ -4329,7 +4321,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:ucyc start:101:16 end:101:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:101:9 end:101:15:
@@ -4340,7 +4331,6 @@ Design name:unnamed:
           vpiFullName: t.ucyc
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue RefObj name:cyc start:101:23 end:101:26:
             vpiParent: Net name:ucyc
             vpiName: cyc
@@ -4408,11 +4398,13 @@ Design name:unnamed:
                         vpiName Identifier name:copy_signed start:43:13 end:43:24:
                         vpiTaskFunc: Function name:copy_signed
                         vpiArgument (1 items):
-                          RefObj name:a start:43:25 end:43:26:
+                          NamedArgument start:43:25 end:43:26:
                             vpiParent: MethodFuncCall name:copy_signed
-                            vpiName: a
-                            vpiFullName: t.a
-                            vpiActual: Variable name:a
+                            vpiHighConn RefObj name:a start:43:25 end:43:26:
+                              vpiParent: NamedArgument
+                              vpiName: a
+                              vpiFullName: t.a
+                              vpiActual: Variable name:a
                       RefObj name:b start:43:30 end:43:31:
                         vpiParent: Operation
                         vpiName: b
@@ -4547,101 +4539,117 @@ Design name:unnamed:
                   vpiName Identifier name:check_s start:49:7 end:49:14:
                   vpiTaskFunc: Task name:check_s
                   vpiArgument (2 items):
-                    Constant start:49:17 end:49:23:
+                    NamedArgument start:49:17 end:49:23:
                       vpiParent: MethodTaskCall name:check_s
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: LogicTypespec
-                      vpiConstType: binary (3)
-                      vpiSize: 3
-                      vpiDecompile: "3'b111"
-                      vpiValue: "111"
-                    Constant start:49:25 end:49:30:
+                      vpiHighConn Constant start:49:17 end:49:23:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: LogicTypespec
+                        vpiConstType: binary (3)
+                        vpiSize: 3
+                        vpiDecompile: "3'b111"
+                        vpiValue: "111"
+                    NamedArgument start:49:25 end:49:30:
                       vpiParent: MethodTaskCall name:check_s
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
-                      vpiConstType: hexadecimal (5)
-                      vpiSize: 8
-                      vpiDecompile: "8'h07"
-                      vpiValue: "07"
+                      vpiHighConn Constant start:49:25 end:49:30:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: IntTypespec
+                        vpiConstType: hexadecimal (5)
+                        vpiSize: 8
+                        vpiDecompile: "8'h07"
+                        vpiValue: "07"
                 MethodTaskCall name:check_s start:50:7 end:50:31:
                   vpiParent: Begin
                   vpiName Identifier name:check_s start:50:7 end:50:14:
                   vpiTaskFunc: Task name:check_s
                   vpiArgument (2 items):
-                    Constant start:50:16 end:50:23:
+                    NamedArgument start:50:16 end:50:23:
                       vpiParent: MethodTaskCall name:check_s
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: LogicTypespec
-                      vpiConstType: binary (3)
-                      vpiSize: 3
-                      vpiDecompile: "3'sb111"
-                      vpiValue: "111"
-                    Constant start:50:25 end:50:30:
+                      vpiHighConn Constant start:50:16 end:50:23:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: LogicTypespec
+                        vpiConstType: binary (3)
+                        vpiSize: 3
+                        vpiDecompile: "3'sb111"
+                        vpiValue: "111"
+                    NamedArgument start:50:25 end:50:30:
                       vpiParent: MethodTaskCall name:check_s
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
-                      vpiConstType: hexadecimal (5)
-                      vpiSize: 8
-                      vpiDecompile: "8'hff"
-                      vpiValue: ff
+                      vpiHighConn Constant start:50:25 end:50:30:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: IntTypespec
+                        vpiConstType: hexadecimal (5)
+                        vpiSize: 8
+                        vpiDecompile: "8'hff"
+                        vpiValue: ff
                 MethodTaskCall name:check_us start:51:7 end:51:31:
                   vpiParent: Begin
                   vpiName Identifier name:check_us start:51:7 end:51:15:
                   vpiTaskFunc: Task name:check_us
                   vpiArgument (2 items):
-                    Constant start:51:17 end:51:23:
+                    NamedArgument start:51:17 end:51:23:
                       vpiParent: MethodTaskCall name:check_us
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: LogicTypespec
-                      vpiConstType: binary (3)
-                      vpiSize: 3
-                      vpiDecompile: "3'b111"
-                      vpiValue: "111"
-                    Constant start:51:25 end:51:30:
+                      vpiHighConn Constant start:51:17 end:51:23:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: LogicTypespec
+                        vpiConstType: binary (3)
+                        vpiSize: 3
+                        vpiDecompile: "3'b111"
+                        vpiValue: "111"
+                    NamedArgument start:51:25 end:51:30:
                       vpiParent: MethodTaskCall name:check_us
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
-                      vpiConstType: hexadecimal (5)
-                      vpiSize: 8
-                      vpiDecompile: "8'h07"
-                      vpiValue: "07"
+                      vpiHighConn Constant start:51:25 end:51:30:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: IntTypespec
+                        vpiConstType: hexadecimal (5)
+                        vpiSize: 8
+                        vpiDecompile: "8'h07"
+                        vpiValue: "07"
                 MethodTaskCall name:check_us start:52:7 end:52:31:
                   vpiParent: Begin
                   vpiName Identifier name:check_us start:52:7 end:52:15:
                   vpiTaskFunc: Task name:check_us
                   vpiArgument (2 items):
-                    Constant start:52:16 end:52:23:
+                    NamedArgument start:52:16 end:52:23:
                       vpiParent: MethodTaskCall name:check_us
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: LogicTypespec
-                      vpiConstType: binary (3)
-                      vpiSize: 3
-                      vpiDecompile: "3'sb111"
-                      vpiValue: "111"
-                    Constant start:52:25 end:52:30:
+                      vpiHighConn Constant start:52:16 end:52:23:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: LogicTypespec
+                        vpiConstType: binary (3)
+                        vpiSize: 3
+                        vpiDecompile: "3'sb111"
+                        vpiValue: "111"
+                    NamedArgument start:52:25 end:52:30:
                       vpiParent: MethodTaskCall name:check_us
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
-                      vpiConstType: hexadecimal (5)
-                      vpiSize: 8
-                      vpiDecompile: "8'hff"
-                      vpiValue: ff
+                      vpiHighConn Constant start:52:25 end:52:30:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: IntTypespec
+                        vpiConstType: hexadecimal (5)
+                        vpiSize: 8
+                        vpiDecompile: "8'hff"
+                        vpiValue: ff
             vpiIsImplicitControl: true
           vpiAlwaysType: always (1)
         Initial start:58:4 end:60:9:
@@ -6566,16 +6574,18 @@ Design name:unnamed:
                             vpiParent: Begin
                             vpiName Identifier name:$write start:146:5 end:146:11:
                             vpiArgument (1 items):
-                              Constant start:146:12 end:146:36:
+                              NamedArgument start:146:12 end:146:36:
                                 vpiParent: SysTaskCall name:$write
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: t
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiSize: 168
-                                vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                vpiValue: "*-* All Finished *-*\\n"
+                                vpiHighConn Constant start:146:12 end:146:36:
+                                  vpiParent: NamedArgument
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: t
+                                    vpiActual: StringTypespec
+                                  vpiConstType: string (6)
+                                  vpiSize: 168
+                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                  vpiValue: "*-* All Finished *-*\\n"
                           SysTaskCall name:$finish start:147:5 end:147:12:
                             vpiParent: Begin
                             vpiName Identifier name:$finish start:147:5 end:147:12:
@@ -7109,16 +7119,17 @@ Design name:unnamed:
             vpiName: by_width
             vpiFullName: t.w1.by_width
             vpiActual: ModuleTypespec name:by_width
-          vpiPort (1 items):
-            Port start:13:24 end:13:33:
+          vpiArgument (1 items):
+            NamedArgument start:13:24 end:13:33:
               vpiParent: RefInstance name:w1
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:13:25 end:13:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w1.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:13:29 end:13:32:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w1.clk
                 vpiActual: Net name:clk
@@ -7130,16 +7141,17 @@ Design name:unnamed:
             vpiName: by_width
             vpiFullName: t.w31.by_width
             vpiActual: ModuleTypespec name:by_width
-          vpiPort (1 items):
-            Port start:14:24 end:14:33:
+          vpiArgument (1 items):
+            NamedArgument start:14:24 end:14:33:
               vpiParent: RefInstance name:w31
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:14:25 end:14:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w31.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:14:29 end:14:32:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w31.clk
                 vpiActual: Net name:clk
@@ -7151,16 +7163,17 @@ Design name:unnamed:
             vpiName: by_width
             vpiFullName: t.w32.by_width
             vpiActual: ModuleTypespec name:by_width
-          vpiPort (1 items):
-            Port start:15:24 end:15:33:
+          vpiArgument (1 items):
+            NamedArgument start:15:24 end:15:33:
               vpiParent: RefInstance name:w32
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:15:25 end:15:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w32.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:15:29 end:15:32:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w32.clk
                 vpiActual: Net name:clk
@@ -7172,16 +7185,17 @@ Design name:unnamed:
             vpiName: by_width
             vpiFullName: t.w33.by_width
             vpiActual: ModuleTypespec name:by_width
-          vpiPort (1 items):
-            Port start:16:24 end:16:33:
+          vpiArgument (1 items):
+            NamedArgument start:16:24 end:16:33:
               vpiParent: RefInstance name:w33
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:16:25 end:16:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w33.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:16:29 end:16:32:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w33.clk
                 vpiActual: Net name:clk
@@ -7193,16 +7207,17 @@ Design name:unnamed:
             vpiName: by_width
             vpiFullName: t.w63.by_width
             vpiActual: ModuleTypespec name:by_width
-          vpiPort (1 items):
-            Port start:17:24 end:17:33:
+          vpiArgument (1 items):
+            NamedArgument start:17:24 end:17:33:
               vpiParent: RefInstance name:w63
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:17:25 end:17:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w63.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:17:29 end:17:32:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w63.clk
                 vpiActual: Net name:clk
@@ -7214,16 +7229,17 @@ Design name:unnamed:
             vpiName: by_width
             vpiFullName: t.w64.by_width
             vpiActual: ModuleTypespec name:by_width
-          vpiPort (1 items):
-            Port start:18:24 end:18:33:
+          vpiArgument (1 items):
+            NamedArgument start:18:24 end:18:33:
               vpiParent: RefInstance name:w64
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:18:25 end:18:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w64.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:18:29 end:18:32:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w64.clk
                 vpiActual: Net name:clk
@@ -7235,16 +7251,17 @@ Design name:unnamed:
             vpiName: by_width
             vpiFullName: t.w65.by_width
             vpiActual: ModuleTypespec name:by_width
-          vpiPort (1 items):
-            Port start:19:24 end:19:33:
+          vpiArgument (1 items):
+            NamedArgument start:19:24 end:19:33:
               vpiParent: RefInstance name:w65
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:19:25 end:19:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w65.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:19:29 end:19:32:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w65.clk
                 vpiActual: Net name:clk
@@ -7256,16 +7273,17 @@ Design name:unnamed:
             vpiName: by_width
             vpiFullName: t.w95.by_width
             vpiActual: ModuleTypespec name:by_width
-          vpiPort (1 items):
-            Port start:20:24 end:20:33:
+          vpiArgument (1 items):
+            NamedArgument start:20:24 end:20:33:
               vpiParent: RefInstance name:w95
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:20:25 end:20:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w95.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:20:29 end:20:32:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w95.clk
                 vpiActual: Net name:clk
@@ -7277,16 +7295,17 @@ Design name:unnamed:
             vpiName: by_width
             vpiFullName: t.w96.by_width
             vpiActual: ModuleTypespec name:by_width
-          vpiPort (1 items):
-            Port start:21:24 end:21:33:
+          vpiArgument (1 items):
+            NamedArgument start:21:24 end:21:33:
               vpiParent: RefInstance name:w96
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:21:25 end:21:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w96.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:21:29 end:21:32:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w96.clk
                 vpiActual: Net name:clk
@@ -7298,16 +7317,17 @@ Design name:unnamed:
             vpiName: by_width
             vpiFullName: t.w97.by_width
             vpiActual: ModuleTypespec name:by_width
-          vpiPort (1 items):
-            Port start:22:24 end:22:33:
+          vpiArgument (1 items):
+            NamedArgument start:22:24 end:22:33:
               vpiParent: RefInstance name:w97
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:22:25 end:22:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w97.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:22:29 end:22:32:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.w97.clk
                 vpiActual: Net name:clk
@@ -7324,7 +7344,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: i1
           vpiFullName: by_width.i1
-          vpiScalar: true
         Variable name:i63 start:173:24 end:173:27:
           vpiParent: Module name:by_width
           vpiTypespec RefTypespec start:173:4 end:173:21:
@@ -7333,7 +7352,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: i63
           vpiFullName: by_width.i63
-          vpiVector: true
         Variable name:i65 start:174:24 end:174:27:
           vpiParent: Module name:by_width
           vpiTypespec RefTypespec start:174:4 end:174:21:
@@ -7342,7 +7360,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: i65
           vpiFullName: by_width.i65
-          vpiVector: true
         Variable name:cyc start:183:12 end:183:15:
           vpiParent: Module name:by_width
           vpiTypespec RefTypespec start:183:4 end:183:11:
@@ -7605,7 +7622,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: by_width.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:i1extp start:177:28 end:177:34:
           vpiParent: Module name:by_width
           vpiTypespec RefTypespec start:177:9 end:177:27:
@@ -7616,7 +7632,6 @@ Design name:unnamed:
           vpiFullName: by_width.i1extp
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue RefObj name:i1 start:177:59 end:177:61:
             vpiParent: Net name:i1extp
             vpiName: i1
@@ -7632,7 +7647,6 @@ Design name:unnamed:
           vpiFullName: by_width.i1ext
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue RefObj name:i1 start:178:37 end:178:39:
             vpiParent: Net name:i1ext
             vpiName: i1
@@ -7648,7 +7662,6 @@ Design name:unnamed:
           vpiFullName: by_width.i63ext
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue RefObj name:i63 start:179:37 end:179:40:
             vpiParent: Net name:i63ext
             vpiName: i63
@@ -7664,7 +7677,6 @@ Design name:unnamed:
           vpiFullName: by_width.i65ext
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue RefObj name:i65 start:180:37 end:180:40:
             vpiParent: Net name:i65ext
             vpiName: i65
@@ -8248,7 +8260,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -8296,7 +8308,7 @@ Operation                          131      73       0        58
 RefObj                             170     158       0        12
 RefTypespec                        243     210      25        58
 ----------------------------------------------------------------
-Others                             412     412       0         0
+Others                             422     422       0         0
 ----------------------------------------------------------------
-                                  1157    1029      58       186
+                                  1167    1039      58       186
 ===================== END REDUCTION RESULT =====================

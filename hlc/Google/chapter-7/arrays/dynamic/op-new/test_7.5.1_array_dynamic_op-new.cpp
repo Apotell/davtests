@@ -424,7 +424,9 @@ TEST_F(DynamicArrayOpNewTest, DisplayFormatStringIsExpected) {
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(5));
   ASSERT_NE(call, nullptr);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 5) and (%d == 6) and (%d == 7) and (%d == 8))");
 }
@@ -438,7 +440,9 @@ TEST_F(DynamicArrayOpNewTest, DisplayArgumentsAreArrZeroThroughThree) {
   ASSERT_NE(call->getArguments(), nullptr);
   const char *const expectedNames[4] = {"arr[0]", "arr[1]", "arr[2]", "arr[3]"};
   for (size_t i = 0; i < 4; ++i) {
-    const hldb::BitSelect *const arg = any_cast<hldb::BitSelect>(call->getArguments()->at(i + 1));
+    const hldb::NamedArgument *const argArg = call->getArguments()->at(i + 1);
+    ASSERT_NE(argArg, nullptr);
+    const hldb::BitSelect *const arg = argArg->getHighConn<hldb::BitSelect>();
     ASSERT_NE(arg, nullptr);
     EXPECT_EQ(arg->getName(), expectedNames[i]);
     const hldb::RefObj *const prefix = arg->getPrefix<hldb::RefObj>();

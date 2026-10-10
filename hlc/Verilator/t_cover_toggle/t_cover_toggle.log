@@ -1148,7 +1148,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: toggle
           vpiFullName: t.toggle
-          vpiScalar: true
         Variable name:stoggle start:23:10 end:23:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec name:str_t start:23:4 end:23:9:
@@ -1167,7 +1166,6 @@ Design name:unnamed:
           vpiName: aconst
           vpiFullName: t.aconst
           vpiConstantVariable: true
-          vpiScalar: true
           vpiValue Constant start:25:23 end:25:25:
             vpiParent: Variable name:aconst
             vpiTypespec RefTypespec:
@@ -1186,7 +1184,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: ptoggle
           vpiFullName: t.ptoggle
-          vpiVector: true
         Variable name:cyc start:29:12 end:29:15:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:29:4 end:29:11:
@@ -1204,7 +1201,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: memory
           vpiFullName: t.memory
-          vpiVector: true
         Variable name:largeish start:60:17 end:60:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:60:4 end:60:16:
@@ -1213,7 +1209,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: largeish
           vpiFullName: t.largeish
-          vpiVector: true
       vpiTypespec (15 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1428,7 +1423,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:cyc_copy start:30:15 end:30:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:30:9 end:30:14:
@@ -1439,7 +1433,6 @@ Design name:unnamed:
           vpiFullName: t.cyc_copy
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue PartSelect name:cyc[7:0] start:30:26 end:30:34:
             vpiParent: Net name:cyc_copy
             vpiName: cyc[7:0]
@@ -1481,7 +1474,6 @@ Design name:unnamed:
           vpiFullName: t.toggle_up
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1942,16 +1934,18 @@ Design name:unnamed:
                                 vpiParent: Begin
                                 vpiName Identifier name:$write start:78:6 end:78:12:
                                 vpiArgument (1 items):
-                                  Constant start:78:13 end:78:37:
+                                  NamedArgument start:78:13 end:78:37:
                                     vpiParent: SysTaskCall name:$write
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: t
-                                      vpiActual: StringTypespec
-                                    vpiConstType: string (6)
-                                    vpiSize: 168
-                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                    vpiValue: "*-* All Finished *-*\\n"
+                                    vpiHighConn Constant start:78:13 end:78:37:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: t
+                                        vpiActual: StringTypespec
+                                      vpiConstType: string (6)
+                                      vpiSize: 168
+                                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                      vpiValue: "*-* All Finished *-*\\n"
                               SysTaskCall name:$finish start:79:6 end:79:13:
                                 vpiParent: Begin
                                 vpiName Identifier name:$finish start:79:6 end:79:13:
@@ -1966,52 +1960,56 @@ Design name:unnamed:
             vpiName: alpha
             vpiFullName: t.a1.alpha
             vpiActual: ModuleTypespec name:alpha
-          vpiPort (4 items):
-            Port start:35:7 end:35:31:
+          vpiArgument (4 items):
+            NamedArgument start:35:7 end:35:31:
               vpiParent: RefInstance name:a1
+              vpiConnByName: true
               vpiLowConn RefObj name:toggle_up start:35:8 end:35:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: toggle_up
                 vpiFullName: t.a1.toggle_up
                 vpiActual: Net name:toggle_up
               vpiHighConn RefObj name:toggle_up start:35:21 end:35:30:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: toggle_up
                 vpiFullName: t.a1.toggle_up
                 vpiActual: Net name:toggle_up
-            Port start:37:7 end:37:19:
+            NamedArgument start:37:7 end:37:19:
               vpiParent: RefInstance name:a1
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:37:8 end:37:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.a1.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:37:15 end:37:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.a1.clk
                 vpiActual: Net name:clk
-            Port start:38:7 end:38:25:
+            NamedArgument start:38:7 end:38:25:
               vpiParent: RefInstance name:a1
+              vpiConnByName: true
               vpiLowConn RefObj name:toggle start:38:8 end:38:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: toggle
                 vpiFullName: t.a1.toggle
                 vpiActual: Variable name:toggle
               vpiHighConn RefObj name:toggle start:38:18 end:38:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: toggle
                 vpiFullName: t.a1.toggle
                 vpiActual: Variable name:toggle
-            Port start:39:7 end:39:34:
+            NamedArgument start:39:7 end:39:34:
               vpiParent: RefInstance name:a1
+              vpiConnByName: true
               vpiLowConn RefObj name:cyc_copy start:39:8 end:39:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: cyc_copy
                 vpiFullName: t.a1.cyc_copy
                 vpiActual: Net name:cyc_copy
               vpiHighConn PartSelect name:cyc_copy[7:0] start:39:20 end:39:33:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: cyc_copy[7:0]
                 vpiFullName: t.a1.cyc_copy[7:0]
                 vpiPrefix RefObj name:cyc_copy start:39:20 end:39:28:
@@ -2049,52 +2047,56 @@ Design name:unnamed:
             vpiName: alpha
             vpiFullName: t.a2.alpha
             vpiActual: ModuleTypespec name:alpha
-          vpiPort (4 items):
-            Port start:42:7 end:42:31:
+          vpiArgument (4 items):
+            NamedArgument start:42:7 end:42:31:
               vpiParent: RefInstance name:a2
+              vpiConnByName: true
               vpiLowConn RefObj name:toggle_up start:42:8 end:42:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: toggle_up
                 vpiFullName: t.a2.toggle_up
                 vpiActual: Net name:toggle_up
               vpiHighConn RefObj name:toggle_up start:42:21 end:42:30:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: toggle_up
                 vpiFullName: t.a2.toggle_up
                 vpiActual: Net name:toggle_up
-            Port start:44:7 end:44:19:
+            NamedArgument start:44:7 end:44:19:
               vpiParent: RefInstance name:a2
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:44:8 end:44:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.a2.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:44:15 end:44:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.a2.clk
                 vpiActual: Net name:clk
-            Port start:45:7 end:45:25:
+            NamedArgument start:45:7 end:45:25:
               vpiParent: RefInstance name:a2
+              vpiConnByName: true
               vpiLowConn RefObj name:toggle start:45:8 end:45:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: toggle
                 vpiFullName: t.a2.toggle
                 vpiActual: Variable name:toggle
               vpiHighConn RefObj name:toggle start:45:18 end:45:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: toggle
                 vpiFullName: t.a2.toggle
                 vpiActual: Variable name:toggle
-            Port start:46:7 end:46:34:
+            NamedArgument start:46:7 end:46:34:
               vpiParent: RefInstance name:a2
+              vpiConnByName: true
               vpiLowConn RefObj name:cyc_copy start:46:8 end:46:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: cyc_copy
                 vpiFullName: t.a2.cyc_copy
                 vpiActual: Net name:cyc_copy
               vpiHighConn PartSelect name:cyc_copy[7:0] start:46:20 end:46:33:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: cyc_copy[7:0]
                 vpiFullName: t.a2.cyc_copy[7:0]
                 vpiPrefix RefObj name:cyc_copy start:46:20 end:46:28:
@@ -2132,28 +2134,30 @@ Design name:unnamed:
             vpiName: beta
             vpiFullName: t.b1.beta
             vpiActual: ModuleTypespec name:beta
-          vpiPort (2 items):
-            Port start:50:7 end:50:19:
+          vpiArgument (2 items):
+            NamedArgument start:50:7 end:50:19:
               vpiParent: RefInstance name:b1
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:50:8 end:50:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.b1.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:50:15 end:50:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.b1.clk
                 vpiActual: Net name:clk
-            Port start:51:7 end:51:31:
+            NamedArgument start:51:7 end:51:31:
               vpiParent: RefInstance name:b1
+              vpiConnByName: true
               vpiLowConn RefObj name:toggle_up start:51:8 end:51:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: toggle_up
                 vpiFullName: t.b1.toggle_up
                 vpiActual: Net name:toggle_up
               vpiHighConn RefObj name:toggle_up start:51:21 end:51:30:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: toggle_up
                 vpiFullName: t.b1.toggle_up
                 vpiActual: Net name:toggle_up
@@ -2165,28 +2169,30 @@ Design name:unnamed:
             vpiName: off
             vpiFullName: t.o1.off
             vpiActual: ModuleTypespec name:off
-          vpiPort (2 items):
-            Port start:55:7 end:55:19:
+          vpiArgument (2 items):
+            NamedArgument start:55:7 end:55:19:
               vpiParent: RefInstance name:o1
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:55:8 end:55:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.o1.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:55:15 end:55:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.o1.clk
                 vpiActual: Net name:clk
-            Port start:56:7 end:56:25:
+            NamedArgument start:56:7 end:56:25:
               vpiParent: RefInstance name:o1
+              vpiConnByName: true
               vpiLowConn RefObj name:toggle start:56:8 end:56:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: toggle
                 vpiFullName: t.o1.toggle
                 vpiActual: Variable name:toggle
               vpiHighConn RefObj name:toggle start:56:18 end:56:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: toggle
                 vpiFullName: t.o1.toggle
                 vpiActual: Variable name:toggle
@@ -2203,7 +2209,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: toggle_internal
           vpiFullName: alpha.toggle_internal
-          vpiScalar: true
         Variable name:toggle_up start:115:16 end:115:25:
           vpiParent: Module name:alpha
           vpiTypespec RefTypespec start:115:11 end:115:14:
@@ -2212,7 +2217,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: toggle_up
           vpiFullName: alpha.toggle_up
-          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:alpha
@@ -2262,7 +2266,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: alpha.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:toggle start:97:10 end:97:16:
           vpiParent: Module name:alpha
           vpiTypespec RefTypespec:
@@ -2272,7 +2275,6 @@ Design name:unnamed:
           vpiName: toggle
           vpiFullName: alpha.toggle
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:cyc_copy start:101:16 end:101:24:
           vpiParent: Module name:alpha
           vpiTypespec RefTypespec start:101:10 end:101:15:
@@ -2282,7 +2284,6 @@ Design name:unnamed:
           vpiName: cyc_copy
           vpiFullName: alpha.cyc_copy
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (4 items):
         Port name:toggle_up start:88:4 end:88:13:
           vpiParent: Module name:alpha
@@ -2406,7 +2407,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: beta.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:toggle_up start:132:10 end:132:19:
           vpiParent: Module name:beta
           vpiTypespec RefTypespec:
@@ -2416,7 +2416,6 @@ Design name:unnamed:
           vpiName: toggle_up
           vpiFullName: beta.toggle_up
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:clk start:127:4 end:127:7:
           vpiParent: Module name:beta
@@ -2514,7 +2513,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: off.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:toggle start:152:10 end:152:16:
           vpiParent: Module name:off
           vpiTypespec RefTypespec:
@@ -2524,7 +2522,6 @@ Design name:unnamed:
           vpiName: toggle
           vpiFullName: off.toggle
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:clk start:144:4 end:144:7:
           vpiParent: Module name:off
@@ -2632,7 +2629,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_cover_toggle/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             362     362       0         0
+Others                             363     363       0         0
 ----------------------------------------------------------------
-                                   362     362       0         0
+                                   363     363       0         0
 ===================== END REDUCTION RESULT =====================

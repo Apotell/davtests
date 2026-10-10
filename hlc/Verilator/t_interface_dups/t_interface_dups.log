@@ -2113,7 +2113,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: crc
           vpiFullName: t.crc
-          vpiVector: true
         Variable name:sum start:14:17 end:14:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:4 end:14:14:
@@ -2122,7 +2121,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sum
           vpiFullName: t.sum
-          vpiVector: true
         Variable name:din_ready start:25:11 end:25:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec name:logic start:25:4 end:25:9:
@@ -2511,7 +2509,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:din_data start:17:16 end:17:24:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:9 end:17:14:
@@ -2522,7 +2519,6 @@ Design name:unnamed:
           vpiFullName: t.din_data
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue PartSelect name:crc[4:0] start:17:27 end:17:35:
             vpiParent: Net name:din_data
             vpiName: crc[4:0]
@@ -2564,7 +2560,6 @@ Design name:unnamed:
           vpiFullName: t.din_valid
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue BitSelect name:crc[6] start:18:28 end:18:34:
             vpiParent: Net name:din_valid
             vpiName: crc[6]
@@ -2594,7 +2589,6 @@ Design name:unnamed:
           vpiFullName: t.dout0_ready
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue BitSelect name:crc[16] start:19:30 end:19:37:
             vpiParent: Net name:dout0_ready
             vpiName: crc[16]
@@ -2624,7 +2618,6 @@ Design name:unnamed:
           vpiFullName: t.dout1_ready
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue BitSelect name:crc[17] start:20:30 end:20:37:
             vpiParent: Net name:dout1_ready
             vpiName: crc[17]
@@ -2654,7 +2647,6 @@ Design name:unnamed:
           vpiFullName: t.dout2_ready
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue BitSelect name:crc[18] start:21:30 end:21:37:
             vpiParent: Net name:dout2_ready
             vpiName: crc[18]
@@ -2684,7 +2676,6 @@ Design name:unnamed:
           vpiFullName: t.result
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:51:25 end:54:56:
             vpiParent: Net name:result
             vpiOpType: concatenation (33)
@@ -3205,34 +3196,44 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:75:10 end:75:16:
                               vpiArgument (5 items):
-                                Constant start:75:17 end:75:49:
+                                NamedArgument start:75:17 end:75:49:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 232
-                                  vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
-                                  vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
-                                SysFuncCall name:$time start:75:50 end:75:55:
+                                  vpiHighConn Constant start:75:17 end:75:49:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 232
+                                    vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
+                                    vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
+                                NamedArgument start:75:50 end:75:55:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName Identifier name:$time start:75:50 end:75:55:
-                                RefObj name:cyc start:75:57 end:75:60:
+                                  vpiHighConn SysFuncCall name:$time start:75:50 end:75:55:
+                                    vpiParent: NamedArgument
+                                    vpiName Identifier name:$time start:75:50 end:75:55:
+                                NamedArgument start:75:57 end:75:60:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: cyc
-                                  vpiFullName: t.cyc
-                                  vpiActual: Variable name:cyc
-                                RefObj name:crc start:75:62 end:75:65:
+                                  vpiHighConn RefObj name:cyc start:75:57 end:75:60:
+                                    vpiParent: NamedArgument
+                                    vpiName: cyc
+                                    vpiFullName: t.cyc
+                                    vpiActual: Variable name:cyc
+                                NamedArgument start:75:62 end:75:65:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: crc
-                                  vpiFullName: t.crc
-                                  vpiActual: Variable name:crc
-                                RefObj name:sum start:75:67 end:75:70:
+                                  vpiHighConn RefObj name:crc start:75:62 end:75:65:
+                                    vpiParent: NamedArgument
+                                    vpiName: crc
+                                    vpiFullName: t.crc
+                                    vpiActual: Variable name:crc
+                                NamedArgument start:75:67 end:75:70:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: sum
-                                  vpiFullName: t.sum
-                                  vpiActual: Variable name:sum
+                                  vpiHighConn RefObj name:sum start:75:67 end:75:70:
+                                    vpiParent: NamedArgument
+                                    vpiName: sum
+                                    vpiFullName: t.sum
+                                    vpiActual: Variable name:sum
                             IfStmt start:76:10 end:76:50:
                               vpiParent: Begin
                               vpiCondition Operation start:76:14 end:76:42:
@@ -3287,16 +3288,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:80:10 end:80:16:
                               vpiArgument (1 items):
-                                Constant start:80:17 end:80:41:
+                                NamedArgument start:80:17 end:80:41:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:80:17 end:80:41:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:81:10 end:81:17:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:81:10 end:81:17:
@@ -3311,40 +3314,43 @@ Design name:unnamed:
             vpiName: Test
             vpiFullName: t.test.Test
             vpiActual: ModuleTypespec name:Test
-          vpiPort (12 items):
-            Port start:36:8 end:36:31:
+          vpiArgument (12 items):
+            NamedArgument start:36:8 end:36:31:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:din_ready start:36:9 end:36:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: din_ready
                 vpiFullName: t.test.din_ready
                 vpiActual: Variable name:din_ready
               vpiHighConn RefObj name:din_ready start:36:21 end:36:30:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: din_ready
                 vpiFullName: t.test.din_ready
                 vpiActual: Variable name:din_ready
-            Port start:37:8 end:37:35:
+            NamedArgument start:37:8 end:37:35:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:dout0_valid start:37:9 end:37:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout0_valid
                 vpiFullName: t.test.dout0_valid
                 vpiActual: Variable name:dout0_valid
               vpiHighConn RefObj name:dout0_valid start:37:23 end:37:34:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout0_valid
                 vpiFullName: t.test.dout0_valid
                 vpiActual: Variable name:dout0_valid
-            Port start:38:8 end:38:38:
+            NamedArgument start:38:8 end:38:38:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:dout0_data start:38:9 end:38:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout0_data
                 vpiFullName: t.test.dout0_data
                 vpiActual: Variable name:dout0_data
               vpiHighConn PartSelect name:dout0_data[0:0] start:38:22 end:38:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout0_data[0:0]
                 vpiFullName: t.test.dout0_data[0:0]
                 vpiPrefix RefObj name:dout0_data start:38:22 end:38:32:
@@ -3374,27 +3380,29 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:39:8 end:39:35:
+            NamedArgument start:39:8 end:39:35:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:dout1_valid start:39:9 end:39:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout1_valid
                 vpiFullName: t.test.dout1_valid
                 vpiActual: Variable name:dout1_valid
               vpiHighConn RefObj name:dout1_valid start:39:23 end:39:34:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout1_valid
                 vpiFullName: t.test.dout1_valid
                 vpiActual: Variable name:dout1_valid
-            Port start:40:8 end:40:38:
+            NamedArgument start:40:8 end:40:38:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:dout1_data start:40:9 end:40:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout1_data
                 vpiFullName: t.test.dout1_data
                 vpiActual: Variable name:dout1_data
               vpiHighConn PartSelect name:dout1_data[1:0] start:40:22 end:40:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout1_data[1:0]
                 vpiFullName: t.test.dout1_data[1:0]
                 vpiPrefix RefObj name:dout1_data start:40:22 end:40:32:
@@ -3424,27 +3432,29 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:41:8 end:41:35:
+            NamedArgument start:41:8 end:41:35:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:dout2_valid start:41:9 end:41:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout2_valid
                 vpiFullName: t.test.dout2_valid
                 vpiActual: Variable name:dout2_valid
               vpiHighConn RefObj name:dout2_valid start:41:23 end:41:34:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout2_valid
                 vpiFullName: t.test.dout2_valid
                 vpiActual: Variable name:dout2_valid
-            Port start:42:8 end:42:38:
+            NamedArgument start:42:8 end:42:38:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:dout2_data start:42:9 end:42:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout2_data
                 vpiFullName: t.test.dout2_data
                 vpiActual: Variable name:dout2_data
               vpiHighConn PartSelect name:dout2_data[2:0] start:42:22 end:42:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout2_data[2:0]
                 vpiFullName: t.test.dout2_data[2:0]
                 vpiPrefix RefObj name:dout2_data start:42:22 end:42:32:
@@ -3474,27 +3484,29 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:44:8 end:44:31:
+            NamedArgument start:44:8 end:44:31:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:din_valid start:44:9 end:44:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: din_valid
                 vpiFullName: t.test.din_valid
                 vpiActual: Net name:din_valid
               vpiHighConn RefObj name:din_valid start:44:21 end:44:30:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: din_valid
                 vpiFullName: t.test.din_valid
                 vpiActual: Net name:din_valid
-            Port start:45:8 end:45:35:
+            NamedArgument start:45:8 end:45:35:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:din_data start:45:9 end:45:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: din_data
                 vpiFullName: t.test.din_data
                 vpiActual: Net name:din_data
               vpiHighConn PartSelect name:din_data[4:0] start:45:21 end:45:34:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: din_data[4:0]
                 vpiFullName: t.test.din_data[4:0]
                 vpiPrefix RefObj name:din_data start:45:21 end:45:29:
@@ -3524,39 +3536,42 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:46:8 end:46:35:
+            NamedArgument start:46:8 end:46:35:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:dout0_ready start:46:9 end:46:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout0_ready
                 vpiFullName: t.test.dout0_ready
                 vpiActual: Net name:dout0_ready
               vpiHighConn RefObj name:dout0_ready start:46:23 end:46:34:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout0_ready
                 vpiFullName: t.test.dout0_ready
                 vpiActual: Net name:dout0_ready
-            Port start:47:8 end:47:35:
+            NamedArgument start:47:8 end:47:35:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:dout1_ready start:47:9 end:47:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout1_ready
                 vpiFullName: t.test.dout1_ready
                 vpiActual: Net name:dout1_ready
               vpiHighConn RefObj name:dout1_ready start:47:23 end:47:34:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout1_ready
                 vpiFullName: t.test.dout1_ready
                 vpiActual: Net name:dout1_ready
-            Port start:48:8 end:48:35:
+            NamedArgument start:48:8 end:48:35:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:dout2_ready start:48:9 end:48:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout2_ready
                 vpiFullName: t.test.dout2_ready
                 vpiActual: Net name:dout2_ready
               vpiHighConn RefObj name:dout2_ready start:48:23 end:48:34:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dout2_ready
                 vpiFullName: t.test.dout2_ready
                 vpiActual: Net name:dout2_ready
@@ -4956,7 +4971,7 @@ Operation                           17      11       0         6
 RefObj                             182     176       0         6
 RefTypespec                        160     160       6         6
 ----------------------------------------------------------------
-Others                             248     248       0         0
+Others                             254     254       0         0
 ----------------------------------------------------------------
-                                   703     691      12        24
+                                   709     697      12        24
 ===================== END REDUCTION RESULT =====================

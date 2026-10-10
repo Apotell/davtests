@@ -224,7 +224,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in1
           vpiFullName: top.in1
-          vpiVector: true
         Variable name:in2 start:4:19 end:4:22:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:4:4 end:4:14:
@@ -233,7 +232,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in2
           vpiFullName: top.in2
-          vpiVector: true
         Variable name:out start:5:15 end:5:18:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:5:4 end:5:14:
@@ -242,7 +240,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: top.out
-          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -375,31 +372,39 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:11:7 end:11:15:
                 vpiArgument (4 items):
-                  Constant start:11:16 end:11:31:
+                  NamedArgument start:11:16 end:11:31:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 104
-                    vpiDecompile: "\"%h + %h =  %h\""
-                    vpiValue: "%h + %h =  %h"
-                  RefObj name:in1 start:11:33 end:11:36:
+                    vpiHighConn Constant start:11:16 end:11:31:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 104
+                      vpiDecompile: "\"%h + %h =  %h\""
+                      vpiValue: "%h + %h =  %h"
+                  NamedArgument start:11:33 end:11:36:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: in1
-                    vpiFullName: top.in1
-                    vpiActual: Variable name:in1
-                  RefObj name:in2 start:11:37 end:11:40:
+                    vpiHighConn RefObj name:in1 start:11:33 end:11:36:
+                      vpiParent: NamedArgument
+                      vpiName: in1
+                      vpiFullName: top.in1
+                      vpiActual: Variable name:in1
+                  NamedArgument start:11:37 end:11:40:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: in2
-                    vpiFullName: top.in2
-                    vpiActual: Variable name:in2
-                  RefObj name:out start:11:41 end:11:44:
+                    vpiHighConn RefObj name:in2 start:11:37 end:11:40:
+                      vpiParent: NamedArgument
+                      vpiName: in2
+                      vpiFullName: top.in2
+                      vpiActual: Variable name:in2
+                  NamedArgument start:11:41 end:11:44:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: out
-                    vpiFullName: top.out
-                    vpiActual: Variable name:out
+                    vpiHighConn RefObj name:out start:11:41 end:11:44:
+                      vpiParent: NamedArgument
+                      vpiName: out
+                      vpiFullName: top.out
+                      vpiActual: Variable name:out
               IfElse start:12:7 end:15:21:
                 vpiParent: Begin
                 vpiCondition Operation start:12:11 end:12:39:
@@ -425,30 +430,34 @@ Design name:unnamed:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:13:2 end:13:10:
                   vpiArgument (1 items):
-                    Constant start:13:11 end:13:19:
+                    NamedArgument start:13:11 end:13:19:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: top
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 48
-                      vpiDecompile: "\"PASSED\""
-                      vpiValue: PASSED
+                      vpiHighConn Constant start:13:11 end:13:19:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"PASSED\""
+                        vpiValue: PASSED
                 vpiElseStmt SysTaskCall name:$display start:15:2 end:15:20:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:15:2 end:15:10:
                   vpiArgument (1 items):
-                    Constant start:15:11 end:15:19:
+                    NamedArgument start:15:11 end:15:19:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: top
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 48
-                      vpiDecompile: "\"FAILED\""
-                      vpiValue: FAILED
+                      vpiHighConn Constant start:15:11 end:15:19:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"FAILED\""
+                        vpiValue: FAILED
   vpiTypespec (4 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -514,7 +523,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr307/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              64      64       0         0
+Others                              70      70       0         0
 ----------------------------------------------------------------
-                                    64      64       0         0
+                                    70      70       0         0
 ===================== END REDUCTION RESULT =====================

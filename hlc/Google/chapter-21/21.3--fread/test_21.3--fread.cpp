@@ -349,13 +349,17 @@ TEST_F(FreadTest, FopenArgumentsAreFilenameAndMode) {
   ASSERT_NE(fopenCall->getArguments(), nullptr);
   ASSERT_EQ(fopenCall->getArguments()->size(), 2u) << "'$fopen(\"tmp.txt\", \"w\")' passes filename then mode";
 
-  const hldb::Constant *const filename = any_cast<hldb::Constant>(fopenCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = fopenCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const filename = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(filename, nullptr) << "arg[0] is the string literal \"tmp.txt\"";
   EXPECT_EQ(filename->getConstType(), vpiStringConst);
   EXPECT_EQ(filename->getValue(), "tmp.txt");
   EXPECT_EQ(filename->getSize(), 56) << "Sec 5.9: \"tmp.txt\" = 7 chars x 8 bits";
 
-  const hldb::Constant *const mode = any_cast<hldb::Constant>(fopenCall->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = fopenCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const mode = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mode, nullptr) << "arg[1] is the string literal \"w\"";
   EXPECT_EQ(mode->getConstType(), vpiStringConst);
   EXPECT_EQ(mode->getValue(), "w") << "Sec 21.3.1: \"w\" opens the file for writing";
@@ -393,15 +397,19 @@ TEST_F(FreadTest, FreadArgumentsAreDestinationThenDescriptor) {
       << "'$fread(c, fd)' passes exactly two arguments, which is the Sec 21.3.4.4 integer_variable "
          "form -- the memory form would add optional 'start' and 'count'";
 
-  checkArgumentRefersTo(freadCall->getArguments()->at(0), "c", "the $fread destination argument");
-  checkArgumentRefersTo(freadCall->getArguments()->at(1), "fd", "the $fread descriptor argument");
+  const hldb::NamedArgument *const arg0 = freadCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentRefersTo(arg0->getHighConn(), "c", "the $fread destination argument");
+  const hldb::NamedArgument *const arg1 = freadCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  checkArgumentRefersTo(arg1->getHighConn(), "fd", "the $fread descriptor argument");
 
   // The destination and the descriptor are two different declared objects;
   // a model that bound both references to one Variable would pass the two
   // checks above only if it also got the names wrong, so this pins it
   // directly.
-  const hldb::RefObj *const destination = any_cast<hldb::RefObj>(freadCall->getArguments()->at(0));
-  const hldb::RefObj *const descriptor = any_cast<hldb::RefObj>(freadCall->getArguments()->at(1));
+  const hldb::RefObj *const destination = arg0->getHighConn<hldb::RefObj>();
+  const hldb::RefObj *const descriptor = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(destination, nullptr);
   ASSERT_NE(descriptor, nullptr);
   EXPECT_NE(destination->getActual<hldb::Variable>(), descriptor->getActual<hldb::Variable>())
@@ -429,7 +437,9 @@ TEST_F(FreadTest, FinalBodyIsFcloseSysTaskCallOnTheSameFd) {
 
   ASSERT_NE(fcloseCall->getArguments(), nullptr);
   ASSERT_EQ(fcloseCall->getArguments()->size(), 1u) << "'$fclose(fd)' passes exactly one argument";
-  checkArgumentRefersTo(fcloseCall->getArguments()->at(0), "fd", "the $fclose descriptor argument");
+  const hldb::NamedArgument *const arg0 = fcloseCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentRefersTo(arg0->getHighConn(), "fd", "the $fclose descriptor argument");
 }
 
 // --- compiler diagnostics -----------------------------------------------------

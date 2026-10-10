@@ -700,7 +700,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: i
           vpiFullName: t.i
-          vpiScalar: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -795,7 +794,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:oa start:17:11 end:17:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec:
@@ -806,7 +804,6 @@ Design name:unnamed:
           vpiFullName: t.oa
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:oz start:18:11 end:18:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec:
@@ -817,7 +814,6 @@ Design name:unnamed:
           vpiFullName: t.oz
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:7:4 end:7:7:
           vpiParent: Module name:t
@@ -981,11 +977,13 @@ Design name:unnamed:
                               vpiName Identifier name:assignin start:33:7 end:33:15:
                               vpiTaskFunc: Function name:assignin
                               vpiArgument (1 items):
-                                RefObj name:v start:33:16 end:33:17:
+                                NamedArgument start:33:16 end:33:17:
                                   vpiParent: MethodFuncCall name:assignin
-                                  vpiName: v
-                                  vpiFullName: t.v
-                                  vpiActual: Variable name:v
+                                  vpiHighConn RefObj name:v start:33:16 end:33:17:
+                                    vpiParent: NamedArgument
+                                    vpiName: v
+                                    vpiFullName: t.v
+                                    vpiActual: Variable name:v
                             Constant start:33:23 end:33:24:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -1250,16 +1248,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:44:3 end:44:9:
                               vpiArgument (1 items):
-                                Constant start:44:10 end:44:34:
+                                NamedArgument start:44:10 end:44:34:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:44:10 end:44:34:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:45:3 end:45:10:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:45:3 end:45:10:
@@ -1274,11 +1274,11 @@ Design name:unnamed:
             vpiName: a
             vpiFullName: t.a.a
             vpiActual: ModuleTypespec name:a
-          vpiPort (1 items):
-            Port start:21:9 end:21:11:
+          vpiArgument (1 items):
+            NamedArgument start:21:9 end:21:11:
               vpiParent: RefInstance name:a
               vpiLowConn RefObj name:.*:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.a..*
         RefInstance name:z start:22:6 end:22:7:
@@ -1289,11 +1289,11 @@ Design name:unnamed:
             vpiName: z
             vpiFullName: t.z.z
             vpiActual: ModuleTypespec name:z
-          vpiPort (1 items):
-            Port start:22:9 end:22:11:
+          vpiArgument (1 items):
+            NamedArgument start:22:9 end:22:11:
               vpiParent: RefInstance name:z
               vpiLowConn RefObj name:.*:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.z..*
     Module name:a file:$Source01/t_var_in_assign.v start:56:1 end:60:10:
@@ -1325,7 +1325,6 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: a.i
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:oa start:56:27 end:56:29:
           vpiParent: Module name:a
           vpiTypespec RefTypespec:
@@ -1335,7 +1334,6 @@ Design name:unnamed:
           vpiName: oa
           vpiFullName: a.oa
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:i start:56:17 end:56:18:
           vpiParent: Module name:a
@@ -1420,7 +1418,6 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: z.i
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:oz start:62:27 end:62:29:
           vpiParent: Module name:z
           vpiTypespec RefTypespec:
@@ -1430,7 +1427,6 @@ Design name:unnamed:
           vpiName: oz
           vpiFullName: z.oz
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:i start:62:17 end:62:18:
           vpiParent: Module name:z
@@ -1548,7 +1544,7 @@ Operation                           18      10       0         8
 RefObj                              37      29       0         8
 RefTypespec                         39      39       8         8
 ----------------------------------------------------------------
-Others                              95      95       0         0
+Others                              97      97       0         0
 ----------------------------------------------------------------
-                                   209     193      16        32
+                                   211     195      16        32
 ===================== END REDUCTION RESULT =====================

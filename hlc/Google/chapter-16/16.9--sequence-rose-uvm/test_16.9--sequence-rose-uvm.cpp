@@ -175,7 +175,13 @@ bool OperandsContainNamedRef(const hldb::Operation *op, std::string_view name) {
 }
 
 bool ArgumentsContainNamedRef(const hldb::SysFuncCall *call, std::string_view name) {
-  return (call != nullptr) && (hldb::findByName<hldb::RefObj>(name, call->getArguments()) != nullptr);
+  if ((call == nullptr) || (call->getArguments() == nullptr)) return false;
+  for (const hldb::NamedArgument *na : *call->getArguments()) {
+    if (const hldb::Any *const hc = na->getHighConn()) {
+      if (hc->getName() == name) return true;
+    }
+  }
+  return false;
 }
 }  // namespace
 

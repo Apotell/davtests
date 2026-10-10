@@ -80,7 +80,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: drive
           vpiFullName: ConnectTB.drive
-          vpiScalar: true
         Variable name:observe start:11:9 end:11:16:
           vpiParent: Interface name:ConnectTB
           vpiTypespec RefTypespec start:11:3 end:11:8:
@@ -89,7 +88,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: observe
           vpiFullName: ConnectTB.observe
-          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:ConnectTB
@@ -157,16 +155,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpfile start:3:5 end:3:14:
                 vpiArgument (1 items):
-                  Constant start:3:15 end:3:25:
+                  NamedArgument start:3:15 end:3:25:
                     vpiParent: SysTaskCall name:$dumpfile
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: TESTBENCH
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 64
-                    vpiDecompile: "\"test.vcd\""
-                    vpiValue: test.vcd
+                    vpiHighConn Constant start:3:15 end:3:25:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: TESTBENCH
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 64
+                      vpiDecompile: "\"test.vcd\""
+                      vpiValue: test.vcd
               SysTaskCall name:$dumpvars start:4:5 end:4:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:4:5 end:4:14:
@@ -175,45 +175,53 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:5:5 end:5:13:
                 vpiArgument (4 items):
-                  Constant start:5:14 end:5:39:
+                  NamedArgument start:5:14 end:5:39:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: TESTBENCH
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 184
-                    vpiDecompile: "\"@%0dns i = %0d, o = %0d\""
-                    vpiValue: "@%0dns i = %0d, o = %0d"
-                  SysFuncCall name:$time start:5:40 end:5:45:
+                    vpiHighConn Constant start:5:14 end:5:39:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: TESTBENCH
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 184
+                      vpiDecompile: "\"@%0dns i = %0d, o = %0d\""
+                      vpiValue: "@%0dns i = %0d, o = %0d"
+                  NamedArgument start:5:40 end:5:45:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName Identifier name:$time start:5:40 end:5:45:
-                  RefObj name:intf.drive start:5:46 end:5:56:
+                    vpiHighConn SysFuncCall name:$time start:5:40 end:5:45:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:5:40 end:5:45:
+                  NamedArgument start:5:46 end:5:56:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: intf.drive
-                    vpiFullName: TESTBENCH.intf.drive
-                    vpiPathElem (2 items):
-                      RefObj name:intf start:5:46 end:5:50:
-                        vpiParent: RefObj name:intf.drive
-                        vpiName: intf
-                        vpiFullName: TESTBENCH.intf
-                      RefObj name:drive start:5:51 end:5:56:
-                        vpiParent: RefObj name:intf.drive
-                        vpiName: drive
-                        vpiFullName: TESTBENCH.drive
-                  RefObj name:intf.observe start:5:58 end:5:70:
+                    vpiHighConn RefObj name:intf.drive start:5:46 end:5:56:
+                      vpiParent: NamedArgument
+                      vpiName: intf.drive
+                      vpiFullName: TESTBENCH.intf.drive
+                      vpiPathElem (2 items):
+                        RefObj name:intf start:5:46 end:5:50:
+                          vpiParent: RefObj name:intf.drive
+                          vpiName: intf
+                          vpiFullName: TESTBENCH.intf
+                        RefObj name:drive start:5:51 end:5:56:
+                          vpiParent: RefObj name:intf.drive
+                          vpiName: drive
+                          vpiFullName: TESTBENCH.drive
+                  NamedArgument start:5:58 end:5:70:
                     vpiParent: SysTaskCall name:$monitor
-                    vpiName: intf.observe
-                    vpiFullName: TESTBENCH.intf.observe
-                    vpiPathElem (2 items):
-                      RefObj name:intf start:5:58 end:5:62:
-                        vpiParent: RefObj name:intf.observe
-                        vpiName: intf
-                        vpiFullName: TESTBENCH.intf
-                      RefObj name:observe start:5:63 end:5:70:
-                        vpiParent: RefObj name:intf.observe
-                        vpiName: observe
-                        vpiFullName: TESTBENCH.observe
+                    vpiHighConn RefObj name:intf.observe start:5:58 end:5:70:
+                      vpiParent: NamedArgument
+                      vpiName: intf.observe
+                      vpiFullName: TESTBENCH.intf.observe
+                      vpiPathElem (2 items):
+                        RefObj name:intf start:5:58 end:5:62:
+                          vpiParent: RefObj name:intf.observe
+                          vpiName: intf
+                          vpiFullName: TESTBENCH.intf
+                        RefObj name:observe start:5:63 end:5:70:
+                          vpiParent: RefObj name:intf.observe
+                          vpiName: observe
+                          vpiFullName: TESTBENCH.observe
               Assignment start:6:5 end:6:19:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -242,6 +250,7 @@ Design name:unnamed:
                   vpiValue: 0
               DelayControl start:7:5 end:7:106:
                 vpiParent: Begin
+                vpiDelay: 1
                 vpiStmt ImmediateAssert start:7:8 end:7:106:
                   vpiParent: DelayControl
                   vpiExpr Operation start:7:15 end:7:41:
@@ -278,40 +287,46 @@ Design name:unnamed:
                     vpiParent: ImmediateAssert
                     vpiName Identifier name:$display start:7:43 end:7:51:
                     vpiArgument (1 items):
-                      Constant start:7:52 end:7:57:
+                      NamedArgument start:7:52 end:7:57:
                         vpiParent: SysTaskCall name:$display
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: TESTBENCH
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 24
-                        vpiDecompile: "\"OK!\""
-                        vpiValue: OK!
+                        vpiHighConn Constant start:7:52 end:7:57:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: TESTBENCH
+                            vpiActual: StringTypespec
+                          vpiConstType: string (6)
+                          vpiSize: 24
+                          vpiDecompile: "\"OK!\""
+                          vpiValue: OK!
                   vpiElseStmt SysTaskCall name:$fatal start:7:65 end:7:105:
                     vpiParent: ImmediateAssert
                     vpiName Identifier name:$fatal start:7:65 end:7:71:
                     vpiArgument (2 items):
-                      Constant start:7:72 end:7:73:
+                      NamedArgument start:7:72 end:7:73:
                         vpiParent: SysTaskCall name:$fatal
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: TESTBENCH
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                      Constant start:7:75 end:7:104:
+                        vpiHighConn Constant start:7:72 end:7:73:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: TESTBENCH
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                      NamedArgument start:7:75 end:7:104:
                         vpiParent: SysTaskCall name:$fatal
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: TESTBENCH
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 216
-                        vpiDecompile: "\"intf.drive != intf.observe!\""
-                        vpiValue: intf.drive != intf.observe!
+                        vpiHighConn Constant start:7:75 end:7:104:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: TESTBENCH
+                            vpiActual: StringTypespec
+                          vpiConstType: string (6)
+                          vpiSize: 216
+                          vpiDecompile: "\"intf.drive != intf.observe!\""
+                          vpiValue: intf.drive != intf.observe!
                 vpiDelay Constant start:7:6 end:7:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -324,6 +339,7 @@ Design name:unnamed:
                   vpiValue: 1
               DelayControl start:8:5 end:8:25:
                 vpiParent: Begin
+                vpiDelay: 100
                 vpiStmt Assignment start:8:10 end:8:24:
                   vpiParent: DelayControl
                   vpiBlocking: true
@@ -362,6 +378,7 @@ Design name:unnamed:
                   vpiValue: 100
               DelayControl start:9:5 end:9:106:
                 vpiParent: Begin
+                vpiDelay: 1
                 vpiStmt ImmediateAssert start:9:8 end:9:106:
                   vpiParent: DelayControl
                   vpiExpr Operation start:9:15 end:9:41:
@@ -398,40 +415,46 @@ Design name:unnamed:
                     vpiParent: ImmediateAssert
                     vpiName Identifier name:$display start:9:43 end:9:51:
                     vpiArgument (1 items):
-                      Constant start:9:52 end:9:57:
+                      NamedArgument start:9:52 end:9:57:
                         vpiParent: SysTaskCall name:$display
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: TESTBENCH
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 24
-                        vpiDecompile: "\"OK!\""
-                        vpiValue: OK!
+                        vpiHighConn Constant start:9:52 end:9:57:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: TESTBENCH
+                            vpiActual: StringTypespec
+                          vpiConstType: string (6)
+                          vpiSize: 24
+                          vpiDecompile: "\"OK!\""
+                          vpiValue: OK!
                   vpiElseStmt SysTaskCall name:$fatal start:9:65 end:9:105:
                     vpiParent: ImmediateAssert
                     vpiName Identifier name:$fatal start:9:65 end:9:71:
                     vpiArgument (2 items):
-                      Constant start:9:72 end:9:73:
+                      NamedArgument start:9:72 end:9:73:
                         vpiParent: SysTaskCall name:$fatal
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: TESTBENCH
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                      Constant start:9:75 end:9:104:
+                        vpiHighConn Constant start:9:72 end:9:73:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: TESTBENCH
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                      NamedArgument start:9:75 end:9:104:
                         vpiParent: SysTaskCall name:$fatal
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: TESTBENCH
-                          vpiActual: StringTypespec
-                        vpiConstType: string (6)
-                        vpiSize: 216
-                        vpiDecompile: "\"intf.drive != intf.observe!\""
-                        vpiValue: intf.drive != intf.observe!
+                        vpiHighConn Constant start:9:75 end:9:104:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: TESTBENCH
+                            vpiActual: StringTypespec
+                          vpiConstType: string (6)
+                          vpiSize: 216
+                          vpiDecompile: "\"intf.drive != intf.observe!\""
+                          vpiValue: intf.drive != intf.observe!
                 vpiDelay Constant start:9:6 end:9:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -444,6 +467,7 @@ Design name:unnamed:
                   vpiValue: 1
               DelayControl start:10:5 end:10:20:
                 vpiParent: Begin
+                vpiDelay: 100
                 vpiStmt SysTaskCall name:$finish start:10:10 end:10:19:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:10:10 end:10:17:
@@ -484,7 +508,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: o
           vpiFullName: dut.o
-          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:dut
@@ -513,7 +536,6 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: dut.i
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:i start:2:24 end:2:25:
           vpiParent: Module name:dut
@@ -601,16 +623,17 @@ Design name:unnamed:
             vpiName: middle
             vpiFullName: dut.middle1.middle
             vpiActual: ModuleTypespec name:middle
-          vpiPort (1 items):
-            Port start:6:19 end:6:36:
+          vpiArgument (1 items):
+            NamedArgument start:6:19 end:6:36:
               vpiParent: RefInstance name:middle1
+              vpiConnByName: true
               vpiLowConn RefObj name:intf start:6:20 end:6:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: intf
                 vpiFullName: dut.middle1.intf
                 vpiActual: Port name:intf
               vpiHighConn RefObj name:conntb.dut start:6:25 end:6:35:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: conntb.dut
                 vpiFullName: dut.middle1.conntb.dut
                 vpiPathElem (2 items):
@@ -669,16 +692,17 @@ Design name:unnamed:
             vpiName: SUB
             vpiFullName: middle.sub1.SUB
             vpiActual: ModuleTypespec name:SUB
-          vpiPort (2 items):
-            Port start:23:12 end:23:28:
+          vpiArgument (2 items):
+            NamedArgument start:23:12 end:23:28:
               vpiParent: RefInstance name:sub1
+              vpiConnByName: true
               vpiLowConn RefObj name:inp start:23:13 end:23:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: inp
                 vpiFullName: middle.sub1.inp
                 vpiActual: Port name:inp
               vpiHighConn RefObj name:intf.drive start:23:17 end:23:27:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: intf.drive
                 vpiFullName: middle.sub1.intf.drive
                 vpiPathElem (2 items):
@@ -690,15 +714,16 @@ Design name:unnamed:
                     vpiParent: RefObj name:intf.drive
                     vpiName: drive
                     vpiFullName: middle.sub1.drive
-            Port start:23:30 end:23:48:
+            NamedArgument start:23:30 end:23:48:
               vpiParent: RefInstance name:sub1
+              vpiConnByName: true
               vpiLowConn RefObj name:out start:23:31 end:23:34:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out
                 vpiFullName: middle.sub1.out
                 vpiActual: Port name:out
               vpiHighConn RefObj name:intf.observe start:23:35 end:23:47:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: intf.observe
                 vpiFullName: middle.sub1.intf.observe
                 vpiPathElem (2 items):
@@ -723,7 +748,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: SUB.out
-          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:SUB
@@ -747,7 +771,6 @@ Design name:unnamed:
           vpiName: inp
           vpiFullName: SUB.inp
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:inp start:26:24 end:26:27:
           vpiParent: Module name:SUB
@@ -874,16 +897,17 @@ Design name:unnamed:
             vpiName: dut
             vpiFullName: TOP.dut1.dut
             vpiActual: ModuleTypespec name:dut
-          vpiPort (2 items):
-            Port start:17:13 end:17:29:
+          vpiArgument (2 items):
+            NamedArgument start:17:13 end:17:29:
               vpiParent: RefInstance name:dut1
+              vpiConnByName: true
               vpiLowConn RefObj name:i start:17:14 end:17:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i
                 vpiFullName: TOP.dut1.i
                 vpiActual: Port name:i
               vpiHighConn RefObj name:conntb.drive start:17:16 end:17:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: conntb.drive
                 vpiFullName: TOP.dut1.conntb.drive
                 vpiPathElem (2 items):
@@ -896,15 +920,16 @@ Design name:unnamed:
                     vpiParent: RefObj name:conntb.drive
                     vpiName: drive
                     vpiFullName: TOP.dut1.drive
-            Port start:17:31 end:17:49:
+            NamedArgument start:17:31 end:17:49:
               vpiParent: RefInstance name:dut1
+              vpiConnByName: true
               vpiLowConn RefObj name:o start:17:32 end:17:33:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: TOP.dut1.o
                 vpiActual: Port name:o
               vpiHighConn RefObj name:conntb.observe start:17:34 end:17:48:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: conntb.observe
                 vpiFullName: TOP.dut1.conntb.observe
                 vpiPathElem (2 items):
@@ -925,15 +950,16 @@ Design name:unnamed:
             vpiName: TESTBENCH
             vpiFullName: TOP.tb.TESTBENCH
             vpiActual: ProgramTypespec name:TESTBENCH
-          vpiPort (1 items):
-            Port start:18:16 end:18:32:
+          vpiArgument (1 items):
+            NamedArgument start:18:16 end:18:32:
               vpiParent: RefInstance name:tb
+              vpiConnByName: true
               vpiLowConn RefObj name:intf start:18:17 end:18:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: intf
                 vpiFullName: TOP.tb.intf
               vpiHighConn RefObj name:conntb.tb start:18:22 end:18:31:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: conntb.tb
                 vpiFullName: TOP.tb.conntb.tb
                 vpiPathElem (2 items):
@@ -956,16 +982,17 @@ Design name:unnamed:
             vpiName: OBSERVER
             vpiFullName: TOP.obs.OBSERVER
             vpiActual: ModuleTypespec name:OBSERVER
-          vpiPort (1 items):
-            Port start:19:16 end:19:29:
+          vpiArgument (1 items):
+            NamedArgument start:19:16 end:19:29:
               vpiParent: RefInstance name:obs
+              vpiConnByName: true
               vpiLowConn RefObj name:intf start:19:17 end:19:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: intf
                 vpiFullName: TOP.obs.intf
                 vpiActual: Port name:intf
               vpiHighConn RefObj name:conntb start:19:22 end:19:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: conntb
                 vpiFullName: TOP.obs.conntb
                 vpiActual: RefInstance name:conntb
@@ -1063,7 +1090,7 @@ COMMAND: ${HLC_DIR}/regression/OneNetModPortGeneric/OneNetModPortGeneric/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             241     241       0         0
+Others                             252     252       0         0
 ----------------------------------------------------------------
-                                   241     241       0         0
+                                   252     252       0         0
 ===================== END REDUCTION RESULT =====================

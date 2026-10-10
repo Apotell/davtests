@@ -1787,7 +1787,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data
           vpiFullName: t.data
-          vpiVector: true
         Variable name:data_a start:23:14 end:23:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:23:4 end:23:13:
@@ -1796,7 +1795,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data_a
           vpiFullName: t.data_a
-          vpiVector: true
         Variable name:data_a_a start:24:14 end:24:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:24:4 end:24:13:
@@ -1805,7 +1803,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data_a_a
           vpiFullName: t.data_a_a
-          vpiVector: true
         Variable name:data_a_b start:25:14 end:25:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:25:4 end:25:13:
@@ -1814,7 +1811,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data_a_b
           vpiFullName: t.data_a_b
-          vpiVector: true
         Variable name:data_b start:26:14 end:26:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:26:4 end:26:13:
@@ -1823,7 +1819,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data_b
           vpiFullName: t.data_b
-          vpiVector: true
         Variable name:data_b_a start:27:14 end:27:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:27:4 end:27:13:
@@ -1832,7 +1827,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data_b_a
           vpiFullName: t.data_b_a
-          vpiVector: true
         Variable name:data_b_b start:28:14 end:28:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:28:4 end:28:13:
@@ -1841,7 +1835,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data_b_b
           vpiFullName: t.data_b_b
-          vpiVector: true
         Variable name:check start:30:18 end:30:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec name:logic [8*6-1:0] [100:0] start:30:4 end:30:17:
@@ -1851,7 +1844,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: check
           vpiFullName: t.check
-          vpiVector: true
         Variable name:cyc start:81:12 end:81:15:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:81:4 end:81:11:
@@ -2205,7 +2197,6 @@ Design name:unnamed:
           vpiName: fastclk
           vpiFullName: t.fastclk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:clk start:20:10 end:20:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec:
@@ -2215,7 +2206,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:compare start:31:19 end:31:26:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:31:9 end:31:18:
@@ -2226,7 +2216,6 @@ Design name:unnamed:
           vpiFullName: t.compare
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:31:29 end:31:80:
             vpiParent: Net name:compare
             vpiOpType: concatenation (33)
@@ -4347,38 +4336,46 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:90:6 end:90:12:
                               vpiArgument (4 items):
-                                Constant start:90:13 end:90:47:
+                                NamedArgument start:90:13 end:90:47:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 248
-                                  vpiDecompile: "\"[%0t] Mismatch, got=%x, exp=%x\\n\""
-                                  vpiValue: "[%0t] Mismatch, got=%x, exp=%x\\n"
-                                SysFuncCall name:$time start:90:49 end:90:54:
+                                  vpiHighConn Constant start:90:13 end:90:47:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 248
+                                    vpiDecompile: "\"[%0t] Mismatch, got=%x, exp=%x\\n\""
+                                    vpiValue: "[%0t] Mismatch, got=%x, exp=%x\\n"
+                                NamedArgument start:90:49 end:90:54:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName Identifier name:$time start:90:49 end:90:54:
-                                RefObj name:compare start:90:56 end:90:63:
+                                  vpiHighConn SysFuncCall name:$time start:90:49 end:90:54:
+                                    vpiParent: NamedArgument
+                                    vpiName Identifier name:$time start:90:49 end:90:54:
+                                NamedArgument start:90:56 end:90:63:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: compare
-                                  vpiFullName: t.compare
-                                  vpiActual: Net name:compare
-                                BitSelect name:check[cyc] start:90:65 end:90:75:
+                                  vpiHighConn RefObj name:compare start:90:56 end:90:63:
+                                    vpiParent: NamedArgument
+                                    vpiName: compare
+                                    vpiFullName: t.compare
+                                    vpiActual: Net name:compare
+                                NamedArgument start:90:65 end:90:75:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: check[cyc]
-                                  vpiFullName: t.check[cyc]
-                                  vpiPrefix RefObj name:check start:90:65 end:90:70:
-                                    vpiParent: BitSelect name:check[cyc]
-                                    vpiName: check
-                                    vpiFullName: t.check
-                                    vpiActual: Variable name:check
-                                  vpiIndex RefObj name:cyc start:90:71 end:90:74:
-                                    vpiParent: BitSelect name:check[cyc]
-                                    vpiName: cyc
-                                    vpiFullName: t.cyc
-                                    vpiActual: Variable name:cyc
+                                  vpiHighConn BitSelect name:check[cyc] start:90:65 end:90:75:
+                                    vpiParent: NamedArgument
+                                    vpiName: check[cyc]
+                                    vpiFullName: t.check[cyc]
+                                    vpiPrefix RefObj name:check start:90:65 end:90:70:
+                                      vpiParent: BitSelect name:check[cyc]
+                                      vpiName: check
+                                      vpiFullName: t.check
+                                      vpiActual: Variable name:check
+                                    vpiIndex RefObj name:cyc start:90:71 end:90:74:
+                                      vpiParent: BitSelect name:check[cyc]
+                                      vpiName: cyc
+                                      vpiFullName: t.cyc
+                                      vpiActual: Variable name:cyc
                             SysTaskCall name:$stop start:91:6 end:91:11:
                               vpiParent: Begin
                               vpiName Identifier name:$stop start:91:6 end:91:11:
@@ -4538,16 +4535,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:104:3 end:104:9:
                         vpiArgument (1 items):
-                          Constant start:104:10 end:104:34:
+                          NamedArgument start:104:10 end:104:34:
                             vpiParent: SysTaskCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 168
-                            vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: "*-* All Finished *-*\\n"
+                            vpiHighConn Constant start:104:10 end:104:34:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 168
+                              vpiDecompile: "\"*-* All Finished *-*\\n\""
+                              vpiValue: "*-* All Finished *-*\\n"
                       SysTaskCall name:$finish start:105:3 end:105:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:105:3 end:105:10:
@@ -4621,7 +4620,7 @@ Constant                           176      77      21       120
 Operation                           42      19       0        23
 RefTypespec                        191      73       2       120
 ----------------------------------------------------------------
-Others                             230     230       0         0
+Others                             235     235       0         0
 ----------------------------------------------------------------
-                                   639     399      23       263
+                                   644     404      23       263
 ===================== END REDUCTION RESULT =====================

@@ -429,7 +429,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:15:4 end:15:7:
           vpiParent: Module name:t
@@ -515,16 +514,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:35:3 end:35:9:
                         vpiArgument (1 items):
-                          Constant start:35:10 end:35:34:
+                          NamedArgument start:35:10 end:35:34:
                             vpiParent: SysTaskCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 168
-                            vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: "*-* All Finished *-*\\n"
+                            vpiHighConn Constant start:35:10 end:35:34:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 168
+                              vpiDecompile: "\"*-* All Finished *-*\\n\""
+                              vpiValue: "*-* All Finished *-*\\n"
                       SysTaskCall name:$finish start:36:3 end:36:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:36:3 end:36:10:
@@ -570,16 +571,17 @@ Design name:unnamed:
             vpiName: test_gen
             vpiFullName: t.i_test_gen.test_gen
             vpiActual: ModuleTypespec name:test_gen
-          vpiPort (1 items):
-            Port start:23:18 end:23:28:
+          vpiArgument (1 items):
+            NamedArgument start:23:18 end:23:28:
               vpiParent: RefInstance name:i_test_gen
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:23:19 end:23:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.i_test_gen.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:23:24 end:23:27:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.i_test_gen.clk
                 vpiActual: Net name:clk
@@ -662,7 +664,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).clk"
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:54:4 end:54:7:
           vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
@@ -822,7 +823,7 @@ Operation                            6       5       0         1
 RefObj                              18      17       0         1
 RefTypespec                         18      18       1         1
 ----------------------------------------------------------------
-Others                              63      63       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                   115     113       2         4
+                                   116     114       2         4
 ===================== END REDUCTION RESULT =====================

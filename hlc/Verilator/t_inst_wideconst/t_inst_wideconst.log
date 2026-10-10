@@ -702,7 +702,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: aaa
           vpiFullName: t.aaa
-          vpiVector: true
       vpiTypespec (9 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -845,7 +844,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:bbb start:15:18 end:15:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:9 end:15:15:
@@ -856,7 +854,6 @@ Design name:unnamed:
           vpiFullName: t.bbb
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:z_0 start:18:18 end:18:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:9 end:18:15:
@@ -867,7 +864,6 @@ Design name:unnamed:
           vpiFullName: t.z_0
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:z_1 start:19:18 end:19:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:19:9 end:19:15:
@@ -878,7 +874,6 @@ Design name:unnamed:
           vpiFullName: t.z_1
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1220,16 +1215,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:51:6 end:51:12:
                               vpiArgument (1 items):
-                                Constant start:51:13 end:51:37:
+                                NamedArgument start:51:13 end:51:37:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:51:13 end:51:37:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:52:6 end:52:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:52:6 end:52:13:
@@ -1266,16 +1263,17 @@ Design name:unnamed:
             vpiName: wide
             vpiFullName: t.w_0.wide
             vpiActual: ModuleTypespec name:wide
-          vpiPort (3 items):
-            Port start:22:6 end:22:34:
+          vpiArgument (3 items):
+            NamedArgument start:22:6 end:22:34:
               vpiParent: RefInstance name:w_0
+              vpiConnByName: true
               vpiLowConn RefObj name:xxx start:22:7 end:22:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: xxx
                 vpiFullName: t.w_0.xxx
                 vpiActual: Port name:xxx
               vpiHighConn Operation start:22:12 end:22:32:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiOpType: concatenation (33)
                 vpiOperand (2 items):
                   Operation start:22:14 end:22:24:
@@ -1316,15 +1314,16 @@ Design name:unnamed:
                     vpiSize: 2
                     vpiDecompile: "2'b11"
                     vpiValue: "11"
-            Port start:23:6 end:23:22:
+            NamedArgument start:23:6 end:23:22:
               vpiParent: RefInstance name:w_0
+              vpiConnByName: true
               vpiLowConn RefObj name:yyy start:23:7 end:23:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: yyy
                 vpiFullName: t.w_0.yyy
                 vpiActual: Port name:yyy
               vpiHighConn PartSelect name:aaa[1:0] start:23:12 end:23:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: aaa[1:0]
                 vpiFullName: t.w_0.aaa[1:0]
                 vpiPrefix RefObj name:aaa start:23:12 end:23:15:
@@ -1354,15 +1353,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:24:6 end:24:17:
+            NamedArgument start:24:6 end:24:17:
               vpiParent: RefInstance name:w_0
+              vpiConnByName: true
               vpiLowConn RefObj name:zzz start:24:7 end:24:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: zzz
                 vpiFullName: t.w_0.zzz
                 vpiActual: Port name:zzz
               vpiHighConn RefObj name:z_0 start:24:12 end:24:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: z_0
                 vpiFullName: t.w_0.z_0
                 vpiActual: Net name:z_0
@@ -1374,28 +1374,30 @@ Design name:unnamed:
             vpiName: wide
             vpiFullName: t.w_1.wide
             vpiActual: ModuleTypespec name:wide
-          vpiPort (3 items):
-            Port start:28:6 end:28:17:
+          vpiArgument (3 items):
+            NamedArgument start:28:6 end:28:17:
               vpiParent: RefInstance name:w_1
+              vpiConnByName: true
               vpiLowConn RefObj name:xxx start:28:7 end:28:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: xxx
                 vpiFullName: t.w_1.xxx
                 vpiActual: Port name:xxx
               vpiHighConn RefObj name:aaa start:28:12 end:28:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: aaa
                 vpiFullName: t.w_1.aaa
                 vpiActual: Variable name:aaa
-            Port start:29:6 end:29:19:
+            NamedArgument start:29:6 end:29:19:
               vpiParent: RefInstance name:w_1
+              vpiConnByName: true
               vpiLowConn RefObj name:yyy start:29:7 end:29:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: yyy
                 vpiFullName: t.w_1.yyy
                 vpiActual: Port name:yyy
               vpiHighConn Constant start:29:12 end:29:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t.w_1
@@ -1404,15 +1406,16 @@ Design name:unnamed:
                 vpiSize: 2
                 vpiDecompile: "2'b10"
                 vpiValue: "10"
-            Port start:30:6 end:30:17:
+            NamedArgument start:30:6 end:30:17:
               vpiParent: RefInstance name:w_1
+              vpiConnByName: true
               vpiLowConn RefObj name:zzz start:30:7 end:30:10:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: zzz
                 vpiFullName: t.w_1.zzz
                 vpiActual: Port name:zzz
               vpiHighConn RefObj name:z_1 start:30:12 end:30:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: z_1
                 vpiFullName: t.w_1.z_1
                 vpiActual: Net name:z_1
@@ -1521,7 +1524,6 @@ Design name:unnamed:
           vpiName: xxx
           vpiFullName: wide.xxx
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:yyy start:61:16 end:61:19:
           vpiParent: Module name:wide
           vpiTypespec RefTypespec start:61:8 end:61:13:
@@ -1531,7 +1533,6 @@ Design name:unnamed:
           vpiName: yyy
           vpiFullName: wide.yyy
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:zzz start:62:17 end:62:20:
           vpiParent: Module name:wide
           vpiTypespec RefTypespec start:62:9 end:62:15:
@@ -1541,7 +1542,6 @@ Design name:unnamed:
           vpiName: zzz
           vpiFullName: wide.zzz
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (3 items):
         Port name:xxx start:60:16 end:60:19:
           vpiParent: Module name:wide
@@ -1711,7 +1711,7 @@ Constant                            36      33       2         5
 Operation                           19      14       0         5
 RefTypespec                         51      46       0         5
 ----------------------------------------------------------------
-Others                             133     133       0         0
+Others                             134     134       0         0
 ----------------------------------------------------------------
-                                   239     226       2        15
+                                   240     227       2        15
 ===================== END REDUCTION RESULT =====================

@@ -198,10 +198,14 @@ TEST_F(ContinueTest, LoopBodyIsBeginWithIfContinueThenDisplay) {
   EXPECT_EQ(display->getName(), "$display");
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(display->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert:(%d == 255)\"");
-  const hldb::RefObj *const iArg = any_cast<hldb::RefObj>(display->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const iArg = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(iArg, nullptr);
   EXPECT_EQ(iArg->getName(), "i");
 }

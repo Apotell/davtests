@@ -362,7 +362,9 @@ TEST_F(DumpfileTest, DumpfileNamesOutVcd) {
 
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "'$dumpfile(\"out.vcd\")' passes just the file name";
-  const hldb::Constant *const name = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const name = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(name, nullptr) << "the argument is the string literal \"out.vcd\"";
   EXPECT_EQ(name->getConstType(), vpiStringConst);
   EXPECT_EQ(name->getValue(), "out.vcd");
@@ -390,7 +392,9 @@ TEST_F(DumpfileTest, DumplimitArgumentIsTheWrittenMultiplication) {
 
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "'$dumplimit(1024*1024)' passes exactly one argument";
-  const hldb::Operation *const product = any_cast<hldb::Operation>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Operation *const product = arg0->getHighConn<hldb::Operation>();
   ASSERT_NE(product, nullptr) << "the source wrote '1024*1024', so the argument is an Operation";
   EXPECT_EQ(product->getOpType(), vpiMultOp) << "Sec 11.4.2: '*' is the multiplication operator";
   ASSERT_NE(product->getOperands(), nullptr);

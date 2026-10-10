@@ -184,6 +184,7 @@ n<$Source01/signed4.v> u<169> t<Top_level_rule> c<1> l<22:1> el<42:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/signed4.v:22:1: Compile module "signed1".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[WRN:DB2033] $Source01/signed4.v:33:36: Critical: Signed vs Unsigned port connection "y".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -206,7 +207,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: x
           vpiFullName: signed1.x
-          vpiVector: true
         Variable name:y start:25:21 end:25:22:
           vpiParent: Module name:signed1
           vpiTypespec RefTypespec start:25:4 end:25:20:
@@ -215,7 +215,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: y
           vpiFullName: signed1.y
-          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:signed1
@@ -327,40 +326,48 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:32:2 end:32:10:
                 vpiArgument (2 items):
-                  Constant start:32:11 end:32:34:
+                  NamedArgument start:32:11 end:32:34:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: signed1
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"x = %0d (should be 3)\""
-                    vpiValue: x = %0d (should be 3)
-                  RefObj name:x start:32:35 end:32:36:
+                    vpiHighConn Constant start:32:11 end:32:34:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: signed1
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"x = %0d (should be 3)\""
+                      vpiValue: x = %0d (should be 3)
+                  NamedArgument start:32:35 end:32:36:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: x
-                    vpiFullName: signed1.x
-                    vpiActual: Variable name:x
+                    vpiHighConn RefObj name:x start:32:35 end:32:36:
+                      vpiParent: NamedArgument
+                      vpiName: x
+                      vpiFullName: signed1.x
+                      vpiActual: Variable name:x
               SysTaskCall name:$display start:33:2 end:33:38:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:33:2 end:33:10:
                 vpiArgument (2 items):
-                  Constant start:33:11 end:33:35:
+                  NamedArgument start:33:11 end:33:35:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: signed1
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 176
-                    vpiDecompile: "\"y = %0d (should be -3)\""
-                    vpiValue: y = %0d (should be -3)
-                  RefObj name:y start:33:36 end:33:37:
+                    vpiHighConn Constant start:33:11 end:33:35:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: signed1
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 176
+                      vpiDecompile: "\"y = %0d (should be -3)\""
+                      vpiValue: y = %0d (should be -3)
+                  NamedArgument start:33:36 end:33:37:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: y
-                    vpiFullName: signed1.y
-                    vpiActual: Variable name:y
+                    vpiHighConn RefObj name:y start:33:36 end:33:37:
+                      vpiParent: NamedArgument
+                      vpiName: y
+                      vpiFullName: signed1.y
+                      vpiActual: Variable name:y
               Assignment start:35:2 end:35:7:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -378,21 +385,25 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:36:2 end:36:10:
                 vpiArgument (2 items):
-                  Constant start:36:11 end:36:36:
+                  NamedArgument start:36:11 end:36:36:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: signed1
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 184
-                    vpiDecompile: "\"x = %0d (should be 253)\""
-                    vpiValue: x = %0d (should be 253)
-                  RefObj name:x start:36:37 end:36:38:
+                    vpiHighConn Constant start:36:11 end:36:36:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: signed1
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 184
+                      vpiDecompile: "\"x = %0d (should be 253)\""
+                      vpiValue: x = %0d (should be 253)
+                  NamedArgument start:36:37 end:36:38:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: x
-                    vpiFullName: signed1.x
-                    vpiActual: Variable name:x
+                    vpiHighConn RefObj name:x start:36:37 end:36:38:
+                      vpiParent: NamedArgument
+                      vpiName: x
+                      vpiFullName: signed1.x
+                      vpiActual: Variable name:x
   vpiTypespec (4 items):
     ModuleTypespec name:signed1:
       vpiParent: Design name:unnamed
@@ -414,7 +425,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -458,7 +469,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/signed4/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              61      61       0         0
 ----------------------------------------------------------------
-                                    55      55       0         0
+                                    61      61       0         0
 ===================== END REDUCTION RESULT =====================

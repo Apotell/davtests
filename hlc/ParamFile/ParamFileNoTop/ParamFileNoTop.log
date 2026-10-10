@@ -259,7 +259,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: o
           vpiFullName: dut.o
-          vpiScalar: true
       vpiParameter (1 items):
         Parameter name:SRAMInitFile start:4:14 end:4:26:
           vpiParent: Module name:dut
@@ -342,16 +341,17 @@ Design name:unnamed:
             vpiName: ram_1p
             vpiFullName: dut.u_ram.ram_1p
             vpiActual: ModuleTypespec name:ram_1p
-          vpiPort (1 items):
-            Port start:8:12 end:8:19:
+          vpiArgument (1 items):
+            NamedArgument start:8:12 end:8:19:
               vpiParent: RefInstance name:u_ram
+              vpiConnByName: true
               vpiLowConn RefObj name:out start:8:13 end:8:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out
                 vpiFullName: dut.u_ram.out
                 vpiActual: Port name:out
               vpiHighConn RefObj name:o start:8:17 end:8:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: dut.u_ram.o
                 vpiActual: Variable name:o
@@ -368,7 +368,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: ram_1p #(.MemInitFile("")).out
-          vpiScalar: true
       vpiParameter (1 items):
         Parameter name:MemInitFile start:13:23 end:13:34:
           vpiParent: "Module name:ram_1p #(.MemInitFile(\"\"))"
@@ -461,21 +460,25 @@ Design name:unnamed:
                       vpiParent: Begin name:gen_meminit
                       vpiName Identifier name:$display start:20:7 end:20:15:
                       vpiArgument (2 items):
-                        Constant start:20:16 end:20:56:
+                        NamedArgument start:20:16 end:20:56:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: ram_1p #(.MemInitFile("")).gen_meminit
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 304
-                          vpiDecompile: "\"Initializing memory %m from file '%s'.\""
-                          vpiValue: "Initializing memory %m from file '%s'."
-                        RefObj name:MemInitFile start:20:58 end:20:69:
+                          vpiHighConn Constant start:20:16 end:20:56:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: ram_1p #(.MemInitFile("")).gen_meminit
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 304
+                            vpiDecompile: "\"Initializing memory %m from file '%s'.\""
+                            vpiValue: "Initializing memory %m from file '%s'."
+                        NamedArgument start:20:58 end:20:69:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: MemInitFile
-                          vpiFullName: ram_1p #(.MemInitFile("")).gen_meminit.MemInitFile
-                          vpiActual: Parameter name:MemInitFile
+                          vpiHighConn RefObj name:MemInitFile start:20:58 end:20:69:
+                            vpiParent: NamedArgument
+                            vpiName: MemInitFile
+                            vpiFullName: ram_1p #(.MemInitFile("")).gen_meminit.MemInitFile
+                            vpiActual: Parameter name:MemInitFile
                     AssignStmt start:21:7 end:21:24:
                       vpiParent: Begin name:gen_meminit
                       vpiLhs RefObj name:out start:21:14 end:21:17:
@@ -525,16 +528,18 @@ Design name:unnamed:
                       vpiParent: Begin name:gen_nomeminit
                       vpiName Identifier name:$display start:25:7 end:25:15:
                       vpiArgument (1 items):
-                        Constant start:25:16 end:25:52:
+                        NamedArgument start:25:16 end:25:52:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: ram_1p #(.MemInitFile("")).gen_nomeminit
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 272
-                          vpiDecompile: "\"Initializing memory file is empty.\""
-                          vpiValue: Initializing memory file is empty.
+                          vpiHighConn Constant start:25:16 end:25:52:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: ram_1p #(.MemInitFile("")).gen_nomeminit
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 272
+                            vpiDecompile: "\"Initializing memory file is empty.\""
+                            vpiValue: Initializing memory file is empty.
                     AssignStmt start:26:7 end:26:24:
                       vpiParent: Begin name:gen_nomeminit
                       vpiLhs RefObj name:out start:26:14 end:26:17:
@@ -617,7 +622,7 @@ COMMAND: ${HLC_DIR}/regression/ParamFile/ParamFileNoTop/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              89      89       0         0
+Others                              92      92       0         0
 ----------------------------------------------------------------
-                                    89      89       0         0
+                                    92      92       0         0
 ===================== END REDUCTION RESULT =====================

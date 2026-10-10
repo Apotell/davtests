@@ -2310,7 +2310,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: crc
           vpiFullName: t.crc
-          vpiVector: true
         Variable name:sum start:14:17 end:14:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:4 end:14:14:
@@ -2319,7 +2318,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sum
           vpiFullName: t.sum
-          vpiVector: true
         Variable name:rst start:15:17 end:15:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:4 end:15:7:
@@ -2328,7 +2326,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rst
           vpiFullName: t.rst
-          vpiScalar: true
         Variable name:inval start:18:17 end:18:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec name:logic start:18:4 end:18:9:
@@ -2659,7 +2656,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:wdat start:19:17 end:19:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:19:9 end:19:15:
@@ -2670,7 +2666,6 @@ Design name:unnamed:
           vpiFullName: t.wdat
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:19:29 end:19:69:
             vpiParent: Net name:wdat
             vpiOpType: condition (32)
@@ -2780,7 +2775,6 @@ Design name:unnamed:
           vpiFullName: t.cdat
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:20:29 end:20:69:
             vpiParent: Net name:cdat
             vpiOpType: condition (32)
@@ -2890,7 +2884,6 @@ Design name:unnamed:
           vpiFullName: t.wdat_val
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
           vpiValue Constant start:21:28 end:21:32:
             vpiParent: Net name:wdat_val
             vpiTypespec RefTypespec:
@@ -2911,7 +2904,6 @@ Design name:unnamed:
           vpiFullName: t.camen
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
           vpiValue BitSelect name:crc[32] start:22:28 end:22:35:
             vpiParent: Net name:camen
             vpiName: crc[32]
@@ -2941,7 +2933,6 @@ Design name:unnamed:
           vpiFullName: t.ren
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
           vpiValue BitSelect name:crc[33] start:23:28 end:23:35:
             vpiParent: Net name:ren
             vpiName: crc[33]
@@ -2971,7 +2962,6 @@ Design name:unnamed:
           vpiFullName: t.wen
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
           vpiValue BitSelect name:crc[34] start:24:28 end:24:35:
             vpiParent: Net name:wen
             vpiName: crc[34]
@@ -3001,7 +2991,6 @@ Design name:unnamed:
           vpiFullName: t.rwidx
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:25:29 end:25:71:
             vpiParent: Net name:rwidx
             vpiOpType: condition (32)
@@ -3111,7 +3100,6 @@ Design name:unnamed:
           vpiFullName: t.result
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:56:25 end:56:83:
             vpiParent: Net name:result
             vpiOpType: concatenation (33)
@@ -3713,34 +3701,44 @@ Design name:unnamed:
                                 vpiParent: Begin
                                 vpiName Identifier name:$write start:83:10 end:83:16:
                                 vpiArgument (5 items):
-                                  Constant start:83:17 end:83:49:
+                                  NamedArgument start:83:17 end:83:49:
                                     vpiParent: SysTaskCall name:$write
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: t
-                                      vpiActual: StringTypespec
-                                    vpiConstType: string (6)
-                                    vpiSize: 232
-                                    vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
-                                    vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
-                                  SysFuncCall name:$time start:83:50 end:83:55:
+                                    vpiHighConn Constant start:83:17 end:83:49:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: t
+                                        vpiActual: StringTypespec
+                                      vpiConstType: string (6)
+                                      vpiSize: 232
+                                      vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
+                                      vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
+                                  NamedArgument start:83:50 end:83:55:
                                     vpiParent: SysTaskCall name:$write
-                                    vpiName Identifier name:$time start:83:50 end:83:55:
-                                  RefObj name:cyc start:83:57 end:83:60:
+                                    vpiHighConn SysFuncCall name:$time start:83:50 end:83:55:
+                                      vpiParent: NamedArgument
+                                      vpiName Identifier name:$time start:83:50 end:83:55:
+                                  NamedArgument start:83:57 end:83:60:
                                     vpiParent: SysTaskCall name:$write
-                                    vpiName: cyc
-                                    vpiFullName: t.cyc
-                                    vpiActual: Variable name:cyc
-                                  RefObj name:crc start:83:62 end:83:65:
+                                    vpiHighConn RefObj name:cyc start:83:57 end:83:60:
+                                      vpiParent: NamedArgument
+                                      vpiName: cyc
+                                      vpiFullName: t.cyc
+                                      vpiActual: Variable name:cyc
+                                  NamedArgument start:83:62 end:83:65:
                                     vpiParent: SysTaskCall name:$write
-                                    vpiName: crc
-                                    vpiFullName: t.crc
-                                    vpiActual: Variable name:crc
-                                  RefObj name:sum start:83:67 end:83:70:
+                                    vpiHighConn RefObj name:crc start:83:62 end:83:65:
+                                      vpiParent: NamedArgument
+                                      vpiName: crc
+                                      vpiFullName: t.crc
+                                      vpiActual: Variable name:crc
+                                  NamedArgument start:83:67 end:83:70:
                                     vpiParent: SysTaskCall name:$write
-                                    vpiName: sum
-                                    vpiFullName: t.sum
-                                    vpiActual: Variable name:sum
+                                    vpiHighConn RefObj name:sum start:83:67 end:83:70:
+                                      vpiParent: NamedArgument
+                                      vpiName: sum
+                                      vpiFullName: t.sum
+                                      vpiActual: Variable name:sum
                               IfStmt start:84:10 end:84:50:
                                 vpiParent: Begin
                                 vpiCondition Operation start:84:14 end:84:42:
@@ -3795,16 +3793,18 @@ Design name:unnamed:
                                 vpiParent: Begin
                                 vpiName Identifier name:$write start:87:10 end:87:16:
                                 vpiArgument (1 items):
-                                  Constant start:87:17 end:87:41:
+                                  NamedArgument start:87:17 end:87:41:
                                     vpiParent: SysTaskCall name:$write
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: t
-                                      vpiActual: StringTypespec
-                                    vpiConstType: string (6)
-                                    vpiSize: 168
-                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                    vpiValue: "*-* All Finished *-*\\n"
+                                    vpiHighConn Constant start:87:17 end:87:41:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: t
+                                        vpiActual: StringTypespec
+                                      vpiConstType: string (6)
+                                      vpiSize: 168
+                                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                      vpiValue: "*-* All Finished *-*\\n"
                               SysTaskCall name:$finish start:88:10 end:88:17:
                                 vpiParent: Begin
                                 vpiName Identifier name:$finish start:88:10 end:88:17:
@@ -3819,16 +3819,17 @@ Design name:unnamed:
             vpiName: cam
             vpiFullName: t.cam.cam
             vpiActual: ModuleTypespec name:cam
-          vpiPort (15 items):
-            Port start:38:13 end:38:60:
+          vpiArgument (15 items):
+            NamedArgument start:38:13 end:38:60:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:hitvec_d1r start:38:14 end:38:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: hitvec_d1r
                 vpiFullName: t.cam.hitvec_d1r
                 vpiActual: Variable name:hitvec_d1r
               vpiHighConn PartSelect name:hitvec_d1r[255:0] start:38:42 end:38:59:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: hitvec_d1r[255:0]
                 vpiFullName: t.cam.hitvec_d1r[255:0]
                 vpiPrefix RefObj name:hitvec_d1r start:38:42 end:38:52:
@@ -3858,15 +3859,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:39:13 end:39:58:
+            NamedArgument start:39:13 end:39:58:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:hitidx_d1r start:39:14 end:39:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: hitidx_d1r
                 vpiFullName: t.cam.hitidx_d1r
                 vpiActual: Variable name:hitidx_d1r
               vpiHighConn PartSelect name:hitidx_d1r[7:0] start:39:42 end:39:57:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: hitidx_d1r[7:0]
                 vpiFullName: t.cam.hitidx_d1r[7:0]
                 vpiPrefix RefObj name:hitidx_d1r start:39:42 end:39:52:
@@ -3896,27 +3898,29 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:40:13 end:40:50:
+            NamedArgument start:40:13 end:40:50:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:hit_d2r start:40:14 end:40:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: hit_d2r
                 vpiFullName: t.cam.hit_d2r
                 vpiActual: Variable name:hit_d2r
               vpiHighConn RefObj name:hit_d2r start:40:42 end:40:49:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: hit_d2r
                 vpiFullName: t.cam.hit_d2r
                 vpiActual: Variable name:hit_d2r
-            Port start:41:13 end:41:57:
+            NamedArgument start:41:13 end:41:57:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:rdat_d2r start:41:14 end:41:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rdat_d2r
                 vpiFullName: t.cam.rdat_d2r
                 vpiActual: Variable name:rdat_d2r
               vpiHighConn PartSelect name:rdat_d2r[30:0] start:41:42 end:41:56:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rdat_d2r[30:0]
                 vpiFullName: t.cam.rdat_d2r[30:0]
                 vpiPrefix RefObj name:rdat_d2r start:41:42 end:41:50:
@@ -3946,75 +3950,81 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:42:13 end:42:55:
+            NamedArgument start:42:13 end:42:55:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:rdat_val_d2r start:42:14 end:42:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rdat_val_d2r
                 vpiFullName: t.cam.rdat_val_d2r
                 vpiActual: Variable name:rdat_val_d2r
               vpiHighConn RefObj name:rdat_val_d2r start:42:42 end:42:54:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rdat_val_d2r
                 vpiFullName: t.cam.rdat_val_d2r
                 vpiActual: Variable name:rdat_val_d2r
-            Port start:44:13 end:44:46:
+            NamedArgument start:44:13 end:44:46:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:44:14 end:44:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.cam.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:44:42 end:44:45:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.cam.clk
                 vpiActual: Net name:clk
-            Port start:45:13 end:45:46:
+            NamedArgument start:45:13 end:45:46:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:rst start:45:14 end:45:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: t.cam.rst
                 vpiActual: Variable name:rst
               vpiHighConn RefObj name:rst start:45:42 end:45:45:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: t.cam.rst
                 vpiActual: Variable name:rst
-            Port start:46:13 end:46:48:
+            NamedArgument start:46:13 end:46:48:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:camen start:46:14 end:46:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: camen
                 vpiFullName: t.cam.camen
                 vpiActual: Net name:camen
               vpiHighConn RefObj name:camen start:46:42 end:46:47:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: camen
                 vpiFullName: t.cam.camen
                 vpiActual: Net name:camen
-            Port start:47:13 end:47:48:
+            NamedArgument start:47:13 end:47:48:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:inval start:47:14 end:47:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: inval
                 vpiFullName: t.cam.inval
                 vpiActual: Variable name:inval
               vpiHighConn RefObj name:inval start:47:42 end:47:47:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: inval
                 vpiFullName: t.cam.inval
                 vpiActual: Variable name:inval
-            Port start:48:13 end:48:53:
+            NamedArgument start:48:13 end:48:53:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:cdat start:48:14 end:48:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: cdat
                 vpiFullName: t.cam.cdat
                 vpiActual: Net name:cdat
               vpiHighConn PartSelect name:cdat[30:0] start:48:42 end:48:52:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: cdat[30:0]
                 vpiFullName: t.cam.cdat[30:0]
                 vpiPrefix RefObj name:cdat start:48:42 end:48:46:
@@ -4044,39 +4054,42 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:49:13 end:49:46:
+            NamedArgument start:49:13 end:49:46:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:ren start:49:14 end:49:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ren
                 vpiFullName: t.cam.ren
                 vpiActual: Net name:ren
               vpiHighConn RefObj name:ren start:49:42 end:49:45:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ren
                 vpiFullName: t.cam.ren
                 vpiActual: Net name:ren
-            Port start:50:13 end:50:46:
+            NamedArgument start:50:13 end:50:46:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:wen start:50:14 end:50:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: wen
                 vpiFullName: t.cam.wen
                 vpiActual: Net name:wen
               vpiHighConn RefObj name:wen start:50:42 end:50:45:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: wen
                 vpiFullName: t.cam.wen
                 vpiActual: Net name:wen
-            Port start:51:13 end:51:53:
+            NamedArgument start:51:13 end:51:53:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:wdat start:51:14 end:51:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: wdat
                 vpiFullName: t.cam.wdat
                 vpiActual: Net name:wdat
               vpiHighConn PartSelect name:wdat[30:0] start:51:42 end:51:52:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: wdat[30:0]
                 vpiFullName: t.cam.wdat[30:0]
                 vpiPrefix RefObj name:wdat start:51:42 end:51:46:
@@ -4106,27 +4119,29 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:52:13 end:52:51:
+            NamedArgument start:52:13 end:52:51:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:wdat_val start:52:14 end:52:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: wdat_val
                 vpiFullName: t.cam.wdat_val
                 vpiActual: Net name:wdat_val
               vpiHighConn RefObj name:wdat_val start:52:42 end:52:50:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: wdat_val
                 vpiFullName: t.cam.wdat_val
                 vpiActual: Net name:wdat_val
-            Port start:53:13 end:53:53:
+            NamedArgument start:53:13 end:53:53:
               vpiParent: RefInstance name:cam
+              vpiConnByName: true
               vpiLowConn RefObj name:rwidx start:53:14 end:53:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rwidx
                 vpiFullName: t.cam.rwidx
                 vpiActual: Net name:rwidx
               vpiHighConn PartSelect name:rwidx[7:0] start:53:42 end:53:52:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rwidx[7:0]
                 vpiFullName: t.cam.rwidx[7:0]
                 vpiPrefix RefObj name:rwidx start:53:42 end:53:47:
@@ -4658,7 +4673,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: cam.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:rst start:97:25 end:97:28:
           vpiParent: Module name:cam
           vpiTypespec RefTypespec:
@@ -4668,7 +4682,6 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: cam.rst
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:camen start:99:25 end:99:30:
           vpiParent: Module name:cam
           vpiTypespec RefTypespec:
@@ -4678,7 +4691,6 @@ Design name:unnamed:
           vpiName: camen
           vpiFullName: cam.camen
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:inval start:100:25 end:100:30:
           vpiParent: Module name:cam
           vpiTypespec RefTypespec:
@@ -4688,7 +4700,6 @@ Design name:unnamed:
           vpiName: inval
           vpiFullName: cam.inval
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:cdat start:101:25 end:101:29:
           vpiParent: Module name:cam
           vpiTypespec RefTypespec start:101:10 end:101:16:
@@ -4698,7 +4709,6 @@ Design name:unnamed:
           vpiName: cdat
           vpiFullName: cam.cdat
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:ren start:106:25 end:106:28:
           vpiParent: Module name:cam
           vpiTypespec RefTypespec:
@@ -4708,7 +4718,6 @@ Design name:unnamed:
           vpiName: ren
           vpiFullName: cam.ren
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:wen start:107:25 end:107:28:
           vpiParent: Module name:cam
           vpiTypespec RefTypespec:
@@ -4718,7 +4727,6 @@ Design name:unnamed:
           vpiName: wen
           vpiFullName: cam.wen
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:wdat start:108:25 end:108:29:
           vpiParent: Module name:cam
           vpiTypespec RefTypespec start:108:10 end:108:16:
@@ -4728,7 +4736,6 @@ Design name:unnamed:
           vpiName: wdat
           vpiFullName: cam.wdat
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:wdat_val start:109:25 end:109:33:
           vpiParent: Module name:cam
           vpiTypespec RefTypespec:
@@ -4738,7 +4745,6 @@ Design name:unnamed:
           vpiName: wdat_val
           vpiFullName: cam.wdat_val
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:rwidx start:110:25 end:110:30:
           vpiParent: Module name:cam
           vpiTypespec RefTypespec start:110:10 end:110:15:
@@ -4748,7 +4754,6 @@ Design name:unnamed:
           vpiName: rwidx
           vpiFullName: cam.rwidx
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (15 items):
         Port name:clk start:96:25 end:96:28:
           vpiParent: Module name:cam
@@ -5797,7 +5802,7 @@ Operation                           42      33       0         9
 RefObj                             169     160       0         9
 RefTypespec                        193     193       9         9
 ----------------------------------------------------------------
-Others                             300     300       0         0
+Others                             306     306       0         0
 ----------------------------------------------------------------
-                                   820     802      18        36
+                                   826     808      18        36
 ===================== END REDUCTION RESULT =====================

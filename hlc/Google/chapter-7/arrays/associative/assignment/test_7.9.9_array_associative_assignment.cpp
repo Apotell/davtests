@@ -181,7 +181,9 @@ TEST_F(Assignment, FourthStmtIsDisplayWordsHHW) {
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
   EXPECT_EQ(sc->getArguments()->size(), 4u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = sc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'hello') and ('%s' == 'happy') and ('%s' == 'world'))\"");
 }
@@ -230,7 +232,9 @@ TEST_F(Assignment, SeventhStmtIsDisplayWordsUnchanged) {
   ASSERT_NE(sc->getArguments(), nullptr);
   EXPECT_EQ(sc->getArguments()->size(), 4u);
   // fmt still asserts words holds original values (copy was by value)
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = sc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'hello') and ('%s' == 'happy') and ('%s' == 'world'))\"");
 }
@@ -245,11 +249,15 @@ TEST_F(Assignment, EighthStmtIsDisplayWWithSad) {
   EXPECT_EQ(sc->getName(), "$display");
   ASSERT_NE(sc->getArguments(), nullptr);
   EXPECT_EQ(sc->getArguments()->size(), 4u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(sc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = sc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (('%s' == 'hello') and ('%s' == 'sad') and ('%s' == 'world'))\"");
   // second arg is w[0], third is w[1], fourth is w[2]
-  const hldb::BitSelect *const w0 = any_cast<hldb::BitSelect>(sc->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = sc->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::BitSelect *const w0 = arg1->getHighConn<hldb::BitSelect>();
   ASSERT_NE(w0, nullptr);
   EXPECT_EQ(w0->getPrefix<hldb::RefObj>()->getName(), "w");
   EXPECT_EQ(w0->getIndex<hldb::Constant>()->getDecompile(), "0");
@@ -265,11 +273,15 @@ TEST_F(Assignment, EighthStmtDisplayHasW1AndW2BitSelects) {
   ASSERT_NE(sc, nullptr);
   ASSERT_NE(sc->getArguments(), nullptr);
   ASSERT_EQ(sc->getArguments()->size(), 4u);
-  const hldb::BitSelect *const w1 = any_cast<hldb::BitSelect>(sc->getArguments()->at(2));
+  const hldb::NamedArgument *const arg2 = sc->getArguments()->at(2);
+  ASSERT_NE(arg2, nullptr);
+  const hldb::BitSelect *const w1 = arg2->getHighConn<hldb::BitSelect>();
   ASSERT_NE(w1, nullptr);
   EXPECT_EQ(w1->getPrefix<hldb::RefObj>()->getName(), "w");
   EXPECT_EQ(w1->getIndex<hldb::Constant>()->getDecompile(), "1");
-  const hldb::BitSelect *const w2 = any_cast<hldb::BitSelect>(sc->getArguments()->at(3));
+  const hldb::NamedArgument *const arg3 = sc->getArguments()->at(3);
+  ASSERT_NE(arg3, nullptr);
+  const hldb::BitSelect *const w2 = arg3->getHighConn<hldb::BitSelect>();
   ASSERT_NE(w2, nullptr);
   EXPECT_EQ(w2->getPrefix<hldb::RefObj>()->getName(), "w");
   EXPECT_EQ(w2->getIndex<hldb::Constant>()->getDecompile(), "2");

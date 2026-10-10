@@ -152,7 +152,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: top.a
-          vpiScalar: true
           vpiValue Constant start:18:11 end:18:12:
             vpiParent: Variable name:a
             vpiTypespec RefTypespec:
@@ -171,7 +170,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: top.b
-          vpiScalar: true
           vpiValue Constant start:19:11 end:19:12:
             vpiParent: Variable name:b
             vpiTypespec RefTypespec:
@@ -237,26 +235,32 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:24:2 end:24:10:
                 vpiArgument (3 items):
-                  Constant start:24:11 end:24:32:
+                  NamedArgument start:24:11 end:24:32:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 152
-                    vpiDecompile: "\":assert: (%d == %d)\""
-                    vpiValue: ":assert: (%d == %d)"
-                  RefObj name:a start:24:34 end:24:35:
+                    vpiHighConn Constant start:24:11 end:24:32:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 152
+                      vpiDecompile: "\":assert: (%d == %d)\""
+                      vpiValue: ":assert: (%d == %d)"
+                  NamedArgument start:24:34 end:24:35:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: a
-                    vpiFullName: top.a
-                    vpiActual: Variable name:a
-                  RefObj name:b start:24:37 end:24:38:
+                    vpiHighConn RefObj name:a start:24:34 end:24:35:
+                      vpiParent: NamedArgument
+                      vpiName: a
+                      vpiFullName: top.a
+                      vpiActual: Variable name:a
+                  NamedArgument start:24:37 end:24:38:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: b
-                    vpiFullName: top.b
-                    vpiActual: Variable name:b
+                    vpiHighConn RefObj name:b start:24:37 end:24:38:
+                      vpiParent: NamedArgument
+                      vpiName: b
+                      vpiFullName: top.b
+                      vpiActual: Variable name:b
   vpiTypespec (3 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -320,7 +324,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-10/10.4.1--blocking-assignment/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              34      34       0         0
+Others                              37      37       0         0
 ----------------------------------------------------------------
-                                    34      34       0         0
+                                    37      37       0         0
 ===================== END REDUCTION RESULT =====================

@@ -442,7 +442,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: pos
           vpiFullName: prim_packer #(.InW(32), .OutW(32), .HintByteData(0)).pos
-          vpiVector: true
         Variable name:pos_next start:22:34 end:22:42:
           vpiParent: Module name:prim_packer #(.InW(32), .OutW(32), .HintByteData(0))
           vpiTypespec RefTypespec start:22:3 end:22:19:
@@ -451,7 +450,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: pos_next
           vpiFullName: prim_packer #(.InW(32), .OutW(32), .HintByteData(0)).pos_next
-          vpiVector: true
         Variable name:lod_idx start:23:29 end:23:36:
           vpiParent: Module name:prim_packer #(.InW(32), .OutW(32), .HintByteData(0))
           vpiTypespec RefTypespec start:23:3 end:23:19:
@@ -460,7 +458,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: lod_idx
           vpiFullName: prim_packer #(.InW(32), .OutW(32), .HintByteData(0)).lod_idx
-          vpiVector: true
       vpiParameter (7 items):
         Parameter name:InW start:12:17 end:12:20:
           vpiParent: Module name:prim_packer #(.InW(32), .OutW(32), .HintByteData(0))
@@ -627,25 +624,27 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName Identifier name:$clog2 start:20:25 end:20:31:
             vpiArgument (1 items):
-              Operation start:20:32 end:20:41:
+              NamedArgument start:20:32 end:20:41:
                 vpiParent: SysFuncCall name:$clog2
-                vpiOpType: add (24)
-                vpiOperand (2 items):
-                  RefObj name:ConcatW start:20:32 end:20:39:
-                    vpiParent: Operation
-                    vpiName: ConcatW
-                    vpiFullName: prim_packer #(.InW(32), .OutW(32), .HintByteData(0)).ConcatW
-                    vpiActual: Parameter name:ConcatW
-                  Constant start:20:40 end:20:41:
-                    vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: prim_packer #(.InW(32), .OutW(32), .HintByteData(0))
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "1"
-                    vpiValue: 1
+                vpiHighConn Operation start:20:32 end:20:41:
+                  vpiParent: NamedArgument
+                  vpiOpType: add (24)
+                  vpiOperand (2 items):
+                    RefObj name:ConcatW start:20:32 end:20:39:
+                      vpiParent: Operation
+                      vpiName: ConcatW
+                      vpiFullName: prim_packer #(.InW(32), .OutW(32), .HintByteData(0)).ConcatW
+                      vpiActual: Parameter name:ConcatW
+                    Constant start:20:40 end:20:41:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: prim_packer #(.InW(32), .OutW(32), .HintByteData(0))
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "1"
+                      vpiValue: 1
         ParamAssign start:21:18 end:21:52:
           vpiParent: Module name:prim_packer #(.InW(32), .OutW(32), .HintByteData(0))
           vpiLhs RefObj name:IdxW start:21:18 end:21:22:
@@ -661,11 +660,13 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName Identifier name:$clog2 start:21:25 end:21:31:
                 vpiArgument (1 items):
-                  RefObj name:InW start:21:32 end:21:35:
+                  NamedArgument start:21:32 end:21:35:
                     vpiParent: SysFuncCall name:$clog2
-                    vpiName: InW
-                    vpiFullName: prim_packer #(.InW(32), .OutW(32), .HintByteData(0)).InW
-                    vpiActual: Parameter name:InW
+                    vpiHighConn RefObj name:InW start:21:32 end:21:35:
+                      vpiParent: NamedArgument
+                      vpiName: InW
+                      vpiFullName: prim_packer #(.InW(32), .OutW(32), .HintByteData(0)).InW
+                      vpiActual: Parameter name:InW
               Operation start:21:39 end:21:52:
                 vpiParent: Operation
                 vpiOperand (1 items):
@@ -673,11 +674,13 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName Identifier name:$clog2 start:21:41 end:21:47:
                     vpiArgument (1 items):
-                      RefObj name:InW start:21:48 end:21:51:
+                      NamedArgument start:21:48 end:21:51:
                         vpiParent: SysFuncCall name:$clog2
-                        vpiName: InW
-                        vpiFullName: prim_packer #(.InW(32), .OutW(32), .HintByteData(0)).InW
-                        vpiActual: Parameter name:InW
+                        vpiHighConn RefObj name:InW start:21:48 end:21:51:
+                          vpiParent: NamedArgument
+                          vpiName: InW
+                          vpiFullName: prim_packer #(.InW(32), .OutW(32), .HintByteData(0)).InW
+                          vpiActual: Parameter name:InW
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:prim_packer #(.InW(32), .OutW(32), .HintByteData(0))
@@ -866,6 +869,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            10      14       6         2
 Identifier                           8       5       0         3
+NamedArgument                        3       0       0         3
 Operation                            9       5       0         4
 RefObj                              23      15       0         8
 RefTypespec                         23      24       3         2
@@ -873,5 +877,5 @@ SysFuncCall                          3       0       0         3
 ----------------------------------------------------------------
 Others                              40      40       0         0
 ----------------------------------------------------------------
-                                   116     103       9        22
+                                   119     103       9        25
 ===================== END REDUCTION RESULT =====================

@@ -205,16 +205,18 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName Identifier name:width_calc start:3:26 end:3:36:
             vpiArgument (1 items):
-              Constant start:3:37 end:3:38:
+              NamedArgument start:3:37 end:3:38:
                 vpiParent: SubroutineCall name:width_calc
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top #(.width(width_calc(2))).width_calc
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "2"
-                vpiValue: 2
+                vpiHighConn Constant start:3:37 end:3:38:
+                  vpiParent: NamedArgument
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top #(.width(width_calc(2))).width_calc
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "2"
+                  vpiValue: 2
       vpiTypespec (5 items):
         ImportTypespec name:pkg start:2:12 end:2:18:
           vpiParent: Module name:top #(.width(width_calc(2)))
@@ -323,7 +325,6 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: top #(.width(width_calc(2))).i
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:o start:4:46 end:4:47:
           vpiParent: Module name:top #(.width(width_calc(2)))
           vpiTypespec RefTypespec start:4:34 end:4:45:
@@ -333,7 +334,6 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: top #(.width(width_calc(2))).o
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (2 items):
         Port name:i start:4:24 end:4:25:
           vpiParent: Module name:top #(.width(width_calc(2)))
@@ -372,11 +372,13 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:7:9 end:7:17:
                 vpiArgument (1 items):
-                  RefObj name:width start:7:18 end:7:23:
+                  NamedArgument start:7:18 end:7:23:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: width
-                    vpiFullName: top #(.width(width_calc(2))).width
-                    vpiActual: Parameter name:width
+                    vpiHighConn RefObj name:width start:7:18 end:7:23:
+                      vpiParent: NamedArgument
+                      vpiName: width
+                      vpiFullName: top #(.width(width_calc(2))).width
+                      vpiActual: Parameter name:width
               RefObj name:display start:8:10 end:8:17:
                 vpiParent: Begin
                 vpiName: display
@@ -471,7 +473,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/resolve/module_sv/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              62      62       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    62      62       0         0
+                                    64      64       0         0
 ===================== END REDUCTION RESULT =====================

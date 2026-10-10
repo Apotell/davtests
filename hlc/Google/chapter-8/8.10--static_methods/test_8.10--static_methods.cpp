@@ -225,7 +225,9 @@ class ClassStaticMethodsTest : public Test {
     ASSERT_NE(disp->getArguments(), nullptr);
     ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-    const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::RefObj *const path = arg0->getHighConn<hldb::RefObj>();
     ASSERT_NE(path, nullptr) << "'" << varName << ".next_id()' should be a RefObj";
     ASSERT_NE(path->getPathElems(), nullptr);
     ASSERT_EQ(path->getPathElems()->size(), 2u);

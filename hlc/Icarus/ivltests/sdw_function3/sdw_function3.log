@@ -366,7 +366,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: global_reg
           vpiFullName: main.global_reg
-          vpiVector: true
         Variable name:result start:28:11 end:28:17:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:28:1 end:28:10:
@@ -375,7 +374,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: main.result
-          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:main
@@ -640,21 +638,25 @@ Design name:unnamed:
                           vpiName Identifier name:my_func_2 start:42:17 end:42:26:
                           vpiTaskFunc: Function name:my_func_2
                           vpiArgument (1 items):
-                            RefObj name:a start:42:27 end:42:28:
+                            NamedArgument start:42:27 end:42:28:
                               vpiParent: MethodFuncCall name:my_func_2
-                              vpiName: a
-                              vpiFullName: main.my_func_1.a
-                              vpiActual: IODecl name:a
+                              vpiHighConn RefObj name:a start:42:27 end:42:28:
+                                vpiParent: NamedArgument
+                                vpiName: a
+                                vpiFullName: main.my_func_1.a
+                                vpiActual: IODecl name:a
                         MethodFuncCall name:my_func_2 start:42:32 end:42:44:
                           vpiParent: Operation
                           vpiName Identifier name:my_func_2 start:42:32 end:42:41:
                           vpiTaskFunc: Function name:my_func_2
                           vpiArgument (1 items):
-                            RefObj name:a start:42:42 end:42:43:
+                            NamedArgument start:42:42 end:42:43:
                               vpiParent: MethodFuncCall name:my_func_2
-                              vpiName: a
-                              vpiFullName: main.my_func_1.a
-                              vpiActual: IODecl name:a
+                              vpiHighConn RefObj name:a start:42:42 end:42:43:
+                                vpiParent: NamedArgument
+                                vpiName: a
+                                vpiFullName: main.my_func_1.a
+                                vpiActual: IODecl name:a
           vpiReturn RefTypespec start:39:10 end:39:15:
             vpiParent: Function name:my_func_1
             vpiFullName: main.my_func_1
@@ -697,11 +699,13 @@ Design name:unnamed:
                   vpiName Identifier name:my_func_1 start:49:14 end:49:23:
                   vpiTaskFunc: Function name:my_func_1
                   vpiArgument (1 items):
-                    RefObj name:global_reg start:49:24 end:49:34:
+                    NamedArgument start:49:24 end:49:34:
                       vpiParent: MethodFuncCall name:my_func_1
-                      vpiName: global_reg
-                      vpiFullName: main.global_reg
-                      vpiActual: Variable name:global_reg
+                      vpiHighConn RefObj name:global_reg start:49:24 end:49:34:
+                        vpiParent: NamedArgument
+                        vpiName: global_reg
+                        vpiFullName: main.global_reg
+                        vpiActual: Variable name:global_reg
               IfStmt start:51:5 end:55:10:
                 vpiParent: Begin
                 vpiCondition Operation start:51:8 end:51:19:
@@ -731,16 +735,18 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:53:10 end:53:18:
                       vpiArgument (1 items):
-                        Constant start:53:19 end:53:57:
+                        NamedArgument start:53:19 end:53:57:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 280
-                          vpiDecompile: "\"FAILED - function didn't function!\\n\""
-                          vpiValue: "FAILED - function didn't function!\\n"
+                          vpiHighConn Constant start:53:19 end:53:57:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 280
+                            vpiDecompile: "\"FAILED - function didn't function!\\n\""
+                            vpiValue: "FAILED - function didn't function!\\n"
                     SysTaskCall name:$finish start:54:10 end:54:17:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:54:10 end:54:17:
@@ -749,16 +755,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:57:5 end:57:13:
                 vpiArgument (1 items):
-                  Constant start:57:14 end:57:24:
+                  NamedArgument start:57:14 end:57:24:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 56
-                    vpiDecompile: "\"PASSED\\n\""
-                    vpiValue: PASSED\n
+                    vpiHighConn Constant start:57:14 end:57:24:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 56
+                      vpiDecompile: "\"PASSED\\n\""
+                      vpiValue: PASSED\n
               SysTaskCall name:$finish start:58:5 end:58:12:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:58:5 end:58:12:
@@ -826,7 +834,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/sdw_function3/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             109     109       0         0
+Others                             114     114       0         0
 ----------------------------------------------------------------
-                                   109     109       0         0
+                                   114     114       0         0
 ===================== END REDUCTION RESULT =====================

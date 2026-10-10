@@ -381,7 +381,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: foo.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:rst start:11:15 end:11:18:
           vpiParent: Module name:foo
           vpiTypespec RefTypespec:
@@ -391,7 +390,6 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: foo.rst
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:inp_a start:12:21 end:12:26:
           vpiParent: Module name:foo
           vpiTypespec RefTypespec start:12:15 end:12:20:
@@ -401,7 +399,6 @@ Design name:unnamed:
           vpiName: inp_a
           vpiFullName: foo.inp_a
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:inp_b start:13:21 end:13:26:
           vpiParent: Module name:foo
           vpiTypespec RefTypespec start:13:15 end:13:20:
@@ -411,7 +408,6 @@ Design name:unnamed:
           vpiName: inp_b
           vpiFullName: foo.inp_b
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:out start:14:21 end:14:24:
           vpiParent: Module name:foo
           vpiTypespec RefTypespec start:14:15 end:14:20:
@@ -421,7 +417,6 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: foo.out
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (5 items):
         Port name:clk start:9:12 end:9:15:
           vpiParent: Module name:foo
@@ -538,24 +533,28 @@ Design name:unnamed:
                   vpiName Identifier name:do_add start:18:21 end:18:27:
                   vpiTaskFunc: Function name:do_add
                   vpiArgument (2 items):
-                    RefObj name:inp_a start:18:55 end:18:60:
+                    NamedArgument start:18:55 end:18:60:
                       vpiParent: FuncCall name:do_add
+                      vpiHighConn RefObj name:inp_a start:18:55 end:18:60:
+                        vpiParent: NamedArgument
+                        vpiName: inp_a
+                        vpiFullName: foo.inp_a
+                        vpiActual: Net name:inp_a
                       vpiAttribute (1 items):
                         Attribute name:combinational_adder start:18:31 end:18:50:
-                          vpiParent: RefObj name:inp_a
+                          vpiParent: NamedArgument
                           vpiName: combinational_adder
-                      vpiName: inp_a
-                      vpiFullName: foo.inp_a
-                      vpiActual: Net name:inp_a
-                    RefObj name:inp_b start:18:62 end:18:67:
+                    NamedArgument start:18:62 end:18:67:
                       vpiParent: FuncCall name:do_add
+                      vpiHighConn RefObj name:inp_b start:18:62 end:18:67:
+                        vpiParent: NamedArgument
+                        vpiName: inp_b
+                        vpiFullName: foo.inp_b
+                        vpiActual: Net name:inp_b
                       vpiAttribute (1 items):
                         Attribute name:combinational_adder start:18:31 end:18:50:
-                          vpiParent: RefObj name:inp_b
+                          vpiParent: NamedArgument
                           vpiName: combinational_adder
-                      vpiName: inp_b
-                      vpiFullName: foo.inp_b
-                      vpiActual: Net name:inp_b
           vpiAlwaysType: always (1)
   vpiTypespec (2 items):
     IntTypespec:
@@ -765,7 +764,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/various/attrib07_func_call.v/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             106     106       0         0
+Others                             108     108       0         0
 ----------------------------------------------------------------
-                                   106     106       0         0
+                                   108     108       0         0
 ===================== END REDUCTION RESULT =====================

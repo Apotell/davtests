@@ -551,7 +551,6 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: "$add.A"
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:B start:11:21 end:11:22:
           vpiParent: Module name:$add
           vpiTypespec RefTypespec start:11:7 end:11:20:
@@ -561,7 +560,6 @@ Design name:unnamed:
           vpiName: B
           vpiFullName: "$add.B"
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:Y start:12:22 end:12:23:
           vpiParent: Module name:$add
           vpiTypespec RefTypespec start:12:8 end:12:21:
@@ -571,7 +569,6 @@ Design name:unnamed:
           vpiName: Y
           vpiFullName: "$add.Y"
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (3 items):
         Port name:A start:2:21 end:2:22:
           vpiParent: Module name:$add
@@ -652,20 +649,24 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:16:14 end:16:21:
                         vpiArgument (1 items):
-                          RefObj name:A start:16:22 end:16:23:
+                          NamedArgument start:16:22 end:16:23:
                             vpiParent: SysFuncCall name:$signed
-                            vpiName: A
-                            vpiFullName: "$add.BLOCK1.A"
-                            vpiActual: Net name:A
+                            vpiHighConn RefObj name:A start:16:22 end:16:23:
+                              vpiParent: NamedArgument
+                              vpiName: A
+                              vpiFullName: "$add.BLOCK1.A"
+                              vpiActual: Net name:A
                       SysFuncCall name:$signed start:16:27 end:16:37:
                         vpiParent: Operation
                         vpiName Identifier name:$signed start:16:27 end:16:34:
                         vpiArgument (1 items):
-                          RefObj name:B start:16:35 end:16:36:
+                          NamedArgument start:16:35 end:16:36:
                             vpiParent: SysFuncCall name:$signed
-                            vpiName: B
-                            vpiFullName: "$add.BLOCK1.B"
-                            vpiActual: Net name:B
+                            vpiHighConn RefObj name:B start:16:35 end:16:36:
+                              vpiParent: NamedArgument
+                              vpiName: B
+                              vpiFullName: "$add.BLOCK1.B"
+                              vpiActual: Net name:B
             vpiElseStmt Begin name:BLOCK2 start:17:11 end:19:5:
               vpiParent: GenIfElse
               vpiName Identifier name:BLOCK2 start:17:17 end:17:23:
@@ -757,7 +758,7 @@ Operation                            6       2       0         4
 RefObj                              20      15       0         5
 RefTypespec                         22      23       4         3
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                   102      95       8        15
+                                   104      97       8        15
 ===================== END REDUCTION RESULT =====================

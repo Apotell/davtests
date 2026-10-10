@@ -433,15 +433,21 @@ TEST_F(DumpportsTest, DumpportsNamesTheTopScopeAndTheFile) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u) << "'$dumpports(top, fname)' passes a scope and a file name";
 
-  EXPECT_EQ(any_cast<hldb::Constant>(call->getArguments()->at(0)), nullptr)
+  const hldb::NamedArgument *const callArg0 = call->getArguments()->at(0);
+  ASSERT_NE(callArg0, nullptr);
+  EXPECT_EQ(callArg0->getHighConn<hldb::Constant>(), nullptr)
       << "'top' is an identifier naming the enclosing module scope, so it cannot be a literal";
-  const hldb::RefObj *const scope = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const scope = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(scope, nullptr) << "the scope argument should be a RefObj";
   EXPECT_EQ(scope->getName(), "top");
   EXPECT_EQ(scope->getActual<hldb::Variable>(), nullptr)
       << "'top' names the module scope, not a variable -- it must not resolve to 'i' or 'fname'";
 
-  checkArgumentIsFname(call->getArguments()->at(1), "the $dumpports file-name argument");
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  checkArgumentIsFname(arg1->getHighConn(), "the $dumpports file-name argument");
 }
 
 // Sec 11.4.2: the source wrote a multiplication, not the number 1048576, and
@@ -457,7 +463,9 @@ TEST_F(DumpportsTest, DumpportslimitTakesTheWrittenMultiplicationThenTheFile) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u) << "'$dumpportslimit(1024*1024, fname)' passes a limit and a file";
 
-  const hldb::Operation *const product = any_cast<hldb::Operation>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Operation *const product = arg0->getHighConn<hldb::Operation>();
   ASSERT_NE(product, nullptr) << "the source wrote '1024*1024', so the limit argument is an Operation";
   EXPECT_EQ(product->getOpType(), vpiMultOp) << "Sec 11.4.2: '*' is the multiplication operator";
   ASSERT_NE(product->getOperands(), nullptr);
@@ -469,7 +477,9 @@ TEST_F(DumpportsTest, DumpportslimitTakesTheWrittenMultiplicationThenTheFile) {
     EXPECT_EQ(operand->getConstType(), vpiUIntConst) << "Sec 5.7.1: a bare decimal literal is unsigned";
   }
 
-  checkArgumentIsFname(call->getArguments()->at(1), "the $dumpportslimit file-name argument");
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  checkArgumentIsFname(arg1->getHighConn(), "the $dumpportslimit file-name argument");
 }
 
 // --- the six assignments ------------------------------------------------------
@@ -550,7 +560,9 @@ TEST_F(DumpportsTest, TheFourDelayedDumpportsCallsAreOffOnFlushAll) {
         << "stmt[" << indexes[k]
         << "]: each of these names the file, unlike the argument-less four-state "
            "$dumpoff / $dumpon / $dumpflush / $dumpall";
-    checkArgumentIsFname(call->getArguments()->at(0), "the delayed dump call's file-name argument");
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    checkArgumentIsFname(arg0->getHighConn(), "the delayed dump call's file-name argument");
   }
 }
 
@@ -567,8 +579,9 @@ TEST_F(DumpportsTest, AllSixRoutinesAreDistinctTasksSharingOneFilenameVariable) 
     ASSERT_FALSE(calls[k]->getArguments()->empty()) << "stmt[" << indexes[k] << "]";
 
     // The file name is the LAST argument of every one of the six calls.
-    const uint32_t last = static_cast<uint32_t>(calls[k]->getArguments()->size()) - 1u;
-    const hldb::RefObj *const file = any_cast<hldb::RefObj>(calls[k]->getArguments()->at(last));
+    const hldb::NamedArgument *const arg = calls[k]->getArguments()->back();
+    ASSERT_NE(arg, nullptr);
+    const hldb::RefObj *const file = arg->getHighConn<hldb::RefObj>();
     ASSERT_NE(file, nullptr) << "stmt[" << indexes[k] << "]: the trailing argument names the file";
     EXPECT_EQ(file->getActual<hldb::Variable>(), getVariable("fname"))
         << "stmt[" << indexes[k] << "]: all six calls must name the one declared 'fname'";

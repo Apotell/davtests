@@ -306,9 +306,9 @@ AST_DEBUG_END
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:LN7705] $Source01/9.7--process_cls_suspend_resume.sv:23:24: Null Actual: id:34, type:MethodFuncCall, name:self, relation:vpiPathElem.
 [ERR:LN7705] $Source01/9.7--process_cls_suspend_resume.sv:24:13: Null Actual: id:41, type:MethodFuncCall, name:suspend, relation:vpiPathElem.
-[ERR:LN7705] $Source01/9.7--process_cls_suspend_resume.sv:33:11: Null Actual: id:65, type:MethodFuncCall, name:resume, relation:vpiPathElem.
-[ERR:LN7705] $Source01/9.7--process_cls_suspend_resume.sv:35:10: Null Actual: id:74, type:MethodTaskCall, name:await, relation:vpiPathElem.
-[ERR:LN7705] $Source01/9.7--process_cls_suspend_resume.sv:39:12: Null Actual: id:92, type:MethodFuncCall, name:kill, relation:vpiPathElem.
+[ERR:LN7705] $Source01/9.7--process_cls_suspend_resume.sv:33:11: Null Actual: id:67, type:MethodFuncCall, name:resume, relation:vpiPathElem.
+[ERR:LN7705] $Source01/9.7--process_cls_suspend_resume.sv:35:10: Null Actual: id:76, type:MethodTaskCall, name:await, relation:vpiPathElem.
+[ERR:LN7705] $Source01/9.7--process_cls_suspend_resume.sv:39:12: Null Actual: id:94, type:MethodFuncCall, name:kill, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -360,6 +360,7 @@ Design name:unnamed:
                   vpiActual: ArrayTypespec
                 vpiName: job
                 vpiFullName: process_tb.test.job
+                vpiAutomatic: true
                 vpiValue ArrayExpr start:17:19 end:17:26:
                   vpiParent: Variable name:job
                   vpiExpr (1 items):
@@ -476,21 +477,25 @@ Design name:unnamed:
                           vpiParent: Begin
                           vpiName Identifier name:$display start:25:6 end:25:14:
                           vpiArgument (2 items):
-                            Constant start:25:15 end:25:27:
+                            NamedArgument start:25:15 end:25:27:
                               vpiParent: SysTaskCall name:$display
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: process_tb.test
-                                vpiActual: StringTypespec
-                              vpiConstType: string (6)
-                              vpiSize: 80
-                              vpiDecompile: "\"process %d\""
-                              vpiValue: process %d
-                            RefObj name:k start:25:29 end:25:30:
+                              vpiHighConn Constant start:25:15 end:25:27:
+                                vpiParent: NamedArgument
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: process_tb.test
+                                  vpiActual: StringTypespec
+                                vpiConstType: string (6)
+                                vpiSize: 80
+                                vpiDecompile: "\"process %d\""
+                                vpiValue: process %d
+                            NamedArgument start:25:29 end:25:30:
                               vpiParent: SysTaskCall name:$display
-                              vpiName: k
-                              vpiFullName: process_tb.test.k
-                              vpiActual: Variable name:k
+                              vpiHighConn RefObj name:k start:25:29 end:25:30:
+                                vpiParent: NamedArgument
+                                vpiName: k
+                                vpiFullName: process_tb.test.k
+                                vpiActual: Variable name:k
               ForeachStmt start:29:3 end:30:25:
                 vpiParent: Begin
                 vpiFullName: process_tb.test
@@ -531,7 +536,6 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiConstType: null (12)
                         vpiDecompile: null
-                        vpiValue: 0
               ForeachStmt start:32:3 end:33:20:
                 vpiParent: Begin
                 vpiFullName: process_tb.test
@@ -689,16 +693,18 @@ Design name:unnamed:
                 vpiName Identifier name:test start:43:3 end:43:7:
                 vpiTaskFunc: Task name:test
                 vpiArgument (1 items):
-                  Constant start:43:8 end:43:9:
+                  NamedArgument start:43:8 end:43:9:
                     vpiParent: MethodTaskCall name:test
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: process_tb
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "8"
-                    vpiValue: 8
+                    vpiHighConn Constant start:43:8 end:43:9:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: process_tb
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "8"
+                      vpiValue: 8
   vpiTypespec (3 items):
     ModuleTypespec name:process_tb:
       vpiParent: Design name:unnamed
@@ -762,7 +768,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_suspend_resume/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             100     100       0         0
+Others                             103     103       0         0
 ----------------------------------------------------------------
-                                   100     100       0         0
+                                   103     103       0         0
 ===================== END REDUCTION RESULT =====================

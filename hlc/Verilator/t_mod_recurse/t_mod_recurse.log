@@ -1449,7 +1449,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: crc
           vpiFullName: t.crc
-          vpiVector: true
         Variable name:sum start:14:16 end:14:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:4 end:14:14:
@@ -1458,7 +1457,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sum
           vpiFullName: t.sum
-          vpiVector: true
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1654,7 +1652,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:tripline start:17:16 end:17:24:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:9 end:17:14:
@@ -1665,7 +1662,6 @@ Design name:unnamed:
           vpiFullName: t.tripline
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue PartSelect name:crc[7:0] start:17:27 end:17:35:
             vpiParent: Net name:tripline
             vpiName: crc[7:0]
@@ -1707,7 +1703,6 @@ Design name:unnamed:
           vpiFullName: t.valid
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:value start:22:17 end:22:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:22:9 end:22:16:
@@ -1718,7 +1713,6 @@ Design name:unnamed:
           vpiFullName: t.value
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:result start:28:16 end:28:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:28:9 end:28:15:
@@ -1729,7 +1723,6 @@ Design name:unnamed:
           vpiFullName: t.result
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:28:25 end:28:46:
             vpiParent: Net name:result
             vpiOpType: concatenation (33)
@@ -2189,34 +2182,44 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:49:3 end:49:9:
                               vpiArgument (5 items):
-                                Constant start:49:10 end:49:42:
+                                NamedArgument start:49:10 end:49:42:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 232
-                                  vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
-                                  vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
-                                SysFuncCall name:$time start:49:43 end:49:48:
+                                  vpiHighConn Constant start:49:10 end:49:42:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 232
+                                    vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
+                                    vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
+                                NamedArgument start:49:43 end:49:48:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName Identifier name:$time start:49:43 end:49:48:
-                                RefObj name:cyc start:49:50 end:49:53:
+                                  vpiHighConn SysFuncCall name:$time start:49:43 end:49:48:
+                                    vpiParent: NamedArgument
+                                    vpiName Identifier name:$time start:49:43 end:49:48:
+                                NamedArgument start:49:50 end:49:53:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: cyc
-                                  vpiFullName: t.cyc
-                                  vpiActual: Variable name:cyc
-                                RefObj name:crc start:49:55 end:49:58:
+                                  vpiHighConn RefObj name:cyc start:49:50 end:49:53:
+                                    vpiParent: NamedArgument
+                                    vpiName: cyc
+                                    vpiFullName: t.cyc
+                                    vpiActual: Variable name:cyc
+                                NamedArgument start:49:55 end:49:58:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: crc
-                                  vpiFullName: t.crc
-                                  vpiActual: Variable name:crc
-                                RefObj name:sum start:49:60 end:49:63:
+                                  vpiHighConn RefObj name:crc start:49:55 end:49:58:
+                                    vpiParent: NamedArgument
+                                    vpiName: crc
+                                    vpiFullName: t.crc
+                                    vpiActual: Variable name:crc
+                                NamedArgument start:49:60 end:49:63:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: sum
-                                  vpiFullName: t.sum
-                                  vpiActual: Variable name:sum
+                                  vpiHighConn RefObj name:sum start:49:60 end:49:63:
+                                    vpiParent: NamedArgument
+                                    vpiName: sum
+                                    vpiFullName: t.sum
+                                    vpiActual: Variable name:sum
                             IfStmt start:50:3 end:50:43:
                               vpiParent: Begin
                               vpiCondition Operation start:50:7 end:50:35:
@@ -2271,16 +2274,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:54:3 end:54:9:
                               vpiArgument (1 items):
-                                Constant start:54:10 end:54:34:
+                                NamedArgument start:54:10 end:54:34:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:54:10 end:54:34:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:55:3 end:55:10:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:55:3 end:55:10:
@@ -2295,28 +2300,30 @@ Design name:unnamed:
             vpiName: PriorityChoice
             vpiFullName: t.pe.PriorityChoice
             vpiActual: ModuleTypespec name:PriorityChoice
-          vpiPort (3 items):
-            Port start:25:8 end:25:19:
+          vpiArgument (3 items):
+            NamedArgument start:25:8 end:25:19:
               vpiParent: RefInstance name:pe
+              vpiConnByName: true
               vpiLowConn RefObj name:out start:25:9 end:25:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out
                 vpiFullName: t.pe.out
                 vpiActual: Port name:out
               vpiHighConn RefObj name:valid start:25:13 end:25:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: valid
                 vpiFullName: t.pe.valid
                 vpiActual: Net name:valid
-            Port start:25:21 end:25:38:
+            NamedArgument start:25:21 end:25:38:
               vpiParent: RefInstance name:pe
+              vpiConnByName: true
               vpiLowConn RefObj name:outN start:25:22 end:25:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: outN
                 vpiFullName: t.pe.outN
                 vpiActual: Port name:outN
               vpiHighConn PartSelect name:value[2:0] start:25:27 end:25:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: value[2:0]
                 vpiFullName: t.pe.value[2:0]
                 vpiPrefix RefObj name:value start:25:27 end:25:32:
@@ -2346,15 +2353,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:25:40 end:25:59:
+            NamedArgument start:25:40 end:25:59:
               vpiParent: RefInstance name:pe
+              vpiConnByName: true
               vpiLowConn RefObj name:tripline start:25:41 end:25:49:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: tripline
                 vpiFullName: t.pe.tripline
                 vpiActual: Net name:tripline
               vpiHighConn RefObj name:tripline start:25:50 end:25:58:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: tripline
                 vpiFullName: t.pe.tripline
                 vpiActual: Net name:tripline
@@ -2371,7 +2379,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: PriorityChoice.out
-          vpiScalar: true
         Variable name:outN start:67:32 end:67:36:
           vpiParent: Module name:PriorityChoice
           vpiTypespec RefTypespec start:67:11 end:67:31:
@@ -2380,7 +2387,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: outN
           vpiFullName: PriorityChoice.outN
-          vpiVector: true
       vpiParameter (3 items):
         Parameter name:OCODEWIDTH start:62:14 end:62:24:
           vpiParent: Module name:PriorityChoice
@@ -2674,7 +2680,6 @@ Design name:unnamed:
           vpiName: tripline
           vpiFullName: PriorityChoice.tripline
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:left start:69:16 end:69:20:
           vpiParent: Module name:PriorityChoice
           vpiTypespec RefTypespec:
@@ -2685,7 +2690,6 @@ Design name:unnamed:
           vpiFullName: PriorityChoice.left
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:leftN start:70:31 end:70:36:
           vpiParent: Module name:PriorityChoice
           vpiTypespec RefTypespec start:70:9 end:70:25:
@@ -2696,7 +2700,6 @@ Design name:unnamed:
           vpiFullName: PriorityChoice.leftN
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:right start:71:16 end:71:21:
           vpiParent: Module name:PriorityChoice
           vpiTypespec RefTypespec:
@@ -2707,7 +2710,6 @@ Design name:unnamed:
           vpiFullName: PriorityChoice.right
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:rightN start:72:31 end:72:37:
           vpiParent: Module name:PriorityChoice
           vpiTypespec RefTypespec start:72:9 end:72:25:
@@ -2718,7 +2720,6 @@ Design name:unnamed:
           vpiFullName: PriorityChoice.rightN
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (3 items):
         Port name:out start:61:24 end:61:27:
           vpiParent: Module name:PriorityChoice
@@ -3018,40 +3019,43 @@ Design name:unnamed:
                     vpiName: PriorityChoice
                     vpiFullName: PriorityChoice.leftMap.PriorityChoice
                     vpiActual: ModuleTypespec name:PriorityChoice
-                  vpiPort (3 items):
-                    Port start:88:6 end:88:16:
+                  vpiArgument (3 items):
+                    NamedArgument start:88:6 end:88:16:
                       vpiParent: RefInstance name:leftMap
+                      vpiConnByName: true
                       vpiLowConn RefObj name:out start:88:7 end:88:10:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: out
                         vpiFullName: PriorityChoice.leftMap.out
                         vpiActual: Variable name:out
                       vpiHighConn RefObj name:left start:88:11 end:88:15:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: left
                         vpiFullName: PriorityChoice.leftMap.left
                         vpiActual: Net name:left
-                    Port start:89:6 end:89:18:
+                    NamedArgument start:89:6 end:89:18:
                       vpiParent: RefInstance name:leftMap
+                      vpiConnByName: true
                       vpiLowConn RefObj name:outN start:89:7 end:89:11:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: outN
                         vpiFullName: PriorityChoice.leftMap.outN
                         vpiActual: Variable name:outN
                       vpiHighConn RefObj name:leftN start:89:12 end:89:17:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: leftN
                         vpiFullName: PriorityChoice.leftMap.leftN
                         vpiActual: Net name:leftN
-                    Port start:90:6 end:90:58:
+                    NamedArgument start:90:6 end:90:58:
                       vpiParent: RefInstance name:leftMap
+                      vpiConnByName: true
                       vpiLowConn RefObj name:tripline start:90:7 end:90:15:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: tripline
                         vpiFullName: PriorityChoice.leftMap.tripline
                         vpiActual: Net name:tripline
                       vpiHighConn PartSelect name:tripline[2<<CODEWIDTH-1:1<<CODEWIDTH] start:90:16 end:90:57:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: tripline[2<<CODEWIDTH-1:1<<CODEWIDTH]
                         vpiFullName: PriorityChoice.leftMap.tripline[2<<CODEWIDTH-1:1<<CODEWIDTH]
                         vpiPrefix RefObj name:tripline start:90:16 end:90:24:
@@ -3121,40 +3125,43 @@ Design name:unnamed:
                     vpiName: PriorityChoice
                     vpiFullName: PriorityChoice.rightMap.PriorityChoice
                     vpiActual: ModuleTypespec name:PriorityChoice
-                  vpiPort (3 items):
-                    Port start:95:6 end:95:17:
+                  vpiArgument (3 items):
+                    NamedArgument start:95:6 end:95:17:
                       vpiParent: RefInstance name:rightMap
+                      vpiConnByName: true
                       vpiLowConn RefObj name:out start:95:7 end:95:10:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: out
                         vpiFullName: PriorityChoice.rightMap.out
                         vpiActual: Variable name:out
                       vpiHighConn RefObj name:right start:95:11 end:95:16:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: right
                         vpiFullName: PriorityChoice.rightMap.right
                         vpiActual: Net name:right
-                    Port start:96:6 end:96:19:
+                    NamedArgument start:96:6 end:96:19:
                       vpiParent: RefInstance name:rightMap
+                      vpiConnByName: true
                       vpiLowConn RefObj name:outN start:96:7 end:96:11:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: outN
                         vpiFullName: PriorityChoice.rightMap.outN
                         vpiActual: Variable name:outN
                       vpiHighConn RefObj name:rightN start:96:12 end:96:18:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: rightN
                         vpiFullName: PriorityChoice.rightMap.rightN
                         vpiActual: Net name:rightN
-                    Port start:97:6 end:97:45:
+                    NamedArgument start:97:6 end:97:45:
                       vpiParent: RefInstance name:rightMap
+                      vpiConnByName: true
                       vpiLowConn RefObj name:tripline start:97:7 end:97:15:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: tripline
                         vpiFullName: PriorityChoice.rightMap.tripline
                         vpiActual: Net name:tripline
                       vpiHighConn PartSelect name:tripline[1<<CODEWIDTH-1:0] start:97:16 end:97:44:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: tripline[1<<CODEWIDTH-1:0]
                         vpiFullName: PriorityChoice.rightMap.tripline[1<<CODEWIDTH-1:0]
                         vpiPrefix RefObj name:tripline start:97:16 end:97:24:
@@ -3464,7 +3471,7 @@ Operation                           40      14       0        26
 RefObj                              93      73       0        20
 RefTypespec                         97      89      19        27
 ----------------------------------------------------------------
-Others                             172     172       0         0
+Others                             178     178       0         0
 ----------------------------------------------------------------
-                                   474     412      38       100
+                                   480     418      38       100
 ===================== END REDUCTION RESULT =====================

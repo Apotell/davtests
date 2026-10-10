@@ -649,7 +649,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: long
           vpiFullName: t.long
-          vpiVector: true
         Variable name:quad start:16:15 end:16:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:4 end:16:14:
@@ -658,7 +657,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: quad
           vpiFullName: t.quad
-          vpiVector: true
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -820,7 +818,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:longout start:17:16 end:17:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:9 end:17:15:
@@ -831,7 +828,6 @@ Design name:unnamed:
           vpiFullName: t.longout
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:quadout start:18:16 end:18:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:9 end:18:15:
@@ -842,7 +838,6 @@ Design name:unnamed:
           vpiFullName: t.quadout
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:narrow start:19:15 end:19:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:19:9 end:19:14:
@@ -853,7 +848,6 @@ Design name:unnamed:
           vpiFullName: t.narrow
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue PartSelect name:long[7:0] start:19:24 end:19:33:
             vpiParent: Net name:narrow
             vpiName: long[7:0]
@@ -1126,16 +1120,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:38:6 end:38:12:
                               vpiArgument (1 items):
-                                Constant start:38:13 end:38:37:
+                                NamedArgument start:38:13 end:38:37:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:38:13 end:38:37:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:39:6 end:39:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:39:6 end:39:13:
@@ -1150,16 +1146,17 @@ Design name:unnamed:
             vpiName: sub
             vpiFullName: t.sub.sub
             vpiActual: ModuleTypespec name:sub
-          vpiPort (4 items):
-            Port start:22:6 end:22:32:
+          vpiArgument (4 items):
+            NamedArgument start:22:6 end:22:32:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:longout start:22:7 end:22:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: longout
                 vpiFullName: t.sub.longout
                 vpiActual: Net name:longout
               vpiHighConn PartSelect name:longout[31:0] start:22:18 end:22:31:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: longout[31:0]
                 vpiFullName: t.sub.longout[31:0]
                 vpiPrefix RefObj name:longout start:22:18 end:22:25:
@@ -1189,15 +1186,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:23:6 end:23:32:
+            NamedArgument start:23:6 end:23:32:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:quadout start:23:7 end:23:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: quadout
                 vpiFullName: t.sub.quadout
                 vpiActual: Net name:quadout
               vpiHighConn PartSelect name:quadout[63:0] start:23:18 end:23:31:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: quadout[63:0]
                 vpiFullName: t.sub.quadout[63:0]
                 vpiPrefix RefObj name:quadout start:23:18 end:23:25:
@@ -1227,15 +1225,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:25:6 end:25:29:
+            NamedArgument start:25:6 end:25:29:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:narrow start:25:7 end:25:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: narrow
                 vpiFullName: t.sub.narrow
                 vpiActual: Net name:narrow
               vpiHighConn PartSelect name:narrow[7:0] start:25:17 end:25:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: narrow[7:0]
                 vpiFullName: t.sub.narrow[7:0]
                 vpiPrefix RefObj name:narrow start:25:17 end:25:23:
@@ -1265,15 +1264,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:26:6 end:26:26:
+            NamedArgument start:26:6 end:26:26:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:quad start:26:7 end:26:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: quad
                 vpiFullName: t.sub.quad
                 vpiActual: Variable name:quad
               vpiHighConn PartSelect name:quad[63:0] start:26:15 end:26:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: quad[63:0]
                 vpiFullName: t.sub.quad[63:0]
                 vpiPrefix RefObj name:quad start:26:15 end:26:19:
@@ -1432,7 +1432,6 @@ Design name:unnamed:
           vpiName: narrow
           vpiFullName: sub.narrow
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:quad start:45:46 end:45:50:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:45:39 end:45:45:
@@ -1442,7 +1441,6 @@ Design name:unnamed:
           vpiName: quad
           vpiFullName: sub.quad
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:longout start:45:66 end:45:73:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:45:59 end:45:65:
@@ -1452,7 +1450,6 @@ Design name:unnamed:
           vpiName: longout
           vpiFullName: sub.longout
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:quadout start:45:89 end:45:96:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec start:45:82 end:45:88:
@@ -1462,7 +1459,6 @@ Design name:unnamed:
           vpiName: quadout
           vpiFullName: sub.quadout
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (4 items):
         Port name:narrow start:45:25 end:45:31:
           vpiParent: Module name:sub
@@ -1641,7 +1637,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_inst_ccall/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             231     231       0         0
+Others                             232     232       0         0
 ----------------------------------------------------------------
-                                   231     231       0         0
+                                   232     232       0         0
 ===================== END REDUCTION RESULT =====================

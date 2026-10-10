@@ -4249,7 +4249,7 @@ n<$Source01/t_sys_file_basic.v> u<4202> t<Top_level_rule> c<1> l<12:1> el<246:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_sys_file_basic.v:12:1: Compile module "t".
 [ERR:LN7713] $Source01/t_sys_file_basic.v:1:1: Found 24 orphan node(s).
-[ERR:LN7714] Found 36 weak node(s).
+[ERR:LN7714] Found 40 weak node(s).
 [WRN:CP5851] $Source01/t_sys_file_basic.v:220:27: Failed to bind "file".
 [WRN:CP5851] $Source01/t_sys_file_basic.v:221:27: Failed to bind "file".
 [WRN:CP5851] $Source01/t_sys_file_basic.v:222:27: Failed to bind "file".
@@ -4590,7 +4590,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: letterl
           vpiFullName: t.letterl
-          vpiVector: true
         Variable name:letterq start:17:16 end:17:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:4 end:17:15:
@@ -4599,7 +4598,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: letterq
           vpiFullName: t.letterq
-          vpiVector: true
         Variable name:letterw start:18:17 end:18:24:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:4 end:18:16:
@@ -4608,7 +4606,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: letterw
           vpiFullName: t.letterw
-          vpiVector: true
         Variable name:letterz start:19:17 end:19:24:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:19:4 end:19:16:
@@ -4617,7 +4614,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: letterz
           vpiFullName: t.letterz
-          vpiVector: true
         Variable name:r start:20:10 end:20:11:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:20:4 end:20:8:
@@ -4642,7 +4638,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: v_a
           vpiFullName: t.v_a
-          vpiVector: true
         Variable name:v_b start:23:19 end:23:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:23:4 end:23:13:
@@ -4651,7 +4646,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: v_b
           vpiFullName: t.v_b
-          vpiVector: true
         Variable name:v_c start:23:23 end:23:26:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:23:4 end:23:13:
@@ -4660,7 +4654,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: v_c
           vpiFullName: t.v_c
-          vpiVector: true
         Variable name:v_d start:23:27 end:23:30:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:23:4 end:23:13:
@@ -4669,7 +4662,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: v_d
           vpiFullName: t.v_d
-          vpiVector: true
         Variable name:v_worda start:24:16 end:24:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:24:4 end:24:14:
@@ -4678,7 +4670,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: v_worda
           vpiFullName: t.v_worda
-          vpiVector: true
         Variable name:v_wordb start:25:16 end:25:23:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:25:4 end:25:14:
@@ -4687,7 +4678,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: v_wordb
           vpiFullName: t.v_wordb
-          vpiVector: true
       vpiTypespec (9 items):
         IntegerTypespec:
           vpiParent: Module name:t
@@ -4977,7 +4967,6 @@ Design name:unnamed:
                   vpiActual: LogicTypespec
                 vpiName: cgot
                 vpiFullName: t.sync.cgot
-                vpiVector: true
             vpiTypespec (3 items):
               LogicTypespec start:235:13 end:235:13:
                 vpiParent: Begin
@@ -5054,11 +5043,13 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$fgetc start:239:10 end:239:16:
                       vpiArgument (1 items):
-                        RefObj name:file start:239:17 end:239:21:
+                        NamedArgument start:239:17 end:239:21:
                           vpiParent: SysFuncCall name:$fgetc
-                          vpiName: file
-                          vpiFullName: t.sync.file
-                          vpiActual: Variable name:file
+                          vpiHighConn RefObj name:file start:239:17 end:239:21:
+                            vpiParent: NamedArgument
+                            vpiName: file
+                            vpiFullName: t.sync.file
+                            vpiActual: Variable name:file
                   IfStmt start:240:3 end:240:53:
                     vpiParent: Begin
                     vpiCondition Constant start:30:18 end:30:22:
@@ -5075,26 +5066,32 @@ Design name:unnamed:
                       vpiParent: IfStmt
                       vpiName Identifier name:$write start:240:17 end:240:23:
                       vpiArgument (3 items):
-                        Constant start:240:24 end:240:40:
+                        NamedArgument start:240:24 end:240:40:
                           vpiParent: SysTaskCall name:$write
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.sync
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 104
-                          vpiDecompile: "\"sync=%x='%c'\\n\""
-                          vpiValue: "sync=%x='%c'\\n"
-                        RefObj name:cgot start:240:42 end:240:46:
+                          vpiHighConn Constant start:240:24 end:240:40:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t.sync
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 104
+                            vpiDecompile: "\"sync=%x='%c'\\n\""
+                            vpiValue: "sync=%x='%c'\\n"
+                        NamedArgument start:240:42 end:240:46:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: cgot
-                          vpiFullName: t.sync.cgot
-                          vpiActual: Variable name:cgot
-                        RefObj name:cgot start:240:47 end:240:51:
+                          vpiHighConn RefObj name:cgot start:240:42 end:240:46:
+                            vpiParent: NamedArgument
+                            vpiName: cgot
+                            vpiFullName: t.sync.cgot
+                            vpiActual: Variable name:cgot
+                        NamedArgument start:240:47 end:240:51:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: cgot
-                          vpiFullName: t.sync.cgot
-                          vpiActual: Variable name:cgot
+                          vpiHighConn RefObj name:cgot start:240:47 end:240:51:
+                            vpiParent: NamedArgument
+                            vpiName: cgot
+                            vpiFullName: t.sync.cgot
+                            vpiActual: Variable name:cgot
                   Assignment start:241:3 end:241:24:
                     vpiParent: Begin
                     vpiBlocking: true
@@ -5140,51 +5137,57 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName Identifier name:$fopen start:46:14 end:46:20:
                   vpiArgument (2 items):
-                    Operation start:46:21 end:46:77:
+                    NamedArgument start:46:21 end:46:77:
                       vpiParent: SysFuncCall name:$fopen
-                      vpiOpType: concatenation (33)
-                      vpiOperand (2 items):
-                        Constant start:8:22 end:8:37:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 104
-                          vpiDecompile: "\"`TEST_OBJ_DIR\""
-                          vpiValue: "`TEST_OBJ_DIR"
-                        Constant start:46:48 end:46:76:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 208
-                          vpiDecompile: "\"/t_sys_file_basic_test.log\""
-                          vpiValue: "/t_sys_file_basic_test.log"
-                    Constant start:46:78 end:46:81:
+                      vpiHighConn Operation start:46:21 end:46:77:
+                        vpiParent: NamedArgument
+                        vpiOpType: concatenation (33)
+                        vpiOperand (2 items):
+                          Constant start:8:22 end:8:37:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 104
+                            vpiDecompile: "\"`TEST_OBJ_DIR\""
+                            vpiValue: "`TEST_OBJ_DIR"
+                          Constant start:46:48 end:46:76:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 208
+                            vpiDecompile: "\"/t_sys_file_basic_test.log\""
+                            vpiValue: "/t_sys_file_basic_test.log"
+                    NamedArgument start:46:78 end:46:81:
                       vpiParent: SysFuncCall name:$fopen
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 8
-                      vpiDecompile: "\"w\""
-                      vpiValue: w
+                      vpiHighConn Constant start:46:78 end:46:81:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 8
+                        vpiDecompile: "\"w\""
+                        vpiValue: w
               IfStmt start:48:7 end:48:30:
                 vpiParent: Begin
                 vpiCondition SysFuncCall name:$feof start:48:11 end:48:22:
                   vpiParent: IfStmt
                   vpiName Identifier name:$feof start:48:11 end:48:16:
                   vpiArgument (1 items):
-                    RefObj name:file start:48:17 end:48:21:
+                    NamedArgument start:48:17 end:48:21:
                       vpiParent: SysFuncCall name:$feof
-                      vpiName: file
-                      vpiFullName: t.file
-                      vpiActual: Variable name:file
+                      vpiHighConn RefObj name:file start:48:17 end:48:21:
+                        vpiParent: NamedArgument
+                        vpiName: file
+                        vpiFullName: t.file
+                        vpiActual: Variable name:file
                 vpiStmt SysTaskCall name:$stop start:48:24 end:48:29:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:48:24 end:48:29:
@@ -5193,84 +5196,104 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$fdisplay start:50:7 end:50:16:
                 vpiArgument (4 items):
-                  RefObj name:file start:50:17 end:50:21:
+                  NamedArgument start:50:17 end:50:21:
                     vpiParent: SysTaskCall name:$fdisplay
-                    vpiName: file
-                    vpiFullName: t.file
-                    vpiActual: Variable name:file
-                  Constant start:50:23 end:50:41:
+                    vpiHighConn RefObj name:file start:50:17 end:50:21:
+                      vpiParent: NamedArgument
+                      vpiName: file
+                      vpiFullName: t.file
+                      vpiActual: Variable name:file
+                  NamedArgument start:50:23 end:50:41:
                     vpiParent: SysTaskCall name:$fdisplay
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 128
-                    vpiDecompile: "\"[%0t] hello v=%x\""
-                    vpiValue: "[%0t] hello v=%x"
-                  SysFuncCall name:$time start:50:43 end:50:48:
+                    vpiHighConn Constant start:50:23 end:50:41:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 128
+                      vpiDecompile: "\"[%0t] hello v=%x\""
+                      vpiValue: "[%0t] hello v=%x"
+                  NamedArgument start:50:43 end:50:48:
                     vpiParent: SysTaskCall name:$fdisplay
-                    vpiName Identifier name:$time start:50:43 end:50:48:
-                  Constant start:50:50 end:50:62:
+                    vpiHighConn SysFuncCall name:$time start:50:43 end:50:48:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:50:43 end:50:48:
+                  NamedArgument start:50:50 end:50:62:
                     vpiParent: SysTaskCall name:$fdisplay
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: IntTypespec
-                    vpiConstType: hexadecimal (5)
-                    vpiSize: 32
-                    vpiDecompile: "32'h12345667"
-                    vpiValue: "12345667"
+                    vpiHighConn Constant start:50:50 end:50:62:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
+                      vpiConstType: hexadecimal (5)
+                      vpiSize: 32
+                      vpiDecompile: "32'h12345667"
+                      vpiValue: "12345667"
               SysTaskCall name:$fwrite start:51:7 end:51:51:
                 vpiParent: Begin
                 vpiName Identifier name:$fwrite start:51:7 end:51:14:
                 vpiArgument (4 items):
-                  RefObj name:file start:51:15 end:51:19:
+                  NamedArgument start:51:15 end:51:19:
                     vpiParent: SysTaskCall name:$fwrite
-                    vpiName: file
-                    vpiFullName: t.file
-                    vpiActual: Variable name:file
-                  Constant start:51:21 end:51:33:
+                    vpiHighConn RefObj name:file start:51:15 end:51:19:
+                      vpiParent: NamedArgument
+                      vpiName: file
+                      vpiFullName: t.file
+                      vpiActual: Variable name:file
+                  NamedArgument start:51:21 end:51:33:
                     vpiParent: SysTaskCall name:$fwrite
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 72
-                    vpiDecompile: "\"[%0t] %s\\n\""
-                    vpiValue: "[%0t] %s\\n"
-                  SysFuncCall name:$time start:51:35 end:51:40:
+                    vpiHighConn Constant start:51:21 end:51:33:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 72
+                      vpiDecompile: "\"[%0t] %s\\n\""
+                      vpiValue: "[%0t] %s\\n"
+                  NamedArgument start:51:35 end:51:40:
                     vpiParent: SysTaskCall name:$fwrite
-                    vpiName Identifier name:$time start:51:35 end:51:40:
-                  Constant start:51:42 end:51:50:
+                    vpiHighConn SysFuncCall name:$time start:51:35 end:51:40:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:51:35 end:51:40:
+                  NamedArgument start:51:42 end:51:50:
                     vpiParent: SysTaskCall name:$fwrite
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"Hello2\""
-                    vpiValue: Hello2
+                    vpiHighConn Constant start:51:42 end:51:50:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"Hello2\""
+                      vpiValue: Hello2
               SysTaskCall name:$fflush start:52:7 end:52:20:
                 vpiParent: Begin
                 vpiName Identifier name:$fflush start:52:7 end:52:14:
                 vpiArgument (1 items):
-                  RefObj name:file start:52:15 end:52:19:
+                  NamedArgument start:52:15 end:52:19:
                     vpiParent: SysTaskCall name:$fflush
-                    vpiName: file
-                    vpiFullName: t.file
-                    vpiActual: Variable name:file
+                    vpiHighConn RefObj name:file start:52:15 end:52:19:
+                      vpiParent: NamedArgument
+                      vpiName: file
+                      vpiFullName: t.file
+                      vpiActual: Variable name:file
               SysTaskCall name:$fclose start:54:7 end:54:20:
                 vpiParent: Begin
                 vpiName Identifier name:$fclose start:54:7 end:54:14:
                 vpiArgument (1 items):
-                  RefObj name:file start:54:15 end:54:19:
+                  NamedArgument start:54:15 end:54:19:
                     vpiParent: SysTaskCall name:$fclose
-                    vpiName: file
-                    vpiFullName: t.file
-                    vpiActual: Variable name:file
+                    vpiHighConn RefObj name:file start:54:15 end:54:19:
+                      vpiParent: NamedArgument
+                      vpiName: file
+                      vpiFullName: t.file
+                      vpiActual: Variable name:file
               Begin start:60:7 end:65:10:
                 vpiParent: Begin
                 vpiFullName: t
@@ -5287,26 +5310,30 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$fopen start:63:17 end:63:23:
                       vpiArgument (2 items):
-                        Constant start:63:24 end:63:40:
+                        NamedArgument start:63:24 end:63:40:
                           vpiParent: SysFuncCall name:$fopen
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 112
-                          vpiDecompile: "\"DOES_NOT_EXIST\""
-                          vpiValue: DOES_NOT_EXIST
-                        Constant start:63:41 end:63:44:
+                          vpiHighConn Constant start:63:24 end:63:40:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 112
+                            vpiDecompile: "\"DOES_NOT_EXIST\""
+                            vpiValue: DOES_NOT_EXIST
+                        NamedArgument start:63:41 end:63:44:
                           vpiParent: SysFuncCall name:$fopen
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 8
-                          vpiDecompile: "\"r\""
-                          vpiValue: r
+                          vpiHighConn Constant start:63:41 end:63:44:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 8
+                            vpiDecompile: "\"r\""
+                            vpiValue: r
                   IfStmt start:64:3 end:64:20:
                     vpiParent: Begin
                     vpiCondition Operation start:64:7 end:64:12:
@@ -5338,35 +5365,41 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$fopen start:69:10 end:69:16:
                       vpiArgument (2 items):
-                        Constant start:69:17 end:69:20:
+                        NamedArgument start:69:17 end:69:20:
                           vpiParent: SysFuncCall name:$fopen
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 8
-                          vpiDecompile: "\".\""
-                          vpiValue: "."
-                        Constant start:69:21 end:69:24:
+                          vpiHighConn Constant start:69:17 end:69:20:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 8
+                            vpiDecompile: "\".\""
+                            vpiValue: "."
+                        NamedArgument start:69:21 end:69:24:
                           vpiParent: SysFuncCall name:$fopen
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 8
-                          vpiDecompile: "\"r\""
-                          vpiValue: r
+                          vpiHighConn Constant start:69:21 end:69:24:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 8
+                            vpiDecompile: "\"r\""
+                            vpiValue: r
                   SysTaskCall name:$fclose start:70:3 end:70:16:
                     vpiParent: Begin
                     vpiName Identifier name:$fclose start:70:3 end:70:10:
                     vpiArgument (1 items):
-                      RefObj name:file start:70:11 end:70:15:
+                      NamedArgument start:70:11 end:70:15:
                         vpiParent: SysTaskCall name:$fclose
-                        vpiName: file
-                        vpiFullName: t.file
-                        vpiActual: Variable name:file
+                        vpiHighConn RefObj name:file start:70:11 end:70:15:
+                          vpiParent: NamedArgument
+                          vpiName: file
+                          vpiFullName: t.file
+                          vpiActual: Variable name:file
               Begin start:73:7 end:79:10:
                 vpiParent: Begin
                 vpiFullName: t
@@ -5401,32 +5434,38 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$fopen start:76:10 end:76:16:
                       vpiArgument (2 items):
-                        RefObj name:s start:76:17 end:76:18:
+                        NamedArgument start:76:17 end:76:18:
                           vpiParent: SysFuncCall name:$fopen
-                          vpiName: s
-                          vpiFullName: t.s
-                          vpiActual: Variable name:s
-                        Constant start:76:19 end:76:22:
+                          vpiHighConn RefObj name:s start:76:17 end:76:18:
+                            vpiParent: NamedArgument
+                            vpiName: s
+                            vpiFullName: t.s
+                            vpiActual: Variable name:s
+                        NamedArgument start:76:19 end:76:22:
                           vpiParent: SysFuncCall name:$fopen
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 8
-                          vpiDecompile: "\"r\""
-                          vpiValue: r
+                          vpiHighConn Constant start:76:19 end:76:22:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 8
+                            vpiDecompile: "\"r\""
+                            vpiValue: r
                   IfStmt start:77:3 end:77:26:
                     vpiParent: Begin
                     vpiCondition SysFuncCall name:$feof start:77:7 end:77:18:
                       vpiParent: IfStmt
                       vpiName Identifier name:$feof start:77:7 end:77:12:
                       vpiArgument (1 items):
-                        RefObj name:file start:77:13 end:77:17:
+                        NamedArgument start:77:13 end:77:17:
                           vpiParent: SysFuncCall name:$feof
-                          vpiName: file
-                          vpiFullName: t.file
-                          vpiActual: Variable name:file
+                          vpiHighConn RefObj name:file start:77:13 end:77:17:
+                            vpiParent: NamedArgument
+                            vpiName: file
+                            vpiFullName: t.file
+                            vpiActual: Variable name:file
                     vpiStmt SysTaskCall name:$stop start:77:20 end:77:25:
                       vpiParent: IfStmt
                       vpiName Identifier name:$stop start:77:20 end:77:25:
@@ -5435,11 +5474,13 @@ Design name:unnamed:
                     vpiParent: Begin
                     vpiName Identifier name:$fclose start:78:3 end:78:10:
                     vpiArgument (1 items):
-                      RefObj name:file start:78:11 end:78:15:
+                      NamedArgument start:78:11 end:78:15:
                         vpiParent: SysTaskCall name:$fclose
-                        vpiName: file
-                        vpiFullName: t.file
-                        vpiActual: Variable name:file
+                        vpiHighConn RefObj name:file start:78:11 end:78:15:
+                          vpiParent: NamedArgument
+                          vpiName: file
+                          vpiFullName: t.file
+                          vpiActual: Variable name:file
               Begin start:81:7 end:143:25:
                 vpiParent: Begin
                 vpiFullName: t
@@ -5459,37 +5500,43 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$fopen start:83:10 end:83:16:
                       vpiArgument (2 items):
-                        Constant start:83:17 end:83:47:
+                        NamedArgument start:83:17 end:83:47:
                           vpiParent: SysFuncCall name:$fopen
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 224
-                          vpiDecompile: "\"t/t_sys_file_basic_input.dat\""
-                          vpiValue: t/t_sys_file_basic_input.dat
-                        Constant start:83:48 end:83:51:
+                          vpiHighConn Constant start:83:17 end:83:47:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 224
+                            vpiDecompile: "\"t/t_sys_file_basic_input.dat\""
+                            vpiValue: t/t_sys_file_basic_input.dat
+                        NamedArgument start:83:48 end:83:51:
                           vpiParent: SysFuncCall name:$fopen
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 8
-                          vpiDecompile: "\"r\""
-                          vpiValue: r
+                          vpiHighConn Constant start:83:48 end:83:51:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 8
+                            vpiDecompile: "\"r\""
+                            vpiValue: r
                   IfStmt start:84:3 end:84:26:
                     vpiParent: Begin
                     vpiCondition SysFuncCall name:$feof start:84:7 end:84:18:
                       vpiParent: IfStmt
                       vpiName Identifier name:$feof start:84:7 end:84:12:
                       vpiArgument (1 items):
-                        RefObj name:file start:84:13 end:84:17:
+                        NamedArgument start:84:13 end:84:17:
                           vpiParent: SysFuncCall name:$feof
-                          vpiName: file
-                          vpiFullName: t.file
-                          vpiActual: Variable name:file
+                          vpiHighConn RefObj name:file start:84:13 end:84:17:
+                            vpiParent: NamedArgument
+                            vpiName: file
+                            vpiFullName: t.file
+                            vpiActual: Variable name:file
                     vpiStmt SysTaskCall name:$stop start:84:20 end:84:25:
                       vpiParent: IfStmt
                       vpiName Identifier name:$stop start:84:20 end:84:25:
@@ -5504,11 +5551,13 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName Identifier name:$fgetc start:87:7 end:87:13:
                           vpiArgument (1 items):
-                            RefObj name:file start:87:14 end:87:18:
+                            NamedArgument start:87:14 end:87:18:
                               vpiParent: SysFuncCall name:$fgetc
-                              vpiName: file
-                              vpiFullName: t.file
-                              vpiActual: Variable name:file
+                              vpiHighConn RefObj name:file start:87:14 end:87:18:
+                                vpiParent: NamedArgument
+                                vpiName: file
+                                vpiFullName: t.file
+                                vpiActual: Variable name:file
                         Constant start:87:23 end:87:26:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -5533,11 +5582,13 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName Identifier name:$fgetc start:88:7 end:88:13:
                           vpiArgument (1 items):
-                            RefObj name:file start:88:14 end:88:18:
+                            NamedArgument start:88:14 end:88:18:
                               vpiParent: SysFuncCall name:$fgetc
-                              vpiName: file
-                              vpiFullName: t.file
-                              vpiActual: Variable name:file
+                              vpiHighConn RefObj name:file start:88:14 end:88:18:
+                                vpiParent: NamedArgument
+                                vpiName: file
+                                vpiFullName: t.file
+                                vpiActual: Variable name:file
                         Constant start:88:23 end:88:26:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -5562,11 +5613,13 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName Identifier name:$fgetc start:89:7 end:89:13:
                           vpiArgument (1 items):
-                            RefObj name:file start:89:14 end:89:18:
+                            NamedArgument start:89:14 end:89:18:
                               vpiParent: SysFuncCall name:$fgetc
-                              vpiName: file
-                              vpiFullName: t.file
-                              vpiActual: Variable name:file
+                              vpiHighConn RefObj name:file start:89:14 end:89:18:
+                                vpiParent: NamedArgument
+                                vpiName: file
+                                vpiFullName: t.file
+                                vpiActual: Variable name:file
                         Constant start:89:23 end:89:27:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -5593,16 +5646,20 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$fgets start:92:11 end:92:17:
                       vpiArgument (2 items):
-                        RefObj name:letterl start:92:18 end:92:25:
+                        NamedArgument start:92:18 end:92:25:
                           vpiParent: SysFuncCall name:$fgets
-                          vpiName: letterl
-                          vpiFullName: t.letterl
-                          vpiActual: Variable name:letterl
-                        RefObj name:file start:92:27 end:92:31:
+                          vpiHighConn RefObj name:letterl start:92:18 end:92:25:
+                            vpiParent: NamedArgument
+                            vpiName: letterl
+                            vpiFullName: t.letterl
+                            vpiActual: Variable name:letterl
+                        NamedArgument start:92:27 end:92:31:
                           vpiParent: SysFuncCall name:$fgets
-                          vpiName: file
-                          vpiFullName: t.file
-                          vpiActual: Variable name:file
+                          vpiHighConn RefObj name:file start:92:27 end:92:31:
+                            vpiParent: NamedArgument
+                            vpiName: file
+                            vpiFullName: t.file
+                            vpiActual: Variable name:file
                   IfStmt start:93:3 end:93:56:
                     vpiParent: Begin
                     vpiCondition Constant start:30:18 end:30:22:
@@ -5619,26 +5676,32 @@ Design name:unnamed:
                       vpiParent: IfStmt
                       vpiName Identifier name:$write start:93:17 end:93:23:
                       vpiArgument (3 items):
-                        Constant start:93:24 end:93:38:
+                        NamedArgument start:93:24 end:93:38:
                           vpiParent: SysTaskCall name:$write
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 88
-                          vpiDecompile: "\"c=%0d l=%s\\n\""
-                          vpiValue: c=%0d l=%s\n
-                        RefObj name:chars start:93:40 end:93:45:
+                          vpiHighConn Constant start:93:24 end:93:38:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 88
+                            vpiDecompile: "\"c=%0d l=%s\\n\""
+                            vpiValue: c=%0d l=%s\n
+                        NamedArgument start:93:40 end:93:45:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: chars
-                          vpiFullName: t.chars
-                          vpiActual: Variable name:chars
-                        RefObj name:letterl start:93:47 end:93:54:
+                          vpiHighConn RefObj name:chars start:93:40 end:93:45:
+                            vpiParent: NamedArgument
+                            vpiName: chars
+                            vpiFullName: t.chars
+                            vpiActual: Variable name:chars
+                        NamedArgument start:93:47 end:93:54:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterl
-                          vpiFullName: t.letterl
-                          vpiActual: Variable name:letterl
+                          vpiHighConn RefObj name:letterl start:93:47 end:93:54:
+                            vpiParent: NamedArgument
+                            vpiName: letterl
+                            vpiFullName: t.letterl
+                            vpiActual: Variable name:letterl
                   IfStmt start:94:3 end:94:25:
                     vpiParent: Begin
                     vpiCondition Operation start:94:7 end:94:17:
@@ -5701,16 +5764,20 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$fgets start:97:11 end:97:17:
                       vpiArgument (2 items):
-                        RefObj name:letterq start:97:18 end:97:25:
+                        NamedArgument start:97:18 end:97:25:
                           vpiParent: SysFuncCall name:$fgets
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
-                        RefObj name:file start:97:27 end:97:31:
+                          vpiHighConn RefObj name:letterq start:97:18 end:97:25:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
+                        NamedArgument start:97:27 end:97:31:
                           vpiParent: SysFuncCall name:$fgets
-                          vpiName: file
-                          vpiFullName: t.file
-                          vpiActual: Variable name:file
+                          vpiHighConn RefObj name:file start:97:27 end:97:31:
+                            vpiParent: NamedArgument
+                            vpiName: file
+                            vpiFullName: t.file
+                            vpiActual: Variable name:file
                   IfStmt start:98:3 end:98:66:
                     vpiParent: Begin
                     vpiCondition Constant start:30:18 end:30:22:
@@ -5727,31 +5794,39 @@ Design name:unnamed:
                       vpiParent: IfStmt
                       vpiName Identifier name:$write start:98:17 end:98:23:
                       vpiArgument (4 items):
-                        Constant start:98:24 end:98:39:
+                        NamedArgument start:98:24 end:98:39:
                           vpiParent: SysTaskCall name:$write
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 104
-                          vpiDecompile: "\"c=%0d q=%x=%s\""
-                          vpiValue: c=%0d q=%x=%s
-                        RefObj name:chars start:98:41 end:98:46:
+                          vpiHighConn Constant start:98:24 end:98:39:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 104
+                            vpiDecompile: "\"c=%0d q=%x=%s\""
+                            vpiValue: c=%0d q=%x=%s
+                        NamedArgument start:98:41 end:98:46:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: chars
-                          vpiFullName: t.chars
-                          vpiActual: Variable name:chars
-                        RefObj name:letterq start:98:48 end:98:55:
+                          vpiHighConn RefObj name:chars start:98:41 end:98:46:
+                            vpiParent: NamedArgument
+                            vpiName: chars
+                            vpiFullName: t.chars
+                            vpiActual: Variable name:chars
+                        NamedArgument start:98:48 end:98:55:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
-                        RefObj name:letterq start:98:57 end:98:64:
+                          vpiHighConn RefObj name:letterq start:98:48 end:98:55:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
+                        NamedArgument start:98:57 end:98:64:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
+                          vpiHighConn RefObj name:letterq start:98:57 end:98:64:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
                   IfStmt start:99:3 end:99:25:
                     vpiParent: Begin
                     vpiCondition Operation start:99:7 end:99:17:
@@ -5832,16 +5907,20 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$fgets start:103:11 end:103:17:
                       vpiArgument (2 items):
-                        RefObj name:letterw start:103:18 end:103:25:
+                        NamedArgument start:103:18 end:103:25:
                           vpiParent: SysFuncCall name:$fgets
-                          vpiName: letterw
-                          vpiFullName: t.letterw
-                          vpiActual: Variable name:letterw
-                        RefObj name:file start:103:27 end:103:31:
+                          vpiHighConn RefObj name:letterw start:103:18 end:103:25:
+                            vpiParent: NamedArgument
+                            vpiName: letterw
+                            vpiFullName: t.letterw
+                            vpiActual: Variable name:letterw
+                        NamedArgument start:103:27 end:103:31:
                           vpiParent: SysFuncCall name:$fgets
-                          vpiName: file
-                          vpiFullName: t.file
-                          vpiActual: Variable name:file
+                          vpiHighConn RefObj name:file start:103:27 end:103:31:
+                            vpiParent: NamedArgument
+                            vpiName: file
+                            vpiFullName: t.file
+                            vpiActual: Variable name:file
                   IfStmt start:104:3 end:104:54:
                     vpiParent: Begin
                     vpiCondition Constant start:30:18 end:30:22:
@@ -5858,26 +5937,32 @@ Design name:unnamed:
                       vpiParent: IfStmt
                       vpiName Identifier name:$write start:104:17 end:104:23:
                       vpiArgument (3 items):
-                        Constant start:104:24 end:104:36:
+                        NamedArgument start:104:24 end:104:36:
                           vpiParent: SysTaskCall name:$write
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 80
-                          vpiDecompile: "\"c=%0d w=%s\""
-                          vpiValue: c=%0d w=%s
-                        RefObj name:chars start:104:38 end:104:43:
+                          vpiHighConn Constant start:104:24 end:104:36:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 80
+                            vpiDecompile: "\"c=%0d w=%s\""
+                            vpiValue: c=%0d w=%s
+                        NamedArgument start:104:38 end:104:43:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: chars
-                          vpiFullName: t.chars
-                          vpiActual: Variable name:chars
-                        RefObj name:letterw start:104:45 end:104:52:
+                          vpiHighConn RefObj name:chars start:104:38 end:104:43:
+                            vpiParent: NamedArgument
+                            vpiName: chars
+                            vpiFullName: t.chars
+                            vpiActual: Variable name:chars
+                        NamedArgument start:104:45 end:104:52:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterw
-                          vpiFullName: t.letterw
-                          vpiActual: Variable name:letterw
+                          vpiHighConn RefObj name:letterw start:104:45 end:104:52:
+                            vpiParent: NamedArgument
+                            vpiName: letterw
+                            vpiFullName: t.letterw
+                            vpiActual: Variable name:letterw
                   IfStmt start:105:3 end:105:26:
                     vpiParent: Begin
                     vpiCondition Operation start:105:7 end:105:18:
@@ -5938,25 +6023,29 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName Identifier name:$sscanf start:109:7 end:109:14:
                           vpiArgument (2 items):
-                            Constant start:109:15 end:109:18:
+                            NamedArgument start:109:15 end:109:18:
                               vpiParent: SysFuncCall name:$sscanf
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: StringTypespec
-                              vpiConstType: string (6)
-                              vpiSize: 8
-                              vpiDecompile: "\"x\""
-                              vpiValue: x
-                            Constant start:109:19 end:109:21:
+                              vpiHighConn Constant start:109:15 end:109:18:
+                                vpiParent: NamedArgument
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: t
+                                  vpiActual: StringTypespec
+                                vpiConstType: string (6)
+                                vpiSize: 8
+                                vpiDecompile: "\"x\""
+                                vpiValue: x
+                            NamedArgument start:109:19 end:109:21:
                               vpiParent: SysFuncCall name:$sscanf
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: StringTypespec
-                              vpiConstType: string (6)
-                              vpiDecompile: "\"\""
-                              vpiValue: ""
+                              vpiHighConn Constant start:109:19 end:109:21:
+                                vpiParent: NamedArgument
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: t
+                                  vpiActual: StringTypespec
+                                vpiConstType: string (6)
+                                vpiDecompile: "\"\""
+                                vpiValue: ""
                         Constant start:109:24 end:109:25:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -5981,26 +6070,30 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName Identifier name:$sscanf start:110:7 end:110:14:
                           vpiArgument (2 items):
-                            Constant start:110:15 end:110:18:
+                            NamedArgument start:110:15 end:110:18:
                               vpiParent: SysFuncCall name:$sscanf
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: StringTypespec
-                              vpiConstType: string (6)
-                              vpiSize: 8
-                              vpiDecompile: "\"z\""
-                              vpiValue: z
-                            Constant start:110:19 end:110:22:
+                              vpiHighConn Constant start:110:15 end:110:18:
+                                vpiParent: NamedArgument
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: t
+                                  vpiActual: StringTypespec
+                                vpiConstType: string (6)
+                                vpiSize: 8
+                                vpiDecompile: "\"z\""
+                                vpiValue: z
+                            NamedArgument start:110:19 end:110:22:
                               vpiParent: SysFuncCall name:$sscanf
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: StringTypespec
-                              vpiConstType: string (6)
-                              vpiSize: 8
-                              vpiDecompile: "\"z\""
-                              vpiValue: z
+                              vpiHighConn Constant start:110:19 end:110:22:
+                                vpiParent: NamedArgument
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: t
+                                  vpiActual: StringTypespec
+                                vpiConstType: string (6)
+                                vpiSize: 8
+                                vpiDecompile: "\"z\""
+                                vpiValue: z
                         Constant start:110:25 end:110:26:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -6027,31 +6120,37 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$sscanf start:112:11 end:112:18:
                       vpiArgument (3 items):
-                        Constant start:112:19 end:112:39:
+                        NamedArgument start:112:19 end:112:39:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 144
-                          vpiDecompile: "\"blabcdefghijklmnop\""
-                          vpiValue: blabcdefghijklmnop
-                        Constant start:113:5 end:113:9:
+                          vpiHighConn Constant start:112:19 end:112:39:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 144
+                            vpiDecompile: "\"blabcdefghijklmnop\""
+                            vpiValue: blabcdefghijklmnop
+                        NamedArgument start:113:5 end:113:9:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 16
-                          vpiDecompile: "\"%s\""
-                          vpiValue: "%s"
-                        RefObj name:letterq start:113:11 end:113:18:
+                          vpiHighConn Constant start:113:5 end:113:9:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 16
+                            vpiDecompile: "\"%s\""
+                            vpiValue: "%s"
+                        NamedArgument start:113:11 end:113:18:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
+                          vpiHighConn RefObj name:letterq start:113:11 end:113:18:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
                   IfStmt start:114:3 end:114:57:
                     vpiParent: Begin
                     vpiCondition Constant start:30:18 end:30:22:
@@ -6068,26 +6167,32 @@ Design name:unnamed:
                       vpiParent: IfStmt
                       vpiName Identifier name:$write start:114:17 end:114:23:
                       vpiArgument (3 items):
-                        Constant start:114:24 end:114:39:
+                        NamedArgument start:114:24 end:114:39:
                           vpiParent: SysTaskCall name:$write
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 96
-                          vpiDecompile: "\"c=%0d sa=%s\\n\""
-                          vpiValue: c=%0d sa=%s\n
-                        RefObj name:chars start:114:41 end:114:46:
+                          vpiHighConn Constant start:114:24 end:114:39:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 96
+                            vpiDecompile: "\"c=%0d sa=%s\\n\""
+                            vpiValue: c=%0d sa=%s\n
+                        NamedArgument start:114:41 end:114:46:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: chars
-                          vpiFullName: t.chars
-                          vpiActual: Variable name:chars
-                        RefObj name:letterq start:114:48 end:114:55:
+                          vpiHighConn RefObj name:chars start:114:41 end:114:46:
+                            vpiParent: NamedArgument
+                            vpiName: chars
+                            vpiFullName: t.chars
+                            vpiActual: Variable name:chars
+                        NamedArgument start:114:48 end:114:55:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
+                          vpiHighConn RefObj name:letterq start:114:48 end:114:55:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
                   IfStmt start:115:3 end:115:25:
                     vpiParent: Begin
                     vpiCondition Operation start:115:7 end:115:17:
@@ -6150,36 +6255,44 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$sscanf start:118:11 end:118:18:
                       vpiArgument (4 items):
-                        Constant start:118:19 end:118:78:
+                        NamedArgument start:118:19 end:118:78:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 456
-                          vpiDecompile: "\"xa=1f xb=12898971238912389712783490823_abcdef689_02348923\""
-                          vpiValue: xa=1f xb=12898971238912389712783490823_abcdef689_02348923
-                        Constant start:119:5 end:119:18:
+                          vpiHighConn Constant start:118:19 end:118:78:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 456
+                            vpiDecompile: "\"xa=1f xb=12898971238912389712783490823_abcdef689_02348923\""
+                            vpiValue: xa=1f xb=12898971238912389712783490823_abcdef689_02348923
+                        NamedArgument start:119:5 end:119:18:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 88
-                          vpiDecompile: "\"xa=%x xb=%x\""
-                          vpiValue: xa=%x xb=%x
-                        RefObj name:letterq start:119:20 end:119:27:
+                          vpiHighConn Constant start:119:5 end:119:18:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 88
+                            vpiDecompile: "\"xa=%x xb=%x\""
+                            vpiValue: xa=%x xb=%x
+                        NamedArgument start:119:20 end:119:27:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
-                        RefObj name:letterw start:119:29 end:119:36:
+                          vpiHighConn RefObj name:letterq start:119:20 end:119:27:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
+                        NamedArgument start:119:29 end:119:36:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiName: letterw
-                          vpiFullName: t.letterw
-                          vpiActual: Variable name:letterw
+                          vpiHighConn RefObj name:letterw start:119:29 end:119:36:
+                            vpiParent: NamedArgument
+                            vpiName: letterw
+                            vpiFullName: t.letterw
+                            vpiActual: Variable name:letterw
                   IfStmt start:120:3 end:120:72:
                     vpiParent: Begin
                     vpiCondition Constant start:30:18 end:30:22:
@@ -6196,31 +6309,39 @@ Design name:unnamed:
                       vpiParent: IfStmt
                       vpiName Identifier name:$write start:120:17 end:120:23:
                       vpiArgument (4 items):
-                        Constant start:120:24 end:120:45:
+                        NamedArgument start:120:24 end:120:45:
                           vpiParent: SysTaskCall name:$write
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 144
-                          vpiDecompile: "\"c=%0d xa=%x xb=%x\\n\""
-                          vpiValue: c=%0d xa=%x xb=%x\n
-                        RefObj name:chars start:120:47 end:120:52:
+                          vpiHighConn Constant start:120:24 end:120:45:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 144
+                            vpiDecompile: "\"c=%0d xa=%x xb=%x\\n\""
+                            vpiValue: c=%0d xa=%x xb=%x\n
+                        NamedArgument start:120:47 end:120:52:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: chars
-                          vpiFullName: t.chars
-                          vpiActual: Variable name:chars
-                        RefObj name:letterq start:120:54 end:120:61:
+                          vpiHighConn RefObj name:chars start:120:47 end:120:52:
+                            vpiParent: NamedArgument
+                            vpiName: chars
+                            vpiFullName: t.chars
+                            vpiActual: Variable name:chars
+                        NamedArgument start:120:54 end:120:61:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
-                        RefObj name:letterw start:120:63 end:120:70:
+                          vpiHighConn RefObj name:letterq start:120:54 end:120:61:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
+                        NamedArgument start:120:63 end:120:70:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterw
-                          vpiFullName: t.letterw
-                          vpiActual: Variable name:letterw
+                          vpiHighConn RefObj name:letterw start:120:63 end:120:70:
+                            vpiParent: NamedArgument
+                            vpiName: letterw
+                            vpiFullName: t.letterw
+                            vpiActual: Variable name:letterw
                   IfStmt start:121:3 end:121:25:
                     vpiParent: Begin
                     vpiCondition Operation start:121:7 end:121:17:
@@ -6308,41 +6429,51 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$sscanf start:125:11 end:125:18:
                       vpiArgument (5 items):
-                        Constant start:125:19 end:125:73:
+                        NamedArgument start:125:19 end:125:73:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 416
-                          vpiDecompile: "\"ba=10      bb=110100101010010101012    note_the_two \""
-                          vpiValue: ba=10      bb=110100101010010101012    note_the_two
-                        Constant start:126:5 end:126:20:
+                          vpiHighConn Constant start:125:19 end:125:73:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 416
+                            vpiDecompile: "\"ba=10      bb=110100101010010101012    note_the_two \""
+                            vpiValue: ba=10      bb=110100101010010101012    note_the_two
+                        NamedArgument start:126:5 end:126:20:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 104
-                          vpiDecompile: "\"ba=%b bb=%b%s\""
-                          vpiValue: ba=%b bb=%b%s
-                        RefObj name:letterq start:126:22 end:126:29:
+                          vpiHighConn Constant start:126:5 end:126:20:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 104
+                            vpiDecompile: "\"ba=%b bb=%b%s\""
+                            vpiValue: ba=%b bb=%b%s
+                        NamedArgument start:126:22 end:126:29:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
-                        RefObj name:letterw start:126:31 end:126:38:
+                          vpiHighConn RefObj name:letterq start:126:22 end:126:29:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
+                        NamedArgument start:126:31 end:126:38:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiName: letterw
-                          vpiFullName: t.letterw
-                          vpiActual: Variable name:letterw
-                        RefObj name:letterz start:126:40 end:126:47:
+                          vpiHighConn RefObj name:letterw start:126:31 end:126:38:
+                            vpiParent: NamedArgument
+                            vpiName: letterw
+                            vpiFullName: t.letterw
+                            vpiActual: Variable name:letterw
+                        NamedArgument start:126:40 end:126:47:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiName: letterz
-                          vpiFullName: t.letterz
-                          vpiActual: Variable name:letterz
+                          vpiHighConn RefObj name:letterz start:126:40 end:126:47:
+                            vpiParent: NamedArgument
+                            vpiName: letterz
+                            vpiFullName: t.letterz
+                            vpiActual: Variable name:letterz
                   IfStmt start:127:3 end:127:87:
                     vpiParent: Begin
                     vpiCondition Constant start:30:18 end:30:22:
@@ -6359,36 +6490,46 @@ Design name:unnamed:
                       vpiParent: IfStmt
                       vpiName Identifier name:$write start:127:17 end:127:23:
                       vpiArgument (5 items):
-                        Constant start:127:24 end:127:51:
+                        NamedArgument start:127:24 end:127:51:
                           vpiParent: SysTaskCall name:$write
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 192
-                          vpiDecompile: "\"c=%0d xa=%x xb=%x z=%0s\\n\""
-                          vpiValue: c=%0d xa=%x xb=%x z=%0s\n
-                        RefObj name:chars start:127:53 end:127:58:
+                          vpiHighConn Constant start:127:24 end:127:51:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 192
+                            vpiDecompile: "\"c=%0d xa=%x xb=%x z=%0s\\n\""
+                            vpiValue: c=%0d xa=%x xb=%x z=%0s\n
+                        NamedArgument start:127:53 end:127:58:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: chars
-                          vpiFullName: t.chars
-                          vpiActual: Variable name:chars
-                        RefObj name:letterq start:127:60 end:127:67:
+                          vpiHighConn RefObj name:chars start:127:53 end:127:58:
+                            vpiParent: NamedArgument
+                            vpiName: chars
+                            vpiFullName: t.chars
+                            vpiActual: Variable name:chars
+                        NamedArgument start:127:60 end:127:67:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
-                        RefObj name:letterw start:127:69 end:127:76:
+                          vpiHighConn RefObj name:letterq start:127:60 end:127:67:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
+                        NamedArgument start:127:69 end:127:76:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterw
-                          vpiFullName: t.letterw
-                          vpiActual: Variable name:letterw
-                        RefObj name:letterz start:127:78 end:127:85:
+                          vpiHighConn RefObj name:letterw start:127:69 end:127:76:
+                            vpiParent: NamedArgument
+                            vpiName: letterw
+                            vpiFullName: t.letterw
+                            vpiActual: Variable name:letterw
+                        NamedArgument start:127:78 end:127:85:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterz
-                          vpiFullName: t.letterz
-                          vpiActual: Variable name:letterz
+                          vpiHighConn RefObj name:letterz start:127:78 end:127:85:
+                            vpiParent: NamedArgument
+                            vpiName: letterz
+                            vpiFullName: t.letterz
+                            vpiActual: Variable name:letterz
                   IfStmt start:128:3 end:128:25:
                     vpiParent: Begin
                     vpiCondition Operation start:128:7 end:128:17:
@@ -6515,36 +6656,44 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$sscanf start:133:11 end:133:18:
                       vpiArgument (4 items):
-                        Constant start:133:19 end:133:54:
+                        NamedArgument start:133:19 end:133:54:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 264
-                          vpiDecompile: "\"oa=23 ob=125634123615234123681236\""
-                          vpiValue: oa=23 ob=125634123615234123681236
-                        Constant start:134:5 end:134:18:
+                          vpiHighConn Constant start:133:19 end:133:54:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 264
+                            vpiDecompile: "\"oa=23 ob=125634123615234123681236\""
+                            vpiValue: oa=23 ob=125634123615234123681236
+                        NamedArgument start:134:5 end:134:18:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 88
-                          vpiDecompile: "\"oa=%o ob=%o\""
-                          vpiValue: oa=%o ob=%o
-                        RefObj name:letterq start:134:20 end:134:27:
+                          vpiHighConn Constant start:134:5 end:134:18:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 88
+                            vpiDecompile: "\"oa=%o ob=%o\""
+                            vpiValue: oa=%o ob=%o
+                        NamedArgument start:134:20 end:134:27:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
-                        RefObj name:letterw start:134:29 end:134:36:
+                          vpiHighConn RefObj name:letterq start:134:20 end:134:27:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
+                        NamedArgument start:134:29 end:134:36:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiName: letterw
-                          vpiFullName: t.letterw
-                          vpiActual: Variable name:letterw
+                          vpiHighConn RefObj name:letterw start:134:29 end:134:36:
+                            vpiParent: NamedArgument
+                            vpiName: letterw
+                            vpiFullName: t.letterw
+                            vpiActual: Variable name:letterw
                   IfStmt start:135:3 end:135:72:
                     vpiParent: Begin
                     vpiCondition Constant start:30:18 end:30:22:
@@ -6561,31 +6710,39 @@ Design name:unnamed:
                       vpiParent: IfStmt
                       vpiName Identifier name:$write start:135:17 end:135:23:
                       vpiArgument (4 items):
-                        Constant start:135:24 end:135:45:
+                        NamedArgument start:135:24 end:135:45:
                           vpiParent: SysTaskCall name:$write
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 144
-                          vpiDecompile: "\"c=%0d oa=%x ob=%x\\n\""
-                          vpiValue: c=%0d oa=%x ob=%x\n
-                        RefObj name:chars start:135:47 end:135:52:
+                          vpiHighConn Constant start:135:24 end:135:45:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 144
+                            vpiDecompile: "\"c=%0d oa=%x ob=%x\\n\""
+                            vpiValue: c=%0d oa=%x ob=%x\n
+                        NamedArgument start:135:47 end:135:52:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: chars
-                          vpiFullName: t.chars
-                          vpiActual: Variable name:chars
-                        RefObj name:letterq start:135:54 end:135:61:
+                          vpiHighConn RefObj name:chars start:135:47 end:135:52:
+                            vpiParent: NamedArgument
+                            vpiName: chars
+                            vpiFullName: t.chars
+                            vpiActual: Variable name:chars
+                        NamedArgument start:135:54 end:135:61:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
-                        RefObj name:letterw start:135:63 end:135:70:
+                          vpiHighConn RefObj name:letterq start:135:54 end:135:61:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
+                        NamedArgument start:135:63 end:135:70:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterw
-                          vpiFullName: t.letterw
-                          vpiActual: Variable name:letterw
+                          vpiHighConn RefObj name:letterw start:135:63 end:135:70:
+                            vpiParent: NamedArgument
+                            vpiName: letterw
+                            vpiFullName: t.letterw
+                            vpiActual: Variable name:letterw
                   IfStmt start:136:3 end:136:25:
                     vpiParent: Begin
                     vpiCondition Operation start:136:7 end:136:17:
@@ -6673,36 +6830,44 @@ Design name:unnamed:
                       vpiParent: Assignment
                       vpiName Identifier name:$sscanf start:140:11 end:140:18:
                       vpiArgument (4 items):
-                        Constant start:140:19 end:140:36:
+                        NamedArgument start:140:19 end:140:36:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 120
-                          vpiDecompile: "\"r=0.1 d=-236123\""
-                          vpiValue: r=0.1 d=-236123
-                        Constant start:141:5 end:141:16:
+                          vpiHighConn Constant start:140:19 end:140:36:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 120
+                            vpiDecompile: "\"r=0.1 d=-236123\""
+                            vpiValue: r=0.1 d=-236123
+                        NamedArgument start:141:5 end:141:16:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 72
-                          vpiDecompile: "\"r=%g d=%d\""
-                          vpiValue: r=%g d=%d
-                        RefObj name:r start:141:18 end:141:19:
+                          vpiHighConn Constant start:141:5 end:141:16:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 72
+                            vpiDecompile: "\"r=%g d=%d\""
+                            vpiValue: r=%g d=%d
+                        NamedArgument start:141:18 end:141:19:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiName: r
-                          vpiFullName: t.r
-                          vpiActual: Variable name:r
-                        RefObj name:letterq start:141:21 end:141:28:
+                          vpiHighConn RefObj name:r start:141:18 end:141:19:
+                            vpiParent: NamedArgument
+                            vpiName: r
+                            vpiFullName: t.r
+                            vpiActual: Variable name:r
+                        NamedArgument start:141:21 end:141:28:
                           vpiParent: SysFuncCall name:$sscanf
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
+                          vpiHighConn RefObj name:letterq start:141:21 end:141:28:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
                   IfStmt start:142:3 end:142:56:
                     vpiParent: Begin
                     vpiCondition Constant start:30:18 end:30:22:
@@ -6719,26 +6884,32 @@ Design name:unnamed:
                       vpiParent: IfStmt
                       vpiName Identifier name:$write start:142:17 end:142:23:
                       vpiArgument (3 items):
-                        Constant start:142:24 end:142:38:
+                        NamedArgument start:142:24 end:142:38:
                           vpiParent: SysTaskCall name:$write
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 88
-                          vpiDecompile: "\"c=%0d d=%d\\n\""
-                          vpiValue: c=%0d d=%d\n
-                        RefObj name:chars start:142:40 end:142:45:
+                          vpiHighConn Constant start:142:24 end:142:38:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 88
+                            vpiDecompile: "\"c=%0d d=%d\\n\""
+                            vpiValue: c=%0d d=%d\n
+                        NamedArgument start:142:40 end:142:45:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: chars
-                          vpiFullName: t.chars
-                          vpiActual: Variable name:chars
-                        RefObj name:letterq start:142:47 end:142:54:
+                          vpiHighConn RefObj name:chars start:142:40 end:142:45:
+                            vpiParent: NamedArgument
+                            vpiName: chars
+                            vpiFullName: t.chars
+                            vpiActual: Variable name:chars
+                        NamedArgument start:142:47 end:142:54:
                           vpiParent: SysTaskCall name:$write
-                          vpiName: letterq
-                          vpiFullName: t.letterq
-                          vpiActual: Variable name:letterq
+                          vpiHighConn RefObj name:letterq start:142:47 end:142:54:
+                            vpiParent: NamedArgument
+                            vpiName: letterq
+                            vpiFullName: t.letterq
+                            vpiActual: Variable name:letterq
                   IfStmt start:143:3 end:143:25:
                     vpiParent: Begin
                     vpiCondition Operation start:143:7 end:143:17:
@@ -6769,39 +6940,45 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:fclose start:228:4 end:228:10:
           vpiArgument (1 items):
-            RefObj name:file start:228:11 end:228:15:
+            NamedArgument start:228:11 end:228:15:
               vpiParent: SysTaskCall name:fclose
-              vpiName: file
-              vpiFullName: t.file
-              vpiActual: Variable name:file
+              vpiHighConn RefObj name:file start:228:11 end:228:15:
+                vpiParent: NamedArgument
+                vpiName: file
+                vpiFullName: t.file
+                vpiActual: Variable name:file
         SysTaskCall name:write start:231:7 end:231:40:
           vpiParent: Module name:t
           vpiName Identifier name:write start:231:8 end:231:13:
           vpiArgument (1 items):
-            Constant start:231:14 end:231:38:
+            NamedArgument start:231:14 end:231:38:
               vpiParent: SysTaskCall name:write
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t
-                vpiActual: StringTypespec
-              vpiConstType: string (6)
-              vpiSize: 168
-              vpiDecompile: "\"*-* All Finished *-*\\n\""
-              vpiValue: "*-* All Finished *-*\\n"
+              vpiHighConn Constant start:231:14 end:231:38:
+                vpiParent: NamedArgument
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: StringTypespec
+                vpiConstType: string (6)
+                vpiSize: 168
+                vpiDecompile: "\"*-* All Finished *-*\\n\""
+                vpiValue: "*-* All Finished *-*\\n"
         SysTaskCall name:finish start:232:7 end:232:18:
           vpiParent: Module name:t
           vpiName Identifier name:finish start:232:8 end:232:14:
           vpiArgument (1 items):
-            Constant start:232:15 end:232:16:
+            NamedArgument start:232:15 end:232:16:
               vpiParent: SysTaskCall name:finish
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "0"
-              vpiValue: 0
+              vpiHighConn Constant start:232:15 end:232:16:
+                vpiParent: NamedArgument
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "0"
+                vpiValue: 0
       vpiGenStmt (46 items):
         GenIf start:10:30 end:10:175:
           vpiParent: Module name:t
@@ -6897,51 +7074,61 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:10:73 end:10:78:
                 vpiArgument (5 items):
-                  Constant start:10:79 end:10:114:
+                  NamedArgument start:10:79 end:10:114:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 256
-                    vpiDecompile: "\"%%Error: %s:%0d:  got=%g exp=%g\\n\""
-                    vpiValue: "%%Error: %s:%0d:  got=%g exp=%g\\n"
-                  Constant start:10:116 end:10:146:
+                    vpiHighConn Constant start:10:79 end:10:114:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 256
+                      vpiDecompile: "\"%%Error: %s:%0d:  got=%g exp=%g\\n\""
+                      vpiValue: "%%Error: %s:%0d:  got=%g exp=%g\\n"
+                  NamedArgument start:10:116 end:10:146:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 224
-                    vpiDecompile: "\"$Source01/t_sys_file_basic.v\""
-                    vpiValue: "$Source01/t_sys_file_basic.v"
-                  Constant start:10:147 end:10:150:
+                    vpiHighConn Constant start:10:116 end:10:146:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 224
+                      vpiDecompile: "\"$Source01/t_sys_file_basic.v\""
+                      vpiValue: "$Source01/t_sys_file_basic.v"
+                  NamedArgument start:10:147 end:10:150:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "144"
-                    vpiValue: 144
-                  RefObj name:r start:10:153 end:10:154:
+                    vpiHighConn Constant start:10:147 end:10:150:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "144"
+                      vpiValue: 144
+                  NamedArgument start:10:152 end:10:155:
                     vpiParent: SysTaskCall name:write
-                    vpiName: r
-                    vpiFullName: t.r
-                    vpiActual: Variable name:r
-                  Constant start:10:158 end:10:161:
+                    vpiHighConn RefObj name:r start:10:153 end:10:154:
+                      vpiParent: NamedArgument
+                      vpiName: r
+                      vpiFullName: t.r
+                      vpiActual: Variable name:r
+                  NamedArgument start:10:157 end:10:162:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: RealTypespec
-                    vpiConstType: real (2)
-                    vpiSize: 64
-                    vpiDecompile: "0.1"
-                    vpiValue: 0.1
+                    vpiHighConn Constant start:10:158 end:10:161:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: RealTypespec
+                      vpiConstType: real (2)
+                      vpiSize: 64
+                      vpiDecompile: "0.1"
+                      vpiValue: 0.1
               SysTaskCall name:stop start:10:165 end:10:171:
                 vpiParent: Begin
                 vpiName Identifier name:stop start:10:166 end:10:170:
@@ -6993,26 +7180,32 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:150:18 end:150:23:
                 vpiArgument (3 items):
-                  Constant start:150:24 end:150:38:
+                  NamedArgument start:150:24 end:150:38:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 88
-                    vpiDecompile: "\"c=%0d r=%e\\n\""
-                    vpiValue: c=%0d r=%e\n
-                  RefObj name:chars start:150:40 end:150:45:
+                    vpiHighConn Constant start:150:24 end:150:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 88
+                      vpiDecompile: "\"c=%0d r=%e\\n\""
+                      vpiValue: c=%0d r=%e\n
+                  NamedArgument start:150:40 end:150:45:
                     vpiParent: SysTaskCall name:write
-                    vpiName: chars
-                    vpiFullName: t.chars
-                    vpiActual: Variable name:chars
-                  RefObj name:r start:150:47 end:150:48:
+                    vpiHighConn RefObj name:chars start:150:40 end:150:45:
+                      vpiParent: NamedArgument
+                      vpiName: chars
+                      vpiFullName: t.chars
+                      vpiActual: Variable name:chars
+                  NamedArgument start:150:47 end:150:48:
                     vpiParent: SysTaskCall name:write
-                    vpiName: r
-                    vpiFullName: t.r
-                    vpiActual: Variable name:r
+                    vpiHighConn RefObj name:r start:150:47 end:150:48:
+                      vpiParent: NamedArgument
+                      vpiName: r
+                      vpiFullName: t.r
+                      vpiActual: Variable name:r
         GenIf start:10:30 end:10:175:
           vpiParent: Module name:t
           vpiCondition Operation start:10:34 end:10:64:
@@ -7107,51 +7300,61 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:10:73 end:10:78:
                 vpiArgument (5 items):
-                  Constant start:10:79 end:10:114:
+                  NamedArgument start:10:79 end:10:114:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 256
-                    vpiDecompile: "\"%%Error: %s:%0d:  got=%g exp=%g\\n\""
-                    vpiValue: "%%Error: %s:%0d:  got=%g exp=%g\\n"
-                  Constant start:10:116 end:10:146:
+                    vpiHighConn Constant start:10:79 end:10:114:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 256
+                      vpiDecompile: "\"%%Error: %s:%0d:  got=%g exp=%g\\n\""
+                      vpiValue: "%%Error: %s:%0d:  got=%g exp=%g\\n"
+                  NamedArgument start:10:116 end:10:146:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 224
-                    vpiDecompile: "\"$Source01/t_sys_file_basic.v\""
-                    vpiValue: "$Source01/t_sys_file_basic.v"
-                  Constant start:10:147 end:10:150:
+                    vpiHighConn Constant start:10:116 end:10:146:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 224
+                      vpiDecompile: "\"$Source01/t_sys_file_basic.v\""
+                      vpiValue: "$Source01/t_sys_file_basic.v"
+                  NamedArgument start:10:147 end:10:150:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "151"
-                    vpiValue: 151
-                  RefObj name:r start:10:153 end:10:154:
+                    vpiHighConn Constant start:10:147 end:10:150:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "151"
+                      vpiValue: 151
+                  NamedArgument start:10:152 end:10:155:
                     vpiParent: SysTaskCall name:write
-                    vpiName: r
-                    vpiFullName: t.r
-                    vpiActual: Variable name:r
-                  Constant start:10:158 end:10:161:
+                    vpiHighConn RefObj name:r start:10:153 end:10:154:
+                      vpiParent: NamedArgument
+                      vpiName: r
+                      vpiFullName: t.r
+                      vpiActual: Variable name:r
+                  NamedArgument start:10:157 end:10:162:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: RealTypespec
-                    vpiConstType: real (2)
-                    vpiSize: 64
-                    vpiDecompile: "0.2"
-                    vpiValue: 0.2
+                    vpiHighConn Constant start:10:158 end:10:161:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: RealTypespec
+                      vpiConstType: real (2)
+                      vpiSize: 64
+                      vpiDecompile: "0.2"
+                      vpiValue: 0.2
               SysTaskCall name:stop start:10:165 end:10:171:
                 vpiParent: Begin
                 vpiName Identifier name:stop start:10:166 end:10:170:
@@ -7175,26 +7378,32 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:155:18 end:155:23:
                 vpiArgument (3 items):
-                  Constant start:155:24 end:155:38:
+                  NamedArgument start:155:24 end:155:38:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 88
-                    vpiDecompile: "\"c=%0d r=%f\\n\""
-                    vpiValue: c=%0d r=%f\n
-                  RefObj name:chars start:155:40 end:155:45:
+                    vpiHighConn Constant start:155:24 end:155:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 88
+                      vpiDecompile: "\"c=%0d r=%f\\n\""
+                      vpiValue: c=%0d r=%f\n
+                  NamedArgument start:155:40 end:155:45:
                     vpiParent: SysTaskCall name:write
-                    vpiName: chars
-                    vpiFullName: t.chars
-                    vpiActual: Variable name:chars
-                  RefObj name:r start:155:47 end:155:48:
+                    vpiHighConn RefObj name:chars start:155:40 end:155:45:
+                      vpiParent: NamedArgument
+                      vpiName: chars
+                      vpiFullName: t.chars
+                      vpiActual: Variable name:chars
+                  NamedArgument start:155:47 end:155:48:
                     vpiParent: SysTaskCall name:write
-                    vpiName: r
-                    vpiFullName: t.r
-                    vpiActual: Variable name:r
+                    vpiHighConn RefObj name:r start:155:47 end:155:48:
+                      vpiParent: NamedArgument
+                      vpiName: r
+                      vpiFullName: t.r
+                      vpiActual: Variable name:r
         GenIf start:10:30 end:10:175:
           vpiParent: Module name:t
           vpiCondition Operation start:10:34 end:10:64:
@@ -7289,51 +7498,61 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:10:73 end:10:78:
                 vpiArgument (5 items):
-                  Constant start:10:79 end:10:114:
+                  NamedArgument start:10:79 end:10:114:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 256
-                    vpiDecompile: "\"%%Error: %s:%0d:  got=%g exp=%g\\n\""
-                    vpiValue: "%%Error: %s:%0d:  got=%g exp=%g\\n"
-                  Constant start:10:116 end:10:146:
+                    vpiHighConn Constant start:10:79 end:10:114:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 256
+                      vpiDecompile: "\"%%Error: %s:%0d:  got=%g exp=%g\\n\""
+                      vpiValue: "%%Error: %s:%0d:  got=%g exp=%g\\n"
+                  NamedArgument start:10:116 end:10:146:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 224
-                    vpiDecompile: "\"$Source01/t_sys_file_basic.v\""
-                    vpiValue: "$Source01/t_sys_file_basic.v"
-                  Constant start:10:147 end:10:150:
+                    vpiHighConn Constant start:10:116 end:10:146:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 224
+                      vpiDecompile: "\"$Source01/t_sys_file_basic.v\""
+                      vpiValue: "$Source01/t_sys_file_basic.v"
+                  NamedArgument start:10:147 end:10:150:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "156"
-                    vpiValue: 156
-                  RefObj name:r start:10:153 end:10:154:
+                    vpiHighConn Constant start:10:147 end:10:150:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "156"
+                      vpiValue: 156
+                  NamedArgument start:10:152 end:10:155:
                     vpiParent: SysTaskCall name:write
-                    vpiName: r
-                    vpiFullName: t.r
-                    vpiActual: Variable name:r
-                  Constant start:10:158 end:10:161:
+                    vpiHighConn RefObj name:r start:10:153 end:10:154:
+                      vpiParent: NamedArgument
+                      vpiName: r
+                      vpiFullName: t.r
+                      vpiActual: Variable name:r
+                  NamedArgument start:10:157 end:10:162:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: RealTypespec
-                    vpiConstType: real (2)
-                    vpiSize: 64
-                    vpiDecompile: "0.3"
-                    vpiValue: 0.3
+                    vpiHighConn Constant start:10:158 end:10:161:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: RealTypespec
+                      vpiConstType: real (2)
+                      vpiSize: 64
+                      vpiDecompile: "0.3"
+                      vpiValue: 0.3
               SysTaskCall name:stop start:10:165 end:10:171:
                 vpiParent: Begin
                 vpiName Identifier name:stop start:10:166 end:10:170:
@@ -7357,26 +7576,32 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:160:18 end:160:23:
                 vpiArgument (3 items):
-                  Constant start:160:24 end:160:38:
+                  NamedArgument start:160:24 end:160:38:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 88
-                    vpiDecompile: "\"c=%0d d=%d\\n\""
-                    vpiValue: c=%0d d=%d\n
-                  RefObj name:chars start:160:40 end:160:45:
+                    vpiHighConn Constant start:160:24 end:160:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 88
+                      vpiDecompile: "\"c=%0d d=%d\\n\""
+                      vpiValue: c=%0d d=%d\n
+                  NamedArgument start:160:40 end:160:45:
                     vpiParent: SysTaskCall name:write
-                    vpiName: chars
-                    vpiFullName: t.chars
-                    vpiActual: Variable name:chars
-                  RefObj name:letterq start:160:47 end:160:54:
+                    vpiHighConn RefObj name:chars start:160:40 end:160:45:
+                      vpiParent: NamedArgument
+                      vpiName: chars
+                      vpiFullName: t.chars
+                      vpiActual: Variable name:chars
+                  NamedArgument start:160:47 end:160:54:
                     vpiParent: SysTaskCall name:write
-                    vpiName: letterq
-                    vpiFullName: t.letterq
-                    vpiActual: Variable name:letterq
+                    vpiHighConn RefObj name:letterq start:160:47 end:160:54:
+                      vpiParent: NamedArgument
+                      vpiName: letterq
+                      vpiFullName: t.letterq
+                      vpiActual: Variable name:letterq
         GenIf start:161:3 end:161:25:
           vpiParent: Module name:t
           vpiCondition Operation start:161:7 end:161:17:
@@ -7499,51 +7724,61 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:10:73 end:10:78:
                 vpiArgument (5 items):
-                  Constant start:10:79 end:10:114:
+                  NamedArgument start:10:79 end:10:114:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 256
-                    vpiDecompile: "\"%%Error: %s:%0d:  got=%g exp=%g\\n\""
-                    vpiValue: "%%Error: %s:%0d:  got=%g exp=%g\\n"
-                  Constant start:10:116 end:10:146:
+                    vpiHighConn Constant start:10:79 end:10:114:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 256
+                      vpiDecompile: "\"%%Error: %s:%0d:  got=%g exp=%g\\n\""
+                      vpiValue: "%%Error: %s:%0d:  got=%g exp=%g\\n"
+                  NamedArgument start:10:116 end:10:146:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 224
-                    vpiDecompile: "\"$Source01/t_sys_file_basic.v\""
-                    vpiValue: "$Source01/t_sys_file_basic.v"
-                  Constant start:10:147 end:10:150:
+                    vpiHighConn Constant start:10:116 end:10:146:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 224
+                      vpiDecompile: "\"$Source01/t_sys_file_basic.v\""
+                      vpiValue: "$Source01/t_sys_file_basic.v"
+                  NamedArgument start:10:147 end:10:150:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "162"
-                    vpiValue: 162
-                  RefObj name:r start:10:153 end:10:154:
+                    vpiHighConn Constant start:10:147 end:10:150:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "162"
+                      vpiValue: 162
+                  NamedArgument start:10:152 end:10:155:
                     vpiParent: SysTaskCall name:write
-                    vpiName: r
-                    vpiFullName: t.r
-                    vpiActual: Variable name:r
-                  Constant start:10:158 end:10:161:
+                    vpiHighConn RefObj name:r start:10:153 end:10:154:
+                      vpiParent: NamedArgument
+                      vpiName: r
+                      vpiFullName: t.r
+                      vpiActual: Variable name:r
+                  NamedArgument start:10:157 end:10:162:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: RealTypespec
-                    vpiConstType: real (2)
-                    vpiSize: 64
-                    vpiDecompile: "0.2"
-                    vpiValue: 0.2
+                    vpiHighConn Constant start:10:158 end:10:161:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: RealTypespec
+                      vpiConstType: real (2)
+                      vpiSize: 64
+                      vpiDecompile: "0.2"
+                      vpiValue: 0.2
               SysTaskCall name:stop start:10:165 end:10:171:
                 vpiParent: Begin
                 vpiName Identifier name:stop start:10:166 end:10:170:
@@ -7585,20 +7820,24 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName Identifier name:$fscanf start:166:7 end:166:14:
                 vpiArgument (2 items):
-                  RefObj name:file start:166:15 end:166:19:
+                  NamedArgument start:166:15 end:166:19:
                     vpiParent: SysFuncCall name:$fscanf
-                    vpiName: file
-                    vpiFullName: t.file
-                    vpiActual: Variable name:file
-                  Constant start:166:20 end:166:22:
+                    vpiHighConn RefObj name:file start:166:15 end:166:19:
+                      vpiParent: NamedArgument
+                      vpiName: file
+                      vpiFullName: t.file
+                      vpiActual: Variable name:file
+                  NamedArgument start:166:20 end:166:22:
                     vpiParent: SysFuncCall name:$fscanf
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiDecompile: "\"\""
-                    vpiValue: ""
+                    vpiHighConn Constant start:166:20 end:166:22:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiDecompile: "\"\""
+                      vpiValue: ""
               Constant start:166:25 end:166:26:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -7627,16 +7866,18 @@ Design name:unnamed:
                 vpiName Identifier name:sync start:168:8 end:168:12:
                 vpiTaskFunc: Function name:sync
                 vpiArgument (1 items):
-                  Constant start:168:13 end:168:16:
+                  NamedArgument start:168:13 end:168:16:
                     vpiParent: MethodFuncCall name:sync
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 8
-                    vpiDecompile: "\"*\""
-                    vpiValue: "*"
+                    vpiHighConn Constant start:168:13 end:168:16:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 8
+                      vpiDecompile: "\"*\""
+                      vpiValue: "*"
           vpiStmt Begin:
             vpiParent: GenIf
             vpiFullName: t
@@ -7664,31 +7905,39 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:170:18 end:170:23:
                 vpiArgument (4 items):
-                  Constant start:170:24 end:170:47:
+                  NamedArgument start:170:24 end:170:47:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 160
-                    vpiDecompile: "\"c=%0d xa=%0x xb=%0x\\n\""
-                    vpiValue: c=%0d xa=%0x xb=%0x\n
-                  RefObj name:chars start:170:49 end:170:54:
+                    vpiHighConn Constant start:170:24 end:170:47:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 160
+                      vpiDecompile: "\"c=%0d xa=%0x xb=%0x\\n\""
+                      vpiValue: c=%0d xa=%0x xb=%0x\n
+                  NamedArgument start:170:49 end:170:54:
                     vpiParent: SysTaskCall name:write
-                    vpiName: chars
-                    vpiFullName: t.chars
-                    vpiActual: Variable name:chars
-                  RefObj name:letterq start:170:56 end:170:63:
+                    vpiHighConn RefObj name:chars start:170:49 end:170:54:
+                      vpiParent: NamedArgument
+                      vpiName: chars
+                      vpiFullName: t.chars
+                      vpiActual: Variable name:chars
+                  NamedArgument start:170:56 end:170:63:
                     vpiParent: SysTaskCall name:write
-                    vpiName: letterq
-                    vpiFullName: t.letterq
-                    vpiActual: Variable name:letterq
-                  RefObj name:letterw start:170:65 end:170:72:
+                    vpiHighConn RefObj name:letterq start:170:56 end:170:63:
+                      vpiParent: NamedArgument
+                      vpiName: letterq
+                      vpiFullName: t.letterq
+                      vpiActual: Variable name:letterq
+                  NamedArgument start:170:65 end:170:72:
                     vpiParent: SysTaskCall name:write
-                    vpiName: letterw
-                    vpiFullName: t.letterw
-                    vpiActual: Variable name:letterw
+                    vpiHighConn RefObj name:letterw start:170:65 end:170:72:
+                      vpiParent: NamedArgument
+                      vpiName: letterw
+                      vpiFullName: t.letterw
+                      vpiActual: Variable name:letterw
         GenIf start:171:3 end:171:25:
           vpiParent: Module name:t
           vpiCondition Operation start:171:7 end:171:17:
@@ -7784,16 +8033,18 @@ Design name:unnamed:
                 vpiName Identifier name:sync start:175:8 end:175:12:
                 vpiTaskFunc: Function name:sync
                 vpiArgument (1 items):
-                  Constant start:175:13 end:175:17:
+                  NamedArgument start:175:13 end:175:17:
                     vpiParent: MethodFuncCall name:sync
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 8
-                    vpiDecompile: "\"\\n\""
-                    vpiValue: "\\n"
+                    vpiHighConn Constant start:175:13 end:175:17:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 8
+                      vpiDecompile: "\"\\n\""
+                      vpiValue: "\\n"
           vpiStmt Begin:
             vpiParent: GenIf
             vpiFullName: t
@@ -7812,16 +8063,18 @@ Design name:unnamed:
                 vpiName Identifier name:sync start:176:8 end:176:12:
                 vpiTaskFunc: Function name:sync
                 vpiArgument (1 items):
-                  Constant start:176:13 end:176:16:
+                  NamedArgument start:176:13 end:176:16:
                     vpiParent: MethodFuncCall name:sync
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 8
-                    vpiDecompile: "\"*\""
-                    vpiValue: "*"
+                    vpiHighConn Constant start:176:13 end:176:16:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 8
+                      vpiDecompile: "\"*\""
+                      vpiValue: "*"
           vpiStmt Begin:
             vpiParent: GenIf
             vpiFullName: t
@@ -7849,36 +8102,46 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:178:18 end:178:23:
                 vpiArgument (5 items):
-                  Constant start:178:24 end:178:53:
+                  NamedArgument start:178:24 end:178:53:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 208
-                    vpiDecompile: "\"c=%0d ba=%0x bb=%0x z=%0s\\n\""
-                    vpiValue: c=%0d ba=%0x bb=%0x z=%0s\n
-                  RefObj name:chars start:178:55 end:178:60:
+                    vpiHighConn Constant start:178:24 end:178:53:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 208
+                      vpiDecompile: "\"c=%0d ba=%0x bb=%0x z=%0s\\n\""
+                      vpiValue: c=%0d ba=%0x bb=%0x z=%0s\n
+                  NamedArgument start:178:55 end:178:60:
                     vpiParent: SysTaskCall name:write
-                    vpiName: chars
-                    vpiFullName: t.chars
-                    vpiActual: Variable name:chars
-                  RefObj name:letterq start:178:62 end:178:69:
+                    vpiHighConn RefObj name:chars start:178:55 end:178:60:
+                      vpiParent: NamedArgument
+                      vpiName: chars
+                      vpiFullName: t.chars
+                      vpiActual: Variable name:chars
+                  NamedArgument start:178:62 end:178:69:
                     vpiParent: SysTaskCall name:write
-                    vpiName: letterq
-                    vpiFullName: t.letterq
-                    vpiActual: Variable name:letterq
-                  RefObj name:letterw start:178:71 end:178:78:
+                    vpiHighConn RefObj name:letterq start:178:62 end:178:69:
+                      vpiParent: NamedArgument
+                      vpiName: letterq
+                      vpiFullName: t.letterq
+                      vpiActual: Variable name:letterq
+                  NamedArgument start:178:71 end:178:78:
                     vpiParent: SysTaskCall name:write
-                    vpiName: letterw
-                    vpiFullName: t.letterw
-                    vpiActual: Variable name:letterw
-                  RefObj name:letterz start:178:80 end:178:87:
+                    vpiHighConn RefObj name:letterw start:178:71 end:178:78:
+                      vpiParent: NamedArgument
+                      vpiName: letterw
+                      vpiFullName: t.letterw
+                      vpiActual: Variable name:letterw
+                  NamedArgument start:178:80 end:178:87:
                     vpiParent: SysTaskCall name:write
-                    vpiName: letterz
-                    vpiFullName: t.letterz
-                    vpiActual: Variable name:letterz
+                    vpiHighConn RefObj name:letterz start:178:80 end:178:87:
+                      vpiParent: NamedArgument
+                      vpiName: letterz
+                      vpiFullName: t.letterz
+                      vpiActual: Variable name:letterz
         GenIf start:179:3 end:179:25:
           vpiParent: Module name:t
           vpiCondition Operation start:179:7 end:179:17:
@@ -8002,16 +8265,18 @@ Design name:unnamed:
                 vpiName Identifier name:sync start:184:8 end:184:12:
                 vpiTaskFunc: Function name:sync
                 vpiArgument (1 items):
-                  Constant start:184:13 end:184:17:
+                  NamedArgument start:184:13 end:184:17:
                     vpiParent: MethodFuncCall name:sync
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 8
-                    vpiDecompile: "\"\\n\""
-                    vpiValue: "\\n"
+                    vpiHighConn Constant start:184:13 end:184:17:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 8
+                      vpiDecompile: "\"\\n\""
+                      vpiValue: "\\n"
           vpiStmt Begin:
             vpiParent: GenIf
             vpiFullName: t
@@ -8030,16 +8295,18 @@ Design name:unnamed:
                 vpiName Identifier name:sync start:185:8 end:185:12:
                 vpiTaskFunc: Function name:sync
                 vpiArgument (1 items):
-                  Constant start:185:13 end:185:16:
+                  NamedArgument start:185:13 end:185:16:
                     vpiParent: MethodFuncCall name:sync
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 8
-                    vpiDecompile: "\"*\""
-                    vpiValue: "*"
+                    vpiHighConn Constant start:185:13 end:185:16:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 8
+                      vpiDecompile: "\"*\""
+                      vpiValue: "*"
           vpiStmt Begin:
             vpiParent: GenIf
             vpiFullName: t
@@ -8067,31 +8334,39 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:187:18 end:187:23:
                 vpiArgument (4 items):
-                  Constant start:187:24 end:187:47:
+                  NamedArgument start:187:24 end:187:47:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 160
-                    vpiDecompile: "\"c=%0d oa=%0x ob=%0x\\n\""
-                    vpiValue: c=%0d oa=%0x ob=%0x\n
-                  RefObj name:chars start:187:49 end:187:54:
+                    vpiHighConn Constant start:187:24 end:187:47:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 160
+                      vpiDecompile: "\"c=%0d oa=%0x ob=%0x\\n\""
+                      vpiValue: c=%0d oa=%0x ob=%0x\n
+                  NamedArgument start:187:49 end:187:54:
                     vpiParent: SysTaskCall name:write
-                    vpiName: chars
-                    vpiFullName: t.chars
-                    vpiActual: Variable name:chars
-                  RefObj name:letterq start:187:56 end:187:63:
+                    vpiHighConn RefObj name:chars start:187:49 end:187:54:
+                      vpiParent: NamedArgument
+                      vpiName: chars
+                      vpiFullName: t.chars
+                      vpiActual: Variable name:chars
+                  NamedArgument start:187:56 end:187:63:
                     vpiParent: SysTaskCall name:write
-                    vpiName: letterq
-                    vpiFullName: t.letterq
-                    vpiActual: Variable name:letterq
-                  RefObj name:letterw start:187:65 end:187:72:
+                    vpiHighConn RefObj name:letterq start:187:56 end:187:63:
+                      vpiParent: NamedArgument
+                      vpiName: letterq
+                      vpiFullName: t.letterq
+                      vpiActual: Variable name:letterq
+                  NamedArgument start:187:65 end:187:72:
                     vpiParent: SysTaskCall name:write
-                    vpiName: letterw
-                    vpiFullName: t.letterw
-                    vpiActual: Variable name:letterw
+                    vpiHighConn RefObj name:letterw start:187:65 end:187:72:
+                      vpiParent: NamedArgument
+                      vpiName: letterw
+                      vpiFullName: t.letterw
+                      vpiActual: Variable name:letterw
         GenIf start:188:3 end:188:25:
           vpiParent: Module name:t
           vpiCondition Operation start:188:7 end:188:17:
@@ -8187,16 +8462,18 @@ Design name:unnamed:
                 vpiName Identifier name:sync start:192:8 end:192:12:
                 vpiTaskFunc: Function name:sync
                 vpiArgument (1 items):
-                  Constant start:192:13 end:192:17:
+                  NamedArgument start:192:13 end:192:17:
                     vpiParent: MethodFuncCall name:sync
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 8
-                    vpiDecompile: "\"\\n\""
-                    vpiValue: "\\n"
+                    vpiHighConn Constant start:192:13 end:192:17:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 8
+                      vpiDecompile: "\"\\n\""
+                      vpiValue: "\\n"
           vpiStmt Begin:
             vpiParent: GenIf
             vpiFullName: t
@@ -8215,16 +8492,18 @@ Design name:unnamed:
                 vpiName Identifier name:sync start:193:8 end:193:12:
                 vpiTaskFunc: Function name:sync
                 vpiArgument (1 items):
-                  Constant start:193:13 end:193:16:
+                  NamedArgument start:193:13 end:193:16:
                     vpiParent: MethodFuncCall name:sync
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 8
-                    vpiDecompile: "\"*\""
-                    vpiValue: "*"
+                    vpiHighConn Constant start:193:13 end:193:16:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 8
+                      vpiDecompile: "\"*\""
+                      vpiValue: "*"
           vpiStmt Begin:
             vpiParent: GenIf
             vpiFullName: t
@@ -8252,26 +8531,32 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:195:18 end:195:23:
                 vpiArgument (3 items):
-                  Constant start:195:24 end:195:39:
+                  NamedArgument start:195:24 end:195:39:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 96
-                    vpiDecompile: "\"c=%0d d=%0x\\n\""
-                    vpiValue: c=%0d d=%0x\n
-                  RefObj name:chars start:195:41 end:195:46:
+                    vpiHighConn Constant start:195:24 end:195:39:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 96
+                      vpiDecompile: "\"c=%0d d=%0x\\n\""
+                      vpiValue: c=%0d d=%0x\n
+                  NamedArgument start:195:41 end:195:46:
                     vpiParent: SysTaskCall name:write
-                    vpiName: chars
-                    vpiFullName: t.chars
-                    vpiActual: Variable name:chars
-                  RefObj name:letterq start:195:48 end:195:55:
+                    vpiHighConn RefObj name:chars start:195:41 end:195:46:
+                      vpiParent: NamedArgument
+                      vpiName: chars
+                      vpiFullName: t.chars
+                      vpiActual: Variable name:chars
+                  NamedArgument start:195:48 end:195:55:
                     vpiParent: SysTaskCall name:write
-                    vpiName: letterq
-                    vpiFullName: t.letterq
-                    vpiActual: Variable name:letterq
+                    vpiHighConn RefObj name:letterq start:195:48 end:195:55:
+                      vpiParent: NamedArgument
+                      vpiName: letterq
+                      vpiFullName: t.letterq
+                      vpiActual: Variable name:letterq
         GenIf start:196:3 end:196:25:
           vpiParent: Module name:t
           vpiCondition Operation start:196:7 end:196:17:
@@ -8339,16 +8624,18 @@ Design name:unnamed:
                 vpiName Identifier name:sync start:199:8 end:199:12:
                 vpiTaskFunc: Function name:sync
                 vpiArgument (1 items):
-                  Constant start:199:13 end:199:17:
+                  NamedArgument start:199:13 end:199:17:
                     vpiParent: MethodFuncCall name:sync
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 8
-                    vpiDecompile: "\"\\n\""
-                    vpiValue: "\\n"
+                    vpiHighConn Constant start:199:13 end:199:17:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 8
+                      vpiDecompile: "\"\\n\""
+                      vpiValue: "\\n"
           vpiStmt Begin:
             vpiParent: GenIf
             vpiFullName: t
@@ -8367,16 +8654,18 @@ Design name:unnamed:
                 vpiName Identifier name:sync start:200:8 end:200:12:
                 vpiTaskFunc: Function name:sync
                 vpiArgument (1 items):
-                  Constant start:200:13 end:200:16:
+                  NamedArgument start:200:13 end:200:16:
                     vpiParent: MethodFuncCall name:sync
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 8
-                    vpiDecompile: "\"*\""
-                    vpiValue: "*"
+                    vpiHighConn Constant start:200:13 end:200:16:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 8
+                      vpiDecompile: "\"*\""
+                      vpiValue: "*"
           vpiStmt Begin:
             vpiParent: GenIf
             vpiFullName: t
@@ -8404,31 +8693,39 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:202:18 end:202:23:
                 vpiArgument (4 items):
-                  Constant start:202:24 end:202:43:
+                  NamedArgument start:202:24 end:202:43:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 128
-                    vpiDecompile: "\"c=%0d q=%c s=%s\\n\""
-                    vpiValue: c=%0d q=%c s=%s\n
-                  RefObj name:chars start:202:45 end:202:50:
+                    vpiHighConn Constant start:202:24 end:202:43:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 128
+                      vpiDecompile: "\"c=%0d q=%c s=%s\\n\""
+                      vpiValue: c=%0d q=%c s=%s\n
+                  NamedArgument start:202:45 end:202:50:
                     vpiParent: SysTaskCall name:write
-                    vpiName: chars
-                    vpiFullName: t.chars
-                    vpiActual: Variable name:chars
-                  RefObj name:letterl start:202:52 end:202:59:
+                    vpiHighConn RefObj name:chars start:202:45 end:202:50:
+                      vpiParent: NamedArgument
+                      vpiName: chars
+                      vpiFullName: t.chars
+                      vpiActual: Variable name:chars
+                  NamedArgument start:202:52 end:202:59:
                     vpiParent: SysTaskCall name:write
-                    vpiName: letterl
-                    vpiFullName: t.letterl
-                    vpiActual: Variable name:letterl
-                  RefObj name:letterw start:202:61 end:202:68:
+                    vpiHighConn RefObj name:letterl start:202:52 end:202:59:
+                      vpiParent: NamedArgument
+                      vpiName: letterl
+                      vpiFullName: t.letterl
+                      vpiActual: Variable name:letterl
+                  NamedArgument start:202:61 end:202:68:
                     vpiParent: SysTaskCall name:write
-                    vpiName: letterw
-                    vpiFullName: t.letterw
-                    vpiActual: Variable name:letterw
+                    vpiHighConn RefObj name:letterw start:202:61 end:202:68:
+                      vpiParent: NamedArgument
+                      vpiName: letterw
+                      vpiFullName: t.letterw
+                      vpiActual: Variable name:letterw
         GenIf start:203:3 end:203:25:
           vpiParent: Module name:t
           vpiCondition Operation start:203:7 end:203:17:
@@ -8533,26 +8830,32 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:write start:208:18 end:208:23:
                 vpiArgument (3 items):
-                  Constant start:208:24 end:208:38:
+                  NamedArgument start:208:24 end:208:38:
                     vpiParent: SysTaskCall name:write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 88
-                    vpiDecompile: "\"c=%0d l=%x\\n\""
-                    vpiValue: c=%0d l=%x\n
-                  RefObj name:chars start:208:40 end:208:45:
+                    vpiHighConn Constant start:208:24 end:208:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 88
+                      vpiDecompile: "\"c=%0d l=%x\\n\""
+                      vpiValue: c=%0d l=%x\n
+                  NamedArgument start:208:40 end:208:45:
                     vpiParent: SysTaskCall name:write
-                    vpiName: chars
-                    vpiFullName: t.chars
-                    vpiActual: Variable name:chars
-                  RefObj name:letterl start:208:47 end:208:54:
+                    vpiHighConn RefObj name:chars start:208:40 end:208:45:
+                      vpiParent: NamedArgument
+                      vpiName: chars
+                      vpiFullName: t.chars
+                      vpiActual: Variable name:chars
+                  NamedArgument start:208:47 end:208:54:
                     vpiParent: SysTaskCall name:write
-                    vpiName: letterl
-                    vpiFullName: t.letterl
-                    vpiActual: Variable name:letterl
+                    vpiHighConn RefObj name:letterl start:208:47 end:208:54:
+                      vpiParent: NamedArgument
+                      vpiName: letterl
+                      vpiFullName: t.letterl
+                      vpiActual: Variable name:letterl
         GenIf start:209:3 end:209:25:
           vpiParent: Module name:t
           vpiCondition Operation start:209:7 end:209:17:
@@ -8675,11 +8978,13 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName Identifier name:$fgetc start:226:7 end:226:13:
                 vpiArgument (1 items):
-                  RefObj name:file start:226:14 end:226:18:
+                  NamedArgument start:226:14 end:226:18:
                     vpiParent: SysFuncCall name:$fgetc
-                    vpiName: file
-                    vpiFullName: t.file
-                    vpiActual: Variable name:file
+                    vpiHighConn RefObj name:file start:226:14 end:226:18:
+                      vpiParent: NamedArgument
+                      vpiName: file
+                      vpiFullName: t.file
+                      vpiActual: Variable name:file
               Constant start:226:23 end:226:27:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -8769,7 +9074,7 @@ Constant                           181     175       6        12
 Operation                           89      83       0         6
 RefTypespec                        199     191       4        12
 ----------------------------------------------------------------
-Others                             841     841       0         0
+Others                             999     999       0         0
 ----------------------------------------------------------------
-                                  1310    1290      10        30
+                                  1468    1448      10        30
 ===================== END REDUCTION RESULT =====================

@@ -150,7 +150,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: top.a
-          vpiVector: true
         Variable name:b start:3:8 end:3:9:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:3:4 end:3:7:
@@ -159,7 +158,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: top.b
-          vpiScalar: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -255,26 +253,32 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:8:7 end:8:15:
                 vpiArgument (3 items):
-                  Constant start:8:16 end:8:32:
+                  NamedArgument start:8:16 end:8:32:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 112
-                    vpiDecompile: "\"A = %h, b = %b\""
-                    vpiValue: A = %h, b = %b
-                  RefObj name:a start:8:34 end:8:35:
+                    vpiHighConn Constant start:8:16 end:8:32:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 112
+                      vpiDecompile: "\"A = %h, b = %b\""
+                      vpiValue: A = %h, b = %b
+                  NamedArgument start:8:34 end:8:35:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: a
-                    vpiFullName: top.a
-                    vpiActual: Variable name:a
-                  RefObj name:b start:8:37 end:8:38:
+                    vpiHighConn RefObj name:a start:8:34 end:8:35:
+                      vpiParent: NamedArgument
+                      vpiName: a
+                      vpiFullName: top.a
+                      vpiActual: Variable name:a
+                  NamedArgument start:8:37 end:8:38:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: b
-                    vpiFullName: top.b
-                    vpiActual: Variable name:b
+                    vpiHighConn RefObj name:b start:8:37 end:8:38:
+                      vpiParent: NamedArgument
+                      vpiName: b
+                      vpiFullName: top.b
+                      vpiActual: Variable name:b
   vpiTypespec (4 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -340,7 +344,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr547/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    43      43       0         0
 ===================== END REDUCTION RESULT =====================

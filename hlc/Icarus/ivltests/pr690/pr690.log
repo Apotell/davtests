@@ -442,7 +442,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: memory
           vpiFullName: test.memory
-          vpiVector: true
         Variable name:addr start:12:19 end:12:23:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:12:1 end:12:18:
@@ -451,7 +450,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: addr
           vpiFullName: test.addr
-          vpiVector: true
       vpiParameter (4 items):
         Parameter name:numAddr start:2:11 end:2:18:
           vpiParent: Module name:test
@@ -755,7 +753,6 @@ Design name:unnamed:
           vpiName: CLK
           vpiFullName: test.CLK
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:OE start:7:12 end:7:14:
           vpiParent: Module name:test
           vpiTypespec RefTypespec:
@@ -765,7 +762,6 @@ Design name:unnamed:
           vpiName: OE
           vpiFullName: test.OE
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:A start:8:21 end:8:22:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:8:7 end:8:20:
@@ -775,7 +771,6 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: test.A
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:OUT start:9:21 end:9:24:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:9:8 end:9:20:
@@ -785,7 +780,6 @@ Design name:unnamed:
           vpiName: OUT
           vpiFullName: test.OUT
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (4 items):
         Port name:CLK start:1:13 end:1:16:
           vpiParent: Module name:test
@@ -850,26 +844,32 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$readmemb start:17:4 end:17:13:
                 vpiArgument (3 items):
-                  RefObj name:MemFile start:17:14 end:17:21:
+                  NamedArgument start:17:14 end:17:21:
                     vpiParent: SysTaskCall name:$readmemb
-                    vpiName: MemFile
-                    vpiFullName: test.MemFile
-                    vpiActual: Parameter name:MemFile
-                  RefObj name:memory start:17:22 end:17:28:
+                    vpiHighConn RefObj name:MemFile start:17:14 end:17:21:
+                      vpiParent: NamedArgument
+                      vpiName: MemFile
+                      vpiFullName: test.MemFile
+                      vpiActual: Parameter name:MemFile
+                  NamedArgument start:17:22 end:17:28:
                     vpiParent: SysTaskCall name:$readmemb
-                    vpiName: memory
-                    vpiFullName: test.memory
-                    vpiActual: Variable name:memory
-                  Constant start:17:30 end:17:31:
+                    vpiHighConn RefObj name:memory start:17:22 end:17:28:
+                      vpiParent: NamedArgument
+                      vpiName: memory
+                      vpiFullName: test.memory
+                      vpiActual: Variable name:memory
+                  NamedArgument start:17:30 end:17:31:
                     vpiParent: SysTaskCall name:$readmemb
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: test
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "0"
-                    vpiValue: 0
+                    vpiHighConn Constant start:17:30 end:17:31:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "0"
+                      vpiValue: 0
               IfStmt start:18:4 end:21:7:
                 vpiParent: Begin
                 vpiCondition Operation start:18:8 end:18:23:
@@ -913,35 +913,39 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:19:7 end:19:15:
                       vpiArgument (2 items):
-                        Constant start:19:16 end:19:43:
+                        NamedArgument start:19:16 end:19:43:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: test
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 200
-                          vpiDecompile: "\"FAILED -- memory[0] == %b\""
-                          vpiValue: FAILED -- memory[0] == %b
-                        BitSelect name:memory[0] start:19:45 end:19:54:
-                          vpiParent: SysTaskCall name:$display
-                          vpiName: memory[0]
-                          vpiFullName: test.memory[0]
-                          vpiPrefix RefObj name:memory start:19:45 end:19:51:
-                            vpiParent: BitSelect name:memory[0]
-                            vpiName: memory
-                            vpiFullName: test.memory
-                            vpiActual: Variable name:memory
-                          vpiIndex Constant start:19:52 end:19:53:
-                            vpiParent: BitSelect name:memory[0]
+                          vpiHighConn Constant start:19:16 end:19:43:
+                            vpiParent: NamedArgument
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: test.memory[0]
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "0"
-                            vpiValue: 0
+                              vpiFullName: test
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 200
+                            vpiDecompile: "\"FAILED -- memory[0] == %b\""
+                            vpiValue: FAILED -- memory[0] == %b
+                        NamedArgument start:19:45 end:19:54:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn BitSelect name:memory[0] start:19:45 end:19:54:
+                            vpiParent: NamedArgument
+                            vpiName: memory[0]
+                            vpiFullName: test.memory[0]
+                            vpiPrefix RefObj name:memory start:19:45 end:19:51:
+                              vpiParent: BitSelect name:memory[0]
+                              vpiName: memory
+                              vpiFullName: test.memory
+                              vpiActual: Variable name:memory
+                            vpiIndex Constant start:19:52 end:19:53:
+                              vpiParent: BitSelect name:memory[0]
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: test.memory[0]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "0"
+                              vpiValue: 0
                     SysTaskCall name:$finish start:20:7 end:20:14:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:20:7 end:20:14:
@@ -989,35 +993,39 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:23:7 end:23:15:
                       vpiArgument (2 items):
-                        Constant start:23:16 end:23:43:
+                        NamedArgument start:23:16 end:23:43:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: test
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 200
-                          vpiDecompile: "\"FAILED -- memory[1] == %b\""
-                          vpiValue: FAILED -- memory[1] == %b
-                        BitSelect name:memory[1] start:23:45 end:23:54:
-                          vpiParent: SysTaskCall name:$display
-                          vpiName: memory[1]
-                          vpiFullName: test.memory[1]
-                          vpiPrefix RefObj name:memory start:23:45 end:23:51:
-                            vpiParent: BitSelect name:memory[1]
-                            vpiName: memory
-                            vpiFullName: test.memory
-                            vpiActual: Variable name:memory
-                          vpiIndex Constant start:23:52 end:23:53:
-                            vpiParent: BitSelect name:memory[1]
+                          vpiHighConn Constant start:23:16 end:23:43:
+                            vpiParent: NamedArgument
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: test.memory[1]
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "1"
-                            vpiValue: 1
+                              vpiFullName: test
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 200
+                            vpiDecompile: "\"FAILED -- memory[1] == %b\""
+                            vpiValue: FAILED -- memory[1] == %b
+                        NamedArgument start:23:45 end:23:54:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn BitSelect name:memory[1] start:23:45 end:23:54:
+                            vpiParent: NamedArgument
+                            vpiName: memory[1]
+                            vpiFullName: test.memory[1]
+                            vpiPrefix RefObj name:memory start:23:45 end:23:51:
+                              vpiParent: BitSelect name:memory[1]
+                              vpiName: memory
+                              vpiFullName: test.memory
+                              vpiActual: Variable name:memory
+                            vpiIndex Constant start:23:52 end:23:53:
+                              vpiParent: BitSelect name:memory[1]
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: test.memory[1]
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "1"
+                              vpiValue: 1
                     SysTaskCall name:$finish start:24:7 end:24:14:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:24:7 end:24:14:
@@ -1026,16 +1034,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:27:4 end:27:12:
                 vpiArgument (1 items):
-                  Constant start:27:13 end:27:21:
+                  NamedArgument start:27:13 end:27:21:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"PASSED\""
-                    vpiValue: PASSED
+                    vpiHighConn Constant start:27:13 end:27:21:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"PASSED\""
+                      vpiValue: PASSED
   vpiTypespec (3 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -1103,7 +1113,7 @@ Operation                            7       2       0         5
 RefObj                              20      15       0         5
 RefTypespec                         39      39       5         5
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              68      68       0         0
 ----------------------------------------------------------------
-                                   150     140      10        20
+                                   158     148      10        20
 ===================== END REDUCTION RESULT =====================

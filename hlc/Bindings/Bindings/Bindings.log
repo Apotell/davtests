@@ -1249,7 +1249,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: device_sel_req
           vpiFullName: dut1 #(.NrDevices(1)).device_sel_req
-          vpiVector: true
         Variable name:device start:26:7 end:26:13:
           vpiParent: Module name:dut1 #(.NrDevices(1))
           vpiTypespec RefTypespec start:26:3 end:26:6:
@@ -1339,11 +1338,13 @@ Design name:unnamed:
                 vpiName Identifier name:$clog2 start:24:62 end:24:68:
                 vpiTaskFunc: Function name:$clog2
                 vpiArgument (1 items):
-                  RefObj name:NrDevices start:24:69 end:24:78:
+                  NamedArgument start:24:69 end:24:78:
                     vpiParent: SysFuncCall name:$clog2
-                    vpiName: NrDevices
-                    vpiFullName: dut1 #(.NrDevices(1)).NrDevices
-                    vpiActual: Parameter name:NrDevices
+                    vpiHighConn RefObj name:NrDevices start:24:69 end:24:78:
+                      vpiParent: NamedArgument
+                      vpiName: NrDevices
+                      vpiFullName: dut1 #(.NrDevices(1)).NrDevices
+                      vpiActual: Parameter name:NrDevices
               Constant start:24:82 end:24:83:
                 vpiParent: Operation
                 vpiTypespec RefTypespec:
@@ -1447,7 +1448,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: o
           vpiFullName: dut2 #(.num_out_p("inv")).o
-          vpiVector: true
       vpiParameter (1 items):
         Parameter name:num_out_p start:35:25 end:35:34:
           vpiParent: "Module name:dut2 #(.num_out_p(\"inv\"))"
@@ -1492,11 +1492,13 @@ Design name:unnamed:
                     vpiName Identifier name:$clog2 start:37:13 end:37:19:
                     vpiTaskFunc: Function name:$clog2
                     vpiArgument (1 items):
-                      RefObj name:num_out_p start:37:20 end:37:29:
+                      NamedArgument start:37:20 end:37:29:
                         vpiParent: SysFuncCall name:$clog2
-                        vpiName: num_out_p
-                        vpiFullName: dut2 #(.num_out_p("inv")).num_out_p
-                        vpiActual: Parameter name:num_out_p
+                        vpiHighConn RefObj name:num_out_p start:37:20 end:37:29:
+                          vpiParent: NamedArgument
+                          vpiName: num_out_p
+                          vpiFullName: dut2 #(.num_out_p("inv")).num_out_p
+                          vpiActual: Parameter name:num_out_p
                   Constant start:37:31 end:37:32:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -1573,7 +1575,6 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: dut2 #(.num_out_p("inv")).i
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:unused start:43:13 end:43:19:
           vpiParent: "Module name:dut2 #(.num_out_p(\"inv\"))"
           vpiTypespec RefTypespec:
@@ -1584,7 +1585,6 @@ Design name:unnamed:
           vpiFullName: dut2 #(.num_out_p("inv")).unused
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
           vpiValue RefObj name:i start:43:22 end:43:23:
             vpiParent: Net name:unused
             vpiName: i
@@ -2170,11 +2170,13 @@ Design name:unnamed:
             vpiName Identifier name:$clog2 start:84:29 end:84:35:
             vpiTaskFunc: Function name:$clog2
             vpiArgument (1 items):
-              RefObj name:inputs_p start:84:36 end:84:44:
+              NamedArgument start:84:36 end:84:44:
                 vpiParent: SysFuncCall name:$clog2
-                vpiName: inputs_p
-                vpiFullName: dut5.inputs_p
-                vpiActual: Parameter name:inputs_p
+                vpiHighConn RefObj name:inputs_p start:84:36 end:84:44:
+                  vpiParent: NamedArgument
+                  vpiName: inputs_p
+                  vpiFullName: dut5.inputs_p
+                  vpiActual: Parameter name:inputs_p
         ParamAssign start:85:13 end:85:25:
           vpiParent: Module name:dut5
           vpiLhs RefObj name:width_p start:85:13 end:85:20:
@@ -2334,7 +2336,6 @@ Design name:unnamed:
           vpiFullName: dut5.shifted
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:96:33 end:96:69:
             vpiParent: Net name:shifted
             vpiTypespec RefTypespec name:width_p start:96:33 end:96:40:
@@ -2713,6 +2714,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            59      57       9        11
 Identifier                         443     441       0         2
+NamedArgument                        3       1       0         2
 Operation                           36      25       0        11
 RefObj                              82      75       0         7
 RefTypespec                        414     410       7        11
@@ -2720,5 +2722,5 @@ SysFuncCall                          3       1       0         2
 ----------------------------------------------------------------
 Others                             723     723       0         0
 ----------------------------------------------------------------
-                                  1760    1732      16        44
+                                  1763    1733      16        46
 ===================== END REDUCTION RESULT =====================

@@ -434,7 +434,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in
           vpiFullName: t.in
-          vpiVector: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -541,7 +540,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:out10 start:16:25 end:16:30:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:9 end:16:14:
@@ -552,7 +550,6 @@ Design name:unnamed:
           vpiFullName: t.out10
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:out32 start:17:25 end:17:30:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:9 end:17:14:
@@ -563,7 +560,6 @@ Design name:unnamed:
           vpiFullName: t.out32
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -651,16 +647,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:34:10 end:34:16:
                         vpiArgument (1 items):
-                          Constant start:34:17 end:34:41:
+                          NamedArgument start:34:17 end:34:41:
                             vpiParent: SysTaskCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 168
-                            vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: "*-* All Finished *-*\\n"
+                            vpiHighConn Constant start:34:17 end:34:41:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 168
+                              vpiDecompile: "\"*-* All Finished *-*\\n\""
+                              vpiValue: "*-* All Finished *-*\\n"
                       SysTaskCall name:$finish start:35:10 end:35:17:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:35:10 end:35:17:
@@ -675,16 +673,17 @@ Design name:unnamed:
             vpiName: Test
             vpiFullName: t.test.Test
             vpiActual: ModuleTypespec name:Test
-          vpiPort (3 items):
-            Port start:22:15 end:22:53:
+          vpiArgument (3 items):
+            NamedArgument start:22:15 end:22:53:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:out32 start:22:16 end:22:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out32
                 vpiFullName: t.test.out32
                 vpiActual: Net name:out32
               vpiHighConn PartSelect name:out32[1:0] start:22:42 end:22:52:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out32[1:0]
                 vpiFullName: t.test.out32[1:0]
                 vpiPrefix RefObj name:out32 start:22:42 end:22:47:
@@ -714,15 +713,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:23:15 end:23:53:
+            NamedArgument start:23:15 end:23:53:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:out10 start:23:16 end:23:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out10
                 vpiFullName: t.test.out10
                 vpiActual: Net name:out10
               vpiHighConn PartSelect name:out10[1:0] start:23:42 end:23:52:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out10[1:0]
                 vpiFullName: t.test.out10[1:0]
                 vpiPrefix RefObj name:out10 start:23:42 end:23:47:
@@ -752,15 +752,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:25:15 end:25:50:
+            NamedArgument start:25:15 end:25:50:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:in start:25:16 end:25:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: in
                 vpiFullName: t.test.in
                 vpiActual: Variable name:in
               vpiHighConn PartSelect name:in[1:0] start:25:42 end:25:49:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: in[1:0]
                 vpiFullName: t.test.in[1:0]
                 vpiPrefix RefObj name:in start:25:42 end:25:44:
@@ -893,7 +894,6 @@ Design name:unnamed:
           vpiName: in
           vpiFullName: Test.in
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:out32 start:47:17 end:47:22:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:47:11 end:47:16:
@@ -903,7 +903,6 @@ Design name:unnamed:
           vpiName: out32
           vpiFullName: Test.out32
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:out10 start:48:17 end:48:22:
           vpiParent: Module name:Test
           vpiTypespec RefTypespec start:48:11 end:48:16:
@@ -913,7 +912,6 @@ Design name:unnamed:
           vpiName: out10
           vpiFullName: Test.out10
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (3 items):
         Port name:out32 start:42:4 end:42:9:
           vpiParent: Module name:Test
@@ -1099,7 +1097,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_select_bad_range2/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             150     150       0         0
+Others                             151     151       0         0
 ----------------------------------------------------------------
-                                   150     150       0         0
+                                   151     151       0         0
 ===================== END REDUCTION RESULT =====================

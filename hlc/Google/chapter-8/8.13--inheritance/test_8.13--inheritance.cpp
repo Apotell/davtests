@@ -558,7 +558,9 @@ TEST_F(ClassInheritanceTest, TestClsNewFirstStmtIsSuperNewCall) {
 
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::Operation *const arg = any_cast<hldb::Operation>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Operation *const arg = arg0->getHighConn<hldb::Operation>();
   ASSERT_NE(arg, nullptr) << "'def + 3' should be an explicit 'add' Operation";
   EXPECT_EQ(arg->getOpType(), vpiAddOp);
   ASSERT_NE(arg->getOperands(), nullptr);
@@ -646,7 +648,9 @@ TEST_F(ClassInheritanceTest, FirstStmtIsTestObjNewWithThirtySeven) {
   EXPECT_EQ(newCall->getName(), "new");
   ASSERT_NE(newCall->getArguments(), nullptr);
   ASSERT_EQ(newCall->getArguments()->size(), 1u);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(newCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = newCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getDecompile(), "37");
 
@@ -668,7 +672,9 @@ TEST_F(ClassInheritanceTest, SecondStmtDisplaysTestObjIncs) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const path = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(path, nullptr) << "'test_obj.incs()' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);
@@ -698,7 +704,9 @@ TEST_F(ClassInheritanceTest, ThirdStmtDisplaysTestObjS) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const path = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(path, nullptr) << "'test_obj.s' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);

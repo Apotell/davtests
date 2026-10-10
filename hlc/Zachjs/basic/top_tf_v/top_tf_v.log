@@ -295,16 +295,18 @@ Design name:unnamed:
             vpiParent: Task name:foo
             vpiName Identifier name:$display start:3:9 end:3:17:
             vpiArgument (1 items):
-              Constant start:3:18 end:3:37:
+              NamedArgument start:3:18 end:3:37:
                 vpiParent: SysTaskCall name:$display
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top.foo
-                  vpiActual: StringTypespec
-                vpiConstType: string (6)
-                vpiSize: 136
-                vpiDecompile: "\"task foo() called\""
-                vpiValue: task foo() called
+                vpiHighConn Constant start:3:18 end:3:37:
+                  vpiParent: NamedArgument
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top.foo
+                    vpiActual: StringTypespec
+                  vpiConstType: string (6)
+                  vpiSize: 136
+                  vpiDecompile: "\"task foo() called\""
+                  vpiValue: task foo() called
         Function name:bar start:5:5 end:8:16:
           vpiParent: Module name:top
           vpiName Identifier name:bar start:5:14 end:5:17:
@@ -373,25 +375,27 @@ Design name:unnamed:
                   vpiName Identifier name:baz start:7:15 end:7:18:
                   vpiTaskFunc: Function name:baz
                   vpiArgument (1 items):
-                    Operation start:7:19 end:7:24:
+                    NamedArgument start:7:19 end:7:24:
                       vpiParent: MethodFuncCall name:baz
-                      vpiOpType: add (24)
-                      vpiOperand (2 items):
-                        RefObj name:n start:7:19 end:7:20:
-                          vpiParent: Operation
-                          vpiName: n
-                          vpiFullName: top.bar.n
-                          vpiActual: IODecl name:n
-                        Constant start:7:23 end:7:24:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: top.bar
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
+                      vpiHighConn Operation start:7:19 end:7:24:
+                        vpiParent: NamedArgument
+                        vpiOpType: add (24)
+                        vpiOperand (2 items):
+                          RefObj name:n start:7:19 end:7:20:
+                            vpiParent: Operation
+                            vpiName: n
+                            vpiFullName: top.bar.n
+                            vpiActual: IODecl name:n
+                          Constant start:7:23 end:7:24:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: top.bar
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
           vpiReturn RefTypespec start:5:14 end:5:14:
             vpiParent: Function name:bar
             vpiFullName: top.bar
@@ -495,52 +499,62 @@ Design name:unnamed:
             vpiParent: Initial
             vpiName Identifier name:$display start:15:13 end:15:21:
             vpiArgument (2 items):
-              Constant start:15:22 end:15:35:
+              NamedArgument start:15:22 end:15:35:
                 vpiParent: SysTaskCall name:$display
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top
-                  vpiActual: StringTypespec
-                vpiConstType: string (6)
-                vpiSize: 88
-                vpiDecompile: "\"bar(0) = %d\""
-                vpiValue: bar(0) = %d
-              MethodFuncCall name:bar start:15:37 end:15:43:
+                vpiHighConn Constant start:15:22 end:15:35:
+                  vpiParent: NamedArgument
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top
+                    vpiActual: StringTypespec
+                  vpiConstType: string (6)
+                  vpiSize: 88
+                  vpiDecompile: "\"bar(0) = %d\""
+                  vpiValue: bar(0) = %d
+              NamedArgument start:15:37 end:15:43:
                 vpiParent: SysTaskCall name:$display
-                vpiName Identifier name:bar start:15:37 end:15:40:
-                vpiTaskFunc: Function name:bar
-                vpiArgument (1 items):
-                  Constant start:15:41 end:15:42:
-                    vpiParent: MethodFuncCall name:bar
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "0"
-                    vpiValue: 0
+                vpiHighConn MethodFuncCall name:bar start:15:37 end:15:43:
+                  vpiParent: NamedArgument
+                  vpiName Identifier name:bar start:15:37 end:15:40:
+                  vpiTaskFunc: Function name:bar
+                  vpiArgument (1 items):
+                    NamedArgument start:15:41 end:15:42:
+                      vpiParent: MethodFuncCall name:bar
+                      vpiHighConn Constant start:15:41 end:15:42:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "0"
+                        vpiValue: 0
         Initial start:16:5 end:16:43:
           vpiParent: Module name:top
           vpiStmt SysTaskCall name:$display start:16:13 end:16:42:
             vpiParent: Initial
             vpiName Identifier name:$display start:16:13 end:16:21:
             vpiArgument (2 items):
-              Constant start:16:22 end:16:34:
+              NamedArgument start:16:22 end:16:34:
                 vpiParent: SysTaskCall name:$display
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top
-                  vpiActual: StringTypespec
-                vpiConstType: string (6)
-                vpiSize: 80
-                vpiDecompile: "\"PARAM = %d\""
-                vpiValue: PARAM = %d
-              RefObj name:PARAM start:16:36 end:16:41:
+                vpiHighConn Constant start:16:22 end:16:34:
+                  vpiParent: NamedArgument
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top
+                    vpiActual: StringTypespec
+                  vpiConstType: string (6)
+                  vpiSize: 80
+                  vpiDecompile: "\"PARAM = %d\""
+                  vpiValue: PARAM = %d
+              NamedArgument start:16:36 end:16:41:
                 vpiParent: SysTaskCall name:$display
-                vpiName: PARAM
-                vpiFullName: top.PARAM
-                vpiActual: Parameter name:PARAM
+                vpiHighConn RefObj name:PARAM start:16:36 end:16:41:
+                  vpiParent: NamedArgument
+                  vpiName: PARAM
+                  vpiFullName: top.PARAM
+                  vpiActual: Parameter name:PARAM
   vpiTypespec (3 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -604,7 +618,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/basic/top_tf_v/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              85      85       0         0
+Others                              92      92       0         0
 ----------------------------------------------------------------
-                                    85      85       0         0
+                                    92      92       0         0
 ===================== END REDUCTION RESULT =====================

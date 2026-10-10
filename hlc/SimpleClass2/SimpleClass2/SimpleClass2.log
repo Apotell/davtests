@@ -113,6 +113,7 @@ Design name:unnamed:
                   vpiParent: Function name:foo
               vpiMethod: true
               vpiVisibility: public (1)
+              vpiAutomatic: true
               vpiIODecl (1 items):
                 IODecl name:name start:15:23 end:15:27:
                   vpiParent: Function name:foo
@@ -335,6 +336,7 @@ Design name:unnamed:
               vpiFullName: p2::c2::new
               vpiMethod: true
               vpiVisibility: public (1)
+              vpiAutomatic: true
               vpiIODecl (1 items):
                 IODecl name:name start:40:22 end:40:26:
                   vpiParent: Function name:new
@@ -373,11 +375,13 @@ Design name:unnamed:
                         vpiName Identifier name:new:
                         vpiTaskFuncDecl: FunctionDecl name:new
                         vpiArgument (1 items):
-                          RefObj name:name start:41:15 end:41:19:
+                          NamedArgument start:41:15 end:41:19:
                             vpiParent: MethodFuncCall name:new
-                            vpiName: name
-                            vpiFullName: p2::c2::new::super.new(name)::name
-                            vpiActual: IODecl name:name
+                            vpiHighConn RefObj name:name start:41:15 end:41:19:
+                              vpiParent: NamedArgument
+                              vpiName: name
+                              vpiFullName: p2::c2::new::super.new(name)::name
+                              vpiActual: IODecl name:name
                   RefObj name:super.foo(name) start:42:5 end:42:20:
                     vpiParent: Begin
                     vpiName: super.foo(name)
@@ -393,11 +397,13 @@ Design name:unnamed:
                         vpiName Identifier name:foo start:42:11 end:42:14:
                         vpiTaskFunc: Function name:foo
                         vpiArgument (1 items):
-                          RefObj name:name start:42:15 end:42:19:
+                          NamedArgument start:42:15 end:42:19:
                             vpiParent: MethodFuncCall name:foo
-                            vpiName: name
-                            vpiFullName: p2::c2::new::super.foo(name)::name
-                            vpiActual: IODecl name:name
+                            vpiHighConn RefObj name:name start:42:15 end:42:19:
+                              vpiParent: NamedArgument
+                              vpiName: name
+                              vpiFullName: p2::c2::new::super.foo(name)::name
+                              vpiActual: IODecl name:name
                     vpiActual: MethodFuncCall name:foo
                   RefObj name:this.id_actions.add(id, action) start:43:5 end:43:36:
                     vpiParent: Begin
@@ -419,14 +425,18 @@ Design name:unnamed:
                         vpiName Identifier name:add start:43:21 end:43:24:
                         vpiTaskFunc: Function name:add
                         vpiArgument (2 items):
-                          RefObj name:id start:43:25 end:43:27:
+                          NamedArgument start:43:25 end:43:27:
                             vpiParent: MethodFuncCall name:add
-                            vpiName: id
-                            vpiFullName: p2::c2::new::this.id_actions.add(id, action)::id
-                          RefObj name:action start:43:29 end:43:35:
+                            vpiHighConn RefObj name:id start:43:25 end:43:27:
+                              vpiParent: NamedArgument
+                              vpiName: id
+                              vpiFullName: p2::c2::new::this.id_actions.add(id, action)::id
+                          NamedArgument start:43:29 end:43:35:
                             vpiParent: MethodFuncCall name:add
-                            vpiName: action
-                            vpiFullName: p2::c2::new::this.id_actions.add(id, action)::action
+                            vpiHighConn RefObj name:action start:43:29 end:43:35:
+                              vpiParent: NamedArgument
+                              vpiName: action
+                              vpiFullName: p2::c2::new::this.id_actions.add(id, action)::action
                     vpiActual: MethodFuncCall name:add
                   RefObj name:id_actions.addq(id, action) start:44:5 end:44:32:
                     vpiParent: Begin
@@ -442,14 +452,18 @@ Design name:unnamed:
                         vpiParent: RefObj name:id_actions.addq(id, action)
                         vpiName Identifier name:addq start:44:16 end:44:20:
                         vpiArgument (2 items):
-                          RefObj name:id start:44:21 end:44:23:
+                          NamedArgument start:44:21 end:44:23:
                             vpiParent: SubroutineCall name:addq
-                            vpiName: id
-                            vpiFullName: p2::c2::new::id_actions.addq(id, action)::addq::id
-                          RefObj name:action start:44:25 end:44:31:
+                            vpiHighConn RefObj name:id start:44:21 end:44:23:
+                              vpiParent: NamedArgument
+                              vpiName: id
+                              vpiFullName: p2::c2::new::id_actions.addq(id, action)::addq::id
+                          NamedArgument start:44:25 end:44:31:
                             vpiParent: SubroutineCall name:addq
-                            vpiName: action
-                            vpiFullName: p2::c2::new::id_actions.addq(id, action)::addq::action
+                            vpiHighConn RefObj name:action start:44:25 end:44:31:
+                              vpiParent: NamedArgument
+                              vpiName: action
+                              vpiFullName: p2::c2::new::id_actions.addq(id, action)::addq::action
                   RefObj name:super.toto.len() start:45:5 end:45:21:
                     vpiParent: Begin
                     vpiName: super.toto.len()
@@ -522,6 +536,7 @@ Design name:unnamed:
               vpiParent: Function name:add
           vpiMethod: true
           vpiVisibility: public (1)
+          vpiAutomatic: true
           vpiReturn RefTypespec start:3:12 end:3:12:
             vpiParent: Function name:add
             vpiFullName: uvm_pool::add
@@ -599,7 +614,7 @@ COMMAND: ${HLC_DIR}/regression/SimpleClass2/SimpleClass2/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1498    1498       0         0
+Others                            1504    1504       0         0
 ----------------------------------------------------------------
-                                  1498    1498       0         0
+                                  1504    1504       0         0
 ===================== END REDUCTION RESULT =====================

@@ -453,7 +453,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:10:4 end:10:7:
           vpiParent: Module name:t
@@ -498,28 +497,30 @@ Design name:unnamed:
             vpiName: dut
             vpiFullName: t.udut.dut
             vpiActual: ModuleTypespec name:dut
-          vpiPort (2 items):
-            Port start:16:22 end:16:31:
+          vpiArgument (2 items):
+            NamedArgument start:16:22 end:16:31:
               vpiParent: RefInstance name:udut
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:16:23 end:16:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.udut.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:16:27 end:16:30:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.udut.clk
                 vpiActual: Net name:clk
-            Port start:17:22 end:17:34:
+            NamedArgument start:17:22 end:17:34:
               vpiParent: RefInstance name:udut
+              vpiConnByName: true
               vpiLowConn RefObj name:foo start:17:23 end:17:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: foo
                 vpiFullName: t.udut.foo
                 vpiActual: Variable name:foo
               vpiHighConn Operation start:17:27 end:17:33:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiOpType: subtract (11)
                 vpiOperand (2 items):
                   RefObj name:foo start:17:27 end:17:30:
@@ -741,28 +742,30 @@ Design name:unnamed:
                     vpiName: suba
                     vpiFullName: dut #(.W(1)).ua.suba
                     vpiActual: ModuleTypespec name:suba
-                  vpiPort (2 items):
-                    Port start:28:19 end:28:28:
+                  vpiArgument (2 items):
+                    NamedArgument start:28:19 end:28:28:
                       vpiParent: RefInstance name:ua
+                      vpiConnByName: true
                       vpiLowConn RefObj name:clk start:28:20 end:28:23:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: clk
                         vpiFullName: dut #(.W(1)).ua.clk
                         vpiActual: Net name:clk
                       vpiHighConn RefObj name:clk start:28:24 end:28:27:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: clk
                         vpiFullName: dut #(.W(1)).ua.clk
                         vpiActual: Net name:clk
-                    Port start:28:30 end:28:42:
+                    NamedArgument start:28:30 end:28:42:
                       vpiParent: RefInstance name:ua
+                      vpiConnByName: true
                       vpiLowConn RefObj name:foo start:28:31 end:28:34:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: foo
                         vpiFullName: dut #(.W(1)).ua.foo
                         vpiActual: Net name:foo
                       vpiHighConn BitSelect name:foo[i] start:28:35 end:28:41:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: foo[i]
                         vpiFullName: dut #(.W(1)).ua.foo[i]
                         vpiPrefix RefObj name:foo start:28:35 end:28:38:
@@ -857,16 +860,18 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:38:7 end:38:13:
                   vpiArgument (1 items):
-                    Constant start:38:14 end:38:38:
+                    NamedArgument start:38:14 end:38:38:
                       vpiParent: SysTaskCall name:$write
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: suba
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 168
-                      vpiDecompile: "\"*-* All Finished *-*\\n\""
-                      vpiValue: "*-* All Finished *-*\\n"
+                      vpiHighConn Constant start:38:14 end:38:38:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: suba
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 168
+                        vpiDecompile: "\"*-* All Finished *-*\\n\""
+                        vpiValue: "*-* All Finished *-*\\n"
                 SysTaskCall name:$finish start:39:7 end:39:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:39:7 end:39:14:
@@ -949,7 +954,7 @@ Operation                            6       4       0         2
 RefObj                              25      24       0         1
 RefTypespec                         27      26       2         3
 ----------------------------------------------------------------
-Others                              63      63       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                   132     127       4         9
+                                   133     128       4         9
 ===================== END REDUCTION RESULT =====================

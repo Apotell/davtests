@@ -574,7 +574,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: got1
           vpiFullName: main.got1
-          vpiVector: true
         Variable name:got2 start:28:23 end:28:27:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:28:4 end:28:13:
@@ -583,7 +582,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: got2
           vpiFullName: main.got2
-          vpiVector: true
         Variable name:line start:29:17 end:29:21:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:29:4 end:29:13:
@@ -592,7 +590,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: line
           vpiFullName: main.line
-          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:main
@@ -977,7 +974,6 @@ Design name:unnamed:
           vpiFullName: main.a
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Constant start:26:21 end:26:25:
             vpiParent: Net name:a
             vpiTypespec RefTypespec:
@@ -998,7 +994,6 @@ Design name:unnamed:
           vpiFullName: main.b
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Constant start:27:21 end:27:25:
             vpiParent: Net name:b
             vpiTypespec RefTypespec:
@@ -1191,60 +1186,78 @@ Design name:unnamed:
                   vpiName Identifier name:test start:36:9 end:36:13:
                   vpiTaskFunc: Function name:test
                   vpiArgument (3 items):
-                    RefObj name:a start:36:14 end:36:15:
+                    NamedArgument start:36:14 end:36:15:
                       vpiParent: MethodFuncCall name:test
-                      vpiName: a
-                      vpiFullName: main.a
-                      vpiActual: Net name:a
-                    RefObj name:b start:36:17 end:36:18:
+                      vpiHighConn RefObj name:a start:36:14 end:36:15:
+                        vpiParent: NamedArgument
+                        vpiName: a
+                        vpiFullName: main.a
+                        vpiActual: Net name:a
+                    NamedArgument start:36:17 end:36:18:
                       vpiParent: MethodFuncCall name:test
-                      vpiName: b
-                      vpiFullName: main.b
-                      vpiActual: Net name:b
-                    RefObj name:line start:36:20 end:36:24:
+                      vpiHighConn RefObj name:b start:36:17 end:36:18:
+                        vpiParent: NamedArgument
+                        vpiName: b
+                        vpiFullName: main.b
+                        vpiActual: Net name:b
+                    NamedArgument start:36:20 end:36:24:
                       vpiParent: MethodFuncCall name:test
-                      vpiName: line
-                      vpiFullName: main.line
-                      vpiActual: Variable name:line
+                      vpiHighConn RefObj name:line start:36:20 end:36:24:
+                        vpiParent: NamedArgument
+                        vpiName: line
+                        vpiFullName: main.line
+                        vpiActual: Variable name:line
               SysTaskCall name:$display start:38:2 end:39:27:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:38:2 end:38:10:
                 vpiArgument (6 items):
-                  Constant start:38:11 end:38:50:
+                  NamedArgument start:38:11 end:38:50:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 296
-                    vpiDecompile: "\"a=%b, b=%b, line=%b, got1=%b, got2=%b\""
-                    vpiValue: a=%b, b=%b, line=%b, got1=%b, got2=%b
-                  RefObj name:a start:39:4 end:39:5:
+                    vpiHighConn Constant start:38:11 end:38:50:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 296
+                      vpiDecompile: "\"a=%b, b=%b, line=%b, got1=%b, got2=%b\""
+                      vpiValue: a=%b, b=%b, line=%b, got1=%b, got2=%b
+                  NamedArgument start:39:4 end:39:5:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: a
-                    vpiFullName: main.a
-                    vpiActual: Net name:a
-                  RefObj name:b start:39:7 end:39:8:
+                    vpiHighConn RefObj name:a start:39:4 end:39:5:
+                      vpiParent: NamedArgument
+                      vpiName: a
+                      vpiFullName: main.a
+                      vpiActual: Net name:a
+                  NamedArgument start:39:7 end:39:8:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: b
-                    vpiFullName: main.b
-                    vpiActual: Net name:b
-                  RefObj name:line start:39:10 end:39:14:
+                    vpiHighConn RefObj name:b start:39:7 end:39:8:
+                      vpiParent: NamedArgument
+                      vpiName: b
+                      vpiFullName: main.b
+                      vpiActual: Net name:b
+                  NamedArgument start:39:10 end:39:14:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: line
-                    vpiFullName: main.line
-                    vpiActual: Variable name:line
-                  RefObj name:got1 start:39:16 end:39:20:
+                    vpiHighConn RefObj name:line start:39:10 end:39:14:
+                      vpiParent: NamedArgument
+                      vpiName: line
+                      vpiFullName: main.line
+                      vpiActual: Variable name:line
+                  NamedArgument start:39:16 end:39:20:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: got1
-                    vpiFullName: main.got1
-                    vpiActual: Variable name:got1
-                  RefObj name:got2 start:39:22 end:39:26:
+                    vpiHighConn RefObj name:got1 start:39:16 end:39:20:
+                      vpiParent: NamedArgument
+                      vpiName: got1
+                      vpiFullName: main.got1
+                      vpiActual: Variable name:got1
+                  NamedArgument start:39:22 end:39:26:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: got2
-                    vpiFullName: main.got2
-                    vpiActual: Variable name:got2
+                    vpiHighConn RefObj name:got2 start:39:22 end:39:26:
+                      vpiParent: NamedArgument
+                      vpiName: got2
+                      vpiFullName: main.got2
+                      vpiActual: Variable name:got2
               IfStmt start:41:2 end:44:5:
                 vpiParent: Begin
                 vpiCondition Operation start:41:6 end:41:20:
@@ -1274,21 +1287,25 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:42:5 end:42:13:
                       vpiArgument (2 items):
-                        Constant start:42:14 end:42:54:
+                        NamedArgument start:42:14 end:42:54:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 304
-                          vpiDecompile: "\"FAILED  -- got1 is wrong: %b !== 2'b10\""
-                          vpiValue: "FAILED  -- got1 is wrong: %b !== 2'b10"
-                        RefObj name:got1 start:42:56 end:42:60:
+                          vpiHighConn Constant start:42:14 end:42:54:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 304
+                            vpiDecompile: "\"FAILED  -- got1 is wrong: %b !== 2'b10\""
+                            vpiValue: "FAILED  -- got1 is wrong: %b !== 2'b10"
+                        NamedArgument start:42:56 end:42:60:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: got1
-                          vpiFullName: main.got1
-                          vpiActual: Variable name:got1
+                          vpiHighConn RefObj name:got1 start:42:56 end:42:60:
+                            vpiParent: NamedArgument
+                            vpiName: got1
+                            vpiFullName: main.got1
+                            vpiActual: Variable name:got1
                     SysTaskCall name:$finish start:43:5 end:43:12:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:43:5 end:43:12:
@@ -1317,26 +1334,32 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:47:5 end:47:13:
                       vpiArgument (3 items):
-                        Constant start:47:14 end:47:55:
+                        NamedArgument start:47:14 end:47:55:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 312
-                          vpiDecompile: "\"FAILED  -- got2 is incorrect: %b !== %b\""
-                          vpiValue: "FAILED  -- got2 is incorrect: %b !== %b"
-                        RefObj name:got1 start:47:57 end:47:61:
+                          vpiHighConn Constant start:47:14 end:47:55:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 312
+                            vpiDecompile: "\"FAILED  -- got2 is incorrect: %b !== %b\""
+                            vpiValue: "FAILED  -- got2 is incorrect: %b !== %b"
+                        NamedArgument start:47:57 end:47:61:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: got1
-                          vpiFullName: main.got1
-                          vpiActual: Variable name:got1
-                        RefObj name:got2 start:47:63 end:47:67:
+                          vpiHighConn RefObj name:got1 start:47:57 end:47:61:
+                            vpiParent: NamedArgument
+                            vpiName: got1
+                            vpiFullName: main.got1
+                            vpiActual: Variable name:got1
+                        NamedArgument start:47:63 end:47:67:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: got2
-                          vpiFullName: main.got2
-                          vpiActual: Variable name:got2
+                          vpiHighConn RefObj name:got2 start:47:63 end:47:67:
+                            vpiParent: NamedArgument
+                            vpiName: got2
+                            vpiFullName: main.got2
+                            vpiActual: Variable name:got2
                     SysTaskCall name:$finish start:48:5 end:48:12:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:48:5 end:48:12:
@@ -1345,16 +1368,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:51:2 end:51:10:
                 vpiArgument (1 items):
-                  Constant start:51:11 end:51:19:
+                  NamedArgument start:51:11 end:51:19:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"PASSED\""
-                    vpiValue: PASSED
+                    vpiHighConn Constant start:51:11 end:51:19:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"PASSED\""
+                      vpiValue: PASSED
               SysTaskCall name:$finish start:52:9 end:52:16:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:52:9 end:52:16:
@@ -1426,7 +1451,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/function3/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             198     198       0         0
+Others                             213     213       0         0
 ----------------------------------------------------------------
-                                   198     198       0         0
+                                   213     213       0         0
 ===================== END REDUCTION RESULT =====================

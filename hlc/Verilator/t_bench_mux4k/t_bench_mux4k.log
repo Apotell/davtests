@@ -2139,7 +2139,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: datai
           vpiFullName: t.datai
-          vpiVector: true
         Variable name:addr start:32:35 end:32:39:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:32:4 end:32:25:
@@ -2148,7 +2147,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: addr
           vpiFullName: t.addr
-          vpiVector: true
         Variable name:datao_check start:46:26 end:46:37:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:46:4 end:46:25:
@@ -2157,7 +2155,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: datao_check
           vpiFullName: t.datao_check
-          vpiVector: true
         Variable name:j start:47:12 end:47:13:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:47:4 end:47:11:
@@ -2401,7 +2398,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:datao start:28:27 end:28:32:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:28:9 end:28:26:
@@ -2412,7 +2408,6 @@ Design name:unnamed:
           vpiFullName: t.datao
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:22:4 end:22:7:
           vpiParent: Module name:t
@@ -2924,16 +2919,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:81:3 end:81:9:
                         vpiArgument (1 items):
-                          Constant start:81:10 end:81:34:
+                          NamedArgument start:81:10 end:81:34:
                             vpiParent: SysTaskCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 168
-                            vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: "*-* All Finished *-*\\n"
+                            vpiHighConn Constant start:81:10 end:81:34:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 168
+                              vpiDecompile: "\"*-* All Finished *-*\\n\""
+                              vpiValue: "*-* All Finished *-*\\n"
                       SysTaskCall name:$finish start:82:3 end:82:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:82:3 end:82:10:
@@ -2948,16 +2945,17 @@ Design name:unnamed:
             vpiName: mux4096
             vpiFullName: t.mux4096.mux4096
             vpiActual: ModuleTypespec name:mux4096
-          vpiPort (3 items):
-            Port start:37:7 end:37:39:
+          vpiArgument (3 items):
+            NamedArgument start:37:7 end:37:39:
               vpiParent: RefInstance name:mux4096
+              vpiConnByName: true
               vpiLowConn RefObj name:datao start:37:8 end:37:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datao
                 vpiFullName: t.mux4096.datao
                 vpiActual: Net name:datao
               vpiHighConn PartSelect name:datao[2-1:0] start:37:16 end:37:38:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datao[2-1:0]
                 vpiFullName: t.mux4096.datao[2-1:0]
                 vpiPrefix RefObj name:datao start:37:16 end:37:21:
@@ -3001,15 +2999,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:39:7 end:39:61:
+            NamedArgument start:39:7 end:39:61:
               vpiParent: RefInstance name:mux4096
+              vpiConnByName: true
               vpiLowConn RefObj name:datai start:39:8 end:39:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datai
                 vpiFullName: t.mux4096.datai
                 vpiActual: Variable name:datai
               vpiHighConn PartSelect name:datai[2*64*8-1:0] start:39:16 end:39:60:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datai[2*64*8-1:0]
                 vpiFullName: t.mux4096.datai[2*64*8-1:0]
                 vpiPrefix RefObj name:datai start:39:16 end:39:21:
@@ -3081,15 +3080,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:40:7 end:40:37:
+            NamedArgument start:40:7 end:40:37:
               vpiParent: RefInstance name:mux4096
+              vpiConnByName: true
               vpiLowConn RefObj name:addr start:40:8 end:40:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: addr
                 vpiFullName: t.mux4096.addr
                 vpiActual: Variable name:addr
               vpiHighConn PartSelect name:addr[12-1:0] start:40:15 end:40:36:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: addr[12-1:0]
                 vpiFullName: t.mux4096.addr[12-1:0]
                 vpiPrefix RefObj name:addr start:40:15 end:40:19:
@@ -3355,7 +3355,6 @@ Design name:unnamed:
           vpiName: datai
           vpiFullName: mux4096.datai
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:addr start:90:28 end:90:32:
           vpiParent: Module name:mux4096
           vpiTypespec RefTypespec start:90:10 end:90:27:
@@ -3365,7 +3364,6 @@ Design name:unnamed:
           vpiName: addr
           vpiFullName: mux4096.addr
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:datao start:91:29 end:91:34:
           vpiParent: Module name:mux4096
           vpiTypespec RefTypespec start:91:11 end:91:28:
@@ -3375,7 +3373,6 @@ Design name:unnamed:
           vpiName: datao
           vpiFullName: mux4096.datao
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (3 items):
         Port name:datai start:89:50 end:89:55:
           vpiParent: Module name:mux4096
@@ -3425,40 +3422,43 @@ Design name:unnamed:
             vpiName: mux4096_1bit [2-1:0]
             vpiFullName: mux4096.mux4096_1bit.mux4096_1bit [2-1:0]
             vpiActual: ArrayTypespec
-          vpiPort (3 items):
-            Port start:96:7 end:96:18:
+          vpiArgument (3 items):
+            NamedArgument start:96:7 end:96:18:
               vpiParent: RefInstance name:mux4096_1bit
+              vpiConnByName: true
               vpiLowConn RefObj name:addr start:96:8 end:96:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: addr
                 vpiFullName: mux4096.mux4096_1bit.addr
                 vpiActual: Net name:addr
               vpiHighConn RefObj name:addr start:96:13 end:96:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: addr
                 vpiFullName: mux4096.mux4096_1bit.addr
                 vpiActual: Net name:addr
-            Port start:97:7 end:97:20:
+            NamedArgument start:97:7 end:97:20:
               vpiParent: RefInstance name:mux4096_1bit
+              vpiConnByName: true
               vpiLowConn RefObj name:datai start:97:8 end:97:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datai
                 vpiFullName: mux4096.mux4096_1bit.datai
                 vpiActual: Net name:datai
               vpiHighConn RefObj name:datai start:97:14 end:97:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datai
                 vpiFullName: mux4096.mux4096_1bit.datai
                 vpiActual: Net name:datai
-            Port start:98:7 end:98:20:
+            NamedArgument start:98:7 end:98:20:
               vpiParent: RefInstance name:mux4096_1bit
+              vpiConnByName: true
               vpiLowConn RefObj name:datao start:98:8 end:98:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datao
                 vpiFullName: mux4096.mux4096_1bit.datao
                 vpiActual: Net name:datao
               vpiHighConn RefObj name:datao start:98:14 end:98:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datao
                 vpiFullName: mux4096.mux4096_1bit.datao
                 vpiActual: Net name:datao
@@ -3873,7 +3873,6 @@ Design name:unnamed:
           vpiName: datai
           vpiFullName: mux4096_1bit.datai
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:addr start:104:28 end:104:32:
           vpiParent: Module name:mux4096_1bit
           vpiTypespec RefTypespec start:104:10 end:104:27:
@@ -3883,7 +3882,6 @@ Design name:unnamed:
           vpiName: addr
           vpiFullName: mux4096_1bit.addr
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:datao start:105:11 end:105:16:
           vpiParent: Module name:mux4096_1bit
           vpiTypespec RefTypespec:
@@ -3893,7 +3891,6 @@ Design name:unnamed:
           vpiName: datao
           vpiFullName: mux4096_1bit.datao
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:A start:109:16 end:109:17:
           vpiParent: Module name:mux4096_1bit
           vpiTypespec RefTypespec start:109:9 end:109:14:
@@ -3904,7 +3901,6 @@ Design name:unnamed:
           vpiFullName: mux4096_1bit.A
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:109:20 end:109:39:
             vpiParent: Net name:A
             vpiOpType: logical shift left (22)
@@ -3960,7 +3956,6 @@ Design name:unnamed:
           vpiFullName: mux4096_1bit.B
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:110:20 end:110:39:
             vpiParent: Net name:B
             vpiOpType: logical shift left (22)
@@ -4016,7 +4011,6 @@ Design name:unnamed:
           vpiFullName: mux4096_1bit.C
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:111:20 end:111:39:
             vpiParent: Net name:C
             vpiOpType: logical shift left (22)
@@ -4072,7 +4066,6 @@ Design name:unnamed:
           vpiFullName: mux4096_1bit.D
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:112:20 end:112:39:
             vpiParent: Net name:D
             vpiOpType: logical shift left (22)
@@ -4128,7 +4121,6 @@ Design name:unnamed:
           vpiFullName: mux4096_1bit.E
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:113:20 end:113:39:
             vpiParent: Net name:E
             vpiOpType: logical shift left (22)
@@ -4184,7 +4176,6 @@ Design name:unnamed:
           vpiFullName: mux4096_1bit.F
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:114:20 end:114:41:
             vpiParent: Net name:F
             vpiOpType: logical shift left (22)
@@ -4240,7 +4231,6 @@ Design name:unnamed:
           vpiFullName: mux4096_1bit.data0
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (3 items):
         Port name:datai start:103:38 end:103:43:
           vpiParent: Module name:mux4096_1bit
@@ -4290,64 +4280,69 @@ Design name:unnamed:
             vpiName: mux64 #(.MUX_SIZE(64)) [8-1:0]
             vpiFullName: mux4096_1bit.mux1.mux64 #(.MUX_SIZE(64)) [8-1:0]
             vpiActual: ArrayTypespec
-          vpiPort (5 items):
-            Port start:121:7 end:121:12:
+          vpiArgument (5 items):
+            NamedArgument start:121:7 end:121:12:
               vpiParent: RefInstance name:mux1
+              vpiConnByName: true
               vpiLowConn RefObj name:A start:121:8 end:121:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: A
                 vpiFullName: mux4096_1bit.mux1.A
                 vpiActual: Net name:A
               vpiHighConn RefObj name:A start:121:10 end:121:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: A
                 vpiFullName: mux4096_1bit.mux1.A
                 vpiActual: Net name:A
-            Port start:122:7 end:122:12:
+            NamedArgument start:122:7 end:122:12:
               vpiParent: RefInstance name:mux1
+              vpiConnByName: true
               vpiLowConn RefObj name:B start:122:8 end:122:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: B
                 vpiFullName: mux4096_1bit.mux1.B
                 vpiActual: Net name:B
               vpiHighConn RefObj name:B start:122:10 end:122:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: B
                 vpiFullName: mux4096_1bit.mux1.B
                 vpiActual: Net name:B
-            Port start:123:7 end:123:12:
+            NamedArgument start:123:7 end:123:12:
               vpiParent: RefInstance name:mux1
+              vpiConnByName: true
               vpiLowConn RefObj name:C start:123:8 end:123:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: C
                 vpiFullName: mux4096_1bit.mux1.C
                 vpiActual: Net name:C
               vpiHighConn RefObj name:C start:123:10 end:123:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: C
                 vpiFullName: mux4096_1bit.mux1.C
                 vpiActual: Net name:C
-            Port start:124:7 end:124:20:
+            NamedArgument start:124:7 end:124:20:
               vpiParent: RefInstance name:mux1
+              vpiConnByName: true
               vpiLowConn RefObj name:datai start:124:8 end:124:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datai
                 vpiFullName: mux4096_1bit.mux1.datai
                 vpiActual: Net name:datai
               vpiHighConn RefObj name:datai start:124:14 end:124:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datai
                 vpiFullName: mux4096_1bit.mux1.datai
                 vpiActual: Net name:datai
-            Port start:125:7 end:125:20:
+            NamedArgument start:125:7 end:125:20:
               vpiParent: RefInstance name:mux1
+              vpiConnByName: true
               vpiLowConn RefObj name:datao start:125:8 end:125:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datao
                 vpiFullName: mux4096_1bit.mux1.datao
                 vpiActual: Net name:datao
               vpiHighConn RefObj name:data0 start:125:14 end:125:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: data0
                 vpiFullName: mux4096_1bit.mux1.data0
                 vpiActual: Net name:data0
@@ -4359,64 +4354,69 @@ Design name:unnamed:
             vpiName: mux64
             vpiFullName: mux4096_1bit.mux2.mux64
             vpiActual: ModuleTypespec name:mux64
-          vpiPort (5 items):
-            Port start:130:7 end:130:12:
+          vpiArgument (5 items):
+            NamedArgument start:130:7 end:130:12:
               vpiParent: RefInstance name:mux2
+              vpiConnByName: true
               vpiLowConn RefObj name:A start:130:8 end:130:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: A
                 vpiFullName: mux4096_1bit.mux2.A
                 vpiActual: Net name:A
               vpiHighConn RefObj name:D start:130:10 end:130:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: D
                 vpiFullName: mux4096_1bit.mux2.D
                 vpiActual: Net name:D
-            Port start:131:7 end:131:12:
+            NamedArgument start:131:7 end:131:12:
               vpiParent: RefInstance name:mux2
+              vpiConnByName: true
               vpiLowConn RefObj name:B start:131:8 end:131:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: B
                 vpiFullName: mux4096_1bit.mux2.B
                 vpiActual: Net name:B
               vpiHighConn RefObj name:E start:131:10 end:131:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: E
                 vpiFullName: mux4096_1bit.mux2.E
                 vpiActual: Net name:E
-            Port start:132:7 end:132:12:
+            NamedArgument start:132:7 end:132:12:
               vpiParent: RefInstance name:mux2
+              vpiConnByName: true
               vpiLowConn RefObj name:C start:132:8 end:132:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: C
                 vpiFullName: mux4096_1bit.mux2.C
                 vpiActual: Net name:C
               vpiHighConn RefObj name:F start:132:10 end:132:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: F
                 vpiFullName: mux4096_1bit.mux2.F
                 vpiActual: Net name:F
-            Port start:133:7 end:133:20:
+            NamedArgument start:133:7 end:133:20:
               vpiParent: RefInstance name:mux2
+              vpiConnByName: true
               vpiLowConn RefObj name:datai start:133:8 end:133:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datai
                 vpiFullName: mux4096_1bit.mux2.datai
                 vpiActual: Net name:datai
               vpiHighConn RefObj name:data0 start:133:14 end:133:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: data0
                 vpiFullName: mux4096_1bit.mux2.data0
                 vpiActual: Net name:data0
-            Port start:134:7 end:134:20:
+            NamedArgument start:134:7 end:134:20:
               vpiParent: RefInstance name:mux2
+              vpiConnByName: true
               vpiLowConn RefObj name:datao start:134:8 end:134:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datao
                 vpiFullName: mux4096_1bit.mux2.datao
                 vpiActual: Net name:datao
               vpiHighConn RefObj name:datao start:134:14 end:134:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datao
                 vpiFullName: mux4096_1bit.mux2.datao
                 vpiActual: Net name:datao
@@ -4744,7 +4744,6 @@ Design name:unnamed:
           vpiName: A
           vpiFullName: mux64 #(.MUX_SIZE(64)).A
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:B start:141:16 end:141:17:
           vpiParent: Module name:mux64 #(.MUX_SIZE(64))
           vpiTypespec RefTypespec start:141:10 end:141:15:
@@ -4754,7 +4753,6 @@ Design name:unnamed:
           vpiName: B
           vpiFullName: mux64 #(.MUX_SIZE(64)).B
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:C start:142:16 end:142:17:
           vpiParent: Module name:mux64 #(.MUX_SIZE(64))
           vpiTypespec RefTypespec start:142:10 end:142:15:
@@ -4764,7 +4762,6 @@ Design name:unnamed:
           vpiName: C
           vpiFullName: mux64 #(.MUX_SIZE(64)).C
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:datai start:143:25 end:143:30:
           vpiParent: Module name:mux64 #(.MUX_SIZE(64))
           vpiTypespec RefTypespec start:143:10 end:143:24:
@@ -4774,7 +4771,6 @@ Design name:unnamed:
           vpiName: datai
           vpiFullName: mux64 #(.MUX_SIZE(64)).datai
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:datao start:144:11 end:144:16:
           vpiParent: Module name:mux64 #(.MUX_SIZE(64))
           vpiTypespec RefTypespec:
@@ -4784,7 +4780,6 @@ Design name:unnamed:
           vpiName: datao
           vpiFullName: mux64 #(.MUX_SIZE(64)).datao
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:colSelA start:147:16 end:147:23:
           vpiParent: Module name:mux64 #(.MUX_SIZE(64))
           vpiTypespec RefTypespec start:147:9 end:147:15:
@@ -4795,7 +4790,6 @@ Design name:unnamed:
           vpiFullName: mux64 #(.MUX_SIZE(64)).colSelA
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:147:26 end:147:41:
             vpiParent: Net name:colSelA
             vpiOpType: multi-concatenation (34)
@@ -4855,7 +4849,6 @@ Design name:unnamed:
           vpiFullName: mux64 #(.MUX_SIZE(64)).colSelB
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:148:26 end:148:76:
             vpiParent: Net name:colSelB
             vpiOpType: multi-concatenation (34)
@@ -5032,7 +5025,6 @@ Design name:unnamed:
           vpiFullName: mux64 #(.MUX_SIZE(64)).colSelC
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:149:26 end:149:75:
             vpiParent: Net name:colSelC
             vpiOpType: concatenation (33)
@@ -5195,7 +5187,6 @@ Design name:unnamed:
           vpiFullName: mux64 #(.MUX_SIZE(64)).data_bus
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (5 items):
         Port name:A start:140:16 end:140:17:
           vpiParent: Module name:mux64 #(.MUX_SIZE(64))
@@ -5288,16 +5279,17 @@ Design name:unnamed:
             vpiName: drv [MUX_SIZE-1:0]
             vpiFullName: mux64 #(.MUX_SIZE(64)).drv.drv [MUX_SIZE-1:0]
             vpiActual: ArrayTypespec
-          vpiPort (5 items):
-            Port start:159:7 end:159:38:
+          vpiArgument (5 items):
+            NamedArgument start:159:7 end:159:38:
               vpiParent: RefInstance name:drv
+              vpiConnByName: true
               vpiLowConn RefObj name:colSelA start:159:8 end:159:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: colSelA
                 vpiFullName: mux64 #(.MUX_SIZE(64)).drv.colSelA
                 vpiActual: Net name:colSelA
               vpiHighConn PartSelect name:colSelA[MUX_SIZE-1:0] start:159:16 end:159:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: colSelA[MUX_SIZE-1:0]
                 vpiFullName: mux64 #(.MUX_SIZE(64)).drv.colSelA[MUX_SIZE-1:0]
                 vpiPrefix RefObj name:colSelA start:159:16 end:159:23:
@@ -5336,15 +5328,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:160:7 end:160:38:
+            NamedArgument start:160:7 end:160:38:
               vpiParent: RefInstance name:drv
+              vpiConnByName: true
               vpiLowConn RefObj name:colSelB start:160:8 end:160:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: colSelB
                 vpiFullName: mux64 #(.MUX_SIZE(64)).drv.colSelB
                 vpiActual: Net name:colSelB
               vpiHighConn PartSelect name:colSelB[MUX_SIZE-1:0] start:160:16 end:160:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: colSelB[MUX_SIZE-1:0]
                 vpiFullName: mux64 #(.MUX_SIZE(64)).drv.colSelB[MUX_SIZE-1:0]
                 vpiPrefix RefObj name:colSelB start:160:16 end:160:23:
@@ -5383,15 +5376,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:161:7 end:161:38:
+            NamedArgument start:161:7 end:161:38:
               vpiParent: RefInstance name:drv
+              vpiConnByName: true
               vpiLowConn RefObj name:colSelC start:161:8 end:161:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: colSelC
                 vpiFullName: mux64 #(.MUX_SIZE(64)).drv.colSelC
                 vpiActual: Net name:colSelC
               vpiHighConn PartSelect name:colSelC[MUX_SIZE-1:0] start:161:16 end:161:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: colSelC[MUX_SIZE-1:0]
                 vpiFullName: mux64 #(.MUX_SIZE(64)).drv.colSelC[MUX_SIZE-1:0]
                 vpiPrefix RefObj name:colSelC start:161:16 end:161:23:
@@ -5430,27 +5424,29 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:162:7 end:162:20:
+            NamedArgument start:162:7 end:162:20:
               vpiParent: RefInstance name:drv
+              vpiConnByName: true
               vpiLowConn RefObj name:datai start:162:8 end:162:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datai
                 vpiFullName: mux64 #(.MUX_SIZE(64)).drv.datai
                 vpiActual: Net name:datai
               vpiHighConn RefObj name:datai start:162:14 end:162:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datai
                 vpiFullName: mux64 #(.MUX_SIZE(64)).drv.datai
                 vpiActual: Net name:datai
-            Port start:163:7 end:163:23:
+            NamedArgument start:163:7 end:163:23:
               vpiParent: RefInstance name:drv
+              vpiConnByName: true
               vpiLowConn RefObj name:datao start:163:8 end:163:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: datao
                 vpiFullName: mux64 #(.MUX_SIZE(64)).drv.datao
                 vpiActual: Net name:datao
               vpiHighConn RefObj name:data_bus start:163:14 end:163:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: data_bus
                 vpiFullName: mux64 #(.MUX_SIZE(64)).drv.data_bus
                 vpiActual: Net name:data_bus
@@ -5481,7 +5477,6 @@ Design name:unnamed:
           vpiName: colSelA
           vpiFullName: drv.colSelA
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:colSelB start:172:10 end:172:17:
           vpiParent: Module name:drv
           vpiTypespec RefTypespec:
@@ -5491,7 +5486,6 @@ Design name:unnamed:
           vpiName: colSelB
           vpiFullName: drv.colSelB
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:colSelC start:173:10 end:173:17:
           vpiParent: Module name:drv
           vpiTypespec RefTypespec:
@@ -5501,7 +5495,6 @@ Design name:unnamed:
           vpiName: colSelC
           vpiFullName: drv.colSelC
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:datai start:174:10 end:174:15:
           vpiParent: Module name:drv
           vpiTypespec RefTypespec:
@@ -5511,7 +5504,6 @@ Design name:unnamed:
           vpiName: datai
           vpiFullName: drv.datai
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:datao start:175:11 end:175:16:
           vpiParent: Module name:drv
           vpiTypespec RefTypespec:
@@ -5521,7 +5513,6 @@ Design name:unnamed:
           vpiName: datao
           vpiFullName: drv.datao
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (5 items):
         Port name:colSelA start:171:10 end:171:17:
           vpiParent: Module name:drv
@@ -5717,7 +5708,7 @@ Operation                           79      47       0        32
 RefObj                             122     116       0         6
 RefTypespec                        209     183      23        49
 ----------------------------------------------------------------
-Others                             354     354       0         0
+Others                             355     355       0         0
 ----------------------------------------------------------------
-                                   912     823      47       136
+                                   913     824      47       136
 ===================== END REDUCTION RESULT =====================

@@ -1198,11 +1198,13 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName Identifier name:$clog2 start:4:24 end:4:30:
             vpiArgument (1 items):
-              RefObj name:MAXDELAY start:4:31 end:4:39:
+              NamedArgument start:4:31 end:4:39:
                 vpiParent: SysFuncCall name:$clog2
-                vpiName: MAXDELAY
-                vpiFullName: oh_delay #(.N(1), .MAXDELAY(4), .M($clog2(MAXDELAY))).MAXDELAY
-                vpiActual: Parameter name:MAXDELAY
+                vpiHighConn RefObj name:MAXDELAY start:4:31 end:4:39:
+                  vpiParent: NamedArgument
+                  vpiName: MAXDELAY
+                  vpiFullName: oh_delay #(.N(1), .MAXDELAY(4), .M($clog2(MAXDELAY))).MAXDELAY
+                  vpiActual: Parameter name:MAXDELAY
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:oh_delay #(.N(1), .MAXDELAY(4), .M($clog2(MAXDELAY)))
@@ -1654,7 +1656,6 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: shift.a
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:s start:31:21 end:31:22:
           vpiParent: Module name:shift
           vpiTypespec RefTypespec start:31:7 end:31:20:
@@ -1664,7 +1665,6 @@ Design name:unnamed:
           vpiName: s
           vpiFullName: shift.s
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:z start:32:23 end:32:24:
           vpiParent: Module name:shift
           vpiTypespec RefTypespec start:32:8 end:32:22:
@@ -1674,7 +1674,6 @@ Design name:unnamed:
           vpiName: z
           vpiFullName: shift.z
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (3 items):
         Port name:a start:24:14 end:24:15:
           vpiParent: Module name:shift
@@ -1742,44 +1741,50 @@ Design name:unnamed:
                     vpiParent: ContAssign
                     vpiName Identifier name:fshl_s start:36:14 end:36:20:
                     vpiArgument (3 items):
-                      RefObj name:a start:36:21 end:36:22:
+                      NamedArgument start:36:21 end:36:22:
                         vpiParent: SubroutineCall name:fshl_s
-                        vpiName: a
-                        vpiFullName: shift.SGNED.fshl_s.a
-                        vpiActual: Net name:a
-                      RefObj name:s start:36:23 end:36:24:
-                        vpiParent: SubroutineCall name:fshl_s
-                        vpiName: s
-                        vpiFullName: shift.SGNED.fshl_s.s
-                        vpiActual: Net name:s
-                      BitSelect name:a[width_a - 1] start:36:25 end:36:37:
-                        vpiParent: SubroutineCall name:fshl_s
-                        vpiName: a[width_a - 1]
-                        vpiFullName: shift.SGNED.fshl_s.a[width_a - 1]
-                        vpiPrefix RefObj name:a start:36:25 end:36:26:
-                          vpiParent: BitSelect name:a[width_a - 1]
+                        vpiHighConn RefObj name:a start:36:21 end:36:22:
+                          vpiParent: NamedArgument
                           vpiName: a
                           vpiFullName: shift.SGNED.fshl_s.a
                           vpiActual: Net name:a
-                        vpiIndex Operation start:36:27 end:36:36:
-                          vpiParent: BitSelect name:a[width_a - 1]
-                          vpiOpType: subtract (11)
-                          vpiOperand (2 items):
-                            RefObj name:width_a start:36:27 end:36:34:
-                              vpiParent: Operation
-                              vpiName: width_a
-                              vpiFullName: shift.SGNED.fshl_s.a[width_a - 1].width_a
-                              vpiActual: Parameter name:width_a
-                            Constant start:36:35 end:36:36:
-                              vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: shift.SGNED.fshl_s.a[width_a - 1]
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "1"
-                              vpiValue: 1
+                      NamedArgument start:36:23 end:36:24:
+                        vpiParent: SubroutineCall name:fshl_s
+                        vpiHighConn RefObj name:s start:36:23 end:36:24:
+                          vpiParent: NamedArgument
+                          vpiName: s
+                          vpiFullName: shift.SGNED.fshl_s.s
+                          vpiActual: Net name:s
+                      NamedArgument start:36:25 end:36:37:
+                        vpiParent: SubroutineCall name:fshl_s
+                        vpiHighConn BitSelect name:a[width_a - 1] start:36:25 end:36:37:
+                          vpiParent: NamedArgument
+                          vpiName: a[width_a - 1]
+                          vpiFullName: shift.SGNED.fshl_s.a[width_a - 1]
+                          vpiPrefix RefObj name:a start:36:25 end:36:26:
+                            vpiParent: BitSelect name:a[width_a - 1]
+                            vpiName: a
+                            vpiFullName: shift.SGNED.fshl_s.a
+                            vpiActual: Net name:a
+                          vpiIndex Operation start:36:27 end:36:36:
+                            vpiParent: BitSelect name:a[width_a - 1]
+                            vpiOpType: subtract (11)
+                            vpiOperand (2 items):
+                              RefObj name:width_a start:36:27 end:36:34:
+                                vpiParent: Operation
+                                vpiName: width_a
+                                vpiFullName: shift.SGNED.fshl_s.a[width_a - 1].width_a
+                                vpiActual: Parameter name:width_a
+                              Constant start:36:35 end:36:36:
+                                vpiParent: Operation
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: shift.SGNED.fshl_s.a[width_a - 1]
+                                  vpiActual: IntTypespec
+                                vpiConstType: unsigned int (9)
+                                vpiSize: 64
+                                vpiDecompile: "1"
+                                vpiValue: 1
             vpiElseStmt Begin name:UNSGNED start:39:1 end:41:4:
               vpiParent: GenIfElse
               vpiName Identifier name:UNSGNED start:39:8 end:39:15:
@@ -1799,26 +1804,32 @@ Design name:unnamed:
                     vpiParent: ContAssign
                     vpiName Identifier name:fshl_s start:40:14 end:40:20:
                     vpiArgument (3 items):
-                      RefObj name:a start:40:21 end:40:22:
+                      NamedArgument start:40:21 end:40:22:
                         vpiParent: SubroutineCall name:fshl_s
-                        vpiName: a
-                        vpiFullName: shift.UNSGNED.fshl_s.a
-                        vpiActual: Net name:a
-                      RefObj name:s start:40:23 end:40:24:
+                        vpiHighConn RefObj name:a start:40:21 end:40:22:
+                          vpiParent: NamedArgument
+                          vpiName: a
+                          vpiFullName: shift.UNSGNED.fshl_s.a
+                          vpiActual: Net name:a
+                      NamedArgument start:40:23 end:40:24:
                         vpiParent: SubroutineCall name:fshl_s
-                        vpiName: s
-                        vpiFullName: shift.UNSGNED.fshl_s.s
-                        vpiActual: Net name:s
-                      Constant start:40:25 end:40:29:
+                        vpiHighConn RefObj name:s start:40:23 end:40:24:
+                          vpiParent: NamedArgument
+                          vpiName: s
+                          vpiFullName: shift.UNSGNED.fshl_s.s
+                          vpiActual: Net name:s
+                      NamedArgument start:40:25 end:40:29:
                         vpiParent: SubroutineCall name:fshl_s
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: shift.UNSGNED.fshl_s
-                          vpiActual: BitTypespec
-                        vpiConstType: binary (3)
-                        vpiSize: 1
-                        vpiDecompile: "1'b0"
-                        vpiValue: "0"
+                        vpiHighConn Constant start:40:25 end:40:29:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: shift.UNSGNED.fshl_s
+                            vpiActual: BitTypespec
+                          vpiConstType: binary (3)
+                          vpiSize: 1
+                          vpiDecompile: "1'b0"
+                          vpiValue: "0"
     Module name:gen_test9 file:$Source01/dut.sv start:46:1 end:64:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:gen_test9 start:46:8 end:46:17:
@@ -1871,7 +1882,6 @@ Design name:unnamed:
           vpiFullName: gen_test9.w
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Constant start:47:24 end:47:29:
             vpiParent: Net name:w
             vpiTypespec RefTypespec:
@@ -1892,7 +1902,6 @@ Design name:unnamed:
           vpiFullName: gen_test9.x
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:y start:53:44 end:53:45:
           vpiParent: Module name:gen_test9
           vpiTypespec RefTypespec start:53:38 end:53:43:
@@ -1903,7 +1912,6 @@ Design name:unnamed:
           vpiFullName: gen_test9.y
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Constant start:53:48 end:53:53:
             vpiParent: Net name:y
             vpiTypespec RefTypespec:
@@ -1924,7 +1932,6 @@ Design name:unnamed:
           vpiFullName: gen_test9.z
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Constant start:58:48 end:58:53:
             vpiParent: Net name:z
             vpiTypespec RefTypespec:
@@ -2451,7 +2458,6 @@ Design name:unnamed:
                     vpiActual: LogicTypespec
                   vpiName: sync_pipe
                   vpiFullName: oh_rsync #(.SYNCPIPE(2), .SYN("TRUE"), .TYPE("DEFAULT")).sync_pipe
-                  vpiVector: true
               vpiTypespec (2 items):
                 LogicTypespec:
                   vpiParent: Begin
@@ -2768,35 +2774,38 @@ Design name:unnamed:
                     vpiName: asic_rsync
                     vpiFullName: oh_rsync #(.SYNCPIPE(2), .SYN("TRUE"), .TYPE("DEFAULT")).asic_rsync.asic_rsync
                     vpiActual: UnsupportedTypespec name:asic_rsync
-                  vpiPort (3 items):
-                    Port start:118:17 end:118:26:
+                  vpiArgument (3 items):
+                    NamedArgument start:118:17 end:118:26:
                       vpiParent: RefInstance name:asic_rsync
+                      vpiConnByName: true
                       vpiLowConn RefObj name:clk start:118:18 end:118:21:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: clk
                         vpiFullName: oh_rsync #(.SYNCPIPE(2), .SYN("TRUE"), .TYPE("DEFAULT")).asic_rsync.clk
                       vpiHighConn RefObj name:clk start:118:22 end:118:25:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: clk
                         vpiFullName: oh_rsync #(.SYNCPIPE(2), .SYN("TRUE"), .TYPE("DEFAULT")).asic_rsync.clk
-                    Port start:119:10 end:119:27:
+                    NamedArgument start:119:10 end:119:27:
                       vpiParent: RefInstance name:asic_rsync
+                      vpiConnByName: true
                       vpiLowConn RefObj name:nrst_in start:119:11 end:119:18:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: nrst_in
                         vpiFullName: oh_rsync #(.SYNCPIPE(2), .SYN("TRUE"), .TYPE("DEFAULT")).asic_rsync.nrst_in
                       vpiHighConn RefObj name:nrst_in start:119:19 end:119:26:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: nrst_in
                         vpiFullName: oh_rsync #(.SYNCPIPE(2), .SYN("TRUE"), .TYPE("DEFAULT")).asic_rsync.nrst_in
-                    Port start:120:10 end:120:29:
+                    NamedArgument start:120:10 end:120:29:
                       vpiParent: RefInstance name:asic_rsync
+                      vpiConnByName: true
                       vpiLowConn RefObj name:nrst_out start:120:11 end:120:19:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: nrst_out
                         vpiFullName: oh_rsync #(.SYNCPIPE(2), .SYN("TRUE"), .TYPE("DEFAULT")).asic_rsync.nrst_out
                       vpiHighConn RefObj name:nrst_out start:120:20 end:120:28:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: nrst_out
                         vpiFullName: oh_rsync #(.SYNCPIPE(2), .SYN("TRUE"), .TYPE("DEFAULT")).asic_rsync.nrst_out
   vpiTypespec (9 items):
@@ -2890,12 +2899,13 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            52      54      12        10
 Identifier                          24      23       0         1
+NamedArgument                       10       9       0         1
 Operation                           26      15       0        11
 RefObj                              88      75       0        13
 RefTypespec                         79      80      11        10
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                             147     147       0         0
+Others                             144     144       0         0
 ----------------------------------------------------------------
-                                   417     394      23        46
+                                   424     400      23        47
 ===================== END REDUCTION RESULT =====================

@@ -420,7 +420,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:out1 start:15:11 end:15:15:
           vpiParent: Module name:t
           vpiTypespec RefTypespec:
@@ -431,7 +430,6 @@ Design name:unnamed:
           vpiFullName: t.out1
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:out19 start:16:11 end:16:16:
           vpiParent: Module name:t
           vpiTypespec RefTypespec:
@@ -442,7 +440,6 @@ Design name:unnamed:
           vpiFullName: t.out19
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:out1b start:17:11 end:17:16:
           vpiParent: Module name:t
           vpiTypespec RefTypespec:
@@ -453,7 +450,6 @@ Design name:unnamed:
           vpiFullName: t.out1b
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -593,16 +589,18 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:33:7 end:33:13:
                   vpiArgument (1 items):
-                    Constant start:33:14 end:33:38:
+                    NamedArgument start:33:14 end:33:38:
                       vpiParent: SysTaskCall name:$write
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 168
-                      vpiDecompile: "\"*-* All Finished *-*\\n\""
-                      vpiValue: "*-* All Finished *-*\\n"
+                      vpiHighConn Constant start:33:14 end:33:38:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 168
+                        vpiDecompile: "\"*-* All Finished *-*\\n\""
+                        vpiValue: "*-* All Finished *-*\\n"
                 SysTaskCall name:$finish start:34:7 end:34:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:34:7 end:34:14:
@@ -617,52 +615,56 @@ Design name:unnamed:
             vpiName: Test
             vpiFullName: t.test.Test
             vpiActual: ModuleTypespec name:Test
-          vpiPort (4 items):
-            Port start:22:8 end:22:22:
+          vpiArgument (4 items):
+            NamedArgument start:22:8 end:22:22:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:out1 start:22:9 end:22:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out1
                 vpiFullName: t.test.out1
                 vpiActual: Net name:out1
               vpiHighConn RefObj name:out1 start:22:17 end:22:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out1
                 vpiFullName: t.test.out1
                 vpiActual: Net name:out1
-            Port start:23:8 end:23:24:
+            NamedArgument start:23:8 end:23:24:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:out18 start:23:9 end:23:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out18
                 vpiFullName: t.test.out18
                 vpiActual: Variable name:out18
               vpiHighConn RefObj name:out18 start:23:18 end:23:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out18
                 vpiFullName: t.test.out18
                 vpiActual: Variable name:out18
-            Port start:24:8 end:24:24:
+            NamedArgument start:24:8 end:24:24:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:out1b start:24:9 end:24:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out1b
                 vpiFullName: t.test.out1b
                 vpiActual: Net name:out1b
               vpiHighConn RefObj name:out1b start:24:18 end:24:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out1b
                 vpiFullName: t.test.out1b
                 vpiActual: Net name:out1b
-            Port start:25:8 end:25:24:
+            NamedArgument start:25:8 end:25:24:
               vpiParent: RefInstance name:test
+              vpiConnByName: true
               vpiLowConn RefObj name:out19 start:25:9 end:25:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out19
                 vpiFullName: t.test.out19
                 vpiActual: Net name:out19
               vpiHighConn RefObj name:out19 start:25:18 end:25:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out19
                 vpiFullName: t.test.out19
                 vpiActual: Net name:out19
@@ -743,7 +745,6 @@ Design name:unnamed:
           vpiName: out1
           vpiFullName: Test.out1
           vpiNetType: wire (1)
-          vpiScalar: true
           vpiValue Constant start:40:26 end:40:30:
             vpiParent: Net name:out1
             vpiTypespec RefTypespec:
@@ -874,7 +875,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_var_tieout/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             115     115       0         0
+Others                             116     116       0         0
 ----------------------------------------------------------------
-                                   115     115       0         0
+                                   116     116       0         0
 ===================== END REDUCTION RESULT =====================

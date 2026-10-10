@@ -1077,7 +1077,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: crc
           vpiFullName: t.crc
-          vpiVector: true
         Variable name:sum start:14:17 end:14:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:4 end:14:14:
@@ -1086,7 +1085,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: sum
           vpiFullName: t.sum
-          vpiVector: true
         Variable name:A start:17:8 end:17:9:
           vpiParent: Module name:t
           vpiTypespec RefTypespec name:int [7][1] start:17:4 end:17:7:
@@ -1365,7 +1363,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:result start:23:16 end:23:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:23:9 end:23:15:
@@ -1376,7 +1373,6 @@ Design name:unnamed:
           vpiFullName: t.result
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:23:25 end:23:37:
             vpiParent: Net name:result
             vpiOpType: concatenation (33)
@@ -2647,34 +2643,44 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:59:10 end:59:16:
                               vpiArgument (5 items):
-                                Constant start:59:17 end:59:49:
+                                NamedArgument start:59:17 end:59:49:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 232
-                                  vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
-                                  vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
-                                SysFuncCall name:$time start:59:50 end:59:55:
+                                  vpiHighConn Constant start:59:17 end:59:49:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 232
+                                    vpiDecompile: "\"[%0t] cyc==%0d crc=%x sum=%x\\n\""
+                                    vpiValue: "[%0t] cyc==%0d crc=%x sum=%x\\n"
+                                NamedArgument start:59:50 end:59:55:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName Identifier name:$time start:59:50 end:59:55:
-                                RefObj name:cyc start:59:57 end:59:60:
+                                  vpiHighConn SysFuncCall name:$time start:59:50 end:59:55:
+                                    vpiParent: NamedArgument
+                                    vpiName Identifier name:$time start:59:50 end:59:55:
+                                NamedArgument start:59:57 end:59:60:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: cyc
-                                  vpiFullName: t.cyc
-                                  vpiActual: Variable name:cyc
-                                RefObj name:crc start:59:62 end:59:65:
+                                  vpiHighConn RefObj name:cyc start:59:57 end:59:60:
+                                    vpiParent: NamedArgument
+                                    vpiName: cyc
+                                    vpiFullName: t.cyc
+                                    vpiActual: Variable name:cyc
+                                NamedArgument start:59:62 end:59:65:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: crc
-                                  vpiFullName: t.crc
-                                  vpiActual: Variable name:crc
-                                RefObj name:sum start:59:67 end:59:70:
+                                  vpiHighConn RefObj name:crc start:59:62 end:59:65:
+                                    vpiParent: NamedArgument
+                                    vpiName: crc
+                                    vpiFullName: t.crc
+                                    vpiActual: Variable name:crc
+                                NamedArgument start:59:67 end:59:70:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiName: sum
-                                  vpiFullName: t.sum
-                                  vpiActual: Variable name:sum
+                                  vpiHighConn RefObj name:sum start:59:67 end:59:70:
+                                    vpiParent: NamedArgument
+                                    vpiName: sum
+                                    vpiFullName: t.sum
+                                    vpiActual: Variable name:sum
                             IfStmt start:60:10 end:60:50:
                               vpiParent: Begin
                               vpiCondition Operation start:60:14 end:60:42:
@@ -2729,16 +2735,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:64:10 end:64:16:
                               vpiArgument (1 items):
-                                Constant start:64:17 end:64:41:
+                                NamedArgument start:64:17 end:64:41:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:64:17 end:64:41:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:65:10 end:65:17:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:65:10 end:65:17:
@@ -2815,7 +2823,7 @@ Operation                           23      18       0         5
 RefObj                              52      47       0         5
 RefTypespec                        102     102       5         5
 ----------------------------------------------------------------
-Others                             148     148       0         0
+Others                             154     154       0         0
 ----------------------------------------------------------------
-                                   411     401      10        20
+                                   417     407      10        20
 ===================== END REDUCTION RESULT =====================

@@ -922,7 +922,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: q
           vpiFullName: t.q
-          vpiVector: true
         Variable name:qs start:14:22 end:14:24:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:4 end:14:21:
@@ -931,7 +930,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: qs
           vpiFullName: t.qs
-          vpiVector: true
         Variable name:left start:30:15 end:30:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:30:4 end:30:14:
@@ -940,7 +938,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: left
           vpiFullName: t.left
-          vpiVector: true
         Variable name:right start:31:15 end:31:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:31:4 end:31:14:
@@ -949,7 +946,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: right
           vpiFullName: t.right
-          vpiVector: true
         Variable name:cyc start:36:12 end:36:15:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:36:4 end:36:11:
@@ -1142,7 +1138,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:outu start:33:16 end:33:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:33:9 end:33:15:
@@ -1153,7 +1148,6 @@ Design name:unnamed:
           vpiFullName: t.outu
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:33:23 end:33:36:
             vpiParent: Net name:outu
             vpiOpType: arith power (43)
@@ -1178,7 +1172,6 @@ Design name:unnamed:
           vpiFullName: t.outs
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Operation start:34:30 end:34:61:
             vpiParent: Net name:outs
             vpiOpType: arith power (43)
@@ -1187,20 +1180,24 @@ Design name:unnamed:
                 vpiParent: Operation
                 vpiName Identifier name:$signed start:34:30 end:34:37:
                 vpiArgument (1 items):
-                  RefObj name:left start:34:38 end:34:42:
+                  NamedArgument start:34:38 end:34:42:
                     vpiParent: SysFuncCall name:$signed
-                    vpiName: left
-                    vpiFullName: t.outs.left
-                    vpiActual: Variable name:left
+                    vpiHighConn RefObj name:left start:34:38 end:34:42:
+                      vpiParent: NamedArgument
+                      vpiName: left
+                      vpiFullName: t.outs.left
+                      vpiActual: Variable name:left
               SysFuncCall name:$signed start:34:47 end:34:61:
                 vpiParent: Operation
                 vpiName Identifier name:$signed start:34:47 end:34:54:
                 vpiArgument (1 items):
-                  RefObj name:right start:34:55 end:34:60:
+                  NamedArgument start:34:55 end:34:60:
                     vpiParent: SysFuncCall name:$signed
-                    vpiName: right
-                    vpiFullName: t.outs.right
-                    vpiActual: Variable name:right
+                    vpiHighConn RefObj name:right start:34:55 end:34:60:
+                      vpiParent: NamedArgument
+                      vpiName: right
+                      vpiFullName: t.outs.right
+                      vpiActual: Variable name:right
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1972,16 +1969,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:68:6 end:68:12:
                               vpiArgument (1 items):
-                                Constant start:68:13 end:68:37:
+                                NamedArgument start:68:13 end:68:37:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:68:13 end:68:37:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:69:6 end:69:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:69:6 end:69:13:
@@ -2054,7 +2053,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_math_pow5/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             274     274       0         0
+Others                             277     277       0         0
 ----------------------------------------------------------------
-                                   274     274       0         0
+                                   277     277       0         0
 ===================== END REDUCTION RESULT =====================

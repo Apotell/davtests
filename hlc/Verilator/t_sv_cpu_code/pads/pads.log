@@ -511,10 +511,12 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName Identifier name:$size start:10:15 end:10:20:
             vpiArgument (1 items):
-              RefObj name:pinout start:10:22 end:10:28:
+              NamedArgument start:10:22 end:10:28:
                 vpiParent: SysFuncCall name:$size
-                vpiName: pinout
-                vpiFullName: pads #(.NUMPADS($size(pinout))).pinout
+                vpiHighConn RefObj name:pinout start:10:22 end:10:28:
+                  vpiParent: NamedArgument
+                  vpiName: pinout
+                  vpiFullName: pads #(.NUMPADS($size(pinout))).pinout
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
@@ -563,7 +565,6 @@ Design name:unnamed:
           vpiName: pad
           vpiFullName: pads #(.NUMPADS($size(pinout))).pad
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:clk start:29:21 end:29:24:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
           vpiTypespec RefTypespec start:29:9 end:29:14:
@@ -573,7 +574,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: pads #(.NUMPADS($size(pinout))).clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:rst start:30:21 end:30:24:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
           vpiTypespec RefTypespec start:30:9 end:30:14:
@@ -583,7 +583,6 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: pads #(.NUMPADS($size(pinout))).rst
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (4 items):
         Port name:padsif start:18:19 end:18:25:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
@@ -820,16 +819,17 @@ Design name:unnamed:
                         vpiName: pad_gpio
                         vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.pad_gpio
                         vpiActual: UnsupportedTypespec name:pad_gpio
-                      vpiPort (9 items):
-                        Port start:58:10 end:58:52:
+                      vpiArgument (9 items):
+                        NamedArgument start:58:10 end:58:52:
                           vpiParent: RefInstance name:i_pad_gpio
+                          vpiConnByName: true
                           vpiLowConn RefObj name:pad start:58:11 end:58:14:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: pad
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.pad
                             vpiActual: Net name:pad
                           vpiHighConn BitSelect name:pad[i] start:58:28 end:58:51:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: pad[i]
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.pad[i]
                             vpiPrefix RefObj name:pad start:58:28 end:58:31:
@@ -842,14 +842,15 @@ Design name:unnamed:
                               vpiName: i
                               vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.i
                               vpiActual: Variable name:i
-                        Port start:60:24 end:60:66:
+                        NamedArgument start:60:24 end:60:66:
                           vpiParent: RefInstance name:i_pad_gpio
+                          vpiConnByName: true
                           vpiLowConn RefObj name:input_val start:60:25 end:60:34:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: input_val
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.input_val
                           vpiHighConn RefObj name:padsif.input_val[i] start:60:42 end:60:65:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: padsif.input_val[i]
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.input_val[i]
                             vpiPathElem (2 items):
@@ -870,14 +871,15 @@ Design name:unnamed:
                                   vpiName: i
                                   vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.input_val[i].i
                                   vpiActual: Variable name:i
-                        Port start:65:24 end:65:66:
+                        NamedArgument start:65:24 end:65:66:
                           vpiParent: RefInstance name:i_pad_gpio
+                          vpiConnByName: true
                           vpiLowConn RefObj name:ana start:65:25 end:65:28:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: ana
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.ana
                           vpiHighConn RefObj name:padsif.ana[i] start:65:42 end:65:65:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: padsif.ana[i]
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.ana[i]
                             vpiPathElem (2 items):
@@ -898,14 +900,15 @@ Design name:unnamed:
                                   vpiName: i
                                   vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.ana[i].i
                                   vpiActual: Variable name:i
-                        Port start:68:24 end:68:66:
+                        NamedArgument start:68:24 end:68:66:
                           vpiParent: RefInstance name:i_pad_gpio
+                          vpiConnByName: true
                           vpiLowConn RefObj name:pullup_en start:68:25 end:68:34:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: pullup_en
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.pullup_en
                           vpiHighConn RefObj name:padsif.pullup_en[i] start:68:42 end:68:65:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: padsif.pullup_en[i]
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.pullup_en[i]
                             vpiPathElem (2 items):
@@ -926,14 +929,15 @@ Design name:unnamed:
                                   vpiName: i
                                   vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.pullup_en[i].i
                                   vpiActual: Variable name:i
-                        Port start:69:24 end:69:66:
+                        NamedArgument start:69:24 end:69:66:
                           vpiParent: RefInstance name:i_pad_gpio
+                          vpiConnByName: true
                           vpiLowConn RefObj name:pulldown_en start:69:25 end:69:36:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: pulldown_en
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.pulldown_en
                           vpiHighConn RefObj name:padsif.pulldown_en[i] start:69:42 end:69:65:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: padsif.pulldown_en[i]
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.pulldown_en[i]
                             vpiPathElem (2 items):
@@ -954,14 +958,15 @@ Design name:unnamed:
                                   vpiName: i
                                   vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.pulldown_en[i].i
                                   vpiActual: Variable name:i
-                        Port start:70:24 end:70:66:
+                        NamedArgument start:70:24 end:70:66:
                           vpiParent: RefInstance name:i_pad_gpio
+                          vpiConnByName: true
                           vpiLowConn RefObj name:output_en start:70:25 end:70:34:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: output_en
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.output_en
                           vpiHighConn RefObj name:padsif.output_en[i] start:70:42 end:70:65:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: padsif.output_en[i]
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.output_en[i]
                             vpiPathElem (2 items):
@@ -982,14 +987,15 @@ Design name:unnamed:
                                   vpiName: i
                                   vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.output_en[i].i
                                   vpiActual: Variable name:i
-                        Port start:71:24 end:71:66:
+                        NamedArgument start:71:24 end:71:66:
                           vpiParent: RefInstance name:i_pad_gpio
+                          vpiConnByName: true
                           vpiLowConn RefObj name:output_val start:71:25 end:71:35:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: output_val
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.output_val
                           vpiHighConn RefObj name:padsif.output_val[i] start:71:42 end:71:65:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: padsif.output_val[i]
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.output_val[i]
                             vpiPathElem (2 items):
@@ -1010,14 +1016,15 @@ Design name:unnamed:
                                   vpiName: i
                                   vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.output_val[i].i
                                   vpiActual: Variable name:i
-                        Port start:72:24 end:72:66:
+                        NamedArgument start:72:24 end:72:66:
                           vpiParent: RefInstance name:i_pad_gpio
+                          vpiConnByName: true
                           vpiLowConn RefObj name:slew_limit_en start:72:25 end:72:38:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: slew_limit_en
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.slew_limit_en
                           vpiHighConn RefObj name:padsif.slew_limit_en[i] start:72:42 end:72:65:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: padsif.slew_limit_en[i]
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.slew_limit_en[i]
                             vpiPathElem (2 items):
@@ -1038,14 +1045,15 @@ Design name:unnamed:
                                   vpiName: i
                                   vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.slew_limit_en[i].i
                                   vpiActual: Variable name:i
-                        Port start:73:24 end:73:66:
+                        NamedArgument start:73:24 end:73:66:
                           vpiParent: RefInstance name:i_pad_gpio
+                          vpiConnByName: true
                           vpiLowConn RefObj name:input_en start:73:25 end:73:33:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: input_en
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.input_en
                           vpiHighConn RefObj name:padsif.input_en[i] start:73:42 end:73:65:
-                            vpiParent: Port
+                            vpiParent: NamedArgument
                             vpiName: padsif.input_en[i]
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.padsif.input_en[i]
                             vpiPathElem (2 items):
@@ -1103,16 +1111,17 @@ Design name:unnamed:
                             vpiName: pad_vdd
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_vdd.pad_vdd
                             vpiActual: UnsupportedTypespec name:pad_vdd
-                          vpiPort (1 items):
-                            Port start:80:4 end:80:28:
+                          vpiArgument (1 items):
+                            NamedArgument start:80:4 end:80:28:
                               vpiParent: RefInstance name:i_pad_vdd
+                              vpiConnByName: true
                               vpiLowConn RefObj name:pad start:80:5 end:80:8:
-                                vpiParent: Port
+                                vpiParent: NamedArgument
                                 vpiName: pad
                                 vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_vdd.pad
                                 vpiActual: Net name:pad
                               vpiHighConn BitSelect name:pad[i] start:80:21 end:80:27:
-                                vpiParent: Port
+                                vpiParent: NamedArgument
                                 vpiName: pad[i]
                                 vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_vdd.pad[i]
                                 vpiPrefix RefObj name:pad start:80:21 end:80:24:
@@ -1162,16 +1171,17 @@ Design name:unnamed:
                             vpiName: pad_gnd
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gnd.pad_gnd
                             vpiActual: UnsupportedTypespec name:pad_gnd
-                          vpiPort (1 items):
-                            Port start:88:25 end:88:49:
+                          vpiArgument (1 items):
+                            NamedArgument start:88:25 end:88:49:
                               vpiParent: RefInstance name:i_pad_gnd
+                              vpiConnByName: true
                               vpiLowConn RefObj name:pad start:88:26 end:88:29:
-                                vpiParent: Port
+                                vpiParent: NamedArgument
                                 vpiName: pad
                                 vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gnd.pad
                                 vpiActual: Net name:pad
                               vpiHighConn BitSelect name:pad[i] start:88:42 end:88:48:
-                                vpiParent: Port
+                                vpiParent: NamedArgument
                                 vpiName: pad[i]
                                 vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gnd.pad[i]
                                 vpiPrefix RefObj name:pad start:88:42 end:88:45:
@@ -1245,7 +1255,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/pads/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             175     175       0         0
+Others                             176     176       0         0
 ----------------------------------------------------------------
-                                   175     175       0         0
+                                   176     176       0         0
 ===================== END REDUCTION RESULT =====================

@@ -215,13 +215,17 @@ TEST_F(FunctionAutomaticTest, InitialBodyCallsAddFourTimesWithFive) {
     ASSERT_NE(display, nullptr);
     ASSERT_NE(display->getArguments(), nullptr);
     ASSERT_EQ(display->getArguments()->size(), 2u);
-    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(display->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    ASSERT_NE(arg1, nullptr);
+    const hldb::MethodFuncCall *const call = arg1->getHighConn<hldb::MethodFuncCall>();
     ASSERT_NE(call, nullptr);
     EXPECT_EQ(call->getName(), "add");
     EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getAdd());
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);
-    const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(arg, nullptr);
     EXPECT_EQ(arg->getDecompile(), "5");
   }

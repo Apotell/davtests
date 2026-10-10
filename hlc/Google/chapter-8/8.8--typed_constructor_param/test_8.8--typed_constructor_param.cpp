@@ -533,7 +533,7 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsNamedArgumentDefIsFortyOne) 
   // this build represents the named argument ".def(41)" as an IODecl-shaped
   // node carrying the name/value pair. This is a structural observation,
   // not an asserted bug -- see the STRUCTURAL NOTE above.
-  const hldb::NamedArgument *const arg = any_cast<hldb::NamedArgument>(newCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg = newCall->getArguments()->at(0);
   ASSERT_NE(arg, nullptr) << "'.def(41)' is represented as an NamedArgument, not a plain Constant";
   const hldb::Any *const lc = arg->getLowConn();
   ASSERT_NE(lc, nullptr);
@@ -554,7 +554,9 @@ TEST_F(ClassTypedConstructorParamTest, DisplayArgIsSuperObjDotS) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const path = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(path, nullptr) << "'super_obj.s' should be a RefObj";
   ASSERT_NE(path->getPathElems(), nullptr);
   ASSERT_EQ(path->getPathElems()->size(), 2u);

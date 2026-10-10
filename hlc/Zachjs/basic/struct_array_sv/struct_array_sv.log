@@ -324,7 +324,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: Unpacker.a
-          vpiScalar: true
         Variable name:b start:12:24 end:12:25:
           vpiParent: Module name:Unpacker
           vpiTypespec RefTypespec start:12:12 end:12:23:
@@ -333,7 +332,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: Unpacker.b
-          vpiVector: true
         Variable name:c start:13:24 end:13:25:
           vpiParent: Module name:Unpacker
           vpiTypespec RefTypespec start:13:12 end:13:23:
@@ -342,7 +340,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: c
           vpiFullName: Unpacker.c
-          vpiVector: true
       vpiParameter (1 items):
         Parameter name:WIDTH start:8:15 end:8:20:
           vpiParent: Module name:Unpacker
@@ -426,11 +423,13 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiName Identifier name:$clog2 start:10:18 end:10:24:
                     vpiArgument (1 items):
-                      RefObj name:WIDTH start:10:25 end:10:30:
+                      NamedArgument start:10:25 end:10:30:
                         vpiParent: SysFuncCall name:$clog2
-                        vpiName: WIDTH
-                        vpiFullName: Unpacker.WIDTH
-                        vpiActual: Parameter name:WIDTH
+                        vpiHighConn RefObj name:WIDTH start:10:25 end:10:30:
+                          vpiParent: NamedArgument
+                          vpiName: WIDTH
+                          vpiFullName: Unpacker.WIDTH
+                          vpiActual: Parameter name:WIDTH
                   Constant start:10:32 end:10:33:
                     vpiParent: Operation
                     vpiTypespec RefTypespec:
@@ -534,7 +533,6 @@ Design name:unnamed:
           vpiName: select
           vpiFullName: Unpacker.select
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (5 items):
         Port name:in start:7:17 end:7:19:
           vpiParent: Module name:Unpacker
@@ -853,6 +851,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            13      13       2         2
 Identifier                           5       4       0         1
+NamedArgument                        1       0       0         1
 Operation                            2       0       0         2
 RefObj                              24      22       0         2
 RefTypespec                         29      29       2         2
@@ -860,5 +859,5 @@ SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
 Others                              45      45       0         0
 ----------------------------------------------------------------
-                                   119     113       4        10
+                                   120     113       4        11
 ===================== END REDUCTION RESULT =====================

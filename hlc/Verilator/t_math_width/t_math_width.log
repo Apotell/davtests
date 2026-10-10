@@ -658,7 +658,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: c
           vpiFullName: t.c
-          vpiVector: true
         Variable name:c_i start:23:15 end:23:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:23:4 end:23:11:
@@ -941,11 +940,13 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName Identifier name:$bits start:15:11 end:15:16:
                           vpiArgument (1 items):
-                            RefObj name:A_ONE start:15:17 end:15:22:
+                            NamedArgument start:15:17 end:15:22:
                               vpiParent: SysFuncCall name:$bits
-                              vpiName: A_ONE
-                              vpiFullName: t.A_ONE
-                              vpiActual: Parameter name:A_ONE
+                              vpiHighConn RefObj name:A_ONE start:15:17 end:15:22:
+                                vpiParent: NamedArgument
+                                vpiName: A_ONE
+                                vpiFullName: t.A_ONE
+                                vpiActual: Parameter name:A_ONE
                         Constant start:15:27 end:15:28:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
@@ -989,11 +990,13 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:16:11 end:16:16:
                       vpiArgument (1 items):
-                        RefObj name:A_W4 start:16:17 end:16:21:
+                        NamedArgument start:16:17 end:16:21:
                           vpiParent: SysFuncCall name:$bits
-                          vpiName: A_W4
-                          vpiFullName: t.A_W4
-                          vpiActual: Parameter name:A_W4
+                          vpiHighConn RefObj name:A_W4 start:16:17 end:16:21:
+                            vpiParent: NamedArgument
+                            vpiName: A_W4
+                            vpiFullName: t.A_W4
+                            vpiActual: Parameter name:A_W4
                     Constant start:16:26 end:16:27:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -1153,16 +1156,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:40:7 end:40:13:
                 vpiArgument (1 items):
-                  Constant start:40:14 end:40:38:
+                  NamedArgument start:40:14 end:40:38:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: "*-* All Finished *-*\\n"
+                    vpiHighConn Constant start:40:14 end:40:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
               SysTaskCall name:$finish start:41:7 end:41:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:41:7 end:41:14:
@@ -1189,7 +1194,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b_val
           vpiFullName: b.b_val
-          vpiVector: true
       vpiParameter (3 items):
         Parameter name:B_WIDTH start:48:14 end:48:21:
           vpiParent: Module name:b
@@ -1494,6 +1498,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            26      26       8         8
 Identifier                          16      14       0         2
+NamedArgument                        3       1       0         2
 Operation                           16       4       0        12
 RefObj                              31      22       0         9
 RefTypespec                         38      36       6         8
@@ -1501,5 +1506,5 @@ SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
 Others                              77      77       0         0
 ----------------------------------------------------------------
-                                   206     179      14        41
+                                   209     180      14        43
 ===================== END REDUCTION RESULT =====================

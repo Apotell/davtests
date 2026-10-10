@@ -424,8 +424,12 @@ TEST_F(FstrobeTest, FstrobeArgumentsAreDescriptorThenSignal) {
 
     ASSERT_NE(call->getArguments(), nullptr) << "stmt[" << i << "]";
     ASSERT_EQ(call->getArguments()->size(), 2u) << "stmt[" << i << "]: '$fstrobe(fd, a)' passes two arguments";
-    checkArgumentRefersTo(call->getArguments()->at(0), "fd", "the $fstrobe descriptor argument");
-    checkArgumentRefersTo(call->getArguments()->at(1), "a", "the $fstrobe value argument");
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    ASSERT_NE(arg0, nullptr);
+    checkArgumentRefersTo(arg0->getHighConn(), "fd", "the $fstrobe descriptor argument");
+    const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+    ASSERT_NE(arg1, nullptr);
+    checkArgumentRefersTo(arg1->getHighConn(), "a", "the $fstrobe value argument");
   }
 }
 
@@ -499,13 +503,17 @@ TEST_F(FstrobeTest, FopenArgumentsAreFilenameAndMode) {
   ASSERT_NE(fopenCall->getArguments(), nullptr);
   ASSERT_EQ(fopenCall->getArguments()->size(), 2u) << "'$fopen(\"tmp.txt\", \"w\")' passes filename then mode";
 
-  const hldb::Constant *const filename = any_cast<hldb::Constant>(fopenCall->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = fopenCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const filename = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(filename, nullptr) << "arg[0] is the string literal \"tmp.txt\"";
   EXPECT_EQ(filename->getConstType(), vpiStringConst);
   EXPECT_EQ(filename->getValue(), "tmp.txt");
   EXPECT_EQ(filename->getSize(), 56) << "Sec 5.9: \"tmp.txt\" = 7 chars x 8 bits";
 
-  const hldb::Constant *const mode = any_cast<hldb::Constant>(fopenCall->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = fopenCall->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::Constant *const mode = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mode, nullptr) << "arg[1] is the string literal \"w\"";
   EXPECT_EQ(mode->getConstType(), vpiStringConst);
   EXPECT_EQ(mode->getValue(), "w") << "Sec 21.3.1: \"w\" opens the file for writing";
@@ -534,7 +542,9 @@ TEST_F(FstrobeTest, FinalBodyIsFcloseSysTaskCallWithNoBeginWrapper) {
 
   ASSERT_NE(fcloseCall->getArguments(), nullptr);
   ASSERT_EQ(fcloseCall->getArguments()->size(), 1u) << "'$fclose(fd)' passes exactly one argument";
-  checkArgumentRefersTo(fcloseCall->getArguments()->at(0), "fd", "the $fclose descriptor argument");
+  const hldb::NamedArgument *const arg0 = fcloseCall->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  checkArgumentRefersTo(arg0->getHighConn(), "fd", "the $fclose descriptor argument");
 }
 
 // --- compiler diagnostics -----------------------------------------------------

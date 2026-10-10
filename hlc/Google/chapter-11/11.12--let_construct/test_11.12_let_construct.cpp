@@ -275,7 +275,7 @@ TEST_F(LetConstructTest, StatementAssignsLetExprCallToD) {
   const char *const expectedLCNames[3] = {"x", "y", "z"};
   const char *const expectedHCNames[3] = {"a", "b", "c"};
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::NamedArgument *const arg = any_cast<hldb::NamedArgument>(call->getArguments()->at(i));
+    const hldb::NamedArgument *const arg = call->getArguments()->at(i);
     ASSERT_NE(arg, nullptr) << "argument index " << i;
     const hldb::Any *const lc = arg->getLowConn();
     ASSERT_NE(lc, nullptr);

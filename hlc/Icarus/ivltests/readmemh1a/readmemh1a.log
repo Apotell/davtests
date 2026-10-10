@@ -355,7 +355,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: array
           vpiFullName: main.array
-          vpiVector: true
         Variable name:error start:26:5 end:26:10:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:26:1 end:26:4:
@@ -364,7 +363,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: error
           vpiFullName: main.error
-          vpiScalar: true
         Variable name:count start:27:11 end:27:16:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:27:1 end:27:10:
@@ -373,7 +371,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: count
           vpiFullName: main.count
-          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:main
@@ -497,21 +494,25 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$readmemh start:32:5 end:32:14:
                 vpiArgument (2 items):
-                  Constant start:32:15 end:32:40:
+                  NamedArgument start:32:15 end:32:40:
                     vpiParent: SysTaskCall name:$readmemh
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 184
-                    vpiDecompile: "\"ivltests/readmemh1a.dat\""
-                    vpiValue: ivltests/readmemh1a.dat
-                  RefObj name:array start:32:41 end:32:46:
+                    vpiHighConn Constant start:32:15 end:32:40:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 184
+                      vpiDecompile: "\"ivltests/readmemh1a.dat\""
+                      vpiValue: ivltests/readmemh1a.dat
+                  NamedArgument start:32:41 end:32:46:
                     vpiParent: SysTaskCall name:$readmemh
-                    vpiName: array
-                    vpiFullName: main.array
-                    vpiActual: Variable name:array
+                    vpiHighConn RefObj name:array start:32:41 end:32:46:
+                      vpiParent: NamedArgument
+                      vpiName: array
+                      vpiFullName: main.array
+                      vpiActual: Variable name:array
               ForStmt start:34:5 end:42:9:
                 vpiParent: Begin
                 vpiFullName: main
@@ -662,35 +663,41 @@ Design name:unnamed:
                             vpiParent: Begin
                             vpiName Identifier name:$display start:39:14 end:39:22:
                             vpiArgument (3 items):
-                              Constant start:39:23 end:39:60:
+                              NamedArgument start:39:23 end:39:60:
                                 vpiParent: SysTaskCall name:$display
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: main
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiSize: 280
-                                vpiDecompile: "\"FAILED - array[count] == %h, s/b %h\""
-                                vpiValue: FAILED - array[count] == %h, s/b %h
-                              BitSelect name:array[count] start:40:24 end:40:36:
+                                vpiHighConn Constant start:39:23 end:39:60:
+                                  vpiParent: NamedArgument
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: main
+                                    vpiActual: StringTypespec
+                                  vpiConstType: string (6)
+                                  vpiSize: 280
+                                  vpiDecompile: "\"FAILED - array[count] == %h, s/b %h\""
+                                  vpiValue: FAILED - array[count] == %h, s/b %h
+                              NamedArgument start:40:24 end:40:36:
                                 vpiParent: SysTaskCall name:$display
-                                vpiName: array[count]
-                                vpiFullName: main.array[count]
-                                vpiPrefix RefObj name:array start:40:24 end:40:29:
-                                  vpiParent: BitSelect name:array[count]
-                                  vpiName: array
-                                  vpiFullName: main.array
-                                  vpiActual: Variable name:array
-                                vpiIndex RefObj name:count start:40:30 end:40:35:
-                                  vpiParent: BitSelect name:array[count]
+                                vpiHighConn BitSelect name:array[count] start:40:24 end:40:36:
+                                  vpiParent: NamedArgument
+                                  vpiName: array[count]
+                                  vpiFullName: main.array[count]
+                                  vpiPrefix RefObj name:array start:40:24 end:40:29:
+                                    vpiParent: BitSelect name:array[count]
+                                    vpiName: array
+                                    vpiFullName: main.array
+                                    vpiActual: Variable name:array
+                                  vpiIndex RefObj name:count start:40:30 end:40:35:
+                                    vpiParent: BitSelect name:array[count]
+                                    vpiName: count
+                                    vpiFullName: main.count
+                                    vpiActual: Variable name:count
+                              NamedArgument start:40:37 end:40:42:
+                                vpiParent: SysTaskCall name:$display
+                                vpiHighConn RefObj name:count start:40:37 end:40:42:
+                                  vpiParent: NamedArgument
                                   vpiName: count
                                   vpiFullName: main.count
                                   vpiActual: Variable name:count
-                              RefObj name:count start:40:37 end:40:42:
-                                vpiParent: SysTaskCall name:$display
-                                vpiName: count
-                                vpiFullName: main.count
-                                vpiActual: Variable name:count
               IfStmt start:44:5 end:45:33:
                 vpiParent: Begin
                 vpiCondition Operation start:44:8 end:44:18:
@@ -716,16 +723,18 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName Identifier name:$display start:45:12 end:45:20:
                   vpiArgument (1 items):
-                    Constant start:45:21 end:45:31:
+                    NamedArgument start:45:21 end:45:31:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: main
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 56
-                      vpiDecompile: "\"PASSED\\n\""
-                      vpiValue: PASSED\n
+                      vpiHighConn Constant start:45:21 end:45:31:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: main
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 56
+                        vpiDecompile: "\"PASSED\\n\""
+                        vpiValue: PASSED\n
               SysTaskCall name:$finish start:46:5 end:46:12:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:46:5 end:46:12:
@@ -793,7 +802,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/readmemh1a/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              99      99       0         0
+Others                             105     105       0         0
 ----------------------------------------------------------------
-                                    99      99       0         0
+                                   105     105       0         0
 ===================== END REDUCTION RESULT =====================

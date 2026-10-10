@@ -412,7 +412,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -572,16 +571,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:27:3 end:27:9:
                               vpiArgument (1 items):
-                                Constant start:27:10 end:27:34:
+                                NamedArgument start:27:10 end:27:34:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:27:10 end:27:34:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:28:3 end:28:10:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:28:3 end:28:10:
@@ -596,16 +597,17 @@ Design name:unnamed:
             vpiName: Testit
             vpiFullName: t.testit.Testit
             vpiActual: ModuleTypespec name:Testit
-          vpiPort (1 items):
-            Port start:16:5 end:16:17:
+          vpiArgument (1 items):
+            NamedArgument start:16:5 end:16:17:
               vpiParent: RefInstance name:testit
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:16:6 end:16:9:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.testit.clk
                 vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:16:13 end:16:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.testit.clk
                 vpiActual: Net name:clk
@@ -641,7 +643,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: Testit.clk
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:34:16 end:34:19:
           vpiParent: Module name:Testit
@@ -755,21 +756,25 @@ Design name:unnamed:
                           vpiParent: Begin
                           vpiName Identifier name:$display start:41:6 end:41:14:
                           vpiArgument (2 items):
-                            Constant start:41:15 end:41:27:
+                            NamedArgument start:41:15 end:41:27:
                               vpiParent: SysTaskCall name:$display
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: Testit.test_gen
-                                vpiActual: StringTypespec
-                              vpiConstType: string (6)
-                              vpiSize: 80
-                              vpiDecompile: "\"igen1 = %d\""
-                              vpiValue: igen1 = %d
-                            RefObj name:igen start:41:29 end:41:33:
+                              vpiHighConn Constant start:41:15 end:41:27:
+                                vpiParent: NamedArgument
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: Testit.test_gen
+                                  vpiActual: StringTypespec
+                                vpiConstType: string (6)
+                                vpiSize: 80
+                                vpiDecompile: "\"igen1 = %d\""
+                                vpiValue: igen1 = %d
+                            NamedArgument start:41:29 end:41:33:
                               vpiParent: SysTaskCall name:$display
-                              vpiName: igen
-                              vpiFullName: Testit.test_gen.igen
-                              vpiActual: Variable name:igen
+                              vpiHighConn RefObj name:igen start:41:29 end:41:33:
+                                vpiParent: NamedArgument
+                                vpiName: igen
+                                vpiFullName: Testit.test_gen.igen
+                                vpiActual: Variable name:igen
                         SysTaskCall name:$stop start:42:6 end:42:11:
                           vpiParent: Begin
                           vpiName Identifier name:$stop start:42:6 end:42:11:
@@ -847,7 +852,7 @@ Operation                            9       4       0         5
 RefObj                              18      13       0         5
 RefTypespec                         17      17       5         5
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                   111     101      10        20
+                                   114     104      10        20
 ===================== END REDUCTION RESULT =====================

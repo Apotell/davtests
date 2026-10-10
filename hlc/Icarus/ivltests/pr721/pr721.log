@@ -490,7 +490,6 @@ Design name:unnamed:
           vpiFullName: port_test.a
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Constant start:5:22 end:5:25:
             vpiParent: Net name:a
             vpiTypespec RefTypespec:
@@ -522,26 +521,32 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:8:6 end:8:14:
                 vpiArgument (3 items):
-                  Constant start:8:15 end:8:31:
+                  NamedArgument start:8:15 end:8:31:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: port_test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 112
-                    vpiDecompile: "\"p_w=%b, c_w=%b\""
-                    vpiValue: p_w=%b, c_w=%b
-                  RefObj name:p_w start:8:33 end:8:36:
+                    vpiHighConn Constant start:8:15 end:8:31:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: port_test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 112
+                      vpiDecompile: "\"p_w=%b, c_w=%b\""
+                      vpiValue: p_w=%b, c_w=%b
+                  NamedArgument start:8:33 end:8:36:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: p_w
-                    vpiFullName: port_test.p_w
-                    vpiActual: Parameter name:p_w
-                  RefObj name:c_w start:8:38 end:8:41:
+                    vpiHighConn RefObj name:p_w start:8:33 end:8:36:
+                      vpiParent: NamedArgument
+                      vpiName: p_w
+                      vpiFullName: port_test.p_w
+                      vpiActual: Parameter name:p_w
+                  NamedArgument start:8:38 end:8:41:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: c_w
-                    vpiFullName: port_test.c_w
-                    vpiActual: Parameter name:c_w
+                    vpiHighConn RefObj name:c_w start:8:38 end:8:41:
+                      vpiParent: NamedArgument
+                      vpiName: c_w
+                      vpiFullName: port_test.c_w
+                      vpiActual: Parameter name:c_w
               IfStmt start:10:6 end:13:9:
                 vpiParent: Begin
                 vpiCondition Operation start:10:10 end:10:19:
@@ -571,21 +576,25 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:11:2 end:11:10:
                       vpiArgument (2 items):
-                        Constant start:11:11 end:11:32:
+                        NamedArgument start:11:11 end:11:32:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: port_test
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 152
-                          vpiDecompile: "\"FAILED -- c_w == %b\""
-                          vpiValue: FAILED -- c_w == %b
-                        RefObj name:c_w start:11:34 end:11:37:
+                          vpiHighConn Constant start:11:11 end:11:32:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: port_test
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 152
+                            vpiDecompile: "\"FAILED -- c_w == %b\""
+                            vpiValue: FAILED -- c_w == %b
+                        NamedArgument start:11:34 end:11:37:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: c_w
-                          vpiFullName: port_test.c_w
-                          vpiActual: Parameter name:c_w
+                          vpiHighConn RefObj name:c_w start:11:34 end:11:37:
+                            vpiParent: NamedArgument
+                            vpiName: c_w
+                            vpiFullName: port_test.c_w
+                            vpiActual: Parameter name:c_w
                     SysTaskCall name:$finish start:12:2 end:12:9:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:12:2 end:12:9:
@@ -600,11 +609,13 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:15:10 end:15:15:
                       vpiArgument (1 items):
-                        RefObj name:a start:15:16 end:15:17:
+                        NamedArgument start:15:16 end:15:17:
                           vpiParent: SysFuncCall name:$bits
-                          vpiName: a
-                          vpiFullName: port_test.a
-                          vpiActual: Net name:a
+                          vpiHighConn RefObj name:a start:15:16 end:15:17:
+                            vpiParent: NamedArgument
+                            vpiName: a
+                            vpiFullName: port_test.a
+                            vpiActual: Net name:a
                     Constant start:15:23 end:15:24:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -623,25 +634,31 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:16:2 end:16:10:
                       vpiArgument (2 items):
-                        Constant start:16:11 end:16:37:
+                        NamedArgument start:16:11 end:16:37:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: port_test
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 192
-                          vpiDecompile: "\"FAILED -- $bits(a) == %b\""
-                          vpiValue: FAILED -- $bits(a) == %b
-                        SysFuncCall name:$bits start:16:39 end:16:47:
+                          vpiHighConn Constant start:16:11 end:16:37:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: port_test
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 192
+                            vpiDecompile: "\"FAILED -- $bits(a) == %b\""
+                            vpiValue: FAILED -- $bits(a) == %b
+                        NamedArgument start:16:39 end:16:47:
                           vpiParent: SysTaskCall name:$display
-                          vpiName Identifier name:$bits start:16:39 end:16:44:
-                          vpiArgument (1 items):
-                            RefObj name:a start:16:45 end:16:46:
-                              vpiParent: SysFuncCall name:$bits
-                              vpiName: a
-                              vpiFullName: port_test.a
-                              vpiActual: Net name:a
+                          vpiHighConn SysFuncCall name:$bits start:16:39 end:16:47:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$bits start:16:39 end:16:44:
+                            vpiArgument (1 items):
+                              NamedArgument start:16:45 end:16:46:
+                                vpiParent: SysFuncCall name:$bits
+                                vpiHighConn RefObj name:a start:16:45 end:16:46:
+                                  vpiParent: NamedArgument
+                                  vpiName: a
+                                  vpiFullName: port_test.a
+                                  vpiActual: Net name:a
                     SysTaskCall name:$finish start:17:2 end:17:9:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:17:2 end:17:9:
@@ -650,16 +667,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:20:6 end:20:14:
                 vpiArgument (1 items):
-                  Constant start:20:15 end:20:23:
+                  NamedArgument start:20:15 end:20:23:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: port_test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"PASSED\""
-                    vpiValue: PASSED
+                    vpiHighConn Constant start:20:15 end:20:23:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: port_test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"PASSED\""
+                      vpiValue: PASSED
     Module name:main file:$Source01/pr721.v start:25:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:main start:25:8 end:25:12:
@@ -717,7 +736,6 @@ Design name:unnamed:
           vpiFullName: main.a
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiRefInstance (1 items):
         RefInstance name:m start:27:13 end:27:14:
           vpiParent: Module name:main
@@ -727,16 +745,17 @@ Design name:unnamed:
             vpiName: port_test
             vpiFullName: main.m.port_test
             vpiActual: ModuleTypespec name:port_test
-          vpiPort (1 items):
-            Port start:27:16 end:27:21:
+          vpiArgument (1 items):
+            NamedArgument start:27:16 end:27:21:
               vpiParent: RefInstance name:m
+              vpiConnByName: true
               vpiLowConn RefObj name:a start:27:17 end:27:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: main.m.a
                 vpiActual: Net name:a
               vpiHighConn RefObj name:a start:27:19 end:27:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: main.m.a
                 vpiActual: Net name:a
@@ -811,12 +830,13 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            14      14       6         6
 Identifier                          13      11       0         2
+NamedArgument                       11       9       0         2
 Operation                            5       0       0         5
 RefObj                              15      10       0         5
 RefTypespec                         19      16       3         6
 SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              36      36       0         0
 ----------------------------------------------------------------
-                                   105      88       9        26
+                                   115      96       9        28
 ===================== END REDUCTION RESULT =====================

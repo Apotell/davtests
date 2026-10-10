@@ -185,10 +185,14 @@ TEST_F(PackedStructUnsignedTest, SecondStmtDisplaysP1AsHex) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), std::string_view(":assert: ('%h' == 'c8')"));
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const arg = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), std::string_view("p1"));
 }
@@ -200,10 +204,14 @@ TEST_F(PackedStructUnsignedTest, ThirdStmtDisplaysP1AsUnsignedDecimal) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), std::string_view(":assert: (%d == 200)"));
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(disp->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const arg = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), std::string_view("p1"));
 }
@@ -248,11 +256,15 @@ TEST_F(PackedStructUnsignedTest, RuntimePackedUnsignedValueRequiresSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const hexDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
   ASSERT_NE(hexDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(hexDisplay->getArguments()->at(0))->getValue(), std::string_view(":assert: ('%h' == 'c8')"))
+  const hldb::NamedArgument *const arg0 = hexDisplay->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), std::string_view(":assert: ('%h' == 'c8')"))
       << "expected p1 == 8'hc8 (== 8'd200)";
   const hldb::SysFuncCall *const decDisplay = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
   ASSERT_NE(decDisplay, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(decDisplay->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == 200)"))
+  const hldb::NamedArgument *const decDisplayArg0 = decDisplay->getArguments()->at(0);
+  ASSERT_NE(decDisplayArg0, nullptr);
+  EXPECT_EQ(decDisplayArg0->getHighConn<hldb::Constant>()->getValue(), std::string_view(":assert: (%d == 200)"))
       << "expected p1 read back as 200, unchanged, since the packed struct's 'unsigned' qualifier does "
          "not reinterpret the bit pattern the way 'signed' does";
 }

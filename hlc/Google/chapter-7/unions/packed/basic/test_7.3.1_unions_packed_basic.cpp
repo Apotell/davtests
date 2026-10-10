@@ -183,8 +183,12 @@ TEST_F(UnionsPackedBasicTest, SecondStmtDisplaysUnV1) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == 140)"));
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), std::string_view("un.v1"));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), std::string_view(":assert: (%d == 140)"));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), std::string_view("un.v1"));
 }
 
 TEST_F(UnionsPackedBasicTest, ThirdStmtDisplaysUnV2ExpectingSameValueAsV1) {
@@ -194,8 +198,12 @@ TEST_F(UnionsPackedBasicTest, ThirdStmtDisplaysUnV2ExpectingSameValueAsV1) {
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::Constant>(disp->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == 140)"));
-  EXPECT_EQ(any_cast<hldb::RefObj>(disp->getArguments()->at(1))->getName(), std::string_view("un.v2"));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), std::string_view(":assert: (%d == 140)"));
+  const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), std::string_view("un.v2"));
 }
 
 // --- design-level typespecs / compiler diagnostics ----
@@ -239,11 +247,15 @@ TEST_F(UnionsPackedBasicTest, RuntimeUnionOverlapValuesRequireSimulation) {
   ASSERT_NE(begin, nullptr);
   const hldb::SysFuncCall *const v1Display = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(1));
   ASSERT_NE(v1Display, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(v1Display->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == 140)"))
+  const hldb::NamedArgument *const arg0 = v1Display->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getHighConn<hldb::Constant>()->getValue(), std::string_view(":assert: (%d == 140)"))
       << "expected un.v1 == 140 immediately after 'un.v1 = 8'd140'";
   const hldb::SysFuncCall *const v2Display = any_cast<hldb::SysFuncCall>(begin->getStmts()->at(2));
   ASSERT_NE(v2Display, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(v2Display->getArguments()->at(0))->getValue(), std::string_view(":assert: (%d == 140)"))
+  const hldb::NamedArgument *const v2DisplayArg0 = v2Display->getArguments()->at(0);
+  ASSERT_NE(v2DisplayArg0, nullptr);
+  EXPECT_EQ(v2DisplayArg0->getHighConn<hldb::Constant>()->getValue(), std::string_view(":assert: (%d == 140)"))
       << "expected un.v2 == 140 too, since a packed union's members fully overlap the same 8 bits";
 }
 

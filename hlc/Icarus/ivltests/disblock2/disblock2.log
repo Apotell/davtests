@@ -290,7 +290,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: result
           vpiFullName: test.result
-          vpiVector: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -363,7 +362,6 @@ Design name:unnamed:
                   vpiActual: LogicTypespec
                 vpiName: my_byte
                 vpiFullName: test.get_bytes.my_byte
-                vpiScalar: true
             vpiTypespec (3 items):
               LogicTypespec start:9:10 end:9:15:
                 vpiParent: Begin
@@ -486,21 +484,25 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$display start:18:13 end:18:21:
                               vpiArgument (2 items):
-                                Constant start:18:22 end:18:43:
+                                NamedArgument start:18:22 end:18:43:
                                   vpiParent: SysTaskCall name:$display
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: test.get_bytes.while_block
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 152
-                                  vpiDecompile: "\"Byte enable is 'h%h\""
-                                  vpiValue: "Byte enable is 'h%h"
-                                RefObj name:my_byte start:18:45 end:18:52:
+                                  vpiHighConn Constant start:18:22 end:18:43:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: test.get_bytes.while_block
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 152
+                                    vpiDecompile: "\"Byte enable is 'h%h\""
+                                    vpiValue: "Byte enable is 'h%h"
+                                NamedArgument start:18:45 end:18:52:
                                   vpiParent: SysTaskCall name:$display
-                                  vpiName: my_byte
-                                  vpiFullName: test.get_bytes.while_block.my_byte
-                                  vpiActual: Variable name:my_byte
+                                  vpiHighConn RefObj name:my_byte start:18:45 end:18:52:
+                                    vpiParent: NamedArgument
+                                    vpiName: my_byte
+                                    vpiFullName: test.get_bytes.while_block.my_byte
+                                    vpiActual: Variable name:my_byte
                             IfStmt start:19:13 end:20:37:
                               vpiParent: Begin
                               vpiCondition Operation start:19:16 end:19:28:
@@ -592,26 +594,30 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:4:5 end:4:13:
                 vpiArgument (2 items):
-                  Constant start:4:14 end:4:33:
+                  NamedArgument start:4:14 end:4:33:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 136
-                    vpiDecompile: "\"hello world, 'b%b\""
-                    vpiValue: "hello world, 'b%b"
-                  Constant start:4:35 end:4:39:
+                    vpiHighConn Constant start:4:14 end:4:33:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 136
+                      vpiDecompile: "\"hello world, 'b%b\""
+                      vpiValue: "hello world, 'b%b"
+                  NamedArgument start:4:35 end:4:39:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: test
-                      vpiActual: BitTypespec
-                    vpiConstType: binary (3)
-                    vpiSize: 1
-                    vpiDecompile: "1'b1"
-                    vpiValue: "1"
+                    vpiHighConn Constant start:4:35 end:4:39:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: BitTypespec
+                      vpiConstType: binary (3)
+                      vpiSize: 1
+                      vpiDecompile: "1'b1"
+                      vpiValue: "1"
               Assignment start:5:5 end:5:32:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -625,16 +631,18 @@ Design name:unnamed:
                   vpiName Identifier name:get_bytes start:5:14 end:5:23:
                   vpiTaskFunc: Function name:get_bytes
                   vpiArgument (1 items):
-                    Constant start:5:24 end:5:31:
+                    NamedArgument start:5:24 end:5:31:
                       vpiParent: MethodFuncCall name:get_bytes
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: test
-                        vpiActual: LogicTypespec
-                      vpiConstType: binary (3)
-                      vpiSize: 4
-                      vpiDecompile: "4'b0111"
-                      vpiValue: "0111"
+                      vpiHighConn Constant start:5:24 end:5:31:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: test
+                          vpiActual: LogicTypespec
+                        vpiConstType: binary (3)
+                        vpiSize: 4
+                        vpiDecompile: "4'b0111"
+                        vpiValue: "0111"
   vpiTypespec (4 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -700,7 +708,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/disblock2/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              94      94       0         0
+Others                              99      99       0         0
 ----------------------------------------------------------------
-                                    94      94       0         0
+                                    99      99       0         0
 ===================== END REDUCTION RESULT =====================

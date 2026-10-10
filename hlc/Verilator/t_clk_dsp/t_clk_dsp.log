@@ -1806,7 +1806,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: cyc
           vpiFullName: t.cyc
-          vpiVector: true
         Variable name:padd start:16:14 end:16:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:4 end:16:13:
@@ -1815,7 +1814,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: padd
           vpiFullName: t.padd
-          vpiVector: true
         Variable name:dsp_ph1 start:17:14 end:17:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:4 end:17:7:
@@ -1824,7 +1822,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dsp_ph1
           vpiFullName: t.dsp_ph1
-          vpiScalar: true
         Variable name:dsp_ph2 start:17:23 end:17:30:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:4 end:17:7:
@@ -1833,7 +1830,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dsp_ph2
           vpiFullName: t.dsp_ph2
-          vpiScalar: true
         Variable name:dsp_reset start:17:32 end:17:41:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:17:4 end:17:7:
@@ -1842,7 +1838,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dsp_reset
           vpiFullName: t.dsp_reset
-          vpiScalar: true
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -1949,7 +1944,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:out start:21:16 end:21:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:21:9 end:21:14:
@@ -1960,7 +1954,6 @@ Design name:unnamed:
           vpiFullName: t.out
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -2017,21 +2010,25 @@ Design name:unnamed:
                   vpiParent: Begin
                   vpiName Identifier name:$write start:34:7 end:34:13:
                   vpiArgument (2 items):
-                    Constant start:34:14 end:34:24:
+                    NamedArgument start:34:14 end:34:24:
                       vpiParent: SysTaskCall name:$write
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 56
-                      vpiDecompile: "\"cyc %d\\n\""
-                      vpiValue: cyc %d\n
-                    RefObj name:cyc start:34:25 end:34:28:
+                      vpiHighConn Constant start:34:14 end:34:24:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 56
+                        vpiDecompile: "\"cyc %d\\n\""
+                        vpiValue: cyc %d\n
+                    NamedArgument start:34:25 end:34:28:
                       vpiParent: SysTaskCall name:$write
-                      vpiName: cyc
-                      vpiFullName: t.cyc
-                      vpiActual: Variable name:cyc
+                      vpiHighConn RefObj name:cyc start:34:25 end:34:28:
+                        vpiParent: NamedArgument
+                        vpiName: cyc
+                        vpiFullName: t.cyc
+                        vpiActual: Variable name:cyc
                 IfElse start:35:7 end:73:10:
                   vpiParent: Begin
                   vpiCondition Operation start:35:11 end:35:22:
@@ -2137,16 +2134,18 @@ Design name:unnamed:
                           vpiParent: Begin
                           vpiName Identifier name:$write start:41:3 end:41:9:
                           vpiArgument (1 items):
-                            Constant start:41:10 end:41:34:
+                            NamedArgument start:41:10 end:41:34:
                               vpiParent: SysTaskCall name:$write
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: StringTypespec
-                              vpiConstType: string (6)
-                              vpiSize: 168
-                              vpiDecompile: "\"*-* All Finished *-*\\n\""
-                              vpiValue: "*-* All Finished *-*\\n"
+                              vpiHighConn Constant start:41:10 end:41:34:
+                                vpiParent: NamedArgument
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: t
+                                  vpiActual: StringTypespec
+                                vpiConstType: string (6)
+                                vpiSize: 168
+                                vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                vpiValue: "*-* All Finished *-*\\n"
                         SysTaskCall name:$finish start:42:3 end:42:10:
                           vpiParent: Begin
                           vpiName Identifier name:$finish start:42:3 end:42:10:
@@ -2846,16 +2845,17 @@ Design name:unnamed:
             vpiName: t_dspchip
             vpiFullName: t.dspchip.t_dspchip
             vpiActual: ModuleTypespec name:t_dspchip
-          vpiPort (5 items):
-            Port start:26:9 end:26:25:
+          vpiArgument (5 items):
+            NamedArgument start:26:9 end:26:25:
               vpiParent: RefInstance name:dspchip
+              vpiConnByName: true
               vpiLowConn RefObj name:out start:26:10 end:26:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out
                 vpiFullName: t.dspchip.out
                 vpiActual: Net name:out
               vpiHighConn PartSelect name:out[7:0] start:26:16 end:26:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out[7:0]
                 vpiFullName: t.dspchip.out[7:0]
                 vpiPrefix RefObj name:out start:26:16 end:26:19:
@@ -2885,51 +2885,55 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:28:9 end:28:28:
+            NamedArgument start:28:9 end:28:28:
               vpiParent: RefInstance name:dspchip
+              vpiConnByName: true
               vpiLowConn RefObj name:dsp_ph1 start:28:10 end:28:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_ph1
                 vpiFullName: t.dspchip.dsp_ph1
                 vpiActual: Variable name:dsp_ph1
               vpiHighConn RefObj name:dsp_ph1 start:28:20 end:28:27:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_ph1
                 vpiFullName: t.dspchip.dsp_ph1
                 vpiActual: Variable name:dsp_ph1
-            Port start:29:9 end:29:28:
+            NamedArgument start:29:9 end:29:28:
               vpiParent: RefInstance name:dspchip
+              vpiConnByName: true
               vpiLowConn RefObj name:dsp_ph2 start:29:10 end:29:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_ph2
                 vpiFullName: t.dspchip.dsp_ph2
                 vpiActual: Variable name:dsp_ph2
               vpiHighConn RefObj name:dsp_ph2 start:29:20 end:29:27:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_ph2
                 vpiFullName: t.dspchip.dsp_ph2
                 vpiActual: Variable name:dsp_ph2
-            Port start:30:9 end:30:31:
+            NamedArgument start:30:9 end:30:31:
               vpiParent: RefInstance name:dspchip
+              vpiConnByName: true
               vpiLowConn RefObj name:dsp_reset start:30:10 end:30:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_reset
                 vpiFullName: t.dspchip.dsp_reset
                 vpiActual: Variable name:dsp_reset
               vpiHighConn RefObj name:dsp_reset start:30:21 end:30:30:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_reset
                 vpiFullName: t.dspchip.dsp_reset
                 vpiActual: Variable name:dsp_reset
-            Port start:31:9 end:31:27:
+            NamedArgument start:31:9 end:31:27:
               vpiParent: RefInstance name:dspchip
+              vpiConnByName: true
               vpiLowConn RefObj name:padd start:31:10 end:31:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: padd
                 vpiFullName: t.dspchip.padd
                 vpiActual: Variable name:padd
               vpiHighConn PartSelect name:padd[7:0] start:31:17 end:31:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: padd[7:0]
                 vpiFullName: t.dspchip.padd[7:0]
                 vpiPrefix RefObj name:padd start:31:17 end:31:21:
@@ -3051,7 +3055,6 @@ Design name:unnamed:
           vpiFullName: t_dspchip.dsp_ph1
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:dsp_ph2 start:84:19 end:84:26:
           vpiParent: Module name:t_dspchip
           vpiTypespec RefTypespec:
@@ -3062,7 +3065,6 @@ Design name:unnamed:
           vpiFullName: t_dspchip.dsp_ph2
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:dsp_reset start:84:28 end:84:37:
           vpiParent: Module name:t_dspchip
           vpiTypespec RefTypespec:
@@ -3072,7 +3074,6 @@ Design name:unnamed:
           vpiName: dsp_reset
           vpiFullName: t_dspchip.dsp_reset
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:padd start:85:16 end:85:20:
           vpiParent: Module name:t_dspchip
           vpiTypespec RefTypespec start:92:9 end:92:14:
@@ -3083,7 +3084,6 @@ Design name:unnamed:
           vpiFullName: t_dspchip.padd
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:out start:86:17 end:86:20:
           vpiParent: Module name:t_dspchip
           vpiTypespec RefTypespec start:89:9 end:89:14:
@@ -3094,7 +3094,6 @@ Design name:unnamed:
           vpiFullName: t_dspchip.out
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:pla_ph1 start:90:10 end:90:17:
           vpiParent: Module name:t_dspchip
           vpiTypespec RefTypespec:
@@ -3105,7 +3104,6 @@ Design name:unnamed:
           vpiFullName: t_dspchip.pla_ph1
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:pla_ph2 start:90:19 end:90:26:
           vpiParent: Module name:t_dspchip
           vpiTypespec RefTypespec:
@@ -3116,7 +3114,6 @@ Design name:unnamed:
           vpiFullName: t_dspchip.pla_ph2
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:out1_r start:91:10 end:91:16:
           vpiParent: Module name:t_dspchip
           vpiTypespec RefTypespec:
@@ -3127,7 +3124,6 @@ Design name:unnamed:
           vpiFullName: t_dspchip.out1_r
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:out2_r start:92:16 end:92:22:
           vpiParent: Module name:t_dspchip
           vpiTypespec RefTypespec start:92:9 end:92:14:
@@ -3138,7 +3134,6 @@ Design name:unnamed:
           vpiFullName: t_dspchip.out2_r
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:clk_en start:93:10 end:93:16:
           vpiParent: Module name:t_dspchip
           vpiTypespec RefTypespec:
@@ -3149,7 +3144,6 @@ Design name:unnamed:
           vpiFullName: t_dspchip.clk_en
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (5 items):
         Port name:out start:80:4 end:80:7:
           vpiParent: Module name:t_dspchip
@@ -3258,88 +3252,95 @@ Design name:unnamed:
             vpiName: t_dspcore
             vpiFullName: t_dspchip.t_dspcore.t_dspcore
             vpiActual: ModuleTypespec name:t_dspcore
-          vpiPort (7 items):
-            Port start:97:4 end:97:21:
+          vpiArgument (7 items):
+            NamedArgument start:97:4 end:97:21:
               vpiParent: RefInstance name:t_dspcore
+              vpiConnByName: true
               vpiLowConn RefObj name:out1_r start:97:5 end:97:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out1_r
                 vpiFullName: t_dspchip.t_dspcore.out1_r
                 vpiActual: Net name:out1_r
               vpiHighConn RefObj name:out1_r start:97:14 end:97:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out1_r
                 vpiFullName: t_dspchip.t_dspcore.out1_r
                 vpiActual: Net name:out1_r
-            Port start:98:4 end:98:22:
+            NamedArgument start:98:4 end:98:22:
               vpiParent: RefInstance name:t_dspcore
+              vpiConnByName: true
               vpiLowConn RefObj name:pla_ph1 start:98:5 end:98:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: pla_ph1
                 vpiFullName: t_dspchip.t_dspcore.pla_ph1
                 vpiActual: Net name:pla_ph1
               vpiHighConn RefObj name:pla_ph1 start:98:14 end:98:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: pla_ph1
                 vpiFullName: t_dspchip.t_dspcore.pla_ph1
                 vpiActual: Net name:pla_ph1
-            Port start:99:4 end:99:22:
+            NamedArgument start:99:4 end:99:22:
               vpiParent: RefInstance name:t_dspcore
+              vpiConnByName: true
               vpiLowConn RefObj name:pla_ph2 start:99:5 end:99:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: pla_ph2
                 vpiFullName: t_dspchip.t_dspcore.pla_ph2
                 vpiActual: Net name:pla_ph2
               vpiHighConn RefObj name:pla_ph2 start:99:14 end:99:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: pla_ph2
                 vpiFullName: t_dspchip.t_dspcore.pla_ph2
                 vpiActual: Net name:pla_ph2
-            Port start:101:4 end:101:22:
+            NamedArgument start:101:4 end:101:22:
               vpiParent: RefInstance name:t_dspcore
+              vpiConnByName: true
               vpiLowConn RefObj name:dsp_ph1 start:101:5 end:101:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_ph1
                 vpiFullName: t_dspchip.t_dspcore.dsp_ph1
                 vpiActual: Net name:dsp_ph1
               vpiHighConn RefObj name:dsp_ph1 start:101:14 end:101:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_ph1
                 vpiFullName: t_dspchip.t_dspcore.dsp_ph1
                 vpiActual: Net name:dsp_ph1
-            Port start:102:4 end:102:22:
+            NamedArgument start:102:4 end:102:22:
               vpiParent: RefInstance name:t_dspcore
+              vpiConnByName: true
               vpiLowConn RefObj name:dsp_ph2 start:102:5 end:102:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_ph2
                 vpiFullName: t_dspchip.t_dspcore.dsp_ph2
                 vpiActual: Net name:dsp_ph2
               vpiHighConn RefObj name:dsp_ph2 start:102:14 end:102:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_ph2
                 vpiFullName: t_dspchip.t_dspcore.dsp_ph2
                 vpiActual: Net name:dsp_ph2
-            Port start:103:4 end:103:26:
+            NamedArgument start:103:4 end:103:26:
               vpiParent: RefInstance name:t_dspcore
+              vpiConnByName: true
               vpiLowConn RefObj name:dsp_reset start:103:5 end:103:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_reset
                 vpiFullName: t_dspchip.t_dspcore.dsp_reset
                 vpiActual: Net name:dsp_reset
               vpiHighConn RefObj name:dsp_reset start:103:16 end:103:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_reset
                 vpiFullName: t_dspchip.t_dspcore.dsp_reset
                 vpiActual: Net name:dsp_reset
-            Port start:104:4 end:104:21:
+            NamedArgument start:104:4 end:104:21:
               vpiParent: RefInstance name:t_dspcore
+              vpiConnByName: true
               vpiLowConn RefObj name:clk_en start:104:5 end:104:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk_en
                 vpiFullName: t_dspchip.t_dspcore.clk_en
                 vpiActual: Net name:clk_en
               vpiHighConn RefObj name:clk_en start:104:14 end:104:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk_en
                 vpiFullName: t_dspchip.t_dspcore.clk_en
                 vpiActual: Net name:clk_en
@@ -3351,16 +3352,17 @@ Design name:unnamed:
             vpiName: t_dsppla
             vpiFullName: t_dspchip.t_dsppla.t_dsppla
             vpiActual: ModuleTypespec name:t_dsppla
-          vpiPort (5 items):
-            Port start:107:9 end:107:31:
+          vpiArgument (5 items):
+            NamedArgument start:107:9 end:107:31:
               vpiParent: RefInstance name:t_dsppla
+              vpiConnByName: true
               vpiLowConn RefObj name:out2_r start:107:10 end:107:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out2_r
                 vpiFullName: t_dspchip.t_dsppla.out2_r
                 vpiActual: Net name:out2_r
               vpiHighConn PartSelect name:out2_r[7:0] start:107:19 end:107:30:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: out2_r[7:0]
                 vpiFullName: t_dspchip.t_dsppla.out2_r[7:0]
                 vpiPrefix RefObj name:out2_r start:107:19 end:107:25:
@@ -3390,51 +3392,55 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:109:9 end:109:28:
+            NamedArgument start:109:9 end:109:28:
               vpiParent: RefInstance name:t_dsppla
+              vpiConnByName: true
               vpiLowConn RefObj name:pla_ph1 start:109:10 end:109:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: pla_ph1
                 vpiFullName: t_dspchip.t_dsppla.pla_ph1
                 vpiActual: Net name:pla_ph1
               vpiHighConn RefObj name:pla_ph1 start:109:20 end:109:27:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: pla_ph1
                 vpiFullName: t_dspchip.t_dsppla.pla_ph1
                 vpiActual: Net name:pla_ph1
-            Port start:110:9 end:110:28:
+            NamedArgument start:110:9 end:110:28:
               vpiParent: RefInstance name:t_dsppla
+              vpiConnByName: true
               vpiLowConn RefObj name:pla_ph2 start:110:10 end:110:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: pla_ph2
                 vpiFullName: t_dspchip.t_dsppla.pla_ph2
                 vpiActual: Net name:pla_ph2
               vpiHighConn RefObj name:pla_ph2 start:110:20 end:110:27:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: pla_ph2
                 vpiFullName: t_dspchip.t_dsppla.pla_ph2
                 vpiActual: Net name:pla_ph2
-            Port start:111:9 end:111:31:
+            NamedArgument start:111:9 end:111:31:
               vpiParent: RefInstance name:t_dsppla
+              vpiConnByName: true
               vpiLowConn RefObj name:dsp_reset start:111:10 end:111:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_reset
                 vpiFullName: t_dspchip.t_dsppla.dsp_reset
                 vpiActual: Net name:dsp_reset
               vpiHighConn RefObj name:dsp_reset start:111:21 end:111:30:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dsp_reset
                 vpiFullName: t_dspchip.t_dsppla.dsp_reset
                 vpiActual: Net name:dsp_reset
-            Port start:112:9 end:112:27:
+            NamedArgument start:112:9 end:112:27:
               vpiParent: RefInstance name:t_dsppla
+              vpiConnByName: true
               vpiLowConn RefObj name:padd start:112:10 end:112:14:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: padd
                 vpiFullName: t_dspchip.t_dsppla.padd
                 vpiActual: Net name:padd
               vpiHighConn PartSelect name:padd[7:0] start:112:17 end:112:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: padd[7:0]
                 vpiFullName: t_dspchip.t_dsppla.padd[7:0]
                 vpiPrefix RefObj name:padd start:112:17 end:112:21:
@@ -3477,7 +3483,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out1_r
           vpiFullName: t_dspcore.out1_r
-          vpiScalar: true
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:t_dspcore
@@ -3502,7 +3507,6 @@ Design name:unnamed:
           vpiFullName: t_dspcore.dsp_ph1
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:dsp_ph2 start:125:19 end:125:26:
           vpiParent: Module name:t_dspcore
           vpiTypespec RefTypespec:
@@ -3513,7 +3517,6 @@ Design name:unnamed:
           vpiFullName: t_dspcore.dsp_ph2
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:dsp_reset start:125:28 end:125:37:
           vpiParent: Module name:t_dspcore
           vpiTypespec RefTypespec:
@@ -3524,7 +3527,6 @@ Design name:unnamed:
           vpiFullName: t_dspcore.dsp_reset
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:clk_en start:126:10 end:126:16:
           vpiParent: Module name:t_dspcore
           vpiTypespec RefTypespec:
@@ -3534,7 +3536,6 @@ Design name:unnamed:
           vpiName: clk_en
           vpiFullName: t_dspcore.clk_en
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:pla_ph1 start:127:19 end:127:26:
           vpiParent: Module name:t_dspcore
           vpiTypespec RefTypespec:
@@ -3545,7 +3546,6 @@ Design name:unnamed:
           vpiFullName: t_dspcore.pla_ph1
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:pla_ph2 start:127:28 end:127:35:
           vpiParent: Module name:t_dspcore
           vpiTypespec RefTypespec:
@@ -3556,7 +3556,6 @@ Design name:unnamed:
           vpiFullName: t_dspcore.pla_ph2
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (7 items):
         Port name:out1_r start:121:4 end:121:10:
           vpiParent: Module name:t_dspcore
@@ -3744,7 +3743,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out2_r
           vpiFullName: t_dsppla.out2_r
-          vpiVector: true
         Variable name:latched_r start:159:15 end:159:24:
           vpiParent: Module name:t_dsppla
           vpiTypespec RefTypespec start:159:4 end:159:13:
@@ -3753,7 +3751,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: latched_r
           vpiFullName: t_dsppla.latched_r
-          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t_dsppla
@@ -3856,7 +3853,6 @@ Design name:unnamed:
           vpiFullName: t_dsppla.pla_ph1
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:pla_ph2 start:151:19 end:151:26:
           vpiParent: Module name:t_dsppla
           vpiTypespec RefTypespec:
@@ -3867,7 +3863,6 @@ Design name:unnamed:
           vpiFullName: t_dsppla.pla_ph2
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:dsp_reset start:151:28 end:151:37:
           vpiParent: Module name:t_dsppla
           vpiTypespec RefTypespec:
@@ -3878,7 +3873,6 @@ Design name:unnamed:
           vpiFullName: t_dsppla.dsp_reset
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:padd start:152:16 end:152:20:
           vpiParent: Module name:t_dsppla
           vpiTypespec RefTypespec start:156:9 end:156:14:
@@ -3889,7 +3883,6 @@ Design name:unnamed:
           vpiFullName: t_dsppla.padd
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (5 items):
         Port name:out2_r start:147:4 end:147:10:
           vpiParent: Module name:t_dsppla
@@ -4151,7 +4144,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_clk_dsp/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             554     554       0         0
+Others                             557     557       0         0
 ----------------------------------------------------------------
-                                   554     554       0         0
+                                   557     557       0         0
 ===================== END REDUCTION RESULT =====================

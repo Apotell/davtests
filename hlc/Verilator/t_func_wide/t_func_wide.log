@@ -498,7 +498,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: mi
           vpiFullName: t.mi
-          vpiVector: true
         Variable name:cyc start:13:12 end:13:15:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:13:4 end:13:11:
@@ -590,7 +589,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:mo start:10:17 end:10:19:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:10:9 end:10:15:
@@ -601,7 +599,6 @@ Design name:unnamed:
           vpiFullName: t.mo
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:6:11 end:6:14:
           vpiParent: Module name:t
@@ -801,16 +798,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:22:6 end:22:12:
                               vpiArgument (1 items):
-                                Constant start:22:13 end:22:37:
+                                NamedArgument start:22:13 end:22:37:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:22:13 end:22:37:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:23:6 end:23:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:23:6 end:23:13:
@@ -825,28 +824,28 @@ Design name:unnamed:
             vpiName: muxtop
             vpiFullName: t.um.muxtop
             vpiActual: ModuleTypespec name:muxtop
-          vpiPort (2 items):
-            Port start:11:16 end:11:18:
+          vpiArgument (2 items):
+            NamedArgument start:11:16 end:11:18:
               vpiParent: RefInstance name:um
               vpiLowConn RefObj name:i:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i
                 vpiFullName: t.um.i
                 vpiActual: Port name:i
               vpiHighConn RefObj name:mi start:11:16 end:11:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: mi
                 vpiFullName: t.um.mi
                 vpiActual: Variable name:mi
-            Port start:11:20 end:11:22:
+            NamedArgument start:11:20 end:11:22:
               vpiParent: RefInstance name:um
               vpiLowConn RefObj name:o:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: t.um.o
                 vpiActual: Port name:o
               vpiHighConn RefObj name:mo start:11:20 end:11:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: mo
                 vpiFullName: t.um.mo
                 vpiActual: Net name:mo
@@ -863,7 +862,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: o
           vpiFullName: muxtop.o
-          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:muxtop
@@ -1064,7 +1062,6 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: muxtop.i
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (2 items):
         Port name:i start:31:19 end:31:20:
           vpiParent: Module name:muxtop
@@ -1141,37 +1138,39 @@ Design name:unnamed:
                 vpiName Identifier name:MUX start:36:10 end:36:13:
                 vpiTaskFunc: Function name:MUX
                 vpiArgument (1 items):
-                  PartSelect name:i[39:0] start:36:15 end:36:22:
+                  NamedArgument start:36:15 end:36:22:
                     vpiParent: MethodFuncCall name:MUX
-                    vpiName: i[39:0]
-                    vpiFullName: muxtop.i[39:0]
-                    vpiPrefix RefObj name:i start:36:15 end:36:16:
-                      vpiParent: PartSelect name:i[39:0]
-                      vpiName: i
-                      vpiFullName: muxtop.i[39:0].i
-                      vpiActual: Net name:i
-                    vpiRange Range start:36:17 end:36:21:
-                      vpiParent: PartSelect name:i[39:0]
-                      vpiLeftRange Constant start:36:17 end:36:19:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: muxtop.i[39:0]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "39"
-                        vpiValue: 39
-                      vpiRightRange Constant start:36:20 end:36:21:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: muxtop.i[39:0]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "0"
-                        vpiValue: 0
+                    vpiHighConn PartSelect name:i[39:0] start:36:15 end:36:22:
+                      vpiParent: NamedArgument
+                      vpiName: i[39:0]
+                      vpiFullName: muxtop.i[39:0]
+                      vpiPrefix RefObj name:i start:36:15 end:36:16:
+                        vpiParent: PartSelect name:i[39:0]
+                        vpiName: i
+                        vpiFullName: muxtop.i[39:0].i
+                        vpiActual: Net name:i
+                      vpiRange Range start:36:17 end:36:21:
+                        vpiParent: PartSelect name:i[39:0]
+                        vpiLeftRange Constant start:36:17 end:36:19:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: muxtop.i[39:0]
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "39"
+                          vpiValue: 39
+                        vpiRightRange Constant start:36:20 end:36:21:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: muxtop.i[39:0]
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
           vpiAlwaysType: always (1)
   vpiTypespec (6 items):
     ModuleTypespec name:t:
@@ -1245,7 +1244,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_wide/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             175     175       0         0
+Others                             177     177       0         0
 ----------------------------------------------------------------
-                                   175     175       0         0
+                                   177     177       0         0
 ===================== END REDUCTION RESULT =====================

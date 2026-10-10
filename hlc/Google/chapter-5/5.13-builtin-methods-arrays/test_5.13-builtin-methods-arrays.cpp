@@ -183,7 +183,9 @@ TEST_F(BuiltinMethodsArrays, FirstArgumentIsStringConstant) {
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>((*c->getArguments())[0]);
+  const hldb::NamedArgument *const arg0 = c->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr) << "first argument should be a Constant";
   // vpiStringConst = 6
   EXPECT_EQ(fmt->getConstType(), 6) << "format string should have string const type";
@@ -198,7 +200,9 @@ TEST_F(BuiltinMethodsArrays, SecondArgumentIsRefObj) {
   ASSERT_NE(c->getArguments(), nullptr);
   ASSERT_EQ(c->getArguments()->size(), 2u);
 
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>((*c->getArguments())[1]);
+  const hldb::NamedArgument *const arg1 = c->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hp, nullptr) << "second argument should be a RefObj";
   EXPECT_EQ(hp->getName(), std::string_view("array.size()"));
 }
@@ -206,7 +210,9 @@ TEST_F(BuiltinMethodsArrays, SecondArgumentIsRefObj) {
 TEST_F(BuiltinMethodsArrays, RefObjHasTwoPathElems) {
   const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>((*c->getArguments())[1]);
+  const hldb::NamedArgument *const arg1 = c->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_NE(hp->getPathElems(), nullptr);
   EXPECT_EQ(hp->getPathElems()->size(), 2u);
@@ -215,7 +221,9 @@ TEST_F(BuiltinMethodsArrays, RefObjHasTwoPathElems) {
 TEST_F(BuiltinMethodsArrays, FirstPathElemIsArrayRef) {
   const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>((*c->getArguments())[1]);
+  const hldb::NamedArgument *const arg1 = c->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
 
@@ -227,7 +235,9 @@ TEST_F(BuiltinMethodsArrays, FirstPathElemIsArrayRef) {
 TEST_F(BuiltinMethodsArrays, SecondPathElemIsSizeMethodFuncCall) {
   const hldb::SysTaskCall *const c = getDisplay(m_design);
   ASSERT_NE(c, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>((*c->getArguments())[1]);
+  const hldb::NamedArgument *const arg1 = c->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(hp, nullptr);
   ASSERT_EQ(hp->getPathElems()->size(), 2u);
 

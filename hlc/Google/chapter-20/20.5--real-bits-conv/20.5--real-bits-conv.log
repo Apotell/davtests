@@ -113,34 +113,42 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:20:2 end:20:10:
                 vpiArgument (2 items):
-                  Constant start:20:11 end:20:35:
+                  NamedArgument start:20:11 end:20:35:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 176
-                    vpiDecompile: "\":assert: (%f == 12.45)\""
-                    vpiValue: ":assert: (%f == 12.45)"
-                  SysFuncCall name:$bitstoreal start:20:37 end:20:68:
+                    vpiHighConn Constant start:20:11 end:20:35:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 176
+                      vpiDecompile: "\":assert: (%f == 12.45)\""
+                      vpiValue: ":assert: (%f == 12.45)"
+                  NamedArgument start:20:37 end:20:68:
                     vpiParent: SysTaskCall name:$display
-                    vpiName Identifier name:$bitstoreal start:20:37 end:20:48:
-                    vpiArgument (1 items):
-                      SysFuncCall name:$realtobits start:20:49 end:20:67:
-                        vpiParent: SysFuncCall name:$bitstoreal
-                        vpiName Identifier name:$realtobits start:20:49 end:20:60:
-                        vpiArgument (1 items):
-                          Constant start:20:61 end:20:66:
-                            vpiParent: SysFuncCall name:$realtobits
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: top
-                              vpiActual: RealTypespec
-                            vpiConstType: real (2)
-                            vpiSize: 64
-                            vpiDecompile: "12.45"
-                            vpiValue: 12.45
+                    vpiHighConn SysFuncCall name:$bitstoreal start:20:37 end:20:68:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$bitstoreal start:20:37 end:20:48:
+                      vpiArgument (1 items):
+                        NamedArgument start:20:49 end:20:67:
+                          vpiParent: SysFuncCall name:$bitstoreal
+                          vpiHighConn SysFuncCall name:$realtobits start:20:49 end:20:67:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$realtobits start:20:49 end:20:60:
+                            vpiArgument (1 items):
+                              NamedArgument start:20:61 end:20:66:
+                                vpiParent: SysFuncCall name:$realtobits
+                                vpiHighConn Constant start:20:61 end:20:66:
+                                  vpiParent: NamedArgument
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: top
+                                    vpiActual: RealTypespec
+                                  vpiConstType: real (2)
+                                  vpiSize: 64
+                                  vpiDecompile: "12.45"
+                                  vpiValue: 12.45
   vpiTypespec (3 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -204,10 +212,11 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             2       2       1         1
 Identifier                           5       3       0         2
+NamedArgument                        4       2       0         2
 RefTypespec                          2       1       0         1
 SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
 Others                              11      11       0         0
 ----------------------------------------------------------------
-                                    22      17       1         6
+                                    26      19       1         8
 ===================== END REDUCTION RESULT =====================

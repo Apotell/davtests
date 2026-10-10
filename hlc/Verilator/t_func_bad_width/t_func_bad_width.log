@@ -226,7 +226,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: t.out
-          vpiVector: true
         Variable name:in start:9:15 end:9:17:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:9:4 end:9:14:
@@ -235,7 +234,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: in
           vpiFullName: t.in
-          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -464,30 +462,36 @@ Design name:unnamed:
                   vpiName Identifier name:MUX start:12:13 end:12:16:
                   vpiTaskFunc: Function name:MUX
                   vpiArgument (1 items):
-                    RefObj name:in start:12:18 end:12:20:
+                    NamedArgument start:12:18 end:12:20:
                       vpiParent: MethodFuncCall name:MUX
-                      vpiName: in
-                      vpiFullName: t.in
-                      vpiActual: Variable name:in
+                      vpiHighConn RefObj name:in start:12:18 end:12:20:
+                        vpiParent: NamedArgument
+                        vpiName: in
+                        vpiFullName: t.in
+                        vpiActual: Variable name:in
               SysTaskCall name:$write start:13:7 end:13:35:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:13:7 end:13:13:
                 vpiArgument (2 items):
-                  Constant start:13:14 end:13:29:
+                  NamedArgument start:13:14 end:13:29:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 104
-                    vpiDecompile: "\"bad widths %x\""
-                    vpiValue: bad widths %x
-                  RefObj name:out start:13:31 end:13:34:
+                    vpiHighConn Constant start:13:14 end:13:29:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 104
+                      vpiDecompile: "\"bad widths %x\""
+                      vpiValue: bad widths %x
+                  NamedArgument start:13:31 end:13:34:
                     vpiParent: SysTaskCall name:$write
-                    vpiName: out
-                    vpiFullName: t.out
-                    vpiActual: Variable name:out
+                    vpiHighConn RefObj name:out start:13:31 end:13:34:
+                      vpiParent: NamedArgument
+                      vpiName: out
+                      vpiFullName: t.out
+                      vpiActual: Variable name:out
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -553,7 +557,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_bad_width/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              73      73       0         0
+Others                              76      76       0         0
 ----------------------------------------------------------------
-                                    73      73       0         0
+                                    76      76       0         0
 ===================== END REDUCTION RESULT =====================

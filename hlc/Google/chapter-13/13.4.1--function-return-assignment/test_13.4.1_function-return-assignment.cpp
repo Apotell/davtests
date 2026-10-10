@@ -163,16 +163,22 @@ TEST_F(FunctionReturnAssignmentTest, InitialBodyDisplaysAddCallResultAndResolves
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u);
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(display->getArguments()->at(1));
+  const hldb::NamedArgument *const callArg = display->getArguments()->at(1);
+  ASSERT_NE(callArg, nullptr);
+  const hldb::MethodFuncCall *const call = callArg->getHighConn<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "add");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getAdd());
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
-  const hldb::Constant *const arg0 = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0Arg = call->getArguments()->at(0);
+  ASSERT_NE(arg0Arg, nullptr);
+  const hldb::Constant *const arg0 = arg0Arg->getHighConn<hldb::Constant>();
   ASSERT_NE(arg0, nullptr);
   EXPECT_EQ(arg0->getDecompile(), "30");
-  const hldb::Constant *const arg1 = any_cast<hldb::Constant>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1Arg = call->getArguments()->at(1);
+  ASSERT_NE(arg1Arg, nullptr);
+  const hldb::Constant *const arg1 = arg1Arg->getHighConn<hldb::Constant>();
   ASSERT_NE(arg1, nullptr);
   EXPECT_EQ(arg1->getDecompile(), "60");
 }

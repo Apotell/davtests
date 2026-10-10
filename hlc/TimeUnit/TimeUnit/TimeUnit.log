@@ -118,7 +118,6 @@ Design name:unnamed:
           vpiName: clock
           vpiFullName: my_interface.clock
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:select start:4:9 end:4:15:
           vpiParent: Interface name:my_interface
           vpiTypespec RefTypespec:
@@ -128,7 +127,6 @@ Design name:unnamed:
           vpiName: select
           vpiFullName: my_interface.select
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:data start:5:15 end:5:19:
           vpiParent: Interface name:my_interface
           vpiTypespec RefTypespec start:5:9 end:5:14:
@@ -138,7 +136,6 @@ Design name:unnamed:
           vpiName: data
           vpiFullName: my_interface.data
           vpiNetType: wire (1)
-          vpiVector: true
       vpiClockingBlock (1 items):
         ClockingBlock name:cb start:7:3 end:9:14:
           vpiParent: Interface name:my_interface
@@ -244,7 +241,6 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: bottom1.a
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:b start:3:32 end:3:33:
           vpiParent: Module name:bottom1
           vpiTypespec RefTypespec:
@@ -254,7 +250,6 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: bottom1.b
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:a start:3:23 end:3:24:
           vpiParent: Module name:bottom1
@@ -291,16 +286,16 @@ Design name:unnamed:
             vpiName: bottom2
             vpiFullName: bottom1.u1.bottom2
             vpiActual: ModuleTypespec name:bottom2
-          vpiPort (2 items):
-            Port start:6:14 end:6:18:
+          vpiArgument (2 items):
+            NamedArgument start:6:14 end:6:18:
               vpiParent: RefInstance name:u1
               vpiLowConn RefObj name:a:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: bottom1.u1.a
                 vpiActual: Port name:a
               vpiHighConn BitSelect name:a[0] start:6:14 end:6:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a[0]
                 vpiFullName: bottom1.u1.a[0]
                 vpiPrefix RefObj name:a start:6:14 end:6:15:
@@ -318,15 +313,15 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-            Port start:6:20 end:6:21:
+            NamedArgument start:6:20 end:6:21:
               vpiParent: RefInstance name:u1
               vpiLowConn RefObj name:b:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: bottom1.u1.b
                 vpiActual: Port name:b
               vpiHighConn RefObj name:b start:6:20 end:6:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: bottom1.u1.b
                 vpiActual: Net name:b
@@ -338,14 +333,14 @@ Design name:unnamed:
             vpiName: bottom3
             vpiFullName: bottom1.u2.bottom3
             vpiActual: ModuleTypespec name:bottom3
-          vpiPort (2 items):
-            Port start:7:14 end:7:18:
+          vpiArgument (2 items):
+            NamedArgument start:7:14 end:7:18:
               vpiParent: RefInstance name:u2
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: bottom1.u2
               vpiHighConn BitSelect name:a[0] start:7:14 end:7:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a[0]
                 vpiFullName: bottom1.u2.a[0]
                 vpiPrefix RefObj name:a start:7:14 end:7:15:
@@ -363,13 +358,13 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-            Port start:7:20 end:7:21:
+            NamedArgument start:7:20 end:7:21:
               vpiParent: RefInstance name:u2
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: bottom1.u2
               vpiHighConn RefObj name:b start:7:20 end:7:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: bottom1.u2.b
                 vpiActual: Net name:b
@@ -381,11 +376,11 @@ Design name:unnamed:
             vpiName: my_interface
             vpiFullName: bottom1.my_interface.my_interface
             vpiActual: InterfaceTypespec name:my_interface
-          vpiPort (1 items):
-            Port start:9:28 end:9:30:
+          vpiArgument (1 items):
+            NamedArgument start:9:28 end:9:30:
               vpiParent: RefInstance name:my_interface
               vpiLowConn RefObj name:.*:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: bottom1.my_interface..*
     Module name:bottom2 file:$Source01/top.v start:13:1 end:16:10:
@@ -415,7 +410,6 @@ Design name:unnamed:
           vpiName: a
           vpiFullName: bottom2.a
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:b start:13:32 end:13:33:
           vpiParent: Module name:bottom2
           vpiTypespec RefTypespec:
@@ -425,7 +419,6 @@ Design name:unnamed:
           vpiName: b
           vpiFullName: bottom2.b
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:a start:13:23 end:13:24:
           vpiParent: Module name:bottom2
@@ -515,25 +508,27 @@ Design name:unnamed:
             vpiName: ddr
             vpiFullName: bottom3.g_datapath:0:g_io.ddr
             vpiActual: UnsupportedTypespec name:ddr
-          vpiPort (2 items):
-            Port start:26:7 end:26:25:
+          vpiArgument (2 items):
+            NamedArgument start:26:7 end:26:25:
               vpiParent: RefInstance name:g_datapath:0:g_io
+              vpiConnByName: true
               vpiLowConn RefObj name:capture start:26:8 end:26:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: capture
                 vpiFullName: bottom3.g_datapath:0:g_io.capture
               vpiHighConn RefObj name:capture start:26:17 end:26:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: capture
                 vpiFullName: bottom3.g_datapath:0:g_io.capture
-            Port start:27:7 end:27:17:
+            NamedArgument start:27:7 end:27:17:
               vpiParent: RefInstance name:g_datapath:0:g_io
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:27:8 end:27:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: bottom3.g_datapath:0:g_io.clk
               vpiHighConn RefObj name:clk start:27:13 end:27:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: bottom3.g_datapath:0:g_io.clk
     Module name:bottom4 file:$Source01/top.v start:86:1 end:95:10:
@@ -565,25 +560,27 @@ Design name:unnamed:
             vpiName: ddr
             vpiFullName: bottom4.g_datapath:0:g_io.ddr
             vpiActual: UnsupportedTypespec name:ddr
-          vpiPort (2 items):
-            Port start:89:7 end:89:25:
+          vpiArgument (2 items):
+            NamedArgument start:89:7 end:89:25:
               vpiParent: RefInstance name:g_datapath:0:g_io
+              vpiConnByName: true
               vpiLowConn RefObj name:capture start:89:8 end:89:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: capture
                 vpiFullName: bottom4.g_datapath:0:g_io.capture
               vpiHighConn RefObj name:capture start:89:17 end:89:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: capture
                 vpiFullName: bottom4.g_datapath:0:g_io.capture
-            Port start:90:7 end:90:17:
+            NamedArgument start:90:7 end:90:17:
               vpiParent: RefInstance name:g_datapath:0:g_io
+              vpiConnByName: true
               vpiLowConn RefObj name:clk start:90:8 end:90:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: bottom4.g_datapath:0:g_io.clk
               vpiHighConn RefObj name:clk start:90:13 end:90:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: bottom4.g_datapath:0:g_io.clk
     Module name:splice1 file:$Source01/top1.v start:32:1 end:33:10:
@@ -738,7 +735,6 @@ Design name:unnamed:
           vpiFullName: middle.a
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:b start:286:11 end:286:12:
           vpiParent: Module name:middle
           vpiTypespec RefTypespec:
@@ -749,7 +745,6 @@ Design name:unnamed:
           vpiFullName: middle.b
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:c start:286:14 end:286:15:
           vpiParent: Module name:middle
           vpiTypespec RefTypespec:
@@ -760,7 +755,6 @@ Design name:unnamed:
           vpiFullName: middle.c
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiModule (1 items):
         Module name:nested file:$Source01/top1.v start:287:3 end:289:12:
           vpiParent: Module name:middle

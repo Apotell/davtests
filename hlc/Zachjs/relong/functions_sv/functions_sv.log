@@ -693,7 +693,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clock
           vpiFullName: Example.clock
-          vpiScalar: true
         Variable name:dataIn start:12:23 end:12:29:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:12:11 end:12:22:
@@ -702,7 +701,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dataIn
           vpiFullName: Example.dataIn
-          vpiVector: true
         Variable name:check1 start:13:18 end:13:24:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:13:12 end:13:17:
@@ -711,7 +709,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: check1
           vpiFullName: Example.check1
-          vpiScalar: true
         Variable name:checkData start:14:25 end:14:34:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec start:14:12 end:14:24:
@@ -720,7 +717,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: checkData
           vpiFullName: Example.checkData
-          vpiVector: true
         Variable name:clear start:11:24 end:11:29:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec:
@@ -729,7 +725,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clear
           vpiFullName: Example.clear
-          vpiScalar: true
         Variable name:check2 start:13:26 end:13:32:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec:
@@ -738,7 +733,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: check2
           vpiFullName: Example.check2
-          vpiScalar: true
         Variable name:state start:32:13 end:32:18:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec name:State_t start:32:5 end:32:12:
@@ -756,7 +750,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: magicToken
           vpiFullName: Example.magicToken
-          vpiVector: true
         Variable name:myStruct start:61:16 end:61:24:
           vpiParent: Module name:Example
           vpiTypespec RefTypespec name:MyStruct_t start:61:5 end:61:15:
@@ -961,7 +954,7 @@ Design name:unnamed:
                   vpiActual: LogicTypespec
                 vpiName: fullData
                 vpiFullName: Example.packStruct.fullData
-                vpiVector: true
+                vpiAutomatic: true
               Variable name:nextState start:48:17 end:48:26:
                 vpiParent: Begin
                 vpiTypespec RefTypespec name:State_t start:48:9 end:48:16:
@@ -971,6 +964,7 @@ Design name:unnamed:
                   vpiActual: TypedefTypespec name:State_t
                 vpiName: nextState
                 vpiFullName: Example.packStruct.nextState
+                vpiAutomatic: true
             vpiTypespec (2 items):
               LogicTypespec:
                 vpiParent: Begin
@@ -1071,11 +1065,13 @@ Design name:unnamed:
                   vpiName Identifier name:swapState start:54:21 end:54:30:
                   vpiTaskFunc: Function name:swapState
                   vpiArgument (1 items):
-                    RefObj name:state start:54:31 end:54:36:
+                    NamedArgument start:54:31 end:54:36:
                       vpiParent: MethodFuncCall name:swapState
-                      vpiName: state
-                      vpiFullName: Example.packStruct.state
-                      vpiActual: IODecl name:state
+                      vpiHighConn RefObj name:state start:54:31 end:54:36:
+                        vpiParent: NamedArgument
+                        vpiName: state
+                        vpiFullName: Example.packStruct.state
+                        vpiActual: IODecl name:state
               ReturnStmt start:55:9 end:58:11:
                 vpiParent: Begin
                 vpiCondition Operation start:55:16 end:58:10:
@@ -1284,11 +1280,13 @@ Design name:unnamed:
                   vpiName Identifier name:swapState start:38:22 end:38:31:
                   vpiTaskFunc: Function name:swapState
                   vpiArgument (1 items):
-                    RefObj name:state start:38:32 end:38:37:
+                    NamedArgument start:38:32 end:38:37:
                       vpiParent: MethodFuncCall name:swapState
-                      vpiName: state
-                      vpiFullName: Example.state
-                      vpiActual: Variable name:state
+                      vpiHighConn RefObj name:state start:38:32 end:38:37:
+                        vpiParent: NamedArgument
+                        vpiName: state
+                        vpiFullName: Example.state
+                        vpiActual: Variable name:state
           vpiAlwaysType: ff (3)
         Always start:71:5 end:74:8:
           vpiParent: Module name:Example
@@ -1309,25 +1307,31 @@ Design name:unnamed:
                   vpiName Identifier name:packStruct start:72:21 end:72:31:
                   vpiTaskFunc: Function name:packStruct
                   vpiArgument (2 items):
-                    MethodFuncCall name:swapState start:72:32 end:72:48:
+                    NamedArgument start:72:32 end:72:48:
                       vpiParent: MethodFuncCall name:packStruct
-                      vpiName Identifier name:swapState start:72:32 end:72:41:
-                      vpiTaskFunc: Function name:swapState
-                      vpiArgument (1 items):
-                        RefObj name:state start:72:42 end:72:47:
-                          vpiParent: MethodFuncCall name:swapState
-                          vpiName: state
-                          vpiFullName: Example.state
-                          vpiActual: Variable name:state
-                    Operation start:72:50 end:72:57:
+                      vpiHighConn MethodFuncCall name:swapState start:72:32 end:72:48:
+                        vpiParent: NamedArgument
+                        vpiName Identifier name:swapState start:72:32 end:72:41:
+                        vpiTaskFunc: Function name:swapState
+                        vpiArgument (1 items):
+                          NamedArgument start:72:42 end:72:47:
+                            vpiParent: MethodFuncCall name:swapState
+                            vpiHighConn RefObj name:state start:72:42 end:72:47:
+                              vpiParent: NamedArgument
+                              vpiName: state
+                              vpiFullName: Example.state
+                              vpiActual: Variable name:state
+                    NamedArgument start:72:50 end:72:57:
                       vpiParent: MethodFuncCall name:packStruct
-                      vpiOpType: bitwise negation (4)
-                      vpiOperand (1 items):
-                        RefObj name:dataIn start:72:51 end:72:57:
-                          vpiParent: Operation
-                          vpiName: dataIn
-                          vpiFullName: Example.dataIn
-                          vpiActual: Variable name:dataIn
+                      vpiHighConn Operation start:72:50 end:72:57:
+                        vpiParent: NamedArgument
+                        vpiOpType: bitwise negation (4)
+                        vpiOperand (1 items):
+                          RefObj name:dataIn start:72:51 end:72:57:
+                            vpiParent: Operation
+                            vpiName: dataIn
+                            vpiFullName: Example.dataIn
+                            vpiActual: Variable name:dataIn
               Assignment start:73:9 end:73:36:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1341,11 +1345,13 @@ Design name:unnamed:
                   vpiName Identifier name:doCheck start:73:18 end:73:25:
                   vpiTaskFunc: Function name:doCheck
                   vpiArgument (1 items):
-                    RefObj name:myStruct2 start:73:26 end:73:35:
+                    NamedArgument start:73:26 end:73:35:
                       vpiParent: MethodFuncCall name:doCheck
-                      vpiName: myStruct2
-                      vpiFullName: Example.myStruct2
-                      vpiActual: Variable name:myStruct2
+                      vpiHighConn RefObj name:myStruct2 start:73:26 end:73:35:
+                        vpiParent: NamedArgument
+                        vpiName: myStruct2
+                        vpiFullName: Example.myStruct2
+                        vpiActual: Variable name:myStruct2
           vpiAlwaysType: comb (2)
       vpiContAssign (4 items):
         ContAssign start:41:12 end:41:33:
@@ -1377,16 +1383,20 @@ Design name:unnamed:
             vpiName Identifier name:packStruct start:62:23 end:62:33:
             vpiTaskFunc: Function name:packStruct
             vpiArgument (2 items):
-              RefObj name:state start:62:34 end:62:39:
+              NamedArgument start:62:34 end:62:39:
                 vpiParent: MethodFuncCall name:packStruct
-                vpiName: state
-                vpiFullName: Example.state
-                vpiActual: Variable name:state
-              RefObj name:dataIn start:62:41 end:62:47:
+                vpiHighConn RefObj name:state start:62:34 end:62:39:
+                  vpiParent: NamedArgument
+                  vpiName: state
+                  vpiFullName: Example.state
+                  vpiActual: Variable name:state
+              NamedArgument start:62:41 end:62:47:
                 vpiParent: MethodFuncCall name:packStruct
-                vpiName: dataIn
-                vpiFullName: Example.dataIn
-                vpiActual: Variable name:dataIn
+                vpiHighConn RefObj name:dataIn start:62:41 end:62:47:
+                  vpiParent: NamedArgument
+                  vpiName: dataIn
+                  vpiFullName: Example.dataIn
+                  vpiActual: Variable name:dataIn
         ContAssign start:68:12 end:68:38:
           vpiParent: Module name:Example
           vpiLhs RefObj name:check1 start:68:12 end:68:18:
@@ -1399,11 +1409,13 @@ Design name:unnamed:
             vpiName Identifier name:doCheck start:68:21 end:68:28:
             vpiTaskFunc: Function name:doCheck
             vpiArgument (1 items):
-              RefObj name:myStruct start:68:29 end:68:37:
+              NamedArgument start:68:29 end:68:37:
                 vpiParent: MethodFuncCall name:doCheck
-                vpiName: myStruct
-                vpiFullName: Example.myStruct
-                vpiActual: Variable name:myStruct
+                vpiHighConn RefObj name:myStruct start:68:29 end:68:37:
+                  vpiParent: NamedArgument
+                  vpiName: myStruct
+                  vpiFullName: Example.myStruct
+                  vpiActual: Variable name:myStruct
         ContAssign start:76:12 end:76:55:
           vpiParent: Module name:Example
           vpiLhs RefObj name:checkData start:76:12 end:76:21:
@@ -1595,7 +1607,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/relong/functions_sv/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             225     225       0         0
+Others                             234     234       0         0
 ----------------------------------------------------------------
-                                   225     225       0         0
+                                   234     234       0         0
 ===================== END REDUCTION RESULT =====================

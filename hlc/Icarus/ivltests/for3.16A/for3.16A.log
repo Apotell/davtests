@@ -258,7 +258,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: val1
           vpiFullName: test.val1
-          vpiVector: true
         Variable name:val2 start:25:11 end:25:15:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:25:1 end:25:10:
@@ -267,7 +266,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: val2
           vpiFullName: test.val2
-          vpiVector: true
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -481,16 +479,18 @@ Design name:unnamed:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:35:6 end:35:14:
                   vpiArgument (1 items):
-                    Constant start:35:15 end:35:23:
+                    NamedArgument start:35:15 end:35:23:
                       vpiParent: SysTaskCall name:$display
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: test
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 48
-                      vpiDecompile: "\"PASSED\""
-                      vpiValue: PASSED
+                      vpiHighConn Constant start:35:15 end:35:23:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: test
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"PASSED\""
+                        vpiValue: PASSED
                 vpiElseStmt Begin start:37:6 end:39:9:
                   vpiParent: IfElse
                   vpiFullName: test
@@ -499,21 +499,25 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:38:8 end:38:16:
                       vpiArgument (2 items):
-                        Constant start:38:17 end:38:50:
+                        NamedArgument start:38:17 end:38:50:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: test
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 248
-                          vpiDecompile: "\"FAILED val2 s/b 4'ha, but is %h\""
-                          vpiValue: "FAILED val2 s/b 4'ha, but is %h"
-                        RefObj name:val2 start:38:51 end:38:55:
+                          vpiHighConn Constant start:38:17 end:38:50:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: test
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 248
+                            vpiDecompile: "\"FAILED val2 s/b 4'ha, but is %h\""
+                            vpiValue: "FAILED val2 s/b 4'ha, but is %h"
+                        NamedArgument start:38:51 end:38:55:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: val2
-                          vpiFullName: test.val2
-                          vpiActual: Variable name:val2
+                          vpiHighConn RefObj name:val2 start:38:51 end:38:55:
+                            vpiParent: NamedArgument
+                            vpiName: val2
+                            vpiFullName: test.val2
+                            vpiActual: Variable name:val2
   vpiTypespec (4 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -579,7 +583,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/for3.16A/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              73      73       0         0
 ----------------------------------------------------------------
-                                    70      70       0         0
+                                    73      73       0         0
 ===================== END REDUCTION RESULT =====================

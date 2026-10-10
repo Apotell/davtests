@@ -184,11 +184,15 @@ TEST_F(UnpackedSubroutinesTest, TaskBodyIsBareDisplayNotWrappedInBegin) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 4u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 0) and (%d == 1) and (%d == 2))");
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(i + 1));
+    const hldb::NamedArgument *const selArg = disp->getArguments()->at(i + 1);
+    ASSERT_NE(selArg, nullptr);
+    const hldb::BitSelect *const sel = selArg->getHighConn<hldb::BitSelect>();
     ASSERT_NE(sel, nullptr) << "argument " << (i + 1);
     EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "a");
     EXPECT_NE(sel->getPrefix<hldb::RefObj>()->getActual<hldb::IODecl>(), nullptr);
@@ -253,11 +257,15 @@ TEST_F(UnpackedSubroutinesTest, FourthStmtDisplaysBIndices) {
   EXPECT_EQ(disp->getName(), "$display");
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 4u);
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(disp->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 0) and (%d == 1) and (%d == 2))");
   for (uint32_t i = 0; i < 3u; ++i) {
-    const hldb::BitSelect *const sel = any_cast<hldb::BitSelect>(disp->getArguments()->at(i + 1));
+    const hldb::NamedArgument *const selArg = disp->getArguments()->at(i + 1);
+    ASSERT_NE(selArg, nullptr);
+    const hldb::BitSelect *const sel = selArg->getHighConn<hldb::BitSelect>();
     ASSERT_NE(sel, nullptr) << "argument " << (i + 1);
     EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "b");
     EXPECT_EQ(sel->getIndex<hldb::Constant>()->getDecompile(), std::to_string(i));
@@ -272,7 +280,9 @@ TEST_F(UnpackedSubroutinesTest, FifthStmtIsFunCallWithBArgument) {
   EXPECT_EQ(mtc->getName(), "fun");
   ASSERT_NE(mtc->getArguments(), nullptr);
   ASSERT_EQ(mtc->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(mtc->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = mtc->getArguments()->at(0);
+  ASSERT_NE(arg0, nullptr);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "b");
   EXPECT_NE(arg->getActual<hldb::Variable>(), nullptr);

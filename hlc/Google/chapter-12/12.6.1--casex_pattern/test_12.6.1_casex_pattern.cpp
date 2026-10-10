@@ -244,7 +244,9 @@ TEST_F(CasexPatternTest, FirstItemDisplayReferencesPatternBoundV) {
   ASSERT_NE(display, nullptr);
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u);
-  const hldb::RefObj *const vArg = any_cast<hldb::RefObj>(display->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const vArg = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(vArg, nullptr);
   EXPECT_EQ(vArg->getName(), "v");
   EXPECT_NE(vArg->getActual<hldb::AnyPattern>(), nullptr)
@@ -287,7 +289,9 @@ TEST_F(CasexPatternTest, FourthItemDisplayReferencesPatternBoundV) {
   ASSERT_NE(display, nullptr);
   ASSERT_NE(display->getArguments(), nullptr);
   ASSERT_EQ(display->getArguments()->size(), 2u);
-  const hldb::RefObj *const vArg = any_cast<hldb::RefObj>(display->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+  ASSERT_NE(arg1, nullptr);
+  const hldb::RefObj *const vArg = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(vArg, nullptr);
   EXPECT_EQ(vArg->getName(), "v");
   EXPECT_NE(vArg->getActual<hldb::AnyPattern>(), nullptr)

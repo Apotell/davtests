@@ -181,7 +181,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: mem
           vpiFullName: top.mem
-          vpiVector: true
         Variable name:a start:18:13 end:18:14:
           vpiParent: Module name:top
           vpiTypespec RefTypespec start:18:1 end:18:12:
@@ -190,7 +189,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: top.a
-          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -353,21 +351,25 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:23:5 end:23:13:
                 vpiArgument (2 items):
-                  Constant start:23:14 end:23:36:
+                  NamedArgument start:23:14 end:23:36:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 160
-                    vpiDecompile: "\":assert: (125 == %d)\""
-                    vpiValue: ":assert: (125 == %d)"
-                  RefObj name:a start:23:38 end:23:39:
+                    vpiHighConn Constant start:23:14 end:23:36:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 160
+                      vpiDecompile: "\":assert: (125 == %d)\""
+                      vpiValue: ":assert: (125 == %d)"
+                  NamedArgument start:23:38 end:23:39:
                     vpiParent: SysTaskCall name:$display
-                    vpiName: a
-                    vpiFullName: top.a
-                    vpiActual: Variable name:a
+                    vpiHighConn RefObj name:a start:23:38 end:23:39:
+                      vpiParent: NamedArgument
+                      vpiName: a
+                      vpiFullName: top.a
+                      vpiActual: Variable name:a
   vpiTypespec (3 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -431,7 +433,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-11/11.5.2--array_addressing-sim/de
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              53      53       0         0
+Others                              55      55       0         0
 ----------------------------------------------------------------
-                                    53      53       0         0
+                                    55      55       0         0
 ===================== END REDUCTION RESULT =====================

@@ -203,7 +203,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: mem
           vpiFullName: test.mem
-          vpiVector: true
         Variable name:i start:8:13 end:8:14:
           vpiParent: Module name:test
           vpiTypespec RefTypespec start:8:5 end:8:12:
@@ -342,35 +341,41 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:14:13 end:14:21:
                       vpiArgument (3 items):
-                        Constant start:14:23 end:14:47:
+                        NamedArgument start:14:23 end:14:47:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: test
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 176
-                          vpiDecompile: "\"FAILED -- bit %0d (%b)\""
-                          vpiValue: FAILED -- bit %0d (%b)
-                        RefObj name:i start:14:49 end:14:50:
+                          vpiHighConn Constant start:14:23 end:14:47:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: test
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 176
+                            vpiDecompile: "\"FAILED -- bit %0d (%b)\""
+                            vpiValue: FAILED -- bit %0d (%b)
+                        NamedArgument start:14:49 end:14:50:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: i
-                          vpiFullName: test.i
-                          vpiActual: Variable name:i
-                        BitSelect name:mem[i] start:14:52 end:14:58:
-                          vpiParent: SysTaskCall name:$display
-                          vpiName: mem[i]
-                          vpiFullName: test.mem[i]
-                          vpiPrefix RefObj name:mem start:14:52 end:14:55:
-                            vpiParent: BitSelect name:mem[i]
-                            vpiName: mem
-                            vpiFullName: test.mem
-                            vpiActual: Variable name:mem
-                          vpiIndex RefObj name:i start:14:56 end:14:57:
-                            vpiParent: BitSelect name:mem[i]
+                          vpiHighConn RefObj name:i start:14:49 end:14:50:
+                            vpiParent: NamedArgument
                             vpiName: i
                             vpiFullName: test.i
                             vpiActual: Variable name:i
+                        NamedArgument start:14:52 end:14:58:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn BitSelect name:mem[i] start:14:52 end:14:58:
+                            vpiParent: NamedArgument
+                            vpiName: mem[i]
+                            vpiFullName: test.mem[i]
+                            vpiPrefix RefObj name:mem start:14:52 end:14:55:
+                              vpiParent: BitSelect name:mem[i]
+                              vpiName: mem
+                              vpiFullName: test.mem
+                              vpiActual: Variable name:mem
+                            vpiIndex RefObj name:i start:14:56 end:14:57:
+                              vpiParent: BitSelect name:mem[i]
+                              vpiName: i
+                              vpiFullName: test.i
+                              vpiActual: Variable name:i
                     SysTaskCall name:$finish start:15:13 end:15:20:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:15:13 end:15:20:
@@ -379,16 +384,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:17:9 end:17:17:
                 vpiArgument (1 items):
-                  Constant start:17:18 end:17:26:
+                  NamedArgument start:17:18 end:17:26:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"PASSED\""
-                    vpiValue: PASSED
+                    vpiHighConn Constant start:17:18 end:17:26:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"PASSED\""
+                      vpiValue: PASSED
   vpiTypespec (3 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -452,7 +459,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr722/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                    55      55       0         0
+                                    59      59       0         0
 ===================== END REDUCTION RESULT =====================

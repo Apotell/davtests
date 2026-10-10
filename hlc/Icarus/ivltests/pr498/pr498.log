@@ -299,7 +299,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: bar
           vpiFullName: test.bar
-          vpiVector: true
       vpiParameter (1 items):
         Parameter name:foo start:28:14 end:28:17:
           vpiParent: Module name:test
@@ -392,11 +391,13 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:32:11 end:32:16:
                       vpiArgument (1 items):
-                        RefObj name:bar start:32:17 end:32:20:
+                        NamedArgument start:32:17 end:32:20:
                           vpiParent: SysFuncCall name:$bits
-                          vpiName: bar
-                          vpiFullName: test.bar
-                          vpiActual: Variable name:bar
+                          vpiHighConn RefObj name:bar start:32:17 end:32:20:
+                            vpiParent: NamedArgument
+                            vpiName: bar
+                            vpiFullName: test.bar
+                            vpiActual: Variable name:bar
                     Constant start:32:25 end:32:26:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -415,25 +416,31 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:33:3 end:33:11:
                       vpiArgument (2 items):
-                        Constant start:33:12 end:33:39:
+                        NamedArgument start:33:12 end:33:39:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: test
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 200
-                          vpiDecompile: "\"FAILED -- $bits(bar) = %d\""
-                          vpiValue: FAILED -- $bits(bar) = %d
-                        SysFuncCall name:$bits start:33:41 end:33:51:
+                          vpiHighConn Constant start:33:12 end:33:39:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: test
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 200
+                            vpiDecompile: "\"FAILED -- $bits(bar) = %d\""
+                            vpiValue: FAILED -- $bits(bar) = %d
+                        NamedArgument start:33:41 end:33:51:
                           vpiParent: SysTaskCall name:$display
-                          vpiName Identifier name:$bits start:33:41 end:33:46:
-                          vpiArgument (1 items):
-                            RefObj name:bar start:33:47 end:33:50:
-                              vpiParent: SysFuncCall name:$bits
-                              vpiName: bar
-                              vpiFullName: test.bar
-                              vpiActual: Variable name:bar
+                          vpiHighConn SysFuncCall name:$bits start:33:41 end:33:51:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$bits start:33:41 end:33:46:
+                            vpiArgument (1 items):
+                              NamedArgument start:33:47 end:33:50:
+                                vpiParent: SysFuncCall name:$bits
+                                vpiHighConn RefObj name:bar start:33:47 end:33:50:
+                                  vpiParent: NamedArgument
+                                  vpiName: bar
+                                  vpiFullName: test.bar
+                                  vpiActual: Variable name:bar
                     SysTaskCall name:$finish start:34:3 end:34:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:34:3 end:34:10:
@@ -442,16 +449,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:36:7 end:36:15:
                 vpiArgument (1 items):
-                  Constant start:36:16 end:36:24:
+                  NamedArgument start:36:16 end:36:24:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: test
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"PASSED\""
-                    vpiValue: PASSED
+                    vpiHighConn Constant start:36:16 end:36:24:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"PASSED\""
+                      vpiValue: PASSED
   vpiTypespec (4 items):
     ModuleTypespec name:main:
       vpiParent: Design name:unnamed
@@ -524,7 +533,7 @@ Operation                            2       1       0         1
 RefObj                              10       9       0         1
 RefTypespec                         11      11       1         1
 ----------------------------------------------------------------
-Others                              38      38       0         0
+Others                              43      43       0         0
 ----------------------------------------------------------------
-                                    69      67       2         4
+                                    74      72       2         4
 ===================== END REDUCTION RESULT =====================

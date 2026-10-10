@@ -42,15 +42,15 @@ COMMAND: -wd ../../../tests/YosysSmall +incdir+. -sverilog -writepp -fileunit ci
 [WRN:PA5506] $Source01/pwm256_tb.v:6:1: No timescale set for "tb".
 [WRN:PA5506] $Source01/pwm256.v:6:1: No timescale set for "pwm256".
 [ERR:DB2029] $Source01/dspmac_16_40_tb.v:19:1: Unsupported typespec "dspmac_16_40".
-[ERR:LN7701] Invalid name: id:3027, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3030, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3033, type:RefObj, name:, relation:vpiLowConn.
-[WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:38: Critical: Signed vs Unsigned port connection "".
-[ERR:LN7701] Invalid name: id:3036, type:RefObj, name:, relation:vpiLowConn.
-[WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:45: Critical: Signed vs Unsigned port connection "".
-[ERR:LN7701] Invalid name: id:3039, type:RefObj, name:, relation:vpiLowConn.
-[WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:52: Critical: Signed vs Unsigned port connection "".
-[ERR:LN7701] Invalid name: id:3042, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3028, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3031, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3034, type:RefObj, name:, relation:vpiLowConn.
+[WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:38: Critical: Signed vs Unsigned port connection "a_bus".
+[ERR:LN7701] Invalid name: id:3037, type:RefObj, name:, relation:vpiLowConn.
+[WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:45: Critical: Signed vs Unsigned port connection "b_bus".
+[ERR:LN7701] Invalid name: id:3040, type:RefObj, name:, relation:vpiLowConn.
+[WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:52: Critical: Signed vs Unsigned port connection "result".
+[ERR:LN7701] Invalid name: id:3043, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -101,7 +101,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: tb.clk
-          vpiScalar: true
           vpiValue Constant start:10:14 end:10:15:
             vpiParent: Variable name:clk
             vpiTypespec RefTypespec:
@@ -120,7 +119,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rst_n
           vpiFullName: tb.rst_n
-          vpiScalar: true
           vpiValue Constant start:11:14 end:11:15:
             vpiParent: Variable name:rst_n
             vpiTypespec RefTypespec:
@@ -139,7 +137,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: d_in
           vpiFullName: tb.d_in
-          vpiVector: true
           vpiValue Constant start:12:27 end:12:28:
             vpiParent: Variable name:d_in
             vpiTypespec RefTypespec:
@@ -228,7 +225,6 @@ Design name:unnamed:
           vpiFullName: tb.d_out
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
           vpiValue Constant start:13:28 end:13:29:
             vpiParent: Net name:d_out
             vpiTypespec RefTypespec:
@@ -249,12 +245,12 @@ Design name:unnamed:
           vpiFullName: tb.d_out_valid
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiProcess (2 items):
         Always start:17:1 end:17:20:
           vpiParent: Module name:tb
           vpiStmt DelayControl start:17:8 end:17:20:
             vpiParent: Always
+            vpiDelay: 1
             vpiStmt Assignment start:17:11 end:17:19:
               vpiParent: DelayControl
               vpiBlocking: true
@@ -297,16 +293,18 @@ Design name:unnamed:
                 vpiName Identifier name:$dumpfile start:24:5 end:24:14:
                 vpiTaskFunc: Task name:$dumpfile
                 vpiArgument (1 items):
-                  Constant start:24:15 end:24:28:
+                  NamedArgument start:24:15 end:24:28:
                     vpiParent: SysTaskCall name:$dumpfile
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: tb
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 88
-                    vpiDecompile: "\"cic5_tb.vcd\""
-                    vpiValue: cic5_tb.vcd
+                    vpiHighConn Constant start:24:15 end:24:28:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: tb
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 88
+                      vpiDecompile: "\"cic5_tb.vcd\""
+                      vpiValue: cic5_tb.vcd
               SysTaskCall name:$dumpvars start:25:5 end:25:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:25:5 end:25:14:
@@ -331,6 +329,7 @@ Design name:unnamed:
                   vpiValue: "7fff"
               DelayControl start:27:5 end:27:21:
                 vpiParent: Begin
+                vpiDelay: 4
                 vpiStmt Assignment start:27:8 end:27:20:
                   vpiParent: DelayControl
                   vpiBlocking: true
@@ -361,6 +360,7 @@ Design name:unnamed:
                   vpiValue: 4
               DelayControl start:28:5 end:28:27:
                 vpiParent: Begin
+                vpiDelay: 60
                 vpiStmt Assignment start:28:9 end:28:26:
                   vpiParent: DelayControl
                   vpiLhs RefObj name:d_in start:28:9 end:28:13:
@@ -394,6 +394,7 @@ Design name:unnamed:
                   vpiValue: 60
               DelayControl start:29:5 end:29:17:
                 vpiParent: Begin
+                vpiDelay: 60
                 vpiStmt SysTaskCall name:$finish start:29:9 end:29:16:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:29:9 end:29:16:
@@ -418,64 +419,64 @@ Design name:unnamed:
             vpiName: cic5
             vpiFullName: tb.dut.cic5
             vpiActual: ModuleTypespec name:cic5
-          vpiPort (5 items):
-            Port start:20:10 end:20:13:
+          vpiArgument (5 items):
+            NamedArgument start:20:10 end:20:13:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:clk:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: tb.dut.clk
                 vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:20:10 end:20:13:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: tb.dut.clk
                 vpiActual: Variable name:clk
-            Port start:20:15 end:20:20:
+            NamedArgument start:20:15 end:20:20:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:rst_n:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst_n
                 vpiFullName: tb.dut.rst_n
                 vpiActual: Port name:rst_n
               vpiHighConn RefObj name:rst_n start:20:15 end:20:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst_n
                 vpiFullName: tb.dut.rst_n
                 vpiActual: Variable name:rst_n
-            Port start:20:22 end:20:26:
+            NamedArgument start:20:22 end:20:26:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:d_in:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_in
                 vpiFullName: tb.dut.d_in
                 vpiActual: Port name:d_in
               vpiHighConn RefObj name:d_in start:20:22 end:20:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_in
                 vpiFullName: tb.dut.d_in
                 vpiActual: Variable name:d_in
-            Port start:20:28 end:20:33:
+            NamedArgument start:20:28 end:20:33:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:d_out:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_out
                 vpiFullName: tb.dut.d_out
                 vpiActual: Port name:d_out
               vpiHighConn RefObj name:d_out start:20:28 end:20:33:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_out
                 vpiFullName: tb.dut.d_out
                 vpiActual: Net name:d_out
-            Port start:20:35 end:20:46:
+            NamedArgument start:20:35 end:20:46:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:d_out_valid:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_out_valid
                 vpiFullName: tb.dut.d_out_valid
                 vpiActual: Port name:d_out_valid
               vpiHighConn RefObj name:d_out_valid start:20:35 end:20:46:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_out_valid
                 vpiFullName: tb.dut.d_out_valid
                 vpiActual: Net name:d_out_valid
@@ -492,7 +493,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: d_out
           vpiFullName: cic5.d_out
-          vpiVector: true
         Variable name:d_out_valid start:11:16 end:11:27:
           vpiParent: Module name:cic5
           vpiTypespec RefTypespec start:11:12 end:11:15:
@@ -501,7 +501,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: d_out_valid
           vpiFullName: cic5.d_out_valid
-          vpiScalar: true
         Variable name:int_s start:14:19 end:14:24:
           vpiParent: Module name:cic5
           vpiTypespec RefTypespec name:logic signed [27:0] [1:5] start:14:1 end:14:18:
@@ -511,7 +510,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: int_s
           vpiFullName: cic5.int_s
-          vpiVector: true
         Variable name:comb_s start:15:19 end:15:25:
           vpiParent: Module name:cic5
           vpiTypespec RefTypespec name:logic signed [27:0] [1:5] start:15:1 end:15:18:
@@ -521,7 +519,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: comb_s
           vpiFullName: cic5.comb_s
-          vpiVector: true
         Variable name:tmp start:16:19 end:16:22:
           vpiParent: Module name:cic5
           vpiTypespec RefTypespec name:logic signed [27:0] [1:5] start:16:1 end:16:18:
@@ -531,7 +528,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: tmp
           vpiFullName: cic5.tmp
-          vpiVector: true
         Variable name:decimation_count start:17:12 end:17:28:
           vpiParent: Module name:cic5
           vpiTypespec RefTypespec start:17:1 end:17:10:
@@ -540,7 +536,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: decimation_count
           vpiFullName: cic5.decimation_count
-          vpiVector: true
         Variable name:i start:19:9 end:19:10:
           vpiParent: Module name:cic5
           vpiTypespec RefTypespec start:19:1 end:19:8:
@@ -823,7 +818,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: cic5.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:rst_n start:8:12 end:8:17:
           vpiParent: Module name:cic5
           vpiTypespec RefTypespec:
@@ -833,7 +827,6 @@ Design name:unnamed:
           vpiName: rst_n
           vpiFullName: cic5.rst_n
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:d_in start:9:26 end:9:30:
           vpiParent: Module name:cic5
           vpiTypespec RefTypespec start:9:12 end:9:25:
@@ -843,7 +836,6 @@ Design name:unnamed:
           vpiName: d_in
           vpiFullName: cic5.d_in
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (5 items):
         Port name:clk start:7:12 end:7:15:
           vpiParent: Module name:cic5
@@ -1753,7 +1745,6 @@ Design name:unnamed:
             vpiActual: ArrayTypespec
           vpiName: crctbl
           vpiFullName: crc32.crctbl
-          vpiVector: true
         Variable name:crc start:11:14 end:11:17:
           vpiParent: Module name:crc32
           vpiTypespec RefTypespec start:11:3 end:11:13:
@@ -1762,7 +1753,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: crc
           vpiFullName: crc32.crc
-          vpiVector: true
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:crc32
@@ -1919,7 +1909,6 @@ Design name:unnamed:
           vpiName: din
           vpiFullName: crc32.din
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:clk start:8:38 end:8:41:
           vpiParent: Module name:crc32
           vpiTypespec RefTypespec:
@@ -1929,7 +1918,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: crc32.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:rst_n start:8:49 end:8:54:
           vpiParent: Module name:crc32
           vpiTypespec RefTypespec:
@@ -1939,7 +1927,6 @@ Design name:unnamed:
           vpiName: rst_n
           vpiFullName: crc32.rst_n
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:dout start:8:70 end:8:74:
           vpiParent: Module name:crc32
           vpiTypespec RefTypespec start:8:63 end:8:69:
@@ -1949,7 +1936,6 @@ Design name:unnamed:
           vpiName: dout
           vpiFullName: crc32.dout
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (4 items):
         Port name:din start:8:27 end:8:30:
           vpiParent: Module name:crc32
@@ -10110,7 +10096,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: tb.clk
-          vpiScalar: true
           vpiValue Constant start:8:14 end:8:15:
             vpiParent: Variable name:clk
             vpiTypespec RefTypespec:
@@ -10129,7 +10114,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rst_n
           vpiFullName: tb.rst_n
-          vpiScalar: true
           vpiValue Constant start:9:14 end:9:15:
             vpiParent: Variable name:rst_n
             vpiTypespec RefTypespec:
@@ -10148,7 +10132,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: opcode
           vpiFullName: tb.opcode
-          vpiVector: true
           vpiValue Constant start:10:21 end:10:26:
             vpiParent: Variable name:opcode
             vpiTypespec RefTypespec:
@@ -10167,7 +10150,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: a_bus
           vpiFullName: tb.a_bus
-          vpiVector: true
           vpiValue Constant start:11:28 end:11:29:
             vpiParent: Variable name:a_bus
             vpiTypespec RefTypespec:
@@ -10186,7 +10168,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: b_bus
           vpiFullName: tb.b_bus
-          vpiVector: true
           vpiValue Constant start:12:28 end:12:29:
             vpiParent: Variable name:b_bus
             vpiTypespec RefTypespec:
@@ -10331,12 +10312,12 @@ Design name:unnamed:
           vpiFullName: tb.result
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiProcess (2 items):
         Always start:16:1 end:16:20:
           vpiParent: Module name:tb
           vpiStmt DelayControl start:16:8 end:16:20:
             vpiParent: Always
+            vpiDelay: 1
             vpiStmt Assignment start:16:11 end:16:19:
               vpiParent: DelayControl
               vpiBlocking: true
@@ -10379,16 +10360,18 @@ Design name:unnamed:
                 vpiName Identifier name:$dumpfile start:23:5 end:23:14:
                 vpiTaskFunc: Task name:$dumpfile
                 vpiArgument (1 items):
-                  Constant start:23:15 end:23:36:
+                  NamedArgument start:23:15 end:23:36:
                     vpiParent: SysTaskCall name:$dumpfile
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: tb
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 152
-                    vpiDecompile: "\"dspmac_16_40_tb.vcd\""
-                    vpiValue: dspmac_16_40_tb.vcd
+                    vpiHighConn Constant start:23:15 end:23:36:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: tb
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 152
+                      vpiDecompile: "\"dspmac_16_40_tb.vcd\""
+                      vpiValue: dspmac_16_40_tb.vcd
               SysTaskCall name:$dumpvars start:24:5 end:24:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:24:5 end:24:14:
@@ -10414,6 +10397,7 @@ Design name:unnamed:
                   vpiValue: "00"
               DelayControl start:28:5 end:28:21:
                 vpiParent: Begin
+                vpiDelay: 4
                 vpiStmt Assignment start:28:8 end:28:20:
                   vpiParent: DelayControl
                   vpiBlocking: true
@@ -10498,6 +10482,7 @@ Design name:unnamed:
                   vpiValue: "01"
               DelayControl start:32:5 end:32:25:
                 vpiParent: Begin
+                vpiDelay: 2
                 vpiStmt Assignment start:32:8 end:32:24:
                   vpiParent: DelayControl
                   vpiBlocking: true
@@ -10528,6 +10513,7 @@ Design name:unnamed:
                   vpiValue: 2
               DelayControl start:33:5 end:33:25:
                 vpiParent: Begin
+                vpiDelay: 2
                 vpiStmt Assignment start:33:8 end:33:24:
                   vpiParent: DelayControl
                   vpiBlocking: true
@@ -10558,6 +10544,7 @@ Design name:unnamed:
                   vpiValue: 2
               DelayControl start:34:5 end:34:25:
                 vpiParent: Begin
+                vpiDelay: 2
                 vpiStmt Assignment start:34:8 end:34:24:
                   vpiParent: DelayControl
                   vpiBlocking: true
@@ -10588,6 +10575,7 @@ Design name:unnamed:
                   vpiValue: 2
               DelayControl start:35:5 end:35:16:
                 vpiParent: Begin
+                vpiDelay: 2
                 vpiStmt SysTaskCall name:$finish start:35:8 end:35:15:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:35:8 end:35:15:
@@ -10612,64 +10600,64 @@ Design name:unnamed:
             vpiName: dspmac_16_40
             vpiFullName: tb.dut.dspmac_16_40
             vpiActual: UnsupportedTypespec name:dspmac_16_40
-          vpiPort (6 items):
-            Port start:19:18 end:19:21:
+          vpiArgument (6 items):
+            NamedArgument start:19:18 end:19:21:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: tb.dut
               vpiHighConn RefObj name:clk start:19:18 end:19:21:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: tb.dut.clk
                 vpiActual: Variable name:clk
-            Port start:19:23 end:19:28:
+            NamedArgument start:19:23 end:19:28:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: tb.dut
               vpiHighConn RefObj name:rst_n start:19:23 end:19:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst_n
                 vpiFullName: tb.dut.rst_n
                 vpiActual: Variable name:rst_n
-            Port start:19:30 end:19:36:
+            NamedArgument start:19:30 end:19:36:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: tb.dut
               vpiHighConn RefObj name:opcode start:19:30 end:19:36:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: opcode
                 vpiFullName: tb.dut.opcode
                 vpiActual: Variable name:opcode
-            Port start:19:38 end:19:43:
+            NamedArgument start:19:38 end:19:43:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: tb.dut
               vpiHighConn RefObj name:a_bus start:19:38 end:19:43:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: a_bus
                 vpiFullName: tb.dut.a_bus
                 vpiActual: Variable name:a_bus
-            Port start:19:45 end:19:50:
+            NamedArgument start:19:45 end:19:50:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: tb.dut
               vpiHighConn RefObj name:b_bus start:19:45 end:19:50:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: b_bus
                 vpiFullName: tb.dut.b_bus
                 vpiActual: Variable name:b_bus
-            Port start:19:52 end:19:58:
+            NamedArgument start:19:52 end:19:58:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: tb.dut
               vpiHighConn RefObj name:result start:19:52 end:19:58:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: result
                 vpiFullName: tb.dut.result
                 vpiActual: Net name:result
@@ -10686,7 +10674,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dout
           vpiFullName: latch.dout
-          vpiVector: true
         Variable name:state start:9:13 end:9:18:
           vpiParent: Module name:latch
           vpiTypespec RefTypespec start:9:3 end:9:12:
@@ -10695,7 +10682,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: state
           vpiFullName: latch.state
-          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:latch
@@ -10797,7 +10783,6 @@ Design name:unnamed:
           vpiName: din
           vpiFullName: latch.din
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:gate start:7:37 end:7:41:
           vpiParent: Module name:latch
           vpiTypespec RefTypespec:
@@ -10807,7 +10792,6 @@ Design name:unnamed:
           vpiName: gate
           vpiFullName: latch.gate
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (3 items):
         Port name:din start:7:26 end:7:29:
           vpiParent: Module name:latch
@@ -10925,7 +10909,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: tb.clk
-          vpiScalar: true
           vpiValue Constant start:8:14 end:8:15:
             vpiParent: Variable name:clk
             vpiTypespec RefTypespec:
@@ -10944,7 +10927,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rst_n
           vpiFullName: tb.rst_n
-          vpiScalar: true
           vpiValue Constant start:9:14 end:9:15:
             vpiParent: Variable name:rst_n
             vpiTypespec RefTypespec:
@@ -10963,7 +10945,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: d_in
           vpiFullName: tb.d_in
-          vpiVector: true
           vpiValue Constant start:10:20 end:10:26:
             vpiParent: Variable name:d_in
             vpiTypespec RefTypespec:
@@ -11024,12 +11005,12 @@ Design name:unnamed:
           vpiFullName: tb.pwm
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiProcess (2 items):
         Always start:14:1 end:14:20:
           vpiParent: Module name:tb
           vpiStmt DelayControl start:14:8 end:14:20:
             vpiParent: Always
+            vpiDelay: 1
             vpiStmt Assignment start:14:11 end:14:19:
               vpiParent: DelayControl
               vpiBlocking: true
@@ -11072,16 +11053,18 @@ Design name:unnamed:
                 vpiName Identifier name:$dumpfile start:21:5 end:21:14:
                 vpiTaskFunc: Task name:$dumpfile
                 vpiArgument (1 items):
-                  Constant start:21:15 end:21:30:
+                  NamedArgument start:21:15 end:21:30:
                     vpiParent: SysTaskCall name:$dumpfile
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: tb
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 104
-                    vpiDecompile: "\"pwm256_tb.vcd\""
-                    vpiValue: pwm256_tb.vcd
+                    vpiHighConn Constant start:21:15 end:21:30:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: tb
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 104
+                      vpiDecompile: "\"pwm256_tb.vcd\""
+                      vpiValue: pwm256_tb.vcd
               SysTaskCall name:$dumpvars start:22:5 end:22:14:
                 vpiParent: Begin
                 vpiName Identifier name:$dumpvars start:22:5 end:22:14:
@@ -11089,6 +11072,7 @@ Design name:unnamed:
                 vpiTaskFunc: Task name:$dumpvars
               DelayControl start:24:5 end:24:21:
                 vpiParent: Begin
+                vpiDelay: 4
                 vpiStmt Assignment start:24:8 end:24:20:
                   vpiParent: DelayControl
                   vpiBlocking: true
@@ -11119,6 +11103,7 @@ Design name:unnamed:
                   vpiValue: 4
               DelayControl start:25:5 end:25:23:
                 vpiParent: Begin
+                vpiDelay: 516
                 vpiStmt Assignment start:25:10 end:25:22:
                   vpiParent: DelayControl
                   vpiBlocking: true
@@ -11149,6 +11134,7 @@ Design name:unnamed:
                   vpiValue: 516
               DelayControl start:26:5 end:26:25:
                 vpiParent: Begin
+                vpiDelay: 1028
                 vpiStmt Assignment start:26:11 end:26:24:
                   vpiParent: DelayControl
                   vpiBlocking: true
@@ -11179,6 +11165,7 @@ Design name:unnamed:
                   vpiValue: 1028
               DelayControl start:27:5 end:27:19:
                 vpiParent: Begin
+                vpiDelay: 1540
                 vpiStmt SysTaskCall name:$finish start:27:11 end:27:18:
                   vpiParent: DelayControl
                   vpiName Identifier name:$finish start:27:11 end:27:18:
@@ -11203,52 +11190,52 @@ Design name:unnamed:
             vpiName: pwm256
             vpiFullName: tb.dut.pwm256
             vpiActual: ModuleTypespec name:pwm256
-          vpiPort (4 items):
-            Port start:17:12 end:17:15:
+          vpiArgument (4 items):
+            NamedArgument start:17:12 end:17:15:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:clk:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: tb.dut.clk
                 vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:17:12 end:17:15:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: tb.dut.clk
                 vpiActual: Variable name:clk
-            Port start:17:17 end:17:22:
+            NamedArgument start:17:17 end:17:22:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:rst_n:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst_n
                 vpiFullName: tb.dut.rst_n
                 vpiActual: Port name:rst_n
               vpiHighConn RefObj name:rst_n start:17:17 end:17:22:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst_n
                 vpiFullName: tb.dut.rst_n
                 vpiActual: Variable name:rst_n
-            Port start:17:24 end:17:28:
+            NamedArgument start:17:24 end:17:28:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:d_in:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_in
                 vpiFullName: tb.dut.d_in
                 vpiActual: Port name:d_in
               vpiHighConn RefObj name:d_in start:17:24 end:17:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: d_in
                 vpiFullName: tb.dut.d_in
                 vpiActual: Variable name:d_in
-            Port start:17:30 end:17:33:
+            NamedArgument start:17:30 end:17:33:
               vpiParent: RefInstance name:dut
               vpiLowConn RefObj name:pwm_out:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: pwm_out
                 vpiFullName: tb.dut.pwm_out
                 vpiActual: Port name:pwm_out
               vpiHighConn RefObj name:pwm start:17:30 end:17:33:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: pwm
                 vpiFullName: tb.dut.pwm
                 vpiActual: Net name:pwm
@@ -11265,7 +11252,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: pwm_out
           vpiFullName: pwm256.pwm_out
-          vpiScalar: true
         Variable name:counter start:13:18 end:13:25:
           vpiParent: Module name:pwm256
           vpiTypespec RefTypespec start:13:1 end:13:17:
@@ -11274,7 +11260,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: counter
           vpiFullName: pwm256.counter
-          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:pwm256
@@ -11351,7 +11336,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: pwm256.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:rst_n start:8:11 end:8:16:
           vpiParent: Module name:pwm256
           vpiTypespec RefTypespec:
@@ -11361,7 +11345,6 @@ Design name:unnamed:
           vpiName: rst_n
           vpiFullName: pwm256.rst_n
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:d_in start:9:17 end:9:21:
           vpiParent: Module name:pwm256
           vpiTypespec RefTypespec start:9:11 end:9:16:
@@ -11371,7 +11354,6 @@ Design name:unnamed:
           vpiName: d_in
           vpiFullName: pwm256.d_in
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (4 items):
         Port name:clk start:7:11 end:7:14:
           vpiParent: Module name:pwm256
@@ -11732,7 +11714,7 @@ Operation                           34      30       0         4
 RefObj                             417     414       0         3
 RefTypespec                       1053    1056       4         1
 ----------------------------------------------------------------
-Others                            1846    1846       0         0
+Others                            1849    1849       0         0
 ----------------------------------------------------------------
-                                  4015    4014       8         9
+                                  4018    4017       8         9
 ===================== END REDUCTION RESULT =====================

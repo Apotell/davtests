@@ -716,7 +716,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: isizedwire
           vpiFullName: t.isizedwire
-          vpiVector: true
         Variable name:ionewire start:18:8 end:18:16:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:4 end:18:7:
@@ -725,7 +724,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: ionewire
           vpiFullName: t.ionewire
-          vpiScalar: true
       vpiTypespec (10 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -916,7 +914,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:low start:14:18 end:14:21:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:12 end:14:17:
@@ -927,7 +924,6 @@ Design name:unnamed:
           vpiFullName: t.low
           vpiNetDeclAssign: true
           vpiNetType: supply0 (11)
-          vpiVector: true
         Net name:high start:15:18 end:15:22:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:15:12 end:15:17:
@@ -938,7 +934,6 @@ Design name:unnamed:
           vpiFullName: t.high
           vpiNetDeclAssign: true
           vpiNetType: supply1 (10)
-          vpiVector: true
         Net name:osizedreg start:24:16 end:24:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:24:9 end:24:14:
@@ -949,7 +944,6 @@ Design name:unnamed:
           vpiFullName: t.osizedreg
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:tied start:25:16 end:25:20:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:25:9 end:25:14:
@@ -960,7 +954,6 @@ Design name:unnamed:
           vpiFullName: t.tied
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:tied_also start:26:16 end:26:25:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:26:9 end:26:14:
@@ -971,7 +964,6 @@ Design name:unnamed:
           vpiFullName: t.tied_also
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -1318,16 +1310,18 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$write start:57:6 end:57:12:
                               vpiArgument (1 items):
-                                Constant start:57:13 end:57:37:
+                                NamedArgument start:57:13 end:57:37:
                                   vpiParent: SysTaskCall name:$write
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 168
-                                  vpiDecompile: "\"*-* All Finished *-*\\n\""
-                                  vpiValue: "*-* All Finished *-*\\n"
+                                  vpiHighConn Constant start:57:13 end:57:37:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 168
+                                    vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                    vpiValue: "*-* All Finished *-*\\n"
                             SysTaskCall name:$finish start:58:6 end:58:13:
                               vpiParent: Begin
                               vpiName Identifier name:$finish start:58:6 end:58:13:
@@ -1342,11 +1336,12 @@ Design name:unnamed:
             vpiName: hello
             vpiFullName: t.hsub.hello
             vpiActual: ModuleTypespec name:hello
-          vpiPort (1 items):
-            Port start:28:16 end:28:26:
+          vpiArgument (1 items):
+            NamedArgument start:28:16 end:28:26:
               vpiParent: RefInstance name:hsub
+              vpiConnByName: true
               vpiLowConn RefObj name:tied_also start:28:17 end:28:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: tied_also
                 vpiFullName: t.hsub.tied_also
                 vpiActual: Net name:tied_also
@@ -1358,16 +1353,17 @@ Design name:unnamed:
             vpiName: t_inst_v2k__sub
             vpiFullName: t.sub.t_inst_v2k__sub
             vpiActual: UnsupportedTypespec name:t_inst_v2k__sub
-          vpiPort (5 items):
-            Port start:34:7 end:34:36:
+          vpiArgument (5 items):
+            NamedArgument start:34:7 end:34:36:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:osizedreg start:34:8 end:34:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: osizedreg
                 vpiFullName: t.sub.osizedreg
                 vpiActual: Net name:osizedreg
               vpiHighConn PartSelect name:osizedreg[7:0] start:34:21 end:34:35:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: osizedreg[7:0]
                 vpiFullName: t.sub.osizedreg[7:0]
                 vpiPrefix RefObj name:osizedreg start:34:21 end:34:30:
@@ -1397,25 +1393,27 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:36:7 end:36:30:
+            NamedArgument start:36:7 end:36:30:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:oonewire start:36:8 end:36:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: oonewire
                 vpiFullName: t.sub.oonewire
               vpiHighConn RefObj name:oonewire start:36:21 end:36:29:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: oonewire
                 vpiFullName: t.sub.oonewire
-            Port start:38:7 end:38:27:
+            NamedArgument start:38:7 end:38:27:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:tied start:38:8 end:38:12:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: tied
                 vpiFullName: t.sub.tied
                 vpiActual: Net name:tied
               vpiHighConn PartSelect name:tied[1:0] start:38:17 end:38:26:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: tied[1:0]
                 vpiFullName: t.sub.tied[1:0]
                 vpiPrefix RefObj name:tied start:38:17 end:38:21:
@@ -1445,15 +1443,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:40:7 end:40:38:
+            NamedArgument start:40:7 end:40:38:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:isizedwire start:40:8 end:40:18:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: isizedwire
                 vpiFullName: t.sub.isizedwire
                 vpiActual: Variable name:isizedwire
               vpiHighConn PartSelect name:isizedwire[7:0] start:40:22 end:40:37:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: isizedwire[7:0]
                 vpiFullName: t.sub.isizedwire[7:0]
                 vpiPrefix RefObj name:isizedwire start:40:22 end:40:32:
@@ -1483,15 +1482,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-            Port start:41:7 end:41:30:
+            NamedArgument start:41:7 end:41:30:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:ionewire start:41:8 end:41:16:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ionewire
                 vpiFullName: t.sub.ionewire
                 vpiActual: Variable name:ionewire
               vpiHighConn RefObj name:ionewire start:41:21 end:41:29:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: ionewire
                 vpiFullName: t.sub.ionewire
                 vpiActual: Variable name:ionewire
@@ -1508,7 +1508,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: tied_also
           vpiFullName: hello.tied_also
-          vpiVector: true
           vpiValue Constant start:67:33 end:67:40:
             vpiParent: Variable name:tied_also
             vpiTypespec RefTypespec:
@@ -1577,16 +1576,18 @@ Design name:unnamed:
             vpiParent: Initial
             vpiName Identifier name:$write start:66:12 end:66:18:
             vpiArgument (1 items):
-              Constant start:66:20 end:66:29:
+              NamedArgument start:66:20 end:66:29:
                 vpiParent: SysTaskCall name:$write
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: hello
-                  vpiActual: StringTypespec
-                vpiConstType: string (6)
-                vpiSize: 48
-                vpiDecompile: "\"Hello\\n\""
-                vpiValue: Hello\n
+                vpiHighConn Constant start:66:20 end:66:29:
+                  vpiParent: NamedArgument
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: hello
+                    vpiActual: StringTypespec
+                  vpiConstType: string (6)
+                  vpiSize: 48
+                  vpiDecompile: "\"Hello\\n\""
+                  vpiValue: Hello\n
   vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1657,7 +1658,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_inst_v2k/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             228     228       0         0
+Others                             230     230       0         0
 ----------------------------------------------------------------
-                                   228     228       0         0
+                                   230     230       0         0
 ===================== END REDUCTION RESULT =====================

@@ -42881,7 +42881,6 @@ Design name:unnamed:
           vpiIsRandomized: true
           vpiRandType: rand (2)
           vpiVisibility: public (1)
-          vpiVector: true
         Variable name:y start:20:23 end:20:24:
           vpiParent: ClassDefn name:a
           vpiTypespec RefTypespec start:20:10 end:20:19:
@@ -42894,7 +42893,6 @@ Design name:unnamed:
           vpiIsRandomized: true
           vpiRandType: rand (2)
           vpiVisibility: public (1)
-          vpiVector: true
         Variable name:z start:20:26 end:20:27:
           vpiParent: ClassDefn name:a
           vpiTypespec RefTypespec start:20:10 end:20:19:
@@ -42907,7 +42905,6 @@ Design name:unnamed:
           vpiIsRandomized: true
           vpiRandType: rand (2)
           vpiVisibility: public (1)
-          vpiVector: true
       vpiTypespec (1 items):
         BitTypespec:
           vpiParent: ClassDefn name:a
@@ -43029,6 +43026,7 @@ Design name:unnamed:
           vpiFullName: env::new
           vpiMethod: true
           vpiVisibility: public (1)
+          vpiAutomatic: true
           vpiIODecl (2 items):
             IODecl name:name start:28:23 end:28:27:
               vpiParent: Function name:new
@@ -43046,7 +43044,6 @@ Design name:unnamed:
                 vpiParent: IODecl name:parent
                 vpiConstType: null (12)
                 vpiDecompile: null
-                vpiValue: 0
               vpiTypespec RefTypespec name:uvm_component start:28:29 end:28:42:
                 vpiParent: IODecl name:parent
                 vpiName: uvm_component
@@ -43064,16 +43061,20 @@ Design name:unnamed:
                 vpiParent: RefObj name:super.new(name, parent)
                 vpiName Identifier name:new:
                 vpiArgument (2 items):
-                  RefObj name:name start:29:15 end:29:19:
+                  NamedArgument start:29:15 end:29:19:
                     vpiParent: MethodFuncCall name:new
-                    vpiName: name
-                    vpiFullName: env::new::super.new(name, parent)::name
-                    vpiActual: IODecl name:name
-                  RefObj name:parent start:29:21 end:29:27:
+                    vpiHighConn RefObj name:name start:29:15 end:29:19:
+                      vpiParent: NamedArgument
+                      vpiName: name
+                      vpiFullName: env::new::super.new(name, parent)::name
+                      vpiActual: IODecl name:name
+                  NamedArgument start:29:21 end:29:27:
                     vpiParent: MethodFuncCall name:new
-                    vpiName: parent
-                    vpiFullName: env::new::super.new(name, parent)::parent
-                    vpiActual: IODecl name:parent
+                    vpiHighConn RefObj name:parent start:29:21 end:29:27:
+                      vpiParent: NamedArgument
+                      vpiName: parent
+                      vpiFullName: env::new::super.new(name, parent)::parent
+                      vpiActual: IODecl name:parent
           vpiReturn RefTypespec name:env:
             vpiParent: Function name:new
             vpiName: env
@@ -43085,6 +43086,7 @@ Design name:unnamed:
           vpiFullName: env::run_phase
           vpiMethod: true
           vpiVisibility: public (1)
+          vpiAutomatic: true
           vpiIODecl (1 items):
             IODecl name:phase start:32:28 end:32:33:
               vpiParent: Task name:run_phase
@@ -43112,11 +43114,13 @@ Design name:unnamed:
                     vpiParent: RefObj name:phase.raise_objection(this)
                     vpiName Identifier name:raise_objection start:33:11 end:33:26:
                     vpiArgument (1 items):
-                      RefObj name:this start:33:27 end:33:31:
+                      NamedArgument start:33:27 end:33:31:
                         vpiParent: SubroutineCall name:raise_objection
-                        vpiName: this
-                        vpiFullName: env::run_phase::phase.raise_objection(this)::raise_objection::this
-                        vpiActual: ClassDefn name:env
+                        vpiHighConn RefObj name:this start:33:27 end:33:31:
+                          vpiParent: NamedArgument
+                          vpiName: this
+                          vpiFullName: env::run_phase::phase.raise_objection(this)::raise_objection::this
+                          vpiActual: ClassDefn name:env
               Begin start:34:5 end:41:8:
                 vpiParent: Begin
                 vpiFullName: env::run_phase
@@ -43264,144 +43268,172 @@ Design name:unnamed:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:uvm_report_enabled start:118:10 end:118:28:
                                 vpiArgument (3 items):
-                                  RefObj name:UVM_LOW start:118:29 end:118:36:
+                                  NamedArgument start:118:29 end:118:36:
                                     vpiParent: SubroutineCall name:uvm_report_enabled
-                                    vpiName: UVM_LOW
-                                    vpiFullName: env::run_phase::uvm_report_enabled::UVM_LOW
-                                  RefObj name:UVM_INFO start:118:37 end:118:45:
+                                    vpiHighConn RefObj name:UVM_LOW start:118:29 end:118:36:
+                                      vpiParent: NamedArgument
+                                      vpiName: UVM_LOW
+                                      vpiFullName: env::run_phase::uvm_report_enabled::UVM_LOW
+                                  NamedArgument start:118:37 end:118:45:
                                     vpiParent: SubroutineCall name:uvm_report_enabled
-                                    vpiName: UVM_INFO
-                                    vpiFullName: env::run_phase::uvm_report_enabled::UVM_INFO
-                                  Constant start:118:46 end:118:54:
+                                    vpiHighConn RefObj name:UVM_INFO start:118:37 end:118:45:
+                                      vpiParent: NamedArgument
+                                      vpiName: UVM_INFO
+                                      vpiFullName: env::run_phase::uvm_report_enabled::UVM_INFO
+                                  NamedArgument start:118:46 end:118:54:
                                     vpiParent: SubroutineCall name:uvm_report_enabled
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: env::run_phase::uvm_report_enabled
-                                      vpiActual: StringTypespec
-                                    vpiConstType: string (6)
-                                    vpiSize: 48
-                                    vpiDecompile: "\"RESULT\""
-                                    vpiValue: RESULT
+                                    vpiHighConn Constant start:118:46 end:118:54:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: env::run_phase::uvm_report_enabled
+                                        vpiActual: StringTypespec
+                                      vpiConstType: string (6)
+                                      vpiSize: 48
+                                      vpiDecompile: "\"RESULT\""
+                                      vpiValue: RESULT
                               vpiStmt SubroutineCall name:uvm_report_info start:119:8 end:119:151:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:uvm_report_info start:119:8 end:119:23:
                                 vpiArgument (7 items):
-                                  Constant start:119:25 end:119:33:
+                                  NamedArgument start:119:25 end:119:33:
                                     vpiParent: SubroutineCall name:uvm_report_info
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: env::run_phase::uvm_report_info
-                                      vpiActual: StringTypespec
-                                    vpiConstType: string (6)
-                                    vpiSize: 48
-                                    vpiDecompile: "\"RESULT\""
-                                    vpiValue: RESULT
-                                  SysFuncCall name:$sformatf start:119:35 end:119:112:
+                                    vpiHighConn Constant start:119:25 end:119:33:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: env::run_phase::uvm_report_info
+                                        vpiActual: StringTypespec
+                                      vpiConstType: string (6)
+                                      vpiSize: 48
+                                      vpiDecompile: "\"RESULT\""
+                                      vpiValue: RESULT
+                                  NamedArgument start:119:35 end:119:112:
                                     vpiParent: SubroutineCall name:uvm_report_info
-                                    vpiName Identifier name:$sformatf start:119:35 end:119:44:
-                                    vpiTaskFunc: Function name:$sformatf
-                                    vpiArgument (4 items):
-                                      Constant start:119:45 end:119:90:
-                                        vpiParent: SysFuncCall name:$sformatf
-                                        vpiTypespec RefTypespec:
-                                          vpiParent: Constant
-                                          vpiFullName: env::run_phase::uvm_report_info
-                                          vpiActual: StringTypespec
-                                        vpiConstType: string (6)
-                                        vpiSize: 344
-                                        vpiDecompile: "\"obj.x = %0d obj.y = %0d obj.z = %0d SUCCESS\""
-                                        vpiValue: obj.x = %0d obj.y = %0d obj.z = %0d SUCCESS
-                                      RefObj name:obj.x start:119:92 end:119:97:
-                                        vpiParent: SysFuncCall name:$sformatf
-                                        vpiName: obj.x
-                                        vpiFullName: env::run_phase::uvm_report_info::obj.x
-                                        vpiPathElem (2 items):
-                                          RefObj name:obj start:119:92 end:119:95:
-                                            vpiParent: RefObj name:obj.x
-                                            vpiName: obj
-                                            vpiFullName: env::run_phase::uvm_report_info::obj
-                                            vpiActual: Variable name:obj
-                                          RefObj name:x start:119:96 end:119:97:
-                                            vpiParent: RefObj name:obj.x
-                                            vpiName: x
-                                            vpiFullName: env::run_phase::uvm_report_info::x
+                                    vpiHighConn SysFuncCall name:$sformatf start:119:35 end:119:112:
+                                      vpiParent: NamedArgument
+                                      vpiName Identifier name:$sformatf start:119:35 end:119:44:
+                                      vpiTaskFunc: Function name:$sformatf
+                                      vpiArgument (4 items):
+                                        NamedArgument start:119:45 end:119:90:
+                                          vpiParent: SysFuncCall name:$sformatf
+                                          vpiHighConn Constant start:119:45 end:119:90:
+                                            vpiParent: NamedArgument
+                                            vpiTypespec RefTypespec:
+                                              vpiParent: Constant
+                                              vpiFullName: env::run_phase::uvm_report_info
+                                              vpiActual: StringTypespec
+                                            vpiConstType: string (6)
+                                            vpiSize: 344
+                                            vpiDecompile: "\"obj.x = %0d obj.y = %0d obj.z = %0d SUCCESS\""
+                                            vpiValue: obj.x = %0d obj.y = %0d obj.z = %0d SUCCESS
+                                        NamedArgument start:119:92 end:119:97:
+                                          vpiParent: SysFuncCall name:$sformatf
+                                          vpiHighConn RefObj name:obj.x start:119:92 end:119:97:
+                                            vpiParent: NamedArgument
+                                            vpiName: obj.x
+                                            vpiFullName: env::run_phase::uvm_report_info::obj.x
+                                            vpiPathElem (2 items):
+                                              RefObj name:obj start:119:92 end:119:95:
+                                                vpiParent: RefObj name:obj.x
+                                                vpiName: obj
+                                                vpiFullName: env::run_phase::uvm_report_info::obj
+                                                vpiActual: Variable name:obj
+                                              RefObj name:x start:119:96 end:119:97:
+                                                vpiParent: RefObj name:obj.x
+                                                vpiName: x
+                                                vpiFullName: env::run_phase::uvm_report_info::x
+                                                vpiActual: Variable name:x
                                             vpiActual: Variable name:x
-                                        vpiActual: Variable name:x
-                                      RefObj name:obj.y start:119:99 end:119:104:
-                                        vpiParent: SysFuncCall name:$sformatf
-                                        vpiName: obj.y
-                                        vpiFullName: env::run_phase::uvm_report_info::obj.y
-                                        vpiPathElem (2 items):
-                                          RefObj name:obj start:119:99 end:119:102:
-                                            vpiParent: RefObj name:obj.y
-                                            vpiName: obj
-                                            vpiFullName: env::run_phase::uvm_report_info::obj
-                                            vpiActual: Variable name:obj
-                                          RefObj name:y start:119:103 end:119:104:
-                                            vpiParent: RefObj name:obj.y
-                                            vpiName: y
-                                            vpiFullName: env::run_phase::uvm_report_info::y
+                                        NamedArgument start:119:99 end:119:104:
+                                          vpiParent: SysFuncCall name:$sformatf
+                                          vpiHighConn RefObj name:obj.y start:119:99 end:119:104:
+                                            vpiParent: NamedArgument
+                                            vpiName: obj.y
+                                            vpiFullName: env::run_phase::uvm_report_info::obj.y
+                                            vpiPathElem (2 items):
+                                              RefObj name:obj start:119:99 end:119:102:
+                                                vpiParent: RefObj name:obj.y
+                                                vpiName: obj
+                                                vpiFullName: env::run_phase::uvm_report_info::obj
+                                                vpiActual: Variable name:obj
+                                              RefObj name:y start:119:103 end:119:104:
+                                                vpiParent: RefObj name:obj.y
+                                                vpiName: y
+                                                vpiFullName: env::run_phase::uvm_report_info::y
+                                                vpiActual: Variable name:y
                                             vpiActual: Variable name:y
-                                        vpiActual: Variable name:y
-                                      RefObj name:obj.z start:119:106 end:119:111:
-                                        vpiParent: SysFuncCall name:$sformatf
-                                        vpiName: obj.z
-                                        vpiFullName: env::run_phase::uvm_report_info::obj.z
-                                        vpiPathElem (2 items):
-                                          RefObj name:obj start:119:106 end:119:109:
-                                            vpiParent: RefObj name:obj.z
-                                            vpiName: obj
-                                            vpiFullName: env::run_phase::uvm_report_info::obj
-                                            vpiActual: Variable name:obj
-                                          RefObj name:z start:119:110 end:119:111:
-                                            vpiParent: RefObj name:obj.z
-                                            vpiName: z
-                                            vpiFullName: env::run_phase::uvm_report_info::z
+                                        NamedArgument start:119:106 end:119:111:
+                                          vpiParent: SysFuncCall name:$sformatf
+                                          vpiHighConn RefObj name:obj.z start:119:106 end:119:111:
+                                            vpiParent: NamedArgument
+                                            vpiName: obj.z
+                                            vpiFullName: env::run_phase::uvm_report_info::obj.z
+                                            vpiPathElem (2 items):
+                                              RefObj name:obj start:119:106 end:119:109:
+                                                vpiParent: RefObj name:obj.z
+                                                vpiName: obj
+                                                vpiFullName: env::run_phase::uvm_report_info::obj
+                                                vpiActual: Variable name:obj
+                                              RefObj name:z start:119:110 end:119:111:
+                                                vpiParent: RefObj name:obj.z
+                                                vpiName: z
+                                                vpiFullName: env::run_phase::uvm_report_info::z
+                                                vpiActual: Variable name:z
                                             vpiActual: Variable name:z
-                                        vpiActual: Variable name:z
-                                  RefObj name:UVM_LOW start:119:114 end:119:121:
+                                  NamedArgument start:119:114 end:119:121:
                                     vpiParent: SubroutineCall name:uvm_report_info
-                                    vpiName: UVM_LOW
-                                    vpiFullName: env::run_phase::uvm_report_info::UVM_LOW
-                                  Constant start:48:18 end:48:71:
+                                    vpiHighConn RefObj name:UVM_LOW start:119:114 end:119:121:
+                                      vpiParent: NamedArgument
+                                      vpiName: UVM_LOW
+                                      vpiFullName: env::run_phase::uvm_report_info::UVM_LOW
+                                  NamedArgument start:48:18 end:48:71:
                                     vpiParent: SubroutineCall name:uvm_report_info
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: env::run_phase::uvm_report_info
-                                      vpiActual: StringTypespec
-                                    vpiConstType: string (6)
-                                    vpiSize: 408
-                                    vpiDecompile: "\"$Source01/18.7--in-line-constraints--randomize_0.sv\""
-                                    vpiValue: "$Source01/18.7--in-line-constraints--randomize_0.sv"
-                                  Constant start:54:18 end:54:20:
+                                    vpiHighConn Constant start:48:18 end:48:71:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: env::run_phase::uvm_report_info
+                                        vpiActual: StringTypespec
+                                      vpiConstType: string (6)
+                                      vpiSize: 408
+                                      vpiDecompile: "\"$Source01/18.7--in-line-constraints--randomize_0.sv\""
+                                      vpiValue: "$Source01/18.7--in-line-constraints--randomize_0.sv"
+                                  NamedArgument start:54:18 end:54:20:
                                     vpiParent: SubroutineCall name:uvm_report_info
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: env::run_phase::uvm_report_info
-                                      vpiActual: IntTypespec
-                                    vpiConstType: unsigned int (9)
-                                    vpiSize: 64
-                                    vpiDecompile: "37"
-                                    vpiValue: 37
-                                  Constant start:119:145 end:119:147:
+                                    vpiHighConn Constant start:54:18 end:54:20:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: env::run_phase::uvm_report_info
+                                        vpiActual: IntTypespec
+                                      vpiConstType: unsigned int (9)
+                                      vpiSize: 64
+                                      vpiDecompile: "37"
+                                      vpiValue: 37
+                                  NamedArgument start:119:145 end:119:147:
                                     vpiParent: SubroutineCall name:uvm_report_info
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: env::run_phase::uvm_report_info
-                                      vpiActual: StringTypespec
-                                    vpiConstType: string (6)
-                                    vpiDecompile: "\"\""
-                                    vpiValue: ""
-                                  Constant start:119:149 end:119:150:
+                                    vpiHighConn Constant start:119:145 end:119:147:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: env::run_phase::uvm_report_info
+                                        vpiActual: StringTypespec
+                                      vpiConstType: string (6)
+                                      vpiDecompile: "\"\""
+                                      vpiValue: ""
+                                  NamedArgument start:119:149 end:119:150:
                                     vpiParent: SubroutineCall name:uvm_report_info
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: env::run_phase::uvm_report_info
-                                      vpiActual: IntTypespec
-                                    vpiConstType: unsigned int (9)
-                                    vpiSize: 64
-                                    vpiDecompile: "1"
-                                    vpiValue: 1
+                                    vpiHighConn Constant start:119:149 end:119:150:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: env::run_phase::uvm_report_info
+                                        vpiActual: IntTypespec
+                                      vpiConstType: unsigned int (9)
+                                      vpiSize: 64
+                                      vpiDecompile: "1"
+                                      vpiValue: 1
                     vpiElseStmt Begin start:38:16 end:40:10:
                       vpiParent: IfElse
                       vpiFullName: env::run_phase
@@ -43416,144 +43448,172 @@ Design name:unnamed:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:uvm_report_enabled start:154:10 end:154:28:
                                 vpiArgument (3 items):
-                                  RefObj name:UVM_NONE start:154:29 end:154:37:
+                                  NamedArgument start:154:29 end:154:37:
                                     vpiParent: SubroutineCall name:uvm_report_enabled
-                                    vpiName: UVM_NONE
-                                    vpiFullName: env::run_phase::uvm_report_enabled::UVM_NONE
-                                  RefObj name:UVM_ERROR start:154:38 end:154:47:
+                                    vpiHighConn RefObj name:UVM_NONE start:154:29 end:154:37:
+                                      vpiParent: NamedArgument
+                                      vpiName: UVM_NONE
+                                      vpiFullName: env::run_phase::uvm_report_enabled::UVM_NONE
+                                  NamedArgument start:154:38 end:154:47:
                                     vpiParent: SubroutineCall name:uvm_report_enabled
-                                    vpiName: UVM_ERROR
-                                    vpiFullName: env::run_phase::uvm_report_enabled::UVM_ERROR
-                                  Constant start:154:48 end:154:56:
+                                    vpiHighConn RefObj name:UVM_ERROR start:154:38 end:154:47:
+                                      vpiParent: NamedArgument
+                                      vpiName: UVM_ERROR
+                                      vpiFullName: env::run_phase::uvm_report_enabled::UVM_ERROR
+                                  NamedArgument start:154:48 end:154:56:
                                     vpiParent: SubroutineCall name:uvm_report_enabled
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: env::run_phase::uvm_report_enabled
-                                      vpiActual: StringTypespec
-                                    vpiConstType: string (6)
-                                    vpiSize: 48
-                                    vpiDecompile: "\"RESULT\""
-                                    vpiValue: RESULT
+                                    vpiHighConn Constant start:154:48 end:154:56:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: env::run_phase::uvm_report_enabled
+                                        vpiActual: StringTypespec
+                                      vpiConstType: string (6)
+                                      vpiSize: 48
+                                      vpiDecompile: "\"RESULT\""
+                                      vpiValue: RESULT
                               vpiStmt SubroutineCall name:uvm_report_error start:155:8 end:155:152:
                                 vpiParent: IfStmt
                                 vpiName Identifier name:uvm_report_error start:155:8 end:155:24:
                                 vpiArgument (7 items):
-                                  Constant start:155:26 end:155:34:
+                                  NamedArgument start:155:26 end:155:34:
                                     vpiParent: SubroutineCall name:uvm_report_error
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: env::run_phase::uvm_report_error
-                                      vpiActual: StringTypespec
-                                    vpiConstType: string (6)
-                                    vpiSize: 48
-                                    vpiDecompile: "\"RESULT\""
-                                    vpiValue: RESULT
-                                  SysFuncCall name:$sformatf start:155:36 end:155:112:
+                                    vpiHighConn Constant start:155:26 end:155:34:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: env::run_phase::uvm_report_error
+                                        vpiActual: StringTypespec
+                                      vpiConstType: string (6)
+                                      vpiSize: 48
+                                      vpiDecompile: "\"RESULT\""
+                                      vpiValue: RESULT
+                                  NamedArgument start:155:36 end:155:112:
                                     vpiParent: SubroutineCall name:uvm_report_error
-                                    vpiName Identifier name:$sformatf start:155:36 end:155:45:
-                                    vpiTaskFunc: Function name:$sformatf
-                                    vpiArgument (4 items):
-                                      Constant start:155:46 end:155:90:
-                                        vpiParent: SysFuncCall name:$sformatf
-                                        vpiTypespec RefTypespec:
-                                          vpiParent: Constant
-                                          vpiFullName: env::run_phase::uvm_report_error
-                                          vpiActual: StringTypespec
-                                        vpiConstType: string (6)
-                                        vpiSize: 336
-                                        vpiDecompile: "\"obj.x = %0d obj.y = %0d obj.z = %0d FAILED\""
-                                        vpiValue: obj.x = %0d obj.y = %0d obj.z = %0d FAILED
-                                      RefObj name:obj.x start:155:92 end:155:97:
-                                        vpiParent: SysFuncCall name:$sformatf
-                                        vpiName: obj.x
-                                        vpiFullName: env::run_phase::uvm_report_error::obj.x
-                                        vpiPathElem (2 items):
-                                          RefObj name:obj start:155:92 end:155:95:
-                                            vpiParent: RefObj name:obj.x
-                                            vpiName: obj
-                                            vpiFullName: env::run_phase::uvm_report_error::obj
-                                            vpiActual: Variable name:obj
-                                          RefObj name:x start:155:96 end:155:97:
-                                            vpiParent: RefObj name:obj.x
-                                            vpiName: x
-                                            vpiFullName: env::run_phase::uvm_report_error::x
+                                    vpiHighConn SysFuncCall name:$sformatf start:155:36 end:155:112:
+                                      vpiParent: NamedArgument
+                                      vpiName Identifier name:$sformatf start:155:36 end:155:45:
+                                      vpiTaskFunc: Function name:$sformatf
+                                      vpiArgument (4 items):
+                                        NamedArgument start:155:46 end:155:90:
+                                          vpiParent: SysFuncCall name:$sformatf
+                                          vpiHighConn Constant start:155:46 end:155:90:
+                                            vpiParent: NamedArgument
+                                            vpiTypespec RefTypespec:
+                                              vpiParent: Constant
+                                              vpiFullName: env::run_phase::uvm_report_error
+                                              vpiActual: StringTypespec
+                                            vpiConstType: string (6)
+                                            vpiSize: 336
+                                            vpiDecompile: "\"obj.x = %0d obj.y = %0d obj.z = %0d FAILED\""
+                                            vpiValue: obj.x = %0d obj.y = %0d obj.z = %0d FAILED
+                                        NamedArgument start:155:92 end:155:97:
+                                          vpiParent: SysFuncCall name:$sformatf
+                                          vpiHighConn RefObj name:obj.x start:155:92 end:155:97:
+                                            vpiParent: NamedArgument
+                                            vpiName: obj.x
+                                            vpiFullName: env::run_phase::uvm_report_error::obj.x
+                                            vpiPathElem (2 items):
+                                              RefObj name:obj start:155:92 end:155:95:
+                                                vpiParent: RefObj name:obj.x
+                                                vpiName: obj
+                                                vpiFullName: env::run_phase::uvm_report_error::obj
+                                                vpiActual: Variable name:obj
+                                              RefObj name:x start:155:96 end:155:97:
+                                                vpiParent: RefObj name:obj.x
+                                                vpiName: x
+                                                vpiFullName: env::run_phase::uvm_report_error::x
+                                                vpiActual: Variable name:x
                                             vpiActual: Variable name:x
-                                        vpiActual: Variable name:x
-                                      RefObj name:obj.y start:155:99 end:155:104:
-                                        vpiParent: SysFuncCall name:$sformatf
-                                        vpiName: obj.y
-                                        vpiFullName: env::run_phase::uvm_report_error::obj.y
-                                        vpiPathElem (2 items):
-                                          RefObj name:obj start:155:99 end:155:102:
-                                            vpiParent: RefObj name:obj.y
-                                            vpiName: obj
-                                            vpiFullName: env::run_phase::uvm_report_error::obj
-                                            vpiActual: Variable name:obj
-                                          RefObj name:y start:155:103 end:155:104:
-                                            vpiParent: RefObj name:obj.y
-                                            vpiName: y
-                                            vpiFullName: env::run_phase::uvm_report_error::y
+                                        NamedArgument start:155:99 end:155:104:
+                                          vpiParent: SysFuncCall name:$sformatf
+                                          vpiHighConn RefObj name:obj.y start:155:99 end:155:104:
+                                            vpiParent: NamedArgument
+                                            vpiName: obj.y
+                                            vpiFullName: env::run_phase::uvm_report_error::obj.y
+                                            vpiPathElem (2 items):
+                                              RefObj name:obj start:155:99 end:155:102:
+                                                vpiParent: RefObj name:obj.y
+                                                vpiName: obj
+                                                vpiFullName: env::run_phase::uvm_report_error::obj
+                                                vpiActual: Variable name:obj
+                                              RefObj name:y start:155:103 end:155:104:
+                                                vpiParent: RefObj name:obj.y
+                                                vpiName: y
+                                                vpiFullName: env::run_phase::uvm_report_error::y
+                                                vpiActual: Variable name:y
                                             vpiActual: Variable name:y
-                                        vpiActual: Variable name:y
-                                      RefObj name:obj.z start:155:106 end:155:111:
-                                        vpiParent: SysFuncCall name:$sformatf
-                                        vpiName: obj.z
-                                        vpiFullName: env::run_phase::uvm_report_error::obj.z
-                                        vpiPathElem (2 items):
-                                          RefObj name:obj start:155:106 end:155:109:
-                                            vpiParent: RefObj name:obj.z
-                                            vpiName: obj
-                                            vpiFullName: env::run_phase::uvm_report_error::obj
-                                            vpiActual: Variable name:obj
-                                          RefObj name:z start:155:110 end:155:111:
-                                            vpiParent: RefObj name:obj.z
-                                            vpiName: z
-                                            vpiFullName: env::run_phase::uvm_report_error::z
+                                        NamedArgument start:155:106 end:155:111:
+                                          vpiParent: SysFuncCall name:$sformatf
+                                          vpiHighConn RefObj name:obj.z start:155:106 end:155:111:
+                                            vpiParent: NamedArgument
+                                            vpiName: obj.z
+                                            vpiFullName: env::run_phase::uvm_report_error::obj.z
+                                            vpiPathElem (2 items):
+                                              RefObj name:obj start:155:106 end:155:109:
+                                                vpiParent: RefObj name:obj.z
+                                                vpiName: obj
+                                                vpiFullName: env::run_phase::uvm_report_error::obj
+                                                vpiActual: Variable name:obj
+                                              RefObj name:z start:155:110 end:155:111:
+                                                vpiParent: RefObj name:obj.z
+                                                vpiName: z
+                                                vpiFullName: env::run_phase::uvm_report_error::z
+                                                vpiActual: Variable name:z
                                             vpiActual: Variable name:z
-                                        vpiActual: Variable name:z
-                                  RefObj name:UVM_NONE start:155:114 end:155:122:
+                                  NamedArgument start:155:114 end:155:122:
                                     vpiParent: SubroutineCall name:uvm_report_error
-                                    vpiName: UVM_NONE
-                                    vpiFullName: env::run_phase::uvm_report_error::UVM_NONE
-                                  Constant start:48:18 end:48:71:
+                                    vpiHighConn RefObj name:UVM_NONE start:155:114 end:155:122:
+                                      vpiParent: NamedArgument
+                                      vpiName: UVM_NONE
+                                      vpiFullName: env::run_phase::uvm_report_error::UVM_NONE
+                                  NamedArgument start:48:18 end:48:71:
                                     vpiParent: SubroutineCall name:uvm_report_error
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: env::run_phase::uvm_report_error
-                                      vpiActual: StringTypespec
-                                    vpiConstType: string (6)
-                                    vpiSize: 408
-                                    vpiDecompile: "\"$Source01/18.7--in-line-constraints--randomize_0.sv\""
-                                    vpiValue: "$Source01/18.7--in-line-constraints--randomize_0.sv"
-                                  Constant start:54:18 end:54:20:
+                                    vpiHighConn Constant start:48:18 end:48:71:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: env::run_phase::uvm_report_error
+                                        vpiActual: StringTypespec
+                                      vpiConstType: string (6)
+                                      vpiSize: 408
+                                      vpiDecompile: "\"$Source01/18.7--in-line-constraints--randomize_0.sv\""
+                                      vpiValue: "$Source01/18.7--in-line-constraints--randomize_0.sv"
+                                  NamedArgument start:54:18 end:54:20:
                                     vpiParent: SubroutineCall name:uvm_report_error
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: env::run_phase::uvm_report_error
-                                      vpiActual: IntTypespec
-                                    vpiConstType: unsigned int (9)
-                                    vpiSize: 64
-                                    vpiDecompile: "39"
-                                    vpiValue: 39
-                                  Constant start:155:146 end:155:148:
+                                    vpiHighConn Constant start:54:18 end:54:20:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: env::run_phase::uvm_report_error
+                                        vpiActual: IntTypespec
+                                      vpiConstType: unsigned int (9)
+                                      vpiSize: 64
+                                      vpiDecompile: "39"
+                                      vpiValue: 39
+                                  NamedArgument start:155:146 end:155:148:
                                     vpiParent: SubroutineCall name:uvm_report_error
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: env::run_phase::uvm_report_error
-                                      vpiActual: StringTypespec
-                                    vpiConstType: string (6)
-                                    vpiDecompile: "\"\""
-                                    vpiValue: ""
-                                  Constant start:155:150 end:155:151:
+                                    vpiHighConn Constant start:155:146 end:155:148:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: env::run_phase::uvm_report_error
+                                        vpiActual: StringTypespec
+                                      vpiConstType: string (6)
+                                      vpiDecompile: "\"\""
+                                      vpiValue: ""
+                                  NamedArgument start:155:150 end:155:151:
                                     vpiParent: SubroutineCall name:uvm_report_error
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: env::run_phase::uvm_report_error
-                                      vpiActual: IntTypespec
-                                    vpiConstType: unsigned int (9)
-                                    vpiSize: 64
-                                    vpiDecompile: "1"
-                                    vpiValue: 1
+                                    vpiHighConn Constant start:155:150 end:155:151:
+                                      vpiParent: NamedArgument
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: env::run_phase::uvm_report_error
+                                        vpiActual: IntTypespec
+                                      vpiConstType: unsigned int (9)
+                                      vpiSize: 64
+                                      vpiDecompile: "1"
+                                      vpiValue: 1
               RefObj name:phase.drop_objection(this) start:42:5 end:42:31:
                 vpiParent: Begin
                 vpiName: phase.drop_objection(this)
@@ -43568,11 +43628,13 @@ Design name:unnamed:
                     vpiParent: RefObj name:phase.drop_objection(this)
                     vpiName Identifier name:drop_objection start:42:11 end:42:25:
                     vpiArgument (1 items):
-                      RefObj name:this start:42:26 end:42:30:
+                      NamedArgument start:42:26 end:42:30:
                         vpiParent: SubroutineCall name:drop_objection
-                        vpiName: this
-                        vpiFullName: env::run_phase::phase.drop_objection(this)::drop_objection::this
-                        vpiActual: ClassDefn name:env
+                        vpiHighConn RefObj name:this start:42:26 end:42:30:
+                          vpiParent: NamedArgument
+                          vpiName: this
+                          vpiFullName: env::run_phase::phase.drop_objection(this)::drop_objection::this
+                          vpiActual: ClassDefn name:env
           vpiEndLabel Identifier name:run_phase start:43:12 end:43:21:
   vpiAllModules (1 items):
     Module name:top file:$Source01/18.7--in-line-constraints--randomize_0.sv start:47:1 end:56:10:
@@ -43625,16 +43687,18 @@ Design name:unnamed:
                   vpiName Identifier name:new:
                   vpiTaskFunc: Function name:new
                   vpiArgument (1 items):
-                    Constant start:52:23 end:52:28:
+                    NamedArgument start:52:23 end:52:28:
                       vpiParent: MethodFuncCall name:new
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: top
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 24
-                      vpiDecompile: "\"env\""
-                      vpiValue: env
+                      vpiHighConn Constant start:52:23 end:52:28:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 24
+                        vpiDecompile: "\"env\""
+                        vpiValue: env
               SubroutineCall name:run_test start:53:5 end:53:15:
                 vpiParent: Begin
                 vpiName Identifier name:run_test start:53:5 end:53:13:
@@ -43734,7 +43798,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--rand
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                           38893   38893       0         0
+Others                           38926   38926       0         0
 ----------------------------------------------------------------
-                                 38893   38893       0         0
+                                 38926   38926       0         0
 ===================== END REDUCTION RESULT =====================

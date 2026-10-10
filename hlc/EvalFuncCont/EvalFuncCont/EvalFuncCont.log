@@ -413,11 +413,13 @@ Design name:unnamed:
             vpiName Identifier name:num_out start:16:25 end:16:32:
             vpiTaskFunc: Function name:num_out
             vpiArgument (1 items):
-              RefObj name:WIDTH start:16:33 end:16:38:
+              NamedArgument start:16:33 end:16:38:
                 vpiParent: MethodFuncCall name:num_out
-                vpiName: WIDTH
-                vpiFullName: t.WIDTH
-                vpiActual: Parameter name:WIDTH
+                vpiHighConn RefObj name:WIDTH start:16:33 end:16:38:
+                  vpiParent: NamedArgument
+                  vpiName: WIDTH
+                  vpiFullName: t.WIDTH
+                  vpiActual: Parameter name:WIDTH
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -610,7 +612,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:z start:18:23 end:18:24:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:18:9 end:18:22:
@@ -621,7 +622,6 @@ Design name:unnamed:
           vpiFullName: t.z
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (1 items):
         Port name:clk start:10:4 end:10:7:
           vpiParent: Module name:t
@@ -680,11 +680,13 @@ Design name:unnamed:
                       vpiName Identifier name:$bits start:31:11 end:31:16:
                       vpiTaskFunc: Function name:$bits
                       vpiArgument (1 items):
-                        RefObj name:z start:31:17 end:31:18:
+                        NamedArgument start:31:17 end:31:18:
                           vpiParent: SysFuncCall name:$bits
-                          vpiName: z
-                          vpiFullName: t.z
-                          vpiActual: Net name:z
+                          vpiHighConn RefObj name:z start:31:17 end:31:18:
+                            vpiParent: NamedArgument
+                            vpiName: z
+                            vpiFullName: t.z
+                            vpiActual: Net name:z
                     Constant start:31:23 end:31:24:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -705,16 +707,18 @@ Design name:unnamed:
                 vpiName Identifier name:$write start:32:7 end:32:13:
                 vpiTaskFunc: Task name:$write
                 vpiArgument (1 items):
-                  Constant start:32:14 end:32:38:
+                  NamedArgument start:32:14 end:32:38:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: "*-* All Finished *-*\\n"
+                    vpiHighConn Constant start:32:14 end:32:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
               SysTaskCall name:$finish start:33:7 end:33:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:33:7 end:33:14:
@@ -793,7 +797,7 @@ COMMAND: ${HLC_DIR}/regression/EvalFuncCont/EvalFuncCont/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1466    1466       0         0
+Others                            1469    1469       0         0
 ----------------------------------------------------------------
-                                  1466    1466       0         0
+                                  1469    1469       0         0
 ===================== END REDUCTION RESULT =====================

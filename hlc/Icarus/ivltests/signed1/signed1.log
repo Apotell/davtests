@@ -438,6 +438,15 @@ n<$Source01/signed1.v> u<423> t<Top_level_rule> c<1> l<24:1> el<64:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/signed1.v:24:1: Compile module "main".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[WRN:DB2033] $Source01/signed1.v:36:49: Critical: Signed vs Unsigned port connection "vala".
+[WRN:DB2033] $Source01/signed1.v:36:55: Critical: Signed vs Unsigned port connection "valb".
+[WRN:DB2033] $Source01/signed1.v:41:48: Critical: Signed vs Unsigned port connection "vala".
+[WRN:DB2033] $Source01/signed1.v:41:54: Critical: Signed vs Unsigned port connection "valb".
+[WRN:DB2033] $Source01/signed1.v:46:49: Critical: Signed vs Unsigned port connection "valb".
+[WRN:DB2033] $Source01/signed1.v:46:55: Critical: Signed vs Unsigned port connection "vala".
+[WRN:DB2033] $Source01/signed1.v:51:48: Critical: Signed vs Unsigned port connection "valb".
+[WRN:DB2033] $Source01/signed1.v:51:54: Critical: Signed vs Unsigned port connection "vala".
+[WRN:DB2033] $Source01/signed1.v:56:58: Critical: Signed vs Unsigned port connection "valb".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -460,7 +469,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: vala
           vpiFullName: main.vala
-          vpiVector: true
         Variable name:valb start:27:21 end:27:25:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:27:4 end:27:20:
@@ -469,7 +477,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: valb
           vpiFullName: main.valb
-          vpiVector: true
         Variable name:valc start:28:21 end:28:25:
           vpiParent: Module name:main
           vpiTypespec RefTypespec start:28:4 end:28:20:
@@ -478,7 +485,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: valc
           vpiFullName: main.valc
-          vpiVector: true
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:main
@@ -667,26 +673,32 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:36:3 end:36:11:
                       vpiArgument (3 items):
-                        Constant start:36:12 end:36:47:
+                        NamedArgument start:36:12 end:36:47:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 264
-                          vpiDecompile: "\"FAILED -- vala(%b) is >= valb(%b)\""
-                          vpiValue: FAILED -- vala(%b) is >= valb(%b)
-                        RefObj name:vala start:36:49 end:36:53:
+                          vpiHighConn Constant start:36:12 end:36:47:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 264
+                            vpiDecompile: "\"FAILED -- vala(%b) is >= valb(%b)\""
+                            vpiValue: FAILED -- vala(%b) is >= valb(%b)
+                        NamedArgument start:36:49 end:36:53:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: vala
-                          vpiFullName: main.vala
-                          vpiActual: Variable name:vala
-                        RefObj name:valb start:36:55 end:36:59:
+                          vpiHighConn RefObj name:vala start:36:49 end:36:53:
+                            vpiParent: NamedArgument
+                            vpiName: vala
+                            vpiFullName: main.vala
+                            vpiActual: Variable name:vala
+                        NamedArgument start:36:55 end:36:59:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: valb
-                          vpiFullName: main.valb
-                          vpiActual: Variable name:valb
+                          vpiHighConn RefObj name:valb start:36:55 end:36:59:
+                            vpiParent: NamedArgument
+                            vpiName: valb
+                            vpiFullName: main.valb
+                            vpiActual: Variable name:valb
                     SysTaskCall name:$finish start:37:3 end:37:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:37:3 end:37:10:
@@ -715,26 +727,32 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:41:3 end:41:11:
                       vpiArgument (3 items):
-                        Constant start:41:12 end:41:46:
+                        NamedArgument start:41:12 end:41:46:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 256
-                          vpiDecompile: "\"FAILED -- vala(%b) is > valb(%b)\""
-                          vpiValue: FAILED -- vala(%b) is > valb(%b)
-                        RefObj name:vala start:41:48 end:41:52:
+                          vpiHighConn Constant start:41:12 end:41:46:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 256
+                            vpiDecompile: "\"FAILED -- vala(%b) is > valb(%b)\""
+                            vpiValue: FAILED -- vala(%b) is > valb(%b)
+                        NamedArgument start:41:48 end:41:52:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: vala
-                          vpiFullName: main.vala
-                          vpiActual: Variable name:vala
-                        RefObj name:valb start:41:54 end:41:58:
+                          vpiHighConn RefObj name:vala start:41:48 end:41:52:
+                            vpiParent: NamedArgument
+                            vpiName: vala
+                            vpiFullName: main.vala
+                            vpiActual: Variable name:vala
+                        NamedArgument start:41:54 end:41:58:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: valb
-                          vpiFullName: main.valb
-                          vpiActual: Variable name:valb
+                          vpiHighConn RefObj name:valb start:41:54 end:41:58:
+                            vpiParent: NamedArgument
+                            vpiName: valb
+                            vpiFullName: main.valb
+                            vpiActual: Variable name:valb
                     SysTaskCall name:$finish start:42:3 end:42:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:42:3 end:42:10:
@@ -763,26 +781,32 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:46:3 end:46:11:
                       vpiArgument (3 items):
-                        Constant start:46:12 end:46:47:
+                        NamedArgument start:46:12 end:46:47:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 264
-                          vpiDecompile: "\"FAILED -- valb(%b) is <= vala(%b)\""
-                          vpiValue: FAILED -- valb(%b) is <= vala(%b)
-                        RefObj name:valb start:46:49 end:46:53:
+                          vpiHighConn Constant start:46:12 end:46:47:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 264
+                            vpiDecompile: "\"FAILED -- valb(%b) is <= vala(%b)\""
+                            vpiValue: FAILED -- valb(%b) is <= vala(%b)
+                        NamedArgument start:46:49 end:46:53:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: valb
-                          vpiFullName: main.valb
-                          vpiActual: Variable name:valb
-                        RefObj name:vala start:46:55 end:46:59:
+                          vpiHighConn RefObj name:valb start:46:49 end:46:53:
+                            vpiParent: NamedArgument
+                            vpiName: valb
+                            vpiFullName: main.valb
+                            vpiActual: Variable name:valb
+                        NamedArgument start:46:55 end:46:59:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: vala
-                          vpiFullName: main.vala
-                          vpiActual: Variable name:vala
+                          vpiHighConn RefObj name:vala start:46:55 end:46:59:
+                            vpiParent: NamedArgument
+                            vpiName: vala
+                            vpiFullName: main.vala
+                            vpiActual: Variable name:vala
                     SysTaskCall name:$finish start:47:3 end:47:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:47:3 end:47:10:
@@ -811,26 +835,32 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:51:3 end:51:11:
                       vpiArgument (3 items):
-                        Constant start:51:12 end:51:46:
+                        NamedArgument start:51:12 end:51:46:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 256
-                          vpiDecompile: "\"FAILED -- valb(%b) is < vala(%b)\""
-                          vpiValue: FAILED -- valb(%b) is < vala(%b)
-                        RefObj name:valb start:51:48 end:51:52:
+                          vpiHighConn Constant start:51:12 end:51:46:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 256
+                            vpiDecompile: "\"FAILED -- valb(%b) is < vala(%b)\""
+                            vpiValue: FAILED -- valb(%b) is < vala(%b)
+                        NamedArgument start:51:48 end:51:52:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: valb
-                          vpiFullName: main.valb
-                          vpiActual: Variable name:valb
-                        RefObj name:vala start:51:54 end:51:58:
+                          vpiHighConn RefObj name:valb start:51:48 end:51:52:
+                            vpiParent: NamedArgument
+                            vpiName: valb
+                            vpiFullName: main.valb
+                            vpiActual: Variable name:valb
+                        NamedArgument start:51:54 end:51:58:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: vala
-                          vpiFullName: main.vala
-                          vpiActual: Variable name:vala
+                          vpiHighConn RefObj name:vala start:51:54 end:51:58:
+                            vpiParent: NamedArgument
+                            vpiName: vala
+                            vpiFullName: main.vala
+                            vpiActual: Variable name:vala
                     SysTaskCall name:$finish start:52:3 end:52:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:52:3 end:52:10:
@@ -859,26 +889,32 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:56:3 end:56:11:
                       vpiArgument (3 items):
-                        Constant start:56:12 end:56:50:
+                        NamedArgument start:56:12 end:56:50:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 288
-                          vpiDecompile: "\"FAILED -- valc(%b) is not > valb(%b)\""
-                          vpiValue: FAILED -- valc(%b) is not > valb(%b)
-                        RefObj name:valc start:56:52 end:56:56:
+                          vpiHighConn Constant start:56:12 end:56:50:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 288
+                            vpiDecompile: "\"FAILED -- valc(%b) is not > valb(%b)\""
+                            vpiValue: FAILED -- valc(%b) is not > valb(%b)
+                        NamedArgument start:56:52 end:56:56:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: valc
-                          vpiFullName: main.valc
-                          vpiActual: Variable name:valc
-                        RefObj name:valb start:56:58 end:56:62:
+                          vpiHighConn RefObj name:valc start:56:52 end:56:56:
+                            vpiParent: NamedArgument
+                            vpiName: valc
+                            vpiFullName: main.valc
+                            vpiActual: Variable name:valc
+                        NamedArgument start:56:58 end:56:62:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: valb
-                          vpiFullName: main.valb
-                          vpiActual: Variable name:valb
+                          vpiHighConn RefObj name:valb start:56:58 end:56:62:
+                            vpiParent: NamedArgument
+                            vpiName: valb
+                            vpiFullName: main.valb
+                            vpiActual: Variable name:valb
                     SysTaskCall name:$finish start:57:3 end:57:10:
                       vpiParent: Begin
                       vpiName Identifier name:$finish start:57:3 end:57:10:
@@ -887,16 +923,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:60:7 end:60:15:
                 vpiArgument (1 items):
-                  Constant start:60:16 end:60:24:
+                  NamedArgument start:60:16 end:60:24:
                     vpiParent: SysTaskCall name:$display
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: main
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 48
-                    vpiDecompile: "\"PASSED\""
-                    vpiValue: PASSED
+                    vpiHighConn Constant start:60:16 end:60:24:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 48
+                      vpiDecompile: "\"PASSED\""
+                      vpiValue: PASSED
   vpiTypespec (3 items):
     ModuleTypespec name:main:
       vpiParent: Design name:unnamed
@@ -916,7 +954,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -963,7 +1001,7 @@ Constant                            15      15       3         3
 Operation                            8       5       0         3
 RefTypespec                         18      18       3         3
 ----------------------------------------------------------------
-Others                              79      79       0         0
+Others                              95      95       0         0
 ----------------------------------------------------------------
-                                   120     117       6         9
+                                   136     133       6         9
 ===================== END REDUCTION RESULT =====================

@@ -174,7 +174,7 @@ TEST_F(Attributes2, PortDeclaration) { expectAttributeParentedTo<hldb::Net>("a_p
 // each item in the connection list gets its own attribute via sibling pairing, not
 // appendPendingAttributes).
 // ----
-TEST_F(Attributes2, NamedPortConnection) { expectAttributeParentedTo<hldb::Port>("a_named_port_connection"); }
+TEST_F(Attributes2, NamedPortConnection) { expectAttributeParentedTo<hldb::NamedArgument>("a_named_port_connection"); }
 
 TEST_F(Attributes2, OrderedPortConnection) {
   expectAttributeParentedTo<hldb::RefObj>("a_ordered_port_connection");
@@ -335,13 +335,13 @@ TEST_F(Attributes2, IncDecOp) { expectAttributeParentedTo<hldb::Operation>("a_in
 // (subroutine_call), and why an explicit argument is used at all (real array reduction methods
 // normally take none).
 // ----
-TEST_F(Attributes2, MethodCallBody) { expectAttributeParentedTo<hldb::Constant>("a_method_call_body"); }
+TEST_F(Attributes2, MethodCallBody) { expectAttributeParentedTo<hldb::NamedArgument>("a_method_call_body"); }
 
 TEST_F(Attributes2, ArrayManipulationCall) {
-  expectAttributeParentedTo<hldb::Constant>("a_array_manipulation_call");
+  expectAttributeParentedTo<hldb::NamedArgument>("a_array_manipulation_call");
 }
 
-TEST_F(Attributes2, SubroutineCall) { expectAttributeParentedTo<hldb::Constant>("a_subroutine_call"); }
+TEST_F(Attributes2, SubroutineCall) { expectAttributeParentedTo<hldb::NamedArgument>("a_subroutine_call"); }
 
 }  // namespace hlc
 

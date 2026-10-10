@@ -120,7 +120,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: cmp #(.hyst(0.65)).out
-          vpiScalar: true
       vpiParameter (1 items):
         Parameter name:hyst start:2:29 end:2:33:
           vpiParent: Module name:cmp #(.hyst(0.65))
@@ -199,7 +198,6 @@ Design name:unnamed:
           vpiName: inA
           vpiFullName: cmp #(.hyst(0.65)).inA
           vpiNetType: wire (1)
-          vpiVector: true
         Net name:rst start:5:13 end:5:16:
           vpiParent: Module name:cmp #(.hyst(0.65))
           vpiTypespec RefTypespec start:5:7 end:5:12:
@@ -209,7 +207,6 @@ Design name:unnamed:
           vpiName: rst
           vpiFullName: cmp #(.hyst(0.65)).rst
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (3 items):
         Port name:inA start:4:25 end:4:28:
           vpiParent: Module name:cmp #(.hyst(0.65))
@@ -606,6 +603,7 @@ Design name:unnamed:
           vpiParent: Module name:cmp #(.hyst(0.65))
           vpiStmt DelayControl start:24:2 end:34:4:
             vpiParent: Always
+            vpiDelay: 0
             vpiStmt Begin start:25:1 end:34:4:
               vpiParent: DelayControl
               vpiFullName: cmp #(.hyst(0.65))
@@ -768,7 +766,7 @@ Design name:unnamed:
                           vpiSize: 1
                           vpiDecompile: "1'b0"
                           vpiValue: "0"
-            vpiDelay RefObj name:updatePeriod start:24:2 end:24:15:
+            vpiDelay RefObj name:updatePeriod start:24:3 end:24:15:
               vpiParent: DelayControl
               vpiName: updatePeriod
               vpiFullName: cmp #(.hyst(0.65)).updatePeriod
@@ -788,7 +786,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: outvar
           vpiFullName: driver #(.delay(30), .iterations(256)).outvar
-          vpiVector: true
       vpiParameter (2 items):
         Parameter name:delay start:6:2 end:6:7:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
@@ -916,7 +913,6 @@ Design name:unnamed:
           vpiName: out
           vpiFullName: driver #(.delay(30), .iterations(256)).out
           vpiNetType: wire (1)
-          vpiVector: true
       vpiPort (1 items):
         Port name:out start:13:8 end:13:11:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
@@ -1011,6 +1007,7 @@ Design name:unnamed:
                       vpiActual: Parameter name:iterations
                 vpiStmt DelayControl start:26:1 end:26:17:
                   vpiParent: ForStmt
+                  vpiDelay: 0
                   vpiStmt Operation start:26:8 end:26:16:
                     vpiParent: DelayControl
                     vpiOpType: post inc (64)
@@ -1020,7 +1017,7 @@ Design name:unnamed:
                         vpiName: outvar
                         vpiFullName: driver #(.delay(30), .iterations(256)).outvar
                         vpiActual: Variable name:outvar
-                  vpiDelay RefObj name:delay start:26:1 end:26:7:
+                  vpiDelay RefObj name:delay start:26:2 end:26:7:
                     vpiParent: DelayControl
                     vpiName: delay
                     vpiFullName: driver #(.delay(30), .iterations(256)).delay
@@ -1341,6 +1338,7 @@ Design name:unnamed:
                   vpiStmt (2 items):
                     DelayControl start:16:7 end:16:29:
                       vpiParent: Begin
+                      vpiDelay: 0
                       vpiStmt Assignment start:16:14 end:16:28:
                         vpiParent: DelayControl
                         vpiBlocking: true
@@ -1396,7 +1394,7 @@ Design name:unnamed:
                               vpiSize: 64
                               vpiDecompile: "0.2"
                               vpiValue: 0.2
-                      vpiDelay RefObj name:delay start:16:7 end:16:13:
+                      vpiDelay RefObj name:delay start:16:8 end:16:13:
                         vpiParent: DelayControl
                         vpiName: delay
                         vpiFullName: driver #(.delay(30), .iterations(256)).delay
@@ -1483,7 +1481,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: dBus
           vpiFullName: top.dBus
-          vpiVector: true
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -1648,14 +1645,14 @@ Design name:unnamed:
             vpiName: driver [0:3]
             vpiFullName: top.driverArray.driver [0:3]
             vpiActual: ArrayTypespec
-          vpiPort (1 items):
-            Port start:5:25 end:5:29:
+          vpiArgument (1 items):
+            NamedArgument start:5:25 end:5:29:
               vpiParent: RefInstance name:driverArray
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: top.driverArray
               vpiHighConn RefObj name:aBus start:5:25 end:5:29:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: aBus
                 vpiFullName: top.driverArray.aBus
                 vpiActual: Net name:aBus
@@ -1667,33 +1664,33 @@ Design name:unnamed:
             vpiName: cmp [0:3]
             vpiFullName: top.cmpArray.cmp [0:3]
             vpiActual: ArrayTypespec
-          vpiPort (3 items):
-            Port start:7:19 end:7:23:
+          vpiArgument (3 items):
+            NamedArgument start:7:19 end:7:23:
               vpiParent: RefInstance name:cmpArray
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: top.cmpArray
               vpiHighConn RefObj name:aBus start:7:19 end:7:23:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: aBus
                 vpiFullName: top.cmpArray.aBus
                 vpiActual: Net name:aBus
-            Port start:7:24 end:7:27:
+            NamedArgument start:7:24 end:7:27:
               vpiParent: RefInstance name:cmpArray
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: top.cmpArray
               vpiHighConn RefObj name:rst start:7:24 end:7:27:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: top.cmpArray.rst
-            Port start:7:28 end:7:32:
+            NamedArgument start:7:28 end:7:32:
               vpiParent: RefInstance name:cmpArray
               vpiLowConn RefObj:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiFullName: top.cmpArray
               vpiHighConn RefObj name:dBus start:7:28 end:7:32:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: dBus
                 vpiFullName: top.cmpArray.dBus
                 vpiActual: Variable name:dBus

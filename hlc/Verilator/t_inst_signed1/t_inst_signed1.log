@@ -490,7 +490,7 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/t_inst_signed1.v:43:33: Implicit port type (wire) for "o".
 [INF:CP5804] $Source01/t_inst_signed1.v:47:1: Compile module "sub2".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[WRN:DB2033] $Source01/t_inst_signed1.v:19:26: Critical: Signed vs Unsigned port connection "".
+[WRN:DB2033] $Source01/t_inst_signed1.v:19:23: Critical: Signed vs Unsigned port connection "o2".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -513,7 +513,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: i
           vpiFullName: t.i
-          vpiScalar: true
         Variable name:cyc start:16:12 end:16:15:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:16:4 end:16:11:
@@ -561,7 +560,6 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: t.clk
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:o1 start:13:16 end:13:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:13:9 end:13:15:
@@ -572,7 +570,6 @@ Design name:unnamed:
           vpiFullName: t.o1
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:o2 start:14:16 end:14:18:
           vpiParent: Module name:t
           vpiTypespec RefTypespec start:14:9 end:14:15:
@@ -583,7 +580,6 @@ Design name:unnamed:
           vpiFullName: t.o2
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (1 items):
         Port name:clk start:8:4 end:8:7:
           vpiParent: Module name:t
@@ -859,16 +855,18 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$write start:34:10 end:34:16:
                         vpiArgument (1 items):
-                          Constant start:34:17 end:34:41:
+                          NamedArgument start:34:17 end:34:41:
                             vpiParent: SysTaskCall name:$write
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 168
-                            vpiDecompile: "\"*-* All Finished *-*\\n\""
-                            vpiValue: "*-* All Finished *-*\\n"
+                            vpiHighConn Constant start:34:17 end:34:41:
+                              vpiParent: NamedArgument
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: StringTypespec
+                              vpiConstType: string (6)
+                              vpiSize: 168
+                              vpiDecompile: "\"*-* All Finished *-*\\n\""
+                              vpiValue: "*-* All Finished *-*\\n"
                       SysTaskCall name:$finish start:35:10 end:35:17:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:35:10 end:35:17:
@@ -883,28 +881,30 @@ Design name:unnamed:
             vpiName: sub1
             vpiFullName: t.sub1.sub1
             vpiActual: ModuleTypespec name:sub1
-          vpiPort (2 items):
-            Port start:18:15 end:18:20:
+          vpiArgument (2 items):
+            NamedArgument start:18:15 end:18:20:
               vpiParent: RefInstance name:sub1
+              vpiConnByName: true
               vpiLowConn RefObj name:i start:18:16 end:18:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i
                 vpiFullName: t.sub1.i
                 vpiActual: Variable name:i
               vpiHighConn RefObj name:i start:18:18 end:18:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i
                 vpiFullName: t.sub1.i
                 vpiActual: Variable name:i
-            Port start:18:22 end:18:28:
+            NamedArgument start:18:22 end:18:28:
               vpiParent: RefInstance name:sub1
+              vpiConnByName: true
               vpiLowConn RefObj name:o start:18:23 end:18:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: t.sub1.o
                 vpiActual: Port name:o
               vpiHighConn RefObj name:o1 start:18:25 end:18:27:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o1
                 vpiFullName: t.sub1.o1
                 vpiActual: Net name:o1
@@ -916,28 +916,30 @@ Design name:unnamed:
             vpiName: sub2
             vpiFullName: t.sub2.sub2
             vpiActual: ModuleTypespec name:sub2
-          vpiPort (2 items):
-            Port start:19:15 end:19:21:
+          vpiArgument (2 items):
+            NamedArgument start:19:15 end:19:21:
               vpiParent: RefInstance name:sub2
+              vpiConnByName: true
               vpiLowConn RefObj name:i start:19:16 end:19:17:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: i
                 vpiFullName: t.sub2.i
                 vpiActual: Variable name:i
               vpiHighConn RefObj name:o1 start:19:18 end:19:20:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o1
                 vpiFullName: t.sub2.o1
                 vpiActual: Net name:o1
-            Port start:19:23 end:19:29:
+            NamedArgument start:19:23 end:19:29:
               vpiParent: RefInstance name:sub2
+              vpiConnByName: true
               vpiLowConn RefObj name:o start:19:24 end:19:25:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: t.sub2.o
                 vpiActual: Port name:o
               vpiHighConn RefObj name:o2 start:19:26 end:19:28:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: o2
                 vpiFullName: t.sub2.o2
                 vpiActual: Net name:o2
@@ -969,7 +971,6 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: sub1.i
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:o start:43:33 end:43:34:
           vpiParent: Module name:sub1
           vpiTypespec RefTypespec start:43:26 end:43:32:
@@ -979,7 +980,6 @@ Design name:unnamed:
           vpiName: o
           vpiFullName: sub1.o
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:i start:42:28 end:42:29:
           vpiParent: Module name:sub1
@@ -1052,7 +1052,6 @@ Design name:unnamed:
           vpiName: i
           vpiFullName: sub2.i
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:o start:49:18 end:49:19:
           vpiParent: Module name:sub2
           vpiTypespec RefTypespec start:50:9 end:50:15:
@@ -1063,7 +1062,6 @@ Design name:unnamed:
           vpiFullName: sub2.o
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-          vpiScalar: true
           vpiValue Operation start:50:20 end:50:22:
             vpiParent: Net name:o
             vpiOpType: bitwise negation (4)
@@ -1169,7 +1167,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_inst_signed1/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             154     154       0         0
+Others                             155     155       0         0
 ----------------------------------------------------------------
-                                   154     154       0         0
+                                   155     155       0         0
 ===================== END REDUCTION RESULT =====================

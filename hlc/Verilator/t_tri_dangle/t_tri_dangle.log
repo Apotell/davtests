@@ -197,7 +197,6 @@ Design name:unnamed:
           vpiName: AVDD
           vpiFullName: t.AVDD
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:AVSS start:11:11 end:11:15:
           vpiParent: Module name:t
           vpiTypespec RefTypespec:
@@ -207,7 +206,6 @@ Design name:unnamed:
           vpiName: AVSS
           vpiFullName: t.AVSS
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:AVDD start:8:4 end:8:8:
           vpiParent: Module name:t
@@ -246,16 +244,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:19:3 end:19:9:
                 vpiArgument (1 items):
-                  Constant start:19:10 end:19:34:
+                  NamedArgument start:19:10 end:19:34:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: "*-* All Finished *-*\\n"
+                    vpiHighConn Constant start:19:10 end:19:34:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
               SysTaskCall name:$finish start:20:3 end:20:10:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:20:3 end:20:10:
@@ -269,28 +269,30 @@ Design name:unnamed:
             vpiName: sub
             vpiFullName: t.sub.sub
             vpiActual: ModuleTypespec name:sub
-          vpiPort (2 items):
-            Port start:15:6 end:15:20:
+          vpiArgument (2 items):
+            NamedArgument start:15:6 end:15:20:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:AVDD start:15:7 end:15:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: AVDD
                 vpiFullName: t.sub.AVDD
                 vpiActual: Net name:AVDD
               vpiHighConn RefObj name:AVDD start:15:15 end:15:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: AVDD
                 vpiFullName: t.sub.AVDD
                 vpiActual: Net name:AVDD
-            Port start:16:6 end:16:20:
+            NamedArgument start:16:6 end:16:20:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:AVSS start:16:7 end:16:11:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: AVSS
                 vpiFullName: t.sub.AVSS
                 vpiActual: Net name:AVSS
               vpiHighConn RefObj name:AVSS start:16:15 end:16:19:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: AVSS
                 vpiFullName: t.sub.AVSS
                 vpiActual: Net name:AVSS
@@ -321,7 +323,6 @@ Design name:unnamed:
           vpiName: AVDD
           vpiFullName: sub.AVDD
           vpiNetType: wire (1)
-          vpiScalar: true
         Net name:AVSS start:30:10 end:30:14:
           vpiParent: Module name:sub
           vpiTypespec RefTypespec:
@@ -331,7 +332,6 @@ Design name:unnamed:
           vpiName: AVSS
           vpiFullName: sub.AVSS
           vpiNetType: wire (1)
-          vpiScalar: true
       vpiPort (2 items):
         Port name:AVDD start:26:4 end:26:8:
           vpiParent: Module name:sub
@@ -424,7 +424,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_tri_dangle/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              54      54       0         0
+Others                              55      55       0         0
 ----------------------------------------------------------------
-                                    54      54       0         0
+                                    55      55       0         0
 ===================== END REDUCTION RESULT =====================

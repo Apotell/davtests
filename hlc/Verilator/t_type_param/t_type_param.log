@@ -1345,11 +1345,13 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiName Identifier name:$bits start:10:21 end:10:26:
             vpiArgument (1 items):
-              RefObj name:bar start:10:27 end:10:30:
+              NamedArgument start:10:27 end:10:30:
                 vpiParent: SysFuncCall name:$bits
-                vpiName: bar
-                vpiFullName: foo #(.bar(logic)).bar
-                vpiActual: Parameter name:bar
+                vpiHighConn RefObj name:bar start:10:27 end:10:30:
+                  vpiParent: NamedArgument
+                  vpiName: bar
+                  vpiFullName: foo #(.bar(logic)).bar
+                  vpiActual: Parameter name:bar
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:foo #(.bar(logic))
@@ -1520,16 +1522,17 @@ Design name:unnamed:
             vpiName: foo
             vpiFullName: foo_wrapper #(.bar_bits(9)).foo_inst.foo
             vpiActual: ModuleTypespec name:foo
-          vpiPort (1 items):
-            Port start:19:48 end:19:68:
+          vpiArgument (1 items):
+            NamedArgument start:19:48 end:19:68:
               vpiParent: RefInstance name:foo_inst
+              vpiConnByName: true
               vpiLowConn RefObj name:bar_size start:19:49 end:19:57:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bar_size
                 vpiFullName: foo_wrapper #(.bar_bits(9)).foo_inst.bar_size
                 vpiActual: Variable name:bar_size
               vpiHighConn RefObj name:bar_size start:19:59 end:19:67:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bar_size
                 vpiFullName: foo_wrapper #(.bar_bits(9)).foo_inst.bar_size
                 vpiActual: Variable name:bar_size
@@ -1692,11 +1695,13 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName Identifier name:$bits start:27:24 end:27:29:
                         vpiArgument (1 items):
-                          RefObj name:qux1 start:27:30 end:27:34:
+                          NamedArgument start:27:30 end:27:34:
                             vpiParent: SysFuncCall name:$bits
-                            vpiName: qux1
-                            vpiFullName: t.foo.logic[$bits(qux1)-1:0].qux1
-                            vpiActual: Variable name:qux1
+                            vpiHighConn RefObj name:qux1 start:27:30 end:27:34:
+                              vpiParent: NamedArgument
+                              vpiName: qux1
+                              vpiFullName: t.foo.logic[$bits(qux1)-1:0].qux1
+                              vpiActual: Variable name:qux1
                       Constant start:27:38 end:27:39:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1780,11 +1785,13 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName Identifier name:$bits start:33:24 end:33:29:
                         vpiArgument (1 items):
-                          RefObj name:qux2 start:33:30 end:33:34:
+                          NamedArgument start:33:30 end:33:34:
                             vpiParent: SysFuncCall name:$bits
-                            vpiName: qux2
-                            vpiFullName: t.foo.logic[$bits(qux2)-1:0].qux2
-                            vpiActual: Variable name:qux2
+                            vpiHighConn RefObj name:qux2 start:33:30 end:33:34:
+                              vpiParent: NamedArgument
+                              vpiName: qux2
+                              vpiFullName: t.foo.logic[$bits(qux2)-1:0].qux2
+                              vpiActual: Variable name:qux2
                       Constant start:33:38 end:33:39:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1868,11 +1875,13 @@ Design name:unnamed:
                         vpiParent: Operation
                         vpiName Identifier name:$bits start:39:24 end:39:29:
                         vpiArgument (1 items):
-                          RefObj name:qux3 start:39:30 end:39:34:
+                          NamedArgument start:39:30 end:39:34:
                             vpiParent: SysFuncCall name:$bits
-                            vpiName: qux3
-                            vpiFullName: t.foo.logic[$bits(qux3)-1:0].qux3
-                            vpiActual: Variable name:qux3
+                            vpiHighConn RefObj name:qux3 start:39:30 end:39:34:
+                              vpiParent: NamedArgument
+                              vpiName: qux3
+                              vpiFullName: t.foo.logic[$bits(qux3)-1:0].qux3
+                              vpiActual: Variable name:qux3
                       Constant start:39:38 end:39:39:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -1943,11 +1952,13 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:49:12 end:49:17:
                       vpiArgument (1 items):
-                        RefObj name:qux1 start:49:18 end:49:22:
+                        NamedArgument start:49:18 end:49:22:
                           vpiParent: SysFuncCall name:$bits
-                          vpiName: qux1
-                          vpiFullName: t.qux1
-                          vpiActual: Variable name:qux1
+                          vpiHighConn RefObj name:qux1 start:49:18 end:49:22:
+                            vpiParent: NamedArgument
+                            vpiName: qux1
+                            vpiFullName: t.qux1
+                            vpiActual: Variable name:qux1
                     RefObj name:foo_inst1.baz start:49:27 end:49:40:
                       vpiParent: Operation
                       vpiName: foo_inst1.baz
@@ -1972,41 +1983,49 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:50:11 end:50:19:
                       vpiArgument (3 items):
-                        Constant start:50:20 end:50:74:
+                        NamedArgument start:50:20 end:50:74:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 416
-                          vpiDecompile: "\"%m: bits of qux1 != bits of foo_inst1.baz (%0d, %0d)\""
-                          vpiValue: "%m: bits of qux1 != bits of foo_inst1.baz (%0d, %0d)"
-                        SysFuncCall name:$bits start:51:20 end:51:31:
+                          vpiHighConn Constant start:50:20 end:50:74:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 416
+                            vpiDecompile: "\"%m: bits of qux1 != bits of foo_inst1.baz (%0d, %0d)\""
+                            vpiValue: "%m: bits of qux1 != bits of foo_inst1.baz (%0d, %0d)"
+                        NamedArgument start:51:20 end:51:31:
                           vpiParent: SysTaskCall name:$display
-                          vpiName Identifier name:$bits start:51:20 end:51:25:
-                          vpiArgument (1 items):
-                            RefObj name:qux1 start:51:26 end:51:30:
-                              vpiParent: SysFuncCall name:$bits
-                              vpiName: qux1
-                              vpiFullName: t.qux1
-                              vpiActual: Variable name:qux1
-                        RefObj name:foo_inst1.baz start:51:33 end:51:46:
+                          vpiHighConn SysFuncCall name:$bits start:51:20 end:51:31:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$bits start:51:20 end:51:25:
+                            vpiArgument (1 items):
+                              NamedArgument start:51:26 end:51:30:
+                                vpiParent: SysFuncCall name:$bits
+                                vpiHighConn RefObj name:qux1 start:51:26 end:51:30:
+                                  vpiParent: NamedArgument
+                                  vpiName: qux1
+                                  vpiFullName: t.qux1
+                                  vpiActual: Variable name:qux1
+                        NamedArgument start:51:33 end:51:46:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: foo_inst1.baz
-                          vpiFullName: t.foo_inst1.baz
-                          vpiPathElem (2 items):
-                            RefObj name:foo_inst1 start:51:33 end:51:42:
-                              vpiParent: RefObj name:foo_inst1.baz
-                              vpiName: foo_inst1
-                              vpiFullName: t.foo_inst1
-                              vpiActual: RefInstance name:foo_inst1
-                            RefObj name:baz start:51:43 end:51:46:
-                              vpiParent: RefObj name:foo_inst1.baz
-                              vpiName: baz
-                              vpiFullName: t.baz
-                              vpiActual: Parameter name:baz
-                          vpiActual: Parameter name:baz
+                          vpiHighConn RefObj name:foo_inst1.baz start:51:33 end:51:46:
+                            vpiParent: NamedArgument
+                            vpiName: foo_inst1.baz
+                            vpiFullName: t.foo_inst1.baz
+                            vpiPathElem (2 items):
+                              RefObj name:foo_inst1 start:51:33 end:51:42:
+                                vpiParent: RefObj name:foo_inst1.baz
+                                vpiName: foo_inst1
+                                vpiFullName: t.foo_inst1
+                                vpiActual: RefInstance name:foo_inst1
+                              RefObj name:baz start:51:43 end:51:46:
+                                vpiParent: RefObj name:foo_inst1.baz
+                                vpiName: baz
+                                vpiFullName: t.baz
+                                vpiActual: Parameter name:baz
+                            vpiActual: Parameter name:baz
                     SysTaskCall name:$stop start:52:11 end:52:18:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:52:11 end:52:16:
@@ -2020,11 +2039,13 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:54:12 end:54:17:
                       vpiArgument (1 items):
-                        RefObj name:qux2 start:54:18 end:54:22:
+                        NamedArgument start:54:18 end:54:22:
                           vpiParent: SysFuncCall name:$bits
-                          vpiName: qux2
-                          vpiFullName: t.qux2
-                          vpiActual: Variable name:qux2
+                          vpiHighConn RefObj name:qux2 start:54:18 end:54:22:
+                            vpiParent: NamedArgument
+                            vpiName: qux2
+                            vpiFullName: t.qux2
+                            vpiActual: Variable name:qux2
                     RefObj name:foo_inst2.baz start:54:27 end:54:40:
                       vpiParent: Operation
                       vpiName: foo_inst2.baz
@@ -2049,41 +2070,49 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:55:11 end:55:19:
                       vpiArgument (3 items):
-                        Constant start:55:20 end:55:74:
+                        NamedArgument start:55:20 end:55:74:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 416
-                          vpiDecompile: "\"%m: bits of qux2 != bits of foo_inst2.baz (%0d, %0d)\""
-                          vpiValue: "%m: bits of qux2 != bits of foo_inst2.baz (%0d, %0d)"
-                        SysFuncCall name:$bits start:56:20 end:56:31:
+                          vpiHighConn Constant start:55:20 end:55:74:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 416
+                            vpiDecompile: "\"%m: bits of qux2 != bits of foo_inst2.baz (%0d, %0d)\""
+                            vpiValue: "%m: bits of qux2 != bits of foo_inst2.baz (%0d, %0d)"
+                        NamedArgument start:56:20 end:56:31:
                           vpiParent: SysTaskCall name:$display
-                          vpiName Identifier name:$bits start:56:20 end:56:25:
-                          vpiArgument (1 items):
-                            RefObj name:qux2 start:56:26 end:56:30:
-                              vpiParent: SysFuncCall name:$bits
-                              vpiName: qux2
-                              vpiFullName: t.qux2
-                              vpiActual: Variable name:qux2
-                        RefObj name:foo_inst2.baz start:56:33 end:56:46:
+                          vpiHighConn SysFuncCall name:$bits start:56:20 end:56:31:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$bits start:56:20 end:56:25:
+                            vpiArgument (1 items):
+                              NamedArgument start:56:26 end:56:30:
+                                vpiParent: SysFuncCall name:$bits
+                                vpiHighConn RefObj name:qux2 start:56:26 end:56:30:
+                                  vpiParent: NamedArgument
+                                  vpiName: qux2
+                                  vpiFullName: t.qux2
+                                  vpiActual: Variable name:qux2
+                        NamedArgument start:56:33 end:56:46:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: foo_inst2.baz
-                          vpiFullName: t.foo_inst2.baz
-                          vpiPathElem (2 items):
-                            RefObj name:foo_inst2 start:56:33 end:56:42:
-                              vpiParent: RefObj name:foo_inst2.baz
-                              vpiName: foo_inst2
-                              vpiFullName: t.foo_inst2
-                              vpiActual: RefInstance name:foo_inst2
-                            RefObj name:baz start:56:43 end:56:46:
-                              vpiParent: RefObj name:foo_inst2.baz
-                              vpiName: baz
-                              vpiFullName: t.baz
-                              vpiActual: Parameter name:baz
-                          vpiActual: Parameter name:baz
+                          vpiHighConn RefObj name:foo_inst2.baz start:56:33 end:56:46:
+                            vpiParent: NamedArgument
+                            vpiName: foo_inst2.baz
+                            vpiFullName: t.foo_inst2.baz
+                            vpiPathElem (2 items):
+                              RefObj name:foo_inst2 start:56:33 end:56:42:
+                                vpiParent: RefObj name:foo_inst2.baz
+                                vpiName: foo_inst2
+                                vpiFullName: t.foo_inst2
+                                vpiActual: RefInstance name:foo_inst2
+                              RefObj name:baz start:56:43 end:56:46:
+                                vpiParent: RefObj name:foo_inst2.baz
+                                vpiName: baz
+                                vpiFullName: t.baz
+                                vpiActual: Parameter name:baz
+                            vpiActual: Parameter name:baz
                     SysTaskCall name:$stop start:57:11 end:57:18:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:57:11 end:57:16:
@@ -2097,11 +2126,13 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:59:12 end:59:17:
                       vpiArgument (1 items):
-                        RefObj name:qux3 start:59:18 end:59:22:
+                        NamedArgument start:59:18 end:59:22:
                           vpiParent: SysFuncCall name:$bits
-                          vpiName: qux3
-                          vpiFullName: t.qux3
-                          vpiActual: Variable name:qux3
+                          vpiHighConn RefObj name:qux3 start:59:18 end:59:22:
+                            vpiParent: NamedArgument
+                            vpiName: qux3
+                            vpiFullName: t.qux3
+                            vpiActual: Variable name:qux3
                     RefObj name:foo_inst3.baz start:59:27 end:59:40:
                       vpiParent: Operation
                       vpiName: foo_inst3.baz
@@ -2126,41 +2157,49 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:60:11 end:60:19:
                       vpiArgument (3 items):
-                        Constant start:60:20 end:60:74:
+                        NamedArgument start:60:20 end:60:74:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 416
-                          vpiDecompile: "\"%m: bits of qux3 != bits of foo_inst3.baz (%0d, %0d)\""
-                          vpiValue: "%m: bits of qux3 != bits of foo_inst3.baz (%0d, %0d)"
-                        SysFuncCall name:$bits start:61:20 end:61:31:
+                          vpiHighConn Constant start:60:20 end:60:74:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 416
+                            vpiDecompile: "\"%m: bits of qux3 != bits of foo_inst3.baz (%0d, %0d)\""
+                            vpiValue: "%m: bits of qux3 != bits of foo_inst3.baz (%0d, %0d)"
+                        NamedArgument start:61:20 end:61:31:
                           vpiParent: SysTaskCall name:$display
-                          vpiName Identifier name:$bits start:61:20 end:61:25:
-                          vpiArgument (1 items):
-                            RefObj name:qux3 start:61:26 end:61:30:
-                              vpiParent: SysFuncCall name:$bits
-                              vpiName: qux3
-                              vpiFullName: t.qux3
-                              vpiActual: Variable name:qux3
-                        RefObj name:foo_inst3.baz start:61:33 end:61:46:
+                          vpiHighConn SysFuncCall name:$bits start:61:20 end:61:31:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$bits start:61:20 end:61:25:
+                            vpiArgument (1 items):
+                              NamedArgument start:61:26 end:61:30:
+                                vpiParent: SysFuncCall name:$bits
+                                vpiHighConn RefObj name:qux3 start:61:26 end:61:30:
+                                  vpiParent: NamedArgument
+                                  vpiName: qux3
+                                  vpiFullName: t.qux3
+                                  vpiActual: Variable name:qux3
+                        NamedArgument start:61:33 end:61:46:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: foo_inst3.baz
-                          vpiFullName: t.foo_inst3.baz
-                          vpiPathElem (2 items):
-                            RefObj name:foo_inst3 start:61:33 end:61:42:
-                              vpiParent: RefObj name:foo_inst3.baz
-                              vpiName: foo_inst3
-                              vpiFullName: t.foo_inst3
-                              vpiActual: RefInstance name:foo_inst3
-                            RefObj name:baz start:61:43 end:61:46:
-                              vpiParent: RefObj name:foo_inst3.baz
-                              vpiName: baz
-                              vpiFullName: t.baz
-                              vpiActual: Parameter name:baz
-                          vpiActual: Parameter name:baz
+                          vpiHighConn RefObj name:foo_inst3.baz start:61:33 end:61:46:
+                            vpiParent: NamedArgument
+                            vpiName: foo_inst3.baz
+                            vpiFullName: t.foo_inst3.baz
+                            vpiPathElem (2 items):
+                              RefObj name:foo_inst3 start:61:33 end:61:42:
+                                vpiParent: RefObj name:foo_inst3.baz
+                                vpiName: foo_inst3
+                                vpiFullName: t.foo_inst3
+                                vpiActual: RefInstance name:foo_inst3
+                              RefObj name:baz start:61:43 end:61:46:
+                                vpiParent: RefObj name:foo_inst3.baz
+                                vpiName: baz
+                                vpiFullName: t.baz
+                                vpiActual: Parameter name:baz
+                            vpiActual: Parameter name:baz
                     SysTaskCall name:$stop start:62:11 end:62:18:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:62:11 end:62:16:
@@ -2204,42 +2243,48 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:65:11 end:65:19:
                       vpiArgument (3 items):
-                        Constant start:65:20 end:65:86:
+                        NamedArgument start:65:20 end:65:86:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 512
-                          vpiDecompile: "\"%m: bar_bits != bits of foo_wrapper_inst.foo_inst.baz (%0d, %0d)\""
-                          vpiValue: "%m: bar_bits != bits of foo_wrapper_inst.foo_inst.baz (%0d, %0d)"
-                        RefObj name:bar_bits start:66:20 end:66:28:
+                          vpiHighConn Constant start:65:20 end:65:86:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 512
+                            vpiDecompile: "\"%m: bar_bits != bits of foo_wrapper_inst.foo_inst.baz (%0d, %0d)\""
+                            vpiValue: "%m: bar_bits != bits of foo_wrapper_inst.foo_inst.baz (%0d, %0d)"
+                        NamedArgument start:66:20 end:66:28:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: bar_bits
-                          vpiFullName: t.bar_bits
-                          vpiActual: Parameter name:bar_bits
-                        RefObj name:foo_wrapper_inst.foo_inst.baz start:66:30 end:66:59:
+                          vpiHighConn RefObj name:bar_bits start:66:20 end:66:28:
+                            vpiParent: NamedArgument
+                            vpiName: bar_bits
+                            vpiFullName: t.bar_bits
+                            vpiActual: Parameter name:bar_bits
+                        NamedArgument start:66:30 end:66:59:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: foo_wrapper_inst.foo_inst.baz
-                          vpiFullName: t.foo_wrapper_inst.foo_inst.baz
-                          vpiPathElem (3 items):
-                            RefObj name:foo_wrapper_inst start:66:30 end:66:46:
-                              vpiParent: RefObj name:foo_wrapper_inst.foo_inst.baz
-                              vpiName: foo_wrapper_inst
-                              vpiFullName: t.foo_wrapper_inst
-                              vpiActual: RefInstance name:foo_wrapper_inst
-                            RefObj name:foo_inst start:66:47 end:66:55:
-                              vpiParent: RefObj name:foo_wrapper_inst.foo_inst.baz
-                              vpiName: foo_inst
-                              vpiFullName: t.foo_inst
-                              vpiActual: RefInstance name:foo_inst
-                            RefObj name:baz start:66:56 end:66:59:
-                              vpiParent: RefObj name:foo_wrapper_inst.foo_inst.baz
-                              vpiName: baz
-                              vpiFullName: t.baz
-                              vpiActual: Parameter name:baz
-                          vpiActual: Parameter name:baz
+                          vpiHighConn RefObj name:foo_wrapper_inst.foo_inst.baz start:66:30 end:66:59:
+                            vpiParent: NamedArgument
+                            vpiName: foo_wrapper_inst.foo_inst.baz
+                            vpiFullName: t.foo_wrapper_inst.foo_inst.baz
+                            vpiPathElem (3 items):
+                              RefObj name:foo_wrapper_inst start:66:30 end:66:46:
+                                vpiParent: RefObj name:foo_wrapper_inst.foo_inst.baz
+                                vpiName: foo_wrapper_inst
+                                vpiFullName: t.foo_wrapper_inst
+                                vpiActual: RefInstance name:foo_wrapper_inst
+                              RefObj name:foo_inst start:66:47 end:66:55:
+                                vpiParent: RefObj name:foo_wrapper_inst.foo_inst.baz
+                                vpiName: foo_inst
+                                vpiFullName: t.foo_inst
+                                vpiActual: RefInstance name:foo_inst
+                              RefObj name:baz start:66:56 end:66:59:
+                                vpiParent: RefObj name:foo_wrapper_inst.foo_inst.baz
+                                vpiName: baz
+                                vpiFullName: t.baz
+                                vpiActual: Parameter name:baz
+                            vpiActual: Parameter name:baz
                     SysTaskCall name:$stop start:67:11 end:67:18:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:67:11 end:67:16:
@@ -2258,11 +2303,13 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:69:24 end:69:29:
                       vpiArgument (1 items):
-                        RefObj name:qux1 start:69:30 end:69:34:
+                        NamedArgument start:69:30 end:69:34:
                           vpiParent: SysFuncCall name:$bits
-                          vpiName: qux1
-                          vpiFullName: t.qux1
-                          vpiActual: Variable name:qux1
+                          vpiHighConn RefObj name:qux1 start:69:30 end:69:34:
+                            vpiParent: NamedArgument
+                            vpiName: qux1
+                            vpiFullName: t.qux1
+                            vpiActual: Variable name:qux1
                 vpiStmt Begin start:69:37 end:73:10:
                   vpiParent: IfStmt
                   vpiFullName: t
@@ -2271,30 +2318,38 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:70:10 end:70:18:
                       vpiArgument (3 items):
-                        Constant start:70:19 end:70:61:
+                        NamedArgument start:70:19 end:70:61:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 320
-                          vpiDecompile: "\"%m: bar_size1 != bits of qux1 (%0d, %0d)\""
-                          vpiValue: "%m: bar_size1 != bits of qux1 (%0d, %0d)"
-                        RefObj name:bar_size1 start:71:18 end:71:27:
+                          vpiHighConn Constant start:70:19 end:70:61:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 320
+                            vpiDecompile: "\"%m: bar_size1 != bits of qux1 (%0d, %0d)\""
+                            vpiValue: "%m: bar_size1 != bits of qux1 (%0d, %0d)"
+                        NamedArgument start:71:18 end:71:27:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: bar_size1
-                          vpiFullName: t.bar_size1
-                          vpiActual: Variable name:bar_size1
-                        SysFuncCall name:$bits start:71:29 end:71:40:
+                          vpiHighConn RefObj name:bar_size1 start:71:18 end:71:27:
+                            vpiParent: NamedArgument
+                            vpiName: bar_size1
+                            vpiFullName: t.bar_size1
+                            vpiActual: Variable name:bar_size1
+                        NamedArgument start:71:29 end:71:40:
                           vpiParent: SysTaskCall name:$display
-                          vpiName Identifier name:$bits start:71:29 end:71:34:
-                          vpiArgument (1 items):
-                            RefObj name:qux1 start:71:35 end:71:39:
-                              vpiParent: SysFuncCall name:$bits
-                              vpiName: qux1
-                              vpiFullName: t.qux1
-                              vpiActual: Variable name:qux1
+                          vpiHighConn SysFuncCall name:$bits start:71:29 end:71:40:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$bits start:71:29 end:71:34:
+                            vpiArgument (1 items):
+                              NamedArgument start:71:35 end:71:39:
+                                vpiParent: SysFuncCall name:$bits
+                                vpiHighConn RefObj name:qux1 start:71:35 end:71:39:
+                                  vpiParent: NamedArgument
+                                  vpiName: qux1
+                                  vpiFullName: t.qux1
+                                  vpiActual: Variable name:qux1
                     SysTaskCall name:$stop start:72:10 end:72:17:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:72:10 end:72:15:
@@ -2313,11 +2368,13 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:74:24 end:74:29:
                       vpiArgument (1 items):
-                        RefObj name:qux2 start:74:30 end:74:34:
+                        NamedArgument start:74:30 end:74:34:
                           vpiParent: SysFuncCall name:$bits
-                          vpiName: qux2
-                          vpiFullName: t.qux2
-                          vpiActual: Variable name:qux2
+                          vpiHighConn RefObj name:qux2 start:74:30 end:74:34:
+                            vpiParent: NamedArgument
+                            vpiName: qux2
+                            vpiFullName: t.qux2
+                            vpiActual: Variable name:qux2
                 vpiStmt Begin start:74:37 end:78:10:
                   vpiParent: IfStmt
                   vpiFullName: t
@@ -2326,30 +2383,38 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:75:10 end:75:18:
                       vpiArgument (3 items):
-                        Constant start:75:19 end:75:61:
+                        NamedArgument start:75:19 end:75:61:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 320
-                          vpiDecompile: "\"%m: bar_size2 != bits of qux2 (%0d, %0d)\""
-                          vpiValue: "%m: bar_size2 != bits of qux2 (%0d, %0d)"
-                        RefObj name:bar_size2 start:76:18 end:76:27:
+                          vpiHighConn Constant start:75:19 end:75:61:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 320
+                            vpiDecompile: "\"%m: bar_size2 != bits of qux2 (%0d, %0d)\""
+                            vpiValue: "%m: bar_size2 != bits of qux2 (%0d, %0d)"
+                        NamedArgument start:76:18 end:76:27:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: bar_size2
-                          vpiFullName: t.bar_size2
-                          vpiActual: Variable name:bar_size2
-                        SysFuncCall name:$bits start:76:29 end:76:40:
+                          vpiHighConn RefObj name:bar_size2 start:76:18 end:76:27:
+                            vpiParent: NamedArgument
+                            vpiName: bar_size2
+                            vpiFullName: t.bar_size2
+                            vpiActual: Variable name:bar_size2
+                        NamedArgument start:76:29 end:76:40:
                           vpiParent: SysTaskCall name:$display
-                          vpiName Identifier name:$bits start:76:29 end:76:34:
-                          vpiArgument (1 items):
-                            RefObj name:qux2 start:76:35 end:76:39:
-                              vpiParent: SysFuncCall name:$bits
-                              vpiName: qux2
-                              vpiFullName: t.qux2
-                              vpiActual: Variable name:qux2
+                          vpiHighConn SysFuncCall name:$bits start:76:29 end:76:40:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$bits start:76:29 end:76:34:
+                            vpiArgument (1 items):
+                              NamedArgument start:76:35 end:76:39:
+                                vpiParent: SysFuncCall name:$bits
+                                vpiHighConn RefObj name:qux2 start:76:35 end:76:39:
+                                  vpiParent: NamedArgument
+                                  vpiName: qux2
+                                  vpiFullName: t.qux2
+                                  vpiActual: Variable name:qux2
                     SysTaskCall name:$stop start:77:10 end:77:17:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:77:10 end:77:15:
@@ -2368,11 +2433,13 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName Identifier name:$bits start:79:24 end:79:29:
                       vpiArgument (1 items):
-                        RefObj name:qux3 start:79:30 end:79:34:
+                        NamedArgument start:79:30 end:79:34:
                           vpiParent: SysFuncCall name:$bits
-                          vpiName: qux3
-                          vpiFullName: t.qux3
-                          vpiActual: Variable name:qux3
+                          vpiHighConn RefObj name:qux3 start:79:30 end:79:34:
+                            vpiParent: NamedArgument
+                            vpiName: qux3
+                            vpiFullName: t.qux3
+                            vpiActual: Variable name:qux3
                 vpiStmt Begin start:79:37 end:83:10:
                   vpiParent: IfStmt
                   vpiFullName: t
@@ -2381,30 +2448,38 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:80:10 end:80:18:
                       vpiArgument (3 items):
-                        Constant start:80:19 end:80:61:
+                        NamedArgument start:80:19 end:80:61:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 320
-                          vpiDecompile: "\"%m: bar_size3 != bits of qux3 (%0d, %0d)\""
-                          vpiValue: "%m: bar_size3 != bits of qux3 (%0d, %0d)"
-                        RefObj name:bar_size3 start:81:18 end:81:27:
+                          vpiHighConn Constant start:80:19 end:80:61:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 320
+                            vpiDecompile: "\"%m: bar_size3 != bits of qux3 (%0d, %0d)\""
+                            vpiValue: "%m: bar_size3 != bits of qux3 (%0d, %0d)"
+                        NamedArgument start:81:18 end:81:27:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: bar_size3
-                          vpiFullName: t.bar_size3
-                          vpiActual: Variable name:bar_size3
-                        SysFuncCall name:$bits start:81:29 end:81:40:
+                          vpiHighConn RefObj name:bar_size3 start:81:18 end:81:27:
+                            vpiParent: NamedArgument
+                            vpiName: bar_size3
+                            vpiFullName: t.bar_size3
+                            vpiActual: Variable name:bar_size3
+                        NamedArgument start:81:29 end:81:40:
                           vpiParent: SysTaskCall name:$display
-                          vpiName Identifier name:$bits start:81:29 end:81:34:
-                          vpiArgument (1 items):
-                            RefObj name:qux3 start:81:35 end:81:39:
-                              vpiParent: SysFuncCall name:$bits
-                              vpiName: qux3
-                              vpiFullName: t.qux3
-                              vpiActual: Variable name:qux3
+                          vpiHighConn SysFuncCall name:$bits start:81:29 end:81:40:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$bits start:81:29 end:81:34:
+                            vpiArgument (1 items):
+                              NamedArgument start:81:35 end:81:39:
+                                vpiParent: SysFuncCall name:$bits
+                                vpiHighConn RefObj name:qux3 start:81:35 end:81:39:
+                                  vpiParent: NamedArgument
+                                  vpiName: qux3
+                                  vpiFullName: t.qux3
+                                  vpiActual: Variable name:qux3
                     SysTaskCall name:$stop start:82:10 end:82:17:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:82:10 end:82:15:
@@ -2432,26 +2507,32 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$display start:85:10 end:85:18:
                       vpiArgument (3 items):
-                        Constant start:85:19 end:85:64:
+                        NamedArgument start:85:19 end:85:64:
                           vpiParent: SysTaskCall name:$display
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 344
-                          vpiDecompile: "\"%m: bar_size_wrapper != bar_bits (%0d, %0d)\""
-                          vpiValue: "%m: bar_size_wrapper != bar_bits (%0d, %0d)"
-                        RefObj name:bar_size_wrapper start:86:18 end:86:34:
+                          vpiHighConn Constant start:85:19 end:85:64:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 344
+                            vpiDecompile: "\"%m: bar_size_wrapper != bar_bits (%0d, %0d)\""
+                            vpiValue: "%m: bar_size_wrapper != bar_bits (%0d, %0d)"
+                        NamedArgument start:86:18 end:86:34:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: bar_size_wrapper
-                          vpiFullName: t.bar_size_wrapper
-                          vpiActual: Variable name:bar_size_wrapper
-                        RefObj name:bar_bits start:86:36 end:86:44:
+                          vpiHighConn RefObj name:bar_size_wrapper start:86:18 end:86:34:
+                            vpiParent: NamedArgument
+                            vpiName: bar_size_wrapper
+                            vpiFullName: t.bar_size_wrapper
+                            vpiActual: Variable name:bar_size_wrapper
+                        NamedArgument start:86:36 end:86:44:
                           vpiParent: SysTaskCall name:$display
-                          vpiName: bar_bits
-                          vpiFullName: t.bar_bits
-                          vpiActual: Parameter name:bar_bits
+                          vpiHighConn RefObj name:bar_bits start:86:36 end:86:44:
+                            vpiParent: NamedArgument
+                            vpiName: bar_bits
+                            vpiFullName: t.bar_bits
+                            vpiActual: Parameter name:bar_bits
                     SysTaskCall name:$stop start:87:10 end:87:17:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:87:10 end:87:15:
@@ -2465,16 +2546,18 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$write start:107:7 end:107:13:
                 vpiArgument (1 items):
-                  Constant start:107:14 end:107:38:
+                  NamedArgument start:107:14 end:107:38:
                     vpiParent: SysTaskCall name:$write
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: t
-                      vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiSize: 168
-                    vpiDecompile: "\"*-* All Finished *-*\\n\""
-                    vpiValue: "*-* All Finished *-*\\n"
+                    vpiHighConn Constant start:107:14 end:107:38:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"*-* All Finished *-*\\n\""
+                      vpiValue: "*-* All Finished *-*\\n"
               SysTaskCall name:$finish start:108:7 end:108:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:108:7 end:108:14:
@@ -2488,16 +2571,17 @@ Design name:unnamed:
             vpiName: foo
             vpiFullName: t.foo_inst1.foo
             vpiActual: ModuleTypespec name:foo
-          vpiPort (1 items):
-            Port start:28:15 end:28:36:
+          vpiArgument (1 items):
+            NamedArgument start:28:15 end:28:36:
               vpiParent: RefInstance name:foo_inst1
+              vpiConnByName: true
               vpiLowConn RefObj name:bar_size start:28:16 end:28:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bar_size
                 vpiFullName: t.foo_inst1.bar_size
                 vpiActual: Port name:bar_size
               vpiHighConn RefObj name:bar_size1 start:28:26 end:28:35:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bar_size1
                 vpiFullName: t.foo_inst1.bar_size1
                 vpiActual: Variable name:bar_size1
@@ -2509,16 +2593,17 @@ Design name:unnamed:
             vpiName: foo
             vpiFullName: t.foo_inst2.foo
             vpiActual: ModuleTypespec name:foo
-          vpiPort (1 items):
-            Port start:34:15 end:34:36:
+          vpiArgument (1 items):
+            NamedArgument start:34:15 end:34:36:
               vpiParent: RefInstance name:foo_inst2
+              vpiConnByName: true
               vpiLowConn RefObj name:bar_size start:34:16 end:34:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bar_size
                 vpiFullName: t.foo_inst2.bar_size
                 vpiActual: Port name:bar_size
               vpiHighConn RefObj name:bar_size2 start:34:26 end:34:35:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bar_size2
                 vpiFullName: t.foo_inst2.bar_size2
                 vpiActual: Variable name:bar_size2
@@ -2530,16 +2615,17 @@ Design name:unnamed:
             vpiName: foo
             vpiFullName: t.foo_inst3.foo
             vpiActual: ModuleTypespec name:foo
-          vpiPort (1 items):
-            Port start:40:15 end:40:36:
+          vpiArgument (1 items):
+            NamedArgument start:40:15 end:40:36:
               vpiParent: RefInstance name:foo_inst3
+              vpiConnByName: true
               vpiLowConn RefObj name:bar_size start:40:16 end:40:24:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bar_size
                 vpiFullName: t.foo_inst3.bar_size
                 vpiActual: Port name:bar_size
               vpiHighConn RefObj name:bar_size3 start:40:26 end:40:35:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bar_size3
                 vpiFullName: t.foo_inst3.bar_size3
                 vpiActual: Variable name:bar_size3
@@ -2551,16 +2637,17 @@ Design name:unnamed:
             vpiName: foo_wrapper
             vpiFullName: t.foo_wrapper_inst.foo_wrapper
             vpiActual: ModuleTypespec name:foo_wrapper
-          vpiPort (1 items):
-            Port start:46:22 end:46:50:
+          vpiArgument (1 items):
+            NamedArgument start:46:22 end:46:50:
               vpiParent: RefInstance name:foo_wrapper_inst
+              vpiConnByName: true
               vpiLowConn RefObj name:bar_size start:46:23 end:46:31:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bar_size
                 vpiFullName: t.foo_wrapper_inst.bar_size
                 vpiActual: Port name:bar_size
               vpiHighConn RefObj name:bar_size_wrapper start:46:33 end:46:49:
-                vpiParent: Port
+                vpiParent: NamedArgument
                 vpiName: bar_size_wrapper
                 vpiFullName: t.foo_wrapper_inst.bar_size_wrapper
                 vpiActual: Variable name:bar_size_wrapper
@@ -2735,34 +2822,40 @@ Design name:unnamed:
                               vpiParent: Begin
                               vpiName Identifier name:$display start:96:20 end:96:28:
                               vpiArgument (3 items):
-                                Constant start:96:29 end:96:71:
+                                NamedArgument start:96:29 end:96:71:
                                   vpiParent: SysTaskCall name:$display
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t.gen_m
-                                    vpiActual: StringTypespec
-                                  vpiConstType: string (6)
-                                  vpiSize: 320
-                                  vpiDecompile: "\"%m: m != bits of foo_inst.baz (%0d, %0d)\""
-                                  vpiValue: "%m: m != bits of foo_inst.baz (%0d, %0d)"
-                                RefObj name:m start:97:29 end:97:30:
+                                  vpiHighConn Constant start:96:29 end:96:71:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t.gen_m
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 320
+                                    vpiDecompile: "\"%m: m != bits of foo_inst.baz (%0d, %0d)\""
+                                    vpiValue: "%m: m != bits of foo_inst.baz (%0d, %0d)"
+                                NamedArgument start:97:29 end:97:30:
                                   vpiParent: SysTaskCall name:$display
-                                  vpiName: m
-                                  vpiFullName: t.gen_m.m
-                                  vpiActual: Variable name:m
-                                RefObj name:foo_inst.baz start:97:32 end:97:44:
+                                  vpiHighConn RefObj name:m start:97:29 end:97:30:
+                                    vpiParent: NamedArgument
+                                    vpiName: m
+                                    vpiFullName: t.gen_m.m
+                                    vpiActual: Variable name:m
+                                NamedArgument start:97:32 end:97:44:
                                   vpiParent: SysTaskCall name:$display
-                                  vpiName: foo_inst.baz
-                                  vpiFullName: t.gen_m.foo_inst.baz
-                                  vpiPathElem (2 items):
-                                    RefObj name:foo_inst start:97:32 end:97:40:
-                                      vpiParent: RefObj name:foo_inst.baz
-                                      vpiName: foo_inst
-                                      vpiFullName: t.gen_m.foo_inst
-                                    RefObj name:baz start:97:41 end:97:44:
-                                      vpiParent: RefObj name:foo_inst.baz
-                                      vpiName: baz
-                                      vpiFullName: t.gen_m.baz
+                                  vpiHighConn RefObj name:foo_inst.baz start:97:32 end:97:44:
+                                    vpiParent: NamedArgument
+                                    vpiName: foo_inst.baz
+                                    vpiFullName: t.gen_m.foo_inst.baz
+                                    vpiPathElem (2 items):
+                                      RefObj name:foo_inst start:97:32 end:97:40:
+                                        vpiParent: RefObj name:foo_inst.baz
+                                        vpiName: foo_inst
+                                        vpiFullName: t.gen_m.foo_inst
+                                      RefObj name:baz start:97:41 end:97:44:
+                                        vpiParent: RefObj name:foo_inst.baz
+                                        vpiName: baz
+                                        vpiFullName: t.gen_m.baz
                             SysTaskCall name:$stop start:98:20 end:98:27:
                               vpiParent: Begin
                               vpiName Identifier name:$stop start:98:20 end:98:25:
@@ -2774,11 +2867,12 @@ Design name:unnamed:
                     vpiName: foo
                     vpiFullName: t.gen_m.foo_inst.foo
                     vpiActual: ModuleTypespec name:foo
-                  vpiPort (1 items):
-                    Port start:102:50 end:102:62:
+                  vpiArgument (1 items):
+                    NamedArgument start:102:50 end:102:62:
                       vpiParent: RefInstance name:foo_inst
+                      vpiConnByName: true
                       vpiLowConn RefObj name:bar_size start:102:51 end:102:59:
-                        vpiParent: Port
+                        vpiParent: NamedArgument
                         vpiName: bar_size
                         vpiFullName: t.gen_m.foo_inst.bar_size
                         vpiActual: Port name:bar_size
@@ -2859,7 +2953,7 @@ Operation                           16      15       0         1
 RefObj                             102     101       0         1
 RefTypespec                         55      55       1         1
 ----------------------------------------------------------------
-Others                             190     190       0         0
+Others                             234     234       0         0
 ----------------------------------------------------------------
-                                   394     392       2         4
+                                   438     436       2         4
 ===================== END REDUCTION RESULT =====================

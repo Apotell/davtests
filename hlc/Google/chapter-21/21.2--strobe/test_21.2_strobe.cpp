@@ -363,7 +363,9 @@ TEST_F(StrobeTaskTest, FourStrobeVariantsCalledInSourceOrder) {
 
     // Each call passes exactly one argument: the variable 'a'.
     ASSERT_EQ(sizeOf(call->getArguments()), 1u);
-    const hldb::RefObj *const argument = any_cast<hldb::RefObj>(call->getArguments()->front());
+    const hldb::NamedArgument *const arg = call->getArguments()->front();
+    ASSERT_NE(arg, nullptr);
+    const hldb::RefObj *const argument = arg->getHighConn<hldb::RefObj>();
     ASSERT_NE(argument, nullptr);
     EXPECT_EQ(argument->getName(), "a");
     EXPECT_EQ(argument->getAnyType(), hldb::AnyType::RefObj);
