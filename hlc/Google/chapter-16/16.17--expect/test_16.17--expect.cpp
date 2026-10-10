@@ -203,7 +203,8 @@ TEST_F(ExpectTest, ExpectStmtHasNoPassStmtAndNoElseStmt) {
   const hldb::ExpectStmt *const expectStmt = any_cast<hldb::ExpectStmt>(body->getStmts()->at(0));
   ASSERT_NE(expectStmt, nullptr);
 
-  EXPECT_EQ(expectStmt->getStmt(), nullptr) << "'expect (a ##1 b);' has no pass action";
+  ASSERT_NE(expectStmt->getStmt(), nullptr) << "'expect (a ##1 b);' has no pass action";
+  EXPECT_EQ(expectStmt->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
   EXPECT_EQ(expectStmt->getElseStmt(), nullptr) << "'expect (a ##1 b);' has no else-clause";
 }
 

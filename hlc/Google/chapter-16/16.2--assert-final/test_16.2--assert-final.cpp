@@ -160,7 +160,8 @@ TEST_F(AssertFinalTest, AssertHasNoPassStmtAndNoElseStmt) {
   const hldb::ImmediateAssert *const assertStmt = any_cast<hldb::ImmediateAssert>(top->getAssertions()->at(0));
   ASSERT_NE(assertStmt, nullptr);
 
-  EXPECT_EQ(assertStmt->getStmt(), nullptr) << "'assert final (a != 0);' has no pass action";
+  ASSERT_NE(assertStmt->getStmt(), nullptr) << "'assert final (a != 0);' has no pass action";
+  EXPECT_EQ(assertStmt->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
   EXPECT_EQ(assertStmt->getElseStmt(), nullptr) << "'assert final (a != 0);' has no else-clause";
 }
 

@@ -166,7 +166,8 @@ TEST_F(CoverTest, CoverHasNoPassStmt) {
   const hldb::ImmediateCover *const coverStmt = any_cast<hldb::ImmediateCover>(init->getStmt());
   ASSERT_NE(coverStmt, nullptr);
 
-  EXPECT_EQ(coverStmt->getStmt(), nullptr) << "'cover (a != 0);' has no pass action";
+  ASSERT_NE(coverStmt->getStmt(), nullptr) << "'cover (a != 0);' has no pass action";
+  EXPECT_EQ(coverStmt->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 }
 
 }  // namespace hlc

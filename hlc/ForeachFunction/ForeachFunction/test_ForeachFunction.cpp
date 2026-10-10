@@ -124,7 +124,7 @@ TEST_F(ForeachFunctionTest, FunctionBodyHasArrayDeclThenForeach) {
 TEST_F(ForeachFunctionTest, ForeachArrayIsLocalArray) {
   const hldb::ForeachStmt *const fe = getForeach();
   ASSERT_NE(fe, nullptr);
-  const hldb::RefObj *const arr = fe->getVariable();
+  const hldb::RefObj *const arr = fe->getVariable<hldb::RefObj>();
   ASSERT_NE(arr, nullptr);
   EXPECT_EQ(arr->getName(), std::string_view{"write_command_queue_slave"});
   ASSERT_NE(arr->getActual(), nullptr);

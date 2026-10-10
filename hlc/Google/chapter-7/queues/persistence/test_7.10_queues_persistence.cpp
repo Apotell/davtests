@@ -498,7 +498,8 @@ TEST_F(QueuesPersistenceTest, SecondInitialThirdStmtIsBareDelayWithNoWrappedStmt
   const hldb::Constant *const delayVal = delay->getDelay<hldb::Constant>();
   ASSERT_NE(delayVal, nullptr);
   EXPECT_EQ(delayVal->getDecompile(), "100");
-  EXPECT_EQ(delay->getStmt(), nullptr) << "'#100;' has no statement to delay, just a bare null statement";
+  ASSERT_NE(delay->getStmt(), nullptr) << "'#100;' has no statement to delay, just a bare null statement";
+  EXPECT_EQ(delay->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 }
 
 TEST_F(QueuesPersistenceTest, SecondInitialFourthStmtDisplaysSizeAssert) {

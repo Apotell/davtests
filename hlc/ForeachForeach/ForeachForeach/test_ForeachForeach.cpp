@@ -147,7 +147,7 @@ TEST_F(ForeachForeachTest, MethodBodyHasVariableDeclThenOuterForeach) {
 TEST_F(ForeachForeachTest, OuterForeachIteratesLocalArray) {
   const hldb::ForeachStmt *const outer = getOuterForeach();
   ASSERT_NE(outer, nullptr);
-  const hldb::RefObj *const arr = outer->getVariable();
+  const hldb::RefObj *const arr = outer->getVariable<hldb::RefObj>();
   ASSERT_NE(arr, nullptr);
   EXPECT_EQ(arr->getName(), std::string_view{"predecessors"});
 
@@ -186,7 +186,7 @@ TEST_F(ForeachForeachTest, OuterForeachBodyIsInnerForeach) {
 TEST_F(ForeachForeachTest, InnerForeachIteratesThroughOuterIterator) {
   const hldb::ForeachStmt *const inner = getInnerForeach();
   ASSERT_NE(inner, nullptr);
-  const hldb::RefObj *const arr = inner->getVariable();
+  const hldb::RefObj *const arr = inner->getVariable<hldb::RefObj>();
   ASSERT_NE(arr, nullptr);
   EXPECT_EQ(arr->getName(), std::string_view{"p.m_predecessors"});
   ASSERT_NE(arr->getPathElems(), nullptr);

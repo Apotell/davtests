@@ -218,7 +218,9 @@ TEST_F(AttributesConditional, NoGlitchIsFlagAttribute) {
   // Flag attribute: no = expr, so getValue() is null
   const hldb::Attribute *const attr = (*trueBranch->getAttributes())[0];
   ASSERT_NE(attr, nullptr);
-  EXPECT_EQ(attr->getValue(), nullptr) << "'no_glitch' is a flag attribute and should have no value";
+  ASSERT_NE(attr->getValue(), nullptr) << "'no_glitch' is a flag attribute and should have default value";
+  ASSERT_NE(attr->getValue<hldb::Constant>(), nullptr);
+  EXPECT_EQ(attr->getValue<hldb::Constant>()->getValue(), std::string_view("1"));
 }
 
 TEST_F(AttributesConditional, ConditionAndFalseBranchHaveNoAttributes) {

@@ -165,7 +165,8 @@ TEST_F(NamedEventWaitTest, InnerInitialHasSingleEventControlWithNoControlledStmt
   ASSERT_NE(init->getStmt(), nullptr) << "'@top.e;' with no begin/end should bind directly as the Initial's statement";
   const hldb::EventControl *const ec = any_cast<hldb::EventControl>(init->getStmt());
   ASSERT_NE(ec, nullptr) << "'@top.e;' should produce an EventControl";
-  EXPECT_EQ(ec->getStmt(), nullptr) << "'@top.e;' has no statement after it -- getStmt() should be null";
+  ASSERT_NE(ec->getStmt(), nullptr) << "'@top.e;' has no statement after it -- getStmt() should be NullStmt";
+  EXPECT_EQ(ec->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 }
 
 TEST_F(NamedEventWaitTest, InnerHierarchicalEventReferenceResolvesTopAndEvent) {
@@ -221,10 +222,11 @@ TEST_F(NamedEventWaitTest, TopInitialWrapsSingleEventControlInBegin) {
   ASSERT_NE(stmt, nullptr);
   const hldb::EventControl *const ec = any_cast<hldb::EventControl>(stmt);
   ASSERT_NE(ec, nullptr) << "'@ e;' should produce an EventControl";
-  EXPECT_EQ(ec->getStmt(), nullptr) << "'@ e;' has no statement after it -- getStmt() should be null";
+  ASSERT_NE(ec->getStmt(), nullptr) << "'@ e;' has no statement after it -- getStmt() should be NullStmt";
+  EXPECT_EQ(ec->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 
   ASSERT_NE(ec->getCondition(), nullptr);
-  const hldb::RefObj *const ref = any_cast<hldb::RefObj>(ec->getCondition());
+  const hldb::RefObj *const ref = ec->getCondition<hldb::RefObj>();
   ASSERT_NE(ref, nullptr) << "'e' (non-hierarchical) should be a plain RefObj, not a RefObj";
   EXPECT_EQ(ref->getName(), "e");
   EXPECT_NE(ref->getActual(), nullptr) << "'e' should resolve to the event declared in the same module";

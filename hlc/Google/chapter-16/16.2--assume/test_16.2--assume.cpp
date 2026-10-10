@@ -164,7 +164,8 @@ TEST_F(AssumeTest, AssumeHasNoPassStmtAndNoElseStmt) {
   const hldb::ImmediateAssume *const assumeStmt = any_cast<hldb::ImmediateAssume>(init->getStmt());
   ASSERT_NE(assumeStmt, nullptr);
 
-  EXPECT_EQ(assumeStmt->getStmt(), nullptr) << "'assume (a != 0);' has no pass action";
+  ASSERT_NE(assumeStmt->getStmt(), nullptr) << "'assume (a != 0);' has no pass action";
+  EXPECT_EQ(assumeStmt->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
   EXPECT_EQ(assumeStmt->getElseStmt(), nullptr) << "'assume (a != 0);' has no else-clause";
 }
 

@@ -133,10 +133,13 @@ const hldb::SysTaskCall *CheckDisplayOfTime(const hldb::Any *stmt) {
 
 const hldb::DelayControl *CheckTenUnitBareDelay(const hldb::Any *stmt) {
   const hldb::DelayControl *const delay = any_cast<hldb::DelayControl>(stmt);
-  if (delay == nullptr || delay->getStmt() != nullptr) return nullptr;
+  if (delay == nullptr) return nullptr;
 
   const hldb::Constant *const delayValue = delay->getDelay<hldb::Constant>();
   if (delayValue == nullptr || delayValue->getDecompile() != "10") return nullptr;
+
+  const hldb::NullStmt *const delayStmt = delay->getStmt<hldb::NullStmt>();
+  if (delayStmt == nullptr) return nullptr;
 
   return delay;
 }

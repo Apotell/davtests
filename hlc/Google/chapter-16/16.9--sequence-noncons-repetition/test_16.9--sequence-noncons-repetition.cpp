@@ -442,7 +442,8 @@ TEST_F(NonconsecutiveRepetitionTest, ConcAssert_Collection_HasTwoEntries) {
 TEST_F(NonconsecutiveRepetitionTest, ConcAssert_seq_HasNoActionBlock) {
   const auto *ca = getAssertAt(m_design, 0);
   ASSERT_NE(ca, nullptr);
-  EXPECT_EQ(ca->getStmt(), nullptr) << "'assert property (seq);' has no action block";
+  ASSERT_NE(ca->getStmt(), nullptr) << "'assert property (seq);' has no action block";
+  EXPECT_EQ(ca->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 }
 
 TEST_F(NonconsecutiveRepetitionTest, ConcAssert_seq_Property_IsPropertySpec) {
@@ -491,7 +492,8 @@ TEST_F(NonconsecutiveRepetitionTest, ConcAssert_seq_PropertyExpr_ResolvesToSeqDe
 TEST_F(NonconsecutiveRepetitionTest, ConcAssert_not_seq_HasNoActionBlock) {
   const auto *ca = getAssertAt(m_design, 1);
   ASSERT_NE(ca, nullptr);
-  EXPECT_EQ(ca->getStmt(), nullptr) << "'assert property (not seq);' has no action block";
+  ASSERT_NE(ca->getStmt(), nullptr) << "'assert property (not seq);' has no action block";
+  EXPECT_EQ(ca->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 }
 
 TEST_F(NonconsecutiveRepetitionTest, ConcAssert_not_seq_Property_IsPropertySpec) {

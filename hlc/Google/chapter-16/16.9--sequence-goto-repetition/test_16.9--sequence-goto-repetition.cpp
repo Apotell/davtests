@@ -427,7 +427,8 @@ TEST_F(GotoRepetitionTest, ConcAssert_seq_HasLabel) {
 TEST_F(GotoRepetitionTest, ConcAssert_seq_HasNoActionBlock) {
   const auto *ca = getAssert(m_design);
   ASSERT_NE(ca, nullptr);
-  EXPECT_EQ(ca->getStmt(), nullptr) << "sec. 16.9: 'assert property (seq);' has no action block";
+  ASSERT_NE(ca->getStmt(), nullptr) << "sec. 16.9: 'assert property (seq);' has no action block";
+  EXPECT_EQ(ca->getStmt()->getAnyType(), hldb::AnyType::NullStmt);
 }
 
 TEST_F(GotoRepetitionTest, ConcAssert_seq_Property_IsPropertySpec) {

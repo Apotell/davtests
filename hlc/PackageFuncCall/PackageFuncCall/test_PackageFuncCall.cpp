@@ -642,9 +642,10 @@ TEST_F(PackageFuncCallTest, ForInitDeclaresKAsZero) {
   ASSERT_EQ(forStmt->getForInitStmts()->size(), 1u);
   const hldb::Assignment *const init = any_cast<hldb::Assignment>(forStmt->getForInitStmts()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::Variable *const lhs = init->getLhs<hldb::Variable>();
+  const hldb::RefObj *const lhs = init->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "the for-init LHS is the declared Variable 'k' itself";
-  EXPECT_EQ(lhs, getK());
+  ASSERT_NE(lhs->getActual(), nullptr);
+  EXPECT_EQ(lhs->getActual(), getK());
   const hldb::Constant *const rhs = init->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "0");

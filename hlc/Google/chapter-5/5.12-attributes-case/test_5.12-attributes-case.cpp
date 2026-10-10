@@ -241,7 +241,9 @@ TEST_F(AttributesCase, FirstCaseHasFullCaseFlagAttribute) {
 
   const hldb::Attribute *const attr = findAttr(cs, "full_case");
   ASSERT_NE(attr, nullptr) << "case 1 should have a 'full_case' attribute";
-  EXPECT_EQ(attr->getValue(), nullptr) << "flag attribute 'full_case' should have no value";
+  ASSERT_NE(attr->getValue(), nullptr) << "flag attribute 'full_case' should have default value";
+  ASSERT_NE(attr->getValue<hldb::Constant>(), nullptr);
+  EXPECT_EQ(attr->getValue<hldb::Constant>()->getValue(), std::string_view("1"));
 }
 
 // ----
@@ -295,7 +297,9 @@ TEST_F(AttributesCase, ThirdCaseHasFullCaseFlagAttribute) {
 
   const hldb::Attribute *const attr = findAttr(cs, "full_case");
   ASSERT_NE(attr, nullptr) << "case 3 should have a 'full_case' attribute";
-  EXPECT_EQ(attr->getValue(), nullptr) << "flag attribute 'full_case' should have no value";
+  ASSERT_NE(attr->getValue(), nullptr) << "flag attribute 'full_case' should have default value";
+  ASSERT_NE(attr->getValue<hldb::Constant>(), nullptr);
+  EXPECT_EQ(attr->getValue<hldb::Constant>()->getValue(), std::string_view("1"));
 }
 
 }  // namespace hlc
