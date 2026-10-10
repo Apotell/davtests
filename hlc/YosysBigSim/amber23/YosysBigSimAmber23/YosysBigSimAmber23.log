@@ -136,8 +136,12 @@ COMMAND: -wd ../../../../tests/YosysBigSim/amber23 -writepp -mt max -fileunit rt
 [INF:CP5804] $Source01/rtl/generic_sram_line_en.v:42:1: Compile module "generic_sram_line_en".
 [INF:CP5836] $Source01/rtl/generic_sram_line_en.v:60:35: Compile generate block "init0".
 [INF:CP5804] $Source01/sim/bench.v:2:1: Compile module "testbench".
+[WRN:CP5851] $Source01/rtl/a23_barrel_shift_fpga.v:178:9: Failed to bind "netgen".
+[WRN:CP5851] $Source01/rtl/a23_barrel_shift_fpga.v:181:10: Failed to bind "netgen".
 [WRN:CP5851] $Source01/rtl/a23_barrel_shift_fpga.v:181:37: Failed to bind "out".
+[WRN:CP5851] $Source01/rtl/a23_barrel_shift_fpga.v:181:27: Failed to bind "netgen".
 [WRN:CP5851] $Source01/rtl/a23_barrel_shift_fpga.v:186:29: Failed to bind "out".
+[WRN:CP5851] $Source01/rtl/a23_barrel_shift_fpga.v:186:19: Failed to bind "netgen".
 [WRN:CP5851] $Source01/rtl/a23_cache.v:680:23: Failed to bind "pick_way".
 [WRN:CP5851] $Source01/rtl/a23_cache.v:707:23: Failed to bind "pick_way".
 [WRN:CP5851] $Source01/rtl/a23_cache.v:737:23: Failed to bind "pick_way".
@@ -161,6 +165,10 @@ COMMAND: -wd ../../../../tests/YosysBigSim/amber23 -writepp -mt max -fileunit rt
 [WRN:PA5506] $Source01/sim/bench.v:2:1: No timescale set for "testbench".
 [ERR:CP5886] $Source01/rtl/a23_barrel_shift_fpga.v:186:29: Illegal hierarchical reference: out.
 [ERR:CP5886] $Source01/rtl/a23_barrel_shift_fpga.v:181:37: Illegal hierarchical reference: out.
+[ERR:LN7705] $Source01/rtl/a23_cache.v:680:23: Null Actual: id:13007, type:SubroutineCall, name:pick_way, relation:vpiRhs.
+[ERR:LN7705] $Source01/rtl/a23_cache.v:707:23: Null Actual: id:12841, type:SubroutineCall, name:pick_way, relation:vpiRhs.
+[ERR:LN7705] $Source01/rtl/a23_cache.v:737:23: Null Actual: id:12385, type:SubroutineCall, name:pick_way, relation:vpiRhs.
+[ERR:LN7705] $Source01/rtl/a23_cache.v:771:23: Null Actual: id:12567, type:SubroutineCall, name:pick_way, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1216,6 +1224,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:a23_alu
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_alu
           vpiRange (1 items):
@@ -1484,6 +1493,7 @@ Design name:unnamed:
         vpiFullName: a23_alu.work
         vpiActual: Library name:work
       vpiCell: a23_alu
+      vpiAutomatic: true
       vpiNet (27 items):
         Net name:i_a_in start:45:29 end:45:35:
           vpiParent: Module name:a23_alu
@@ -4466,6 +4476,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:a23_barrel_shift
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_barrel_shift
           vpiRange (1 items):
@@ -4812,6 +4823,7 @@ Design name:unnamed:
         vpiFullName: a23_barrel_shift.work
         vpiActual: Library name:work
       vpiCell: a23_barrel_shift
+      vpiAutomatic: true
       vpiNet (11 items):
         Net name:i_in start:44:29 end:44:33:
           vpiParent: Module name:a23_barrel_shift
@@ -20299,7 +20311,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "3"
             vpiValue: 3
-      vpiTypespec (25 items):
+      vpiTypespec (26 items):
         LogicTypespec:
           vpiParent: Module name:a23_barrel_shift_fpga
           vpiRange (1 items):
@@ -20328,6 +20340,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:a23_barrel_shift_fpga
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_barrel_shift_fpga
           vpiRange (1 items):
@@ -20876,6 +20889,8 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:a23_barrel_shift_fpga
+        LogicTypespec:
+          vpiParent: Module name:a23_barrel_shift_fpga
           vpiRange (1 items):
             Range start:84:6 end:84:12:
               vpiParent: LogicTypespec
@@ -20934,6 +20949,7 @@ Design name:unnamed:
         vpiFullName: a23_barrel_shift_fpga.work
         vpiActual: Library name:work
       vpiCell: a23_barrel_shift_fpga
+      vpiAutomatic: true
       vpiTaskFunc (2 items):
         Function name:wrap start:281:1 end:289:12:
           vpiParent: Module name:a23_barrel_shift_fpga
@@ -20961,6 +20977,7 @@ Design name:unnamed:
             IODecl name:pos start:282:15 end:282:18:
               vpiParent: Function name:wrap
               vpiName: pos
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:282:7 end:282:14:
                 vpiParent: IODecl name:pos
                 vpiFullName: a23_barrel_shift_fpga.wrap.pos
@@ -20968,6 +20985,7 @@ Design name:unnamed:
             IODecl name:level start:283:15 end:283:20:
               vpiParent: Function name:wrap
               vpiName: level
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:283:7 end:283:14:
                 vpiParent: IODecl name:level
                 vpiFullName: a23_barrel_shift_fpga.wrap.level
@@ -21117,6 +21135,7 @@ Design name:unnamed:
             IODecl name:value start:293:14 end:293:19:
               vpiParent: Function name:bit_swap
               vpiName: value
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:293:7 end:293:13:
                 vpiParent: IODecl name:value
                 vpiFullName: a23_barrel_shift_fpga.bit_swap.value
@@ -24518,15 +24537,14 @@ Design name:unnamed:
               GenFor start:165:2 end:175:5:
                 vpiParent: Begin
                 vpiFullName: a23_barrel_shift_fpga
-                vpiVariable (1 items):
-                  Variable name:i start:165:7 end:165:8:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: a23_barrel_shift_fpga.i
                 vpiForInitStmt (1 items):
                   Assignment start:165:7 end:165:12:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:165:7 end:165:8:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: a23_barrel_shift_fpga.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:165:11 end:165:12:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -24655,15 +24673,14 @@ Design name:unnamed:
                     GenFor start:169:3 end:174:6:
                       vpiParent: Begin name:netgen
                       vpiFullName: a23_barrel_shift_fpga.netgen
-                      vpiVariable (1 items):
-                        Variable name:j start:169:8 end:169:9:
-                          vpiParent: GenFor
-                          vpiName: j
-                          vpiFullName: a23_barrel_shift_fpga.netgen.j
                       vpiForInitStmt (1 items):
                         Assignment start:169:8 end:169:13:
                           vpiParent: GenFor
-                          vpiLhs: Variable name:j
+                          vpiLhs RefObj name:j start:169:8 end:169:9:
+                            vpiParent: Assignment
+                            vpiName: j
+                            vpiFullName: a23_barrel_shift_fpga.netgen.j
+                            vpiActual: Variable name:j
                           vpiRhs Constant start:169:12 end:169:13:
                             vpiParent: Assignment
                             vpiTypespec RefTypespec:
@@ -24891,15 +24908,14 @@ Design name:unnamed:
               GenFor start:179:2 end:182:5:
                 vpiParent: Begin
                 vpiFullName: a23_barrel_shift_fpga
-                vpiVariable (1 items):
-                  Variable name:i start:179:7 end:179:8:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: a23_barrel_shift_fpga.i
                 vpiForInitStmt (1 items):
                   Assignment start:179:7 end:179:12:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:179:7 end:179:8:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: a23_barrel_shift_fpga.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:179:11 end:179:12:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -27557,9 +27573,10 @@ Design name:unnamed:
             vpiSize: 4
             vpiDecompile: "4'd9"
             vpiValue: "9"
-      vpiTypespec (44 items):
+      vpiTypespec (45 items):
         LogicTypespec:
           vpiParent: Module name:a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2))
           vpiRange (1 items):
@@ -28757,6 +28774,8 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2))
+        LogicTypespec:
+          vpiParent: Module name:a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2))
           vpiRange (1 items):
             Range start:172:6 end:172:12:
               vpiParent: LogicTypespec
@@ -28885,6 +28904,7 @@ Design name:unnamed:
         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).work
         vpiActual: Library name:work
       vpiCell: a23_cache
+      vpiAutomatic: true
       vpiTaskFunc (6 items):
         Function name:pcf start:45:1 end:50:12:
           vpiParent: Module name:a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2))
@@ -28904,6 +28924,7 @@ Design name:unnamed:
             IODecl name:pc_reg start:46:14 end:46:20:
               vpiParent: Function name:pcf
               vpiName: pc_reg
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:46:7 end:46:13:
                 vpiParent: IODecl name:pc_reg
                 vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).pcf.pc_reg
@@ -29054,6 +29075,7 @@ Design name:unnamed:
             IODecl name:reg_sel start:57:13 end:57:20:
               vpiParent: Function name:decode
               vpiName: reg_sel
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:57:7 end:57:12:
                 vpiParent: IODecl name:reg_sel
                 vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).decode.reg_sel
@@ -29635,6 +29657,7 @@ Design name:unnamed:
             IODecl name:fn_status_bits_mode start:85:13 end:85:32:
               vpiParent: Function name:oh_status_bits_mode
               vpiName: fn_status_bits_mode
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:85:7 end:85:12:
                 vpiParent: IODecl name:fn_status_bits_mode
                 vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).oh_status_bits_mode.fn_status_bits_mode
@@ -29860,6 +29883,7 @@ Design name:unnamed:
             IODecl name:mode start:99:13 end:99:17:
               vpiParent: Function name:mode_name
               vpiName: mode
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:99:7 end:99:12:
                 vpiParent: IODecl name:mode
                 vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).mode_name.mode
@@ -30113,6 +30137,7 @@ Design name:unnamed:
             IODecl name:condition start:132:13 end:132:22:
               vpiParent: Function name:conditional_execute
               vpiName: condition
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:132:7 end:132:12:
                 vpiParent: IODecl name:condition
                 vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).conditional_execute.condition
@@ -30120,6 +30145,7 @@ Design name:unnamed:
             IODecl name:flags start:133:13 end:133:18:
               vpiParent: Function name:conditional_execute
               vpiName: flags
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:133:7 end:133:12:
                 vpiParent: IODecl name:flags
                 vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).conditional_execute.flags
@@ -31017,6 +31043,7 @@ Design name:unnamed:
             IODecl name:num start:164:17 end:164:20:
               vpiParent: Function name:log2
               vpiName: num
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:164:10 end:164:16:
                 vpiParent: IODecl name:num
                 vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).log2.num
@@ -36062,15 +36089,14 @@ Design name:unnamed:
           vpiStmt GenFor start:513:5 end:577:8:
             vpiParent: GenRegion
             vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2))
-            vpiVariable (1 items):
-              Variable name:i start:513:11 end:513:12:
-                vpiParent: GenFor
-                vpiName: i
-                vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).i
             vpiForInitStmt (1 items):
               Assignment start:513:11 end:513:14:
                 vpiParent: GenFor
-                vpiLhs: Variable name:i
+                vpiLhs RefObj name:i start:513:11 end:513:12:
+                  vpiParent: Assignment
+                  vpiName: i
+                  vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).i
+                  vpiActual: Variable name:i
                 vpiRhs Constant start:513:13 end:513:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -36144,7 +36170,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: i_clk
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_tag.i_clk
-                        vpiActual: Net name:i_clk
+                        vpiActual: Port name:i_clk
                       vpiHighConn RefObj name:i_clk start:533:43 end:533:48:
                         vpiParent: NamedArgument
                         vpiName: i_clk
@@ -36157,7 +36183,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: i_write_data
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_tag.i_write_data
-                        vpiActual: Net name:i_write_data
+                        vpiActual: Port name:i_write_data
                       vpiHighConn RefObj name:tag_wdata start:534:43 end:534:52:
                         vpiParent: NamedArgument
                         vpiName: tag_wdata
@@ -36170,7 +36196,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: i_write_enable
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_tag.i_write_enable
-                        vpiActual: Net name:i_write_enable
+                        vpiActual: Port name:i_write_enable
                       vpiHighConn BitSelect name:tag_wenable_way[i] start:535:43 end:535:61:
                         vpiParent: NamedArgument
                         vpiName: tag_wenable_way[i]
@@ -36192,7 +36218,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: i_address
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_tag.i_address
-                        vpiActual: Net name:i_address
+                        vpiActual: Port name:i_address
                       vpiHighConn RefObj name:tag_address start:536:43 end:536:54:
                         vpiParent: NamedArgument
                         vpiName: tag_address
@@ -36205,7 +36231,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: o_read_data
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_tag.o_read_data
-                        vpiActual: Net name:o_read_data
+                        vpiActual: Port name:o_read_data
                       vpiHighConn BitSelect name:tag_rdata_way[i] start:538:43 end:538:59:
                         vpiParent: NamedArgument
                         vpiName: tag_rdata_way[i]
@@ -36236,7 +36262,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: i_clk
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_data.i_clk
-                        vpiActual: Net name:i_clk
+                        vpiActual: Port name:i_clk
                       vpiHighConn RefObj name:i_clk start:558:43 end:558:48:
                         vpiParent: NamedArgument
                         vpiName: i_clk
@@ -36249,7 +36275,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: i_write_data
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_data.i_write_data
-                        vpiActual: Net name:i_write_data
+                        vpiActual: Port name:i_write_data
                       vpiHighConn RefObj name:data_wdata start:559:43 end:559:53:
                         vpiParent: NamedArgument
                         vpiName: data_wdata
@@ -36262,7 +36288,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: i_write_enable
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_data.i_write_enable
-                        vpiActual: Net name:i_write_enable
+                        vpiActual: Port name:i_write_enable
                       vpiHighConn BitSelect name:data_wenable_way[i] start:560:43 end:560:62:
                         vpiParent: NamedArgument
                         vpiName: data_wenable_way[i]
@@ -36284,7 +36310,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: i_address
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_data.i_address
-                        vpiActual: Net name:i_address
+                        vpiActual: Port name:i_address
                       vpiHighConn RefObj name:data_address start:561:43 end:561:55:
                         vpiParent: NamedArgument
                         vpiName: data_address
@@ -36297,7 +36323,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: i_byte_enable
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_data.i_byte_enable
-                        vpiActual: Net name:i_byte_enable
+                        vpiActual: Port name:i_byte_enable
                       vpiHighConn Operation start:562:43 end:562:69:
                         vpiParent: NamedArgument
                         vpiOpType: multi-concatenation (34)
@@ -36342,7 +36368,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: o_read_data
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).rams.u_data.o_read_data
-                        vpiActual: Net name:o_read_data
+                        vpiActual: Port name:o_read_data
                       vpiHighConn BitSelect name:data_rdata_way[i] start:563:43 end:563:60:
                         vpiParent: NamedArgument
                         vpiName: data_rdata_way[i]
@@ -38641,6 +38667,7 @@ Design name:unnamed:
                     IODecl name:valid_bits start:683:22 end:683:32:
                       vpiParent: Function name:pick_way
                       vpiName: valid_bits
+                      vpiDirection: input (1)
                       vpiTypespec RefTypespec start:683:11 end:683:21:
                         vpiParent: IODecl name:valid_bits
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).pick_way_2ways.pick_way.valid_bits
@@ -38648,6 +38675,7 @@ Design name:unnamed:
                     IODecl name:random_num start:684:22 end:684:32:
                       vpiParent: Function name:pick_way
                       vpiName: random_num
+                      vpiDirection: input (1)
                       vpiTypespec RefTypespec start:684:11 end:684:16:
                         vpiParent: IODecl name:random_num
                         vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).pick_way_2ways.pick_way.random_num
@@ -39068,6 +39096,7 @@ Design name:unnamed:
                           IODecl name:valid_bits start:710:22 end:710:32:
                             vpiParent: Function name:pick_way
                             vpiName: valid_bits
+                            vpiDirection: input (1)
                             vpiTypespec RefTypespec start:710:11 end:710:21:
                               vpiParent: IODecl name:valid_bits
                               vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).pick_way_3ways.pick_way.valid_bits
@@ -39075,6 +39104,7 @@ Design name:unnamed:
                           IODecl name:random_num start:711:22 end:711:32:
                             vpiParent: Function name:pick_way
                             vpiName: random_num
+                            vpiDirection: input (1)
                             vpiTypespec RefTypespec start:711:11 end:711:16:
                               vpiParent: IODecl name:random_num
                               vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).pick_way_3ways.pick_way.random_num
@@ -39589,6 +39619,7 @@ Design name:unnamed:
                                 IODecl name:valid_bits start:740:22 end:740:32:
                                   vpiParent: Function name:pick_way
                                   vpiName: valid_bits
+                                  vpiDirection: input (1)
                                   vpiTypespec RefTypespec start:740:11 end:740:21:
                                     vpiParent: IODecl name:valid_bits
                                     vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).pick_way_4ways.pick_way.valid_bits
@@ -39596,6 +39627,7 @@ Design name:unnamed:
                                 IODecl name:random_num start:741:22 end:741:32:
                                   vpiParent: Function name:pick_way
                                   vpiName: random_num
+                                  vpiDirection: input (1)
                                   vpiTypespec RefTypespec start:741:11 end:741:16:
                                     vpiParent: IODecl name:random_num
                                     vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).pick_way_4ways.pick_way.random_num
@@ -40159,6 +40191,7 @@ Design name:unnamed:
                                 IODecl name:valid_bits start:774:22 end:774:32:
                                   vpiParent: Function name:pick_way
                                   vpiName: valid_bits
+                                  vpiDirection: input (1)
                                   vpiTypespec RefTypespec start:774:11 end:774:21:
                                     vpiParent: IODecl name:valid_bits
                                     vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).pick_way_8ways.pick_way.valid_bits
@@ -40166,6 +40199,7 @@ Design name:unnamed:
                                 IODecl name:random_num start:775:22 end:775:32:
                                   vpiParent: Function name:pick_way
                                   vpiName: random_num
+                                  vpiDirection: input (1)
                                   vpiTypespec RefTypespec start:775:11 end:775:16:
                                     vpiParent: IODecl name:random_num
                                     vpiFullName: a23_cache #(.CACHE_LINES(256), .CACHE_WORDS_PER_LINE(4), .WAYS(4), .CACHE_ADDR_WIDTH(8), .WORD_SEL_WIDTH(2), .TAG_ADDR_WIDTH(32 - CACHE_ADDR_WIDTH - WORD_SEL_WIDTH - 2), .TAG_WIDTH(TAG_ADDR_WIDTH + 1), .CACHE_LINE_WIDTH(CACHE_WORDS_PER_LINE * 32), .TAG_ADDR32_LSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2), .CACHE_ADDR32_MSB(CACHE_ADDR_WIDTH + WORD_SEL_WIDTH + 2 - 1), .CACHE_ADDR32_LSB(WORD_SEL_WIDTH + 2), .WORD_SEL_MSB(WORD_SEL_WIDTH + 2 - 1), .WORD_SEL_LSB(2)).pick_way_8ways.pick_way.random_num
@@ -41103,6 +41137,7 @@ Design name:unnamed:
       vpiTypespec (18 items):
         LogicTypespec:
           vpiParent: Module name:a23_coprocessor
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_coprocessor
           vpiRange (1 items):
@@ -41553,6 +41588,7 @@ Design name:unnamed:
         vpiFullName: a23_coprocessor.work
         vpiActual: Library name:work
       vpiCell: a23_coprocessor
+      vpiAutomatic: true
       vpiNet (16 items):
         Net name:i_clk start:43:29 end:43:34:
           vpiParent: Module name:a23_coprocessor
@@ -42617,6 +42653,7 @@ Design name:unnamed:
       vpiTypespec (51 items):
         LogicTypespec:
           vpiParent: Module name:a23_core
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_core
           vpiRange (1 items):
@@ -43925,6 +43962,7 @@ Design name:unnamed:
         vpiFullName: a23_core.work
         vpiActual: Library name:work
       vpiCell: a23_core
+      vpiAutomatic: true
       vpiNet (89 items):
         Net name:i_clk start:45:29 end:45:34:
           vpiParent: Module name:a23_core
@@ -45076,7 +45114,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_clk
                 vpiFullName: a23_core.u_fetch.i_clk
-                vpiActual: Net name:i_clk
+                vpiActual: Port name:i_clk
               vpiHighConn RefObj name:i_clk start:162:43 end:162:48:
                 vpiParent: NamedArgument
                 vpiName: i_clk
@@ -45298,7 +45336,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_system_rdy
                 vpiFullName: a23_core.u_fetch.i_system_rdy
-                vpiActual: Net name:i_system_rdy
+                vpiActual: Port name:i_system_rdy
               vpiHighConn RefObj name:i_system_rdy start:178:43 end:178:55:
                 vpiParent: NamedArgument
                 vpiName: i_system_rdy
@@ -45324,7 +45362,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_wb_adr
                 vpiFullName: a23_core.u_fetch.o_wb_adr
-                vpiActual: Net name:o_wb_adr
+                vpiActual: Port name:o_wb_adr
               vpiHighConn RefObj name:o_wb_adr start:181:43 end:181:51:
                 vpiParent: NamedArgument
                 vpiName: o_wb_adr
@@ -45337,7 +45375,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_wb_sel
                 vpiFullName: a23_core.u_fetch.o_wb_sel
-                vpiActual: Net name:o_wb_sel
+                vpiActual: Port name:o_wb_sel
               vpiHighConn RefObj name:o_wb_sel start:182:43 end:182:51:
                 vpiParent: NamedArgument
                 vpiName: o_wb_sel
@@ -45350,7 +45388,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_wb_we
                 vpiFullName: a23_core.u_fetch.o_wb_we
-                vpiActual: Net name:o_wb_we
+                vpiActual: Port name:o_wb_we
               vpiHighConn RefObj name:o_wb_we start:183:43 end:183:50:
                 vpiParent: NamedArgument
                 vpiName: o_wb_we
@@ -45363,7 +45401,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_wb_dat
                 vpiFullName: a23_core.u_fetch.i_wb_dat
-                vpiActual: Net name:i_wb_dat
+                vpiActual: Port name:i_wb_dat
               vpiHighConn RefObj name:i_wb_dat start:184:43 end:184:51:
                 vpiParent: NamedArgument
                 vpiName: i_wb_dat
@@ -45376,7 +45414,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_wb_dat
                 vpiFullName: a23_core.u_fetch.o_wb_dat
-                vpiActual: Net name:o_wb_dat
+                vpiActual: Port name:o_wb_dat
               vpiHighConn RefObj name:o_wb_dat start:185:43 end:185:51:
                 vpiParent: NamedArgument
                 vpiName: o_wb_dat
@@ -45389,7 +45427,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_wb_cyc
                 vpiFullName: a23_core.u_fetch.o_wb_cyc
-                vpiActual: Net name:o_wb_cyc
+                vpiActual: Port name:o_wb_cyc
               vpiHighConn RefObj name:o_wb_cyc start:186:43 end:186:51:
                 vpiParent: NamedArgument
                 vpiName: o_wb_cyc
@@ -45402,7 +45440,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_wb_stb
                 vpiFullName: a23_core.u_fetch.o_wb_stb
-                vpiActual: Net name:o_wb_stb
+                vpiActual: Port name:o_wb_stb
               vpiHighConn RefObj name:o_wb_stb start:187:43 end:187:51:
                 vpiParent: NamedArgument
                 vpiName: o_wb_stb
@@ -45415,7 +45453,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_wb_ack
                 vpiFullName: a23_core.u_fetch.i_wb_ack
-                vpiActual: Net name:i_wb_ack
+                vpiActual: Port name:i_wb_ack
               vpiHighConn RefObj name:i_wb_ack start:188:43 end:188:51:
                 vpiParent: NamedArgument
                 vpiName: i_wb_ack
@@ -45428,7 +45466,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_wb_err
                 vpiFullName: a23_core.u_fetch.i_wb_err
-                vpiActual: Net name:i_wb_err
+                vpiActual: Port name:i_wb_err
               vpiHighConn RefObj name:i_wb_err start:189:43 end:189:51:
                 vpiParent: NamedArgument
                 vpiName: i_wb_err
@@ -45450,7 +45488,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_clk
                 vpiFullName: a23_core.u_decode.i_clk
-                vpiActual: Net name:i_clk
+                vpiActual: Port name:i_clk
               vpiHighConn RefObj name:i_clk start:194:43 end:194:48:
                 vpiParent: NamedArgument
                 vpiName: i_clk
@@ -45582,7 +45620,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_irq
                 vpiFullName: a23_core.u_decode.i_irq
-                vpiActual: Net name:i_irq
+                vpiActual: Port name:i_irq
               vpiHighConn RefObj name:i_irq start:207:43 end:207:48:
                 vpiParent: NamedArgument
                 vpiName: i_irq
@@ -45595,7 +45633,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_firq
                 vpiFullName: a23_core.u_decode.i_firq
-                vpiActual: Net name:i_firq
+                vpiActual: Port name:i_firq
               vpiHighConn RefObj name:i_firq start:208:43 end:208:49:
                 vpiParent: NamedArgument
                 vpiName: i_firq
@@ -46319,7 +46357,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_clk
                 vpiFullName: a23_core.u_execute.i_clk
-                vpiActual: Net name:i_clk
+                vpiActual: Port name:i_clk
               vpiHighConn RefObj name:i_clk start:270:43 end:270:48:
                 vpiParent: NamedArgument
                 vpiName: i_clk
@@ -47069,7 +47107,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_clk
                 vpiFullName: a23_core.u_coprocessor.i_clk
-                vpiActual: Net name:i_clk
+                vpiActual: Port name:i_clk
               vpiHighConn RefObj name:i_clk start:335:43 end:335:48:
                 vpiParent: NamedArgument
                 vpiName: i_clk
@@ -50786,9 +50824,10 @@ Design name:unnamed:
             vpiSize: 5
             vpiDecompile: "5'd25"
             vpiValue: "25"
-      vpiTypespec (93 items):
+      vpiTypespec (94 items):
         LogicTypespec:
           vpiParent: Module name:a23_decode
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_decode
           vpiRange (1 items):
@@ -50997,6 +51036,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:a23_decode
         LogicTypespec:
           vpiParent: Module name:a23_decode
           vpiRange (1 items):
@@ -53189,6 +53230,7 @@ Design name:unnamed:
         vpiFullName: a23_decode.work
         vpiActual: Library name:work
       vpiCell: a23_decode
+      vpiAutomatic: true
       vpiTaskFunc (6 items):
         Function name:pcf start:45:1 end:50:12:
           vpiParent: Module name:a23_decode
@@ -53208,6 +53250,7 @@ Design name:unnamed:
             IODecl name:pc_reg start:46:14 end:46:20:
               vpiParent: Function name:pcf
               vpiName: pc_reg
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:46:7 end:46:13:
                 vpiParent: IODecl name:pc_reg
                 vpiFullName: a23_decode.pcf.pc_reg
@@ -53358,6 +53401,7 @@ Design name:unnamed:
             IODecl name:reg_sel start:57:13 end:57:20:
               vpiParent: Function name:decode
               vpiName: reg_sel
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:57:7 end:57:12:
                 vpiParent: IODecl name:reg_sel
                 vpiFullName: a23_decode.decode.reg_sel
@@ -53939,6 +53983,7 @@ Design name:unnamed:
             IODecl name:fn_status_bits_mode start:85:13 end:85:32:
               vpiParent: Function name:oh_status_bits_mode
               vpiName: fn_status_bits_mode
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:85:7 end:85:12:
                 vpiParent: IODecl name:fn_status_bits_mode
                 vpiFullName: a23_decode.oh_status_bits_mode.fn_status_bits_mode
@@ -54164,6 +54209,7 @@ Design name:unnamed:
             IODecl name:mode start:99:13 end:99:17:
               vpiParent: Function name:mode_name
               vpiName: mode
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:99:7 end:99:12:
                 vpiParent: IODecl name:mode
                 vpiFullName: a23_decode.mode_name.mode
@@ -54417,6 +54463,7 @@ Design name:unnamed:
             IODecl name:condition start:132:13 end:132:22:
               vpiParent: Function name:conditional_execute
               vpiName: condition
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:132:7 end:132:12:
                 vpiParent: IODecl name:condition
                 vpiFullName: a23_decode.conditional_execute.condition
@@ -54424,6 +54471,7 @@ Design name:unnamed:
             IODecl name:flags start:133:13 end:133:18:
               vpiParent: Function name:conditional_execute
               vpiName: flags
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:133:7 end:133:12:
                 vpiParent: IODecl name:flags
                 vpiFullName: a23_decode.conditional_execute.flags
@@ -55321,6 +55369,7 @@ Design name:unnamed:
             IODecl name:num start:164:17 end:164:20:
               vpiParent: Function name:log2
               vpiName: num
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:164:10 end:164:16:
                 vpiParent: IODecl name:num
                 vpiFullName: a23_decode.log2.num
@@ -76406,6 +76455,7 @@ Design name:unnamed:
       vpiTypespec (11 items):
         LogicTypespec:
           vpiParent: Module name:a23_decompile
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_decompile
           vpiRange (1 items):
@@ -76674,6 +76724,7 @@ Design name:unnamed:
         vpiFullName: a23_decompile.work
         vpiActual: Library name:work
       vpiCell: a23_decompile
+      vpiAutomatic: true
       vpiNet (11 items):
         Net name:i_clk start:47:29 end:47:34:
           vpiParent: Module name:a23_decompile
@@ -78655,9 +78706,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "3"
             vpiValue: 3
-      vpiTypespec (78 items):
+      vpiTypespec (79 items):
         LogicTypespec:
           vpiParent: Module name:a23_execute
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_execute
           vpiRange (1 items):
@@ -78814,6 +78866,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:a23_execute
         LogicTypespec:
           vpiParent: Module name:a23_execute
           vpiRange (1 items):
@@ -80668,6 +80722,7 @@ Design name:unnamed:
         vpiFullName: a23_execute.work
         vpiActual: Library name:work
       vpiCell: a23_execute
+      vpiAutomatic: true
       vpiTaskFunc (6 items):
         Function name:pcf start:45:1 end:50:12:
           vpiParent: Module name:a23_execute
@@ -80687,6 +80742,7 @@ Design name:unnamed:
             IODecl name:pc_reg start:46:14 end:46:20:
               vpiParent: Function name:pcf
               vpiName: pc_reg
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:46:7 end:46:13:
                 vpiParent: IODecl name:pc_reg
                 vpiFullName: a23_execute.pcf.pc_reg
@@ -80837,6 +80893,7 @@ Design name:unnamed:
             IODecl name:reg_sel start:57:13 end:57:20:
               vpiParent: Function name:decode
               vpiName: reg_sel
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:57:7 end:57:12:
                 vpiParent: IODecl name:reg_sel
                 vpiFullName: a23_execute.decode.reg_sel
@@ -81418,6 +81475,7 @@ Design name:unnamed:
             IODecl name:fn_status_bits_mode start:85:13 end:85:32:
               vpiParent: Function name:oh_status_bits_mode
               vpiName: fn_status_bits_mode
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:85:7 end:85:12:
                 vpiParent: IODecl name:fn_status_bits_mode
                 vpiFullName: a23_execute.oh_status_bits_mode.fn_status_bits_mode
@@ -81643,6 +81701,7 @@ Design name:unnamed:
             IODecl name:mode start:99:13 end:99:17:
               vpiParent: Function name:mode_name
               vpiName: mode
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:99:7 end:99:12:
                 vpiParent: IODecl name:mode
                 vpiFullName: a23_execute.mode_name.mode
@@ -81896,6 +81955,7 @@ Design name:unnamed:
             IODecl name:condition start:132:13 end:132:22:
               vpiParent: Function name:conditional_execute
               vpiName: condition
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:132:7 end:132:12:
                 vpiParent: IODecl name:condition
                 vpiFullName: a23_execute.conditional_execute.condition
@@ -81903,6 +81963,7 @@ Design name:unnamed:
             IODecl name:flags start:133:13 end:133:18:
               vpiParent: Function name:conditional_execute
               vpiName: flags
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:133:7 end:133:12:
                 vpiParent: IODecl name:flags
                 vpiFullName: a23_execute.conditional_execute.flags
@@ -82800,6 +82861,7 @@ Design name:unnamed:
             IODecl name:num start:164:17 end:164:20:
               vpiParent: Function name:log2
               vpiName: num
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:164:10 end:164:16:
                 vpiParent: IODecl name:num
                 vpiFullName: a23_execute.log2.num
@@ -88352,7 +88414,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_shift_imm_zero
                 vpiFullName: a23_execute.u_barrel_shift.i_shift_imm_zero
-                vpiActual: Net name:i_shift_imm_zero
+                vpiActual: Port name:i_shift_imm_zero
               vpiHighConn RefObj name:i_shift_imm_zero start:477:25 end:477:41:
                 vpiParent: NamedArgument
                 vpiName: i_shift_imm_zero
@@ -88527,7 +88589,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_clk
                 vpiFullName: a23_execute.u_multiply.i_clk
-                vpiActual: Net name:i_clk
+                vpiActual: Port name:i_clk
               vpiHighConn RefObj name:i_clk start:504:23 end:504:28:
                 vpiParent: NamedArgument
                 vpiName: i_clk
@@ -88540,7 +88602,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_fetch_stall
                 vpiFullName: a23_execute.u_multiply.i_fetch_stall
-                vpiActual: Net name:i_fetch_stall
+                vpiActual: Port name:i_fetch_stall
               vpiHighConn RefObj name:i_fetch_stall start:505:23 end:505:36:
                 vpiParent: NamedArgument
                 vpiName: i_fetch_stall
@@ -88653,7 +88715,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_clk
                 vpiFullName: a23_execute.u_register_bank.i_clk
-                vpiActual: Net name:i_clk
+                vpiActual: Port name:i_clk
               vpiHighConn RefObj name:i_clk start:521:32 end:521:37:
                 vpiParent: NamedArgument
                 vpiName: i_clk
@@ -88666,7 +88728,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_fetch_stall
                 vpiFullName: a23_execute.u_register_bank.i_fetch_stall
-                vpiActual: Net name:i_fetch_stall
+                vpiActual: Port name:i_fetch_stall
               vpiHighConn RefObj name:i_fetch_stall start:522:32 end:522:45:
                 vpiParent: NamedArgument
                 vpiName: i_fetch_stall
@@ -88679,7 +88741,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_rm_sel
                 vpiFullName: a23_execute.u_register_bank.i_rm_sel
-                vpiActual: Net name:i_rm_sel
+                vpiActual: Port name:i_rm_sel
               vpiHighConn RefObj name:i_rm_sel start:523:32 end:523:40:
                 vpiParent: NamedArgument
                 vpiName: i_rm_sel
@@ -88692,7 +88754,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_rds_sel
                 vpiFullName: a23_execute.u_register_bank.i_rds_sel
-                vpiActual: Net name:i_rds_sel
+                vpiActual: Port name:i_rds_sel
               vpiHighConn RefObj name:i_rds_sel start:524:32 end:524:41:
                 vpiParent: NamedArgument
                 vpiName: i_rds_sel
@@ -88705,7 +88767,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_rn_sel
                 vpiFullName: a23_execute.u_register_bank.i_rn_sel
-                vpiActual: Net name:i_rn_sel
+                vpiActual: Port name:i_rn_sel
               vpiHighConn RefObj name:i_rn_sel start:525:32 end:525:40:
                 vpiParent: NamedArgument
                 vpiName: i_rn_sel
@@ -88718,7 +88780,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_pc_wen
                 vpiFullName: a23_execute.u_register_bank.i_pc_wen
-                vpiActual: Net name:i_pc_wen
+                vpiActual: Port name:i_pc_wen
               vpiHighConn RefObj name:pc_wen start:526:32 end:526:38:
                 vpiParent: NamedArgument
                 vpiName: pc_wen
@@ -88731,7 +88793,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_reg_bank_wen
                 vpiFullName: a23_execute.u_register_bank.i_reg_bank_wen
-                vpiActual: Net name:i_reg_bank_wen
+                vpiActual: Port name:i_reg_bank_wen
               vpiHighConn RefObj name:reg_bank_wen start:527:32 end:527:44:
                 vpiParent: NamedArgument
                 vpiName: reg_bank_wen
@@ -88835,7 +88897,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_status_bits_irq_mask
                 vpiFullName: a23_execute.u_register_bank.i_status_bits_irq_mask
-                vpiActual: Net name:i_status_bits_irq_mask
+                vpiActual: Port name:i_status_bits_irq_mask
               vpiHighConn RefObj name:status_bits_irq_mask start:534:32 end:534:52:
                 vpiParent: NamedArgument
                 vpiName: status_bits_irq_mask
@@ -88848,7 +88910,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_status_bits_firq_mask
                 vpiFullName: a23_execute.u_register_bank.i_status_bits_firq_mask
-                vpiActual: Net name:i_status_bits_firq_mask
+                vpiActual: Port name:i_status_bits_firq_mask
               vpiHighConn RefObj name:status_bits_firq_mask start:535:32 end:535:53:
                 vpiParent: NamedArgument
                 vpiName: status_bits_firq_mask
@@ -88861,7 +88923,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_firq_not_user_mode
                 vpiFullName: a23_execute.u_register_bank.i_firq_not_user_mode
-                vpiActual: Net name:i_firq_not_user_mode
+                vpiActual: Port name:i_firq_not_user_mode
               vpiHighConn RefObj name:i_firq_not_user_mode start:538:32 end:538:52:
                 vpiParent: NamedArgument
                 vpiName: i_firq_not_user_mode
@@ -88887,7 +88949,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_user_mode_regs_load
                 vpiFullName: a23_execute.u_register_bank.i_user_mode_regs_load
-                vpiActual: Net name:i_user_mode_regs_load
+                vpiActual: Port name:i_user_mode_regs_load
               vpiHighConn RefObj name:i_user_mode_regs_load start:543:32 end:543:53:
                 vpiParent: NamedArgument
                 vpiName: i_user_mode_regs_load
@@ -89253,6 +89315,7 @@ Design name:unnamed:
       vpiTypespec (12 items):
         LogicTypespec:
           vpiParent: Module name:a23_fetch
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_fetch
           vpiRange (1 items):
@@ -89547,6 +89610,7 @@ Design name:unnamed:
         vpiFullName: a23_fetch.work
         vpiActual: Library name:work
       vpiCell: a23_fetch
+      vpiAutomatic: true
       vpiTaskFunc (11 items):
         Function name:in_loboot_mem start:61:1 end:67:12:
           vpiParent: Module name:a23_fetch
@@ -89566,6 +89630,7 @@ Design name:unnamed:
             IODecl name:address start:62:18 end:62:25:
               vpiParent: Function name:in_loboot_mem
               vpiName: address
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:62:11 end:62:17:
                 vpiParent: IODecl name:address
                 vpiFullName: a23_fetch.in_loboot_mem.address
@@ -89720,6 +89785,7 @@ Design name:unnamed:
             IODecl name:address start:71:18 end:71:25:
               vpiParent: Function name:in_hiboot_mem
               vpiName: address
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:71:11 end:71:17:
                 vpiParent: IODecl name:address
                 vpiFullName: a23_fetch.in_hiboot_mem.address
@@ -89875,6 +89941,7 @@ Design name:unnamed:
             IODecl name:address start:79:18 end:79:25:
               vpiParent: Function name:in_boot_mem
               vpiName: address
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:79:11 end:79:17:
                 vpiParent: IODecl name:address
                 vpiFullName: a23_fetch.in_boot_mem.address
@@ -89974,6 +90041,7 @@ Design name:unnamed:
             IODecl name:address start:87:18 end:87:25:
               vpiParent: Function name:in_main_mem
               vpiName: address
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:87:11 end:87:17:
                 vpiParent: IODecl name:address
                 vpiFullName: a23_fetch.in_main_mem.address
@@ -90148,6 +90216,7 @@ Design name:unnamed:
             IODecl name:address start:98:18 end:98:25:
               vpiParent: Function name:in_uart0
               vpiName: address
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:98:11 end:98:17:
                 vpiParent: IODecl name:address
                 vpiFullName: a23_fetch.in_uart0.address
@@ -90259,6 +90328,7 @@ Design name:unnamed:
             IODecl name:address start:107:18 end:107:25:
               vpiParent: Function name:in_uart1
               vpiName: address
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:107:11 end:107:17:
                 vpiParent: IODecl name:address
                 vpiFullName: a23_fetch.in_uart1.address
@@ -90370,6 +90440,7 @@ Design name:unnamed:
             IODecl name:address start:116:18 end:116:25:
               vpiParent: Function name:in_ic
               vpiName: address
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:116:11 end:116:17:
                 vpiParent: IODecl name:address
                 vpiFullName: a23_fetch.in_ic.address
@@ -90481,6 +90552,7 @@ Design name:unnamed:
             IODecl name:address start:125:18 end:125:25:
               vpiParent: Function name:in_tm
               vpiName: address
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:125:11 end:125:17:
                 vpiParent: IODecl name:address
                 vpiFullName: a23_fetch.in_tm.address
@@ -90592,6 +90664,7 @@ Design name:unnamed:
             IODecl name:address start:134:18 end:134:25:
               vpiParent: Function name:in_test
               vpiName: address
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:134:11 end:134:17:
                 vpiParent: IODecl name:address
                 vpiFullName: a23_fetch.in_test.address
@@ -90703,6 +90776,7 @@ Design name:unnamed:
             IODecl name:address start:143:18 end:143:25:
               vpiParent: Function name:in_ethmac
               vpiName: address
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:143:11 end:143:17:
                 vpiParent: IODecl name:address
                 vpiFullName: a23_fetch.in_ethmac.address
@@ -90814,6 +90888,7 @@ Design name:unnamed:
             IODecl name:address start:153:18 end:153:25:
               vpiParent: Function name:in_cachable_mem
               vpiName: address
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:153:11 end:153:17:
                 vpiParent: IODecl name:address
                 vpiFullName: a23_fetch.in_cachable_mem.address
@@ -91758,7 +91833,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_clk
                 vpiFullName: a23_fetch.u_cache.i_clk
-                vpiActual: Net name:i_clk
+                vpiActual: Port name:i_clk
               vpiHighConn RefObj name:i_clk start:116:35 end:116:40:
                 vpiParent: NamedArgument
                 vpiName: i_clk
@@ -91784,7 +91859,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_exclusive
                 vpiFullName: a23_fetch.u_cache.i_exclusive
-                vpiActual: Net name:i_exclusive
+                vpiActual: Port name:i_exclusive
               vpiHighConn RefObj name:i_exclusive start:119:35 end:119:46:
                 vpiParent: NamedArgument
                 vpiName: i_exclusive
@@ -91797,7 +91872,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_write_data
                 vpiFullName: a23_fetch.u_cache.i_write_data
-                vpiActual: Net name:i_write_data
+                vpiActual: Port name:i_write_data
               vpiHighConn RefObj name:i_write_data start:120:35 end:120:47:
                 vpiParent: NamedArgument
                 vpiName: i_write_data
@@ -91810,7 +91885,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_write_enable
                 vpiFullName: a23_fetch.u_cache.i_write_enable
-                vpiActual: Net name:i_write_enable
+                vpiActual: Port name:i_write_enable
               vpiHighConn RefObj name:i_write_enable start:121:35 end:121:49:
                 vpiParent: NamedArgument
                 vpiName: i_write_enable
@@ -91823,7 +91898,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_address
                 vpiFullName: a23_fetch.u_cache.i_address
-                vpiActual: Net name:i_address
+                vpiActual: Port name:i_address
               vpiHighConn RefObj name:i_address start:122:35 end:122:44:
                 vpiParent: NamedArgument
                 vpiName: i_address
@@ -91836,7 +91911,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_address_nxt
                 vpiFullName: a23_fetch.u_cache.i_address_nxt
-                vpiActual: Net name:i_address_nxt
+                vpiActual: Port name:i_address_nxt
               vpiHighConn RefObj name:i_address_nxt start:123:35 end:123:48:
                 vpiParent: NamedArgument
                 vpiName: i_address_nxt
@@ -91849,7 +91924,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_byte_enable
                 vpiFullName: a23_fetch.u_cache.i_byte_enable
-                vpiActual: Net name:i_byte_enable
+                vpiActual: Port name:i_byte_enable
               vpiHighConn RefObj name:i_byte_enable start:124:35 end:124:48:
                 vpiParent: NamedArgument
                 vpiName: i_byte_enable
@@ -91862,7 +91937,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_cache_enable
                 vpiFullName: a23_fetch.u_cache.i_cache_enable
-                vpiActual: Net name:i_cache_enable
+                vpiActual: Port name:i_cache_enable
               vpiHighConn RefObj name:i_cache_enable start:125:35 end:125:49:
                 vpiParent: NamedArgument
                 vpiName: i_cache_enable
@@ -91875,7 +91950,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_cache_flush
                 vpiFullName: a23_fetch.u_cache.i_cache_flush
-                vpiActual: Net name:i_cache_flush
+                vpiActual: Port name:i_cache_flush
               vpiHighConn RefObj name:i_cache_flush start:126:35 end:126:48:
                 vpiParent: NamedArgument
                 vpiName: i_cache_flush
@@ -91888,7 +91963,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_read_data
                 vpiFullName: a23_fetch.u_cache.o_read_data
-                vpiActual: Net name:o_read_data
+                vpiActual: Port name:o_read_data
               vpiHighConn RefObj name:cache_read_data start:127:35 end:127:50:
                 vpiParent: NamedArgument
                 vpiName: cache_read_data
@@ -92001,7 +92076,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_clk
                 vpiFullName: a23_fetch.u_wishbone.i_clk
-                vpiActual: Net name:i_clk
+                vpiActual: Port name:i_clk
               vpiHighConn RefObj name:i_clk start:144:35 end:144:40:
                 vpiParent: NamedArgument
                 vpiName: i_clk
@@ -92027,7 +92102,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_write_data
                 vpiFullName: a23_fetch.u_wishbone.i_write_data
-                vpiActual: Net name:i_write_data
+                vpiActual: Port name:i_write_data
               vpiHighConn RefObj name:i_write_data start:148:35 end:148:47:
                 vpiParent: NamedArgument
                 vpiName: i_write_data
@@ -92040,7 +92115,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_write_enable
                 vpiFullName: a23_fetch.u_wishbone.i_write_enable
-                vpiActual: Net name:i_write_enable
+                vpiActual: Port name:i_write_enable
               vpiHighConn RefObj name:i_write_enable start:149:35 end:149:49:
                 vpiParent: NamedArgument
                 vpiName: i_write_enable
@@ -92053,7 +92128,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_byte_enable
                 vpiFullName: a23_fetch.u_wishbone.i_byte_enable
-                vpiActual: Net name:i_byte_enable
+                vpiActual: Port name:i_byte_enable
               vpiHighConn RefObj name:i_byte_enable start:150:35 end:150:48:
                 vpiParent: NamedArgument
                 vpiName: i_byte_enable
@@ -92066,7 +92141,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_data_access
                 vpiFullName: a23_fetch.u_wishbone.i_data_access
-                vpiActual: Net name:i_data_access
+                vpiActual: Port name:i_data_access
               vpiHighConn RefObj name:i_data_access start:151:35 end:151:48:
                 vpiParent: NamedArgument
                 vpiName: i_data_access
@@ -92079,7 +92154,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_exclusive
                 vpiFullName: a23_fetch.u_wishbone.i_exclusive
-                vpiActual: Net name:i_exclusive
+                vpiActual: Port name:i_exclusive
               vpiHighConn RefObj name:i_exclusive start:152:35 end:152:46:
                 vpiParent: NamedArgument
                 vpiName: i_exclusive
@@ -92092,7 +92167,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_address
                 vpiFullName: a23_fetch.u_wishbone.i_address
-                vpiActual: Net name:i_address
+                vpiActual: Port name:i_address
               vpiHighConn RefObj name:i_address start:153:35 end:153:44:
                 vpiParent: NamedArgument
                 vpiName: i_address
@@ -92131,7 +92206,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_wb_adr
                 vpiFullName: a23_fetch.u_wishbone.o_wb_adr
-                vpiActual: Net name:o_wb_adr
+                vpiActual: Port name:o_wb_adr
               vpiHighConn RefObj name:o_wb_adr start:160:35 end:160:43:
                 vpiParent: NamedArgument
                 vpiName: o_wb_adr
@@ -92144,7 +92219,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_wb_sel
                 vpiFullName: a23_fetch.u_wishbone.o_wb_sel
-                vpiActual: Net name:o_wb_sel
+                vpiActual: Port name:o_wb_sel
               vpiHighConn RefObj name:o_wb_sel start:161:35 end:161:43:
                 vpiParent: NamedArgument
                 vpiName: o_wb_sel
@@ -92157,7 +92232,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_wb_we
                 vpiFullName: a23_fetch.u_wishbone.o_wb_we
-                vpiActual: Net name:o_wb_we
+                vpiActual: Port name:o_wb_we
               vpiHighConn RefObj name:o_wb_we start:162:35 end:162:42:
                 vpiParent: NamedArgument
                 vpiName: o_wb_we
@@ -92170,7 +92245,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_wb_dat
                 vpiFullName: a23_fetch.u_wishbone.i_wb_dat
-                vpiActual: Net name:i_wb_dat
+                vpiActual: Port name:i_wb_dat
               vpiHighConn RefObj name:i_wb_dat start:163:35 end:163:43:
                 vpiParent: NamedArgument
                 vpiName: i_wb_dat
@@ -92183,7 +92258,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_wb_dat
                 vpiFullName: a23_fetch.u_wishbone.o_wb_dat
-                vpiActual: Net name:o_wb_dat
+                vpiActual: Port name:o_wb_dat
               vpiHighConn RefObj name:o_wb_dat start:164:35 end:164:43:
                 vpiParent: NamedArgument
                 vpiName: o_wb_dat
@@ -92196,7 +92271,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_wb_cyc
                 vpiFullName: a23_fetch.u_wishbone.o_wb_cyc
-                vpiActual: Net name:o_wb_cyc
+                vpiActual: Port name:o_wb_cyc
               vpiHighConn RefObj name:o_wb_cyc start:165:35 end:165:43:
                 vpiParent: NamedArgument
                 vpiName: o_wb_cyc
@@ -92209,7 +92284,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o_wb_stb
                 vpiFullName: a23_fetch.u_wishbone.o_wb_stb
-                vpiActual: Net name:o_wb_stb
+                vpiActual: Port name:o_wb_stb
               vpiHighConn RefObj name:o_wb_stb start:166:35 end:166:43:
                 vpiParent: NamedArgument
                 vpiName: o_wb_stb
@@ -92222,7 +92297,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_wb_ack
                 vpiFullName: a23_fetch.u_wishbone.i_wb_ack
-                vpiActual: Net name:i_wb_ack
+                vpiActual: Port name:i_wb_ack
               vpiHighConn RefObj name:i_wb_ack start:167:35 end:167:43:
                 vpiParent: NamedArgument
                 vpiName: i_wb_ack
@@ -92235,7 +92310,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_wb_err
                 vpiFullName: a23_fetch.u_wishbone.i_wb_err
-                vpiActual: Net name:i_wb_err
+                vpiActual: Port name:i_wb_err
               vpiHighConn RefObj name:i_wb_err start:168:35 end:168:43:
                 vpiParent: NamedArgument
                 vpiName: i_wb_err
@@ -92324,9 +92399,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: flags_nxt
           vpiFullName: a23_multiply.flags_nxt
-      vpiTypespec (16 items):
+      vpiTypespec (17 items):
         LogicTypespec:
           vpiParent: Module name:a23_multiply
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_multiply
           vpiRange (1 items):
@@ -92457,6 +92533,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:a23_multiply
         LogicTypespec:
           vpiParent: Module name:a23_multiply
           vpiRange (1 items):
@@ -92725,6 +92803,7 @@ Design name:unnamed:
         vpiFullName: a23_multiply.work
         vpiActual: Library name:work
       vpiCell: a23_multiply
+      vpiAutomatic: true
       vpiNet (15 items):
         Net name:i_clk start:57:29 end:57:34:
           vpiParent: Module name:a23_multiply
@@ -95643,9 +95722,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "3"
             vpiValue: 3
-      vpiTypespec (87 items):
+      vpiTypespec (88 items):
         LogicTypespec:
           vpiParent: Module name:a23_ram_register_bank
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_ram_register_bank
           vpiRange (1 items):
@@ -96803,6 +96883,8 @@ Design name:unnamed:
           vpiParent: Module name:a23_ram_register_bank
         LogicTypespec:
           vpiParent: Module name:a23_ram_register_bank
+        LogicTypespec:
+          vpiParent: Module name:a23_ram_register_bank
           vpiRange (1 items):
             Range start:238:6 end:238:12:
               vpiParent: LogicTypespec
@@ -97875,6 +97957,7 @@ Design name:unnamed:
         vpiFullName: a23_ram_register_bank.work
         vpiActual: Library name:work
       vpiCell: a23_ram_register_bank
+      vpiAutomatic: true
       vpiTaskFunc (7 items):
         Function name:pcf start:45:1 end:50:12:
           vpiParent: Module name:a23_ram_register_bank
@@ -97894,6 +97977,7 @@ Design name:unnamed:
             IODecl name:pc_reg start:46:14 end:46:20:
               vpiParent: Function name:pcf
               vpiName: pc_reg
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:46:7 end:46:13:
                 vpiParent: IODecl name:pc_reg
                 vpiFullName: a23_ram_register_bank.pcf.pc_reg
@@ -98044,6 +98128,7 @@ Design name:unnamed:
             IODecl name:reg_sel start:57:13 end:57:20:
               vpiParent: Function name:decode
               vpiName: reg_sel
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:57:7 end:57:12:
                 vpiParent: IODecl name:reg_sel
                 vpiFullName: a23_ram_register_bank.decode.reg_sel
@@ -98625,6 +98710,7 @@ Design name:unnamed:
             IODecl name:fn_status_bits_mode start:85:13 end:85:32:
               vpiParent: Function name:oh_status_bits_mode
               vpiName: fn_status_bits_mode
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:85:7 end:85:12:
                 vpiParent: IODecl name:fn_status_bits_mode
                 vpiFullName: a23_ram_register_bank.oh_status_bits_mode.fn_status_bits_mode
@@ -98850,6 +98936,7 @@ Design name:unnamed:
             IODecl name:mode start:99:13 end:99:17:
               vpiParent: Function name:mode_name
               vpiName: mode
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:99:7 end:99:12:
                 vpiParent: IODecl name:mode
                 vpiFullName: a23_ram_register_bank.mode_name.mode
@@ -99103,6 +99190,7 @@ Design name:unnamed:
             IODecl name:condition start:132:13 end:132:22:
               vpiParent: Function name:conditional_execute
               vpiName: condition
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:132:7 end:132:12:
                 vpiParent: IODecl name:condition
                 vpiFullName: a23_ram_register_bank.conditional_execute.condition
@@ -99110,6 +99198,7 @@ Design name:unnamed:
             IODecl name:flags start:133:13 end:133:18:
               vpiParent: Function name:conditional_execute
               vpiName: flags
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:133:7 end:133:12:
                 vpiParent: IODecl name:flags
                 vpiFullName: a23_ram_register_bank.conditional_execute.flags
@@ -100007,6 +100096,7 @@ Design name:unnamed:
             IODecl name:num start:164:17 end:164:20:
               vpiParent: Function name:log2
               vpiName: num
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:164:10 end:164:16:
                 vpiParent: IODecl name:num
                 vpiFullName: a23_ram_register_bank.log2.num
@@ -100304,6 +100394,7 @@ Design name:unnamed:
             IODecl name:mode start:216:13 end:216:17:
               vpiParent: Function name:reg_addr
               vpiName: mode
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:216:7 end:216:12:
                 vpiParent: IODecl name:mode
                 vpiFullName: a23_ram_register_bank.reg_addr.mode
@@ -100311,6 +100402,7 @@ Design name:unnamed:
             IODecl name:sel start:217:13 end:217:16:
               vpiParent: Function name:reg_addr
               vpiName: sel
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:217:7 end:217:12:
                 vpiParent: IODecl name:sel
                 vpiFullName: a23_ram_register_bank.reg_addr.sel
@@ -105963,6 +106055,7 @@ Design name:unnamed:
       vpiTypespec (74 items):
         LogicTypespec:
           vpiParent: Module name:a23_register_bank
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_register_bank
           vpiRange (1 items):
@@ -107869,6 +107962,7 @@ Design name:unnamed:
         vpiFullName: a23_register_bank.work
         vpiActual: Library name:work
       vpiCell: a23_register_bank
+      vpiAutomatic: true
       vpiTaskFunc (6 items):
         Function name:pcf start:45:1 end:50:12:
           vpiParent: Module name:a23_register_bank
@@ -107888,6 +107982,7 @@ Design name:unnamed:
             IODecl name:pc_reg start:46:14 end:46:20:
               vpiParent: Function name:pcf
               vpiName: pc_reg
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:46:7 end:46:13:
                 vpiParent: IODecl name:pc_reg
                 vpiFullName: a23_register_bank.pcf.pc_reg
@@ -108038,6 +108133,7 @@ Design name:unnamed:
             IODecl name:reg_sel start:57:13 end:57:20:
               vpiParent: Function name:decode
               vpiName: reg_sel
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:57:7 end:57:12:
                 vpiParent: IODecl name:reg_sel
                 vpiFullName: a23_register_bank.decode.reg_sel
@@ -108619,6 +108715,7 @@ Design name:unnamed:
             IODecl name:fn_status_bits_mode start:85:13 end:85:32:
               vpiParent: Function name:oh_status_bits_mode
               vpiName: fn_status_bits_mode
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:85:7 end:85:12:
                 vpiParent: IODecl name:fn_status_bits_mode
                 vpiFullName: a23_register_bank.oh_status_bits_mode.fn_status_bits_mode
@@ -108844,6 +108941,7 @@ Design name:unnamed:
             IODecl name:mode start:99:13 end:99:17:
               vpiParent: Function name:mode_name
               vpiName: mode
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:99:7 end:99:12:
                 vpiParent: IODecl name:mode
                 vpiFullName: a23_register_bank.mode_name.mode
@@ -109097,6 +109195,7 @@ Design name:unnamed:
             IODecl name:condition start:132:13 end:132:22:
               vpiParent: Function name:conditional_execute
               vpiName: condition
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:132:7 end:132:12:
                 vpiParent: IODecl name:condition
                 vpiFullName: a23_register_bank.conditional_execute.condition
@@ -109104,6 +109203,7 @@ Design name:unnamed:
             IODecl name:flags start:133:13 end:133:18:
               vpiParent: Function name:conditional_execute
               vpiName: flags
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:133:7 end:133:12:
                 vpiParent: IODecl name:flags
                 vpiFullName: a23_register_bank.conditional_execute.flags
@@ -110001,6 +110101,7 @@ Design name:unnamed:
             IODecl name:num start:164:17 end:164:20:
               vpiParent: Function name:log2
               vpiName: num
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:164:10 end:164:16:
                 vpiParent: IODecl name:num
                 vpiFullName: a23_register_bank.log2.num
@@ -115386,9 +115487,10 @@ Design name:unnamed:
             vpiSize: 3
             vpiDecompile: "3'd4"
             vpiValue: "4"
-      vpiTypespec (13 items):
+      vpiTypespec (14 items):
         LogicTypespec:
           vpiParent: Module name:a23_wishbone
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_wishbone
           vpiRange (1 items):
@@ -115519,6 +115621,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:a23_wishbone
         LogicTypespec:
           vpiParent: Module name:a23_wishbone
           vpiRange (1 items):
@@ -115709,6 +115813,7 @@ Design name:unnamed:
         vpiFullName: a23_wishbone.work
         vpiActual: Library name:work
       vpiCell: a23_wishbone
+      vpiAutomatic: true
       vpiNet (22 items):
         Net name:i_clk start:60:29 end:60:34:
           vpiParent: Module name:a23_wishbone
@@ -117939,6 +118044,7 @@ Design name:unnamed:
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:generic_sram_byte_en #(.DATA_WIDTH(128), .ADDRESS_WIDTH(7))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:generic_sram_byte_en #(.DATA_WIDTH(128), .ADDRESS_WIDTH(7))
           vpiRange (1 items):
@@ -118191,6 +118297,7 @@ Design name:unnamed:
         vpiFullName: generic_sram_byte_en #(.DATA_WIDTH(128), .ADDRESS_WIDTH(7)).work
         vpiActual: Library name:work
       vpiCell: generic_sram_byte_en
+      vpiAutomatic: true
       vpiNet (5 items):
         Net name:i_clk start:50:33 end:50:38:
           vpiParent: Module name:generic_sram_byte_en #(.DATA_WIDTH(128), .ADDRESS_WIDTH(7))
@@ -119891,6 +119998,7 @@ Design name:unnamed:
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:generic_sram_line_en #(.DATA_WIDTH(128), .ADDRESS_WIDTH(7), .INITIALIZE_TO_ZERO(0))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:generic_sram_line_en #(.DATA_WIDTH(128), .ADDRESS_WIDTH(7), .INITIALIZE_TO_ZERO(0))
           vpiRange (1 items):
@@ -120091,6 +120199,7 @@ Design name:unnamed:
         vpiFullName: generic_sram_line_en #(.DATA_WIDTH(128), .ADDRESS_WIDTH(7), .INITIALIZE_TO_ZERO(0)).work
         vpiActual: Library name:work
       vpiCell: generic_sram_line_en
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:i_clk start:50:33 end:50:38:
           vpiParent: Module name:generic_sram_line_en #(.DATA_WIDTH(128), .ADDRESS_WIDTH(7), .INITIALIZE_TO_ZERO(0))
@@ -120589,7 +120698,7 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1024"
                 vpiValue: 1024
-      vpiTypespec (12 items):
+      vpiTypespec (13 items):
         LogicTypespec:
           vpiParent: Module name:testbench
         LogicTypespec:
@@ -120618,6 +120727,9 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:testbench
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:testbench
           vpiRange (1 items):
@@ -120856,6 +120968,7 @@ Design name:unnamed:
         vpiFullName: testbench.work
         vpiActual: Library name:work
       vpiCell: testbench
+      vpiAutomatic: true
       vpiNet (10 items):
         Net name:i_wb_ack start:13:12 end:13:20:
           vpiParent: Module name:testbench
@@ -121039,9 +121152,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              DelayControl start:177:2 end:177:6:
+              DelayControl start:177:2 end:177:7:
                 vpiParent: Begin
                 vpiDelay: 100
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:177:3 end:177:6:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -121074,9 +121189,11 @@ Design name:unnamed:
                             vpiName: clk
                             vpiFullName: testbench.clk
                             vpiActual: Variable name:clk
-                    DelayControl start:180:3 end:180:6:
+                    DelayControl start:180:3 end:180:7:
                       vpiParent: Begin
                       vpiDelay: 50
+                      vpiStmt NullStmt:
+                        vpiParent: DelayControl
                       vpiDelay Constant start:180:4 end:180:6:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
@@ -121190,7 +121307,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "5"
                   vpiValue: 5
-                vpiStmt EventControl start:190:13 end:190:27:
+                vpiStmt EventControl start:190:13 end:190:28:
                   vpiParent: Repeat
                   vpiCondition Operation start:190:15 end:190:26:
                     vpiParent: EventControl
@@ -121201,6 +121318,8 @@ Design name:unnamed:
                         vpiName: clk
                         vpiFullName: testbench.clk
                         vpiActual: Variable name:clk
+                  vpiStmt NullStmt:
+                    vpiParent: EventControl
               Assignment start:191:2 end:191:14:
                 vpiParent: Begin
                 vpiLhs RefObj name:globrst start:191:2 end:191:9:
@@ -121230,7 +121349,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "2"
                   vpiValue: 2
-                vpiStmt EventControl start:192:13 end:192:27:
+                vpiStmt EventControl start:192:13 end:192:28:
                   vpiParent: Repeat
                   vpiCondition Operation start:192:15 end:192:26:
                     vpiParent: EventControl
@@ -121241,6 +121360,8 @@ Design name:unnamed:
                         vpiName: clk
                         vpiFullName: testbench.clk
                         vpiActual: Variable name:clk
+                  vpiStmt NullStmt:
+                    vpiParent: EventControl
               Assignment start:193:2 end:193:14:
                 vpiParent: Begin
                 vpiLhs RefObj name:globrst start:193:2 end:193:9:
@@ -121270,7 +121391,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "3"
                   vpiValue: 3
-                vpiStmt EventControl start:194:13 end:194:27:
+                vpiStmt EventControl start:194:13 end:194:28:
                   vpiParent: Repeat
                   vpiCondition Operation start:194:15 end:194:26:
                     vpiParent: EventControl
@@ -121281,6 +121402,8 @@ Design name:unnamed:
                         vpiName: clk
                         vpiFullName: testbench.clk
                         vpiActual: Variable name:clk
+                  vpiStmt NullStmt:
+                    vpiParent: EventControl
               Assignment start:195:2 end:195:19:
                 vpiParent: Begin
                 vpiLhs RefObj name:i_system_rdy start:195:2 end:195:14:
@@ -121310,7 +121433,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "5000"
                   vpiValue: 5000
-                vpiStmt EventControl start:196:16 end:196:30:
+                vpiStmt EventControl start:196:16 end:196:31:
                   vpiParent: Repeat
                   vpiCondition Operation start:196:18 end:196:29:
                     vpiParent: EventControl
@@ -121321,6 +121444,8 @@ Design name:unnamed:
                         vpiName: clk
                         vpiFullName: testbench.clk
                         vpiActual: Variable name:clk
+                  vpiStmt NullStmt:
+                    vpiParent: EventControl
               SysTaskCall name:$display start:197:2 end:197:47:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:197:2 end:197:10:
@@ -124085,9 +124210,11 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiFullName: testbench
               vpiStmt (4 items):
-                DelayControl start:254:2 end:254:7:
+                DelayControl start:254:2 end:254:8:
                   vpiParent: Begin
                   vpiDelay: 1001
+                  vpiStmt NullStmt:
+                    vpiParent: DelayControl
                   vpiDelay Constant start:254:3 end:254:7:
                     vpiParent: DelayControl
                     vpiTypespec RefTypespec:
@@ -124272,6 +124399,16 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
+      vpiSysTaskCall (9 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysFuncCall name:$time:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:UUT start:156:10 end:156:13:
           vpiParent: Module name:testbench
@@ -124450,7 +124587,7 @@ Design name:unnamed:
                 vpiName: globrst
                 vpiFullName: testbench.UUT.globrst
                 vpiActual: Variable name:globrst
-  vpiTypespec (28 items):
+  vpiTypespec (29 items):
     ModuleTypespec name:a23_alu:
       vpiParent: Design name:unnamed
       vpiName Identifier name:a23_alu start:43:8 end:43:15:
@@ -124686,6 +124823,9 @@ Design name:unnamed:
       vpiName Identifier name:generic_sram_line_en start:42:8 end:42:28:
       vpiDefName: generic_sram_line_en
       vpiModule: Module name:generic_sram_line_en #(.DATA_WIDTH(128), .ADDRESS_WIDTH(7), .INITIALIZE_TO_ZERO(0))
+    LogicTypespec:
+      vpiParent: Design name:unnamed
+      vpiScalar: true
     ModuleTypespec name:testbench:
       vpiParent: Design name:unnamed
       vpiName Identifier name:testbench start:2:8 end:2:17:
@@ -124710,6 +124850,7 @@ Design name:unnamed:
         IODecl name:pc_reg start:46:14 end:46:20:
           vpiParent: Function name:pcf
           vpiName: pc_reg
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:46:7 end:46:13:
             vpiParent: IODecl name:pc_reg
             vpiFullName: pcf.pc_reg
@@ -124860,6 +125001,7 @@ Design name:unnamed:
         IODecl name:reg_sel start:57:13 end:57:20:
           vpiParent: Function name:decode
           vpiName: reg_sel
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:57:7 end:57:12:
             vpiParent: IODecl name:reg_sel
             vpiFullName: decode.reg_sel
@@ -125441,6 +125583,7 @@ Design name:unnamed:
         IODecl name:fn_status_bits_mode start:85:13 end:85:32:
           vpiParent: Function name:oh_status_bits_mode
           vpiName: fn_status_bits_mode
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:85:7 end:85:12:
             vpiParent: IODecl name:fn_status_bits_mode
             vpiFullName: oh_status_bits_mode.fn_status_bits_mode
@@ -125666,6 +125809,7 @@ Design name:unnamed:
         IODecl name:mode start:99:13 end:99:17:
           vpiParent: Function name:mode_name
           vpiName: mode
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:99:7 end:99:12:
             vpiParent: IODecl name:mode
             vpiFullName: mode_name.mode
@@ -125919,6 +126063,7 @@ Design name:unnamed:
         IODecl name:condition start:132:13 end:132:22:
           vpiParent: Function name:conditional_execute
           vpiName: condition
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:132:7 end:132:12:
             vpiParent: IODecl name:condition
             vpiFullName: conditional_execute.condition
@@ -125926,6 +126071,7 @@ Design name:unnamed:
         IODecl name:flags start:133:13 end:133:18:
           vpiParent: Function name:conditional_execute
           vpiName: flags
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:133:7 end:133:12:
             vpiParent: IODecl name:flags
             vpiFullName: conditional_execute.flags
@@ -126823,6 +126969,7 @@ Design name:unnamed:
         IODecl name:num start:164:17 end:164:20:
           vpiParent: Function name:log2
           vpiName: num
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:164:10 end:164:16:
             vpiParent: IODecl name:num
             vpiFullName: log2.num
@@ -127112,6 +127259,7 @@ Design name:unnamed:
         IODecl name:hex_chars start:45:17 end:45:26:
           vpiParent: Function name:hex_chars_to_32bits
           vpiName: hex_chars
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:45:7 end:45:16:
             vpiParent: IODecl name:hex_chars
             vpiFullName: hex_chars_to_32bits.hex_chars
@@ -128125,6 +128273,7 @@ Design name:unnamed:
         IODecl name:hex_chars start:60:17 end:60:26:
           vpiParent: Function name:hex_chars_to_8bits
           vpiName: hex_chars
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:60:7 end:60:16:
             vpiParent: IODecl name:hex_chars
             vpiFullName: hex_chars_to_8bits.hex_chars
@@ -128454,6 +128603,7 @@ Design name:unnamed:
         IODecl name:hex_chars start:69:13 end:69:22:
           vpiParent: Function name:hex_chars_to_4bits
           vpiName: hex_chars
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:69:7 end:69:12:
             vpiParent: IODecl name:hex_chars
             vpiFullName: hex_chars_to_4bits.hex_chars
@@ -129232,6 +129382,7 @@ Design name:unnamed:
         IODecl name:line start:100:19 end:100:23:
           vpiParent: Function name:align_line
           vpiName: line
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:100:7 end:100:18:
             vpiParent: IODecl name:line
             vpiFullName: align_line.line
@@ -149852,6 +150003,7 @@ Design name:unnamed:
         IODecl name:address start:62:18 end:62:25:
           vpiParent: Function name:in_loboot_mem
           vpiName: address
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:62:11 end:62:17:
             vpiParent: IODecl name:address
             vpiFullName: in_loboot_mem.address
@@ -150006,6 +150158,7 @@ Design name:unnamed:
         IODecl name:address start:71:18 end:71:25:
           vpiParent: Function name:in_hiboot_mem
           vpiName: address
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:71:11 end:71:17:
             vpiParent: IODecl name:address
             vpiFullName: in_hiboot_mem.address
@@ -150161,6 +150314,7 @@ Design name:unnamed:
         IODecl name:address start:79:18 end:79:25:
           vpiParent: Function name:in_boot_mem
           vpiName: address
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:79:11 end:79:17:
             vpiParent: IODecl name:address
             vpiFullName: in_boot_mem.address
@@ -150260,6 +150414,7 @@ Design name:unnamed:
         IODecl name:address start:87:18 end:87:25:
           vpiParent: Function name:in_main_mem
           vpiName: address
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:87:11 end:87:17:
             vpiParent: IODecl name:address
             vpiFullName: in_main_mem.address
@@ -150434,6 +150589,7 @@ Design name:unnamed:
         IODecl name:address start:98:18 end:98:25:
           vpiParent: Function name:in_uart0
           vpiName: address
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:98:11 end:98:17:
             vpiParent: IODecl name:address
             vpiFullName: in_uart0.address
@@ -150545,6 +150701,7 @@ Design name:unnamed:
         IODecl name:address start:107:18 end:107:25:
           vpiParent: Function name:in_uart1
           vpiName: address
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:107:11 end:107:17:
             vpiParent: IODecl name:address
             vpiFullName: in_uart1.address
@@ -150656,6 +150813,7 @@ Design name:unnamed:
         IODecl name:address start:116:18 end:116:25:
           vpiParent: Function name:in_ic
           vpiName: address
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:116:11 end:116:17:
             vpiParent: IODecl name:address
             vpiFullName: in_ic.address
@@ -150767,6 +150925,7 @@ Design name:unnamed:
         IODecl name:address start:125:18 end:125:25:
           vpiParent: Function name:in_tm
           vpiName: address
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:125:11 end:125:17:
             vpiParent: IODecl name:address
             vpiFullName: in_tm.address
@@ -150878,6 +151037,7 @@ Design name:unnamed:
         IODecl name:address start:134:18 end:134:25:
           vpiParent: Function name:in_test
           vpiName: address
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:134:11 end:134:17:
             vpiParent: IODecl name:address
             vpiFullName: in_test.address
@@ -150989,6 +151149,7 @@ Design name:unnamed:
         IODecl name:address start:143:18 end:143:25:
           vpiParent: Function name:in_ethmac
           vpiName: address
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:143:11 end:143:17:
             vpiParent: IODecl name:address
             vpiFullName: in_ethmac.address
@@ -151100,6 +151261,7 @@ Design name:unnamed:
         IODecl name:address start:153:18 end:153:25:
           vpiParent: Function name:in_cachable_mem
           vpiName: address
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:153:11 end:153:17:
             vpiParent: IODecl name:address
             vpiFullName: in_cachable_mem.address
@@ -152840,8 +153002,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 23
+[  ERROR] : 6
+[WARNING] : 27
 [   NOTE] : 49
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -152951,12 +153113,12 @@ COMMAND: ${HLC_DIR}/regression/YosysBigSim/amber23/YosysBigSimAmber23/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                          6646    6054     599      1191
-LogicTypespec                      720     721       1         0
+LogicTypespec                      729     730       1         0
 Operation                         3399    2449       0       950
-RefObj                            6521    6143       0       378
+RefObj                            6525    6147       0       378
 RefTypespec                       8633    8025     583      1191
 ----------------------------------------------------------------
-Others                            9205    9205       0         0
+Others                            9231    9231       0         0
 ----------------------------------------------------------------
-                                 35124   32597    1183      3710
+                                 35163   32636    1183      3710
 ===================== END REDUCTION RESULT =====================

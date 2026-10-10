@@ -222,6 +222,7 @@ n<$Source01/always3.1.9D.v> u<208> t<Top_level_rule> c<1> l<22:1> el<48:1>
         n<> u<204> t<ENDMODULE> p<205> l<47:1> el<47:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/always3.1.9D.v:22:1: Compile module "main".
+[WRN:CP5851] $Source01/always3.1.9D.v:45:19: Failed to bind "block_id".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2038] $Source01/always3.1.9D.v:45:11: 'vpiExpr' property value on object is invalid.
 ====== HLDB =======
@@ -281,6 +282,7 @@ Design name:unnamed:
         vpiFullName: main.work
         vpiActual: Library name:work
       vpiCell: main
+      vpiAutomatic: true
       vpiProcess (3 items):
         Always start:27:1 end:31:10:
           vpiParent: Module name:main
@@ -289,9 +291,11 @@ Design name:unnamed:
             vpiName Identifier name:block_id start:27:16 end:27:24:
             vpiFullName: main.block_id
             vpiStmt (3 items):
-              DelayControl start:28:11 end:28:13:
+              DelayControl start:28:11 end:28:15:
                 vpiParent: Begin name:block_id
                 vpiDelay: 4
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:28:12 end:28:13:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -352,9 +356,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              DelayControl start:36:5 end:36:7:
+              DelayControl start:36:5 end:36:8:
                 vpiParent: Begin
                 vpiDelay: 5
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:36:6 end:36:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -418,9 +424,11 @@ Design name:unnamed:
                         vpiSize: 384
                         vpiDecompile: "\"FAILED - always3.1.9D always #1 disable block_id\""
                         vpiValue: FAILED - always3.1.9D always #1 disable block_id
-              DelayControl start:41:5 end:41:7:
+              DelayControl start:41:5 end:41:8:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:41:6 end:41:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -457,6 +465,11 @@ Design name:unnamed:
               vpiDecompile: "3"
               vpiValue: 3
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
   vpiTypespec (3 items):
     ModuleTypespec name:main:
       vpiParent: Design name:unnamed
@@ -476,7 +489,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -520,7 +533,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/always3.1.9D/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              66      66       0         0
+Others                              70      70       0         0
 ----------------------------------------------------------------
-                                    66      66       0         0
+                                    70      70       0         0
 ===================== END REDUCTION RESULT =====================

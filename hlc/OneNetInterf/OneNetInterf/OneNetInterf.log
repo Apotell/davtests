@@ -19,8 +19,6 @@ COMMAND: -wd ../../../tests/OneNetInterf -fileunit -writepp -d db -sv dut.v tb.v
 [INF:CP5807] $Source01/tb.v:1:9: Compile program "TESTBENCH".
 [WRN:CP5815] $Source01/tb.v:1:9: Using programs is discouraged "TESTBENCH", programs are obsoleted by UVM.
 [INF:CP5804] $Source01/tb.v:14:1: Compile module "tb".
-[WRN:CP5851] $Source01/tb.v:18:32: Failed to bind "con_o".
-[WRN:CP5851] $Source01/tb.v:18:53: Failed to bind "con_i".
 [WRN:PA5506] $Source01/dut.v:2:1: No timescale set for "dut".
 [WRN:PA5506] $Source01/dut.v:10:1: No timescale set for "middle".
 [WRN:PA5506] $Source01/dut.v:14:1: No timescale set for "SUB".
@@ -53,7 +51,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: con_o
           vpiFullName: ConnectTB.con_o
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Interface name:ConnectTB
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Interface name:ConnectTB
       vpiDefName: ConnectTB
@@ -115,7 +116,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: drive
           vpiFullName: TESTBENCH.drive
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Program name:TESTBENCH
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Program name:TESTBENCH
       vpiDefName: TESTBENCH
@@ -450,7 +454,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: o
           vpiFullName: dut.o
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Module name:dut
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:dut
         ModuleTypespec name:middle start:4:3 end:4:9:
@@ -466,6 +473,7 @@ Design name:unnamed:
         vpiFullName: dut.work
         vpiActual: Library name:work
       vpiCell: dut
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:i start:2:24 end:2:25:
           vpiParent: Module name:dut
@@ -520,6 +528,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: con_i
                 vpiFullName: dut.conntb.con_i
+                vpiActual: Port name:con_i
               vpiHighConn RefObj name:i start:3:27 end:3:28:
                 vpiParent: NamedArgument
                 vpiName: i
@@ -532,6 +541,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: con_o
                 vpiFullName: dut.conntb.con_o
+                vpiActual: Port name:con_o
               vpiHighConn RefObj name:o start:3:37 end:3:38:
                 vpiParent: NamedArgument
                 vpiName: o
@@ -576,6 +586,7 @@ Design name:unnamed:
         vpiFullName: middle.work
         vpiActual: Library name:work
       vpiCell: middle
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:conn start:10:26 end:10:30:
           vpiParent: Module name:middle
@@ -673,7 +684,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: SUB.out
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:SUB
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:SUB
       vpiDefName: SUB
@@ -684,6 +698,7 @@ Design name:unnamed:
         vpiFullName: SUB.work
         vpiActual: Library name:work
       vpiCell: SUB
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:inp start:14:24 end:14:27:
           vpiParent: Module name:SUB
@@ -741,6 +756,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:tb
+          vpiScalar: true
         ProgramTypespec name:TESTBENCH start:18:3 end:18:12:
           vpiParent: Module name:tb
           vpiName Identifier name:TESTBENCH start:18:3 end:18:12:
@@ -753,6 +769,7 @@ Design name:unnamed:
         vpiFullName: tb.work
         vpiActual: Library name:work
       vpiCell: tb
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:i start:15:8 end:15:9:
           vpiParent: Module name:tb
@@ -791,6 +808,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: con_i
                 vpiFullName: tb.conntb.con_i
+                vpiActual: Port name:con_i
               vpiHighConn RefObj name:i start:16:27 end:16:28:
                 vpiParent: NamedArgument
                 vpiName: i
@@ -803,6 +821,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: con_o
                 vpiFullName: tb.conntb.con_o
+                vpiActual: Port name:con_o
               vpiHighConn RefObj name:o start:16:37 end:16:38:
                 vpiParent: NamedArgument
                 vpiName: o
@@ -859,6 +878,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:conntb.con_o
                     vpiName: con_o
                     vpiFullName: tb.tb.con_o
+                    vpiActual: Variable name:con_o
+                vpiActual: Variable name:con_o
             NamedArgument start:18:39 end:18:59:
               vpiParent: RefInstance name:tb
               vpiConnByName: true
@@ -880,6 +901,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:conntb.con_i
                     vpiName: con_i
                     vpiFullName: tb.tb.con_i
+                    vpiActual: Net name:con_i
+                vpiActual: Net name:con_i
   vpiTypespec (8 items):
     ModuleTypespec name:dut:
       vpiParent: Design name:unnamed
@@ -924,7 +947,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 10
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -969,7 +992,7 @@ COMMAND: ${HLC_DIR}/regression/OneNetInterf/OneNetInterf/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             226     226       0         0
+Others                             232     232       0         0
 ----------------------------------------------------------------
-                                   226     226       0         0
+                                   232     232       0         0
 ===================== END REDUCTION RESULT =====================

@@ -2879,9 +2879,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "10000"
             vpiValue: 10000
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:glbl
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:glbl
           vpiRange (1 items):
@@ -2934,6 +2935,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:glbl
       vpiDefName: glbl
       vpiDefNetType: wire (1)
       vpiTimePrecision: -12
@@ -2944,6 +2947,7 @@ Design name:unnamed:
         vpiFullName: glbl.work
         vpiActual: Library name:work
       vpiCell: glbl
+      vpiAutomatic: true
       vpiNet (17 items):
         Net name:GSR start:29:10 end:29:13:
           vpiParent: Module name:glbl
@@ -3288,8 +3292,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-              DelayControl start:92:2 end:92:15:
+              DelayControl start:92:2 end:92:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_START start:92:4 end:92:14:
                   vpiParent: DelayControl
                   vpiName: GRES_START
@@ -3313,8 +3319,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-              DelayControl start:94:2 end:94:15:
+              DelayControl start:94:2 end:94:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_WIDTH start:94:4 end:94:14:
                   vpiParent: DelayControl
                   vpiName: GRES_WIDTH
@@ -3650,7 +3658,7 @@ Design name:unnamed:
             vpiSize: 56
             vpiDecompile: "\"RAMD64E\""
             vpiValue: RAMD64E
-      vpiTypespec (11 items):
+      vpiTypespec (12 items):
         LogicTypespec:
           vpiParent: "Module name:RAMD64E #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0), .RAM_ADDRESS_MASK(2'b00), .RAM_ADDRESS_SPACE(2'b00))"
           vpiRange (1 items):
@@ -3757,6 +3765,9 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: "Module name:RAMD64E #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0), .RAM_ADDRESS_MASK(2'b00), .RAM_ADDRESS_SPACE(2'b00))"
+          vpiScalar: true
         LogicTypespec:
           vpiParent: "Module name:RAMD64E #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0), .RAM_ADDRESS_MASK(2'b00), .RAM_ADDRESS_SPACE(2'b00))"
         LogicTypespec:
@@ -3899,6 +3910,7 @@ Design name:unnamed:
         vpiFullName: "RAMD64E #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0), .RAM_ADDRESS_MASK(2'b00), .RAM_ADDRESS_SPACE(2'b00)).work"
         vpiActual: Library name:work
       vpiCell: RAMD64E
+      vpiAutomatic: true
       vpiNet (35 items):
         Net name:O start:49:10 end:49:11:
           vpiParent: "Module name:RAMD64E #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0), .RAM_ADDRESS_MASK(2'b00), .RAM_ADDRESS_SPACE(2'b00))"
@@ -4474,9 +4486,11 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: "RAMD64E #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0), .RAM_ADDRESS_MASK(2'b00), .RAM_ADDRESS_SPACE(2'b00))"
             vpiStmt (2 items):
-              DelayControl start:163:5 end:163:7:
+              DelayControl start:163:5 end:163:8:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:163:6 end:163:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -4517,9 +4531,11 @@ Design name:unnamed:
               vpiParent: EventControl
               vpiFullName: "RAMD64E #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0), .RAM_ADDRESS_MASK(2'b00), .RAM_ADDRESS_SPACE(2'b00))"
               vpiStmt (2 items):
-                DelayControl start:173:3 end:173:5:
+                DelayControl start:173:3 end:173:6:
                   vpiParent: Begin
                   vpiDelay: 1
+                  vpiStmt NullStmt:
+                    vpiParent: DelayControl
                   vpiDelay Constant start:173:4 end:173:5:
                     vpiParent: DelayControl
                     vpiTypespec RefTypespec:
@@ -5170,6 +5186,9 @@ Design name:unnamed:
             vpiName: O_out
             vpiFullName: "RAMD64E #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0), .RAM_ADDRESS_MASK(2'b00), .RAM_ADDRESS_SPACE(2'b00)).O_out"
             vpiActual: Variable name:O_out
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
       vpiSpecifyBlock (1 items):
         SpecifyBlock start:237:3 end:292:13:
           vpiParent: "Module name:RAMD64E #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0), .RAM_ADDRESS_MASK(2'b00), .RAM_ADDRESS_SPACE(2'b00))"
@@ -5885,7 +5904,7 @@ Operation                           29      28       0         1
 RefObj                             147     146       0         1
 RefTypespec                        210     211       1         0
 ----------------------------------------------------------------
-Others                             259     259       0         0
+Others                             266     266       0         0
 ----------------------------------------------------------------
-                                   753     754       3         2
+                                   760     761       3         2
 ===================== END REDUCTION RESULT =====================

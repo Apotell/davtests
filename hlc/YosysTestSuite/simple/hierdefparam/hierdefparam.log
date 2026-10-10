@@ -436,10 +436,16 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/hierdefparam.v:7:16: Failed to bind "mod_a".
 [WRN:CP5851] $Source01/hierdefparam.v:7:29: Failed to bind "mod_b".
 [WRN:CP5851] $Source01/hierdefparam.v:7:35: Failed to bind "addvalue".
+[WRN:CP5851] $Source01/hierdefparam.v:7:22: Failed to bind "bar".
 [WRN:CP5851] $Source01/hierdefparam.v:8:12: Failed to bind "foo".
 [WRN:CP5851] $Source01/hierdefparam.v:8:16: Failed to bind "mod_a".
 [WRN:CP5851] $Source01/hierdefparam.v:8:29: Failed to bind "mod_b".
 [WRN:CP5851] $Source01/hierdefparam.v:8:35: Failed to bind "addvalue".
+[WRN:CP5851] $Source01/hierdefparam.v:8:22: Failed to bind "bar".
+[WRN:CP5851] $Source01/hierdefparam.v:19:10: Failed to bind "bar".
+[WRN:CP5851] $Source01/hierdefparam.v:19:24: Failed to bind "bar".
+[WRN:CP5851] $Source01/hierdefparam.v:19:35: Failed to bind "bar".
+[WRN:CP5851] $Source01/hierdefparam.v:19:49: Failed to bind "bar".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -543,6 +549,7 @@ Design name:unnamed:
         vpiFullName: hierdefparam_top.work
         vpiActual: Library name:work
       vpiCell: hierdefparam_top
+      vpiAutomatic: true
       vpiPort (2 items):
         Port name:A start:3:37 end:3:38:
           vpiParent: Module name:hierdefparam_top
@@ -704,7 +711,7 @@ Design name:unnamed:
                       vpiParent: NamedArgument
                       vpiName: A
                       vpiFullName: hierdefparam_top.foo.mod_a.A
-                      vpiActual: Variable name:A
+                      vpiActual: Port name:A
                     vpiHighConn RefObj name:A start:5:29 end:5:30:
                       vpiParent: NamedArgument
                       vpiName: A
@@ -717,7 +724,7 @@ Design name:unnamed:
                       vpiParent: NamedArgument
                       vpiName: Y
                       vpiFullName: hierdefparam_top.foo.mod_a.Y
-                      vpiActual: Variable name:Y
+                      vpiActual: Port name:Y
                     vpiHighConn RefObj name:Y start:5:36 end:5:37:
                       vpiParent: NamedArgument
                       vpiName: Y
@@ -809,6 +816,7 @@ Design name:unnamed:
         vpiFullName: hierdefparam_a.work
         vpiActual: Library name:work
       vpiCell: hierdefparam_a
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:a start:15:18 end:15:19:
           vpiParent: Module name:hierdefparam_a
@@ -993,15 +1001,14 @@ Design name:unnamed:
           vpiStmt GenFor start:14:5 end:17:8:
             vpiParent: GenRegion
             vpiFullName: hierdefparam_a
-            vpiVariable (1 items):
-              Variable name:i start:14:10 end:14:11:
-                vpiParent: GenFor
-                vpiName: i
-                vpiFullName: hierdefparam_a.i
             vpiForInitStmt (1 items):
               Assignment start:14:10 end:14:15:
                 vpiParent: GenFor
-                vpiLhs: Variable name:i
+                vpiLhs RefObj name:i start:14:10 end:14:11:
+                  vpiParent: Assignment
+                  vpiName: i
+                  vpiFullName: hierdefparam_a.i
+                  vpiActual: Variable name:i
                 vpiRhs Constant start:14:14 end:14:15:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1112,7 +1119,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: A
                         vpiFullName: hierdefparam_a.bar.mod_b.A
-                        vpiActual: Variable name:A
+                        vpiActual: Port name:A
                       vpiHighConn RefObj name:a start:16:31 end:16:32:
                         vpiParent: NamedArgument
                         vpiName: a
@@ -1125,7 +1132,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: Y
                         vpiFullName: hierdefparam_a.bar.mod_b.Y
-                        vpiActual: Variable name:Y
+                        vpiActual: Port name:Y
                       vpiHighConn RefObj name:y start:16:38 end:16:39:
                         vpiParent: NamedArgument
                         vpiName: y
@@ -1266,6 +1273,7 @@ Design name:unnamed:
         vpiFullName: hierdefparam_b.work
         vpiActual: Library name:work
       vpiCell: hierdefparam_b
+      vpiAutomatic: true
       vpiPort (2 items):
         Port name:A start:22:35 end:22:36:
           vpiParent: Module name:hierdefparam_b
@@ -1344,7 +1352,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 8
+[WARNING] : 14
 [   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1388,7 +1396,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/simple/hierdefparam/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             211     211       0         0
+Others                             212     212       0         0
 ----------------------------------------------------------------
-                                   211     211       0         0
+                                   212     212       0         0
 ===================== END REDUCTION RESULT =====================

@@ -379,6 +379,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:value start:10:16 end:10:21:
           vpiParent: Module name:t
@@ -420,7 +421,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: value
                 vpiFullName: t.p0.value
-                vpiActual: Net name:value
+                vpiActual: Port name:value
         RefInstance name:p1 start:13:26 end:13:28:
           vpiParent: Module name:t
           vpiName: p1
@@ -437,7 +438,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: value
                 vpiFullName: t.p1.value
-                vpiActual: Net name:value
+                vpiActual: Port name:value
         RefInstance name:p2 start:14:26 end:14:28:
           vpiParent: Module name:t
           vpiName: p2
@@ -454,7 +455,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: value
                 vpiFullName: t.p2.value
-                vpiActual: Net name:value
+                vpiActual: Port name:value
         RefInstance name:p3 start:15:26 end:15:28:
           vpiParent: Module name:t
           vpiName: p3
@@ -471,7 +472,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: value
                 vpiFullName: t.p3.value
-                vpiActual: Net name:value
+                vpiActual: Port name:value
     Module name:sub file:$Source01/t_param_scope_bad.v start:19:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub start:19:8 end:19:11:
@@ -564,6 +565,7 @@ Design name:unnamed:
         vpiFullName: sub.work
         vpiActual: Library name:work
       vpiCell: sub
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:value start:21:16 end:21:21:
           vpiParent: Module name:sub
@@ -612,6 +614,8 @@ Design name:unnamed:
                         vpiName: CASEVAL
                         vpiFullName: sub.CASEVAL
                         vpiActual: Parameter name:CASEVAL
+                    vpiStmt NullStmt:
+                      vpiParent: CaseItem
                   CaseItem start:27:9 end:27:21:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -631,7 +635,11 @@ Design name:unnamed:
                       vpiIsProperty: true
                   CaseItem start:28:9 end:28:19:
                     vpiParent: CaseStmt
+                    vpiStmt NullStmt:
+                      vpiParent: CaseItem
           vpiAlwaysType: comb (2)
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$stop:
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -701,7 +709,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 RefObj                              15      14       0         1
 ----------------------------------------------------------------
-Others                              86      86       0         0
+Others                              89      89       0         0
 ----------------------------------------------------------------
-                                   101     100       0         1
+                                   104     103       0         1
 ===================== END REDUCTION RESULT =====================

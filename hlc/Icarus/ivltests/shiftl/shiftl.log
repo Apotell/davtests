@@ -528,6 +528,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:test
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:test
           vpiRange (1 items):
@@ -562,6 +563,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:25:7 end:25:10:
           vpiParent: Module name:test
@@ -692,6 +694,16 @@ Design name:unnamed:
             Attribute name:ivl_synthesis_on start:30:4 end:30:20:
               vpiParent: Always
               vpiName: ivl_synthesis_on
+              vpiValue Constant start:30:4 end:30:20:
+                vpiParent: Attribute name:ivl_synthesis_on
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: test.ivl_synthesis_on
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiAlwaysType: always (1)
     Module name:main file:$Source01/shiftl.v start:36:1 end:60:10:
       vpiParent: Design name:unnamed
@@ -775,6 +787,7 @@ Design name:unnamed:
         vpiFullName: main.work
         vpiActual: Library name:work
       vpiCell: main
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:c start:39:15 end:39:16:
           vpiParent: Module name:main
@@ -1114,6 +1127,20 @@ Design name:unnamed:
             Attribute name:ivl_synthesis_off start:43:7 end:43:24:
               vpiParent: Initial
               vpiName: ivl_synthesis_off
+              vpiValue Constant start:43:7 end:43:24:
+                vpiParent: Attribute name:ivl_synthesis_off
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: main.ivl_synthesis_off
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
       vpiRefInstance (1 items):
         RefInstance name:dut start:40:9 end:40:12:
           vpiParent: Module name:main
@@ -1131,7 +1158,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: main.dut.clk
-                vpiActual: Variable name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:40:19 end:40:22:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1144,7 +1171,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: c
                 vpiFullName: main.dut.c
-                vpiActual: Net name:c
+                vpiActual: Port name:c
               vpiHighConn RefObj name:c start:40:28 end:40:29:
                 vpiParent: NamedArgument
                 vpiName: c
@@ -1157,7 +1184,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: main.dut.a
-                vpiActual: Variable name:a
+                vpiActual: Port name:a
               vpiHighConn RefObj name:a start:40:35 end:40:36:
                 vpiParent: NamedArgument
                 vpiName: a
@@ -1170,13 +1197,13 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: main.dut.b
-                vpiActual: Variable name:b
+                vpiActual: Port name:b
               vpiHighConn RefObj name:b start:40:42 end:40:43:
                 vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: main.dut.b
                 vpiActual: Variable name:b
-  vpiTypespec (4 items):
+  vpiTypespec (5 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:24:8 end:24:12:
@@ -1185,6 +1212,8 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:main:
       vpiParent: Design name:unnamed
       vpiName Identifier name:main start:36:8 end:36:12:
@@ -1244,7 +1273,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/shiftl/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             168     168       0         0
+Others                             174     174       0         0
 ----------------------------------------------------------------
-                                   168     168       0         0
+                                   174     174       0         0
 ===================== END REDUCTION RESULT =====================

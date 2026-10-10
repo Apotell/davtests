@@ -153,6 +153,8 @@ AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "pkg".
 [WRN:CP5851] $Source01/dut.sv:5:3: Failed to bind "uvm_reg_data_t".
 [WRN:CP5851] $Source01/dut.sv:10:18: Failed to bind "uvm_sequence_item".
+[WRN:CP5851] $Source01/dut.sv:12:21: Failed to bind "nbytes".
+[WRN:CP5851] $Source01/dut.sv:17:8: Failed to bind "gp".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "pkg".
 ====== HLDB =======
 Design name:unnamed:
@@ -260,7 +262,11 @@ Design name:unnamed:
                     vpiForInitStmt (1 items):
                       Assignment start:12:10 end:12:15:
                         vpiParent: ForStmt
-                        vpiLhs: Variable name:i
+                        vpiLhs RefObj name:i start:12:10 end:12:11:
+                          vpiParent: Assignment
+                          vpiName: i
+                          vpiFullName: pkg::tt::reg2bus::i
+                          vpiActual: Variable name:i
                         vpiRhs Constant start:12:14 end:12:15:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -398,7 +404,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -442,7 +448,7 @@ COMMAND: ${HLC_DIR}/regression/IndexPartSelectBind/IndexPartSelectBind/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              57      57       0         0
+Others                              59      59       0         0
 ----------------------------------------------------------------
-                                    57      57       0         0
+                                    59      59       0         0
 ===================== END REDUCTION RESULT =====================

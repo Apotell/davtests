@@ -202,6 +202,7 @@ n<$Source01/pr498.v> u<187> t<Top_level_rule> c<1> l<21:1> el<40:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/pr498.v:21:1: Compile module "main".
 [INF:CP5804] $Source01/pr498.v:27:1: Compile module "test".
+[WRN:CP5851] $Source01/pr498.v:23:13: Failed to bind "foo".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -230,6 +231,7 @@ Design name:unnamed:
         vpiFullName: main.work
         vpiActual: Library name:work
       vpiCell: main
+      vpiAutomatic: true
       vpiDefParam (2 items):
         DefParam start:23:13 end:23:20:
           vpiParent: Module name:main
@@ -327,6 +329,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:test
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:test
           vpiRange (1 items):
@@ -370,6 +373,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:31:4 end:37:7:
           vpiParent: Module name:test
@@ -457,6 +461,12 @@ Design name:unnamed:
                       vpiSize: 48
                       vpiDecompile: "\"PASSED\""
                       vpiValue: PASSED
+      vpiSysTaskCall (5 items):
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
   vpiTypespec (4 items):
     ModuleTypespec name:main:
       vpiParent: Design name:unnamed
@@ -481,7 +491,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -529,7 +539,7 @@ Operation                            2       1       0         1
 RefObj                              10       9       0         1
 RefTypespec                         11      11       1         1
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              44      44       0         0
 ----------------------------------------------------------------
-                                    74      72       2         4
+                                    75      73       2         4
 ===================== END REDUCTION RESULT =====================

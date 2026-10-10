@@ -133,8 +133,10 @@ n<$Source01/dut.sv> u<118> t<Top_level_rule> c<1> l<1:1> el<27:1>
 AST_DEBUG_END
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "pkg".
 [WRN:CP5851] $Source01/dut.sv:9:48: Failed to bind "uvm_sequence_item".
+[WRN:CP5851] $Source01/dut.sv:9:90: Failed to bind "RSP".
 [WRN:CP5851] $Source01/dut.sv:12:45: Failed to bind "uvm_sequence_item".
 [WRN:CP5851] $Source01/dut.sv:13:58: Failed to bind "uvm_sequencer_base".
+[WRN:CP5851] $Source01/dut.sv:15:33: Failed to bind "RSP".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "pkg".
 ====== HLDB =======
 Design name:unnamed:
@@ -324,6 +326,11 @@ Design name:unnamed:
                 ParamAssign start:15:33 end:15:36:
                   vpiParent: ClassTypespec name:uvm_sequencer_analysis_fifo #(RSP)
                   vpiOverridden: true
+                  vpiLhs RefTypespec name:RSP start:9:42 end:9:45:
+                    vpiParent: ParamAssign
+                    vpiName: RSP
+                    vpiFullName: pkg::uvm_sequencer_param_base #(.REQ(uvm_sequence_item), .RSP(REQ))::uvm_sequencer_analysis_fifo #(RSP)::RSP
+                    vpiActual: TypeParameter name:RSP
                   vpiRhs RefObj name:RSP start:15:33 end:15:36:
                     vpiParent: ParamAssign
                     vpiName: RSP
@@ -397,7 +404,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -441,7 +448,7 @@ COMMAND: ${HLC_DIR}/regression/ExtendClassMember/ExtendClassMember/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              62      62       0         0
+Others                              64      64       0         0
 ----------------------------------------------------------------
-                                    62      62       0         0
+                                    64      64       0         0
 ===================== END REDUCTION RESULT =====================

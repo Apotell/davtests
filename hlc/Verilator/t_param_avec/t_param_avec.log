@@ -697,6 +697,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:8 end:8:9:
@@ -705,6 +706,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:12:10 end:12:13:
           vpiParent: Module name:t
@@ -768,6 +770,9 @@ Design name:unnamed:
                   vpiName Identifier name:$finish start:18:7 end:18:14:
                   vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
     Module name:sub file:$Source01/t_param_avec.v start:22:1 end:38:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub start:22:8 end:22:11:
@@ -1025,6 +1030,7 @@ Design name:unnamed:
             vpiActual: IntegerTypespec
         LogicTypespec:
           vpiParent: Module name:sub
+          vpiScalar: true
       vpiDefName: sub
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:22:8 end:22:11:
@@ -1033,6 +1039,7 @@ Design name:unnamed:
         vpiFullName: sub.work
         vpiActual: Library name:work
       vpiCell: sub
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:get_element start:23:4 end:27:15:
           vpiParent: Module name:sub
@@ -1061,6 +1068,7 @@ Design name:unnamed:
             IODecl name:index start:24:21 end:24:26:
               vpiParent: Function name:get_element
               vpiName: index
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:24:13 end:24:20:
                 vpiParent: IODecl name:index
                 vpiFullName: sub.get_element.index
@@ -1068,6 +1076,7 @@ Design name:unnamed:
             IODecl name:array_arg start:25:21 end:25:30:
               vpiParent: Function name:get_element
               vpiName: array_arg
+              vpiDirection: input (1)
               vpiTypespec RefTypespec name:integer [7:0] start:25:13 end:25:20:
                 vpiParent: IODecl name:array_arg
                 vpiName: integer [7:0]
@@ -1142,7 +1151,7 @@ Design name:unnamed:
           vpiStmt Begin start:34:12 end:37:7:
             vpiParent: Initial
             vpiFullName: sub
-            vpiStmt (2 items):
+            vpiStmt (4 items):
               DoWhile start:6:27 end:6:181:
                 vpiParent: Begin
                 vpiCondition Constant start:6:178 end:6:179:
@@ -1233,6 +1242,8 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$stop start:6:161 end:6:166:
                         vpiIsProperty: true
+              NullStmt:
+                vpiParent: Begin
               DoWhile start:6:27 end:6:181:
                 vpiParent: Begin
                 vpiCondition Constant start:6:178 end:6:179:
@@ -1323,6 +1334,13 @@ Design name:unnamed:
                         vpiParent: Begin
                         vpiName Identifier name:$stop start:6:161 end:6:166:
                         vpiIsProperty: true
+              NullStmt:
+                vpiParent: Begin
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$stop:
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1391,7 +1409,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_avec/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             242     242       0         0
+Others                             245     245       0         0
 ----------------------------------------------------------------
-                                   242     242       0         0
+                                   245     245       0         0
 ===================== END REDUCTION RESULT =====================

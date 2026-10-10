@@ -418,7 +418,6 @@ n<$Source01/t_func_bad.v> u<404> t<Top_level_rule> c<1> l<6:1> el<41:1>
         n<> u<400> t<ENDMODULE> p<401> l<40:1> el<40:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_func_bad.v:6:1: Compile module "t".
-[WRN:CP5851] $Source01/t_func_bad.v:13:17: Failed to bind "no_such".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -441,6 +440,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiTaskFunc (4 items):
         Function name:add start:18:4 end:24:15:
           vpiParent: Module name:t
@@ -468,6 +468,7 @@ Design name:unnamed:
             IODecl name:from1 start:19:19 end:19:24:
               vpiParent: Function name:add
               vpiName: from1
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:19:13 end:19:18:
                 vpiParent: IODecl name:from1
                 vpiFullName: t.add.from1
@@ -475,6 +476,7 @@ Design name:unnamed:
             IODecl name:from2 start:20:19 end:20:24:
               vpiParent: Function name:add
               vpiName: from2
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:20:13 end:20:18:
                 vpiParent: IODecl name:from2
                 vpiFullName: t.add.from2
@@ -609,6 +611,7 @@ Design name:unnamed:
             IODecl name:y start:27:14 end:27:15:
               vpiParent: Task name:x
               vpiName: y
+              vpiDirection: output (2)
               vpiTypespec RefTypespec:
                 vpiParent: IODecl name:y
                 vpiFullName: t.x.y
@@ -619,6 +622,7 @@ Design name:unnamed:
             vpiTypespec (1 items):
               LogicTypespec:
                 vpiParent: Begin
+                vpiScalar: true
             vpiStmt (1 items):
               Begin start:28:7 end:28:16:
                 vpiParent: Begin
@@ -641,6 +645,7 @@ Design name:unnamed:
             IODecl name:illegal_output start:32:20 end:32:34:
               vpiParent: Function name:hasout
               vpiName: illegal_output
+              vpiDirection: output (2)
               vpiTypespec RefTypespec start:32:14 end:32:19:
                 vpiParent: IODecl name:illegal_output
                 vpiFullName: t.hasout.illegal_output
@@ -1041,6 +1046,10 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "3"
                       vpiValue: 3
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
   vpiTypespec (2 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1058,7 +1067,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1102,7 +1111,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_bad/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             164     164       0         0
+Others                             165     165       0         0
 ----------------------------------------------------------------
-                                   164     164       0         0
+                                   165     165       0         0
 ===================== END REDUCTION RESULT =====================

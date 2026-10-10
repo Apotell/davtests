@@ -976,8 +976,11 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_assert_cover.v:6:1: Compile module "t".
 [INF:CP5804] $Source01/t_assert_cover.v:36:1: Compile module "Test".
 [INF:CP5836] $Source01/t_assert_cover.v:80:9: Compile generate block "cycval".
+[WRN:CP5851] $Source01/t_assert_cover.v:130:8: Failed to bind "cyc_value".
 [WRN:CP5851] $Source01/t_assert_cover.v:132:18: Failed to bind "new".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/t_assert_cover.v:132:18: Null Actual: id:413, type:SubroutineCall, name:new, relation:vpiValue.
+[ERR:CP5953] Illegal action block: Test.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1048,7 +1051,10 @@ Design name:unnamed:
             vpiActual: IntegerTypespec
           vpiName: cyc
           vpiFullName: t.cyc
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
+        LogicTypespec:
+          vpiParent: Module name:t
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:t
         IntegerTypespec:
@@ -1067,6 +1073,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
@@ -1280,6 +1287,9 @@ Design name:unnamed:
                               vpiName Identifier name:$finish start:29:6 end:29:13:
                               vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:test start:15:9 end:15:13:
           vpiParent: Module name:t
@@ -1297,7 +1307,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.test.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:17:16 end:17:19:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1310,7 +1320,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: toggle
                 vpiFullName: t.test.toggle
-                vpiActual: Variable name:toggle
+                vpiActual: Port name:toggle
               vpiHighConn RefObj name:toggle start:18:19 end:18:25:
                 vpiParent: NamedArgument
                 vpiName: toggle
@@ -1323,7 +1333,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: cyc
                 vpiFullName: t.test.cyc
-                vpiActual: Variable name:cyc
+                vpiActual: Port name:cyc
               vpiHighConn PartSelect name:cyc[31:0] start:19:16 end:19:25:
                 vpiParent: NamedArgument
                 vpiName: cyc[31:0]
@@ -1639,6 +1649,8 @@ Design name:unnamed:
       vpiConcurrentAssertions (6 items):
         Cover start:44:4 end:44:43:
           vpiParent: Module name:Test
+          vpiStmt NullStmt:
+            vpiParent: Cover
           vpiProperty PropertySpec start:44:20 end:44:41:
             vpiParent: Cover
             vpiClockingEvent Operation start:44:22 end:44:33:
@@ -1907,6 +1919,7 @@ Design name:unnamed:
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:Test
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:Test
           vpiRange (1 items):
@@ -1952,6 +1965,7 @@ Design name:unnamed:
         vpiFullName: Test.work
         vpiActual: Library name:work
       vpiCell: Test
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clk start:38:10 end:38:13:
           vpiParent: Module name:Test
@@ -2023,6 +2037,8 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
+          vpiStmt NullStmt:
+            vpiParent: ImmediateAssert
       vpiDefaultClocking ClockingBlock start:57:4 end:57:48:
         vpiParent: Module name:Test
         vpiFullName: Test
@@ -2079,6 +2095,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
       vpiClockingBlock (1 items):
         ClockingBlock:
+      vpiSysTaskCall (6 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$display:
       vpiGenStmt (2 items):
         GenRegion start:47:4 end:50:15:
           vpiParent: Module name:Test
@@ -2155,15 +2178,14 @@ Design name:unnamed:
           vpiStmt GenFor start:79:7 end:82:5:
             vpiParent: GenRegion
             vpiFullName: Test
-            vpiVariable (1 items):
-              Variable name:i start:79:12 end:79:13:
-                vpiParent: GenFor
-                vpiName: i
-                vpiFullName: Test.i
             vpiForInitStmt (1 items):
               Assignment start:79:12 end:79:15:
                 vpiParent: GenFor
-                vpiLhs: Variable name:i
+                vpiLhs RefObj name:i start:79:12 end:79:13:
+                  vpiParent: Assignment
+                  vpiName: i
+                  vpiFullName: Test.i
+                  vpiActual: Variable name:i
                 vpiRhs Constant start:79:14 end:79:15:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -2229,6 +2251,8 @@ Design name:unnamed:
                 Cover start:81:17 end:81:35:
                   vpiParent: Begin name:cycval
                   vpiLabel Identifier name:CycCover_i start:81:5 end:81:15:
+                  vpiStmt NullStmt:
+                    vpiParent: Cover
                   vpiProperty PropertySpec start:75:37 end:75:80:
                     vpiParent: Cover
                     vpiDisableCondition Operation start:75:65 end:75:70:
@@ -2288,8 +2312,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 1
-[  ERROR] : 0
-[WARNING] : 1
+[  ERROR] : 2
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2333,7 +2357,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_assert_cover/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             357     357       0         0
+Others                             362     362       0         0
 ----------------------------------------------------------------
-                                   357     357       0         0
+                                   362     362       0         0
 ===================== END REDUCTION RESULT =====================

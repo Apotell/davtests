@@ -863,7 +863,12 @@ n<$Source01/t_param_type.v> u<848> t<Top_level_rule> c<1> l<6:1> el<70:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_param_type.v:6:1: Compile module "t".
 [INF:CP5804] $Source01/t_param_type.v:54:1: Compile module "mod_typ".
+[WRN:CP5851] $Source01/t_param_type.v:45:20: Failed to bind "bit".
+[WRN:CP5851] $Source01/t_param_type.v:46:20: Failed to bind "byte".
+[WRN:CP5851] $Source01/t_param_type.v:48:20: Failed to bind "bit".
+[WRN:CP5851] $Source01/t_param_type.v:49:20: Failed to bind "bit".
 [WRN:CP5851] $Source01/t_param_type.v:55:14: Failed to bind "type".
+[WRN:CP5851] $Source01/t_param_type.v:55:25: Failed to bind "byte".
 [WRN:CP5851] $Source01/t_param_type.v:57:11: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_param_type.v:57:11: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_param_type.v:58:11: Failed to bind "TYP".
@@ -975,6 +980,7 @@ Design name:unnamed:
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ModuleTypespec name:mod_typ start:45:4 end:45:11:
           vpiParent: Module name:t
           vpiName Identifier name:mod_typ start:45:4 end:45:11:
@@ -1156,6 +1162,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
@@ -1434,6 +1441,14 @@ Design name:unnamed:
                 vpiName: cnt_ar2d
                 vpiFullName: t.cnt_ar2d
                 vpiActual: Variable name:cnt_ar2d
+      vpiSysTaskCall (7 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (5 items):
         RefInstance name:mod_bit start:45:37 end:45:44:
           vpiParent: Module name:t
@@ -1911,6 +1926,7 @@ Design name:unnamed:
         vpiFullName: mod_typ #(.TYP(byte)).work
         vpiActual: Library name:work
       vpiCell: mod_typ
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:57:17 end:57:20:
           vpiParent: Module name:mod_typ #(.TYP(byte))
@@ -2041,6 +2057,8 @@ Design name:unnamed:
                   vpiName: cnt
                   vpiFullName: mod_typ #(.TYP(byte)).cnt
                   vpiActual: Variable name:cnt
+      vpiSysTaskCall (1 items):
+        SysFuncCall name:$bits:
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -2065,7 +2083,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 5
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2112,7 +2130,7 @@ Constant                            31      26       5        10
 Operation                           19      14       0         5
 RefTypespec                         57      52       5        10
 ----------------------------------------------------------------
-Others                             190     190       0         0
+Others                             191     191       0         0
 ----------------------------------------------------------------
-                                   297     282      10        25
+                                   298     283      10        25
 ===================== END REDUCTION RESULT =====================

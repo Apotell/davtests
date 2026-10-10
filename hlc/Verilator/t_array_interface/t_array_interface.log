@@ -665,6 +665,7 @@ Design name:unnamed:
         vpiFullName: modify_interface.work
         vpiActual: Library name:work
       vpiCell: modify_interface
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:value start:14:13 end:14:18:
           vpiParent: Module name:modify_interface
@@ -776,6 +777,7 @@ Design name:unnamed:
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:t #(.N(6))
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:t #(.N(6))
           vpiArrayType: static (1)
@@ -879,6 +881,7 @@ Design name:unnamed:
         vpiFullName: t #(.N(6)).work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:59:5 end:63:8:
           vpiParent: Module name:t #(.N(6))
@@ -1048,6 +1051,11 @@ Design name:unnamed:
                 vpiSize: 1
                 vpiDecompile: "1'b1"
                 vpiValue: "1"
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (4 items):
         RefInstance name:ifs start:28:10 end:28:13:
           vpiParent: Module name:t #(.N(6))
@@ -1263,15 +1271,14 @@ Design name:unnamed:
               GenFor start:34:9 end:36:12:
                 vpiParent: Begin
                 vpiFullName: t #(.N(6))
-                vpiVariable (1 items):
-                  Variable name:i start:34:14 end:34:15:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: t #(.N(6)).i
                 vpiForInitStmt (1 items):
                   Assignment start:34:14 end:34:19:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:34:14 end:34:15:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: t #(.N(6)).i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:34:18 end:34:19:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -1369,15 +1376,14 @@ Design name:unnamed:
               GenFor start:52:9 end:56:12:
                 vpiParent: Begin
                 vpiFullName: t #(.N(6))
-                vpiVariable (1 items):
-                  Variable name:j start:52:14 end:52:15:
-                    vpiParent: GenFor
-                    vpiName: j
-                    vpiFullName: t #(.N(6)).j
                 vpiForInitStmt (1 items):
                   Assignment start:52:14 end:52:19:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:j
+                    vpiLhs RefObj name:j start:52:14 end:52:15:
+                      vpiParent: Assignment
+                      vpiName: j
+                      vpiFullName: t #(.N(6)).j
+                      vpiActual: Variable name:j
                     vpiRhs Constant start:52:18 end:52:19:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -1583,10 +1589,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            23      18       4         9
 Operation                           12       8       0         4
-RefObj                              51      48       0         3
+RefObj                              53      50       0         3
 RefTypespec                         37      31       3         9
 ----------------------------------------------------------------
-Others                             104     104       0         0
+Others                             103     103       0         0
 ----------------------------------------------------------------
-                                   227     209       7        25
+                                   228     210       7        25
 ===================== END REDUCTION RESULT =====================

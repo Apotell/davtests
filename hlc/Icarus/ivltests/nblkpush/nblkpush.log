@@ -388,9 +388,12 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: d
           vpiFullName: test.d
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:test
+        LogicTypespec:
+          vpiParent: Module name:test
+          vpiScalar: true
       vpiDefName: test
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:22:8 end:22:12:
@@ -399,6 +402,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:ab start:26:9 end:26:11:
           vpiParent: Module name:test
@@ -551,9 +555,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-              DelayControl start:36:2 end:36:4:
+              DelayControl start:36:2 end:36:5:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:36:3 end:36:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -664,9 +670,11 @@ Design name:unnamed:
                       vpiName: abcd
                       vpiFullName: test.abcd
                       vpiActual: Net name:abcd
-              DelayControl start:45:2 end:45:4:
+              DelayControl start:45:2 end:45:5:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:45:3 end:45:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -730,6 +738,12 @@ Design name:unnamed:
                         vpiSize: 176
                         vpiDecompile: "\"abcd value still wrong\""
                         vpiValue: abcd value still wrong
+      vpiSysTaskCall (5 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
   vpiTypespec (3 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -793,7 +807,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/nblkpush/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             101     101       0         0
+Others                             105     105       0         0
 ----------------------------------------------------------------
-                                   101     101       0         0
+                                   105     105       0         0
 ===================== END REDUCTION RESULT =====================

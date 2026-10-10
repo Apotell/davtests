@@ -1092,6 +1092,7 @@ Design name:unnamed:
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -1258,6 +1259,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:27:10 end:27:13:
           vpiParent: Module name:t
@@ -2015,6 +2017,11 @@ Design name:unnamed:
                 vpiParent: RefObj name:foos[identity(N - 1)].a
                 vpiName: a
                 vpiFullName: t.a
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:foos start:35:13 end:35:17:
           vpiParent: Module name:t
@@ -2040,15 +2047,14 @@ Design name:unnamed:
               GenFor start:40:7 end:44:10:
                 vpiParent: Begin
                 vpiFullName: t
-                vpiVariable (1 items):
-                  Variable name:i start:40:12 end:40:13:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: t.i
                 vpiForInitStmt (1 items):
                   Assignment start:40:12 end:40:17:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:40:12 end:40:13:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: t.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:40:16 end:40:17:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -2309,10 +2315,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            30      28      19        21
 Operation                           28       6       0        22
-RefObj                              88      69       0        19
+RefObj                              89      70       0        19
 RefTypespec                         45      42      18        21
 ----------------------------------------------------------------
 Others                             130     130       0         0
 ----------------------------------------------------------------
-                                   321     275      37        83
+                                   322     276      37        83
 ===================== END REDUCTION RESULT =====================

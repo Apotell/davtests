@@ -333,6 +333,7 @@ Design name:unnamed:
         vpiFullName: foo #(.bar(2.0)).work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
     Module name:t file:$Source01/t_param_real2.v start:7:1 end:32:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:7:8 end:7:9:
@@ -354,6 +355,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:27:4 end:30:7:
           vpiParent: Module name:t
@@ -381,6 +383,11 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:29:7 end:29:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiGenStmt (1 items):
         GenRegion start:10:4 end:25:15:
           vpiParent: Module name:t
@@ -388,15 +395,14 @@ Design name:unnamed:
           vpiStmt GenFor start:11:7 end:24:10:
             vpiParent: GenRegion
             vpiFullName: t
-            vpiVariable (1 items):
-              Variable name:m start:11:12 end:11:13:
-                vpiParent: GenFor
-                vpiName: m
-                vpiFullName: t.m
             vpiForInitStmt (1 items):
               Assignment start:11:12 end:11:18:
                 vpiParent: GenFor
-                vpiLhs: Variable name:m
+                vpiLhs RefObj name:m start:11:12 end:11:13:
+                  vpiParent: Assignment
+                  vpiName: m
+                  vpiFullName: t.m
+                  vpiActual: Variable name:m
                 vpiRhs Constant start:11:16 end:11:18:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -462,15 +468,14 @@ Design name:unnamed:
                 GenFor start:12:10 end:23:13:
                   vpiParent: Begin name:gen_m
                   vpiFullName: t.gen_m
-                  vpiVariable (1 items):
-                    Variable name:r start:12:15 end:12:16:
-                      vpiParent: GenFor
-                      vpiName: r
-                      vpiFullName: t.gen_m.r
                   vpiForInitStmt (1 items):
                     Assignment start:12:15 end:12:20:
                       vpiParent: GenFor
-                      vpiLhs: Variable name:r
+                      vpiLhs RefObj name:r start:12:15 end:12:16:
+                        vpiParent: Assignment
+                        vpiName: r
+                        vpiFullName: t.gen_m.r
+                        vpiActual: Variable name:r
                       vpiRhs Constant start:12:19 end:12:20:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -737,7 +742,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_real2/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             103     103       0         0
+Others                             104     104       0         0
 ----------------------------------------------------------------
-                                   103     103       0         0
+                                   104     104       0         0
 ===================== END REDUCTION RESULT =====================

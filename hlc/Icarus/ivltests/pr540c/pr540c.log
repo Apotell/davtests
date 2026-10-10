@@ -426,6 +426,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiProcess (2 items):
         Initial start:6:3 end:26:6:
           vpiParent: Module name:top
@@ -433,9 +434,11 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: top
             vpiStmt (18 items):
-              DelayControl start:7:5 end:7:7:
+              DelayControl start:7:5 end:7:8:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:7:6 end:7:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -482,9 +485,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              DelayControl start:10:5 end:10:7:
+              DelayControl start:10:5 end:10:8:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:10:6 end:10:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -513,9 +518,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              DelayControl start:12:5 end:12:7:
+              DelayControl start:12:5 end:12:8:
                 vpiParent: Begin
                 vpiDelay: 2
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:12:6 end:12:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -544,9 +551,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-              DelayControl start:14:5 end:14:7:
+              DelayControl start:14:5 end:14:8:
                 vpiParent: Begin
                 vpiDelay: 2
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:14:6 end:14:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -575,9 +584,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-              DelayControl start:16:5 end:16:7:
+              DelayControl start:16:5 end:16:8:
                 vpiParent: Begin
                 vpiDelay: 2
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:16:6 end:16:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -606,9 +617,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              DelayControl start:18:5 end:18:7:
+              DelayControl start:18:5 end:18:8:
                 vpiParent: Begin
                 vpiDelay: 2
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:18:6 end:18:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -637,9 +650,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              DelayControl start:20:5 end:20:7:
+              DelayControl start:20:5 end:20:8:
                 vpiParent: Begin
                 vpiDelay: 2
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:20:6 end:20:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -668,9 +683,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-              DelayControl start:22:5 end:22:7:
+              DelayControl start:22:5 end:22:8:
                 vpiParent: Begin
                 vpiDelay: 4
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:22:6 end:22:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -752,18 +769,21 @@ Design name:unnamed:
                             vpiParent: Disable
                             vpiName: command_block_reset
                             vpiFullName: top.command_block.command_block_reset
+                            vpiActual: Begin name:command_block_reset
                     Begin name:command_block_reset start:33:7 end:37:10:
                       vpiParent: ForkStmt
                       vpiName Identifier name:command_block_reset start:33:14 end:33:33:
                       vpiFullName: top.command_block.command_block_reset
                       vpiStmt (3 items):
-                        EventControl start:34:2 end:34:10:
+                        EventControl start:34:2 end:34:11:
                           vpiParent: Begin name:command_block_reset
                           vpiCondition RefObj name:reset start:34:4 end:34:9:
                             vpiParent: EventControl
                             vpiName: reset
                             vpiFullName: top.command_block.command_block_reset.reset
                             vpiActual: Variable name:reset
+                          vpiStmt NullStmt:
+                            vpiParent: EventControl
                         Assignment start:35:2 end:35:10:
                           vpiParent: Begin name:command_block_reset
                           vpiBlocking: true
@@ -790,6 +810,10 @@ Design name:unnamed:
                             vpiFullName: top.command_block.command_block_reset.command_block
                             vpiActual: Begin name:command_block
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
   vpiTypespec (3 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -853,7 +877,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr540c/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             109     109       0         0
+Others                             119     119       0         0
 ----------------------------------------------------------------
-                                   109     109       0         0
+                                   119     119       0         0
 ===================== END REDUCTION RESULT =====================

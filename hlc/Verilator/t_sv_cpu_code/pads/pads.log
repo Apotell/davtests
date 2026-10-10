@@ -456,16 +456,32 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/pads.sv:18:11: Failed to bind "mp_pads".
 [WRN:CP5851] $Source01/pads.sv:50:18: Failed to bind "t_padtype".
 [WRN:CP5851] $Source01/pads.sv:50:47: Failed to bind "padtype".
+[WRN:CP5851] $Source01/pads.sv:50:37: Failed to bind "pinout".
 [WRN:CP5851] $Source01/pads.sv:51:18: Failed to bind "t_pinid".
 [WRN:CP5851] $Source01/pads.sv:51:47: Failed to bind "id".
+[WRN:CP5851] $Source01/pads.sv:51:37: Failed to bind "pinout".
+[WRN:CP5851] $Source01/pads.sv:55:9: Failed to bind "PADTYPE_GPIO".
+[WRN:CP5851] $Source01/pads.sv:56:24: Failed to bind "ID".
 [WRN:CP5851] $Source01/pads.sv:60:42: Failed to bind "padsif".
+[WRN:CP5851] $Source01/pads.sv:60:49: Failed to bind "input_val".
 [WRN:CP5851] $Source01/pads.sv:65:42: Failed to bind "padsif".
+[WRN:CP5851] $Source01/pads.sv:65:49: Failed to bind "ana".
 [WRN:CP5851] $Source01/pads.sv:68:42: Failed to bind "padsif".
+[WRN:CP5851] $Source01/pads.sv:68:49: Failed to bind "pullup_en".
 [WRN:CP5851] $Source01/pads.sv:69:42: Failed to bind "padsif".
+[WRN:CP5851] $Source01/pads.sv:69:49: Failed to bind "pulldown_en".
 [WRN:CP5851] $Source01/pads.sv:70:42: Failed to bind "padsif".
+[WRN:CP5851] $Source01/pads.sv:70:49: Failed to bind "output_en".
 [WRN:CP5851] $Source01/pads.sv:71:42: Failed to bind "padsif".
+[WRN:CP5851] $Source01/pads.sv:71:49: Failed to bind "output_val".
 [WRN:CP5851] $Source01/pads.sv:72:42: Failed to bind "padsif".
+[WRN:CP5851] $Source01/pads.sv:72:49: Failed to bind "slew_limit_en".
 [WRN:CP5851] $Source01/pads.sv:73:42: Failed to bind "padsif".
+[WRN:CP5851] $Source01/pads.sv:73:49: Failed to bind "input_en".
+[WRN:CP5851] $Source01/pads.sv:76:9: Failed to bind "PADTYPE_VDD".
+[WRN:CP5851] $Source01/pads.sv:78:25: Failed to bind "ID".
+[WRN:CP5851] $Source01/pads.sv:85:9: Failed to bind "PADTYPE_GND".
+[WRN:CP5851] $Source01/pads.sv:87:25: Failed to bind "ID".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/pads.sv:56:11: Unsupported typespec "pad_gpio".
 [ERR:DB2038] $Source01/pads.sv:45:5: 'vpiStmt' property value has invalid objects.
@@ -517,9 +533,10 @@ Design name:unnamed:
                   vpiParent: NamedArgument
                   vpiName: pinout
                   vpiFullName: pads #(.NUMPADS($size(pinout))).pinout
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
           vpiArrayType: static (1)
@@ -544,6 +561,8 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiFullName: pads #(.NUMPADS($size(pinout)))
             vpiActual: LogicTypespec
+        LogicTypespec:
+          vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
       vpiDefName: pads
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:8 end:8:12:
@@ -552,6 +571,7 @@ Design name:unnamed:
         vpiFullName: pads #(.NUMPADS($size(pinout))).work
         vpiActual: Library name:work
       vpiCell: pads
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:pad start:25:14 end:25:17:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
@@ -643,19 +663,20 @@ Design name:unnamed:
             vpiParent: Port name:rst
             vpiFullName: pads #(.NUMPADS($size(pinout))).rst
             vpiActual: LogicTypespec
+      vpiSysTaskCall (1 items):
+        SysFuncCall name:$size:
       vpiGenStmt (1 items):
         GenFor start:44:3 end:92:8:
           vpiParent: Module name:pads #(.NUMPADS($size(pinout)))
           vpiFullName: pads #(.NUMPADS($size(pinout)))
-          vpiVariable (1 items):
-            Variable name:i start:44:9 end:44:10:
-              vpiParent: GenFor
-              vpiName: i
-              vpiFullName: pads #(.NUMPADS($size(pinout))).i
           vpiForInitStmt (1 items):
             Assignment start:44:9 end:44:14:
               vpiParent: GenFor
-              vpiLhs: Variable name:i
+              vpiLhs RefObj name:i start:44:9 end:44:10:
+                vpiParent: Assignment
+                vpiName: i
+                vpiFullName: pads #(.NUMPADS($size(pinout))).i
+                vpiActual: Variable name:i
               vpiRhs Constant start:44:13 end:44:14:
                 vpiParent: Assignment
                 vpiTypespec RefTypespec:
@@ -825,7 +846,6 @@ Design name:unnamed:
                             vpiParent: NamedArgument
                             vpiName: pad
                             vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gpio.pad
-                            vpiActual: Net name:pad
                           vpiHighConn BitSelect name:pad[i] start:58:28 end:58:51:
                             vpiParent: NamedArgument
                             vpiName: pad[i]
@@ -1117,7 +1137,6 @@ Design name:unnamed:
                                 vpiParent: NamedArgument
                                 vpiName: pad
                                 vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_vdd.pad
-                                vpiActual: Net name:pad
                               vpiHighConn BitSelect name:pad[i] start:80:21 end:80:27:
                                 vpiParent: NamedArgument
                                 vpiName: pad[i]
@@ -1177,7 +1196,6 @@ Design name:unnamed:
                                 vpiParent: NamedArgument
                                 vpiName: pad
                                 vpiFullName: pads #(.NUMPADS($size(pinout))).i_pad_gnd.pad
-                                vpiActual: Net name:pad
                               vpiHighConn BitSelect name:pad[i] start:88:42 end:88:48:
                                 vpiParent: NamedArgument
                                 vpiName: pad[i]
@@ -1209,7 +1227,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 5
-[WARNING] : 16
+[WARNING] : 32
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1253,7 +1271,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/pads/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             176     176       0         0
+Others                             178     178       0         0
 ----------------------------------------------------------------
-                                   176     176       0         0
+                                   178     178       0         0
 ===================== END REDUCTION RESULT =====================

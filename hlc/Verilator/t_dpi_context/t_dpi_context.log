@@ -528,8 +528,13 @@ n<$Source01/t_dpi_context.v> u<489> t<Top_level_rule> c<1> l<8:1> el<67:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_dpi_context.v:8:1: Compile module "t".
 [INF:CP5804] $Source01/t_dpi_context.v:25:1: Compile module "sub".
+[WRN:CP5851] $Source01/t_dpi_context.v:37:7: Failed to bind "result".
+[WRN:CP5851] $Source01/t_dpi_context.v:37:34: Failed to bind "result".
+[WRN:CP5851] $Source01/t_dpi_context.v:45:7: Failed to bind "result".
+[WRN:CP5851] $Source01/t_dpi_context.v:46:11: Failed to bind "result".
 [WRN:CP5851] $Source01/t_dpi_context.v:50:11: Failed to bind "dpic_restore".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/t_dpi_context.v:50:11: Null Actual: id:120, type:SubroutineCall, name:dpic_restore, relation:vpiOperand.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -562,6 +567,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:13:4 end:21:7:
           vpiParent: Module name:t
@@ -653,6 +659,9 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:20:7 end:20:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (2 items):
         RefInstance name:a start:10:8 end:10:9:
           vpiParent: Module name:t
@@ -741,6 +750,7 @@ Design name:unnamed:
         vpiFullName: sub.work
         vpiActual: Library name:work
       vpiCell: sub
+      vpiAutomatic: true
       vpiTaskFunc (5 items):
         Function name:dpic_line start:27:27 end:28:26:
           vpiParent: Module name:sub
@@ -785,8 +795,10 @@ Design name:unnamed:
               ImportTypespec name:context start:29:11 end:29:26:
                 vpiParent: Begin
                 vpiName Identifier name:context start:29:11 end:29:26:
-            vpiStmt (1 items):
+            vpiStmt (2 items):
               Variable name:dpic_restore:
+              NullStmt:
+                vpiParent: Begin
           vpiReturn RefTypespec start:28:36 end:28:39:
             vpiParent: Function name:dpic_save
             vpiFullName: sub.dpic_save
@@ -1016,6 +1028,11 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:63:28 end:63:33:
                   vpiIsProperty: true
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
   vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1041,8 +1058,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 8
-[  ERROR] : 0
-[WARNING] : 1
+[  ERROR] : 1
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1086,7 +1103,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_dpi_context/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             141     141       0         0
+Others                             143     143       0         0
 ----------------------------------------------------------------
-                                   141     141       0         0
+                                   143     143       0         0
 ===================== END REDUCTION RESULT =====================

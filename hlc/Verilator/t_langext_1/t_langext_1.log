@@ -292,6 +292,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -333,6 +334,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:18:10 end:18:13:
           vpiParent: Module name:t
@@ -384,7 +386,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: res
                 vpiFullName: t.test_i.res
-                vpiActual: Net name:res
+                vpiActual: Port name:res
               vpiHighConn PartSelect name:res[1:0] start:24:42 end:24:50:
                 vpiParent: NamedArgument
                 vpiName: res[1:0]
@@ -423,7 +425,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.test_i.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:26:42 end:26:45:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -489,6 +491,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:test
+          vpiScalar: true
       vpiDefName: test
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:31:8 end:31:12:
@@ -497,6 +500,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:38:18 end:38:21:
           vpiParent: Module name:test
@@ -572,15 +576,14 @@ Design name:unnamed:
               GenFor start:44:7 end:48:10:
                 vpiParent: Begin
                 vpiFullName: test
-                vpiVariable (1 items):
-                  Variable name:i start:44:12 end:44:13:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: test.i
                 vpiForInitStmt (1 items):
                   Assignment start:44:12 end:44:15:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:44:12 end:44:13:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: test.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:44:14 end:44:15:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -754,7 +757,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_langext_1/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             102     102       0         0
+Others                             103     103       0         0
 ----------------------------------------------------------------
-                                   102     102       0         0
+                                   103     103       0         0
 ===================== END REDUCTION RESULT =====================

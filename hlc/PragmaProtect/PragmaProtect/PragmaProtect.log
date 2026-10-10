@@ -13,6 +13,8 @@ COMMAND: -wd ../../../tests/PragmaProtect top.sv -d 0 +incdir+. +libext+.v -writ
 [INF:CP5804] $Source01/top.sv:2:1: Compile module "sram".
 [INF:CP5804] $Source01/top.sv:74:1: Compile module "sram".
 [ERR:CP5835] Colliding compilation unit name: "sram".
+[WRN:CP5851] $Source01/top.sv:100:17: Failed to bind "end_protected".
+[WRN:CP5851] $Source01/top.sv:101:15: Failed to bind "protect".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -57,6 +59,7 @@ Design name:unnamed:
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:sram
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:sram
           vpiRange (1 items):
@@ -203,6 +206,7 @@ Design name:unnamed:
         vpiFullName: sram.work
         vpiActual: Library name:work
       vpiCell: sram
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:CSB start:4:7 end:4:10:
           vpiParent: Module name:sram
@@ -536,7 +540,7 @@ Design name:unnamed:
                                   vpiSize: 32
                                   vpiDecompile: "10"
                                   vpiValue: 10
-                            EventControl start:34:9 end:34:38:
+                            EventControl start:34:9 end:34:39:
                               vpiParent: Begin
                               vpiCondition Operation start:34:11 end:34:37:
                                 vpiParent: EventControl
@@ -560,6 +564,8 @@ Design name:unnamed:
                                         vpiName: WRB
                                         vpiFullName: sram.WRB
                                         vpiActual: Net name:WRB
+                              vpiStmt NullStmt:
+                                vpiParent: EventControl
                             SysTaskCall name:$display start:35:9 end:35:64:
                               vpiParent: Begin
                               vpiName Identifier name:$display start:35:9 end:35:17:
@@ -751,6 +757,11 @@ Design name:unnamed:
                             vpiDecompile: "10"
                             vpiValue: 10
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (4 items):
+        SysFuncCall name:$time:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysTaskCall name:$display:
       vpiSpecifyBlock (1 items):
         SpecifyBlock start:22:1 end:24:11:
           vpiParent: Module name:sram
@@ -793,6 +804,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:sram
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:sram
           vpiRange (1 items):
@@ -829,6 +841,7 @@ Design name:unnamed:
         vpiFullName: sram.work
         vpiActual: Library name:work
       vpiCell: sram
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:CSB start:76:7 end:76:10:
           vpiParent: Module name:sram
@@ -964,7 +977,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1008,7 +1021,7 @@ COMMAND: ${HLC_DIR}/regression/PragmaProtect/PragmaProtect/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1596    1596       0         0
+Others                            1611    1611       0         0
 ----------------------------------------------------------------
-                                  1596    1596       0         0
+                                  1611    1611       0         0
 ===================== END REDUCTION RESULT =====================

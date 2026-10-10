@@ -3073,6 +3073,13 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/18.14--random-stability_2.sv:41:11: Failed to bind "drop_objection".
 [WRN:CP5851] $Source01/18.14--random-stability_2.sv:52:5: Failed to bind "run_test".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/18.14--random-stability_2.sv:27:11: Null Actual: id:37386, type:SubroutineCall, name:raise_objection, relation:vpiPathElem.
+[ERR:LN7705] $Source00/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:10: Null Actual: id:37449, type:SubroutineCall, name:uvm_report_enabled, relation:vpiCondition.
+[ERR:LN7705] $Source00/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:119:8: Null Actual: id:37484, type:SubroutineCall, name:uvm_report_info, relation:vpiStmt.
+[ERR:LN7705] $Source00/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:10: Null Actual: id:37498, type:SubroutineCall, name:uvm_report_enabled, relation:vpiCondition.
+[ERR:LN7705] $Source00/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:155:8: Null Actual: id:37533, type:SubroutineCall, name:uvm_report_error, relation:vpiStmt.
+[ERR:LN7705] $Source01/18.14--random-stability_2.sv:41:11: Null Actual: id:37542, type:SubroutineCall, name:drop_objection, relation:vpiPathElem.
+[ERR:LN7705] $Source01/18.14--random-stability_2.sv:52:5: Null Actual: id:37562, type:SubroutineCall, name:run_test, relation:vpiStmt.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -42973,7 +42980,11 @@ Design name:unnamed:
                     vpiForInitStmt (1 items):
                       Assignment start:29:16 end:29:21:
                         vpiParent: ForStmt
-                        vpiLhs: Variable name:i
+                        vpiLhs RefObj name:i start:29:16 end:29:17:
+                          vpiParent: Assignment
+                          vpiName: i
+                          vpiFullName: env::run_phase::i
+                          vpiActual: Variable name:i
                         vpiRhs Constant start:29:20 end:29:21:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -43143,7 +43154,7 @@ Design name:unnamed:
                     vpiStmt Begin start:35:29 end:37:10:
                       vpiParent: IfElse
                       vpiFullName: env::run_phase
-                      vpiStmt (1 items):
+                      vpiStmt (2 items):
                         Begin start:117:4 end:120:7:
                           vpiParent: Begin
                           vpiFullName: env::run_phase
@@ -43279,10 +43290,12 @@ Design name:unnamed:
                                       vpiSize: 64
                                       vpiDecompile: "1"
                                       vpiValue: 1
+                        NullStmt:
+                          vpiParent: Begin
                     vpiElseStmt Begin start:37:16 end:39:10:
                       vpiParent: IfElse
                       vpiFullName: env::run_phase
-                      vpiStmt (1 items):
+                      vpiStmt (2 items):
                         Begin start:153:4 end:156:7:
                           vpiParent: Begin
                           vpiFullName: env::run_phase
@@ -43418,6 +43431,8 @@ Design name:unnamed:
                                       vpiSize: 64
                                       vpiDecompile: "1"
                                       vpiValue: 1
+                        NullStmt:
+                          vpiParent: Begin
               RefObj name:phase.drop_objection(this) start:41:5 end:41:31:
                 vpiParent: Begin
                 vpiName: phase.drop_objection(this)
@@ -43469,6 +43484,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:50:3 end:53:6:
           vpiParent: Module name:top
@@ -43540,7 +43556,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 7
 [WARNING] : 30
 [   NOTE] : 0
 ********************************************************************************
@@ -43585,7 +43601,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.14--random-stability_2/desig
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                           37533   37533       0         0
+Others                           37537   37537       0         0
 ----------------------------------------------------------------
-                                 37533   37533       0         0
+                                 37537   37537       0         0
 ===================== END REDUCTION RESULT =====================

@@ -551,6 +551,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -603,6 +604,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
@@ -706,12 +708,12 @@ Design name:unnamed:
                 vpiFullName: t
           vpiAlwaysType: always (1)
       vpiSysTaskCall (2 items):
-        SysTaskCall name:write start:31:7 end:31:40:
+        SysTaskCall name:$write start:31:7 end:31:40:
           vpiParent: Module name:t
-          vpiName Identifier name:write start:31:8 end:31:13:
+          vpiName Identifier name:$write start:31:8 end:31:13:
           vpiArgument (1 items):
             NamedArgument start:31:14 end:31:38:
-              vpiParent: SysTaskCall name:write
+              vpiParent: SysTaskCall name:$write
               vpiHighConn Constant start:31:14 end:31:38:
                 vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
@@ -722,9 +724,9 @@ Design name:unnamed:
                 vpiSize: 168
                 vpiDecompile: "\"*-* All Finished *-*\\n\""
                 vpiValue: "*-* All Finished *-*\\n"
-        SysTaskCall name:finish start:32:7 end:32:15:
+        SysTaskCall name:$finish start:32:7 end:32:15:
           vpiParent: Module name:t
-          vpiName Identifier name:finish start:32:8 end:32:14:
+          vpiName Identifier name:$finish start:32:8 end:32:14:
       vpiGenStmt (2 items):
         GenRegion start:35:4 end:40:15:
           vpiParent: Module name:t
@@ -732,15 +734,14 @@ Design name:unnamed:
           vpiStmt GenFor start:36:4 end:39:22:
             vpiParent: GenRegion
             vpiFullName: t
-            vpiVariable (1 items):
-              Variable name:i start:36:9 end:36:10:
-                vpiParent: GenFor
-                vpiName: i
-                vpiFullName: t.i
             vpiForInitStmt (1 items):
               Assignment start:36:9 end:36:12:
                 vpiParent: GenFor
-                vpiLhs: Variable name:i
+                vpiLhs RefObj name:i start:36:9 end:36:10:
+                  vpiParent: Assignment
+                  vpiName: i
+                  vpiFullName: t.i
+                  vpiActual: Variable name:i
                 vpiRhs Constant start:36:11 end:36:12:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1027,10 +1028,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            14      15       4         3
 Operation                           12       8       0         4
-RefObj                              24      19       0         5
+RefObj                              25      20       0         5
 RefTypespec                         22      23       4         3
 ----------------------------------------------------------------
 Others                              67      67       0         0
 ----------------------------------------------------------------
-                                   139     132       8        15
+                                   140     133       8        15
 ===================== END REDUCTION RESULT =====================

@@ -345,6 +345,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:bar
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:bar
           vpiRange (1 items):
@@ -405,6 +406,7 @@ Design name:unnamed:
         vpiFullName: bar.work
         vpiActual: Library name:work
       vpiCell: bar
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:2:15 end:2:18:
           vpiParent: Module name:bar
@@ -502,9 +504,29 @@ Design name:unnamed:
                 Attribute name:full_case start:8:8 end:8:17:
                   vpiParent: CaseStmt
                   vpiName: full_case
+                  vpiValue Constant start:8:8 end:8:17:
+                    vpiParent: Attribute name:full_case
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: bar.full_case
+                      vpiActual: IntTypespec
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
                 Attribute name:parallel_case start:8:19 end:8:32:
                   vpiParent: CaseStmt
                   vpiName: parallel_case
+                  vpiValue Constant start:8:19 end:8:32:
+                    vpiParent: Attribute name:parallel_case
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: bar.parallel_case
+                      vpiActual: IntTypespec
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
               vpiCaseType: exact (1)
               vpiCondition RefObj name:inp start:9:10 end:9:13:
                 vpiParent: CaseStmt
@@ -640,6 +662,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:foo
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:foo
           vpiRange (1 items):
@@ -705,6 +728,7 @@ Design name:unnamed:
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clk start:19:15 end:19:18:
           vpiParent: Module name:foo
@@ -853,7 +877,7 @@ Design name:unnamed:
                 vpiName: out
                 vpiFullName: foo.bar_instance.out
                 vpiActual: Net name:out
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
     ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:1:8 end:1:11:
@@ -862,6 +886,8 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:foo:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:18:8 end:18:11:
@@ -919,7 +945,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/simple/attrib09_case.v/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             131     131       0         0
+Others                             137     137       0         0
 ----------------------------------------------------------------
-                                   131     131       0         0
+                                   137     137       0         0
 ===================== END REDUCTION RESULT =====================

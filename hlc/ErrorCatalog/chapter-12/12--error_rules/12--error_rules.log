@@ -365,7 +365,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/12--error_rules.sv:37:1: Compile module "r384_m".
 [INF:CP5804] $Source01/12--error_rules.sv:46:1: Compile module "r385_m".
 [INF:CP5804] $Source01/12--error_rules.sv:56:1: Compile module "r392_m".
-[ERR:LN7713] $Source01/12--error_rules.sv:1:1: Found 1 orphan node(s).
+[WRN:CP5851] $Source01/12--error_rules.sv:28:14: Failed to bind "R".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:CP5941] $Source01/12--error_rules.sv:17:7: Duplicate r378_m,
              $Source01/12--error_rules.sv:16:7: previous declaration.
@@ -437,6 +437,7 @@ Design name:unnamed:
         vpiFullName: r378_m.work
         vpiActual: Library name:work
       vpiCell: r378_m
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:13:3 end:18:12:
           vpiParent: Module name:r378_m
@@ -542,6 +543,7 @@ Design name:unnamed:
         vpiFullName: r380_m.work
         vpiActual: Library name:work
       vpiCell: r380_m
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:26:3 end:30:12:
           vpiParent: Module name:r380_m
@@ -575,8 +577,12 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "1.5"
                       vpiValue: 1.5
+                vpiStmt NullStmt:
+                  vpiParent: CaseItem
               CaseItem start:29:7 end:29:17:
                 vpiParent: CaseStmt
+                vpiStmt NullStmt:
+                  vpiParent: CaseItem
     Module name:r384_m file:$Source01/12--error_rules.sv start:37:1 end:41:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r384_m start:37:8 end:37:14:
@@ -598,6 +604,7 @@ Design name:unnamed:
         vpiFullName: r384_m.work
         vpiActual: Library name:work
       vpiCell: r384_m
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:39:3 end:40:41:
           vpiParent: Module name:r384_m
@@ -626,6 +633,10 @@ Design name:unnamed:
               Assignment start:40:17 end:40:26:
                 vpiParent: ForStmt
                 vpiBlocking: true
+                vpiLhs RefTypespec start:40:17 end:40:20:
+                  vpiParent: Assignment
+                  vpiFullName: r384_m
+                  vpiActual: IntTypespec
                 vpiRhs Constant start:40:25 end:40:26:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -665,6 +676,8 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "4"
                   vpiValue: 4
+            vpiStmt NullStmt:
+              vpiParent: ForStmt
     Module name:r385_m file:$Source01/12--error_rules.sv start:46:1 end:51:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r385_m start:46:8 end:46:14:
@@ -677,6 +690,7 @@ Design name:unnamed:
         vpiFullName: r385_m.work
         vpiActual: Library name:work
       vpiCell: r385_m
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:get_arr start:47:3 end:48:14:
           vpiParent: Module name:r385_m
@@ -710,6 +724,7 @@ Design name:unnamed:
         vpiFullName: r392_m.work
         vpiActual: Library name:work
       vpiCell: r392_m
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:f start:57:3 end:59:14:
           vpiParent: Module name:r392_m
@@ -797,8 +812,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 4
-[  ERROR] : 5
-[WARNING] : 0
+[  ERROR] : 4
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -842,7 +857,7 @@ COMMAND: ${HLC_DIR}/regression/ErrorCatalog/chapter-12/12--error_rules/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             111     111       0         0
+Others                             116     116       0         0
 ----------------------------------------------------------------
-                                   111     111       0         0
+                                   116     116       0         0
 ===================== END REDUCTION RESULT =====================

@@ -482,12 +482,15 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: combo_nblk
           vpiFullName: t.combo_nblk
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
+        LogicTypespec:
+          vpiParent: Module name:t
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:6:8 end:6:9:
@@ -496,6 +499,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:f start:43:4 end:45:15:
           vpiParent: Module name:t
@@ -506,6 +510,7 @@ Design name:unnamed:
               vpiParent: Function name:f
             LogicTypespec:
               vpiParent: Function name:f
+              vpiScalar: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:v start:43:22 end:43:23:
@@ -716,7 +721,11 @@ Design name:unnamed:
                   vpiForInitStmt (1 items):
                     Assignment start:34:16 end:34:19:
                       vpiParent: ForStmt
-                      vpiLhs: Variable name:i
+                      vpiLhs RefObj name:i start:34:16 end:34:17:
+                        vpiParent: Assignment
+                        vpiName: i
+                        vpiFullName: t.i
+                        vpiActual: Variable name:i
                       vpiRhs Constant start:34:18 end:34:19:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -879,7 +888,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_blksync_bad/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             107     107       0         0
+Others                             110     110       0         0
 ----------------------------------------------------------------
-                                   107     107       0         0
+                                   110     110       0         0
 ===================== END REDUCTION RESULT =====================

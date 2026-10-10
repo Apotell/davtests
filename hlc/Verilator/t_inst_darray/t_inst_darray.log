@@ -657,11 +657,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_inst_darray.v:10:4: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_inst_darray.v:31:11: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_inst_darray.v:31:11: Failed to bind "logic".
-[WRN:CP5851] $Source01/t_inst_darray.v:32:5: Failed to bind "the_intf".
 [WRN:CP5851] $Source01/t_inst_darray.v:32:14: Failed to bind "i".
-[WRN:CP5851] $Source01/t_inst_darray.v:47:5: Failed to bind "the_intf".
-[WRN:CP5851] $Source01/t_inst_darray.v:47:14: Failed to bind "t".
-[WRN:CP5851] $Source01/t_inst_darray.v:48:5: Failed to bind "the_intf".
+[WRN:CP5851] $Source01/t_inst_darray.v:41:15: Failed to bind "out".
 [WRN:CP5851] $Source01/t_inst_darray.v:48:14: Failed to bind "i".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/t_inst_darray.v:35:4: Unsupported typespec "".
@@ -737,6 +734,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Interface name:the_intf #(.M(5))
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Interface name:the_intf #(.M(5))
           vpiArrayType: static (1)
@@ -905,6 +903,7 @@ Design name:unnamed:
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:Contemplator #(.IMPL(0), .M(5), .N(1))
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:Contemplator #(.IMPL(0), .M(5), .N(1))
           vpiArrayType: static (1)
@@ -939,19 +938,20 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:the_intf::i start:32:5 end:32:15:
+          vpiElemTypespec RefTypespec name:the_intf #(.M(5))::i start:32:5 end:32:15:
             vpiParent: ArrayTypespec
-            vpiName: the_intf::i
-            vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).the_intf::i
+            vpiName: the_intf #(.M(5))::i
+            vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).the_intf #(.M(5))::i
             vpiPathElem (2 items):
               RefObj name:the_intf start:32:5 end:32:13:
-                vpiParent: RefTypespec name:the_intf::i
+                vpiParent: RefTypespec name:the_intf #(.M(5))::i
                 vpiName: the_intf
                 vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).the_intf
+                vpiActual: Interface name:the_intf #(.M(5))
               RefTypespec name:i start:32:14 end:32:15:
-                vpiParent: RefTypespec name:the_intf::i
+                vpiParent: RefTypespec name:the_intf #(.M(5))::i
                 vpiName: i
-                vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).the_intf::i.i
+                vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).the_intf #(.M(5))::i.i
         ArrayTypespec:
           vpiParent: Module name:Contemplator #(.IMPL(0), .M(5), .N(1))
           vpiArrayType: static (1)
@@ -1049,6 +1049,7 @@ Design name:unnamed:
         vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).work
         vpiActual: Library name:work
       vpiCell: Contemplator
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:31:17 end:31:20:
           vpiParent: Module name:Contemplator #(.IMPL(0), .M(5), .N(1))
@@ -1081,10 +1082,10 @@ Design name:unnamed:
             vpiParent: Port name:out
             vpiName: out
             vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).out.out
-          vpiTypespec RefTypespec name:the_intf::i [N-1:0] start:32:5 end:32:15:
+          vpiTypespec RefTypespec name:the_intf #(.M(5))::i [N-1:0] start:32:5 end:32:15:
             vpiParent: Port name:out
-            vpiName: the_intf::i [N-1:0]
-            vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).out.the_intf::i [N-1:0]
+            vpiName: the_intf #(.M(5))::i [N-1:0]
+            vpiFullName: Contemplator #(.IMPL(0), .M(5), .N(1)).out.the_intf #(.M(5))::i [N-1:0]
             vpiActual: ArrayTypespec
       vpiRefInstance (2 items):
         RefInstance name:inp start:35:22 end:35:25:
@@ -1163,6 +1164,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:DeepThought #(.N(1))
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:DeepThought #(.N(1))
           vpiArrayType: static (1)
@@ -1197,19 +1199,22 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:the_intf::t start:47:5 end:47:15:
+          vpiElemTypespec RefTypespec name:the_intf #(.M(5))::t start:47:5 end:47:15:
             vpiParent: ArrayTypespec
-            vpiName: the_intf::t
-            vpiFullName: DeepThought #(.N(1)).the_intf::t
+            vpiName: the_intf #(.M(5))::t
+            vpiFullName: DeepThought #(.N(1)).the_intf #(.M(5))::t
             vpiPathElem (2 items):
               RefObj name:the_intf start:47:5 end:47:13:
-                vpiParent: RefTypespec name:the_intf::t
+                vpiParent: RefTypespec name:the_intf #(.M(5))::t
                 vpiName: the_intf
                 vpiFullName: DeepThought #(.N(1)).the_intf
+                vpiActual: Interface name:the_intf #(.M(5))
               RefTypespec name:t start:47:14 end:47:15:
-                vpiParent: RefTypespec name:the_intf::t
+                vpiParent: RefTypespec name:the_intf #(.M(5))::t
                 vpiName: t
-                vpiFullName: DeepThought #(.N(1)).the_intf::t.t
+                vpiFullName: DeepThought #(.N(1)).the_intf #(.M(5))::t.t
+                vpiActual: ModuleTypespec name:t
+            vpiActual: ModuleTypespec name:t
         ArrayTypespec:
           vpiParent: Module name:DeepThought #(.N(1))
           vpiArrayType: static (1)
@@ -1244,19 +1249,20 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:the_intf::i start:48:5 end:48:15:
+          vpiElemTypespec RefTypespec name:the_intf #(.M(5))::i start:48:5 end:48:15:
             vpiParent: ArrayTypespec
-            vpiName: the_intf::i
-            vpiFullName: DeepThought #(.N(1)).the_intf::i
+            vpiName: the_intf #(.M(5))::i
+            vpiFullName: DeepThought #(.N(1)).the_intf #(.M(5))::i
             vpiPathElem (2 items):
               RefObj name:the_intf start:48:5 end:48:13:
-                vpiParent: RefTypespec name:the_intf::i
+                vpiParent: RefTypespec name:the_intf #(.M(5))::i
                 vpiName: the_intf
                 vpiFullName: DeepThought #(.N(1)).the_intf
+                vpiActual: Interface name:the_intf #(.M(5))
               RefTypespec name:i start:48:14 end:48:15:
-                vpiParent: RefTypespec name:the_intf::i
+                vpiParent: RefTypespec name:the_intf #(.M(5))::i
                 vpiName: i
-                vpiFullName: DeepThought #(.N(1)).the_intf::i.i
+                vpiFullName: DeepThought #(.N(1)).the_intf #(.M(5))::i.i
       vpiDefName: DeepThought
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:44:8 end:44:19:
@@ -1265,6 +1271,7 @@ Design name:unnamed:
         vpiFullName: DeepThought #(.N(1)).work
         vpiActual: Library name:work
       vpiCell: DeepThought
+      vpiAutomatic: true
       vpiPort (2 items):
         Port name:src start:47:16 end:47:19:
           vpiParent: Module name:DeepThought #(.N(1))
@@ -1274,10 +1281,10 @@ Design name:unnamed:
             vpiParent: Port name:src
             vpiName: src
             vpiFullName: DeepThought #(.N(1)).src.src
-          vpiTypespec RefTypespec name:the_intf::t [N-1:0] start:47:5 end:47:15:
+          vpiTypespec RefTypespec name:the_intf #(.M(5))::t [N-1:0] start:47:5 end:47:15:
             vpiParent: Port name:src
-            vpiName: the_intf::t [N-1:0]
-            vpiFullName: DeepThought #(.N(1)).src.the_intf::t [N-1:0]
+            vpiName: the_intf #(.M(5))::t [N-1:0]
+            vpiFullName: DeepThought #(.N(1)).src.the_intf #(.M(5))::t [N-1:0]
             vpiActual: ArrayTypespec
         Port name:dst start:48:16 end:48:19:
           vpiParent: Module name:DeepThought #(.N(1))
@@ -1287,10 +1294,10 @@ Design name:unnamed:
             vpiParent: Port name:dst
             vpiName: dst
             vpiFullName: DeepThought #(.N(1)).dst.dst
-          vpiTypespec RefTypespec name:the_intf::i [N-1:0] start:48:5 end:48:15:
+          vpiTypespec RefTypespec name:the_intf #(.M(5))::i [N-1:0] start:48:5 end:48:15:
             vpiParent: Port name:dst
-            vpiName: the_intf::i [N-1:0]
-            vpiFullName: DeepThought #(.N(1)).dst.the_intf::i [N-1:0]
+            vpiName: the_intf #(.M(5))::i [N-1:0]
+            vpiFullName: DeepThought #(.N(1)).dst.the_intf #(.M(5))::i [N-1:0]
             vpiActual: ArrayTypespec
     Module name:t file:$Source01/t_inst_darray.v start:53:1 end:85:10:
       vpiParent: Design name:unnamed
@@ -1353,6 +1360,7 @@ Design name:unnamed:
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -1605,6 +1613,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:57:10 end:57:13:
           vpiParent: Module name:t
@@ -1656,6 +1665,9 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:82:7 end:82:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (4 items):
         RefInstance name:out0 start:62:22 end:62:26:
           vpiParent: Module name:t
@@ -1689,7 +1701,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.contemplatorOfTheZerothKind.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:70:19 end:70:22:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1724,7 +1736,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.contemplatorOfTheFirstKind.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:78:18 end:78:21:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1858,7 +1870,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
-[WARNING] : 14
+[WARNING] : 11
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1906,7 +1918,7 @@ Operation                            7       0       0         7
 RefObj                              62      55       0         7
 RefTypespec                         65      65       7         7
 ----------------------------------------------------------------
-Others                             126     126       0         0
+Others                             127     127       0         0
 ----------------------------------------------------------------
-                                   288     274      14        28
+                                   289     275      14        28
 ===================== END REDUCTION RESULT =====================

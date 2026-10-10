@@ -357,6 +357,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:bar
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:bar
           vpiRange (1 items):
@@ -443,6 +444,7 @@ Design name:unnamed:
         vpiFullName: bar.work
         vpiActual: Library name:work
       vpiCell: bar
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clk start:2:15 end:2:18:
           vpiParent: Module name:bar
@@ -606,6 +608,16 @@ Design name:unnamed:
                         Attribute name:ripple_adder start:10:32 end:10:44:
                           vpiParent: RefObj name:inp_b
                           vpiName: ripple_adder
+                          vpiValue Constant start:10:32 end:10:44:
+                            vpiParent: Attribute name:ripple_adder
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: bar.inp_b
+                              vpiActual: IntTypespec
+                            vpiConstType: int (7)
+                            vpiSize: 32
+                            vpiDecompile: "1"
+                            vpiValue: 1
                       vpiName: inp_b
                       vpiFullName: bar.inp_b
                       vpiActual: Net name:inp_b
@@ -617,6 +629,7 @@ Design name:unnamed:
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:foo
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:foo
           vpiRange (1 items):
@@ -708,6 +721,7 @@ Design name:unnamed:
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
       vpiNet (5 items):
         Net name:clk start:15:15 end:15:18:
           vpiParent: Module name:foo
@@ -890,7 +904,7 @@ Design name:unnamed:
                 vpiName: out
                 vpiFullName: foo.bar_instance.out
                 vpiActual: Net name:out
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
     ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:1:8 end:1:11:
@@ -899,6 +913,8 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    IntTypespec:
+      vpiParent: Design name:unnamed
     ModuleTypespec name:foo:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:14:8 end:14:11:
@@ -956,7 +972,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/simple/attrib06_operator_suffix.v/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             137     137       0         0
+Others                             141     141       0         0
 ----------------------------------------------------------------
-                                   137     137       0         0
+                                   141     141       0         0
 ===================== END REDUCTION RESULT =====================

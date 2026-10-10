@@ -14,6 +14,8 @@ COMMAND: -wd ../../../tests/ElabIf dut.sv -fileunit -d db -mt 0 -d dbstats -d ca
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "top".
 [INF:CP5804] $Source01/dut.sv:6:1: Compile module "assigner".
 [INF:CP5804] $Source01/dut.sv:13:1: Compile module "middleman".
+[WRN:CP5851] $Source01/dut.sv:8:18: Failed to bind "inp".
+[WRN:CP5851] $Source01/dut.sv:10:19: Failed to bind "inp".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top".
 [WRN:PA5506] $Source01/dut.sv:6:1: No timescale set for "assigner #(.invert(0))".
 [WRN:PA5506] $Source01/dut.sv:13:1: No timescale set for "middleman #(.invert(0))".
@@ -89,6 +91,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiRefInstance (2 items):
         RefInstance name:mdl1 start:2:28 end:2:32:
           vpiParent: Module name:top
@@ -140,6 +143,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:assigner #(.invert(0))
+          vpiScalar: true
       vpiDefName: assigner
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:6:8 end:6:16:
@@ -148,6 +152,7 @@ Design name:unnamed:
         vpiFullName: assigner #(.invert(0)).work
         vpiActual: Library name:work
       vpiCell: assigner
+      vpiAutomatic: true
       vpiGenStmt (2 items):
         GenIf start:7:3 end:8:22:
           vpiParent: Module name:assigner #(.invert(0))
@@ -233,6 +238,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:middleman #(.invert(0))
+          vpiScalar: true
         ModuleTypespec name:assigner start:14:4 end:14:12:
           vpiParent: Module name:middleman #(.invert(0))
           vpiName Identifier name:assigner start:14:4 end:14:12:
@@ -261,6 +267,7 @@ Design name:unnamed:
         vpiFullName: middleman #(.invert(0)).work
         vpiActual: Library name:work
       vpiCell: middleman
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:asgn start:14:32 end:14:36:
           vpiParent: Module name:middleman #(.invert(0))
@@ -309,7 +316,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -355,9 +362,9 @@ Name                            Before   After   Added   Removed
 Constant                            18      19       1         0
 Operation                            2       1       0         1
 RefObj                              24      23       0         1
-RefTypespec                        348     349       1         0
+RefTypespec                        361     362       1         0
 ----------------------------------------------------------------
-Others                            1044    1044       0         0
+Others                            1046    1046       0         0
 ----------------------------------------------------------------
-                                  1436    1436       2         2
+                                  1451    1451       2         2
 ===================== END REDUCTION RESULT =====================

@@ -10,6 +10,7 @@ COMMAND: -wd ../../../tests/FuncBinding2 -fileunit -writepp -d db -sv dut.sv -no
 [INF:PP5223] Preprocessing source file "$Source01/dut.sv".
 [INF:PA5502] Parsing source file "$Source01/dut.sv".
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "vend".
+[WRN:CP5851] $Source01/dut.sv:18:13: Failed to bind "fsm_coin".
 [WRN:CP5851] $Source01/dut.sv:30:26: Failed to bind "PRES_STATE".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "vend".
 ====== HLDB =======
@@ -55,6 +56,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:vend
+          vpiScalar: true
       vpiDefName: vend
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:8 end:1:12:
@@ -63,6 +65,7 @@ Design name:unnamed:
         vpiFullName: vend.work
         vpiActual: Library name:work
       vpiCell: vend
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:fsm start:10:1 end:26:12:
           vpiParent: Module name:vend
@@ -82,6 +85,7 @@ Design name:unnamed:
             IODecl name:fsm_PRES_STATE start:11:13 end:11:27:
               vpiParent: Function name:fsm
               vpiName: fsm_PRES_STATE
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:11:7 end:11:12:
                 vpiParent: IODecl name:fsm_PRES_STATE
                 vpiFullName: vend.fsm.fsm_PRES_STATE
@@ -341,7 +345,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -386,7 +390,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 RefObj                              13      12       0         1
 ----------------------------------------------------------------
-Others                              67      67       0         0
+Others                              68      68       0         0
 ----------------------------------------------------------------
-                                    80      79       0         1
+                                    81      80       0         1
 ===================== END REDUCTION RESULT =====================

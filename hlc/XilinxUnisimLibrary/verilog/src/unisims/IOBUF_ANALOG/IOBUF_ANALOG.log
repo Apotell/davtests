@@ -2257,9 +2257,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "10000"
             vpiValue: 10000
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:glbl
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:glbl
           vpiRange (1 items):
@@ -2312,6 +2313,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:glbl
       vpiDefName: glbl
       vpiDefNetType: wire (1)
       vpiTimePrecision: -12
@@ -2322,6 +2325,7 @@ Design name:unnamed:
         vpiFullName: glbl.work
         vpiActual: Library name:work
       vpiCell: glbl
+      vpiAutomatic: true
       vpiNet (17 items):
         Net name:GSR start:29:10 end:29:13:
           vpiParent: Module name:glbl
@@ -2666,8 +2670,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-              DelayControl start:92:2 end:92:15:
+              DelayControl start:92:2 end:92:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_START start:92:4 end:92:14:
                   vpiParent: DelayControl
                   vpiName: GRES_START
@@ -2691,8 +2697,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-              DelayControl start:94:2 end:94:15:
+              DelayControl start:94:2 end:94:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_WIDTH start:94:4 end:94:14:
                   vpiParent: DelayControl
                   vpiName: GRES_WIDTH
@@ -3166,13 +3174,16 @@ Design name:unnamed:
             vpiName: SLEW
             vpiFullName: IOBUF_ANALOG #(.DRIVE(12), .IBUF_LOW_PWR("TRUE"), .IOSTANDARD("DEFAULT"), .SLEW("SLOW")).SLEW
             vpiActual: Parameter name:SLEW
-      vpiTypespec (7 items):
+      vpiTypespec (8 items):
         IntegerTypespec:
           vpiParent: "Module name:IOBUF_ANALOG #(.DRIVE(12), .IBUF_LOW_PWR(\"TRUE\"), .IOSTANDARD(\"DEFAULT\"), .SLEW(\"SLOW\"))"
           vpiSigned: true
         LogicTypespec:
           vpiParent: "Module name:IOBUF_ANALOG #(.DRIVE(12), .IBUF_LOW_PWR(\"TRUE\"), .IOSTANDARD(\"DEFAULT\"), .SLEW(\"SLOW\"))"
+          vpiScalar: true
         BitTypespec:
+          vpiParent: "Module name:IOBUF_ANALOG #(.DRIVE(12), .IBUF_LOW_PWR(\"TRUE\"), .IOSTANDARD(\"DEFAULT\"), .SLEW(\"SLOW\"))"
+        LogicTypespec:
           vpiParent: "Module name:IOBUF_ANALOG #(.DRIVE(12), .IBUF_LOW_PWR(\"TRUE\"), .IOSTANDARD(\"DEFAULT\"), .SLEW(\"SLOW\"))"
         LogicTypespec:
           vpiParent: "Module name:IOBUF_ANALOG #(.DRIVE(12), .IBUF_LOW_PWR(\"TRUE\"), .IOSTANDARD(\"DEFAULT\"), .SLEW(\"SLOW\"))"
@@ -3288,6 +3299,7 @@ Design name:unnamed:
         vpiFullName: IOBUF_ANALOG #(.DRIVE(12), .IBUF_LOW_PWR("TRUE"), .IOSTANDARD("DEFAULT"), .SLEW("SLOW")).work
         vpiActual: Library name:work
       vpiCell: IOBUF_ANALOG
+      vpiAutomatic: true
       vpiNet (7 items):
         Net name:O start:45:10 end:45:11:
           vpiParent: "Module name:IOBUF_ANALOG #(.DRIVE(12), .IBUF_LOW_PWR(\"TRUE\"), .IOSTANDARD(\"DEFAULT\"), .SLEW(\"SLOW\"))"
@@ -3431,9 +3443,11 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: IOBUF_ANALOG #(.DRIVE(12), .IBUF_LOW_PWR("TRUE"), .IOSTANDARD("DEFAULT"), .SLEW("SLOW"))
             vpiStmt (2 items):
-              DelayControl start:89:5 end:89:7:
+              DelayControl start:89:5 end:89:8:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:89:6 end:89:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -3477,9 +3491,11 @@ Design name:unnamed:
                 BitTypespec:
                   vpiParent: Begin
               vpiStmt (5 items):
-                DelayControl start:94:5 end:94:7:
+                DelayControl start:94:5 end:94:8:
                   vpiParent: Begin
                   vpiDelay: 1
+                  vpiStmt NullStmt:
+                    vpiParent: DelayControl
                   vpiDelay Constant start:94:6 end:94:7:
                     vpiParent: DelayControl
                     vpiTypespec RefTypespec:
@@ -4013,6 +4029,11 @@ Design name:unnamed:
                 vpiSize: 1
                 vpiDecompile: "1'bz"
                 vpiValue: z
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
       vpiSpecifyBlock (1 items):
         SpecifyBlock start:121:1 end:126:11:
           vpiParent: "Module name:IOBUF_ANALOG #(.DRIVE(12), .IBUF_LOW_PWR(\"TRUE\"), .IOSTANDARD(\"DEFAULT\"), .SLEW(\"SLOW\"))"
@@ -4370,12 +4391,12 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 BitTypespec                          8       9       1         0
 Constant                            87      86       5         6
-LogicTypespec                        9      10       1         0
+LogicTypespec                       11      12       1         0
 Operation                           29      20       0         9
 RefObj                              92      85       0         7
 RefTypespec                        153     152       5         6
 ----------------------------------------------------------------
-Others                             181     181       0         0
+Others                             186     186       0         0
 ----------------------------------------------------------------
-                                   559     543      12        28
+                                   566     550      12        28
 ===================== END REDUCTION RESULT =====================

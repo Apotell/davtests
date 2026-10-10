@@ -264,9 +264,10 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/9.7--process_cls_kill.sv:34:33: Failed to bind "FINISHED".
 [WRN:CP5851] $Source01/9.7--process_cls_kill.sv:35:12: Failed to bind "kill".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:23:24: Null Actual: id:34, type:MethodFuncCall, name:self, relation:vpiPathElem.
-[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:31:10: Null Actual: id:61, type:MethodTaskCall, name:await, relation:vpiPathElem.
-[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:35:12: Null Actual: id:79, type:MethodFuncCall, name:kill, relation:vpiPathElem.
+[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:23:24: Null Actual: id:35, type:MethodFuncCall, name:self, relation:vpiPathElem.
+[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:31:10: Null Actual: id:63, type:MethodTaskCall, name:await, relation:vpiPathElem.
+[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:34:14: Null Actual: id:71, type:SubroutineCall, name:status, relation:vpiPathElem.
+[ERR:LN7705] $Source01/9.7--process_cls_kill.sv:35:12: Null Actual: id:81, type:MethodFuncCall, name:kill, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -288,6 +289,7 @@ Design name:unnamed:
         vpiFullName: process_tb.work
         vpiActual: Library name:work
       vpiCell: process_tb
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:test start:16:2 end:36:9:
           vpiParent: Module name:process_tb
@@ -448,6 +450,8 @@ Design name:unnamed:
                   Variable name:i:
                 vpiStmt WaitStmt start:29:4 end:29:25:
                   vpiParent: ForeachStmt
+                  vpiStmt NullStmt:
+                    vpiParent: WaitStmt
                   vpiCondition Operation start:29:9 end:29:23:
                     vpiParent: WaitStmt
                     vpiOpType: not equal (15)
@@ -601,6 +605,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "8"
                       vpiValue: 8
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$display:
   vpiTypespec (3 items):
     ModuleTypespec name:process_tb:
       vpiParent: Design name:unnamed
@@ -619,7 +625,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 4
 [WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
@@ -664,7 +670,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_kill/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              88      88       0         0
+Others                              90      90       0         0
 ----------------------------------------------------------------
-                                    88      88       0         0
+                                    90      90       0         0
 ===================== END REDUCTION RESULT =====================

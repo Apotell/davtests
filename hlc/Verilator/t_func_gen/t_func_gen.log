@@ -336,6 +336,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_func_gen.v:18:5: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_func_gen.v:24:12: Failed to bind "pick".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/t_func_gen.v:24:12: Null Actual: id:106, type:SubroutineCall, name:pick, relation:vpiOperand.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -376,6 +377,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -414,6 +416,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:12:10 end:12:13:
           vpiParent: Module name:t
@@ -438,6 +441,10 @@ Design name:unnamed:
             vpiParent: Port name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiGenStmt (1 items):
         GenRegion start:15:4 end:32:15:
           vpiParent: Module name:t
@@ -445,15 +452,14 @@ Design name:unnamed:
           vpiStmt GenFor start:16:7 end:31:5:
             vpiParent: GenRegion
             vpiFullName: t
-            vpiVariable (1 items):
-              Variable name:g start:16:12 end:16:13:
-                vpiParent: GenFor
-                vpiName: g
-                vpiFullName: t.g
             vpiForInitStmt (1 items):
               Assignment start:16:12 end:16:15:
                 vpiParent: GenFor
-                vpiLhs: Variable name:g
+                vpiLhs RefObj name:g start:16:12 end:16:13:
+                  vpiParent: Assignment
+                  vpiName: g
+                  vpiFullName: t.g
+                  vpiActual: Variable name:g
                 vpiRhs Constant start:16:14 end:16:15:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -535,6 +541,7 @@ Design name:unnamed:
                     IODecl name:randnum start:20:25 end:20:32:
                       vpiParent: Function name:pick
                       vpiName: randnum
+                      vpiDirection: input (1)
                       vpiTypespec RefTypespec start:20:14 end:20:19:
                         vpiParent: IODecl name:randnum
                         vpiFullName: t.picker.pick.randnum
@@ -832,7 +839,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
@@ -879,10 +886,10 @@ Name                            Before   After   Added   Removed
 Constant                            19      19       1         1
 LogicTypespec                        4       5       1         0
 Operation                            7       6       0         1
-RefObj                              12      11       0         1
+RefObj                              13      12       0         1
 RefTypespec                         27      27       1         1
 ----------------------------------------------------------------
 Others                              53      53       0         0
 ----------------------------------------------------------------
-                                   122     121       3         4
+                                   123     122       3         4
 ===================== END REDUCTION RESULT =====================

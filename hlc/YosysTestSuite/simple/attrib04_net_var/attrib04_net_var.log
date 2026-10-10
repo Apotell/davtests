@@ -367,9 +367,22 @@ Design name:unnamed:
             Attribute name:this_is_a_prescaler start:7:6 end:7:25:
               vpiParent: Variable name:counter
               vpiName: this_is_a_prescaler
+              vpiValue Constant start:7:6 end:7:25:
+                vpiParent: Attribute name:this_is_a_prescaler
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: bar.counter.this_is_a_prescaler
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiName: counter
           vpiFullName: bar.counter
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Module name:bar
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:bar
         LogicTypespec:
@@ -406,6 +419,7 @@ Design name:unnamed:
         vpiFullName: bar.work
         vpiActual: Library name:work
       vpiCell: bar
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clk start:2:15 end:2:18:
           vpiParent: Module name:bar
@@ -444,6 +458,16 @@ Design name:unnamed:
             Attribute name:temp_wire start:10:6 end:10:15:
               vpiParent: Net name:out_val
               vpiName: temp_wire
+              vpiValue Constant start:10:6 end:10:15:
+                vpiParent: Attribute name:temp_wire
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: bar.out_val.temp_wire
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiName: out_val
           vpiFullName: bar.out_val
           vpiNetDeclAssign: true
@@ -635,6 +659,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:foo
+          vpiScalar: true
         ModuleTypespec name:bar start:30:3 end:30:6:
           vpiParent: Module name:foo
           vpiName Identifier name:bar start:30:3 end:30:6:
@@ -648,6 +673,7 @@ Design name:unnamed:
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clk start:25:15 end:25:18:
           vpiParent: Module name:foo
@@ -796,12 +822,14 @@ Design name:unnamed:
                 vpiName: out
                 vpiFullName: foo.bar_instance.out
                 vpiActual: Net name:out
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
     ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:1:8 end:1:11:
       vpiDefName: bar
       vpiModule: Module name:bar
+    IntTypespec:
+      vpiParent: Design name:unnamed
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -862,7 +890,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/simple/attrib04_net_var/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             115     115       0         0
+Others                             122     122       0         0
 ----------------------------------------------------------------
-                                   115     115       0         0
+                                   122     122       0         0
 ===================== END REDUCTION RESULT =====================

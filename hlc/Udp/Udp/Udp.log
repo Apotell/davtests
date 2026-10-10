@@ -978,6 +978,16 @@ Design name:unnamed:
         Attribute name:my_udp start:59:4 end:59:10:
           vpiParent: UdpDefn name:udp_sequential_initial
           vpiName: my_udp
+          vpiValue Constant start:59:4 end:59:10:
+            vpiParent: Attribute name:my_udp
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: udp_sequential_initial.my_udp
+              vpiActual: IntTypespec
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiIODecl (3 items):
         IODecl name:q start:60:34 end:60:35:
           vpiParent: UdpDefn name:udp_sequential_initial
@@ -1167,9 +1177,12 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: c
           vpiFullName: udp_body_tb.c
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:udp_body_tb
+        LogicTypespec:
+          vpiParent: Module name:udp_body_tb
+          vpiScalar: true
         UdpDefnTypespec name:udp_body start:89:1 end:89:9:
           vpiParent: Module name:udp_body_tb
           vpiName: udp_body
@@ -1182,6 +1195,7 @@ Design name:unnamed:
         vpiFullName: udp_body_tb.work
         vpiActual: Library name:work
       vpiCell: udp_body_tb
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:a start:87:6 end:87:7:
           vpiParent: Module name:udp_body_tb
@@ -1576,6 +1590,9 @@ Design name:unnamed:
                 vpiName: c
                 vpiFullName: udp_body_tb.udp.c
                 vpiActual: Variable name:c
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$monitor:
+        SysTaskCall name:$finish:
   vpiTypespec (12 items):
     UdpDefnTypespec name:udp_body:
       vpiParent: Design name:unnamed
@@ -1597,6 +1614,8 @@ Design name:unnamed:
       vpiUdpDefn: UdpDefn name:udp_sequential_initial
     IntTypespec:
       vpiParent: Design name:unnamed
+    IntTypespec:
+      vpiParent: Design name:unnamed
       vpiSigned: true
     ModuleTypespec name:udp_body_tb:
       vpiParent: Design name:unnamed
@@ -1604,8 +1623,6 @@ Design name:unnamed:
       vpiDefName: udp_body_tb
       vpiModule: Module name:udp_body_tb
     VoidTypespec:
-      vpiParent: Design name:unnamed
-    IntTypespec:
       vpiParent: Design name:unnamed
     RealTypespec:
       vpiParent: Design name:unnamed
@@ -1665,7 +1682,7 @@ COMMAND: ${HLC_DIR}/regression/Udp/Udp/design.hldb ${HLC_DIR}/regression/Udp/Udp
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1588    1588       0         0
+Others                            1605    1605       0         0
 ----------------------------------------------------------------
-                                  1588    1588       0         0
+                                  1605    1605       0         0
 ===================== END REDUCTION RESULT =====================

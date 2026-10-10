@@ -1353,6 +1353,7 @@ Design name:unnamed:
         vpiFullName: rggen_or_reducer #(.WIDTH(2), .N(4)).work
         vpiActual: Library name:work
       vpiCell: rggen_or_reducer
+      vpiAutomatic: true
       vpiTaskFunc (3 items):
         Function name:get_sub_n_list start:10:3 end:36:14:
           vpiParent: Module name:rggen_or_reducer #(.WIDTH(2), .N(4))
@@ -1629,18 +1630,27 @@ Design name:unnamed:
                   vpiActual: Variable name:current_n
                 vpiRhs Operation start:18:19 end:18:25:
                   vpiParent: Assignment
+                  vpiTypespec RefTypespec:
+                    vpiParent: Operation
+                    vpiFullName: rggen_or_reducer #(.WIDTH(2), .N(4)).get_sub_n_list
+                    vpiPathElem (1 items):
+                      Operation:
+                        vpiParent: RefTypespec
+                        vpiOpType: type (95)
+                        vpiOperand (1 items):
+                          Constant start:18:19 end:18:21:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: rggen_or_reducer #(.WIDTH(2), .N(4)).get_sub_n_list
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "16"
+                            vpiValue: 16
+                    vpiActual: IntTypespec
                   vpiOpType: cast (81)
-                  vpiOperand (2 items):
-                    Constant start:18:19 end:18:21:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: rggen_or_reducer #(.WIDTH(2), .N(4)).get_sub_n_list
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "16"
-                      vpiValue: 16
+                  vpiOperand (1 items):
                     RefObj name:n start:18:23 end:18:24:
                       vpiParent: Operation
                       vpiName: n
@@ -2132,7 +2142,11 @@ Design name:unnamed:
                 vpiForInitStmt (1 items):
                   Assignment start:42:14 end:42:19:
                     vpiParent: ForStmt
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:42:14 end:42:15:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: rggen_or_reducer #(.WIDTH(2), .N(4)).get_offset_list.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:42:18 end:42:19:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -2436,7 +2450,11 @@ Design name:unnamed:
                 vpiForInitStmt (1 items):
                   Assignment start:58:14 end:58:19:
                     vpiParent: ForStmt
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:58:14 end:58:15:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: rggen_or_reducer #(.WIDTH(2), .N(4)).get_next_n.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:58:18 end:58:19:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -2616,11 +2634,11 @@ COMMAND: ${HLC_DIR}/regression/FuncInModule/FuncInModule/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            62      62       9         9
-Operation                           30      21       0         9
-RefObj                              66      57       0         9
-RefTypespec                         82      82       9         9
+Operation                           31      22       0         9
+RefObj                              68      59       0         9
+RefTypespec                         83      83       9         9
 ----------------------------------------------------------------
-Others                             121     121       0         0
+Others                             122     122       0         0
 ----------------------------------------------------------------
-                                   361     343      18        36
+                                   366     348      18        36
 ===================== END REDUCTION RESULT =====================

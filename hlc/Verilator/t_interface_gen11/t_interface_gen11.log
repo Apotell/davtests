@@ -271,6 +271,8 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_interface_gen11.v:21:16: Port "mod_intfs" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface_gen11.v:29:1: Compile module "t".
 [WRN:CP5851] $Source01/t_interface_gen11.v:11:4: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_interface_gen11.v:31:12: Failed to bind "PARAM".
+[WRN:CP5851] $Source01/t_interface_gen11.v:31:12: Failed to bind "PARAM".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/t_interface_gen11.v:31:4: Unsupported typespec "".
 ====== HLDB =======
@@ -325,6 +327,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:intf #(.PARAM(0))
+          vpiScalar: true
       vpiDefName: intf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:11 end:8:15:
@@ -372,6 +375,7 @@ Design name:unnamed:
         vpiFullName: t1.work
         vpiActual: Library name:work
       vpiCell: t1
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:mod_intf start:15:16 end:15:24:
           vpiParent: Module name:t1
@@ -439,6 +443,8 @@ Design name:unnamed:
                           vpiFullName: t1.val
                           vpiActual: Variable name:val
                       vpiActual: Variable name:val
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$display:
     Module name:t2 file:$Source01/t_interface_gen11.v start:21:1 end:27:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t2 start:21:8 end:21:10:
@@ -482,6 +488,7 @@ Design name:unnamed:
         vpiFullName: t2.work
         vpiActual: Library name:work
       vpiCell: t2
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:mod_intfs start:21:16 end:21:25:
           vpiParent: Module name:t2
@@ -644,6 +651,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:35:4 end:38:7:
           vpiParent: Module name:t
@@ -671,6 +679,9 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:37:7 end:37:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (2 items):
         RefInstance name:my_intf start:31:22 end:31:29:
           vpiParent: Module name:t
@@ -736,7 +747,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 3
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -780,7 +791,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_gen11/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             115     115       0         0
+Others                             116     116       0         0
 ----------------------------------------------------------------
-                                   115     115       0         0
+                                   116     116       0         0
 ===================== END REDUCTION RESULT =====================

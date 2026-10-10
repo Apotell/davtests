@@ -2515,9 +2515,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "10000"
             vpiValue: 10000
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:glbl
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:glbl
           vpiRange (1 items):
@@ -2570,6 +2571,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:glbl
       vpiDefName: glbl
       vpiDefNetType: wire (1)
       vpiTimePrecision: -12
@@ -2580,6 +2583,7 @@ Design name:unnamed:
         vpiFullName: glbl.work
         vpiActual: Library name:work
       vpiCell: glbl
+      vpiAutomatic: true
       vpiNet (17 items):
         Net name:GSR start:29:10 end:29:13:
           vpiParent: Module name:glbl
@@ -2924,8 +2928,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-              DelayControl start:92:2 end:92:15:
+              DelayControl start:92:2 end:92:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_START start:92:4 end:92:14:
                   vpiParent: DelayControl
                   vpiName: GRES_START
@@ -2949,8 +2955,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-              DelayControl start:94:2 end:94:15:
+              DelayControl start:94:2 end:94:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_WIDTH start:94:4 end:94:14:
                   vpiParent: DelayControl
                   vpiName: GRES_WIDTH
@@ -3140,7 +3148,7 @@ Design name:unnamed:
             vpiSize: 72
             vpiDecompile: "\"RAMD32M64\""
             vpiValue: RAMD32M64
-      vpiTypespec (6 items):
+      vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: "Module name:RAMD32M64 #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0))"
           vpiRange (1 items):
@@ -3195,6 +3203,9 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: "Module name:RAMD32M64 #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0))"
+          vpiScalar: true
         LogicTypespec:
           vpiParent: "Module name:RAMD32M64 #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0))"
         LogicTypespec:
@@ -3259,6 +3270,7 @@ Design name:unnamed:
         vpiFullName: "RAMD32M64 #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0)).work"
         vpiActual: Library name:work
       vpiCell: RAMD32M64
+      vpiAutomatic: true
       vpiNet (30 items):
         Net name:O start:43:10 end:43:11:
           vpiParent: "Module name:RAMD32M64 #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0))"
@@ -3785,9 +3797,11 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-              DelayControl start:146:3 end:146:5:
+              DelayControl start:146:3 end:146:6:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:146:4 end:146:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -4062,6 +4076,9 @@ Design name:unnamed:
                 vpiName: WE
                 vpiFullName: "RAMD32M64 #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0)).WE"
                 vpiActual: Net name:WE
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
       vpiSpecifyBlock (1 items):
         SpecifyBlock start:177:3 end:249:13:
           vpiParent: "Module name:RAMD32M64 #(.INIT(64'h0000000000000000), .IS_CLK_INVERTED(1'b0))"
@@ -5212,7 +5229,7 @@ COMMAND: ${HLC_DIR}/regression/XilinxUnisimLibrary/verilog/src/unisims/RAMD32M64
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             676     676       0         0
+Others                             682     682       0         0
 ----------------------------------------------------------------
-                                   676     676       0         0
+                                   682     682       0         0
 ===================== END REDUCTION RESULT =====================

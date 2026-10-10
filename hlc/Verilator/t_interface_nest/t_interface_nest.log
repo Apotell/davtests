@@ -593,10 +593,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_interface_nest.v:30:21: Failed to bind "var1".
 [WRN:CP5851] $Source01/t_interface_nest.v:46:15: Failed to bind "i1".
 [WRN:CP5851] $Source01/t_interface_nest.v:46:18: Failed to bind "var1".
-[WRN:CP5851] $Source01/t_interface_nest.v:47:15: Failed to bind "var2".
 [WRN:CP5851] $Source01/t_interface_nest.v:48:15: Failed to bind "i1".
 [WRN:CP5851] $Source01/t_interface_nest.v:48:18: Failed to bind "var1".
-[WRN:CP5851] $Source01/t_interface_nest.v:49:15: Failed to bind "var2".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -691,6 +689,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:mod1
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:mod1
           vpiSigned: true
@@ -702,6 +701,7 @@ Design name:unnamed:
         vpiFullName: mod1.work
         vpiActual: Library name:work
       vpiCell: mod1
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:17:10 end:17:13:
           vpiParent: Module name:mod1
@@ -989,6 +989,11 @@ Design name:unnamed:
                           vpiName Identifier name:$stop start:31:29 end:31:34:
                           vpiIsProperty: true
           vpiAlwaysType: ff (3)
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
     Module name:t file:$Source01/t_interface_nest.v start:37:1 end:74:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:37:8 end:37:9:
@@ -1015,6 +1020,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ModuleTypespec name:mod1 start:51:4 end:51:8:
           vpiParent: Module name:t
           vpiName Identifier name:mod1 start:51:4 end:51:8:
@@ -1036,6 +1042,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:41:10 end:41:13:
           vpiParent: Module name:t
@@ -1197,6 +1204,8 @@ Design name:unnamed:
                 vpiParent: RefObj name:i2a.var2
                 vpiName: var2
                 vpiFullName: t.var2
+                vpiActual: Variable name:var2
+            vpiActual: Variable name:var2
           vpiRhs Constant start:47:22 end:47:23:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -1253,6 +1262,8 @@ Design name:unnamed:
                 vpiParent: RefObj name:i2b.var2
                 vpiName: var2
                 vpiFullName: t.var2
+                vpiActual: Variable name:var2
+            vpiActual: Variable name:var2
           vpiRhs Constant start:49:22 end:49:23:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -1263,6 +1274,9 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "4"
             vpiValue: 4
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (4 items):
         RefInstance name:i2a start:43:8 end:43:11:
           vpiParent: Module name:t
@@ -1314,7 +1328,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.mod1a.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:54:13 end:54:16:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1367,7 +1381,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.mod1b.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:61:13 end:61:16:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1420,7 +1434,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 13
+[WARNING] : 11
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1468,7 +1482,7 @@ Operation                           10       8       0         2
 RefObj                              53      51       0         2
 RefTypespec                         34      34       2         2
 ----------------------------------------------------------------
-Others                              89      89       0         0
+Others                              90      90       0         0
 ----------------------------------------------------------------
-                                   202     198       4         8
+                                   203     199       4         8
 ===================== END REDUCTION RESULT =====================

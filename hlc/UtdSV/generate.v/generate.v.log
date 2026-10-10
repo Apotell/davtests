@@ -176,13 +176,18 @@ n<$Source01/generate.v> u<161> t<Top_level_rule> c<1> l<2:1> el<14:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/generate.v:2:1: Compile module "tb_generate".
 [INF:CP5836] $Source01/generate.v:6:37: Compile generate block "MEM".
+[WRN:CP5851] $Source01/generate.v:7:17: Failed to bind "read".
+[WRN:CP5851] $Source01/generate.v:7:23: Failed to bind "write".
+[WRN:CP5851] $Source01/generate.v:8:17: Failed to bind "data_in".
+[WRN:CP5851] $Source01/generate.v:9:17: Failed to bind "address".
+[WRN:CP5851] $Source01/generate.v:9:25: Failed to bind "data_out".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/generate.v:7:7: Unsupported typespec "memory".
-[ERR:LN7701] Invalid name: id:33, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:36, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:55, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:58, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:77, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:34, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:37, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:56, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:59, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:78, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -209,6 +214,7 @@ Design name:unnamed:
         vpiFullName: tb_generate.work
         vpiActual: Library name:work
       vpiCell: tb_generate
+      vpiAutomatic: true
       vpiGenStmt (1 items):
         GenRegion start:5:1 end:11:12:
           vpiParent: Module name:tb_generate
@@ -216,15 +222,14 @@ Design name:unnamed:
           vpiStmt GenFor start:6:5 end:10:8:
             vpiParent: GenRegion
             vpiFullName: tb_generate
-            vpiVariable (1 items):
-              Variable name:i start:6:10 end:6:11:
-                vpiParent: GenFor
-                vpiName: i
-                vpiFullName: tb_generate.i
             vpiForInitStmt (1 items):
               Assignment start:6:10 end:6:13:
                 vpiParent: GenFor
-                vpiLhs: Variable name:i
+                vpiLhs RefObj name:i start:6:10 end:6:11:
+                  vpiParent: Assignment
+                  vpiName: i
+                  vpiFullName: tb_generate.i
+                  vpiActual: Variable name:i
                 vpiRhs Constant start:6:12 end:6:13:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -478,7 +483,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 6
-[WARNING] : 0
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -522,7 +527,7 @@ COMMAND: ${HLC_DIR}/regression/UtdSV/generate.v/design.hldb ${HLC_DIR}/regressio
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              73      73       0         0
+Others                              74      74       0         0
 ----------------------------------------------------------------
-                                    73      73       0         0
+                                    74      74       0         0
 ===================== END REDUCTION RESULT =====================

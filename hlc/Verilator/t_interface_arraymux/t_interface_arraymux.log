@@ -927,17 +927,11 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_interface_arraymux.v:23:5: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_arraymux.v:37:11: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_arraymux.v:37:11: Failed to bind "logic".
-[WRN:CP5851] $Source01/t_interface_arraymux.v:38:5: Failed to bind "the_intf".
-[WRN:CP5851] $Source01/t_interface_arraymux.v:38:14: Failed to bind "t".
-[WRN:CP5851] $Source01/t_interface_arraymux.v:39:5: Failed to bind "the_intf".
 [WRN:CP5851] $Source01/t_interface_arraymux.v:39:14: Failed to bind "i".
 [WRN:CP5851] $Source01/t_interface_arraymux.v:48:11: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_arraymux.v:48:11: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_arraymux.v:49:11: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_arraymux.v:49:11: Failed to bind "logic".
-[WRN:CP5851] $Source01/t_interface_arraymux.v:51:5: Failed to bind "the_intf".
-[WRN:CP5851] $Source01/t_interface_arraymux.v:51:14: Failed to bind "t".
-[WRN:CP5851] $Source01/t_interface_arraymux.v:52:5: Failed to bind "the_intf".
 [WRN:CP5851] $Source01/t_interface_arraymux.v:52:14: Failed to bind "i".
 [WRN:CP5851] $Source01/t_interface_arraymux.v:60:4: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_arraymux.v:84:10: Failed to bind "logic".
@@ -1134,6 +1128,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Interface name:the_intf #(.M(5))
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Interface name:the_intf #(.M(5))
           vpiArrayType: static (1)
@@ -1269,6 +1264,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
           vpiArrayType: static (1)
@@ -1342,19 +1338,22 @@ Design name:unnamed:
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec name:the_intf::t start:38:5 end:38:15:
+          vpiElemTypespec RefTypespec name:the_intf #(.M(5))::t start:38:5 end:38:15:
             vpiParent: ArrayTypespec
-            vpiName: the_intf::t
-            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf::t
+            vpiName: the_intf #(.M(5))::t
+            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf #(.M(5))::t
             vpiPathElem (2 items):
               RefObj name:the_intf start:38:5 end:38:13:
-                vpiParent: RefTypespec name:the_intf::t
+                vpiParent: RefTypespec name:the_intf #(.M(5))::t
                 vpiName: the_intf
                 vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf
+                vpiActual: Interface name:the_intf #(.M(5))
               RefTypespec name:t start:38:14 end:38:15:
-                vpiParent: RefTypespec name:the_intf::t
+                vpiParent: RefTypespec name:the_intf #(.M(5))::t
                 vpiName: t
-                vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf::t.t
+                vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).the_intf #(.M(5))::t.t
+                vpiActual: ModuleTypespec name:t
+            vpiActual: ModuleTypespec name:t
       vpiDefName: ThingMuxOH
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:32:8 end:32:18:
@@ -1363,6 +1362,7 @@ Design name:unnamed:
         vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).work
         vpiActual: Library name:work
       vpiCell: ThingMuxOH
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:select_oh start:37:31 end:37:40:
           vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
@@ -1397,10 +1397,10 @@ Design name:unnamed:
             vpiParent: Port name:things_in
             vpiName: things_in
             vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).things_in.things_in
-          vpiTypespec RefTypespec name:the_intf::t [NTHINGS-1:0] start:38:5 end:38:15:
+          vpiTypespec RefTypespec name:the_intf #(.M(5))::t [NTHINGS-1:0] start:38:5 end:38:15:
             vpiParent: Port name:things_in
-            vpiName: the_intf::t [NTHINGS-1:0]
-            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).things_in.the_intf::t [NTHINGS-1:0]
+            vpiName: the_intf #(.M(5))::t [NTHINGS-1:0]
+            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).things_in.the_intf #(.M(5))::t [NTHINGS-1:0]
             vpiActual: ArrayTypespec
         Port name:thing_out start:39:16 end:39:25:
           vpiParent: Module name:ThingMuxOH #(.NTHINGS(1), .M(5))
@@ -1410,19 +1410,20 @@ Design name:unnamed:
             vpiParent: Port name:thing_out
             vpiName: thing_out
             vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).thing_out.thing_out
-          vpiTypespec RefTypespec name:the_intf::i start:39:5 end:39:15:
+          vpiTypespec RefTypespec name:the_intf #(.M(5))::i start:39:5 end:39:15:
             vpiParent: Port name:thing_out
-            vpiName: the_intf::i
-            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).thing_out.the_intf::i
+            vpiName: the_intf #(.M(5))::i
+            vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).thing_out.the_intf #(.M(5))::i
             vpiPathElem (2 items):
               RefObj name:the_intf start:39:5 end:39:13:
-                vpiParent: RefTypespec name:the_intf::i
+                vpiParent: RefTypespec name:the_intf #(.M(5))::i
                 vpiName: the_intf
                 vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).thing_out.the_intf
+                vpiActual: Interface name:the_intf #(.M(5))
               RefTypespec name:i start:39:14 end:39:15:
-                vpiParent: RefTypespec name:the_intf::i
+                vpiParent: RefTypespec name:the_intf #(.M(5))::i
                 vpiName: i
-                vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).thing_out.the_intf::i.i
+                vpiFullName: ThingMuxOH #(.NTHINGS(1), .M(5)).thing_out.the_intf #(.M(5))::i.i
     Module name:Thinker #(.M(5), .N(2)) file:$Source01/t_interface_arraymux.v start:43:1 end:80:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Thinker #(.M(5), .N(2)) start:43:8 end:43:15:
@@ -1492,6 +1493,7 @@ Design name:unnamed:
       vpiTypespec (11 items):
         LogicTypespec:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiArrayType: static (1)
@@ -1846,6 +1848,7 @@ Design name:unnamed:
         vpiFullName: Thinker #(.M(5), .N(2)).work
         vpiActual: Library name:work
       vpiCell: Thinker
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:48:17 end:48:20:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
@@ -1924,19 +1927,22 @@ Design name:unnamed:
             vpiParent: Port name:thing_inp
             vpiName: thing_inp
             vpiFullName: Thinker #(.M(5), .N(2)).thing_inp.thing_inp
-          vpiTypespec RefTypespec name:the_intf::t start:51:5 end:51:15:
+          vpiTypespec RefTypespec name:the_intf #(.M(5))::t start:51:5 end:51:15:
             vpiParent: Port name:thing_inp
-            vpiName: the_intf::t
-            vpiFullName: Thinker #(.M(5), .N(2)).thing_inp.the_intf::t
+            vpiName: the_intf #(.M(5))::t
+            vpiFullName: Thinker #(.M(5), .N(2)).thing_inp.the_intf #(.M(5))::t
             vpiPathElem (2 items):
               RefObj name:the_intf start:51:5 end:51:13:
-                vpiParent: RefTypespec name:the_intf::t
+                vpiParent: RefTypespec name:the_intf #(.M(5))::t
                 vpiName: the_intf
                 vpiFullName: Thinker #(.M(5), .N(2)).thing_inp.the_intf
+                vpiActual: Interface name:the_intf #(.M(5))
               RefTypespec name:t start:51:14 end:51:15:
-                vpiParent: RefTypespec name:the_intf::t
+                vpiParent: RefTypespec name:the_intf #(.M(5))::t
                 vpiName: t
-                vpiFullName: Thinker #(.M(5), .N(2)).thing_inp.the_intf::t.t
+                vpiFullName: Thinker #(.M(5), .N(2)).thing_inp.the_intf #(.M(5))::t.t
+                vpiActual: ModuleTypespec name:t
+            vpiActual: ModuleTypespec name:t
         Port name:thing_out start:52:16 end:52:25:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
           vpiName: thing_out
@@ -1945,19 +1951,20 @@ Design name:unnamed:
             vpiParent: Port name:thing_out
             vpiName: thing_out
             vpiFullName: Thinker #(.M(5), .N(2)).thing_out.thing_out
-          vpiTypespec RefTypespec name:the_intf::i start:52:5 end:52:15:
+          vpiTypespec RefTypespec name:the_intf #(.M(5))::i start:52:5 end:52:15:
             vpiParent: Port name:thing_out
-            vpiName: the_intf::i
-            vpiFullName: Thinker #(.M(5), .N(2)).thing_out.the_intf::i
+            vpiName: the_intf #(.M(5))::i
+            vpiFullName: Thinker #(.M(5), .N(2)).thing_out.the_intf #(.M(5))::i
             vpiPathElem (2 items):
               RefObj name:the_intf start:52:5 end:52:13:
-                vpiParent: RefTypespec name:the_intf::i
+                vpiParent: RefTypespec name:the_intf #(.M(5))::i
                 vpiName: the_intf
                 vpiFullName: Thinker #(.M(5), .N(2)).thing_out.the_intf
+                vpiActual: Interface name:the_intf #(.M(5))
               RefTypespec name:i start:52:14 end:52:15:
-                vpiParent: RefTypespec name:the_intf::i
+                vpiParent: RefTypespec name:the_intf #(.M(5))::i
                 vpiName: i
-                vpiFullName: Thinker #(.M(5), .N(2)).thing_out.the_intf::i.i
+                vpiFullName: Thinker #(.M(5), .N(2)).thing_out.the_intf #(.M(5))::i.i
       vpiRefInstance (6 items):
         RefInstance name:curr_things start:55:22 end:55:33:
           vpiParent: Module name:Thinker #(.M(5), .N(2))
@@ -2005,7 +2012,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: select_oh
                 vpiFullName: Thinker #(.M(5), .N(2)).curr_thing_mux.select_oh
-                vpiActual: Variable name:select_oh
+                vpiActual: Port name:select_oh
               vpiHighConn RefObj name:select_oh start:67:17 end:67:26:
                 vpiParent: NamedArgument
                 vpiName: select_oh
@@ -2053,7 +2060,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: select_oh
                 vpiFullName: Thinker #(.M(5), .N(2)).prev_thing_mux.select_oh
-                vpiActual: Variable name:select_oh
+                vpiActual: Port name:select_oh
               vpiHighConn RefObj name:select_oh start:76:17 end:76:26:
                 vpiParent: NamedArgument
                 vpiName: select_oh
@@ -2182,6 +2189,7 @@ Design name:unnamed:
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -2421,6 +2429,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:84:16 end:84:19:
           vpiParent: Module name:t
@@ -2498,7 +2507,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.thinker.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:100:17 end:100:20:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -2511,7 +2520,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: reset
                 vpiFullName: t.thinker.reset
-                vpiActual: Net name:reset
+                vpiActual: Port name:reset
               vpiHighConn RefObj name:reset start:101:17 end:101:22:
                 vpiParent: NamedArgument
                 vpiName: reset
@@ -2524,7 +2533,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: uids
                 vpiFullName: t.thinker.uids
-                vpiActual: Variable name:uids
+                vpiActual: Port name:uids
               vpiHighConn RefObj name:uids start:102:17 end:102:21:
                 vpiParent: NamedArgument
                 vpiName: uids
@@ -2537,7 +2546,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: thing_inp
                 vpiFullName: t.thinker.thing_inp
-                vpiActual: RefInstance name:thing_inp
+                vpiActual: Port name:thing_inp
               vpiHighConn RefObj name:thing_inp start:103:17 end:103:26:
                 vpiParent: NamedArgument
                 vpiName: thing_inp
@@ -2550,7 +2559,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: thing_out
                 vpiFullName: t.thinker.thing_out
-                vpiActual: RefInstance name:thing_out
+                vpiActual: Port name:thing_out
               vpiHighConn RefObj name:thing_out start:104:17 end:104:26:
                 vpiParent: NamedArgument
                 vpiName: thing_out
@@ -2586,7 +2595,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.thinker2.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:115:17 end:115:20:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -2599,7 +2608,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: reset
                 vpiFullName: t.thinker2.reset
-                vpiActual: Net name:reset
+                vpiActual: Port name:reset
               vpiHighConn RefObj name:reset start:116:17 end:116:22:
                 vpiParent: NamedArgument
                 vpiName: reset
@@ -2612,7 +2621,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: uids
                 vpiFullName: t.thinker2.uids
-                vpiActual: Variable name:uids
+                vpiActual: Port name:uids
               vpiHighConn RefObj name:uids start:117:17 end:117:21:
                 vpiParent: NamedArgument
                 vpiName: uids
@@ -2625,7 +2634,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: thing_inp
                 vpiFullName: t.thinker2.thing_inp
-                vpiActual: RefInstance name:thing_inp
+                vpiActual: Port name:thing_inp
               vpiHighConn RefObj name:thing_inp2 start:118:17 end:118:27:
                 vpiParent: NamedArgument
                 vpiName: thing_inp2
@@ -2638,7 +2647,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: thing_out
                 vpiFullName: t.thinker2.thing_out
-                vpiActual: RefInstance name:thing_out
+                vpiActual: Port name:thing_out
               vpiHighConn RefObj name:thing_out2 start:119:17 end:119:27:
                 vpiParent: NamedArgument
                 vpiName: thing_out2
@@ -2691,7 +2700,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 8
-[WARNING] : 25
+[WARNING] : 19
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2739,7 +2748,7 @@ Operation                            8       0       0         8
 RefObj                             115     107       0         8
 RefTypespec                         86      86       8         8
 ----------------------------------------------------------------
-Others                             178     178       0         0
+Others                             179     179       0         0
 ----------------------------------------------------------------
-                                   414     398      16        32
+                                   415     399      16        32
 ===================== END REDUCTION RESULT =====================

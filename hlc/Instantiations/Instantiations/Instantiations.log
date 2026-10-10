@@ -980,7 +980,8 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:94:1: Compile module "top".
 [INF:CP5804] $Source01/dut.sv:143:1: Compile module "gen_top".
 [INF:CP5836] $Source01/dut.sv:146:37: Compile generate block "gen_lane".
-[WRN:CP5851] $Source01/dut.sv:105:52: Failed to bind "data".
+[WRN:CP5851] $Source01/dut.sv:75:20: Failed to bind "p".
+[WRN:CP5851] $Source01/dut.sv:76:19: Failed to bind "s".
 [WRN:CP5851] $Source01/dut.sv:148:46: Failed to bind "u_if".
 [WRN:CP5851] $Source01/dut.sv:148:51: Failed to bind "data".
 [WRN:PA5506] $Source01/dut.sv:40:23: No timescale set for "macro_mod".
@@ -1340,7 +1341,7 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: my_prog
             vpiStmt (1 items):
-              EventControl start:67:5 end:67:19:
+              EventControl start:67:5 end:67:20:
                 vpiParent: Begin
                 vpiCondition Operation start:67:7 end:67:18:
                   vpiParent: EventControl
@@ -1351,6 +1352,8 @@ Design name:unnamed:
                       vpiName: clk
                       vpiFullName: my_prog.clk
                       vpiActual: Net name:clk
+                vpiStmt NullStmt:
+                  vpiParent: EventControl
       vpiPort (1 items):
         Port name:clk start:65:30 end:65:33:
           vpiParent: Program name:my_prog
@@ -1378,6 +1381,7 @@ Design name:unnamed:
         vpiFullName: macro_mod.work
         vpiActual: Library name:work
       vpiCell: macro_mod
+      vpiAutomatic: true
     Module name:passthru file:$Source01/dut.sv start:46:1 end:52:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:passthru start:46:8 end:46:16:
@@ -1402,6 +1406,7 @@ Design name:unnamed:
         vpiFullName: passthru.work
         vpiActual: Library name:work
       vpiCell: passthru
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:in_clk start:47:16 end:47:22:
           vpiParent: Module name:passthru
@@ -1628,6 +1633,7 @@ Design name:unnamed:
         vpiFullName: adder #(.W(8)).work
         vpiActual: Library name:work
       vpiCell: adder
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:a start:55:24 end:55:25:
           vpiParent: Module name:adder #(.W(8))
@@ -1836,6 +1842,7 @@ Design name:unnamed:
         CheckerTypespec name:my_checker start:114:3 end:114:13:
           vpiParent: Module name:top
           vpiName: my_checker
+          vpiCheckerDecl: CheckerDecl name:my_checker
         UdpDefnTypespec name:my_udp start:120:3 end:120:9:
           vpiParent: Module name:top
           vpiName: my_udp
@@ -1851,6 +1858,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiPrimitive (5 items):
         Udp name:u_udp file:$Source01/dut.sv start:120:10 end:120:15:
           vpiParent: Module name:top
@@ -2059,6 +2067,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:u_simple_if.data
                     vpiName: data
                     vpiFullName: top.u_pt.data
+                    vpiActual: Variable name:data
+                vpiActual: Variable name:data
             NamedArgument start:105:59 end:105:73:
               vpiParent: RefInstance name:u_pt
               vpiConnByName: true
@@ -2088,7 +2098,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: a
                 vpiFullName: top.u_add.a
-                vpiActual: Variable name:a
+                vpiActual: Port name:a
               vpiHighConn RefObj name:data_a start:108:27 end:108:33:
                 vpiParent: NamedArgument
                 vpiName: data_a
@@ -2101,7 +2111,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: b
                 vpiFullName: top.u_add.b
-                vpiActual: Variable name:b
+                vpiActual: Port name:b
               vpiHighConn RefObj name:data_b start:108:39 end:108:45:
                 vpiParent: NamedArgument
                 vpiName: data_b
@@ -2136,7 +2146,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: top.u_prog.clk
-                vpiActual: Variable name:clk
               vpiHighConn RefObj name:clk start:111:23 end:111:26:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -2231,7 +2240,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: top.u_bb.clk
-                vpiActual: Variable name:clk
               vpiHighConn RefObj name:clk start:124:23 end:124:26:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -2301,6 +2309,7 @@ Design name:unnamed:
         vpiFullName: gen_top #(.N(2)).work
         vpiActual: Library name:work
       vpiCell: gen_top
+      vpiAutomatic: true
       vpiGenStmt (1 items):
         GenRegion start:145:3 end:150:14:
           vpiParent: Module name:gen_top #(.N(2))
@@ -2308,15 +2317,14 @@ Design name:unnamed:
           vpiStmt GenFor start:146:5 end:149:8:
             vpiParent: GenRegion
             vpiFullName: gen_top #(.N(2))
-            vpiVariable (1 items):
-              Variable name:i start:146:10 end:146:11:
-                vpiParent: GenFor
-                vpiName: i
-                vpiFullName: gen_top #(.N(2)).i
             vpiForInitStmt (1 items):
               Assignment start:146:10 end:146:15:
                 vpiParent: GenFor
-                vpiLhs: Variable name:i
+                vpiLhs RefObj name:i start:146:10 end:146:11:
+                  vpiParent: Assignment
+                  vpiName: i
+                  vpiFullName: gen_top #(.N(2)).i
+                  vpiActual: Variable name:i
                 vpiRhs Constant start:146:14 end:146:15:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -2490,6 +2498,8 @@ Design name:unnamed:
       vpiConcurrentAssertions (2 items):
         Assert start:75:3 end:75:23:
           vpiParent: CheckerDecl name:my_checker
+          vpiStmt NullStmt:
+            vpiParent: Assert
           vpiProperty PropertySpec start:75:20 end:75:21:
             vpiParent: Assert
             vpiPropertyExpr RefObj name:p start:75:20 end:75:21:
@@ -2498,6 +2508,8 @@ Design name:unnamed:
               vpiFullName: my_checker.p
         Cover start:76:3 end:76:22:
           vpiParent: CheckerDecl name:my_checker
+          vpiStmt NullStmt:
+            vpiParent: Cover
           vpiProperty PropertySpec start:76:19 end:76:20:
             vpiParent: Cover
             vpiPropertyExpr RefObj name:s start:76:19 end:76:20:
@@ -2526,7 +2538,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 12
+[WARNING] : 13
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2571,10 +2583,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            21      21       4         4
 Operation                           12       8       0         4
-RefObj                              80      76       0         4
+RefObj                              81      77       0         4
 RefTypespec                         60      60       4         4
 ----------------------------------------------------------------
-Others                             224     224       0         0
+Others                             227     227       0         0
 ----------------------------------------------------------------
-                                   397     389       8        16
+                                   401     393       8        16
 ===================== END REDUCTION RESULT =====================

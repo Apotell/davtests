@@ -271,6 +271,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_var_notfound_bad.v:6:1: Compile module "t".
 [INF:CP5804] $Source01/t_var_notfound_bad.v:27:1: Compile module "sub".
 [INF:CP5804] $Source01/t_var_notfound_bad.v:32:1: Compile module "subsub".
+[WRN:CP5851] $Source01/t_var_notfound_bad.v:17:7: Failed to bind "nf".
 [WRN:CP5851] $Source01/t_var_notfound_bad.v:18:11: Failed to bind "subsubz".
 [WRN:CP5851] $Source01/t_var_notfound_bad.v:18:19: Failed to bind "inss".
 [WRN:CP5851] $Source01/t_var_notfound_bad.v:19:11: Failed to bind "nofunc".
@@ -278,6 +279,10 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_var_notfound_bad.v:21:7: Failed to bind "notask".
 [WRN:CP5851] $Source01/t_var_notfound_bad.v:22:7: Failed to bind "a_var".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/t_var_notfound_bad.v:19:11: Null Actual: id:52, type:SubroutineCall, name:nofunc, relation:vpiRhs.
+[ERR:LN7705] $Source01/t_var_notfound_bad.v:20:15: Null Actual: id:58, type:SubroutineCall, name:nofuncs, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_var_notfound_bad.v:21:7: Null Actual: id:61, type:SubroutineCall, name:notask, relation:vpiStmt.
+[ERR:LN7705] $Source01/t_var_notfound_bad.v:22:7: Null Actual: id:63, type:SubroutineCall, name:a_var, relation:vpiStmt.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -325,6 +330,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiTaskFunc (2 items):
         Task name:nottask start:13:4 end:13:27:
           vpiParent: Module name:t
@@ -448,6 +454,8 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:23:7 end:23:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:sub start:11:8 end:11:11:
           vpiParent: Module name:t
@@ -475,6 +483,7 @@ Design name:unnamed:
         vpiFullName: sub.work
         vpiActual: Library name:work
       vpiCell: sub
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:notfuncs start:29:4 end:29:50:
           vpiParent: Module name:sub
@@ -531,6 +540,7 @@ Design name:unnamed:
         vpiFullName: subsub.work
         vpiActual: Library name:work
       vpiCell: subsub
+      vpiAutomatic: true
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -557,8 +567,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 6
+[  ERROR] : 4
+[WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -602,7 +612,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_var_notfound_bad/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              78      78       0         0
+Others                              79      79       0         0
 ----------------------------------------------------------------
-                                    78      78       0         0
+                                    79      79       0         0
 ===================== END REDUCTION RESULT =====================

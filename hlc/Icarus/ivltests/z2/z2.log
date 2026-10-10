@@ -169,6 +169,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:baz
+          vpiScalar: true
       vpiDefName: baz
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:8 end:1:11:
@@ -177,6 +178,7 @@ Design name:unnamed:
         vpiFullName: baz.work
         vpiActual: Library name:work
       vpiCell: baz
+      vpiAutomatic: true
     Module name:bar file:$Source01/z2.v start:5:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:5:8 end:5:11:
@@ -211,6 +213,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:bar
+          vpiScalar: true
         ModuleTypespec name:baz start:7:3 end:7:6:
           vpiParent: Module name:bar
           vpiName Identifier name:baz start:7:3 end:7:6:
@@ -219,6 +222,11 @@ Design name:unnamed:
             ParamAssign start:7:9 end:7:12:
               vpiParent: ModuleTypespec name:baz
               vpiOverridden: true
+              vpiLhs RefObj name:Q start:2:13 end:2:14:
+                vpiParent: ParamAssign
+                vpiName: Q
+                vpiFullName: bar.baz.Q
+                vpiActual: Parameter name:Q
               vpiRhs Operation start:7:9 end:7:12:
                 vpiParent: ParamAssign
                 vpiOpType: add (24)
@@ -247,6 +255,7 @@ Design name:unnamed:
         vpiFullName: bar.work
         vpiActual: Library name:work
       vpiCell: bar
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:baz1 start:7:14 end:7:18:
           vpiParent: Module name:bar
@@ -274,6 +283,7 @@ Design name:unnamed:
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:12:3 end:13:24:
           vpiParent: Module name:foo
@@ -293,6 +303,8 @@ Design name:unnamed:
                   vpiSize: 48
                   vpiDecompile: "\"PASSED\""
                   vpiValue: PASSED
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$display:
       vpiRefInstance (1 items):
         RefInstance name:bar1 start:11:10 end:11:14:
           vpiParent: Module name:foo
@@ -385,10 +397,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       5       1         1
 Operation                            1       0       0         1
-RefObj                               6       5       0         1
+RefObj                               7       6       0         1
 RefTypespec                          9       9       1         1
 ----------------------------------------------------------------
-Others                              34      34       0         0
+Others                              35      35       0         0
 ----------------------------------------------------------------
-                                    55      53       2         4
+                                    57      55       2         4
 ===================== END REDUCTION RESULT =====================

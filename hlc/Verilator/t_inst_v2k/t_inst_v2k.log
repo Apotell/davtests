@@ -684,6 +684,8 @@ n<$Source01/t_inst_v2k.v> u<669> t<Top_level_rule> c<1> l<6:1> el<70:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_inst_v2k.v:6:1: Compile module "t".
 [INF:CP5804] $Source01/t_inst_v2k.v:65:1: Compile module "hello".
+[WRN:CP5851] $Source01/t_inst_v2k.v:36:21: Failed to bind "oonewire".
+[WRN:CP5851] $Source01/t_inst_v2k.v:53:10: Failed to bind "oonewire".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/t_inst_v2k.v:31:4: Unsupported typespec "t_inst_v2k__sub".
 ====== HLDB =======
@@ -724,9 +726,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: ionewire
           vpiFullName: t.ionewire
-      vpiTypespec (10 items):
+      vpiTypespec (11 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -808,6 +811,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:t
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -902,6 +907,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (6 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
@@ -1325,6 +1331,15 @@ Design name:unnamed:
                               vpiName Identifier name:$finish start:58:6 end:58:13:
                               vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (8 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (2 items):
         RefInstance name:hsub start:28:10 end:28:14:
           vpiParent: Module name:t
@@ -1342,7 +1357,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: tied_also
                 vpiFullName: t.hsub.tied_also
-                vpiActual: Net name:tied_also
+                vpiActual: Port name:tied_also
         RefInstance name:sub start:31:20 end:31:23:
           vpiParent: Module name:t
           vpiName: sub
@@ -1359,7 +1374,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: osizedreg
                 vpiFullName: t.sub.osizedreg
-                vpiActual: Net name:osizedreg
               vpiHighConn PartSelect name:osizedreg[7:0] start:34:21 end:34:35:
                 vpiParent: NamedArgument
                 vpiName: osizedreg[7:0]
@@ -1409,7 +1423,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: tied
                 vpiFullName: t.sub.tied
-                vpiActual: Net name:tied
               vpiHighConn PartSelect name:tied[1:0] start:38:17 end:38:26:
                 vpiParent: NamedArgument
                 vpiName: tied[1:0]
@@ -1448,7 +1461,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: isizedwire
                 vpiFullName: t.sub.isizedwire
-                vpiActual: Variable name:isizedwire
               vpiHighConn PartSelect name:isizedwire[7:0] start:40:22 end:40:37:
                 vpiParent: NamedArgument
                 vpiName: isizedwire[7:0]
@@ -1487,7 +1499,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: ionewire
                 vpiFullName: t.sub.ionewire
-                vpiActual: Variable name:ionewire
               vpiHighConn RefObj name:ionewire start:41:21 end:41:29:
                 vpiParent: NamedArgument
                 vpiName: ionewire
@@ -1551,6 +1562,7 @@ Design name:unnamed:
         vpiFullName: hello.work
         vpiActual: Library name:work
       vpiCell: hello
+      vpiAutomatic: true
       vpiPort (1 items):
         Port name:tied_also start:65:14 end:65:23:
           vpiParent: Module name:hello
@@ -1584,6 +1596,8 @@ Design name:unnamed:
                   vpiSize: 48
                   vpiDecompile: "\"Hello\\n\""
                   vpiValue: Hello\n
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$write:
   vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1610,7 +1624,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1654,7 +1668,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_inst_v2k/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             230     230       0         0
+Others                             232     232       0         0
 ----------------------------------------------------------------
-                                   230     230       0         0
+                                   232     232       0         0
 ===================== END REDUCTION RESULT =====================

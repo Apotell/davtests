@@ -638,7 +638,27 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/dut.sv:36:46: Compile generate block "cover_b".
 [INF:CP5808] $Source01/dut.sv:50:9: Compile checker "op_test".
 [WRN:CP5851] $Source01/dut.sv:10:3: Failed to bind "coverage_level".
+[WRN:CP5851] $Source01/dut.sv:10:27: Failed to bind "cover_all".
+[WRN:CP5851] $Source01/dut.sv:15:23: Failed to bind "reset".
+[WRN:CP5851] $Source01/dut.sv:19:9: Failed to bind "reset".
+[WRN:CP5851] $Source01/dut.sv:19:28: Failed to bind "end_event".
+[WRN:CP5851] $Source01/dut.sv:21:25: Failed to bind "start_event".
+[WRN:CP5851] $Source01/dut.sv:27:14: Failed to bind "clock".
+[WRN:CP5851] $Source01/dut.sv:31:5: Failed to bind "start_event".
+[WRN:CP5851] $Source01/dut.sv:31:32: Failed to bind "test_expr".
+[WRN:CP5851] $Source01/dut.sv:31:49: Failed to bind "end_event".
 [WRN:CP5851] $Source01/dut.sv:34:52: Failed to bind "error_msg".
+[WRN:CP5851] $Source01/dut.sv:36:16: Failed to bind "clevel".
+[WRN:CP5851] $Source01/dut.sv:36:26: Failed to bind "cover_none".
+[WRN:CP5851] $Source01/dut.sv:37:40: Failed to bind "start_event".
+[WRN:CP5851] $Source01/dut.sv:40:7: Failed to bind "start_event".
+[WRN:CP5851] $Source01/dut.sv:41:13: Failed to bind "end_event".
+[WRN:CP5851] $Source01/dut.sv:42:11: Failed to bind "end_event".
+[WRN:CP5851] $Source01/dut.sv:53:23: Failed to bind "clk".
+[WRN:CP5851] $Source01/dut.sv:53:41: Failed to bind "opcode".
+[WRN:CP5851] $Source01/dut.sv:59:15: Failed to bind "clk".
+[WRN:CP5851] $Source01/dut.sv:59:20: Failed to bind "vld_1".
+[WRN:CP5851] $Source01/dut.sv:59:31: Failed to bind "vld_2".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -804,9 +824,12 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b1"
             vpiValue: "1"
-      vpiTypespec (4 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: CheckerDecl name:assert_window1
+        LogicTypespec:
+          vpiParent: CheckerDecl name:assert_window1
+          vpiScalar: true
         ClockingBlockTypespec:
           vpiParent: CheckerDecl name:assert_window1
           vpiClockingBlock: ClockingBlock
@@ -1305,6 +1328,8 @@ Design name:unnamed:
       vpiConcurrentAssertions (1 items):
         Cover start:61:3 end:61:30:
           vpiParent: CheckerDecl name:op_test
+          vpiStmt NullStmt:
+            vpiParent: Cover
           vpiProperty PropertySpec start:61:19 end:61:28:
             vpiParent: Cover
             vpiPropertyExpr SequenceInst name:op_accept start:61:19 end:61:28:
@@ -1332,9 +1357,12 @@ Design name:unnamed:
           vpiValue MethodFuncCall name:new start:57:19 end:57:24:
             vpiParent: Variable name:cg_op_1
             vpiName Identifier name:new:
-      vpiTypespec (5 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: CheckerDecl name:op_test
+        LogicTypespec:
+          vpiParent: CheckerDecl name:op_test
+          vpiScalar: true
         LogicTypespec:
           vpiParent: CheckerDecl name:op_test
           vpiRange (1 items):
@@ -1468,7 +1496,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 22
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1515,9 +1543,9 @@ BitTypespec                         26      27       1         0
 Constant                            33      37       4         0
 Operation                           24      20       0         4
 RefObj                              49      45       0         4
-RefTypespec                        372     376       4         0
+RefTypespec                        385     389       4         0
 ----------------------------------------------------------------
-Others                            1076    1076       0         0
+Others                            1080    1080       0         0
 ----------------------------------------------------------------
-                                  1580    1581       9         8
+                                  1597    1598       9         8
 ===================== END REDUCTION RESULT =====================

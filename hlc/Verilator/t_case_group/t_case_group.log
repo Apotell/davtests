@@ -193,6 +193,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -229,6 +230,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:i_clk start:8:11 end:8:16:
           vpiParent: Module name:t
@@ -316,18 +318,27 @@ Design name:unnamed:
                   vpiExpr (2 items):
                     Operation start:16:8 end:16:16:
                       vpiParent: CaseItem
+                      vpiTypespec RefTypespec:
+                        vpiParent: Operation
+                        vpiFullName: t
+                        vpiPathElem (1 items):
+                          Operation:
+                            vpiParent: RefTypespec
+                            vpiOpType: type (95)
+                            vpiOperand (1 items):
+                              Constant start:16:8 end:16:9:
+                                vpiParent: Operation
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: t
+                                  vpiActual: IntTypespec
+                                vpiConstType: unsigned int (9)
+                                vpiSize: 64
+                                vpiDecompile: "7"
+                                vpiValue: 7
+                        vpiActual: IntTypespec
                       vpiOpType: cast (81)
-                      vpiOperand (2 items):
-                        Constant start:16:8 end:16:9:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "7"
-                          vpiValue: 7
+                      vpiOperand (1 items):
                         Operation start:16:11 end:16:15:
                           vpiParent: Operation
                           vpiOpType: add (24)
@@ -354,18 +365,27 @@ Design name:unnamed:
                               vpiValue: 2
                     Operation start:17:8 end:17:16:
                       vpiParent: CaseItem
+                      vpiTypespec RefTypespec:
+                        vpiParent: Operation
+                        vpiFullName: t
+                        vpiPathElem (1 items):
+                          Operation:
+                            vpiParent: RefTypespec
+                            vpiOpType: type (95)
+                            vpiOperand (1 items):
+                              Constant start:17:8 end:17:9:
+                                vpiParent: Operation
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: t
+                                  vpiActual: IntTypespec
+                                vpiConstType: unsigned int (9)
+                                vpiSize: 64
+                                vpiDecompile: "7"
+                                vpiValue: 7
+                        vpiActual: IntTypespec
                       vpiOpType: cast (81)
-                      vpiOperand (2 items):
-                        Constant start:17:8 end:17:9:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "7"
-                          vpiValue: 7
+                      vpiOperand (1 items):
                         Operation start:17:11 end:17:15:
                           vpiParent: Operation
                           vpiOpType: add (24)
@@ -434,6 +454,9 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:22:7 end:22:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
   vpiTypespec (3 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -496,11 +519,11 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_case_group/design.hldb ${HLC_DIR}/reg
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            10       8       2         4
-Operation                            5       3       0         2
-RefTypespec                         16      14       2         4
+Constant                            10       6       2         6
+Operation                            7       1       0         6
+RefTypespec                         18      10       0         8
 ----------------------------------------------------------------
-Others                              38      38       0         0
+Others                              39      39       0         0
 ----------------------------------------------------------------
-                                    69      63       4        10
+                                    74      56       2        20
 ===================== END REDUCTION RESULT =====================

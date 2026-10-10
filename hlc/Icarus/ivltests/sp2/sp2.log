@@ -332,6 +332,7 @@ n<$Source01/sp2.v> u<317> t<Top_level_rule> c<1> l<21:1> el<51:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/sp2.v:21:1: Compile module "write_sp_vectors".
 [INF:CP5804] $Source01/sp2.v:38:1: Compile module "main".
+[WRN:CP5851] $Source01/sp2.v:44:38: Failed to bind "Clk".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -410,6 +411,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:write_sp_vectors
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:write_sp_vectors
           vpiSigned: true
@@ -421,6 +423,7 @@ Design name:unnamed:
         vpiFullName: write_sp_vectors.work
         vpiActual: Library name:work
       vpiCell: write_sp_vectors
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:Clk start:22:7 end:22:10:
           vpiParent: Module name:write_sp_vectors
@@ -621,6 +624,9 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "8"
                           vpiValue: 8
+      vpiSysTaskCall (2 items):
+        SysFuncCall name:$fopen:
+        SysTaskCall name:$fdisplay:
     Module name:main file:$Source01/sp2.v start:38:1 end:50:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:main start:38:8 end:38:12:
@@ -685,12 +691,15 @@ Design name:unnamed:
             vpiSize: 120
             vpiDecompile: "\"PhCount.unnamed\""
             vpiValue: PhCount.unnamed
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:main
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:main
           vpiSigned: true
+        LogicTypespec:
+          vpiParent: Module name:main
         ModuleTypespec name:write_sp_vectors start:44:1 end:44:17:
           vpiParent: Module name:main
           vpiName Identifier name:write_sp_vectors start:44:1 end:44:17:
@@ -699,6 +708,11 @@ Design name:unnamed:
             ParamAssign start:44:20 end:44:25:
               vpiParent: ModuleTypespec name:write_sp_vectors
               vpiOverridden: true
+              vpiLhs RefObj name:fname start:24:11 end:24:16:
+                vpiParent: ParamAssign
+                vpiName: fname
+                vpiFullName: main.write_sp_vectors.fname
+                vpiActual: Parameter name:fname
               vpiRhs Constant start:44:20 end:44:25:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -712,6 +726,11 @@ Design name:unnamed:
             ParamAssign start:44:27 end:44:32:
               vpiParent: ModuleTypespec name:write_sp_vectors
               vpiOverridden: true
+              vpiLhs RefObj name:source_id start:25:11 end:25:20:
+                vpiParent: ParamAssign
+                vpiName: source_id
+                vpiFullName: main.write_sp_vectors.source_id
+                vpiActual: Parameter name:source_id
               vpiRhs Constant start:44:27 end:44:32:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -731,6 +750,7 @@ Design name:unnamed:
         vpiFullName: main.work
         vpiActual: Library name:work
       vpiCell: main
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:46:1 end:49:6:
           vpiParent: Module name:main
@@ -755,6 +775,8 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "10"
                   vpiValue: 10
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:v0 start:44:34 end:44:36:
           vpiParent: Module name:main
@@ -836,7 +858,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -883,7 +905,7 @@ Constant                            11      10       1         2
 Operation                            2       1       0         1
 RefTypespec                         28      27       1         2
 ----------------------------------------------------------------
-Others                              84      84       0         0
+Others                              88      88       0         0
 ----------------------------------------------------------------
-                                   125     122       2         5
+                                   129     126       2         5
 ===================== END REDUCTION RESULT =====================

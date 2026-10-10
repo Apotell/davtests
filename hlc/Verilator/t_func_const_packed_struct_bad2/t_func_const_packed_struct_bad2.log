@@ -551,6 +551,10 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_func_const_packed_struct_bad2.v:10:7: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_func_const_packed_struct_bad2.v:14:7: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_func_const_packed_struct_bad2.v:15:7: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_func_const_packed_struct_bad2.v:39:26: Failed to bind "foo".
+[WRN:CP5851] $Source01/t_func_const_packed_struct_bad2.v:39:34: Failed to bind "sub_params".
+[WRN:CP5851] $Source01/t_func_const_packed_struct_bad2.v:41:30: Failed to bind "foo".
+[WRN:CP5851] $Source01/t_func_const_packed_struct_bad2.v:41:38: Failed to bind "sub_params".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -827,6 +831,7 @@ Design name:unnamed:
           vpiTypedef: Typedef name:params_t
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:6:8 end:6:9:
@@ -835,6 +840,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiTaskFunc (2 items):
         Function name:f_add start:27:4 end:31:15:
           vpiParent: Module name:t
@@ -1480,6 +1486,10 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:24:7 end:24:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$fatal:
   vpiTypespec (3 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1499,7 +1509,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1543,7 +1553,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_const_packed_struct_bad2/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             234     234       0         0
+Others                             235     235       0         0
 ----------------------------------------------------------------
-                                   234     234       0         0
+                                   235     235       0         0
 ===================== END REDUCTION RESULT =====================

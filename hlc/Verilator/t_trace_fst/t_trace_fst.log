@@ -1243,7 +1243,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "456"
             vpiValue: 456
-      vpiTypespec (4 items):
+      vpiTypespec (5 items):
+        LogicTypespec:
+          vpiParent: Module name:t
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:t
         LogicTypespec:
@@ -1288,6 +1291,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (8 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
@@ -1631,6 +1635,9 @@ Design name:unnamed:
                               vpiName Identifier name:$finish start:59:10 end:59:17:
                               vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:test start:37:9 end:37:13:
           vpiParent: Module name:t
@@ -1648,7 +1655,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: state
                 vpiFullName: t.test.state
-                vpiActual: Net name:state
+                vpiActual: Port name:state
               vpiHighConn PartSelect name:state[4:0] start:39:42 end:39:52:
                 vpiParent: NamedArgument
                 vpiName: state[4:0]
@@ -1687,7 +1694,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.test.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:41:42 end:41:45:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1700,7 +1707,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rstn
                 vpiFullName: t.test.rstn
-                vpiActual: Variable name:rstn
+                vpiActual: Port name:rstn
               vpiHighConn RefObj name:rstn start:42:42 end:42:46:
                 vpiParent: NamedArgument
                 vpiName: rstn
@@ -1741,6 +1748,7 @@ Design name:unnamed:
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:Test
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:Test
           vpiArrayType: static (1)
@@ -1863,6 +1871,7 @@ Design name:unnamed:
         vpiFullName: Test.work
         vpiActual: Library name:work
       vpiCell: Test
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:67:30 end:67:33:
           vpiParent: Module name:Test
@@ -2306,7 +2315,11 @@ Design name:unnamed:
                         vpiForInitStmt (1 items):
                           Assignment start:86:19 end:86:24:
                             vpiParent: ForStmt
-                            vpiLhs: Variable name:i
+                            vpiLhs RefObj name:i start:86:19 end:86:20:
+                              vpiParent: Assignment
+                              vpiName: i
+                              vpiFullName: Test.i
+                              vpiActual: Variable name:i
                             vpiRhs Constant start:86:23 end:86:24:
                               vpiParent: Assignment
                               vpiTypespec RefTypespec:
@@ -2391,7 +2404,11 @@ Design name:unnamed:
                         vpiForInitStmt (1 items):
                           Assignment start:90:19 end:90:24:
                             vpiParent: ForStmt
-                            vpiLhs: Variable name:i
+                            vpiLhs RefObj name:i start:90:19 end:90:20:
+                              vpiParent: Assignment
+                              vpiName: i
+                              vpiFullName: Test.i
+                              vpiActual: Variable name:i
                             vpiRhs Constant start:90:23 end:90:24:
                               vpiParent: Assignment
                               vpiTypespec RefTypespec:
@@ -2609,7 +2626,7 @@ Constant                            50      50       3         3
 Operation                           20      17       0         3
 RefTypespec                         89      89       3         3
 ----------------------------------------------------------------
-Others                             193     193       0         0
+Others                             197     197       0         0
 ----------------------------------------------------------------
-                                   356     354       7         9
+                                   360     358       7         9
 ===================== END REDUCTION RESULT =====================

@@ -2328,6 +2328,7 @@ n<$Source01/unisims/MMCME2_BASE.v> u<1438> t<Top_level_rule> c<1> l<32:1> el<191
 AST_DEBUG_END
 [INF:CP5804] $Source01/glbl.v:21:1: Compile module "glbl".
 [INF:CP5804] $Source01/unisims/MMCME2_BASE.v:36:1: Compile module "MMCME2_BASE".
+[WRN:CP5851] $Source01/unisims/MMCME2_BASE.v:127:9: Failed to bind "CLKIN2_PERIOD".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/unisims/MMCME2_BASE.v:122:3: Unsupported typespec "MMCME2_ADV".
 ====== HLDB =======
@@ -2675,9 +2676,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "10000"
             vpiValue: 10000
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:glbl
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:glbl
           vpiRange (1 items):
@@ -2730,6 +2732,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:glbl
       vpiDefName: glbl
       vpiDefNetType: wire (1)
       vpiTimePrecision: -12
@@ -2740,6 +2744,7 @@ Design name:unnamed:
         vpiFullName: glbl.work
         vpiActual: Library name:work
       vpiCell: glbl
+      vpiAutomatic: true
       vpiNet (17 items):
         Net name:GSR start:29:10 end:29:13:
           vpiParent: Module name:glbl
@@ -3084,8 +3089,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-              DelayControl start:92:2 end:92:15:
+              DelayControl start:92:2 end:92:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_START start:92:4 end:92:14:
                   vpiParent: DelayControl
                   vpiName: GRES_START
@@ -3109,8 +3116,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-              DelayControl start:94:2 end:94:15:
+              DelayControl start:94:2 end:94:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_WIDTH start:94:4 end:94:14:
                   vpiParent: DelayControl
                   vpiName: GRES_WIDTH
@@ -3943,6 +3952,7 @@ Design name:unnamed:
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:MMCME2_BASE
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:MMCME2_BASE
           vpiSigned: true
@@ -4412,6 +4422,7 @@ Design name:unnamed:
         vpiFullName: MMCME2_BASE.work
         vpiActual: Library name:work
       vpiCell: MMCME2_BASE
+      vpiAutomatic: true
       vpiNet (23 items):
         Net name:CLKFBOUT start:93:10 end:93:18:
           vpiParent: Module name:MMCME2_BASE
@@ -4877,7 +4888,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKFBOUT
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKFBOUT
-                vpiActual: Net name:CLKFBOUT
               vpiHighConn RefObj name:CLKFBOUT start:154:19 end:154:27:
                 vpiParent: NamedArgument
                 vpiName: CLKFBOUT
@@ -4890,7 +4900,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKFBOUTB
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKFBOUTB
-                vpiActual: Net name:CLKFBOUTB
               vpiHighConn RefObj name:CLKFBOUTB start:155:20 end:155:29:
                 vpiParent: NamedArgument
                 vpiName: CLKFBOUTB
@@ -4927,7 +4936,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT0
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKOUT0
-                vpiActual: Net name:CLKOUT0
               vpiHighConn RefObj name:CLKOUT0 start:158:18 end:158:25:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT0
@@ -4940,7 +4948,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT0B
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKOUT0B
-                vpiActual: Net name:CLKOUT0B
               vpiHighConn RefObj name:CLKOUT0B start:159:19 end:159:27:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT0B
@@ -4953,7 +4960,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT1
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKOUT1
-                vpiActual: Net name:CLKOUT1
               vpiHighConn RefObj name:CLKOUT1 start:160:18 end:160:25:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT1
@@ -4966,7 +4972,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT1B
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKOUT1B
-                vpiActual: Net name:CLKOUT1B
               vpiHighConn RefObj name:CLKOUT1B start:161:19 end:161:27:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT1B
@@ -4979,7 +4984,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT2
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKOUT2
-                vpiActual: Net name:CLKOUT2
               vpiHighConn RefObj name:CLKOUT2 start:162:18 end:162:25:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT2
@@ -4992,7 +4996,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT2B
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKOUT2B
-                vpiActual: Net name:CLKOUT2B
               vpiHighConn RefObj name:CLKOUT2B start:163:19 end:163:27:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT2B
@@ -5005,7 +5008,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT3
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKOUT3
-                vpiActual: Net name:CLKOUT3
               vpiHighConn RefObj name:CLKOUT3 start:164:18 end:164:25:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT3
@@ -5018,7 +5020,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT3B
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKOUT3B
-                vpiActual: Net name:CLKOUT3B
               vpiHighConn RefObj name:CLKOUT3B start:165:19 end:165:27:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT3B
@@ -5031,7 +5032,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT4
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKOUT4
-                vpiActual: Net name:CLKOUT4
               vpiHighConn RefObj name:CLKOUT4 start:166:18 end:166:25:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT4
@@ -5044,7 +5044,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT5
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKOUT5
-                vpiActual: Net name:CLKOUT5
               vpiHighConn RefObj name:CLKOUT5 start:167:18 end:167:25:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT5
@@ -5057,7 +5056,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT6
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKOUT6
-                vpiActual: Net name:CLKOUT6
               vpiHighConn RefObj name:CLKOUT6 start:168:18 end:168:25:
                 vpiParent: NamedArgument
                 vpiName: CLKOUT6
@@ -5094,7 +5092,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: LOCKED
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.LOCKED
-                vpiActual: Net name:LOCKED
               vpiHighConn RefObj name:LOCKED start:171:17 end:171:23:
                 vpiParent: NamedArgument
                 vpiName: LOCKED
@@ -5119,7 +5116,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKFBIN
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKFBIN
-                vpiActual: Net name:CLKFBIN
               vpiHighConn RefObj name:CLKFBIN start:173:18 end:173:25:
                 vpiParent: NamedArgument
                 vpiName: CLKFBIN
@@ -5132,7 +5128,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: CLKIN1
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.CLKIN1
-                vpiActual: Net name:CLKIN1
               vpiHighConn RefObj name:CLKIN1 start:174:17 end:174:23:
                 vpiParent: NamedArgument
                 vpiName: CLKIN1
@@ -5315,7 +5310,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: PWRDWN
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.PWRDWN
-                vpiActual: Net name:PWRDWN
               vpiHighConn RefObj name:PWRDWN start:185:16 end:185:22:
                 vpiParent: NamedArgument
                 vpiName: PWRDWN
@@ -5328,7 +5322,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: RST
                 vpiFullName: MMCME2_BASE.mmcm_adv_1.RST
-                vpiActual: Net name:RST
               vpiHighConn RefObj name:RST start:186:14 end:186:17:
                 vpiParent: NamedArgument
                 vpiName: RST
@@ -5362,7 +5355,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -5409,7 +5402,7 @@ COMMAND: ${HLC_DIR}/regression/XilinxUnisimLibrary/verilog/src/unisims/MMCME2_BA
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             700     700       0         0
+Others                             704     704       0         0
 ----------------------------------------------------------------
-                                   700     700       0         0
+                                   704     704       0         0
 ===================== END REDUCTION RESULT =====================

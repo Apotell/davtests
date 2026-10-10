@@ -798,9 +798,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: driver_8
           vpiFullName: pullupdown.driver_8
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:pullupdown
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:pullupdown
           vpiRange (1 items):
@@ -827,6 +828,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:pullupdown
         LogicTypespec:
           vpiParent: Module name:pullupdown
           vpiRange (1 items):
@@ -861,6 +864,7 @@ Design name:unnamed:
         vpiFullName: pullupdown.work
         vpiActual: Library name:work
       vpiCell: pullupdown
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:check_drivers start:80:3 end:93:10:
           vpiParent: Module name:pullupdown
@@ -1154,9 +1158,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              DelayControl start:51:7 end:51:9:
+              DelayControl start:51:7 end:51:10:
                 vpiParent: Begin name:test_block
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:51:8 end:51:9:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1479,9 +1485,11 @@ Design name:unnamed:
                             vpiName: driver_8
                             vpiFullName: pullupdown.test_block.driver_8
                             vpiActual: Variable name:driver_8
-                    DelayControl start:69:4 end:69:6:
+                    DelayControl start:69:4 end:69:7:
                       vpiParent: Begin
                       vpiDelay: 1
+                      vpiStmt NullStmt:
+                        vpiParent: DelayControl
                       vpiDelay Constant start:69:5 end:69:6:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
@@ -1497,9 +1505,11 @@ Design name:unnamed:
                       vpiName: check_drivers
                       vpiFullName: pullupdown.test_block.check_drivers
                       vpiActual: Task name:check_drivers
-                    DelayControl start:72:4 end:72:7:
+                    DelayControl start:72:4 end:72:8:
                       vpiParent: Begin
                       vpiDelay: 10
+                      vpiStmt NullStmt:
+                        vpiParent: DelayControl
                       vpiDelay Constant start:72:5 end:72:7:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
@@ -1658,17 +1668,18 @@ Design name:unnamed:
                 vpiFullName: pullupdown.d8.pull_down_8
                 vpiActual: Net name:pull_down_8
       vpiPrimitiveArray (2 items):
-        GateArray:
+        GateArray name:u8 start:30:11 end:30:13:
           vpiParent: Module name:pullupdown
-          vpiFullName: pullupdown
+          vpiName: u8
+          vpiFullName: pullupdown.u8
           vpiRange (1 items):
             Range start:30:14 end:30:19:
-              vpiParent: GateArray
+              vpiParent: GateArray name:u8
               vpiLeftRange Constant start:30:15 end:30:16:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: pullupdown
+                  vpiFullName: pullupdown.u8
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -1678,24 +1689,25 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: pullupdown
+                  vpiFullName: pullupdown.u8
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiGate: Gate name:u8
-        GateArray:
+        GateArray name:d8 start:31:13 end:31:15:
           vpiParent: Module name:pullupdown
-          vpiFullName: pullupdown
+          vpiName: d8
+          vpiFullName: pullupdown.d8
           vpiRange (1 items):
             Range start:31:16 end:31:21:
-              vpiParent: GateArray
+              vpiParent: GateArray name:d8
               vpiLeftRange Constant start:31:17 end:31:18:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: pullupdown
+                  vpiFullName: pullupdown.d8
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
@@ -1705,13 +1717,21 @@ Design name:unnamed:
                 vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
-                  vpiFullName: pullupdown
+                  vpiFullName: pullupdown.d8
                   vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiGate: Gate name:d8
+      vpiSysTaskCall (7 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
   vpiTypespec (5 items):
     ModuleTypespec name:pullupdown:
       vpiParent: Design name:unnamed
@@ -1779,7 +1799,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pullupdown3/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             243     243       0         0
+Others                             248     248       0         0
 ----------------------------------------------------------------
-                                   243     243       0         0
+                                   248     248       0         0
 ===================== END REDUCTION RESULT =====================

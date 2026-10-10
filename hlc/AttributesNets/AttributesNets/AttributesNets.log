@@ -99,6 +99,7 @@ n<$Source01/dut.sv> u<85> t<Top_level_rule> c<1> l<1:1> el<9:1>
         n<> u<81> t<ENDMODULE> p<82> l<7:1> el<7:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "top".
+[WRN:CP5851] $Source01/dut.sv:5:25: Failed to bind "LGFLEN".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top".
 ====== HLDB =======
 Design name:unnamed:
@@ -146,6 +147,16 @@ Design name:unnamed:
             Attribute name:anyconst start:5:8 end:5:16:
               vpiParent: Variable name:fw_first_addr
               vpiName: anyconst
+              vpiValue Constant start:5:8 end:5:16:
+                vpiParent: Attribute name:anyconst
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top.fw_first_addr.anyconst
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiName: fw_first_addr
           vpiFullName: top.fw_first_addr
       vpiTypespec (3 items):
@@ -205,6 +216,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:execute_RS1 start:3:47 end:3:58:
           vpiParent: Module name:top
@@ -216,19 +228,41 @@ Design name:unnamed:
             Attribute name:keep start:3:8 end:3:12:
               vpiParent: Net name:execute_RS1
               vpiName: keep
+              vpiValue Constant start:3:8 end:3:12:
+                vpiParent: Attribute name:keep
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top.execute_RS1.keep
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
             Attribute name:syn_keep start:3:15 end:3:23:
               vpiParent: Net name:execute_RS1
               vpiName: syn_keep
+              vpiValue Constant start:3:15 end:3:23:
+                vpiParent: Attribute name:syn_keep
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top.execute_RS1.syn_keep
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiName: execute_RS1
           vpiFullName: top.execute_RS1
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:1:8 end:1:11:
       vpiDefName: top
       vpiModule: Module name:top
+    IntTypespec:
+      vpiParent: Design name:unnamed
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -242,7 +276,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -286,7 +320,7 @@ COMMAND: ${HLC_DIR}/regression/AttributesNets/AttributesNets/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              34      34       0         0
+Others                              42      42       0         0
 ----------------------------------------------------------------
-                                    34      34       0         0
+                                    42      42       0         0
 ===================== END REDUCTION RESULT =====================

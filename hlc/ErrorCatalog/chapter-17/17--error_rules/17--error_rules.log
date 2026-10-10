@@ -458,6 +458,10 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/17--error_rules.sv:34:1: Compile module "r582_m".
 [INF:CP5808] $Source01/17--error_rules.sv:43:9: Compile checker "r596_c".
 [INF:CP5808] $Source01/17--error_rules.sv:58:9: Compile checker "r597_c".
+[WRN:CP5851] $Source01/17--error_rules.sv:23:30: Failed to bind "r580_clk".
+[WRN:CP5851] $Source01/17--error_rules.sv:23:39: Failed to bind "r580_hi".
+[WRN:CP5851] $Source01/17--error_rules.sv:50:14: Failed to bind "r596_clk".
+[WRN:CP5851] $Source01/17--error_rules.sv:65:14: Failed to bind "r597_clk".
 [WRN:CP5851] $Source01/17--error_rules.sv:66:22: Failed to bind "r597_a".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:CP5929] $Source01/17--error_rules.sv:51:15: Illegal expression in this context: r596_f.
@@ -482,6 +486,7 @@ Design name:unnamed:
         vpiFullName: r573_sub.work
         vpiActual: Library name:work
       vpiCell: r573_sub
+      vpiAutomatic: true
     Module name:r580_m file:$Source01/17--error_rules.sv start:25:1 end:28:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r580_m start:25:8 end:25:14:
@@ -501,6 +506,7 @@ Design name:unnamed:
         CheckerTypespec name:r580_c start:27:3 end:27:9:
           vpiParent: Module name:r580_m
           vpiName: r580_c
+          vpiCheckerDecl: CheckerDecl name:r580_c
       vpiDefName: r580_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:25:8 end:25:14:
@@ -509,6 +515,7 @@ Design name:unnamed:
         vpiFullName: r580_m.work
         vpiActual: Library name:work
       vpiCell: r580_m
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:r580_inst start:27:10 end:27:19:
           vpiParent: Module name:r580_m
@@ -576,6 +583,7 @@ Design name:unnamed:
         CheckerTypespec name:r582_c start:36:3 end:36:9:
           vpiParent: Module name:r582_m
           vpiName: r582_c
+          vpiCheckerDecl: CheckerDecl name:r582_c
       vpiDefName: r582_m
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:34:8 end:34:14:
@@ -584,6 +592,7 @@ Design name:unnamed:
         vpiFullName: r582_m.work
         vpiActual: Library name:work
       vpiCell: r582_m
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:r582_inst start:36:10 end:36:19:
           vpiParent: Module name:r582_m
@@ -662,6 +671,8 @@ Design name:unnamed:
         Assert start:23:12 end:23:48:
           vpiParent: CheckerDecl name:r580_c
           vpiLabel Identifier name:r580_a1 start:23:3 end:23:10:
+          vpiStmt NullStmt:
+            vpiParent: Assert
           vpiProperty PropertySpec start:23:29 end:23:46:
             vpiParent: Assert
             vpiClockingEvent RefObj name:r580_clk start:23:30 end:23:38:
@@ -672,9 +683,12 @@ Design name:unnamed:
               vpiParent: PropertySpec
               vpiName: r580_hi
               vpiFullName: r580_c.r580_hi
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: CheckerDecl name:r580_c
+        LogicTypespec:
+          vpiParent: CheckerDecl name:r580_c
+          vpiScalar: true
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:22:9 end:22:15:
         vpiParent: CheckerDecl name:r580_c
@@ -760,6 +774,7 @@ Design name:unnamed:
           vpiParent: CheckerDecl name:r596_c
         LogicTypespec:
           vpiParent: CheckerDecl name:r596_c
+          vpiScalar: true
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:43:9 end:43:15:
         vpiParent: CheckerDecl name:r596_c
@@ -889,6 +904,7 @@ Design name:unnamed:
           vpiParent: CheckerDecl name:r597_c
         LogicTypespec:
           vpiParent: CheckerDecl name:r597_c
+          vpiScalar: true
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:58:9 end:58:15:
         vpiParent: CheckerDecl name:r597_c
@@ -1009,7 +1025,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 4
 [  ERROR] : 1
-[WARNING] : 1
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1057,7 +1073,7 @@ Operation                            3       2       0         1
 RefObj                              23      22       0         1
 RefTypespec                         26      27       1         0
 ----------------------------------------------------------------
-Others                              87      87       0         0
+Others                              90      90       0         0
 ----------------------------------------------------------------
-                                   143     143       2         2
+                                   146     146       2         2
 ===================== END REDUCTION RESULT =====================

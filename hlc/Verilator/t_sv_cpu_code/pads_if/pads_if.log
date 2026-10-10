@@ -676,9 +676,15 @@ AST_DEBUG_END
 [ERR:CP5812] $Source01/pads_if.sv:51:18: Undefined net used in modport: "ana".
 [ERR:CP5812] $Source01/pads_if.sv:68:18: Undefined net used in modport: "ana".
 [WRN:CP5851] $Source01/pads_if.sv:16:22: Failed to bind "pinout".
+[WRN:CP5851] $Source01/pads_if.sv:76:8: Failed to bind "PINID_D7".
+[WRN:CP5851] $Source01/pads_if.sv:76:17: Failed to bind "PINID_A0".
+[WRN:CP5851] $Source01/pads_if.sv:79:17: Failed to bind "PINID_D7".
 [WRN:CP5851] $Source01/pads_if.sv:80:35: Failed to bind "pinout".
+[WRN:CP5851] $Source01/pads_if.sv:81:13: Failed to bind "PINID_D7".
 [WRN:CP5851] $Source01/pads_if.sv:81:35: Failed to bind "id".
+[WRN:CP5851] $Source01/pads_if.sv:81:25: Failed to bind "pinout".
 [WRN:CP5851] $Source01/pads_if.sv:82:27: Failed to bind "id".
+[WRN:CP5851] $Source01/pads_if.sv:82:17: Failed to bind "pinout".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -802,7 +808,10 @@ Design name:unnamed:
                   vpiParent: NamedArgument
                   vpiName: pinout
                   vpiFullName: pads_if.pinout
-      vpiTypespec (11 items):
+      vpiTypespec (12 items):
+        LogicTypespec:
+          vpiParent: Interface name:pads_if
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Interface name:pads_if
         ArrayTypespec:
@@ -1119,7 +1128,11 @@ Design name:unnamed:
                 vpiForInitStmt (1 items):
                   Assignment start:80:16 end:80:21:
                     vpiParent: ForStmt
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:80:16 end:80:17:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: pads_if.Init.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:80:20 end:80:21:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -1462,6 +1475,9 @@ Design name:unnamed:
               vpiName: ana
               vpiDirection: inout (3)
           vpiInterface: Interface name:pads_if
+      vpiSysTaskCall (2 items):
+        SysFuncCall name:$size:
+        SysFuncCall name:$size:
   vpiTypespec (3 items):
     InterfaceTypespec name:pads_if:
       vpiParent: Design name:unnamed
@@ -1481,7 +1497,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 4
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1528,7 +1544,7 @@ Constant                            15      14       0         1
 Operation                            8       7       0         1
 RefTypespec                         41      40       0         1
 ----------------------------------------------------------------
-Others                             135     135       0         0
+Others                             138     138       0         0
 ----------------------------------------------------------------
-                                   199     196       0         3
+                                   202     199       0         3
 ===================== END REDUCTION RESULT =====================

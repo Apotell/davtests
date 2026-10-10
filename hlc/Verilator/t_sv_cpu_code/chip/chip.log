@@ -423,9 +423,12 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/chip.sv:14:22: Failed to bind "pinout".
 [WRN:CP5851] $Source01/chip.sv:54:49: Failed to bind "mp_pads".
 [WRN:CP5851] $Source01/chip.sv:77:47: Failed to bind "adrdec".
+[WRN:CP5851] $Source01/chip.sv:86:9: Failed to bind "ID".
 [WRN:CP5851] $Source01/chip.sv:91:47: Failed to bind "master".
+[WRN:CP5851] $Source01/chip.sv:103:9: Failed to bind "ID".
 [WRN:CP5851] $Source01/chip.sv:108:47: Failed to bind "slave".
 [WRN:CP5851] $Source01/chip.sv:109:49: Failed to bind "mp_dig".
+[WRN:CP5851] $Source01/chip.sv:121:9: Failed to bind "ID".
 [WRN:CP5851] $Source01/chip.sv:126:47: Failed to bind "slave".
 [WRN:CP5851] $Source01/chip.sv:127:49: Failed to bind "mp_ana".
 [INF:CM5028] Using global timescale: "1ns/1ns".
@@ -502,9 +505,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
-      vpiTypespec (10 items):
+      vpiTypespec (11 items):
         LogicTypespec:
           vpiParent: Module name:chip #(.NUMPADS($size(pinout)))
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:chip #(.NUMPADS($size(pinout)))
           vpiArrayType: static (1)
@@ -529,6 +533,8 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiFullName: chip #(.NUMPADS($size(pinout)))
             vpiActual: LogicTypespec
+        LogicTypespec:
+          vpiParent: Module name:chip #(.NUMPADS($size(pinout)))
         UnsupportedTypespec name:pads_if start:43:3 end:43:10:
           vpiParent: Module name:chip #(.NUMPADS($size(pinout)))
           vpiName Identifier name:pads_if start:43:3 end:43:10:
@@ -632,6 +638,7 @@ Design name:unnamed:
         vpiFullName: chip #(.NUMPADS($size(pinout))).work
         vpiActual: Library name:work
       vpiCell: chip
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:pad start:21:14 end:21:17:
           vpiParent: Module name:chip #(.NUMPADS($size(pinout)))
@@ -702,6 +709,8 @@ Design name:unnamed:
             vpiParent: Port name:rst
             vpiFullName: chip #(.NUMPADS($size(pinout))).rst
             vpiActual: LogicTypespec
+      vpiSysTaskCall (1 items):
+        SysFuncCall name:$size:
       vpiRefInstance (7 items):
         RefInstance name:padsif start:44:5 end:44:11:
           vpiParent: Module name:chip #(.NUMPADS($size(pinout)))
@@ -727,7 +736,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: padsif
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_pads.padsif
-                vpiActual: RefInstance name:padsif
               vpiHighConn RefObj name:padsif.mp_pads start:54:42 end:54:56:
                 vpiParent: NamedArgument
                 vpiName: padsif.mp_pads
@@ -749,7 +757,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: pad
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_pads.pad
-                vpiActual: Net name:pad
               vpiHighConn RefObj name:pad start:56:42 end:56:45:
                 vpiParent: NamedArgument
                 vpiName: pad
@@ -762,7 +769,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_pads.clk
-                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:58:42 end:58:45:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -775,7 +781,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_pads.rst
-                vpiActual: Net name:rst
               vpiHighConn RefObj name:rst start:59:42 end:59:45:
                 vpiParent: NamedArgument
                 vpiName: rst
@@ -797,7 +802,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: chip #(.NUMPADS($size(pinout))).dbus.clk
-                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:69:18 end:69:21:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -810,7 +814,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: chip #(.NUMPADS($size(pinout))).dbus.rst
-                vpiActual: Net name:rst
               vpiHighConn RefObj name:rst start:69:29 end:69:32:
                 vpiParent: NamedArgument
                 vpiName: rst
@@ -849,7 +852,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dbus
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_adrdec.dbus
-                vpiActual: RefInstance name:dbus
               vpiHighConn RefObj name:dbus.adrdec start:77:42 end:77:53:
                 vpiParent: NamedArgument
                 vpiName: dbus.adrdec
@@ -880,7 +882,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dbus
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_cpu.dbus
-                vpiActual: RefInstance name:dbus
               vpiHighConn RefObj name:dbus.master start:91:42 end:91:53:
                 vpiParent: NamedArgument
                 vpiName: dbus.master
@@ -902,7 +903,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_cpu.clk
-                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:93:42 end:93:45:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -915,7 +915,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_cpu.rst
-                vpiActual: Net name:rst
               vpiHighConn RefObj name:rst start:94:42 end:94:45:
                 vpiParent: NamedArgument
                 vpiName: rst
@@ -937,7 +936,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dbus
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_ports.dbus
-                vpiActual: RefInstance name:dbus
               vpiHighConn RefObj name:dbus.slave start:108:42 end:108:52:
                 vpiParent: NamedArgument
                 vpiName: dbus.slave
@@ -959,7 +957,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: padsif
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_ports.padsif
-                vpiActual: RefInstance name:padsif
               vpiHighConn RefObj name:padsif.mp_dig start:109:42 end:109:55:
                 vpiParent: NamedArgument
                 vpiName: padsif.mp_dig
@@ -981,7 +978,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_ports.clk
-                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:111:42 end:111:45:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -994,7 +990,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_ports.rst
-                vpiActual: Net name:rst
               vpiHighConn RefObj name:rst start:112:42 end:112:45:
                 vpiParent: NamedArgument
                 vpiName: rst
@@ -1016,7 +1011,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dbus
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_ac.dbus
-                vpiActual: RefInstance name:dbus
               vpiHighConn RefObj name:dbus.slave start:126:42 end:126:52:
                 vpiParent: NamedArgument
                 vpiName: dbus.slave
@@ -1038,7 +1032,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: padsif
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_ac.padsif
-                vpiActual: RefInstance name:padsif
               vpiHighConn RefObj name:padsif.mp_ana start:127:42 end:127:55:
                 vpiParent: NamedArgument
                 vpiName: padsif.mp_ana
@@ -1060,7 +1053,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_ac.clk
-                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:129:42 end:129:45:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1073,7 +1065,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: chip #(.NUMPADS($size(pinout))).i_ac.rst
-                vpiActual: Net name:rst
               vpiHighConn RefObj name:rst start:130:42 end:130:45:
                 vpiParent: NamedArgument
                 vpiName: rst
@@ -1096,7 +1087,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 7
-[WARNING] : 8
+[WARNING] : 11
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1140,7 +1131,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/chip/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             161     161       0         0
+Others                             163     163       0         0
 ----------------------------------------------------------------
-                                   161     161       0         0
+                                   163     163       0         0
 ===================== END REDUCTION RESULT =====================

@@ -659,6 +659,13 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/test_attributes.sv:34:3: Compile module "top2".
 [INF:CP5805] $Source01/test_attributes.sv:52:1: Compile interface "itf".
 [INF:CP5805] $Source01/test_attributes.sv:54:3: Compile interface "itf2".
+[WRN:CP5851] $Source01/dut.sv:22:18: Failed to bind "pieces0".
+[WRN:CP5851] $Source01/dut.sv:22:61: Failed to bind "b".
+[WRN:CP5851] $Source01/dut.sv:24:24: Failed to bind "empty2".
+[WRN:CP5851] $Source01/dut.sv:29:11: Failed to bind "a".
+[WRN:CP5851] $Source01/dut.sv:31:9: Failed to bind "b".
+[WRN:CP5851] $Source01/dut.sv:33:9: Failed to bind "b".
+[WRN:CP5851] $Source01/dut.sv:35:9: Failed to bind "b".
 [WRN:PA5506] $Source01/test_attributes.sv:2:1: No timescale set for "myPackage".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "bar".
 [WRN:PA5506] $Source01/dut.sv:13:1: No timescale set for "foo".
@@ -687,6 +694,16 @@ Design name:unnamed:
         Attribute name:myPackageAttribute1 start:2:4 end:2:23:
           vpiParent: Package name:myPackage
           vpiName: myPackageAttribute1
+          vpiValue Constant start:2:4 end:2:23:
+            vpiParent: Attribute name:myPackageAttribute1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: myPackage::myPackageAttribute1
+              vpiActual: IntTypespec
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiDefName: myPackage
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:3:9 end:3:18:
@@ -710,6 +727,16 @@ Design name:unnamed:
         Attribute name:class_attribute start:42:4 end:42:19:
           vpiParent: ClassDefn name:toto
           vpiName: class_attribute
+          vpiValue Constant start:42:4 end:42:19:
+            vpiParent: Attribute name:class_attribute
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: toto::class_attribute
+              vpiActual: IntTypespec
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiDefName: toto
       vpiAutomatic: true
       vpiClassType: userdefined class (3)
@@ -728,6 +755,16 @@ Design name:unnamed:
             Attribute name:class_attribute2 start:45:6 end:45:22:
               vpiParent: ClassDefn name:tata
               vpiName: class_attribute2
+              vpiValue Constant start:45:6 end:45:22:
+                vpiParent: Attribute name:class_attribute2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: toto::tata::class_attribute2
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiDefName: tata
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -746,6 +783,16 @@ Design name:unnamed:
         Attribute name:test_interface start:52:4 end:52:18:
           vpiParent: Interface name:itf
           vpiName: test_interface
+          vpiValue Constant start:52:4 end:52:18:
+            vpiParent: Attribute name:test_interface
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: itf.test_interface
+              vpiActual: IntTypespec
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiDefName: itf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:52:32 end:52:35:
@@ -763,6 +810,16 @@ Design name:unnamed:
             Attribute name:test_interface2 start:54:6 end:54:21:
               vpiParent: Interface name:itf2
               vpiName: test_interface2
+              vpiValue Constant start:54:6 end:54:21:
+                vpiParent: Attribute name:test_interface2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: itf.itf2.test_interface2
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiDefName: itf2
           vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work start:54:35 end:54:39:
@@ -780,6 +837,16 @@ Design name:unnamed:
         Attribute name:attribute_udp start:7:4 end:7:17:
           vpiParent: UdpDefn name:multiplexer
           vpiName: attribute_udp
+          vpiValue Constant start:7:4 end:7:17:
+            vpiParent: Attribute name:attribute_udp
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: multiplexer.attribute_udp
+              vpiActual: IntTypespec
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiIODecl (4 items):
         IODecl name:mux start:7:44 end:7:47:
           vpiParent: UdpDefn name:multiplexer
@@ -996,7 +1063,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: bar.out
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:bar
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:bar
       vpiDefName: bar
@@ -1007,6 +1077,7 @@ Design name:unnamed:
         vpiFullName: bar.work
         vpiActual: Library name:work
       vpiCell: bar
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:2:15 end:2:18:
           vpiParent: Module name:bar
@@ -1150,6 +1221,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:foo
+          vpiScalar: true
         BitTypespec:
           vpiParent: Module name:foo
         ModuleTypespec name:bar start:19:3 end:19:6:
@@ -1165,6 +1237,7 @@ Design name:unnamed:
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clk start:14:15 end:14:18:
           vpiParent: Module name:foo
@@ -1261,7 +1334,9 @@ Design name:unnamed:
           vpiStmt Begin start:26:11 end:37:6:
             vpiParent: Initial
             vpiFullName: foo
-            vpiStmt (1 items):
+            vpiStmt (2 items):
+              NullStmt:
+                vpiParent: Begin
               CaseStmt start:29:5 end:36:12:
                 vpiParent: Begin
                 vpiAttribute (2 items):
@@ -1557,6 +1632,16 @@ Design name:unnamed:
         Attribute name:mymoduleTop start:31:4 end:31:15:
           vpiParent: Module name:top
           vpiName: mymoduleTop
+          vpiValue Constant start:31:4 end:31:15:
+            vpiParent: Attribute name:mymoduleTop
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.mymoduleTop
+              vpiActual: IntTypespec
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:32:8 end:32:11:
@@ -1565,6 +1650,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiModule (1 items):
         Module name:top2 file:$Source01/test_attributes.sv start:34:3 end:36:12:
           vpiParent: Module name:top
@@ -1574,6 +1660,16 @@ Design name:unnamed:
             Attribute name:mymoduleTop2 start:34:6 end:34:18:
               vpiParent: Module name:top2
               vpiName: mymoduleTop2
+              vpiValue Constant start:34:6 end:34:18:
+                vpiParent: Attribute name:mymoduleTop2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top.top2.mymoduleTop2
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiDefName: top2
           vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work start:35:10 end:35:14:
@@ -1582,6 +1678,7 @@ Design name:unnamed:
             vpiFullName: top.top2.work
             vpiActual: Library name:work
           vpiCell: top2
+          vpiAutomatic: true
   vpiTypespec (15 items):
     ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
@@ -1642,7 +1739,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 7
+[WARNING] : 14
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1689,7 +1786,7 @@ COMMAND: ${HLC_DIR}/regression/Attributes/Attributes/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1603    1603       0         0
+Others                            1635    1635       0         0
 ----------------------------------------------------------------
-                                  1603    1603       0         0
+                                  1635    1635       0         0
 ===================== END REDUCTION RESULT =====================

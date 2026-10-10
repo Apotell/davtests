@@ -260,7 +260,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: bar.out
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:bar
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:bar
       vpiDefName: bar
@@ -271,6 +274,7 @@ Design name:unnamed:
         vpiFullName: bar.work
         vpiActual: Library name:work
       vpiCell: bar
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:2:15 end:2:18:
           vpiParent: Module name:bar
@@ -414,6 +418,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:foo
+          vpiScalar: true
         ModuleTypespec name:bar start:19:3 end:19:6:
           vpiParent: Module name:foo
           vpiName Identifier name:bar start:19:3 end:19:6:
@@ -427,6 +432,7 @@ Design name:unnamed:
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clk start:14:15 end:14:18:
           vpiParent: Module name:foo
@@ -540,6 +546,16 @@ Design name:unnamed:
                   Attribute name:clock_connected start:19:25 end:19:40:
                     vpiParent: RefObj name:clk
                     vpiName: clock_connected
+                    vpiValue Constant start:19:25 end:19:40:
+                      vpiParent: Attribute name:clock_connected
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: foo.bar_instance.clk
+                        vpiActual: IntTypespec
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "1"
+                      vpiValue: 1
                 vpiName: clk
                 vpiFullName: foo.bar_instance.clk
                 vpiActual: Net name:clk
@@ -568,6 +584,16 @@ Design name:unnamed:
                   Attribute name:this_is_the_input start:19:57 end:19:74:
                     vpiParent: RefObj name:inp
                     vpiName: this_is_the_input
+                    vpiValue Constant start:19:57 end:19:74:
+                      vpiParent: Attribute name:this_is_the_input
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: foo.bar_instance.inp
+                        vpiActual: IntTypespec
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "1"
+                      vpiValue: 1
                 vpiName: inp
                 vpiFullName: foo.bar_instance.inp
                 vpiActual: Net name:inp
@@ -583,7 +609,7 @@ Design name:unnamed:
                 vpiName: out
                 vpiFullName: foo.bar_instance.out
                 vpiActual: Net name:out
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
     ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:1:8 end:1:11:
@@ -597,6 +623,8 @@ Design name:unnamed:
       vpiName Identifier name:foo start:13:8 end:13:11:
       vpiDefName: foo
       vpiModule: Module name:foo
+    IntTypespec:
+      vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -649,7 +677,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/various/attrib05_port_conn.v/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              88      88       0         0
+Others                              95      95       0         0
 ----------------------------------------------------------------
-                                    88      88       0         0
+                                    95      95       0         0
 ===================== END REDUCTION RESULT =====================

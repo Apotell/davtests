@@ -366,10 +366,9 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_interface_modport_export.v:11:11: Failed to bind "myfunc".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:11:34: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:14:4: Failed to bind "logic".
-[WRN:CP5851] $Source01/t_interface_modport_export.v:39:44: Failed to bind "mp_e".
-[WRN:CP5851] $Source01/t_interface_modport_export.v:41:16: Failed to bind "mp_i".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:47:12: Failed to bind "mp_e".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:50:23: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_interface_modport_export.v:50:29: Failed to bind "ie".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:50:46: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:61:12: Failed to bind "mp_i".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:65:7: Failed to bind "ii".
@@ -377,6 +376,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_interface_modport_export.v:66:11: Failed to bind "ii".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:66:14: Failed to bind "myfunc".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/t_interface_modport_export.v:66:14: Null Actual: id:117, type:SubroutineCall, name:myfunc, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -455,6 +455,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ModuleTypespec name:testmod_callee start:39:4 end:39:18:
           vpiParent: Module name:t
           vpiName Identifier name:testmod_callee start:39:4 end:39:18:
@@ -473,6 +474,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:35:10 end:35:13:
           vpiParent: Module name:t
@@ -537,6 +539,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:i.mp_e
                     vpiName: mp_e
                     vpiFullName: t.testmod_callee_i.mp_e
+                    vpiActual: Modport name:mp_e
+                vpiActual: Modport name:mp_e
         RefInstance name:testmod_caller_i start:40:19 end:40:35:
           vpiParent: Module name:t
           vpiName: testmod_caller_i
@@ -553,7 +557,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.testmod_caller_i.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:40:43 end:40:46:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -581,6 +585,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:i.mp_i
                     vpiName: mp_i
                     vpiFullName: t.testmod_caller_i.mp_i
+                    vpiActual: Modport name:mp_i
+                vpiActual: Modport name:mp_i
     Module name:testmod_callee file:$Source01/t_interface_modport_export.v start:45:1 end:55:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:testmod_callee start:45:8 end:45:22:
@@ -593,6 +599,7 @@ Design name:unnamed:
         vpiFullName: testmod_callee.work
         vpiActual: Library name:work
       vpiCell: testmod_callee
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:myfunc start:50:4 end:54:15:
           vpiParent: Module name:testmod_callee
@@ -681,6 +688,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:testmod_caller
+          vpiScalar: true
       vpiDefName: testmod_caller
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:58:8 end:58:22:
@@ -689,6 +697,7 @@ Design name:unnamed:
         vpiFullName: testmod_caller.work
         vpiActual: Library name:work
       vpiCell: testmod_caller
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:60:10 end:60:13:
           vpiParent: Module name:testmod_caller
@@ -842,6 +851,10 @@ Design name:unnamed:
                         vpiName Identifier name:$stop start:71:3 end:71:8:
                         vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$stop:
   vpiTypespec (5 items):
     InterfaceTypespec name:test_if:
       vpiParent: Design name:unnamed
@@ -872,8 +885,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 15
+[  ERROR] : 1
+[WARNING] : 14
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -917,7 +930,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_export/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             128     128       0         0
+Others                             129     129       0         0
 ----------------------------------------------------------------
-                                   128     128       0         0
+                                   129     129       0         0
 ===================== END REDUCTION RESULT =====================

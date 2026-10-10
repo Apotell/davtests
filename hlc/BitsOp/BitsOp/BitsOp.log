@@ -15,6 +15,9 @@ COMMAND: -wd ../../../tests/BitsOp -fileunit -writepp -d db -sv dut.sv -nobuilti
 [INF:CP5802] $Source01/dut.sv:65:1: Compile package "flash_ctrl_pkg".
 [INF:CP5804] $Source01/dut.sv:75:1: Compile module "dut".
 [INF:CP5804] $Source01/dut.sv:104:1: Compile module "dmi_jtag".
+[WRN:CP5851] $Source01/dut.sv:119:9: Failed to bind "shift_dr".
+[WRN:CP5851] $Source01/dut.sv:120:11: Failed to bind "dmi_access".
+[WRN:CP5851] $Source01/dut.sv:121:17: Failed to bind "dmi_tdi".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top_pkg".
 [WRN:PA5506] $Source01/dut.sv:22:1: No timescale set for "tlul_pkg".
 [WRN:PA5506] $Source01/dut.sv:48:1: No timescale set for "hmac_pkg".
@@ -520,6 +523,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Package name:top_pkg
+          vpiScalar: true
       vpiDefName: top_pkg
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:9 end:1:16:
@@ -1779,6 +1783,7 @@ Design name:unnamed:
         vpiFullName: dut.work
         vpiActual: Library name:work
       vpiCell: dut
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:tl_h_i start:75:39 end:75:45:
           vpiParent: Module name:dut
@@ -1827,6 +1832,16 @@ Design name:unnamed:
                 vpiFullName: dut.tl_h_i.tlul_pkg::tl_h2d_t.tl_h2d_t
                 vpiActual: TypedefTypespec name:tl_h2d_t
             vpiActual: TypedefTypespec name:tl_h2d_t
+      vpiSysTaskCall (9 items):
+        SysFuncCall name:$bits:
+        SysFuncCall name:$clog2:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$clog2:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
     Module name:dmi_jtag file:$Source01/dut.sv start:104:1 end:127:21:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dmi_jtag start:104:8 end:104:16:
@@ -2027,6 +2042,7 @@ Design name:unnamed:
         vpiFullName: dmi_jtag.work
         vpiActual: Library name:work
       vpiCell: dmi_jtag
+      vpiAutomatic: true
       vpiProcess (1 items):
         Always start:117:3 end:125:6:
           vpiParent: Module name:dmi_jtag
@@ -2140,6 +2156,9 @@ Design name:unnamed:
                 vpiName: dr_q
                 vpiFullName: dmi_jtag.dr_q
                 vpiActual: Variable name:dr_q
+      vpiSysTaskCall (2 items):
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
       vpiEndLabel Identifier name:dmi_jtag start:127:13 end:127:21:
   vpiTypespec (5 items):
     IntTypespec:
@@ -2167,7 +2186,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 10
-[WARNING] : 6
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2218,7 +2237,7 @@ RefObj                              88      78       0        10
 RefTypespec                        124     124       4         4
 SysFuncCall                         17      12       0         5
 ----------------------------------------------------------------
-Others                             176     176       0         0
+Others                             177     177       0         0
 ----------------------------------------------------------------
-                                   551     524      12        39
+                                   552     525      12        39
 ===================== END REDUCTION RESULT =====================

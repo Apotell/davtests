@@ -726,6 +726,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:some_module
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:some_module
           vpiArrayType: static (1)
@@ -794,6 +795,7 @@ Design name:unnamed:
         vpiFullName: some_module.work
         vpiActual: Library name:work
       vpiCell: some_module
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:wrclk start:8:13 end:8:18:
           vpiParent: Module name:some_module
@@ -939,6 +941,8 @@ Design name:unnamed:
                       vpiDecompile: "0"
                       vpiValue: 0
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$display:
     Module name:t1 file:$Source01/t_clk_concat4.v start:31:1 end:51:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t1 start:31:8 end:31:10:
@@ -972,6 +976,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:t1
+          vpiScalar: true
       vpiDefName: t1
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:31:8 end:31:10:
@@ -980,6 +985,7 @@ Design name:unnamed:
         vpiFullName: t1.work
         vpiActual: Library name:work
       vpiCell: t1
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:i_clks start:32:16 end:32:22:
           vpiParent: Module name:t1
@@ -1064,15 +1070,14 @@ Design name:unnamed:
               GenFor start:39:7 end:49:10:
                 vpiParent: Begin
                 vpiFullName: t1
-                vpiVariable (1 items):
-                  Variable name:i start:39:12 end:39:13:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: t1.i
                 vpiForInitStmt (1 items):
                   Assignment start:39:12 end:39:17:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:39:12 end:39:13:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: t1.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:39:16 end:39:17:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -1228,6 +1233,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:t2
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:t2
           vpiArrayType: static (1)
@@ -1271,6 +1277,7 @@ Design name:unnamed:
         vpiFullName: t2.work
         vpiActual: Library name:work
       vpiCell: t2
+      vpiAutomatic: true
       vpiNet (5 items):
         Net name:i_clks start:54:16 end:54:22:
           vpiParent: Module name:t2
@@ -1536,7 +1543,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_clks
                 vpiFullName: t2.t1.i_clks
-                vpiActual: Net name:i_clks
+                vpiActual: Port name:i_clks
               vpiHighConn RefObj name:the_clks start:74:16 end:74:24:
                 vpiParent: NamedArgument
                 vpiName: the_clks
@@ -1549,7 +1556,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_clk0
                 vpiFullName: t2.t1.i_clk0
-                vpiActual: Net name:i_clk0
+                vpiActual: Port name:i_clk0
               vpiHighConn RefObj name:i_clk0 start:75:16 end:75:22:
                 vpiParent: NamedArgument
                 vpiName: i_clk0
@@ -1562,7 +1569,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i_clk1
                 vpiFullName: t2.t1.i_clk1
-                vpiActual: Net name:i_clk1
+                vpiActual: Port name:i_clk1
               vpiHighConn RefObj name:i_clk1 start:76:16 end:76:22:
                 vpiParent: NamedArgument
                 vpiName: i_clk1
@@ -1585,6 +1592,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -1630,6 +1638,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clk0 start:81:9 end:81:13:
           vpiParent: Module name:t
@@ -1779,6 +1788,9 @@ Design name:unnamed:
                 vpiName: clk0
                 vpiFullName: t.clk0
                 vpiActual: Net name:clk0
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:t2 start:92:6 end:92:8:
           vpiParent: Module name:t
@@ -1934,7 +1946,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_clk_concat4/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             289     289       0         0
+Others                             290     290       0         0
 ----------------------------------------------------------------
-                                   289     289       0         0
+                                   290     290       0         0
 ===================== END REDUCTION RESULT =====================

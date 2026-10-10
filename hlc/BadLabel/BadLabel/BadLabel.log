@@ -322,6 +322,9 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:12:1: No timescale set for "itf".
 [WRN:PA5506] $Source01/dut.sv:14:3: No timescale set for "itf2".
 [WRN:PA5506] $Source01/dut.sv:17:3: No timescale set for "itf3".
+[ERR:LN7705] $Source01/dut.sv:43:6: Null Actual: id:99, type:SubroutineCall, name:print, relation:vpiStmt.
+[ERR:LN7705] $Source01/dut.sv:47:6: Null Actual: id:107, type:SubroutineCall, name:print, relation:vpiStmt.
+[ERR:LN7705] $Source01/dut.sv:51:5: Null Actual: id:115, type:SubroutineCall, name:print, relation:vpiStmt.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -381,6 +384,16 @@ Design name:unnamed:
         Attribute name:test_interface start:12:4 end:12:18:
           vpiParent: Interface name:itf
           vpiName: test_interface
+          vpiValue Constant start:12:4 end:12:18:
+            vpiParent: Attribute name:test_interface
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: itf.test_interface
+              vpiActual: IntTypespec
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiDefName: itf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:12:32 end:12:35:
@@ -398,6 +411,16 @@ Design name:unnamed:
             Attribute name:test_interface2 start:14:6 end:14:21:
               vpiParent: Interface name:itf2
               vpiName: test_interface2
+              vpiValue Constant start:14:6 end:14:21:
+                vpiParent: Attribute name:test_interface2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: itf.itf2.test_interface2
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiDefName: itf2
           vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work start:14:35 end:14:39:
@@ -415,6 +438,16 @@ Design name:unnamed:
             Attribute name:test_interface2 start:17:6 end:17:21:
               vpiParent: Interface name:itf3
               vpiName: test_interface2
+              vpiValue Constant start:17:6 end:17:21:
+                vpiParent: Attribute name:test_interface2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: itf.itf3.test_interface2
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiDefName: itf3
           vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work start:17:35 end:17:39:
@@ -469,6 +502,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiProcess (2 items):
         Initial start:29:4 end:32:25:
           vpiParent: Module name:test
@@ -585,6 +619,7 @@ Design name:unnamed:
             vpiFullName: test.sub.work
             vpiActual: Library name:work
           vpiCell: sub
+          vpiAutomatic: true
           vpiEndLabel Identifier name:sub start:35:16 end:35:19:
         Module name:sub2 file:$Source01/dut.sv start:37:4 end:38:24:
           vpiParent: Module name:test
@@ -598,7 +633,10 @@ Design name:unnamed:
             vpiFullName: test.sub2.work
             vpiActual: Library name:work
           vpiCell: sub2
+          vpiAutomatic: true
           vpiEndLabel Identifier name:bad_sub2 start:38:16 end:38:24:
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$display:
       vpiEndLabel Identifier name:bad_test start:57:13 end:57:21:
     Module name:block_tb file:$Source01/dut.sv start:60:1 end:66:10:
       vpiParent: Design name:unnamed
@@ -634,6 +672,7 @@ Design name:unnamed:
         vpiFullName: block_tb.work
         vpiActual: Library name:work
       vpiCell: block_tb
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:62:2 end:65:14:
           vpiParent: Module name:block_tb
@@ -661,7 +700,7 @@ Design name:unnamed:
                   vpiDecompile: "1"
                   vpiValue: 1
             vpiEndLabel Identifier name:name1 start:65:9 end:65:14:
-  vpiTypespec (9 items):
+  vpiTypespec (10 items):
     ClassTypespec name:c start:4:7 end:4:8:
       vpiParent: Design name:unnamed
       vpiName Identifier name:c:
@@ -677,6 +716,8 @@ Design name:unnamed:
       vpiName Identifier name:itf start:12:32 end:12:35:
       vpiDefName: itf
       vpiInterface: Interface name:itf
+    IntTypespec:
+      vpiParent: Design name:unnamed
     InterfaceTypespec name:itf2:
       vpiParent: Design name:unnamed
       vpiName Identifier name:itf2 start:14:35 end:14:39:
@@ -709,7 +750,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 8
+[  ERROR] : 11
 [WARNING] : 12
 [   NOTE] : 0
 ********************************************************************************
@@ -753,12 +794,12 @@ COMMAND: ${HLC_DIR}/regression/BadLabel/BadLabel/design.hldb ${HLC_DIR}/regressi
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             7       8       1         0
+Constant                            10      11       1         0
 Operation                            1       0       0         1
 RefObj                              12      11       0         1
-RefTypespec                          9      10       1         0
+RefTypespec                         12      13       1         0
 ----------------------------------------------------------------
-Others                              89      89       0         0
+Others                              91      91       0         0
 ----------------------------------------------------------------
-                                   118     118       2         2
+                                   126     126       2         2
 ===================== END REDUCTION RESULT =====================

@@ -48,13 +48,14 @@ LIB: logicLib
 [WRN:CP5851] $Source01/cmp.svr:16:1: Failed to bind "logic".
 [WRN:CP5851] $Source01/driver.svr:5:16: Failed to bind "realNet".
 [WRN:CP5851] $Source01/driver.svr:5:16: Failed to bind "realNet".
+[WRN:CP5851] $Source01/top.sv:7:24: Failed to bind "rst".
 [WRN:PA5506] $Source01/nets.pkg:1:1: No timescale set for "NetsPkg".
 [WRN:PA5506] $Source01/cmp.sv:2:1: No timescale set for "cmp #(.hyst(0.65))".
 [WRN:PA5506] $Source01/top.sv:1:1: No timescale set for "top".
-[ERR:LN7701] Invalid name: id:2043, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:2059, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:2062, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:2065, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:2053, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:2069, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:2072, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:2075, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -186,6 +187,7 @@ Design name:unnamed:
         vpiFullName: cmp #(.hyst(0.65)).logicLib
         vpiActual: Library name:logicLib
       vpiCell: cmp
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:inA start:4:25 end:4:28:
           vpiParent: Module name:cmp #(.hyst(0.65))
@@ -513,6 +515,7 @@ Design name:unnamed:
         vpiFullName: cmp #(.hyst(0.65)).realLib
         vpiActual: Library name:realLib
       vpiCell: cmp
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:inA start:12:16 end:12:19:
           vpiParent: Module name:cmp #(.hyst(0.65))
@@ -897,6 +900,7 @@ Design name:unnamed:
         vpiFullName: driver #(.delay(30), .iterations(256)).logicLib
         vpiActual: Library name:logicLib
       vpiCell: driver
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:out start:13:8 end:13:11:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
@@ -964,7 +968,11 @@ Design name:unnamed:
                 vpiForInitStmt (1 items):
                   Assignment start:25:2 end:25:7:
                     vpiParent: ForStmt
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:25:2 end:25:3:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: driver #(.delay(30), .iterations(256)).i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:25:6 end:25:7:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -1188,6 +1196,7 @@ Design name:unnamed:
         vpiFullName: driver #(.delay(30), .iterations(256)).realLib
         vpiActual: Library name:realLib
       vpiCell: driver
+      vpiAutomatic: true
       vpiPort (1 items):
         Port name:out start:5:30 end:5:33:
           vpiParent: Module name:driver #(.delay(30), .iterations(256))
@@ -1289,7 +1298,11 @@ Design name:unnamed:
                 vpiForInitStmt (1 items):
                   Assignment start:14:12 end:14:17:
                     vpiParent: ForStmt
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:14:12 end:14:13:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: driver #(.delay(30), .iterations(256)).i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:14:16 end:14:17:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -1616,6 +1629,7 @@ Design name:unnamed:
         vpiFullName: top.logicLib
         vpiActual: Library name:logicLib
       vpiCell: top
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:aBus start:2:26 end:2:30:
           vpiParent: Module name:top
@@ -1819,7 +1833,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 6
-[WARNING] : 11
+[WARNING] : 12
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1878,7 +1892,7 @@ COMMAND: ${HLC_DIR}/regression/LibraryIntercon/LibraryIntercon/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1782    1782       0         0
+Others                            1805    1805       0         0
 ----------------------------------------------------------------
-                                  1782    1782       0         0
+                                  1805    1805       0         0
 ===================== END REDUCTION RESULT =====================

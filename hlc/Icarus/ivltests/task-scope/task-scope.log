@@ -409,6 +409,7 @@ Design name:unnamed:
         vpiFullName: nest.work
         vpiActual: Library name:work
       vpiCell: nest
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:incr start:29:4 end:35:11:
           vpiParent: Module name:nest
@@ -427,6 +428,7 @@ Design name:unnamed:
             IODecl name:a start:30:19 end:30:20:
               vpiParent: Task name:incr
               vpiName: a
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:30:13 end:30:18:
                 vpiParent: IODecl name:a
                 vpiFullName: nest.incr.a
@@ -533,6 +535,8 @@ Design name:unnamed:
             vpiName: r
             vpiFullName: nest.r.r
             vpiActual: Variable name:r
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$display:
     Module name:test file:$Source01/task-scope.v start:39:1 end:71:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:test start:39:8 end:39:12:
@@ -577,6 +581,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:increment start:48:4 end:52:11:
           vpiParent: Module name:test
@@ -716,9 +721,11 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "10"
                   vpiValue: 10
-              DelayControl start:64:2 end:64:5:
+              DelayControl start:64:2 end:64:6:
                 vpiParent: Begin
                 vpiDelay: 10
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:64:3 end:64:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -782,6 +789,9 @@ Design name:unnamed:
                         vpiSize: 48
                         vpiDecompile: "\"FAILED\""
                         vpiValue: FAILED
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
       vpiRefInstance (1 items):
         RefInstance name:n start:43:9 end:43:10:
           vpiParent: Module name:test
@@ -872,7 +882,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/task-scope/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             120     120       0         0
+Others                             122     122       0         0
 ----------------------------------------------------------------
-                                   120     120       0         0
+                                   122     122       0         0
 ===================== END REDUCTION RESULT =====================

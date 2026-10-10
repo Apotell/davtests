@@ -505,6 +505,13 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_vams_basic.v:42:12: Failed to bind "wreal".
 [WRN:CP5851] $Source01/t_vams_basic.v:42:12: Failed to bind "wreal".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/t_vams_basic.v:29:24: Null Actual: id:83, type:SubroutineCall, name:sqrt, relation:vpiHighConn.
+[ERR:LN7705] $Source01/t_vams_basic.v:30:24: Null Actual: id:104, type:SubroutineCall, name:pow, relation:vpiHighConn.
+[ERR:LN7705] $Source01/t_vams_basic.v:31:24: Null Actual: id:121, type:SubroutineCall, name:ln, relation:vpiHighConn.
+[ERR:LN7705] $Source01/t_vams_basic.v:32:24: Null Actual: id:138, type:SubroutineCall, name:log, relation:vpiHighConn.
+[ERR:LN7705] $Source01/t_vams_basic.v:33:24: Null Actual: id:155, type:SubroutineCall, name:floor, relation:vpiHighConn.
+[ERR:LN7705] $Source01/t_vams_basic.v:34:24: Null Actual: id:172, type:SubroutineCall, name:exp, relation:vpiHighConn.
+[ERR:LN7705] $Source01/t_vams_basic.v:35:24: Null Actual: id:189, type:SubroutineCall, name:ceil, relation:vpiHighConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -530,6 +537,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ModuleTypespec name:sub start:26:4 end:26:7:
           vpiParent: Module name:t
           vpiName Identifier name:sub start:26:4 end:26:7:
@@ -543,6 +551,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:check start:14:4 end:21:11:
           vpiParent: Module name:t
@@ -1089,6 +1098,11 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1.1"
             vpiValue: 1.1
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:sub start:26:8 end:26:11:
           vpiParent: Module name:t
@@ -1101,6 +1115,7 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:26:13 end:26:15:
               vpiParent: RefInstance name:sub
+              vpiConnByName: true
               vpiLowConn RefObj name:.*:
                 vpiParent: NamedArgument
                 vpiName: ".*"
@@ -1117,6 +1132,7 @@ Design name:unnamed:
         vpiFullName: sub.work
         vpiActual: Library name:work
       vpiCell: sub
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:wr start:42:18 end:42:20:
           vpiParent: Module name:sub
@@ -1173,6 +1189,8 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:45:22 end:45:27:
                   vpiIsProperty: true
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$stop:
   vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1198,7 +1216,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 8
 [WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
@@ -1243,7 +1261,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_vams_basic/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             194     194       0         0
+Others                             195     195       0         0
 ----------------------------------------------------------------
-                                   194     194       0         0
+                                   195     195       0         0
 ===================== END REDUCTION RESULT =====================

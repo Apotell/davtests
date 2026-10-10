@@ -443,12 +443,12 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_array_type_methods.v:6:156: Failed to bind "xor".
 [WRN:CP5851] $Source01/t_array_type_methods.v:15:4: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/t_array_type_methods.v:6:39: Null Actual: id:186, type:MethodFuncCall, name:or, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_array_type_methods.v:6:155: Null Actual: id:204, type:MethodFuncCall, name:or, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_array_type_methods.v:6:39: Null Actual: id:221, type:MethodFuncCall, name:and, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_array_type_methods.v:6:156: Null Actual: id:239, type:MethodFuncCall, name:and, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_array_type_methods.v:6:39: Null Actual: id:256, type:MethodFuncCall, name:xor, relation:vpiPathElem.
-[ERR:LN7705] $Source01/t_array_type_methods.v:6:156: Null Actual: id:274, type:MethodFuncCall, name:xor, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_array_type_methods.v:6:39: Null Actual: id:187, type:MethodFuncCall, name:or, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_array_type_methods.v:6:155: Null Actual: id:205, type:MethodFuncCall, name:or, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_array_type_methods.v:6:39: Null Actual: id:222, type:MethodFuncCall, name:and, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_array_type_methods.v:6:156: Null Actual: id:240, type:MethodFuncCall, name:and, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_array_type_methods.v:6:39: Null Actual: id:257, type:MethodFuncCall, name:xor, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_array_type_methods.v:6:156: Null Actual: id:275, type:MethodFuncCall, name:xor, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -623,6 +623,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -691,6 +692,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:13:10 end:13:13:
           vpiParent: Module name:t
@@ -786,13 +788,19 @@ Design name:unnamed:
                   vpiSize: 3
                   vpiDecompile: "3'b011"
                   vpiValue: "011"
-      vpiSysTaskCall (2 items):
-        SysTaskCall name:write start:24:7 end:24:40:
+      vpiSysTaskCall (8 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write start:24:7 end:24:40:
           vpiParent: Module name:t
-          vpiName Identifier name:write start:24:8 end:24:13:
+          vpiName Identifier name:$write start:24:8 end:24:13:
           vpiArgument (1 items):
             NamedArgument start:24:14 end:24:38:
-              vpiParent: SysTaskCall name:write
+              vpiParent: SysTaskCall name:$write
               vpiHighConn Constant start:24:14 end:24:38:
                 vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
@@ -803,9 +811,9 @@ Design name:unnamed:
                 vpiSize: 168
                 vpiDecompile: "\"*-* All Finished *-*\\n\""
                 vpiValue: "*-* All Finished *-*\\n"
-        SysTaskCall name:finish start:25:7 end:25:15:
+        SysTaskCall name:$finish start:25:7 end:25:15:
           vpiParent: Module name:t
-          vpiName Identifier name:finish start:25:8 end:25:14:
+          vpiName Identifier name:$finish start:25:8 end:25:14:
       vpiGenStmt (3 items):
         GenIf start:6:30 end:6:181:
           vpiParent: Module name:t
@@ -841,12 +849,12 @@ Design name:unnamed:
             vpiParent: GenIf
             vpiFullName: t
             vpiStmt (2 items):
-              SysTaskCall name:write start:6:63 end:6:170:
+              SysTaskCall name:$write start:6:63 end:6:170:
                 vpiParent: Begin
-                vpiName Identifier name:write start:6:64 end:6:69:
+                vpiName Identifier name:$write start:6:64 end:6:69:
                 vpiArgument (5 items):
                   NamedArgument start:6:70 end:6:109:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:6:70 end:6:109:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -858,7 +866,7 @@ Design name:unnamed:
                       vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
                       vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
                   NamedArgument start:6:111 end:6:145:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:6:111 end:6:145:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -870,7 +878,7 @@ Design name:unnamed:
                       vpiDecompile: "\"$Source01/t_array_type_methods.v\""
                       vpiValue: "$Source01/t_array_type_methods.v"
                   NamedArgument start:6:146 end:6:148:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:6:146 end:6:148:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -882,7 +890,7 @@ Design name:unnamed:
                       vpiDecompile: "20"
                       vpiValue: 20
                   NamedArgument start:6:150 end:6:158:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn RefObj name:foo.or start:6:151 end:6:157:
                       vpiParent: NamedArgument
                       vpiName: foo.or
@@ -898,7 +906,7 @@ Design name:unnamed:
                           vpiName Identifier name:or start:6:155 end:6:157:
                           vpiIsProperty: true
                   NamedArgument start:6:160 end:6:168:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:6:161 end:6:167:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -909,9 +917,9 @@ Design name:unnamed:
                       vpiSize: 3
                       vpiDecompile: "3'b111"
                       vpiValue: "111"
-              SysTaskCall name:stop start:6:171 end:6:177:
+              SysTaskCall name:$stop start:6:171 end:6:177:
                 vpiParent: Begin
-                vpiName Identifier name:stop start:6:172 end:6:176:
+                vpiName Identifier name:$stop start:6:172 end:6:176:
         GenIf start:6:30 end:6:183:
           vpiParent: Module name:t
           vpiCondition Operation start:6:34 end:6:56:
@@ -946,12 +954,12 @@ Design name:unnamed:
             vpiParent: GenIf
             vpiFullName: t
             vpiStmt (2 items):
-              SysTaskCall name:write start:6:64 end:6:172:
+              SysTaskCall name:$write start:6:64 end:6:172:
                 vpiParent: Begin
-                vpiName Identifier name:write start:6:65 end:6:70:
+                vpiName Identifier name:$write start:6:65 end:6:70:
                 vpiArgument (5 items):
                   NamedArgument start:6:71 end:6:110:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:6:71 end:6:110:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -963,7 +971,7 @@ Design name:unnamed:
                       vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
                       vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
                   NamedArgument start:6:112 end:6:146:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:6:112 end:6:146:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -975,7 +983,7 @@ Design name:unnamed:
                       vpiDecompile: "\"$Source01/t_array_type_methods.v\""
                       vpiValue: "$Source01/t_array_type_methods.v"
                   NamedArgument start:6:147 end:6:149:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:6:147 end:6:149:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -987,7 +995,7 @@ Design name:unnamed:
                       vpiDecompile: "21"
                       vpiValue: 21
                   NamedArgument start:6:151 end:6:160:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn RefObj name:foo.and start:6:152 end:6:159:
                       vpiParent: NamedArgument
                       vpiName: foo.and
@@ -1003,7 +1011,7 @@ Design name:unnamed:
                           vpiName Identifier name:and start:6:156 end:6:159:
                           vpiIsProperty: true
                   NamedArgument start:6:162 end:6:170:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:6:163 end:6:169:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -1014,9 +1022,9 @@ Design name:unnamed:
                       vpiSize: 3
                       vpiDecompile: "3'b001"
                       vpiValue: "001"
-              SysTaskCall name:stop start:6:173 end:6:179:
+              SysTaskCall name:$stop start:6:173 end:6:179:
                 vpiParent: Begin
-                vpiName Identifier name:stop start:6:174 end:6:178:
+                vpiName Identifier name:$stop start:6:174 end:6:178:
         GenIf start:6:30 end:6:183:
           vpiParent: Module name:t
           vpiCondition Operation start:6:34 end:6:56:
@@ -1051,12 +1059,12 @@ Design name:unnamed:
             vpiParent: GenIf
             vpiFullName: t
             vpiStmt (2 items):
-              SysTaskCall name:write start:6:64 end:6:172:
+              SysTaskCall name:$write start:6:64 end:6:172:
                 vpiParent: Begin
-                vpiName Identifier name:write start:6:65 end:6:70:
+                vpiName Identifier name:$write start:6:65 end:6:70:
                 vpiArgument (5 items):
                   NamedArgument start:6:71 end:6:110:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:6:71 end:6:110:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -1068,7 +1076,7 @@ Design name:unnamed:
                       vpiDecompile: "\"%%Error: %s:%0d:  got='h%x exp='h%x\\n\""
                       vpiValue: "%%Error: %s:%0d:  got='h%x exp='h%x\\n"
                   NamedArgument start:6:112 end:6:146:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:6:112 end:6:146:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -1080,7 +1088,7 @@ Design name:unnamed:
                       vpiDecompile: "\"$Source01/t_array_type_methods.v\""
                       vpiValue: "$Source01/t_array_type_methods.v"
                   NamedArgument start:6:147 end:6:149:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:6:147 end:6:149:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -1092,7 +1100,7 @@ Design name:unnamed:
                       vpiDecompile: "22"
                       vpiValue: 22
                   NamedArgument start:6:151 end:6:160:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn RefObj name:foo.xor start:6:152 end:6:159:
                       vpiParent: NamedArgument
                       vpiName: foo.xor
@@ -1108,7 +1116,7 @@ Design name:unnamed:
                           vpiName Identifier name:xor start:6:156 end:6:159:
                           vpiIsProperty: true
                   NamedArgument start:6:162 end:6:170:
-                    vpiParent: SysTaskCall name:write
+                    vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:6:163 end:6:169:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -1119,9 +1127,9 @@ Design name:unnamed:
                       vpiSize: 3
                       vpiDecompile: "3'b110"
                       vpiValue: "110"
-              SysTaskCall name:stop start:6:173 end:6:179:
+              SysTaskCall name:$stop start:6:173 end:6:179:
                 vpiParent: Begin
-                vpiName Identifier name:stop start:6:174 end:6:178:
+                vpiName Identifier name:$stop start:6:174 end:6:178:
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1187,7 +1195,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_array_type_methods/design.hldb ${HLC_
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             275     275       0         0
+Others                             276     276       0         0
 ----------------------------------------------------------------
-                                   275     275       0         0
+                                   276     276       0         0
 ===================== END REDUCTION RESULT =====================

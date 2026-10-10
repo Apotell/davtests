@@ -478,6 +478,11 @@ Design name:unnamed:
             ParamAssign start:12:10 end:12:16:
               vpiParent: ModuleTypespec name:submod
               vpiOverridden: true
+              vpiLhs RefObj name:c start:18:11 end:18:12:
+                vpiParent: ParamAssign
+                vpiName: c
+                vpiFullName: top.submod.c
+                vpiActual: Parameter name:c
               vpiRhs Operation start:12:10 end:12:16:
                 vpiParent: ParamAssign
                 vpiOpType: minus (1)
@@ -495,6 +500,11 @@ Design name:unnamed:
             ParamAssign start:12:18 end:12:24:
               vpiParent: ModuleTypespec name:submod
               vpiOverridden: true
+              vpiLhs RefObj name:d start:19:17 end:19:18:
+                vpiParent: ParamAssign
+                vpiName: d
+                vpiFullName: top.submod.d
+                vpiActual: Parameter name:d
               vpiRhs Operation start:12:18 end:12:24:
                 vpiParent: ParamAssign
                 vpiOpType: minus (1)
@@ -514,6 +524,16 @@ Design name:unnamed:
         Attribute name:top start:2:4 end:2:7:
           vpiParent: Module name:top
           vpiName: top
+          vpiValue Constant start:2:4 end:2:7:
+            vpiParent: Attribute name:top
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.top
+              vpiActual: IntTypespec
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:3:8 end:3:11:
@@ -522,6 +542,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiNet (6 items):
         Net name:a start:4:13 end:4:14:
           vpiParent: Module name:top
@@ -797,6 +818,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:submod
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:submod
           vpiRange (1 items):
@@ -879,6 +901,16 @@ Design name:unnamed:
         Attribute name:gentb_skip start:16:4 end:16:14:
           vpiParent: Module name:submod
           vpiName: gentb_skip
+          vpiValue Constant start:16:4 end:16:14:
+            vpiParent: Attribute name:gentb_skip
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: submod.gentb_skip
+              vpiActual: IntTypespec
+            vpiConstType: int (7)
+            vpiSize: 32
+            vpiDecompile: "1"
+            vpiValue: 1
       vpiDefName: submod
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:17:8 end:17:14:
@@ -887,6 +919,7 @@ Design name:unnamed:
         vpiFullName: submod.work
         vpiActual: Library name:work
       vpiCell: submod
+      vpiAutomatic: true
       vpiNet (6 items):
         Net name:a start:20:13 end:20:14:
           vpiParent: Module name:submod
@@ -1070,12 +1103,14 @@ Design name:unnamed:
             vpiName: d
             vpiFullName: submod.d
             vpiActual: Parameter name:d
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:3:8 end:3:11:
       vpiDefName: top
       vpiModule: Module name:top
+    IntTypespec:
+      vpiParent: Design name:unnamed
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -1135,11 +1170,11 @@ COMMAND: ${HLC_DIR}/regression/Yosys/simple/hierarchy.v/design.hldb ${HLC_DIR}/r
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            16      16       2         2
+Constant                            18      18       2         2
 Operation                            2       0       0         2
-RefTypespec                         43      43       2         2
+RefTypespec                         45      45       2         2
 ----------------------------------------------------------------
-Others                             106     106       0         0
+Others                             110     110       0         0
 ----------------------------------------------------------------
-                                   167     165       4         6
+                                   175     173       4         6
 ===================== END REDUCTION RESULT =====================

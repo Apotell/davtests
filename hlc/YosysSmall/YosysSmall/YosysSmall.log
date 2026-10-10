@@ -42,15 +42,15 @@ COMMAND: -wd ../../../tests/YosysSmall +incdir+. -sverilog -writepp -fileunit ci
 [WRN:PA5506] $Source01/pwm256_tb.v:6:1: No timescale set for "tb".
 [WRN:PA5506] $Source01/pwm256.v:6:1: No timescale set for "pwm256".
 [ERR:DB2029] $Source01/dspmac_16_40_tb.v:19:1: Unsupported typespec "dspmac_16_40".
-[ERR:LN7701] Invalid name: id:3028, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3031, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:3034, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3038, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3041, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3044, type:RefObj, name:, relation:vpiLowConn.
 [WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:38: Critical: Signed vs Unsigned port connection "a_bus".
-[ERR:LN7701] Invalid name: id:3037, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3047, type:RefObj, name:, relation:vpiLowConn.
 [WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:45: Critical: Signed vs Unsigned port connection "b_bus".
-[ERR:LN7701] Invalid name: id:3040, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3050, type:RefObj, name:, relation:vpiLowConn.
 [WRN:DB2033] $Source01/dspmac_16_40_tb.v:19:52: Critical: Signed vs Unsigned port connection "result".
-[ERR:LN7701] Invalid name: id:3043, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:3053, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -147,7 +147,7 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:tb
         LogicTypespec:
@@ -204,6 +204,9 @@ Design name:unnamed:
                 vpiValue: 0
           vpiSigned: true
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:tb
+          vpiScalar: true
       vpiDefName: tb
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:8 end:8:10:
@@ -212,6 +215,7 @@ Design name:unnamed:
         vpiFullName: tb.work
         vpiActual: Library name:work
       vpiCell: tb
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:d_out start:13:20 end:13:25:
           vpiParent: Module name:tb
@@ -408,6 +412,10 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "60"
                   vpiValue: 60
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$dumpfile:
+        SysTaskCall name:$dumpvars:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:dut start:20:6 end:20:9:
           vpiParent: Module name:tb
@@ -542,9 +550,10 @@ Design name:unnamed:
             vpiActual: IntegerTypespec
           vpiName: i
           vpiFullName: cic5.i
-      vpiTypespec (11 items):
+      vpiTypespec (12 items):
         LogicTypespec:
           vpiParent: Module name:cic5
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:cic5
           vpiRange (1 items):
@@ -599,6 +608,8 @@ Design name:unnamed:
                 vpiValue: 0
           vpiSigned: true
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:cic5
         LogicTypespec:
           vpiParent: Module name:cic5
           vpiRange (1 items):
@@ -804,6 +815,7 @@ Design name:unnamed:
         vpiFullName: cic5.work
         vpiActual: Library name:work
       vpiCell: cic5
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:7:12 end:7:15:
           vpiParent: Module name:cic5
@@ -918,7 +930,7 @@ Design name:unnamed:
               vpiTypespec (1 items):
                 BitTypespec:
                   vpiParent: Begin
-              vpiStmt (1 items):
+              vpiStmt (2 items):
                 IfElse start:23:9 end:62:12:
                   vpiParent: Begin
                   vpiCondition Operation start:23:13 end:23:26:
@@ -1126,7 +1138,7 @@ Design name:unnamed:
                     vpiTypespec (1 items):
                       BitTypespec:
                         vpiParent: Begin
-                    vpiStmt (5 items):
+                    vpiStmt (6 items):
                       Assignment start:36:13 end:36:32:
                         vpiParent: Begin
                         vpiLhs RefObj name:d_out_valid start:36:13 end:36:24:
@@ -1726,6 +1738,10 @@ Design name:unnamed:
                                   vpiSize: 64
                                   vpiDecompile: "5"
                                   vpiValue: 5
+                      NullStmt:
+                        vpiParent: Begin
+                NullStmt:
+                  vpiParent: Begin
           vpiAlwaysType: always (1)
     Module name:crc32 file:$Source01/crc32.v start:8:1 end:283:10:
       vpiParent: Design name:unnamed
@@ -1778,6 +1794,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:crc32
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:crc32
           vpiRange (1 items):
@@ -1893,6 +1910,7 @@ Design name:unnamed:
         vpiFullName: crc32.work
         vpiActual: Library name:work
       vpiCell: crc32
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:din start:8:27 end:8:30:
           vpiParent: Module name:crc32
@@ -10293,6 +10311,7 @@ Design name:unnamed:
         vpiFullName: tb.work
         vpiActual: Library name:work
       vpiCell: tb
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:result start:13:20 end:13:26:
           vpiParent: Module name:tb
@@ -10583,6 +10602,10 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "2"
                   vpiValue: 2
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$dumpfile:
+        SysTaskCall name:$dumpvars:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:dut start:19:14 end:19:17:
           vpiParent: Module name:tb
@@ -10703,6 +10726,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:latch
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:latch
           vpiRange (1 items):
@@ -10763,6 +10787,7 @@ Design name:unnamed:
         vpiFullName: latch.work
         vpiActual: Library name:work
       vpiCell: latch
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:din start:7:26 end:7:29:
           vpiParent: Module name:latch
@@ -10945,7 +10970,7 @@ Design name:unnamed:
             vpiSize: 8
             vpiDecompile: "8'd128"
             vpiValue: "128"
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:tb
         LogicTypespec:
@@ -10974,6 +10999,9 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:tb
+          vpiScalar: true
       vpiDefName: tb
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:6:8 end:6:10:
@@ -10982,6 +11010,7 @@ Design name:unnamed:
         vpiFullName: tb.work
         vpiActual: Library name:work
       vpiCell: tb
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:pwm start:11:6 end:11:9:
           vpiParent: Module name:tb
@@ -11169,6 +11198,10 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1540"
                   vpiValue: 1540
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$dumpfile:
+        SysTaskCall name:$dumpvars:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:dut start:17:8 end:17:11:
           vpiParent: Module name:tb
@@ -11248,9 +11281,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: counter
           vpiFullName: pwm256.counter
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:pwm256
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:pwm256
           vpiRange (1 items):
@@ -11277,6 +11311,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:pwm256
         LogicTypespec:
           vpiParent: Module name:pwm256
           vpiRange (1 items):
@@ -11312,6 +11348,7 @@ Design name:unnamed:
         vpiFullName: pwm256.work
         vpiActual: Library name:work
       vpiCell: pwm256
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:7:11 end:7:14:
           vpiParent: Module name:pwm256
@@ -11698,9 +11735,9 @@ Name                            Before   After   Added   Removed
 Constant                           665     668       4         1
 Operation                           34      30       0         4
 RefObj                             417     414       0         3
-RefTypespec                       1053    1056       4         1
+RefTypespec                       1066    1069       4         1
 ----------------------------------------------------------------
-Others                            1849    1849       0         0
+Others                            1863    1863       0         0
 ----------------------------------------------------------------
-                                  4018    4017       8         9
+                                  4045    4044       8         9
 ===================== END REDUCTION RESULT =====================

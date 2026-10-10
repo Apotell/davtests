@@ -950,8 +950,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/top.v:102:11: Failed to bind "reset".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:CP5867] $Source01/top.v:1:35: Illegal data type for net clock.
-[ERR:LN7701] Invalid name: id:369, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:388, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:389, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1022,6 +1021,7 @@ Design name:unnamed:
           vpiParent: Interface name:mem_interface
         LogicTypespec:
           vpiParent: Interface name:mem_interface
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Interface name:mem_interface
           vpiRange (1 items):
@@ -1307,7 +1307,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: addr_mem
           vpiFullName: mem_if.addr_mem
-      vpiTypespec (6 items):
+      vpiTypespec (7 items):
+        LogicTypespec:
+          vpiParent: Interface name:mem_if
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Interface name:mem_if
         LogicTypespec:
@@ -1757,6 +1760,7 @@ Design name:unnamed:
         vpiFullName: memory_model.work
         vpiActual: Library name:work
       vpiCell: memory_model
+      vpiAutomatic: true
       vpiPort (1 items):
         Port name:mif start:62:36 end:62:39:
           vpiParent: Module name:memory_model
@@ -2030,6 +2034,7 @@ Design name:unnamed:
         vpiFullName: memory_ctrl.work
         vpiActual: Library name:work
       vpiCell: memory_ctrl
+      vpiAutomatic: true
       vpiPort (1 items):
         Port name:sif start:87:35 end:87:38:
           vpiParent: Module name:memory_ctrl
@@ -2101,6 +2106,7 @@ Design name:unnamed:
         vpiFullName: interface_modports.work
         vpiActual: Library name:work
       vpiCell: interface_modports
+      vpiAutomatic: true
       vpiProcess (1 items):
         Always start:115:1 end:115:18:
           vpiParent: Module name:interface_modports
@@ -2139,9 +2145,11 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:119:13 end:119:16:
               vpiParent: RefInstance name:miff
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:clk:
                 vpiParent: NamedArgument
-                vpiFullName: interface_modports.miff
+                vpiName: clk
+                vpiFullName: interface_modports.miff.clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:119:13 end:119:16:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -2261,7 +2269,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 2
 [WARNING] : 28
 [   NOTE] : 2
 ********************************************************************************
@@ -2308,9 +2316,9 @@ Name                            Before   After   Added   Removed
 Constant                            38      39       1         0
 Operation                            7       6       0         1
 RefObj                              72      71       0         1
-RefTypespec                        399     400       1         0
+RefTypespec                        412     413       1         0
 ----------------------------------------------------------------
-Others                            1182    1182       0         0
+Others                            1184    1184       0         0
 ----------------------------------------------------------------
-                                  1698    1698       2         2
+                                  1713    1713       2         2
 ===================== END REDUCTION RESULT =====================

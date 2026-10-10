@@ -432,9 +432,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rw
           vpiFullName: CPU.rw
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:CPU
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:CPU
           vpiRange (1 items):
@@ -461,6 +462,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:CPU
       vpiDefName: CPU
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:9:8 end:9:11:
@@ -469,6 +472,7 @@ Design name:unnamed:
         vpiFullName: CPU.work
         vpiActual: Library name:work
       vpiCell: CPU
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clock start:14:15 end:14:20:
           vpiParent: Module name:CPU
@@ -706,6 +710,7 @@ Design name:unnamed:
         vpiFullName: BENCH.work
         vpiActual: Library name:work
       vpiCell: BENCH
+      vpiAutomatic: true
       vpiProcess (2 items):
         Initial start:37:9 end:42:12:
           vpiParent: Module name:BENCH
@@ -747,9 +752,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-              DelayControl start:40:17 end:40:22:
+              DelayControl start:40:17 end:40:23:
                 vpiParent: Begin
                 vpiDelay: 1000
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:40:18 end:40:22:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -800,6 +807,8 @@ Design name:unnamed:
                   vpiDecompile: "10"
                   vpiValue: 10
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:fm start:35:13 end:35:15:
           vpiParent: Module name:BENCH
@@ -936,7 +945,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/port-test3/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             123     123       0         0
+Others                             126     126       0         0
 ----------------------------------------------------------------
-                                   123     123       0         0
+                                   126     126       0         0
 ===================== END REDUCTION RESULT =====================

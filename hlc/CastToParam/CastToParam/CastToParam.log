@@ -176,6 +176,7 @@ Design name:unnamed:
         vpiFullName: top #(.Depth(3), .PTR_WIDTH(15)).work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:get_casted_depth start:8:4 end:10:15:
           vpiParent: Module name:top #(.Depth(3), .PTR_WIDTH(15))
@@ -223,13 +224,21 @@ Design name:unnamed:
             vpiParent: Function name:get_casted_depth
             vpiCondition Operation start:9:14 end:9:33:
               vpiParent: ReturnStmt
+              vpiTypespec RefTypespec:
+                vpiParent: Operation
+                vpiFullName: top #(.Depth(3), .PTR_WIDTH(15)).get_casted_depth
+                vpiPathElem (1 items):
+                  Operation:
+                    vpiParent: RefTypespec
+                    vpiOpType: type (95)
+                    vpiOperand (1 items):
+                      RefObj name:PTR_WIDTH start:9:15 end:9:24:
+                        vpiParent: Operation
+                        vpiName: PTR_WIDTH
+                        vpiFullName: top #(.Depth(3), .PTR_WIDTH(15)).get_casted_depth.PTR_WIDTH
+                        vpiActual: Parameter name:PTR_WIDTH
               vpiOpType: cast (81)
-              vpiOperand (2 items):
-                RefObj name:PTR_WIDTH start:9:15 end:9:24:
-                  vpiParent: Operation
-                  vpiName: PTR_WIDTH
-                  vpiFullName: top #(.Depth(3), .PTR_WIDTH(15)).get_casted_depth.PTR_WIDTH
-                  vpiActual: Parameter name:PTR_WIDTH
+              vpiOperand (1 items):
                 RefObj name:Depth start:9:27 end:9:32:
                   vpiParent: Operation
                   vpiName: Depth
@@ -302,11 +311,11 @@ COMMAND: ${HLC_DIR}/regression/CastToParam/CastToParam/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             4       4       1         1
-Operation                            2       1       0         1
+Operation                            3       2       0         1
 RefObj                               6       5       0         1
-RefTypespec                          7       7       1         1
+RefTypespec                          8       8       1         1
 ----------------------------------------------------------------
-Others                              18      18       0         0
+Others                              19      19       0         0
 ----------------------------------------------------------------
-                                    37      35       2         4
+                                    40      38       2         4
 ===================== END REDUCTION RESULT =====================

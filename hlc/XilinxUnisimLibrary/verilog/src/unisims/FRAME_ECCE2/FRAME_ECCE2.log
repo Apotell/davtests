@@ -15688,9 +15688,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "10000"
             vpiValue: 10000
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:glbl
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:glbl
           vpiRange (1 items):
@@ -15743,6 +15744,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:glbl
       vpiDefName: glbl
       vpiDefNetType: wire (1)
       vpiTimePrecision: -12
@@ -15753,6 +15756,7 @@ Design name:unnamed:
         vpiFullName: glbl.work
         vpiActual: Library name:work
       vpiCell: glbl
+      vpiAutomatic: true
       vpiNet (17 items):
         Net name:GSR start:29:10 end:29:13:
           vpiParent: Module name:glbl
@@ -16097,8 +16101,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-              DelayControl start:92:2 end:92:15:
+              DelayControl start:92:2 end:92:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_START start:92:4 end:92:14:
                   vpiParent: DelayControl
                   vpiName: GRES_START
@@ -16122,8 +16128,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-              DelayControl start:94:2 end:94:15:
+              DelayControl start:94:2 end:94:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_WIDTH start:94:4 end:94:14:
                   vpiParent: DelayControl
                   vpiName: GRES_WIDTH
@@ -17045,9 +17053,10 @@ Design name:unnamed:
             vpiSize: 160
             vpiDecompile: "\"frame_ecc_out_e2.txt\""
             vpiValue: frame_ecc_out_e2.txt
-      vpiTypespec (38 items):
+      vpiTypespec (39 items):
         LogicTypespec:
           vpiParent: Module name:FRAME_ECCE2
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:FRAME_ECCE2
           vpiRange (1 items):
@@ -17152,6 +17161,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:FRAME_ECCE2
         IntegerTypespec:
           vpiParent: Module name:FRAME_ECCE2
           vpiSigned: true
@@ -18003,6 +18014,7 @@ Design name:unnamed:
         vpiFullName: FRAME_ECCE2.work
         vpiActual: Library name:work
       vpiCell: FRAME_ECCE2
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:bcc_next start:435:3 end:477:14:
           vpiParent: Module name:FRAME_ECCE2
@@ -18030,6 +18042,7 @@ Design name:unnamed:
             IODecl name:bcc start:436:18 end:436:21:
               vpiParent: Function name:bcc_next
               vpiName: bcc
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:436:11 end:436:17:
                 vpiParent: IODecl name:bcc
                 vpiFullName: FRAME_ECCE2.bcc_next.bcc
@@ -18037,6 +18050,7 @@ Design name:unnamed:
             IODecl name:in start:437:18 end:437:20:
               vpiParent: Function name:bcc_next
               vpiName: in
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:437:11 end:437:17:
                 vpiParent: IODecl name:in
                 vpiFullName: FRAME_ECCE2.bcc_next.in
@@ -33322,6 +33336,8 @@ Design name:unnamed:
                         vpiSize: 32
                         vpiDecompile: "\"EFAR\""
                         vpiValue: EFAR
+                    vpiStmt NullStmt:
+                      vpiParent: CaseItem
                   CaseItem start:136:7 end:136:16:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -33335,6 +33351,8 @@ Design name:unnamed:
                         vpiSize: 24
                         vpiDecompile: "\"FAR\""
                         vpiValue: FAR
+                    vpiStmt NullStmt:
+                      vpiParent: CaseItem
                   CaseItem start:137:7 end:140:10:
                     vpiParent: CaseStmt
                     vpiStmt Begin start:137:17 end:140:10:
@@ -40413,6 +40431,25 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "11"
                       vpiValue: 11
+      vpiSysTaskCall (18 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
+        SysFuncCall name:$fopen:
+        SysFuncCall name:$fopen:
+        SysFuncCall name:$fopen:
+        SysTaskCall name:$display:
+        SysFuncCall name:$fscanf:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysFuncCall name:$fscanf:
+        SysTaskCall name:$fclose:
+        SysTaskCall name:$fwriteb:
+        SysTaskCall name:$fwriteb:
+        SysTaskCall name:$fwriteb:
+        SysTaskCall name:$fwriteb:
+        SysTaskCall name:$fclose:
+        SysTaskCall name:$fclose:
       vpiSpecifyBlock (1 items):
         SpecifyBlock start:479:3 end:483:13:
           vpiParent: Module name:FRAME_ECCE2
@@ -40507,12 +40544,12 @@ COMMAND: ${HLC_DIR}/regression/XilinxUnisimLibrary/verilog/src/unisims/FRAME_ECC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                          1087    1088      41        40
-LogicTypespec                       44      45       1         0
+LogicTypespec                       46      47       1         0
 Operation                          792     739       0        53
 RefObj                            1087    1042       0        45
 RefTypespec                       1218    1219      41        40
 ----------------------------------------------------------------
-Others                            1386    1386       0         0
+Others                            1391    1391       0         0
 ----------------------------------------------------------------
-                                  5614    5519      83       178
+                                  5621    5526      83       178
 ===================== END REDUCTION RESULT =====================

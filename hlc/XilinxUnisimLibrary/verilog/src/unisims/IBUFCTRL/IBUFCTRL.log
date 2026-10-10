@@ -2444,9 +2444,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "10000"
             vpiValue: 10000
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:glbl
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:glbl
           vpiRange (1 items):
@@ -2499,6 +2500,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:glbl
       vpiDefName: glbl
       vpiDefNetType: wire (1)
       vpiTimePrecision: -12
@@ -2509,6 +2512,7 @@ Design name:unnamed:
         vpiFullName: glbl.work
         vpiActual: Library name:work
       vpiCell: glbl
+      vpiAutomatic: true
       vpiNet (17 items):
         Net name:GSR start:29:10 end:29:13:
           vpiParent: Module name:glbl
@@ -2853,8 +2857,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-              DelayControl start:92:2 end:92:15:
+              DelayControl start:92:2 end:92:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_START start:92:4 end:92:14:
                   vpiParent: DelayControl
                   vpiName: GRES_START
@@ -2878,8 +2884,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-              DelayControl start:94:2 end:94:15:
+              DelayControl start:94:2 end:94:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_WIDTH start:94:4 end:94:14:
                   vpiParent: DelayControl
                   vpiName: GRES_WIDTH
@@ -3266,10 +3274,13 @@ Design name:unnamed:
             vpiName: USE_IBUFDISABLE
             vpiFullName: IBUFCTRL #(.ISTANDARD("UNUSED"), .USE_IBUFDISABLE("FALSE")).USE_IBUFDISABLE
             vpiActual: Parameter name:USE_IBUFDISABLE
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: "Module name:IBUFCTRL #(.ISTANDARD(\"UNUSED\"), .USE_IBUFDISABLE(\"FALSE\"))"
+          vpiScalar: true
         BitTypespec:
+          vpiParent: "Module name:IBUFCTRL #(.ISTANDARD(\"UNUSED\"), .USE_IBUFDISABLE(\"FALSE\"))"
+        LogicTypespec:
           vpiParent: "Module name:IBUFCTRL #(.ISTANDARD(\"UNUSED\"), .USE_IBUFDISABLE(\"FALSE\"))"
         LogicTypespec:
           vpiParent: "Module name:IBUFCTRL #(.ISTANDARD(\"UNUSED\"), .USE_IBUFDISABLE(\"FALSE\"))"
@@ -3307,6 +3318,7 @@ Design name:unnamed:
         vpiFullName: IBUFCTRL #(.ISTANDARD("UNUSED"), .USE_IBUFDISABLE("FALSE")).work
         vpiActual: Library name:work
       vpiCell: IBUFCTRL
+      vpiAutomatic: true
       vpiNet (18 items):
         Net name:O start:44:10 end:44:11:
           vpiParent: "Module name:IBUFCTRL #(.ISTANDARD(\"UNUSED\"), .USE_IBUFDISABLE(\"FALSE\"))"
@@ -3618,9 +3630,11 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: IBUFCTRL #(.ISTANDARD("UNUSED"), .USE_IBUFDISABLE("FALSE"))
             vpiStmt (2 items):
-              DelayControl start:121:5 end:121:7:
+              DelayControl start:121:5 end:121:8:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:121:6 end:121:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -3664,9 +3678,11 @@ Design name:unnamed:
                 BitTypespec:
                   vpiParent: Begin
               vpiStmt (3 items):
-                DelayControl start:126:3 end:126:5:
+                DelayControl start:126:3 end:126:6:
                   vpiParent: Begin
                   vpiDelay: 1
+                  vpiStmt NullStmt:
+                    vpiParent: DelayControl
                   vpiDelay Constant start:126:4 end:126:5:
                     vpiParent: DelayControl
                     vpiTypespec RefTypespec:
@@ -4052,6 +4068,11 @@ Design name:unnamed:
                     vpiName: USE_IBUFDISABLE_FALSE
                     vpiFullName: IBUFCTRL #(.ISTANDARD("UNUSED"), .USE_IBUFDISABLE("FALSE")).USE_IBUFDISABLE_FALSE
                     vpiActual: Parameter name:USE_IBUFDISABLE_FALSE
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
       vpiGenStmt (1 items):
         GenRegion start:137:3 end:147:14:
           vpiParent: "Module name:IBUFCTRL #(.ISTANDARD(\"UNUSED\"), .USE_IBUFDISABLE(\"FALSE\"))"
@@ -4665,7 +4686,7 @@ Operation                           25      22       0         3
 RefObj                             107     104       0         3
 RefTypespec                        157     158       3         2
 ----------------------------------------------------------------
-Others                             199     199       0         0
+Others                             206     206       0         0
 ----------------------------------------------------------------
-                                   578     575       7        10
+                                   585     582       7        10
 ===================== END REDUCTION RESULT =====================

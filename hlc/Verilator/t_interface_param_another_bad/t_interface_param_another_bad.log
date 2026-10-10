@@ -134,8 +134,8 @@ n<$Source01/t_interface_param_another_bad.v> u<119> t<Top_level_rule> c<1> l<6:1
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_param_another_bad.v:6:1: Compile module "t".
 [INF:CP5805] $Source01/t_interface_param_another_bad.v:15:1: Compile interface "simple_bus".
-[WRN:CP5851] $Source01/t_interface_param_another_bad.v:8:42: Failed to bind "dummy".
-[WRN:CP5851] $Source01/t_interface_param_another_bad.v:8:42: Failed to bind "dummy".
+[WRN:CP5851] $Source01/t_interface_param_another_bad.v:8:18: Failed to bind "PARAMETER".
+[WRN:CP5851] $Source01/t_interface_param_another_bad.v:8:18: Failed to bind "PARAMETER".
 [WRN:CP5851] $Source01/t_interface_param_another_bad.v:16:4: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/t_interface_param_another_bad.v:8:4: Unsupported typespec "".
@@ -229,6 +229,8 @@ Design name:unnamed:
                           vpiParent: RefObj name:sb_intf.dummy
                           vpiName: dummy
                           vpiFullName: t.dummy
+                          vpiActual: Variable name:dummy
+                      vpiActual: Variable name:dummy
             ParamAssign start:8:17 end:8:49:
               vpiParent: UnsupportedTypespec
               vpiConnByName: true
@@ -257,6 +259,8 @@ Design name:unnamed:
                           vpiParent: RefObj name:sb_intf.dummy
                           vpiName: dummy
                           vpiFullName: t.dummy
+                          vpiActual: Variable name:dummy
+                      vpiActual: Variable name:dummy
       vpiDefName: t
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:6:8 end:6:9:
@@ -265,6 +269,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:9:4 end:12:7:
           vpiParent: Module name:t
@@ -292,6 +297,11 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:11:7 end:11:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (4 items):
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (2 items):
         RefInstance name:sb_intf start:7:15 end:7:22:
           vpiParent: Module name:t
@@ -376,7 +386,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_param_another_bad/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              52      52       0         0
+Others                              53      53       0         0
 ----------------------------------------------------------------
-                                    52      52       0         0
+                                    53      53       0         0
 ===================== END REDUCTION RESULT =====================

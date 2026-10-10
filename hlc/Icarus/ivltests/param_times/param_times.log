@@ -250,6 +250,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:foo
+          vpiScalar: true
       vpiDefName: foo
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:27:8 end:27:11:
@@ -258,6 +259,7 @@ Design name:unnamed:
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:in start:30:14 end:30:16:
           vpiParent: Module name:foo
@@ -379,6 +381,10 @@ Design name:unnamed:
                       vpiSize: 48
                       vpiDecompile: "\"PASSED\""
                       vpiValue: PASSED
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
     Module name:bar file:$Source01/param_times.v start:44:1 end:48:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:44:8 end:44:11:
@@ -392,6 +398,11 @@ Design name:unnamed:
             ParamAssign start:46:8 end:46:23:
               vpiParent: ModuleTypespec name:foo
               vpiOverridden: true
+              vpiLhs RefObj name:blah start:28:14 end:28:18:
+                vpiParent: ParamAssign
+                vpiName: blah
+                vpiFullName: bar.foo.blah
+                vpiActual: Parameter name:blah
               vpiRhs Operation start:46:8 end:46:23:
                 vpiParent: ParamAssign
                 vpiOpType: add (24)
@@ -439,6 +450,7 @@ Design name:unnamed:
         vpiFullName: bar.work
         vpiActual: Library name:work
       vpiCell: bar
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:yak start:46:25 end:46:28:
           vpiParent: Module name:bar
@@ -532,10 +544,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             7       5       2         4
 Operation                            3       0       0         3
-RefObj                               9       8       0         1
+RefObj                              10       9       0         1
 RefTypespec                         13      11       2         4
 ----------------------------------------------------------------
-Others                              51      51       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    83      75       4        12
+                                    85      77       4        12
 ===================== END REDUCTION RESULT =====================

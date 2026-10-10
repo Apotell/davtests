@@ -335,10 +335,28 @@ n<$Source01/dut.sv> u<319> t<Top_level_rule> c<1> l<1:1> el<24:1>
         n<> u<315> t<ENDMODULE> p<316> l<22:1> el<22:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "dut".
+[WRN:CP5851] $Source01/dut.sv:5:17: Failed to bind "uvm_packer".
+[WRN:CP5851] $Source01/dut.sv:6:5: Failed to bind "cover_info".
 [WRN:CP5851] $Source01/dut.sv:6:22: Failed to bind "cover_info".
 [WRN:CP5851] $Source01/dut.sv:6:33: Failed to bind "size".
+[WRN:CP5851] $Source01/dut.sv:6:46: Failed to bind "cover_info".
+[WRN:CP5851] $Source01/dut.sv:7:25: Failed to bind "m_pack_iter".
+[WRN:CP5851] $Source01/dut.sv:8:5: Failed to bind "m_bits".
+[WRN:CP5851] $Source01/dut.sv:8:21: Failed to bind "m_pack_iter".
+[WRN:CP5851] $Source01/dut.sv:9:5: Failed to bind "m_bits".
+[WRN:CP5851] $Source01/dut.sv:9:21: Failed to bind "m_unpack_iter".
+[WRN:CP5851] $Source01/dut.sv:10:20: Failed to bind "m_pack_iter".
+[WRN:CP5851] $Source01/dut.sv:11:19: Failed to bind "m_bits".
+[WRN:CP5851] $Source01/dut.sv:15:5: Failed to bind "m_bits".
+[WRN:CP5851] $Source01/dut.sv:15:21: Failed to bind "m_pack_iter".
+[WRN:CP5851] $Source01/dut.sv:17:5: Failed to bind "a".
+[WRN:CP5851] $Source01/dut.sv:17:13: Failed to bind "idle".
+[WRN:CP5851] $Source01/dut.sv:18:5: Failed to bind "nba".
+[WRN:CP5851] $Source01/dut.sv:18:12: Failed to bind "next_nba".
+[WRN:CP5851] $Source01/dut.sv:19:5: Failed to bind "bb".
+[WRN:CP5851] $Source01/dut.sv:19:13: Failed to bind "toto".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "dut".
-[ERR:LN7705] $Source01/dut.sv:6:33: Null Actual: id:64, type:MethodFuncCall, name:size, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:6:33: Null Actual: id:65, type:MethodFuncCall, name:size, relation:vpiPathElem.
 [ERR:DB2019] $Source01/dut.sv:16:5: Illegal lhs of type wire "o".
 ====== HLDB =======
 Design name:unnamed:
@@ -356,6 +374,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:dut
+          vpiScalar: true
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:8 end:1:11:
@@ -364,6 +383,7 @@ Design name:unnamed:
         vpiFullName: dut.work
         vpiActual: Library name:work
       vpiCell: dut
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:get_packed_bits start:5:3 end:12:14:
           vpiParent: Module name:dut
@@ -544,7 +564,11 @@ Design name:unnamed:
                 vpiForInitStmt (1 items):
                   Assignment start:10:14 end:10:17:
                     vpiParent: ForStmt
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:10:14 end:10:15:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: dut.get_packed_bits.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:10:16 end:10:17:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -827,7 +851,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 3
+[WARNING] : 21
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -871,7 +895,7 @@ COMMAND: ${HLC_DIR}/regression/Assignments/Assignments/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1483    1483       0         0
+Others                            1498    1498       0         0
 ----------------------------------------------------------------
-                                  1483    1483       0         0
+                                  1498    1498       0         0
 ===================== END REDUCTION RESULT =====================

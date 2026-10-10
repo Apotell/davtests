@@ -599,6 +599,8 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/top.v:5:18: Implicit port type (wire) for "din_ready".
 [NTE:CP5810] $Source01/top.v:9:26: Implicit port type (wire) for "dout_valid".
 [NTE:CP5810] $Source01/top.v:10:24: Implicit port type (wire) for "dout_data".
+[WRN:CP5851] $Source01/top.v:27:10: Failed to bind "SIZE".
+[WRN:CP5851] $Source01/top.v:28:10: Failed to bind "WIDTH".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/top.v:26:4: Unsupported typespec "bc".
 [ERR:DB2029] $Source01/top.v:44:4: Unsupported typespec "demux".
@@ -619,6 +621,7 @@ Design name:unnamed:
       vpiTypespec (11 items):
         LogicTypespec:
           vpiParent: Module name:top
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:top
           vpiRange (1 items):
@@ -855,6 +858,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiNet (17 items):
         Net name:clk start:2:11 end:2:14:
           vpiParent: Module name:top
@@ -1140,7 +1144,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: top.bc_din.clk
-                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:31:17 end:31:20:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1153,7 +1156,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: top.bc_din.rst
-                vpiActual: Net name:rst
               vpiHighConn RefObj name:rst start:32:17 end:32:20:
                 vpiParent: NamedArgument
                 vpiName: rst
@@ -1166,7 +1168,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: din_valid
                 vpiFullName: top.bc_din.din_valid
-                vpiActual: Net name:din_valid
               vpiHighConn RefObj name:din_valid start:34:23 end:34:32:
                 vpiParent: NamedArgument
                 vpiName: din_valid
@@ -1179,7 +1180,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: din_ready
                 vpiFullName: top.bc_din.din_ready
-                vpiActual: Net name:din_ready
               vpiHighConn RefObj name:din_ready start:35:23 end:35:32:
                 vpiParent: NamedArgument
                 vpiName: din_ready
@@ -1192,7 +1192,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: din_data
                 vpiFullName: top.bc_din.din_data
-                vpiActual: Net name:din_data
               vpiHighConn RefObj name:din_data start:36:22 end:36:30:
                 vpiParent: NamedArgument
                 vpiName: din_data
@@ -1205,7 +1204,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dout_valid
                 vpiFullName: top.bc_din.dout_valid
-                vpiActual: Net name:dout_valid
               vpiHighConn RefObj name:din_bc_valid start:38:24 end:38:36:
                 vpiParent: NamedArgument
                 vpiName: din_bc_valid
@@ -1218,7 +1216,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dout_ready
                 vpiFullName: top.bc_din.dout_ready
-                vpiActual: Net name:dout_ready
               vpiHighConn RefObj name:din_bc_ready start:39:24 end:39:36:
                 vpiParent: NamedArgument
                 vpiName: din_bc_ready
@@ -1231,7 +1228,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dout_data
                 vpiFullName: top.bc_din.dout_data
-                vpiActual: Net name:dout_data
               vpiHighConn RefObj name:din_bc_data start:40:23 end:40:34:
                 vpiParent: NamedArgument
                 vpiName: din_bc_data
@@ -1253,7 +1249,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: top.demux.clk
-                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:45:33 end:45:36:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1266,7 +1261,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: top.demux.rst
-                vpiActual: Net name:rst
               vpiHighConn RefObj name:rst start:46:33 end:46:36:
                 vpiParent: NamedArgument
                 vpiName: rst
@@ -1279,7 +1273,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: din_valid
                 vpiFullName: top.demux.din_valid
-                vpiActual: Net name:din_valid
               vpiHighConn BitSelect name:din_bc_valid[0] start:48:39 end:48:54:
                 vpiParent: NamedArgument
                 vpiName: din_bc_valid[0]
@@ -1306,7 +1299,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: din_ready
                 vpiFullName: top.demux.din_ready
-                vpiActual: Net name:din_ready
               vpiHighConn BitSelect name:din_bc_ready[0] start:49:39 end:49:54:
                 vpiParent: NamedArgument
                 vpiName: din_bc_ready[0]
@@ -1333,7 +1325,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: din_data
                 vpiFullName: top.demux.din_data
-                vpiActual: Net name:din_data
               vpiHighConn PartSelect name:din_bc_data[2:0] start:50:38 end:50:54:
                 vpiParent: NamedArgument
                 vpiName: din_bc_data[2:0]
@@ -1408,7 +1399,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dout1_valid
                 vpiFullName: top.demux.dout1_valid
-                vpiActual: Net name:dout1_valid
               vpiHighConn RefObj name:dout2_valid start:56:41 end:56:52:
                 vpiParent: NamedArgument
                 vpiName: dout2_valid
@@ -1421,7 +1411,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dout1_ready
                 vpiFullName: top.demux.dout1_ready
-                vpiActual: Net name:dout1_ready
               vpiHighConn RefObj name:dout2_ready start:57:41 end:57:52:
                 vpiParent: NamedArgument
                 vpiName: dout2_ready
@@ -1434,7 +1423,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dout1_data
                 vpiFullName: top.demux.dout1_data
-                vpiActual: Net name:dout1_data
               vpiHighConn RefObj name:dout2_data start:58:40 end:58:50:
                 vpiParent: NamedArgument
                 vpiName: dout2_data
@@ -1456,7 +1444,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: top.mux.clk
-                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:62:18 end:62:21:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1469,7 +1456,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: top.mux.rst
-                vpiActual: Net name:rst
               vpiHighConn RefObj name:rst start:63:18 end:63:21:
                 vpiParent: NamedArgument
                 vpiName: rst
@@ -1632,7 +1618,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dout_valid
                 vpiFullName: top.mux.dout_valid
-                vpiActual: Net name:dout_valid
               vpiHighConn RefObj name:dout_valid start:77:25 end:77:35:
                 vpiParent: NamedArgument
                 vpiName: dout_valid
@@ -1645,7 +1630,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dout_ready
                 vpiFullName: top.mux.dout_ready
-                vpiActual: Net name:dout_ready
               vpiHighConn RefObj name:dout_ready start:78:25 end:78:35:
                 vpiParent: NamedArgument
                 vpiName: dout_ready
@@ -1658,7 +1642,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: dout_data
                 vpiFullName: top.mux.dout_data
-                vpiActual: Net name:dout_data
               vpiHighConn RefObj name:dout_data start:79:24 end:79:33:
                 vpiParent: NamedArgument
                 vpiName: dout_data
@@ -1681,7 +1664,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
-[WARNING] : 0
+[WARNING] : 2
 [   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1725,7 +1708,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/misc/opt_rmdff_sat/top/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             250     250       0         0
+Others                             251     251       0         0
 ----------------------------------------------------------------
-                                   250     250       0         0
+                                   251     251       0         0
 ===================== END REDUCTION RESULT =====================

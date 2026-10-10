@@ -10,6 +10,10 @@ COMMAND: -wd ../../../tests/BitsStructMember -d db -sv dut.sv -nobuiltin -nocach
 [INF:PA5502] Parsing source file "$Source01/dut.sv".
 [INF:CP5802] $Source01/dut.sv:1:1: Compile package "keymgr_pkg".
 [INF:CP5804] $Source01/dut.sv:16:1: Compile module "top".
+[WRN:CP5851] $Source01/dut.sv:17:16: Failed to bind "MsgWidth".
+[WRN:CP5851] $Source01/dut.sv:17:16: Failed to bind "MsgWidth".
+[WRN:CP5851] $Source01/dut.sv:20:18: Failed to bind "mux_sel".
+[WRN:CP5851] $Source01/dut.sv:21:7: Failed to bind "SelKeyMgr".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "keymgr_pkg".
 [WRN:PA5506] $Source01/dut.sv:16:1: No timescale set for "top".
 ====== HLDB =======
@@ -254,6 +258,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:keymgr_data_i start:16:48 end:16:61:
           vpiParent: Module name:top
@@ -357,7 +362,11 @@ Design name:unnamed:
                           vpiForInitStmt (1 items):
                             Assignment start:22:18 end:22:23:
                               vpiParent: ForStmt
-                              vpiLhs: Variable name:i
+                              vpiLhs RefObj name:i start:22:18 end:22:19:
+                                vpiParent: Assignment
+                                vpiName: i
+                                vpiFullName: top.i
+                                vpiActual: Variable name:i
                               vpiRhs Constant start:22:22 end:22:23:
                                 vpiParent: Assignment
                                 vpiTypespec RefTypespec:
@@ -499,6 +508,8 @@ Design name:unnamed:
                                                 vpiActual: Variable name:i
                                           vpiActual: BitSelect name:strb[i]
           vpiAlwaysType: comb (2)
+      vpiSysTaskCall (1 items):
+        SysFuncCall name:$bits:
   vpiTypespec (2 items):
     IntTypespec:
       vpiParent: Design name:unnamed
@@ -516,7 +527,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -561,10 +572,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            12      11       2         3
 Operation                            9       6       0         3
-RefObj                              23      21       0         2
+RefObj                              24      22       0         2
 RefTypespec                         25      24       2         3
 ----------------------------------------------------------------
-Others                              48      48       0         0
+Others                              49      49       0         0
 ----------------------------------------------------------------
-                                   117     110       4        11
+                                   119     112       4        11
 ===================== END REDUCTION RESULT =====================

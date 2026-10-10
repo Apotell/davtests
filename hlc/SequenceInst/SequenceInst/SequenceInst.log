@@ -780,6 +780,8 @@ Design name:unnamed:
         Assert start:16:7 end:16:45:
           vpiParent: Module name:m
           vpiLabel Identifier name:a1 start:16:3 end:16:5:
+          vpiStmt NullStmt:
+            vpiParent: Assert
           vpiProperty PropertySpec start:16:24 end:16:43:
             vpiParent: Assert
             vpiPropertyExpr PropertyInst name:p_triggers start:16:24 end:16:43:
@@ -826,6 +828,8 @@ Design name:unnamed:
         Assert start:18:7 end:18:66:
           vpiParent: Module name:m
           vpiLabel Identifier name:a2 start:18:3 end:18:5:
+          vpiStmt NullStmt:
+            vpiParent: Assert
           vpiProperty PropertySpec start:18:24 end:18:63:
             vpiParent: Assert
             vpiPropertyExpr PropertyInst name:p_triggers start:18:24 end:18:63:
@@ -916,7 +920,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rst
           vpiFullName: m.rst
-      vpiTypespec (5 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:m
         ClockingBlockTypespec:
@@ -926,6 +930,9 @@ Design name:unnamed:
           vpiParent: Module name:m
           vpiName: p_triggers
           vpiPropertyDecl: PropertyDecl name:p_triggers
+        LogicTypespec:
+          vpiParent: Module name:m
+          vpiScalar: true
         PropertyTypespec name:p_multiclock:
           vpiParent: Module name:m
           vpiName: p_multiclock
@@ -940,6 +947,7 @@ Design name:unnamed:
         vpiFullName: m.work
         vpiActual: Library name:work
       vpiCell: m
+      vpiAutomatic: true
       vpiNet (7 items):
         Net name:a start:1:16 end:1:17:
           vpiParent: Module name:m
@@ -1153,9 +1161,11 @@ Design name:unnamed:
                     vpiName: rst
                     vpiFullName: m.rst
                     vpiActual: Variable name:rst
-                  vpiStmt DelayControl start:22:7 end:22:9:
+                  vpiStmt DelayControl start:22:7 end:22:10:
                     vpiParent: IfElse
                     vpiDelay: 5
+                    vpiStmt NullStmt:
+                      vpiParent: DelayControl
                     vpiDelay Constant start:22:8 end:22:9:
                       vpiParent: DelayControl
                       vpiTypespec RefTypespec:
@@ -1173,6 +1183,8 @@ Design name:unnamed:
                       Assert start:24:11 end:24:49:
                         vpiParent: Begin
                         vpiLabel Identifier name:a3 start:24:7 end:24:9:
+                        vpiStmt NullStmt:
+                          vpiParent: Assert
                         vpiProperty PropertySpec start:24:28 end:24:47:
                           vpiParent: Assert
                           vpiPropertyExpr PropertyInst name:p_triggers start:24:28 end:24:47:
@@ -1221,6 +1233,10 @@ Design name:unnamed:
           vpiAlwaysType: always (1)
       vpiClockingBlock (1 items):
         ClockingBlock:
+      vpiSysTaskCall (3 items):
+        SysFuncCall name:$inferred_clock:
+        SysFuncCall name:$inferred_disable:
+        SysFuncCall name:$inferred_clock:
   vpiTypespec (2 items):
     ModuleTypespec name:m:
       vpiParent: Design name:unnamed
@@ -1282,7 +1298,7 @@ COMMAND: ${HLC_DIR}/regression/SequenceInst/SequenceInst/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             183     183       0         0
+Others                             189     189       0         0
 ----------------------------------------------------------------
-                                   183     183       0         0
+                                   189     189       0         0
 ===================== END REDUCTION RESULT =====================

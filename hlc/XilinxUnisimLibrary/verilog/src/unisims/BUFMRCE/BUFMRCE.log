@@ -1649,6 +1649,10 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/glbl.v:21:1: Compile module "glbl".
 [INF:CP5804] $Source01/unisims/BUFMRCE.v:35:1: Compile module "BUFMRCE".
 [NTE:CP5810] $Source01/unisims/BUFMRCE.v:43:10: Implicit port type (wire) for "O".
+[WRN:CP5851] $Source01/unisims/BUFMRCE.v:83:34: Failed to bind "PRESELECT_I0".
+[WRN:CP5851] $Source01/unisims/BUFMRCE.v:83:57: Failed to bind "PRESELECT_I1".
+[WRN:CP5851] $Source01/unisims/BUFMRCE.v:90:34: Failed to bind "PRESELECT_I0".
+[WRN:CP5851] $Source01/unisims/BUFMRCE.v:90:57: Failed to bind "PRESELECT_I1".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/unisims/BUFMRCE.v:83:5: Unsupported typespec "BUFGCTRL".
 [ERR:DB2029] $Source01/unisims/BUFMRCE.v:87:5: Unsupported typespec "INV".
@@ -1998,9 +2002,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "10000"
             vpiValue: 10000
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:glbl
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:glbl
           vpiRange (1 items):
@@ -2053,6 +2058,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:glbl
       vpiDefName: glbl
       vpiDefNetType: wire (1)
       vpiTimePrecision: -12
@@ -2063,6 +2070,7 @@ Design name:unnamed:
         vpiFullName: glbl.work
         vpiActual: Library name:work
       vpiCell: glbl
+      vpiAutomatic: true
       vpiNet (17 items):
         Net name:GSR start:29:10 end:29:13:
           vpiParent: Module name:glbl
@@ -2407,8 +2415,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-              DelayControl start:92:2 end:92:15:
+              DelayControl start:92:2 end:92:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_START start:92:4 end:92:14:
                   vpiParent: DelayControl
                   vpiName: GRES_START
@@ -2432,8 +2442,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-              DelayControl start:94:2 end:94:15:
+              DelayControl start:94:2 end:94:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_WIDTH start:94:4 end:94:14:
                   vpiParent: DelayControl
                   vpiName: GRES_WIDTH
@@ -2617,9 +2629,10 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
-      vpiTypespec (7 items):
+      vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: "Module name:BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0))"
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: "Module name:BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0))"
           vpiSigned: true
@@ -2651,6 +2664,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: "Module name:BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0))"
         UnsupportedTypespec name:BUFGCTRL start:83:5 end:83:13:
           vpiParent: "Module name:BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0))"
           vpiName Identifier name:BUFGCTRL start:83:5 end:83:13:
@@ -2782,6 +2797,7 @@ Design name:unnamed:
         vpiFullName: "BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).work"
         vpiActual: Library name:work
       vpiCell: BUFMRCE
+      vpiAutomatic: true
       vpiNet (9 items):
         Net name:O start:43:10 end:43:11:
           vpiParent: "Module name:BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0))"
@@ -3203,6 +3219,11 @@ Design name:unnamed:
             vpiName: CE
             vpiFullName: "BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).CE"
             vpiActual: Net name:CE
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
       vpiRefInstance (3 items):
         RefInstance name:B1 start:83:80 end:83:82:
           vpiParent: "Module name:BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0))"
@@ -3220,7 +3241,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: O
                 vpiFullName: "BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).B1.O"
-                vpiActual: Net name:O
               vpiHighConn RefObj name:o_bufg_o start:84:6 end:84:14:
                 vpiParent: NamedArgument
                 vpiName: o_bufg_o
@@ -3273,7 +3293,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: I1
                 vpiFullName: "BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).B1.I1"
-                vpiActual: RefInstance name:I1
               vpiHighConn Constant start:84:58 end:84:62:
                 vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
@@ -3368,7 +3387,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: I
                 vpiFullName: "BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).I1.I"
-                vpiActual: Net name:I
               vpiHighConn Operation start:87:16 end:87:45:
                 vpiParent: NamedArgument
                 vpiOpType: bitwise xor (30)
@@ -3390,7 +3408,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: O
                 vpiFullName: "BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).I1.O"
-                vpiActual: Net name:O
               vpiHighConn RefObj name:NCE start:87:51 end:87:54:
                 vpiParent: NamedArgument
                 vpiName: NCE
@@ -3412,7 +3429,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: O
                 vpiFullName: "BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).B2.O"
-                vpiActual: Net name:O
               vpiHighConn RefObj name:o_bufg1_o start:91:6 end:91:15:
                 vpiParent: NamedArgument
                 vpiName: o_bufg1_o
@@ -3465,7 +3481,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: I1
                 vpiFullName: "BUFMRCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).B2.I1"
-                vpiActual: RefInstance name:I1
               vpiHighConn Constant start:91:59 end:91:63:
                 vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
@@ -3677,7 +3692,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 3
-[WARNING] : 0
+[WARNING] : 4
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3724,12 +3739,12 @@ COMMAND: ${HLC_DIR}/regression/XilinxUnisimLibrary/verilog/src/unisims/BUFMRCE/d
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            64      63       2         3
-LogicTypespec                        6       7       1         0
+LogicTypespec                        8       9       1         0
 Operation                           10       6       0         4
 RefObj                              91      88       0         3
 RefTypespec                        123     122       2         3
 ----------------------------------------------------------------
-Others                             180     180       0         0
+Others                             183     183       0         0
 ----------------------------------------------------------------
-                                   474     466       5        13
+                                   479     471       5        13
 ===================== END REDUCTION RESULT =====================

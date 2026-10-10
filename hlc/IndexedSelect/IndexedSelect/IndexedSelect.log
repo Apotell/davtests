@@ -288,6 +288,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:test
+          vpiScalar: true
       vpiDefName: test
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:8 end:1:12:
@@ -296,6 +297,9 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$display:
       vpiGenStmt (1 items):
         GenRegion start:9:1 end:14:12:
           vpiParent: Module name:test
@@ -312,15 +316,14 @@ Design name:unnamed:
               GenFor start:11:5 end:13:8:
                 vpiParent: Begin
                 vpiFullName: test
-                vpiVariable (1 items):
-                  Variable name:i start:11:10 end:11:11:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: test.i
                 vpiForInitStmt (1 items):
                   Assignment start:11:10 end:11:15:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:11:10 end:11:11:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: test.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:11:14 end:11:15:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -403,12 +406,12 @@ Design name:unnamed:
                   vpiName Identifier name:genfoo start:11:53 end:11:59:
                   vpiFullName: test.genfoo
                   vpiStmt (1 items):
-                    SysTaskCall name:display start:12:9 end:12:26:
+                    SysTaskCall name:$display start:12:9 end:12:26:
                       vpiParent: Begin name:genfoo
-                      vpiName Identifier name:display start:12:10 end:12:17:
+                      vpiName Identifier name:$display start:12:10 end:12:17:
                       vpiArgument (1 items):
                         NamedArgument start:12:18 end:12:24:
-                          vpiParent: SysTaskCall name:display
+                          vpiParent: SysTaskCall name:$display
                           vpiHighConn Constant start:12:18 end:12:24:
                             vpiParent: NamedArgument
                             vpiTypespec RefTypespec:
@@ -483,10 +486,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             9       9       1         1
 Operation                            4       2       0         2
-RefObj                              10       9       0         1
+RefObj                              11      10       0         1
 RefTypespec                         12      11       0         1
 ----------------------------------------------------------------
 Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    65      61       1         5
+                                    66      62       1         5
 ===================== END REDUCTION RESULT =====================

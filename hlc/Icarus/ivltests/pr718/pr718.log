@@ -150,6 +150,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiProcess (2 items):
         Initial start:5:5 end:12:8:
           vpiParent: Module name:test
@@ -164,9 +165,11 @@ Design name:unnamed:
                 vpiStmt (2 items):
                   ForeverStmt start:7:13 end:7:25:
                     vpiParent: ForkStmt name:F
-                    vpiStmt DelayControl start:7:21 end:7:24:
+                    vpiStmt DelayControl start:7:21 end:7:25:
                       vpiParent: ForeverStmt
                       vpiDelay: 10
+                      vpiStmt NullStmt:
+                        vpiParent: DelayControl
                       vpiDelay Constant start:7:22 end:7:24:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
@@ -210,9 +213,11 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: test
             vpiStmt (3 items):
-              DelayControl start:15:9 end:15:12:
+              DelayControl start:15:9 end:15:13:
                 vpiParent: Begin
                 vpiDelay: 20
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:15:10 end:15:12:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -243,6 +248,11 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:17:9 end:17:16:
                 vpiIsProperty: true
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
   vpiTypespec (3 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -306,7 +316,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr718/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              42      42       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    42      42       0         0
 ===================== END REDUCTION RESULT =====================

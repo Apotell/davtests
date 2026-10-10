@@ -299,10 +299,6 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/dut.sv:3:23: Implicit port type (wire) for "out4".
 [INF:CP5836] $Source01/dut.sv:21:24: Compile generate block "blk3".
 [INF:CP5836] $Source01/dut.sv:26:24: Compile generate block "blk4".
-[WRN:CP5851] $Source01/dut.sv:10:16: Failed to bind "blk1".
-[WRN:CP5851] $Source01/dut.sv:10:21: Failed to bind "x".
-[WRN:CP5851] $Source01/dut.sv:16:16: Failed to bind "blk2".
-[WRN:CP5851] $Source01/dut.sv:16:21: Failed to bind "x".
 [WRN:CP5851] $Source01/dut.sv:25:23: Failed to bind "blk3".
 [WRN:CP5851] $Source01/dut.sv:25:28: Failed to bind "x".
 [WRN:CP5851] $Source01/dut.sv:30:23: Failed to bind "blk4".
@@ -389,6 +385,7 @@ Design name:unnamed:
         vpiFullName: matching_end_labels_top.work
         vpiActual: Library name:work
       vpiCell: matching_end_labels_top
+      vpiAutomatic: true
       vpiPort (4 items):
         Port name:out1 start:3:5 end:3:9:
           vpiParent: Module name:matching_end_labels_top
@@ -501,10 +498,13 @@ Design name:unnamed:
                       vpiParent: RefObj name:blk1.x
                       vpiName: blk1
                       vpiFullName: matching_end_labels_top.blk1
+                      vpiActual: Begin name:blk1
                     RefObj name:x start:10:21 end:10:22:
                       vpiParent: RefObj name:blk1.x
                       vpiName: x
                       vpiFullName: matching_end_labels_top.x
+                      vpiActual: Variable name:x
+                  vpiActual: Variable name:x
               Begin name:blk2 start:12:9 end:15:19:
                 vpiParent: Begin
                 vpiName Identifier name:blk2 start:12:17 end:12:21:
@@ -558,10 +558,13 @@ Design name:unnamed:
                       vpiParent: RefObj name:blk2.x
                       vpiName: blk2
                       vpiFullName: matching_end_labels_top.blk2
+                      vpiActual: Begin name:blk2
                     RefObj name:x start:16:21 end:16:22:
                       vpiParent: RefObj name:blk2.x
                       vpiName: x
                       vpiFullName: matching_end_labels_top.x
+                      vpiActual: Variable name:x
+                  vpiActual: Variable name:x
       vpiGenStmt (1 items):
         GenIf start:20:5 end:31:8:
           vpiParent: Module name:matching_end_labels_top
@@ -731,7 +734,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 9
+[WARNING] : 5
 [   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -775,7 +778,7 @@ COMMAND: ${HLC_DIR}/regression/HierPathBeginBlock/HierPathBeginBlock/design.hldb
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             105     105       0         0
+Others                             106     106       0         0
 ----------------------------------------------------------------
-                                   105     105       0         0
+                                   106     106       0         0
 ===================== END REDUCTION RESULT =====================

@@ -210,6 +210,7 @@ Design name:unnamed:
         vpiFullName: sub.work
         vpiActual: Library name:work
       vpiCell: sub
+      vpiAutomatic: true
       vpiPort (1 items):
         Port name:int_status start:2:24 end:2:34:
           vpiParent: Module name:sub
@@ -260,6 +261,7 @@ Design name:unnamed:
           vpiParent: Module name:dut
         LogicTypespec:
           vpiParent: Module name:dut
+          vpiScalar: true
       vpiDefName: dut
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:5:8 end:5:11:
@@ -268,6 +270,7 @@ Design name:unnamed:
         vpiFullName: dut.work
         vpiActual: Library name:work
       vpiCell: dut
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:int_status start:13:18 end:13:28:
           vpiParent: Module name:dut
@@ -353,15 +356,14 @@ Design name:unnamed:
               GenFor start:14:5 end:19:8:
                 vpiParent: Begin
                 vpiFullName: dut
-                vpiVariable (1 items):
-                  Variable name:loop_int start:14:10 end:14:18:
-                    vpiParent: GenFor
-                    vpiName: loop_int
-                    vpiFullName: dut.loop_int
                 vpiForInitStmt (1 items):
                   Assignment start:14:10 end:14:22:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:loop_int
+                    vpiLhs RefObj name:loop_int start:14:10 end:14:18:
+                      vpiParent: Assignment
+                      vpiName: loop_int
+                      vpiFullName: dut.loop_int
+                      vpiActual: Variable name:loop_int
                     vpiRhs Constant start:14:21 end:14:22:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -446,7 +448,7 @@ Design name:unnamed:
                             vpiParent: NamedArgument
                             vpiName: int_status
                             vpiFullName: dut.gen_blk.sub_i.int_status
-                            vpiActual: Net name:int_status
+                            vpiActual: Port name:int_status
                           vpiHighConn BitSelect name:int_status[loop_int] start:17:23 end:17:43:
                             vpiParent: NamedArgument
                             vpiName: int_status[loop_int]
@@ -529,10 +531,10 @@ Name                            Before   After   Added   Removed
 BitTypespec                          2       3       1         0
 Constant                             7       7       1         1
 Operation                            3       2       0         1
-RefObj                              11      10       0         1
+RefObj                              12      11       0         1
 RefTypespec                         12      12       1         1
 ----------------------------------------------------------------
 Others                              39      39       0         0
 ----------------------------------------------------------------
-                                    74      73       3         4
+                                    75      74       3         4
 ===================== END REDUCTION RESULT =====================

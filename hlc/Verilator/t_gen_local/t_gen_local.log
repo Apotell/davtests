@@ -345,6 +345,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -382,6 +383,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:t
@@ -531,6 +533,10 @@ Design name:unnamed:
                         vpiName Identifier name:$finish start:31:3 end:31:10:
                         vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiGenStmt (1 items):
         GenRegion start:17:4 end:24:15:
           vpiParent: Module name:t
@@ -552,15 +558,14 @@ Design name:unnamed:
                   GenFor start:20:3 end:22:6:
                     vpiParent: Begin name:topgen
                     vpiFullName: t.topgen
-                    vpiVariable (1 items):
-                      Variable name:g start:20:8 end:20:9:
-                        vpiParent: GenFor
-                        vpiName: g
-                        vpiFullName: t.topgen.g
                     vpiForInitStmt (1 items):
                       Assignment start:20:8 end:20:11:
                         vpiParent: GenFor
-                        vpiLhs: Variable name:g
+                        vpiLhs RefObj name:g start:20:8 end:20:9:
+                          vpiParent: Assignment
+                          vpiName: g
+                          vpiFullName: t.topgen.g
+                          vpiActual: Variable name:g
                         vpiRhs Constant start:20:10 end:20:11:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -701,10 +706,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            10      10       2         2
 Operation                            7       5       0         2
-RefObj                              14      12       0         2
+RefObj                              15      13       0         2
 RefTypespec                         15      15       2         2
 ----------------------------------------------------------------
 Others                              46      46       0         0
 ----------------------------------------------------------------
-                                    92      88       4         8
+                                    93      89       4         8
 ===================== END REDUCTION RESULT =====================

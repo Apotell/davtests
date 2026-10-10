@@ -510,8 +510,6 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_lint_always_comb_iface.v:86:36: Port "out_i" definition missing its direction (input, output, inout).
 [WRN:CP5851] $Source01/t_lint_always_comb_iface.v:8:4: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_lint_always_comb_iface.v:9:4: Failed to bind "logic".
-[WRN:CP5851] $Source01/t_lint_always_comb_iface.v:34:16: Failed to bind "valid".
-[WRN:CP5851] $Source01/t_lint_always_comb_iface.v:35:16: Failed to bind "data".
 [WRN:CP5851] $Source01/t_lint_always_comb_iface.v:55:26: Failed to bind "slave_mp".
 [WRN:CP5851] $Source01/t_lint_always_comb_iface.v:56:26: Failed to bind "master_mp".
 [WRN:CP5851] $Source01/t_lint_always_comb_iface.v:62:9: Failed to bind "out_i".
@@ -652,6 +650,7 @@ Design name:unnamed:
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -701,6 +700,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:in_valid start:25:21 end:25:29:
           vpiParent: Module name:t
@@ -764,6 +764,8 @@ Design name:unnamed:
                 vpiParent: RefObj name:in_i.valid
                 vpiName: valid
                 vpiFullName: t.valid
+                vpiActual: Variable name:valid
+            vpiActual: Variable name:valid
           vpiRhs RefObj name:in_valid start:34:26 end:34:34:
             vpiParent: ContAssign
             vpiName: in_valid
@@ -785,6 +787,8 @@ Design name:unnamed:
                 vpiParent: RefObj name:in_i.data
                 vpiName: data
                 vpiFullName: t.data
+                vpiActual: Variable name:data
+            vpiActual: Variable name:data
           vpiRhs RefObj name:in_data start:35:26 end:35:33:
             vpiParent: ContAssign
             vpiName: in_data
@@ -839,7 +843,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: in_i
                 vpiFullName: t.my_module1_i.in_i
-                vpiActual: RefInstance name:in_i
+                vpiActual: Port name:in_i
               vpiHighConn RefObj name:in_i start:38:38 end:38:42:
                 vpiParent: NamedArgument
                 vpiName: in_i
@@ -874,7 +878,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: in_i
                 vpiFullName: t.my_module2_i.in_i
-                vpiActual: RefInstance name:in_i
+                vpiActual: Port name:in_i
               vpiHighConn RefObj name:in_i start:43:38 end:43:42:
                 vpiParent: NamedArgument
                 vpiName: in_i
@@ -909,7 +913,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: in_i
                 vpiFullName: t.my_module3_i.in_i
-                vpiActual: RefInstance name:in_i
+                vpiActual: Port name:in_i
               vpiHighConn RefObj name:in_i start:48:38 end:48:42:
                 vpiParent: NamedArgument
                 vpiName: in_i
@@ -940,6 +944,7 @@ Design name:unnamed:
         vpiFullName: my_module1.work
         vpiActual: Library name:work
       vpiCell: my_module1
+      vpiAutomatic: true
       vpiPort (2 items):
         Port name:in_i start:55:36 end:55:40:
           vpiParent: Module name:my_module1
@@ -1063,6 +1068,7 @@ Design name:unnamed:
         vpiFullName: my_module2.work
         vpiActual: Library name:work
       vpiCell: my_module2
+      vpiAutomatic: true
       vpiPort (2 items):
         Port name:in_i start:69:36 end:69:40:
           vpiParent: Module name:my_module2
@@ -1243,6 +1249,7 @@ Design name:unnamed:
         vpiFullName: my_module3.work
         vpiActual: Library name:work
       vpiCell: my_module3
+      vpiAutomatic: true
       vpiPort (2 items):
         Port name:in_i start:85:36 end:85:40:
           vpiParent: Module name:my_module3
@@ -1382,7 +1389,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 44
+[WARNING] : 42
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1426,7 +1433,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_lint_always_comb_iface/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             203     203       0         0
+Others                             204     204       0         0
 ----------------------------------------------------------------
-                                   203     203       0         0
+                                   204     204       0         0
 ===================== END REDUCTION RESULT =====================

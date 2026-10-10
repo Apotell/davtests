@@ -127,6 +127,7 @@ n<$Source01/basic04.sv> u<113> t<Top_level_rule> c<1> l<1:1> el<11:1>
                   n<> u<104> t<DOTSTAR> p<105> l<10:42> el<10:44>
 AST_DEBUG_END
 [INF:CP5804] $Source01/basic04.sv:1:1: Compile module "top_properties".
+[WRN:CP5851] $Source01/basic04.sv:10:6: Failed to bind "top".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -145,6 +146,8 @@ Design name:unnamed:
         Assert start:2:8 end:2:62:
           vpiParent: Module name:top_properties
           vpiLabel Identifier name:a_rw start:2:2 end:2:6:
+          vpiStmt NullStmt:
+            vpiParent: Assert
           vpiProperty PropertySpec start:2:26 end:2:59:
             vpiParent: Assert
             vpiClockingEvent Operation start:2:28 end:2:41:
@@ -177,6 +180,8 @@ Design name:unnamed:
         Assert start:6:8 end:6:61:
           vpiParent: Module name:top_properties
           vpiLabel Identifier name:a_wr start:6:2 end:6:6:
+          vpiStmt NullStmt:
+            vpiParent: Assert
           vpiProperty PropertySpec start:6:26 end:6:58:
             vpiParent: Assert
             vpiClockingEvent Operation start:6:28 end:6:41:
@@ -213,6 +218,7 @@ Design name:unnamed:
         vpiFullName: top_properties.work
         vpiActual: Library name:work
       vpiCell: top_properties
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clock start:1:36 end:1:41:
           vpiParent: Module name:top_properties
@@ -332,6 +338,7 @@ Design name:unnamed:
         vpiArgument (1 items):
           NamedArgument start:10:42 end:10:44:
             vpiParent: RefInstance name:properties_inst
+            vpiConnByName: true
             vpiLowConn RefObj name:.*:
               vpiParent: NamedArgument
               vpiName: ".*"
@@ -344,7 +351,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -388,7 +395,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/sva/basic04/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              54      54       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                    54      54       0         0
+                                    57      57       0         0
 ===================== END REDUCTION RESULT =====================

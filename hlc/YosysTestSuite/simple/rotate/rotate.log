@@ -564,8 +564,12 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/rotate.v:15:17: Compile generate block "netgen".
 [INF:CP5836] $Source01/rotate.v:19:25: Compile generate block "net".
 [INF:CP5836] $Source01/rotate.v:29:17: Compile generate block "router".
+[WRN:CP5851] $Source01/rotate.v:27:16: Failed to bind "netgen".
+[WRN:CP5851] $Source01/rotate.v:30:24: Failed to bind "netgen".
 [WRN:CP5851] $Source01/rotate.v:30:51: Failed to bind "out".
+[WRN:CP5851] $Source01/rotate.v:30:41: Failed to bind "netgen".
 [WRN:CP5851] $Source01/rotate.v:35:29: Failed to bind "out".
+[WRN:CP5851] $Source01/rotate.v:35:19: Failed to bind "netgen".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:CP5886] $Source01/rotate.v:35:29: Illegal hierarchical reference: out.
 [ERR:CP5886] $Source01/rotate.v:30:51: Illegal hierarchical reference: out.
@@ -611,6 +615,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
           vpiRange (1 items):
@@ -671,6 +676,7 @@ Design name:unnamed:
         vpiFullName: a23_barrel_shift_fpga_rotate.work
         vpiActual: Library name:work
       vpiCell: a23_barrel_shift_fpga_rotate
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:wrap start:37:1 end:45:12:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
@@ -698,6 +704,7 @@ Design name:unnamed:
             IODecl name:pos start:38:15 end:38:18:
               vpiParent: Function name:wrap
               vpiName: pos
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:38:7 end:38:14:
                 vpiParent: IODecl name:pos
                 vpiFullName: a23_barrel_shift_fpga_rotate.wrap.pos
@@ -705,6 +712,7 @@ Design name:unnamed:
             IODecl name:level start:39:15 end:39:20:
               vpiParent: Function name:wrap
               vpiName: level
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:39:7 end:39:14:
                 vpiParent: IODecl name:level
                 vpiFullName: a23_barrel_shift_fpga_rotate.wrap.level
@@ -991,15 +999,14 @@ Design name:unnamed:
               GenFor start:14:9 end:24:12:
                 vpiParent: Begin
                 vpiFullName: a23_barrel_shift_fpga_rotate
-                vpiVariable (1 items):
-                  Variable name:i start:14:14 end:14:15:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: a23_barrel_shift_fpga_rotate.i
                 vpiForInitStmt (1 items):
                   Assignment start:14:14 end:14:19:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:14:14 end:14:15:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: a23_barrel_shift_fpga_rotate.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:14:18 end:14:19:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -1128,15 +1135,14 @@ Design name:unnamed:
                     GenFor start:18:17 end:23:20:
                       vpiParent: Begin name:netgen
                       vpiFullName: a23_barrel_shift_fpga_rotate.netgen
-                      vpiVariable (1 items):
-                        Variable name:j start:18:22 end:18:23:
-                          vpiParent: GenFor
-                          vpiName: j
-                          vpiFullName: a23_barrel_shift_fpga_rotate.netgen.j
                       vpiForInitStmt (1 items):
                         Assignment start:18:22 end:18:27:
                           vpiParent: GenFor
-                          vpiLhs: Variable name:j
+                          vpiLhs RefObj name:j start:18:22 end:18:23:
+                            vpiParent: Assignment
+                            vpiName: j
+                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen.j
+                            vpiActual: Variable name:j
                           vpiRhs Constant start:18:26 end:18:27:
                             vpiParent: Assignment
                             vpiTypespec RefTypespec:
@@ -1364,15 +1370,14 @@ Design name:unnamed:
               GenFor start:28:9 end:31:12:
                 vpiParent: Begin
                 vpiFullName: a23_barrel_shift_fpga_rotate
-                vpiVariable (1 items):
-                  Variable name:i start:28:14 end:28:15:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: a23_barrel_shift_fpga_rotate.i
                 vpiForInitStmt (1 items):
                   Assignment start:28:14 end:28:19:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:28:14 end:28:15:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: a23_barrel_shift_fpga_rotate.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:28:18 end:28:19:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -1513,7 +1518,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 2
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1557,7 +1562,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/simple/rotate/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             219     219       0         0
+Others                             220     220       0         0
 ----------------------------------------------------------------
-                                   219     219       0         0
+                                   220     220       0         0
 ===================== END REDUCTION RESULT =====================

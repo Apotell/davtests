@@ -2733,13 +2733,15 @@ Design name:unnamed:
               vpiParent: ClassDefn name:svunit_testcase
               vpiName Identifier name:wait_for_error start:90:6 end:90:37:
               vpiFullName: svunit_pkg::svunit_testcase::wait_for_error
-              vpiStmt EventControl start:91:3 end:91:17:
+              vpiStmt EventControl start:91:3 end:91:18:
                 vpiParent: Task name:wait_for_error
                 vpiCondition RefObj name:error_count start:91:5 end:91:16:
                   vpiParent: EventControl
                   vpiName: error_count
                   vpiFullName: svunit_pkg::svunit_testcase::wait_for_error::error_count
                   vpiActual: Variable name:error_count
+                vpiStmt NullStmt:
+                  vpiParent: EventControl
             Function name:get_error_count start:99:1 end:101:12:
               vpiParent: ClassDefn name:svunit_testcase
               vpiName Identifier name:get_error_count start:99:35 end:99:50:
@@ -2784,13 +2786,15 @@ Design name:unnamed:
                     vpiNamedEvent: NamedEvent name:never
                 vpiStmt (2 items):
                   NamedEvent name:never:
-                  EventControl start:110:3 end:110:11:
+                  EventControl start:110:3 end:110:12:
                     vpiParent: Begin
                     vpiCondition RefObj name:never start:110:5 end:110:10:
                       vpiParent: EventControl
                       vpiName: never
                       vpiFullName: svunit_pkg::svunit_testcase::give_up::never
                       vpiActual: NamedEvent name:never
+                    vpiStmt NullStmt:
+                      vpiParent: EventControl
             Function name:fail start:129:1 end:142:12:
               vpiParent: ClassDefn name:svunit_testcase
               vpiName Identifier name:fail start:129:31 end:129:35:
@@ -3821,7 +3825,7 @@ Design name:unnamed:
                       vpiActual: StringTypespec
                     vpiName: success_str
                     vpiFullName: svunit_pkg::svunit_testsuite::report::success_str
-                vpiStmt (7 items):
+                vpiStmt (8 items):
                   Variable name:pass_cnt:
                   Variable name:success_str:
                   ForeachStmt start:89:3 end:90:35:
@@ -4086,6 +4090,8 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiDecompile: "\"\""
                           vpiValue: ""
+                  NullStmt:
+                    vpiParent: Begin
                   SysTaskCall name:$display start:103:3 end:106:31:
                     vpiParent: Begin
                     vpiName Identifier name:$display start:103:3 end:103:11:
@@ -4484,7 +4490,7 @@ Design name:unnamed:
                       vpiActual: StringTypespec
                     vpiName: success_str
                     vpiFullName: svunit_pkg::svunit_testrunner::report::success_str
-                vpiStmt (6 items):
+                vpiStmt (7 items):
                   Variable name:pass_cnt:
                   Variable name:success_str:
                   Begin start:79:3 end:82:6:
@@ -4709,6 +4715,8 @@ Design name:unnamed:
                           vpiConstType: string (6)
                           vpiDecompile: "\"\""
                           vpiValue: ""
+                  NullStmt:
+                    vpiParent: Begin
                   SysTaskCall name:$display start:103:3 end:107:21:
                     vpiParent: Begin
                     vpiName Identifier name:$display start:103:3 end:103:11:
@@ -4985,6 +4993,7 @@ Design name:unnamed:
       vpiTypespec (10 items):
         LogicTypespec:
           vpiParent: Module name:apb_slave #(.addrWidth(8), .dataWidth(32))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:apb_slave #(.addrWidth(8), .dataWidth(32))
           vpiRange (1 items):
@@ -5260,6 +5269,7 @@ Design name:unnamed:
         vpiFullName: apb_slave #(.addrWidth(8), .dataWidth(32)).work
         vpiActual: Library name:work
       vpiCell: apb_slave
+      vpiAutomatic: true
       vpiNet (7 items):
         Net name:clk start:8:32 end:8:35:
           vpiParent: Module name:apb_slave #(.addrWidth(8), .dataWidth(32))
@@ -6030,6 +6040,7 @@ Design name:unnamed:
         vpiFullName: apb_slave_unit_test.work
         vpiActual: Library name:work
       vpiCell: apb_slave_unit_test
+      vpiAutomatic: true
       vpiTaskFunc (7 items):
         Function name:build start:41:3 end:43:14:
           vpiParent: Module name:apb_slave_unit_test
@@ -6117,7 +6128,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "8"
                   vpiValue: 8
-                vpiStmt EventControl start:62:16 end:62:30:
+                vpiStmt EventControl start:62:16 end:62:31:
                   vpiParent: Repeat
                   vpiCondition Operation start:62:18 end:62:29:
                     vpiParent: EventControl
@@ -6128,6 +6139,8 @@ Design name:unnamed:
                         vpiName: clk
                         vpiFullName: apb_slave_unit_test.setup.clk
                         vpiActual: Variable name:clk
+                  vpiStmt NullStmt:
+                    vpiParent: EventControl
               Assignment start:63:5 end:63:14:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -6402,7 +6415,7 @@ Design name:unnamed:
                               Begin start:159:11 end:166:14:
                                 vpiParent: ForkStmt
                                 vpiFullName: apb_slave_unit_test.run.single_write_then_read
-                                vpiStmt (5 items):
+                                vpiStmt (6 items):
                                   Assignment start:101:5 end:101:16:
                                     vpiParent: Begin
                                     vpiBlocking: true
@@ -6610,6 +6623,8 @@ Design name:unnamed:
                                                 vpiName Identifier name:give_up start:29:69 end:29:76:
                                                 vpiTaskFunc: Task name:give_up
                                             vpiActual: MethodTaskCall name:give_up
+                                  NullStmt:
+                                    vpiParent: Begin
                               Begin start:167:11 end:171:14:
                                 vpiParent: ForkStmt
                                 vpiFullName: apb_slave_unit_test.run.single_write_then_read
@@ -6659,9 +6674,11 @@ Design name:unnamed:
                                               vpiName Identifier name:wait_for_error start:169:25 end:169:39:
                                               vpiTaskFunc: Task name:wait_for_error
                                           vpiActual: MethodTaskCall name:wait_for_error
-                          DelayControl start:174:9 end:174:11:
+                          DelayControl start:174:9 end:174:12:
                             vpiParent: Begin
                             vpiDelay: 0
+                            vpiStmt NullStmt:
+                              vpiParent: DelayControl
                             vpiDelay Constant start:174:10 end:174:11:
                               vpiParent: DelayControl
                               vpiTypespec RefTypespec:
@@ -7032,7 +7049,7 @@ Design name:unnamed:
                               Begin start:159:11 end:166:14:
                                 vpiParent: ForkStmt
                                 vpiFullName: apb_slave_unit_test.run.write_wo_psel
-                                vpiStmt (6 items):
+                                vpiStmt (7 items):
                                   Assignment start:120:5 end:120:15:
                                     vpiParent: Begin
                                     vpiBlocking: true
@@ -7288,6 +7305,8 @@ Design name:unnamed:
                                                 vpiName Identifier name:give_up start:29:69 end:29:76:
                                                 vpiTaskFunc: Task name:give_up
                                             vpiActual: MethodTaskCall name:give_up
+                                  NullStmt:
+                                    vpiParent: Begin
                               Begin start:167:11 end:171:14:
                                 vpiParent: ForkStmt
                                 vpiFullName: apb_slave_unit_test.run.write_wo_psel
@@ -7337,9 +7356,11 @@ Design name:unnamed:
                                               vpiName Identifier name:wait_for_error start:169:25 end:169:39:
                                               vpiTaskFunc: Task name:wait_for_error
                                           vpiActual: MethodTaskCall name:wait_for_error
-                          DelayControl start:174:9 end:174:11:
+                          DelayControl start:174:9 end:174:12:
                             vpiParent: Begin
                             vpiDelay: 0
+                            vpiStmt NullStmt:
+                              vpiParent: DelayControl
                             vpiDelay Constant start:174:10 end:174:11:
                               vpiParent: DelayControl
                               vpiTypespec RefTypespec:
@@ -7710,7 +7731,7 @@ Design name:unnamed:
                               Begin start:159:11 end:166:14:
                                 vpiParent: ForkStmt
                                 vpiFullName: apb_slave_unit_test.run.write_wo_write
-                                vpiStmt (6 items):
+                                vpiStmt (7 items):
                                   Assignment start:140:5 end:140:16:
                                     vpiParent: Begin
                                     vpiBlocking: true
@@ -7978,6 +7999,8 @@ Design name:unnamed:
                                                 vpiName Identifier name:give_up start:29:69 end:29:76:
                                                 vpiTaskFunc: Task name:give_up
                                             vpiActual: MethodTaskCall name:give_up
+                                  NullStmt:
+                                    vpiParent: Begin
                               Begin start:167:11 end:171:14:
                                 vpiParent: ForkStmt
                                 vpiFullName: apb_slave_unit_test.run.write_wo_write
@@ -8027,9 +8050,11 @@ Design name:unnamed:
                                               vpiName Identifier name:wait_for_error start:169:25 end:169:39:
                                               vpiTaskFunc: Task name:wait_for_error
                                           vpiActual: MethodTaskCall name:wait_for_error
-                          DelayControl start:174:9 end:174:11:
+                          DelayControl start:174:9 end:174:12:
                             vpiParent: Begin
                             vpiDelay: 0
+                            vpiStmt NullStmt:
+                              vpiParent: DelayControl
                             vpiDelay Constant start:174:10 end:174:11:
                               vpiParent: DelayControl
                               vpiTypespec RefTypespec:
@@ -8400,7 +8425,7 @@ Design name:unnamed:
                               Begin start:159:11 end:166:14:
                                 vpiParent: ForkStmt
                                 vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads
-                                vpiStmt (8 items):
+                                vpiStmt (10 items):
                                   Assignment start:158:5 end:158:16:
                                     vpiParent: Begin
                                     vpiBlocking: true
@@ -8691,6 +8716,8 @@ Design name:unnamed:
                                                 vpiName Identifier name:give_up start:29:69 end:29:76:
                                                 vpiTaskFunc: Task name:give_up
                                             vpiActual: MethodTaskCall name:give_up
+                                  NullStmt:
+                                    vpiParent: Begin
                                   MethodTaskCall name:read start:165:5 end:165:27:
                                     vpiParent: Begin
                                     vpiName Identifier name:read start:165:5 end:165:9:
@@ -8883,6 +8910,8 @@ Design name:unnamed:
                                                 vpiName Identifier name:give_up start:29:69 end:29:76:
                                                 vpiTaskFunc: Task name:give_up
                                             vpiActual: MethodTaskCall name:give_up
+                                  NullStmt:
+                                    vpiParent: Begin
                               Begin start:167:11 end:171:14:
                                 vpiParent: ForkStmt
                                 vpiFullName: apb_slave_unit_test.run._2_writes_then_2_reads
@@ -8932,9 +8961,11 @@ Design name:unnamed:
                                               vpiName Identifier name:wait_for_error start:169:25 end:169:39:
                                               vpiTaskFunc: Task name:wait_for_error
                                           vpiActual: MethodTaskCall name:wait_for_error
-                          DelayControl start:174:9 end:174:11:
+                          DelayControl start:174:9 end:174:12:
                             vpiParent: Begin
                             vpiDelay: 0
+                            vpiStmt NullStmt:
+                              vpiParent: DelayControl
                             vpiDelay Constant start:174:10 end:174:11:
                               vpiParent: DelayControl
                               vpiTypespec RefTypespec:
@@ -9268,7 +9299,7 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiFullName: apb_slave_unit_test.write
                   vpiStmt (3 items):
-                    EventControl start:187:7 end:187:21:
+                    EventControl start:187:7 end:187:22:
                       vpiParent: Begin
                       vpiCondition Operation start:187:9 end:187:20:
                         vpiParent: EventControl
@@ -9279,6 +9310,8 @@ Design name:unnamed:
                             vpiName: clk
                             vpiFullName: apb_slave_unit_test.write.clk
                             vpiActual: Variable name:clk
+                      vpiStmt NullStmt:
+                        vpiParent: EventControl
                     Assignment start:188:7 end:188:15:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -9315,7 +9348,7 @@ Design name:unnamed:
                         vpiSize: 64
                         vpiDecompile: "0"
                         vpiValue: 0
-              EventControl start:198:5 end:198:19:
+              EventControl start:198:5 end:198:20:
                 vpiParent: Begin
                 vpiCondition Operation start:198:7 end:198:18:
                   vpiParent: EventControl
@@ -9326,6 +9359,8 @@ Design name:unnamed:
                       vpiName: clk
                       vpiFullName: apb_slave_unit_test.write.clk
                       vpiActual: Variable name:clk
+                vpiStmt NullStmt:
+                  vpiParent: EventControl
               Assignment start:199:5 end:199:22:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -9396,7 +9431,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              EventControl start:206:5 end:206:19:
+              EventControl start:206:5 end:206:20:
                 vpiParent: Begin
                 vpiCondition Operation start:206:7 end:206:18:
                   vpiParent: EventControl
@@ -9407,6 +9442,8 @@ Design name:unnamed:
                       vpiName: clk
                       vpiFullName: apb_slave_unit_test.write.clk
                       vpiActual: Variable name:clk
+                vpiStmt NullStmt:
+                  vpiParent: EventControl
               Assignment start:207:5 end:207:15:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -9574,7 +9611,7 @@ Design name:unnamed:
                   vpiParent: IfStmt
                   vpiFullName: apb_slave_unit_test.read
                   vpiStmt (3 items):
-                    EventControl start:223:7 end:223:21:
+                    EventControl start:223:7 end:223:22:
                       vpiParent: Begin
                       vpiCondition Operation start:223:9 end:223:20:
                         vpiParent: EventControl
@@ -9585,6 +9622,8 @@ Design name:unnamed:
                             vpiName: clk
                             vpiFullName: apb_slave_unit_test.read.clk
                             vpiActual: Variable name:clk
+                      vpiStmt NullStmt:
+                        vpiParent: EventControl
                     Assignment start:224:7 end:224:15:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -9621,7 +9660,7 @@ Design name:unnamed:
                         vpiSize: 64
                         vpiDecompile: "0"
                         vpiValue: 0
-              EventControl start:229:5 end:229:19:
+              EventControl start:229:5 end:229:20:
                 vpiParent: Begin
                 vpiCondition Operation start:229:7 end:229:18:
                   vpiParent: EventControl
@@ -9632,6 +9671,8 @@ Design name:unnamed:
                       vpiName: clk
                       vpiFullName: apb_slave_unit_test.read.clk
                       vpiActual: Variable name:clk
+                vpiStmt NullStmt:
+                  vpiParent: EventControl
               Assignment start:230:5 end:230:13:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -9699,7 +9740,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              EventControl start:236:5 end:236:19:
+              EventControl start:236:5 end:236:20:
                 vpiParent: Begin
                 vpiCondition Operation start:236:7 end:236:18:
                   vpiParent: EventControl
@@ -9710,6 +9751,8 @@ Design name:unnamed:
                       vpiName: clk
                       vpiFullName: apb_slave_unit_test.read.clk
                       vpiActual: Variable name:clk
+                vpiStmt NullStmt:
+                  vpiParent: EventControl
               Assignment start:237:5 end:237:16:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -9728,7 +9771,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-              EventControl start:240:5 end:240:19:
+              EventControl start:240:5 end:240:20:
                 vpiParent: Begin
                 vpiCondition Operation start:240:7 end:240:18:
                   vpiParent: EventControl
@@ -9739,6 +9782,8 @@ Design name:unnamed:
                       vpiName: clk
                       vpiFullName: apb_slave_unit_test.read.clk
                       vpiActual: Variable name:clk
+                vpiStmt NullStmt:
+                  vpiParent: EventControl
               DelayControl start:241:5 end:241:22:
                 vpiParent: Begin
                 vpiDelay: 1
@@ -9773,7 +9818,7 @@ Design name:unnamed:
             vpiParent: Task name:idle
             vpiFullName: apb_slave_unit_test.idle
             vpiStmt (6 items):
-              EventControl start:248:5 end:248:19:
+              EventControl start:248:5 end:248:20:
                 vpiParent: Begin
                 vpiCondition Operation start:248:7 end:248:18:
                   vpiParent: EventControl
@@ -9784,6 +9829,8 @@ Design name:unnamed:
                       vpiName: clk
                       vpiFullName: apb_slave_unit_test.idle.clk
                       vpiActual: Variable name:clk
+                vpiStmt NullStmt:
+                  vpiParent: EventControl
               Assignment start:249:5 end:249:13:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -9976,6 +10023,46 @@ Design name:unnamed:
                       vpiName: apb_slave_unit_test
                       vpiFullName: apb_slave_unit_test.apb_slave_unit_test
                       vpiActual: Module name:apb_slave_unit_test
+      vpiSysTaskCall (39 items):
+        SysFuncCall name:$time:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysFuncCall name:$time:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysTaskCall name:$dumpvars:
       vpiRefInstance (1 items):
         RefInstance name:my_apb_slave start:36:13 end:36:25:
           vpiParent: Module name:apb_slave_unit_test
@@ -9988,6 +10075,7 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:36:26 end:36:28:
               vpiParent: RefInstance name:my_apb_slave
+              vpiConnByName: true
               vpiLowConn RefObj name:.*:
                 vpiParent: NamedArgument
                 vpiName: ".*"
@@ -10091,9 +10179,9 @@ Name                            Before   After   Added   Removed
 Constant                           212     211       8         9
 Operation                           56      46       0        10
 RefObj                             417     403       0        14
-RefTypespec                        688     687       8         9
+RefTypespec                        701     700       8         9
 ----------------------------------------------------------------
-Others                            3915    3915       0         0
+Others                            3938    3938       0         0
 ----------------------------------------------------------------
-                                  5288    5262      16        42
+                                  5324    5298      16        42
 ===================== END REDUCTION RESULT =====================

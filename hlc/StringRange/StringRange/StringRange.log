@@ -1563,9 +1563,10 @@ Design name:unnamed:
             vpiSize: 24
             vpiDecompile: "\"FOO\""
             vpiValue: FOO
-      vpiTypespec (4 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:Example
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:Example
           vpiRange (1 items):
@@ -1618,6 +1619,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:Example
         IntegerTypespec:
           vpiParent: Module name:Example
           vpiSigned: true
@@ -1629,6 +1632,7 @@ Design name:unnamed:
         vpiFullName: Example.work
         vpiActual: Library name:work
       vpiCell: Example
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:flip start:6:5 end:9:16:
           vpiParent: Module name:Example
@@ -1649,6 +1653,7 @@ Design name:unnamed:
             IODecl name:inp start:7:22 end:7:25:
               vpiParent: Function name:flip
               vpiName: inp
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:7:15 end:7:21:
                 vpiParent: IODecl name:inp
                 vpiFullName: Example.flip.inp
@@ -2228,15 +2233,14 @@ Design name:unnamed:
               GenFor start:25:9 end:27:34:
                 vpiParent: Begin
                 vpiFullName: Example
-                vpiVariable (1 items):
-                  Variable name:i start:25:14 end:25:15:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: Example.i
                 vpiForInitStmt (1 items):
                   Assignment start:25:14 end:25:19:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:25:14 end:25:15:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: Example.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:25:18 end:25:19:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -2329,83 +2333,79 @@ Design name:unnamed:
                                       vpiSize: 64
                                       vpiDecompile: "8"
                                       vpiValue: 8
-                vpiStmt Begin:
+                vpiStmt GenIf start:26:13 end:27:34:
                   vpiParent: GenFor
-                  vpiFullName: Example
-                  vpiStmt (1 items):
-                    GenIf start:26:13 end:27:34:
-                      vpiParent: Begin
-                      vpiCondition Operation start:26:17 end:26:41:
-                        vpiParent: GenIf
-                        vpiOpType: equal (14)
+                  vpiCondition Operation start:26:17 end:26:41:
+                    vpiParent: GenIf
+                    vpiOpType: equal (14)
+                    vpiOperand (2 items):
+                      Operation start:26:17 end:26:22:
+                        vpiParent: Operation
+                        vpiOpType: add (24)
                         vpiOperand (2 items):
-                          Operation start:26:17 end:26:22:
+                          RefObj name:i start:26:17 end:26:18:
                             vpiParent: Operation
-                            vpiOpType: add (24)
-                            vpiOperand (2 items):
-                              RefObj name:i start:26:17 end:26:18:
-                                vpiParent: Operation
-                                vpiName: i
-                                vpiFullName: Example.i
-                                vpiActual: Variable name:i
-                              Constant start:26:21 end:26:22:
-                                vpiParent: Operation
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: Example
-                                  vpiActual: IntTypespec
-                                vpiConstType: unsigned int (9)
-                                vpiSize: 64
-                                vpiDecompile: "1"
-                                vpiValue: 1
-                          MethodFuncCall name:flip start:26:26 end:26:41:
+                            vpiName: i
+                            vpiFullName: Example.i
+                            vpiActual: Variable name:i
+                          Constant start:26:21 end:26:22:
                             vpiParent: Operation
-                            vpiName Identifier name:flip start:26:26 end:26:30:
-                            vpiTaskFunc: Function name:flip
-                            vpiArgument (1 items):
-                              NamedArgument start:26:31 end:26:40:
-                                vpiParent: MethodFuncCall name:flip
-                                vpiHighConn MethodFuncCall name:flip start:26:31 end:26:40:
-                                  vpiParent: NamedArgument
-                                  vpiName Identifier name:flip start:26:31 end:26:35:
-                                  vpiTaskFunc: Function name:flip
-                                  vpiArgument (1 items):
-                                    NamedArgument start:26:36 end:26:39:
-                                      vpiParent: MethodFuncCall name:flip
-                                      vpiHighConn Constant start:26:36 end:26:39:
-                                        vpiParent: NamedArgument
-                                        vpiTypespec RefTypespec:
-                                          vpiParent: Constant
-                                          vpiFullName: Example
-                                          vpiActual: StringTypespec
-                                        vpiConstType: string (6)
-                                        vpiSize: 8
-                                        vpiDecompile: "\"O\""
-                                        vpiValue: O
-                      vpiStmt Begin:
-                        vpiParent: GenIf
-                        vpiFullName: Example
-                        vpiStmt (1 items):
-                          Initial start:27:17 end:27:34:
-                            vpiParent: Begin
-                            vpiStmt Assignment start:27:25 end:27:33:
-                              vpiParent: Initial
-                              vpiBlocking: true
-                              vpiLhs RefObj name:outC start:27:25 end:27:29:
-                                vpiParent: Assignment
-                                vpiName: outC
-                                vpiFullName: Example.outC
-                                vpiActual: Variable name:outC
-                              vpiRhs Constant start:27:32 end:27:33:
-                                vpiParent: Assignment
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: Example
-                                  vpiActual: IntTypespec
-                                vpiConstType: unsigned int (9)
-                                vpiSize: 64
-                                vpiDecompile: "1"
-                                vpiValue: 1
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: Example
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                      MethodFuncCall name:flip start:26:26 end:26:41:
+                        vpiParent: Operation
+                        vpiName Identifier name:flip start:26:26 end:26:30:
+                        vpiTaskFunc: Function name:flip
+                        vpiArgument (1 items):
+                          NamedArgument start:26:31 end:26:40:
+                            vpiParent: MethodFuncCall name:flip
+                            vpiHighConn MethodFuncCall name:flip start:26:31 end:26:40:
+                              vpiParent: NamedArgument
+                              vpiName Identifier name:flip start:26:31 end:26:35:
+                              vpiTaskFunc: Function name:flip
+                              vpiArgument (1 items):
+                                NamedArgument start:26:36 end:26:39:
+                                  vpiParent: MethodFuncCall name:flip
+                                  vpiHighConn Constant start:26:36 end:26:39:
+                                    vpiParent: NamedArgument
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: Example
+                                      vpiActual: StringTypespec
+                                    vpiConstType: string (6)
+                                    vpiSize: 8
+                                    vpiDecompile: "\"O\""
+                                    vpiValue: O
+                  vpiStmt Begin:
+                    vpiParent: GenIf
+                    vpiFullName: Example
+                    vpiStmt (1 items):
+                      Initial start:27:17 end:27:34:
+                        vpiParent: Begin
+                        vpiStmt Assignment start:27:25 end:27:33:
+                          vpiParent: Initial
+                          vpiBlocking: true
+                          vpiLhs RefObj name:outC start:27:25 end:27:29:
+                            vpiParent: Assignment
+                            vpiName: outC
+                            vpiFullName: Example.outC
+                            vpiActual: Variable name:outC
+                          vpiRhs Constant start:27:32 end:27:33:
+                            vpiParent: Assignment
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: Example
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
     Module name:top file:$Source01/dut.sv start:39:1 end:86:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:39:8 end:39:11:
@@ -2596,6 +2596,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:top
+          vpiScalar: true
         ModuleTypespec name:Example start:44:5 end:44:12:
           vpiParent: Module name:top
           vpiName Identifier name:Example start:44:5 end:44:12:
@@ -2609,6 +2610,11 @@ Design name:unnamed:
             ParamAssign start:45:15 end:45:20:
               vpiParent: ModuleTypespec name:Example
               vpiOverridden: true
+              vpiLhs RefObj name:OUTPUT start:2:15 end:2:21:
+                vpiParent: ParamAssign
+                vpiName: OUTPUT
+                vpiFullName: top.Example.OUTPUT
+                vpiActual: Parameter name:OUTPUT
               vpiRhs Constant start:45:15 end:45:20:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -2628,6 +2634,11 @@ Design name:unnamed:
             ParamAssign start:46:15 end:46:20:
               vpiParent: ModuleTypespec name:Example
               vpiOverridden: true
+              vpiLhs RefObj name:OUTPUT start:2:15 end:2:21:
+                vpiParent: ParamAssign
+                vpiName: OUTPUT
+                vpiFullName: top.Example.OUTPUT
+                vpiActual: Parameter name:OUTPUT
               vpiRhs Constant start:46:15 end:46:20:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -2647,6 +2658,11 @@ Design name:unnamed:
             ParamAssign start:47:15 end:47:20:
               vpiParent: ModuleTypespec name:Example
               vpiOverridden: true
+              vpiLhs RefObj name:OUTPUT start:2:15 end:2:21:
+                vpiParent: ParamAssign
+                vpiName: OUTPUT
+                vpiFullName: top.Example.OUTPUT
+                vpiActual: Parameter name:OUTPUT
               vpiRhs Constant start:47:15 end:47:20:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -2729,6 +2745,7 @@ Design name:unnamed:
         LogicTypespec:
           vpiParent: Module name:top
           vpiSigned: true
+          vpiScalar: true
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:39:8 end:39:11:
@@ -2737,6 +2754,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:negate start:56:5 end:59:16:
           vpiParent: Module name:top
@@ -2756,6 +2774,7 @@ Design name:unnamed:
             IODecl name:inp start:57:23 end:57:26:
               vpiParent: Function name:negate
               vpiName: inp
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:57:15 end:57:22:
                 vpiParent: IODecl name:inp
                 vpiFullName: top.negate.inp
@@ -3027,6 +3046,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:67:9 end:67:25:
                 vpiParent: Begin
                 vpiExpr Operation start:67:16 end:67:23:
@@ -3048,6 +3069,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:68:9 end:68:29:
                 vpiParent: Begin
                 vpiExpr Operation start:68:16 end:68:27:
@@ -3069,6 +3092,8 @@ Design name:unnamed:
                       vpiSize: 24
                       vpiDecompile: "\"BAR\""
                       vpiValue: BAR
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:69:9 end:69:25:
                 vpiParent: Begin
                 vpiExpr Operation start:69:16 end:69:23:
@@ -3090,6 +3115,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:70:9 end:70:29:
                 vpiParent: Begin
                 vpiExpr Operation start:70:16 end:70:27:
@@ -3111,6 +3138,8 @@ Design name:unnamed:
                       vpiSize: 24
                       vpiDecompile: "\"FOO\""
                       vpiValue: FOO
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:71:9 end:71:29:
                 vpiParent: Begin
                 vpiExpr Operation start:71:16 end:71:27:
@@ -3132,6 +3161,8 @@ Design name:unnamed:
                       vpiSize: 24
                       vpiDecompile: "\"FOO\""
                       vpiValue: FOO
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:72:9 end:72:25:
                 vpiParent: Begin
                 vpiExpr Operation start:72:16 end:72:23:
@@ -3153,6 +3184,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:73:9 end:73:28:
                 vpiParent: Begin
                 vpiExpr Operation start:73:16 end:73:26:
@@ -3174,6 +3207,8 @@ Design name:unnamed:
                       vpiSize: 16
                       vpiDecompile: "\"HI\""
                       vpiValue: HI
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:74:9 end:74:25:
                 vpiParent: Begin
                 vpiExpr Operation start:74:16 end:74:23:
@@ -3195,6 +3230,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "1"
                       vpiValue: 1
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:75:9 end:75:25:
                 vpiParent: Begin
                 vpiExpr Operation start:75:16 end:75:23:
@@ -3216,6 +3253,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "1"
                       vpiValue: 1
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:76:9 end:76:25:
                 vpiParent: Begin
                 vpiExpr Operation start:76:16 end:76:23:
@@ -3237,6 +3276,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:77:9 end:77:25:
                 vpiParent: Begin
                 vpiExpr Operation start:77:16 end:77:23:
@@ -3258,6 +3299,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:78:9 end:78:25:
                 vpiParent: Begin
                 vpiExpr Operation start:78:16 end:78:23:
@@ -3279,6 +3322,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:79:9 end:79:25:
                 vpiParent: Begin
                 vpiExpr Operation start:79:16 end:79:23:
@@ -3300,6 +3345,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:80:9 end:80:25:
                 vpiParent: Begin
                 vpiExpr Operation start:80:16 end:80:23:
@@ -3321,6 +3368,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "1"
                       vpiValue: 1
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:81:9 end:81:25:
                 vpiParent: Begin
                 vpiExpr Operation start:81:16 end:81:23:
@@ -3342,6 +3391,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "1"
                       vpiValue: 1
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:83:9 end:83:24:
                 vpiParent: Begin
                 vpiExpr Operation start:83:16 end:83:22:
@@ -3363,6 +3414,8 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "3"
                       vpiValue: 3
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
               ImmediateAssert start:84:9 end:84:25:
                 vpiParent: Begin
                 vpiExpr Operation start:84:16 end:84:23:
@@ -3388,6 +3441,8 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "3"
                           vpiValue: 3
+                vpiStmt NullStmt:
+                  vpiParent: ImmediateAssert
           vpiAlwaysType: comb (2)
       vpiContAssign (1 items):
         ContAssign start:50:12 end:54:24:
@@ -3481,6 +3536,9 @@ Design name:unnamed:
                 vpiName: d4
                 vpiFullName: top.d4
                 vpiActual: Net name:d4
+      vpiSysTaskCall (2 items):
+        SysFuncCall name:$floor:
+        SysFuncCall name:$floor:
       vpiRefInstance (4 items):
         RefInstance name:e1 start:44:22 end:44:24:
           vpiParent: Module name:top
@@ -3781,11 +3839,11 @@ Constant                            66      65       5         6
 Identifier                          27      25       0         2
 NamedArgument                       33      31       0         2
 Operation                           36      29       0         7
-RefObj                             111     106       0         5
+RefObj                             115     110       0         5
 RefTypespec                        108     105       3         6
 SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
-Others                             162     162       0         0
+Others                             180     180       0         0
 ----------------------------------------------------------------
-                                   545     523       8        30
+                                   567     545       8        30
 ===================== END REDUCTION RESULT =====================

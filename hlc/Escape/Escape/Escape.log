@@ -35,11 +35,15 @@ COMMAND: -wd ../../../tests/Escape top.v top1.v -writepp -d 0 -fileunit -wd ${HL
 [WRN:CP5851] $Source01/top.v:13:37: Failed to bind "add_sub_if".
 [WRN:CP5851] $Source01/top.v:13:64: Failed to bind "get_full_name".
 [WRN:CP5851] $Source01/top.v:13:95: Failed to bind "m_if".
+[WRN:CP5851] $Source01/top.v:64:17: Failed to bind "capture".
+[WRN:CP5851] $Source01/top.v:65:13: Failed to bind "clk".
 [WRN:PA5506] $Source01/top.v:27:1: No timescale set for "bottom2".
 [WRN:PA5506] $Source01/top1.v:26:1: No timescale set for "bottom2".
 [WRN:PA5506] $Source01/top1.v:2:1: No timescale set for "my_interface".
-[ERR:LN7701] Invalid name: id:369, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:372, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7705] $Source01/top.v:13:50: Null Actual: id:333, type:SubroutineCall, name:read_by_name, relation:vpiPathElem.
+[ERR:LN7705] $Source01/top.v:13:64: Null Actual: id:323, type:SubroutineCall, name:get_full_name, relation:vpiHighConn.
+[ERR:LN7701] Invalid name: id:373, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:376, type:RefObj, name:, relation:vpiLowConn.
 [ERR:DB2029] $Source01/top.v:62:2: Unsupported typespec "ddr".
 ====== HLDB =======
 Design name:unnamed:
@@ -386,6 +390,8 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: m_if
                         vpiFullName: env::connect_phase::uvm_resource_db #(add_sub_if).read_by_name(get_full_name(), "add_sub_if", m_if)::read_by_name::m_if
+            vpiStmt NullStmt:
+              vpiParent: ImmediateAssert
           vpiReturn RefTypespec start:11:12 end:11:16:
             vpiParent: Function name:connect_phase
             vpiFullName: env::connect_phase
@@ -398,6 +404,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Interface name:my_interface
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Interface name:my_interface
           vpiRange (1 items):
@@ -544,6 +551,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
     Module name:bottom1 file:$Source01/top.v start:17:1 end:25:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom1 start:17:8 end:17:15:
@@ -551,6 +559,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:bottom1
+          vpiScalar: true
         ModuleTypespec name:bottom2 start:20:2 end:20:9:
           vpiParent: Module name:bottom1
           vpiName Identifier name:bottom2 start:20:2 end:20:9:
@@ -571,6 +580,7 @@ Design name:unnamed:
         vpiFullName: bottom1.work
         vpiActual: Library name:work
       vpiCell: bottom1
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:a start:17:23 end:17:24:
           vpiParent: Module name:bottom1
@@ -719,6 +729,7 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:23:28 end:23:30:
               vpiParent: RefInstance name:my_interface
+              vpiConnByName: true
               vpiLowConn RefObj name:.*:
                 vpiParent: NamedArgument
                 vpiName: ".*"
@@ -730,6 +741,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:bottom2
+          vpiScalar: true
       vpiDefName: bottom2
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:27:8 end:27:15:
@@ -738,6 +750,7 @@ Design name:unnamed:
         vpiFullName: bottom2.work
         vpiActual: Library name:work
       vpiCell: bottom2
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:a start:27:23 end:27:24:
           vpiParent: Module name:bottom2
@@ -826,6 +839,7 @@ Design name:unnamed:
         vpiFullName: bottom3.work
         vpiActual: Library name:work
       vpiCell: bottom3
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:g_datapath:0:g_io start:62:6 end:62:31:
           vpiParent: Module name:bottom3
@@ -872,6 +886,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
     Module name:bottom1 file:$Source01/top1.v start:21:1 end:24:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom1 start:21:8 end:21:15:
@@ -886,6 +901,7 @@ Design name:unnamed:
         vpiFullName: bottom1.work
         vpiActual: Library name:work
       vpiCell: bottom1
+      vpiAutomatic: true
     Module name:bottom2 file:$Source01/top1.v start:26:1 end:29:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom2 start:26:8 end:26:15:
@@ -898,6 +914,7 @@ Design name:unnamed:
         vpiFullName: bottom2.work
         vpiActual: Library name:work
       vpiCell: bottom2
+      vpiAutomatic: true
     Module name:middle file:$Source01/top1.v start:32:1 end:39:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:middle start:32:8 end:32:14:
@@ -905,6 +922,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:middle
+          vpiScalar: true
         ModuleTypespec name:nested:
           vpiParent: Module name:middle
           vpiName Identifier name:nested start:36:10 end:36:16:
@@ -920,6 +938,7 @@ Design name:unnamed:
         vpiFullName: middle.work
         vpiActual: Library name:work
       vpiCell: middle
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:a start:35:8 end:35:9:
           vpiParent: Module name:middle
@@ -966,6 +985,7 @@ Design name:unnamed:
             vpiFullName: middle.nested.work
             vpiActual: Library name:work
           vpiCell: nested
+          vpiAutomatic: true
           vpiContAssign (1 items):
             ContAssign start:37:12 end:37:21:
               vpiParent: Module name:nested
@@ -1002,6 +1022,7 @@ Design name:unnamed:
         vpiFullName: bottom3.work
         vpiActual: Library name:work
       vpiCell: bottom3
+      vpiAutomatic: true
   vpiTypespec (18 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -1080,8 +1101,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 7
-[WARNING] : 10
+[  ERROR] : 9
+[WARNING] : 12
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1128,7 +1149,7 @@ COMMAND: ${HLC_DIR}/regression/Escape/Escape/design.hldb ${HLC_DIR}/regression/E
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1801    1801       0         0
+Others                            1818    1818       0         0
 ----------------------------------------------------------------
-                                  1801    1801       0         0
+                                  1818    1818       0         0
 ===================== END REDUCTION RESULT =====================

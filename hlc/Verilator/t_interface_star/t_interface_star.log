@@ -292,7 +292,6 @@ AST_DEBUG_END
 [INF:CP5805] $Source01/t_interface_star.v:30:1: Compile interface "counter_io".
 [INF:CP5804] $Source01/t_interface_star.v:34:1: Compile module "counter_ansi".
 [WRN:CP5811] $Source01/t_interface_star.v:37:15: Port "c_data" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/t_interface_star.v:23:14: Failed to bind "value".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -355,6 +354,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -376,6 +376,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
@@ -489,6 +490,8 @@ Design name:unnamed:
                                   vpiParent: RefObj name:c_data.value
                                   vpiName: value
                                   vpiFullName: t.value
+                                  vpiActual: Variable name:value
+                              vpiActual: Variable name:value
                             Constant start:23:23 end:23:28:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -524,6 +527,10 @@ Design name:unnamed:
                         vpiName Identifier name:$finish start:25:3 end:25:10:
                         vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (3 items):
         RefInstance name:c_data start:14:15 end:14:21:
           vpiParent: Module name:t
@@ -549,9 +556,10 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.c1.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
             NamedArgument start:16:27 end:16:29:
               vpiParent: RefInstance name:c1
+              vpiConnByName: true
               vpiLowConn RefObj name:.*:
                 vpiParent: NamedArgument
                 vpiName: ".*"
@@ -572,7 +580,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.c2.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
             NamedArgument start:18:27 end:18:34:
               vpiParent: RefInstance name:c2
               vpiConnByName: true
@@ -580,7 +588,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: c_data
                 vpiFullName: t.c2.c_data
-                vpiActual: RefInstance name:c_data
+                vpiActual: Port name:c_data
     Module name:counter_ansi file:$Source01/t_interface_star.v start:34:1 end:43:25:
       vpiParent: Design name:unnamed
       vpiName Identifier name:counter_ansi start:34:8 end:34:20:
@@ -588,6 +596,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:counter_ansi
+          vpiScalar: true
       vpiDefName: counter_ansi
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:34:8 end:34:20:
@@ -596,6 +605,7 @@ Design name:unnamed:
         vpiFullName: counter_ansi.work
         vpiActual: Library name:work
       vpiCell: counter_ansi
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:36:10 end:36:13:
           vpiParent: Module name:counter_ansi
@@ -721,7 +731,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -769,7 +779,7 @@ Operation                            5       3       0         2
 RefObj                              21      19       0         2
 RefTypespec                         17      17       2         2
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              60      60       0         0
 ----------------------------------------------------------------
-                                   108     104       4         8
+                                   109     105       4         8
 ===================== END REDUCTION RESULT =====================

@@ -292,7 +292,10 @@ Design name:unnamed:
                 vpiValue: 1
           vpiName: out
           vpiFullName: bar.out
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:bar
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:bar
       vpiDefName: bar
@@ -303,6 +306,7 @@ Design name:unnamed:
         vpiFullName: bar.work
         vpiActual: Library name:work
       vpiCell: bar
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:3:15 end:3:18:
           vpiParent: Module name:bar
@@ -474,6 +478,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:foo
+          vpiScalar: true
         ModuleTypespec name:bar start:23:3 end:23:6:
           vpiParent: Module name:foo
           vpiName Identifier name:bar start:23:3 end:23:6:
@@ -487,6 +492,7 @@ Design name:unnamed:
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clk start:18:15 end:18:18:
           vpiParent: Module name:foo
@@ -498,6 +504,16 @@ Design name:unnamed:
             Attribute name:this_is_the_master_clock start:17:6 end:17:30:
               vpiParent: Net name:clk
               vpiName: this_is_the_master_clock
+              vpiValue Constant start:17:6 end:17:30:
+                vpiParent: Attribute name:this_is_the_master_clock
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: foo.clk.this_is_the_master_clock
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiName: clk
           vpiFullName: foo.clk
           vpiNetType: wire (1)
@@ -639,7 +655,7 @@ Design name:unnamed:
                 vpiName: out
                 vpiFullName: foo.bar_instance.out
                 vpiActual: Net name:out
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
     ModuleTypespec name:bar:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:1:8 end:1:11:
@@ -653,6 +669,8 @@ Design name:unnamed:
       vpiName Identifier name:foo start:16:8 end:16:11:
       vpiDefName: foo
       vpiModule: Module name:foo
+    IntTypespec:
+      vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -705,7 +723,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/simple/attrib02_port_decl/design.h
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              96      96       0         0
+Others                             101     101       0         0
 ----------------------------------------------------------------
-                                    96      96       0         0
+                                   101     101       0         0
 ===================== END REDUCTION RESULT =====================

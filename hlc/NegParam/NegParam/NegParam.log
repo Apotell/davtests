@@ -341,6 +341,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "top".
 [INF:CP5804] $Source01/dut.sv:11:1: Compile module "prim_packer".
 [WRN:CP5851] $Source01/dut.sv:4:13: Failed to bind "bp_proc_param_s".
+[WRN:CP5851] $Source01/dut.sv:6:7: Failed to bind "boot_pc".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top".
 [WRN:PA5506] $Source01/dut.sv:11:1: No timescale set for "prim_packer #(.InW(32), .OutW(32), .HintByteData(0))".
 [ERR:DB2029] $Source01/dut.sv:26:5: Unsupported typespec "BAD".
@@ -419,6 +420,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
+          vpiScalar: true
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:8 end:1:11:
@@ -427,6 +429,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
     Module name:prim_packer #(.InW(32), .OutW(32), .HintByteData(0)) file:$Source01/dut.sv start:11:1 end:31:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_packer #(.InW(32), .OutW(32), .HintByteData(0)) start:11:8 end:11:19:
@@ -758,6 +761,11 @@ Design name:unnamed:
         vpiFullName: prim_packer #(.InW(32), .OutW(32), .HintByteData(0)).work
         vpiActual: Library name:work
       vpiCell: prim_packer
+      vpiAutomatic: true
+      vpiSysTaskCall (3 items):
+        SysFuncCall name:$clog2:
+        SysFuncCall name:$clog2:
+        SysFuncCall name:$clog2:
       vpiGenStmt (1 items):
         GenIf start:25:3 end:28:6:
           vpiParent: Module name:prim_packer #(.InW(32), .OutW(32), .HintByteData(0))
@@ -820,7 +828,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 3
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -871,7 +879,7 @@ RefObj                              23      15       0         8
 RefTypespec                         23      24       3         2
 SysFuncCall                          3       0       0         3
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                   119     103       9        25
+                                   120     104       9        25
 ===================== END REDUCTION RESULT =====================

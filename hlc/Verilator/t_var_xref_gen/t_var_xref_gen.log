@@ -340,6 +340,10 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_var_xref_gen.v:9:1: Compile module "t".
 [INF:CP5804] $Source01/t_var_xref_gen.v:27:1: Compile module "memory".
 [INF:CP5836] $Source01/t_var_xref_gen.v:37:16: Compile generate block "cxrow_inst".
+[WRN:CP5851] $Source01/t_var_xref_gen.v:21:17: Failed to bind "cxrow_inst".
+[WRN:CP5851] $Source01/t_var_xref_gen.v:21:31: Failed to bind "cmem_xrow".
+[WRN:CP5851] $Source01/t_var_xref_gen.v:42:18: Failed to bind "cxrow_inst".
+[WRN:CP5851] $Source01/t_var_xref_gen.v:42:32: Failed to bind "cmem_xrow".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -357,6 +361,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -422,6 +427,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:14:10 end:14:13:
           vpiParent: Module name:t
@@ -566,7 +572,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: addr
                 vpiFullName: t.i_mem.addr
-                vpiActual: Net name:addr
+                vpiActual: Port name:addr
               vpiHighConn RefObj name:addr start:19:23 end:19:27:
                 vpiParent: NamedArgument
                 vpiName: addr
@@ -644,6 +650,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:memory
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:memory
           vpiRange (1 items):
@@ -704,6 +711,7 @@ Design name:unnamed:
         vpiFullName: memory.work
         vpiActual: Library name:work
       vpiCell: memory
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:addr start:31:17 end:31:21:
           vpiParent: Module name:memory
@@ -810,15 +818,14 @@ Design name:unnamed:
               GenFor start:36:7 end:39:12:
                 vpiParent: Begin
                 vpiFullName: memory
-                vpiVariable (1 items):
-                  Variable name:g_cx start:36:12 end:36:16:
-                    vpiParent: GenFor
-                    vpiName: g_cx
-                    vpiFullName: memory.g_cx
                 vpiForInitStmt (1 items):
                   Assignment start:36:12 end:36:20:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:g_cx
+                    vpiLhs RefObj name:g_cx start:36:12 end:36:16:
+                      vpiParent: Assignment
+                      vpiName: g_cx
+                      vpiFullName: memory.g_cx
+                      vpiActual: Variable name:g_cx
                     vpiRhs Constant start:36:19 end:36:20:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -958,7 +965,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1003,10 +1010,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            19      19       1         1
 Operation                            3       2       0         1
-RefObj                              26      25       0         1
+RefObj                              27      26       0         1
 RefTypespec                         34      34       1         1
 ----------------------------------------------------------------
 Others                              61      61       0         0
 ----------------------------------------------------------------
-                                   143     141       2         4
+                                   144     142       2         4
 ===================== END REDUCTION RESULT =====================

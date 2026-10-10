@@ -303,6 +303,8 @@ n<$Source01/dut.sv> u<294> t<Top_level_rule> c<1> l<1:1> el<25:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "top".
 [INF:CP5808] $Source01/dut.sv:18:9: Compile checker "my_checker".
+[WRN:CP5851] $Source01/dut.sv:21:20: Failed to bind "p".
+[WRN:CP5851] $Source01/dut.sv:22:19: Failed to bind "s".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top".
 [ERR:DB2038] $Source01/dut.sv:15:4: 'vpiHighConn' property value on object is invalid.
 ====== HLDB =======
@@ -466,7 +468,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: clk
           vpiFullName: top.clk
-      vpiTypespec (5 items):
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:top
         ClockingBlockTypespec name:top_clocking:
@@ -477,6 +479,9 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: p1
           vpiPropertyDecl: PropertyDecl name:p1
+        LogicTypespec:
+          vpiParent: Module name:top
+          vpiScalar: true
         PropertyTypespec name:p2:
           vpiParent: Module name:top
           vpiName: p2
@@ -484,6 +489,7 @@ Design name:unnamed:
         CheckerTypespec name:my_checker start:13:3 end:13:13:
           vpiParent: Module name:top
           vpiName: my_checker
+          vpiCheckerDecl: CheckerDecl name:my_checker
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:8 end:1:11:
@@ -492,6 +498,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiGlobalClocking ClockingBlock name:top_clocking start:3:3 end:3:51:
         vpiParent: Module name:top
         vpiName Identifier name:top_clocking start:3:19 end:3:31:
@@ -505,6 +512,10 @@ Design name:unnamed:
             vpiActual: Variable name:clk
       vpiClockingBlock (1 items):
         ClockingBlock name:top_clocking:
+      vpiSysTaskCall (3 items):
+        SysFuncCall name:$global_clock:
+        SysFuncCall name:$global_clock:
+        SysFuncCall name:$global_clock:
       vpiRefInstance (1 items):
         RefInstance name:check start:13:14 end:13:19:
           vpiParent: Module name:top
@@ -638,6 +649,8 @@ Design name:unnamed:
       vpiConcurrentAssertions (2 items):
         Assert start:21:3 end:21:23:
           vpiParent: CheckerDecl name:my_checker
+          vpiStmt NullStmt:
+            vpiParent: Assert
           vpiProperty PropertySpec start:21:20 end:21:21:
             vpiParent: Assert
             vpiPropertyExpr RefObj name:p start:21:20 end:21:21:
@@ -646,6 +659,8 @@ Design name:unnamed:
               vpiFullName: my_checker.p
         Cover start:22:3 end:22:22:
           vpiParent: CheckerDecl name:my_checker
+          vpiStmt NullStmt:
+            vpiParent: Cover
           vpiProperty PropertySpec start:22:19 end:22:20:
             vpiParent: Cover
             vpiPropertyExpr RefObj name:s start:22:19 end:22:20:
@@ -703,7 +718,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 1
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -747,7 +762,7 @@ COMMAND: ${HLC_DIR}/regression/CheckerInst/CheckerInst/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             106     106       0         0
+Others                             110     110       0         0
 ----------------------------------------------------------------
-                                   106     106       0         0
+                                   110     110       0         0
 ===================== END REDUCTION RESULT =====================

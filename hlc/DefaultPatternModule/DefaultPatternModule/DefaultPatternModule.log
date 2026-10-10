@@ -555,6 +555,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:ASSIGN_VADDR start:8:1 end:12:12:
           vpiParent: Module name:top
@@ -576,7 +577,11 @@ Design name:unnamed:
             vpiForInitStmt (1 items):
               Assignment start:9:14 end:9:19:
                 vpiParent: ForStmt
-                vpiLhs: Variable name:i
+                vpiLhs RefObj name:i start:9:14 end:9:15:
+                  vpiParent: Assignment
+                  vpiName: i
+                  vpiFullName: top.ASSIGN_VADDR.i
+                  vpiActual: Variable name:i
                 vpiRhs Constant start:9:18 end:9:19:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -651,6 +656,10 @@ Design name:unnamed:
             vpiName: ASSIGN_VADDR_RET_T
             vpiFullName: top.ASSIGN_VADDR.ASSIGN_VADDR_RET_T
             vpiActual: TypedefTypespec name:ASSIGN_VADDR_RET_T
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$info:
+        SysTaskCall name:$info:
+        SysTaskCall name:$info:
       vpiGenStmt (3 items):
         GenIf start:16:1 end:18:4:
           vpiParent: Module name:top
@@ -691,12 +700,12 @@ Design name:unnamed:
             vpiParent: GenIf
             vpiFullName: top
             vpiStmt (1 items):
-              SysTaskCall name:info start:17:2 end:17:43:
+              SysTaskCall name:$info start:17:2 end:17:43:
                 vpiParent: Begin
-                vpiName Identifier name:info start:17:3 end:17:7:
+                vpiName Identifier name:$info start:17:3 end:17:7:
                 vpiArgument (2 items):
                   NamedArgument start:17:8 end:17:32:
-                    vpiParent: SysTaskCall name:info
+                    vpiParent: SysTaskCall name:$info
                     vpiHighConn Constant start:17:8 end:17:32:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -708,7 +717,7 @@ Design name:unnamed:
                       vpiDecompile: "\"--[0] (%d) should be 3\""
                       vpiValue: "--[0] (%d) should be 3"
                   NamedArgument start:17:33 end:17:41:
-                    vpiParent: SysTaskCall name:info
+                    vpiParent: SysTaskCall name:$info
                     vpiHighConn BitSelect name:VADDR[0] start:17:33 end:17:41:
                       vpiParent: NamedArgument
                       vpiName: VADDR[0]
@@ -767,12 +776,12 @@ Design name:unnamed:
             vpiParent: GenIf
             vpiFullName: top
             vpiStmt (1 items):
-              SysTaskCall name:info start:20:2 end:20:43:
+              SysTaskCall name:$info start:20:2 end:20:43:
                 vpiParent: Begin
-                vpiName Identifier name:info start:20:3 end:20:7:
+                vpiName Identifier name:$info start:20:3 end:20:7:
                 vpiArgument (2 items):
                   NamedArgument start:20:8 end:20:32:
-                    vpiParent: SysTaskCall name:info
+                    vpiParent: SysTaskCall name:$info
                     vpiHighConn Constant start:20:8 end:20:32:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -784,7 +793,7 @@ Design name:unnamed:
                       vpiDecompile: "\"--[1] (%d) should be 3\""
                       vpiValue: "--[1] (%d) should be 3"
                   NamedArgument start:20:33 end:20:41:
-                    vpiParent: SysTaskCall name:info
+                    vpiParent: SysTaskCall name:$info
                     vpiHighConn BitSelect name:VADDR[1] start:20:33 end:20:41:
                       vpiParent: NamedArgument
                       vpiName: VADDR[1]
@@ -843,12 +852,12 @@ Design name:unnamed:
             vpiParent: GenIf
             vpiFullName: top
             vpiStmt (1 items):
-              SysTaskCall name:info start:24:2 end:24:36:
+              SysTaskCall name:$info start:24:2 end:24:36:
                 vpiParent: Begin
-                vpiName Identifier name:info start:24:3 end:24:7:
+                vpiName Identifier name:$info start:24:3 end:24:7:
                 vpiArgument (2 items):
                   NamedArgument start:24:8 end:24:25:
-                    vpiParent: SysTaskCall name:info
+                    vpiParent: SysTaskCall name:$info
                     vpiHighConn Constant start:24:8 end:24:25:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -860,7 +869,7 @@ Design name:unnamed:
                       vpiDecompile: "\"--[1] (%d) is 3\""
                       vpiValue: "--[1] (%d) is 3"
                   NamedArgument start:24:26 end:24:34:
-                    vpiParent: SysTaskCall name:info
+                    vpiParent: SysTaskCall name:$info
                     vpiHighConn BitSelect name:VADDR[1] start:24:26 end:24:34:
                       vpiParent: NamedArgument
                       vpiName: VADDR[1]
@@ -898,6 +907,7 @@ Design name:unnamed:
         vpiFullName: main.work
         vpiActual: Library name:work
       vpiCell: main
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:top1 start:30:9 end:30:13:
           vpiParent: Module name:main
@@ -977,7 +987,7 @@ COMMAND: ${HLC_DIR}/regression/DefaultPatternModule/DefaultPatternModule/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             140     140       0         0
+Others                             142     142       0         0
 ----------------------------------------------------------------
-                                   140     140       0         0
+                                   142     142       0         0
 ===================== END REDUCTION RESULT =====================

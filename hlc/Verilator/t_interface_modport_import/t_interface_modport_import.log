@@ -293,13 +293,13 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_interface_modport_import.v:11:4: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_modport_import.v:19:23: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_modport_import.v:19:43: Failed to bind "logic".
-[WRN:CP5851] $Source01/t_interface_modport_import.v:37:15: Failed to bind "mp".
 [WRN:CP5851] $Source01/t_interface_modport_import.v:45:12: Failed to bind "mp".
 [WRN:CP5851] $Source01/t_interface_modport_import.v:49:7: Failed to bind "i".
 [WRN:CP5851] $Source01/t_interface_modport_import.v:49:9: Failed to bind "data".
 [WRN:CP5851] $Source01/t_interface_modport_import.v:50:11: Failed to bind "i".
 [WRN:CP5851] $Source01/t_interface_modport_import.v:50:13: Failed to bind "myfunc".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/t_interface_modport_import.v:50:13: Null Actual: id:88, type:SubroutineCall, name:myfunc, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -402,6 +402,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ModuleTypespec name:testmod start:36:4 end:36:11:
           vpiParent: Module name:t
           vpiName Identifier name:testmod start:36:4 end:36:11:
@@ -415,6 +416,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:32:10 end:32:13:
           vpiParent: Module name:t
@@ -464,7 +466,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.testmod_i.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:36:29 end:36:32:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -477,7 +479,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i
                 vpiFullName: t.testmod_i.i
-                vpiActual: RefInstance name:i
+                vpiActual: Port name:i
               vpiHighConn RefObj name:i.mp start:37:13 end:37:17:
                 vpiParent: NamedArgument
                 vpiName: i.mp
@@ -492,6 +494,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:i.mp
                     vpiName: mp
                     vpiFullName: t.testmod_i.mp
+                    vpiActual: Modport name:mp
+                vpiActual: Modport name:mp
     Module name:testmod file:$Source01/t_interface_modport_import.v start:42:1 end:58:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:testmod start:42:8 end:42:15:
@@ -499,6 +503,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:testmod
+          vpiScalar: true
       vpiDefName: testmod
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:42:8 end:42:15:
@@ -507,6 +512,7 @@ Design name:unnamed:
         vpiFullName: testmod.work
         vpiActual: Library name:work
       vpiCell: testmod
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:44:10 end:44:13:
           vpiParent: Module name:testmod
@@ -660,6 +666,10 @@ Design name:unnamed:
                         vpiName Identifier name:$stop start:55:3 end:55:8:
                         vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$stop:
   vpiTypespec (4 items):
     InterfaceTypespec name:test_if:
       vpiParent: Design name:unnamed
@@ -685,8 +695,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 10
+[  ERROR] : 1
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -730,7 +740,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_import/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              99      99       0         0
+Others                             100     100       0         0
 ----------------------------------------------------------------
-                                    99      99       0         0
+                                   100     100       0         0
 ===================== END REDUCTION RESULT =====================

@@ -312,6 +312,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:soc_tb
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:soc_tb
           vpiRange (1 items):
@@ -403,6 +404,7 @@ Design name:unnamed:
         vpiFullName: soc_tb.work
         vpiActual: Library name:work
       vpiCell: soc_tb
+      vpiAutomatic: true
       vpiContAssign (1 items):
         ContAssign start:16:12 end:16:62:
           vpiParent: Module name:soc_tb
@@ -439,6 +441,8 @@ Design name:unnamed:
             vpiSize: 32
             vpiDecompile: "32'hffffffff"
             vpiValue: ffffffff
+      vpiSysTaskCall (1 items):
+        SysFuncCall name:$clog2:
       vpiRefInstance (1 items):
         RefInstance name:peripheral_io_bus start:14:22 end:14:39:
           vpiParent: Module name:soc_tb
@@ -455,15 +459,14 @@ Design name:unnamed:
           vpiStmt GenFor start:20:9 end:23:12:
             vpiParent: GenRegion
             vpiFullName: soc_tb
-            vpiVariable (1 items):
-              Variable name:io_idx start:20:14 end:20:20:
-                vpiParent: GenFor
-                vpiName: io_idx
-                vpiFullName: soc_tb.io_idx
             vpiForInitStmt (1 items):
               Assignment start:20:14 end:20:24:
                 vpiParent: GenFor
-                vpiLhs: Variable name:io_idx
+                vpiLhs RefObj name:io_idx start:20:14 end:20:20:
+                  vpiParent: Assignment
+                  vpiName: io_idx
+                  vpiFullName: soc_tb.io_idx
+                  vpiActual: Variable name:io_idx
                 vpiRhs Constant start:20:23 end:20:24:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -609,11 +612,11 @@ Constant                             8       8       2         2
 Identifier                           7       6       0         1
 NamedArgument                        1       0       0         1
 Operation                            4       2       0         2
-RefObj                              16      14       0         2
+RefObj                              17      15       0         2
 RefTypespec                         14      14       2         2
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
 Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    84      77       4        11
+                                    85      78       4        11
 ===================== END REDUCTION RESULT =====================

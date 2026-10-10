@@ -3319,9 +3319,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "10000"
             vpiValue: 10000
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:glbl
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:glbl
           vpiRange (1 items):
@@ -3374,6 +3375,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:glbl
       vpiDefName: glbl
       vpiDefNetType: wire (1)
       vpiTimePrecision: -12
@@ -3384,6 +3387,7 @@ Design name:unnamed:
         vpiFullName: glbl.work
         vpiActual: Library name:work
       vpiCell: glbl
+      vpiAutomatic: true
       vpiNet (17 items):
         Net name:GSR start:29:10 end:29:13:
           vpiParent: Module name:glbl
@@ -3728,8 +3732,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-              DelayControl start:92:2 end:92:15:
+              DelayControl start:92:2 end:92:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_START start:92:4 end:92:14:
                   vpiParent: DelayControl
                   vpiName: GRES_START
@@ -3753,8 +3759,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-              DelayControl start:94:2 end:94:15:
+              DelayControl start:94:2 end:94:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_WIDTH start:94:4 end:94:14:
                   vpiParent: DelayControl
                   vpiName: GRES_WIDTH
@@ -4178,9 +4186,10 @@ Design name:unnamed:
             vpiName: IS_C_INVERTED
             vpiFullName: "IDDRE1 #(.DDR_CLK_EDGE(\"OPPOSITE_EDGE\"), .IS_CB_INVERTED(1'b0), .IS_C_INVERTED(1'b0)).IS_C_INVERTED"
             vpiActual: Parameter name:IS_C_INVERTED
-      vpiTypespec (8 items):
+      vpiTypespec (9 items):
         LogicTypespec:
           vpiParent: "Module name:IDDRE1 #(.DDR_CLK_EDGE(\"OPPOSITE_EDGE\"), .IS_CB_INVERTED(1'b0), .IS_C_INVERTED(1'b0))"
+          vpiScalar: true
         BitTypespec:
           vpiParent: "Module name:IDDRE1 #(.DDR_CLK_EDGE(\"OPPOSITE_EDGE\"), .IS_CB_INVERTED(1'b0), .IS_C_INVERTED(1'b0))"
         LogicTypespec:
@@ -4235,6 +4244,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: "Module name:IDDRE1 #(.DDR_CLK_EDGE(\"OPPOSITE_EDGE\"), .IS_CB_INVERTED(1'b0), .IS_C_INVERTED(1'b0))"
         LogicTypespec:
           vpiParent: "Module name:IDDRE1 #(.DDR_CLK_EDGE(\"OPPOSITE_EDGE\"), .IS_CB_INVERTED(1'b0), .IS_C_INVERTED(1'b0))"
           vpiRange (1 items):
@@ -4349,6 +4360,7 @@ Design name:unnamed:
         vpiFullName: "IDDRE1 #(.DDR_CLK_EDGE(\"OPPOSITE_EDGE\"), .IS_CB_INVERTED(1'b0), .IS_C_INVERTED(1'b0)).work"
         vpiActual: Library name:work
       vpiCell: IDDRE1
+      vpiAutomatic: true
       vpiNet (14 items):
         Net name:Q1 start:45:10 end:45:12:
           vpiParent: "Module name:IDDRE1 #(.DDR_CLK_EDGE(\"OPPOSITE_EDGE\"), .IS_CB_INVERTED(1'b0), .IS_C_INVERTED(1'b0))"
@@ -4586,9 +4598,11 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: "IDDRE1 #(.DDR_CLK_EDGE(\"OPPOSITE_EDGE\"), .IS_CB_INVERTED(1'b0), .IS_C_INVERTED(1'b0))"
             vpiStmt (2 items):
-              DelayControl start:120:5 end:120:7:
+              DelayControl start:120:5 end:120:8:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:120:6 end:120:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -4632,9 +4646,11 @@ Design name:unnamed:
                 BitTypespec:
                   vpiParent: Begin
               vpiStmt (5 items):
-                DelayControl start:125:3 end:125:5:
+                DelayControl start:125:3 end:125:6:
                   vpiParent: Begin
                   vpiDelay: 1
+                  vpiStmt NullStmt:
+                    vpiParent: DelayControl
                   vpiDelay Constant start:125:4 end:125:5:
                     vpiParent: DelayControl
                     vpiTypespec RefTypespec:
@@ -6063,6 +6079,13 @@ Design name:unnamed:
             vpiName: Q2_out
             vpiFullName: "IDDRE1 #(.DDR_CLK_EDGE(\"OPPOSITE_EDGE\"), .IS_CB_INVERTED(1'b0), .IS_C_INVERTED(1'b0)).Q2_out"
             vpiActual: Variable name:Q2_out
+      vpiSysTaskCall (6 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
       vpiSpecifyBlock (1 items):
         SpecifyBlock start:245:3 end:286:13:
           vpiParent: "Module name:IDDRE1 #(.DDR_CLK_EDGE(\"OPPOSITE_EDGE\"), .IS_CB_INVERTED(1'b0), .IS_C_INVERTED(1'b0))"
@@ -6802,7 +6825,7 @@ Operation                           55      42       0        13
 RefObj                             170     161       0         9
 RefTypespec                        217     214       5         8
 ----------------------------------------------------------------
-Others                             285     285       0         0
+Others                             292     292       0         0
 ----------------------------------------------------------------
-                                   880     853      11        38
+                                   887     860      11        38
 ===================== END REDUCTION RESULT =====================

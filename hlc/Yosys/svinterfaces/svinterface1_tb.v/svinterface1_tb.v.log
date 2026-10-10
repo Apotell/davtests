@@ -842,6 +842,7 @@ Design name:unnamed:
         vpiFullName: svinterface1_tb.work
         vpiActual: Library name:work
       vpiCell: svinterface1_tb
+      vpiAutomatic: true
       vpiProcess (3 items):
         Initial start:25:3 end:31:6:
           vpiParent: Module name:svinterface1_tb
@@ -900,9 +901,11 @@ Design name:unnamed:
                             vpiName: clk
                             vpiFullName: svinterface1_tb.clk
                             vpiActual: Variable name:clk
-                    DelayControl start:29:7 end:29:10:
+                    DelayControl start:29:7 end:29:11:
                       vpiParent: Begin
                       vpiDelay: 50
+                      vpiStmt NullStmt:
+                        vpiParent: DelayControl
                       vpiDelay Constant start:29:8 end:29:10:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
@@ -997,7 +1000,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              EventControl start:38:5 end:38:19:
+              EventControl start:38:5 end:38:20:
                 vpiParent: Begin
                 vpiCondition Operation start:38:7 end:38:18:
                   vpiParent: EventControl
@@ -1008,8 +1011,12 @@ Design name:unnamed:
                       vpiName: clk
                       vpiFullName: svinterface1_tb.clk
                       vpiActual: Variable name:clk
-              DelayControl start:39:5 end:39:9:
+                vpiStmt NullStmt:
+                  vpiParent: EventControl
+              DelayControl start:39:5 end:39:10:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:39:7 end:39:8:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1038,7 +1045,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              EventControl start:41:5 end:41:19:
+              EventControl start:41:5 end:41:20:
                 vpiParent: Begin
                 vpiCondition Operation start:41:7 end:41:18:
                   vpiParent: EventControl
@@ -1049,6 +1056,8 @@ Design name:unnamed:
                       vpiName: clk
                       vpiFullName: svinterface1_tb.clk
                       vpiActual: Variable name:clk
+                vpiStmt NullStmt:
+                  vpiParent: EventControl
               ForStmt start:42:5 end:49:8:
                 vpiParent: Begin
                 vpiFullName: svinterface1_tb
@@ -1064,7 +1073,11 @@ Design name:unnamed:
                 vpiForInitStmt (1 items):
                   Assignment start:42:13 end:42:16:
                     vpiParent: ForStmt
-                    vpiLhs: Variable name:j
+                    vpiLhs RefObj name:j start:42:13 end:42:14:
+                      vpiParent: Assignment
+                      vpiName: j
+                      vpiFullName: svinterface1_tb.j
+                      vpiActual: Variable name:j
                     vpiRhs Constant start:42:15 end:42:16:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -1123,7 +1136,11 @@ Design name:unnamed:
                       vpiForInitStmt (1 items):
                         Assignment start:43:15 end:43:18:
                           vpiParent: ForStmt
-                          vpiLhs: Variable name:i
+                          vpiLhs RefObj name:i start:43:15 end:43:16:
+                            vpiParent: Assignment
+                            vpiName: i
+                            vpiFullName: svinterface1_tb.i
+                            vpiActual: Variable name:i
                           vpiRhs Constant start:43:17 end:43:18:
                             vpiParent: Assignment
                             vpiTypespec RefTypespec:
@@ -1167,8 +1184,10 @@ Design name:unnamed:
                         vpiParent: ForStmt
                         vpiFullName: svinterface1_tb
                         vpiStmt (4 items):
-                          DelayControl start:44:9 end:44:13:
+                          DelayControl start:44:9 end:44:14:
                             vpiParent: Begin
+                            vpiStmt NullStmt:
+                              vpiParent: DelayControl
                             vpiDelay Constant start:44:11 end:44:12:
                               vpiParent: DelayControl
                               vpiTypespec RefTypespec:
@@ -1205,7 +1224,7 @@ Design name:unnamed:
                               vpiName: i
                               vpiFullName: svinterface1_tb.i
                               vpiActual: Variable name:i
-                          EventControl start:47:9 end:47:23:
+                          EventControl start:47:9 end:47:24:
                             vpiParent: Begin
                             vpiCondition Operation start:47:11 end:47:22:
                               vpiParent: EventControl
@@ -1216,6 +1235,8 @@ Design name:unnamed:
                                   vpiName: clk
                                   vpiFullName: svinterface1_tb.clk
                                   vpiActual: Variable name:clk
+                            vpiStmt NullStmt:
+                              vpiParent: EventControl
               SysTaskCall name:$finish start:50:5 end:50:12:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:50:5 end:50:12:
@@ -1282,6 +1303,10 @@ Design name:unnamed:
                         vpiFullName: svinterface1_tb.passThrough
                         vpiActual: Variable name:passThrough
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (3 items):
+        SysFuncCall name:$fopen:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$fdisplay:
       vpiRefInstance (1 items):
         RefInstance name:u_dut start:15:13 end:15:18:
           vpiParent: Module name:svinterface1_tb
@@ -1299,7 +1324,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: svinterface1_tb.u_dut.clk
-                vpiActual: Variable name:clk
               vpiHighConn RefObj name:clk start:16:10 end:16:13:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1312,7 +1336,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: svinterface1_tb.u_dut.rst
-                vpiActual: Variable name:rst
               vpiHighConn RefObj name:rst start:17:10 end:17:13:
                 vpiParent: NamedArgument
                 vpiName: rst
@@ -1325,7 +1348,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: outOther
                 vpiFullName: svinterface1_tb.u_dut.outOther
-                vpiActual: Variable name:outOther
               vpiHighConn RefObj name:outOther start:18:15 end:18:23:
                 vpiParent: NamedArgument
                 vpiName: outOther
@@ -1338,7 +1360,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: sig
                 vpiFullName: svinterface1_tb.u_dut.sig
-                vpiActual: Variable name:sig
               vpiHighConn RefObj name:sig start:19:10 end:19:13:
                 vpiParent: NamedArgument
                 vpiName: sig
@@ -1351,7 +1372,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: flip
                 vpiFullName: svinterface1_tb.u_dut.flip
-                vpiActual: Variable name:flip
               vpiHighConn RefObj name:flip start:20:11 end:20:15:
                 vpiParent: NamedArgument
                 vpiName: flip
@@ -1364,7 +1384,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: passThrough
                 vpiFullName: svinterface1_tb.u_dut.passThrough
-                vpiActual: Variable name:passThrough
               vpiHighConn RefObj name:passThrough start:21:18 end:21:29:
                 vpiParent: NamedArgument
                 vpiName: passThrough
@@ -1377,7 +1396,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: sig_out
                 vpiFullName: svinterface1_tb.u_dut.sig_out
-                vpiActual: Variable name:sig_out
               vpiHighConn RefObj name:sig_out start:22:14 end:22:21:
                 vpiParent: NamedArgument
                 vpiName: sig_out
@@ -1446,7 +1464,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/svinterfaces/svinterface1_tb.v/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             189     189       0         0
+Others                             198     198       0         0
 ----------------------------------------------------------------
-                                   189     189       0         0
+                                   198     198       0         0
 ===================== END REDUCTION RESULT =====================

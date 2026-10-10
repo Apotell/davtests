@@ -253,6 +253,7 @@ n<$Source01/scope2b.v> u<238> t<Top_level_rule> c<1> l<27:1> el<56:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/scope2b.v:27:1: Compile module "test".
 [INF:CP5804] $Source01/scope2b.v:35:1: Compile module "main".
+[WRN:CP5851] $Source01/scope2b.v:31:15: Failed to bind "q".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -270,6 +271,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:test
+          vpiScalar: true
       vpiDefName: test
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:27:8 end:27:12:
@@ -278,6 +280,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:p start:28:11 end:28:12:
           vpiParent: Module name:test
@@ -337,6 +340,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:main
+          vpiScalar: true
         ModuleTypespec name:test start:39:4 end:39:8:
           vpiParent: Module name:main
           vpiName Identifier name:test start:39:4 end:39:8:
@@ -350,6 +354,7 @@ Design name:unnamed:
         vpiFullName: main.work
         vpiActual: Library name:work
       vpiCell: main
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:q start:37:9 end:37:10:
           vpiParent: Module name:main
@@ -524,6 +529,12 @@ Design name:unnamed:
                       vpiSize: 48
                       vpiDecompile: "\"PASSED\""
                       vpiValue: PASSED
+      vpiSysTaskCall (5 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
       vpiRefInstance (1 items):
         RefInstance name:inst start:39:9 end:39:13:
           vpiParent: Module name:main
@@ -570,7 +581,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -618,7 +629,7 @@ Operation                            2       1       0         1
 RefObj                              12      11       0         1
 RefTypespec                         13      12       0         1
 ----------------------------------------------------------------
-Others                              48      48       0         0
+Others                              49      49       0         0
 ----------------------------------------------------------------
-                                    83      80       1         4
+                                    84      81       1         4
 ===================== END REDUCTION RESULT =====================

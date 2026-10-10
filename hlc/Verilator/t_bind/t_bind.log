@@ -506,6 +506,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_bind.v:38:11: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_bind.v:49:11: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_bind.v:49:11: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_bind.v:65:17: Failed to bind "si".
+[WRN:CP5851] $Source01/t_bind.v:72:14: Failed to bind "si".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -523,6 +525,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Program name:Prog
+          vpiScalar: true
         BitTypespec:
           vpiParent: Program name:Prog
       vpiDefName: Prog
@@ -585,6 +588,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Program name:Prog2
+          vpiScalar: true
         BitTypespec:
           vpiParent: Program name:Prog2
       vpiDefName: Prog2
@@ -648,6 +652,7 @@ Design name:unnamed:
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -693,6 +698,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:13:10 end:13:13:
           vpiParent: Module name:t
@@ -816,6 +822,11 @@ Design name:unnamed:
                   vpiName Identifier name:$finish start:32:7 end:32:14:
                   vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (2 items):
         RefInstance name:i start:17:14 end:17:15:
           vpiParent: Module name:t
@@ -833,7 +844,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: t.i.o
-                vpiActual: Net name:o
+                vpiActual: Port name:o
               vpiHighConn PartSelect name:o[31:0] start:19:11 end:19:18:
                 vpiParent: NamedArgument
                 vpiName: o[31:0]
@@ -872,7 +883,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: i
                 vpiFullName: t.i.i
-                vpiActual: RefInstance name:i
+                vpiActual: Port name:i
               vpiHighConn Constant start:21:11 end:21:15:
                 vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
@@ -899,7 +910,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: si
                 vpiFullName: t.p.si
-                vpiActual: Net name:si
               vpiHighConn RefObj name:si start:26:13 end:26:15:
                 vpiParent: NamedArgument
                 vpiName: si
@@ -952,6 +962,7 @@ Design name:unnamed:
             vpiFullName: InstModule.logic
         LogicTypespec:
           vpiParent: Module name:InstModule
+          vpiScalar: true
       vpiDefName: InstModule
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:37:8 end:37:18:
@@ -960,6 +971,7 @@ Design name:unnamed:
         vpiFullName: InstModule.work
         vpiActual: Library name:work
       vpiCell: InstModule
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:si start:39:12 end:39:14:
           vpiParent: Module name:InstModule
@@ -1076,6 +1088,7 @@ Design name:unnamed:
             vpiFullName: ExampInst.logic
         LogicTypespec:
           vpiParent: Module name:ExampInst
+          vpiScalar: true
         ModuleTypespec name:InstModule start:52:4 end:52:14:
           vpiParent: Module name:ExampInst
           vpiName Identifier name:InstModule start:52:4 end:52:14:
@@ -1093,6 +1106,7 @@ Design name:unnamed:
         vpiFullName: ExampInst.work
         vpiActual: Library name:work
       vpiCell: ExampInst
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:i start:50:11 end:50:12:
           vpiParent: Module name:ExampInst
@@ -1309,7 +1323,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 8
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1353,7 +1367,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_bind/design.hldb ${HLC_DIR}/regressio
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             200     200       0         0
+Others                             201     201       0         0
 ----------------------------------------------------------------
-                                   200     200       0         0
+                                   201     201       0         0
 ===================== END REDUCTION RESULT =====================

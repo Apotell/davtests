@@ -1274,13 +1274,19 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_type_param.v:23:1: Compile module "t".
 [INF:CP5836] $Source01/t_type_param.v:93:41: Compile generate block "gen_m".
 [WRN:CP5851] $Source01/t_type_param.v:7:15: Failed to bind "type".
+[WRN:CP5851] $Source01/t_type_param.v:7:26: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_type_param.v:19:16: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_type_param.v:24:4: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_type_param.v:27:16: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_type_param.v:30:4: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_type_param.v:33:16: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_type_param.v:36:4: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_type_param.v:39:16: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_type_param.v:95:26: Failed to bind "foo_inst".
 [WRN:CP5851] $Source01/t_type_param.v:95:35: Failed to bind "baz".
 [WRN:CP5851] $Source01/t_type_param.v:97:32: Failed to bind "foo_inst".
 [WRN:CP5851] $Source01/t_type_param.v:97:41: Failed to bind "baz".
+[WRN:CP5851] $Source01/t_type_param.v:102:25: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1355,6 +1361,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:foo #(.bar(logic))
+          vpiScalar: true
       vpiDefName: foo
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:6:8 end:6:11:
@@ -1363,6 +1370,7 @@ Design name:unnamed:
         vpiFullName: foo #(.bar(logic)).work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
       vpiPort (1 items):
         Port name:bar_size start:8:16 end:8:24:
           vpiParent: Module name:foo #(.bar(logic))
@@ -1390,6 +1398,8 @@ Design name:unnamed:
             vpiName: baz
             vpiFullName: foo #(.bar(logic)).baz
             vpiActual: Parameter name:baz
+      vpiSysTaskCall (1 items):
+        SysFuncCall name:$bits:
     Module name:foo_wrapper #(.bar_bits(9)) file:$Source01/t_type_param.v start:15:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo_wrapper #(.bar_bits(9)) start:15:8 end:15:19:
@@ -1433,6 +1443,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:foo_wrapper #(.bar_bits(9))
+          vpiScalar: true
         ModuleTypespec name:foo start:19:4 end:19:7:
           vpiParent: Module name:foo_wrapper #(.bar_bits(9))
           vpiName Identifier name:foo start:19:4 end:19:7:
@@ -1495,6 +1506,7 @@ Design name:unnamed:
         vpiFullName: foo_wrapper #(.bar_bits(9)).work
         vpiActual: Library name:work
       vpiCell: foo_wrapper
+      vpiAutomatic: true
       vpiPort (1 items):
         Port name:bar_size start:17:16 end:17:24:
           vpiParent: Module name:foo_wrapper #(.bar_bits(9))
@@ -1526,7 +1538,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: bar_size
                 vpiFullName: foo_wrapper #(.bar_bits(9)).foo_inst.bar_size
-                vpiActual: Variable name:bar_size
+                vpiActual: Port name:bar_size
               vpiHighConn RefObj name:bar_size start:19:59 end:19:67:
                 vpiParent: NamedArgument
                 vpiName: bar_size
@@ -1901,6 +1913,7 @@ Design name:unnamed:
           vpiModule: Module name:foo #(.bar(logic))
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ModuleTypespec name:foo_wrapper start:45:4 end:45:15:
           vpiParent: Module name:t
           vpiName Identifier name:foo_wrapper start:45:4 end:45:15:
@@ -1929,6 +1942,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiProcess (2 items):
         Initial start:48:4 end:89:7:
           vpiParent: Module name:t
@@ -2556,6 +2570,42 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:108:7 end:108:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (35 items):
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysFuncCall name:$bits:
+        SysFuncCall name:$bits:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (4 items):
         RefInstance name:foo_inst1 start:28:4 end:28:13:
           vpiParent: Module name:t
@@ -2652,15 +2702,14 @@ Design name:unnamed:
           vpiStmt GenFor start:93:7 end:103:10:
             vpiParent: GenRegion
             vpiFullName: t
-            vpiVariable (1 items):
-              Variable name:m start:93:12 end:93:13:
-                vpiParent: GenFor
-                vpiName: m
-                vpiFullName: t.m
             vpiForInitStmt (1 items):
               Assignment start:93:12 end:93:17:
                 vpiParent: GenFor
-                vpiLhs: Variable name:m
+                vpiLhs RefObj name:m start:93:12 end:93:13:
+                  vpiParent: Assignment
+                  vpiName: m
+                  vpiFullName: t.m
+                  vpiActual: Variable name:m
                 vpiRhs Constant start:93:16 end:93:17:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -2899,7 +2948,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 8
+[WARNING] : 14
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2944,10 +2993,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            31      31       1         1
 Operation                           16      15       0         1
-RefObj                             102     101       0         1
+RefObj                             103     102       0         1
 RefTypespec                         55      55       1         1
 ----------------------------------------------------------------
 Others                             234     234       0         0
 ----------------------------------------------------------------
-                                   438     436       2         4
+                                   439     437       2         4
 ===================== END REDUCTION RESULT =====================

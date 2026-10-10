@@ -779,6 +779,7 @@ Design name:unnamed:
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -901,6 +902,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:11:10 end:11:13:
           vpiParent: Module name:t
@@ -1435,6 +1437,10 @@ Design name:unnamed:
                             vpiName Identifier name:$finish start:43:3 end:43:10:
                             vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:assigns start:20:12 end:20:19:
           vpiParent: Module name:t
@@ -1452,7 +1458,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: Output
                 vpiFullName: t.assigns.Output
-                vpiActual: Net name:Output
+                vpiActual: Port name:Output
               vpiHighConn PartSelect name:Output[8:0] start:22:17 end:22:28:
                 vpiParent: NamedArgument
                 vpiName: Output[8:0]
@@ -1491,7 +1497,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: Input
                 vpiFullName: t.assigns.Input
-                vpiActual: Net name:Input
+                vpiActual: Port name:Input
               vpiHighConn PartSelect name:Input[8:0] start:24:16 end:24:26:
                 vpiParent: NamedArgument
                 vpiName: Input[8:0]
@@ -1595,6 +1601,7 @@ Design name:unnamed:
         vpiFullName: assigns.work
         vpiActual: Library name:work
       vpiCell: assigns
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:Input start:50:17 end:50:22:
           vpiParent: Module name:assigns
@@ -1648,15 +1655,14 @@ Design name:unnamed:
           vpiStmt GenFor start:55:7 end:57:10:
             vpiParent: GenRegion
             vpiFullName: assigns
-            vpiVariable (1 items):
-              Variable name:i start:55:12 end:55:13:
-                vpiParent: GenFor
-                vpiName: i
-                vpiFullName: assigns.i
             vpiForInitStmt (1 items):
               Assignment start:55:12 end:55:17:
                 vpiParent: GenFor
-                vpiLhs: Variable name:i
+                vpiLhs RefObj name:i start:55:12 end:55:13:
+                  vpiParent: Assignment
+                  vpiName: i
+                  vpiFullName: assigns.i
+                  vpiActual: Variable name:i
                 vpiRhs Constant start:55:16 end:55:17:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1915,7 +1921,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_gen_assign/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             265     265       0         0
+Others                             266     266       0         0
 ----------------------------------------------------------------
-                                   265     265       0         0
+                                   266     266       0         0
 ===================== END REDUCTION RESULT =====================

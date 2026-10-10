@@ -849,7 +849,13 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/vcd-dup.v:2:1: Compile module "test".
 [INF:CP5804] $Source01/vcd-dup.v:55:1: Compile module "submod".
 [INF:CP5804] $Source01/vcd-dup.v:67:1: Compile module "subsub".
+[WRN:CP5851] $Source01/vcd-dup.v:6:22: Failed to bind "c1".
+[WRN:CP5851] $Source01/vcd-dup.v:7:22: Failed to bind "c2".
 [WRN:CP5851] $Source01/vcd-dup.v:22:18: Failed to bind "c1".
+[WRN:CP5851] $Source01/vcd-dup.v:60:21: Failed to bind "c1".
+[WRN:CP5851] $Source01/vcd-dup.v:61:21: Failed to bind "c2".
+[WRN:CP5851] $Source01/vcd-dup.v:63:15: Failed to bind "c1".
+[WRN:CP5851] $Source01/vcd-dup.v:63:20: Failed to bind "c2".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -910,6 +916,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:set start:9:4 end:16:11:
           vpiParent: Module name:test
@@ -928,6 +935,7 @@ Design name:unnamed:
             IODecl name:bits start:10:19 end:10:23:
               vpiParent: Task name:set
               vpiName: bits
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:10:13 end:10:18:
                 vpiParent: IODecl name:bits
                 vpiFullName: test.set.bits
@@ -1131,9 +1139,11 @@ Design name:unnamed:
                           vpiFullName: test.c1
                           vpiActual: Net name:c1
                       vpiActual: Net name:c1
-              DelayControl start:23:2 end:23:4:
+              DelayControl start:23:2 end:23:5:
                 vpiParent: Begin
                 vpiDelay: 0
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:23:3 end:23:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1185,9 +1195,11 @@ Design name:unnamed:
                       vpiName: m1
                       vpiFullName: test.m1
                       vpiActual: RefInstance name:m1
-              DelayControl start:26:3 end:26:5:
+              DelayControl start:26:3 end:26:6:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:26:4 end:26:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1257,9 +1269,11 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
-              DelayControl start:33:2 end:33:4:
+              DelayControl start:33:2 end:33:5:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:33:3 end:33:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1300,9 +1314,11 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
-              DelayControl start:35:2 end:35:4:
+              DelayControl start:35:2 end:35:5:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:35:3 end:35:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1390,9 +1406,11 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
-              DelayControl start:39:2 end:39:4:
+              DelayControl start:39:2 end:39:5:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:39:3 end:39:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1480,9 +1498,11 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
-              DelayControl start:43:2 end:43:4:
+              DelayControl start:43:2 end:43:5:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:43:3 end:43:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1523,9 +1543,11 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
-              DelayControl start:45:2 end:45:4:
+              DelayControl start:45:2 end:45:5:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:45:3 end:45:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1566,9 +1588,11 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
-              DelayControl start:47:2 end:47:4:
+              DelayControl start:47:2 end:47:5:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:47:3 end:47:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1643,6 +1667,16 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
+      vpiSysTaskCall (9 items):
+        SysTaskCall name:$dumpfile:
+        SysTaskCall name:$dumpvars:
+        SysTaskCall name:$dumpvars:
+        SysTaskCall name:$dumpvars:
+        SysTaskCall name:$dumpvars:
+        SysTaskCall name:$dumpoff:
+        SysTaskCall name:$dumpon:
+        SysTaskCall name:$dumpall:
+        SysTaskCall name:$finish:
       vpiRefInstance (2 items):
         RefInstance name:m1 start:6:11 end:6:13:
           vpiParent: Module name:test
@@ -1739,6 +1773,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:submod
+          vpiScalar: true
         ModuleTypespec name:subsub start:60:4 end:60:10:
           vpiParent: Module name:submod
           vpiName Identifier name:subsub start:60:4 end:60:10:
@@ -1757,6 +1792,7 @@ Design name:unnamed:
         vpiFullName: submod.work
         vpiActual: Library name:work
       vpiCell: submod
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:a start:57:10 end:57:11:
           vpiParent: Module name:submod
@@ -1935,6 +1971,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:subsub
+          vpiScalar: true
       vpiDefName: subsub
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:67:8 end:67:14:
@@ -1943,6 +1980,7 @@ Design name:unnamed:
         vpiFullName: subsub.work
         vpiActual: Library name:work
       vpiCell: subsub
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:a start:69:10 end:69:11:
           vpiParent: Module name:subsub
@@ -2050,7 +2088,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2094,7 +2132,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/vcd-dup/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             309     309       0         0
+Others                             318     318       0         0
 ----------------------------------------------------------------
-                                   309     309       0         0
+                                   318     318       0         0
 ===================== END REDUCTION RESULT =====================

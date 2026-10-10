@@ -169,7 +169,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/resolve/module.sv:1:1: Compile module "top".
 [NTE:CP5810] $Source01/resolve/module.sv:4:46: Implicit port type (wire) for "o".
 [WRN:CP5851] $Source01/resolve/module.sv:3:26: Failed to bind "width_calc".
+[WRN:CP5851] $Source01/resolve/module.sv:8:10: Failed to bind "display".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/resolve/module.sv:3:26: Null Actual: id:19, type:SubroutineCall, name:width_calc, relation:vpiRhs.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -233,6 +235,7 @@ Design name:unnamed:
             vpiValue: "*"
         LogicTypespec:
           vpiParent: Module name:top #(.width(width_calc(2)))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:top #(.width(width_calc(2)))
           vpiRange (1 items):
@@ -313,6 +316,7 @@ Design name:unnamed:
         vpiFullName: top #(.width(width_calc(2))).work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:i start:4:24 end:4:25:
           vpiParent: Module name:top #(.width(width_calc(2)))
@@ -365,7 +369,7 @@ Design name:unnamed:
           vpiStmt Begin start:6:13 end:9:8:
             vpiParent: Initial
             vpiFullName: top #(.width(width_calc(2)))
-            vpiStmt (2 items):
+            vpiStmt (3 items):
               SysTaskCall name:$display start:7:9 end:7:24:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:7:9 end:7:17:
@@ -381,6 +385,8 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: display
                 vpiFullName: top #(.width(width_calc(2))).display
+              NullStmt:
+                vpiParent: Begin
       vpiContAssign (1 items):
         ContAssign start:5:12 end:5:24:
           vpiParent: Module name:top #(.width(width_calc(2)))
@@ -408,6 +414,8 @@ Design name:unnamed:
                 vpiSize: 1
                 vpiDecompile: "1'b1"
                 vpiValue: "1"
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$display:
   vpiTypespec (3 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -426,8 +434,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 3
-[  ERROR] : 2
-[WARNING] : 1
+[  ERROR] : 3
+[WARNING] : 2
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -471,7 +479,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/resolve/module_sv/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              64      64       0         0
+Others                              66      66       0         0
 ----------------------------------------------------------------
-                                    64      64       0         0
+                                    66      66       0         0
 ===================== END REDUCTION RESULT =====================

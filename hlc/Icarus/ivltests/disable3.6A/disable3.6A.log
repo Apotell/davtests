@@ -519,6 +519,7 @@ n<$Source01/disable3.6A.v> u<505> t<Top_level_rule> c<1> l<21:1> el<78:1>
   n<// main> u<504> t<LINE_COMMENT> p<505> l<77:11> el<77:18>
 AST_DEBUG_END
 [INF:CP5804] $Source01/disable3.6A.v:21:1: Compile module "main".
+[WRN:CP5851] $Source01/disable3.6A.v:65:13: Failed to bind "FF".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2038] $Source01/disable3.6A.v:65:5: 'vpiExpr' property value on object is invalid.
 ====== HLDB =======
@@ -578,6 +579,7 @@ Design name:unnamed:
         vpiFullName: main.work
         vpiActual: Library name:work
       vpiCell: main
+      vpiAutomatic: true
       vpiProcess (2 items):
         Always start:28:1 end:35:6:
           vpiParent: Module name:main
@@ -610,9 +612,11 @@ Design name:unnamed:
               vpiName Identifier name:FF start:29:11 end:29:13:
               vpiFullName: main.FF
               vpiStmt (2 items):
-                DelayControl start:30:5 end:30:8:
+                DelayControl start:30:5 end:30:9:
                   vpiParent: Begin name:FF
                   vpiDelay: 2
+                  vpiStmt NullStmt:
+                    vpiParent: DelayControl
                   vpiDelay Constant start:30:7 end:30:8:
                     vpiParent: DelayControl
                     vpiTypespec RefTypespec:
@@ -727,9 +731,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-              DelayControl start:45:5 end:45:7:
+              DelayControl start:45:5 end:45:9:
                 vpiParent: Begin
                 vpiDelay: 4
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:45:6 end:45:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -835,9 +841,11 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-              DelayControl start:54:5 end:54:8:
+              DelayControl start:54:5 end:54:9:
                 vpiParent: Begin
                 vpiDelay: 3
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:54:7 end:54:8:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -925,9 +933,11 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-              DelayControl start:62:5 end:62:8:
+              DelayControl start:62:5 end:62:9:
                 vpiParent: Begin
                 vpiDelay: 3
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:62:7 end:62:8:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -956,9 +966,11 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-              DelayControl start:64:5 end:64:8:
+              DelayControl start:64:5 end:64:9:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:64:7 end:64:8:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -975,9 +987,11 @@ Design name:unnamed:
                   vpiParent: Disable
                   vpiName: FF
                   vpiFullName: main.FF
-              DelayControl start:66:5 end:66:8:
+              DelayControl start:66:5 end:66:9:
                 vpiParent: Begin
                 vpiDelay: 2
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:66:7 end:66:8:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1084,6 +1098,11 @@ Design name:unnamed:
                         vpiSize: 48
                         vpiDecompile: "\"PASSED\""
                         vpiValue: PASSED
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
   vpiTypespec (3 items):
     ModuleTypespec name:main:
       vpiParent: Design name:unnamed
@@ -1103,7 +1122,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1147,7 +1166,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/disable3.6A/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             144     144       0         0
+Others                             151     151       0         0
 ----------------------------------------------------------------
-                                   144     144       0         0
+                                   151     151       0         0
 ===================== END REDUCTION RESULT =====================

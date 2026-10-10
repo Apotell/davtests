@@ -452,6 +452,7 @@ Design name:unnamed:
         CheckerTypespec name:gen_chk start:27:3 end:27:10:
           vpiParent: Module name:tb3
           vpiName: gen_chk
+          vpiCheckerDecl: CheckerDecl name:gen_chk
       vpiDefName: tb3
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:8 end:1:11:
@@ -460,6 +461,7 @@ Design name:unnamed:
         vpiFullName: tb3.work
         vpiActual: Library name:work
       vpiCell: tb3
+      vpiAutomatic: true
       vpiCheckerDecl (1 items):
         CheckerDecl name:gen_chk start:14:3 end:25:13:
           vpiParent: Module name:tb3
@@ -470,7 +472,7 @@ Design name:unnamed:
               vpiParent: CheckerDecl name:gen_chk
               vpiName: i
               vpiFullName: tb3.gen_chk.i
-          vpiTypespec (2 items):
+          vpiTypespec (3 items):
             LogicTypespec:
               vpiParent: CheckerDecl name:gen_chk
             LogicTypespec:
@@ -499,6 +501,9 @@ Design name:unnamed:
                     vpiDecompile: "0"
                     vpiValue: 0
               vpiVector: true
+            LogicTypespec:
+              vpiParent: CheckerDecl name:gen_chk
+              vpiScalar: true
           vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work start:14:11 end:14:18:
             vpiParent: CheckerDecl name:gen_chk
@@ -541,15 +546,14 @@ Design name:unnamed:
               vpiStmt GenFor start:19:7 end:22:10:
                 vpiParent: GenRegion
                 vpiFullName: tb3.gen_chk
-                vpiVariable (1 items):
-                  Variable name:i start:19:12 end:19:13:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: tb3.gen_chk.i
                 vpiForInitStmt (1 items):
                   Assignment start:19:12 end:19:17:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:19:12 end:19:13:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: tb3.gen_chk.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:19:16 end:19:17:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -832,6 +836,9 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "1000"
                   vpiValue: 1000
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$finish:
+        SysTaskCall name:$error:
       vpiRefInstance (1 items):
         RefInstance name:chk start:27:11 end:27:14:
           vpiParent: Module name:tb3
@@ -931,10 +938,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            17      18       1         0
 Operation                            7       6       0         1
-RefObj                              19      18       0         1
+RefObj                              20      19       0         1
 RefTypespec                         24      25       1         0
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                   123     123       2         2
+                                   125     125       2         2
 ===================== END REDUCTION RESULT =====================

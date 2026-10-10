@@ -408,6 +408,16 @@ Design name:unnamed:
             Attribute name:anyconst start:12:5 end:12:13:
               vpiParent: Variable name:foo
               vpiName: anyconst
+              vpiValue Constant start:12:5 end:12:13:
+                vpiParent: Attribute name:anyconst
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top.foo.anyconst
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiName: foo
           vpiFullName: top.foo
         Variable name:too start:13:19 end:13:22:
@@ -420,9 +430,22 @@ Design name:unnamed:
             Attribute name:anyseq start:13:5 end:13:11:
               vpiParent: Variable name:too
               vpiName: anyseq
+              vpiValue Constant start:13:5 end:13:11:
+                vpiParent: Attribute name:anyseq
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top.too.anyseq
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiName: too
           vpiFullName: top.too
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:top
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:top
       vpiDefName: top
@@ -433,6 +456,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:x start:3:8 end:3:9:
           vpiParent: Module name:top
@@ -651,6 +675,8 @@ Design name:unnamed:
                     vpiName: too
                     vpiFullName: top.too
                     vpiActual: Variable name:too
+                  vpiStmt NullStmt:
+                    vpiParent: ImmediateAssume
                 ImmediateAssume start:30:5 end:30:30:
                   vpiParent: Begin
                   vpiExpr RefObj name:too start:30:25 end:30:28:
@@ -658,6 +684,8 @@ Design name:unnamed:
                     vpiName: too
                     vpiFullName: top.too
                     vpiActual: Variable name:too
+                  vpiStmt NullStmt:
+                    vpiParent: ImmediateAssume
           vpiAlwaysType: always (1)
         Always start:32:1 end:38:4:
           vpiParent: Module name:top
@@ -736,6 +764,8 @@ Design name:unnamed:
                     vpiName: ASSERT
                     vpiFullName: top.ASSERT
                     vpiActual: Variable name:ASSERT
+                  vpiStmt NullStmt:
+                    vpiParent: ImmediateAssert
                 ImmediateAssert start:37:5 end:37:33:
                   vpiParent: Begin
                   vpiExpr RefObj name:ASSERT start:37:25 end:37:31:
@@ -743,8 +773,13 @@ Design name:unnamed:
                     vpiName: ASSERT
                     vpiFullName: top.ASSERT
                     vpiActual: Variable name:ASSERT
+                  vpiStmt NullStmt:
+                    vpiParent: ImmediateAssert
           vpiAlwaysType: always (1)
-  vpiTypespec (2 items):
+      vpiSysTaskCall (2 items):
+        SysFuncCall name:$initstate:
+        SysFuncCall name:$initstate:
+  vpiTypespec (3 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:1:8 end:1:11:
@@ -753,6 +788,8 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    IntTypespec:
+      vpiParent: Design name:unnamed
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -805,7 +842,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/misc/chformal_error/top/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             102     102       0         0
+Others                             113     113       0         0
 ----------------------------------------------------------------
-                                   102     102       0         0
+                                   113     113       0         0
 ===================== END REDUCTION RESULT =====================

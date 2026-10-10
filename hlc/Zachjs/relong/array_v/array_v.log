@@ -1197,6 +1197,7 @@ Design name:unnamed:
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
           vpiRange (1 items):
@@ -1357,6 +1358,7 @@ Design name:unnamed:
         vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).work
         vpiActual: Library name:work
       vpiCell: ArrayOrReduction
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:inputs start:6:35 end:6:41:
           vpiParent: Module name:ArrayOrReduction #(.SIZE(16), .WIDTH(32))
@@ -1432,15 +1434,14 @@ Design name:unnamed:
           vpiStmt GenFor start:16:9 end:19:12:
             vpiParent: GenRegion
             vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32))
-            vpiVariable (1 items):
-              Variable name:index start:16:13 end:16:18:
-                vpiParent: GenFor
-                vpiName: index
-                vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).index
             vpiForInitStmt (1 items):
               Assignment start:16:13 end:16:22:
                 vpiParent: GenFor
-                vpiLhs: Variable name:index
+                vpiLhs RefObj name:index start:16:13 end:16:18:
+                  vpiParent: Assignment
+                  vpiName: index
+                  vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).index
+                  vpiActual: Variable name:index
                 vpiRhs Constant start:16:21 end:16:22:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1532,6 +1533,7 @@ Design name:unnamed:
               vpiTypespec (1 items):
                 LogicTypespec:
                   vpiParent: Begin name:unflatten
+                  vpiScalar: true
               vpiStmt (3 items):
                 Parameter name:START_BIT:
                 ParamAssign:
@@ -1953,7 +1955,7 @@ Design name:unnamed:
                                     vpiParent: NamedArgument
                                     vpiName: inputs
                                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.top.inputs
-                                    vpiActual: Net name:inputs
+                                    vpiActual: Port name:inputs
                                   vpiHighConn PartSelect name:inputs[SIZE*WIDTH-1:SIZE*WIDTH/2] start:33:74 end:33:111:
                                     vpiParent: NamedArgument
                                     vpiName: inputs[SIZE*WIDTH-1:SIZE*WIDTH/2]
@@ -2028,7 +2030,7 @@ Design name:unnamed:
                                     vpiParent: NamedArgument
                                     vpiName: result
                                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.top.result
-                                    vpiActual: Net name:result
+                                    vpiActual: Port name:result
                                   vpiHighConn BitSelect name:subResults[1] start:33:122 end:33:135:
                                     vpiParent: NamedArgument
                                     vpiName: subResults[1]
@@ -2064,7 +2066,7 @@ Design name:unnamed:
                                     vpiParent: NamedArgument
                                     vpiName: inputs
                                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.bot.inputs
-                                    vpiActual: Net name:inputs
+                                    vpiActual: Port name:inputs
                                   vpiHighConn PartSelect name:inputs[SIZE*WIDTH/2-1:0] start:34:74 end:34:102:
                                     vpiParent: NamedArgument
                                     vpiName: inputs[SIZE*WIDTH/2-1:0]
@@ -2135,7 +2137,7 @@ Design name:unnamed:
                                     vpiParent: NamedArgument
                                     vpiName: result
                                     vpiFullName: ArrayOrReduction #(.SIZE(16), .WIDTH(32)).recursive_case.bot.result
-                                    vpiActual: Net name:result
+                                    vpiActual: Port name:result
                                   vpiHighConn BitSelect name:subResults[0] start:34:113 end:34:126:
                                     vpiParent: NamedArgument
                                     vpiName: subResults[0]
@@ -2324,6 +2326,7 @@ Design name:unnamed:
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
           vpiRange (1 items):
@@ -2530,6 +2533,7 @@ Design name:unnamed:
         vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).work
         vpiActual: Library name:work
       vpiCell: Array
+      vpiAutomatic: true
       vpiNet (6 items):
         Net name:index start:44:37 end:44:42:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
@@ -2807,6 +2811,8 @@ Design name:unnamed:
                     vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).element
                     vpiActual: Net name:element
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (1 items):
+        SysFuncCall name:$clog2:
       vpiGenStmt (1 items):
         GenRegion start:53:5 end:58:16:
           vpiParent: Module name:Array #(.ELEMENTS(16), .WIDTH(32))
@@ -2814,15 +2820,14 @@ Design name:unnamed:
           vpiStmt GenFor start:54:9 end:57:12:
             vpiParent: GenRegion
             vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32))
-            vpiVariable (1 items):
-              Variable name:g_index start:54:13 end:54:20:
-                vpiParent: GenFor
-                vpiName: g_index
-                vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).g_index
             vpiForInitStmt (1 items):
               Assignment start:54:13 end:54:24:
                 vpiParent: GenFor
-                vpiLhs: Variable name:g_index
+                vpiLhs RefObj name:g_index start:54:13 end:54:20:
+                  vpiParent: Assignment
+                  vpiName: g_index
+                  vpiFullName: Array #(.ELEMENTS(16), .WIDTH(32)).g_index
+                  vpiActual: Variable name:g_index
                 vpiRhs Constant start:54:23 end:54:24:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -2914,6 +2919,7 @@ Design name:unnamed:
               vpiTypespec (1 items):
                 LogicTypespec:
                   vpiParent: Begin name:unflatten
+                  vpiScalar: true
               vpiStmt (3 items):
                 Parameter name:START_BIT:
                 ParamAssign:
@@ -3048,11 +3054,11 @@ Constant                            53      53      20        20
 Identifier                          14      13       0         1
 NamedArgument                        5       4       0         1
 Operation                           42      15       0        27
-RefObj                             101      76       0        25
+RefObj                             103      78       0        25
 RefTypespec                         86      84      18        20
 SysFuncCall                          1       0       0         1
 ----------------------------------------------------------------
-Others                             140     140       0         0
+Others                             139     139       0         0
 ----------------------------------------------------------------
-                                   442     385      38        95
+                                   443     386      38        95
 ===================== END REDUCTION RESULT =====================

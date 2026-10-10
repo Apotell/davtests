@@ -817,8 +817,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/ac_dig.sv:17:13: Failed to bind "slave".
 [WRN:CP5851] $Source01/ac_dig.sv:81:7: Failed to bind "dbus".
 [WRN:CP5851] $Source01/ac_dig.sv:81:12: Failed to bind "sConnect".
-[WRN:CP5851] $Source01/ac_dig.sv:81:23: Failed to bind "id".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/ac_dig.sv:81:12: Null Actual: id:188, type:SubroutineCall, name:sConnect, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -977,7 +977,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (11 items):
+      vpiTypespec (12 items):
+        LogicTypespec:
+          vpiParent: Module name:ac_dig #(.ID(1))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:ac_dig #(.ID(1))
         LogicTypespec:
@@ -1202,6 +1205,7 @@ Design name:unnamed:
         vpiFullName: ac_dig #(.ID(1)).work
         vpiActual: Library name:work
       vpiCell: ac_dig
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:acout start:25:22 end:25:27:
           vpiParent: Module name:ac_dig #(.ID(1))
@@ -1341,7 +1345,6 @@ Design name:unnamed:
                           vpiParent: NamedArgument
                           vpiName: rst
                           vpiFullName: ac_dig #(.ID(1)).dbus.sConnect(.id(ID), .rst(rst), .sdata(sdata), .ws(ws), .mdata(mdata), .adr(adr[1:0]), .we(we), .re(re)).sConnect.rst
-                          vpiActual: Net name:rst
                         vpiHighConn RefObj name:rst start:81:36 end:81:39:
                           vpiParent: NamedArgument
                           vpiName: rst
@@ -1353,7 +1356,6 @@ Design name:unnamed:
                           vpiParent: NamedArgument
                           vpiName: sdata
                           vpiFullName: ac_dig #(.ID(1)).dbus.sConnect(.id(ID), .rst(rst), .sdata(sdata), .ws(ws), .mdata(mdata), .adr(adr[1:0]), .we(we), .re(re)).sConnect.sdata
-                          vpiActual: Variable name:sdata
                         vpiHighConn RefObj name:sdata start:81:49 end:81:54:
                           vpiParent: NamedArgument
                           vpiName: sdata
@@ -1365,7 +1367,6 @@ Design name:unnamed:
                           vpiParent: NamedArgument
                           vpiName: ws
                           vpiFullName: ac_dig #(.ID(1)).dbus.sConnect(.id(ID), .rst(rst), .sdata(sdata), .ws(ws), .mdata(mdata), .adr(adr[1:0]), .we(we), .re(re)).sConnect.ws
-                          vpiActual: Variable name:ws
                         vpiHighConn RefObj name:ws start:81:61 end:81:63:
                           vpiParent: NamedArgument
                           vpiName: ws
@@ -1377,7 +1378,6 @@ Design name:unnamed:
                           vpiParent: NamedArgument
                           vpiName: mdata
                           vpiFullName: ac_dig #(.ID(1)).dbus.sConnect(.id(ID), .rst(rst), .sdata(sdata), .ws(ws), .mdata(mdata), .adr(adr[1:0]), .we(we), .re(re)).sConnect.mdata
-                          vpiActual: Variable name:mdata
                         vpiHighConn RefObj name:mdata start:81:73 end:81:78:
                           vpiParent: NamedArgument
                           vpiName: mdata
@@ -1389,7 +1389,6 @@ Design name:unnamed:
                           vpiParent: NamedArgument
                           vpiName: adr
                           vpiFullName: ac_dig #(.ID(1)).dbus.sConnect(.id(ID), .rst(rst), .sdata(sdata), .ws(ws), .mdata(mdata), .adr(adr[1:0]), .we(we), .re(re)).sConnect.adr
-                          vpiActual: Variable name:adr
                         vpiHighConn PartSelect name:adr[1:0] start:81:86 end:81:94:
                           vpiParent: NamedArgument
                           vpiName: adr[1:0]
@@ -1427,7 +1426,6 @@ Design name:unnamed:
                           vpiParent: NamedArgument
                           vpiName: we
                           vpiFullName: ac_dig #(.ID(1)).dbus.sConnect(.id(ID), .rst(rst), .sdata(sdata), .ws(ws), .mdata(mdata), .adr(adr[1:0]), .we(we), .re(re)).sConnect.we
-                          vpiActual: Variable name:we
                         vpiHighConn RefObj name:we start:81:101 end:81:103:
                           vpiParent: NamedArgument
                           vpiName: we
@@ -1439,7 +1437,6 @@ Design name:unnamed:
                           vpiParent: NamedArgument
                           vpiName: re
                           vpiFullName: ac_dig #(.ID(1)).dbus.sConnect(.id(ID), .rst(rst), .sdata(sdata), .ws(ws), .mdata(mdata), .adr(adr[1:0]), .we(we), .re(re)).sConnect.re
-                          vpiActual: Variable name:re
                         vpiHighConn RefObj name:re start:81:110 end:81:112:
                           vpiParent: NamedArgument
                           vpiName: re
@@ -1998,6 +1995,8 @@ Design name:unnamed:
                 vpiFullName: ac_dig #(.ID(1)).enable
                 vpiActual: TypespecMember name:enable
             vpiActual: TypespecMember name:enable
+      vpiSysTaskCall (1 items):
+        SysFuncCall name:$size:
   vpiTypespec (4 items):
     ModuleTypespec name:ac_dig:
       vpiParent: Design name:unnamed
@@ -2018,8 +2017,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 6
+[  ERROR] : 1
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2066,7 +2065,7 @@ Constant                            40      39       0         1
 Operation                            9       8       0         1
 RefTypespec                         66      65       0         1
 ----------------------------------------------------------------
-Others                             173     173       0         0
+Others                             175     175       0         0
 ----------------------------------------------------------------
-                                   288     285       0         3
+                                   290     287       0         3
 ===================== END REDUCTION RESULT =====================

@@ -510,6 +510,7 @@ Design name:unnamed:
         vpiFullName: generic_flop #(.ResetValue(0)).work
         vpiActual: Library name:work
       vpiCell: generic_flop
+      vpiAutomatic: true
     Module name:prim_flop #(.ResetValue(0)) file:$Source01/dut.sv start:12:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:prim_flop #(.ResetValue(0)) start:12:8 end:12:17:
@@ -596,6 +597,7 @@ Design name:unnamed:
         vpiFullName: prim_flop #(.ResetValue(0)).work
         vpiActual: Library name:work
       vpiCell: prim_flop
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:impl_generic start:16:7 end:16:19:
           vpiParent: Module name:prim_flop #(.ResetValue(0))
@@ -639,18 +641,27 @@ Design name:unnamed:
                 vpiActual: Parameter name:ResetValue
               vpiRhs Operation start:24:17 end:24:31:
                 vpiParent: ParamAssign
+                vpiTypespec RefTypespec:
+                  vpiParent: Operation
+                  vpiFullName: top.prim_flop
+                  vpiPathElem (1 items):
+                    Operation:
+                      vpiParent: RefTypespec
+                      vpiOpType: type (95)
+                      vpiOperand (1 items):
+                        Constant start:24:17 end:24:19:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: top.prim_flop
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "32"
+                          vpiValue: 32
+                  vpiActual: IntTypespec
                 vpiOpType: cast (81)
-                vpiOperand (2 items):
-                  Constant start:24:17 end:24:19:
-                    vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top.prim_flop
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "32"
-                    vpiValue: 32
+                vpiOperand (1 items):
                   RefObj name:LcStScrap start:24:21 end:24:30:
                     vpiParent: Operation
                     vpiName: LcStScrap
@@ -665,6 +676,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:state_regs start:25:5 end:25:15:
           vpiParent: Module name:top
@@ -749,11 +761,11 @@ COMMAND: ${HLC_DIR}/regression/ParamByValue/ParamByValue/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            16      17       1         0
-Operation                            2       1       0         1
+Operation                            3       2       0         1
 RefObj                              14      12       0         2
-RefTypespec                         25      24       0         1
+RefTypespec                         26      25       0         1
 ----------------------------------------------------------------
-Others                              56      56       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                   113     110       1         4
+                                   116     113       1         4
 ===================== END REDUCTION RESULT =====================

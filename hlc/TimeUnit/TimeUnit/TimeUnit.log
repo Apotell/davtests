@@ -34,6 +34,10 @@ COMMAND: -wd ../../../tests/TimeUnit top.v top1.v -writepp -d 0 -mt max -fileuni
 [ERR:CP5835] Colliding compilation unit name: "bottom1".
 [ERR:CP5835] Colliding compilation unit name: "bottom2".
 [ERR:CP5835] Colliding compilation unit name: "bottom3".
+[WRN:CP5851] $Source01/top.v:26:17: Failed to bind "capture".
+[WRN:CP5851] $Source01/top.v:27:13: Failed to bind "clk".
+[WRN:CP5851] $Source01/top.v:89:17: Failed to bind "capture".
+[WRN:CP5851] $Source01/top.v:90:13: Failed to bind "clk".
 [WRN:PA5506] $Source01/top.v:13:1: No timescale set for "bottom2".
 [WRN:PA5506] $Source01/top1.v:32:1: No timescale set for "splice1".
 [WRN:PA5506] $Source01/top1.v:122:1: No timescale set for "splice1".
@@ -41,8 +45,8 @@ COMMAND: -wd ../../../tests/TimeUnit top.v top1.v -writepp -d 0 -mt max -fileuni
 [WRN:PA5506] $Source01/top1.v:253:1: No timescale set for "splice1".
 [WRN:PA5506] $Source01/top1.v:277:1: No timescale set for "bottom2".
 [WRN:PA5506] $Source01/top1.v:2:1: No timescale set for "my_interface".
-[ERR:LN7701] Invalid name: id:114, type:RefObj, name:, relation:vpiLowConn.
 [ERR:LN7701] Invalid name: id:117, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:120, type:RefObj, name:, relation:vpiLowConn.
 [ERR:DB2029] $Source01/top.v:24:2: Unsupported typespec "ddr".
 [ERR:DB2029] $Source01/top.v:87:2: Unsupported typespec "ddr".
 ====== HLDB =======
@@ -69,6 +73,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Interface name:my_interface
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Interface name:my_interface
           vpiRange (1 items):
@@ -208,6 +213,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:bottom1
+          vpiScalar: true
         ModuleTypespec name:bottom2 start:6:2 end:6:9:
           vpiParent: Module name:bottom1
           vpiName Identifier name:bottom2 start:6:2 end:6:9:
@@ -228,6 +234,7 @@ Design name:unnamed:
         vpiFullName: bottom1.work
         vpiActual: Library name:work
       vpiCell: bottom1
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:a start:3:23 end:3:24:
           vpiParent: Module name:bottom1
@@ -376,6 +383,7 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:9:28 end:9:30:
               vpiParent: RefInstance name:my_interface
+              vpiConnByName: true
               vpiLowConn RefObj name:.*:
                 vpiParent: NamedArgument
                 vpiName: ".*"
@@ -387,6 +395,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:bottom2
+          vpiScalar: true
       vpiDefName: bottom2
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:13:8 end:13:15:
@@ -395,6 +404,7 @@ Design name:unnamed:
         vpiFullName: bottom2.work
         vpiActual: Library name:work
       vpiCell: bottom2
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:a start:13:23 end:13:24:
           vpiParent: Module name:bottom2
@@ -492,6 +502,7 @@ Design name:unnamed:
         vpiFullName: bottom3.work
         vpiActual: Library name:work
       vpiCell: bottom3
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:g_datapath:0:g_io start:24:6 end:24:31:
           vpiParent: Module name:bottom3
@@ -542,6 +553,7 @@ Design name:unnamed:
         vpiFullName: bottom4.work
         vpiActual: Library name:work
       vpiCell: bottom4
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:g_datapath:0:g_io start:87:6 end:87:31:
           vpiParent: Module name:bottom4
@@ -586,6 +598,7 @@ Design name:unnamed:
         vpiFullName: splice1.work
         vpiActual: Library name:work
       vpiCell: splice1
+      vpiAutomatic: true
     Module name:splice1 file:$Source01/top1.v start:122:1 end:123:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:splice1 start:122:8 end:122:15:
@@ -598,6 +611,7 @@ Design name:unnamed:
         vpiFullName: splice1.work
         vpiActual: Library name:work
       vpiCell: splice1
+      vpiAutomatic: true
     Module name:splice1 file:$Source01/top1.v start:194:1 end:195:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:splice1 start:194:8 end:194:15:
@@ -610,6 +624,7 @@ Design name:unnamed:
         vpiFullName: splice1.work
         vpiActual: Library name:work
       vpiCell: splice1
+      vpiAutomatic: true
     Module name:splice1 file:$Source01/top1.v start:253:1 end:254:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:splice1 start:253:8 end:253:15:
@@ -622,6 +637,7 @@ Design name:unnamed:
         vpiFullName: splice1.work
         vpiActual: Library name:work
       vpiCell: splice1
+      vpiAutomatic: true
     Module name:top file:$Source01/top1.v start:265:1 end:269:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:265:8 end:265:11:
@@ -642,6 +658,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:u1 start:268:9 end:268:11:
           vpiParent: Module name:top
@@ -665,6 +682,7 @@ Design name:unnamed:
         vpiFullName: bottom1.work
         vpiActual: Library name:work
       vpiCell: bottom1
+      vpiAutomatic: true
     Module name:bottom2 file:$Source01/top1.v start:277:1 end:280:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom2 start:277:8 end:277:15:
@@ -677,6 +695,7 @@ Design name:unnamed:
         vpiFullName: bottom2.work
         vpiActual: Library name:work
       vpiCell: bottom2
+      vpiAutomatic: true
     Module name:middle file:$Source01/top1.v start:283:1 end:290:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:middle start:283:8 end:283:14:
@@ -684,6 +703,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:middle
+          vpiScalar: true
         ModuleTypespec name:nested:
           vpiParent: Module name:middle
           vpiName Identifier name:nested start:287:10 end:287:16:
@@ -699,6 +719,7 @@ Design name:unnamed:
         vpiFullName: middle.work
         vpiActual: Library name:work
       vpiCell: middle
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:a start:286:8 end:286:9:
           vpiParent: Module name:middle
@@ -745,6 +766,7 @@ Design name:unnamed:
             vpiFullName: middle.nested.work
             vpiActual: Library name:work
           vpiCell: nested
+          vpiAutomatic: true
           vpiContAssign (1 items):
             ContAssign start:288:12 end:288:21:
               vpiParent: Module name:nested
@@ -781,6 +803,7 @@ Design name:unnamed:
         vpiFullName: bottom3.work
         vpiActual: Library name:work
       vpiCell: bottom3
+      vpiAutomatic: true
       vpiRefInstance (3 items):
         RefInstance name:u3 start:298:9 end:298:11:
           vpiParent: Module name:bottom3
@@ -900,7 +923,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 10
-[WARNING] : 7
+[WARNING] : 11
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -947,7 +970,7 @@ COMMAND: ${HLC_DIR}/regression/TimeUnit/TimeUnit/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1580    1580       0         0
+Others                            1596    1596       0         0
 ----------------------------------------------------------------
-                                  1580    1580       0         0
+                                  1596    1596       0         0
 ===================== END REDUCTION RESULT =====================

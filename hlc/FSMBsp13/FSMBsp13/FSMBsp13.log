@@ -6193,9 +6193,12 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: v
           vpiFullName: top.v
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:top
+        LogicTypespec:
+          vpiParent: Module name:top
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:top
           vpiRange (1 items):
@@ -6256,6 +6259,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:rd start:7:6 end:7:8:
           vpiParent: Module name:top
@@ -7051,9 +7055,11 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: top
             vpiStmt (3 items):
-              DelayControl start:73:3 end:73:5:
+              DelayControl start:73:3 end:73:6:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:73:4 end:73:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -7120,9 +7126,11 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: top
             vpiStmt (3 items):
-              DelayControl start:80:3 end:80:5:
+              DelayControl start:80:3 end:80:6:
                 vpiParent: Begin
                 vpiDelay: 3
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:80:4 end:80:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -7363,9 +7371,11 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: top
             vpiStmt (5 items):
-              DelayControl start:101:3 end:101:6:
+              DelayControl start:101:3 end:101:7:
                 vpiParent: Begin
                 vpiDelay: 11
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:101:4 end:101:6:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -7512,9 +7522,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              DelayControl start:111:3 end:111:6:
+              DelayControl start:111:3 end:111:7:
                 vpiParent: Begin
                 vpiDelay: 13
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:111:4 end:111:6:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -7563,12 +7575,12 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: top
             vpiStmt (2 items):
-              SysFuncCall name:$vtDumpvars start:121:3 end:121:24:
+              SysTaskCall name:$vtDumpvars start:121:3 end:121:24:
                 vpiParent: Begin
                 vpiName Identifier name:$vtDumpvars start:121:3 end:121:14:
                 vpiArgument (2 items):
                   NamedArgument start:121:15 end:121:16:
-                    vpiParent: SysFuncCall name:$vtDumpvars
+                    vpiParent: SysTaskCall name:$vtDumpvars
                     vpiHighConn Constant start:121:15 end:121:16:
                       vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
@@ -7580,7 +7592,7 @@ Design name:unnamed:
                       vpiDecompile: "1"
                       vpiValue: 1
                   NamedArgument start:121:17 end:121:23:
-                    vpiParent: SysFuncCall name:$vtDumpvars
+                    vpiParent: SysTaskCall name:$vtDumpvars
                     vpiHighConn RefObj name:top.F2 start:121:17 end:121:23:
                       vpiParent: NamedArgument
                       vpiName: top.F2
@@ -7787,6 +7799,9 @@ Design name:unnamed:
                         vpiSize: 32
                         vpiDecompile: "500"
                         vpiValue: 500
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$vtDumpvars:
+        SysTaskCall name:$finish:
       vpiRefInstance (3 items):
         RefInstance name:F1 start:11:6 end:11:8:
           vpiParent: Module name:top
@@ -7830,7 +7845,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: SlowRam
                 vpiFullName: top.F1.SlowRam
-                vpiActual: Variable name:SlowRam
+                vpiActual: Port name:SlowRam
               vpiHighConn RefObj name:SlowRam start:13:18 end:13:25:
                 vpiParent: NamedArgument
                 vpiName: SlowRam
@@ -7952,7 +7967,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: keys
                 vpiFullName: top.F3.keys
-                vpiActual: Variable name:keys
+                vpiActual: Port name:keys
               vpiHighConn RefObj name:keys start:23:15 end:23:19:
                 vpiParent: NamedArgument
                 vpiName: keys
@@ -7965,7 +7980,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: brake
                 vpiFullName: top.F3.brake
-                vpiActual: Variable name:brake
+                vpiActual: Port name:brake
               vpiHighConn RefObj name:brake start:24:16 end:24:21:
                 vpiParent: NamedArgument
                 vpiName: brake
@@ -7978,7 +7993,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: accelerate
                 vpiFullName: top.F3.accelerate
-                vpiActual: Variable name:accelerate
+                vpiActual: Port name:accelerate
               vpiHighConn RefObj name:accelerate start:25:21 end:25:31:
                 vpiParent: NamedArgument
                 vpiName: accelerate
@@ -8327,7 +8342,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "10"
             vpiValue: 10
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
+        LogicTypespec:
+          vpiParent: Module name:FSM1
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:FSM1
         LogicTypespec:
@@ -8390,6 +8408,7 @@ Design name:unnamed:
         vpiFullName: FSM1.work
         vpiActual: Library name:work
       vpiCell: FSM1
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:Clk start:2:7 end:2:10:
           vpiParent: Module name:FSM1
@@ -10981,9 +11000,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "10"
             vpiValue: 10
-      vpiTypespec (4 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:FSM2
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:FSM2
           vpiRange (1 items):
@@ -11062,6 +11082,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:FSM2
       vpiDefName: FSM2
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:8 end:1:12:
@@ -11070,6 +11092,7 @@ Design name:unnamed:
         vpiFullName: FSM2.work
         vpiActual: Library name:work
       vpiCell: FSM2
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:SwitchCtrl start:23:1 end:33:8:
           vpiParent: Module name:FSM2
@@ -12558,9 +12581,10 @@ Design name:unnamed:
             vpiSize: 4
             vpiDecompile: "4'b0110"
             vpiValue: "0110"
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:FSM3
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:FSM3
           vpiRange (1 items):
@@ -12587,6 +12611,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:FSM3
       vpiDefName: FSM3
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:8 end:1:12:
@@ -12595,6 +12621,7 @@ Design name:unnamed:
         vpiFullName: FSM3.work
         vpiActual: Library name:work
       vpiCell: FSM3
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clock start:2:7 end:2:12:
           vpiParent: Module name:FSM3
@@ -13388,7 +13415,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 RefObj                             588     548       0        40
 ----------------------------------------------------------------
-Others                            2525    2525       0         0
+Others                            2551    2551       0         0
 ----------------------------------------------------------------
-                                  3113    3073       0        40
+                                  3139    3099       0        40
 ===================== END REDUCTION RESULT =====================

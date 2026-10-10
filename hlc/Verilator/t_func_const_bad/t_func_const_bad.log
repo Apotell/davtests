@@ -840,6 +840,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -851,6 +852,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiTaskFunc (6 items):
         Function name:f_bad_output start:12:4 end:14:15:
           vpiParent: Module name:t
@@ -1286,7 +1288,11 @@ Design name:unnamed:
                 vpiForInitStmt (1 items):
                   Assignment start:51:20 end:51:23:
                     vpiParent: ForStmt
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:51:20 end:51:21:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: t.f_bad_fatal.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:51:22 end:51:23:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -1421,6 +1427,12 @@ Design name:unnamed:
             vpiParent: Function name:f_bad_fatal
             vpiFullName: t.f_bad_fatal
             vpiActual: IntegerTypespec
+      vpiSysTaskCall (5 items):
+        SysTaskCall name:$stop:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$display:
+        SysFuncCall name:$sformatf:
+        SysTaskCall name:$fatal:
   vpiTypespec (3 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1484,7 +1496,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_const_bad/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             221     221       0         0
+Others                             223     223       0         0
 ----------------------------------------------------------------
-                                   221     221       0         0
+                                   223     223       0         0
 ===================== END REDUCTION RESULT =====================

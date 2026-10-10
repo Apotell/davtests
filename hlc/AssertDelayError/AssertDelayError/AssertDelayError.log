@@ -981,6 +981,10 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/left_rotate_assertions.sv:1:1: Compile module "left_rotate_assertions".
 [INF:CP5804] $Source01/left_rotate.sv:1:1: Compile module "left_rotation".
 [INF:CP5804] $Source01/tb_left_rotate.sv:2:1: Compile module "tb_left_rotation".
+[WRN:CP5851] $Source01/left_rotate_assertions.sv:38:10: Failed to bind "clk".
+[WRN:CP5851] $Source01/left_rotate_assertions.sv:39:10: Failed to bind "reset".
+[WRN:CP5851] $Source01/left_rotate_assertions.sv:40:12: Failed to bind "in_data".
+[WRN:CP5851] $Source01/left_rotate_assertions.sv:42:12: Failed to bind "out_data".
 [WRN:PA5506] $Source01/left_rotate_assertions.sv:1:1: No timescale set for "left_rotate_assertions".
 [WRN:PA5506] $Source01/left_rotate.sv:1:1: No timescale set for "left_rotation".
 [WRN:PA5506] $Source01/tb_left_rotate.sv:2:1: No timescale set for "tb_left_rotation".
@@ -1205,6 +1209,8 @@ Design name:unnamed:
         Assert start:21:21 end:21:55:
           vpiParent: Module name:left_rotate_assertions
           vpiLabel Identifier name:a_valid_rotation start:21:3 end:21:19:
+          vpiStmt NullStmt:
+            vpiParent: Assert
           vpiProperty PropertySpec start:21:37 end:21:53:
             vpiParent: Assert
             vpiPropertyExpr PropertyInst name:p_valid_rotation start:21:37 end:21:53:
@@ -1214,6 +1220,8 @@ Design name:unnamed:
         Assert start:27:21 end:27:55:
           vpiParent: Module name:left_rotate_assertions
           vpiLabel Identifier name:a_rotation_range start:27:3 end:27:19:
+          vpiStmt NullStmt:
+            vpiParent: Assert
           vpiProperty PropertySpec start:27:37 end:27:53:
             vpiParent: Assert
             vpiPropertyExpr PropertyInst name:p_rotation_range start:27:37 end:27:53:
@@ -1223,6 +1231,8 @@ Design name:unnamed:
         Assert start:33:18 end:33:49:
           vpiParent: Module name:left_rotate_assertions
           vpiLabel Identifier name:a_no_rotation start:33:3 end:33:16:
+          vpiStmt NullStmt:
+            vpiParent: Assert
           vpiProperty PropertySpec start:33:34 end:33:47:
             vpiParent: Assert
             vpiPropertyExpr PropertyInst name:p_no_rotation start:33:34 end:33:47:
@@ -1232,6 +1242,7 @@ Design name:unnamed:
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:left_rotate_assertions
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:left_rotate_assertions
           vpiRange (1 items):
@@ -1330,6 +1341,7 @@ Design name:unnamed:
         vpiFullName: left_rotate_assertions.work
         vpiActual: Library name:work
       vpiCell: left_rotate_assertions
+      vpiAutomatic: true
       vpiNet (5 items):
         Net name:clk start:2:11 end:2:14:
           vpiParent: Module name:left_rotate_assertions
@@ -1449,7 +1461,7 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: left_rotate_assertions
             vpiStmt (2 items):
-              EventControl start:11:5 end:11:19:
+              EventControl start:11:5 end:11:20:
                 vpiParent: Begin
                 vpiCondition Operation start:11:7 end:11:18:
                   vpiParent: EventControl
@@ -1460,6 +1472,8 @@ Design name:unnamed:
                       vpiName: clk
                       vpiFullName: left_rotate_assertions.clk
                       vpiActual: Net name:clk
+                vpiStmt NullStmt:
+                  vpiParent: EventControl
               IfStmt start:12:5 end:14:8:
                 vpiParent: Begin
                 vpiCondition Operation start:12:9 end:12:15:
@@ -1496,6 +1510,8 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "0"
                             vpiValue: 0
+                      vpiStmt NullStmt:
+                        vpiParent: ImmediateAssert
     Module name:left_rotation file:$Source01/left_rotate.sv start:1:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:left_rotation start:1:8 end:1:21:
@@ -1512,6 +1528,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:left_rotation
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:left_rotation
           vpiRange (1 items):
@@ -1572,6 +1589,7 @@ Design name:unnamed:
         vpiFullName: left_rotation.work
         vpiActual: Library name:work
       vpiCell: left_rotation
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:2:16 end:2:19:
           vpiParent: Module name:left_rotation
@@ -1894,6 +1912,7 @@ Design name:unnamed:
         vpiFullName: tb_left_rotation.work
         vpiActual: Library name:work
       vpiCell: tb_left_rotation
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:out_data start:5:16 end:5:24:
           vpiParent: Module name:tb_left_rotation
@@ -2034,9 +2053,11 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "10"
                   vpiValue: 10
-              DelayControl start:27:9 end:27:12:
+              DelayControl start:27:9 end:27:13:
                 vpiParent: Begin
                 vpiDelay: 10
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:27:10 end:27:12:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -2128,9 +2149,11 @@ Design name:unnamed:
                             vpiSize: 8
                             vpiDecompile: "8'b11111111"
                             vpiValue: "11111111"
-                    DelayControl start:36:13 end:36:16:
+                    DelayControl start:36:13 end:36:17:
                       vpiParent: Begin
                       vpiDelay: 10
+                      vpiStmt NullStmt:
+                        vpiParent: DelayControl
                       vpiDelay Constant start:36:14 end:36:16:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
@@ -2207,6 +2230,11 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:44:9 end:44:16:
                 vpiIsProperty: true
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$dumpfile:
+        SysTaskCall name:$dumpvars:
+        SysFuncCall name:$random:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:left_rotation_inst start:8:19 end:8:37:
           vpiParent: Module name:tb_left_rotation
@@ -2224,7 +2252,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: tb_left_rotation.left_rotation_inst.clk
-                vpiActual: Variable name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:9:14 end:9:17:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -2237,7 +2265,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: reset
                 vpiFullName: tb_left_rotation.left_rotation_inst.reset
-                vpiActual: Variable name:reset
+                vpiActual: Port name:reset
               vpiHighConn RefObj name:reset start:10:16 end:10:21:
                 vpiParent: NamedArgument
                 vpiName: reset
@@ -2250,7 +2278,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: in_data
                 vpiFullName: tb_left_rotation.left_rotation_inst.in_data
-                vpiActual: Variable name:in_data
+                vpiActual: Port name:in_data
               vpiHighConn RefObj name:in_data start:11:18 end:11:25:
                 vpiParent: NamedArgument
                 vpiName: in_data
@@ -2263,7 +2291,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: out_data
                 vpiFullName: tb_left_rotation.left_rotation_inst.out_data
-                vpiActual: Net name:out_data
+                vpiActual: Port name:out_data
               vpiHighConn RefObj name:out_data start:12:19 end:12:27:
                 vpiParent: NamedArgument
                 vpiName: out_data
@@ -2378,7 +2406,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2428,7 +2456,7 @@ COMMAND: ${HLC_DIR}/regression/AssertDelayError/AssertDelayError/design.hldb ${H
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             343     343       0         0
+Others                             351     351       0         0
 ----------------------------------------------------------------
-                                   343     343       0         0
+                                   351     351       0         0
 ===================== END REDUCTION RESULT =====================

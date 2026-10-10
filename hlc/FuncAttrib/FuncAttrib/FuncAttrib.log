@@ -291,6 +291,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:foo
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:foo
           vpiRange (1 items):
@@ -377,6 +378,7 @@ Design name:unnamed:
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clk start:10:13 end:10:16:
           vpiParent: Module name:foo
@@ -527,6 +529,20 @@ Design name:unnamed:
                   vpiActual: Variable name:out
                 vpiRhs FuncCall name:do_add start:20:5 end:20:52:
                   vpiParent: Assignment
+                  vpiAttribute (1 items):
+                    Attribute name:combinational_adder start:20:15 end:20:34:
+                      vpiParent: FuncCall name:do_add
+                      vpiName: combinational_adder
+                      vpiValue Constant start:20:15 end:20:34:
+                        vpiParent: Attribute name:combinational_adder
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: foo.combinational_adder
+                          vpiActual: IntTypespec
+                        vpiConstType: int (7)
+                        vpiSize: 32
+                        vpiDecompile: "1"
+                        vpiValue: 1
                   vpiName Identifier name:do_add start:20:5 end:20:11:
                   vpiTaskFunc: Function name:do_add
                   vpiArgument (2 items):
@@ -537,10 +553,6 @@ Design name:unnamed:
                         vpiName: inp_a
                         vpiFullName: foo.inp_a
                         vpiActual: Net name:inp_a
-                      vpiAttribute (1 items):
-                        Attribute name:combinational_adder start:20:15 end:20:34:
-                          vpiParent: NamedArgument
-                          vpiName: combinational_adder
                     NamedArgument start:20:46 end:20:51:
                       vpiParent: FuncCall name:do_add
                       vpiHighConn RefObj name:inp_b start:20:46 end:20:51:
@@ -548,12 +560,8 @@ Design name:unnamed:
                         vpiName: inp_b
                         vpiFullName: foo.inp_b
                         vpiActual: Net name:inp_b
-                      vpiAttribute (1 items):
-                        Attribute name:combinational_adder start:20:15 end:20:34:
-                          vpiParent: NamedArgument
-                          vpiName: combinational_adder
           vpiAlwaysType: always (1)
-  vpiTypespec (2 items):
+  vpiTypespec (3 items):
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
@@ -562,6 +570,8 @@ Design name:unnamed:
       vpiName Identifier name:foo start:9:8 end:9:11:
       vpiDefName: foo
       vpiModule: Module name:foo
+    IntTypespec:
+      vpiParent: Design name:unnamed
   vpiTaskFunc (1 items):
     Function name:do_add start:1:1 end:7:12:
       vpiParent: Design name:unnamed
@@ -589,6 +599,7 @@ Design name:unnamed:
         IODecl name:inp_a start:2:13 end:2:18:
           vpiParent: Function name:do_add
           vpiName: inp_a
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:2:7 end:2:12:
             vpiParent: IODecl name:inp_a
             vpiFullName: do_add.inp_a
@@ -596,6 +607,7 @@ Design name:unnamed:
         IODecl name:inp_b start:3:13 end:3:18:
           vpiParent: Function name:do_add
           vpiName: inp_b
+          vpiDirection: input (1)
           vpiTypespec RefTypespec start:3:7 end:3:12:
             vpiParent: IODecl name:inp_b
             vpiFullName: do_add.inp_b
@@ -761,7 +773,7 @@ COMMAND: ${HLC_DIR}/regression/FuncAttrib/FuncAttrib/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             108     108       0         0
+Others                             111     111       0         0
 ----------------------------------------------------------------
-                                   108     108       0         0
+                                   111     111       0         0
 ===================== END REDUCTION RESULT =====================

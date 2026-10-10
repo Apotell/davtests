@@ -364,6 +364,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:t
           vpiArrayType: static (1)
@@ -441,6 +442,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:12:10 end:12:13:
           vpiParent: Module name:t
@@ -503,7 +505,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.udut.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:16:27 end:16:30:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -516,7 +518,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: foo
                 vpiFullName: t.udut.foo
-                vpiActual: Variable name:foo
+                vpiActual: Port name:foo
               vpiHighConn Operation start:17:27 end:17:33:
                 vpiParent: NamedArgument
                 vpiOpType: subtract (11)
@@ -575,6 +577,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:dut #(.W(1))
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:dut #(.W(1))
           vpiArrayType: static (1)
@@ -622,6 +625,7 @@ Design name:unnamed:
         vpiFullName: dut #(.W(1)).work
         vpiActual: Library name:work
       vpiCell: dut
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:22:18 end:22:21:
           vpiParent: Module name:dut #(.W(1))
@@ -677,15 +681,14 @@ Design name:unnamed:
           vpiStmt GenFor start:27:8 end:29:11:
             vpiParent: GenRegion
             vpiFullName: dut #(.W(1))
-            vpiVariable (1 items):
-              Variable name:i start:27:13 end:27:14:
-                vpiParent: GenFor
-                vpiName: i
-                vpiFullName: dut #(.W(1)).i
             vpiForInitStmt (1 items):
               Assignment start:27:13 end:27:18:
                 vpiParent: GenFor
-                vpiLhs: Variable name:i
+                vpiLhs RefObj name:i start:27:13 end:27:14:
+                  vpiParent: Assignment
+                  vpiName: i
+                  vpiFullName: dut #(.W(1)).i
+                  vpiActual: Variable name:i
                 vpiRhs Constant start:27:17 end:27:18:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -746,7 +749,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: clk
                         vpiFullName: dut #(.W(1)).ua.clk
-                        vpiActual: Net name:clk
+                        vpiActual: Port name:clk
                       vpiHighConn RefObj name:clk start:28:24 end:28:27:
                         vpiParent: NamedArgument
                         vpiName: clk
@@ -759,7 +762,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: foo
                         vpiFullName: dut #(.W(1)).ua.foo
-                        vpiActual: Net name:foo
+                        vpiActual: Port name:foo
                       vpiHighConn BitSelect name:foo[i] start:28:35 end:28:41:
                         vpiParent: NamedArgument
                         vpiName: foo[i]
@@ -786,6 +789,7 @@ Design name:unnamed:
         vpiFullName: suba.work
         vpiActual: Library name:work
       vpiCell: suba
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:34:16 end:34:19:
           vpiParent: Module name:suba
@@ -871,6 +875,9 @@ Design name:unnamed:
                   vpiName Identifier name:$finish start:39:7 end:39:14:
                   vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
   vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -945,10 +952,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            11      10       2         3
 Operation                            6       4       0         2
-RefObj                              25      24       0         1
+RefObj                              26      25       0         1
 RefTypespec                         27      26       2         3
 ----------------------------------------------------------------
 Others                              64      64       0         0
 ----------------------------------------------------------------
-                                   133     128       4         9
+                                   134     129       4         9
 ===================== END REDUCTION RESULT =====================

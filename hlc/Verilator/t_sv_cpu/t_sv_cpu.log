@@ -540,7 +540,10 @@ Design name:unnamed:
             vpiActual: IntegerTypespec
           vpiName: clk_count
           vpiFullName: t.clk_count
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
+        LogicTypespec:
+          vpiParent: Module name:t
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:t
         IntegerTypespec:
@@ -559,6 +562,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:16:10 end:16:13:
           vpiParent: Module name:t
@@ -789,13 +793,14 @@ Design name:unnamed:
                             vpiFullName: t.clk_count
                             vpiActual: Variable name:clk_count
           vpiAlwaysType: always (1)
-      vpiSysTaskCall (1 items):
-        SysTaskCall name:write start:78:7 end:78:40:
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$finish:
+        SysTaskCall name:$write start:78:7 end:78:40:
           vpiParent: Module name:t
-          vpiName Identifier name:write start:78:8 end:78:13:
+          vpiName Identifier name:$write start:78:8 end:78:13:
           vpiArgument (1 items):
             NamedArgument start:78:14 end:78:38:
-              vpiParent: SysTaskCall name:write
+              vpiParent: SysTaskCall name:$write
               vpiHighConn Constant start:78:14 end:78:38:
                 vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
@@ -823,7 +828,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.testbench_i.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:31:14 end:31:17:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -836,7 +841,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: t.testbench_i.rst
-                vpiActual: Variable name:rst
+                vpiActual: Port name:rst
               vpiHighConn RefObj name:rst start:32:14 end:32:17:
                 vpiParent: NamedArgument
                 vpiName: rst
@@ -877,6 +882,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:testbench
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:testbench
           vpiArrayType: static (1)
@@ -912,6 +918,7 @@ Design name:unnamed:
         vpiFullName: testbench.work
         vpiActual: Library name:work
       vpiCell: testbench
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:90:11 end:90:14:
           vpiParent: Module name:testbench
@@ -969,6 +976,8 @@ Design name:unnamed:
             vpiParent: Port name:rst
             vpiFullName: testbench.rst
             vpiActual: LogicTypespec
+      vpiSysTaskCall (1 items):
+        SysFuncCall name:$size:
       vpiRefInstance (1 items):
         RefInstance name:i_chip start:132:6 end:132:12:
           vpiParent: Module name:testbench
@@ -986,7 +995,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: pad
                 vpiFullName: testbench.i_chip.pad
-                vpiActual: Net name:pad
               vpiHighConn PartSelect name:pad[NUMPADS:1] start:136:11 end:136:25:
                 vpiParent: NamedArgument
                 vpiName: pad[NUMPADS:1]
@@ -1020,7 +1028,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: testbench.i_chip.clk
-                vpiActual: Net name:clk
               vpiHighConn RefObj name:clk start:138:11 end:138:14:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1033,7 +1040,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rst
                 vpiFullName: testbench.i_chip.rst
-                vpiActual: Net name:rst
               vpiHighConn RefObj name:rst start:139:11 end:139:14:
                 vpiParent: NamedArgument
                 vpiName: rst
@@ -1107,7 +1113,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu/design.hldb ${HLC_DIR}/regress
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             140     140       0         0
+Others                             142     142       0         0
 ----------------------------------------------------------------
-                                   140     140       0         0
+                                   142     142       0         0
 ===================== END REDUCTION RESULT =====================

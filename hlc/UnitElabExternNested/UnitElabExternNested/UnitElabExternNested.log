@@ -23,6 +23,7 @@ COMMAND: -wd ../../../tests/UnitElabExternNested top.v middle.v -writepp -fileun
 [INF:CP5804] $Source01/middle.v:3:1: Compile module "a".
 [INF:CP5804] $Source01/middle.v:18:1: Compile module "top".
 [WRN:CP5851] $Source01/middle.v:7:1: Failed to bind "type".
+[WRN:CP5851] $Source01/middle.v:9:1: Failed to bind "logic".
 [WRN:CP5851] $Source01/middle.v:15:2: Failed to bind "TP".
 [WRN:CP5851] $Source01/middle.v:15:2: Failed to bind "TP".
 [WRN:CP5851] $Source01/middle.v:21:1: Failed to bind "logic".
@@ -53,6 +54,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:dff_nested
+          vpiScalar: true
         ModuleTypespec name:ff1:
           vpiParent: Module name:dff_nested
           vpiName Identifier name:ff1 start:10:2 end:10:5:
@@ -76,6 +78,7 @@ Design name:unnamed:
         vpiFullName: dff_nested.work
         vpiActual: Library name:work
       vpiCell: dff_nested
+      vpiAutomatic: true
       vpiNet (9 items):
         Net name:d start:4:2 end:4:3:
           vpiParent: Module name:dff_nested
@@ -253,6 +256,7 @@ Design name:unnamed:
             vpiFullName: dff_nested.ff1.work
             vpiActual: Library name:work
           vpiCell: ff1
+          vpiAutomatic: true
           vpiPrimitive (2 items):
             Gate name:g1b start:12:2 end:12:5:
               vpiParent: Module name:ff1
@@ -345,6 +349,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Module name:ff2
+              vpiScalar: true
           vpiDefName: ff2
           vpiDefNetType: wire (1)
           vpiLibrary RefObj name:work start:19:2 end:19:5:
@@ -353,6 +358,7 @@ Design name:unnamed:
             vpiFullName: dff_nested.ff2.work
             vpiActual: Library name:work
           vpiCell: ff2
+          vpiAutomatic: true
           vpiNet (1 items):
             Net name:q2 start:21:2 end:21:4:
               vpiParent: Module name:ff2
@@ -461,6 +467,7 @@ Design name:unnamed:
             vpiFullName: dff_nested.ff3.work
             vpiActual: Library name:work
           vpiCell: ff3
+          vpiAutomatic: true
           vpiPrimitive (2 items):
             Gate name:g3a start:31:2 end:31:5:
               vpiParent: Module name:ff3
@@ -583,6 +590,7 @@ Design name:unnamed:
         vpiFullName: m.work
         vpiActual: Library name:work
       vpiCell: m
+      vpiAutomatic: true
       vpiPort (4 items):
         Port name:a start:2:18 end:2:19:
           vpiParent: Module name:m
@@ -688,6 +696,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:a #(.size(8), .TP(logic[7:0]))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:a #(.size(8), .TP(logic[7:0]))
           vpiRange (1 items):
@@ -717,6 +726,7 @@ Design name:unnamed:
         vpiFullName: a #(.size(8), .TP(logic[7:0])).work
         vpiActual: Library name:work
       vpiCell: a
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:a start:13:11 end:13:12:
           vpiParent: Module name:a #(.size(8), .TP(logic[7:0]))
@@ -827,6 +837,7 @@ Design name:unnamed:
             vpiFullName: top.logic
         LogicTypespec:
           vpiParent: Module name:top
+          vpiScalar: true
         ModuleTypespec name:m start:26:1 end:26:2:
           vpiParent: Module name:top
           vpiName Identifier name:m start:26:1 end:26:2:
@@ -845,6 +856,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:a start:20:7 end:20:8:
           vpiParent: Module name:top
@@ -888,6 +900,7 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:26:7 end:26:9:
               vpiParent: RefInstance name:mm
+              vpiConnByName: true
               vpiLowConn RefObj name:.*:
                 vpiParent: NamedArgument
                 vpiName: ".*"
@@ -903,6 +916,7 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:27:7 end:27:9:
               vpiParent: RefInstance name:aa
+              vpiConnByName: true
               vpiLowConn RefObj name:.*:
                 vpiParent: NamedArgument
                 vpiName: ".*"
@@ -951,7 +965,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 11
+[WARNING] : 12
 [   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -998,7 +1012,7 @@ COMMAND: ${HLC_DIR}/regression/UnitElabExternNested/UnitElabExternNested/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1583    1583       0         0
+Others                            1599    1599       0         0
 ----------------------------------------------------------------
-                                  1583    1583       0         0
+                                  1599    1599       0         0
 ===================== END REDUCTION RESULT =====================

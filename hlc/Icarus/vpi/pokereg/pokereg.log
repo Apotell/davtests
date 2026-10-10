@@ -690,6 +690,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiTaskFunc (2 items):
         Task name:f_copy start:25:5 end:34:12:
           vpiParent: Module name:test
@@ -1158,9 +1159,11 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: test
             vpiStmt (8 items):
-              DelayControl start:54:2 end:54:4:
+              DelayControl start:54:2 end:54:5:
                 vpiParent: Begin
                 vpiDelay: 0
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:54:3 end:54:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1171,13 +1174,15 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "0"
                   vpiValue: 0
-              SysFuncCall name:$regpoke start:55:2 end:55:10:
+              SysTaskCall name:$regpoke start:55:2 end:55:10:
                 vpiParent: Begin
                 vpiName Identifier name:$regpoke start:55:2 end:55:10:
                 vpiIsProperty: true
-              DelayControl start:56:2 end:56:5:
+              DelayControl start:56:2 end:56:6:
                 vpiParent: Begin
                 vpiDelay: 10
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:56:3 end:56:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1193,9 +1198,11 @@ Design name:unnamed:
                 vpiName: f_copy
                 vpiFullName: test.f_copy
                 vpiActual: Task name:f_copy
-              DelayControl start:58:2 end:58:5:
+              DelayControl start:58:2 end:58:6:
                 vpiParent: Begin
                 vpiDelay: 10
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:58:3 end:58:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1206,13 +1213,15 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "10"
                   vpiValue: 10
-              SysFuncCall name:$regpeek start:59:2 end:59:10:
+              SysTaskCall name:$regpeek start:59:2 end:59:10:
                 vpiParent: Begin
                 vpiName Identifier name:$regpeek start:59:2 end:59:10:
                 vpiIsProperty: true
-              DelayControl start:60:2 end:60:5:
+              DelayControl start:60:2 end:60:6:
                 vpiParent: Begin
                 vpiDelay: 10
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:60:3 end:60:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1228,6 +1237,15 @@ Design name:unnamed:
                 vpiName: f_dump
                 vpiFullName: test.f_dump
                 vpiActual: Task name:f_dump
+      vpiSysTaskCall (8 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
+        SysTaskCall name:$regpoke:
+        SysTaskCall name:$regpeek:
   vpiTypespec (3 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -1291,7 +1309,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/vpi/pokereg/design.hldb ${HLC_DIR}/regress
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             182     182       0         0
+Others                             187     187       0         0
 ----------------------------------------------------------------
-                                   182     182       0         0
+                                   187     187       0         0
 ===================== END REDUCTION RESULT =====================

@@ -259,6 +259,8 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_gen8.v:21:1: Compile module "t".
 [INF:CP5836] $Source01/t_interface_gen8.v:28:66: Compile generate block "TestIf".
 [WRN:CP5851] $Source01/t_interface_gen8.v:11:4: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_interface_gen8.v:24:12: Failed to bind "PARAM".
+[WRN:CP5851] $Source01/t_interface_gen8.v:24:12: Failed to bind "PARAM".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/t_interface_gen8.v:24:4: Unsupported typespec "".
 ====== HLDB =======
@@ -313,6 +315,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:intf #(.PARAM(0))
+          vpiScalar: true
       vpiDefName: intf
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:8:11 end:8:15:
@@ -360,6 +363,7 @@ Design name:unnamed:
         vpiFullName: t1.work
         vpiActual: Library name:work
       vpiCell: t1
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:mod_intf start:15:16 end:15:24:
           vpiParent: Module name:t1
@@ -427,6 +431,8 @@ Design name:unnamed:
                           vpiFullName: t1.val
                           vpiActual: Variable name:val
                       vpiActual: Variable name:val
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$display:
     Module name:t file:$Source01/t_interface_gen8.v start:21:1 end:55:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:21:8 end:21:9:
@@ -479,6 +485,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:51:4 end:54:7:
           vpiParent: Module name:t
@@ -506,6 +513,9 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:53:7 end:53:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:my_intf start:24:22 end:24:29:
           vpiParent: Module name:t
@@ -530,15 +540,14 @@ Design name:unnamed:
               GenFor start:28:7 end:32:10:
                 vpiParent: Begin
                 vpiFullName: t
-                vpiVariable (1 items):
-                  Variable name:the_genvar start:28:12 end:28:22:
-                    vpiParent: GenFor
-                    vpiName: the_genvar
-                    vpiFullName: t.the_genvar
                 vpiForInitStmt (1 items):
                   Assignment start:28:12 end:28:26:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:the_genvar
+                    vpiLhs RefObj name:the_genvar start:28:12 end:28:22:
+                      vpiParent: Assignment
+                      vpiName: the_genvar
+                      vpiFullName: t.the_genvar
+                      vpiActual: Variable name:the_genvar
                     vpiRhs Constant start:28:25 end:28:26:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -640,7 +649,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 2
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -684,7 +693,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_gen8/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              95      95       0         0
+Others                              96      96       0         0
 ----------------------------------------------------------------
-                                    95      95       0         0
+                                    96      96       0         0
 ===================== END REDUCTION RESULT =====================

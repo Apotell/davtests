@@ -176,11 +176,13 @@ n<$Source01/dut.sv> u<161> t<Top_level_rule> c<1> l<1:1> el<17:1>
 AST_DEBUG_END
 [INF:CP5805] $Source01/dut.sv:1:1: Compile interface "Foo".
 [INF:CP5804] $Source01/dut.sv:9:1: Compile module "top".
-[WRN:CP5851] $Source01/dut.sv:13:24: Failed to bind "bar".
+[WRN:CP5851] $Source01/dut.sv:11:12: Failed to bind "MULTIPLIER".
+[WRN:CP5851] $Source01/dut.sv:11:12: Failed to bind "MULTIPLIER".
 [WRN:CP5851] $Source01/dut.sv:14:24: Failed to bind "bar".
 [WRN:PA5506] $Source01/dut.sv:9:1: No timescale set for "top".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "Foo".
 [ERR:DB2029] $Source01/dut.sv:11:5: Unsupported typespec "".
+[ERR:LN7705] $Source01/dut.sv:14:24: Null Actual: id:74, type:SubroutineCall, name:bar, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -224,6 +226,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:Foo
+          vpiScalar: true
       vpiDefName: Foo
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:11 end:1:14:
@@ -251,6 +254,7 @@ Design name:unnamed:
             IODecl name:x start:4:23 end:4:24:
               vpiParent: Function name:bar
               vpiName: x
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:4:15 end:4:22:
                 vpiParent: IODecl name:x
                 vpiFullName: Foo.bar.x
@@ -345,6 +349,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:12:5 end:15:8:
           vpiParent: Module name:top
@@ -368,22 +373,24 @@ Design name:unnamed:
                           vpiName: foo_1
                           vpiFullName: top.foo_1
                           vpiActual: RefInstance name:foo_1
-                        SubroutineCall name:bar start:13:24 end:13:30:
+                        MethodFuncCall name:bar start:13:24 end:13:30:
                           vpiParent: RefObj name:foo_1.bar(3)
                           vpiName Identifier name:bar start:13:24 end:13:27:
+                          vpiTaskFunc: Function name:bar
                           vpiArgument (1 items):
                             NamedArgument start:13:28 end:13:29:
-                              vpiParent: SubroutineCall name:bar
+                              vpiParent: MethodFuncCall name:bar
                               vpiHighConn Constant start:13:28 end:13:29:
                                 vpiParent: NamedArgument
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: top.foo_1.bar(3).bar
+                                  vpiFullName: top.foo_1.bar(3)
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
                                 vpiDecompile: "3"
                                 vpiValue: 3
+                      vpiActual: MethodFuncCall name:bar
               SysTaskCall name:$display start:14:9 end:14:31:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:14:9 end:14:17:
@@ -416,6 +423,9 @@ Design name:unnamed:
                                 vpiSize: 64
                                 vpiDecompile: "3"
                                 vpiValue: 3
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
       vpiRefInstance (2 items):
         RefInstance name:foo_1 start:10:9 end:10:14:
           vpiParent: Module name:top
@@ -453,8 +463,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 4
+[  ERROR] : 2
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -498,7 +508,7 @@ COMMAND: ${HLC_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              71      71       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                    71      71       0         0
+                                    72      72       0         0
 ===================== END REDUCTION RESULT =====================

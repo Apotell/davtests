@@ -353,9 +353,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface1_modport.v:14:1: Compile module "t".
 [INF:CP5804] $Source01/t_interface1_modport.v:39:1: Compile module "sub".
 [WRN:CP5811] $Source01/t_interface1_modport.v:48:20: Port "isub" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/t_interface1_modport.v:30:12: Failed to bind "value".
-[WRN:CP5851] $Source01/t_interface1_modport.v:31:8: Failed to bind "hidden_from_isub".
-[WRN:CP5851] $Source01/t_interface1_modport.v:32:12: Failed to bind "hidden_from_isub".
 [WRN:CP5851] $Source01/t_interface1_modport.v:48:8: Failed to bind "out_modport".
 [WRN:CP5851] $Source01/t_interface1_modport.v:54:7: Failed to bind "isub".
 [WRN:CP5851] $Source01/t_interface1_modport.v:54:12: Failed to bind "value".
@@ -439,6 +436,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -455,6 +453,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:19:10 end:19:13:
           vpiParent: Module name:t
@@ -568,6 +567,8 @@ Design name:unnamed:
                                   vpiParent: RefObj name:itop.value
                                   vpiName: value
                                   vpiFullName: t.value
+                                  vpiActual: Variable name:value
+                              vpiActual: Variable name:value
                             Constant start:30:21 end:30:22:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -599,6 +600,8 @@ Design name:unnamed:
                               vpiParent: RefObj name:itop.hidden_from_isub
                               vpiName: hidden_from_isub
                               vpiFullName: t.hidden_from_isub
+                              vpiActual: Variable name:hidden_from_isub
+                          vpiActual: Variable name:hidden_from_isub
                         vpiRhs Constant start:31:27 end:31:29:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -629,6 +632,8 @@ Design name:unnamed:
                                   vpiParent: RefObj name:itop.hidden_from_isub
                                   vpiName: hidden_from_isub
                                   vpiFullName: t.hidden_from_isub
+                                  vpiActual: Variable name:hidden_from_isub
+                              vpiActual: Variable name:hidden_from_isub
                             Constant start:32:32 end:32:34:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -664,6 +669,11 @@ Design name:unnamed:
                         vpiName Identifier name:$finish start:34:3 end:34:10:
                         vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (2 items):
         RefInstance name:itop start:22:8 end:22:12:
           vpiParent: Module name:t
@@ -729,6 +739,7 @@ Design name:unnamed:
         vpiFullName: sub.work
         vpiActual: Library name:work
       vpiCell: sub
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:i_value start:49:18 end:49:25:
           vpiParent: Module name:sub
@@ -836,7 +847,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 7
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -884,7 +895,7 @@ Operation                            5       3       0         2
 RefObj                              27      25       0         2
 RefTypespec                         19      19       2         2
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              61      61       0         0
 ----------------------------------------------------------------
-                                   119     115       4         8
+                                   120     116       4         8
 ===================== END REDUCTION RESULT =====================

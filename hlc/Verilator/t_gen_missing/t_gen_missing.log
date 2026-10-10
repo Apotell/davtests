@@ -396,6 +396,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
     Module name:foobar #(.FOO_START(0), .FOO_NUM(2), .FOO_TYPE(1)) file:$Source01/t_gen_missing.v start:18:1 end:47:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foobar #(.FOO_START(0), .FOO_NUM(2), .FOO_TYPE(1)) start:18:8 end:18:14:
@@ -480,6 +481,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:foobar #(.FOO_START(0), .FOO_NUM(2), .FOO_TYPE(1))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:foobar #(.FOO_START(0), .FOO_NUM(2), .FOO_TYPE(1))
           vpiRange (1 items):
@@ -558,6 +560,7 @@ Design name:unnamed:
         vpiFullName: foobar #(.FOO_START(0), .FOO_NUM(2), .FOO_TYPE(1)).work
         vpiActual: Library name:work
       vpiCell: foobar
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:foo start:25:29 end:25:32:
           vpiParent: Module name:foobar #(.FOO_START(0), .FOO_NUM(2), .FOO_TYPE(1))
@@ -621,15 +624,14 @@ Design name:unnamed:
               GenFor start:32:10 end:44:15:
                 vpiParent: Begin name:g
                 vpiFullName: foobar #(.FOO_START(0), .FOO_NUM(2), .FOO_TYPE(1)).g
-                vpiVariable (1 items):
-                  Variable name:j start:32:15 end:32:16:
-                    vpiParent: GenFor
-                    vpiName: j
-                    vpiFullName: foobar #(.FOO_START(0), .FOO_NUM(2), .FOO_TYPE(1)).g.j
                 vpiForInitStmt (1 items):
                   Assignment start:32:15 end:32:28:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:j
+                    vpiLhs RefObj name:j start:32:15 end:32:16:
+                      vpiParent: Assignment
+                      vpiName: j
+                      vpiFullName: foobar #(.FOO_START(0), .FOO_NUM(2), .FOO_TYPE(1)).g.j
+                      vpiActual: Variable name:j
                     vpiRhs RefObj name:FOO_START start:32:19 end:32:28:
                       vpiParent: Assignment
                       vpiName: FOO_START
@@ -864,6 +866,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:foo0
+          vpiScalar: true
       vpiDefName: foo0
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:51:8 end:51:12:
@@ -872,6 +875,7 @@ Design name:unnamed:
         vpiFullName: foo0.work
         vpiActual: Library name:work
       vpiCell: foo0
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:x start:51:24 end:51:25:
           vpiParent: Module name:foo0
@@ -962,6 +966,9 @@ Design name:unnamed:
                 vpiName: x
                 vpiFullName: foo0.x
                 vpiActual: Net name:x
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
   vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1036,10 +1043,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            11      12       5         4
 Operation                            8       3       0         5
-RefObj                              34      28       0         6
+RefObj                              35      29       0         6
 RefTypespec                         24      25       5         4
 ----------------------------------------------------------------
 Others                              75      75       0         0
 ----------------------------------------------------------------
-                                   152     143      10        19
+                                   153     144      10        19
 ===================== END REDUCTION RESULT =====================

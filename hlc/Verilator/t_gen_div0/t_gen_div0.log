@@ -361,6 +361,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:15:4 end:18:7:
           vpiParent: Module name:t
@@ -388,6 +389,9 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:17:7 end:17:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:u_test_inst start:13:4 end:13:15:
           vpiParent: Module name:t
@@ -489,6 +493,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:Test
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:Test
           vpiRange (1 items):
@@ -567,6 +572,7 @@ Design name:unnamed:
         vpiFullName: Test.work
         vpiActual: Library name:work
       vpiCell: Test
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:i start:29:23 end:29:24:
           vpiParent: Module name:Test
@@ -595,15 +601,14 @@ Design name:unnamed:
           vpiStmt GenFor start:34:7 end:36:12:
             vpiParent: GenRegion
             vpiFullName: Test
-            vpiVariable (1 items):
-              Variable name:g start:34:12 end:34:13:
-                vpiParent: GenFor
-                vpiName: g
-                vpiFullName: Test.g
             vpiForInitStmt (1 items):
               Assignment start:34:12 end:34:17:
                 vpiParent: GenFor
-                vpiLhs: Variable name:g
+                vpiLhs RefObj name:g start:34:12 end:34:13:
+                  vpiParent: Assignment
+                  vpiName: g
+                  vpiFullName: Test.g
+                  vpiActual: Variable name:g
                 vpiRhs Constant start:34:16 end:34:17:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -776,7 +781,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_gen_div0/design.hldb ${HLC_DIR}/regre
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             105     105       0         0
+Others                             106     106       0         0
 ----------------------------------------------------------------
-                                   105     105       0         0
+                                   106     106       0         0
 ===================== END REDUCTION RESULT =====================

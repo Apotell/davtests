@@ -443,6 +443,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:O_out start:10:17 end:10:22:
           vpiParent: Module name:t
@@ -506,6 +507,10 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:20:7 end:20:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:test start:13:9 end:13:13:
           vpiParent: Module name:t
@@ -523,7 +528,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: O_out
                 vpiFullName: t.test.O_out
-                vpiActual: Net name:O_out
+                vpiActual: Port name:O_out
               vpiHighConn PartSelect name:O_out[31:0] start:15:18 end:15:29:
                 vpiParent: NamedArgument
                 vpiName: O_out[31:0]
@@ -638,6 +643,7 @@ Design name:unnamed:
         vpiFullName: Test.work
         vpiActual: Library name:work
       vpiCell: Test
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:O_out start:27:18 end:27:23:
           vpiParent: Module name:Test
@@ -679,7 +685,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: O_out
                 vpiFullName: Test.U_test.O_out
-                vpiActual: Net name:O_out
+                vpiActual: Port name:O_out
               vpiHighConn RefObj name:O_out start:36:9 end:36:14:
                 vpiParent: NamedArgument
                 vpiName: O_out
@@ -778,6 +784,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
           vpiRange (1 items):
@@ -812,6 +819,7 @@ Design name:unnamed:
         vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:ceiling start:51:4 end:54:15:
           vpiParent: Module name:test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR)))
@@ -839,6 +847,7 @@ Design name:unnamed:
             IODecl name:x start:52:20 end:52:21:
               vpiParent: Function name:ceiling
               vpiName: x
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:52:13 end:52:19:
                 vpiParent: IODecl name:x
                 vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.x
@@ -846,6 +855,7 @@ Design name:unnamed:
             IODecl name:y start:52:23 end:52:24:
               vpiParent: Function name:ceiling
               vpiName: y
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:52:13 end:52:19:
                 vpiParent: IODecl name:y
                 vpiFullName: test #(.pFOO(7), .pBAR(3), .pBAZ(ceiling(pFOO, pBAR))).ceiling.y
@@ -1096,7 +1106,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_ceil/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             161     161       0         0
+Others                             162     162       0         0
 ----------------------------------------------------------------
-                                   161     161       0         0
+                                   162     162       0         0
 ===================== END REDUCTION RESULT =====================

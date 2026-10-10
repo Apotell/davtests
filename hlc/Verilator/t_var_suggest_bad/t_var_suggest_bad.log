@@ -86,6 +86,8 @@ n<$Source01/t_var_suggest_bad.v> u<72> t<Top_level_rule> c<1> l<6:1> el<16:1>
         n<> u<68> t<ENDMODULE> p<69> l<15:1> el<15:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_var_suggest_bad.v:6:1: Compile module "t".
+[WRN:CP5851] $Source01/t_var_suggest_bad.v:12:11: Failed to bind "foobat".
+[WRN:CP5851] $Source01/t_var_suggest_bad.v:13:7: Failed to bind "boobat".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -120,6 +122,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:boobar start:9:4 end:9:24:
           vpiParent: Module name:t
@@ -146,6 +149,8 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName: boobat
                 vpiFullName: t.boobat
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$stop:
   vpiTypespec (1 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -160,7 +165,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -204,7 +209,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_var_suggest_bad/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              20      20       0         0
+Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    20      20       0         0
+                                    21      21       0         0
 ===================== END REDUCTION RESULT =====================

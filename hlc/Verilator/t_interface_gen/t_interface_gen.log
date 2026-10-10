@@ -681,6 +681,8 @@ AST_DEBUG_END
 [ERR:DB2038] $Source01/t_interface_gen.v:80:9: 'vpiStmt' property value has invalid objects.
 [ERR:DB2029] $Source01/t_interface_gen.v:23:4: Unsupported typespec "".
 [ERR:DB2029] $Source01/t_interface_gen.v:24:4: Unsupported typespec "".
+[ERR:LN7705] $Source01/t_interface_gen.v:38:13: Null Actual: id:129, type:SubroutineCall, name:get_value, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_interface_gen.v:39:13: Null Actual: id:140, type:SubroutineCall, name:get_value, relation:vpiPathElem.
 [ERR:CP5886] $Source01/t_interface_gen.v:57:22: Illegal hierarchical reference: valuea.
 [ERR:CP5886] $Source01/t_interface_gen.v:60:22: Illegal hierarchical reference: valueb.
 ====== HLDB =======
@@ -726,6 +728,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:ifc
+          vpiScalar: true
       vpiDefName: ifc
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:67:11 end:67:14:
@@ -877,6 +880,7 @@ Design name:unnamed:
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -946,6 +950,11 @@ Design name:unnamed:
             ParamAssign start:26:10 end:26:11:
               vpiParent: ModuleTypespec name:sub
               vpiOverridden: true
+              vpiLhs RefObj name:MODE start:47:15 end:47:19:
+                vpiParent: ParamAssign
+                vpiName: MODE
+                vpiFullName: t.sub.MODE
+                vpiActual: Parameter name:MODE
               vpiRhs Constant start:26:10 end:26:11:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -965,6 +974,11 @@ Design name:unnamed:
             ParamAssign start:28:10 end:28:11:
               vpiParent: ModuleTypespec name:sub
               vpiOverridden: true
+              vpiLhs RefObj name:MODE start:47:15 end:47:19:
+                vpiParent: ParamAssign
+                vpiName: MODE
+                vpiFullName: t.sub.MODE
+                vpiActual: Parameter name:MODE
               vpiRhs Constant start:28:10 end:28:11:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -984,6 +998,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:20:10 end:20:13:
           vpiParent: Module name:t
@@ -1257,6 +1272,13 @@ Design name:unnamed:
                         vpiName Identifier name:$finish start:41:3 end:41:10:
                         vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (6 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (4 items):
         RefInstance name:itopa start:23:13 end:23:18:
           vpiParent: Module name:t
@@ -1386,6 +1408,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:sub #(.MODE(0))
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:sub #(.MODE(0))
           vpiSigned: true
@@ -1397,6 +1420,7 @@ Design name:unnamed:
         vpiFullName: sub #(.MODE(0)).work
         vpiActual: Library name:work
       vpiCell: sub
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:i_value start:50:18 end:50:25:
           vpiParent: Module name:sub #(.MODE(0))
@@ -1583,7 +1607,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 10
+[  ERROR] : 12
 [WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
@@ -1629,10 +1653,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            22      22       6         6
 Operation                           11       5       0         6
-RefObj                              43      37       0         6
+RefObj                              45      39       0         6
 RefTypespec                         39      39       6         6
 ----------------------------------------------------------------
-Others                             114     114       0         0
+Others                             115     115       0         0
 ----------------------------------------------------------------
-                                   229     217      12        24
+                                   232     220      12        24
 ===================== END REDUCTION RESULT =====================

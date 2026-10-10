@@ -15,6 +15,7 @@ COMMAND: -wd ../../../tests/ClassMethodCall -fileunit -writepp -d db -sv dut.sv 
 [WRN:CP5851] $Source01/dut.sv:15:5: Failed to bind "f2".
 [WRN:PA5506] $Source01/dut.sv:2:1: No timescale set for "pack".
 [WRN:PA5506] $Source01/dut.sv:43:1: No timescale set for "door_mod".
+[ERR:LN7705] $Source01/dut.sv:15:5: Null Actual: id:64, type:SubroutineCall, name:f2, relation:vpiStmt.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -188,9 +189,12 @@ Design name:unnamed:
                 vpiSize: 2
                 vpiDecompile: "2'b10"
                 vpiValue: "10"
-          vpiTypespec (1 items):
+          vpiTypespec (2 items):
             LogicTypespec:
               vpiParent: ClassDefn name:door
+            LogicTypespec:
+              vpiParent: ClassDefn name:door
+              vpiScalar: true
           vpiDefName: door
           vpiVirtual: true
           vpiAutomatic: true
@@ -399,6 +403,7 @@ Design name:unnamed:
         vpiFullName: door_mod.work
         vpiActual: Library name:work
       vpiCell: door_mod
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:46:5 end:50:8:
           vpiParent: Module name:door_mod
@@ -466,7 +471,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 2
 [WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
@@ -511,7 +516,7 @@ COMMAND: ${HLC_DIR}/regression/ClassMethodCall/ClassMethodCall/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             114     114       0         0
+Others                             116     116       0         0
 ----------------------------------------------------------------
-                                   114     114       0         0
+                                   116     116       0         0
 ===================== END REDUCTION RESULT =====================

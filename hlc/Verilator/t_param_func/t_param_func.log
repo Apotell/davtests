@@ -444,6 +444,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: "Module name:test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size)))"
+          vpiScalar: true
         LogicTypespec:
           vpiParent: "Module name:test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size)))"
           vpiRange (1 items):
@@ -500,6 +501,7 @@ Design name:unnamed:
         vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).work"
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:sum start:21:5 end:31:16:
           vpiParent: "Module name:test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size)))"
@@ -527,6 +529,7 @@ Design name:unnamed:
             IODecl name:values start:22:27 end:22:33:
               vpiParent: Function name:sum
               vpiName: values
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:22:15 end:22:26:
                 vpiParent: IODecl name:values
                 vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).sum.values"
@@ -534,6 +537,7 @@ Design name:unnamed:
             IODecl name:size start:23:19 end:23:23:
               vpiParent: Function name:sum
               vpiName: size
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:23:15 end:23:18:
                 vpiParent: IODecl name:size
                 vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).sum.size"
@@ -631,7 +635,11 @@ Design name:unnamed:
                     vpiForInitStmt (1 items):
                       Assignment start:28:22 end:28:27:
                         vpiParent: ForStmt
-                        vpiLhs: Variable name:i
+                        vpiLhs RefObj name:i start:28:22 end:28:23:
+                          vpiParent: Assignment
+                          vpiName: i
+                          vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).sum.i"
+                          vpiActual: Variable name:i
                         vpiRhs Constant start:28:26 end:28:27:
                           vpiParent: Assignment
                           vpiTypespec RefTypespec:
@@ -894,7 +902,7 @@ Constant                            16      12       1         5
 Operation                            8       6       0         2
 RefTypespec                         32      27       0         5
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                   126     115       1        12
+                                   128     117       1        12
 ===================== END REDUCTION RESULT =====================

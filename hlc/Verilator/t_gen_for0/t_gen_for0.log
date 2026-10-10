@@ -384,6 +384,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
@@ -400,6 +401,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:t
@@ -586,6 +588,9 @@ Design name:unnamed:
                               vpiName Identifier name:$finish start:28:3 end:28:10:
                               vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:testit start:14:11 end:14:17:
           vpiParent: Module name:t
@@ -603,7 +608,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.testit.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:16:13 end:16:16:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -621,6 +626,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:Testit
+          vpiScalar: true
       vpiDefName: Testit
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:34:8 end:34:14:
@@ -629,6 +635,7 @@ Design name:unnamed:
         vpiFullName: Testit.work
         vpiActual: Library name:work
       vpiCell: Testit
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:35:10 end:35:13:
           vpiParent: Module name:Testit
@@ -653,6 +660,9 @@ Design name:unnamed:
             vpiParent: Port name:clk
             vpiFullName: Testit.clk
             vpiActual: LogicTypespec
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
       vpiGenStmt (1 items):
         GenRegion start:38:4 end:45:15:
           vpiParent: Module name:Testit
@@ -660,15 +670,14 @@ Design name:unnamed:
           vpiStmt GenFor start:39:7 end:44:10:
             vpiParent: GenRegion
             vpiFullName: Testit
-            vpiVariable (1 items):
-              Variable name:igen start:39:12 end:39:16:
-                vpiParent: GenFor
-                vpiName: igen
-                vpiFullName: Testit.igen
             vpiForInitStmt (1 items):
               Assignment start:39:12 end:39:18:
                 vpiParent: GenFor
-                vpiLhs: Variable name:igen
+                vpiLhs RefObj name:igen start:39:12 end:39:16:
+                  vpiParent: Assignment
+                  vpiName: igen
+                  vpiFullName: Testit.igen
+                  vpiActual: Variable name:igen
                 vpiRhs Constant start:39:17 end:39:18:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -845,10 +854,10 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            11      11       5         5
 Operation                            9       4       0         5
-RefObj                              18      13       0         5
+RefObj                              19      14       0         5
 RefTypespec                         17      17       5         5
 ----------------------------------------------------------------
 Others                              59      59       0         0
 ----------------------------------------------------------------
-                                   114     104      10        20
+                                   115     105      10        20
 ===================== END REDUCTION RESULT =====================

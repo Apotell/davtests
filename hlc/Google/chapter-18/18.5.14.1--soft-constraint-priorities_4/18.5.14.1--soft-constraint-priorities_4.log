@@ -3106,6 +3106,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source00/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:38: Failed to bind "UVM_ERROR".
 [WRN:CP5851] $Source00/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:155:8: Failed to bind "uvm_report_error".
 [WRN:CP5851] $Source00/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:155:76: Failed to bind "UVM_NONE".
+[WRN:CP5851] $Source01/18.5.14.1--soft-constraint-priorities_4.sv:33:26: Failed to bind "b".
 [WRN:CP5851] $Source01/18.5.14.1--soft-constraint-priorities_4.sv:35:19: Failed to bind "uvm_env".
 [WRN:CP5851] $Source01/18.5.14.1--soft-constraint-priorities_4.sv:39:29: Failed to bind "uvm_component".
 [WRN:CP5851] $Source01/18.5.14.1--soft-constraint-priorities_4.sv:40:5: Failed to bind "super".
@@ -3115,6 +3116,13 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/18.5.14.1--soft-constraint-priorities_4.sv:53:11: Failed to bind "drop_objection".
 [WRN:CP5851] $Source01/18.5.14.1--soft-constraint-priorities_4.sv:64:5: Failed to bind "run_test".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/18.5.14.1--soft-constraint-priorities_4.sv:44:11: Null Actual: id:37457, type:SubroutineCall, name:raise_objection, relation:vpiPathElem.
+[ERR:LN7705] $Source00/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:118:10: Null Actual: id:37488, type:SubroutineCall, name:uvm_report_enabled, relation:vpiCondition.
+[ERR:LN7705] $Source00/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:119:8: Null Actual: id:37523, type:SubroutineCall, name:uvm_report_info, relation:vpiStmt.
+[ERR:LN7705] $Source00/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:154:10: Null Actual: id:37537, type:SubroutineCall, name:uvm_report_enabled, relation:vpiCondition.
+[ERR:LN7705] $Source00/1800.2-2017-1.0/src/macros/uvm_message_defines.svh:155:8: Null Actual: id:37572, type:SubroutineCall, name:uvm_report_error, relation:vpiStmt.
+[ERR:LN7705] $Source01/18.5.14.1--soft-constraint-priorities_4.sv:53:11: Null Actual: id:37581, type:SubroutineCall, name:drop_objection, relation:vpiPathElem.
+[ERR:LN7705] $Source01/18.5.14.1--soft-constraint-priorities_4.sv:64:5: Null Actual: id:37601, type:SubroutineCall, name:run_test, relation:vpiStmt.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -43206,7 +43214,7 @@ Design name:unnamed:
                     vpiStmt Begin start:47:23 end:49:10:
                       vpiParent: IfElse
                       vpiFullName: env::run_phase
-                      vpiStmt (1 items):
+                      vpiStmt (2 items):
                         Begin start:117:4 end:120:7:
                           vpiParent: Begin
                           vpiFullName: env::run_phase
@@ -43347,10 +43355,12 @@ Design name:unnamed:
                                       vpiSize: 64
                                       vpiDecompile: "1"
                                       vpiValue: 1
+                        NullStmt:
+                          vpiParent: Begin
                     vpiElseStmt Begin start:49:16 end:51:10:
                       vpiParent: IfElse
                       vpiFullName: env::run_phase
-                      vpiStmt (1 items):
+                      vpiStmt (2 items):
                         Begin start:153:4 end:156:7:
                           vpiParent: Begin
                           vpiFullName: env::run_phase
@@ -43491,6 +43501,8 @@ Design name:unnamed:
                                       vpiSize: 64
                                       vpiDecompile: "1"
                                       vpiValue: 1
+                        NullStmt:
+                          vpiParent: Begin
               RefObj name:phase.drop_objection(this) start:53:5 end:53:31:
                 vpiParent: Begin
                 vpiName: phase.drop_objection(this)
@@ -43542,6 +43554,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:62:3 end:65:6:
           vpiParent: Module name:top
@@ -43665,8 +43678,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 31
+[  ERROR] : 7
+[WARNING] : 32
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -43710,7 +43723,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.14.1--soft-constraint-prio
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                           38916   38916       0         0
+Others                           38932   38932       0         0
 ----------------------------------------------------------------
-                                 38916   38916       0         0
+                                 38932   38932       0         0
 ===================== END REDUCTION RESULT =====================

@@ -327,6 +327,8 @@ n<$Source01/top.v> u<311> t<Top_level_rule> c<1> l<1:1> el<29:9>
 AST_DEBUG_END
 [WRN:CP5851] $Source01/top.v:10:1: Failed to bind "f3".
 [WRN:CP5851] $Source01/top.v:14:1: Failed to bind "f4".
+[WRN:CP5851] $Source01/top.v:16:12: Failed to bind "j".
+[WRN:CP5851] $Source01/top.v:16:19: Failed to bind "j".
 [WRN:CP5851] $Source01/top.v:17:5: Failed to bind "i".
 [WRN:CP5851] $Source01/top.v:17:7: Failed to bind "j".
 [WRN:CP5851] $Source01/top.v:18:1: Failed to bind "f5".
@@ -337,6 +339,10 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/top.v:23:2: Failed to bind "f6".
 [WRN:CP5851] $Source01/top.v:23:5: Failed to bind "i".
 [WRN:CP5851] $Source01/top.v:23:7: Failed to bind "j".
+[ERR:LN7705] $Source01/top.v:10:1: Null Actual: id:62, type:SubroutineCall, name:f3, relation:vpiStmt.
+[ERR:LN7705] $Source01/top.v:14:1: Null Actual: id:96, type:SubroutineCall, name:f4, relation:vpiStmt.
+[ERR:LN7705] $Source01/top.v:18:1: Null Actual: id:117, type:SubroutineCall, name:f5, relation:vpiStmt.
+[ERR:LN7705] $Source01/top.v:23:2: Null Actual: id:131, type:SubroutineCall, name:f6, relation:vpiStmt.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -428,7 +434,11 @@ Design name:unnamed:
                 vpiForInitStmt (2 items):
                   Assignment start:8:14 end:8:17:
                     vpiParent: ForStmt
-                    vpiLhs: Variable name:j
+                    vpiLhs RefObj name:j start:8:14 end:8:15:
+                      vpiParent: Assignment
+                      vpiName: j
+                      vpiFullName: top::f1::j
+                      vpiActual: Variable name:j
                     vpiRhs Constant start:8:16 end:8:17:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -441,7 +451,11 @@ Design name:unnamed:
                       vpiValue: 0
                   Assignment start:8:18 end:8:21:
                     vpiParent: ForStmt
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:8:18 end:8:19:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: top::f1::i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:8:20 end:8:21:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -554,7 +568,11 @@ Design name:unnamed:
                 vpiForInitStmt (2 items):
                   Assignment start:12:13 end:12:16:
                     vpiParent: ForStmt
-                    vpiLhs: Variable name:j
+                    vpiLhs RefObj name:j start:12:13 end:12:14:
+                      vpiParent: Assignment
+                      vpiName: j
+                      vpiFullName: top::f1::j
+                      vpiActual: Variable name:j
                     vpiRhs Constant start:12:15 end:12:16:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -567,7 +585,11 @@ Design name:unnamed:
                       vpiValue: 0
                   Assignment start:12:17 end:12:22:
                     vpiParent: ForStmt
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:12:17 end:12:18:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: top::f1::i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:12:21 end:12:22:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -765,8 +787,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 12
+[  ERROR] : 4
+[WARNING] : 14
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -810,7 +832,7 @@ COMMAND: ${HLC_DIR}/regression/UnitForLoop/UnitForLoop/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             116     116       0         0
+Others                             121     121       0         0
 ----------------------------------------------------------------
-                                   116     116       0         0
+                                   121     121       0         0
 ===================== END REDUCTION RESULT =====================

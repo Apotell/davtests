@@ -479,8 +479,8 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_interface_param2.v:37:22: Port "a" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/t_interface_param2.v:48:1: Compile module "cpu".
 [WRN:CP5811] $Source01/t_interface_param2.v:48:22: Port "b" definition missing its direction (input, output, inout).
-[WRN:CP5851] $Source01/t_interface_param2.v:11:20: Failed to bind "slave".
-[WRN:CP5851] $Source01/t_interface_param2.v:12:20: Failed to bind "master".
+[WRN:CP5851] $Source01/t_interface_param2.v:10:18: Failed to bind "DWIDTH".
+[WRN:CP5851] $Source01/t_interface_param2.v:10:18: Failed to bind "DWIDTH".
 [WRN:CP5851] $Source01/t_interface_param2.v:13:23: Failed to bind "slave".
 [WRN:CP5851] $Source01/t_interface_param2.v:14:23: Failed to bind "master".
 [WRN:CP5851] $Source01/t_interface_param2.v:18:11: Failed to bind "logic".
@@ -500,8 +500,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_interface_param2.v:42:19: Failed to bind "data".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/t_interface_param2.v:10:4: Unsupported typespec "".
-[ERR:LN7701] Invalid name: id:27, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:37, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:38, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -788,6 +787,8 @@ Design name:unnamed:
             vpiParent: Port name:clk
             vpiName: logic
             vpiFullName: simple_bus #(.AWIDTH(8), .DWIDTH(8)).clk.logic
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$stop:
       vpiEndLabel Identifier name:simple_bus start:35:15 end:35:25:
   vpiAllModules (3 items):
     Module name:t file:$Source01/t_interface_param2.v start:8:1 end:15:10:
@@ -797,6 +798,7 @@ Design name:unnamed:
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         UnsupportedTypespec start:10:4 end:10:29:
           vpiParent: Module name:t
           vpiParamAssign (2 items):
@@ -864,6 +866,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:8:17 end:8:20:
           vpiParent: Module name:t
@@ -900,9 +903,11 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:9:23 end:9:26:
               vpiParent: RefInstance name:sb_intf
-              vpiLowConn RefObj:
+              vpiLowConn RefObj name:clk:
                 vpiParent: NamedArgument
-                vpiFullName: t.sb_intf
+                vpiName: clk
+                vpiFullName: t.sb_intf.clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:9:23 end:9:26:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -956,6 +961,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:sb_intf.slave
                     vpiName: slave
                     vpiFullName: t.mem.slave
+                    vpiActual: Modport name:slave
+                vpiActual: Modport name:slave
         RefInstance name:cpu start:12:8 end:12:11:
           vpiParent: Module name:t
           vpiName: cpu
@@ -986,6 +993,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:sb_intf.master
                     vpiName: master
                     vpiFullName: t.cpu.master
+                    vpiActual: Modport name:master
+                vpiActual: Modport name:master
         RefInstance name:memW start:13:8 end:13:12:
           vpiParent: Module name:t
           vpiName: memW
@@ -1070,6 +1079,7 @@ Design name:unnamed:
         vpiFullName: mem.work
         vpiActual: Library name:work
       vpiCell: mem
+      vpiAutomatic: true
       vpiPort (1 items):
         Port name:a start:37:22 end:37:23:
           vpiParent: Module name:mem
@@ -1208,6 +1218,11 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:44:7 end:44:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (4 items):
+        SysFuncCall name:$bits:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
     Module name:cpu file:$Source01/t_interface_param2.v start:48:1 end:49:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:cpu start:48:8 end:48:11:
@@ -1223,6 +1238,7 @@ Design name:unnamed:
         vpiFullName: cpu.work
         vpiActual: Library name:work
       vpiCell: cpu
+      vpiAutomatic: true
       vpiPort (1 items):
         Port name:b start:48:22 end:48:23:
           vpiParent: Module name:cpu
@@ -1269,7 +1285,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 2
 [WARNING] : 21
 [   NOTE] : 0
 ********************************************************************************
@@ -1318,7 +1334,7 @@ Operation                            6       3       0         3
 RefObj                              48      45       0         3
 RefTypespec                         30      30       3         3
 ----------------------------------------------------------------
-Others                             102     102       0         0
+Others                             103     103       0         0
 ----------------------------------------------------------------
-                                   197     191       6        12
+                                   198     192       6        12
 ===================== END REDUCTION RESULT =====================

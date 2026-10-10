@@ -235,6 +235,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "dut".
 [WRN:CP5851] $Source01/dut.sv:17:9: Failed to bind "set_ibias_en".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "dut".
+[ERR:LN7705] $Source01/dut.sv:17:9: Null Actual: id:109, type:SubroutineCall, name:set_ibias_en, relation:vpiStmt.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -256,6 +257,7 @@ Design name:unnamed:
         vpiFullName: dut.work
         vpiActual: Library name:work
       vpiCell: dut
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:set_pll_fast_run start:3:1 end:21:8:
           vpiParent: Module name:dut
@@ -299,6 +301,7 @@ Design name:unnamed:
             IODecl name:pll_vco1_freq_MHz start:9:20 end:9:37:
               vpiParent: Task name:set_pll_fast_run
               vpiName: pll_vco1_freq_MHz
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:9:12 end:9:19:
                 vpiParent: IODecl name:pll_vco1_freq_MHz
                 vpiFullName: dut.set_pll_fast_run.pll_vco1_freq_MHz
@@ -306,6 +309,7 @@ Design name:unnamed:
             IODecl name:pll_vco2_freq_MHz start:10:20 end:10:37:
               vpiParent: Task name:set_pll_fast_run
               vpiName: pll_vco2_freq_MHz
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:10:12 end:10:19:
                 vpiParent: IODecl name:pll_vco2_freq_MHz
                 vpiFullName: dut.set_pll_fast_run.pll_vco2_freq_MHz
@@ -313,6 +317,7 @@ Design name:unnamed:
             IODecl name:vco_sel start:11:20 end:11:27:
               vpiParent: Task name:set_pll_fast_run
               vpiName: vco_sel
+              vpiDirection: input (1)
               vpiTypespec RefTypespec start:11:12 end:11:19:
                 vpiParent: IODecl name:vco_sel
                 vpiFullName: dut.set_pll_fast_run.vco_sel
@@ -320,6 +325,7 @@ Design name:unnamed:
             IODecl name:err start:12:16 end:12:19:
               vpiParent: Task name:set_pll_fast_run
               vpiName: err
+              vpiDirection: output (2)
               vpiTypespec RefTypespec start:12:12 end:12:15:
                 vpiParent: IODecl name:err
                 vpiFullName: dut.set_pll_fast_run.err
@@ -594,9 +600,11 @@ Design name:unnamed:
                           vpiSize: 1
                           vpiDecompile: "1'b1"
                           vpiValue: "1"
-                  DelayControl start:18:9 end:18:14:
+                  DelayControl start:18:9 end:18:15:
                     vpiParent: Begin
                     vpiDelay: 10
+                    vpiStmt NullStmt:
+                      vpiParent: DelayControl
                     vpiDelay Constant start:18:10 end:18:12:
                       vpiParent: DelayControl
                       vpiTypespec RefTypespec:
@@ -625,7 +633,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
@@ -670,7 +678,7 @@ COMMAND: ${HLC_DIR}/regression/TaskDeclNoOrder/TaskDeclNoOrder/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              93      93       0         0
+Others                              95      95       0         0
 ----------------------------------------------------------------
-                                    93      93       0         0
+                                    95      95       0         0
 ===================== END REDUCTION RESULT =====================

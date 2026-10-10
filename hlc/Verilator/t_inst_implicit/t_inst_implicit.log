@@ -488,6 +488,8 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_inst_implicit.v:6:1: Compile module "t".
 [INF:CP5804] $Source01/t_inst_implicit.v:30:1: Compile module "subimp".
 [INF:CP5804] $Source01/t_inst_implicit.v:37:1: Compile module "Test".
+[WRN:CP5851] $Source01/t_inst_implicit.v:44:18: Failed to bind "x".
+[WRN:CP5851] $Source01/t_inst_implicit.v:46:15: Failed to bind "x".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -505,6 +507,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -570,6 +573,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:10:10 end:10:13:
           vpiParent: Module name:t
@@ -703,6 +707,11 @@ Design name:unnamed:
                   vpiName Identifier name:$finish start:25:7 end:25:14:
                   vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:test start:15:9 end:15:13:
           vpiParent: Module name:t
@@ -720,7 +729,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: o
                 vpiFullName: t.test.o
-                vpiActual: Net name:o
+                vpiActual: Port name:o
               vpiHighConn PartSelect name:o[31:0] start:17:14 end:17:21:
                 vpiParent: NamedArgument
                 vpiName: o[31:0]
@@ -759,7 +768,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: oe
                 vpiFullName: t.test.oe
-                vpiActual: Net name:oe
+                vpiActual: Port name:oe
               vpiHighConn PartSelect name:oe[31:0] start:18:15 end:18:23:
                 vpiParent: NamedArgument
                 vpiName: oe[31:0]
@@ -856,6 +865,7 @@ Design name:unnamed:
         vpiFullName: subimp.work
         vpiActual: Library name:work
       vpiCell: subimp
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:o start:31:18 end:31:19:
           vpiParent: Module name:subimp
@@ -1033,6 +1043,7 @@ Design name:unnamed:
         vpiFullName: Test.work
         vpiActual: Library name:work
       vpiCell: Test
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:o start:38:18 end:38:19:
           vpiParent: Module name:Test
@@ -1234,7 +1245,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1278,7 +1289,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_inst_implicit/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             180     180       0         0
+Others                             181     181       0         0
 ----------------------------------------------------------------
-                                   180     180       0         0
+                                   181     181       0         0
 ===================== END REDUCTION RESULT =====================

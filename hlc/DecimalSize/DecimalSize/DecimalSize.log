@@ -10812,6 +10812,28 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:556:1: Compile module "gem_ss".
 [INF:CP5804] $Source01/dut.sv:721:1: Compile module "gem_top".
 [INF:CP5836] $Source01/dut.sv:849:11: Compile generate block "gen_rx_q_flush_sync_rx_clk".
+[WRN:CP5851] $Source01/dut.sv:848:15: Failed to bind "m".
+[WRN:CP5851] $Source01/dut.sv:848:20: Failed to bind "m".
+[WRN:CP5851] $Source01/dut.sv:848:43: Failed to bind "m".
+[WRN:CP5851] $Source01/dut.sv:848:45: Failed to bind "m".
+[WRN:CP5851] $Source01/dut.sv:852:17: Failed to bind "rx_clk".
+[WRN:CP5851] $Source01/dut.sv:853:17: Failed to bind "n_rxreset".
+[WRN:CP5851] $Source01/dut.sv:854:17: Failed to bind "rx_q_flush_pclk".
+[WRN:CP5851] $Source01/dut.sv:854:36: Failed to bind "m".
+[WRN:CP5851] $Source01/dut.sv:855:17: Failed to bind "drop_all_frames_rx_clk".
+[WRN:CP5851] $Source01/dut.sv:855:40: Failed to bind "m".
+[WRN:CP5851] $Source01/dut.sv:860:17: Failed to bind "rx_clk".
+[WRN:CP5851] $Source01/dut.sv:861:17: Failed to bind "n_rxreset".
+[WRN:CP5851] $Source01/dut.sv:862:17: Failed to bind "rx_q_flush_pclk".
+[WRN:CP5851] $Source01/dut.sv:862:37: Failed to bind "m".
+[WRN:CP5851] $Source01/dut.sv:863:17: Failed to bind "limit_frames_size_rx_clk".
+[WRN:CP5851] $Source01/dut.sv:863:42: Failed to bind "m".
+[WRN:CP5851] $Source01/dut.sv:865:13: Failed to bind "max_val_pclk".
+[WRN:CP5851] $Source01/dut.sv:865:32: Failed to bind "m".
+[WRN:CP5851] $Source01/dut.sv:865:40: Failed to bind "m".
+[WRN:CP5851] $Source01/dut.sv:865:49: Failed to bind "rx_q_flush_pclk".
+[WRN:CP5851] $Source01/dut.sv:865:70: Failed to bind "m".
+[WRN:CP5851] $Source01/dut.sv:865:80: Failed to bind "m".
 [WRN:PA5506] $Source01/dut.sv:4:1: No timescale set for "gem_gxl".
 [WRN:PA5506] $Source01/dut.sv:556:1: No timescale set for "gem_ss".
 [WRN:PA5506] $Source01/dut.sv:721:1: No timescale set for "gem_top".
@@ -15118,6 +15140,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:gem_gxl
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:gem_gxl
           vpiRange (1 items):
@@ -15180,6 +15203,7 @@ Design name:unnamed:
         vpiFullName: gem_gxl.work
         vpiActual: Library name:work
       vpiCell: gem_gxl
+      vpiAutomatic: true
     Module name:gem_ss file:$Source01/dut.sv start:556:1 end:718:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:gem_ss start:556:8 end:556:14:
@@ -20648,6 +20672,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:gem_ss
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:gem_ss
           vpiRange (1 items):
@@ -22238,6 +22263,7 @@ Design name:unnamed:
         vpiFullName: gem_ss.work
         vpiActual: Library name:work
       vpiCell: gem_ss
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:i_gem_top start:715:4 end:715:13:
           vpiParent: Module name:gem_ss
@@ -27061,6 +27087,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:gem_top
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:gem_top
           vpiRange (1 items):
@@ -28759,6 +28786,7 @@ Design name:unnamed:
         vpiFullName: gem_top.work
         vpiActual: Library name:work
       vpiCell: gem_top
+      vpiAutomatic: true
       vpiGenStmt (1 items):
         GenRegion start:848:1 end:867:15:
           vpiParent: Module name:gem_top
@@ -28766,15 +28794,13 @@ Design name:unnamed:
           vpiStmt GenFor start:848:10 end:866:7:
             vpiParent: GenRegion
             vpiFullName: gem_top
-            vpiVariable (1 items):
-              Variable name:m start:848:15 end:848:16:
-                vpiParent: GenFor
-                vpiName: m
-                vpiFullName: gem_top.m
             vpiForInitStmt (1 items):
               Assignment start:848:15 end:848:18:
                 vpiParent: GenFor
-                vpiLhs: Variable name:m
+                vpiLhs RefObj name:m start:848:15 end:848:16:
+                  vpiParent: Assignment
+                  vpiName: m
+                  vpiFullName: gem_top.m
                 vpiRhs Constant start:848:17 end:848:18:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -28793,7 +28819,6 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: m
                   vpiFullName: gem_top.m
-                  vpiActual: Variable name:m
                 vpiRhs Operation start:848:45 end:848:48:
                   vpiParent: Assignment
                   vpiOpType: add (24)
@@ -28802,7 +28827,6 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: m
                       vpiFullName: gem_top.m
-                      vpiActual: Variable name:m
                     Constant start:848:47 end:848:48:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -28821,7 +28845,6 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: m
                   vpiFullName: gem_top.m
-                  vpiActual: Variable name:m
                 PartSelect name:p_edma_queues[31:0] start:848:22 end:848:41:
                   vpiParent: Operation
                   vpiName: p_edma_queues[31:0]
@@ -28929,7 +28952,6 @@ Design name:unnamed:
                               vpiParent: Operation
                               vpiName: m
                               vpiFullName: gem_top.gen_rx_q_flush_sync_rx_clk.i_rx_q_flush_bit0_rxclk.rx_q_flush_pclk[32 * m].m
-                              vpiActual: Variable name:m
                     NamedArgument start:855:8 end:855:43:
                       vpiParent: RefInstance name:i_rx_q_flush_bit0_rxclk
                       vpiConnByName: true
@@ -28949,7 +28971,6 @@ Design name:unnamed:
                           vpiParent: BitSelect name:drop_all_frames_rx_clk[m]
                           vpiName: m
                           vpiFullName: gem_top.gen_rx_q_flush_sync_rx_clk.i_rx_q_flush_bit0_rxclk.m
-                          vpiActual: Variable name:m
                 RefInstance name:i_rx_q_flush_bit3_rxclk start:859:26 end:859:49:
                   vpiParent: Begin name:gen_rx_q_flush_sync_rx_clk
                   vpiName: i_rx_q_flush_bit3_rxclk
@@ -29018,7 +29039,6 @@ Design name:unnamed:
                                   vpiParent: Operation
                                   vpiName: m
                                   vpiFullName: gem_top.gen_rx_q_flush_sync_rx_clk.i_rx_q_flush_bit3_rxclk.rx_q_flush_pclk[32 * m + 3].m
-                                  vpiActual: Variable name:m
                             Constant start:862:40 end:862:41:
                               vpiParent: Operation
                               vpiTypespec RefTypespec:
@@ -29048,7 +29068,6 @@ Design name:unnamed:
                           vpiParent: BitSelect name:limit_frames_size_rx_clk[m]
                           vpiName: m
                           vpiFullName: gem_top.gen_rx_q_flush_sync_rx_clk.i_rx_q_flush_bit3_rxclk.m
-                          vpiActual: Variable name:m
                 ContAssign start:865:13 end:865:86:
                   vpiParent: Begin name:gen_rx_q_flush_sync_rx_clk
                   vpiLhs PartSelect name:max_val_pclk[15+m*16:m*16] start:865:13 end:865:46:
@@ -29083,7 +29102,6 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: m
                                 vpiFullName: gem_top.gen_rx_q_flush_sync_rx_clk.max_val_pclk[15+m*16:m*16].m
-                                vpiActual: Variable name:m
                               Constant start:865:34 end:865:36:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
@@ -29102,7 +29120,6 @@ Design name:unnamed:
                             vpiParent: Operation
                             vpiName: m
                             vpiFullName: gem_top.gen_rx_q_flush_sync_rx_clk.max_val_pclk[15+m*16:m*16].m
-                            vpiActual: Variable name:m
                           Constant start:865:42 end:865:44:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -29145,7 +29162,6 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: m
                                 vpiFullName: gem_top.gen_rx_q_flush_sync_rx_clk.rx_q_flush_pclk[32*m+31:32*m+16].m
-                                vpiActual: Variable name:m
                           Constant start:865:73 end:865:75:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -29178,7 +29194,6 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: m
                                 vpiFullName: gem_top.gen_rx_q_flush_sync_rx_clk.rx_q_flush_pclk[32*m+31:32*m+16].m
-                                vpiActual: Variable name:m
                           Constant start:865:83 end:865:85:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
@@ -29218,7 +29233,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 3
+[WARNING] : 25
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -29264,10 +29279,10 @@ Name                            Before   After   Added   Removed
 Constant                           844     824      10        30
 LogicTypespec                      145     146       1         0
 Operation                           72      40       0        32
-RefObj                             772     756       0        16
+RefObj                             773     757       0        16
 RefTypespec                       1201    1179       8        30
 ----------------------------------------------------------------
 Others                            1286    1286       0         0
 ----------------------------------------------------------------
-                                  4320    4231      19       108
+                                  4321    4232      19       108
 ===================== END REDUCTION RESULT =====================

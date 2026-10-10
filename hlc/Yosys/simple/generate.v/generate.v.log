@@ -2213,6 +2213,11 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/simple/generate.v:133:46: Compile generate block "inner".
 [INF:CP5804] $Source01/simple/generate.v:154:1: Compile module "gen_test6".
 [NTE:CP5810] $Source01/simple/generate.v:154:31: Implicit port type (wire) for "o".
+[ERR:LN7713] $Source01/simple/generate.v:1:1: Found 1 orphan node(s).
+[ERR:LN7714] Found 12 weak node(s).
+[WRN:CP5851] $Source01/simple/generate.v:145:38: Failed to bind "inner".
+[WRN:CP5851] $Source01/simple/generate.v:149:14: Failed to bind "steps".
+[WRN:CP5851] $Source01/simple/generate.v:149:27: Failed to bind "outer".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2038] $Source01/simple/generate.v:104:26: 'vpiStmt' property value has invalid objects.
 [ERR:DB2038] $Source01/simple/generate.v:128:53: 'vpiStmt' property value has invalid objects.
@@ -2251,6 +2256,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:gen_test1
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:gen_test1
           vpiRange (1 items):
@@ -2337,6 +2343,7 @@ Design name:unnamed:
         vpiFullName: gen_test1.work
         vpiActual: Library name:work
       vpiCell: gen_test1
+      vpiAutomatic: true
       vpiNet (8 items):
         Net name:clk start:4:7 end:4:10:
           vpiParent: Module name:gen_test1
@@ -2479,15 +2486,14 @@ Design name:unnamed:
               GenFor start:13:2 end:24:5:
                 vpiParent: Begin
                 vpiFullName: gen_test1
-                vpiVariable (1 items):
-                  Variable name:i start:13:7 end:13:8:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: gen_test1.i
                 vpiForInitStmt (1 items):
                   Assignment start:13:7 end:13:12:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:13:7 end:13:8:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: gen_test1.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:13:11 end:13:12:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -2552,6 +2558,7 @@ Design name:unnamed:
                   vpiTypespec (1 items):
                     LogicTypespec:
                       vpiParent: Begin name:gen1
+                      vpiScalar: true
                   vpiStmt (3 items):
                     ContAssign start:15:10 end:15:32:
                       vpiParent: Begin name:gen1
@@ -2791,15 +2798,14 @@ Design name:unnamed:
               GenFor start:26:2 end:35:5:
                 vpiParent: Begin
                 vpiFullName: gen_test1
-                vpiVariable (1 items):
-                  Variable name:i start:26:7 end:26:8:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: gen_test1.i
                 vpiForInitStmt (1 items):
                   Assignment start:26:7 end:26:12:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:26:7 end:26:8:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: gen_test1.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:26:11 end:26:12:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -2892,15 +2898,14 @@ Design name:unnamed:
                     GenFor start:28:3 end:32:6:
                       vpiParent: Begin name:gen3
                       vpiFullName: gen_test1.gen3
-                      vpiVariable (1 items):
-                        Variable name:j start:28:8 end:28:9:
-                          vpiParent: GenFor
-                          vpiName: j
-                          vpiFullName: gen_test1.gen3.j
                       vpiForInitStmt (1 items):
                         Assignment start:28:8 end:28:13:
                           vpiParent: GenFor
-                          vpiLhs: Variable name:j
+                          vpiLhs RefObj name:j start:28:8 end:28:9:
+                            vpiParent: Assignment
+                            vpiName: j
+                            vpiFullName: gen_test1.gen3.j
+                            vpiActual: Variable name:j
                           vpiRhs Constant start:28:12 end:28:13:
                             vpiParent: Assignment
                             vpiTypespec RefTypespec:
@@ -2965,6 +2970,7 @@ Design name:unnamed:
                         vpiTypespec (1 items):
                           LogicTypespec:
                             vpiParent: Begin name:gen4
+                            vpiScalar: true
                         vpiStmt (2 items):
                           ContAssign start:30:11 end:30:31:
                             vpiParent: Begin name:gen4
@@ -3102,6 +3108,7 @@ Design name:unnamed:
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:gen_test2
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:gen_test2
           vpiRange (1 items):
@@ -3191,6 +3198,7 @@ Design name:unnamed:
         vpiFullName: gen_test2.work
         vpiActual: Library name:work
       vpiCell: gen_test2
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:45:7 end:45:10:
           vpiParent: Module name:gen_test2
@@ -3709,6 +3717,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:gen_test3
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:gen_test3
           vpiRange (1 items):
@@ -3743,6 +3752,7 @@ Design name:unnamed:
         vpiFullName: gen_test3.work
         vpiActual: Library name:work
       vpiCell: gen_test3
+      vpiAutomatic: true
       vpiNet (5 items):
         Net name:a start:72:13 end:72:14:
           vpiParent: Module name:gen_test3
@@ -3866,15 +3876,14 @@ Design name:unnamed:
               GenFor start:78:2 end:79:61:
                 vpiParent: Begin
                 vpiFullName: gen_test3
-                vpiVariable (1 items):
-                  Variable name:i start:78:7 end:78:8:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: gen_test3.i
                 vpiForInitStmt (1 items):
                   Assignment start:78:7 end:78:10:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:78:7 end:78:8:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: gen_test3.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:78:9 end:78:10:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -3932,128 +3941,70 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "2"
                       vpiValue: 2
-                vpiStmt Begin:
+                vpiStmt ContAssign start:79:10 end:79:34:
                   vpiParent: GenFor
-                  vpiFullName: gen_test3
-                  vpiStmt (2 items):
-                    ContAssign start:79:10 end:79:34:
-                      vpiParent: Begin
-                      vpiLhs BitSelect name:y[i] start:79:10 end:79:14:
-                        vpiParent: ContAssign
-                        vpiName: y[i]
-                        vpiFullName: gen_test3.y[i]
-                        vpiPrefix RefObj name:y start:79:10 end:79:11:
-                          vpiParent: BitSelect name:y[i]
-                          vpiName: y
-                          vpiFullName: gen_test3.y
-                          vpiActual: Net name:y
-                        vpiIndex RefObj name:i start:79:12 end:79:13:
-                          vpiParent: BitSelect name:y[i]
+                  vpiLhs BitSelect name:y[i] start:79:10 end:79:14:
+                    vpiParent: ContAssign
+                    vpiName: y[i]
+                    vpiFullName: gen_test3.y[i]
+                    vpiPrefix RefObj name:y start:79:10 end:79:11:
+                      vpiParent: BitSelect name:y[i]
+                      vpiName: y
+                      vpiFullName: gen_test3.y
+                      vpiActual: Net name:y
+                    vpiIndex RefObj name:i start:79:12 end:79:13:
+                      vpiParent: BitSelect name:y[i]
+                      vpiName: i
+                      vpiFullName: gen_test3.i
+                      vpiActual: Variable name:i
+                  vpiRhs Operation start:79:17 end:79:34:
+                    vpiParent: ContAssign
+                    vpiOpType: condition (32)
+                    vpiOperand (3 items):
+                      RefObj name:sel start:79:17 end:79:20:
+                        vpiParent: Operation
+                        vpiName: sel
+                        vpiFullName: gen_test3.sel
+                        vpiActual: Net name:sel
+                      BitSelect name:a[i] start:79:23 end:79:27:
+                        vpiParent: Operation
+                        vpiName: a[i]
+                        vpiFullName: gen_test3.a[i]
+                        vpiPrefix RefObj name:a start:79:23 end:79:24:
+                          vpiParent: BitSelect name:a[i]
+                          vpiName: a
+                          vpiFullName: gen_test3.a
+                          vpiActual: Net name:a
+                        vpiIndex RefObj name:i start:79:25 end:79:26:
+                          vpiParent: BitSelect name:a[i]
                           vpiName: i
                           vpiFullName: gen_test3.i
                           vpiActual: Variable name:i
-                      vpiRhs Operation start:79:17 end:79:34:
-                        vpiParent: ContAssign
-                        vpiOpType: condition (32)
-                        vpiOperand (3 items):
-                          RefObj name:sel start:79:17 end:79:20:
-                            vpiParent: Operation
-                            vpiName: sel
-                            vpiFullName: gen_test3.sel
-                            vpiActual: Net name:sel
-                          BitSelect name:a[i] start:79:23 end:79:27:
-                            vpiParent: Operation
-                            vpiName: a[i]
-                            vpiFullName: gen_test3.a[i]
-                            vpiPrefix RefObj name:a start:79:23 end:79:24:
-                              vpiParent: BitSelect name:a[i]
-                              vpiName: a
-                              vpiFullName: gen_test3.a
-                              vpiActual: Net name:a
-                            vpiIndex RefObj name:i start:79:25 end:79:26:
-                              vpiParent: BitSelect name:a[i]
-                              vpiName: i
-                              vpiFullName: gen_test3.i
-                              vpiActual: Variable name:i
-                          BitSelect name:b[i] start:79:30 end:79:34:
-                            vpiParent: Operation
-                            vpiName: b[i]
-                            vpiFullName: gen_test3.b[i]
-                            vpiPrefix RefObj name:b start:79:30 end:79:31:
-                              vpiParent: BitSelect name:b[i]
-                              vpiName: b
-                              vpiFullName: gen_test3.b
-                              vpiActual: Net name:b
-                            vpiIndex RefObj name:i start:79:32 end:79:33:
-                              vpiParent: BitSelect name:b[i]
-                              vpiName: i
-                              vpiFullName: gen_test3.i
-                              vpiActual: Variable name:i
-                    ContAssign start:79:36 end:79:60:
-                      vpiParent: Begin
-                      vpiLhs BitSelect name:z[i] start:79:36 end:79:40:
-                        vpiParent: ContAssign
-                        vpiName: z[i]
-                        vpiFullName: gen_test3.z[i]
-                        vpiPrefix RefObj name:z start:79:36 end:79:37:
-                          vpiParent: BitSelect name:z[i]
-                          vpiName: z
-                          vpiFullName: gen_test3.z
-                          vpiActual: Net name:z
-                        vpiIndex RefObj name:i start:79:38 end:79:39:
-                          vpiParent: BitSelect name:z[i]
+                      BitSelect name:b[i] start:79:30 end:79:34:
+                        vpiParent: Operation
+                        vpiName: b[i]
+                        vpiFullName: gen_test3.b[i]
+                        vpiPrefix RefObj name:b start:79:30 end:79:31:
+                          vpiParent: BitSelect name:b[i]
+                          vpiName: b
+                          vpiFullName: gen_test3.b
+                          vpiActual: Net name:b
+                        vpiIndex RefObj name:i start:79:32 end:79:33:
+                          vpiParent: BitSelect name:b[i]
                           vpiName: i
                           vpiFullName: gen_test3.i
                           vpiActual: Variable name:i
-                      vpiRhs Operation start:79:43 end:79:60:
-                        vpiParent: ContAssign
-                        vpiOpType: condition (32)
-                        vpiOperand (3 items):
-                          RefObj name:sel start:79:43 end:79:46:
-                            vpiParent: Operation
-                            vpiName: sel
-                            vpiFullName: gen_test3.sel
-                            vpiActual: Net name:sel
-                          BitSelect name:b[i] start:79:49 end:79:53:
-                            vpiParent: Operation
-                            vpiName: b[i]
-                            vpiFullName: gen_test3.b[i]
-                            vpiPrefix RefObj name:b start:79:49 end:79:50:
-                              vpiParent: BitSelect name:b[i]
-                              vpiName: b
-                              vpiFullName: gen_test3.b
-                              vpiActual: Net name:b
-                            vpiIndex RefObj name:i start:79:51 end:79:52:
-                              vpiParent: BitSelect name:b[i]
-                              vpiName: i
-                              vpiFullName: gen_test3.i
-                              vpiActual: Variable name:i
-                          BitSelect name:a[i] start:79:56 end:79:60:
-                            vpiParent: Operation
-                            vpiName: a[i]
-                            vpiFullName: gen_test3.a[i]
-                            vpiPrefix RefObj name:a start:79:56 end:79:57:
-                              vpiParent: BitSelect name:a[i]
-                              vpiName: a
-                              vpiFullName: gen_test3.a
-                              vpiActual: Net name:a
-                            vpiIndex RefObj name:i start:79:58 end:79:59:
-                              vpiParent: BitSelect name:a[i]
-                              vpiName: i
-                              vpiFullName: gen_test3.i
-                              vpiActual: Variable name:i
               GenFor start:80:2 end:91:5:
                 vpiParent: Begin
                 vpiFullName: gen_test3
-                vpiVariable (1 items):
-                  Variable name:i start:80:7 end:80:8:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: gen_test3.i
                 vpiForInitStmt (1 items):
                   Assignment start:80:7 end:80:10:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:80:7 end:80:8:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: gen_test3.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:80:9 end:80:10:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -4509,6 +4460,7 @@ Design name:unnamed:
         vpiFullName: gen_test4.work
         vpiActual: Library name:work
       vpiCell: gen_test4
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:a start:99:13 end:99:14:
           vpiParent: Module name:gen_test4
@@ -4572,15 +4524,14 @@ Design name:unnamed:
           vpiStmt GenFor start:104:2 end:112:5:
             vpiParent: GenRegion
             vpiFullName: gen_test4
-            vpiVariable (1 items):
-              Variable name:i start:104:7 end:104:8:
-                vpiParent: GenFor
-                vpiName: i
-                vpiFullName: gen_test4.i
             vpiForInitStmt (1 items):
               Assignment start:104:7 end:104:10:
                 vpiParent: GenFor
-                vpiLhs: Variable name:i
+                vpiLhs RefObj name:i start:104:7 end:104:8:
+                  vpiParent: Assignment
+                  vpiName: i
+                  vpiFullName: gen_test4.i
+                  vpiActual: Variable name:i
                 vpiRhs Constant start:104:9 end:104:10:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -4682,6 +4633,7 @@ Design name:unnamed:
               vpiTypespec (1 items):
                 LogicTypespec:
                   vpiParent: Begin name:foo
+                  vpiScalar: true
               vpiStmt (4 items):
                 Parameter name:PREV:
                 ParamAssign:
@@ -4883,6 +4835,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:gen_test5
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:gen_test5
           vpiRange (1 items):
@@ -4926,6 +4879,7 @@ Design name:unnamed:
         vpiFullName: gen_test5.work
         vpiActual: Library name:work
       vpiCell: gen_test5
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:input_bits start:123:19 end:123:29:
           vpiParent: Module name:gen_test5
@@ -5048,15 +5002,14 @@ Design name:unnamed:
           vpiStmt GenFor start:128:2 end:147:5:
             vpiParent: GenRegion
             vpiFullName: gen_test5
-            vpiVariable (1 items):
-              Variable name:step start:128:7 end:128:11:
-                vpiParent: GenFor
-                vpiName: step
-                vpiFullName: gen_test5.step
             vpiForInitStmt (1 items):
               Assignment start:128:7 end:128:15:
                 vpiParent: GenFor
-                vpiLhs: Variable name:step
+                vpiLhs RefObj name:step start:128:7 end:128:11:
+                  vpiParent: Assignment
+                  vpiName: step
+                  vpiFullName: gen_test5.step
+                  vpiActual: Variable name:step
                 vpiRhs Constant start:128:14 end:128:15:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -5173,6 +5126,7 @@ Design name:unnamed:
               vpiTypespec (1 items):
                 LogicTypespec:
                   vpiParent: Begin name:steps
+                  vpiScalar: true
               vpiStmt (5 items):
                 Parameter name:PREV:
                 ParamAssign:
@@ -5181,15 +5135,14 @@ Design name:unnamed:
                 GenFor start:131:3 end:146:6:
                   vpiParent: Begin name:steps
                   vpiFullName: gen_test5.steps
-                  vpiVariable (1 items):
-                    Variable name:i start:131:8 end:131:9:
-                      vpiParent: GenFor
-                      vpiName: i
-                      vpiFullName: gen_test5.steps.i
                   vpiForInitStmt (1 items):
                     Assignment start:131:8 end:131:13:
                       vpiParent: GenFor
-                      vpiLhs: Variable name:i
+                      vpiLhs RefObj name:i start:131:8 end:131:9:
+                        vpiParent: Assignment
+                        vpiName: i
+                        vpiFullName: gen_test5.steps.i
+                        vpiActual: Variable name:i
                       vpiRhs Constant start:131:12 end:131:13:
                         vpiParent: Assignment
                         vpiTypespec RefTypespec:
@@ -5281,21 +5234,21 @@ Design name:unnamed:
                     vpiTypespec (1 items):
                       LogicTypespec:
                         vpiParent: Begin name:outer
+                        vpiScalar: true
                     vpiStmt (4 items):
                       Parameter name:LAST_START:
                       ParamAssign:
                       GenFor start:133:4 end:143:7:
                         vpiParent: Begin name:outer
                         vpiFullName: gen_test5.steps.outer
-                        vpiVariable (1 items):
-                          Variable name:j start:133:9 end:133:10:
-                            vpiParent: GenFor
-                            vpiName: j
-                            vpiFullName: gen_test5.steps.outer.j
                         vpiForInitStmt (1 items):
                           Assignment start:133:9 end:133:14:
                             vpiParent: GenFor
-                            vpiLhs: Variable name:j
+                            vpiLhs RefObj name:j start:133:9 end:133:10:
+                              vpiParent: Assignment
+                              vpiName: j
+                              vpiFullName: gen_test5.steps.outer.j
+                              vpiActual: Variable name:j
                             vpiRhs Constant start:133:13 end:133:14:
                               vpiParent: Assignment
                               vpiTypespec RefTypespec:
@@ -5355,6 +5308,7 @@ Design name:unnamed:
                           vpiTypespec (1 items):
                             LogicTypespec:
                               vpiParent: Begin name:inner
+                              vpiScalar: true
                           vpiStmt (1 items):
                             GenIfElse start:135:5 end:142:47:
                               vpiParent: Begin name:inner
@@ -5718,6 +5672,7 @@ Design name:unnamed:
         vpiFullName: gen_test6.work
         vpiActual: Library name:work
       vpiCell: gen_test6
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:o start:154:31 end:154:32:
           vpiParent: Module name:gen_test6
@@ -5758,15 +5713,14 @@ Design name:unnamed:
               GenFor start:157:5 end:159:8:
                 vpiParent: Begin
                 vpiFullName: gen_test6
-                vpiVariable (1 items):
-                  Variable name:i start:157:10 end:157:11:
-                    vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: gen_test6.i
                 vpiForInitStmt (1 items):
                   Assignment start:157:10 end:157:15:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:i
+                    vpiLhs RefObj name:i start:157:10 end:157:11:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: gen_test6.i
+                      vpiActual: Variable name:i
                     vpiRhs Constant start:157:14 end:157:15:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -5900,8 +5854,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 0
+[  ERROR] : 6
+[WARNING] : 3
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -5916,25 +5870,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Yosys/simple/generate.v/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 99.39,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/simple/generate.v': {'post_len': 0,
+            'files': {'$Output/lib/work/simple/generate.v': {'post_len': 15,
                                                              'pre_len': 2469}},
-            'post_len': 0,
+            'post_len': 15,
             'pre_len': 2469,
             'test_name': 'Yosys/simple/generate.v'}}
 
 +------------------------------------+----------+-----------+
 | INPUT                              |   PRELEN |   POSTLEN |
 +====================================+==========+===========+
-| $Output/lib/work/simple/generate.v |     2469 |         0 |
+| $Output/lib/work/simple/generate.v |     2469 |        15 |
 +====================================+==========+===========+
-|                                    |     2469 |         0 |
+|                                    |     2469 |        15 |
 +------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 99.39
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -5945,11 +5899,11 @@ COMMAND: ${HLC_DIR}/regression/Yosys/simple/generate.v/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            96      96       2         2
-Operation                           58      56       0         2
-RefObj                             222     220       0         2
+Operation                           57      55       0         2
+RefObj                             225     223       0         2
 RefTypespec                        148     148       2         2
 ----------------------------------------------------------------
-Others                             318     318       0         0
+Others                             304     304       0         0
 ----------------------------------------------------------------
-                                   842     838       4         8
+                                   830     826       4         8
 ===================== END REDUCTION RESULT =====================

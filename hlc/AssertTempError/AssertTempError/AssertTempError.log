@@ -1486,6 +1486,10 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/design.sv:2:1: Compile module "UART".
 [INF:CP5804] $Source01/design.sv:70:1: Compile module "UART_assertions".
 [INF:CP5804] $Source01/testbench.sv:3:1: Compile module "tb_UART".
+[WRN:CP5851] $Source01/design.sv:100:36: Failed to bind "clk".
+[WRN:CP5851] $Source01/design.sv:100:48: Failed to bind "rst_n".
+[WRN:CP5851] $Source01/design.sv:100:61: Failed to bind "send".
+[WRN:CP5851] $Source01/design.sv:100:73: Failed to bind "done".
 [WRN:PA5506] $Source01/design.sv:2:1: No timescale set for "UART".
 [WRN:PA5506] $Source01/design.sv:70:1: No timescale set for "UART_assertions".
 [WRN:PA5506] $Source01/testbench.sv:3:1: No timescale set for "tb_UART".
@@ -1665,7 +1669,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "3"
             vpiValue: 3
-      vpiTypespec (5 items):
+      vpiTypespec (6 items):
+        LogicTypespec:
+          vpiParent: Module name:UART
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:UART
         LogicTypespec:
@@ -1780,6 +1787,7 @@ Design name:unnamed:
         vpiFullName: UART.work
         vpiActual: Library name:work
       vpiCell: UART
+      vpiAutomatic: true
       vpiNet (5 items):
         Net name:clk start:3:11 end:3:14:
           vpiParent: Module name:UART
@@ -2789,6 +2797,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:UART_assertions
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:UART_assertions
           vpiRange (1 items):
@@ -2831,6 +2840,7 @@ Design name:unnamed:
         vpiFullName: UART_assertions.work
         vpiActual: Library name:work
       vpiCell: UART_assertions
+      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clk start:71:11 end:71:14:
           vpiParent: Module name:UART_assertions
@@ -2921,6 +2931,9 @@ Design name:unnamed:
             vpiParent: Port name:done
             vpiFullName: UART_assertions.done
             vpiActual: LogicTypespec
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
     Module name:tb_UART file:$Source01/testbench.sv start:3:1 end:54:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:tb_UART start:3:8 end:3:15:
@@ -2966,7 +2979,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: data
           vpiFullName: tb_UART.data
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:tb_UART
         LogicTypespec:
@@ -2995,6 +3008,9 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:tb_UART
+          vpiScalar: true
       vpiDefName: tb_UART
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:3:8 end:3:15:
@@ -3003,6 +3019,7 @@ Design name:unnamed:
         vpiFullName: tb_UART.work
         vpiActual: Library name:work
       vpiCell: tb_UART
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:tx start:7:10 end:7:12:
           vpiParent: Module name:tb_UART
@@ -3228,9 +3245,11 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "10"
                   vpiValue: 10
-              DelayControl start:38:9 end:38:12:
+              DelayControl start:38:9 end:38:13:
                 vpiParent: Begin
                 vpiDelay: 10
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:38:10 end:38:12:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -3315,9 +3334,11 @@ Design name:unnamed:
                               vpiName: done
                               vpiFullName: tb_UART.done
                               vpiActual: Net name:done
-                        vpiStmt DelayControl start:46:30 end:46:33:
+                        vpiStmt DelayControl start:46:30 end:46:34:
                           vpiParent: WhileStmt
                           vpiDelay: 10
+                          vpiStmt NullStmt:
+                            vpiParent: DelayControl
                           vpiDelay Constant start:46:31 end:46:33:
                             vpiParent: DelayControl
                             vpiTypespec RefTypespec:
@@ -3356,9 +3377,11 @@ Design name:unnamed:
                         vpiSize: 64
                         vpiDecompile: "0"
                         vpiValue: 0
-                    DelayControl start:48:13 end:48:16:
+                    DelayControl start:48:13 end:48:17:
                       vpiParent: Begin
                       vpiDelay: 10
+                      vpiStmt NullStmt:
+                        vpiParent: DelayControl
                       vpiDelay Constant start:48:14 end:48:16:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
@@ -3373,6 +3396,11 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:52:9 end:52:16:
                 vpiIsProperty: true
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$dumpfile:
+        SysTaskCall name:$dumpvars:
+        SysFuncCall name:$random:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:uart_inst start:10:10 end:10:19:
           vpiParent: Module name:tb_UART
@@ -3390,7 +3418,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: tb_UART.uart_inst.clk
-                vpiActual: Variable name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:11:14 end:11:17:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -3403,7 +3431,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rst_n
                 vpiFullName: tb_UART.uart_inst.rst_n
-                vpiActual: Variable name:rst_n
+                vpiActual: Port name:rst_n
               vpiHighConn RefObj name:rst_n start:12:16 end:12:21:
                 vpiParent: NamedArgument
                 vpiName: rst_n
@@ -3416,7 +3444,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: rx
                 vpiFullName: tb_UART.uart_inst.rx
-                vpiActual: Variable name:rx
+                vpiActual: Port name:rx
               vpiHighConn RefObj name:rx start:13:13 end:13:15:
                 vpiParent: NamedArgument
                 vpiName: rx
@@ -3429,7 +3457,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: tx
                 vpiFullName: tb_UART.uart_inst.tx
-                vpiActual: Net name:tx
+                vpiActual: Port name:tx
               vpiHighConn RefObj name:tx start:14:13 end:14:15:
                 vpiParent: NamedArgument
                 vpiName: tx
@@ -3442,7 +3470,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: data
                 vpiFullName: tb_UART.uart_inst.data
-                vpiActual: Variable name:data
+                vpiActual: Port name:data
               vpiHighConn RefObj name:data start:15:15 end:15:19:
                 vpiParent: NamedArgument
                 vpiName: data
@@ -3455,7 +3483,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: send
                 vpiFullName: tb_UART.uart_inst.send
-                vpiActual: Variable name:send
+                vpiActual: Port name:send
               vpiHighConn RefObj name:send start:16:15 end:16:19:
                 vpiParent: NamedArgument
                 vpiName: send
@@ -3468,7 +3496,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: done
                 vpiFullName: tb_UART.uart_inst.done
-                vpiActual: Net name:done
+                vpiActual: Port name:done
               vpiHighConn RefObj name:done start:17:15 end:17:19:
                 vpiParent: NamedArgument
                 vpiName: done
@@ -3575,7 +3603,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 7
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -3623,7 +3651,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 RefObj                             121     117       0         4
 ----------------------------------------------------------------
-Others                             382     382       0         0
+Others                             388     388       0         0
 ----------------------------------------------------------------
-                                   503     499       0         4
+                                   509     505       0         4
 ===================== END REDUCTION RESULT =====================

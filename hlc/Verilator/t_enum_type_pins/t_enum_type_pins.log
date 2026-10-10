@@ -658,12 +658,18 @@ n<$Source01/t_enum_type_pins.v> u<643> t<Top_level_rule> c<1> l<13:1> el<105:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_enum_type_pins.v:47:1: Compile module "t".
 [INF:CP5804] $Source01/t_enum_type_pins.v:70:1: Compile module "test".
+[WRN:CP5851] $Source01/t_enum_type_pins.v:78:24: Failed to bind "new".
 [WRN:CP5851] $Source01/t_enum_type_pins.v:78:31: Failed to bind "num".
 [WRN:CP5851] $Source01/t_enum_type_pins.v:86:13: Failed to bind "first".
 [WRN:CP5851] $Source01/t_enum_type_pins.v:89:20: Failed to bind "prev".
 [WRN:CP5851] $Source01/t_enum_type_pins.v:95:14: Failed to bind "last".
 [WRN:CP5851] $Source01/t_enum_type_pins.v:99:12: Failed to bind "next".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/t_enum_type_pins.v:78:31: Null Actual: id:372, type:SubroutineCall, name:num, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_enum_type_pins.v:86:13: Null Actual: id:389, type:SubroutineCall, name:first, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_enum_type_pins.v:89:20: Null Actual: id:399, type:SubroutineCall, name:prev, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_enum_type_pins.v:95:14: Null Actual: id:405, type:SubroutineCall, name:last, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_enum_type_pins.v:99:12: Null Actual: id:414, type:SubroutineCall, name:next, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -686,10 +692,13 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: c
           vpiFullName: t.c
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         BitTypespec:
+          vpiParent: Module name:t
+        LogicTypespec:
           vpiParent: Module name:t
         ModuleTypespec name:test start:57:4 end:57:8:
           vpiParent: Module name:t
@@ -704,6 +713,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:51:10 end:51:13:
           vpiParent: Module name:t
@@ -802,6 +812,9 @@ Design name:unnamed:
                   vpiName Identifier name:$finish start:64:7 end:64:14:
                   vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:test_i start:57:9 end:57:15:
           vpiParent: Module name:t
@@ -819,7 +832,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.test_i.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:59:11 end:59:14:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -873,6 +886,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:test
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:test
           vpiArrayType: dynamic (2)
@@ -890,6 +904,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:74:10 end:74:13:
           vpiParent: Module name:test
@@ -1547,8 +1562,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 5
+[  ERROR] : 5
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1592,7 +1607,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_enum_type_pins/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             410     410       0         0
+Others                             412     412       0         0
 ----------------------------------------------------------------
-                                   410     410       0         0
+                                   412     412       0         0
 ===================== END REDUCTION RESULT =====================

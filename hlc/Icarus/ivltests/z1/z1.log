@@ -213,6 +213,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:bar
+          vpiScalar: true
       vpiDefName: bar
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:1:8 end:1:11:
@@ -221,6 +222,7 @@ Design name:unnamed:
         vpiFullName: bar.work
         vpiActual: Library name:work
       vpiCell: bar
+      vpiAutomatic: true
     Module name:baz file:$Source01/z1.v start:5:1 end:8:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:baz start:5:8 end:5:11:
@@ -280,6 +282,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:baz
+          vpiScalar: true
       vpiDefName: baz
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:5:8 end:5:11:
@@ -288,6 +291,7 @@ Design name:unnamed:
         vpiFullName: baz.work
         vpiActual: Library name:work
       vpiCell: baz
+      vpiAutomatic: true
     Module name:foo file:$Source01/z1.v start:10:1 end:18:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:10:8 end:10:11:
@@ -306,6 +310,11 @@ Design name:unnamed:
             ParamAssign start:12:9 end:12:12:
               vpiParent: ModuleTypespec name:bar
               vpiOverridden: true
+              vpiLhs RefObj name:P start:2:13 end:2:14:
+                vpiParent: ParamAssign
+                vpiName: P
+                vpiFullName: foo.bar.P
+                vpiActual: Parameter name:P
               vpiRhs Constant start:12:9 end:12:12:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -330,6 +339,11 @@ Design name:unnamed:
             ParamAssign start:14:9 end:14:12:
               vpiParent: ModuleTypespec name:baz
               vpiOverridden: true
+              vpiLhs RefObj name:P start:6:13 end:6:14:
+                vpiParent: ParamAssign
+                vpiName: P
+                vpiFullName: foo.baz.P
+                vpiActual: Parameter name:P
               vpiRhs Constant start:14:9 end:14:12:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -343,6 +357,11 @@ Design name:unnamed:
             ParamAssign start:14:13 end:14:16:
               vpiParent: ModuleTypespec name:baz
               vpiOverridden: true
+              vpiLhs RefObj name:Q start:7:13 end:7:14:
+                vpiParent: ParamAssign
+                vpiName: Q
+                vpiFullName: foo.baz.Q
+                vpiActual: Parameter name:Q
               vpiRhs Constant start:14:13 end:14:16:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -362,6 +381,7 @@ Design name:unnamed:
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:16:3 end:17:24:
           vpiParent: Module name:foo
@@ -381,6 +401,8 @@ Design name:unnamed:
                   vpiSize: 48
                   vpiDecompile: "\"PASSED\""
                   vpiValue: PASSED
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$display:
       vpiRefInstance (4 items):
         RefInstance name:bar1 start:11:12 end:11:16:
           vpiParent: Module name:foo
@@ -496,7 +518,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/z1/design.hldb ${HLC_DIR}/regress
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              73      73       0         0
+Others                              77      77       0         0
 ----------------------------------------------------------------
-                                    73      73       0         0
+                                    77      77       0         0
 ===================== END REDUCTION RESULT =====================

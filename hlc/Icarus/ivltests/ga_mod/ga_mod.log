@@ -661,9 +661,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/ga_mod.v:23:1: Compile module "my_and".
 [INF:CP5804] $Source01/ga_mod.v:34:1: Compile module "main".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7701] Invalid name: id:213, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:216, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:219, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:214, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:217, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:220, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -738,6 +738,7 @@ Design name:unnamed:
         vpiFullName: my_and.work
         vpiActual: Library name:work
       vpiCell: my_and
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:a start:24:13 end:24:14:
           vpiParent: Module name:my_and
@@ -1250,6 +1251,7 @@ Design name:unnamed:
         vpiFullName: main.work
         vpiActual: Library name:work
       vpiCell: main
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:out start:38:13 end:38:16:
           vpiParent: Module name:main
@@ -1327,9 +1329,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              DelayControl start:52:5 end:52:8:
+              DelayControl start:52:5 end:52:9:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:52:7 end:52:8:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1500,9 +1504,11 @@ Design name:unnamed:
                         vpiParent: ForStmt
                         vpiFullName: main
                         vpiStmt (2 items):
-                          DelayControl start:57:13 end:57:15:
+                          DelayControl start:57:13 end:57:17:
                             vpiParent: Begin
                             vpiDelay: 1
+                            vpiStmt NullStmt:
+                              vpiParent: DelayControl
                             vpiDelay Constant start:57:14 end:57:15:
                               vpiParent: DelayControl
                               vpiTypespec RefTypespec:
@@ -1632,6 +1638,9 @@ Design name:unnamed:
                         vpiSize: 48
                         vpiDecompile: "\"PASSED\""
                         vpiValue: PASSED
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
       vpiRefInstance (1 items):
         RefInstance name:foo start:44:8 end:44:11:
           vpiParent: Module name:main
@@ -1742,7 +1751,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/ga_mod/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             245     245       0         0
+Others                             248     248       0         0
 ----------------------------------------------------------------
-                                   245     245       0         0
+                                   248     248       0         0
 ===================== END REDUCTION RESULT =====================

@@ -2172,9 +2172,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "10000"
             vpiValue: 10000
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:glbl
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:glbl
           vpiRange (1 items):
@@ -2227,6 +2228,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:glbl
       vpiDefName: glbl
       vpiDefNetType: wire (1)
       vpiTimePrecision: -12
@@ -2237,6 +2240,7 @@ Design name:unnamed:
         vpiFullName: glbl.work
         vpiActual: Library name:work
       vpiCell: glbl
+      vpiAutomatic: true
       vpiNet (17 items):
         Net name:GSR start:29:10 end:29:13:
           vpiParent: Module name:glbl
@@ -2581,8 +2585,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-              DelayControl start:92:2 end:92:15:
+              DelayControl start:92:2 end:92:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_START start:92:4 end:92:14:
                   vpiParent: DelayControl
                   vpiName: GRES_START
@@ -2606,8 +2612,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-              DelayControl start:94:2 end:94:15:
+              DelayControl start:94:2 end:94:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_WIDTH start:94:4 end:94:14:
                   vpiParent: DelayControl
                   vpiName: GRES_WIDTH
@@ -2965,7 +2973,7 @@ Design name:unnamed:
             vpiName: LATENCY
             vpiFullName: "HARD_SYNC #(.INIT(1'b0), .IS_CLK_INVERTED(1'b0), .LATENCY(2)).LATENCY"
             vpiActual: Parameter name:LATENCY
-      vpiTypespec (9 items):
+      vpiTypespec (10 items):
         BitTypespec:
           vpiParent: "Module name:HARD_SYNC #(.INIT(1'b0), .IS_CLK_INVERTED(1'b0), .LATENCY(2))"
         LogicTypespec:
@@ -3023,6 +3031,9 @@ Design name:unnamed:
         IntegerTypespec:
           vpiParent: "Module name:HARD_SYNC #(.INIT(1'b0), .IS_CLK_INVERTED(1'b0), .LATENCY(2))"
           vpiSigned: true
+        LogicTypespec:
+          vpiParent: "Module name:HARD_SYNC #(.INIT(1'b0), .IS_CLK_INVERTED(1'b0), .LATENCY(2))"
+          vpiScalar: true
         LogicTypespec:
           vpiParent: "Module name:HARD_SYNC #(.INIT(1'b0), .IS_CLK_INVERTED(1'b0), .LATENCY(2))"
         LogicTypespec:
@@ -3139,6 +3150,7 @@ Design name:unnamed:
         vpiFullName: "HARD_SYNC #(.INIT(1'b0), .IS_CLK_INVERTED(1'b0), .LATENCY(2)).work"
         vpiActual: Library name:work
       vpiCell: HARD_SYNC
+      vpiAutomatic: true
       vpiNet (9 items):
         Net name:DOUT start:48:10 end:48:14:
           vpiParent: "Module name:HARD_SYNC #(.INIT(1'b0), .IS_CLK_INVERTED(1'b0), .LATENCY(2))"
@@ -3290,9 +3302,11 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: "HARD_SYNC #(.INIT(1'b0), .IS_CLK_INVERTED(1'b0), .LATENCY(2))"
             vpiStmt (2 items):
-              DelayControl start:118:5 end:118:7:
+              DelayControl start:118:5 end:118:8:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:118:6 end:118:7:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -3336,9 +3350,11 @@ Design name:unnamed:
                 BitTypespec:
                   vpiParent: Begin
               vpiStmt (3 items):
-                DelayControl start:123:3 end:123:5:
+                DelayControl start:123:3 end:123:6:
                   vpiParent: Begin
                   vpiDelay: 1
+                  vpiStmt NullStmt:
+                    vpiParent: DelayControl
                   vpiDelay Constant start:123:4 end:123:5:
                     vpiParent: DelayControl
                     vpiTypespec RefTypespec:
@@ -3857,6 +3873,9 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "1"
                       vpiValue: 1
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
       vpiSpecifyBlock (1 items):
         SpecifyBlock start:159:3 end:172:13:
           vpiParent: "Module name:HARD_SYNC #(.INIT(1'b0), .IS_CLK_INVERTED(1'b0), .LATENCY(2))"
@@ -4038,12 +4057,12 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 BitTypespec                          7       8       1         0
 Constant                            69      66       3         6
-LogicTypespec                       11      12       1         0
+LogicTypespec                       13      14       1         0
 Operation                           25      14       0        11
 RefObj                              90      80       0        10
 RefTypespec                        132     129       3         6
 ----------------------------------------------------------------
-Others                             167     167       0         0
+Others                             172     172       0         0
 ----------------------------------------------------------------
-                                   501     476       8        33
+                                   508     483       8        33
 ===================== END REDUCTION RESULT =====================

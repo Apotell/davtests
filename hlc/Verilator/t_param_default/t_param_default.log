@@ -167,6 +167,7 @@ Design name:unnamed:
         vpiFullName: m #(.Foo()).work
         vpiActual: Library name:work
       vpiCell: m
+      vpiAutomatic: true
     Module name:t file:$Source01/t_param_default.v start:9:1 end:19:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:9:8 end:9:9:
@@ -180,6 +181,11 @@ Design name:unnamed:
             ParamAssign start:11:8 end:11:10:
               vpiParent: ModuleTypespec name:m
               vpiOverridden: true
+              vpiLhs RefObj name:Foo start:6:26 end:6:29:
+                vpiParent: ParamAssign
+                vpiName: Foo
+                vpiFullName: t.m.Foo
+                vpiActual: Parameter name:Foo
               vpiRhs Constant start:11:8 end:11:10:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -199,6 +205,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:13:4 end:17:7:
           vpiParent: Module name:t
@@ -262,6 +269,10 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:16:5 end:16:12:
                 vpiIsProperty: true
+      vpiSysTaskCall (3 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:foo start:11:12 end:11:15:
           vpiParent: Module name:t
@@ -339,7 +350,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_default/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              46      46       0         0
 ----------------------------------------------------------------
-                                    44      44       0         0
+                                    46      46       0         0
 ===================== END REDUCTION RESULT =====================

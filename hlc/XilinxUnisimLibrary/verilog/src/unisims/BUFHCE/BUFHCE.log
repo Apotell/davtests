@@ -2021,9 +2021,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "10000"
             vpiValue: 10000
-      vpiTypespec (3 items):
+      vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:glbl
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:glbl
           vpiRange (1 items):
@@ -2076,6 +2077,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:glbl
       vpiDefName: glbl
       vpiDefNetType: wire (1)
       vpiTimePrecision: -12
@@ -2086,6 +2089,7 @@ Design name:unnamed:
         vpiFullName: glbl.work
         vpiActual: Library name:work
       vpiCell: glbl
+      vpiAutomatic: true
       vpiNet (17 items):
         Net name:GSR start:29:10 end:29:13:
           vpiParent: Module name:glbl
@@ -2430,8 +2434,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-              DelayControl start:92:2 end:92:15:
+              DelayControl start:92:2 end:92:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_START start:92:4 end:92:14:
                   vpiParent: DelayControl
                   vpiName: GRES_START
@@ -2455,8 +2461,10 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
-              DelayControl start:94:2 end:94:15:
+              DelayControl start:94:2 end:94:16:
                 vpiParent: Begin
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay RefObj name:GRES_WIDTH start:94:4 end:94:14:
                   vpiParent: DelayControl
                   vpiName: GRES_WIDTH
@@ -2640,9 +2648,10 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
-      vpiTypespec (7 items):
+      vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: "Module name:BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0))"
+          vpiScalar: true
         IntegerTypespec:
           vpiParent: "Module name:BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0))"
           vpiSigned: true
@@ -2674,6 +2683,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: "Module name:BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0))"
         UnsupportedTypespec name:BUFGCTRL start:85:5 end:85:13:
           vpiParent: "Module name:BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0))"
           vpiName Identifier name:BUFGCTRL start:85:5 end:85:13:
@@ -2693,6 +2704,7 @@ Design name:unnamed:
         vpiFullName: "BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).work"
         vpiActual: Library name:work
       vpiCell: BUFHCE
+      vpiAutomatic: true
       vpiNet (8 items):
         Net name:O start:50:10 end:50:11:
           vpiParent: "Module name:BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0))"
@@ -3265,6 +3277,11 @@ Design name:unnamed:
             vpiSize: 40
             vpiDecompile: "\"FALSE\""
             vpiValue: FALSE
+      vpiSysTaskCall (4 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
       vpiRefInstance (3 items):
         RefInstance name:bufgctrl0_inst start:85:14 end:85:28:
           vpiParent: "Module name:BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0))"
@@ -3282,7 +3299,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: O
                 vpiFullName: "BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).bufgctrl0_inst.O"
-                vpiActual: Net name:O
               vpiHighConn RefObj name:o_bufg_o start:85:33 end:85:41:
                 vpiParent: NamedArgument
                 vpiName: o_bufg_o
@@ -3335,7 +3351,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: I1
                 vpiFullName: "BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).bufgctrl0_inst.I1"
-                vpiActual: RefInstance name:I1
               vpiHighConn Constant start:89:13 end:89:17:
                 vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
@@ -3425,7 +3440,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: I
                 vpiFullName: "BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).I1.I"
-                vpiActual: Net name:I
               vpiHighConn Operation start:100:16 end:100:42:
                 vpiParent: NamedArgument
                 vpiOpType: bitwise xor (30)
@@ -3447,7 +3461,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: O
                 vpiFullName: "BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).I1.O"
-                vpiActual: Net name:O
               vpiHighConn RefObj name:NCE start:101:16 end:101:19:
                 vpiParent: NamedArgument
                 vpiName: NCE
@@ -3469,7 +3482,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: O
                 vpiFullName: "BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).bufgctrl1_inst.O"
-                vpiActual: Net name:O
               vpiHighConn RefObj name:o_bufg1_o start:104:33 end:104:42:
                 vpiParent: NamedArgument
                 vpiName: o_bufg1_o
@@ -3522,7 +3534,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: I1
                 vpiFullName: "BUFHCE #(.CE_TYPE(\"SYNC\"), .INIT_OUT(0), .IS_CE_INVERTED(1'b0)).bufgctrl1_inst.I1"
-                vpiActual: RefInstance name:I1
               vpiHighConn Constant start:108:13 end:108:17:
                 vpiParent: NamedArgument
                 vpiTypespec RefTypespec:
@@ -3776,12 +3787,12 @@ COMMAND: ${HLC_DIR}/regression/XilinxUnisimLibrary/verilog/src/unisims/BUFHCE/de
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            62      61       2         3
-LogicTypespec                        6       7       1         0
+LogicTypespec                        8       9       1         0
 Operation                           10       6       0         4
 RefObj                             105     102       0         3
 RefTypespec                        120     119       2         3
 ----------------------------------------------------------------
-Others                             179     179       0         0
+Others                             182     182       0         0
 ----------------------------------------------------------------
-                                   482     474       5        13
+                                   487     479       5        13
 ===================== END REDUCTION RESULT =====================

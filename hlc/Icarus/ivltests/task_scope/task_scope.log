@@ -280,6 +280,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:test
+          vpiScalar: true
         ModuleTypespec name:jobs start:32:4 end:32:8:
           vpiParent: Module name:test
           vpiName Identifier name:jobs start:32:4 end:32:8:
@@ -293,6 +294,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:ini start:34:4 end:38:11:
           vpiParent: Module name:test
@@ -356,9 +358,11 @@ Design name:unnamed:
                 vpiName: ini
                 vpiFullName: test.ini
                 vpiActual: Task name:ini
-              DelayControl start:43:2 end:43:4:
+              DelayControl start:43:2 end:43:5:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:43:3 end:43:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -397,9 +401,11 @@ Design name:unnamed:
                           vpiDecompile: "1'b1"
                           vpiValue: "1"
                 vpiActual: MethodTaskCall name:set
-              DelayControl start:45:2 end:45:4:
+              DelayControl start:45:2 end:45:5:
                 vpiParent: Begin
                 vpiDelay: 1
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:45:3 end:45:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -463,6 +469,9 @@ Design name:unnamed:
                         vpiSize: 48
                         vpiDecompile: "\"FAILED\""
                         vpiValue: FAILED
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$display:
       vpiRefInstance (1 items):
         RefInstance name:j start:32:9 end:32:10:
           vpiParent: Module name:test
@@ -509,6 +518,7 @@ Design name:unnamed:
         vpiFullName: jobs.work
         vpiActual: Library name:work
       vpiCell: jobs
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:set start:59:4 end:64:11:
           vpiParent: Module name:jobs
@@ -527,6 +537,7 @@ Design name:unnamed:
             IODecl name:val start:60:13 end:60:16:
               vpiParent: Task name:set
               vpiName: val
+              vpiDirection: input (1)
               vpiTypespec RefTypespec:
                 vpiParent: IODecl name:val
                 vpiFullName: jobs.set.val
@@ -537,6 +548,7 @@ Design name:unnamed:
             vpiTypespec (1 items):
               LogicTypespec:
                 vpiParent: Begin
+                vpiScalar: true
             vpiStmt (1 items):
               Begin start:61:7 end:63:10:
                 vpiParent: Begin
@@ -648,7 +660,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/task_scope/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              88      88       0         0
+Others                              91      91       0         0
 ----------------------------------------------------------------
-                                    88      88       0         0
+                                    91      91       0         0
 ===================== END REDUCTION RESULT =====================

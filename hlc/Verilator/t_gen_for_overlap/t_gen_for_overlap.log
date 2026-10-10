@@ -486,6 +486,10 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/t_gen_for_overlap.v:15:32: Compile generate block "gblk".
 [INF:CP5804] $Source01/t_gen_for_overlap.v:35:1: Compile module "sub1".
 [INF:CP5804] $Source01/t_gen_for_overlap.v:43:1: Compile module "sub2".
+[WRN:CP5851] $Source01/t_gen_for_overlap.v:26:13: Failed to bind "gblk".
+[WRN:CP5851] $Source01/t_gen_for_overlap.v:27:13: Failed to bind "gblk".
+[WRN:CP5851] $Source01/t_gen_for_overlap.v:28:13: Failed to bind "gblk".
+[WRN:CP5851] $Source01/t_gen_for_overlap.v:29:13: Failed to bind "gblk".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -508,6 +512,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         ModuleTypespec name:sub1 start:20:4 end:20:8:
           vpiParent: Module name:t
           vpiName Identifier name:sub1 start:20:4 end:20:8:
@@ -541,6 +546,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:12:10 end:12:13:
           vpiParent: Module name:t
@@ -918,6 +924,15 @@ Design name:unnamed:
                   vpiName Identifier name:$finish start:31:7 end:31:14:
                   vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (8 items):
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:u start:20:19 end:20:20:
           vpiParent: Module name:t
@@ -931,15 +946,14 @@ Design name:unnamed:
         GenFor start:15:4 end:18:7:
           vpiParent: Module name:t
           vpiFullName: t
-          vpiVariable (1 items):
-            Variable name:g start:15:9 end:15:10:
-              vpiParent: GenFor
-              vpiName: g
-              vpiFullName: t.g
           vpiForInitStmt (1 items):
             Assignment start:15:9 end:15:12:
               vpiParent: GenFor
-              vpiLhs: Variable name:g
+              vpiLhs RefObj name:g start:15:9 end:15:10:
+                vpiParent: Assignment
+                vpiName: g
+                vpiFullName: t.g
+                vpiActual: Variable name:g
               vpiRhs Constant start:15:11 end:15:12:
                 vpiParent: Assignment
                 vpiTypespec RefTypespec:
@@ -1098,6 +1112,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:sub1
+          vpiScalar: true
       vpiDefName: sub1
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:35:8 end:35:12:
@@ -1106,6 +1121,7 @@ Design name:unnamed:
         vpiFullName: sub1.work
         vpiActual: Library name:work
       vpiCell: sub1
+      vpiAutomatic: true
     Module name:sub2 file:$Source01/t_gen_for_overlap.v start:43:1 end:49:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub2 start:43:8 end:43:12:
@@ -1191,6 +1207,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:sub2
+          vpiScalar: true
       vpiDefName: sub2
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:43:8 end:43:12:
@@ -1199,6 +1216,7 @@ Design name:unnamed:
         vpiFullName: sub2.work
         vpiActual: Library name:work
       vpiCell: sub2
+      vpiAutomatic: true
   vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1228,7 +1246,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1272,7 +1290,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_gen_for_overlap/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             181     181       0         0
+Others                             182     182       0         0
 ----------------------------------------------------------------
-                                   181     181       0         0
+                                   182     182       0         0
 ===================== END REDUCTION RESULT =====================

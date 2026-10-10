@@ -614,8 +614,9 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/t_interface_parameter_access.v:58:15: Port "intf" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/t_interface_parameter_access.v:59:12: Port "intf_no_mp" definition missing its direction (input, output, inout).
 [WRN:CP5851] $Source01/t_interface_parameter_access.v:11:4: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_interface_parameter_access.v:36:16: Failed to bind "FOO".
+[WRN:CP5851] $Source01/t_interface_parameter_access.v:36:16: Failed to bind "FOO".
 [WRN:CP5851] $Source01/t_interface_parameter_access.v:43:43: Failed to bind "FOO".
-[WRN:CP5851] $Source01/t_interface_parameter_access.v:58:4: Failed to bind "test_if".
 [WRN:CP5851] $Source01/t_interface_parameter_access.v:58:12: Failed to bind "mp".
 [WRN:CP5851] $Source01/t_interface_parameter_access.v:62:25: Failed to bind "intf".
 [WRN:CP5851] $Source01/t_interface_parameter_access.v:62:30: Failed to bind "FOO".
@@ -757,6 +758,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         UnsupportedTypespec start:36:4 end:36:35:
           vpiParent: Module name:t
           vpiParamAssign (2 items):
@@ -823,6 +825,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:34:10 end:34:13:
           vpiParent: Module name:t
@@ -906,6 +909,9 @@ Design name:unnamed:
                       vpiParent: Begin
                       vpiName Identifier name:$stop start:48:3 end:48:8:
                       vpiIsProperty: true
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
       vpiRefInstance (2 items):
         RefInstance name:the_interface start:36:36 end:36:49:
           vpiParent: Module name:t
@@ -930,7 +936,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.testmod_i.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:38:29 end:38:32:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1032,6 +1038,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:testmod
+          vpiScalar: true
       vpiDefName: testmod
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:55:8 end:55:15:
@@ -1040,6 +1047,7 @@ Design name:unnamed:
         vpiFullName: testmod.work
         vpiActual: Library name:work
       vpiCell: testmod
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:57:10 end:57:13:
           vpiParent: Module name:testmod
@@ -1082,19 +1090,20 @@ Design name:unnamed:
             vpiParent: Port name:intf
             vpiName: intf
             vpiFullName: testmod.intf.intf
-          vpiTypespec RefTypespec name:test_if::mp start:58:4 end:58:14:
+          vpiTypespec RefTypespec name:test_if #(.FOO(1))::mp start:58:4 end:58:14:
             vpiParent: Port name:intf
-            vpiName: test_if::mp
-            vpiFullName: testmod.intf.test_if::mp
+            vpiName: test_if #(.FOO(1))::mp
+            vpiFullName: testmod.intf.test_if #(.FOO(1))::mp
             vpiPathElem (2 items):
               RefObj name:test_if start:58:4 end:58:11:
-                vpiParent: RefTypespec name:test_if::mp
+                vpiParent: RefTypespec name:test_if #(.FOO(1))::mp
                 vpiName: test_if
                 vpiFullName: testmod.intf.test_if
+                vpiActual: Interface name:test_if #(.FOO(1))
               RefTypespec name:mp start:58:12 end:58:14:
-                vpiParent: RefTypespec name:test_if::mp
+                vpiParent: RefTypespec name:test_if #(.FOO(1))::mp
                 vpiName: mp
-                vpiFullName: testmod.intf.test_if::mp.mp
+                vpiFullName: testmod.intf.test_if #(.FOO(1))::mp.mp
         Port name:intf_no_mp start:59:12 end:59:22:
           vpiParent: Module name:testmod
           vpiName: intf_no_mp
@@ -1394,6 +1403,17 @@ Design name:unnamed:
                   vpiName Identifier name:$finish start:87:7 end:87:14:
                   vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (10 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$display:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
   vpiTypespec (5 items):
     InterfaceTypespec name:test_if:
       vpiParent: Design name:unnamed
@@ -1453,7 +1473,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 12
+[WARNING] : 13
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1497,7 +1517,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_parameter_access/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             216     216       0         0
+Others                             217     217       0         0
 ----------------------------------------------------------------
-                                   216     216       0         0
+                                   217     217       0         0
 ===================== END REDUCTION RESULT =====================

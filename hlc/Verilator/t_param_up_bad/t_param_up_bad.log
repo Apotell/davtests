@@ -179,6 +179,7 @@ Design name:unnamed:
         vpiFullName: child.work
         vpiActual: Library name:work
       vpiCell: child
+      vpiAutomatic: true
       vpiContAssign (1 items):
         ContAssign start:15:11 end:15:26:
           vpiParent: Module name:child
@@ -244,6 +245,7 @@ Design name:unnamed:
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:parent #(.PARAM(0))
+          vpiScalar: true
         ModuleTypespec name:child start:25:4 end:25:9:
           vpiParent: Module name:parent #(.PARAM(0))
           vpiName Identifier name:child start:25:4 end:25:9:
@@ -257,6 +259,7 @@ Design name:unnamed:
         vpiFullName: parent #(.PARAM(0)).work
         vpiActual: Library name:work
       vpiCell: parent
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:c start:25:10 end:25:11:
           vpiParent: Module name:parent #(.PARAM(0))
@@ -279,6 +282,11 @@ Design name:unnamed:
             ParamAssign start:30:14 end:30:15:
               vpiParent: ModuleTypespec name:parent
               vpiOverridden: true
+              vpiLhs RefObj name:PARAM start:20:15 end:20:20:
+                vpiParent: ParamAssign
+                vpiName: PARAM
+                vpiFullName: t.parent.PARAM
+                vpiActual: Parameter name:PARAM
               vpiRhs Constant start:30:14 end:30:15:
                 vpiParent: ParamAssign
                 vpiTypespec RefTypespec:
@@ -298,6 +306,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:p start:30:18 end:30:19:
           vpiParent: Module name:t
@@ -406,7 +415,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_up_bad/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              57      57       0         0
 ----------------------------------------------------------------
-                                    55      55       0         0
+                                    57      57       0         0
 ===================== END REDUCTION RESULT =====================

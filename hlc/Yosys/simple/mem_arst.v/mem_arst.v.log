@@ -470,6 +470,16 @@ Design name:unnamed:
             Attribute name:mem2reg start:17:6 end:17:13:
               vpiParent: Variable name:Mem
               vpiName: mem2reg
+              vpiValue Constant start:17:6 end:17:13:
+                vpiParent: Attribute name:mem2reg
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: MyMem #(.AddrWidth(4), .DataWidth(4)).Mem.mem2reg
+                  vpiActual: IntTypespec
+                vpiConstType: int (7)
+                vpiSize: 32
+                vpiDecompile: "1"
+                vpiValue: 1
           vpiName: Mem
           vpiFullName: MyMem #(.AddrWidth(4), .DataWidth(4)).Mem
         Variable name:i start:20:11 end:20:12:
@@ -570,6 +580,7 @@ Design name:unnamed:
       vpiTypespec (8 items):
         LogicTypespec:
           vpiParent: Module name:MyMem #(.AddrWidth(4), .DataWidth(4))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:MyMem #(.AddrWidth(4), .DataWidth(4))
           vpiRange (1 items):
@@ -794,6 +805,7 @@ Design name:unnamed:
         vpiFullName: MyMem #(.AddrWidth(4), .DataWidth(4)).work
         vpiActual: Library name:work
       vpiCell: MyMem
+      vpiAutomatic: true
       vpiNet (6 items):
         Net name:Reset_n_i start:6:26 end:6:35:
           vpiParent: Module name:MyMem #(.AddrWidth(4), .DataWidth(4))
@@ -1157,7 +1169,7 @@ Design name:unnamed:
                                 vpiFullName: MyMem #(.AddrWidth(4), .DataWidth(4)).Data_i
                                 vpiActual: Net name:Data_i
           vpiAlwaysType: always (1)
-  vpiTypespec (3 items):
+  vpiTypespec (4 items):
     ModuleTypespec name:MyMem:
       vpiParent: Design name:unnamed
       vpiName Identifier name:MyMem start:2:8 end:2:13:
@@ -1166,6 +1178,8 @@ Design name:unnamed:
     IntTypespec:
       vpiParent: Design name:unnamed
       vpiSigned: true
+    IntTypespec:
+      vpiParent: Design name:unnamed
     LogicTypespec:
       vpiParent: Design name:unnamed
   vpiLibrary (1 items):
@@ -1219,12 +1233,12 @@ COMMAND: ${HLC_DIR}/regression/Yosys/simple/mem_arst.v/design.hldb ${HLC_DIR}/re
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                            20      20       7         7
+Constant                            21      21       7         7
 Operation                           13       6       0         7
 RefObj                              35      28       0         7
-RefTypespec                         39      39       7         7
+RefTypespec                         40      40       7         7
 ----------------------------------------------------------------
-Others                              65      65       0         0
+Others                              67      67       0         0
 ----------------------------------------------------------------
-                                   172     158      14        28
+                                   176     162      14        28
 ===================== END REDUCTION RESULT =====================

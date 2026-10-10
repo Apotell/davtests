@@ -1676,12 +1676,15 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/cpu.sv:18:3: Failed to bind "genbus_if".
 [WRN:CP5851] $Source01/cpu.sv:18:13: Failed to bind "master".
 [WRN:CP5851] $Source01/cpu.sv:80:26: Failed to bind "rom".
+[WRN:CP5851] $Source01/cpu.sv:81:23: Failed to bind "rom".
 [WRN:CP5851] $Source01/cpu.sv:205:7: Failed to bind "dbus".
 [WRN:CP5851] $Source01/cpu.sv:205:12: Failed to bind "mConnect".
 [WRN:CP5851] $Source01/cpu.sv:223:3: Failed to bind "mPreAdrDecode_resp".
 [WRN:CP5851] $Source01/cpu.sv:227:21: Failed to bind "dbus".
 [WRN:CP5851] $Source01/cpu.sv:227:26: Failed to bind "mPreAdrDecode".
 [INF:CM5028] Using global timescale: "1ns/1ns".
+[ERR:LN7705] $Source01/cpu.sv:205:12: Null Actual: id:601, type:SubroutineCall, name:mConnect, relation:vpiPathElem.
+[ERR:LN7705] $Source01/cpu.sv:227:26: Null Actual: id:643, type:SubroutineCall, name:mPreAdrDecode, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -1852,7 +1855,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-      vpiTypespec (12 items):
+      vpiTypespec (13 items):
+        LogicTypespec:
+          vpiParent: Module name:cpu #(.ID(1))
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:cpu #(.ID(1))
         LogicTypespec:
@@ -2152,6 +2158,7 @@ Design name:unnamed:
         vpiFullName: cpu #(.ID(1)).work
         vpiActual: Library name:work
       vpiCell: cpu
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:26:21 end:26:24:
           vpiParent: Module name:cpu #(.ID(1))
@@ -3050,6 +3057,8 @@ Design name:unnamed:
                         vpiSize: 16
                         vpiDecompile: "16'h0000"
                         vpiValue: "0000"
+                    vpiStmt NullStmt:
+                      vpiParent: CaseItem
                   CaseItem start:163:9 end:167:14:
                     vpiParent: CaseStmt
                     vpiExpr (1 items):
@@ -3988,6 +3997,8 @@ Design name:unnamed:
                             vpiFullName: cpu #(.ID(1)).PreAdrDecode.dbus.mPreAdrDecode(0, idec_mem_adr).mPreAdrDecode.idec_mem_adr
                             vpiActual: Variable name:idec_mem_adr
           vpiAlwaysType: comb (2)
+      vpiSysTaskCall (1 items):
+        SysFuncCall name:$size:
   vpiTypespec (3 items):
     ModuleTypespec name:cpu:
       vpiParent: Design name:unnamed
@@ -4006,8 +4017,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 9
+[  ERROR] : 2
+[WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -4051,7 +4062,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_sv_cpu_code/cpu/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             546     546       0         0
+Others                             549     549       0         0
 ----------------------------------------------------------------
-                                   546     546       0         0
+                                   549     549       0         0
 ===================== END REDUCTION RESULT =====================

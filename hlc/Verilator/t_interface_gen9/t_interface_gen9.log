@@ -222,6 +222,7 @@ Design name:unnamed:
         vpiFullName: t1.work
         vpiActual: Library name:work
       vpiCell: t1
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:foo start:8:23 end:8:26:
           vpiParent: Module name:t1
@@ -276,6 +277,8 @@ Design name:unnamed:
                       vpiName: foo
                       vpiFullName: t1.foo
                       vpiActual: Net name:foo
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$display:
     Module name:t file:$Source01/t_interface_gen9.v start:14:1 end:32:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:14:8 end:14:9:
@@ -329,6 +332,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:28:4 end:31:7:
           vpiParent: Module name:t
@@ -356,6 +360,9 @@ Design name:unnamed:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:30:7 end:30:14:
                 vpiIsProperty: true
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiGenStmt (1 items):
         GenRegion start:18:4 end:26:15:
           vpiParent: Module name:t
@@ -372,15 +379,14 @@ Design name:unnamed:
               GenFor start:20:7 end:25:10:
                 vpiParent: Begin
                 vpiFullName: t
-                vpiVariable (1 items):
-                  Variable name:the_genvar start:20:12 end:20:22:
-                    vpiParent: GenFor
-                    vpiName: the_genvar
-                    vpiFullName: t.the_genvar
                 vpiForInitStmt (1 items):
                   Assignment start:20:12 end:20:26:
                     vpiParent: GenFor
-                    vpiLhs: Variable name:the_genvar
+                    vpiLhs RefObj name:the_genvar start:20:12 end:20:22:
+                      vpiParent: Assignment
+                      vpiName: the_genvar
+                      vpiFullName: t.the_genvar
+                      vpiActual: Variable name:the_genvar
                     vpiRhs Constant start:20:25 end:20:26:
                       vpiParent: Assignment
                       vpiTypespec RefTypespec:
@@ -530,7 +536,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_gen9/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              73      73       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    73      73       0         0
 ===================== END REDUCTION RESULT =====================

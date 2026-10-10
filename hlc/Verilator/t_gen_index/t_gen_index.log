@@ -567,8 +567,10 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/t_gen_index.v:61:24: Implicit port type (wire) for "y".
 [WRN:CP5851] $Source01/t_gen_index.v:45:35: Failed to bind "i_bar".
 [WRN:CP5851] $Source01/t_gen_index.v:45:41: Failed to bind "r".
+[WRN:CP5851] $Source01/t_gen_index.v:45:18: Failed to bind "bar_inst".
 [WRN:CP5851] $Source01/t_gen_index.v:46:39: Failed to bind "i_bar".
 [WRN:CP5851] $Source01/t_gen_index.v:46:45: Failed to bind "r".
+[WRN:CP5851] $Source01/t_gen_index.v:46:18: Failed to bind "bar_inst".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -716,6 +718,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:t
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:t
           vpiRange (1 items):
@@ -837,6 +840,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:23:10 end:23:13:
           vpiParent: Module name:t
@@ -910,6 +914,9 @@ Design name:unnamed:
                   vpiName Identifier name:$finish start:34:7 end:34:14:
                   vpiIsProperty: true
           vpiAlwaysType: always (1)
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:foo_i start:28:8 end:28:13:
           vpiParent: Module name:t
@@ -927,7 +934,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: y
                 vpiFullName: t.foo_i.y
-                vpiActual: Variable name:y
+                vpiActual: Port name:y
               vpiHighConn RefObj name:y start:28:21 end:28:22:
                 vpiParent: NamedArgument
                 vpiName: y
@@ -940,7 +947,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: x
                 vpiFullName: t.foo_i.x
-                vpiActual: Net name:x
+                vpiActual: Port name:x
               vpiHighConn RefObj name:x start:29:14 end:29:15:
                 vpiParent: NamedArgument
                 vpiName: x
@@ -953,7 +960,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: t.foo_i.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:30:14 end:30:17:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -1079,6 +1086,7 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:foo
+          vpiScalar: true
       vpiDefName: foo
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:40:8 end:40:11:
@@ -1087,6 +1095,7 @@ Design name:unnamed:
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:peek_bar start:44:4 end:47:15:
           vpiParent: Module name:foo
@@ -1271,15 +1280,14 @@ Design name:unnamed:
           vpiStmt GenFor start:51:7 end:55:10:
             vpiParent: GenRegion
             vpiFullName: foo
-            vpiVariable (1 items):
-              Variable name:g start:51:12 end:51:13:
-                vpiParent: GenFor
-                vpiName: g
-                vpiFullName: foo.g
             vpiForInitStmt (1 items):
               Assignment start:51:12 end:15:16:
                 vpiParent: GenFor
-                vpiLhs: Variable name:g
+                vpiLhs RefObj name:g start:51:12 end:51:13:
+                  vpiParent: Assignment
+                  vpiName: g
+                  vpiFullName: foo.g
+                  vpiActual: Variable name:g
                 vpiRhs Constant start:15:15 end:15:16:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1378,7 +1386,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: x
                         vpiFullName: foo.bar_inst.i_bar.x
-                        vpiActual: Net name:x
+                        vpiActual: Port name:x
                       vpiHighConn BitSelect name:x[g] start:52:26 end:52:30:
                         vpiParent: NamedArgument
                         vpiName: x[g]
@@ -1400,7 +1408,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: y
                         vpiFullName: foo.bar_inst.i_bar.y
-                        vpiActual: Net name:y
+                        vpiActual: Port name:y
                       vpiHighConn BitSelect name:y[g] start:53:12 end:53:16:
                         vpiParent: NamedArgument
                         vpiName: y[g]
@@ -1422,7 +1430,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: clk
                         vpiFullName: foo.bar_inst.i_bar.clk
-                        vpiActual: Net name:clk
+                        vpiActual: Port name:clk
                       vpiHighConn RefObj name:clk start:54:12 end:54:15:
                         vpiParent: NamedArgument
                         vpiName: clk
@@ -1452,7 +1460,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:bar
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:bar
       vpiDefName: bar
@@ -1463,6 +1474,7 @@ Design name:unnamed:
         vpiFullName: bar.work
         vpiActual: Library name:work
       vpiCell: bar
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:y start:61:24 end:61:25:
           vpiParent: Module name:bar
@@ -1624,7 +1636,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 6
 [   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1671,7 +1683,7 @@ Constant                            25      15       6        16
 Operation                           16       6       0        10
 RefTypespec                         45      35       6        16
 ----------------------------------------------------------------
-Others                             204     204       0         0
+Others                             206     206       0         0
 ----------------------------------------------------------------
-                                   290     260      12        42
+                                   292     262      12        42
 ===================== END REDUCTION RESULT =====================

@@ -47,6 +47,12 @@ COMMAND: -wd ../../../../tests/YosysBigSim/verilog-pong -writepp -mt max -fileun
 [NTE:CP5810] $Source01/rtl/vga_sync.v:5:32: Implicit port type (wire) for "pixel_y".
 [INF:CP5804] $Source01/sim/bench.v:8:1: Compile module "testbench".
 [ERR:CP5835] Colliding compilation unit name: "font_rom".
+[WRN:CP5851] $Source01/rtl/pong_graph.v:65:9: Failed to bind "refr_tick".
+[WRN:CP5851] $Source01/rtl/pong_graph.v:67:9: Failed to bind "refr_tick".
+[WRN:CP5851] $Source01/rtl/pong_graph.v:75:10: Failed to bind "ball_bit".
+[WRN:CP5851] $Source01/rtl/pong_graph.v:129:12: Failed to bind "refr_tick".
+[WRN:CP5851] $Source01/rtl/pong_graph.v:138:12: Failed to bind "refr_tick".
+[WRN:CP5851] $Source01/rtl/pong_graph.v:146:19: Failed to bind "refr_tick".
 [WRN:PA5506] $Source01/rtl/data.v:1:1: No timescale set for "font_rom".
 [WRN:PA5506] $Source01/rtl/front_rom.v:1:1: No timescale set for "font_rom".
 [WRN:PA5506] $Source01/rtl/text_graph.v:1:1: No timescale set for "text_graph".
@@ -136,6 +142,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:font_rom
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:font_rom
           vpiRange (1 items):
@@ -222,6 +229,7 @@ Design name:unnamed:
         vpiFullName: font_rom.work
         vpiActual: Library name:work
       vpiCell: font_rom
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:3:16 end:3:19:
           vpiParent: Module name:font_rom
@@ -63832,7 +63840,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: count
           vpiFullName: debounce.count
-      vpiTypespec (2 items):
+      vpiTypespec (3 items):
+        LogicTypespec:
+          vpiParent: Module name:debounce
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:debounce
         LogicTypespec:
@@ -63871,6 +63882,7 @@ Design name:unnamed:
         vpiFullName: debounce.work
         vpiActual: Library name:work
       vpiCell: debounce
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:3:14 end:3:17:
           vpiParent: Module name:debounce
@@ -64148,6 +64160,7 @@ Design name:unnamed:
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Module name:font_rom
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:font_rom
           vpiRange (1 items):
@@ -64234,6 +64247,7 @@ Design name:unnamed:
         vpiFullName: font_rom.work
         vpiActual: Library name:work
       vpiCell: font_rom
+      vpiAutomatic: true
       vpiNet (2 items):
         Net name:clk start:3:16 end:3:19:
           vpiParent: Module name:font_rom
@@ -128294,9 +128308,10 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "3"
                 vpiValue: 3
-      vpiTypespec (18 items):
+      vpiTypespec (19 items):
         LogicTypespec:
           vpiParent: Module name:pong_graph
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:pong_graph
           vpiRange (1 items):
@@ -128375,6 +128390,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:pong_graph
         LogicTypespec:
           vpiParent: Module name:pong_graph
           vpiRange (1 items):
@@ -128749,6 +128766,7 @@ Design name:unnamed:
         vpiFullName: pong_graph.work
         vpiActual: Library name:work
       vpiCell: pong_graph
+      vpiAutomatic: true
       vpiNet (24 items):
         Net name:clk start:3:14 end:3:17:
           vpiParent: Module name:pong_graph
@@ -132837,6 +132855,7 @@ Design name:unnamed:
       vpiTypespec (10 items):
         LogicTypespec:
           vpiParent: Module name:text_graph
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:text_graph
           vpiRange (1 items):
@@ -133079,6 +133098,7 @@ Design name:unnamed:
         vpiFullName: text_graph.work
         vpiActual: Library name:work
       vpiCell: text_graph
+      vpiAutomatic: true
       vpiNet (13 items):
         Net name:clk start:2:14 end:2:17:
           vpiParent: Module name:text_graph
@@ -134246,7 +134266,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: text_graph.rom.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:16:20 end:16:23:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -134411,9 +134431,10 @@ Design name:unnamed:
             vpiSize: 2
             vpiDecompile: "2'b10"
             vpiValue: "10"
-      vpiTypespec (12 items):
+      vpiTypespec (13 items):
         LogicTypespec:
           vpiParent: Module name:top
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:top
           vpiRange (1 items):
@@ -134624,6 +134645,8 @@ Design name:unnamed:
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:top
+        LogicTypespec:
+          vpiParent: Module name:top
           vpiRange (1 items):
             Range start:23:7 end:23:12:
               vpiParent: LogicTypespec
@@ -134710,6 +134733,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiNet (22 items):
         Net name:clk start:3:14 end:3:17:
           vpiParent: Module name:top
@@ -135800,7 +135824,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: top.text.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:41:9 end:41:12:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -135995,7 +136019,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: text_on
                 vpiFullName: top.text.text_on
-                vpiActual: Net name:text_on
+                vpiActual: Port name:text_on
               vpiHighConn RefObj name:text_on start:43:29 end:43:36:
                 vpiParent: NamedArgument
                 vpiName: text_on
@@ -136008,7 +136032,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: text_rgb
                 vpiFullName: top.text.text_rgb
-                vpiActual: Net name:text_rgb
+                vpiActual: Port name:text_rgb
               vpiHighConn RefObj name:text_rgb start:43:49 end:43:57:
                 vpiParent: NamedArgument
                 vpiName: text_rgb
@@ -136030,7 +136054,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: top.vsync_unit.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:46:9 end:46:12:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -136043,7 +136067,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: reset
                 vpiFullName: top.vsync_unit.reset
-                vpiActual: Net name:reset
+                vpiActual: Port name:reset
               vpiHighConn RefObj name:reset start:46:22 end:46:27:
                 vpiParent: NamedArgument
                 vpiName: reset
@@ -136056,7 +136080,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: hsync
                 vpiFullName: top.vsync_unit.hsync
-                vpiActual: Net name:hsync
+                vpiActual: Port name:hsync
               vpiHighConn RefObj name:hsync start:46:37 end:46:42:
                 vpiParent: NamedArgument
                 vpiName: hsync
@@ -136069,7 +136093,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: vsync
                 vpiFullName: top.vsync_unit.vsync
-                vpiActual: Net name:vsync
+                vpiActual: Port name:vsync
               vpiHighConn RefObj name:vsync start:46:52 end:46:57:
                 vpiParent: NamedArgument
                 vpiName: vsync
@@ -136082,7 +136106,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: video_on
                 vpiFullName: top.vsync_unit.video_on
-                vpiActual: Net name:video_on
+                vpiActual: Port name:video_on
               vpiHighConn RefObj name:video_on start:47:13 end:47:21:
                 vpiParent: NamedArgument
                 vpiName: video_on
@@ -136108,7 +136132,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: pixel_x
                 vpiFullName: top.vsync_unit.pixel_x
-                vpiActual: Net name:pixel_x
+                vpiActual: Port name:pixel_x
               vpiHighConn RefObj name:pixel_x start:48:12 end:48:19:
                 vpiParent: NamedArgument
                 vpiName: pixel_x
@@ -136121,7 +136145,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: pixel_y
                 vpiFullName: top.vsync_unit.pixel_y
-                vpiActual: Net name:pixel_y
+                vpiActual: Port name:pixel_y
               vpiHighConn RefObj name:pixel_y start:48:31 end:48:38:
                 vpiParent: NamedArgument
                 vpiName: pixel_y
@@ -136143,7 +136167,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: clk
                 vpiFullName: top.graph_unit.clk
-                vpiActual: Net name:clk
+                vpiActual: Port name:clk
               vpiHighConn RefObj name:clk start:51:10 end:51:13:
                 vpiParent: NamedArgument
                 vpiName: clk
@@ -136156,7 +136180,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: reset
                 vpiFullName: top.graph_unit.reset
-                vpiActual: Net name:reset
+                vpiActual: Port name:reset
               vpiHighConn RefObj name:reset start:51:23 end:51:28:
                 vpiParent: NamedArgument
                 vpiName: reset
@@ -136169,7 +136193,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: btn1
                 vpiFullName: top.graph_unit.btn1
-                vpiActual: Net name:btn1
+                vpiActual: Port name:btn1
               vpiHighConn RefObj name:btn1_out start:51:37 end:51:45:
                 vpiParent: NamedArgument
                 vpiName: btn1_out
@@ -136182,7 +136206,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: btn2
                 vpiFullName: top.graph_unit.btn2
-                vpiActual: Net name:btn2
+                vpiActual: Port name:btn2
               vpiHighConn RefObj name:btn2_out start:51:54 end:51:62:
                 vpiParent: NamedArgument
                 vpiName: btn2_out
@@ -136221,7 +136245,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: graph_still
                 vpiFullName: top.graph_unit.graph_still
-                vpiActual: Variable name:graph_still
+                vpiActual: Port name:graph_still
               vpiHighConn RefObj name:graph_still start:53:18 end:53:29:
                 vpiParent: NamedArgument
                 vpiName: graph_still
@@ -136234,7 +136258,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: miss
                 vpiFullName: top.graph_unit.miss
-                vpiActual: Net name:miss
+                vpiActual: Port name:miss
               vpiHighConn RefObj name:miss start:53:38 end:53:42:
                 vpiParent: NamedArgument
                 vpiName: miss
@@ -136247,7 +136271,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: hit_left
                 vpiFullName: top.graph_unit.hit_left
-                vpiActual: Net name:hit_left
+                vpiActual: Port name:hit_left
               vpiHighConn RefObj name:hit_left start:53:54 end:53:62:
                 vpiParent: NamedArgument
                 vpiName: hit_left
@@ -136260,7 +136284,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: hit_right
                 vpiFullName: top.graph_unit.hit_right
-                vpiActual: Net name:hit_right
+                vpiActual: Port name:hit_right
               vpiHighConn RefObj name:hit_right start:53:75 end:53:84:
                 vpiParent: NamedArgument
                 vpiName: hit_right
@@ -136273,7 +136297,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: graph_on
                 vpiFullName: top.graph_unit.graph_on
-                vpiActual: Net name:graph_on
+                vpiActual: Port name:graph_on
               vpiHighConn RefObj name:graph_on start:54:15 end:54:23:
                 vpiParent: NamedArgument
                 vpiName: graph_on
@@ -136286,7 +136310,7 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: graph_rgb
                 vpiFullName: top.graph_unit.graph_rgb
-                vpiActual: Net name:graph_rgb
+                vpiActual: Port name:graph_rgb
               vpiHighConn RefObj name:graph_rgb start:54:37 end:54:46:
                 vpiParent: NamedArgument
                 vpiName: graph_rgb
@@ -136589,9 +136613,10 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
-      vpiTypespec (4 items):
+      vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:vga_sync
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:vga_sync
           vpiRange (1 items):
@@ -136618,6 +136643,8 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:vga_sync
         LogicTypespec:
           vpiParent: Module name:vga_sync
           vpiRange (1 items):
@@ -136678,6 +136705,7 @@ Design name:unnamed:
         vpiFullName: vga_sync.work
         vpiActual: Library name:work
       vpiCell: vga_sync
+      vpiAutomatic: true
       vpiNet (14 items):
         Net name:clk start:3:16 end:3:19:
           vpiParent: Module name:vga_sync
@@ -137805,7 +137833,7 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: hash
           vpiFullName: testbench.hash
-      vpiTypespec (9 items):
+      vpiTypespec (10 items):
         LogicTypespec:
           vpiParent: Module name:testbench
         LogicTypespec:
@@ -137860,6 +137888,9 @@ Design name:unnamed:
                 vpiDecompile: "0"
                 vpiValue: 0
           vpiVector: true
+        LogicTypespec:
+          vpiParent: Module name:testbench
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:testbench
           vpiRange (1 items):
@@ -138060,6 +138091,7 @@ Design name:unnamed:
         vpiFullName: testbench.work
         vpiActual: Library name:work
       vpiCell: testbench
+      vpiAutomatic: true
       vpiNet (3 items):
         Net name:hsync start:13:6 end:13:11:
           vpiParent: Module name:testbench
@@ -138115,9 +138147,11 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
-              DelayControl start:28:2 end:28:6:
+              DelayControl start:28:2 end:28:7:
                 vpiParent: Begin
                 vpiDelay: 100
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:28:3 end:28:6:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -138150,9 +138184,11 @@ Design name:unnamed:
                             vpiName: clk
                             vpiFullName: testbench.clk
                             vpiActual: Variable name:clk
-                    DelayControl start:31:3 end:31:6:
+                    DelayControl start:31:3 end:31:7:
                       vpiParent: Begin
                       vpiDelay: 50
+                      vpiStmt NullStmt:
+                        vpiParent: DelayControl
                       vpiDelay Constant start:31:4 end:31:6:
                         vpiParent: DelayControl
                         vpiTypespec RefTypespec:
@@ -138232,7 +138268,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "5"
                   vpiValue: 5
-                vpiStmt EventControl start:39:12 end:39:26:
+                vpiStmt EventControl start:39:12 end:39:27:
                   vpiParent: Repeat
                   vpiCondition Operation start:39:14 end:39:25:
                     vpiParent: EventControl
@@ -138243,6 +138279,8 @@ Design name:unnamed:
                         vpiName: clk
                         vpiFullName: testbench.clk
                         vpiActual: Variable name:clk
+                  vpiStmt NullStmt:
+                    vpiParent: EventControl
               Assignment start:40:2 end:40:15:
                 vpiParent: Begin
                 vpiLhs RefObj name:btn2 start:40:2 end:40:6:
@@ -138272,7 +138310,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "5"
                   vpiValue: 5
-                vpiStmt EventControl start:41:12 end:41:26:
+                vpiStmt EventControl start:41:12 end:41:27:
                   vpiParent: Repeat
                   vpiCondition Operation start:41:14 end:41:25:
                     vpiParent: EventControl
@@ -138283,6 +138321,8 @@ Design name:unnamed:
                         vpiName: clk
                         vpiFullName: testbench.clk
                         vpiActual: Variable name:clk
+                  vpiStmt NullStmt:
+                    vpiParent: EventControl
               Assignment start:42:2 end:42:12:
                 vpiParent: Begin
                 vpiLhs RefObj name:reset start:42:2 end:42:7:
@@ -139488,6 +139528,14 @@ Design name:unnamed:
           vpiStmt Begin start:117:9 end:120:4:
             vpiParent: Initial
             vpiFullName: testbench
+      vpiSysTaskCall (7 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$write:
+        SysTaskCall name:$write:
+        SysTaskCall name:$fflush:
+        SysTaskCall name:$write:
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:UUT start:16:5 end:16:8:
           vpiParent: Module name:testbench
@@ -139640,7 +139688,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 6
+[WARNING] : 12
 [   NOTE] : 14
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -139709,7 +139757,7 @@ Operation                          229     182       0        47
 RefObj                            4789    4742       0        47
 RefTypespec                       8828    8827      33        34
 ----------------------------------------------------------------
-Others                            9144    9144       0         0
+Others                            9161    9161       0         0
 ----------------------------------------------------------------
-                                 31603   31507      66       162
+                                 31620   31524      66       162
 ===================== END REDUCTION RESULT =====================

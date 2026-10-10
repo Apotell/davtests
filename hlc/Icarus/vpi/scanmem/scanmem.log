@@ -748,6 +748,7 @@ Design name:unnamed:
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
+      vpiAutomatic: true
       vpiTaskFunc (3 items):
         Task name:f_init start:26:5 end:33:12:
           vpiParent: Module name:test
@@ -1228,9 +1229,11 @@ Design name:unnamed:
             vpiParent: Initial
             vpiFullName: test
             vpiStmt (8 items):
-              DelayControl start:57:2 end:57:4:
+              DelayControl start:57:2 end:57:5:
                 vpiParent: Begin
                 vpiDelay: 0
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:57:3 end:57:4:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1241,13 +1244,15 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "0"
                   vpiValue: 0
-              SysFuncCall name:$mempoke start:58:2 end:58:10:
+              SysTaskCall name:$mempoke start:58:2 end:58:10:
                 vpiParent: Begin
                 vpiName Identifier name:$mempoke start:58:2 end:58:10:
                 vpiIsProperty: true
-              DelayControl start:59:2 end:59:5:
+              DelayControl start:59:2 end:59:6:
                 vpiParent: Begin
                 vpiDelay: 10
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:59:3 end:59:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1263,9 +1268,11 @@ Design name:unnamed:
                 vpiName: f_copy
                 vpiFullName: test.f_copy
                 vpiActual: Task name:f_copy
-              DelayControl start:61:2 end:61:5:
+              DelayControl start:61:2 end:61:6:
                 vpiParent: Begin
                 vpiDelay: 10
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:61:3 end:61:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1276,13 +1283,15 @@ Design name:unnamed:
                   vpiSize: 32
                   vpiDecompile: "10"
                   vpiValue: 10
-              SysFuncCall name:$mempeek start:62:2 end:62:10:
+              SysTaskCall name:$mempeek start:62:2 end:62:10:
                 vpiParent: Begin
                 vpiName Identifier name:$mempeek start:62:2 end:62:10:
                 vpiIsProperty: true
-              DelayControl start:63:2 end:63:5:
+              DelayControl start:63:2 end:63:6:
                 vpiParent: Begin
                 vpiDelay: 10
+                vpiStmt NullStmt:
+                  vpiParent: DelayControl
                 vpiDelay Constant start:63:3 end:63:5:
                   vpiParent: DelayControl
                   vpiTypespec RefTypespec:
@@ -1298,6 +1307,11 @@ Design name:unnamed:
                 vpiName: f_dump
                 vpiFullName: test.f_dump
                 vpiActual: Task name:f_dump
+      vpiSysTaskCall (4 items):
+        SysFuncCall name:$random:
+        SysTaskCall name:$display:
+        SysTaskCall name:$mempoke:
+        SysTaskCall name:$mempeek:
   vpiTypespec (3 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -1361,7 +1375,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/vpi/scanmem/design.hldb ${HLC_DIR}/regress
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             181     181       0         0
+Others                             186     186       0         0
 ----------------------------------------------------------------
-                                   181     181       0         0
+                                   186     186       0         0
 ===================== END REDUCTION RESULT =====================

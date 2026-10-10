@@ -251,6 +251,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_crazy_sel.v:25:4: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_crazy_sel.v:26:41: Failed to bind "foo_inst".
 [WRN:CP5851] $Source01/t_crazy_sel.v:26:50: Failed to bind "y".
+[WRN:CP5851] $Source01/t_crazy_sel.v:26:15: Failed to bind "foo_loop".
 [WRN:CP5851] $Source01/t_crazy_sel.v:37:4: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -315,6 +316,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:30:4 end:33:7:
           vpiParent: Module name:t
@@ -387,6 +389,9 @@ Design name:unnamed:
                 vpiParent: RefObj name:foo_loop[bar_inst.THE_LP].foo_inst.y
                 vpiName: y
                 vpiFullName: t.y
+      vpiSysTaskCall (2 items):
+        SysTaskCall name:$write:
+        SysTaskCall name:$finish:
       vpiRefInstance (1 items):
         RefInstance name:bar_inst start:23:8 end:23:16:
           vpiParent: Module name:t
@@ -403,15 +408,14 @@ Design name:unnamed:
           vpiStmt GenFor start:18:7 end:20:10:
             vpiParent: GenRegion
             vpiFullName: t
-            vpiVariable (1 items):
-              Variable name:the_genvar start:18:12 end:18:22:
-                vpiParent: GenFor
-                vpiName: the_genvar
-                vpiFullName: t.the_genvar
             vpiForInitStmt (1 items):
               Assignment start:18:12 end:18:26:
                 vpiParent: GenFor
-                vpiLhs: Variable name:the_genvar
+                vpiLhs RefObj name:the_genvar start:18:12 end:18:22:
+                  vpiParent: Assignment
+                  vpiName: the_genvar
+                  vpiFullName: t.the_genvar
+                  vpiActual: Variable name:the_genvar
                 vpiRhs Constant start:18:25 end:18:26:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -491,6 +495,7 @@ Design name:unnamed:
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
+      vpiAutomatic: true
     Module name:bar file:$Source01/t_crazy_sel.v start:40:1 end:42:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:40:8 end:40:11:
@@ -526,6 +531,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:bar
+          vpiScalar: true
       vpiDefName: bar
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:40:8 end:40:11:
@@ -534,6 +540,7 @@ Design name:unnamed:
         vpiFullName: bar.work
         vpiActual: Library name:work
       vpiCell: bar
+      vpiAutomatic: true
   vpiTypespec (6 items):
     InterfaceTypespec name:foo_intf:
       vpiParent: Design name:unnamed
@@ -598,7 +605,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 5
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -642,7 +649,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_crazy_sel/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              88      88       0         0
+Others                              89      89       0         0
 ----------------------------------------------------------------
-                                    88      88       0         0
+                                    89      89       0         0
 ===================== END REDUCTION RESULT =====================

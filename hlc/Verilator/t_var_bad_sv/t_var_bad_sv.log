@@ -56,6 +56,7 @@ n<$Source01/t_var_bad_sv.v> u<42> t<Top_level_rule> c<1> l<6:1> el<10:1>
         n<> u<38> t<ENDMODULE> p<39> l<9:1> el<9:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_var_bad_sv.v:6:1: Compile module "t".
+[WRN:CP5851] $Source01/t_var_bad_sv.v:8:17: Failed to bind "bar".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:DB2029] $Source01/t_var_bad_sv.v:8:4: Unsupported typespec "mod".
 ====== HLDB =======
@@ -94,6 +95,7 @@ Design name:unnamed:
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
+      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:mod start:8:8 end:8:11:
           vpiParent: Module name:t
@@ -111,7 +113,6 @@ Design name:unnamed:
                 vpiParent: NamedArgument
                 vpiName: do
                 vpiFullName: t.mod.do
-                vpiActual: Variable name:do
               vpiHighConn RefObj name:bar start:8:17 end:8:20:
                 vpiParent: NamedArgument
                 vpiName: bar
@@ -130,7 +131,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -174,7 +175,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_var_bad_sv/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              18      18       0         0
+Others                              19      19       0         0
 ----------------------------------------------------------------
-                                    18      18       0         0
+                                    19      19       0         0
 ===================== END REDUCTION RESULT =====================

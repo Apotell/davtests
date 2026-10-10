@@ -255,8 +255,6 @@ AST_DEBUG_END
 [WRN:CP5811] $Source01/dut.sv:9:23: Port "I" definition missing its direction (input, output, inout).
 [INF:CP5804] $Source01/dut.sv:14:1: Compile module "top".
 [WRN:CP5851] $Source01/dut.sv:11:13: Failed to bind "P".
-[WRN:CP5851] $Source01/dut.sv:16:15: Failed to bind "A".
-[WRN:CP5851] $Source01/dut.sv:18:37: Failed to bind "r".
 [WRN:PA5506] $Source01/dut.sv:9:1: No timescale set for "sub".
 [WRN:PA5506] $Source01/dut.sv:14:1: No timescale set for "top".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "I".
@@ -474,6 +472,7 @@ Design name:unnamed:
         vpiFullName: sub.work
         vpiActual: Library name:work
       vpiCell: sub
+      vpiAutomatic: true
       vpiPort (1 items):
         Port name:I start:9:23 end:9:24:
           vpiParent: Module name:sub
@@ -536,6 +535,7 @@ Design name:unnamed:
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
+      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:18:3 end:18:40:
           vpiParent: Module name:top
@@ -574,6 +574,8 @@ Design name:unnamed:
                         vpiParent: RefObj name:inst.r
                         vpiName: r
                         vpiFullName: top.r
+                        vpiActual: Variable name:r
+                    vpiActual: Variable name:r
             vpiDelay Constant start:18:12 end:18:13:
               vpiParent: DelayControl
               vpiTypespec RefTypespec:
@@ -584,6 +586,8 @@ Design name:unnamed:
               vpiSize: 32
               vpiDecompile: "1"
               vpiValue: 1
+      vpiSysTaskCall (1 items):
+        SysTaskCall name:$display:
       vpiRefInstance (2 items):
         RefInstance name:inst start:15:5 end:15:9:
           vpiParent: Module name:top
@@ -623,6 +627,8 @@ Design name:unnamed:
                     vpiParent: RefObj name:inst.A
                     vpiName: A
                     vpiFullName: top.s.A
+                    vpiActual: Modport name:A
+                vpiActual: Modport name:A
   vpiTypespec (6 items):
     InterfaceTypespec name:I:
       vpiParent: Design name:unnamed
@@ -654,7 +660,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 7
+[WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -698,7 +704,7 @@ COMMAND: ${HLC_DIR}/regression/InterfaceModExp/InterfaceModExp/design.hldb ${HLC
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              98      98       0         0
+Others                              99      99       0         0
 ----------------------------------------------------------------
-                                    98      98       0         0
+                                    99      99       0         0
 ===================== END REDUCTION RESULT =====================

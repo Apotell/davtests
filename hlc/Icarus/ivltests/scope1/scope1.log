@@ -298,6 +298,7 @@ n<$Source01/scope1.v> u<283> t<Top_level_rule> c<1> l<25:1> el<62:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/scope1.v:25:1: Compile module "glob".
 [INF:CP5804] $Source01/scope1.v:32:1: Compile module "main".
+[WRN:CP5851] $Source01/scope1.v:45:13: Failed to bind "fake".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -329,7 +330,10 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: var2
           vpiFullName: glob.var2
-      vpiTypespec (1 items):
+      vpiTypespec (2 items):
+        LogicTypespec:
+          vpiParent: Module name:glob
+          vpiScalar: true
         LogicTypespec:
           vpiParent: Module name:glob
       vpiDefName: glob
@@ -340,6 +344,7 @@ Design name:unnamed:
         vpiFullName: glob.work
         vpiActual: Library name:work
       vpiCell: glob
+      vpiAutomatic: true
       vpiNet (1 items):
         Net name:fake start:26:10 end:26:14:
           vpiParent: Module name:glob
@@ -382,6 +387,7 @@ Design name:unnamed:
         vpiFullName: main.work
         vpiActual: Library name:work
       vpiCell: main
+      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:test start:38:4 end:43:11:
           vpiParent: Module name:main
@@ -631,6 +637,12 @@ Design name:unnamed:
                       vpiSize: 48
                       vpiDecompile: "\"PASSED\""
                       vpiValue: PASSED
+      vpiSysTaskCall (5 items):
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
+        SysTaskCall name:$finish:
+        SysTaskCall name:$display:
       vpiRefInstance (1 items):
         RefInstance name:U1 start:45:9 end:45:11:
           vpiParent: Module name:main
@@ -673,7 +685,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -717,7 +729,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/scope1/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              94      94       0         0
+Others                              96      96       0         0
 ----------------------------------------------------------------
-                                    94      94       0         0
+                                    96      96       0         0
 ===================== END REDUCTION RESULT =====================
