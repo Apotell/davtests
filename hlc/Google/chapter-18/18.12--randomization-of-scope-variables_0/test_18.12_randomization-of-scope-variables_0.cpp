@@ -48,18 +48,16 @@
 //     IntTypespec via Function::getReturn().
 //   - The function takes no formal arguments: Function::getIODecls() is
 //     null/empty.
-//   - The local variables "int x, success;" are declared in the function
-//     body. An earlier version of this test wrongly assumed they would
-//     be found via Function::getVariables() (which is null) -- confirmed
-//     by actually running this test: a multi-statement function body
-//     with no explicit begin/end in the source is still wrapped in an
-//     implicit hldb::Begin behind Function::getStmt(), and that Begin --
-//     not the Function object itself -- holds the body's local variable
-//     declarations.
+//   - The local variables "int x, success;" belong to the function's own
+//     scope (Function::getVariables()). Per IEEE 1800-2023 37.12, Note 5,
+//     a body with more than one statement is wrapped in an unnamed
+//     hldb::Begin behind Function::getStmt() that "contains the
+//     statements" -- declarations are not statements, so that Begin
+//     holds no variables of its own.
 //
 // Not checked:
 //   - The "success = std::randomize(x);" assignment statement itself and
-//     its call-site shape (only the enclosing Begin's own declarations
+//     its call-site shape (only the function's local declarations
 //     were walked, not its individual statements).
 //   - Any actual runtime randomize()/return-value behavior -- unrunnable
 //     by a compiler/elaborator.
@@ -106,12 +104,15 @@ TEST_F(RandomizationOfScopeVariables0Test, LocalVariablesXAndSuccessExist) {
   const hldb::Function *const fn = hldb::findByName<hldb::Function>("do_randomize", a->getMethods());
   ASSERT_NE(fn, nullptr);
 
+  const hldb::Variable *const x = hldb::findByName<hldb::Variable>("x", fn->getVariables());
+  const hldb::Variable *const success = hldb::findByName<hldb::Variable>("success", fn->getVariables());
+  ASSERT_NE(x, nullptr) << "'int x, success;' declares both locals in the function's own scope";
+  ASSERT_NE(success, nullptr);
+
   const hldb::Begin *const body = fn->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr) << "a multi-statement function body should be wrapped in an implicit Begin";
-  const hldb::Variable *const x = hldb::findByName<hldb::Variable>("x", body->getVariables());
-  const hldb::Variable *const success = hldb::findByName<hldb::Variable>("success", body->getVariables());
-  ASSERT_NE(x, nullptr) << "'int x, success;' declares both locals in the function body's implicit Begin scope";
-  ASSERT_NE(success, nullptr);
+  EXPECT_TRUE((body->getVariables() == nullptr) || body->getVariables()->empty())
+      << "37.12, Note 5: the implicit begin holds statements only";
 }
 
 }  // namespace hlc

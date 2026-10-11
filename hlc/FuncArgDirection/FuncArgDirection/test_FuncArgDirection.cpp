@@ -146,15 +146,21 @@ TEST_F(FuncArgDirectionTest, FunctionBodyContainsForLoopAndReturnsOut) {
   const hldb::Function *const fn = getFn();
   ASSERT_NE(fn, nullptr);
 
-  // 'logic [7:0] out;' + for-loop + 'return out;' form an implicit begin-end
-  // block since the function has more than one item.
-  const hldb::Begin *const body = fn->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr) << "function body should be non-null";
-
-  // Local variable 'out' should exist in the function's own scope.
-  ASSERT_NE(body->getVariables(), nullptr);
-  const hldb::Variable *const out = hldb::findByName<hldb::Variable>("out", body->getVariables());
+  // Local variable 'out' belongs to the function's own scope.
+  ASSERT_NE(fn->getVariables(), nullptr);
+  const hldb::Variable *const out = hldb::findByName<hldb::Variable>("out", fn->getVariables());
   ASSERT_NE(out, nullptr) << "local variable 'out' not found in function scope";
+
+  // The for-loop and 'return out;' are two statements, so they are wrapped in
+  // an unnamed begin that holds the statements only (IEEE 1800-2023 37.12,
+  // Note 5); the 'logic [7:0] out;' declaration is not one of them.
+  const hldb::Begin *const body = fn->getStmt<hldb::Begin>();
+  ASSERT_NE(body, nullptr) << "a multi-statement function body should be wrapped in an implicit Begin";
+  ASSERT_NE(body->getStmts(), nullptr);
+  ASSERT_EQ(body->getStmts()->size(), 2u);
+  EXPECT_NE(any_cast<hldb::ForStmt>(body->getStmts()->at(0)), nullptr);
+  EXPECT_NE(any_cast<hldb::ReturnStmt>(body->getStmts()->at(1)), nullptr);
+  EXPECT_TRUE((body->getVariables() == nullptr) || body->getVariables()->empty());
 }
 
 // ---------------------------------------------------------------------------

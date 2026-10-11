@@ -139,12 +139,9 @@ TEST_F(FuncSideEffectTest, FlipExistsWithOneInputAndBitwiseNegateBody) {
   EXPECT_EQ(flip->getIODecls()->at(0)->getName(), "inp");
   EXPECT_EQ(flip->getIODecls()->at(0)->getDirection(), vpiInput);
 
-  const hldb::Begin *const begin = flip->getStmt<hldb::Begin>();
-  ASSERT_NE(begin, nullptr);
-  ASSERT_NE(begin->getStmts(), nullptr);
-  ASSERT_EQ(begin->getStmts()->size(), 1u);
-  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->front());
-  ASSERT_NE(assign, nullptr);
+  // IEEE 1800-2023 37.12, Note 5: a single-statement body is the vpiStmt itself.
+  const hldb::Assignment *const assign = flip->getStmt<hldb::Assignment>();
+  ASSERT_NE(assign, nullptr) << "'flip = ~inp;' should be the function's vpiStmt directly";
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "flip");
@@ -175,11 +172,9 @@ TEST_F(FuncSideEffectTest, PowFlipBBodyAssignsToModuleScopeOut2AsASideEffect) {
 
   const hldb::Function *const powFlipB = getFunc("pow_flip_b");
   ASSERT_NE(powFlipB, nullptr);
-  const hldb::Begin *const outer = powFlipB->getStmt<hldb::Begin>();
-  ASSERT_NE(outer, nullptr);
-  ASSERT_NE(outer->getStmts(), nullptr);
-  ASSERT_EQ(outer->getStmts()->size(), 1u);
-  const hldb::Begin *const body = any_cast<hldb::Begin>(outer->getStmts()->front());
+  // The explicit 'begin ... end' is the function's single statement, so it
+  // is the vpiStmt itself (IEEE 1800-2023 37.12, Note 5).
+  const hldb::Begin *const body = powFlipB->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr) << "'begin ... end' function body should be a Begin";
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 3u);
@@ -206,11 +201,9 @@ TEST_F(FuncSideEffectTest, PowFlipBRecursesThroughFlipInsideAnIfWithNoElse) {
   ASSERT_NE(powFlipB, nullptr);
   const hldb::Function *const flip = getFunc("flip");
   ASSERT_NE(flip, nullptr);
-  const hldb::Begin *const outer = powFlipB->getStmt<hldb::Begin>();
-  ASSERT_NE(outer, nullptr);
-  ASSERT_NE(outer->getStmts(), nullptr);
-  ASSERT_EQ(outer->getStmts()->size(), 1u);
-  const hldb::Begin *const body = any_cast<hldb::Begin>(outer->getStmts()->front());
+  // The explicit 'begin ... end' is the function's single statement, so it
+  // is the vpiStmt itself (IEEE 1800-2023 37.12, Note 5).
+  const hldb::Begin *const body = powFlipB->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 3u);

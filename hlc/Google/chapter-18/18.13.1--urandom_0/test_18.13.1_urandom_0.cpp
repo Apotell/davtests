@@ -47,20 +47,18 @@
 //     an IntTypespec via Function::getReturn(), with getSigned() false.
 //   - The function takes no formal arguments: Function::getIODecls() is
 //     null/empty.
-//   - The local variable "int unsigned x;" is declared in the function
-//     body. Confirmed by actually compiling and running this test (an
-//     earlier version of this test wrongly assumed it would be found via
-//     Function::getVariables(), which is null): a multi-statement
-//     function body with no explicit begin/end in the source is still
-//     wrapped in an implicit hldb::Begin behind Function::getStmt(), and
-//     that Begin -- not the Function object itself -- holds the body's
-//     local variable declarations. "x" resolves to an unsigned
+//   - The local variable "int unsigned x;" belongs to the function's own
+//     scope (Function::getVariables()). Per IEEE 1800-2023 37.12, Note 5,
+//     a body with more than one statement is wrapped in an unnamed
+//     hldb::Begin behind Function::getStmt() that "contains the
+//     statements" -- declarations are not statements, so that Begin
+//     holds no variables of its own. "x" resolves to an unsigned
 //     IntTypespec.
 //   - The whole file is legal SV; zero compiler diagnostics are expected.
 //
 // Not checked:
 //   - The "x = $urandom();" assignment statement itself and its
-//     SysFuncCall("$urandom") RHS (only the enclosing Begin's own
+//     SysFuncCall("$urandom") RHS (only the function's local
 //     declarations were walked, not its individual statements).
 //   - Any actual runtime $urandom()/return-value behavior -- unrunnable
 //     by a compiler/elaborator.
@@ -109,16 +107,13 @@ TEST_F(Urandom0Test, LocalVariableXIsUnsignedInt) {
   const hldb::Function *const fn = hldb::findByName<hldb::Function>("do_urandom", a->getMethods());
   ASSERT_NE(fn, nullptr);
 
-  // Confirmed by actually compiling and running this test: a function
-  // body with more than one statement (no explicit begin/end in the
-  // source) is still wrapped in an implicit hldb::Begin behind
-  // Function::getStmt(), and that Begin -- not the Function object
-  // itself -- is what holds the body's local variable declarations.
-  // Function::getVariables() is null here.
+  const hldb::Variable *const x = hldb::findByName<hldb::Variable>("x", fn->getVariables());
+  ASSERT_NE(x, nullptr) << "'int unsigned x;' declares 'x' in the function's own scope";
+
   const hldb::Begin *const body = fn->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr) << "a multi-statement function body should be wrapped in an implicit Begin";
-  const hldb::Variable *const x = hldb::findByName<hldb::Variable>("x", body->getVariables());
-  ASSERT_NE(x, nullptr) << "'int unsigned x;' declares 'x' in the function body's implicit Begin scope";
+  EXPECT_TRUE((body->getVariables() == nullptr) || body->getVariables()->empty())
+      << "37.12, Note 5: the implicit begin holds statements only";
 
   const hldb::IntTypespec *const xTs = hldb::getTypespec<hldb::IntTypespec>(x);
   ASSERT_NE(xTs, nullptr);
