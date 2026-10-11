@@ -81,6 +81,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/indexed_part_select.h>
+#include <hldb/indexed_range.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/integer_typespec.h>
@@ -225,9 +226,11 @@ TEST_F(UnpackedVariableSliceTest, FifthStmtWritesIndexedPartSelectArrBFromArrA) 
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "arr_b[4+:c]");
   EXPECT_EQ(lhs->getPrefix<hldb::RefObj>()->getName(), "arr_b");
-  EXPECT_EQ(lhs->getIndexedPartSelectType(), vpiPosIndexed);
-  EXPECT_EQ(lhs->getBaseExpr<hldb::Constant>()->getDecompile(), "4");
-  const hldb::RefObj *const lhsWidth = lhs->getWidthExpr<hldb::RefObj>();
+  const hldb::IndexedRange *const lhsRange = lhs->getIndexedRange();
+  ASSERT_NE(lhsRange, nullptr);
+  EXPECT_EQ(lhsRange->getIndexedPartSelectType(), vpiPosIndexed);
+  EXPECT_EQ(lhsRange->getBaseExpr<hldb::Constant>()->getDecompile(), "4");
+  const hldb::RefObj *const lhsWidth = lhsRange->getWidthExpr<hldb::RefObj>();
   ASSERT_NE(lhsWidth, nullptr);
   EXPECT_EQ(lhsWidth->getName(), "c");
   EXPECT_NE(lhsWidth->getActual<hldb::Parameter>(), nullptr);
@@ -236,9 +239,11 @@ TEST_F(UnpackedVariableSliceTest, FifthStmtWritesIndexedPartSelectArrBFromArrA) 
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "arr_a[1+:c]");
   EXPECT_EQ(rhs->getPrefix<hldb::RefObj>()->getName(), "arr_a");
-  EXPECT_EQ(rhs->getIndexedPartSelectType(), vpiPosIndexed);
-  EXPECT_EQ(rhs->getBaseExpr<hldb::Constant>()->getDecompile(), "1");
-  const hldb::RefObj *const rhsWidth = rhs->getWidthExpr<hldb::RefObj>();
+  const hldb::IndexedRange *const rhsRange = rhs->getIndexedRange();
+  ASSERT_NE(rhsRange, nullptr);
+  EXPECT_EQ(rhsRange->getIndexedPartSelectType(), vpiPosIndexed);
+  EXPECT_EQ(rhsRange->getBaseExpr<hldb::Constant>()->getDecompile(), "1");
+  const hldb::RefObj *const rhsWidth = rhsRange->getWidthExpr<hldb::RefObj>();
   ASSERT_NE(rhsWidth, nullptr);
   EXPECT_EQ(rhsWidth->getName(), "c");
   EXPECT_NE(rhsWidth->getActual<hldb::Parameter>(), nullptr);

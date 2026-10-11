@@ -64,6 +64,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/indexed_part_select.h>
+#include <hldb/indexed_range.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/logic_typespec.h>
@@ -136,11 +137,13 @@ TEST_F(IdxPosPartSelectSimTest, AssignmentRhsIsPosIndexedZeroPlusEight) {
   ASSERT_NE(sel, nullptr);
   EXPECT_EQ(sel->getName(), "a[0+:8]");
   EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "a");
-  EXPECT_EQ(sel->getIndexedPartSelectType(), vpiPosIndexed);
-  ASSERT_NE(sel->getBaseExpr<hldb::Constant>(), nullptr);
-  EXPECT_EQ(sel->getBaseExpr<hldb::Constant>()->getDecompile(), "0");
-  ASSERT_NE(sel->getWidthExpr<hldb::Constant>(), nullptr);
-  EXPECT_EQ(sel->getWidthExpr<hldb::Constant>()->getDecompile(), "8");
+  const hldb::IndexedRange *const selRange = sel->getIndexedRange();
+  ASSERT_NE(selRange, nullptr);
+  EXPECT_EQ(selRange->getIndexedPartSelectType(), vpiPosIndexed);
+  ASSERT_NE(selRange->getBaseExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(selRange->getBaseExpr<hldb::Constant>()->getDecompile(), "0");
+  ASSERT_NE(selRange->getWidthExpr<hldb::Constant>(), nullptr);
+  EXPECT_EQ(selRange->getWidthExpr<hldb::Constant>()->getDecompile(), "8");
 }
 
 TEST_F(IdxPosPartSelectSimTest, SecondStatementDisplaysExpectedBValue) {

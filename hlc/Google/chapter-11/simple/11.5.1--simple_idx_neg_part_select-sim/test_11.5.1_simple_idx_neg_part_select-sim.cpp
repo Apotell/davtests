@@ -49,6 +49,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/indexed_part_select.h>
+#include <hldb/indexed_range.h>
 #include <hldb/int_typespec.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
@@ -109,9 +110,11 @@ TEST_F(SimpleIdxNegPartSelectSimTest, ContAssignIsANegIndexedFifteenMinusFour) {
   ASSERT_NE(sel, nullptr);
   EXPECT_EQ(sel->getName(), "a[15-:4]");
   EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "a");
-  EXPECT_EQ(sel->getIndexedPartSelectType(), vpiNegIndexed);
-  EXPECT_EQ(sel->getBaseExpr<hldb::Constant>()->getDecompile(), "15");
-  EXPECT_EQ(sel->getWidthExpr<hldb::Constant>()->getDecompile(), "4");
+  const hldb::IndexedRange *const selRange = sel->getIndexedRange();
+  ASSERT_NE(selRange, nullptr);
+  EXPECT_EQ(selRange->getIndexedPartSelectType(), vpiNegIndexed);
+  EXPECT_EQ(selRange->getBaseExpr<hldb::Constant>()->getDecompile(), "15");
+  EXPECT_EQ(selRange->getWidthExpr<hldb::Constant>()->getDecompile(), "4");
 }
 
 // --- design-level typespecs / compiler diagnostics ----

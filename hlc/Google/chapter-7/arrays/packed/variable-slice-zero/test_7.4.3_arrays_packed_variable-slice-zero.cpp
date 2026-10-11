@@ -88,6 +88,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/indexed_part_select.h>
+#include <hldb/indexed_range.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/integer_typespec.h>
@@ -207,8 +208,10 @@ TEST_F(PackedVariableSliceZeroTest, ThirdAssignmentIsIndexedPartSelectWithZeroWi
   const hldb::IndexedPartSelect *const lhs = assign->getLhs<hldb::IndexedPartSelect>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "arr_b[4+:c]");
-  EXPECT_EQ(lhs->getBaseExpr<hldb::Constant>()->getDecompile(), "4");
-  const hldb::RefObj *const lhsWidth = lhs->getWidthExpr<hldb::RefObj>();
+  const hldb::IndexedRange *const lhsRange = lhs->getIndexedRange();
+  ASSERT_NE(lhsRange, nullptr);
+  EXPECT_EQ(lhsRange->getBaseExpr<hldb::Constant>()->getDecompile(), "4");
+  const hldb::RefObj *const lhsWidth = lhsRange->getWidthExpr<hldb::RefObj>();
   ASSERT_NE(lhsWidth, nullptr);
   EXPECT_EQ(lhsWidth->getName(), "c");
   const hldb::Parameter *const lhsWidthParam = lhsWidth->getActual<hldb::Parameter>();
@@ -217,7 +220,9 @@ TEST_F(PackedVariableSliceZeroTest, ThirdAssignmentIsIndexedPartSelectWithZeroWi
   const hldb::IndexedPartSelect *const rhs = assign->getRhs<hldb::IndexedPartSelect>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "arr_a[1+:c]");
-  EXPECT_EQ(rhs->getBaseExpr<hldb::Constant>()->getDecompile(), "1");
+  const hldb::IndexedRange *const rhsRange = rhs->getIndexedRange();
+  ASSERT_NE(rhsRange, nullptr);
+  EXPECT_EQ(rhsRange->getBaseExpr<hldb::Constant>()->getDecompile(), "1");
 }
 
 TEST_F(PackedVariableSliceZeroTest, SecondDisplayAssertsAllZeroBitPattern) {

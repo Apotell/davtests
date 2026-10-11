@@ -68,6 +68,7 @@
 #include <hldb/gen_if_else.h>
 #include <hldb/gen_region.h>
 #include <hldb/indexed_part_select.h>
+#include <hldb/indexed_range.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/operation.h>
@@ -347,7 +348,9 @@ TEST_F(ElabCParamTest, Socket1n_BBIsIndexedPartSelectOfDReqDepth) {
   const hldb::RefObj *const pro = rhs->getPrefix<hldb::RefObj>();
   ASSERT_NE(pro, nullptr);
   EXPECT_EQ(pro->getName(), std::string_view("DReqDepth"));
-  EXPECT_EQ(rhs->getIndexedPartSelectType(), vpiPosIndexed) << "'+:' must produce vpiPosIndexed";
+  const hldb::IndexedRange *const rhsRange = rhs->getIndexedRange();
+  ASSERT_NE(rhsRange, nullptr);
+  EXPECT_EQ(rhsRange->getIndexedPartSelectType(), vpiPosIndexed) << "'+:' must produce vpiPosIndexed";
 }
 
 // Generate-for propagating fifo_d's ReqDepth from a per-iteration

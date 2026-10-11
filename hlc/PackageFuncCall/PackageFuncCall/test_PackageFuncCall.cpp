@@ -175,6 +175,7 @@
 #include <hldb/func_call.h>
 #include <hldb/function.h>
 #include <hldb/indexed_part_select.h>
+#include <hldb/indexed_range.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
 #include <hldb/logic_typespec.h>
@@ -359,14 +360,17 @@ class PackageFuncCallTest : public Test {
   static void ExpectKTimesFourPlusColonFour(const hldb::IndexedPartSelect *sel, std::string_view prefixName,
                                             const hldb::Any *prefixTarget) {
     ASSERT_NE(sel, nullptr);
-    EXPECT_EQ(sel->getIndexedPartSelectType(), vpiPosIndexed) << "11.5.1: '+:' is an ascending indexed part-select";
+    const hldb::IndexedRange *const selRange = sel->getIndexedRange();
+    ASSERT_NE(selRange, nullptr);
+    EXPECT_EQ(selRange->getIndexedPartSelectType(), vpiPosIndexed)
+        << "11.5.1: '+:' is an ascending indexed part-select";
     const hldb::RefObj *const prefix = sel->getPrefix<hldb::RefObj>();
     ASSERT_NE(prefix, nullptr);
     EXPECT_EQ(prefix->getName(), prefixName);
     ASSERT_NE(prefixTarget, nullptr);
     EXPECT_EQ(prefix->getActual(), prefixTarget);
 
-    const hldb::Operation *const base = sel->getBaseExpr<hldb::Operation>();
+    const hldb::Operation *const base = selRange->getBaseExpr<hldb::Operation>();
     ASSERT_NE(base, nullptr) << "base 'k*4' should be an Operation";
     EXPECT_EQ(base->getOpType(), vpiMultOp);
     ASSERT_NE(base->getOperands(), nullptr);
@@ -379,7 +383,7 @@ class PackageFuncCallTest : public Test {
     ASSERT_NE(four, nullptr);
     EXPECT_EQ(four->getDecompile(), "4");
 
-    const hldb::Constant *const width = sel->getWidthExpr<hldb::Constant>();
+    const hldb::Constant *const width = selRange->getWidthExpr<hldb::Constant>();
     ASSERT_NE(width, nullptr);
     EXPECT_EQ(width->getDecompile(), "4");
   }
