@@ -83,9 +83,7 @@ class ForeachForeachTest : public Test {
   static const hldb::ForeachStmt *getOuterForeach() {
     const hldb::Function *const fn = getGetAdjacentPredecessorNodes();
     if (fn == nullptr) return nullptr;
-    const hldb::Begin *const body = fn->getStmt<hldb::Begin>();
-    if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->size() < 2) return nullptr;
-    return any_cast<hldb::ForeachStmt>(body->getStmts()->at(1));
+    return fn->getStmt<hldb::ForeachStmt>();
   }
 
   static const hldb::ForeachStmt *getInnerForeach() {
@@ -119,24 +117,22 @@ TEST_F(ForeachForeachTest, MethodExists) {
 }
 
 // ===========================================================================
-// method body: [0] local 'predecessors' variable decl, [1] outer foreach
+// method: local 'predecessors' is declared in the method's own scope; its
+// single statement is the outer foreach (IEEE 1800-2023 37.12, Note 5: one
+// statement is returned directly as vpiStmt, and a declaration is not a
+// statement)
 // ===========================================================================
 
-TEST_F(ForeachForeachTest, MethodBodyHasVariableDeclThenOuterForeach) {
+TEST_F(ForeachForeachTest, MethodDeclaresPredecessorsAndItsStatementIsOuterForeach) {
   const hldb::Function *const fn = getGetAdjacentPredecessorNodes();
   ASSERT_NE(fn, nullptr);
-  const hldb::Begin *const body = fn->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr);
-  ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_EQ(body->getStmts()->size(), 2u);
+  ASSERT_NE(fn->getVariables(), nullptr);
+  const hldb::Variable *const decl = hldb::findByName<hldb::Variable>("predecessors", fn->getVariables());
+  ASSERT_NE(decl, nullptr) << "'predecessors' is declared in the method's own scope";
 
-  const hldb::Variable *const decl = any_cast<hldb::Variable>(body->getStmts()->at(0));
-  ASSERT_NE(decl, nullptr) << "first statement should be the local 'predecessors' variable declaration";
-  EXPECT_EQ(decl->getName(), std::string_view{"predecessors"});
-
-  const hldb::ForeachStmt *const outer = getOuterForeach();
-  ASSERT_NE(outer, nullptr) << "second statement should be the outer ForeachStmt";
-  EXPECT_EQ(outer->getAnyType(), hldb::AnyType::ForeachStmt);
+  ASSERT_NE(fn->getStmt(), nullptr);
+  EXPECT_EQ(fn->getStmt()->getAnyType(), hldb::AnyType::ForeachStmt)
+      << "the method's single statement is the outer foreach, not wrapped in a Begin";
 }
 
 // ===========================================================================

@@ -37,17 +37,12 @@
 //   allocated dynamically for each invocation." The task's own
 //   lifetime should therefore be recorded as automatic.
 //
-//   IMPORTANT compiler-behavior note, confirmed structurally in this
-//   exact file (not guessed): the task's own declared variable "a" IS
-//   listed as one of the entries in the task body's own getStmts()
-//   (alongside "a++;" and the $display), in addition to appearing in
-//   getVariables() -- this differs from what was found for a plain
-//   "initial begin ... end" block in 12.7.4--while.cpp/
-//   12.7.5--dowhile.cpp, where a declared variable did NOT also appear
-//   in getStmts(). Task/function bodies apparently include their own
-//   declarations as statement entries; ordinary begin-end blocks do
-//   not. This shape is confirmed narrowly via this file's own log, not
-//   assumed from the chapter-12 precedent.
+//   IEEE 1800-2023 37.12 (Scope), Note 5: "If the number of statements
+//   is greater than 1, the vpiStmt relation shall return an unnamed
+//   begin that contains the statements of the task or function." A
+//   declaration such as "int a = 0;" is not a statement: "a" belongs
+//   to the task's own scope (getVariables() on the Task), and the
+//   unnamed begin holds only the statements "a++;" and $display.
 //
 //   Also (IEEE 1800-2023 6.8): "int" is a non-net data type, so "a"
 //   must be a Variable, never a Net.
@@ -57,9 +52,9 @@
 //     no IODecls (no formal arguments)
 //   - mytask's own lifetime SHOULD be automatic per the explicit
 //     "automatic" keyword (getAutomatic() == true)
-//   - mytask's body is a Begin whose own scope has exactly 1 Variable
-//     "a" (initial value Constant "0"), and whose getStmts() has
-//     exactly 3 entries: the Variable "a" declaration itself, an
+//   - mytask's own scope has exactly 1 Variable "a" (initial value
+//     Constant "0"); its body is an unnamed Begin with no variables of
+//     its own, whose getStmts() has exactly 2 entries: an
 //     Operation(vpiPostIncOp) on RefObj "a" ("a++;"), and a SysTaskCall
 //     "$display" with 2 arguments (Constant "\":assert:(%d == 1)\"" and
 //     RefObj "a", both resolving to the Variable)
@@ -128,34 +123,32 @@ TEST_F(TaskAutomaticTest, MytaskLifetimeIsAutomatic) {
   EXPECT_TRUE(mytask->getAutomatic()) << "'task automatic mytask;' should record automatic lifetime, per 13.3.1";
 }
 
-TEST_F(TaskAutomaticTest, BodyScopeHasVariableAInitializedToZero) {
+TEST_F(TaskAutomaticTest, TaskScopeHasVariableAInitializedToZero) {
   const hldb::Task *const mytask = getMytask();
   ASSERT_NE(mytask, nullptr);
+  ASSERT_NE(mytask->getVariables(), nullptr) << "'int a = 0;' is declared in the task's own scope";
+  ASSERT_EQ(mytask->getVariables()->size(), 1u);
   const hldb::Begin *const body = mytask->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr) << "task body should be a Begin";
-  ASSERT_NE(body->getVariables(), nullptr);
-  ASSERT_EQ(body->getVariables()->size(), 1u);
-  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", body->getVariables());
+  EXPECT_TRUE((body->getVariables() == nullptr) || body->getVariables()->empty())
+      << "37.12, Note 5: the implicit begin holds statements only";
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", mytask->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
   EXPECT_EQ(init->getDecompile(), "0");
 }
 
-TEST_F(TaskAutomaticTest, BodyHasThreeStatementsDeclIncrementDisplay) {
+TEST_F(TaskAutomaticTest, BodyHasTwoStatementsIncrementDisplay) {
   const hldb::Task *const mytask = getMytask();
   ASSERT_NE(mytask, nullptr);
   const hldb::Begin *const body = mytask->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_EQ(body->getStmts()->size(), 3u)
-      << "task body statements include the 'int a = 0;' declaration itself as entry 0";
+  ASSERT_EQ(body->getStmts()->size(), 2u)
+      << "37.12, Note 5: the implicit begin holds the statements only, not the 'int a = 0;' declaration";
 
-  const hldb::Variable *const declEntry = any_cast<hldb::Variable>(body->getStmts()->at(0));
-  ASSERT_NE(declEntry, nullptr) << "first getStmts() entry should be the Variable 'a' declaration itself";
-  EXPECT_EQ(declEntry->getName(), "a");
-
-  const hldb::Operation *const inc = any_cast<hldb::Operation>(body->getStmts()->at(1));
+  const hldb::Operation *const inc = any_cast<hldb::Operation>(body->getStmts()->at(0));
   ASSERT_NE(inc, nullptr) << "'a++;' should be a standalone post-increment Operation statement";
   EXPECT_EQ(inc->getOpType(), vpiPostIncOp);
   ASSERT_NE(inc->getOperands(), nullptr);
@@ -164,7 +157,7 @@ TEST_F(TaskAutomaticTest, BodyHasThreeStatementsDeclIncrementDisplay) {
   ASSERT_NE(incOperand, nullptr);
   EXPECT_EQ(incOperand->getName(), "a");
 
-  const hldb::SysTaskCall *const display = any_cast<hldb::SysTaskCall>(body->getStmts()->at(2));
+  const hldb::SysTaskCall *const display = any_cast<hldb::SysTaskCall>(body->getStmts()->at(1));
   ASSERT_NE(display, nullptr);
   EXPECT_EQ(display->getName(), "$display");
   ASSERT_NE(display->getArguments(), nullptr);

@@ -87,9 +87,7 @@ class ForeachClassTest : public Test {
   static const hldb::ForeachStmt *getForeach() {
     const hldb::Function *const f1 = getF1();
     if (f1 == nullptr) return nullptr;
-    const hldb::Begin *const body = f1->getStmt<hldb::Begin>();
-    if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->size() < 2) return nullptr;
-    return any_cast<hldb::ForeachStmt>(body->getStmts()->at(1));
+    return f1->getStmt<hldb::ForeachStmt>();
   }
 };
 
@@ -115,25 +113,22 @@ TEST_F(ForeachClassTest, FunctionF1Exists) {
 }
 
 // ===========================================================================
-// f1's body is a Begin containing [0] the 'top_map' variable declaration,
-// [1] the ForeachStmt (12.7.3)
+// f1 declares 'top_map' in its own scope and has a single statement, the
+// ForeachStmt (12.7.3). Per IEEE 1800-2023 37.12 (Scope), Note 5, a task or
+// function with exactly one statement returns that statement as vpiStmt;
+// the declaration is not a statement.
 // ===========================================================================
 
-TEST_F(ForeachClassTest, F1BodyHasVariableDeclThenForeach) {
+TEST_F(ForeachClassTest, F1DeclaresTopMapAndItsStatementIsTheForeach) {
   const hldb::Function *const f1 = getF1();
   ASSERT_NE(f1, nullptr);
-  const hldb::Begin *const body = f1->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr) << "f1's body should be a Begin (local var decl + foreach)";
-  ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_EQ(body->getStmts()->size(), 2u);
+  ASSERT_NE(f1->getVariables(), nullptr);
+  const hldb::Variable *const decl = hldb::findByName<hldb::Variable>("top_map", f1->getVariables());
+  ASSERT_NE(decl, nullptr) << "'top_map' is declared in f1's own scope";
 
-  const hldb::Variable *const decl = any_cast<hldb::Variable>(body->getStmts()->at(0));
-  ASSERT_NE(decl, nullptr) << "first statement should be the 'top_map' local variable declaration";
-  EXPECT_EQ(decl->getName(), std::string_view{"top_map"});
-
-  const hldb::ForeachStmt *const fe = getForeach();
-  ASSERT_NE(fe, nullptr) << "second statement should be the ForeachStmt";
-  EXPECT_EQ(fe->getAnyType(), hldb::AnyType::ForeachStmt);
+  ASSERT_NE(f1->getStmt(), nullptr);
+  EXPECT_EQ(f1->getStmt()->getAnyType(), hldb::AnyType::ForeachStmt)
+      << "f1's single statement is the foreach, not wrapped in a Begin";
 }
 
 // ===========================================================================

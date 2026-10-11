@@ -43,9 +43,10 @@
 //   the default lifetime, so getAutomatic() should be false -- unlike
 //   13.3.1--task-automatic.cpp's explicit "automatic".
 //
-//   IMPORTANT object-model note (same as 13.3.1--task-automatic.cpp):
-//   the task's own declared variable "a" appears as an entry in the
-//   task body's own getStmts(), in addition to getVariables().
+//   IEEE 1800-2023 37.12 (Scope), Note 5: the unnamed begin returned
+//   for a task with more than one statement "contains the statements
+//   of the task". "int a = 0;" is a declaration, not a statement: "a"
+//   belongs to the task's own scope (getVariables() on the Task).
 //
 //   Also (IEEE 1800-2023 6.8): "int" is a non-net data type, so "a" and
 //   the formal argument "test" must be Variables/IODecl, never Nets.
@@ -61,9 +62,9 @@
 //     resolving to IntTypespec)
 //   - mytask's lifetime is NOT automatic (getAutomatic() == false),
 //     matching the explicit "static" keyword (and the spec default)
-//   - mytask's body is a Begin whose own scope has exactly 1 Variable
-//     "a" (initial value Constant "0"), and whose getStmts() has
-//     exactly 3 entries: the Variable "a" declaration itself, an
+//   - mytask's own scope has exactly 1 Variable "a" (initial value
+//     Constant "0"); its body is an unnamed Begin with no variables of
+//     its own, whose getStmts() has exactly 2 entries: an
 //     Operation(vpiPostIncOp) on RefObj "a", and an IfElse whose
 //     condition is RefObj "test" (resolving to the IODecl, not a
 //     Variable), whose "then" body is SysTaskCall "$display" with
@@ -149,34 +150,32 @@ TEST_F(TaskStaticTest, MytaskLifetimeIsNotAutomatic) {
       << "'task static mytask(...)' explicitly reaffirms the default static lifetime, per 13.3.1";
 }
 
-TEST_F(TaskStaticTest, BodyScopeHasVariableAInitializedToZero) {
+TEST_F(TaskStaticTest, TaskScopeHasVariableAInitializedToZero) {
   const hldb::Task *const mytask = getMytask();
   ASSERT_NE(mytask, nullptr);
+  ASSERT_NE(mytask->getVariables(), nullptr) << "'int a = 0;' is declared in the task's own scope";
+  ASSERT_EQ(mytask->getVariables()->size(), 1u);
   const hldb::Begin *const body = mytask->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr) << "task body should be a Begin";
-  ASSERT_NE(body->getVariables(), nullptr);
-  ASSERT_EQ(body->getVariables()->size(), 1u);
-  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", body->getVariables());
+  EXPECT_TRUE((body->getVariables() == nullptr) || body->getVariables()->empty())
+      << "37.12, Note 5: the implicit begin holds statements only";
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", mytask->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
   EXPECT_EQ(init->getDecompile(), "0");
 }
 
-TEST_F(TaskStaticTest, BodyHasThreeStatementsDeclIncrementIfElse) {
+TEST_F(TaskStaticTest, BodyHasTwoStatementsIncrementIfElse) {
   const hldb::Task *const mytask = getMytask();
   ASSERT_NE(mytask, nullptr);
   const hldb::Begin *const body = mytask->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_EQ(body->getStmts()->size(), 3u)
-      << "task body statements include the 'int a = 0;' declaration itself as entry 0";
+  ASSERT_EQ(body->getStmts()->size(), 2u)
+      << "37.12, Note 5: the implicit begin holds the statements only, not the 'int a = 0;' declaration";
 
-  const hldb::Variable *const declEntry = any_cast<hldb::Variable>(body->getStmts()->at(0));
-  ASSERT_NE(declEntry, nullptr);
-  EXPECT_EQ(declEntry->getName(), "a");
-
-  const hldb::Operation *const inc = any_cast<hldb::Operation>(body->getStmts()->at(1));
+  const hldb::Operation *const inc = any_cast<hldb::Operation>(body->getStmts()->at(0));
   ASSERT_NE(inc, nullptr);
   EXPECT_EQ(inc->getOpType(), vpiPostIncOp);
 }
@@ -187,9 +186,9 @@ TEST_F(TaskStaticTest, IfElseConditionIsIODeclTestWithBothDisplayBranches) {
   const hldb::Begin *const body = mytask->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_GE(body->getStmts()->size(), 3u);
-  const hldb::IfElse *const ifStmt = any_cast<hldb::IfElse>(body->getStmts()->at(2));
-  ASSERT_NE(ifStmt, nullptr) << "third body entry has an 'else' branch, so it must resolve to IfElse, not IfStmt";
+  ASSERT_EQ(body->getStmts()->size(), 2u);
+  const hldb::IfElse *const ifStmt = any_cast<hldb::IfElse>(body->getStmts()->at(1));
+  ASSERT_NE(ifStmt, nullptr) << "second body entry has an 'else' branch, so it must resolve to IfElse, not IfStmt";
 
   const hldb::RefObj *const cond = ifStmt->getCondition<hldb::RefObj>();
   ASSERT_NE(cond, nullptr);
@@ -213,8 +212,8 @@ TEST_F(TaskStaticTest, ElseBranchDisplaysEqualsOneMessage) {
   const hldb::Begin *const body = mytask->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_GE(body->getStmts()->size(), 3u);
-  const hldb::IfElse *const ifStmt = any_cast<hldb::IfElse>(body->getStmts()->at(2));
+  ASSERT_EQ(body->getStmts()->size(), 2u);
+  const hldb::IfElse *const ifStmt = any_cast<hldb::IfElse>(body->getStmts()->at(1));
   ASSERT_NE(ifStmt, nullptr);
   const hldb::SysTaskCall *const elseDisplay = ifStmt->getElseStmt<hldb::SysTaskCall>();
   ASSERT_NE(elseDisplay, nullptr);

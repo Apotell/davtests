@@ -78,9 +78,7 @@ class ForeachFunctionTest : public Test {
   static const hldb::ForeachStmt *getForeach() {
     const hldb::Function *const fn = getGetExpectedCommand();
     if (fn == nullptr) return nullptr;
-    const hldb::Begin *const body = fn->getStmt<hldb::Begin>();
-    if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->size() < 2) return nullptr;
-    return any_cast<hldb::ForeachStmt>(body->getStmts()->at(1));
+    return fn->getStmt<hldb::ForeachStmt>();
   }
 };
 
@@ -97,24 +95,23 @@ TEST_F(ForeachFunctionTest, FunctionExists) {
 }
 
 // ===========================================================================
-// function body: [0] local array decl, [1] foreach (7.5(a) / 12.7.3)
+// function: the local array is declared in the function's own scope and its
+// single statement is the foreach (7.5(a) / 12.7.3). Per IEEE 1800-2023
+// 37.12, Note 5, one statement is returned directly as vpiStmt, and a
+// declaration is not a statement.
 // ===========================================================================
 
-TEST_F(ForeachFunctionTest, FunctionBodyHasArrayDeclThenForeach) {
+TEST_F(ForeachFunctionTest, FunctionDeclaresArrayAndItsStatementIsTheForeach) {
   const hldb::Function *const fn = getGetExpectedCommand();
   ASSERT_NE(fn, nullptr);
-  const hldb::Begin *const body = fn->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr);
-  ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_EQ(body->getStmts()->size(), 2u);
+  ASSERT_NE(fn->getVariables(), nullptr);
+  const hldb::Variable *const decl =
+      hldb::findByName<hldb::Variable>("write_command_queue_slave", fn->getVariables());
+  ASSERT_NE(decl, nullptr) << "'write_command_queue_slave' is declared in the function's own scope";
 
-  const hldb::Variable *const decl = any_cast<hldb::Variable>(body->getStmts()->at(0));
-  ASSERT_NE(decl, nullptr) << "first statement should be the local 'write_command_queue_slave' array declaration";
-  EXPECT_EQ(decl->getName(), std::string_view{"write_command_queue_slave"});
-
-  const hldb::ForeachStmt *const fe = getForeach();
-  ASSERT_NE(fe, nullptr) << "second statement should be the ForeachStmt";
-  EXPECT_EQ(fe->getAnyType(), hldb::AnyType::ForeachStmt);
+  ASSERT_NE(fn->getStmt(), nullptr);
+  EXPECT_EQ(fn->getStmt()->getAnyType(), hldb::AnyType::ForeachStmt)
+      << "the function's single statement is the foreach, not wrapped in a Begin";
 }
 
 // ===========================================================================

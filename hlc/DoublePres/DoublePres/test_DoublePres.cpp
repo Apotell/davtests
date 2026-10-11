@@ -441,14 +441,20 @@ TEST_F(DoublePresTest, IncrDFunctionExists) {
 TEST_F(DoublePresTest, IncrDBodyAssignsRealConstantThenIncrementsThenReturns) {
   const hldb::Function *const fn = getIncrD();
   ASSERT_NE(fn, nullptr);
+  // 'integer incr_d;' is a declaration of the function's own scope, not a
+  // statement (IEEE 1800-2023 37.12, Note 5): the unnamed begin holds only
+  // the three statements below.
+  ASSERT_NE(fn->getVariables(), nullptr);
+  EXPECT_NE(hldb::findByName<hldb::Variable>("incr_d", fn->getVariables()), nullptr);
+
   const hldb::Begin *const body = fn->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr) << "function body should be a Begin";
   ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_EQ(body->getStmts()->size(), 4u);
+  ASSERT_EQ(body->getStmts()->size(), 3u);
 
   // 'incr_d = 10.1;' -- 6.24.1 real-to-integer conversion happens at
   // evaluation time, so the Assignment's rhs Constant stays real-typed here.
-  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(1));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
@@ -460,7 +466,7 @@ TEST_F(DoublePresTest, IncrDBodyAssignsRealConstantThenIncrementsThenReturns) {
   EXPECT_EQ(rhs->getDecompile(), "10.1");
 
   // 'incr_d++;'
-  const hldb::Operation *const inc = any_cast<hldb::Operation>(body->getStmts()->at(2));
+  const hldb::Operation *const inc = any_cast<hldb::Operation>(body->getStmts()->at(1));
   ASSERT_NE(inc, nullptr);
   EXPECT_EQ(inc->getOpType(), vpiPostIncOp);
   ASSERT_NE(inc->getOperands(), nullptr);
@@ -470,7 +476,7 @@ TEST_F(DoublePresTest, IncrDBodyAssignsRealConstantThenIncrementsThenReturns) {
   EXPECT_EQ(incOperand->getName(), "incr_d");
 
   // 'return incr_d;'
-  const hldb::ReturnStmt *const ret = any_cast<hldb::ReturnStmt>(body->getStmts()->at(3));
+  const hldb::ReturnStmt *const ret = any_cast<hldb::ReturnStmt>(body->getStmts()->at(2));
   ASSERT_NE(ret, nullptr);
   const hldb::RefObj *const retVal = ret->getCondition<hldb::RefObj>();
   ASSERT_NE(retVal, nullptr);
