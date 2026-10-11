@@ -167,17 +167,56 @@ class StaticElaborationTest : public Test {
     return hldb::findByDefName<hldb::ClassDefn>(name, owner->getClassDefns());
   }
 
-  // Walks a scoped ClassTypespec's own path_elems[index] and returns that segment's own
-  // resolved ClassTypespec (via RefTypespec::actual) -- used to inspect an INTERMEDIATE
-  // segment's own specialization in a multi-level chain (e.g. pkg_deep::Level1::Level2::Level3),
-  // where every segment gets its own ClassTypespec distinct from the chain's final result (the
-  // last segment's own ClassTypespec self-references the chain's own return value -- see
-  // Phase3ModelBuilder::resolveScopedUnsupportedTypespec).
-  static const hldb::ClassTypespec *getPathElemClassTypespec(const hldb::ClassTypespec *ct, size_t index) {
-    if ((ct == nullptr) || (ct->getPathElems() == nullptr) || (index >= ct->getPathElems()->size())) return nullptr;
-    const hldb::RefTypespec *const segRef = any_cast<hldb::RefTypespec>(ct->getPathElems()->at(index));
-    if (segRef == nullptr) return nullptr;
-    return segRef->getActual<hldb::ClassTypespec>();
+  // Phase2ModelBuilder::leavePA_Class_type builds a scoped (`::`-qualified) class/typedef
+  // reference as ONE outer, chain-owning RefTypespec whose own path_elem chain is
+  // [RefObj(segment 0), ..., RefObj(segment N-2), RefTypespec(segment N-1)] -- see
+  // Phase3ModelBuilder::resolveScopedUnsupportedTypespec()'s own comment for the full shape. A
+  // VARIABLE's own declared typespec (what handle->getTypespec<RefTypespec>() returns) is this
+  // OUTER chain-owner for a multi-segment reference, but for a single-segment (unscoped)
+  // reference it IS the terminal directly (Phase2 sets its own `actual` straight away, no chain
+  // at all). resolveTerminalRefTypespec() normalizes both cases to "the terminal RefTypespec
+  // whose own `actual` is the final resolved typespec."
+  //
+  // IMPORTANT: check `path_elem` first, NOT `getActual()` first -- confirmed via -d db that the
+  // chain-owning RefTypespec's own `actual` can ALSO end up independently non-null once Phase3
+  // finishes (e.g. deep_handle's own outer RefTypespec ends up with both a 4-item path_elem AND
+  // its own `actual` set to the chain's final ClassTypespec). A non-empty `path_elem` always
+  // means "I am the outer chain-owner, the real terminal is at the back" regardless of whether
+  // my own `actual` also happens to be populated -- checking `getActual()` first previously
+  // caused every multi-segment chain lookup in this file to wrongly return the OUTER owner
+  // itself, whose own `.parent` is the declaring Variable/member (not a RefTypespec), breaking
+  // every getChainSegmentClassDefn()/`ownerRt` walk downstream.
+  static const hldb::RefTypespec *resolveTerminalRefTypespec(const hldb::RefTypespec *declaredRt) {
+    if (declaredRt == nullptr) return nullptr;
+    const hldb::AnyCollection *const pathElems = declaredRt->getPathElems();
+    if ((pathElems != nullptr) && !pathElems->empty()) {
+      return any_cast<hldb::RefTypespec>(pathElems->back());
+    }
+    if (declaredRt->getActual() != nullptr) return declaredRt;
+    return nullptr;
+  }
+
+  // Returns the ClassDefn a scoped chain's own segment[index] resolved to, given the chain's
+  // TERMINAL RefTypespec (e.g. from getHandleRefTypespec()) -- walks up one level to the
+  // chain-owning RefTypespec first. Segment 0..N-2 are plain RefObj (resolved directly via
+  // RefObj::actual, per Phase2ModelBuilder::leavePA_Class_type's current shape -- no wrapping
+  // ClassTypespec for an intermediate segment any more); segment N-1 (the chain's own terminal)
+  // is a RefTypespec wrapping a ClassTypespec.
+  static const hldb::ClassDefn *getChainSegmentClassDefn(const hldb::RefTypespec *terminalRt, size_t index) {
+    if (terminalRt == nullptr) return nullptr;
+    const hldb::RefTypespec *const ownerRt = terminalRt->getParent<hldb::RefTypespec>();
+    if ((ownerRt == nullptr) || (ownerRt->getPathElems() == nullptr) || (index >= ownerRt->getPathElems()->size())) {
+      return nullptr;
+    }
+    hldb::Any *const segElem = ownerRt->getPathElems()->at(index);
+    if (const hldb::RefObj *const ro = any_cast<hldb::RefObj>(segElem)) {
+      return ro->getActual<hldb::ClassDefn>();
+    }
+    if (const hldb::RefTypespec *const segRt = any_cast<hldb::RefTypespec>(segElem)) {
+      const hldb::ClassTypespec *const segCt = segRt->getActual<hldb::ClassTypespec>();
+      return (segCt == nullptr) ? nullptr : segCt->getClassDefn();
+    }
+    return nullptr;
   }
 
   // ---- instance/handle typespec lookups ----
@@ -224,41 +263,42 @@ class StaticElaborationTest : public Test {
     return getInstanceTypespec<hldb::ProgramTypespec>("prog_wide", getDut());
   }
 
-  // A class handle is a plain Variable, not a RefInstance -- its ClassTypespec is reached via
-  // Variable::getTypespec<RefTypespec>()->getActual<ClassTypespec>(), matching the existing,
-  // already-passing Google/chapter-8/8.5--parameters davtests convention.
+  // A class handle is a plain Variable, not a RefInstance -- its own declared typespec is
+  // reached via Variable::getTypespec<RefTypespec>(), matching the existing, already-passing
+  // Google/chapter-8/8.5--parameters davtests convention; resolveTerminalRefTypespec() then
+  // normalizes a (possibly scoped, possibly chain-owning) declared typespec down to the
+  // chain's own terminal RefTypespec -- see that function's own comment.
+  static const hldb::RefTypespec *getHandleRefTypespec(std::string_view handleName) {
+    const hldb::Module *const dut = getDut();
+    if ((dut == nullptr) || (dut->getVariables() == nullptr)) return nullptr;
+    const hldb::Variable *const handle = hldb::findByName<hldb::Variable>(handleName, dut->getVariables());
+    if ((handle == nullptr) || (handle->getTypespec() == nullptr)) return nullptr;
+    return resolveTerminalRefTypespec(handle->getTypespec<hldb::RefTypespec>());
+  }
+
   static const hldb::ClassTypespec *getHandleTypespec(std::string_view handleName) {
-    const hldb::Module *const dut = getDut();
-    if ((dut == nullptr) || (dut->getVariables() == nullptr)) return nullptr;
-    const hldb::Variable *const handle = hldb::findByName<hldb::Variable>(handleName, dut->getVariables());
-    if ((handle == nullptr) || (handle->getTypespec() == nullptr)) return nullptr;
-    const hldb::RefTypespec *const rt = handle->getTypespec<hldb::RefTypespec>();
-    if (rt == nullptr) return nullptr;
-    return rt->getActual<hldb::ClassTypespec>();
+    const hldb::RefTypespec *const rt = getHandleRefTypespec(handleName);
+    return (rt == nullptr) ? nullptr : rt->getActual<hldb::ClassTypespec>();
   }
 
-  // A typedef'd handle's own RefTypespec::actual is the TypedefTypespec itself -- Phase3
-  // deliberately never dereferences through a typedef automatically (see
+  // A typedef'd handle's own terminal RefTypespec::actual is the TypedefTypespec itself --
+  // Phase3 deliberately never dereferences through a typedef automatically (see
   // Phase3ModelBuilder::findTypedefByName()'s own comment: consumers are expected to follow
-  // getTypedefAlias() themselves) -- so getHandleTypespec() (which expects a ClassTypespec
-  // directly) does not apply to a typedef'd handle. This is the typedef analog of it.
+  // Typedef::getAlias() themselves, via the owning TypedefTypespec's own getTypedef()) -- so
+  // getHandleTypespec() (which expects a ClassTypespec directly) does not apply to a typedef'd
+  // handle. This is the typedef analog of it.
   static const hldb::TypedefTypespec *getHandleTypedefTypespec(std::string_view handleName) {
-    const hldb::Module *const dut = getDut();
-    if ((dut == nullptr) || (dut->getVariables() == nullptr)) return nullptr;
-    const hldb::Variable *const handle = hldb::findByName<hldb::Variable>(handleName, dut->getVariables());
-    if ((handle == nullptr) || (handle->getTypespec() == nullptr)) return nullptr;
-    const hldb::RefTypespec *const rt = handle->getTypespec<hldb::RefTypespec>();
-    if (rt == nullptr) return nullptr;
-    return rt->getActual<hldb::TypedefTypespec>();
+    const hldb::RefTypespec *const rt = getHandleRefTypespec(handleName);
+    return (rt == nullptr) ? nullptr : rt->getActual<hldb::TypedefTypespec>();
   }
 
-  // Follows a TypedefTypespec's own typedef_alias to whatever ClassTypespec it ultimately
+  // Follows a TypedefTypespec's own Typedef::getAlias() to whatever ClassTypespec it ultimately
   // resolved to (the aliased type's own use-site typespec, specialized if it carried an
   // override) -- nullptr if the alias itself resolved to something else (e.g. another typedef;
   // see getHandleTypedefTypespec() applied a second time for that case).
   static const hldb::ClassTypespec *getTypedefAliasClassTypespec(const hldb::TypedefTypespec *td) {
-    if ((td == nullptr) || (td->getTypedefAlias() == nullptr)) return nullptr;
-    return td->getTypedefAlias()->getActual<hldb::ClassTypespec>();
+    if ((td == nullptr) || (td->getTypedef() == nullptr) || (td->getTypedef()->getAlias() == nullptr)) return nullptr;
+    return td->getTypedef()->getAlias()->getActual<hldb::ClassTypespec>();
   }
 
   // Same idea as getHandleTypedefTypespec(), but for a plain data member of some OTHER class
@@ -801,12 +841,11 @@ TEST_F(StaticElaborationTest, DeepHandleResolvesToSpecializedLevel3) {
 }
 
 TEST_F(StaticElaborationTest, DeepHandleLevel1SegmentIsSpecialized) {
-  const hldb::ClassTypespec *const ct = getHandleTypespec("deep_handle");
-  ASSERT_NE(ct, nullptr);
-  // path_elems: [0] = pkg_deep scope, [1] = Level1, [2] = Level2, [3] = Level3 (== ct itself).
-  const hldb::ClassTypespec *const level1Ct = getPathElemClassTypespec(ct, 1);
-  ASSERT_NE(level1Ct, nullptr);
-  const hldb::ClassDefn *const specializedLevel1 = level1Ct->getClassDefn();
+  const hldb::RefTypespec *const rt = getHandleRefTypespec("deep_handle");
+  ASSERT_NE(rt, nullptr);
+  // path_elems (on rt's own chain-owning parent): [0] = pkg_deep scope, [1] = Level1,
+  // [2] = Level2, [3] = Level3's own RefTypespec (== rt itself).
+  const hldb::ClassDefn *const specializedLevel1 = getChainSegmentClassDefn(rt, 1);
   ASSERT_NE(specializedLevel1, nullptr);
   EXPECT_NE(specializedLevel1, getPkgClass(getPkgDeep(), "Level1"))
       << "an intermediate segment's own #(...) must specialize it too, not just the leaf";
@@ -818,24 +857,22 @@ TEST_F(StaticElaborationTest, DeepHandleLevel1SegmentIsSpecialized) {
 }
 
 TEST_F(StaticElaborationTest, DeepHandleLevel2SegmentIsSpecializedWithinLevel1sSpecialization) {
-  const hldb::ClassTypespec *const ct = getHandleTypespec("deep_handle");
-  ASSERT_NE(ct, nullptr);
-  const hldb::ClassTypespec *const level1Ct = getPathElemClassTypespec(ct, 1);
-  ASSERT_NE(level1Ct, nullptr);
-  const hldb::ClassTypespec *const level2Ct = getPathElemClassTypespec(ct, 2);
-  ASSERT_NE(level2Ct, nullptr);
-  const hldb::ClassDefn *const specializedLevel2 = level2Ct->getClassDefn();
+  const hldb::RefTypespec *const rt = getHandleRefTypespec("deep_handle");
+  ASSERT_NE(rt, nullptr);
+  const hldb::ClassDefn *const specializedLevel1 = getChainSegmentClassDefn(rt, 1);
+  ASSERT_NE(specializedLevel1, nullptr);
+  const hldb::ClassDefn *const specializedLevel2 = getChainSegmentClassDefn(rt, 2);
   ASSERT_NE(specializedLevel2, nullptr);
   EXPECT_NE(specializedLevel2, getNestedClass(getPkgClass(getPkgDeep(), "Level1"), "Level2"))
       << "must not be Level1's BASE own Level2 -- Level2 must be looked up within Level1's own "
          "SPECIALIZATION, since a nested class's own fields could depend on the enclosing "
          "specialization's parameter";
-  // getNestedClass(level1Ct->getClassDefn(), "Level2") is Level2 as found WITHIN Level1's own
+  // getNestedClass(specializedLevel1, "Level2") is Level2 as found WITHIN Level1's own
   // specialization -- i.e. what Level2's own #(22) override still needed to be applied to.
   // specializedLevel2 is that same lookup's result AFTER its own override was applied, so the
   // two must be distinct objects too -- confirming Level2's own #(...) specialized it a second,
   // independent time on top of being resolved in the right (specialized) scope.
-  EXPECT_NE(specializedLevel2, getNestedClass(level1Ct->getClassDefn(), "Level2"));
+  EXPECT_NE(specializedLevel2, getNestedClass(specializedLevel1, "Level2"));
   const hldb::ParamAssign *const pa = getParamAssignByName(specializedLevel2, "W");
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *const rhs = pa->getRhs<hldb::Constant>();
@@ -844,14 +881,18 @@ TEST_F(StaticElaborationTest, DeepHandleLevel2SegmentIsSpecializedWithinLevel1sS
 }
 
 TEST_F(StaticElaborationTest, DeepHandleLastSegmentSelfReferencesTheChainsOwnResult) {
-  const hldb::ClassTypespec *const ct = getHandleTypespec("deep_handle");
-  ASSERT_NE(ct, nullptr);
-  ASSERT_NE(ct->getPathElems(), nullptr);
-  ASSERT_EQ(ct->getPathElems()->size(), 4u);
-  EXPECT_EQ(getPathElemClassTypespec(ct, 3), ct)
+  const hldb::RefTypespec *const rt = getHandleRefTypespec("deep_handle");
+  ASSERT_NE(rt, nullptr);
+  ASSERT_NE(rt->getActual<hldb::ClassTypespec>(), nullptr);
+  const hldb::RefTypespec *const ownerRt = rt->getParent<hldb::RefTypespec>();
+  ASSERT_NE(ownerRt, nullptr);
+  ASSERT_NE(ownerRt->getPathElems(), nullptr);
+  ASSERT_EQ(ownerRt->getPathElems()->size(), 4u);
+  EXPECT_EQ(ownerRt->getPathElems()->back(), rt)
       << "for the LAST segment of a scoped chain, its own resolution IS the whole reference's "
-         "resolution -- path_elems[N-1]'s own actual must be the chain's own final result, not "
-         "a separate object";
+         "resolution -- path_elems[N-1] must be the chain's own terminal RefTypespec itself, "
+         "by construction (Phase3ModelBuilder::resolveScopedUnsupportedTypespec() only ever "
+         "resolves the entry it was called with)";
 }
 
 // =============================================================================================
@@ -871,11 +912,9 @@ TEST_F(StaticElaborationTest, DeepHandleLastSegmentSelfReferencesTheChainsOwnRes
 // =============================================================================================
 
 TEST_F(StaticElaborationTest, Level1AliasHandleDedupesWithDeepHandlesOwnLevel1Segment) {
-  const hldb::ClassTypespec *const deepCt = getHandleTypespec("deep_handle");
-  ASSERT_NE(deepCt, nullptr);
-  const hldb::ClassTypespec *const level1Ct = getPathElemClassTypespec(deepCt, 1);
-  ASSERT_NE(level1Ct, nullptr);
-  const hldb::ClassDefn *const expectedLevel1 = level1Ct->getClassDefn();
+  const hldb::RefTypespec *const deepRt = getHandleRefTypespec("deep_handle");
+  ASSERT_NE(deepRt, nullptr);
+  const hldb::ClassDefn *const expectedLevel1 = getChainSegmentClassDefn(deepRt, 1);
   ASSERT_NE(expectedLevel1, nullptr);
 
   const hldb::ClassTypespec *const aliasCt = getHandleTypespec("level1_alias_handle");
@@ -890,14 +929,14 @@ TEST_F(StaticElaborationTest, Level1AliasHandleDedupesWithDeepHandlesOwnLevel1Se
 }
 
 TEST_F(StaticElaborationTest, Level2AliasHandleDedupesWithDeepHandlesOwnLevel2Segment) {
-  const hldb::ClassTypespec *const deepCt = getHandleTypespec("deep_handle");
-  ASSERT_NE(deepCt, nullptr);
-  const hldb::ClassTypespec *const level2Ct = getPathElemClassTypespec(deepCt, 2);
-  ASSERT_NE(level2Ct, nullptr);
-  const hldb::ClassDefn *const expectedLevel2 = level2Ct->getClassDefn();
+  const hldb::RefTypespec *const deepRt = getHandleRefTypespec("deep_handle");
+  ASSERT_NE(deepRt, nullptr);
+  const hldb::ClassDefn *const expectedLevel2 = getChainSegmentClassDefn(deepRt, 2);
   ASSERT_NE(expectedLevel2, nullptr);
 
-  const hldb::ClassTypespec *const aliasCt = getHandleTypespec("level2_alias_handle");
+  const hldb::RefTypespec *const aliasRt = getHandleRefTypespec("level2_alias_handle");
+  ASSERT_NE(aliasRt, nullptr);
+  const hldb::ClassTypespec *const aliasCt = aliasRt->getActual<hldb::ClassTypespec>();
   ASSERT_NE(aliasCt, nullptr);
   const hldb::ClassDefn *const actualLevel2 = aliasCt->getClassDefn();
   ASSERT_NE(actualLevel2, nullptr);
@@ -911,11 +950,11 @@ TEST_F(StaticElaborationTest, Level2AliasHandleDedupesWithDeepHandlesOwnLevel2Se
   // Also confirm the intermediate Level1 segment reached THIS WAY dedupes too -- same
   // specialization as both the direct level1_alias_handle test above and deep_handle's own
   // chain, regardless of which of the three independent references is resolved first.
-  const hldb::ClassTypespec *const aliasLevel1Ct = getPathElemClassTypespec(aliasCt, 1);
-  ASSERT_NE(aliasLevel1Ct, nullptr);
-  const hldb::ClassTypespec *const deepLevel1Ct = getPathElemClassTypespec(deepCt, 1);
-  ASSERT_NE(deepLevel1Ct, nullptr);
-  EXPECT_EQ(aliasLevel1Ct->getClassDefn(), deepLevel1Ct->getClassDefn());
+  const hldb::ClassDefn *const aliasLevel1 = getChainSegmentClassDefn(aliasRt, 1);
+  ASSERT_NE(aliasLevel1, nullptr);
+  const hldb::ClassDefn *const deepLevel1 = getChainSegmentClassDefn(deepRt, 1);
+  ASSERT_NE(deepLevel1, nullptr);
+  EXPECT_EQ(aliasLevel1, deepLevel1);
 }
 
 // =============================================================================================
@@ -931,10 +970,11 @@ TEST_F(StaticElaborationTest, Level2AliasHandleDedupesWithDeepHandlesOwnLevel2Se
 // RefTypespec entries in the same sweep).
 //
 // A typedef never carries its own #(...) override -- the override lives on, and is resolved
-// through, the typedef's own underlying type (getTypedefAlias()) instead, so a typedef'd
-// handle's own RefTypespec::actual is the TypedefTypespec itself, never dereferenced
-// automatically; every test below follows getTypedefAlias() explicitly to reach the
-// (possibly specialized) ClassTypespec underneath.
+// through, the typedef's own underlying type (Typedef::getAlias(), reached via the owning
+// TypedefTypespec's own getTypedef()) instead, so a typedef'd handle's own RefTypespec::actual
+// is the TypedefTypespec itself, never dereferenced automatically; every test below follows
+// getTypedef()->getAlias() explicitly to reach the (possibly specialized) ClassTypespec
+// underneath.
 // =============================================================================================
 
 TEST_F(StaticElaborationTest, PkgTdExistsWithItsOwnAlias) {
@@ -995,8 +1035,9 @@ TEST_F(StaticElaborationTest, ChainedAliasHandleResolvesThroughTypedefOfTypedef)
   ASSERT_NE(chainedTd, nullptr);
   EXPECT_EQ(chainedTd->getName(), std::string_view("chained_alias_t"));
 
-  ASSERT_NE(chainedTd->getTypedefAlias(), nullptr);
-  const hldb::TypedefTypespec *const bareTd = chainedTd->getTypedefAlias()->getActual<hldb::TypedefTypespec>();
+  ASSERT_NE(chainedTd->getTypedef(), nullptr);
+  ASSERT_NE(chainedTd->getTypedef()->getAlias(), nullptr);
+  const hldb::TypedefTypespec *const bareTd = chainedTd->getTypedef()->getAlias()->getActual<hldb::TypedefTypespec>();
   ASSERT_NE(bareTd, nullptr) << "chained_alias_t's own underlying type is bare_alias_t itself -- "
                                  "another typedef, not a class -- and must resolve to it via the "
                                  "same flat-case typedef fallback, not stay an unresolved "
@@ -1068,13 +1109,17 @@ TEST_F(StaticElaborationTest, TdOuterAliasIsATypedefResolvingToSpecializedTdOute
 }
 
 TEST_F(StaticElaborationTest, TdChainHandleResolvesThroughSpecializedTypedefLeadingSegment) {
-  const hldb::ClassTypespec *const ct = getHandleTypespec("td_chain_handle");
-  ASSERT_NE(ct, nullptr) << "TdOuterAlias::TdMid#(81)::TdInner#(82) must fully resolve -- a "
+  const hldb::RefTypespec *const rt = getHandleRefTypespec("td_chain_handle");
+  ASSERT_NE(rt, nullptr) << "TdOuterAlias::TdMid#(81)::TdInner#(82) must fully resolve -- a "
                              "single sweep pass is not enough in general for this shape (see "
                              "the section comment above); this is the concrete regression case "
                              "for resolveUnsupportedTypespecs()'s fixed-point retry";
-  ASSERT_NE(ct->getPathElems(), nullptr);
-  ASSERT_EQ(ct->getPathElems()->size(), 3u);
+  const hldb::ClassTypespec *const ct = rt->getActual<hldb::ClassTypespec>();
+  ASSERT_NE(ct, nullptr);
+  const hldb::RefTypespec *const ownerRt = rt->getParent<hldb::RefTypespec>();
+  ASSERT_NE(ownerRt, nullptr);
+  ASSERT_NE(ownerRt->getPathElems(), nullptr);
+  ASSERT_EQ(ownerRt->getPathElems()->size(), 3u);
 
   const hldb::ClassDefn *const specializedInner = ct->getClassDefn();
   ASSERT_NE(specializedInner, nullptr);
@@ -1086,14 +1131,13 @@ TEST_F(StaticElaborationTest, TdChainHandleResolvesThroughSpecializedTypedefLead
 }
 
 TEST_F(StaticElaborationTest, TdChainHandleMidSegmentIsSpecializedWithinTdOuterAliasSpecialization) {
-  const hldb::ClassTypespec *const ct = getHandleTypespec("td_chain_handle");
-  ASSERT_NE(ct, nullptr);
-  // path_elems: [0] = TdOuterAlias (a typedef, not a class -- getPathElemClassTypespec doesn't
-  // apply to it, see TdOuterAliasIsATypedefResolvingToSpecializedTdOuter instead), [1] = TdMid,
-  // [2] = TdInner (== ct itself).
-  const hldb::ClassTypespec *const midCt = getPathElemClassTypespec(ct, 1);
-  ASSERT_NE(midCt, nullptr);
-  const hldb::ClassDefn *const specializedMid = midCt->getClassDefn();
+  const hldb::RefTypespec *const rt = getHandleRefTypespec("td_chain_handle");
+  ASSERT_NE(rt, nullptr);
+  // path_elems (on rt's own chain-owning parent): [0] = TdOuterAlias (a typedef, not a class --
+  // getChainSegmentClassDefn doesn't apply to it, see
+  // TdOuterAliasIsATypedefResolvingToSpecializedTdOuter instead), [1] = TdMid, [2] = TdInner's
+  // own RefTypespec (== rt itself).
+  const hldb::ClassDefn *const specializedMid = getChainSegmentClassDefn(rt, 1);
   ASSERT_NE(specializedMid, nullptr);
 
   const hldb::ClassDefn *const baseTdOuter = getModuleLocalClass(getDut(), "TdOuter");
