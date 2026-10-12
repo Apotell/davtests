@@ -193,6 +193,9 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:my_parameter start:9:35 end:9:47:
           vpiParent: Package name:my_package
+          vpiName: my_parameter
+          vpiFullName: my_package::my_parameter
+          vpiLocalParam: true
           vpiTypespec RefTypespec name:my_package::my_struct start:9:13 end:9:34:
             vpiParent: Parameter name:my_parameter
             vpiName: my_package::my_struct
@@ -209,9 +212,6 @@ Design name:unnamed:
                 vpiFullName: my_package::my_parameter::my_package::my_struct::my_struct
                 vpiActual: TypedefTypespec name:my_struct
             vpiActual: TypedefTypespec name:my_struct
-          vpiName: my_parameter
-          vpiFullName: my_package::my_parameter
-          vpiLocalParam: true
       vpiParamAssign (1 items):
         ParamAssign start:9:35 end:12:4:
           vpiParent: Package name:my_package
@@ -233,14 +233,14 @@ Design name:unnamed:
                   vpiActual: TypespecMember name:a
                 vpiPattern Constant start:10:8 end:10:12:
                   vpiParent: TaggedPattern
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: my_package
-                    vpiActual: BitTypespec
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b1"
                   vpiValue: "1"
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: my_package
+                    vpiActual: BitTypespec
               TaggedPattern start:11:5 end:11:12:
                 vpiParent: Operation
                 vpiTag RefObj name:b start:11:5 end:11:6:
@@ -250,14 +250,14 @@ Design name:unnamed:
                   vpiActual: TypespecMember name:b
                 vpiPattern Constant start:11:8 end:11:12:
                   vpiParent: TaggedPattern
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: my_package
-                    vpiActual: BitTypespec
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: my_package
+                    vpiActual: BitTypespec
       vpiTypespec (4 items):
         LogicTypespec:
           vpiParent: Package name:my_package
@@ -288,6 +288,8 @@ Design name:unnamed:
       vpiVariable (2 items):
         Variable name:x start:17:34 end:17:35:
           vpiParent: Module name:my_module
+          vpiName: x
+          vpiFullName: my_module.x
           vpiTypespec RefTypespec name:my_package::my_struct start:17:12 end:17:33:
             vpiParent: Variable name:x
             vpiName: my_package::my_struct
@@ -304,10 +306,10 @@ Design name:unnamed:
                 vpiFullName: my_module.x.my_package::my_struct.my_struct
                 vpiActual: TypedefTypespec name:my_struct
             vpiActual: TypedefTypespec name:my_struct
-          vpiName: x
-          vpiFullName: my_module.x
         Variable name:y start:18:34 end:18:35:
           vpiParent: Module name:my_module
+          vpiName: y
+          vpiFullName: my_module.y
           vpiTypespec RefTypespec name:my_package::my_struct start:18:12 end:18:33:
             vpiParent: Variable name:y
             vpiName: my_package::my_struct
@@ -324,8 +326,6 @@ Design name:unnamed:
                 vpiFullName: my_module.y.my_package::my_struct.my_struct
                 vpiActual: TypedefTypespec name:my_struct
             vpiActual: TypedefTypespec name:my_struct
-          vpiName: y
-          vpiFullName: my_module.y
       vpiDefName: my_module
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:16:8 end:16:17:

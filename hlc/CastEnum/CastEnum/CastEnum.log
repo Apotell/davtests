@@ -144,40 +144,40 @@ Design name:unnamed:
               vpiName Identifier name:DTM_NOP start:4:3 end:4:10:
               vpiValue Constant start:4:15 end:4:19:
                 vpiParent: EnumConst name:DTM_NOP
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dm::DTM_NOP
-                  vpiActual: LogicTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 2
                 vpiDecompile: "2'h0"
                 vpiValue: "0"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: dm::DTM_NOP
+                  vpiActual: LogicTypespec
             EnumConst name:DTM_READ start:5:3 end:5:19:
               vpiParent: Enum
               vpiName Identifier name:DTM_READ start:5:3 end:5:11:
               vpiValue Constant start:5:15 end:5:19:
                 vpiParent: EnumConst name:DTM_READ
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dm::DTM_READ
-                  vpiActual: LogicTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 2
                 vpiDecompile: "2'h1"
                 vpiValue: "1"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: dm::DTM_READ
+                  vpiActual: LogicTypespec
             EnumConst name:DTM_WRITE start:6:3 end:6:19:
               vpiParent: Enum
               vpiName Identifier name:DTM_WRITE start:6:3 end:6:12:
               vpiValue Constant start:6:15 end:6:19:
                 vpiParent: EnumConst name:DTM_WRITE
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dm::DTM_WRITE
-                  vpiActual: LogicTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 2
                 vpiDecompile: "2'h2"
                 vpiValue: "2"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: dm::DTM_WRITE
+                  vpiActual: LogicTypespec
       vpiTypedef (1 items):
         Typedef name:dtm_op_e start:3:1 end:7:12:
           vpiParent: Package name:dm
@@ -194,24 +194,24 @@ Design name:unnamed:
               vpiParent: LogicTypespec
               vpiLeftRange Constant start:3:21 end:3:22:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dm
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-              vpiRightRange Constant start:3:23 end:3:24:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: dm
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:3:23 end:3:24:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: dm
+                  vpiActual: IntTypespec
           vpiVector: true
         EnumTypespec start:3:9 end:7:2:
           vpiParent: Package name:dm
@@ -237,6 +237,8 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:dtm_op start:14:16 end:14:22:
           vpiParent: Module name:dm_csrs
+          vpiName: dtm_op
+          vpiFullName: dm_csrs.dtm_op
           vpiTypespec RefTypespec name:dm::dtm_op_e start:14:3 end:14:15:
             vpiParent: Variable name:dtm_op
             vpiName: dm::dtm_op_e
@@ -253,8 +255,6 @@ Design name:unnamed:
                 vpiFullName: dm_csrs.dtm_op.dm::dtm_op_e.dtm_op_e
                 vpiActual: TypedefTypespec name:dtm_op_e
             vpiActual: TypedefTypespec name:dtm_op_e
-          vpiName: dtm_op
-          vpiFullName: dm_csrs.dtm_op
       vpiDefName: dm_csrs
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:12:8 end:12:15:
@@ -273,6 +273,21 @@ Design name:unnamed:
             vpiActual: Variable name:dtm_op
           vpiRhs Operation start:15:19 end:15:46:
             vpiParent: ContAssign
+            vpiOpType: cast (81)
+            vpiOperand (1 items):
+              RefObj name:dmi_req_i.op start:15:33 end:15:45:
+                vpiParent: Operation
+                vpiName: dmi_req_i.op
+                vpiFullName: dm_csrs.dmi_req_i.op
+                vpiPathElem (2 items):
+                  RefObj name:dmi_req_i start:15:33 end:15:42:
+                    vpiParent: RefObj name:dmi_req_i.op
+                    vpiName: dmi_req_i
+                    vpiFullName: dm_csrs.dmi_req_i
+                  RefObj name:op start:15:43 end:15:45:
+                    vpiParent: RefObj name:dmi_req_i.op
+                    vpiName: op
+                    vpiFullName: dm_csrs.op
             vpiTypespec RefTypespec name:dm::dtm_op_e start:15:19 end:15:31:
               vpiParent: Operation
               vpiName: dm::dtm_op_e
@@ -289,21 +304,6 @@ Design name:unnamed:
                   vpiFullName: dm_csrs.dm::dtm_op_e.dtm_op_e
                   vpiActual: TypedefTypespec name:dtm_op_e
               vpiActual: TypedefTypespec name:dtm_op_e
-            vpiOpType: cast (81)
-            vpiOperand (1 items):
-              RefObj name:dmi_req_i.op start:15:33 end:15:45:
-                vpiParent: Operation
-                vpiName: dmi_req_i.op
-                vpiFullName: dm_csrs.dmi_req_i.op
-                vpiPathElem (2 items):
-                  RefObj name:dmi_req_i start:15:33 end:15:42:
-                    vpiParent: RefObj name:dmi_req_i.op
-                    vpiName: dmi_req_i
-                    vpiFullName: dm_csrs.dmi_req_i
-                  RefObj name:op start:15:43 end:15:45:
-                    vpiParent: RefObj name:dmi_req_i.op
-                    vpiName: op
-                    vpiFullName: dm_csrs.op
   vpiTypespec (8 items):
     IntTypespec:
       vpiParent: Design name:unnamed

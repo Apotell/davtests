@@ -150,27 +150,27 @@ Design name:unnamed:
               vpiName Identifier name:On start:3:5 end:3:7:
               vpiValue Constant start:3:11 end:3:18:
                 vpiParent: EnumConst name:On
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: lc_ctrl_pkg::On
-                  vpiActual: LogicTypespec
                 vpiConstType: binary (3)
                 vpiSize: 4
                 vpiDecompile: "4'b1010"
                 vpiValue: "1010"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: lc_ctrl_pkg::On
+                  vpiActual: LogicTypespec
             EnumConst name:Off start:4:5 end:4:18:
               vpiParent: Enum
               vpiName Identifier name:Off start:4:5 end:4:8:
               vpiValue Constant start:4:11 end:4:18:
                 vpiParent: EnumConst name:Off
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: lc_ctrl_pkg::Off
-                  vpiActual: LogicTypespec
                 vpiConstType: binary (3)
                 vpiSize: 4
                 vpiDecompile: "4'b0101"
                 vpiValue: "0101"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: lc_ctrl_pkg::Off
+                  vpiActual: LogicTypespec
       vpiTypedef (2 items):
         Typedef name:lc_tx_e start:2:3 end:5:13:
           vpiParent: Package name:lc_ctrl_pkg
@@ -195,24 +195,24 @@ Design name:unnamed:
               vpiParent: LogicTypespec
               vpiLeftRange Constant start:2:23 end:2:24:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: lc_ctrl_pkg
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "3"
                 vpiValue: 3
-              vpiRightRange Constant start:2:25 end:2:26:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: lc_ctrl_pkg
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:2:25 end:2:26:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: lc_ctrl_pkg
+                  vpiActual: IntTypespec
           vpiVector: true
         EnumTypespec start:2:11 end:5:4:
           vpiParent: Package name:lc_ctrl_pkg
@@ -243,6 +243,8 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:lc_en_o start:12:31 end:12:38:
           vpiParent: Module name:prim_lc_sender
+          vpiName: lc_en_o
+          vpiFullName: prim_lc_sender.lc_en_o
           vpiTypespec RefTypespec name:lc_ctrl_pkg::lc_tx_t start:12:10 end:12:30:
             vpiParent: Variable name:lc_en_o
             vpiName: lc_ctrl_pkg::lc_tx_t
@@ -259,8 +261,6 @@ Design name:unnamed:
                 vpiFullName: prim_lc_sender.lc_en_o.lc_ctrl_pkg::lc_tx_t.lc_tx_t
                 vpiActual: TypedefTypespec name:lc_tx_t
             vpiActual: TypedefTypespec name:lc_tx_t
-          vpiName: lc_en_o
-          vpiFullName: prim_lc_sender.lc_en_o
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:prim_lc_sender
@@ -269,24 +269,24 @@ Design name:unnamed:
               vpiParent: LogicTypespec
               vpiLeftRange Constant start:11:11 end:11:12:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: prim_lc_sender
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "3"
                 vpiValue: 3
-              vpiRightRange Constant start:11:13 end:11:14:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: prim_lc_sender
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:11:13 end:11:14:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: prim_lc_sender
+                  vpiActual: IntTypespec
           vpiVector: true
       vpiDefName: prim_lc_sender
       vpiDefNetType: wire (1)
@@ -299,13 +299,13 @@ Design name:unnamed:
       vpiNet (1 items):
         Net name:lc_en_i start:11:16 end:11:23:
           vpiParent: Module name:prim_lc_sender
+          vpiName: lc_en_i
+          vpiFullName: prim_lc_sender.lc_en_i
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec start:11:10 end:11:15:
             vpiParent: Net name:lc_en_i
             vpiFullName: prim_lc_sender.lc_en_i
             vpiActual: LogicTypespec
-          vpiName: lc_en_i
-          vpiFullName: prim_lc_sender.lc_en_i
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:lc_en_i start:11:16 end:11:23:
           vpiParent: Module name:prim_lc_sender
@@ -355,6 +355,13 @@ Design name:unnamed:
             vpiActual: Variable name:lc_en_o
           vpiRhs Operation start:14:20 end:14:50:
             vpiParent: ContAssign
+            vpiOpType: cast (81)
+            vpiOperand (1 items):
+              RefObj name:lc_en_i start:14:42 end:14:49:
+                vpiParent: Operation
+                vpiName: lc_en_i
+                vpiFullName: prim_lc_sender.lc_en_i
+                vpiActual: Net name:lc_en_i
             vpiTypespec RefTypespec name:lc_ctrl_pkg::lc_tx_t start:14:20 end:14:40:
               vpiParent: Operation
               vpiName: lc_ctrl_pkg::lc_tx_t
@@ -371,13 +378,6 @@ Design name:unnamed:
                   vpiFullName: prim_lc_sender.lc_ctrl_pkg::lc_tx_t.lc_tx_t
                   vpiActual: TypedefTypespec name:lc_tx_t
               vpiActual: TypedefTypespec name:lc_tx_t
-            vpiOpType: cast (81)
-            vpiOperand (1 items):
-              RefObj name:lc_en_i start:14:42 end:14:49:
-                vpiParent: Operation
-                vpiName: lc_en_i
-                vpiFullName: prim_lc_sender.lc_en_i
-                vpiActual: Net name:lc_en_i
       vpiEndLabel Identifier name:prim_lc_sender start:15:13 end:15:27:
   vpiTypespec (3 items):
     IntTypespec:
