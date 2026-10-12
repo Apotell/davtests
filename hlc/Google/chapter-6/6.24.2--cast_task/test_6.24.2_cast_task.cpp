@@ -187,7 +187,7 @@ TEST_F(CastTaskTest, CastSysTaskCallHasNoStaticReturnTypespec) {
   ASSERT_NE(init, nullptr);
   const hldb::SysTaskCall *const castFn = init->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(castFn, nullptr);
-  EXPECT_EQ(hldb::getOwnTypespec(castFn), nullptr)
+  EXPECT_EQ(hldb::getTypespec(castFn), nullptr)
       << "$cast used as a task discards its return value; HLC does not attach a static typespec";
 }
 

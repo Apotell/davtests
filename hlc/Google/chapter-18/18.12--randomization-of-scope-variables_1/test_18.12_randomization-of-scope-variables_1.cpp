@@ -108,7 +108,7 @@ TEST_F(RandomizationOfScopeVariables1Test, ClassEnvExtendsUvmEnvAndHasPropertyRe
 
   const hldb::Variable *const ret = hldb::findByName<hldb::Variable>("ret", env->getVariables());
   ASSERT_NE(ret, nullptr) << "'int ret;' declares 'ret' on env";
-  const hldb::IntTypespec *const retTs = hldb::getTypespec<hldb::IntTypespec>(ret);
+  const hldb::IntTypespec *const retTs = hldb::getResolveTypespec<hldb::IntTypespec>(ret);
   ASSERT_NE(retTs, nullptr);
   EXPECT_TRUE(retTs->getSigned());
 

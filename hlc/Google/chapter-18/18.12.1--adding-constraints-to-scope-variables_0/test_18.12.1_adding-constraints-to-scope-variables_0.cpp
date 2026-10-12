@@ -50,7 +50,7 @@
 //     IntTypespec via Function::getReturn().
 //   - Sec 13.3 (function arguments): the formal argument "y" is an
 //     IODecl with direction vpiInput, resolving (via
-//     hldb::getTypespec<IntTypespec>()) to a signed IntTypespec.
+//     hldb::getResolveTypespec<IntTypespec>()) to a signed IntTypespec.
 //   - The local variables "int x, success;" are declared in the function
 //     body. An earlier version of this test wrongly assumed they would
 //     be found via Function::getVariables() (which is null) -- confirmed
@@ -111,7 +111,7 @@ TEST_F(AddingConstraintsToScopeVariables0Test, MethodDoRandomizeExistsWithIntRet
   ASSERT_NE(y, nullptr) << "'int y' should be a formal argument";
   EXPECT_EQ(y->getDirection(), vpiInput);
 
-  const hldb::IntTypespec *const yTs = hldb::getTypespec<hldb::IntTypespec>(y);
+  const hldb::IntTypespec *const yTs = hldb::getResolveTypespec<hldb::IntTypespec>(y);
   ASSERT_NE(yTs, nullptr);
   EXPECT_TRUE(yTs->getSigned());
 }

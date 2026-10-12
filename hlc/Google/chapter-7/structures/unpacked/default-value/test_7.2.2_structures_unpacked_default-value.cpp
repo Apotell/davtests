@@ -178,7 +178,7 @@ TEST_F(UnpackedStructDefaultValueTest, MemberLoHasLegalDefaultValueResolvingToPa
   const hldb::TypespecMember *const lo = s->getMembers()->at(0);
   ASSERT_NE(lo, nullptr);
   EXPECT_EQ(lo->getName(), std::string_view("lo"));
-  const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(lo);
+  const hldb::BitTypespec *const bt = hldb::getResolveTypespec<hldb::BitTypespec>(lo);
   ASSERT_NE(bt, nullptr);
   ASSERT_NE(bt->getRanges(), nullptr);
   ASSERT_EQ(bt->getRanges()->size(), 1u);

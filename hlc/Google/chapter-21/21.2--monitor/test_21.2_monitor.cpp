@@ -206,7 +206,7 @@ TEST_F(MonitorTaskTest, DeclaresOneSignedIntVariableNamedA) {
   ASSERT_EQ(anyTypeOf(a), hldb::AnyType::Variable);
   EXPECT_EQ(a->getName(), "a");
 
-  const hldb::Typespec *const typespec = hldb::getTypespec(a);
+  const hldb::Typespec *const typespec = hldb::getResolveTypespec(a);
   ASSERT_EQ(anyTypeOf(typespec), hldb::AnyType::IntTypespec);
 
   const hldb::IntTypespec *const intTypespec = any_cast<hldb::IntTypespec>(typespec);

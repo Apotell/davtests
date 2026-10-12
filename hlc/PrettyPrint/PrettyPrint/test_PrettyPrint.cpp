@@ -36,7 +36,7 @@ TEST_F(PrettyPrint, MinusOp) {
   const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>("a", module->getParameters());
   ASSERT_NE(parameter, nullptr) << "Module/Parameter is null";
 
-  const hldb::LogicTypespec *const typespec = hldb::getTypespec<hldb::LogicTypespec>(parameter);
+  const hldb::LogicTypespec *const typespec = hldb::getResolveTypespec<hldb::LogicTypespec>(parameter);
   ASSERT_NE(typespec, nullptr) << "Module/Parameter/Typespec is null";
 
   const hldb::RangeCollection *const ranges = typespec->getRanges();
@@ -111,7 +111,7 @@ TEST_F(PrettyPrint, PackedArrayTypespec) {
   const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>("i", module->getParameters());
   ASSERT_NE(parameter, nullptr) << "Module/Parameter is null";
 
-  const hldb::BitTypespec *const typespec = hldb::getTypespec<hldb::BitTypespec>(parameter);
+  const hldb::BitTypespec *const typespec = hldb::getResolveTypespec<hldb::BitTypespec>(parameter);
   ASSERT_NE(typespec, nullptr) << "Module/Parameter/Typespec is null";
 
   ASSERT_EQ(hldb::prettyPrint(typespec), "bit [10:20][30:40]");
@@ -124,7 +124,7 @@ TEST_F(PrettyPrint, UnpackedArrayTypespec) {
   const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>("j", module->getParameters());
   ASSERT_NE(parameter, nullptr) << "Module/Parameter is null";
 
-  const hldb::ArrayTypespec *const typespec = hldb::getTypespec<hldb::ArrayTypespec>(parameter);
+  const hldb::ArrayTypespec *const typespec = hldb::getResolveTypespec<hldb::ArrayTypespec>(parameter);
   ASSERT_NE(typespec, nullptr) << "Module/Parameter/Typespec is null";
 
   ASSERT_EQ(hldb::prettyPrint(typespec), "int [10:20][30:40]");
@@ -137,7 +137,7 @@ TEST_F(PrettyPrint, UnpackedArrayTypespecOfPackedArrayTypespec_1) {
   const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>("k", module->getParameters());
   ASSERT_NE(parameter, nullptr) << "Module/Parameter is null";
 
-  const hldb::ArrayTypespec *const typespec = hldb::getTypespec<hldb::ArrayTypespec>(parameter);
+  const hldb::ArrayTypespec *const typespec = hldb::getResolveTypespec<hldb::ArrayTypespec>(parameter);
   ASSERT_NE(typespec, nullptr) << "Module/Parameter/Typespec is null";
 
   ASSERT_EQ(hldb::prettyPrint(typespec), "logic [10:20] [30:40]");
@@ -150,7 +150,7 @@ TEST_F(PrettyPrint, UnpackedArrayTypespecOfPackedArrayTypespec_2) {
   const hldb::Parameter *const parameter = hldb::findByName<hldb::Parameter>("m", module->getParameters());
   ASSERT_NE(parameter, nullptr) << "Module/Parameter is null";
 
-  const hldb::ArrayTypespec *const typespec = hldb::getTypespec<hldb::ArrayTypespec>(parameter);
+  const hldb::ArrayTypespec *const typespec = hldb::getResolveTypespec<hldb::ArrayTypespec>(parameter);
   ASSERT_NE(typespec, nullptr) << "Module/Parameter/Typespec is null";
 
   ASSERT_EQ(hldb::prettyPrint(typespec), "l [10:20] [30:40]");

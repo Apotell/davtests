@@ -117,8 +117,8 @@ TEST_F(InLineConstraintChecker1Test, ClassAWithRandCXAndPlainVExist) {
   EXPECT_EQ(x->getRandType(), vpiRandC);
   EXPECT_EQ(v->getRandType(), vpiNotRand) << "'bit [7:0] v;' has no rand/randc modifier";
 
-  const hldb::BitTypespec *const xTs = hldb::getTypespec<hldb::BitTypespec>(x);
-  const hldb::BitTypespec *const vTs = hldb::getTypespec<hldb::BitTypespec>(v);
+  const hldb::BitTypespec *const xTs = hldb::getResolveTypespec<hldb::BitTypespec>(x);
+  const hldb::BitTypespec *const vTs = hldb::getResolveTypespec<hldb::BitTypespec>(v);
   ASSERT_NE(xTs, nullptr) << "'bit [7:0]' should resolve to a BitTypespec";
   ASSERT_NE(vTs, nullptr);
   EXPECT_FALSE(xTs->getSigned());

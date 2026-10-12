@@ -112,7 +112,7 @@ TEST_F(Urandom1Test, ClassEnvExtendsUvmEnvAndHasPropertyRetAndRunPhase) {
 
   const hldb::Variable *const ret = hldb::findByName<hldb::Variable>("ret", env->getVariables());
   ASSERT_NE(ret, nullptr) << "'int unsigned ret;' declares 'ret' on env";
-  const hldb::IntTypespec *const retTs = hldb::getTypespec<hldb::IntTypespec>(ret);
+  const hldb::IntTypespec *const retTs = hldb::getResolveTypespec<hldb::IntTypespec>(ret);
   ASSERT_NE(retTs, nullptr);
   EXPECT_FALSE(retTs->getSigned());
 

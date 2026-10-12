@@ -272,7 +272,7 @@ TEST_F(CastFnTest, CastSysFuncCallHasNoStaticReturnTypespec) {
   ASSERT_NE(cond, nullptr);
   const hldb::SysFuncCall *const castFn = any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
   ASSERT_NE(castFn, nullptr);
-  EXPECT_EQ(hldb::getOwnTypespec(castFn), nullptr)
+  EXPECT_EQ(hldb::getTypespec(castFn), nullptr)
       << "$cast success/failure is only known at simulation runtime; HLC does not attach a static typespec";
 }
 

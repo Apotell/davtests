@@ -159,7 +159,7 @@ TEST_F(UnionsBasicTest, MemberV1IsEightBitBitTypespec) {
   const hldb::TypespecMember *const v1 = u->getMembers()->at(0);
   ASSERT_NE(v1, nullptr);
   EXPECT_EQ(v1->getName(), std::string_view("v1"));
-  const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(v1);
+  const hldb::BitTypespec *const bt = hldb::getResolveTypespec<hldb::BitTypespec>(v1);
   ASSERT_NE(bt, nullptr);
   ASSERT_NE(bt->getRanges(), nullptr);
   ASSERT_EQ(bt->getRanges()->size(), 1u);
@@ -176,7 +176,7 @@ TEST_F(UnionsBasicTest, MemberV2IsFourBitBitTypespec) {
   const hldb::TypespecMember *const v2 = u->getMembers()->at(1);
   ASSERT_NE(v2, nullptr);
   EXPECT_EQ(v2->getName(), std::string_view("v2"));
-  const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(v2);
+  const hldb::BitTypespec *const bt = hldb::getResolveTypespec<hldb::BitTypespec>(v2);
   ASSERT_NE(bt, nullptr);
   ASSERT_NE(bt->getRanges(), nullptr);
   ASSERT_EQ(bt->getRanges()->size(), 1u);

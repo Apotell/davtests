@@ -40,7 +40,7 @@
 //     an unsigned IntTypespec via Function::getReturn().
 //   - Sec 13.3 (function arguments): the formal argument "seed" is an
 //     IODecl with direction vpiInput, resolving (via
-//     hldb::getTypespec<IntTypespec>()) to a *signed* IntTypespec (plain
+//     hldb::getResolveTypespec<IntTypespec>()) to a *signed* IntTypespec (plain
 //     "int", no "unsigned" qualifier on the argument itself -- distinct
 //     from the unsigned return type and unsigned local "x").
 //   - The local variable "int unsigned x;" is declared in the function
@@ -102,7 +102,7 @@ TEST_F(Urandom2Test, MethodDoUrandomExistsWithUnsignedIntReturnAndSignedIntArgSe
   ASSERT_NE(seed, nullptr) << "'int seed' should be a formal argument";
   EXPECT_EQ(seed->getDirection(), vpiInput);
 
-  const hldb::IntTypespec *const seedTs = hldb::getTypespec<hldb::IntTypespec>(seed);
+  const hldb::IntTypespec *const seedTs = hldb::getResolveTypespec<hldb::IntTypespec>(seed);
   ASSERT_NE(seedTs, nullptr);
   EXPECT_TRUE(seedTs->getSigned()) << "'int seed' (no 'unsigned' qualifier) is signed";
 }
@@ -124,7 +124,7 @@ TEST_F(Urandom2Test, LocalVariableXIsUnsignedInt) {
   const hldb::Variable *const x = hldb::findByName<hldb::Variable>("x", body->getVariables());
   ASSERT_NE(x, nullptr) << "'int unsigned x;' declares 'x' in the function body's implicit Begin scope";
 
-  const hldb::IntTypespec *const xTs = hldb::getTypespec<hldb::IntTypespec>(x);
+  const hldb::IntTypespec *const xTs = hldb::getResolveTypespec<hldb::IntTypespec>(x);
   ASSERT_NE(xTs, nullptr);
   EXPECT_FALSE(xTs->getSigned());
 }

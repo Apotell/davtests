@@ -88,7 +88,7 @@ TEST_F(RandCModifierTest, PropertyBIsSignedIntTypespec) {
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", a->getVariables());
   ASSERT_NE(b, nullptr);
 
-  const hldb::IntTypespec *const ts = hldb::getTypespec<hldb::IntTypespec>(b);
+  const hldb::IntTypespec *const ts = hldb::getResolveTypespec<hldb::IntTypespec>(b);
   ASSERT_NE(ts, nullptr) << "'int' should resolve to an IntTypespec";
   EXPECT_TRUE(ts->getSigned()) << "Sec 6.11: 'int' is signed";
 }

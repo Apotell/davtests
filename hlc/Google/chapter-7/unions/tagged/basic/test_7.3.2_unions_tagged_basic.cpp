@@ -158,7 +158,7 @@ TEST_F(UnionsTaggedBasicTest, MemberValidIsFourBitBitTypespec) {
   const hldb::TypespecMember *const valid = u->getMembers()->at(1);
   ASSERT_NE(valid, nullptr);
   EXPECT_EQ(valid->getName(), "valid");
-  const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(valid);
+  const hldb::BitTypespec *const bt = hldb::getResolveTypespec<hldb::BitTypespec>(valid);
   ASSERT_NE(bt, nullptr);
   ASSERT_NE(bt->getRanges(), nullptr);
   ASSERT_EQ(bt->getRanges()->size(), 1u);

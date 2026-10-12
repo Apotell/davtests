@@ -136,7 +136,7 @@ TEST_F(InLineRandomVariableControl0Test, RandPropertiesXYAndPlainPropertiesVWExi
   EXPECT_EQ(w->getRandType(), vpiNotRand);
 
   for (const hldb::Variable *const var : {x, y, v, w}) {
-    const hldb::IntTypespec *const ts = hldb::getTypespec<hldb::IntTypespec>(var);
+    const hldb::IntTypespec *const ts = hldb::getResolveTypespec<hldb::IntTypespec>(var);
     ASSERT_NE(ts, nullptr);
     EXPECT_TRUE(ts->getSigned());
   }

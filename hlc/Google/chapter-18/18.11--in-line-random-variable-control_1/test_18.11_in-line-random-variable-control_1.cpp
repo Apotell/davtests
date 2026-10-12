@@ -128,7 +128,7 @@ TEST_F(InLineRandomVariableControl1Test, RandCPropertiesXYAndPlainPropertiesVWEx
   EXPECT_EQ(w->getRandType(), vpiNotRand);
 
   for (const hldb::Variable *const var : {x, y, v, w}) {
-    const hldb::BitTypespec *const ts = hldb::getTypespec<hldb::BitTypespec>(var);
+    const hldb::BitTypespec *const ts = hldb::getResolveTypespec<hldb::BitTypespec>(var);
     ASSERT_NE(ts, nullptr) << "'bit [7:0]' should resolve to a BitTypespec";
     EXPECT_FALSE(ts->getSigned());
     ASSERT_NE(ts->getRanges(), nullptr);

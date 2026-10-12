@@ -266,12 +266,12 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:value start:7:12 end:7:17:
           vpiParent: Interface name:ifc
+          vpiName: value
+          vpiFullName: ifc.value
           vpiTypespec RefTypespec start:7:4 end:7:11:
             vpiParent: Variable name:value
             vpiFullName: ifc.value
             vpiActual: IntegerTypespec
-          vpiName: value
-          vpiFullName: ifc.value
       vpiTypespec (1 items):
         IntegerTypespec:
           vpiParent: Interface name:ifc
@@ -343,13 +343,13 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:this_struct start:30:14 end:30:25:
           vpiParent: Module name:m
+          vpiName: this_struct
+          vpiFullName: m.this_struct
           vpiTypespec RefTypespec name:my_struct [2] start:30:4 end:30:13:
             vpiParent: Variable name:this_struct
             vpiName: my_struct [2]
             vpiFullName: m.this_struct.my_struct [2]
             vpiActual: ArrayTypespec
-          vpiName: this_struct
-          vpiFullName: m.this_struct
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:m
@@ -372,14 +372,14 @@ Design name:unnamed:
               vpiOperand (1 items):
                 Constant start:30:27 end:30:28:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: m
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "2"
                   vpiValue: 2
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: m
+                    vpiActual: IntTypespec
           vpiElemTypespec RefTypespec name:my_struct start:30:4 end:30:13:
             vpiParent: ArrayTypespec
             vpiName: my_struct
@@ -392,24 +392,24 @@ Design name:unnamed:
               vpiParent: LogicTypespec
               vpiLeftRange Constant start:32:10 end:32:12:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: m
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "31"
                 vpiValue: 31
-              vpiRightRange Constant start:32:13 end:32:14:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: m
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:32:13 end:32:14:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: m
+                  vpiActual: IntTypespec
           vpiVector: true
       vpiDefName: m
       vpiDefNetType: wire (1)
@@ -445,14 +445,14 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$display
                 vpiHighConn Constant start:35:16 end:35:20:
                   vpiParent: NamedArgument
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: m.f
-                    vpiActual: StringTypespec
                   vpiConstType: string (6)
                   vpiSize: 16
                   vpiDecompile: "\"%s\""
                   vpiValue: "%s"
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: m.f
+                    vpiActual: StringTypespec
               NamedArgument start:35:22 end:35:23:
                 vpiParent: SysTaskCall name:$display
                 vpiHighConn RefObj name:m start:35:22 end:35:23:
@@ -467,37 +467,33 @@ Design name:unnamed:
       vpiNet (4 items):
         Net name:clk_ip start:13:11 end:13:17:
           vpiParent: Module name:m
+          vpiName: clk_ip
+          vpiFullName: m.clk_ip
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk_ip
             vpiFullName: m.clk_ip
             vpiActual: LogicTypespec
-          vpiName: clk_ip
-          vpiFullName: m.clk_ip
-          vpiNetType: wire (1)
         Net name:rst_ip start:14:11 end:14:17:
           vpiParent: Module name:m
+          vpiName: rst_ip
+          vpiFullName: m.rst_ip
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:rst_ip
             vpiFullName: m.rst_ip
             vpiActual: LogicTypespec
-          vpiName: rst_ip
-          vpiFullName: m.rst_ip
-          vpiNetType: wire (1)
         Net name:foo_op start:15:11 end:15:17:
           vpiParent: Module name:m
+          vpiName: foo_op
+          vpiFullName: m.foo_op
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:foo_op
             vpiFullName: m.foo_op
             vpiActual: LogicTypespec
-          vpiName: foo_op
-          vpiFullName: m.foo_op
-          vpiNetType: wire (1)
         Net name:dotted start:32:16 end:32:22:
           vpiParent: Module name:m
-          vpiTypespec RefTypespec start:32:9 end:32:15:
-            vpiParent: Net name:dotted
-            vpiFullName: m.dotted
-            vpiActual: LogicTypespec
           vpiName: dotted
           vpiFullName: m.dotted
           vpiNetDeclAssign: true
@@ -516,6 +512,10 @@ Design name:unnamed:
                 vpiParent: RefObj name:itop.value
                 vpiName: value
                 vpiFullName: m.dotted.value
+          vpiTypespec RefTypespec start:32:9 end:32:15:
+            vpiParent: Net name:dotted
+            vpiFullName: m.dotted
+            vpiActual: LogicTypespec
       vpiPort (3 items):
         Port name:clk_ip start:13:11 end:13:17:
           vpiParent: Module name:m
@@ -572,14 +572,14 @@ Design name:unnamed:
                     vpiParent: MethodFuncCall name:f
                     vpiHighConn Constant start:40:8 end:40:735:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: m
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 2040
                       vpiDecompile: "\"\\x01\\x02\\x03\\x04\\x05\\x06\\a\\x08\\t\\n\\v\\f\\r\\x0e\\x0f\\x10\\x11\\x12\\x13\\x14\\x15\\x16\\x17\\x18\\x19\\x1a\\x1b\\x1c\\x1d\\x1e\\x1f !\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\\x7f\\x80\\x81\\x82\\x83\\x84\\x85\\x86\\x87\\x88\\x89\\x8a\\x8b\\x8c\\x8d\\x8e\\x8f\\x90\\x91\\x92\\x93\\x94\\x95\\x96\\x97\\x98\\x99\\x9a\\x9b\\x9c\\x9d\\x9e\\x9f\\xa0\\xa1\\xa2\\xa3\\xa4\\xa5\\xa6\\xa7\\xa8\\xa9\\xaa\\xab\\xac\\xad\\xae\\xaf\\xb0\\xb1\\xb2\\xb3\\xb4\\xb5\\xb6\\xb7\\xb8\\xb9\\xba\\xbb\\xbc\\xbd\\xbe\\xbf\\xc0\\xc1\\xc2\\xc3\\xc4\\xc5\\xc6\\xc7\\xc8\\xc9\\xca\\xcb\\xcc\\xcd\\xce\\xcf\\xd0\\xd1\\xd2\\xd3\\xd4\\xd5\\xd6\\xd7\\xd8\\xd9\\xda\\xdb\\xdc\\xdd\\xde\\xdf\\xe0\\xe1\\xe2\\xe3\\xe4\\xe5\\xe6\\xe7\\xe8\\xe9\\xea\\xeb\\xec\\xed\\xee\\xef\\xf0\\xf1\\xf2\\xf3\\xf4\\xf5\\xf6\\xf7\\xf8\\xf9\\xfa\\xfb\\xfc\\xfd\\xfe\\xff\""
                       vpiValue: "\\x01\\x02\\x03\\x04\\x05\\x06\\a\\x08\\t\\n\\v\\f\\r\\x0e\\x0f\\x10\\x11\\x12\\x13\\x14\\x15\\x16\\x17\\x18\\x19\\x1a\\x1b\\x1c\\x1d\\x1e\\x1f !\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\\x7f\\x80\\x81\\x82\\x83\\x84\\x85\\x86\\x87\\x88\\x89\\x8a\\x8b\\x8c\\x8d\\x8e\\x8f\\x90\\x91\\x92\\x93\\x94\\x95\\x96\\x97\\x98\\x99\\x9a\\x9b\\x9c\\x9d\\x9e\\x9f\\xa0\\xa1\\xa2\\xa3\\xa4\\xa5\\xa6\\xa7\\xa8\\xa9\\xaa\\xab\\xac\\xad\\xae\\xaf\\xb0\\xb1\\xb2\\xb3\\xb4\\xb5\\xb6\\xb7\\xb8\\xb9\\xba\\xbb\\xbc\\xbd\\xbe\\xbf\\xc0\\xc1\\xc2\\xc3\\xc4\\xc5\\xc6\\xc7\\xc8\\xc9\\xca\\xcb\\xcc\\xcd\\xce\\xcf\\xd0\\xd1\\xd2\\xd3\\xd4\\xd5\\xd6\\xd7\\xd8\\xd9\\xda\\xdb\\xdc\\xdd\\xde\\xdf\\xe0\\xe1\\xe2\\xe3\\xe4\\xe5\\xe6\\xe7\\xe8\\xe9\\xea\\xeb\\xec\\xed\\xee\\xef\\xf0\\xf1\\xf2\\xf3\\xf4\\xf5\\xf6\\xf7\\xf8\\xf9\\xfa\\xfb\\xfc\\xfd\\xfe\\xff"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: m
+                        vpiActual: StringTypespec
       vpiRefInstance (1 items):
         RefInstance name:itop start:28:8 end:28:12:
           vpiParent: Module name:m

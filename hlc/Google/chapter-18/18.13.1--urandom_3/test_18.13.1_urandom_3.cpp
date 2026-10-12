@@ -133,9 +133,9 @@ TEST_F(Urandom3Test, ClassEnvExtendsUvmEnvAndHasRet1Ret2SeedAndRunPhase) {
   ASSERT_NE(ret2, nullptr);
   ASSERT_NE(seed, nullptr) << "'int seed = 254;' declares 'seed' on env";
 
-  const hldb::IntTypespec *const ret1Ts = hldb::getTypespec<hldb::IntTypespec>(ret1);
-  const hldb::IntTypespec *const ret2Ts = hldb::getTypespec<hldb::IntTypespec>(ret2);
-  const hldb::IntTypespec *const seedTs = hldb::getTypespec<hldb::IntTypespec>(seed);
+  const hldb::IntTypespec *const ret1Ts = hldb::getResolveTypespec<hldb::IntTypespec>(ret1);
+  const hldb::IntTypespec *const ret2Ts = hldb::getResolveTypespec<hldb::IntTypespec>(ret2);
+  const hldb::IntTypespec *const seedTs = hldb::getResolveTypespec<hldb::IntTypespec>(seed);
   ASSERT_NE(ret1Ts, nullptr);
   ASSERT_NE(ret2Ts, nullptr);
   ASSERT_NE(seedTs, nullptr);

@@ -112,7 +112,7 @@ TEST_F(AddingConstraintsToScopeVariables1Test, ClassEnvExtendsUvmEnvAndHasProper
 
   const hldb::Variable *const y = hldb::findByName<hldb::Variable>("y", env->getVariables());
   ASSERT_NE(y, nullptr) << "'int ret, y = 20;' declares 'y' on env";
-  const hldb::IntTypespec *const yTs = hldb::getTypespec<hldb::IntTypespec>(y);
+  const hldb::IntTypespec *const yTs = hldb::getResolveTypespec<hldb::IntTypespec>(y);
   ASSERT_NE(yTs, nullptr);
   EXPECT_TRUE(yTs->getSigned());
 

@@ -120,7 +120,7 @@ TEST_F(Urandom0Test, LocalVariableXIsUnsignedInt) {
   const hldb::Variable *const x = hldb::findByName<hldb::Variable>("x", body->getVariables());
   ASSERT_NE(x, nullptr) << "'int unsigned x;' declares 'x' in the function body's implicit Begin scope";
 
-  const hldb::IntTypespec *const xTs = hldb::getTypespec<hldb::IntTypespec>(x);
+  const hldb::IntTypespec *const xTs = hldb::getResolveTypespec<hldb::IntTypespec>(x);
   ASSERT_NE(xTs, nullptr);
   EXPECT_FALSE(xTs->getSigned());
 }

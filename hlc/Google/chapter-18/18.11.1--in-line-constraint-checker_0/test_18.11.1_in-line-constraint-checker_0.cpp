@@ -124,8 +124,8 @@ TEST_F(InLineConstraintChecker0Test, ClassAWithRandXAndPlainVExist) {
   EXPECT_EQ(x->getRandType(), vpiRand);
   EXPECT_EQ(v->getRandType(), vpiNotRand) << "'int v;' has no rand/randc modifier";
 
-  const hldb::IntTypespec *const xTs = hldb::getTypespec<hldb::IntTypespec>(x);
-  const hldb::IntTypespec *const vTs = hldb::getTypespec<hldb::IntTypespec>(v);
+  const hldb::IntTypespec *const xTs = hldb::getResolveTypespec<hldb::IntTypespec>(x);
+  const hldb::IntTypespec *const vTs = hldb::getResolveTypespec<hldb::IntTypespec>(v);
   ASSERT_NE(xTs, nullptr);
   ASSERT_NE(vTs, nullptr);
   EXPECT_TRUE(xTs->getSigned());

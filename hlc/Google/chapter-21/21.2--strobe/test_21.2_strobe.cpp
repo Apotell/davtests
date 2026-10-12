@@ -238,7 +238,7 @@ TEST_F(StrobeTaskTest, ClkIsAnUnsignedScalarLogic) {
   const hldb::Variable *const clk = hldb::findByName<hldb::Variable>("clk", top->getVariables());
   ASSERT_NE(clk, nullptr);
 
-  const hldb::LogicTypespec *const typespec = hldb::getTypespec<hldb::LogicTypespec>(clk);
+  const hldb::LogicTypespec *const typespec = hldb::getResolveTypespec<hldb::LogicTypespec>(clk);
   ASSERT_NE(typespec, nullptr);
   EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::LogicTypespec);
   EXPECT_EQ(typespec->getVpiType(), static_cast<uint32_t>(vpiLogicTypespec));
@@ -258,7 +258,7 @@ TEST_F(StrobeTaskTest, AIsASignedInt) {
   const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", top->getVariables());
   ASSERT_NE(a, nullptr);
 
-  const hldb::IntTypespec *const typespec = hldb::getTypespec<hldb::IntTypespec>(a);
+  const hldb::IntTypespec *const typespec = hldb::getResolveTypespec<hldb::IntTypespec>(a);
   ASSERT_NE(typespec, nullptr);
   EXPECT_EQ(typespec->getAnyType(), hldb::AnyType::IntTypespec);
   EXPECT_EQ(typespec->getVpiType(), static_cast<uint32_t>(vpiIntTypespec));

@@ -154,7 +154,7 @@ TEST_F(PackedStructBasicTest, MembersLoAndHiAreFourBitBitTypespecs) {
     const hldb::TypespecMember *const member = s->getMembers()->at(i);
     ASSERT_NE(member, nullptr) << "member " << i;
     EXPECT_EQ(member->getName(), names[i]);
-    const hldb::BitTypespec *const bt = hldb::getTypespec<hldb::BitTypespec>(member);
+    const hldb::BitTypespec *const bt = hldb::getResolveTypespec<hldb::BitTypespec>(member);
     ASSERT_NE(bt, nullptr) << "member " << i;
     EXPECT_TRUE(bt->getVector());
     ASSERT_NE(bt->getRanges(), nullptr);
