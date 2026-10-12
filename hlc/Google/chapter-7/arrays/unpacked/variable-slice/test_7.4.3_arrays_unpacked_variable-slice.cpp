@@ -226,7 +226,7 @@ TEST_F(UnpackedVariableSliceTest, FifthStmtWritesIndexedPartSelectArrBFromArrA) 
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "arr_b[4+:c]");
   EXPECT_EQ(lhs->getPrefix<hldb::RefObj>()->getName(), "arr_b");
-  const hldb::IndexedRange *const lhsRange = lhs->getIndexedRange();
+  const hldb::IndexedRange *const lhsRange = lhs->getRange();
   ASSERT_NE(lhsRange, nullptr);
   EXPECT_EQ(lhsRange->getIndexedPartSelectType(), vpiPosIndexed);
   EXPECT_EQ(lhsRange->getBaseExpr<hldb::Constant>()->getDecompile(), "4");
@@ -239,7 +239,7 @@ TEST_F(UnpackedVariableSliceTest, FifthStmtWritesIndexedPartSelectArrBFromArrA) 
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "arr_a[1+:c]");
   EXPECT_EQ(rhs->getPrefix<hldb::RefObj>()->getName(), "arr_a");
-  const hldb::IndexedRange *const rhsRange = rhs->getIndexedRange();
+  const hldb::IndexedRange *const rhsRange = rhs->getRange();
   ASSERT_NE(rhsRange, nullptr);
   EXPECT_EQ(rhsRange->getIndexedPartSelectType(), vpiPosIndexed);
   EXPECT_EQ(rhsRange->getBaseExpr<hldb::Constant>()->getDecompile(), "1");

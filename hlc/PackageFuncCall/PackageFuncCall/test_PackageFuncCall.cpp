@@ -360,7 +360,7 @@ class PackageFuncCallTest : public Test {
   static void ExpectKTimesFourPlusColonFour(const hldb::IndexedPartSelect *sel, std::string_view prefixName,
                                             const hldb::Any *prefixTarget) {
     ASSERT_NE(sel, nullptr);
-    const hldb::IndexedRange *const selRange = sel->getIndexedRange();
+    const hldb::IndexedRange *const selRange = sel->getRange();
     ASSERT_NE(selRange, nullptr);
     EXPECT_EQ(selRange->getIndexedPartSelectType(), vpiPosIndexed)
         << "11.5.1: '+:' is an ascending indexed part-select";

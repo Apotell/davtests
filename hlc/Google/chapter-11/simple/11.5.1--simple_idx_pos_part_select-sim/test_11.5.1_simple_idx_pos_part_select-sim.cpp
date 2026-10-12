@@ -110,7 +110,7 @@ TEST_F(SimpleIdxPosPartSelectSimTest, ContAssignIsAPosIndexedZeroPlusFour) {
   ASSERT_NE(sel, nullptr);
   EXPECT_EQ(sel->getName(), "a[0+:4]");
   EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "a");
-  const hldb::IndexedRange *const selRange = sel->getIndexedRange();
+  const hldb::IndexedRange *const selRange = sel->getRange();
   ASSERT_NE(selRange, nullptr);
   EXPECT_EQ(selRange->getIndexedPartSelectType(), vpiPosIndexed);
   EXPECT_EQ(selRange->getBaseExpr<hldb::Constant>()->getDecompile(), "0");

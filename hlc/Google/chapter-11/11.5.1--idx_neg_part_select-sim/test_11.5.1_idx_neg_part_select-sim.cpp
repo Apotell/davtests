@@ -137,7 +137,7 @@ TEST_F(IdxNegPartSelectSimTest, AssignmentRhsIsNegIndexedFifteenMinusEight) {
   ASSERT_NE(sel, nullptr);
   EXPECT_EQ(sel->getName(), "a[15-:8]");
   EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "a");
-  const hldb::IndexedRange *const selRange = sel->getIndexedRange();
+  const hldb::IndexedRange *const selRange = sel->getRange();
   ASSERT_NE(selRange, nullptr);
   EXPECT_EQ(selRange->getIndexedPartSelectType(), vpiNegIndexed);
   ASSERT_NE(selRange->getBaseExpr<hldb::Constant>(), nullptr);

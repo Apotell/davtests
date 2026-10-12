@@ -348,7 +348,7 @@ TEST_F(ElabCParamTest, Socket1n_BBIsIndexedPartSelectOfDReqDepth) {
   const hldb::RefObj *const pro = rhs->getPrefix<hldb::RefObj>();
   ASSERT_NE(pro, nullptr);
   EXPECT_EQ(pro->getName(), std::string_view("DReqDepth"));
-  const hldb::IndexedRange *const rhsRange = rhs->getIndexedRange();
+  const hldb::IndexedRange *const rhsRange = rhs->getRange();
   ASSERT_NE(rhsRange, nullptr);
   EXPECT_EQ(rhsRange->getIndexedPartSelectType(), vpiPosIndexed) << "'+:' must produce vpiPosIndexed";
 }

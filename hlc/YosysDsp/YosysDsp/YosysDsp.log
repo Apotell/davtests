@@ -29,9 +29,9 @@ COMMAND: -wd ../../../tests/YosysDsp +incdir+. -sverilog -writepp -fileunit boxc
 [INF:PP5223] Preprocessing source file "$Scratch/0_builtin.sv".
 [ERR:PP5202] $Source01/fastfir_dynamictaps.v:20:1: Cannot open include file "fastfir.vh".
 [ERR:PP5202] $Source01/fastfir_dynamictaps.v:21:1: Cannot open include file "firtap.vh".
+[ERR:PP5202] $Source01/slowfil_fixedtaps.v:21:1: Cannot open include file "slowfil.vh".
 [ERR:PP5202] $Source01/fastfir_fixedtaps.v:20:1: Cannot open include file "fastfir.vh".
 [ERR:PP5202] $Source01/fastfir_fixedtaps.v:21:1: Cannot open include file "firtap.vh".
-[ERR:PP5202] $Source01/slowfil_fixedtaps.v:21:1: Cannot open include file "slowfil.vh".
 [INF:PA5502] Parsing source file "$Source01/boxcar.v".
 [INF:PA5502] Parsing source file "$Source01/delayw.v".
 [INF:PA5502] Parsing source file "$Source01/dspswitch.v".
@@ -11447,17 +11447,19 @@ Design name:unnamed:
                               vpiName: reset_value
                               vpiFullName: lfsr.CALC_RESET.reset_value
                               vpiActual: Net name:reset_value
-                            vpiIndexedPartSelectType: pos indexed (1)
-                            vpiBaseExpr RefObj name:k start:101:47 end:101:48:
+                            vpiIndexedRange IndexedRange start:101:47 end:101:54:
                               vpiParent: IndexedPartSelect name:reset_value[k+:LN]
-                              vpiName: k
-                              vpiFullName: lfsr.CALC_RESET.k
-                              vpiActual: Variable name:k
-                            vpiWidthExpr RefObj name:LN start:101:52 end:101:54:
-                              vpiParent: IndexedPartSelect name:reset_value[k+:LN]
-                              vpiName: LN
-                              vpiFullName: lfsr.CALC_RESET.LN
-                              vpiActual: Parameter name:LN
+                              vpiIndexedPartSelectType: pos indexed (1)
+                              vpiBaseExpr RefObj name:k start:101:47 end:101:48:
+                                vpiParent: IndexedRange
+                                vpiName: k
+                                vpiFullName: lfsr.CALC_RESET.reset_value[k+:LN].k
+                                vpiActual: Variable name:k
+                              vpiWidthExpr RefObj name:LN start:101:52 end:101:54:
+                                vpiParent: IndexedRange
+                                vpiName: LN
+                                vpiFullName: lfsr.CALC_RESET.reset_value[k+:LN].LN
+                                vpiActual: Parameter name:LN
                           RefObj name:TAPS start:101:56 end:101:60:
                             vpiParent: Operation
                             vpiName: TAPS
@@ -31334,7 +31336,7 @@ Operation                          728     386       0       342
 RefObj                            1824    1485       0       339
 RefTypespec                       1807    1808     260       259
 ----------------------------------------------------------------
-Others                            3536    3536       0         0
+Others                            3537    3537       0         0
 ----------------------------------------------------------------
-                                  8813    8142     528      1199
+                                  8814    8143     528      1199
 ===================== END REDUCTION RESULT =====================

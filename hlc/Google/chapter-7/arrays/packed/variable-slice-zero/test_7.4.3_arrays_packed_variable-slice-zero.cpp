@@ -208,7 +208,7 @@ TEST_F(PackedVariableSliceZeroTest, ThirdAssignmentIsIndexedPartSelectWithZeroWi
   const hldb::IndexedPartSelect *const lhs = assign->getLhs<hldb::IndexedPartSelect>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "arr_b[4+:c]");
-  const hldb::IndexedRange *const lhsRange = lhs->getIndexedRange();
+  const hldb::IndexedRange *const lhsRange = lhs->getRange();
   ASSERT_NE(lhsRange, nullptr);
   EXPECT_EQ(lhsRange->getBaseExpr<hldb::Constant>()->getDecompile(), "4");
   const hldb::RefObj *const lhsWidth = lhsRange->getWidthExpr<hldb::RefObj>();
@@ -220,7 +220,7 @@ TEST_F(PackedVariableSliceZeroTest, ThirdAssignmentIsIndexedPartSelectWithZeroWi
   const hldb::IndexedPartSelect *const rhs = assign->getRhs<hldb::IndexedPartSelect>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getName(), "arr_a[1+:c]");
-  const hldb::IndexedRange *const rhsRange = rhs->getIndexedRange();
+  const hldb::IndexedRange *const rhsRange = rhs->getRange();
   ASSERT_NE(rhsRange, nullptr);
   EXPECT_EQ(rhsRange->getBaseExpr<hldb::Constant>()->getDecompile(), "1");
 }
