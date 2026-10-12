@@ -51,7 +51,7 @@
 //   - the GenIf's condition is an equality Operation (vpiEqOp) with 2
 //     operands: a RefObj naming "EXC_CAUSE_IRQ_SOFTWARE_M" that resolves
 //     to the EnumConst, and a Constant "6'b100011" (vpiBinaryConst, size 6)
-//   - the GenIf's body is a Begin containing a RefInstance "good" whose
+//   - the GenIf's body is a generate block (GenRegion) containing a RefInstance "good" whose
 //     typespec resolves (ModuleTypespec) to "GOOD"
 //   - compiler reports zero errors
 
@@ -61,12 +61,12 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/gen_if.h>
+#include <hldb/gen_region.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/operation.h>
@@ -196,8 +196,8 @@ TEST_F(EnumConcatTest, GenIfConditionIsEqualityOfEnumConstAndBinaryConstant) {
 TEST_F(EnumConcatTest, GenIfBodyInstantiatesGoodAsGood) {
   const hldb::GenIf *const genIf = getGenIf();
   ASSERT_NE(genIf, nullptr);
-  const hldb::Begin *const body = genIf->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr) << "'begin GOOD good(); end' body must be a Begin";
+  const hldb::GenRegion *const body = genIf->getStmt<hldb::GenRegion>();
+  ASSERT_NE(body, nullptr) << "'begin GOOD good(); end' body must be a generate block (GenRegion)";
   ASSERT_NE(body->getStmts(), nullptr);
   const hldb::RefInstance *good = nullptr;
   for (const hldb::Any *const stmt : *body->getStmts()) {

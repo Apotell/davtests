@@ -54,7 +54,6 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
 #include <hldb/cont_assign.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
@@ -87,7 +86,11 @@ class GenScopeFuncTest : public Test {
   // generate-if is the GenRegion's item rather than a direct module item.
   static const hldb::GenIf *asGenIf(const hldb::Any *stmt) {
     if (const hldb::GenRegion *const region = any_cast<hldb::GenRegion>(stmt)) {
-      return region->getStmt<hldb::GenIf>();
+      if (region->getStmts() == nullptr) return nullptr;
+      for (const hldb::Any *const item : *region->getStmts()) {
+        if (const hldb::GenIf *const gi = any_cast<hldb::GenIf>(item)) return gi;
+      }
+      return nullptr;
     }
     return any_cast<hldb::GenIf>(stmt);
   }
@@ -102,20 +105,20 @@ class GenScopeFuncTest : public Test {
   }
 
   // Unelaborated model (no -d inst): 'begin : cscope ... end' is the
-  // generate block of the generate-if, modeled as a Begin (Sec 27.5).
-  // GenScope objects only exist after elaboration.
+  // generate block of the generate-if, modeled as a GenRegion (Sec 27.5).
+  // Elaborated GenScope objects only exist after elaboration.
   // static const hldb::GenScope *getCscope() {
   //   const hldb::GenIf *const gi = findGenIf(getModule("mod"));
   //   return (gi == nullptr) ? nullptr : gi->getStmt<hldb::GenScope>();
   // }
-  static const hldb::Begin *getCscope() {
+  static const hldb::GenRegion *getCscope() {
     const hldb::GenIf *const gi = findGenIf(getModule("mod"));
-    return (gi == nullptr) ? nullptr : gi->getStmt<hldb::Begin>();
+    return (gi == nullptr) ? nullptr : gi->getStmt<hldb::GenRegion>();
   }
 
-  // The function declared inside 'cscope' is one of the Begin's items.
+  // The function declared inside 'cscope' is one of the GenRegion's items.
   static const hldb::Function *getLocalFunction() {
-    const hldb::Begin *const cscope = getCscope();
+    const hldb::GenRegion *const cscope = getCscope();
     if (cscope == nullptr || cscope->getStmts() == nullptr) return nullptr;
     return hldb::findByName<hldb::Function>("local_function", cscope->getStmts());
   }
@@ -161,8 +164,8 @@ TEST_F(GenScopeFuncTest, ModHasExactlyOneGenIfNamedCscope) {
 
   // const hldb::GenScope *const cscope = getCscope();
   // ASSERT_NE(cscope, nullptr) << "'begin : cscope ... end' should be a GenScope";
-  const hldb::Begin *const cscope = getCscope();
-  ASSERT_NE(cscope, nullptr) << "'begin : cscope ... end' should be a generate block (Begin)";
+  const hldb::GenRegion *const cscope = getCscope();
+  ASSERT_NE(cscope, nullptr) << "'begin : cscope ... end' should be a generate block (GenRegion)";
   EXPECT_EQ(cscope->getName(), std::string_view("cscope"));
 }
 
@@ -174,7 +177,7 @@ TEST_F(GenScopeFuncTest, LocalFunctionDeclaredInsideCscope) {
   // ASSERT_NE(cscope->getTaskFuncs(), nullptr) << "'cscope' should carry 'local_function'";
   // const hldb::Function *const fn = hldb::findByName<hldb::Function>("local_function", cscope->getTaskFuncs());
   // ASSERT_NE(fn, nullptr) << "'local_function' not found inside 'cscope'";
-  const hldb::Begin *const cscope = getCscope();
+  const hldb::GenRegion *const cscope = getCscope();
   ASSERT_NE(cscope, nullptr);
   ASSERT_NE(cscope->getStmts(), nullptr) << "'cscope' should carry 'local_function'";
   const hldb::Function *const fn = getLocalFunction();
@@ -210,7 +213,7 @@ TEST_F(GenScopeFuncTest, ContAssignCallsLocalFunctionBoundToCscope) {
   // ASSERT_NE(cscope, nullptr);
   // const hldb::Function *const fn = hldb::findByName<hldb::Function>("local_function", cscope->getTaskFuncs());
   // ASSERT_NE(fn, nullptr);
-  const hldb::Begin *const cscope = getCscope();
+  const hldb::GenRegion *const cscope = getCscope();
   ASSERT_NE(cscope, nullptr);
   const hldb::Function *const fn = getLocalFunction();
   ASSERT_NE(fn, nullptr);

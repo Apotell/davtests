@@ -69,7 +69,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
+#include <hldb/gen_region.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/gen_if.h>
@@ -280,9 +280,9 @@ static void expectGuardedGoodInstance(const std::vector<const hldb::GenIf *> &ge
   ASSERT_NE(rhs, nullptr) << instName << ": right operand must be a Constant";
   EXPECT_EQ(std::string(rhs->getDecompile()), expectedRhs);
 
-  const hldb::Begin *const body = gi->getStmt<hldb::Begin>();
+  const hldb::GenRegion *const body = gi->getStmt<hldb::GenRegion>();
   ASSERT_NE(gi->getStmt(), nullptr) << instName;
-  ASSERT_NE(body, nullptr) << instName << ": 'begin ... end' body must be a Begin";
+  ASSERT_NE(body, nullptr) << instName << ": 'begin ... end' body must be a GenRegion";
   ASSERT_NE(body->getStmts(), nullptr);
   const hldb::RefInstance *inst = nullptr;
   for (const hldb::Any *const s : *body->getStmts()) {

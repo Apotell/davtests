@@ -36,10 +36,10 @@
 // What is under test: a *named* generate-if construct (IEEE 1800-2023 Sec
 // 27.3 "Generate block": "begin : tag2 ... end" / "begin : tag3 ... end"
 // introduce named generate blocks). GenIfElse itself carries the condition,
-// and its "then"/"else" branches -- each a named generate block -- are Begin
+// and its "then"/"else" branches -- each a named generate block -- are GenRegion
 // objects whose getName() equals the source label ("tag2", "tag3"). Likewise
 // "begin: tag1" names the generate-for's generate block, i.e. the GenFor's
-// body Begin, not the GenFor construct (Sec 27.4). GenScope objects only
+// body GenRegion, not the GenFor construct (Sec 27.4). GenScope objects only
 // exist after elaboration.
 //
 // No .log file was consulted; accessor names were confirmed against the
@@ -51,7 +51,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
+#include <hldb/gen_region.h>
 #include <hldb/constant.h>
 #include <hldb/cont_assign.h>
 #include <hldb/design.h>
@@ -81,22 +81,22 @@ class GenIfNamedTest : public Test {
   }
 
   // In 'for (...) begin: tag1 ... end' the label names the loop's
-  // generate block -- the GenFor's body Begin -- not the GenFor (Sec 27.4). Likewise 'begin: tag2'
-  // and 'begin: tag3' are the GenIfElse's branch Begins (Sec 27.5). GenScopes only exist after
+  // generate block -- the GenFor's body GenRegion -- not the GenFor (Sec 27.4). Likewise 'begin: tag2'
+  // and 'begin: tag3' are the GenIfElse's branch GenRegions (Sec 27.5). GenScopes only exist after
   // elaboration.
-  static const hldb::Begin *getTag1Block() {
+  static const hldb::GenRegion *getTag1Block() {
     const hldb::GenFor *const gf = findGenFor(getTop());
-    return (gf == nullptr) ? nullptr : gf->getStmt<hldb::Begin>();
+    return (gf == nullptr) ? nullptr : gf->getStmt<hldb::GenRegion>();
   }
 
   // The single generate item of 'tag1': 'if (1) begin: tag2 ... end else begin: tag3 ... end'.
   static const hldb::GenIfElse *getGenIfElse() {
-    const hldb::Begin *const tag1 = getTag1Block();
+    const hldb::GenRegion *const tag1 = getTag1Block();
     if (tag1 == nullptr || tag1->getStmts() == nullptr || tag1->getStmts()->size() != 1u) return nullptr;
     return any_cast<hldb::GenIfElse>(tag1->getStmts()->at(0));
   }
 
-  static size_t countContAssigns(const hldb::Begin *block) {
+  static size_t countContAssigns(const hldb::GenRegion *block) {
     size_t count = 0u;
     if (block == nullptr || block->getStmts() == nullptr) return count;
     for (const hldb::Any *const item : *block->getStmts()) {
@@ -120,13 +120,13 @@ TEST_F(GenIfNamedTest, ModuleTopHasExactlyOneGenFor) {
   EXPECT_EQ(count, 1u);
 }
 
-// 'tag1' names the generate-for's generate block (its body Begin), not the GenFor (Sec 27.4).
+// 'tag1' names the generate-for's generate block (its body GenRegion), not the GenFor (Sec 27.4).
 TEST_F(GenIfNamedTest, GenForIsNamedTag1) {
   const hldb::GenFor *const gf = findGenFor(getTop());
   ASSERT_NE(gf, nullptr) << "'for (...) begin: tag1 ... end' not found";
   ASSERT_NE(gf->getStmt(), nullptr) << "the generate-for has no body";
-  const hldb::Begin *const tag1 = getTag1Block();
-  ASSERT_NE(tag1, nullptr) << "the generate-for body 'begin: tag1 ... end' should be a Begin";
+  const hldb::GenRegion *const tag1 = getTag1Block();
+  ASSERT_NE(tag1, nullptr) << "the generate-for body 'begin: tag1 ... end' should be a GenRegion";
   EXPECT_EQ(tag1->getName(), std::string_view("tag1"));
   // Previous (GenScope / labeled-GenFor) version:
   // const hldb::GenFor *const gf = findGenFor(getTop());
@@ -137,7 +137,7 @@ TEST_F(GenIfNamedTest, GenForIsNamedTag1) {
 // Body of 'tag1' is a single 'if (1) begin: tag2 ... end else begin: tag3
 // ... end' -- a GenIfElse (Sec 27.5).
 TEST_F(GenIfNamedTest, GenForBodyIsGenIfElse) {
-  const hldb::Begin *const tag1 = getTag1Block();
+  const hldb::GenRegion *const tag1 = getTag1Block();
   ASSERT_NE(tag1, nullptr);
   ASSERT_NE(tag1->getStmts(), nullptr) << "'tag1' has no body statement";
   ASSERT_EQ(tag1->getStmts()->size(), 1u);
@@ -150,13 +150,13 @@ TEST_F(GenIfNamedTest, GenForBodyIsGenIfElse) {
   // ASSERT_NE(gie, nullptr) << "'tag1' body should be a GenIfElse";
 }
 
-// The 'then' branch 'begin: tag2 ... end' is a generate block (Begin) named 'tag2'.
+// The 'then' branch 'begin: tag2 ... end' is a generate block (GenRegion) named 'tag2'.
 TEST_F(GenIfNamedTest, GenIfElseThenBranchIsNamedTag2) {
   const hldb::GenIfElse *const gie = getGenIfElse();
   ASSERT_NE(gie, nullptr);
   ASSERT_NE(gie->getStmt(), nullptr) << "'tag2' branch missing";
-  const hldb::Begin *const tag2 = gie->getStmt<hldb::Begin>();
-  ASSERT_NE(tag2, nullptr) << "'begin: tag2 ... end' should be a generate block (Begin)";
+  const hldb::GenRegion *const tag2 = gie->getStmt<hldb::GenRegion>();
+  ASSERT_NE(tag2, nullptr) << "'begin: tag2 ... end' should be a generate block (GenRegion)";
   EXPECT_EQ(tag2->getName(), std::string_view("tag2"));
   EXPECT_EQ(countContAssigns(tag2), 1u) << "'tag2' has exactly one continuous assignment";
   // Previous (GenScope / labeled-GenFor) version:
@@ -174,14 +174,14 @@ TEST_F(GenIfNamedTest, GenIfElseThenBranchIsNamedTag2) {
   // ASSERT_EQ(tag2->getContAssigns()->size(), 1u) << "'tag2' has exactly one continuous assignment";
 }
 
-// The 'else' branch 'begin: tag3 ... end' is a generate block (Begin) named 'tag3'
+// The 'else' branch 'begin: tag3 ... end' is a generate block (GenRegion) named 'tag3'
 // with its own two continuous assignments.
 TEST_F(GenIfNamedTest, GenIfElseElseBranchIsNamedTag3) {
   const hldb::GenIfElse *const gie = getGenIfElse();
   ASSERT_NE(gie, nullptr);
   ASSERT_NE(gie->getElseStmt(), nullptr) << "'tag3' branch missing";
-  const hldb::Begin *const tag3 = gie->getElseStmt<hldb::Begin>();
-  ASSERT_NE(tag3, nullptr) << "'begin: tag3 ... end' should be a generate block (Begin)";
+  const hldb::GenRegion *const tag3 = gie->getElseStmt<hldb::GenRegion>();
+  ASSERT_NE(tag3, nullptr) << "'begin: tag3 ... end' should be a generate block (GenRegion)";
   EXPECT_EQ(tag3->getName(), std::string_view("tag3"));
   EXPECT_EQ(countContAssigns(tag3), 2u) << "'tag3' has exactly two continuous assignments";
   // Previous (GenScope / labeled-GenFor) version:
@@ -204,8 +204,8 @@ TEST_F(GenIfNamedTest, GenIfElseElseBranchIsNamedTag3) {
 TEST_F(GenIfNamedTest, Tag2AndTag3AreDistinctScopes) {
   const hldb::GenIfElse *const gie = getGenIfElse();
   ASSERT_NE(gie, nullptr);
-  const hldb::Begin *const tag2 = gie->getStmt<hldb::Begin>();
-  const hldb::Begin *const tag3 = gie->getElseStmt<hldb::Begin>();
+  const hldb::GenRegion *const tag2 = gie->getStmt<hldb::GenRegion>();
+  const hldb::GenRegion *const tag3 = gie->getElseStmt<hldb::GenRegion>();
   ASSERT_NE(tag2, nullptr);
   ASSERT_NE(tag3, nullptr);
   EXPECT_NE(static_cast<const void *>(tag2), static_cast<const void *>(tag3));

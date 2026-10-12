@@ -45,9 +45,11 @@
 //   begin [ : generate_block_identifier ] { generate_item } end
 //   [ : generate_block_identifier ]" -- so when the loop body is a single
 //   generate_item (here, a single continuous_assign), the begin-end is
-//   optional and the item attaches directly as the for-loop's body; when
-//   begin-end is used, it introduces a nested scope (Begin) holding the
-//   generate_item(s).
+//   optional, but the body is still a generate block (27.4: "the generate
+//   block" of the loop; 27.5: "even if the begin-end keywords are absent, it
+//   is still a generate block") -- so in both cases the for-loop's body is a
+//   GenRegion holding the generate_item(s): an implicit, unnamed one when
+//   begin-end is absent, the explicit (possibly named) block otherwise.
 //
 //   Also (IEEE 1800-2023 6.8): "output [2:0] ys, yu" have no net_type
 //   keyword and no explicit data type, so per 23.2.2.3 they default to
@@ -59,20 +61,20 @@
 // -- GenFor for the generate-for construct):
 //   - all 5 modules exist and each has exactly the genvars "i" and "j" as
 //     Variables at module scope (27.5), never inside the GenFor's own scope
-//   - constpower1: outer GenFor (i=0; i<2; i=i+1) wraps its body in a
-//     named Begin "W"; that Begin's single item is the inner GenFor
-//     (j=0; j<2; j=j+1), whose body -- no begin-end -- is directly the
-//     ContAssign "ys = i + j"
-//   - constpower2: outer GenFor has no begin (body is directly the inner
-//     GenFor); inner GenFor's body is an (unnamed) Begin holding the
-//     ContAssign
-//   - constpower3: outer GenFor's body is an (unnamed) Begin holding the
-//     inner GenFor; inner GenFor has no begin (body directly ContAssign)
+//   - constpower1: outer GenFor (i=0; i<2; i=i+1) has no begin-end, so its
+//     body is an implicit GenRegion whose single item is the inner GenFor
+//     (j=0; j<2; j=j+1); the inner body is the named GenRegion "W" holding
+//     the ContAssign "ys = i + j"
+//   - constpower2: outer GenFor has no begin (implicit GenRegion holding
+//     the inner GenFor); inner GenFor's body is an unnamed explicit
+//     GenRegion holding the ContAssign
+//   - constpower3: outer GenFor's body is an unnamed GenRegion holding the
+//     inner GenFor; inner GenFor has no begin (implicit GenRegion holding
+//     the ContAssign)
 //   - constpower4: both outer and inner GenFor wrap their bodies in
-//     (unnamed) Begin blocks
-//   - constpower5: neither GenFor uses begin-end; the ContAssign is the
-//     direct body of the inner GenFor, which is the direct body of the
-//     outer GenFor
+//     unnamed begin-end blocks (GenRegions)
+//   - constpower5: neither GenFor uses begin-end; each body is an implicit
+//     GenRegion holding the single item (inner GenFor / ContAssign)
 //   - for each module, the outer/inner GenFor's own scope (getVariables())
 //     is empty/null -- confirming i and j live at module scope, not in an
 //     implicit per-loop scope (contrast with 12.7.1--for.sv's ForStmt,
@@ -86,9 +88,9 @@
 //     concepts; this file only checks the single generate_block template
 //     built at parse/db time (-d db -d ast, no full elaboration pass)
 //   - implicit-net modeling of "ys"/"yu" ports is out of scope here
-//   - the exact default name (genblk1, ...) assigned to the unnamed Begin
-//     blocks (constpower2/3/4/5) per 27.6 is not asserted -- only that an
-//     (unnamed) Begin scope exists -- to avoid over-specifying an
+//   - the exact default name (genblk1, ...) assigned to the unnamed
+//     generate blocks per 27.6 is not asserted -- only that a GenRegion
+//     generate block exists -- to avoid over-specifying an
 //     implementation-dependent numbering detail not central to this test
 
 #include <hlc/Common/Session.h>
@@ -97,7 +99,6 @@
 
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
-#include <hldb/begin.h>
 #include <hldb/cont_assign.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
@@ -121,17 +122,31 @@ class DoubleLoopTest : public Test {
     return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  // Outer GenFor: module->getGenStmts() -> GenRegion -> getStmt<GenFor>()
+  // Outer GenFor: module->getGenStmts() -> GenRegion -> its GenFor item
   static const hldb::GenFor *getOuterGenFor(std::string_view moduleName) {
     const hldb::Module *const m = getModule(moduleName);
     if (m == nullptr || m->getGenStmts() == nullptr) return nullptr;
     for (const hldb::Any *const stmt : *m->getGenStmts()) {
       const hldb::GenRegion *const region = any_cast<hldb::GenRegion>(stmt);
-      if (region == nullptr) continue;
-      const hldb::GenFor *const outer = region->getStmt<hldb::GenFor>();
-      if (outer != nullptr) return outer;
+      if (region == nullptr || region->getStmts() == nullptr) continue;
+      for (const hldb::Any *const item : *region->getStmts()) {
+        const hldb::GenFor *const outer = any_cast<hldb::GenFor>(item);
+        if (outer != nullptr) return outer;
+      }
     }
     return nullptr;
+  }
+
+  // 27.4/27.5: a loop generate's body is always a generate block (GenRegion).
+  static const hldb::GenRegion *getBody(const hldb::GenFor *loop) {
+    return (loop == nullptr) ? nullptr : loop->getStmt<hldb::GenRegion>();
+  }
+
+  // The single item of a generate block, or nullptr if it holds anything else.
+  template <typename T>
+  static const T *getSoleItem(const hldb::GenRegion *block) {
+    if (block == nullptr || block->getStmts() == nullptr || block->getStmts()->size() != 1u) return nullptr;
+    return any_cast<T>(block->getStmts()->at(0));
   }
 
   // Verifies the genvar_initialization/genvar_expression/genvar_iteration
@@ -240,20 +255,23 @@ TEST_F(DoubleLoopTest, ConstPower1_OuterLoopHeader) {
   CheckLoopHeader(getOuterGenFor("constpower1"), "i");
 }
 
-TEST_F(DoubleLoopTest, ConstPower1_OuterBodyIsDirectlyInnerGenFor) {
+TEST_F(DoubleLoopTest, ConstPower1_OuterBodyIsImplicitBlockHoldingInnerGenFor) {
   const hldb::GenFor *const outer = getOuterGenFor("constpower1");
   ASSERT_NE(outer, nullptr);
-  const hldb::GenFor *const inner = outer->getStmt<hldb::GenFor>();
-  ASSERT_NE(inner, nullptr) << "constpower1's outer for has no begin-end, so its body is directly the inner GenFor";
+  const hldb::GenRegion *const body = getBody(outer);
+  ASSERT_NE(body, nullptr) << "constpower1's outer for has no begin-end, but its body is still a generate block";
+  EXPECT_TRUE(body->getName().empty());
+  const hldb::GenFor *const inner = getSoleItem<hldb::GenFor>(body);
+  ASSERT_NE(inner, nullptr) << "the implicit block's single item should be the inner GenFor";
   CheckLoopHeader(inner, "j");
 }
 
-TEST_F(DoubleLoopTest, ConstPower1_InnerBodyIsNamedBeginW) {
+TEST_F(DoubleLoopTest, ConstPower1_InnerBodyIsNamedBlockW) {
   const hldb::GenFor *const outer = getOuterGenFor("constpower1");
   ASSERT_NE(outer, nullptr);
-  const hldb::GenFor *const inner = outer->getStmt<hldb::GenFor>();
+  const hldb::GenFor *const inner = getSoleItem<hldb::GenFor>(getBody(outer));
   ASSERT_NE(inner, nullptr);
-  const hldb::Begin *const w = inner->getStmt<hldb::Begin>();
+  const hldb::GenRegion *const w = getBody(inner);
   ASSERT_NE(w, nullptr) << "inner for's body should be the named 'begin:W ... end' block";
   EXPECT_EQ(w->getName(), "W");
   ASSERT_NE(w->getStmts(), nullptr);
@@ -269,11 +287,12 @@ TEST_F(DoubleLoopTest, ConstPower2_NestingShape) {
   const hldb::GenFor *const outer = getOuterGenFor("constpower2");
   CheckLoopHeader(outer, "i");
   ASSERT_NE(outer, nullptr);
-  const hldb::GenFor *const inner = outer->getStmt<hldb::GenFor>();
-  ASSERT_NE(inner, nullptr) << "constpower2's outer for has no begin-end";
+  const hldb::GenFor *const inner = getSoleItem<hldb::GenFor>(getBody(outer));
+  ASSERT_NE(inner, nullptr) << "constpower2's outer for has no begin-end: an implicit block holding the inner GenFor";
   CheckLoopHeader(inner, "j");
-  const hldb::Begin *const body = inner->getStmt<hldb::Begin>();
+  const hldb::GenRegion *const body = getBody(inner);
   ASSERT_NE(body, nullptr) << "constpower2's inner for body is an unnamed begin-end";
+  EXPECT_TRUE(body->getName().empty());
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 1u);
   CheckAssignYsIPlusJ(any_cast<hldb::ContAssign>(body->getStmts()->at(0)));
@@ -287,14 +306,15 @@ TEST_F(DoubleLoopTest, ConstPower3_NestingShape) {
   const hldb::GenFor *const outer = getOuterGenFor("constpower3");
   CheckLoopHeader(outer, "i");
   ASSERT_NE(outer, nullptr);
-  const hldb::Begin *const body = outer->getStmt<hldb::Begin>();
+  const hldb::GenRegion *const body = getBody(outer);
   ASSERT_NE(body, nullptr) << "constpower3's outer for body is an unnamed begin-end";
+  EXPECT_TRUE(body->getName().empty());
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 1u);
   const hldb::GenFor *const inner = any_cast<hldb::GenFor>(body->getStmts()->at(0));
   ASSERT_NE(inner, nullptr) << "the begin-end's single item should be the inner GenFor";
   CheckLoopHeader(inner, "j");
-  CheckAssignYsIPlusJ(inner->getStmt<hldb::ContAssign>());
+  CheckAssignYsIPlusJ(getSoleItem<hldb::ContAssign>(getBody(inner)));
 }
 
 // ---------------------------------------------------------------------------
@@ -305,14 +325,14 @@ TEST_F(DoubleLoopTest, ConstPower4_NestingShape) {
   const hldb::GenFor *const outer = getOuterGenFor("constpower4");
   CheckLoopHeader(outer, "i");
   ASSERT_NE(outer, nullptr);
-  const hldb::Begin *const outerBody = outer->getStmt<hldb::Begin>();
+  const hldb::GenRegion *const outerBody = getBody(outer);
   ASSERT_NE(outerBody, nullptr) << "constpower4's outer for body is an unnamed begin-end";
   ASSERT_NE(outerBody->getStmts(), nullptr);
   ASSERT_EQ(outerBody->getStmts()->size(), 1u);
   const hldb::GenFor *const inner = any_cast<hldb::GenFor>(outerBody->getStmts()->at(0));
   ASSERT_NE(inner, nullptr);
   CheckLoopHeader(inner, "j");
-  const hldb::Begin *const innerBody = inner->getStmt<hldb::Begin>();
+  const hldb::GenRegion *const innerBody = getBody(inner);
   ASSERT_NE(innerBody, nullptr) << "constpower4's inner for body is also an unnamed begin-end";
   ASSERT_NE(innerBody->getStmts(), nullptr);
   ASSERT_EQ(innerBody->getStmts()->size(), 1u);
@@ -320,17 +340,17 @@ TEST_F(DoubleLoopTest, ConstPower4_NestingShape) {
 }
 
 // ---------------------------------------------------------------------------
-// constpower5: neither for uses begin-end; the ContAssign is directly the
-// body of the inner for, itself directly the body of the outer for
+// constpower5: neither for uses begin-end; each body is an implicit
+// generate block holding the single item (27.4/27.5)
 // ---------------------------------------------------------------------------
 TEST_F(DoubleLoopTest, ConstPower5_NestingShape) {
   const hldb::GenFor *const outer = getOuterGenFor("constpower5");
   CheckLoopHeader(outer, "i");
   ASSERT_NE(outer, nullptr);
-  const hldb::GenFor *const inner = outer->getStmt<hldb::GenFor>();
-  ASSERT_NE(inner, nullptr) << "constpower5's outer for has no begin-end";
+  const hldb::GenFor *const inner = getSoleItem<hldb::GenFor>(getBody(outer));
+  ASSERT_NE(inner, nullptr) << "constpower5's outer for has no begin-end: an implicit block holding the inner GenFor";
   CheckLoopHeader(inner, "j");
-  CheckAssignYsIPlusJ(inner->getStmt<hldb::ContAssign>());
+  CheckAssignYsIPlusJ(getSoleItem<hldb::ContAssign>(getBody(inner)));
 }
 
 }  // namespace hlc

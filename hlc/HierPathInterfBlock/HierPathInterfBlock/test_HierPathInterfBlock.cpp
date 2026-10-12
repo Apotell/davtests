@@ -69,7 +69,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
+#include <hldb/gen_region.h>
 #include <hldb/design.h>
 #include <hldb/gen_if.h>
 #include <hldb/gen_scope_array.h>
@@ -94,14 +94,14 @@ class HierPathInterfBlockTest : public Test {
   }
 
   // This design is not elaborated (no -d inst): "if (1) begin : blk ... end" is a GenIf in the
-  // scope's getGenStmts() whose body is the Begin named "blk" (Sec 27.5). GenScopeArrays only
+  // scope's getGenStmts() whose body is the GenRegion named "blk" (Sec 27.5). GenScopeArrays only
   // exist after elaboration.
-  static const hldb::Begin *findGenIfBlock(const hldb::AnyCollection *genStmts, std::string_view name) {
+  static const hldb::GenRegion *findGenIfBlock(const hldb::AnyCollection *genStmts, std::string_view name) {
     if (genStmts == nullptr) return nullptr;
     for (const hldb::Any *const gs : *genStmts) {
       const hldb::GenIf *const gi = any_cast<hldb::GenIf>(gs);
       if (gi == nullptr || gi->getStmt() == nullptr) continue;
-      const hldb::Begin *const body = any_cast<hldb::Begin>(gi->getStmt());
+      const hldb::GenRegion *const body = any_cast<hldb::GenRegion>(gi->getStmt());
       if ((body != nullptr) && (body->getName() == name)) return body;
     }
     return nullptr;

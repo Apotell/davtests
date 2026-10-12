@@ -23,7 +23,6 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
 #include <hldb/gen_region.h>
@@ -202,8 +201,8 @@ TEST_F(Instantiations, GatePrimitives) {
 
 // ----
 // 5. generate-for block:
-//    gen_top->getGenStmts() -> GenRegion -> getStmt<GenFor>()
-//                           -> getStmt<Begin>() -> getStmts() -> RefInstances
+//    gen_top->getGenStmts() -> GenRegion -> getStmts()[0] GenFor
+//                           -> getStmt<GenRegion>() -> getStmts() -> RefInstances
 // ----
 TEST_F(Instantiations, GenerateBlockInstantiations) {
   const hldb::Module *const gen_top = hldb::findByDefName<hldb::Module>("gen_top", m_design->getAllModules());
@@ -218,14 +217,16 @@ TEST_F(Instantiations, GenerateBlockInstantiations) {
   }
   ASSERT_NE(gen_region, nullptr) << "No GenRegion in gen_top gen statements";
 
-  // GenFor is the stmt of the GenRegion
-  const hldb::GenFor *const gen_for = gen_region->getStmt<hldb::GenFor>();
-  ASSERT_NE(gen_for, nullptr) << "GenRegion stmt is not a GenFor";
+  // GenFor is the only item of the GenRegion
+  ASSERT_NE(gen_region->getStmts(), nullptr) << "GenRegion has no items";
+  ASSERT_EQ(gen_region->getStmts()->size(), 1u);
+  const hldb::GenFor *const gen_for = any_cast<hldb::GenFor>(gen_region->getStmts()->at(0));
+  ASSERT_NE(gen_for, nullptr) << "GenRegion item is not a GenFor";
 
-  // The named begin block (gen_lane) is the stmt of the GenFor
-  const hldb::Begin *const body = gen_for->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr) << "GenFor stmt is not a Begin";
-  ASSERT_NE(body->getStmts(), nullptr) << "Begin body has no stmts";
+  // The named generate block (gen_lane) is the stmt of the GenFor (Sec 27.4)
+  const hldb::GenRegion *const body = gen_for->getStmt<hldb::GenRegion>();
+  ASSERT_NE(body, nullptr) << "GenFor stmt is not a GenRegion";
+  ASSERT_NE(body->getStmts(), nullptr) << "generate block has no stmts";
 
   // RefInstances for u_if (interface) and u_pt (module) are in body->getStmts()
   bool found_if = false, found_mod = false;

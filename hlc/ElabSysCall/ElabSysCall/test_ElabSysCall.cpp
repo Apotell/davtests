@@ -39,7 +39,7 @@
 // argument list -- here a single string-literal argument.
 // IEEE 1800-2023 27.5 "Generate-if constructs": 'if (1) begin ... end' is a
 // GenIf whose condition is the constant expression '1' and whose body is an
-// anonymous generate block (Begin).
+// anonymous generate block (GenRegion).
 //
 // This file checks only the structural shape of the parsed elaboration
 // system-task calls (name, single string argument). Whether HLC's
@@ -54,10 +54,10 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/gen_if.h>
+#include <hldb/gen_region.h>
 #include <hldb/module.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/vpi_user.h>
@@ -83,13 +83,11 @@ class ElabSysCallTest : public Test {
   }
 
   // Finds the (single) SysTaskCall statement inside the module's generate-if
-  // body, whether the body is a bare Begin{stmts} block or (defensively)
-  // the SysTaskCall itself with no wrapping block.
+  // body, the anonymous generate block (GenRegion) 'begin ... end'.
   static const hldb::SysTaskCall *findSysTaskCallInGenIf(const hldb::Module *m) {
     const hldb::GenIf *const gi = findGenIf(m);
     if (gi == nullptr) return nullptr;
-    if (const hldb::SysTaskCall *const direct = gi->getStmt<hldb::SysTaskCall>()) return direct;
-    const hldb::Begin *const body = gi->getStmt<hldb::Begin>();
+    const hldb::GenRegion *const body = gi->getStmt<hldb::GenRegion>();
     if (body == nullptr || body->getStmts() == nullptr) return nullptr;
     for (const hldb::Any *const s : *body->getStmts()) {
       if (const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(s)) return call;

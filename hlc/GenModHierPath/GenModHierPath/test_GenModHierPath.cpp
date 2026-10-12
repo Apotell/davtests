@@ -57,7 +57,6 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
 #include <hldb/design.h>
 #include <hldb/function.h>
 #include <hldb/gen_if.h>
@@ -90,7 +89,11 @@ class GenModHierPathTest : public Test {
   // generate-if is the GenRegion's item rather than a direct module item.
   static const hldb::GenIf *asGenIf(const hldb::Any *stmt) {
     if (const hldb::GenRegion *const region = any_cast<hldb::GenRegion>(stmt)) {
-      return region->getStmt<hldb::GenIf>();
+      if (region->getStmts() == nullptr) return nullptr;
+      for (const hldb::Any *const item : *region->getStmts()) {
+        if (const hldb::GenIf *const gi = any_cast<hldb::GenIf>(item)) return gi;
+      }
+      return nullptr;
     }
     return any_cast<hldb::GenIf>(stmt);
   }
@@ -105,15 +108,15 @@ class GenModHierPathTest : public Test {
   }
 
   // Unelaborated model (no -d inst): 'begin : body ... end' is the generate
-  // block of the generate-if, modeled as a Begin (Sec 27.5). GenScope objects
-  // only exist after elaboration.
+  // block of the generate-if, modeled as a GenRegion (Sec 27.5). Elaborated
+  // GenScope objects only exist after elaboration.
   // static const hldb::GenScope *getBody() {
   //   const hldb::GenIf *const gi = findGenIf(getModule("InitializedBlockRAM"));
   //   return (gi == nullptr) ? nullptr : gi->getStmt<hldb::GenScope>();
   // }
-  static const hldb::Begin *getBody() {
+  static const hldb::GenRegion *getBody() {
     const hldb::GenIf *const gi = findGenIf(getModule("InitializedBlockRAM"));
-    return (gi == nullptr) ? nullptr : gi->getStmt<hldb::Begin>();
+    return (gi == nullptr) ? nullptr : gi->getStmt<hldb::GenRegion>();
   }
 };
 
@@ -150,8 +153,8 @@ TEST_F(GenModHierPathTest, InitializedBlockRAMHasExactlyOneGenIfNamedBody) {
 
   // const hldb::GenScope *const body = getBody();
   // ASSERT_NE(body, nullptr) << "'begin : body ... end' should be a GenScope";
-  const hldb::Begin *const body = getBody();
-  ASSERT_NE(body, nullptr) << "'begin : body ... end' should be a generate block (Begin)";
+  const hldb::GenRegion *const body = getBody();
+  ASSERT_NE(body, nullptr) << "'begin : body ... end' should be a generate block (GenRegion)";
   EXPECT_EQ(body->getName(), std::string_view("body"));
 }
 
@@ -159,8 +162,8 @@ TEST_F(GenModHierPathTest, InitializedBlockRAMHasExactlyOneGenIfNamedBody) {
 // through the 'body' generate block (Sec 27.3, 27.5).
 TEST_F(GenModHierPathTest, RamInstanceDeclaredInsideBody) {
   // Unelaborated model: the instance is a RefInstance item of the 'body'
-  // Begin; its module is reached through its typespec.
-  const hldb::Begin *const body = getBody();
+  // GenRegion; its module is reached through its typespec.
+  const hldb::GenRegion *const body = getBody();
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr) << "'body' should carry the 'ram' module instance";
   const hldb::RefInstance *const ram = hldb::findByName<hldb::RefInstance>("ram", body->getStmts());
