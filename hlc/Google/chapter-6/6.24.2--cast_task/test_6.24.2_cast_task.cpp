@@ -180,6 +180,17 @@ TEST_F(CastTaskTest, NoContAssigns) {
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
+TEST_F(CastTaskTest, CastSysTaskCallHasNoStaticReturnTypespec) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  const hldb::SysTaskCall *const castFn = init->getStmt<hldb::SysTaskCall>();
+  ASSERT_NE(castFn, nullptr);
+  EXPECT_EQ(hldb::getOwnTypespec(castFn), nullptr)
+      << "$cast used as a task discards its return value; HLC does not attach a static typespec";
+}
+
 TEST_F(CastTaskTest, CompilerReportsZeroErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();

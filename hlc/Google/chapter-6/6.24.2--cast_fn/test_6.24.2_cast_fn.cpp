@@ -261,6 +261,21 @@ TEST_F(CastFnTest, IfStmtHasNoElseBranch) {
   EXPECT_EQ(init->getStmt<hldb::IfElse>(), nullptr) << "if(...) without else is stored as IfStmt, not IfElse";
 }
 
+TEST_F(CastFnTest, CastSysFuncCallHasNoStaticReturnTypespec) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
+  ASSERT_NE(init, nullptr);
+  const hldb::IfStmt *const ifStmt = init->getStmt<hldb::IfStmt>();
+  ASSERT_NE(ifStmt, nullptr);
+  const hldb::Operation *const cond = ifStmt->getCondition<hldb::Operation>();
+  ASSERT_NE(cond, nullptr);
+  const hldb::SysFuncCall *const castFn = any_cast<hldb::SysFuncCall>(cond->getOperands()->at(0));
+  ASSERT_NE(castFn, nullptr);
+  EXPECT_EQ(hldb::getOwnTypespec(castFn), nullptr)
+      << "$cast success/failure is only known at simulation runtime; HLC does not attach a static typespec";
+}
+
 TEST_F(CastFnTest, CompilerReportsZeroErrors) {
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
