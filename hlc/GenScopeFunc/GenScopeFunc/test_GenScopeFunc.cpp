@@ -116,11 +116,11 @@ class GenScopeFuncTest : public Test {
     return (gi == nullptr) ? nullptr : gi->getStmt<hldb::GenRegion>();
   }
 
-  // The function declared inside 'cscope' is one of the GenRegion's items.
+  // The function declared inside 'cscope' is held in the GenRegion's vpiTaskFunc.
   static const hldb::Function *getLocalFunction() {
     const hldb::GenRegion *const cscope = getCscope();
-    if (cscope == nullptr || cscope->getStmts() == nullptr) return nullptr;
-    return hldb::findByName<hldb::Function>("local_function", cscope->getStmts());
+    if (cscope == nullptr || cscope->getTaskFuncs() == nullptr) return nullptr;
+    return hldb::findByName<hldb::Function>("local_function", cscope->getTaskFuncs());
   }
 };
 
@@ -179,7 +179,7 @@ TEST_F(GenScopeFuncTest, LocalFunctionDeclaredInsideCscope) {
   // ASSERT_NE(fn, nullptr) << "'local_function' not found inside 'cscope'";
   const hldb::GenRegion *const cscope = getCscope();
   ASSERT_NE(cscope, nullptr);
-  ASSERT_NE(cscope->getStmts(), nullptr) << "'cscope' should carry 'local_function'";
+  ASSERT_NE(cscope->getTaskFuncs(), nullptr) << "'cscope' should carry 'local_function'";
   const hldb::Function *const fn = getLocalFunction();
   ASSERT_NE(fn, nullptr) << "'local_function' not found inside 'cscope'";
   EXPECT_TRUE(fn->getAutomatic()) << "'function automatic' must set the automatic flag (Sec 13.4.2)";
