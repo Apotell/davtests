@@ -55,15 +55,17 @@
 //     return typespec resolves to IntTypespec, with exactly 1 IODecl
 //     "val" (getDirection() == vpiInput, IntTypespec)
 //   - add's lifetime IS automatic (getAutomatic() == true)
-//   - add's own scope has exactly 1 Variable "a" (initial value
-//     Constant "0") -- per IEEE 1800-2023 37.12 (Scope), Note 5 the
+//   - add's own scope has exactly 1 local Variable "a" (initial value
+//     Constant "0"), besides the Variable "val" holding the formal
+//     argument (IEEE 1800-2023 37.13) -- per IEEE 1800-2023 37.12 (Scope), Note 5 the
 //     unnamed begin "contains the statements" of the function, and a
 //     declaration is not a statement; add's body is an unnamed Begin
 //     with no variables of its own, whose getStmts() has exactly 2
 //     entries: an Assignment
 //     ("a = a + val;", LHS RefObj "a" resolving to the Variable, RHS
 //     Operation(vpiAddOp) comparing RefObj "a" against RefObj "val"
-//     resolving to the IODecl), and a ReturnStmt whose getCondition()
+//     resolving to the formal's Variable, never to its IODecl -- 37.15),
+//     and a ReturnStmt whose getCondition()
 //     is RefObj "a" resolving to the Variable
 //   - the initial process's body is a Begin with exactly 4 SysTaskCall
 //     "$display" statements, each with a FuncCall "add" argument
@@ -151,7 +153,16 @@ TEST_F(FunctionAutomaticTest, FunctionScopeHasVariableAInitializedToZero) {
   const hldb::Function *const add = getAdd();
   ASSERT_NE(add, nullptr);
   ASSERT_NE(add->getVariables(), nullptr) << "'int a = 0;' is declared in the function's own scope";
-  ASSERT_EQ(add->getVariables()->size(), 1u);
+  ASSERT_NE(add->getIODecls(), nullptr);
+  for (const hldb::IODecl *const ioDecl : *add->getIODecls()) {
+    EXPECT_NE(hldb::findByName<hldb::Variable>(ioDecl->getName(), add->getVariables()), nullptr)
+        << "37.13: the formal argument '" << ioDecl->getName() << "' should have a Variable in the function's scope";
+  }
+  uint32_t localCount = 0;
+  for (const hldb::Variable *const var : *add->getVariables()) {
+    if (hldb::findByName<hldb::IODecl>(var->getName(), add->getIODecls()) == nullptr) ++localCount;
+  }
+  ASSERT_EQ(localCount, 1u) << "the body declares exactly one local ('a'), excluding the formals' Variables";
   const hldb::Begin *const body = add->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr) << "function body should be a Begin";
   EXPECT_TRUE((body->getVariables() == nullptr) || body->getVariables()->empty())
@@ -186,7 +197,9 @@ TEST_F(FunctionAutomaticTest, BodyHasTwoStatementsAssignReturn) {
   const hldb::RefObj *const valRef = any_cast<hldb::RefObj>(rhs->getOperands()->at(1));
   ASSERT_NE(valRef, nullptr);
   EXPECT_EQ(valRef->getName(), "val");
-  EXPECT_NE(valRef->getActual<hldb::IODecl>(), nullptr);
+  const hldb::Variable *const valVar = hldb::findByName<hldb::Variable>("val", add->getVariables());
+  ASSERT_NE(valVar, nullptr) << "the formal argument 'val' should have a Variable in the function's scope";
+  EXPECT_EQ(valRef->getActual(), valVar) << "37.15: 'val' resolves to the formal's Variable, never to its IODecl";
 
   const hldb::ReturnStmt *const ret = any_cast<hldb::ReturnStmt>(body->getStmts()->at(1));
   ASSERT_NE(ret, nullptr);

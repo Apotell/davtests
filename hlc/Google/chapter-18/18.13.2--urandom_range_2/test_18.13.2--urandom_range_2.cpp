@@ -118,7 +118,8 @@
 //     - body executes an Assignment then a ReturnStmt
 //     - 'val = $urandom_range(maxval, minval);' is a blocking Assignment
 //       (10.4.1) to 'val' whose RHS is the SysFuncCall "$urandom_range" with
-//       2 arguments, maxval then minval, each bound to the method's formal
+//       2 arguments, maxval then minval, each bound to the Variable holding
+//       the method's formal (37.13/37.15: an io decl is never a vpiActual)
 //     - 'return val;' returns a RefObj bound to 'val' (12.8, 13.4.1)
 //   class env extends uvm_env (8.3, 8.13)
 //     - exactly one class named "env"; user-defined; not virtual; no
@@ -139,14 +140,15 @@
 //     - the body is the single statement 'super.new(name, parent);' (8.15):
 //       a hierarchical RefObj whose prefix 'super' binds to uvm_env, and
 //       whose MethodFuncCall 'new' binds to uvm_env's own constructor. Its
-//       2 arguments, name then parent, bind to THIS constructor's formals.
+//       2 arguments, name then parent, bind to the Variables holding THIS
+//       constructor's formals (37.13/37.15).
 //   task run_phase(uvm_phase phase); ... endtask: run_phase (13.3)
 //     - a Task flagged as a class method; public; the end label 'run_phase'
 //     - one formal, 'phase': an input, a handle to uvm_pkg's uvm_phase
 //     - the body executes 3 statements, in order: phase.raise_objection
 //       (this), a begin-end, and phase.drop_objection(this)
 //     - each objection call is a hierarchical RefObj: prefix 'phase' bound
-//       to the formal, then a MethodFuncCall of that name that resolves to
+//       to the Variable holding the formal (37.13/37.15), then a MethodFuncCall of that name that resolves to
 //       a Function of the same name, with exactly one argument, 'this',
 //       bound to class env (8.11)
 //   begin ... end (line 38)
@@ -412,6 +414,16 @@ class UrandomRange2Test : public Test {
     return hldb::findByName<hldb::IODecl>(name, fn->getIODecls());
   }
 
+  // The Variable holding the formal 'name' in the method's own scope. 37.13:
+  // an io decl's vpiExpr is the variable that holds the formal argument, and
+  // 37.15: a reference to the formal inside the body resolves to that
+  // Variable, never to the IODecl itself.
+  static const hldb::Variable *getFormalVariable(std::string_view name) {
+    const hldb::Function *const fn = getDoUrandomRange();
+    if (fn == nullptr) return nullptr;
+    return hldb::findByName<hldb::Variable>(name, fn->getVariables());
+  }
+
   static const hldb::Begin *getDoUrandomRangeBody() {
     const hldb::Function *const fn = getDoUrandomRange();
     if (fn == nullptr) return nullptr;
@@ -432,14 +444,20 @@ class UrandomRange2Test : public Test {
 
   // Names of the locals declared across both candidate scopes. 13.4.1 also
   // declares an implicit variable named after the function; whether HLC
-  // materializes it is a tool convention, so it is left out.
+  // materializes it is a tool convention, so it is left out. The Variables
+  // holding the formals (37.13) are not body-declared locals either, so any
+  // Variable in the function's own scope named after a formal is left out;
+  // DoUrandomRangeDeclaresOnlyValAsAnAutomaticUnsignedInt checks those
+  // separately.
   static std::vector<std::string> getDeclaredLocalNames() {
     std::vector<std::string> names;
     const hldb::Function *const fn = getDoUrandomRange();
     if (fn == nullptr) return names;
     if (fn->getVariables() != nullptr) {
       for (const hldb::Variable *const var : *fn->getVariables()) {
-        if (var->getName() != fn->getName()) names.emplace_back(var->getName());
+        if (var->getName() == fn->getName()) continue;
+        if (hldb::findByName<hldb::IODecl>(var->getName(), fn->getIODecls()) != nullptr) continue;
+        names.emplace_back(var->getName());
       }
     }
     const hldb::Begin *const body = getDoUrandomRangeBody();
@@ -635,8 +653,10 @@ class UrandomRange2Test : public Test {
     ASSERT_EQ(path->getPathElems()->size(), 2u);
     const hldb::Task *const runPhase = getRunPhase();
     ASSERT_NE(runPhase, nullptr);
+    // 37.15: the prefix references the formal, which resolves to the
+    // Variable holding it, never to the IODecl.
     ExpectBoundRef(path->getPathElems()->at(0), "phase",
-                   hldb::findByName<hldb::IODecl>("phase", runPhase->getIODecls()));
+                   hldb::findByName<hldb::Variable>("phase", runPhase->getVariables()));
 
     const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
     ASSERT_NE(call, nullptr) << "'" << method << "' is a function of uvm_phase, so it is a MethodFuncCall";
@@ -828,6 +848,10 @@ TEST_F(UrandomRange2Test, DoUrandomRangeDeclaresOnlyValAsAnAutomaticUnsignedInt)
   ASSERT_NE(getDoUrandomRange(), nullptr);
   EXPECT_EQ(getDeclaredLocalNames(), std::vector<std::string>{"val"})
       << "'int unsigned val;' is the only declaration in the method body";
+  for (std::string_view name : {"maxval", "minval"}) {
+    EXPECT_NE(getFormalVariable(name), nullptr)
+        << "37.13: the formal argument '" << name << "' should have a Variable in the method's scope";
+  }
   const hldb::Variable *const val = getVal();
   ASSERT_NE(val, nullptr);
   ExpectUnsignedInt(val->getTypespec(), "'val'");
@@ -863,10 +887,12 @@ TEST_F(UrandomRange2Test, UrandomRangeArgumentsAreMaxvalThenMinval) {
   ASSERT_EQ(call->getArguments()->size(), 2u) << "both arguments are written; minval's default of 0 is not used";
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
-  ExpectBoundRef(arg0->getHighConn(), "maxval", getFormal("maxval"));
+  // 37.15: the actual expressions reference the method's formals, which
+  // resolve to the Variables holding them, never to the IODecls.
+  ExpectBoundRef(arg0->getHighConn(), "maxval", getFormalVariable("maxval"));
   const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  ExpectBoundRef(arg1->getHighConn(), "minval", getFormal("minval"));
+  ExpectBoundRef(arg1->getHighConn(), "minval", getFormalVariable("minval"));
 }
 
 TEST_F(UrandomRange2Test, DoUrandomRangeReturnsVal) {
@@ -1028,10 +1054,12 @@ TEST_F(UrandomRange2Test, EnvNewBodyIsSuperNewOfNameAndParent) {
   ASSERT_EQ(call->getArguments()->size(), 2u);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
-  ExpectBoundRef(arg0->getHighConn(), "name", hldb::findByName<hldb::IODecl>("name", ctor->getIODecls()));
+  // 37.15: the actuals reference this constructor's formals, which resolve
+  // to the Variables holding them, never to the IODecls.
+  ExpectBoundRef(arg0->getHighConn(), "name", hldb::findByName<hldb::Variable>("name", ctor->getVariables()));
   const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  ExpectBoundRef(arg1->getHighConn(), "parent", hldb::findByName<hldb::IODecl>("parent", ctor->getIODecls()));
+  ExpectBoundRef(arg1->getHighConn(), "parent", hldb::findByName<hldb::Variable>("parent", ctor->getVariables()));
 }
 
 // ---------------------------------------------------------------------------

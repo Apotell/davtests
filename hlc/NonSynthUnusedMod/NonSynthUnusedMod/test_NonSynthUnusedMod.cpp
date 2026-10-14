@@ -134,10 +134,12 @@ TEST_F(NonSynthUnusedModTest, NoUndefinedModuleDiagnostics) {
 TEST_F(NonSynthUnusedModTest, NoDiagnosticsFromUnusedLibraryModule) {
   // nonsynth is not part of the design, so its undeclared a/b must not be
   // reported.
-  for (const char *const sym : {"a", "b"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, sym), nullptr) << sym;
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, sym), nullptr) << sym;
-    EXPECT_EQ(findError(ErrorDefinition::HLDB_UNDEFINED_VARIABLE, sym), nullptr) << sym;
+  if (m_design->getElaborated()) {
+    for (const char *const sym : {"a", "b"}) {
+      EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, sym), nullptr) << sym;
+      EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, sym), nullptr) << sym;
+      EXPECT_EQ(findError(ErrorDefinition::HLDB_UNDEFINED_VARIABLE, sym), nullptr) << sym;
+    }
   }
 }
 

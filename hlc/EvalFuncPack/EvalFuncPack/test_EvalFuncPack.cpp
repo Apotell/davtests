@@ -66,6 +66,10 @@
 //   Operation(vpiEqOp), the true-expression Constant "1", and the
 //   false-expression FuncCall to '_clog2'.
 //
+//   Sec 37.13/37.15: the 'value' passed to _clog2 inside vbits' body
+//   references vbits' formal, which is held by a Variable in vbits' scope
+//   (an io decl's vpiExpr); an io decl is never a legal vpiActual target.
+//
 // What is NOT checked and why:
 //   - the runtime-evaluated numeric results of these functions as executed
 //     by a simulator are simulation-time concepts, not static/structural
@@ -96,6 +100,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/return_stmt.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -209,8 +214,10 @@ TEST_F(EvalFuncPackTest, VbitsBodyCallsClog2ViaPackageScopeOperator) {
   EXPECT_NE(arg->getActual(), nullptr);
   ASSERT_NE(vbits->getIODecls(), nullptr);
   ASSERT_EQ(vbits->getIODecls()->size(), 1u);
-  EXPECT_EQ(arg->getActual(), vbits->getIODecls()->at(0))
-      << "'value' passed to _clog2 should resolve to vbits' own IODecl 'value'";
+  const hldb::Variable *const valueVar = hldb::findByName<hldb::Variable>("value", vbits->getVariables());
+  ASSERT_NE(valueVar, nullptr) << "the formal argument 'value' should have a Variable in the function's scope";
+  EXPECT_EQ(arg->getActual(), valueVar)
+      << "37.15: 'value' passed to _clog2 resolves to vbits' own formal Variable, never to its IODecl";
 }
 
 // ===========================================================================

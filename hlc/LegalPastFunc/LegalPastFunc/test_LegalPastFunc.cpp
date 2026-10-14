@@ -118,7 +118,8 @@ class LegalPastFuncTest : public Test {
     EXPECT_EQ(rose->getName(), "$rose");
     ASSERT_NE(rose->getArguments(), nullptr);
     ASSERT_EQ(rose->getArguments()->size(), 1u);
-    const hldb::RefObj *const roseArg = any_cast<hldb::RefObj>(rose->getArguments()->at(0));
+    const hldb::NamedArgument *const roseArg0 = rose->getArguments()->at(0);
+    const hldb::RefObj *const roseArg = roseArg0->getHighConn<hldb::RefObj>();
     ASSERT_NE(roseArg, nullptr);
     EXPECT_EQ(roseArg->getName(), "req");
 
@@ -131,7 +132,8 @@ class LegalPastFuncTest : public Test {
     EXPECT_EQ(past->getName(), "$past");
     ASSERT_NE(past->getArguments(), nullptr);
     ASSERT_EQ(past->getArguments()->size(), 2u) << "expression1 and number_of_ticks";
-    const hldb::Operation *const notReq = any_cast<hldb::Operation>(past->getArguments()->at(0));
+    const hldb::NamedArgument *const pastArg0 = past->getArguments()->at(0);
+    const hldb::Operation *const notReq = pastArg0->getHighConn<hldb::Operation>();
     ASSERT_NE(notReq, nullptr);
     EXPECT_EQ(notReq->getOpType(), vpiNotOp);
     ASSERT_NE(notReq->getOperands(), nullptr);
@@ -139,7 +141,8 @@ class LegalPastFuncTest : public Test {
     const hldb::RefObj *const req = any_cast<hldb::RefObj>(notReq->getOperands()->at(0));
     ASSERT_NE(req, nullptr);
     EXPECT_EQ(req->getName(), "req");
-    const hldb::Constant *const n = any_cast<hldb::Constant>(past->getArguments()->at(1));
+    const hldb::NamedArgument *const pastArg1 = past->getArguments()->at(1);
+    const hldb::Constant *const n = pastArg1->getHighConn<hldb::Constant>();
     ASSERT_NE(n, nullptr) << "number_of_ticks must be a Constant";
     EXPECT_EQ(n->getValue(), ticks);
   }

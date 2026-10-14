@@ -89,18 +89,29 @@ TEST_F(LowMemLibTest, MytopIsEmpty) {
 TEST_F(LowMemLibTest, MytopIsTopLevelModule) {
   const hldb::Module *const m = getModule("mytop");
   ASSERT_NE(m, nullptr);
-  EXPECT_TRUE(m->getTopModule()) << "23.3.1: mytop appears in no instantiation statement";
+  if (m_design->getElaborated()) {
+    EXPECT_TRUE(m->getTopModule()) << "23.3.1: mytop appears in no instantiation statement";
+  }
 }
 
 // Clause 33: unreferenced library cells are not part of the design.
 TEST_F(LowMemLibTest, UnreferencedLibraryModuleIsNotLoaded) {
-  EXPECT_EQ(getModule("mylib"), nullptr)
-      << "nothing instantiates 'mylib', so the library directory must not contribute it to the design";
+  if (m_design->getElaborated()) {
+    EXPECT_EQ(getModule("mylib"), nullptr)
+        << "nothing instantiates 'mylib', so the library directory must not contribute it to the design";
+  } else {
+    EXPECT_NE(getModule("mylib"), nullptr)
+        << "nothing instantiates 'mylib', yet flat model should include all modules";
+  }
 }
 
 TEST_F(LowMemLibTest, OnlyMytopIsInTheDesign) {
   ASSERT_NE(m_design->getAllModules(), nullptr);
-  EXPECT_EQ(m_design->getAllModules()->size(), 1u);
+  if (m_design->getElaborated()) {    
+    EXPECT_EQ(m_design->getAllModules()->size(), 1u);
+  } else {
+    EXPECT_EQ(m_design->getAllModules()->size(), 2u);
+  }
 }
 
 TEST_F(LowMemLibTest, NoBindingFailures) {

@@ -74,8 +74,9 @@
 //     Function as super_cls's constructor, same as an ordinary "new" call
 //     now does too (see the FIXED COMPILER BUG note below)
 //   - "a = def;" is a blocking Assignment: lhs RefObj "a" resolved to
-//     test_cls's own property; rhs RefObj "def" resolved to the derived
-//     constructor's own IODecl
+//     test_cls's own property; rhs RefObj "def" resolved to the Variable
+//     holding the derived constructor's own formal argument (37.13/37.15 --
+//     an IODecl is never a vpiActual)
 //   - variable "test_obj": its typespec resolves to the SAME ClassDefn as
 //     "test_cls"
 //   - the initial process' Begin block has exactly 3 statements:
@@ -316,10 +317,13 @@ TEST_F(ClassConstructorSuperTest, SuperConstructorBodyAssignsPropertySFromDef) {
   EXPECT_EQ(rhs->getName(), "def");
   ASSERT_NE(ctor->getIODecls(), nullptr);
   ASSERT_GT(ctor->getIODecls()->size(), 0u);
-  EXPECT_EQ(rhs->getActual<hldb::IODecl>(), ctor->getIODecls()->at(0));
+  const hldb::Variable *const defVar =
+      hldb::findByName<hldb::Variable>(ctor->getIODecls()->at(0)->getName(), ctor->getVariables());
+  ASSERT_NE(defVar, nullptr) << "the formal argument 'def' should have a Variable in the constructor's scope";
+  EXPECT_EQ(rhs->getActual(), defVar) << "37.13/37.15: 'def' resolves to the formal's Variable, never to its IODecl";
 }
 
-// --- class "test_cls extends super_cls" -----------------------------------------
+// --- class "test_cls extends super_cls"-----------------------------------------
 
 TEST_F(ClassConstructorSuperTest, TestClsExists) { EXPECT_NE(getTestClsDefn(), nullptr); }
 
@@ -460,8 +464,12 @@ TEST_F(ClassConstructorSuperTest, TestConstructorFirstStmtIsSuperNewCall) {
   EXPECT_EQ(defOperand->getName(), "def");
   ASSERT_NE(ctor->getIODecls(), nullptr);
   ASSERT_GT(ctor->getIODecls()->size(), 0u);
-  EXPECT_EQ(defOperand->getActual<hldb::IODecl>(), ctor->getIODecls()->at(0))
-      << "'def' here must resolve to test_cls's OWN constructor parameter, not super_cls's";
+  const hldb::Variable *const defVar =
+      hldb::findByName<hldb::Variable>(ctor->getIODecls()->at(0)->getName(), ctor->getVariables());
+  ASSERT_NE(defVar, nullptr) << "the formal argument 'def' should have a Variable in test_cls's constructor scope";
+  EXPECT_EQ(defOperand->getActual(), defVar)
+      << "37.13/37.15: 'def' here must resolve to the Variable of test_cls's OWN constructor argument (not "
+         "super_cls's, and never to an IODecl)";
 
   const hldb::Constant *const threeOperand = any_cast<hldb::Constant>(arg->getOperands()->at(1));
   ASSERT_NE(threeOperand, nullptr);
@@ -489,10 +497,13 @@ TEST_F(ClassConstructorSuperTest, TestConstructorSecondStmtAssignsPropertyAFromD
   EXPECT_EQ(rhs->getName(), "def");
   ASSERT_NE(ctor->getIODecls(), nullptr);
   ASSERT_GT(ctor->getIODecls()->size(), 0u);
-  EXPECT_EQ(rhs->getActual<hldb::IODecl>(), ctor->getIODecls()->at(0));
+  const hldb::Variable *const defVar =
+      hldb::findByName<hldb::Variable>(ctor->getIODecls()->at(0)->getName(), ctor->getVariables());
+  ASSERT_NE(defVar, nullptr) << "the formal argument 'def' should have a Variable in the constructor's scope";
+  EXPECT_EQ(rhs->getActual(), defVar) << "37.13/37.15: 'def' resolves to the formal's Variable, never to its IODecl";
 }
 
-// --- variable "test_obj" --------------------------------------------------------------
+// --- variable "test_obj"--------------------------------------------------------------
 
 TEST_F(ClassConstructorSuperTest, VariableTestObjExists) { EXPECT_NE(getVariableTestObj(), nullptr); }
 

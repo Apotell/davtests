@@ -46,7 +46,8 @@
 //   - add's body is a plain ReturnStmt directly (no Begin wrapper,
 //     single statement, no begin-end in source) whose getCondition()
 //     is Operation(vpiAddOp) comparing RefObj "a" against RefObj "b"
-//     (both resolving to their IODecls, not Variables or Nets)
+//     (both resolving to the formals' Variables in add's scope, never to
+//     their IODecls -- IEEE 1800-2023 37.13/37.15)
 //   - the initial process's body is a plain SysTaskCall "$display"
 //     directly (no Begin, single statement) with 2 arguments: Constant
 //     "\":assert: (%d == 90)\"" and a FuncCall "add" whose
@@ -77,6 +78,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/return_stmt.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -145,11 +147,15 @@ TEST_F(FunctionReturnTest, BodyIsReturnStmtWithAddExpression) {
   const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(expr->getOperands()->at(0));
   ASSERT_NE(aRef, nullptr);
   EXPECT_EQ(aRef->getName(), "a");
-  EXPECT_NE(aRef->getActual<hldb::IODecl>(), nullptr) << "'a' should resolve to the IODecl, not a Variable or Net";
+  const hldb::Variable *const aVar = hldb::findByName<hldb::Variable>("a", add->getVariables());
+  ASSERT_NE(aVar, nullptr) << "the formal argument 'a' should have a Variable in the function's scope";
+  EXPECT_EQ(aRef->getActual(), aVar) << "37.15: 'a' resolves to the formal's Variable, never to its IODecl";
   const hldb::RefObj *const bRef = any_cast<hldb::RefObj>(expr->getOperands()->at(1));
   ASSERT_NE(bRef, nullptr);
   EXPECT_EQ(bRef->getName(), "b");
-  EXPECT_NE(bRef->getActual<hldb::IODecl>(), nullptr);
+  const hldb::Variable *const bVar = hldb::findByName<hldb::Variable>("b", add->getVariables());
+  ASSERT_NE(bVar, nullptr) << "the formal argument 'b' should have a Variable in the function's scope";
+  EXPECT_EQ(bRef->getActual(), bVar) << "37.15: 'b' resolves to the formal's Variable, never to its IODecl";
 }
 
 // ---------------------------------------------------------------------------

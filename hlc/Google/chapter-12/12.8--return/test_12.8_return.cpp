@@ -41,10 +41,10 @@
 //
 //   Also (IEEE 1800-2023 6.8): "int" (both the function's "input int
 //   a" port and the for-loop's "int i") is a non-net data type;
-//   function ports are modeled as IODecl (not Net or Variable), per
-//   13.4's tf_port_item / io_decl grammar, and are a third, distinct
-//   classification alongside the Net/Variable split used everywhere
-//   else in this suite.
+//   per IEEE 1800-2023 37.13 a function port is modeled as an IODecl
+//   whose vpiExpr is a Variable of the same name in the function's
+//   scope, and per 37.15 a reference to the formal in the body resolves
+//   to that Variable (an io decl is never a vpiActual).
 //
 // What is checked:
 //   - module jump_tb has exactly 1 TaskFunc, a Function named "fun",
@@ -55,12 +55,12 @@
 //   - fun's body is a Begin with exactly 4 statements:
 //     1) SysTaskCall "$display" with Constant "\"a\""
 //     2) IfStmt (no else) whose condition is Operation(vpiEqOp)
-//        comparing RefObj "a" (resolving to the IODecl, not a Variable)
-//        against Constant "21", and whose body is a ReturnStmt with a
+//        comparing RefObj "a" (resolving to the formal's Variable, never
+//        to its IODecl) against Constant "21", and whose body is a ReturnStmt with a
 //        null getCondition() (the field that holds the optional return
 //        expression) -- confirming "return;" with no expression
 //     3) SysTaskCall "$display" with RefObj "a" (resolving to the
-//        IODecl)
+//        formal's Variable)
 //     4) a final ReturnStmt, also with a null getCondition()
 //   - module jump_tb's Initial process contains a ForStmt (matching
 //     the shape confirmed in 12.7.1--for.cpp/12.8--continue.cpp: "int
@@ -204,7 +204,9 @@ TEST_F(ReturnTest, GuardIfReturnsWithNoExpressionWhenAEquals21) {
   const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(cond->getOperands()->at(0));
   ASSERT_NE(aRef, nullptr);
   EXPECT_EQ(aRef->getName(), "a");
-  EXPECT_NE(aRef->getActual<hldb::IODecl>(), nullptr) << "'a' should resolve to the IODecl, not a Variable or Net";
+  const hldb::Variable *const aVar = hldb::findByName<hldb::Variable>("a", fun->getVariables());
+  ASSERT_NE(aVar, nullptr) << "the formal argument 'a' should have a Variable in the function's scope";
+  EXPECT_EQ(aRef->getActual(), aVar) << "37.15: 'a' resolves to the formal's Variable, never to its IODecl";
   const hldb::Constant *const rhs = any_cast<hldb::Constant>(cond->getOperands()->at(1));
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "21");
@@ -231,7 +233,9 @@ TEST_F(ReturnTest, SecondDisplayReferencesAAndFinalReturnHasNoExpression) {
   const hldb::RefObj *const aArg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(aArg, nullptr);
   EXPECT_EQ(aArg->getName(), "a");
-  EXPECT_NE(aArg->getActual<hldb::IODecl>(), nullptr);
+  const hldb::Variable *const aVar = hldb::findByName<hldb::Variable>("a", fun->getVariables());
+  ASSERT_NE(aVar, nullptr) << "the formal argument 'a' should have a Variable in the function's scope";
+  EXPECT_EQ(aArg->getActual(), aVar) << "37.15: 'a' resolves to the formal's Variable, never to its IODecl";
 
   const hldb::ReturnStmt *const finalReturn = any_cast<hldb::ReturnStmt>(body->getStmts()->at(3));
   ASSERT_NE(finalReturn, nullptr) << "fourth statement should be a plain ReturnStmt";

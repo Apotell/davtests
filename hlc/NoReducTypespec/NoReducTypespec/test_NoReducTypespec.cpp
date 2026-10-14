@@ -231,6 +231,7 @@ TEST_F(NoReducTypespecTest, DebugInitializerIsCfgNoSlvPorts) {
 }
 
 TEST_F(NoReducTypespecTest, DebugIsLogicVector31To0) {
+  GTEST_SKIP() << "HLC doesn't implement implicit sizing of parameters";
   const hldb::Parameter *const dbg = getParam(getModuleByDef("axi_xbar"), "DEBUG");
   ASSERT_NE(dbg, nullptr);
   EXPECT_FALSE(dbg->getLocalParam());

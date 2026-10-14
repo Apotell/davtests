@@ -106,22 +106,19 @@ class NamedEventHierPathTest : public Test {
     return (c == nullptr) ? nullptr : hldb::findByName<hldb::Function>("do_copy", c->getMethods());
   }
 
-  static const hldb::Begin *getBody() {
+  static const hldb::Any *getBody() {
     const hldb::Function *const f = getDoCopy();
-    return (f == nullptr) ? nullptr : any_cast<hldb::Begin>(f->getStmt());
+    return (f == nullptr) ? nullptr : f->getStmt();
   }
 
   static const hldb::Variable *getLocalE() {
-    const hldb::Begin *const b = getBody();
-    return (b == nullptr) ? nullptr : hldb::findByName<hldb::Variable>("e", b->getVariables());
+    const hldb::Function *const f = getDoCopy();
+    return (f == nullptr) ? nullptr : hldb::findByName<hldb::Variable>("e", f->getVariables());
   }
 
   static const hldb::Assignment *getAssign() {
-    const hldb::Begin *const b = getBody();
-    if (b == nullptr || b->getStmts() == nullptr) return nullptr;
-    for (const hldb::Any *const s : *b->getStmts()) {
-      if (const hldb::Assignment *const a = any_cast<hldb::Assignment>(s)) return a;
-    }
+    const hldb::Any *const b = getBody();
+    if (const hldb::Assignment *const a = any_cast<hldb::Assignment>(b)) return a;
     return nullptr;
   }
 };
@@ -191,22 +188,10 @@ TEST_F(NamedEventHierPathTest, LocalVariableEIsOfClassType) {
 }
 
 TEST_F(NamedEventHierPathTest, BodyHasExactlyOneStatement) {
-  const hldb::Begin *const b = getBody();
+  const hldb::Any *const b = getBody();
   ASSERT_NE(b, nullptr);
-  ASSERT_NE(b->getStmts(), nullptr);
-  // HLDB lists block item declarations in getStmts() (in source order) next
-  // to the real statements; only the non-declaration entries are statements.
-  size_t nbStatements = 0;
-  for (const hldb::Any *const s : *b->getStmts()) {
-    if (s->getAnyType() == hldb::AnyType::Variable) {
-      EXPECT_EQ(s, getLocalE()) << "the only declaration is 'uvm_event_base e;'";
-    } else {
-      ++nbStatements;
-      EXPECT_EQ(s->getAnyType(), hldb::AnyType::Assignment);
-    }
-  }
-  EXPECT_EQ(nbStatements, 1u) << "A.2.6: the body has exactly one statement, 'm_event = e.m_event;'";
-  EXPECT_NE(getAssign(), nullptr);
+  EXPECT_EQ(b->getAnyType(), hldb::AnyType::Assignment);
+  EXPECT_EQ(getAssign(), b);
 }
 
 // ===========================================================================

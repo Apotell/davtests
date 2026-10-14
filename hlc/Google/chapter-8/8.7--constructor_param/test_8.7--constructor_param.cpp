@@ -57,8 +57,9 @@
 //     distinct from any value supplied at a call site
 //   - the constructor's body is a single blocking Assignment (not wrapped
 //     in a Begin): lhs RefObj "a" resolved to the SAME Variable as the
-//     class's property; rhs RefObj "def" resolved to the SAME IODecl as
-//     the constructor's own parameter
+//     class's property; rhs RefObj "def" resolved to the formal argument's
+//     Variable in the constructor's own scope (37.13/37.15 -- an IODecl is
+//     never a vpiActual)
 //   - the initial process' Begin block has exactly 1 local Variable
 //     ("test_obj") and exactly 1 statement (the $display)
 //   - local Variable "test_obj": typespec resolves to the SAME ClassDefn
@@ -162,6 +163,14 @@ class ClassConstructorParamTest : public Test {
     const hldb::Function *const ctor = getConstructorFunction();
     if (ctor == nullptr || ctor->getIODecls() == nullptr || ctor->getIODecls()->empty()) return nullptr;
     return ctor->getIODecls()->at(0);
+  }
+
+  // IEEE 1800-2023 37.13: the Variable (in the constructor's own scope) that holds the formal argument "def".
+  static const hldb::Variable *getDefVariable() {
+    const hldb::Function *const ctor = getConstructorFunction();
+    const hldb::IODecl *const def = getDefIODecl();
+    if (ctor == nullptr || def == nullptr) return nullptr;
+    return hldb::findByName<hldb::Variable>(def->getName(), ctor->getVariables());
   }
 
   static const hldb::Begin *getInitialBegin() {
@@ -298,8 +307,10 @@ TEST_F(ClassConstructorParamTest, ConstructorBodyAssignsPropertyAFromDef) {
   const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "'def' on the rhs should be a RefObj";
   EXPECT_EQ(rhs->getName(), "def");
-  EXPECT_EQ(rhs->getActual<hldb::IODecl>(), getDefIODecl())
-      << "'def' inside the constructor body must resolve to the SAME IODecl as the constructor's own parameter";
+  const hldb::Variable *const defVar = getDefVariable();
+  ASSERT_NE(defVar, nullptr) << "the formal argument 'def' should have a Variable in the constructor's scope";
+  EXPECT_EQ(rhs->getActual(), defVar)
+      << "37.13/37.15: 'def' inside the constructor body resolves to the formal's Variable, never to its IODecl";
 }
 
 // --- initial process / local "test_obj" ----------------------------------------

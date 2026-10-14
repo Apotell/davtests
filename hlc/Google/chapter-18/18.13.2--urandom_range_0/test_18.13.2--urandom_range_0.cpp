@@ -53,7 +53,8 @@
 //       default) of type 'int unsigned', an IntTypespec that is NOT signed
 //       (6.11.3)
 //   int unsigned val; (6.21, 13.4)
-//     - the only local the method declares
+//     - the only local the method declares; the Variables holding the
+//       formals 'maxval'/'minval' (37.13) are checked separately
 //     - IntTypespec, not signed; no initializer; automatic, because it is
 //       declared inside an automatic method (6.21)
 //   method body
@@ -64,8 +65,9 @@
 //     - RHS is a SysFuncCall named "$urandom_range": it is a system
 //       function and its value is used, so it is not a system task call
 //     - exactly 2 arguments, in 18.13.2's prototype order: maxval, then
-//       minval. Each is a RefObj bound by object identity to the method's
-//       formal of the same name. Both are written, so the prototype's
+//       minval. Each is a RefObj bound by object identity to the Variable
+//       holding the method's formal of the same name (37.13/37.15: an io
+//       decl is never a vpiActual). Both are written, so the prototype's
 //       default of 0 for minval is not used.
 //   return val; (12.8, 13.4.1)
 //     - ReturnStmt whose expression is a RefObj bound to the local 'val'
@@ -221,16 +223,31 @@ class UrandomRange0Test : public Test {
     return hldb::findByName<hldb::Variable>("val", body->getVariables());
   }
 
+  // The Variable holding the formal 'name' in the method's own scope. 37.13:
+  // an io decl's vpiExpr is the variable that holds the formal argument, and
+  // 37.15: a reference to the formal inside the body resolves to that
+  // Variable, never to the IODecl itself.
+  static const hldb::Variable *getFormalVariable(std::string_view name) {
+    const hldb::Function *const fn = getDoUrandomRange();
+    if (fn == nullptr) return nullptr;
+    return hldb::findByName<hldb::Variable>(name, fn->getVariables());
+  }
+
   // Names of the locals declared across both candidate scopes. 13.4.1 also
   // declares an implicit variable named after the function; whether HLC
-  // materializes it is a tool convention, so it is left out.
+  // materializes it is a tool convention, so it is left out. The Variables
+  // holding the formals (37.13) are not body-declared locals either, so any
+  // Variable in the function's own scope named after a formal is left out;
+  // MethodDeclaresOnlyValAsALocal checks those separately.
   static std::vector<std::string> getDeclaredLocalNames() {
     std::vector<std::string> names;
     const hldb::Function *const fn = getDoUrandomRange();
     if (fn == nullptr) return names;
     if (fn->getVariables() != nullptr) {
       for (const hldb::Variable *const var : *fn->getVariables()) {
-        if (var->getName() != fn->getName()) names.emplace_back(var->getName());
+        if (var->getName() == fn->getName()) continue;
+        if (hldb::findByName<hldb::IODecl>(var->getName(), fn->getIODecls()) != nullptr) continue;
+        names.emplace_back(var->getName());
       }
     }
     const hldb::Begin *const body = getBody();
@@ -394,6 +411,10 @@ TEST_F(UrandomRange0Test, MethodDeclaresOnlyValAsALocal) {
   ASSERT_NE(getDoUrandomRange(), nullptr);
   EXPECT_EQ(getDeclaredLocalNames(), std::vector<std::string>{"val"})
       << "'int unsigned val;' is the only declaration in the method body";
+  for (std::string_view name : {"maxval", "minval"}) {
+    EXPECT_NE(getFormalVariable(name), nullptr)
+        << "37.13: the formal argument '" << name << "' should have a Variable in the method's scope";
+  }
 }
 
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (class-method
@@ -451,10 +472,12 @@ TEST_F(UrandomRange0Test, UrandomRangeArgumentsAreMaxvalThenMinval) {
   ASSERT_EQ(call->getArguments()->size(), 2u);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
-  ExpectBoundRef(arg0->getHighConn(), "maxval", getFormal("maxval"));
+  // 37.15: the actual expressions reference the method's formals, which
+  // resolve to the Variables holding them, never to the IODecls.
+  ExpectBoundRef(arg0->getHighConn(), "maxval", getFormalVariable("maxval"));
   const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  ExpectBoundRef(arg1->getHighConn(), "minval", getFormal("minval"));
+  ExpectBoundRef(arg1->getHighConn(), "minval", getFormalVariable("minval"));
 }
 
 // ---------------------------------------------------------------------------

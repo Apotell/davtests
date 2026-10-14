@@ -259,7 +259,7 @@ TEST_F(LeftPaddingTest, GenIfBodyInstantiatesGood) {
   ASSERT_NE(gi->getStmt(), nullptr) << "'begin GOOD good(); end' body missing";
   const hldb::RefInstance *ri = gi->getStmt<hldb::RefInstance>();
   if (ri == nullptr) {
-    const hldb::Begin *const b = gi->getStmt<hldb::Begin>();
+    const hldb::GenBlock *const b = gi->getStmt<hldb::GenBlock>();
     ASSERT_NE(b, nullptr) << "body must be the begin-end block";
     ASSERT_NE(b->getStmts(), nullptr);
     ASSERT_EQ(b->getStmts()->size(), 1u);

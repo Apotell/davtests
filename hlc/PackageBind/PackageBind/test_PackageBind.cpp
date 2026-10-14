@@ -153,10 +153,10 @@ class PackageBindTest : public Test {
     return fn->getStmt<hldb::Begin>();
   }
 
-  static const hldb::IODecl *getValueDecl() {
+  static const hldb::Variable *getValueDecl() {
     const hldb::Function *const fn = getClog2();
     if (fn == nullptr) return nullptr;
-    return hldb::findByName<hldb::IODecl>("value", fn->getIODecls());
+    return hldb::findByName<hldb::Variable>("value", fn->getVariables());
   }
 
   // 'integer result;' may be owned by the function scope itself or by the
@@ -265,7 +265,14 @@ TEST_F(PackageBindTest, Clog2BodyIsBegin) {
 TEST_F(PackageBindTest, LocalResultIsTheOnlyLocalVariable) {
   const hldb::Function *const fn = getClog2();
   ASSERT_NE(fn, nullptr);
-  size_t count = (fn->getVariables() == nullptr) ? 0u : fn->getVariables()->size();
+  // The formal 'value' is also held by a Variable in the function's scope (37.13); it is not a local.
+  EXPECT_NE(getValueDecl(), nullptr) << "37.13: the formal argument 'value' should have a Variable";
+  size_t count = 0;
+  if (fn->getVariables() != nullptr) {
+    for (const hldb::Variable *const var : *fn->getVariables()) {
+      if (hldb::findByName<hldb::IODecl>(var->getName(), fn->getIODecls()) == nullptr) ++count;
+    }
+  }
   const hldb::Begin *const body = getClog2Body();
   if (body != nullptr && body->getVariables() != nullptr) count += body->getVariables()->size();
   EXPECT_EQ(count, 1u) << "_clog2 declares exactly one local variable: 'integer result'";
@@ -323,7 +330,7 @@ TEST_F(PackageBindTest, ForConditionIsValueGreaterThanOne) {
   const hldb::RefObj *const lhs = any_cast<hldb::RefObj>(cond->getOperands()->at(0));
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "value");
-  EXPECT_EQ(lhs->getActual<hldb::IODecl>(), getValueDecl()) << "'value' should bind to the formal argument";
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getValueDecl()) << "'value' should bind to the formal argument";
   const hldb::Constant *const rhs = any_cast<hldb::Constant>(cond->getOperands()->at(1));
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "1");
@@ -359,7 +366,7 @@ TEST_F(PackageBindTest, ForBodyShiftsValueRightByOne) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "value");
-  EXPECT_EQ(lhs->getActual<hldb::IODecl>(), getValueDecl());
+  EXPECT_EQ(lhs->getActual<hldb::Variable>(), getValueDecl());
 
   const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
@@ -369,7 +376,7 @@ TEST_F(PackageBindTest, ForBodyShiftsValueRightByOne) {
   const hldb::RefObj *const shifted = any_cast<hldb::RefObj>(rhs->getOperands()->at(0));
   ASSERT_NE(shifted, nullptr);
   EXPECT_EQ(shifted->getName(), "value");
-  EXPECT_EQ(shifted->getActual<hldb::IODecl>(), getValueDecl());
+  EXPECT_EQ(shifted->getActual<hldb::Variable>(), getValueDecl());
   const hldb::Constant *const amount = any_cast<hldb::Constant>(rhs->getOperands()->at(1));
   ASSERT_NE(amount, nullptr);
   EXPECT_EQ(amount->getDecompile(), "1");

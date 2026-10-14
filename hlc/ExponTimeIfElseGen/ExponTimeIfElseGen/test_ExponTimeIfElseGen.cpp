@@ -84,16 +84,16 @@
 //     "i" (inline genvar declaration).
 //   - GenFor header: init "i = 0", condition "i <= 17" (vpiLeOp), step
 //     "i++" (vpiPostIncOp).
-//   - GenFor's body is an (unnamed) generate block (GenRegion) holding
+//   - GenFor's body is an (unnamed) generate block (GenBlock) holding
 //     exactly the 10-way chain, one link per "if"/"else if", each
 //     comparing "i" (vpiEqOp) against the corresponding named condition
 //     operand, in source order; the final link is a GenIf.
 //   - for the first branch (i == ADDR_OFFSET_PART_0), the full nested
-//     body shape: GenRegion -> Always (vpiAlwaysFF) -> procedural Begin ->
+//     body shape: GenBlock -> Always (vpiAlwaysFF) -> procedural Begin ->
 //     IfStmt(shift_foo_bar) -> Begin -> Assignment (non-blocking) of
 //     "foo_bar_4[i] <= foo_bar_4[i+1]".
 //   - for every other branch, a lighter check that getStmt() resolves to
-//     a GenRegion containing exactly one Always with getAlwaysType() ==
+//     a GenBlock containing exactly one Always with getAlwaysType() ==
 //     vpiAlwaysFF (the 10 branches are textually identical).
 //
 // NOT CHECKED (out of scope):
@@ -116,6 +116,7 @@
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
 #include <hldb/gen_if_else.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_region.h>
 #include <hldb/if_stmt.h>
 #include <hldb/module.h>
@@ -156,7 +157,7 @@ class ExponTimeIfElseGenTest : public Test {
   static const hldb::GenIfElse *getFirstGenIfElse() {
     const hldb::GenFor *const loop = getGenFor();
     if (loop == nullptr) return nullptr;
-    const hldb::GenRegion *const body = loop->getStmt<hldb::GenRegion>();
+    const hldb::GenBlock *const body = loop->getStmt<hldb::GenBlock>();
     if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->empty()) return nullptr;
     return any_cast<hldb::GenIfElse>(body->getStmts()->at(0));
   }
@@ -177,11 +178,11 @@ class ExponTimeIfElseGenTest : public Test {
     EXPECT_EQ(rhs->getName(), name);
   }
 
-  // Verifies the branch body resolves to: GenRegion -> Always(vpiAlwaysFF).
+  // Verifies the branch body resolves to: GenBlock -> Always(vpiAlwaysFF).
   template<typename T>
   static const hldb::Always *CheckBranchBodyIsSingleAlwaysFF(const T *link) {
     if (link == nullptr) return nullptr;
-    const hldb::GenRegion *const branchBody = link->template getStmt<hldb::GenRegion>();
+    const hldb::GenBlock *const branchBody = link->template getStmt<hldb::GenBlock>();
     if (branchBody == nullptr || branchBody->getStmts() == nullptr || branchBody->getStmts()->size() != 1u) {
       return nullptr;
     }
@@ -274,7 +275,7 @@ TEST_F(ExponTimeIfElseGenTest, GenForStepIsPostIncrementOfI) {
 TEST_F(ExponTimeIfElseGenTest, GenForBodyIsUnnamedBlockWithSingleIfElseChain) {
   const hldb::GenFor *const loop = getGenFor();
   ASSERT_NE(loop, nullptr);
-  const hldb::GenRegion *const body = loop->getStmt<hldb::GenRegion>();
+  const hldb::GenBlock *const body = loop->getStmt<hldb::GenBlock>();
   ASSERT_NE(body, nullptr) << "the for-loop body 'begin ... end' (no label) should be an unnamed generate block";
   EXPECT_TRUE(body->getName().empty());
   ASSERT_NE(body->getStmts(), nullptr);
@@ -318,7 +319,7 @@ TEST_F(ExponTimeIfElseGenTest, FirstBranchBodyIsAlwaysFFWithGuardedNonBlockingAs
   ASSERT_NE(first, nullptr);
 
   const hldb::Always *const always = CheckBranchBodyIsSingleAlwaysFF(first);
-  ASSERT_NE(always, nullptr) << "branch body 'begin always_ff ... end' should be a GenRegion holding one Always";
+  ASSERT_NE(always, nullptr) << "branch body 'begin always_ff ... end' should be a GenBlock holding one Always";
   EXPECT_EQ(always->getAlwaysType(), vpiAlwaysFF);
 
   const hldb::EventControl *const ec = any_cast<hldb::EventControl>(always->getStmt());

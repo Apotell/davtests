@@ -55,7 +55,10 @@
 //     typespec -> IntTypespec (signed)
 //   - task body: Begin with 3 statements -- $display(e), a DelayControl
 //     (#100) wrapping the blocking assignment "e = 10", then $display(e)
-//     again; both RefObj "e" occurrences resolve to the IODecl "e"
+//     again; every RefObj "e" occurrence in the body resolves to the
+//     Variable holding the formal "e" in the task's scope (37.13/37.15: an
+//     io decl is never a vpiActual; the ref-obj vpiExpr shape 37.13 gives
+//     a 'ref' argument is not modeled yet)
 //   - first initial process: Begin with 5 statements -- 3 "q.push_back(N)"
 //     RefObjs (1, 2, 3), a $display with 3 BitSelects (q[0], q[1], q[2]),
 //     and a FuncCall "fun" with 1 argument, BitSelect "q[1]" (prefix "q"
@@ -152,6 +155,17 @@ class QueuesPersistenceTest : public Test {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getTaskFuncs() == nullptr) return nullptr;
     return hldb::findByName<hldb::Task>("fun", top->getTaskFuncs());
+  }
+
+  // 37.13/37.15: a reference to the formal 'e' inside the task body resolves
+  // to the Variable holding the formal in the task's own scope, never to the
+  // IODecl. (37.13 detail 2 says a 'ref' argument's io decl vpiExpr is a ref
+  // obj; that ref-obj shape for 'ref' arguments is not modeled yet, so the
+  // body reference is expected to resolve to the formal's Variable.)
+  static const hldb::Variable *getFormalVariableE() {
+    const hldb::Task *const task = getTaskFun();
+    if (task == nullptr) return nullptr;
+    return hldb::findByName<hldb::Variable>("e", task->getVariables());
   }
 
   static const hldb::Begin *getInitialBegin(size_t processIndex) {
@@ -298,7 +312,9 @@ TEST_F(QueuesPersistenceTest, TaskFirstStmtDisplaysEEqualsTwo) {
   const hldb::RefObj *const eRef = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(eRef, nullptr);
   EXPECT_EQ(eRef->getName(), "e");
-  EXPECT_NE(eRef->getActual<hldb::IODecl>(), nullptr) << "'e' should resolve to the task's IODecl";
+  const hldb::Variable *const eVar = getFormalVariableE();
+  ASSERT_NE(eVar, nullptr) << "the formal argument 'e' should have a Variable in the task's scope";
+  EXPECT_EQ(eRef->getActual(), eVar) << "37.15: 'e' resolves to the formal's Variable, never to its IODecl";
 }
 
 TEST_F(QueuesPersistenceTest, TaskSecondStmtIsDelayedAssignmentEEqualsTen) {
@@ -318,7 +334,9 @@ TEST_F(QueuesPersistenceTest, TaskSecondStmtIsDelayedAssignmentEEqualsTen) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "e");
-  EXPECT_NE(lhs->getActual<hldb::IODecl>(), nullptr);
+  const hldb::Variable *const eVar = getFormalVariableE();
+  ASSERT_NE(eVar, nullptr) << "the formal argument 'e' should have a Variable in the task's scope";
+  EXPECT_EQ(lhs->getActual(), eVar) << "37.15: 'e' resolves to the formal's Variable, never to its IODecl";
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "10");
@@ -342,7 +360,9 @@ TEST_F(QueuesPersistenceTest, TaskThirdStmtDisplaysEEqualsTen) {
   const hldb::RefObj *const eRef = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(eRef, nullptr);
   EXPECT_EQ(eRef->getName(), "e");
-  EXPECT_NE(eRef->getActual<hldb::IODecl>(), nullptr);
+  const hldb::Variable *const eVar = getFormalVariableE();
+  ASSERT_NE(eVar, nullptr) << "the formal argument 'e' should have a Variable in the task's scope";
+  EXPECT_EQ(eRef->getActual(), eVar) << "37.15: 'e' resolves to the formal's Variable, never to its IODecl";
 }
 
 // --- module structure: two initial processes ----

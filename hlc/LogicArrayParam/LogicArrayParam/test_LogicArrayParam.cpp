@@ -137,9 +137,9 @@ class LogicArrayParamTest : public Test {
     return nullptr;
   }
 
-  static const hldb::Begin *getGenBlock() {
+  static const hldb::GenBlock *getGenBlock() {
     const hldb::GenFor *const gf = getGenFor();
-    return (gf == nullptr) ? nullptr : gf->getStmt<hldb::Begin>();
+    return (gf == nullptr) ? nullptr : gf->getStmt<hldb::GenBlock>();
   }
 
   // Checks that 'r' is '[NAlerts-1:0]' with 'NAlerts' bound to 'target'.
@@ -327,13 +327,13 @@ TEST_F(LogicArrayParamTest, GenerateBlockIsNamedGenAlerts) {
   const hldb::GenFor *const gf = getGenFor();
   ASSERT_NE(gf, nullptr);
   ASSERT_NE(gf->getStmt(), nullptr);
-  const hldb::Begin *const b = getGenBlock();
+  const hldb::GenBlock *const b = getGenBlock();
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getName(), std::string_view("gen_alerts"));
 }
 
 TEST_F(LogicArrayParamTest, DebugIsLocalparamFromImportedAsyncOnBitSelect) {
-  const hldb::Begin *const b = getGenBlock();
+  const hldb::GenBlock *const b = getGenBlock();
   ASSERT_NE(b, nullptr);
   const hldb::Parameter *const debug = findParam(b, "debug");
   ASSERT_NE(debug, nullptr) << "'localparam debug' not found in gen_alerts";
@@ -353,7 +353,7 @@ TEST_F(LogicArrayParamTest, DebugIsLocalparamFromImportedAsyncOnBitSelect) {
 }
 
 TEST_F(LogicArrayParamTest, ConditionalGenerateInstantiatesM) {
-  const hldb::Begin *const b = getGenBlock();
+  const hldb::GenBlock *const b = getGenBlock();
   ASSERT_NE(b, nullptr);
   ASSERT_NE(b->getStmts(), nullptr);
   const hldb::GenIf *genIf = nullptr;
@@ -364,7 +364,7 @@ TEST_F(LogicArrayParamTest, ConditionalGenerateInstantiatesM) {
   const hldb::RefObj *const cond = genIf->getCondition<hldb::RefObj>();
   ASSERT_NE(cond, nullptr);
   EXPECT_EQ(cond->getName(), std::string_view("debug"));
-  const hldb::Begin *const body = genIf->getStmt<hldb::Begin>();
+  const hldb::GenBlock *const body = genIf->getStmt<hldb::GenBlock>();
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 1u);

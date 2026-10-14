@@ -153,8 +153,18 @@ TEST_F(FuncStaticTest, Accumulate1IsExplicitlyStaticWithStaticLocalAcc) {
 
   // IEEE 1800-2023 37.12, Note 5: 'static int acc = 1;' is a declaration of
   // the function's own scope; the unnamed begin holds only the statements.
+  // Each formal argument is also held by a Variable in this scope (37.13); 'acc' is the only local.
   ASSERT_NE(accumulate1->getVariables(), nullptr);
-  ASSERT_EQ(accumulate1->getVariables()->size(), 1u);
+  ASSERT_NE(accumulate1->getIODecls(), nullptr);
+  for (const hldb::IODecl *const ioDecl : *accumulate1->getIODecls()) {
+    EXPECT_NE(hldb::findByName<hldb::Variable>(ioDecl->getName(), accumulate1->getVariables()), nullptr)
+        << "37.13: the formal argument '" << ioDecl->getName() << "' should have a Variable in the function's scope";
+  }
+  uint32_t localCount = 0;
+  for (const hldb::Variable *const var : *accumulate1->getVariables()) {
+    if (hldb::findByName<hldb::IODecl>(var->getName(), accumulate1->getIODecls()) == nullptr) ++localCount;
+  }
+  ASSERT_EQ(localCount, 1u) << "the body declares exactly one local ('acc'), excluding the formals' Variables";
   const hldb::Variable *const acc = hldb::findByName<hldb::Variable>("acc", accumulate1->getVariables());
   ASSERT_NE(acc, nullptr);
   EXPECT_FALSE(acc->getAutomatic()) << "'static int acc' must be explicitly static";

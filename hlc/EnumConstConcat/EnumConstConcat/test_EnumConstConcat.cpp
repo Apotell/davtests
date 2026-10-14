@@ -67,7 +67,7 @@
 //   - "top" has exactly 1 generate statement: a GenIf whose condition is
 //     an equality Operation (vpiEqOp) of RefObj "ReadingLow" (resolving to
 //     pkg's EnumConst) and Constant "197"
-//   - the GenIf's body is a generate block (GenRegion) containing a RefInstance "good" whose
+//   - the GenIf's body is a generate block (GenBlock) containing a RefInstance "good" whose
 //     typespec resolves (ModuleTypespec) to "GOOD"
 //   - compiler reports zero errors
 
@@ -82,7 +82,7 @@
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/gen_if.h>
-#include <hldb/gen_region.h>
+#include <hldb/gen_block.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
@@ -332,8 +332,8 @@ TEST_F(EnumConstConcatTest, GenIfConditionIsEqualityOfReadingLowAnd197) {
 TEST_F(EnumConstConcatTest, GenIfBodyInstantiatesGoodAsGood) {
   const hldb::GenIf *const genIf = getGenIf();
   ASSERT_NE(genIf, nullptr);
-  const hldb::GenRegion *const body = genIf->getStmt<hldb::GenRegion>();
-  ASSERT_NE(body, nullptr) << "'begin GOOD good(); end' body must be a generate block (GenRegion)";
+  const hldb::GenBlock *const body = genIf->getStmt<hldb::GenBlock>();
+  ASSERT_NE(body, nullptr) << "'begin GOOD good(); end' body must be a generate block (GenBlock)";
   ASSERT_NE(body->getStmts(), nullptr);
   const hldb::RefInstance *good = nullptr;
   for (const hldb::Any *const stmt : *body->getStmts()) {

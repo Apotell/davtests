@@ -283,16 +283,16 @@ class PackageHierRefTest : public Test {
   // The generate block 'begin: sB1 ... end' of the if-generate. In the
   // module definition HLC models a generate block as a Begin holding the
   // block's items.
-  static const hldb::Begin *getSB1() {
+  static const hldb::GenBlock *getSB1() {
     const hldb::GenIf *const genIf = getGenIf();
     if (genIf == nullptr) return nullptr;
-    return any_cast<hldb::Begin>(genIf->getStmt());
+    return genIf->getStmt<hldb::GenBlock>();
   }
 
   // The initial procedures among sB1's items.
   static std::vector<const hldb::Initial *> getSB1Initials() {
     std::vector<const hldb::Initial *> initials;
-    const hldb::Begin *const sB1 = getSB1();
+    const hldb::GenBlock *const sB1 = getSB1();
     if (sB1 == nullptr || sB1->getStmts() == nullptr) return initials;
     for (const hldb::Any *const item : *sB1->getStmts()) {
       if (const hldb::Initial *const init = any_cast<hldb::Initial>(item)) initials.emplace_back(init);
@@ -483,7 +483,7 @@ TEST_F(PackageHierRefTest, ModuleMHasOneIfGenerateOnPackageParam) {
 }
 
 TEST_F(PackageHierRefTest, GenerateBlockSB1DeclaresIntX) {
-  const hldb::Begin *const sB1 = getSB1();
+  const hldb::GenBlock *const sB1 = getSB1();
   ASSERT_NE(sB1, nullptr) << "the if-generate should hold its generate block";
   EXPECT_EQ(sB1->getName(), "sB1") << "27.5: 'begin: sB1' names the generate block";
   const hldb::Variable *const x = hldb::findByName<hldb::Variable>("x", sB1->getVariables());

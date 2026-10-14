@@ -33,14 +33,17 @@
 //
 // Checked:
 //   - design has module top with zero nets (no module-level variable
-//     declarations; "b" is a process-local Variable, "a" is a task IODecl)
+//     declarations; "b" is a process-local Variable, "a" is a task formal
+//     with an IODecl plus a Variable in the task's own scope)
 //   - module has exactly 1 task "fun" with 1 IODecl "a": direction=input,
 //     typespec -> ArrayTypespec static(1) range [2:0], elem -> IntTypespec
 //     (signed)
 //   - task body is NOT wrapped in a Begin (single unpacked statement): the
 //     task's vpiStmt is directly a SysTaskCall "$display" with 4 args
 //     (format + BitSelect a[0], a[1], a[2], each prefix RefObj "a"
-//     resolving the IODecl "a")
+//     resolving to the Variable holding the formal "a" -- 37.13: an io
+//     decl's vpiExpr holds the formal; 37.15: an io decl is never a
+//     vpiActual)
 //   - Initial process: Begin declaring 1 local Variable "b" (typespec ->
 //     ArrayTypespec static(1) range [2:0], elem -> IntTypespec signed) and
 //     containing 5 stmts (3 BitSelect Assignment + 1 SysFuncCall + 1
@@ -189,13 +192,17 @@ TEST_F(UnpackedSubroutinesTest, TaskBodyIsBareDisplayNotWrappedInBegin) {
   const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr);
   EXPECT_EQ(fmt->getValue(), ":assert: ((%d == 0) and (%d == 1) and (%d == 2))");
+  const hldb::Variable *const aVar = hldb::findByName<hldb::Variable>("a", task->getVariables());
+  ASSERT_NE(aVar, nullptr) << "the formal argument 'a' should have a Variable in the task's scope";
   for (uint32_t i = 0; i < 3u; ++i) {
     const hldb::NamedArgument *const selArg = disp->getArguments()->at(i + 1);
     ASSERT_NE(selArg, nullptr);
     const hldb::BitSelect *const sel = selArg->getHighConn<hldb::BitSelect>();
     ASSERT_NE(sel, nullptr) << "argument " << (i + 1);
-    EXPECT_EQ(sel->getPrefix<hldb::RefObj>()->getName(), "a");
-    EXPECT_NE(sel->getPrefix<hldb::RefObj>()->getActual<hldb::IODecl>(), nullptr);
+    const hldb::RefObj *const prefix = sel->getPrefix<hldb::RefObj>();
+    ASSERT_NE(prefix, nullptr) << "argument " << (i + 1);
+    EXPECT_EQ(prefix->getName(), "a");
+    EXPECT_EQ(prefix->getActual(), aVar) << "37.15: 'a' resolves to the formal's Variable, never to its IODecl";
     EXPECT_EQ(sel->getIndex<hldb::Constant>()->getDecompile(), std::to_string(i));
   }
 }

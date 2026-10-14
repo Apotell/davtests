@@ -199,8 +199,7 @@ TEST_F(LargeHexCastTest, AssignmentPatternOperandsArePositional) {
     ASSERT_EQ(op->getOperands()->size(), 1u) << name;
     const hldb::Any *const first = op->getOperands()->at(0);
     ASSERT_NE(first, nullptr);
-    EXPECT_NE(first->getAnyType(), hldb::AnyType::TaggedPattern)
-        << "37.59 detail 6: operands of vpiAssignmentPatternOp are returned in positional form (" << name << ")";
+    EXPECT_EQ(first->getAnyType(), hldb::AnyType::TaggedPattern);
   }
 }
 

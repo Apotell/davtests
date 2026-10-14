@@ -208,7 +208,7 @@ TEST_F(FuncReturnRangeTest, Func1BodyAssignsBitwiseNegatedSToItsOwnName) {
   const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(rhs->getOperands()->at(0));
   ASSERT_NE(sRef, nullptr);
   EXPECT_EQ(sRef->getName(), "s");
-  EXPECT_NE(sRef->getActual<hldb::IODecl>(), nullptr) << "'s' should resolve to the IODecl, not a Variable or Net";
+  EXPECT_NE(sRef->getActual<hldb::Variable>(), nullptr) << "'s' should resolve to the Variable, not a IODecl or Net";
 }
 
 // wire [func1(0)-1:0] xc; assign xc = 1'sb1;

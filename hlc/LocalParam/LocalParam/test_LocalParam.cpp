@@ -137,7 +137,7 @@ class LocalParamTest : public Test {
   static const hldb::ContAssign *getBranchAssign(const hldb::GenIf *gi) {
     if (gi == nullptr || gi->getStmt() == nullptr) return nullptr;
     if (const hldb::ContAssign *const ca = gi->getStmt<hldb::ContAssign>()) return ca;
-    const hldb::Begin *const b = gi->getStmt<hldb::Begin>();
+    const hldb::GenBlock *const b = gi->getStmt<hldb::GenBlock>();
     if (b == nullptr || b->getStmts() == nullptr || b->getStmts()->size() != 1) return nullptr;
     return any_cast<hldb::ContAssign>(b->getStmts()->at(0));
   }
@@ -203,7 +203,7 @@ TEST_F(LocalParamTest, ModulesExist) {
 TEST_F(LocalParamTest, AssignerDefinitionIsNamedByModuleIdentifier) {
   const hldb::Module *const m = getAssigner();
   ASSERT_NE(m, nullptr);
-  EXPECT_EQ(m->getName(), "assigner")
+  EXPECT_EQ(m->getDefName(), std::string_view("assigner"))
       << "23.2.1: the module definition's name is its module_identifier 'assigner'; parameter overrides of "
          "individual instances are not part of the definition's name";
 }

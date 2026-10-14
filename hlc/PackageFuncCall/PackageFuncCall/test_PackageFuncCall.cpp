@@ -238,10 +238,10 @@ class PackageFuncCallTest : public Test {
     return fn->getStmt<hldb::Begin>();
   }
 
-  static const hldb::IODecl *getFormal(std::string_view name) {
+  static const hldb::Variable *getFormal(std::string_view name) {
     const hldb::Function *const fn = getSbox();
     if (fn == nullptr) return nullptr;
-    return hldb::findByName<hldb::IODecl>(name, fn->getIODecls());
+    return hldb::findByName<hldb::Variable>(name, fn->getVariables());
   }
 
   // 'logic [63:0] state_out;' may be owned by the function scope itself or
@@ -599,7 +599,18 @@ TEST_F(PackageFuncCallTest, SboxHasOneLocalVariableStateOut) {
   const hldb::Function *const fn = getSbox();
   ASSERT_NE(fn, nullptr);
   ASSERT_NE(getSboxBody(), nullptr) << "a multi-statement function body should be wrapped in a Begin";
-  size_t count = (fn->getVariables() == nullptr) ? 0u : fn->getVariables()->size();
+  // Each formal argument is also held by a Variable in the function's scope (37.13); those are not locals.
+  ASSERT_NE(fn->getIODecls(), nullptr);
+  for (const hldb::IODecl *const ioDecl : *fn->getIODecls()) {
+    EXPECT_NE(getFormal(ioDecl->getName()), nullptr)
+        << "37.13: the formal argument '" << ioDecl->getName() << "' should have a Variable";
+  }
+  size_t count = 0;
+  if (fn->getVariables() != nullptr) {
+    for (const hldb::Variable *const var : *fn->getVariables()) {
+      if (hldb::findByName<hldb::IODecl>(var->getName(), fn->getIODecls()) == nullptr) ++count;
+    }
+  }
   const hldb::Begin *const body = getSboxBody();
   if (body->getVariables() != nullptr) count += body->getVariables()->size();
   EXPECT_EQ(count, 1u) << "the only function-local declaration is 'state_out' ('k' belongs to the for loop)";
@@ -726,7 +737,7 @@ TEST_F(PackageFuncCallTest, LoopAssignRhsSelectsSboxByStateInNibble) {
   ASSERT_NE(prefix, nullptr);
   EXPECT_EQ(prefix->getName(), "sbox4");
   ASSERT_NE(getFormal("sbox4"), nullptr);
-  EXPECT_EQ(prefix->getActual<hldb::IODecl>(), getFormal("sbox4"));
+  EXPECT_EQ(prefix->getActual<hldb::Variable>(), getFormal("sbox4"));
   const hldb::IndexedPartSelect *const index = rhs->getIndex<hldb::IndexedPartSelect>();
   ASSERT_NE(index, nullptr) << "the index 'state_in[k*4 +: 4]' should be an IndexedPartSelect";
   ExpectKTimesFourPlusColonFour(index, "state_in", getFormal("state_in"));

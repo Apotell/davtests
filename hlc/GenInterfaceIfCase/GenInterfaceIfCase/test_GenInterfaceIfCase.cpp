@@ -56,16 +56,16 @@
 // generate_interface_block).
 //
 // What to check and why (IEEE 1800-2023):
-//   - Sec 27.3: "generate ... endgenerate" is a generate region; it is a
-//     GenRegion holding the four constructs, in source order, as vpiStmt.
+//   - Sec 27.3: "generate ... endgenerate" is a generate region, not a scope;
+//     it is a GenRegion holding the four constructs, in source order, as vpiStmt.
 //   - Sec 27.5: "if ( constant_expression ) generate_block [ else
 //     generate_block ]" -- with an else branch the construct is a GenIfElse,
 //     without one a GenIf. A case generate is a GenCase whose items are
 //     CaseItems (vpiExpr = the case item expressions, none for default).
 //   - Sec 27.5: a generate block may be a single item without begin-end, but
 //     it is still a generate block, so each such branch/case item is an
-//     unnamed GenRegion holding that item. A labeled "name: begin ... end"
-//     block is a GenRegion carrying the name, and the declarations inside it
+//     unnamed GenBlock holding that item. A labeled "name: begin ... end"
+//     block is a GenBlock carrying the name, and the declarations inside it
 //     belong to that block, not to the interface.
 //   - Sec 37.85, detail 2: "For an unnamed generate, an implicit scope shall
 //     be created. Its vpiImplicitDecl property shall return TRUE." -- the
@@ -76,7 +76,7 @@
 //     construct and if that item is not surrounded by begin-end keywords,
 //     then this generate block is not treated as a separate scope" -- the
 //     "else if" is directly nested: the else branch is the inner GenIfElse
-//     itself, with no GenRegion between them.
+//     itself, with no GenBlock between them.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -90,6 +90,7 @@
 #include <hldb/gen_case.h>
 #include <hldb/gen_if.h>
 #include <hldb/gen_if_else.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_region.h>
 #include <hldb/interface.h>
 #include <hldb/operation.h>
@@ -133,7 +134,7 @@ class GenInterfaceIfCaseTest : public Test {
 
   // An unnamed, implicit generate block holding exactly one ContAssign whose lhs is `lhsName`.
   static void expectImplicitBlockWithAssign(const hldb::Any *stmt, std::string_view lhsName) {
-    const hldb::GenRegion *const block = any_cast<hldb::GenRegion>(stmt);
+    const hldb::GenBlock *const block = any_cast<hldb::GenBlock>(stmt);
     ASSERT_NE(stmt, nullptr);
     ASSERT_NE(block, nullptr) << "a branch without begin-end is still a generate block (Sec 27.5)";
     EXPECT_TRUE(block->getName().empty());
@@ -179,7 +180,7 @@ TEST_F(GenInterfaceIfCaseTest, IfElseBranchesAreImplicitBlocks) {
   expectImplicitBlockWithAssign(ifElse->getStmt(), "ready");
   expectImplicitBlockWithAssign(ifElse->getElseStmt(), "ready");
 
-  const hldb::GenRegion *const thenBlock = ifElse->getStmt<hldb::GenRegion>();
+  const hldb::GenBlock *const thenBlock = ifElse->getStmt<hldb::GenBlock>();
   ASSERT_NE(thenBlock, nullptr);
   const hldb::ContAssign *const assign = any_cast<hldb::ContAssign>(thenBlock->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
@@ -194,9 +195,9 @@ TEST_F(GenInterfaceIfCaseTest, IfWithLabeledBlockOwnsItsDeclaration) {
   ASSERT_NE(genIf, nullptr) << "no else branch, so a GenIf";
   ASSERT_NE(genIf->getCondition(), nullptr);
 
-  const hldb::GenRegion *const block = genIf->getStmt<hldb::GenRegion>();
+  const hldb::GenBlock *const block = genIf->getStmt<hldb::GenBlock>();
   ASSERT_NE(genIf->getStmt(), nullptr);
-  ASSERT_NE(block, nullptr) << "'g_m2: begin ... end' should be a GenRegion";
+  ASSERT_NE(block, nullptr) << "'g_m2: begin ... end' should be a GenBlock";
   EXPECT_EQ(block->getName(), "g_m2");
   EXPECT_FALSE(block->getImplicitDecl()) << "a written begin...end block is not implicit";
 
@@ -223,7 +224,7 @@ TEST_F(GenInterfaceIfCaseTest, ElseIfIsDirectlyNested) {
 
   const hldb::GenIfElse *const inner = outer->getElseStmt<hldb::GenIfElse>();
   ASSERT_NE(outer->getElseStmt(), nullptr);
-  ASSERT_NE(inner, nullptr) << "a lone 'if' in the else branch is directly nested: no GenRegion in between (Sec 27.5)";
+  ASSERT_NE(inner, nullptr) << "a lone 'if' in the else branch is directly nested: no GenBlock in between (Sec 27.5)";
   ASSERT_NE(inner->getCondition(), nullptr);
   expectImplicitBlockWithAssign(inner->getStmt(), "data");
   expectImplicitBlockWithAssign(inner->getElseStmt(), "data");
@@ -255,9 +256,9 @@ TEST_F(GenInterfaceIfCaseTest, CaseGenerateItems) {
   ASSERT_NE(item2, nullptr);
   ASSERT_NE(item2->getExprs(), nullptr);
   ASSERT_EQ(item2->getExprs()->size(), 1u);
-  const hldb::GenRegion *const gTwo = item2->getStmt<hldb::GenRegion>();
+  const hldb::GenBlock *const gTwo = item2->getStmt<hldb::GenBlock>();
   ASSERT_NE(item2->getStmt(), nullptr);
-  ASSERT_NE(gTwo, nullptr) << "'g_two: begin ... end' should be a GenRegion";
+  ASSERT_NE(gTwo, nullptr) << "'g_two: begin ... end' should be a GenBlock";
   EXPECT_EQ(gTwo->getName(), "g_two");
   EXPECT_FALSE(gTwo->getImplicitDecl()) << "a written begin...end block is not implicit";
   ASSERT_NE(gTwo->getVariables(), nullptr);

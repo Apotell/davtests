@@ -55,7 +55,9 @@
 //       * exactly 1 IODecl "a", direction input, typespec LogicTypespec
 //       * body is a Begin with exactly 2 statements: a SysTaskCall
 //         "$display" (arg ":assert: (False)") followed by a ReturnStmt
-//         whose condition<RefObj>() resolves to the IODecl "a" -- i.e. the
+//         whose condition<RefObj>() resolves to the formal "a"'s Variable
+//         in fun's scope (never to the IODecl, per IEEE 1800-2023
+//         37.13/37.15, and not to the module-scope "a") -- i.e. the
 //         function is *reachable* and, if called, would both fire the
 //         "(False)" assertion and hand back its argument unchanged
 //   - the initial block is a Begin with exactly 2 statements:
@@ -203,7 +205,11 @@ TEST_F(ExprShortCircuitTest, FunctionFunBodyDisplaysFalseAssertThenReturnsItsArg
   const hldb::RefObj *const retVal = ret->getCondition<hldb::RefObj>();
   ASSERT_NE(retVal, nullptr) << "fun() should return its argument 'a' unchanged";
   EXPECT_EQ(retVal->getName(), "a");
-  EXPECT_NE(retVal->getActual<hldb::IODecl>(), nullptr);
+  const hldb::Variable *const aVar = hldb::findByName<hldb::Variable>("a", fun->getVariables());
+  ASSERT_NE(aVar, nullptr) << "the formal argument 'a' should have a Variable in the function's scope";
+  EXPECT_EQ(retVal->getActual(), aVar) << "37.15: 'a' resolves to the formal's Variable, never to its IODecl";
+  EXPECT_NE(retVal->getActual(), hldb::findByName<hldb::Variable>("a", top->getVariables()))
+      << "'a' inside fun() names the formal, which shadows the module-scope variable 'a'";
 }
 
 // --- initial block: the short-circuit expression tree itself ----

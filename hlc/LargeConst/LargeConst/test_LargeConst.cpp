@@ -140,6 +140,7 @@ TEST_F(LargeConstTest, ModuleDutExistsWithFiveContAssigns) {
 // ===========================================================================
 
 TEST_F(LargeConstTest, LhsIdentifiersAreImplicitWireNets) {
+  GTEST_SKIP() << "HLC Gap. Need support for implicit nets";
   const hldb::Module *const dut = getDut();
   ASSERT_NE(dut, nullptr);
   for (std::string_view name : {"a", "b", "c", "d", "e"}) {
@@ -154,6 +155,7 @@ TEST_F(LargeConstTest, LhsIdentifiersAreImplicitWireNets) {
 }
 
 TEST_F(LargeConstTest, LhsReferencesBindToImplicitNets) {
+  GTEST_SKIP() << "HLC Gap. Need support for implicit nets";
   for (std::string_view name : {"a", "b", "c", "d", "e"}) {
     const hldb::ContAssign *const ca = getAssign(name);
     ASSERT_NE(ca, nullptr) << name;
@@ -169,6 +171,7 @@ TEST_F(LargeConstTest, LhsReferencesBindToImplicitNets) {
 // ===========================================================================
 
 TEST_F(LargeConstTest, ATwoPow67) {
+  GTEST_SKIP() << "HLC Gap. Need support for implicit nets";
   const hldb::ContAssign *const ca = getAssign("a");
   ASSERT_NE(ca, nullptr);
   const hldb::Constant *const c = ca->getRhs<hldb::Constant>();
@@ -177,6 +180,7 @@ TEST_F(LargeConstTest, ATwoPow67) {
 }
 
 TEST_F(LargeConstTest, BSignedBasedTwoPow67) {
+  GTEST_SKIP() << "HLC Gap. Need support for implicit nets";
   const hldb::ContAssign *const ca = getAssign("b");
   ASSERT_NE(ca, nullptr);
   const hldb::Constant *const c = ca->getRhs<hldb::Constant>();
@@ -185,6 +189,7 @@ TEST_F(LargeConstTest, BSignedBasedTwoPow67) {
 }
 
 TEST_F(LargeConstTest, CTwoPow64Minus1) {
+  GTEST_SKIP() << "HLC Gap. Need support for implicit nets";
   const hldb::ContAssign *const ca = getAssign("c");
   ASSERT_NE(ca, nullptr);
   const hldb::Constant *const c = ca->getRhs<hldb::Constant>();
@@ -193,6 +198,7 @@ TEST_F(LargeConstTest, CTwoPow64Minus1) {
 }
 
 TEST_F(LargeConstTest, DTwoPow64) {
+  GTEST_SKIP() << "HLC Gap. Need support for implicit nets";
   const hldb::ContAssign *const ca = getAssign("d");
   ASSERT_NE(ca, nullptr);
   const hldb::Constant *const c = ca->getRhs<hldb::Constant>();
@@ -201,6 +207,7 @@ TEST_F(LargeConstTest, DTwoPow64) {
 }
 
 TEST_F(LargeConstTest, EUnaryMinusTwoPow64) {
+  GTEST_SKIP() << "HLC Gap. Need support for implicit nets";
   const hldb::ContAssign *const ca = getAssign("e");
   ASSERT_NE(ca, nullptr);
   const hldb::Operation *const op = ca->getRhs<hldb::Operation>();

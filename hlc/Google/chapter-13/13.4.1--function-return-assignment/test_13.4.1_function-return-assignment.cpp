@@ -52,7 +52,8 @@
 //     a ReturnStmt) whose LHS is RefObj "add" resolving
 //     (getActual<hldb::Function>()) to the function itself, and whose
 //     RHS is Operation(vpiAddOp) comparing RefObj "a" against RefObj
-//     "b" (both resolving to their IODecls)
+//     "b" (both resolving to the formals' Variables in add's scope,
+//     never to their IODecls -- IEEE 1800-2023 37.13/37.15)
 //   - the initial process's body is a plain SysTaskCall "$display"
 //     with a FuncCall "add" argument, identical in shape to
 //     13.4.1--function-return.cpp's call site
@@ -81,6 +82,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -141,11 +143,15 @@ TEST_F(FunctionReturnAssignmentTest, BodyIsAssignmentToFunctionNameNotReturnStmt
   const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(rhs->getOperands()->at(0));
   ASSERT_NE(aRef, nullptr);
   EXPECT_EQ(aRef->getName(), "a");
-  EXPECT_NE(aRef->getActual<hldb::IODecl>(), nullptr);
+  const hldb::Variable *const aVar = hldb::findByName<hldb::Variable>("a", add->getVariables());
+  ASSERT_NE(aVar, nullptr) << "the formal argument 'a' should have a Variable in the function's scope";
+  EXPECT_EQ(aRef->getActual(), aVar) << "37.15: 'a' resolves to the formal's Variable, never to its IODecl";
   const hldb::RefObj *const bRef = any_cast<hldb::RefObj>(rhs->getOperands()->at(1));
   ASSERT_NE(bRef, nullptr);
   EXPECT_EQ(bRef->getName(), "b");
-  EXPECT_NE(bRef->getActual<hldb::IODecl>(), nullptr);
+  const hldb::Variable *const bVar = hldb::findByName<hldb::Variable>("b", add->getVariables());
+  ASSERT_NE(bVar, nullptr) << "the formal argument 'b' should have a Variable in the function's scope";
+  EXPECT_EQ(bRef->getActual(), bVar) << "37.15: 'b' resolves to the formal's Variable, never to its IODecl";
 }
 
 // ---------------------------------------------------------------------------

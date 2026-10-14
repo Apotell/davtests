@@ -70,6 +70,7 @@
 #include <hldb/parameter.h>
 #include <hldb/ref_obj.h>
 #include <hldb/return_stmt.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -134,9 +135,11 @@ TEST_F(EvalFuncTest, FooIsIdentityFunctionOfItsInput) {
   const hldb::ReturnStmt *const ret = foo->getStmt<hldb::ReturnStmt>();
   ASSERT_NE(ret, nullptr) << "'foo' body should be a plain ReturnStmt (single statement, no begin-end)";
   const hldb::RefObj *const valRef = ret->getCondition<hldb::RefObj>();
-  ASSERT_NE(valRef, nullptr) << "'return value;' should reference the IODecl 'value' directly";
+  ASSERT_NE(valRef, nullptr) << "'return value;' should be a RefObj naming the formal 'value'";
   EXPECT_EQ(valRef->getName(), "value");
-  EXPECT_NE(valRef->getActual<hldb::IODecl>(), nullptr);
+  const hldb::Variable *const valueVar = hldb::findByName<hldb::Variable>("value", foo->getVariables());
+  ASSERT_NE(valueVar, nullptr) << "the formal argument 'value' should have a Variable in the function's scope";
+  EXPECT_EQ(valRef->getActual(), valueVar) << "37.15: 'value' resolves to the formal's Variable, never to its IODecl";
 }
 
 // localparam RATIO = 30;

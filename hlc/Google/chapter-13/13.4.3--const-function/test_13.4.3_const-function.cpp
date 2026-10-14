@@ -80,7 +80,9 @@
 //     constraint
 //   - fun's body is a plain ReturnStmt directly (single statement, no
 //     begin-end) whose getCondition() is Operation(vpiAddOp) comparing
-//     RefObj "val" (resolving to the IODecl) against Constant "1"
+//     RefObj "val" (resolving to the formal's Variable in fun's scope --
+//     IEEE 1800-2023 37.13/37.15: an io decl is never a vpiActual)
+//     against Constant "1"
 //   - the initial process's body is a plain SysTaskCall "$display"
 //     with 2 arguments: Constant "\":assert: (%d == 4)\"" and RefObj
 //     "a" resolving (getActual<hldb::Parameter>()) to the localparam
@@ -117,6 +119,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/return_stmt.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -258,7 +261,9 @@ TEST_F(ConstFunctionTest, FunBodyIsReturnStmtWithAddExpression) {
   const hldb::RefObj *const valRef = any_cast<hldb::RefObj>(expr->getOperands()->at(0));
   ASSERT_NE(valRef, nullptr);
   EXPECT_EQ(valRef->getName(), "val");
-  EXPECT_NE(valRef->getActual<hldb::IODecl>(), nullptr);
+  const hldb::Variable *const valVar = hldb::findByName<hldb::Variable>("val", fn->getVariables());
+  ASSERT_NE(valVar, nullptr) << "the formal argument 'val' should have a Variable in the function's scope";
+  EXPECT_EQ(valRef->getActual(), valVar) << "37.15: 'val' resolves to the formal's Variable, never to its IODecl";
   const hldb::Constant *const one = any_cast<hldb::Constant>(expr->getOperands()->at(1));
   ASSERT_NE(one, nullptr);
   EXPECT_EQ(one->getDecompile(), "1");

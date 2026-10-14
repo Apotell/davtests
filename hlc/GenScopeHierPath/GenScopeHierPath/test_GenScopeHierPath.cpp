@@ -78,7 +78,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/gen_region.h>
+#include <hldb/gen_block.h>
 #include <hldb/bit_select.h>
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
@@ -114,16 +114,16 @@ class GenScopeHierPathTest : public Test {
   }
 
   // Unelaborated model (no -d inst): 'begin : gen_dio_attr ... end' is the
-  // loop's generate block, modeled as the GenFor's body GenRegion (Sec 27.4).
+  // loop's generate block, modeled as the GenFor's body GenBlock (Sec 27.4).
   // GenScope objects only exist after elaboration.
-  static const hldb::GenRegion *getGenDioAttr() {
+  static const hldb::GenBlock *getGenDioAttr() {
     const hldb::GenFor *const gf = findGenFor(getModule("top"));
-    return (gf == nullptr) ? nullptr : gf->getStmt<hldb::GenRegion>();
+    return (gf == nullptr) ? nullptr : gf->getStmt<hldb::GenBlock>();
   }
 
-  // 'u_prim_pad_attr' is a RefInstance item of the 'gen_dio_attr' GenRegion.
+  // 'u_prim_pad_attr' is a RefInstance item of the 'gen_dio_attr' GenBlock.
   static const hldb::RefInstance *getUPrimPadAttr() {
-    const hldb::GenRegion *const block = getGenDioAttr();
+    const hldb::GenBlock *const block = getGenDioAttr();
     if (block == nullptr || block->getStmts() == nullptr) return nullptr;
     return hldb::findByName<hldb::RefInstance>("u_prim_pad_attr", block->getStmts());
   }
@@ -177,8 +177,8 @@ TEST_F(GenScopeHierPathTest, TopHasExactlyOneGenForNamedGenDioAttr) {
   ASSERT_NE(gf, nullptr);
   // EXPECT_EQ(gf->getName(), std::string_view("gen_dio_attr"));
   // The label names the generate block (the GenFor's body), not the GenFor.
-  const hldb::GenRegion *const block = getGenDioAttr();
-  ASSERT_NE(block, nullptr) << "the generate-for body should be a generate block (GenRegion)";
+  const hldb::GenBlock *const block = getGenDioAttr();
+  ASSERT_NE(block, nullptr) << "the generate-for body should be a generate block (GenBlock)";
   EXPECT_EQ(block->getName(), std::string_view("gen_dio_attr"));
 }
 
@@ -201,7 +201,7 @@ TEST_F(GenScopeHierPathTest, UPrimPadAttrDeclaredInsideGenDioAttr) {
   // const hldb::Module *const inst = hldb::findByName<hldb::Module>("u_prim_pad_attr", gf->getModules());
   // ASSERT_NE(inst, nullptr);
   // EXPECT_EQ(inst->getDefName(), std::string_view("prim_pad_attr"));
-  const hldb::GenRegion *const block = getGenDioAttr();
+  const hldb::GenBlock *const block = getGenDioAttr();
   ASSERT_NE(block, nullptr);
   ASSERT_NE(block->getStmts(), nullptr) << "'gen_dio_attr' should carry the 'u_prim_pad_attr' instance";
   const hldb::RefInstance *const inst = getUPrimPadAttr();

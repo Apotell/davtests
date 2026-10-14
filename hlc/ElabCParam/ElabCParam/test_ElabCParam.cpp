@@ -65,7 +65,7 @@
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
 #include <hldb/gen_if_else.h>
-#include <hldb/gen_region.h>
+#include <hldb/gen_block.h>
 #include <hldb/indexed_part_select.h>
 #include <hldb/indexed_range.h>
 #include <hldb/module.h>
@@ -188,12 +188,12 @@ TEST_F(ElabCParamTest, PrimFifoSync_ThenAndElseBranchesAreNamedBlocks) {
   const hldb::GenIfElse *const gie = findGenIfElse(m);
   ASSERT_NE(gie, nullptr);
 
-  const hldb::GenRegion *const thenBlk = gie->getStmt<hldb::GenRegion>();
-  ASSERT_NE(thenBlk, nullptr) << "'begin : gen_passthru' body must be a generate block (GenRegion)";
+  const hldb::GenBlock *const thenBlk = gie->getStmt<hldb::GenBlock>();
+  ASSERT_NE(thenBlk, nullptr) << "'begin : gen_passthru' body must be a generate block (GenBlock)";
   EXPECT_EQ(thenBlk->getName(), "gen_passthru");
 
-  const hldb::GenRegion *const elseBlk = gie->getElseStmt<hldb::GenRegion>();
-  ASSERT_NE(elseBlk, nullptr) << "'begin : gen_normal' body must be a generate block (GenRegion)";
+  const hldb::GenBlock *const elseBlk = gie->getElseStmt<hldb::GenBlock>();
+  ASSERT_NE(elseBlk, nullptr) << "'begin : gen_normal' body must be a generate block (GenBlock)";
   EXPECT_EQ(elseBlk->getName(), "gen_normal");
 }
 
@@ -209,7 +209,7 @@ TEST_F(ElabCParamTest, GenNormal_PtrvWIsLocalParamWithAddOperation) {
   ASSERT_NE(m, nullptr);
   const hldb::GenIfElse *const gie = findGenIfElse(m);
   ASSERT_NE(gie, nullptr);
-  const hldb::GenRegion *const elseBlk = gie->getElseStmt<hldb::GenRegion>();
+  const hldb::GenBlock *const elseBlk = gie->getElseStmt<hldb::GenBlock>();
   ASSERT_NE(elseBlk, nullptr);
 
   const hldb::Parameter *const ptrvW = findParam(elseBlk, "PTRV_W");
@@ -364,7 +364,7 @@ TEST_F(ElabCParamTest, Socket1n_GenerateForInstantiatesFifoSync) {
   for (const hldb::Any *const stmt : *m->getGenStmts()) {
     const hldb::GenFor *const genFor = any_cast<hldb::GenFor>(stmt);
     if (genFor == nullptr) continue;
-    const hldb::GenRegion *const body = genFor->getStmt<hldb::GenRegion>();
+    const hldb::GenBlock *const body = genFor->getStmt<hldb::GenBlock>();
     if (body == nullptr || body->getStmts() == nullptr) continue;
     EXPECT_EQ(body->getName(), "gen_dfifo");
     for (const hldb::Any *const s : *body->getStmts()) {

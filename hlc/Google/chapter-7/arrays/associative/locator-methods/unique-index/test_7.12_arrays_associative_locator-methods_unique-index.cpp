@@ -431,6 +431,14 @@ TEST_F(ArrayLocatorUniqueIndexTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
+// --- compiler diagnostics: known parenthesis-less-builtin-call limitation ----
+
+TEST_F(ArrayLocatorUniqueIndexTest, UniqueIndexSortAndSizeMethodCallsResolve) {
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "unique_index"), nullptr);
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "sort"), nullptr);
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

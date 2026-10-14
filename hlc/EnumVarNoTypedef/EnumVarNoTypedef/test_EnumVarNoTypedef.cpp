@@ -68,6 +68,7 @@
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/typedef_typespec.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -194,15 +195,14 @@ TEST_F(EnumVarNoTypedefTest, NoProcesses) {
 }
 
 // ---------------------------------------------------------------------------
-// Known limitation: sized-literal/enum-base size mismatch is illegal but
-// currently accepted with zero diagnostics.
+// IEEE 1800-2023 6.19: "If the integer value expression is a sized literal
+// constant, it shall be an error if the size is different from the enum
+// base type" -- Global=4'h2 is a 4-bit literal on a 3-bit (logic[2:0]) base.
 // ---------------------------------------------------------------------------
 
-TEST_F(EnumVarNoTypedefTest, CompilerShouldRejectSizeMismatchButDoesNot) {
-  GTEST_SKIP() << "IEEE 1800-2023 6.19: 'if the integer value expression is a sized literal constant, it "
-                  "shall be an error if the size is different from the enum base type' -- Global=4'h2 is a "
-                  "4-bit literal on a 3-bit (logic[2:0]) base. HLC currently accepts it with zero diagnostics. "
-                  "Fix pending.";
+TEST_F(EnumVarNoTypedefTest, CompilerRejectsSizeMismatch) {
+  GTEST_SKIP() << "HLC doesn't implement this diagnosis yet.";
+  EXPECT_NE(findError(ErrorDefinition::HLDB_ENUM_CONST_SIZE_MISMATCH, "Global"), nullptr);
 }
 
 }  // namespace hlc

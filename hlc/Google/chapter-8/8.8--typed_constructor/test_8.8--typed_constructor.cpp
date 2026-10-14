@@ -378,7 +378,10 @@ TEST_F(ClassTypedConstructorTest, TestConstructorSecondStmtAssignsAFromDef) {
   EXPECT_EQ(rhs->getName(), "def");
   ASSERT_NE(ctor->getIODecls(), nullptr);
   ASSERT_GT(ctor->getIODecls()->size(), 0u);
-  EXPECT_EQ(rhs->getActual<hldb::IODecl>(), ctor->getIODecls()->at(0));
+  const hldb::Variable *const defVar =
+      hldb::findByName<hldb::Variable>(ctor->getIODecls()->at(0)->getName(), ctor->getVariables());
+  ASSERT_NE(defVar, nullptr) << "the formal argument 'def' should have a Variable in the constructor's scope";
+  EXPECT_EQ(rhs->getActual(), defVar) << "37.13/37.15: 'def' resolves to the formal's Variable, never to its IODecl";
 }
 
 // --- variable "super_obj" (declared as "test_cls super_obj;") -------------------------

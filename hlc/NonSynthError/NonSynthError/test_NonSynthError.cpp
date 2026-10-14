@@ -107,8 +107,8 @@ TEST_F(NonSynthErrorTest, SInitializerIsSizeOfInt) {
   // an argument or as the call's attached data-type operand.
   bool foundInt = false;
   if (call->getArguments() != nullptr) {
-    for (const hldb::Any *const arg : *call->getArguments()) {
-      if (const hldb::RefTypespec *const rt = any_cast<hldb::RefTypespec>(arg)) {
+    for (const hldb::NamedArgument *const arg : *call->getArguments()) {
+      if (const hldb::RefTypespec *const rt = arg->getHighConn<hldb::RefTypespec>()) {
         if (rt->getActual<hldb::IntTypespec>() != nullptr) {
           foundInt = true;
           break;

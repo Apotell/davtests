@@ -82,8 +82,9 @@
 //     chapter-8/8.9--static_properties/test_8.9--static_properties.cpp)
 //     `a += val;` -- a blocking Assignment desugared to an explicit "add"
 //     Operation, lhs RefObj "a" resolving to the property Variable "a",
-//     rhs operands [RefObj "a" -> Variable "a", RefObj "val" -> IODecl
-//     "val"]
+//     rhs operands [RefObj "a" -> Variable "a", RefObj "val" -> the
+//     task's own formal-argument Variable "val" (37.13/37.15 -- never the
+//     IODecl)]
 //   - the initial process' Begin block has exactly 6 statements:
 //     "test_obj0 = new", "test_obj1 = test_obj0", "test_obj0.a = 12",
 //     "$display(test_obj0.a)", "test_obj0.test_method(9)",
@@ -369,7 +370,11 @@ TEST_F(ClassAssignmentTest, SecondMethodStmtIsAPlusEqualsVal) {
   EXPECT_EQ(valOperand->getName(), "val");
   ASSERT_NE(t->getIODecls(), nullptr);
   ASSERT_GT(t->getIODecls()->size(), 0u);
-  EXPECT_EQ(valOperand->getActual<hldb::IODecl>(), t->getIODecls()->at(0));
+  const hldb::Variable *const valVar =
+      hldb::findByName<hldb::Variable>(t->getIODecls()->at(0)->getName(), t->getVariables());
+  ASSERT_NE(valVar, nullptr) << "the formal argument 'val' should have a Variable in the task's scope";
+  EXPECT_EQ(valOperand->getActual(), valVar)
+      << "37.13/37.15: 'val' resolves to the formal's Variable, never to its IODecl";
 }
 
 // --- variables "test_obj0" / "test_obj1" ---------------------------------------------

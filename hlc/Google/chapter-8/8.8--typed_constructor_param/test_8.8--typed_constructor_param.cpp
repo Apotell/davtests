@@ -63,7 +63,8 @@
 //   - the test_cls constructor's body: "super.new(def + 3);" (resolves
 //     correctly, matching chapter-8/8.7--constructor_super.sv) and
 //     "a = def - t;" -- a subtract Operation whose operands are the
-//     constructor's own IODecl "def" AND the class's own type parameter
+//     Variable holding the constructor's own formal argument "def"
+//     (37.13/37.15 -- never its IODecl) AND the class's own type parameter
 //     "t", both resolved directly (not through a ParamAssign)
 //   - variable "super_obj": its typespec resolves to the SAME ClassDefn as
 //     "super_cls" (the base type, per its declaration)
@@ -415,7 +416,11 @@ TEST_F(ClassTypedConstructorParamTest, TestConstructorSecondStmtAssignsAFromDefM
   EXPECT_EQ(defOperand->getName(), std::string_view("def"));
   ASSERT_NE(ctor->getIODecls(), nullptr);
   ASSERT_GT(ctor->getIODecls()->size(), 0u);
-  EXPECT_EQ(defOperand->getActual<hldb::IODecl>(), ctor->getIODecls()->at(0));
+  const hldb::Variable *const defVar =
+      hldb::findByName<hldb::Variable>(ctor->getIODecls()->at(0)->getName(), ctor->getVariables());
+  ASSERT_NE(defVar, nullptr) << "the formal argument 'def' should have a Variable in the constructor's scope";
+  EXPECT_EQ(defOperand->getActual(), defVar)
+      << "37.13/37.15: 'def' resolves to the formal's Variable, never to its IODecl";
 
   const hldb::RefObj *const tOperand = any_cast<hldb::RefObj>(rhs->getOperands()->at(1));
   ASSERT_NE(tOperand, nullptr);

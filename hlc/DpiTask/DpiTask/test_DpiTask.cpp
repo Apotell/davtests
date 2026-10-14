@@ -43,7 +43,9 @@
 //     "task_1", with exactly 1 formal IODecl "ret" (direction
 //     vpiOutput, IntTypespec), and a body that is a plain blocking
 //     assignment "ret = 2;" (no begin-end) whose lhs is RefObj "ret"
-//     resolving to the IODecl and whose rhs is Constant "2"
+//     resolving to the formal's Variable in the task's scope (37.13: an
+//     io decl's vpiExpr holds the formal; 37.15: an io decl is never a
+//     vpiActual) and whose rhs is Constant "2"
 //   - module top has exactly 1 task/function declaration (the export),
 //     also named "task_1", with no formal arguments (the export names
 //     an already-declared task; it does not redeclare its ports)
@@ -70,6 +72,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/task.h>
 #include <hldb/task_decl.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -129,7 +132,9 @@ TEST_F(DpiTaskTest, Task1BodyIsBlockingAssignmentRetEqualsTwo) {
   const hldb::RefObj *const lhs = asgn->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "lhs of 'ret = 2;' should be a RefObj";
   EXPECT_EQ(lhs->getName(), "ret");
-  EXPECT_NE(lhs->getActual<hldb::IODecl>(), nullptr) << "'ret' should resolve to the IODecl, not a Variable";
+  const hldb::Variable *const retVar = hldb::findByName<hldb::Variable>("ret", task->getVariables());
+  ASSERT_NE(retVar, nullptr) << "the formal argument 'ret' should have a Variable in the task's scope";
+  EXPECT_EQ(lhs->getActual(), retVar) << "37.15: 'ret' resolves to the formal's Variable, never to its IODecl";
 
   const hldb::Constant *const rhs = asgn->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "rhs of 'ret = 2;' should be a Constant";
@@ -158,14 +163,12 @@ TEST_F(DpiTaskTest, ExportDpiCIdentifierDefaultsToItsSvName) {
   // IEEE 1800-2023 35.5.3: "If the c_identifier is omitted, the imported
   // (or exported) name shall be the same as the SystemVerilog function or
   // task name." 'export "DPI-C" task task_1;' supplies no c_identifier,
-  // so the recorded DPI C string should be "task_1". HLC currently
-  // records this field as an unresolved/invalid marker instead.
-  GTEST_SKIP() << "HLC does not populate the DPI C-identifier for export declarations (reads back as an internal "
-                  "placeholder); should default to the SV subroutine name per IEEE 1800-2023 35.5.3. Fix pending.";
+  // so the recorded DPI C string should be "task_1".
   const hldb::TaskDecl *const decl = getTask1Decl();
   ASSERT_NE(decl, nullptr);
   EXPECT_EQ(decl->getName(), std::string_view("task_1"));
-  EXPECT_EQ(decl->getDPICStr(), vpiDPICStr);
+  EXPECT_EQ(decl->getDPICIdentifier(), std::string_view("task_1"));
+  EXPECT_EQ(decl->getDPICStr(), vpiDPIC);
 }
 
 TEST_F(DpiTaskTest, CompilerReportsZeroErrors) {

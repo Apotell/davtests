@@ -362,7 +362,11 @@ TEST_F(ClassShallowCopyTest, SecondMethodStmtIsAPlusEqualsVal) {
   EXPECT_EQ(valOperand->getName(), "val");
   ASSERT_NE(t->getIODecls(), nullptr);
   ASSERT_GT(t->getIODecls()->size(), 0u);
-  EXPECT_EQ(valOperand->getActual<hldb::IODecl>(), t->getIODecls()->at(0));
+  const hldb::Variable *const valVar =
+      hldb::findByName<hldb::Variable>(t->getIODecls()->at(0)->getName(), t->getVariables());
+  ASSERT_NE(valVar, nullptr) << "the formal argument 'val' should have a Variable in the task's scope";
+  EXPECT_EQ(valOperand->getActual(), valVar)
+      << "37.13/37.15: 'val' resolves to the formal's Variable, never to its IODecl";
 }
 
 // --- variables "test_obj0" / "test_obj1" ---------------------------------------------

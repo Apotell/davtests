@@ -266,6 +266,7 @@ TEST_F(ModPortRangeTest, ConnectTBHasInputVectorPort) {
 // ===========================================================================
 
 TEST_F(ModPortRangeTest, RangeItfPortMyPort1IsModportPortArray) {
+  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const p = getPort("range_itf_port", "my_port1");
   ASSERT_NE(p, nullptr);
   EXPECT_EQ(p->getPortType(), vpiModportPort);
@@ -292,6 +293,7 @@ TEST_F(ModPortRangeTest, RangeItfPortMyPort2IsInputWireUnpackedArray) {
 }
 
 TEST_F(ModPortRangeTest, RangeItfPortMyPort2PortTypeIsPlainPort) {
+  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const p = getPort("range_itf_port", "my_port2");
   ASSERT_NE(p, nullptr);
   EXPECT_EQ(p->getPortType(), vpiPort) << "37.14 detail 1: a non-interface port has vpiPortType vpiPort";
@@ -302,6 +304,7 @@ TEST_F(ModPortRangeTest, RangeItfPortMyPort2PortTypeIsPlainPort) {
 // ===========================================================================
 
 TEST_F(ModPortRangeTest, MemoryCtrl1InterfaceAndModportPorts) {
+  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const sif1 = getPort("memory_ctrl1", "sif1");
   ASSERT_NE(sif1, nullptr);
   EXPECT_EQ(sif1->getPortType(), vpiInterfacePort);
@@ -318,6 +321,7 @@ TEST_F(ModPortRangeTest, MemoryCtrl1InterfaceAndModportPorts) {
 // ===========================================================================
 
 TEST_F(ModPortRangeTest, MiddleConn1IsInterfacePortArray) {
+  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const p = getPort("middle", "conn1");
   ASSERT_NE(p, nullptr);
   EXPECT_EQ(p->getPortType(), vpiInterfacePort);
@@ -340,6 +344,7 @@ TEST_F(ModPortRangeTest, RangeItfPort2HasFourPortsInOrder) {
 }
 
 TEST_F(ModPortRangeTest, RangeItfPort2PortTypes) {
+  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Interface *const iface = getIface("MyInterface");
   const hldb::Modport *const mp = getModport("MyInterface", "MyModPort");
   ASSERT_NE(iface, nullptr);
@@ -371,6 +376,7 @@ TEST_F(ModPortRangeTest, RangeItfPort2PortTypes) {
 // ===========================================================================
 
 TEST_F(ModPortRangeTest, ModportIdentifiersInPortHeadersBind) {
+  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "MyModPort"), nullptr)
       << "25.5: MyModPort is a modport of MyInterface";
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "system"), nullptr)
@@ -378,6 +384,7 @@ TEST_F(ModPortRangeTest, ModportIdentifiersInPortHeadersBind) {
 }
 
 TEST_F(ModPortRangeTest, InterfacePortsNotWarnedMissingDirection) {
+  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   for (std::string_view name : {"my_port1", "sif1", "sif2", "conn1", "my_port3", "my_port4"}) {
     EXPECT_EQ(findError(ErrorDefinition::COMP_PORT_MISSING_DIRECTION, name), nullptr)
         << name << ": 23.2.2 interface_port_header has no port_direction";

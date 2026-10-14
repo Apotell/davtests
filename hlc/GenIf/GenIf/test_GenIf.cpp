@@ -46,7 +46,7 @@
 // begin : foo ... end endgenerate" (predeclared genvar 'i', matching the
 // DoubleLoop-established GenRegion->GenFor shape); its single body item
 // is the if/else conditional generate construct itself -- since the loop
-// body 'begin : foo ... end' is a named generate_block (a GenRegion) whose
+// body 'begin : foo ... end' is a named generate_block (a GenBlock) whose
 // sole generate_item is the if-else, that if-else appears as a direct item
 // of 'foo's own statement list (Sec 27.3's "generate_block_or_null").
 // The if-else's condition 'i == 0' (Sec 11.4.5, vpiEqOp) selects between
@@ -68,6 +68,7 @@
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
 #include <hldb/gen_if_else.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_region.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
@@ -102,12 +103,12 @@ class GenIfTest : public Test {
     return nullptr;
   }
 
-  // loop -> getStmt<GenRegion>() named "foo" -> its sole statement, the
+  // loop -> getStmt<GenBlock>() named "foo" -> its sole statement, the
   // GenIfElse.
   static const hldb::GenIfElse *getIfElse() {
     const hldb::GenFor *const loop = getLoop();
     if (loop == nullptr) return nullptr;
-    const hldb::GenRegion *const foo = loop->getStmt<hldb::GenRegion>();
+    const hldb::GenBlock *const foo = loop->getStmt<hldb::GenBlock>();
     if (foo == nullptr || foo->getStmts() == nullptr) return nullptr;
     for (const hldb::Any *const stmt : *foo->getStmts()) {
       const hldb::GenIfElse *const ifElse = any_cast<hldb::GenIfElse>(stmt);
@@ -126,12 +127,12 @@ TEST_F(GenIfTest, GenvarIExists) {
   EXPECT_NE(hldb::findByName<hldb::Variable>("i", m->getVariables()), nullptr) << "genvar 'i' not found";
 }
 
-TEST_F(GenIfTest, LoopExistsAndBodyIsNamedGenRegionFoo) {
+TEST_F(GenIfTest, LoopExistsAndBodyIsNamedGenBlockFoo) {
   const hldb::GenFor *const loop = getLoop();
   ASSERT_NE(loop, nullptr) << "'for (i=0; i<2; i=i+1) begin : foo ... end' not found";
-  const hldb::GenRegion *const foo = loop->getStmt<hldb::GenRegion>();
+  const hldb::GenBlock *const foo = loop->getStmt<hldb::GenBlock>();
   ASSERT_NE(loop->getStmt(), nullptr);
-  ASSERT_NE(foo, nullptr) << "loop body 'begin : foo ... end' must be a generate block (GenRegion)";
+  ASSERT_NE(foo, nullptr) << "loop body 'begin : foo ... end' must be a generate block (GenBlock)";
   EXPECT_EQ(foo->getName(), std::string_view{"foo"});
 }
 
@@ -164,12 +165,12 @@ TEST_F(GenIfTest, ThenBranchIsContAssignTemp1FromA) {
   ASSERT_NE(ifElse, nullptr);
   // IEEE 1800-2023 Sec 27.5: a generate block may be a single item without begin-end, but "even if the
   // begin-end keywords are absent, it is still a generate block" (a separate scope). So the then-branch
-  // is an implicit, unnamed generate block (GenRegion) holding the single ContAssign.
+  // is an implicit, unnamed generate block (GenBlock) holding the single ContAssign.
   // const hldb::ContAssign *const assign = ifElse->getStmt<hldb::ContAssign>();
   ASSERT_NE(ifElse->getStmt(), nullptr);
   // ASSERT_NE(assign, nullptr) << "'assign temp1 = a;' must be a ContAssign, directly the then-branch (no begin/end)";
-  const hldb::GenRegion *const block = ifElse->getStmt<hldb::GenRegion>();
-  ASSERT_NE(block, nullptr) << "the then-branch should be an implicit generate block (GenRegion)";
+  const hldb::GenBlock *const block = ifElse->getStmt<hldb::GenBlock>();
+  ASSERT_NE(block, nullptr) << "the then-branch should be an implicit generate block (GenBlock)";
   ASSERT_NE(block->getStmts(), nullptr);
   ASSERT_EQ(block->getStmts()->size(), 1u);
   const hldb::ContAssign *const assign = any_cast<hldb::ContAssign>(block->getStmts()->at(0));
@@ -188,12 +189,12 @@ TEST_F(GenIfTest, ElseBranchIsContAssignTemp2FromB) {
   ASSERT_NE(ifElse, nullptr);
   // IEEE 1800-2023 Sec 27.5: a generate block may be a single item without begin-end, but "even if the
   // begin-end keywords are absent, it is still a generate block" (a separate scope). So the else-branch
-  // is an implicit, unnamed generate block (GenRegion) holding the single ContAssign.
+  // is an implicit, unnamed generate block (GenBlock) holding the single ContAssign.
   // const hldb::ContAssign *const assign = ifElse->getElseStmt<hldb::ContAssign>();
   ASSERT_NE(ifElse->getElseStmt(), nullptr);
   // ASSERT_NE(assign, nullptr) << "'assign temp2 = b;' must be a ContAssign, directly the else-branch (no begin/end)";
-  const hldb::GenRegion *const block = ifElse->getElseStmt<hldb::GenRegion>();
-  ASSERT_NE(block, nullptr) << "the else-branch should be an implicit generate block (GenRegion)";
+  const hldb::GenBlock *const block = ifElse->getElseStmt<hldb::GenBlock>();
+  ASSERT_NE(block, nullptr) << "the else-branch should be an implicit generate block (GenBlock)";
   ASSERT_NE(block->getStmts(), nullptr);
   ASSERT_EQ(block->getStmts()->size(), 1u);
   const hldb::ContAssign *const assign = any_cast<hldb::ContAssign>(block->getStmts()->at(0));

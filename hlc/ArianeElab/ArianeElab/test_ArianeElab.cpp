@@ -68,6 +68,7 @@
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/gen_if.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_region.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
@@ -327,8 +328,8 @@ TEST_F(ArianeElabTest, ExStageGenerateIfInstantiatesFpuWrapWhenFpPresent) {
   }
   ASSERT_NE(genIf, nullptr) << "no GenIf found among ex_stage's generate statements";
 
-  const hldb::GenRegion *const body = genIf->getStmt<hldb::GenRegion>();
-  ASSERT_NE(body, nullptr) << "generate-if 'fpu_gen' body is not a generate block (GenRegion)";
+  const hldb::GenBlock *const body = genIf->getStmt<hldb::GenBlock>();
+  ASSERT_NE(body, nullptr) << "generate-if 'fpu_gen' body is not a generate block (GenBlock)";
   ASSERT_NE(body->getStmts(), nullptr);
 
   const hldb::RefInstance *fpuI = nullptr;

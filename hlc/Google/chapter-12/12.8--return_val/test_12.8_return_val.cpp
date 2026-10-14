@@ -39,8 +39,10 @@
 //
 //   Also (IEEE 1800-2023 6.8): "int" (both the function's "input int
 //   a" port and the for-loop's "int i") is a non-net data type;
-//   function ports are modeled as IODecl (not Net or Variable, and
-//   distinct from both), per 13.4's tf_port_item / io_decl grammar.
+//   per IEEE 1800-2023 37.13 a function port is modeled as an IODecl
+//   whose vpiExpr is a Variable of the same name in the function's
+//   scope, and per 37.15 a reference to the formal in the body resolves
+//   to that Variable (an io decl is never a vpiActual).
 //
 // What is checked:
 //   - module jump_tb has exactly 1 TaskFunc, a Function named "fun",
@@ -52,7 +54,7 @@
 //     single statement, no begin-end in source) whose getCondition()
 //     (the field holding the optional return expression) is
 //     Operation(vpiMultOp) comparing RefObj "a" (resolving to the
-//     IODecl) against Constant "3" -- confirming "return a * 3;" DOES
+//     formal's Variable, never to its IODecl) against Constant "3" -- confirming "return a * 3;" DOES
 //     carry a return expression, unlike the void function's bare
 //     "return;"
 //   - module jump_tb's Initial process contains a ForStmt (matching
@@ -188,7 +190,9 @@ TEST_F(ReturnValTest, FunBodyIsReturnStmtWithMultiplyExpression) {
   const hldb::RefObj *const aRef = any_cast<hldb::RefObj>(expr->getOperands()->at(0));
   ASSERT_NE(aRef, nullptr);
   EXPECT_EQ(aRef->getName(), "a");
-  EXPECT_NE(aRef->getActual<hldb::IODecl>(), nullptr) << "'a' should resolve to the IODecl, not a Variable or Net";
+  const hldb::Variable *const aVar = hldb::findByName<hldb::Variable>("a", fun->getVariables());
+  ASSERT_NE(aVar, nullptr) << "the formal argument 'a' should have a Variable in the function's scope";
+  EXPECT_EQ(aRef->getActual(), aVar) << "37.15: 'a' resolves to the formal's Variable, never to its IODecl";
   const hldb::Constant *const three = any_cast<hldb::Constant>(expr->getOperands()->at(1));
   ASSERT_NE(three, nullptr);
   EXPECT_EQ(three->getDecompile(), "3");

@@ -123,14 +123,7 @@ hldb::AnyType anyTypeOf(const hldb::Any *object) {
 
 class MonitorTaskTest : public Test {
  protected:
-  // This fixture's command file. CMake runs each test with its own source
-  // directory as the working directory, and Test::Compile takes the compiler's
-  // working directory from the parent of the path handed to it, so the command
-  // file's own path is what pins both.
-  static constexpr std::string_view kCommandFile = "21.2--monitor.hlc";
-
-  static void SetUpTestSuite() { Compile(std::filesystem::current_path() / kCommandFile, {"-f", kCommandFile}); }
-
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "21.2--monitor.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 
   // Navigation helpers. Each returns nullptr when the node it looks for is not

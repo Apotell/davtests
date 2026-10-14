@@ -25,6 +25,7 @@
 #include <hldb/Utils.h>
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_region.h>
 #include <hldb/interface.h>
 #include <hldb/interface_typespec.h>
@@ -202,14 +203,14 @@ TEST_F(Instantiations, GatePrimitives) {
 // ----
 // 5. generate-for block:
 //    gen_top->getGenStmts() -> GenRegion -> getStmts()[0] GenFor
-//                           -> getStmt<GenRegion>() -> getStmts() -> RefInstances
+//                           -> getStmt<GenBlock>() -> getStmts() -> RefInstances
 // ----
 TEST_F(Instantiations, GenerateBlockInstantiations) {
   const hldb::Module *const gen_top = hldb::findByDefName<hldb::Module>("gen_top", m_design->getAllModules());
   ASSERT_NE(gen_top, nullptr);
   ASSERT_NE(gen_top->getGenStmts(), nullptr) << "gen_top has no gen statements";
 
-  // GenRegion wraps the generate block
+  // GenRegion records the 'generate ... endgenerate' keywords (Sec 27.3)
   const hldb::GenRegion *gen_region = nullptr;
   for (const hldb::Any *const stmt : *gen_top->getGenStmts()) {
     gen_region = any_cast<const hldb::GenRegion *>(stmt);
@@ -224,8 +225,8 @@ TEST_F(Instantiations, GenerateBlockInstantiations) {
   ASSERT_NE(gen_for, nullptr) << "GenRegion item is not a GenFor";
 
   // The named generate block (gen_lane) is the stmt of the GenFor (Sec 27.4)
-  const hldb::GenRegion *const body = gen_for->getStmt<hldb::GenRegion>();
-  ASSERT_NE(body, nullptr) << "GenFor stmt is not a GenRegion";
+  const hldb::GenBlock *const body = gen_for->getStmt<hldb::GenBlock>();
+  ASSERT_NE(body, nullptr) << "GenFor stmt is not a GenBlock";
   ASSERT_NE(body->getStmts(), nullptr) << "generate block has no stmts";
 
   // RefInstances for u_if (interface) and u_pt (module) are in body->getStmts()

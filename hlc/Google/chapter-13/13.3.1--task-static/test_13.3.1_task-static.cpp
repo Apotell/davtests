@@ -49,7 +49,9 @@
 //   belongs to the task's own scope (getVariables() on the Task).
 //
 //   Also (IEEE 1800-2023 6.8): "int" is a non-net data type, so "a" and
-//   the formal argument "test" must be Variables/IODecl, never Nets.
+//   the formal argument "test" must be Variables, never Nets. Per IEEE
+//   1800-2023 37.13 the formal "test" has both an IODecl and a Variable
+//   (the io decl's vpiExpr) in the task's scope.
 //
 //   IMPORTANT call-site note: unlike 13.3--task.cpp's bare "mytask;"
 //   (no parens), this file's calls use explicit parentheses and an
@@ -62,12 +64,12 @@
 //     resolving to IntTypespec)
 //   - mytask's lifetime is NOT automatic (getAutomatic() == false),
 //     matching the explicit "static" keyword (and the spec default)
-//   - mytask's own scope has exactly 1 Variable "a" (initial value
-//     Constant "0"); its body is an unnamed Begin with no variables of
+//   - mytask's own scope has exactly 1 local Variable "a" (initial value
+//     Constant "0"), besides the formal "test"'s Variable; its body is an unnamed Begin with no variables of
 //     its own, whose getStmts() has exactly 2 entries: an
 //     Operation(vpiPostIncOp) on RefObj "a", and an IfElse whose
-//     condition is RefObj "test" (resolving to the IODecl, not a
-//     Variable), whose "then" body is SysTaskCall "$display" with
+//     condition is RefObj "test" (resolving to the formal's Variable,
+//     never to its IODecl -- 37.15), whose "then" body is SysTaskCall "$display" with
 //     Constant "\":assert:(%d != 1)\"" and RefObj "a", and whose
 //     "else" body is SysTaskCall "$display" with Constant
 //     "\":assert:(%d == 1)\"" and RefObj "a"
@@ -154,7 +156,16 @@ TEST_F(TaskStaticTest, TaskScopeHasVariableAInitializedToZero) {
   const hldb::Task *const mytask = getMytask();
   ASSERT_NE(mytask, nullptr);
   ASSERT_NE(mytask->getVariables(), nullptr) << "'int a = 0;' is declared in the task's own scope";
-  ASSERT_EQ(mytask->getVariables()->size(), 1u);
+  ASSERT_NE(mytask->getIODecls(), nullptr);
+  for (const hldb::IODecl *const ioDecl : *mytask->getIODecls()) {
+    EXPECT_NE(hldb::findByName<hldb::Variable>(ioDecl->getName(), mytask->getVariables()), nullptr)
+        << "37.13: the formal argument '" << ioDecl->getName() << "' should have a Variable in the task's scope";
+  }
+  uint32_t localCount = 0;
+  for (const hldb::Variable *const var : *mytask->getVariables()) {
+    if (hldb::findByName<hldb::IODecl>(var->getName(), mytask->getIODecls()) == nullptr) ++localCount;
+  }
+  ASSERT_EQ(localCount, 1u) << "the body declares exactly one local ('a'), excluding the formals' Variables";
   const hldb::Begin *const body = mytask->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr) << "task body should be a Begin";
   EXPECT_TRUE((body->getVariables() == nullptr) || body->getVariables()->empty())
@@ -193,7 +204,9 @@ TEST_F(TaskStaticTest, IfElseConditionIsIODeclTestWithBothDisplayBranches) {
   const hldb::RefObj *const cond = ifStmt->getCondition<hldb::RefObj>();
   ASSERT_NE(cond, nullptr);
   EXPECT_EQ(cond->getName(), "test");
-  EXPECT_NE(cond->getActual<hldb::IODecl>(), nullptr) << "'test' should resolve to the IODecl, not a Variable";
+  const hldb::Variable *const testVar = hldb::findByName<hldb::Variable>("test", mytask->getVariables());
+  ASSERT_NE(testVar, nullptr) << "the formal argument 'test' should have a Variable in the task's scope";
+  EXPECT_EQ(cond->getActual(), testVar) << "37.15: 'test' resolves to the formal's Variable, never to its IODecl";
 
   const hldb::SysTaskCall *const thenDisplay = ifStmt->getStmt<hldb::SysTaskCall>();
   ASSERT_NE(thenDisplay, nullptr);

@@ -136,26 +136,26 @@ TEST_F(MultiDimSubarraysTest, VariableAIsThreeLevelArrayOfInt) {
   ASSERT_NE(dim0, nullptr);
   EXPECT_EQ(dim0->getArrayType(), 1);  // static = 1
   ASSERT_NE(dim0->getRange(), nullptr);
-  const hldb::Operation *const dim0Left = dim0->getRange()->getLeftExpr<hldb::Operation>();
-  ASSERT_NE(dim0Left, nullptr);
-  EXPECT_EQ(dim0Left->getOpType(), vpiSubOp);
-  ASSERT_NE(dim0Left->getOperands(), nullptr);
-  ASSERT_EQ(dim0Left->getOperands()->size(), 1u);
-  EXPECT_EQ(any_cast<hldb::Constant>(dim0Left->getOperands()->at(0))->getDecompile(), "2");
+  const hldb::Operation *const dim0Right = dim0->getRange()->getRightExpr<hldb::Operation>();
+  ASSERT_NE(dim0Right, nullptr);
+  EXPECT_EQ(dim0Right->getOpType(), vpiSubOp);
+  ASSERT_NE(dim0Right->getOperands(), nullptr);
+  ASSERT_EQ(dim0Right->getOperands()->size(), 1u);
+  EXPECT_EQ(any_cast<hldb::Constant>(dim0Right->getOperands()->at(0))->getDecompile(), "2");
 
   const hldb::ArrayTypespec *const dim1 = dim0->getElemTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(dim1, nullptr);
   EXPECT_EQ(dim1->getArrayType(), 1);
-  const hldb::Operation *const dim1Left = dim1->getRange()->getLeftExpr<hldb::Operation>();
-  ASSERT_NE(dim1Left, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(dim1Left->getOperands()->at(0))->getDecompile(), "3");
+  const hldb::Operation *const dim1Right = dim1->getRange()->getRightExpr<hldb::Operation>();
+  ASSERT_NE(dim1Right, nullptr);
+  EXPECT_EQ(any_cast<hldb::Constant>(dim1Right->getOperands()->at(0))->getDecompile(), "3");
 
   const hldb::ArrayTypespec *const dim2 = dim1->getElemTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(dim2, nullptr);
   EXPECT_EQ(dim2->getArrayType(), 1);
-  const hldb::Operation *const dim2Left = dim2->getRange()->getLeftExpr<hldb::Operation>();
-  ASSERT_NE(dim2Left, nullptr);
-  EXPECT_EQ(any_cast<hldb::Constant>(dim2Left->getOperands()->at(0))->getDecompile(), "4");
+  const hldb::Operation *const dim2Right = dim2->getRange()->getRightExpr<hldb::Operation>();
+  ASSERT_NE(dim2Right, nullptr);
+  EXPECT_EQ(any_cast<hldb::Constant>(dim2Right->getOperands()->at(0))->getDecompile(), "4");
 
   EXPECT_NE(dim2->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 }
@@ -192,7 +192,7 @@ TEST_F(MultiDimSubarraysTest, VariableAAndVariableBHaveDistinctTypespecChains) {
   EXPECT_NE(atA, atB);
 }
 
-TEST_F(MultiDimSubarraysTest, ImplicitSizeRangesHaveNoRightExpr) {
+TEST_F(MultiDimSubarraysTest, ImplicitSizeRangesHaveNoLeftExpr) {
   // COMPILER BEHAVIOR: for "int A[2][3][4]" the implicit lower bound 0 is
   // never materialized as a node -- only vpiLeftRange (size-1) is populated.
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -202,7 +202,8 @@ TEST_F(MultiDimSubarraysTest, ImplicitSizeRangesHaveNoRightExpr) {
   const hldb::ArrayTypespec *const dim0 = a->getTypespec<hldb::RefTypespec>()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(dim0, nullptr);
   ASSERT_NE(dim0->getRange(), nullptr);
-  EXPECT_EQ(dim0->getRange()->getRightExpr(), nullptr);
+  EXPECT_EQ(dim0->getRange()->getLeftExpr(), nullptr);
+  EXPECT_NE(dim0->getRange()->getRightExpr(), nullptr);
 }
 
 // --- initial process ----

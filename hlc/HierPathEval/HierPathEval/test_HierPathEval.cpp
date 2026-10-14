@@ -58,7 +58,7 @@
 //   - the compiler reports no errors resolving/evaluating either override
 // In the unelaborated definitions the instances are RefInstances (in the
 // module's getRefInstances(), or in the getStmts() of the generate block's
-// GenRegion "gen_outer_if" inside the GenIf of "prim_pad_attr"); each instance's
+// GenBlock "gen_outer_if" inside the GenIf of "prim_pad_attr"); each instance's
 // parameter overrides are the ParamAssigns of its typespec's ModuleTypespec.
 
 #include <hlc/Common/Session.h>
@@ -67,7 +67,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/gen_region.h>
+#include <hldb/gen_block.h>
 #include <hldb/design.h>
 #include <hldb/gen_if.h>
 #include <hldb/module.h>
@@ -159,7 +159,7 @@ TEST_F(HierPathEvalTest, GenericPadAttrInstanceParamOverrideIsPlainRefToPadType)
   const hldb::GenIf *const genIf = any_cast<hldb::GenIf>(padAttr->getGenStmts()->at(0));
   ASSERT_NE(genIf, nullptr) << "'if (1) begin : gen_outer_if' is not a GenIf";
   ASSERT_NE(genIf->getStmt(), nullptr);
-  const hldb::GenRegion *const genBlk = genIf->getStmt<hldb::GenRegion>();
+  const hldb::GenBlock *const genBlk = genIf->getStmt<hldb::GenBlock>();
   ASSERT_NE(genBlk, nullptr);
   EXPECT_EQ(genBlk->getName(), std::string_view{"gen_outer_if"});
   ASSERT_NE(genBlk->getStmts(), nullptr);

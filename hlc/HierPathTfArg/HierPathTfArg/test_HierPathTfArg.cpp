@@ -56,12 +56,13 @@
 #include <hldb/design.h>
 #include <hldb/func_call.h>
 #include <hldb/function.h>
-#include <hldb/gen_region.h>
+#include <hldb/gen_block.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
 #include <hldb/subroutine_call.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/tf_call.h>
 
 #include <string>
 
@@ -97,12 +98,14 @@ class HierPathTfArgTest : public Test {
   }
 
   // The last path element of the Nth $display's hierarchical argument, once bound: a FuncCall.
-  static const hldb::FuncCall *getNthPathCall(size_t n) {
+  // The bound call ending the path. Taken as the common TFCall base: what is checked here is which
+  // function the call binds to, not whether HLC models it as a FuncCall or a MethodFuncCall.
+  static const hldb::TFCall *getNthPathCall(size_t n) {
     const hldb::SysTaskCall *const disp = getNthDisplay(n);
     if (disp == nullptr || disp->getArguments() == nullptr || disp->getArguments()->empty()) return nullptr;
     const hldb::RefObj *const arg = disp->getArguments()->at(0)->getHighConn<hldb::RefObj>();
     if (arg == nullptr || arg->getPathElems() == nullptr || arg->getPathElems()->empty()) return nullptr;
-    return any_cast<hldb::FuncCall>(arg->getPathElems()->back());
+    return any_cast<hldb::TFCall>(arg->getPathElems()->back());
   }
 
   // The named scopes that declare 'any', outermost first: "top.i.blk". Unnamed generate regions
@@ -110,7 +113,7 @@ class HierPathTfArgTest : public Test {
   static std::string getDeclaringScope(const hldb::Any *any) {
     std::string path;
     for (const hldb::Any *p = (any == nullptr) ? nullptr : any->getParent(); p != nullptr; p = p->getParent()) {
-      if ((any_cast<hldb::GenRegion>(p) == nullptr) && (any_cast<hldb::Module>(p) == nullptr)) continue;
+      if ((any_cast<hldb::GenBlock>(p) == nullptr) && (any_cast<hldb::Module>(p) == nullptr)) continue;
       if (p->getName().empty()) continue;
       path = path.empty() ? std::string(p->getName()) : std::string(p->getName()) + "." + path;
       if (any_cast<hldb::Module>(p) != nullptr) break;
@@ -243,8 +246,8 @@ TEST_F(HierPathTfArgTest, HierarchicalCallsShouldResolveToTheirDeclaredFunction)
       {5, "f", "top.blk"},   {6, "f", "top.i"},       {7, "f", "top.i.blk"},
   };
   for (const auto &e : kExpected) {
-    const hldb::FuncCall *const call = getNthPathCall(e.m_display);
-    ASSERT_NE(call, nullptr) << "$display #" << e.m_display << ": path must end in a bound FuncCall";
+    const hldb::TFCall *const call = getNthPathCall(e.m_display);
+    ASSERT_NE(call, nullptr) << "$display #" << e.m_display << ": path must end in a bound function call";
     const hldb::Function *const fn = call->getTaskFunc<hldb::Function>();
     ASSERT_NE(fn, nullptr) << "$display #" << e.m_display << ": call not bound to a Function";
     EXPECT_EQ(fn->getName(), e.m_function);

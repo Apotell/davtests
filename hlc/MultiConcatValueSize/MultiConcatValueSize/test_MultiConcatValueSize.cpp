@@ -428,7 +428,7 @@ TEST_F(MultiConcatValueSizeTest, GenIfTestsPadTypeEqualsB) {
   EXPECT_EQ(lhs->getActual(), findParam(m, "PadType"));
   EXPECT_EQ(rhs->getActual(), getEnumConst("B"));
 
-  const hldb::Begin *const blk = any_cast<hldb::Begin>(gi->getStmt());
+  const hldb::GenBlock *const blk = any_cast<hldb::GenBlock>(gi->getStmt());
   ASSERT_NE(blk, nullptr);
   EXPECT_EQ(blk->getName(), "gen_assign");
   ASSERT_NE(blk->getStmts(), nullptr);
@@ -476,7 +476,7 @@ TEST_F(MultiConcatValueSizeTest, SubTopLoopOverrideBindsMemberSelect) {
   ASSERT_NE(n, nullptr);
   EXPECT_EQ(n->getActual(), getNDioPads()) << "26.3: 'NDioPads' via import pinmux_pkg::*";
 
-  const hldb::Begin *const blk = any_cast<hldb::Begin>(gf->getStmt());
+  const hldb::GenBlock *const blk = any_cast<hldb::GenBlock>(gf->getStmt());
   ASSERT_NE(blk, nullptr);
   EXPECT_EQ(blk->getName(), "gen_dio_attr");
   ASSERT_NE(blk->getTypespecs(), nullptr);

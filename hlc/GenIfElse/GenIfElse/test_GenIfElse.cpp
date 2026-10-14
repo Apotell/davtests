@@ -32,7 +32,7 @@
 // expression ) generate_block_or_null [ else generate_block_or_null ]" may
 // appear directly as a module item with no surrounding "generate"/
 // "endgenerate" region, so top->getGenStmts() must yield the GenIfElse
-// directly (no GenRegion wrapper) -- unlike GenIf/GenIf/test_GenIf.cpp's
+// directly (no GenBlock wrapper) -- unlike GenIf/GenIf/test_GenIf.cpp's
 // construct, which sits inside a generate-for loop.
 //
 // The condition '1' is a bare constant_expression (Sec 27.5 requires it be
@@ -42,7 +42,7 @@
 //
 // Both branches use explicit (unnamed) begin/end blocks (Sec 27.3's
 // generate_block "[ generate_block_identifier : ] begin ... end"), so
-// getStmt()/getElseStmt() must each be a GenRegion, holding one ContAssign
+// getStmt()/getElseStmt() must each be a GenBlock, holding one ContAssign
 // ('a = b') in the then-branch and two ContAssigns ('c = d', 'e = f') in
 // the else-branch -- contrast with GenIf/GenIf/test_GenIf.cpp, whose
 // single-statement branches have no begin/end and so attach their
@@ -56,7 +56,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/gen_region.h>
+#include <hldb/gen_block.h>
 #include <hldb/cont_assign.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
@@ -77,7 +77,7 @@ class GenIfElseTest : public Test {
     return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  // top->getGenStmts() -> GenIfElse directly (no surrounding GenRegion).
+  // top->getGenStmts() -> GenIfElse directly (no surrounding GenBlock).
   static const hldb::GenIfElse *getIfElse() {
     const hldb::Module *const m = getModule("top");
     if (m == nullptr || m->getGenStmts() == nullptr) return nullptr;
@@ -88,7 +88,7 @@ class GenIfElseTest : public Test {
     return nullptr;
   }
 
-  static const hldb::ContAssign *findContAssign(const hldb::GenRegion *blk, std::string_view lhsName) {
+  static const hldb::ContAssign *findContAssign(const hldb::GenBlock *blk, std::string_view lhsName) {
     if (blk == nullptr || blk->getStmts() == nullptr) return nullptr;
     for (const hldb::Any *const stmt : *blk->getStmts()) {
       const hldb::ContAssign *const ca = any_cast<hldb::ContAssign>(stmt);
@@ -122,12 +122,12 @@ TEST_F(GenIfElseTest, ConditionIsBareConstantOne) {
 }
 
 // then-branch: 'begin assign a = b; end' (unnamed, one statement).
-TEST_F(GenIfElseTest, ThenBranchIsUnnamedGenRegionWithAssignAFromB) {
+TEST_F(GenIfElseTest, ThenBranchIsUnnamedGenBlockWithAssignAFromB) {
   const hldb::GenIfElse *const ifElse = getIfElse();
   ASSERT_NE(ifElse, nullptr);
-  const hldb::GenRegion *const thenBlk = ifElse->getStmt<hldb::GenRegion>();
+  const hldb::GenBlock *const thenBlk = ifElse->getStmt<hldb::GenBlock>();
   ASSERT_NE(ifElse->getStmt(), nullptr);
-  ASSERT_NE(thenBlk, nullptr) << "then-branch 'begin assign a = b; end' must be a GenRegion";
+  ASSERT_NE(thenBlk, nullptr) << "then-branch 'begin assign a = b; end' must be a GenBlock";
   EXPECT_TRUE(thenBlk->getName().empty()) << "then-branch 'begin ... end' has no label";
   ASSERT_NE(thenBlk->getStmts(), nullptr);
   ASSERT_EQ(thenBlk->getStmts()->size(), 1u);
@@ -140,12 +140,12 @@ TEST_F(GenIfElseTest, ThenBranchIsUnnamedGenRegionWithAssignAFromB) {
 
 // else-branch: 'begin assign c = d; assign e = f; end' (unnamed, two
 // statements).
-TEST_F(GenIfElseTest, ElseBranchIsUnnamedGenRegionWithTwoAssigns) {
+TEST_F(GenIfElseTest, ElseBranchIsUnnamedGenBlockWithTwoAssigns) {
   const hldb::GenIfElse *const ifElse = getIfElse();
   ASSERT_NE(ifElse, nullptr);
-  const hldb::GenRegion *const elseBlk = ifElse->getElseStmt<hldb::GenRegion>();
+  const hldb::GenBlock *const elseBlk = ifElse->getElseStmt<hldb::GenBlock>();
   ASSERT_NE(ifElse->getElseStmt(), nullptr);
-  ASSERT_NE(elseBlk, nullptr) << "else-branch 'begin assign c = d; assign e = f; end' must be a GenRegion";
+  ASSERT_NE(elseBlk, nullptr) << "else-branch 'begin assign c = d; assign e = f; end' must be a GenBlock";
   EXPECT_TRUE(elseBlk->getName().empty()) << "else-branch 'begin ... end' has no label";
   ASSERT_NE(elseBlk->getStmts(), nullptr);
   ASSERT_EQ(elseBlk->getStmts()->size(), 2u);

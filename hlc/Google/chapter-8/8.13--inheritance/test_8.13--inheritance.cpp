@@ -94,9 +94,11 @@
 //     type as an ordinary object-construction "new" call) whose
 //     getTaskFunc() resolves to super_cls's OWN "new" Function, with 1
 //     argument, an "add" Operation ("def + 3") whose operands are
-//     test_cls's own "def" IODecl and Constant "3"
+//     a RefObj "def" resolving to test_cls's own formal-argument Variable
+//     "def" (37.13/37.15 -- never the IODecl) and Constant "3"
 //     "a = def;" -- a blocking Assignment, lhs RefObj "a" -> test_cls's
-//     own property Variable, rhs RefObj "def" -> test_cls's own IODecl
+//     own property Variable, rhs RefObj "def" -> test_cls's own
+//     formal-argument Variable "def" (never the IODecl)
 //   - the initial process' Begin block has exactly 3 statements:
 //     "test_obj = new(37)", "$display(test_obj.incs())",
 //     "$display(test_obj.s)"
@@ -424,7 +426,10 @@ TEST_F(ClassInheritanceTest, SuperNewBodyAssignsSToDef) {
   EXPECT_EQ(rhs->getName(), "def");
   ASSERT_NE(ctor->getIODecls(), nullptr);
   ASSERT_GT(ctor->getIODecls()->size(), 0u);
-  EXPECT_EQ(rhs->getActual<hldb::IODecl>(), ctor->getIODecls()->at(0));
+  const hldb::Variable *const defVar =
+      hldb::findByName<hldb::Variable>(ctor->getIODecls()->at(0)->getName(), ctor->getVariables());
+  ASSERT_NE(defVar, nullptr) << "the formal argument 'def' should have a Variable in the constructor's scope";
+  EXPECT_EQ(rhs->getActual(), defVar) << "37.13/37.15: 'def' resolves to the formal's Variable, never to its IODecl";
 }
 
 // --- class "test_cls" ---------------------------------------------------------
@@ -570,7 +575,11 @@ TEST_F(ClassInheritanceTest, TestClsNewFirstStmtIsSuperNewCall) {
   EXPECT_EQ(defOperand->getName(), "def");
   ASSERT_NE(ctor->getIODecls(), nullptr);
   ASSERT_GT(ctor->getIODecls()->size(), 0u);
-  EXPECT_EQ(defOperand->getActual<hldb::IODecl>(), ctor->getIODecls()->at(0));
+  const hldb::Variable *const defVar =
+      hldb::findByName<hldb::Variable>(ctor->getIODecls()->at(0)->getName(), ctor->getVariables());
+  ASSERT_NE(defVar, nullptr) << "the formal argument 'def' should have a Variable in test_cls's constructor scope";
+  EXPECT_EQ(defOperand->getActual(), defVar)
+      << "37.13/37.15: 'def' resolves to test_cls's own formal-argument Variable, never to an IODecl";
   const hldb::Constant *const threeOperand = any_cast<hldb::Constant>(arg->getOperands()->at(1));
   ASSERT_NE(threeOperand, nullptr);
   EXPECT_EQ(threeOperand->getDecompile(), "3");
@@ -596,7 +605,10 @@ TEST_F(ClassInheritanceTest, TestClsNewSecondStmtAssignsAToDef) {
   EXPECT_EQ(rhs->getName(), "def");
   ASSERT_NE(ctor->getIODecls(), nullptr);
   ASSERT_GT(ctor->getIODecls()->size(), 0u);
-  EXPECT_EQ(rhs->getActual<hldb::IODecl>(), ctor->getIODecls()->at(0));
+  const hldb::Variable *const defVar =
+      hldb::findByName<hldb::Variable>(ctor->getIODecls()->at(0)->getName(), ctor->getVariables());
+  ASSERT_NE(defVar, nullptr) << "the formal argument 'def' should have a Variable in the constructor's scope";
+  EXPECT_EQ(rhs->getActual(), defVar) << "37.13/37.15: 'def' resolves to the formal's Variable, never to its IODecl";
 }
 
 // --- variable "test_obj" ---------------------------------------------------------------

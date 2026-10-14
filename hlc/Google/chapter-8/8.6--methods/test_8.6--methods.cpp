@@ -65,7 +65,8 @@
 //   - "a += val" lowers to a blocking Assignment: lhs RefObj "a" resolved
 //     to the SAME Variable as the class's property; rhs is a 2-operand add
 //     Operation (vpiAddOp) whose operands are RefObj "a" (same Variable
-//     again) and RefObj "val" (resolved to the task's own IODecl)
+//     again) and RefObj "val" (resolved to the Variable holding the task's
+//     own formal argument, per 37.13/37.15 -- never the IODecl)
 //   - variable "test_obj": its typespec resolves (RefTypespec -> ClassTypespec)
 //     to the SAME ClassDefn as "test_cls"
 //   - the initial process' Begin block has exactly 5 statements:
@@ -407,8 +408,11 @@ TEST_F(ClassMethodsTest, TestMethodSecondStmtIsAPlusEqualsVal) {
   EXPECT_EQ(valOperand->getName(), "val");
   ASSERT_NE(t->getIODecls(), nullptr);
   ASSERT_GT(t->getIODecls()->size(), 0u);
-  EXPECT_EQ(valOperand->getActual<hldb::IODecl>(), t->getIODecls()->at(0))
-      << "'val' inside the task body must resolve to the SAME IODecl as the task's own parameter";
+  const hldb::Variable *const valVar =
+      hldb::findByName<hldb::Variable>(t->getIODecls()->at(0)->getName(), t->getVariables());
+  ASSERT_NE(valVar, nullptr) << "the formal argument 'val' should have a Variable in the task's scope";
+  EXPECT_EQ(valOperand->getActual(), valVar)
+      << "37.13/37.15: 'val' inside the task body resolves to the formal's Variable, never to its IODecl";
 }
 
 // --- variable "test_obj": the class handle ------------------------------------------

@@ -134,7 +134,8 @@ TEST_F(MinTypMaxTest, InitialIsDisplayOfValue) {
   EXPECT_EQ(call->getName(), "$display");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "value");
   ASSERT_NE(getValueParam(), nullptr);

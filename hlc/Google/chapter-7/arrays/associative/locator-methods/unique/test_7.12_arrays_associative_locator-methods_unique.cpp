@@ -434,6 +434,13 @@ TEST_F(ArrayLocatorUniqueTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
+// --- compiler diagnostics: known parenthesis-less-builtin-call limitation ----
+
+TEST_F(ArrayLocatorUniqueTest, SortAndSizeMethodCallsResolve) {
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "sort"), nullptr);
+  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
+}
+
 }  // namespace hlc
 
 int main(int argc, char **argv) {

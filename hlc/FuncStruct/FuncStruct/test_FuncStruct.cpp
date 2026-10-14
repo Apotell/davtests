@@ -198,8 +198,18 @@ TEST_F(FuncStructTest, CompressBodyAssignsSigmaZeroThenElementZeroOfItsOwnReturn
   ASSERT_NE(compress, nullptr);
   // IEEE 1800-2023 37.12, Note 5: 'automatic sha_word_t sigma_0;' is a
   // declaration of the function's own scope, not a statement.
+  // Each formal argument is also held by a Variable in this scope (37.13); 'sigma_0' is the only local.
   ASSERT_NE(compress->getVariables(), nullptr);
-  ASSERT_EQ(compress->getVariables()->size(), 1u);
+  ASSERT_NE(compress->getIODecls(), nullptr);
+  for (const hldb::IODecl *const ioDecl : *compress->getIODecls()) {
+    EXPECT_NE(hldb::findByName<hldb::Variable>(ioDecl->getName(), compress->getVariables()), nullptr)
+        << "37.13: the formal argument '" << ioDecl->getName() << "' should have a Variable in the function's scope";
+  }
+  uint32_t localCount = 0;
+  for (const hldb::Variable *const var : *compress->getVariables()) {
+    if (hldb::findByName<hldb::IODecl>(var->getName(), compress->getIODecls()) == nullptr) ++localCount;
+  }
+  ASSERT_EQ(localCount, 1u) << "the body declares exactly one local ('sigma_0'), excluding the formals' Variables";
   const hldb::Variable *const sigma0 = hldb::findByName<hldb::Variable>("sigma_0", compress->getVariables());
   ASSERT_NE(sigma0, nullptr);
   EXPECT_TRUE(sigma0->getAutomatic()) << "'automatic sha_word_t sigma_0;' is explicitly automatic";

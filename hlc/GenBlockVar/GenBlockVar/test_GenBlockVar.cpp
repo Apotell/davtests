@@ -32,7 +32,7 @@
 // a label -- so, matching the pattern already established by
 // hlc/GenIfNamed/GenIfNamed/test_GenIfNamed.cpp for a named generate-if
 // branch, both the unnamed 'then' branch and the named 'gen_no_async' else
-// branch are represented as GenRegion objects (a GenScope) hanging off the
+// branch are represented as GenBlock objects (a GenScope) hanging off the
 // module's GenIfElse.
 //
 // -- rules under test ---------------------------------------------------
@@ -55,7 +55,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/gen_if_else.h>
-#include <hldb/gen_region.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_scope.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
@@ -154,8 +154,8 @@ TEST_F(GenBlockVarTest, ThenBranchIsAnEmptyScope) {
                  "plausible representation of an empty scope.";
     return;
   }
-  const hldb::GenRegion *const thenBranch = gie->getStmt<hldb::GenRegion>();
-  ASSERT_NE(thenBranch, nullptr) << "unnamed 'begin end' branch should be a generate block (GenRegion)";
+  const hldb::GenBlock *const thenBranch = gie->getStmt<hldb::GenBlock>();
+  ASSERT_NE(thenBranch, nullptr) << "unnamed 'begin end' branch should be a generate block (GenBlock)";
   EXPECT_TRUE(thenBranch->getVariables() == nullptr || thenBranch->getVariables()->empty())
       << "'begin end' is written empty in the source";
 }
@@ -166,8 +166,8 @@ TEST_F(GenBlockVarTest, ElseBranchIsNamedGenNoAsync) {
   const hldb::GenIfElse *const gie = findGenIfElse(top);
   ASSERT_NE(gie, nullptr);
   ASSERT_NE(gie->getElseStmt(), nullptr) << "'gen_no_async' else branch is missing";
-  const hldb::GenRegion *const elseBranch = gie->getElseStmt<hldb::GenRegion>();
-  ASSERT_NE(elseBranch, nullptr) << "'begin : gen_no_async ... end' should be a generate block (GenRegion)";
+  const hldb::GenBlock *const elseBranch = gie->getElseStmt<hldb::GenBlock>();
+  ASSERT_NE(elseBranch, nullptr) << "'begin : gen_no_async ... end' should be a generate block (GenBlock)";
   EXPECT_EQ(elseBranch->getName(), std::string_view{"gen_no_async"});
 }
 
@@ -180,8 +180,8 @@ TEST_F(GenBlockVarTest, GenNoAsyncHasExactlyTwoLogicVariables) {
   ASSERT_NE(top, nullptr);
   const hldb::GenIfElse *const gie = findGenIfElse(top);
   ASSERT_NE(gie, nullptr);
-  // Unelaborated design: a generate-if branch is a generate block, a GenRegion (Sec 27.5).
-  const hldb::GenRegion *const elseBranch = gie->getElseStmt<hldb::GenRegion>();
+  // Unelaborated design: a generate-if branch is a generate block, a GenBlock (Sec 27.5).
+  const hldb::GenBlock *const elseBranch = gie->getElseStmt<hldb::GenBlock>();
   ASSERT_NE(elseBranch, nullptr);
   ASSERT_NE(elseBranch->getVariables(), nullptr) << "'logic diff_pq, diff_pd;' must produce variables";
   EXPECT_EQ(elseBranch->getVariables()->size(), 2u);
@@ -192,8 +192,8 @@ TEST_F(GenBlockVarTest, DiffPqAndDiffPdAreLogicTyped) {
   ASSERT_NE(top, nullptr);
   const hldb::GenIfElse *const gie = findGenIfElse(top);
   ASSERT_NE(gie, nullptr);
-  // Unelaborated design: a generate-if branch is a generate block, a GenRegion (Sec 27.5).
-  const hldb::GenRegion *const elseBranch = gie->getElseStmt<hldb::GenRegion>();
+  // Unelaborated design: a generate-if branch is a generate block, a GenBlock (Sec 27.5).
+  const hldb::GenBlock *const elseBranch = gie->getElseStmt<hldb::GenBlock>();
   ASSERT_NE(elseBranch, nullptr);
   ASSERT_NE(elseBranch->getVariables(), nullptr);
 

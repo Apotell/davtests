@@ -46,6 +46,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_region.h>
 #include <hldb/gen_scope.h>
 #include <hldb/gen_scope_array.h>
@@ -141,9 +142,9 @@ class HierBitSliceTest : public Test {
   // located. This design is not elaborated (no -d inst), so there are no
   // per-lane GenScopes: the loop generate construct is a GenFor (inside the
   // "generate ... endgenerate" GenRegion) whose body is the generate block
-  // (GenRegion) named "lane_alu_gen" (Sec 27.4), and the always_comb blocks
+  // (GenBlock) named "lane_alu_gen" (Sec 27.4), and the always_comb blocks
   // are among that block's statements.
-  static const hldb::GenRegion *getLaneAluGenBody() {
+  static const hldb::GenBlock *getLaneAluGenBody() {
     const hldb::Module *const top = getTop();
     if (top == nullptr || top->getGenStmts() == nullptr) return nullptr;
     for (const hldb::Any *const gs : *top->getGenStmts()) {
@@ -152,7 +153,7 @@ class HierBitSliceTest : public Test {
       for (const hldb::Any *const item : *region->getStmts()) {
         const hldb::GenFor *const gf = any_cast<hldb::GenFor>(item);
         if (gf == nullptr || gf->getStmt() == nullptr) continue;
-        const hldb::GenRegion *const body = gf->getStmt<hldb::GenRegion>();
+        const hldb::GenBlock *const body = gf->getStmt<hldb::GenBlock>();
         if ((body != nullptr) && (body->getName() == std::string_view{"lane_alu_gen"})) return body;
       }
     }
@@ -175,7 +176,7 @@ class HierBitSliceTest : public Test {
   // Finds the PartSelect "fp_operand.significand[22:17]" by walking every
   // always process inside the lane_alu_gen generate-for body.
   static const hldb::PartSelect *findSignificandPartSelect() {
-    const hldb::GenRegion *const body = getLaneAluGenBody();
+    const hldb::GenBlock *const body = getLaneAluGenBody();
     if (body == nullptr || body->getStmts() == nullptr) {
       return nullptr;
     }

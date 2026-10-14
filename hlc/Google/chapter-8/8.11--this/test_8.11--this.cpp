@@ -58,8 +58,9 @@
 //       - the RHS Operation's first operand is the SAME shape of RefObj
 //         "this.a" (property Variable "a" again)
 //       - the RHS Operation's second operand is a bare RefObj "a"
-//         resolving instead to the IODecl "a" (the task's own argument) --
-//         a DIFFERENT declaration than the one "this.a" resolves to, which
+//         resolving instead to the task argument's own Variable "a" (in the
+//         task's scope, per 37.13/37.15 -- never the IODecl) -- a DIFFERENT
+//         Variable than the class property "this.a" resolves to, which
 //         is the entire point of "this": disambiguating the shadowed name
 //   - design-level: exactly 1 class (test_cls)
 //
@@ -73,7 +74,7 @@
 // class's own scope," which is precisely what resolving to the ClassDefn
 // captures. The property being tested here is NOT what "this" resolves to
 // internally, but whether "this.a" and the shadowing bare "a" correctly
-// resolve to two DIFFERENT declarations (Variable vs IODecl) -- see
+// resolve to two DIFFERENT Variables (class property vs task argument) -- see
 // SecondStmtRhsSecondOperandIsShadowingArgumentA below, which confirms
 // this is the case.
 //
@@ -344,8 +345,10 @@ TEST_F(ClassThisTest, SecondStmtIsThisADotPlusEqualsA) {
 }
 
 // The crux of this file: the bare "a" on the rhs of "this.a += a;" must
-// resolve to the TASK ARGUMENT (an IODecl), a DIFFERENT declaration than
-// the class property Variable "a" that "this.a" resolves to -- confirming
+// resolve to the TASK ARGUMENT -- the Variable "a" in the task's own scope
+// that holds the formal (37.13; an IODecl is never a vpiActual, 37.15) --
+// a DIFFERENT Variable than the class property Variable "a" that "this.a"
+// resolves to -- confirming
 // "this" correctly disambiguates the shadowed name per 8.11.
 TEST_F(ClassThisTest, SecondStmtRhsSecondOperandIsShadowingArgumentA) {
   const hldb::Begin *const body = getMethodBody();
@@ -365,8 +368,14 @@ TEST_F(ClassThisTest, SecondStmtRhsSecondOperandIsShadowingArgumentA) {
   ASSERT_NE(t, nullptr);
   ASSERT_NE(t->getIODecls(), nullptr);
   ASSERT_GT(t->getIODecls()->size(), 0u);
-  EXPECT_EQ(secondOperand->getActual<hldb::IODecl>(), t->getIODecls()->at(0))
-      << "bare 'a' should resolve to the task's own argument (IODecl), NOT the class property Variable";
+  const hldb::Variable *const argVarA =
+      hldb::findByName<hldb::Variable>(t->getIODecls()->at(0)->getName(), t->getVariables());
+  ASSERT_NE(argVarA, nullptr) << "the formal argument 'a' should have a Variable in the task's scope";
+  EXPECT_NE(argVarA, getPropertyA()) << "the task argument's Variable 'a' must be a different object than the "
+                                        "class property Variable 'a'";
+  EXPECT_EQ(secondOperand->getActual(), argVarA)
+      << "37.13/37.15: bare 'a' should resolve to the task argument's Variable 'a' (never its IODecl), NOT the "
+         "class property Variable";
 }
 
 // --- compiler diagnostics ---------------------------------------------------------

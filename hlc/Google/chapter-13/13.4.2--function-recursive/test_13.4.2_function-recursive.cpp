@@ -54,7 +54,9 @@
 //     variable declarations, so no decl-as-statement entry to account
 //     for here, unlike 13.4.2--function-automatic.cpp):
 //     1) a plain IfStmt (no else) whose condition is Operation(vpiEqOp)
-//        comparing RefObj "val" (resolving to the IODecl) against
+//        comparing RefObj "val" (resolving to the formal's Variable in
+//        factorial's scope, never to its IODecl -- IEEE 1800-2023
+//        37.13/37.15) against
 //        Constant "0", and whose body is a ReturnStmt with
 //        getCondition() Constant "1"
 //     2) a ReturnStmt whose getCondition() is Operation(vpiMultOp)
@@ -95,6 +97,7 @@
 #include <hldb/ref_typespec.h>
 #include <hldb/return_stmt.h>
 #include <hldb/sys_task_call.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -157,7 +160,9 @@ TEST_F(FunctionRecursiveTest, BaseCaseReturnsOneWhenValIsZero) {
   const hldb::RefObj *const valRef = any_cast<hldb::RefObj>(cond->getOperands()->at(0));
   ASSERT_NE(valRef, nullptr);
   EXPECT_EQ(valRef->getName(), "val");
-  EXPECT_NE(valRef->getActual<hldb::IODecl>(), nullptr);
+  const hldb::Variable *const valVar = hldb::findByName<hldb::Variable>("val", factorial->getVariables());
+  ASSERT_NE(valVar, nullptr) << "the formal argument 'val' should have a Variable in the function's scope";
+  EXPECT_EQ(valRef->getActual(), valVar) << "37.15: 'val' resolves to the formal's Variable, never to its IODecl";
   const hldb::Constant *const zero = any_cast<hldb::Constant>(cond->getOperands()->at(1));
   ASSERT_NE(zero, nullptr);
   EXPECT_EQ(zero->getDecompile(), "0");
@@ -209,7 +214,9 @@ TEST_F(FunctionRecursiveTest, RecursiveStepMultipliesSelfCallByVal) {
   const hldb::RefObj *const valRef = any_cast<hldb::RefObj>(mult->getOperands()->at(1));
   ASSERT_NE(valRef, nullptr) << "second operand should be RefObj 'val'";
   EXPECT_EQ(valRef->getName(), "val");
-  EXPECT_NE(valRef->getActual<hldb::IODecl>(), nullptr);
+  const hldb::Variable *const valVar = hldb::findByName<hldb::Variable>("val", factorial->getVariables());
+  ASSERT_NE(valVar, nullptr) << "the formal argument 'val' should have a Variable in the function's scope";
+  EXPECT_EQ(valRef->getActual(), valVar) << "37.15: 'val' resolves to the formal's Variable, never to its IODecl";
 }
 
 // ---------------------------------------------------------------------------

@@ -41,7 +41,7 @@
 // separate if-statements (not an if/else), both survive as GenIf entries.
 // IEEE 1800-2023 27.5 permits a single item as the generate-if body without
 // begin/end, but even then "it is still a generate block", so each GenIf's
-// body is an implicit, unnamed GenRegion holding the single continuous
+// body is an implicit, unnamed GenBlock holding the single continuous
 // assignment.
 // IEEE 1800-2023 23.3/23.10: 'middleman's 'invert' parameter is propagated
 // by name into 'assigner's 'invert', and top's two 'middleman' instances
@@ -56,7 +56,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/gen_if.h>
-#include <hldb/gen_region.h>
+#include <hldb/gen_block.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/operation.h>
@@ -175,7 +175,7 @@ TEST_F(ElabIfTest, Assigner_FirstGenIf_BodyIsContAssignOutFromInp) {
   const std::vector<const hldb::GenIf *> genIfs = findAllGenIf(m);
   ASSERT_EQ(genIfs.size(), 2u);
 
-  const hldb::GenRegion *const block = genIfs[0]->getStmt<hldb::GenRegion>();
+  const hldb::GenBlock *const block = genIfs[0]->getStmt<hldb::GenBlock>();
   ASSERT_NE(block, nullptr) << "the generate-if body is an implicit generate block (Sec 27.5)";
   ASSERT_NE(block->getStmts(), nullptr);
   ASSERT_EQ(block->getStmts()->size(), 1u);
@@ -212,7 +212,7 @@ TEST_F(ElabIfTest, Assigner_SecondGenIf_BodyIsContAssignOutFromBitwiseNotInp) {
   const std::vector<const hldb::GenIf *> genIfs = findAllGenIf(m);
   ASSERT_EQ(genIfs.size(), 2u);
 
-  const hldb::GenRegion *const block = genIfs[1]->getStmt<hldb::GenRegion>();
+  const hldb::GenBlock *const block = genIfs[1]->getStmt<hldb::GenBlock>();
   ASSERT_NE(block, nullptr) << "the generate-if body is an implicit generate block (Sec 27.5)";
   ASSERT_NE(block->getStmts(), nullptr);
   ASSERT_EQ(block->getStmts()->size(), 1u);

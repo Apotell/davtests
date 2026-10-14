@@ -129,14 +129,15 @@
 //     - the body is the single statement 'super.new(name, parent);' (8.15):
 //       a hierarchical RefObj whose prefix 'super' binds to uvm_env, and
 //       whose MethodFuncCall 'new' binds to uvm_env's own constructor. Its
-//       2 arguments, name then parent, bind to THIS constructor's formals.
+//       2 arguments, name then parent, bind to the Variables holding THIS
+//       constructor's formals (37.13/37.15).
 //   task run_phase(uvm_phase phase); ... endtask: run_phase (13.3)
 //     - one formal, 'phase': an input, a handle to uvm_pkg's uvm_phase; the
 //       end label 'run_phase'
 //     - the body executes 3 statements, in order: phase.raise_objection
 //       (this), a begin-end, and phase.drop_objection(this)
 //     - each objection call is a hierarchical RefObj: prefix 'phase' bound
-//       to the formal, then a MethodFuncCall of that name that resolves to
+//       to the Variable holding the formal (37.13/37.15), then a MethodFuncCall of that name that resolves to
 //       a Function of the same name, with exactly one argument, 'this',
 //       bound to class env (8.11)
 //   begin ... end (lines 35-44)
@@ -583,8 +584,10 @@ class GetRandstate0Test : public Test {
     ASSERT_EQ(path->getPathElems()->size(), 2u);
     const hldb::Task *const runPhase = getRunPhase();
     ASSERT_NE(runPhase, nullptr);
+    // 37.15: the prefix references the formal, which resolves to the
+    // Variable holding it, never to the IODecl.
     ExpectBoundRef(path->getPathElems()->at(0), "phase",
-                   hldb::findByName<hldb::IODecl>("phase", runPhase->getIODecls()));
+                   hldb::findByName<hldb::Variable>("phase", runPhase->getVariables()));
 
     const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
     ASSERT_NE(call, nullptr) << "'" << method << "' is a function of uvm_phase, so it is a MethodFuncCall";
@@ -935,10 +938,12 @@ TEST_F(GetRandstate0Test, EnvNewBodyIsSuperNewOfNameAndParent) {
   ASSERT_EQ(call->getArguments()->size(), 2u);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
-  ExpectBoundRef(arg0->getHighConn(), "name", hldb::findByName<hldb::IODecl>("name", ctor->getIODecls()));
+  // 37.15: the actuals reference this constructor's formals, which resolve
+  // to the Variables holding them, never to the IODecls.
+  ExpectBoundRef(arg0->getHighConn(), "name", hldb::findByName<hldb::Variable>("name", ctor->getVariables()));
   const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  ExpectBoundRef(arg1->getHighConn(), "parent", hldb::findByName<hldb::IODecl>("parent", ctor->getIODecls()));
+  ExpectBoundRef(arg1->getHighConn(), "parent", hldb::findByName<hldb::Variable>("parent", ctor->getVariables()));
 }
 
 // ---------------------------------------------------------------------------

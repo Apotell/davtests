@@ -51,9 +51,9 @@
 // loop_int;', 'wire [2:0] int_status;', and the for-loop) does not introduce
 // a new scope by itself, so 'int_status' is expected directly on module
 // 'dut', not nested inside a wrapper scope. Each 'generate ... endgenerate'
-// region is a GenRegion holding its items as its vpiStmt list, so this file
-// looks inside any GenRegion it encounters to find the underlying
-// GenIf/GenFor.
+// region is a GenRegion (not a scope) holding its non-declaration items as its
+// vpiStmt list, so this file looks inside any GenRegion it encounters to find
+// the underlying GenIf/GenFor.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -63,6 +63,7 @@
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
 #include <hldb/gen_if.h>
+#include <hldb/gen_block.h>
 #include <hldb/gen_region.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
@@ -141,8 +142,8 @@ TEST_F(GenerateBlock2Test, GenIfExists) {
   EXPECT_EQ(cond->getOpType(), vpiEqOp) << "Sec 11.4.5: '==' is vpiEqOp";
 
   ASSERT_NE(gi->getStmt(), nullptr) << "GenIf has no body";
-  const hldb::GenRegion *const blk = gi->getStmt<hldb::GenRegion>();
-  ASSERT_NE(blk, nullptr) << "'begin : blk end' body must be a generate block (GenRegion)";
+  const hldb::GenBlock *const blk = gi->getStmt<hldb::GenBlock>();
+  ASSERT_NE(blk, nullptr) << "'begin : blk end' body must be a generate block (GenBlock)";
   // No end label in the source ('end', not 'end : blk'); the label is the name.
   // EXPECT_EQ(blk->getEndLabel(), std::string_view{"blk"});
   EXPECT_EQ(blk->getName(), std::string_view{"blk"});
@@ -176,8 +177,8 @@ TEST_F(GenerateBlock2Test, GenForBodyIsGenBlkInstantiatingSub) {
   ASSERT_NE(gf, nullptr);
 
   ASSERT_NE(gf->getStmt(), nullptr) << "GenFor has no body";
-  const hldb::GenRegion *const genBlk = gf->getStmt<hldb::GenRegion>();
-  ASSERT_NE(genBlk, nullptr) << "'begin : gen_blk ... end' body must be a generate block (GenRegion)";
+  const hldb::GenBlock *const genBlk = gf->getStmt<hldb::GenBlock>();
+  ASSERT_NE(genBlk, nullptr) << "'begin : gen_blk ... end' body must be a generate block (GenBlock)";
   // No end label in the source ('end', not 'end : gen_blk'); the label is the
   // name.
   // EXPECT_EQ(genBlk->getEndLabel(), std::string_view{"gen_blk"});

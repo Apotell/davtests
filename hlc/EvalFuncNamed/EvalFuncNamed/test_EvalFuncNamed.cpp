@@ -56,8 +56,11 @@
 //   particular *storage order* for that collection -- that is an
 //   implementation choice, not something IEEE 1800 specifies. So the
 //   assertions below identify each argument by which formal it is bound
-//   to (matching RefObj name against the caller's own same-named IODecl),
-//   not by position in the collection.
+//   to (matching the low-conn RefObj name against the callee's formal),
+//   not by position in the collection. The actual (high-conn) expressions
+//   written inside simple_func's body reference simple_func's own formals;
+//   per Sec 37.13/37.15 those resolve to the Variables holding the formals
+//   (an io decl's vpiExpr), never to the IODecls themselves.
 //
 //   Sec 13.4: functions default to formal direction 'input' when not
 //   otherwise specified; 'int' (Sec 6.11) is a non-net data type, so each
@@ -103,6 +106,7 @@
 #include <hldb/parameter.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -240,35 +244,36 @@ TEST_F(EvalFuncNamedTest, SimpleFuncCallsSimpleMinusWithNamedArgumentsBoundByNam
   // Sec 13.5.3: "The order in which arguments are connected by name is not
   // significant" -- find each actual by the formal name it is bound to,
   // regardless of position in getArguments().
+  //
+  // Sec 37.13/37.15: the actual expressions written inside simple_func's
+  // body ('value1'/'value2') reference simple_func's own formals, which are
+  // held by Variables in simple_func's scope (an io decl's vpiExpr) -- an
+  // io decl is never a legal vpiActual target.
   ASSERT_NE(simpleFunc->getIODecls(), nullptr);
   ASSERT_EQ(simpleFunc->getIODecls()->size(), 2u);
-  const hldb::IODecl *callerValue1 = nullptr;
-  const hldb::IODecl *callerValue2 = nullptr;
-  for (const hldb::IODecl *const io : *simpleFunc->getIODecls()) {
-    if (io->getName() == "value1") callerValue1 = io;
-    if (io->getName() == "value2") callerValue2 = io;
-  }
-  ASSERT_NE(callerValue1, nullptr);
-  ASSERT_NE(callerValue2, nullptr);
+  const hldb::Variable *const callerValue1 = hldb::findByName<hldb::Variable>("value1", simpleFunc->getVariables());
+  const hldb::Variable *const callerValue2 = hldb::findByName<hldb::Variable>("value2", simpleFunc->getVariables());
+  ASSERT_NE(callerValue1, nullptr) << "the formal argument 'value1' should have a Variable in simple_func's scope";
+  ASSERT_NE(callerValue2, nullptr) << "the formal argument 'value2' should have a Variable in simple_func's scope";
 
   // '.value1(value1)': the formal 'value1' of simple_minus is bound to the
-  // actual expression 'value1', which is simple_func's own IODecl.
+  // actual expression 'value1', which is simple_func's own formal Variable.
   const hldb::NamedArgument *const arg1 = findArgByFormalName(call, "value1");
   ASSERT_NE(arg1, nullptr);
   const hldb::RefObj *const argForValue1 = arg1->getHighConn<hldb::RefObj>();
   ASSERT_NE(argForValue1, nullptr) << "no argument RefObj named 'value1' found";
   EXPECT_NE(argForValue1->getActual(), nullptr);
   EXPECT_EQ(argForValue1->getActual(), callerValue1)
-      << "'.value1(value1)' actual should resolve to simple_func's own 'value1' IODecl";
+      << "37.15: '.value1(value1)' actual should resolve to simple_func's own 'value1' Variable, never its IODecl";
 
   // '.value2(value2)': likewise for 'value2'.
   const hldb::NamedArgument *const arg2 = findArgByFormalName(call, "value2");
-  ASSERT_NE(arg1, nullptr);
+  ASSERT_NE(arg2, nullptr);
   const hldb::RefObj *const argForValue2 = arg2->getHighConn<hldb::RefObj>();
   ASSERT_NE(argForValue2, nullptr) << "no argument RefObj named 'value2' found";
   EXPECT_NE(argForValue2->getActual(), nullptr);
   EXPECT_EQ(argForValue2->getActual(), callerValue2)
-      << "'.value2(value2)' actual should resolve to simple_func's own 'value2' IODecl";
+      << "37.15: '.value2(value2)' actual should resolve to simple_func's own 'value2' Variable, never its IODecl";
 }
 
 // ===========================================================================

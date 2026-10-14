@@ -85,8 +85,10 @@
 //   - design has module "process_tb" with one task "test", declared
 //     automatic, with one input IODecl "N" whose typespec resolves to
 //     IntTypespec
-//   - "test"'s own scope declares exactly one Variable, "job" (a
-//     declaration, not a statement); its body is an unnamed Begin, since
+//   - "test"'s own scope declares exactly one local Variable, "job" (a
+//     declaration, not a statement), besides the Variable "N" that holds
+//     the formal argument (37.13: an io decl's vpiExpr is the variable
+//     holding the formal); its body is an unnamed Begin, since
 //     per IEEE 1800-2023 37.12 (Scope), Note 5 a task with more than one
 //     statement returns "an unnamed begin that contains the statements"
 //   - "job"'s typespec resolves to ArrayTypespec with getArrayType() ==
@@ -94,7 +96,8 @@
 //     fixed-size one), whose element typespec resolves to a ClassTypespec
 //     whose getClassDefn() is the built-in "process" ClassDefn
 //   - "job"'s initializer ("= new [N]") is an ArrayExpr with exactly one
-//     expression, a RefObj "N" resolving to the task's own IODecl "N"
+//     expression, a RefObj "N" resolving to the Variable holding the
+//     task's formal "N" (37.15: an io decl is never a vpiActual)
 //   - the Begin's own statement list has exactly 3 entries, in source
 //     order: the first ForeachStmt (the fork/join_none loop), the second
 //     ForeachStmt (the wait loop), and the "job[1].await();" call
@@ -341,7 +344,21 @@ TEST_F(ProcessClsAwaitTest, TaskScopeHasExactlyOneVariableJob) {
   const hldb::Task *const task = getTestTask();
   ASSERT_NE(task, nullptr);
   ASSERT_NE(task->getVariables(), nullptr);
-  ASSERT_EQ(task->getVariables()->size(), 1u);
+  ASSERT_NE(task->getIODecls(), nullptr);
+
+  // 37.13: each formal argument's io decl is backed by a Variable in the
+  // task's own scope, so exclude those when counting body-declared locals.
+  for (const hldb::IODecl *const io : *task->getIODecls()) {
+    ASSERT_NE(io, nullptr);
+    EXPECT_NE(hldb::findByName<hldb::Variable>(io->getName(), task->getVariables()), nullptr)
+        << "the formal argument '" << io->getName() << "' should have a Variable in the task's scope";
+  }
+  size_t localCount = 0;
+  for (const hldb::Variable *const v : *task->getVariables()) {
+    ASSERT_NE(v, nullptr);
+    if (hldb::findByName<hldb::IODecl>(v->getName(), task->getIODecls()) == nullptr) ++localCount;
+  }
+  ASSERT_EQ(localCount, 1u) << "the task body declares exactly one local, 'job'";
   EXPECT_NE(getJobVariable(), nullptr) << "Variable 'job' not found";
 
   const hldb::Begin *const body = getTaskBody();
@@ -387,7 +404,9 @@ TEST_F(ProcessClsAwaitTest, JobInitializerIsArrayExprOfN) {
   ASSERT_NE(task, nullptr);
   ASSERT_NE(task->getIODecls(), nullptr);
   ASSERT_FALSE(task->getIODecls()->empty());
-  EXPECT_EQ(n->getActual<hldb::IODecl>(), task->getIODecls()->front()) << "'N' should resolve to the task's own IODecl";
+  const hldb::Variable *const nVar = hldb::findByName<hldb::Variable>("N", task->getVariables());
+  ASSERT_NE(nVar, nullptr) << "the formal argument 'N' should have a Variable in the task's scope";
+  EXPECT_EQ(n->getActual(), nVar) << "37.15: 'N' resolves to the formal's Variable, never to its IODecl";
 }
 
 // --- foreach(job[i]) fork ... join_none --------------------------------------

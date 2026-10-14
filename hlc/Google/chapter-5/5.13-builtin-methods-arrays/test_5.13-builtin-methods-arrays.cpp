@@ -119,7 +119,7 @@ TEST_F(BuiltinMethodsArrays, VariableArrayHasArrayTypespec) {
       << "variable 'array' should resolve to an ArrayTypespec";
 }
 
-TEST_F(BuiltinMethodsArrays, ArrayDimensionLeftRangeIsSubtractOp) {
+TEST_F(BuiltinMethodsArrays, ArrayDimensionRightRangeIsSubtractOp) {
   const hldb::Variable *const n = getVariableArray(m_design);
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
@@ -127,9 +127,9 @@ TEST_F(BuiltinMethodsArrays, ArrayDimensionLeftRangeIsSubtractOp) {
   ASSERT_NE(at->getRange(), nullptr) << "ArrayTypespec has no range";
 
   // [3] is encoded as a subtract Operation in the left range boundary.
-  const hldb::Operation *const left = at->getRange()->getLeftExpr<hldb::Operation>();
-  ASSERT_NE(left, nullptr) << "left range should be a subtract Operation";
-  EXPECT_EQ(left->getOpType(), vpiSubOp) << "expected vpiSubOp (11)";
+  const hldb::Operation *const right = at->getRange()->getRightExpr<hldb::Operation>();
+  ASSERT_NE(right, nullptr) << "right range should be a subtract Operation";
+  EXPECT_EQ(right->getOpType(), vpiSubOp) << "expected vpiSubOp (11)";
 }
 
 TEST_F(BuiltinMethodsArrays, ArrayDimensionOperandIsConstantThree) {
@@ -137,12 +137,12 @@ TEST_F(BuiltinMethodsArrays, ArrayDimensionOperandIsConstantThree) {
   ASSERT_NE(n, nullptr);
   const hldb::ArrayTypespec *const at = any_cast<hldb::ArrayTypespec>(n->getTypespec()->getActual());
   ASSERT_NE(at, nullptr);
-  const hldb::Operation *const left = at->getRange()->getLeftExpr<hldb::Operation>();
-  ASSERT_NE(left, nullptr);
-  ASSERT_NE(left->getOperands(), nullptr);
-  ASSERT_EQ(left->getOperands()->size(), 1u);
+  const hldb::Operation *const right = at->getRange()->getRightExpr<hldb::Operation>();
+  ASSERT_NE(right, nullptr);
+  ASSERT_NE(right->getOperands(), nullptr);
+  ASSERT_EQ(right->getOperands()->size(), 1u);
 
-  const hldb::Constant *const c = any_cast<hldb::Constant>((*left->getOperands())[0]);
+  const hldb::Constant *const c = any_cast<hldb::Constant>((*right->getOperands())[0]);
   ASSERT_NE(c, nullptr) << "subtract operand should be a Constant";
   EXPECT_EQ(c->getDecompile(), "3") << "array dimension should be 3";
 }

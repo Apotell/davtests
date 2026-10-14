@@ -30,7 +30,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/gen_if.h>
-#include <hldb/gen_region.h>
+#include <hldb/gen_block.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
 
@@ -60,8 +60,8 @@ class BindTest : public Test {
 
   // Collect BindDirectives from generate-if blocks inside a module.
   // At parse time (pre-elaboration) they live in:
-  //   module->getGenStmts() -> GenIf -> getStmt<GenRegion>() -> getBindDirectives()
-  // Each 'begin : gen_xxx ... end' is a generate block (GenRegion, a GenScope), and a bind
+  //   module->getGenStmts() -> GenIf -> getStmt<GenBlock>() -> getBindDirectives()
+  // Each 'begin : gen_xxx ... end' is a generate block (GenBlock, a GenScope), and a bind
   // directive inside it is held by the GenScope's vpiBindDirective relation.
   static std::vector<const hldb::BindDirective *> genScopeBinds(const hldb::Module *mod) {
     std::vector<const hldb::BindDirective *> result;
@@ -70,7 +70,7 @@ class BindTest : public Test {
     if (genStmts == nullptr) return result;
     for (const hldb::Any *genStmt : *genStmts) {
       if (const auto *genIf = any_cast<hldb::GenIf>(genStmt)) {
-        const auto *block = genIf->getStmt<hldb::GenRegion>();
+        const auto *block = genIf->getStmt<hldb::GenBlock>();
         if (block == nullptr) continue;
         const auto *bds = block->getBindDirectives();
         if (bds == nullptr) continue;

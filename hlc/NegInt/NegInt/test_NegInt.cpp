@@ -113,7 +113,7 @@ class NegIntTest : public Test {
   static const hldb::ContAssign *getAssign() {
     const hldb::GenFor *const gf = getGenFor();
     if (gf == nullptr) return nullptr;
-    const hldb::Begin *const b = any_cast<hldb::Begin>(gf->getStmt());
+    const hldb::GenBlock *const b = any_cast<hldb::GenBlock>(gf->getStmt());
     if (b == nullptr || b->getStmts() == nullptr || b->getStmts()->empty()) return nullptr;
     return any_cast<hldb::ContAssign>(b->getStmts()->at(0));
   }
@@ -215,7 +215,7 @@ TEST_F(NegIntTest, IncrementIsPostIncI) {
 TEST_F(NegIntTest, BodyIsBeginWithOneContAssign) {
   const hldb::GenFor *const gf = getGenFor();
   ASSERT_NE(gf, nullptr);
-  const hldb::Begin *const b = any_cast<hldb::Begin>(gf->getStmt());
+  const hldb::GenBlock *const b = any_cast<hldb::GenBlock>(gf->getStmt());
   ASSERT_NE(b, nullptr) << "generate block is an explicit begin-end";
   ASSERT_NE(b->getStmts(), nullptr);
   ASSERT_EQ(b->getStmts()->size(), 1u);
