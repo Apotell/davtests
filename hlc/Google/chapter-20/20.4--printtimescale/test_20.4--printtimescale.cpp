@@ -21,40 +21,41 @@
 //   	$printtimescale;
 //   endmodule
 //
-// $printtimescale (tags: 20.4) is a no-argument simulation control task,
-// the same shape as "$exit" / "$finish" / "$stop" (chapter 20.2): there is
-// no "begin ... end" in the source, so the Initial process's statement is
-// the "$printtimescale" SysTaskCall directly, with no Begin wrapper in
-// between. Called without parentheses, it is modeled as a property
-// (vpiIsProperty).
+// IEEE 1800-2023 Sec 20.4.1, "$printtimescale": "$printtimescale [ (
+// hierarchical_identifier ) ] ;" -- the argument is optional; with no
+// argument, the time unit and precision of the current module are
+// displayed. Since there is no "begin ... end" in the source, the initial
+// procedure's statement (Sec 9.2.1) is the "$printtimescale" call itself.
 //
-// The leading "`timescale 1 ms / 1 us" directive overrides the .hlc file's
-// own "-timescale=1ns/1ns" command-line default. UHDM encodes time values
-// as powers-of-10 exponents (SI notation):
-//   1 ms = 10^-3 -> vpiTimeUnit      = -3
-//   1 us = 10^-6 -> vpiTimePrecision = -6
-// Both the SourceFile and the Module receive these same timescale values.
+// Sec 22.7: "`timescale 1 ms / 1 us" sets the time unit and precision of
+// the module that follows, overriding the .hlc file's "-timescale=1ns/1ns"
+// default. Sec 37 (VPI) encodes vpiTimeUnit / vpiTimePrecision as the
+// power-of-10 exponent of the value in seconds:
+//   1 ms = 10^-3 -> time unit      = -3
+//   1 us = 10^-6 -> time precision = -6
 //
 // Checked:
 //   - design has module "top" with exactly 1 process, and it is an Initial
+//   - "top"'s time unit is -3 (1 ms) and time precision is -6 (1 us)
 //   - the Initial's statement is a SysTaskCall named "$printtimescale"
 //     directly (no Begin wrapper, since there is no "begin ... end" in the
 //     source)
-//   - the "$printtimescale" SysTaskCall has no argument list (called
-//     without parentheses) and is flagged as a property (vpiIsProperty)
-//   - the Module's time unit is -3 (1 ms) and time precision is -6 (1 us)
-//   - the SourceFile's time unit is -3 (1 ms) and time precision is -6
-//     (1 us), the same values propagated to file scope
-//   - compiler reports zero errors
+//   - the "$printtimescale" SysTaskCall has no arguments
+//   - compiler reports zero fatal, syntax and error diagnostics; this also
+//     covers "endmodule", which has no HLDB node of its own
 //
-// NOT CHECKED: runtime effects (the actual timescale banner text that
-// $printtimescale would print) cannot be observed -- HLC is a
-// compiler/elaborator with no simulation capability, so no execution ever
-// happens for this test to check.
+// NOT CHECKED:
+//   - runtime effects (the timescale text that $printtimescale prints) --
+//     HLC is a compiler/elaborator with no simulation capability; the .sv
+//     header tags this test as "simulation parsing".
+//   - the SourceFile's time unit / precision -- Sec 22.7 applies
+//     "`timescale" to design elements; a per-file timescale is an HLDB
+//     detail, not something the LRM defines.
+//   - vpiIsProperty on the parenthesis-less "$printtimescale" -- that is an
+//     HLDB encoding, not something Sec 20.4 dictates.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -62,7 +63,6 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
-#include <hldb/source_file.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/vpi_user.h>
@@ -76,13 +76,6 @@ class PrintTimescaleTaskTest : public Test {
 
  protected:
   static const hldb::Module *getModule() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
-
-  static const hldb::SourceFile *getSourceFile() {
-    if (m_design->getSourceFiles() == nullptr || m_design->getSourceFiles()->empty()) {
-      return nullptr;
-    }
-    return m_design->getSourceFiles()->at(0);
-  }
 
   static const hldb::Initial *getInitialProcess() {
     const hldb::Module *const mod = getModule();
@@ -118,25 +111,13 @@ TEST_F(PrintTimescaleTaskTest, ModuleHasOneInitialProcess) {
 TEST_F(PrintTimescaleTaskTest, ModuleTimeUnitIsMillisecond) {
   const hldb::Module *const mod = getModule();
   ASSERT_NE(mod, nullptr);
-  EXPECT_EQ(mod->getTimeUnit(), -3) << "time unit should be -3 (1 ms = 10^-3 s)";
+  EXPECT_EQ(mod->getTimeUnit(), -3) << "22.7: time unit should be -3 (1 ms = 10^-3 s)";
 }
 
 TEST_F(PrintTimescaleTaskTest, ModuleTimePrecisionIsMicrosecond) {
   const hldb::Module *const mod = getModule();
   ASSERT_NE(mod, nullptr);
-  EXPECT_EQ(mod->getTimePrecision(), -6) << "time precision should be -6 (1 us = 10^-6 s)";
-}
-
-TEST_F(PrintTimescaleTaskTest, SourceFileTimeUnitIsMillisecond) {
-  const hldb::SourceFile *const sf = getSourceFile();
-  ASSERT_NE(sf, nullptr);
-  EXPECT_EQ(sf->getTimeUnit(), -3) << "source file time unit should be -3 (1 ms = 10^-3 s)";
-}
-
-TEST_F(PrintTimescaleTaskTest, SourceFileTimePrecisionIsMicrosecond) {
-  const hldb::SourceFile *const sf = getSourceFile();
-  ASSERT_NE(sf, nullptr);
-  EXPECT_EQ(sf->getTimePrecision(), -6) << "source file time precision should be -6 (1 us = 10^-6 s)";
+  EXPECT_EQ(mod->getTimePrecision(), -6) << "22.7: time precision should be -6 (1 us = 10^-6 s)";
 }
 
 // --- $printtimescale; ----------------------------------------------------------
@@ -147,17 +128,20 @@ TEST_F(PrintTimescaleTaskTest, InitialStmtIsPrintTimescaleSysTaskCall) {
   EXPECT_EQ(call->getName(), "$printtimescale");
 }
 
-TEST_F(PrintTimescaleTaskTest, PrintTimescaleCallHasNoArgumentsAndIsProperty) {
+TEST_F(PrintTimescaleTaskTest, PrintTimescaleCallHasNoArguments) {
   const hldb::SysTaskCall *const call = getPrintTimescaleCall();
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getArguments(), nullptr) << "'$printtimescale' called without parentheses or arguments";
-  EXPECT_TRUE(call->getIsProperty()) << "20.4: a parenthesis-less '$printtimescale' is modeled as a property";
+  EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
+      << "20.4.1: '$printtimescale' is called here without the optional hierarchical_identifier";
 }
 
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(PrintTimescaleTaskTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0) << "'module top(); ... endmodule' should parse as one complete module";
+  EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
 }
 
 }  // namespace hlc

@@ -32,54 +32,59 @@
 //   	$display("mod1");
 //   endmodule
 //
-// Three modules, each under its own "`timescale" directive. UHDM encodes
-// time values as powers-of-10 exponents (SI notation):
-//   top:  1 ms / 1 us -> vpiTimeUnit -3, vpiTimePrecision -6
-//   mod0: 1 us / 1 ns -> vpiTimeUnit -6, vpiTimePrecision -9
-//   mod1: 1 ns / 1 ps -> vpiTimeUnit -9, vpiTimePrecision -12
-// The SourceFile itself reflects whichever "`timescale" directive was last
-// active when the file finished parsing (mod1's: -9 / -12), NOT the first
-// directive in the file -- unlike 20.4--printtimescale, where a single
-// directive meant the SourceFile and the one Module agreed.
+// IEEE 1800-2023 Sec 20.4.1, "$printtimescale": "$printtimescale [ (
+// hierarchical_identifier ) ] ;" -- with an argument, the time unit and
+// precision of the named module instance are displayed.
 //
-// $printtimescale (tags: 20.4) is called here WITH an explicit argument,
-// "mod0.m" -- a hierarchical path naming instance "m" (an instantiation of
-// mod1) inside module mod0. Because it is called with parentheses and an
-// argument, it is NOT flagged as a property (vpiIsProperty) in the HLDB,
-// unlike the parenthesis-less "$printtimescale;" in 20.4--printtimescale.
+// Sec 23.3.1: modules that are never instantiated are top-level modules.
+// "top" and "mod0" are not instantiated anywhere, so both are top-level;
+// "mod1" is instantiated by "mod0" ("mod1 m();"), so it is not. Sec 23.6:
+// a hierarchical name may start at a top-level module, so "mod0.m" names
+// the instance "m" (of "mod1") inside the top-level "mod0".
 //
-// There is no "begin ... end" in top's or mod1's source, so each Initial
-// process's statement is its SysTaskCall directly, with no Begin wrapper
-// in between.
+// Sec 22.7: each "`timescale" directive applies to the modules that follow
+// it. Sec 37 (VPI) encodes vpiTimeUnit / vpiTimePrecision as the
+// power-of-10 exponent of the value in seconds:
+//   top:  1 ms / 1 us -> -3 / -6
+//   mod0: 1 us / 1 ns -> -6 / -9
+//   mod1: 1 ns / 1 ps -> -9 / -12
 //
 // Checked:
 //   - design has modules "top", "mod0", "mod1"
-//   - each module's time unit / time precision matches its own
-//     "`timescale" directive; the SourceFile's matches mod1's (the last
-//     directive active at end of file)
+//   - "top" and "mod0" are top-level modules; "mod1" is not (gated on
+//     m_design->getElaborated(): top-level status is computed by the
+//     elaboration pass, and this .hlc runs a non-elaborating flow, so the
+//     check is reported as SKIPPED here rather than failing for a reason the
+//     source does not determine)
+//   - each module's time unit / precision matches its own "`timescale"
 //   - top has exactly 1 process, an Initial whose statement is a
-//     SysTaskCall named "$printtimescale" directly (no Begin wrapper),
-//     with exactly 1 argument: a RefObj named "mod0.m"
-//   - the "mod0.m" RefObj has exactly 2 path elements ("mod0" resolving to
-//     Module "mod0", "m" resolving to a RefInstance) and itself resolves
-//     (getActual) to that same RefInstance
-//   - the "$printtimescale(mod0.m)" SysTaskCall is NOT flagged as a
-//     property (vpiIsProperty), since it has an explicit argument list
-//   - mod0 has exactly 1 RefInstance, named "m", whose typespec resolves
-//     to Module "mod1" (the "mod1 m();" instantiation)
+//     SysTaskCall named "$printtimescale" directly (no Begin wrapper), with
+//     exactly 1 argument: a RefObj named "mod0.m"
+//   - "mod0.m" has 2 path elements, "mod0" binding to Module "mod0" and "m"
+//     binding to mod0's instance "m"; "mod0.m" itself binds to that same
+//     instance
+//   - mod0 has exactly 1 instance, named "m", of module "mod1"
 //   - mod1 has exactly 1 process, an Initial whose statement is a
 //     SysTaskCall named "$display" directly (no Begin wrapper), with
-//     exactly 1 argument: a Constant string "mod1"
-//   - compiler reports zero errors
+//     exactly 1 argument: a string Constant "mod1"
+//   - compiler reports zero fatal, syntax and error diagnostics; this also
+//     covers the three "endmodule"s, which have no HLDB node of their own
 //
-// NOT CHECKED: runtime effects (the actual timescale banner text that
-// $printtimescale would print for the "mod0.m" instance) cannot be
-// observed -- HLC is a compiler/elaborator with no simulation capability,
-// so no execution ever happens for this test to check.
+// Call arguments are read through NamedArgument::getHighConn(): this HLDB
+// wraps every tf_call argument, positional ones included, in a NamedArgument.
+//
+// NOT CHECKED:
+//   - runtime effects (the timescale text that $printtimescale prints for
+//     "mod0.m") -- HLC is a compiler/elaborator with no simulation
+//     capability; the .sv header tags this test as "simulation parsing".
+//   - the SourceFile's time unit / precision -- Sec 22.7 applies
+//     "`timescale" to design elements; a per-file timescale is an HLDB
+//     detail, not something the LRM defines.
+//   - vpiIsProperty on "$printtimescale(mod0.m)" -- that is an HLDB
+//     encoding, not something Sec 20.4 dictates.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -89,10 +94,10 @@
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
+#include <hldb/named_argument.h>
 #include <hldb/ref_instance.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
-#include <hldb/source_file.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/vpi_user.h>
@@ -105,55 +110,53 @@ class PrintTimescaleHierTaskTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
+  // Every tf_call argument is wrapped in a NamedArgument; the actual
+  // argument expression is its high conn.
+  template <typename T>
+  static const T *getArgument(const hldb::NamedArgumentCollection *args, size_t index) {
+    if (args == nullptr || args->size() <= index) {
+      return nullptr;
+    }
+    const hldb::NamedArgument *const arg = args->at(index);
+    if (arg == nullptr) {
+      return nullptr;
+    }
+    return arg->getHighConn<T>();
+  }
+
   static const hldb::Module *getTop() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
   static const hldb::Module *getMod0() { return hldb::findByName<hldb::Module>("mod0", m_design->getAllModules()); }
   static const hldb::Module *getMod1() { return hldb::findByName<hldb::Module>("mod1", m_design->getAllModules()); }
 
-  static const hldb::SourceFile *getSourceFile() {
-    if (m_design->getSourceFiles() == nullptr || m_design->getSourceFiles()->empty()) {
+  static const hldb::SysTaskCall *getInitialSysTaskCall(const hldb::Module *mod) {
+    if (mod == nullptr || mod->getProcesses() == nullptr || mod->getProcesses()->empty()) {
       return nullptr;
     }
-    return m_design->getSourceFiles()->at(0);
-  }
-
-  static const hldb::SysTaskCall *getPrintTimescaleCall() {
-    const hldb::Module *const top = getTop();
-    if (top == nullptr || top->getProcesses() == nullptr || top->getProcesses()->empty()) {
-      return nullptr;
-    }
-    const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
+    const hldb::Initial *const init = any_cast<hldb::Initial>(mod->getProcesses()->at(0));
     if (init == nullptr) {
       return nullptr;
     }
     return init->getStmt<hldb::SysTaskCall>();
   }
+
+  static const hldb::SysTaskCall *getPrintTimescaleCall() { return getInitialSysTaskCall(getTop()); }
+
+  static const hldb::SysTaskCall *getMod1DisplayCall() { return getInitialSysTaskCall(getMod1()); }
 
   static const hldb::RefObj *getHierPathArg() {
     const hldb::SysTaskCall *const call = getPrintTimescaleCall();
-    if (call == nullptr || call->getArguments() == nullptr || call->getArguments()->empty()) {
+    if (call == nullptr) {
       return nullptr;
     }
-    return any_cast<hldb::RefObj>(call->getArguments()->at(0));
+    return getArgument<hldb::RefObj>(call->getArguments(), 0);
   }
 
-  static const hldb::RefInstance *getMod0RefInstance() {
+  static const hldb::RefInstance *getMod0InstanceM() {
     const hldb::Module *const mod0 = getMod0();
-    if (mod0 == nullptr || mod0->getRefInstances() == nullptr || mod0->getRefInstances()->empty()) {
+    if (mod0 == nullptr || mod0->getRefInstances() == nullptr) {
       return nullptr;
     }
-    return mod0->getRefInstances()->at(0);
-  }
-
-  static const hldb::SysTaskCall *getMod1DisplayCall() {
-    const hldb::Module *const mod1 = getMod1();
-    if (mod1 == nullptr || mod1->getProcesses() == nullptr || mod1->getProcesses()->empty()) {
-      return nullptr;
-    }
-    const hldb::Initial *const init = any_cast<hldb::Initial>(mod1->getProcesses()->at(0));
-    if (init == nullptr) {
-      return nullptr;
-    }
-    return init->getStmt<hldb::SysTaskCall>();
+    return hldb::findByName<hldb::RefInstance>("m", mod0->getRefInstances());
   }
 };
 
@@ -165,35 +168,44 @@ TEST_F(PrintTimescaleHierTaskTest, AllThreeModulesExist) {
   EXPECT_NE(getMod1(), nullptr);
 }
 
+TEST_F(PrintTimescaleHierTaskTest, TopAndMod0AreTopLevelButMod1IsNot) {
+  // Top-level status is computed by the elaboration pass, and this fixture's
+  // .hlc runs a non-elaborating flow, so the flag is unset there.
+  if (!m_design->getElaborated()) {
+    GTEST_SKIP() << "top-level module status is only computed on an elaborated design";
+  }
+  const hldb::Module *const top = getTop();
+  const hldb::Module *const mod0 = getMod0();
+  const hldb::Module *const mod1 = getMod1();
+  ASSERT_NE(top, nullptr);
+  ASSERT_NE(mod0, nullptr);
+  ASSERT_NE(mod1, nullptr);
+  EXPECT_TRUE(top->getTopModule()) << "23.3.1: 'top' is never instantiated, so it is a top-level module";
+  EXPECT_TRUE(mod0->getTopModule()) << "23.3.1: 'mod0' is never instantiated, so it is a top-level module";
+  EXPECT_FALSE(mod1->getTopModule()) << "23.3.1: 'mod1' is instantiated by 'mod0', so it is not top-level";
+}
+
 // --- `timescale directives ------------------------------------------------------
 
-TEST_F(PrintTimescaleHierTaskTest, TopTimeUnitAndPrecisionAreMillisecondAndMicrosecond) {
+TEST_F(PrintTimescaleHierTaskTest, TopTimescaleIsMillisecondOverMicrosecond) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  EXPECT_EQ(top->getTimeUnit(), -3) << "time unit should be -3 (1 ms = 10^-3 s)";
-  EXPECT_EQ(top->getTimePrecision(), -6) << "time precision should be -6 (1 us = 10^-6 s)";
+  EXPECT_EQ(top->getTimeUnit(), -3) << "22.7: '`timescale 1 ms / 1 us' -> time unit -3";
+  EXPECT_EQ(top->getTimePrecision(), -6) << "22.7: '`timescale 1 ms / 1 us' -> time precision -6";
 }
 
-TEST_F(PrintTimescaleHierTaskTest, Mod0TimeUnitAndPrecisionAreMicrosecondAndNanosecond) {
+TEST_F(PrintTimescaleHierTaskTest, Mod0TimescaleIsMicrosecondOverNanosecond) {
   const hldb::Module *const mod0 = getMod0();
   ASSERT_NE(mod0, nullptr);
-  EXPECT_EQ(mod0->getTimeUnit(), -6) << "time unit should be -6 (1 us = 10^-6 s)";
-  EXPECT_EQ(mod0->getTimePrecision(), -9) << "time precision should be -9 (1 ns = 10^-9 s)";
+  EXPECT_EQ(mod0->getTimeUnit(), -6) << "22.7: '`timescale 1 us / 1 ns' -> time unit -6";
+  EXPECT_EQ(mod0->getTimePrecision(), -9) << "22.7: '`timescale 1 us / 1 ns' -> time precision -9";
 }
 
-TEST_F(PrintTimescaleHierTaskTest, Mod1TimeUnitAndPrecisionAreNanosecondAndPicosecond) {
+TEST_F(PrintTimescaleHierTaskTest, Mod1TimescaleIsNanosecondOverPicosecond) {
   const hldb::Module *const mod1 = getMod1();
   ASSERT_NE(mod1, nullptr);
-  EXPECT_EQ(mod1->getTimeUnit(), -9) << "time unit should be -9 (1 ns = 10^-9 s)";
-  EXPECT_EQ(mod1->getTimePrecision(), -12) << "time precision should be -12 (1 ps = 10^-12 s)";
-}
-
-TEST_F(PrintTimescaleHierTaskTest, SourceFileTimeUnitAndPrecisionMatchMod1sLastDirective) {
-  const hldb::SourceFile *const sf = getSourceFile();
-  ASSERT_NE(sf, nullptr);
-  EXPECT_EQ(sf->getTimeUnit(), -9) << "source file time unit should match mod1's directive, the last in the file";
-  EXPECT_EQ(sf->getTimePrecision(), -12)
-      << "source file time precision should match mod1's directive, the last in the file";
+  EXPECT_EQ(mod1->getTimeUnit(), -9) << "22.7: '`timescale 1 ns / 1 ps' -> time unit -9";
+  EXPECT_EQ(mod1->getTimePrecision(), -12) << "22.7: '`timescale 1 ns / 1 ps' -> time precision -12";
 }
 
 // --- top: $printtimescale(mod0.m); ----------------------------------------------
@@ -210,22 +222,18 @@ TEST_F(PrintTimescaleHierTaskTest, TopHasOneInitialProcessWithPrintTimescaleCall
   EXPECT_EQ(call->getName(), "$printtimescale");
 }
 
-TEST_F(PrintTimescaleHierTaskTest, PrintTimescaleCallHasOneHierPathArgumentAndIsNotProperty) {
+TEST_F(PrintTimescaleHierTaskTest, PrintTimescaleCallHasOneHierPathArgument) {
   const hldb::SysTaskCall *const call = getPrintTimescaleCall();
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  ASSERT_EQ(call->getArguments()->size(), 1u);
-  EXPECT_FALSE(call->getIsProperty()) << "20.4: '$printtimescale(mod0.m)' has an explicit argument list, so it is "
-                                         "not modeled as a property, unlike a parenthesis-less '$printtimescale'";
-}
+  ASSERT_EQ(call->getArguments()->size(), 1u) << "20.4.1: one hierarchical_identifier argument, 'mod0.m'";
 
-TEST_F(PrintTimescaleHierTaskTest, HierPathArgIsNamedModZeroDotM) {
   const hldb::RefObj *const arg = getHierPathArg();
-  ASSERT_NE(arg, nullptr) << "'mod0.m' should be a RefObj hierarchical path";
+  ASSERT_NE(arg, nullptr) << "'mod0.m' should be a RefObj hierarchical reference";
   EXPECT_EQ(arg->getName(), "mod0.m");
 }
 
-TEST_F(PrintTimescaleHierTaskTest, HierPathArgHasTwoPathElemsModZeroThenM) {
+TEST_F(PrintTimescaleHierTaskTest, HierPathArgHasPathElemsModZeroThenM) {
   const hldb::RefObj *const arg = getHierPathArg();
   ASSERT_NE(arg, nullptr);
   ASSERT_NE(arg->getPathElems(), nullptr);
@@ -234,35 +242,34 @@ TEST_F(PrintTimescaleHierTaskTest, HierPathArgHasTwoPathElemsModZeroThenM) {
   const hldb::RefObj *const mod0Elem = any_cast<hldb::RefObj>(arg->getPathElems()->at(0));
   ASSERT_NE(mod0Elem, nullptr) << "'mod0' should be a RefObj path element";
   EXPECT_EQ(mod0Elem->getName(), "mod0");
-  EXPECT_EQ(mod0Elem->getActual<hldb::Module>(), getMod0());
+  EXPECT_EQ(mod0Elem->getActual<hldb::Module>(), getMod0()) << "23.6: 'mod0' names the top-level module 'mod0'";
 
   const hldb::RefObj *const mElem = any_cast<hldb::RefObj>(arg->getPathElems()->at(1));
   ASSERT_NE(mElem, nullptr) << "'m' should be a RefObj path element";
   EXPECT_EQ(mElem->getName(), "m");
-  EXPECT_EQ(mElem->getActual<hldb::RefInstance>(), getMod0RefInstance());
+  EXPECT_EQ(mElem->getActual<hldb::RefInstance>(), getMod0InstanceM()) << "'m' names mod0's instance 'm'";
 }
 
-TEST_F(PrintTimescaleHierTaskTest, HierPathArgResolvesToModZeroRefInstanceM) {
+TEST_F(PrintTimescaleHierTaskTest, HierPathArgBindsToMod0InstanceM) {
   const hldb::RefObj *const arg = getHierPathArg();
   ASSERT_NE(arg, nullptr);
-  EXPECT_EQ(arg->getActual<hldb::RefInstance>(), getMod0RefInstance());
+  ASSERT_NE(getMod0InstanceM(), nullptr);
+  EXPECT_EQ(arg->getActual<hldb::RefInstance>(), getMod0InstanceM())
+      << "20.4.1: 'mod0.m' should bind to the instance 'm' inside 'mod0'";
 }
 
 // --- mod0: mod1 m(); -------------------------------------------------------------
 
-TEST_F(PrintTimescaleHierTaskTest, Mod0HasOneRefInstanceNamedM) {
+TEST_F(PrintTimescaleHierTaskTest, Mod0HasOneInstanceNamedM) {
   const hldb::Module *const mod0 = getMod0();
   ASSERT_NE(mod0, nullptr);
   ASSERT_NE(mod0->getRefInstances(), nullptr);
-  ASSERT_EQ(mod0->getRefInstances()->size(), 1u);
-
-  const hldb::RefInstance *const m = getMod0RefInstance();
-  ASSERT_NE(m, nullptr);
-  EXPECT_EQ(m->getName(), "m");
+  EXPECT_EQ(mod0->getRefInstances()->size(), 1u) << "'mod1 m();' is mod0's only instantiation";
+  EXPECT_NE(getMod0InstanceM(), nullptr) << "mod0 should have an instance named 'm'";
 }
 
-TEST_F(PrintTimescaleHierTaskTest, Mod0RefInstanceMIsTypedAsMod1) {
-  const hldb::RefInstance *const m = getMod0RefInstance();
+TEST_F(PrintTimescaleHierTaskTest, Mod0InstanceMIsOfModuleMod1) {
+  const hldb::RefInstance *const m = getMod0InstanceM();
   ASSERT_NE(m, nullptr);
   const hldb::RefTypespec *const ref = m->getTypespec<hldb::RefTypespec>();
   ASSERT_NE(ref, nullptr) << "'m()' should have a RefTypespec";
@@ -291,16 +298,19 @@ TEST_F(PrintTimescaleHierTaskTest, Mod1DisplayCallHasOneStringConstantArgument) 
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
 
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::Constant *const arg = getArgument<hldb::Constant>(call->getArguments(), 0);
   ASSERT_NE(arg, nullptr) << "'\"mod1\"' should be a Constant";
-  EXPECT_EQ(arg->getConstType(), vpiStringConst);
+  EXPECT_EQ(arg->getConstType(), vpiStringConst) << "'\"mod1\"' is a string literal";
   EXPECT_EQ(arg->getDecompile(), "\"mod1\"");
 }
 
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(PrintTimescaleHierTaskTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0) << "each 'module ... endmodule' should parse as one complete module";
+  EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
 }
 
 }  // namespace hlc
