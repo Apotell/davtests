@@ -32,7 +32,9 @@
 //   - the Initial's statement is a SysTaskCall named "$finish" directly (no
 //     Begin wrapper, since there is no "begin ... end" in the source)
 //   - the "$finish" SysTaskCall has no arguments (n is omitted)
-//   - compiler reports zero fatal, syntax and error diagnostics
+//   - compiler reports zero fatal, syntax and error diagnostics; this also
+//     covers "endmodule", which has no HLDB node of its own -- leaving it
+//     out is a syntax error (Sec 23.2.1)
 //
 // NOT CHECKED:
 //   - runtime effects (simulation actually ending, and the default
@@ -113,7 +115,7 @@ TEST_F(FinishTaskTest, FinishCallHasNoArguments) {
 TEST_F(FinishTaskTest, CompilesWithNoErrors) {
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbSyntax, 0) << "'module top(); ... endmodule' should parse as one complete module";
   EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
 }
 
