@@ -51,11 +51,7 @@
 //
 // Checked:
 //   - design has modules "top", "mod0", "mod1"
-//   - "top" and "mod0" are top-level modules; "mod1" is not (gated on
-//     m_design->getElaborated(): top-level status is computed by the
-//     elaboration pass, and this .hlc runs a non-elaborating flow, so the
-//     check is reported as SKIPPED here rather than failing for a reason the
-//     source does not determine)
+//   - "top" and "mod0" are top-level modules; "mod1" is not
 //   - each module's time unit / precision matches its own "`timescale"
 //   - top has exactly 1 process, an Initial whose statement is a
 //     SysTaskCall named "$printtimescale" directly (no Begin wrapper), with
@@ -72,6 +68,12 @@
 //
 // Call arguments are read through NamedArgument::getHighConn(): this HLDB
 // wraps every tf_call argument, positional ones included, in a NamedArgument.
+//
+// KNOWN FAILURE:
+//   - TopAndMod0AreTopLevelButMod1IsNot: Module::getTopModule() is false for
+//     "top" and "mod0", though Sec 23.3.1 makes both top-level. HLC only
+//     computes this flag in the elaboration pass, and this .hlc runs a
+//     non-elaborating flow ("-d ast -d db"), so the flag keeps its default.
 //
 // NOT CHECKED:
 //   - runtime effects (the timescale text that $printtimescale prints for
@@ -169,11 +171,7 @@ TEST_F(PrintTimescaleHierTaskTest, AllThreeModulesExist) {
 }
 
 TEST_F(PrintTimescaleHierTaskTest, TopAndMod0AreTopLevelButMod1IsNot) {
-  // Top-level status is computed by the elaboration pass, and this fixture's
-  // .hlc runs a non-elaborating flow, so the flag is unset there.
-  if (!m_design->getElaborated()) {
-    GTEST_SKIP() << "top-level module status is only computed on an elaborated design";
-  }
+  // KNOWN FAILURE: see the header -- the flag is unset without elaboration.
   const hldb::Module *const top = getTop();
   const hldb::Module *const mod0 = getMod0();
   const hldb::Module *const mod1 = getMod1();
