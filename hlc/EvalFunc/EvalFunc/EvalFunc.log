@@ -764,6 +764,20 @@ Design name:unnamed:
           vpiParent: Package name:prim_util_pkg
           vpiName Identifier name:_clog2 start:3:30 end:3:36:
           vpiFullName: prim_util_pkg::_clog2
+          vpiVariable (1 items):
+            Variable name:result start:4:13 end:4:19:
+              vpiParent: Function name:_clog2
+              vpiTypespec RefTypespec start:4:5 end:4:12:
+                vpiParent: Variable name:result
+                vpiFullName: prim_util_pkg::_clog2::result
+                vpiActual: IntegerTypespec
+              vpiName: result
+              vpiFullName: prim_util_pkg::_clog2::result
+              vpiAutomatic: true
+          vpiTypespec (1 items):
+            IntegerTypespec:
+              vpiParent: Function name:_clog2
+              vpiSigned: true
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (1 items):
@@ -778,22 +792,7 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:_clog2
             vpiFullName: prim_util_pkg::_clog2
-            vpiVariable (1 items):
-              Variable name:result start:4:13 end:4:19:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:4:5 end:4:12:
-                  vpiParent: Variable name:result
-                  vpiFullName: prim_util_pkg::_clog2::result
-                  vpiActual: IntegerTypespec
-                vpiName: result
-                vpiFullName: prim_util_pkg::_clog2::result
-                vpiAutomatic: true
-            vpiTypespec (1 items):
-              IntegerTypespec:
-                vpiParent: Begin
-                vpiSigned: true
-            vpiStmt (4 items):
-              Variable name:result:
+            vpiStmt (3 items):
               Assignment start:5:5 end:5:22:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1265,6 +1264,10 @@ Design name:unnamed:
                 vpiActual: IntegerTypespec
               vpiName: value
               vpiFullName: top.foo.value
+          vpiTypespec (1 items):
+            IntegerTypespec:
+              vpiParent: Function name:foo
+              vpiSigned: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:value start:29:15 end:29:20:
@@ -1275,21 +1278,13 @@ Design name:unnamed:
                 vpiParent: IODecl name:value
                 vpiFullName: top.foo.value
                 vpiActual: IntegerTypespec
-          vpiStmt Begin:
+          vpiStmt ReturnStmt start:30:1 end:30:14:
             vpiParent: Function name:foo
-            vpiFullName: top.foo
-            vpiTypespec (1 items):
-              IntegerTypespec:
-                vpiParent: Begin
-                vpiSigned: true
-            vpiStmt (1 items):
-              ReturnStmt start:30:1 end:30:14:
-                vpiParent: Begin
-                vpiCondition RefObj name:value start:30:8 end:30:13:
-                  vpiParent: ReturnStmt
-                  vpiName: value
-                  vpiFullName: top.foo.value
-                  vpiActual: IODecl name:value
+            vpiCondition RefObj name:value start:30:8 end:30:13:
+              vpiParent: ReturnStmt
+              vpiName: value
+              vpiFullName: top.foo.value
+              vpiActual: IODecl name:value
           vpiReturn RefTypespec start:28:10 end:28:17:
             vpiParent: Function name:foo
             vpiFullName: top.foo
@@ -1298,7 +1293,7 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName Identifier name:log2 start:33:18 end:33:22:
           vpiFullName: top.log2
-          vpiVariable (1 items):
+          vpiVariable (3 items):
             Variable name:value start:34:15 end:34:20:
               vpiParent: Function name:log2
               vpiTypespec RefTypespec start:34:7 end:34:14:
@@ -1307,6 +1302,52 @@ Design name:unnamed:
                 vpiActual: IntegerTypespec
               vpiName: value
               vpiFullName: top.log2.value
+            Variable name:shifted start:35:12 end:35:19:
+              vpiParent: Function name:log2
+              vpiTypespec RefTypespec start:35:1 end:35:11:
+                vpiParent: Variable name:shifted
+                vpiFullName: top.log2.shifted
+                vpiActual: LogicTypespec
+              vpiName: shifted
+              vpiFullName: top.log2.shifted
+            Variable name:res start:36:9 end:36:12:
+              vpiParent: Function name:log2
+              vpiTypespec RefTypespec start:36:1 end:36:8:
+                vpiParent: Variable name:res
+                vpiFullName: top.log2.res
+                vpiActual: IntegerTypespec
+              vpiName: res
+              vpiFullName: top.log2.res
+          vpiTypespec (2 items):
+            IntegerTypespec:
+              vpiParent: Function name:log2
+              vpiSigned: true
+            LogicTypespec:
+              vpiParent: Function name:log2
+              vpiRange (1 items):
+                Range start:35:5 end:35:11:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:35:6 end:35:8:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: top.log2
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "31"
+                    vpiValue: 31
+                  vpiRightRange Constant start:35:9 end:35:10:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: top.log2
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:value start:34:15 end:34:20:
@@ -1317,119 +1358,116 @@ Design name:unnamed:
                 vpiParent: IODecl name:value
                 vpiFullName: top.log2.value
                 vpiActual: IntegerTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:37:1 end:47:4:
             vpiParent: Function name:log2
             vpiFullName: top.log2
-            vpiVariable (2 items):
-              Variable name:shifted start:35:12 end:35:19:
+            vpiStmt (1 items):
+              IfElse start:38:2 end:46:5:
                 vpiParent: Begin
-                vpiTypespec RefTypespec start:35:1 end:35:11:
-                  vpiParent: Variable name:shifted
-                  vpiFullName: top.log2.shifted
-                  vpiActual: LogicTypespec
-                vpiName: shifted
-                vpiFullName: top.log2.shifted
-              Variable name:res start:36:9 end:36:12:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:36:1 end:36:8:
-                  vpiParent: Variable name:res
-                  vpiFullName: top.log2.res
-                  vpiActual: IntegerTypespec
-                vpiName: res
-                vpiFullName: top.log2.res
-            vpiTypespec (2 items):
-              IntegerTypespec:
-                vpiParent: Begin
-                vpiSigned: true
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:35:5 end:35:11:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:35:6 end:35:8:
-                      vpiParent: Range
+                vpiCondition Operation start:38:6 end:38:15:
+                  vpiParent: IfElse
+                  vpiOpType: less than (20)
+                  vpiOperand (2 items):
+                    RefObj name:value start:38:6 end:38:11:
+                      vpiParent: Operation
+                      vpiName: value
+                      vpiFullName: top.log2.value
+                      vpiActual: IODecl name:value
+                    Constant start:38:14 end:38:15:
+                      vpiParent: Operation
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
                         vpiFullName: top.log2
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
-                      vpiDecompile: "31"
-                      vpiValue: 31
-                    vpiRightRange Constant start:35:9 end:35:10:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: top.log2
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-            vpiStmt (3 items):
-              Variable name:shifted:
-              Variable name:res:
-              Begin start:37:1 end:47:4:
-                vpiParent: Begin
-                vpiFullName: top.log2
-                vpiStmt (1 items):
-                  IfElse start:38:2 end:46:5:
-                    vpiParent: Begin
-                    vpiCondition Operation start:38:6 end:38:15:
-                      vpiParent: IfElse
-                      vpiOpType: less than (20)
-                      vpiOperand (2 items):
-                        RefObj name:value start:38:6 end:38:11:
-                          vpiParent: Operation
-                          vpiName: value
-                          vpiFullName: top.log2.value
-                          vpiActual: IODecl name:value
-                        Constant start:38:14 end:38:15:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: top.log2
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "2"
-                          vpiValue: 2
-                    vpiStmt Assignment start:39:3 end:39:15:
-                      vpiParent: IfElse
+                      vpiDecompile: "2"
+                      vpiValue: 2
+                vpiStmt Assignment start:39:3 end:39:15:
+                  vpiParent: IfElse
+                  vpiBlocking: true
+                  vpiLhs RefObj name:log2 start:39:3 end:39:7:
+                    vpiParent: Assignment
+                    vpiName: log2
+                    vpiFullName: top.log2.log2
+                    vpiActual: Function name:log2
+                  vpiRhs RefObj name:value start:39:10 end:39:15:
+                    vpiParent: Assignment
+                    vpiName: value
+                    vpiFullName: top.log2.value
+                    vpiActual: IODecl name:value
+                vpiElseStmt Begin start:41:2 end:46:5:
+                  vpiParent: IfElse
+                  vpiFullName: top.log2
+                  vpiStmt (3 items):
+                    Assignment start:42:3 end:42:20:
+                      vpiParent: Begin
                       vpiBlocking: true
-                      vpiLhs RefObj name:log2 start:39:3 end:39:7:
+                      vpiLhs RefObj name:shifted start:42:3 end:42:10:
                         vpiParent: Assignment
-                        vpiName: log2
-                        vpiFullName: top.log2.log2
-                        vpiActual: Function name:log2
-                      vpiRhs RefObj name:value start:39:10 end:39:15:
+                        vpiName: shifted
+                        vpiFullName: top.log2.shifted
+                        vpiActual: Variable name:shifted
+                      vpiRhs Operation start:42:13 end:42:20:
                         vpiParent: Assignment
-                        vpiName: value
-                        vpiFullName: top.log2.value
-                        vpiActual: IODecl name:value
-                    vpiElseStmt Begin start:41:2 end:46:5:
-                      vpiParent: IfElse
+                        vpiOpType: subtract (11)
+                        vpiOperand (2 items):
+                          RefObj name:value start:42:13 end:42:18:
+                            vpiParent: Operation
+                            vpiName: value
+                            vpiFullName: top.log2.value
+                            vpiActual: IODecl name:value
+                          Constant start:42:19 end:42:20:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: top.log2
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                    ForStmt start:43:3 end:44:25:
+                      vpiParent: Begin
                       vpiFullName: top.log2
-                      vpiStmt (3 items):
-                        Assignment start:42:3 end:42:20:
-                          vpiParent: Begin
+                      vpiForInitStmt (1 items):
+                        Assignment start:43:8 end:43:13:
+                          vpiParent: ForStmt
                           vpiBlocking: true
-                          vpiLhs RefObj name:shifted start:42:3 end:42:10:
+                          vpiLhs RefObj name:res start:43:8 end:43:11:
                             vpiParent: Assignment
-                            vpiName: shifted
-                            vpiFullName: top.log2.shifted
-                            vpiActual: Variable name:shifted
-                          vpiRhs Operation start:42:13 end:42:20:
+                            vpiName: res
+                            vpiFullName: top.log2.res
+                            vpiActual: Variable name:res
+                          vpiRhs Constant start:43:12 end:43:13:
                             vpiParent: Assignment
-                            vpiOpType: subtract (11)
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: top.log2
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                      vpiForIncStmt (1 items):
+                        Assignment start:43:26 end:43:35:
+                          vpiParent: ForStmt
+                          vpiBlocking: true
+                          vpiLhs RefObj name:res start:43:26 end:43:29:
+                            vpiParent: Assignment
+                            vpiName: res
+                            vpiFullName: top.log2.res
+                            vpiActual: Variable name:res
+                          vpiRhs Operation start:43:30 end:43:35:
+                            vpiParent: Assignment
+                            vpiOpType: add (24)
                             vpiOperand (2 items):
-                              RefObj name:value start:42:13 end:42:18:
+                              RefObj name:res start:43:30 end:43:33:
                                 vpiParent: Operation
-                                vpiName: value
-                                vpiFullName: top.log2.value
-                                vpiActual: IODecl name:value
-                              Constant start:42:19 end:42:20:
+                                vpiName: res
+                                vpiFullName: top.log2.res
+                                vpiActual: Variable name:res
+                              Constant start:43:34 end:43:35:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
@@ -1439,115 +1477,65 @@ Design name:unnamed:
                                 vpiSize: 64
                                 vpiDecompile: "1"
                                 vpiValue: 1
-                        ForStmt start:43:3 end:44:25:
-                          vpiParent: Begin
-                          vpiFullName: top.log2
-                          vpiForInitStmt (1 items):
-                            Assignment start:43:8 end:43:13:
-                              vpiParent: ForStmt
-                              vpiBlocking: true
-                              vpiLhs RefObj name:res start:43:8 end:43:11:
-                                vpiParent: Assignment
-                                vpiName: res
-                                vpiFullName: top.log2.res
-                                vpiActual: Variable name:res
-                              vpiRhs Constant start:43:12 end:43:13:
-                                vpiParent: Assignment
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: top.log2
-                                  vpiActual: IntTypespec
-                                vpiConstType: unsigned int (9)
-                                vpiSize: 64
-                                vpiDecompile: "0"
-                                vpiValue: 0
-                          vpiForIncStmt (1 items):
-                            Assignment start:43:26 end:43:35:
-                              vpiParent: ForStmt
-                              vpiBlocking: true
-                              vpiLhs RefObj name:res start:43:26 end:43:29:
-                                vpiParent: Assignment
-                                vpiName: res
-                                vpiFullName: top.log2.res
-                                vpiActual: Variable name:res
-                              vpiRhs Operation start:43:30 end:43:35:
-                                vpiParent: Assignment
-                                vpiOpType: add (24)
-                                vpiOperand (2 items):
-                                  RefObj name:res start:43:30 end:43:33:
-                                    vpiParent: Operation
-                                    vpiName: res
-                                    vpiFullName: top.log2.res
-                                    vpiActual: Variable name:res
-                                  Constant start:43:34 end:43:35:
-                                    vpiParent: Operation
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: top.log2
-                                      vpiActual: IntTypespec
-                                    vpiConstType: unsigned int (9)
-                                    vpiSize: 64
-                                    vpiDecompile: "1"
-                                    vpiValue: 1
-                          vpiCondition Operation start:43:15 end:43:24:
-                            vpiParent: ForStmt
-                            vpiOpType: greater than (18)
-                            vpiOperand (2 items):
-                              RefObj name:shifted start:43:15 end:43:22:
-                                vpiParent: Operation
-                                vpiName: shifted
-                                vpiFullName: top.log2.shifted
-                                vpiActual: Variable name:shifted
-                              Constant start:43:23 end:43:24:
-                                vpiParent: Operation
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: top.log2
-                                  vpiActual: IntTypespec
-                                vpiConstType: unsigned int (9)
-                                vpiSize: 64
-                                vpiDecompile: "0"
-                                vpiValue: 0
-                          vpiStmt Assignment start:44:4 end:44:24:
-                            vpiParent: ForStmt
-                            vpiBlocking: true
-                            vpiLhs RefObj name:shifted start:44:4 end:44:11:
-                              vpiParent: Assignment
+                      vpiCondition Operation start:43:15 end:43:24:
+                        vpiParent: ForStmt
+                        vpiOpType: greater than (18)
+                        vpiOperand (2 items):
+                          RefObj name:shifted start:43:15 end:43:22:
+                            vpiParent: Operation
+                            vpiName: shifted
+                            vpiFullName: top.log2.shifted
+                            vpiActual: Variable name:shifted
+                          Constant start:43:23 end:43:24:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: top.log2
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                      vpiStmt Assignment start:44:4 end:44:24:
+                        vpiParent: ForStmt
+                        vpiBlocking: true
+                        vpiLhs RefObj name:shifted start:44:4 end:44:11:
+                          vpiParent: Assignment
+                          vpiName: shifted
+                          vpiFullName: top.log2.shifted
+                          vpiActual: Variable name:shifted
+                        vpiRhs Operation start:44:14 end:44:24:
+                          vpiParent: Assignment
+                          vpiOpType: logical shift right (23)
+                          vpiOperand (2 items):
+                            RefObj name:shifted start:44:14 end:44:21:
+                              vpiParent: Operation
                               vpiName: shifted
                               vpiFullName: top.log2.shifted
                               vpiActual: Variable name:shifted
-                            vpiRhs Operation start:44:14 end:44:24:
-                              vpiParent: Assignment
-                              vpiOpType: logical shift right (23)
-                              vpiOperand (2 items):
-                                RefObj name:shifted start:44:14 end:44:21:
-                                  vpiParent: Operation
-                                  vpiName: shifted
-                                  vpiFullName: top.log2.shifted
-                                  vpiActual: Variable name:shifted
-                                Constant start:44:23 end:44:24:
-                                  vpiParent: Operation
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: top.log2
-                                    vpiActual: IntTypespec
-                                  vpiConstType: unsigned int (9)
-                                  vpiSize: 64
-                                  vpiDecompile: "1"
-                                  vpiValue: 1
-                        Assignment start:45:3 end:45:13:
-                          vpiParent: Begin
-                          vpiBlocking: true
-                          vpiLhs RefObj name:log2 start:45:3 end:45:7:
-                            vpiParent: Assignment
-                            vpiName: log2
-                            vpiFullName: top.log2.log2
-                            vpiActual: Function name:log2
-                          vpiRhs RefObj name:res start:45:10 end:45:13:
-                            vpiParent: Assignment
-                            vpiName: res
-                            vpiFullName: top.log2.res
-                            vpiActual: Variable name:res
+                            Constant start:44:23 end:44:24:
+                              vpiParent: Operation
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: top.log2
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                    Assignment start:45:3 end:45:13:
+                      vpiParent: Begin
+                      vpiBlocking: true
+                      vpiLhs RefObj name:log2 start:45:3 end:45:7:
+                        vpiParent: Assignment
+                        vpiName: log2
+                        vpiFullName: top.log2.log2
+                        vpiActual: Function name:log2
+                      vpiRhs RefObj name:res start:45:10 end:45:13:
+                        vpiParent: Assignment
+                        vpiName: res
+                        vpiFullName: top.log2.res
+                        vpiActual: Variable name:res
           vpiReturn RefTypespec start:33:10 end:33:17:
             vpiParent: Function name:log2
             vpiFullName: top.log2
@@ -1565,6 +1553,10 @@ Design name:unnamed:
                 vpiActual: IntegerTypespec
               vpiName: value
               vpiFullName: top.log2_2.value
+          vpiTypespec (1 items):
+            IntegerTypespec:
+              vpiParent: Function name:log2_2
+              vpiSigned: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:value start:52:15 end:52:20:
@@ -1575,72 +1567,95 @@ Design name:unnamed:
                 vpiParent: IODecl name:value
                 vpiFullName: top.log2_2.value
                 vpiActual: IntegerTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:53:1 end:60:4:
             vpiParent: Function name:log2_2
             vpiFullName: top.log2_2
-            vpiTypespec (1 items):
-              IntegerTypespec:
+            vpiStmt (2 items):
+              Assignment start:54:1 end:54:11:
                 vpiParent: Begin
-                vpiSigned: true
-            vpiStmt (1 items):
-              Begin start:53:1 end:60:4:
+                vpiBlocking: true
+                vpiLhs RefObj name:log2_2 start:54:1 end:54:7:
+                  vpiParent: Assignment
+                  vpiName: log2_2
+                  vpiFullName: top.log2_2.log2_2
+                  vpiActual: Function name:log2_2
+                vpiRhs Constant start:54:10 end:54:11:
+                  vpiParent: Assignment
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top.log2_2
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
+              IfStmt start:55:1 end:59:4:
                 vpiParent: Begin
-                vpiFullName: top.log2_2
-                vpiStmt (2 items):
-                  Assignment start:54:1 end:54:11:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:log2_2 start:54:1 end:54:7:
-                      vpiParent: Assignment
-                      vpiName: log2_2
-                      vpiFullName: top.log2_2.log2_2
-                      vpiActual: Function name:log2_2
-                    vpiRhs Constant start:54:10 end:54:11:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: top.log2_2
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                  IfStmt start:55:1 end:59:4:
-                    vpiParent: Begin
-                    vpiCondition RefObj name:value start:55:5 end:55:10:
-                      vpiParent: IfStmt
-                      vpiName: value
-                      vpiFullName: top.log2_2.value
-                      vpiActual: IODecl name:value
-                    vpiStmt Begin start:55:12 end:59:4:
-                      vpiParent: IfStmt
+                vpiCondition RefObj name:value start:55:5 end:55:10:
+                  vpiParent: IfStmt
+                  vpiName: value
+                  vpiFullName: top.log2_2.value
+                  vpiActual: IODecl name:value
+                vpiStmt Begin start:55:12 end:59:4:
+                  vpiParent: IfStmt
+                  vpiFullName: top.log2_2
+                  vpiStmt (2 items):
+                    Assignment start:56:5 end:56:27:
+                      vpiParent: Begin
+                      vpiBlocking: true
+                      vpiLhs RefObj name:value start:56:5 end:56:10:
+                        vpiParent: Assignment
+                        vpiName: value
+                        vpiFullName: top.log2_2.value
+                        vpiActual: IODecl name:value
+                      vpiRhs Operation start:56:13 end:56:27:
+                        vpiParent: Assignment
+                        vpiOpType: subtract (11)
+                        vpiOperand (2 items):
+                          MethodFuncCall name:foo start:56:13 end:56:23:
+                            vpiParent: Operation
+                            vpiName Identifier name:foo start:56:13 end:56:16:
+                            vpiTaskFunc: Function name:foo
+                            vpiArgument (1 items):
+                              NamedArgument start:56:17 end:56:22:
+                                vpiParent: MethodFuncCall name:foo
+                                vpiHighConn RefObj name:value start:56:17 end:56:22:
+                                  vpiParent: NamedArgument
+                                  vpiName: value
+                                  vpiFullName: top.log2_2.value
+                                  vpiActual: IODecl name:value
+                          Constant start:56:26 end:56:27:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: top.log2_2
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                    ForStmt start:57:5 end:58:25:
+                      vpiParent: Begin
                       vpiFullName: top.log2_2
-                      vpiStmt (2 items):
-                        Assignment start:56:5 end:56:27:
-                          vpiParent: Begin
+                      vpiForIncStmt (1 items):
+                        Assignment start:57:23 end:57:42:
+                          vpiParent: ForStmt
                           vpiBlocking: true
-                          vpiLhs RefObj name:value start:56:5 end:56:10:
+                          vpiLhs RefObj name:log2_2 start:57:23 end:57:29:
                             vpiParent: Assignment
-                            vpiName: value
-                            vpiFullName: top.log2_2.value
-                            vpiActual: IODecl name:value
-                          vpiRhs Operation start:56:13 end:56:27:
+                            vpiName: log2_2
+                            vpiFullName: top.log2_2.log2_2
+                            vpiActual: Function name:log2_2
+                          vpiRhs Operation start:57:32 end:57:42:
                             vpiParent: Assignment
-                            vpiOpType: subtract (11)
+                            vpiOpType: add (24)
                             vpiOperand (2 items):
-                              MethodFuncCall name:foo start:56:13 end:56:23:
+                              RefObj name:log2_2 start:57:32 end:57:38:
                                 vpiParent: Operation
-                                vpiName Identifier name:foo start:56:13 end:56:16:
-                                vpiTaskFunc: Function name:foo
-                                vpiArgument (1 items):
-                                  NamedArgument start:56:17 end:56:22:
-                                    vpiParent: MethodFuncCall name:foo
-                                    vpiHighConn RefObj name:value start:56:17 end:56:22:
-                                      vpiParent: NamedArgument
-                                      vpiName: value
-                                      vpiFullName: top.log2_2.value
-                                      vpiActual: IODecl name:value
-                              Constant start:56:26 end:56:27:
+                                vpiName: log2_2
+                                vpiFullName: top.log2_2.log2_2
+                                vpiActual: Function name:log2_2
+                              Constant start:57:41 end:57:42:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
@@ -1650,83 +1665,52 @@ Design name:unnamed:
                                 vpiSize: 64
                                 vpiDecompile: "1"
                                 vpiValue: 1
-                        ForStmt start:57:5 end:58:25:
-                          vpiParent: Begin
-                          vpiFullName: top.log2_2
-                          vpiForIncStmt (1 items):
-                            Assignment start:57:23 end:57:42:
-                              vpiParent: ForStmt
-                              vpiBlocking: true
-                              vpiLhs RefObj name:log2_2 start:57:23 end:57:29:
-                                vpiParent: Assignment
-                                vpiName: log2_2
-                                vpiFullName: top.log2_2.log2_2
-                                vpiActual: Function name:log2_2
-                              vpiRhs Operation start:57:32 end:57:42:
-                                vpiParent: Assignment
-                                vpiOpType: add (24)
-                                vpiOperand (2 items):
-                                  RefObj name:log2_2 start:57:32 end:57:38:
-                                    vpiParent: Operation
-                                    vpiName: log2_2
-                                    vpiFullName: top.log2_2.log2_2
-                                    vpiActual: Function name:log2_2
-                                  Constant start:57:41 end:57:42:
-                                    vpiParent: Operation
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: top.log2_2
-                                      vpiActual: IntTypespec
-                                    vpiConstType: unsigned int (9)
-                                    vpiSize: 64
-                                    vpiDecompile: "1"
-                                    vpiValue: 1
-                          vpiCondition Operation start:57:12 end:57:21:
-                            vpiParent: ForStmt
-                            vpiOpType: greater than (18)
-                            vpiOperand (2 items):
-                              RefObj name:value start:57:12 end:57:17:
-                                vpiParent: Operation
-                                vpiName: value
-                                vpiFullName: top.log2_2.value
-                                vpiActual: IODecl name:value
-                              Constant start:57:20 end:57:21:
-                                vpiParent: Operation
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: top.log2_2
-                                  vpiActual: IntTypespec
-                                vpiConstType: unsigned int (9)
-                                vpiSize: 64
-                                vpiDecompile: "0"
-                                vpiValue: 0
-                          vpiStmt Assignment start:58:6 end:58:24:
-                            vpiParent: ForStmt
-                            vpiBlocking: true
-                            vpiLhs RefObj name:value start:58:6 end:58:11:
-                              vpiParent: Assignment
+                      vpiCondition Operation start:57:12 end:57:21:
+                        vpiParent: ForStmt
+                        vpiOpType: greater than (18)
+                        vpiOperand (2 items):
+                          RefObj name:value start:57:12 end:57:17:
+                            vpiParent: Operation
+                            vpiName: value
+                            vpiFullName: top.log2_2.value
+                            vpiActual: IODecl name:value
+                          Constant start:57:20 end:57:21:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: top.log2_2
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                      vpiStmt Assignment start:58:6 end:58:24:
+                        vpiParent: ForStmt
+                        vpiBlocking: true
+                        vpiLhs RefObj name:value start:58:6 end:58:11:
+                          vpiParent: Assignment
+                          vpiName: value
+                          vpiFullName: top.log2_2.value
+                          vpiActual: IODecl name:value
+                        vpiRhs Operation start:58:14 end:58:24:
+                          vpiParent: Assignment
+                          vpiOpType: logical shift right (23)
+                          vpiOperand (2 items):
+                            RefObj name:value start:58:14 end:58:19:
+                              vpiParent: Operation
                               vpiName: value
                               vpiFullName: top.log2_2.value
                               vpiActual: IODecl name:value
-                            vpiRhs Operation start:58:14 end:58:24:
-                              vpiParent: Assignment
-                              vpiOpType: logical shift right (23)
-                              vpiOperand (2 items):
-                                RefObj name:value start:58:14 end:58:19:
-                                  vpiParent: Operation
-                                  vpiName: value
-                                  vpiFullName: top.log2_2.value
-                                  vpiActual: IODecl name:value
-                                Constant start:58:23 end:58:24:
-                                  vpiParent: Operation
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: top.log2_2
-                                    vpiActual: IntTypespec
-                                  vpiConstType: unsigned int (9)
-                                  vpiSize: 64
-                                  vpiDecompile: "1"
-                                  vpiValue: 1
+                            Constant start:58:23 end:58:24:
+                              vpiParent: Operation
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: top.log2_2
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "1"
+                              vpiValue: 1
           vpiReturn RefTypespec start:51:10 end:51:17:
             vpiParent: Function name:log2_2
             vpiFullName: top.log2_2
@@ -1794,7 +1778,7 @@ COMMAND: ${HLC_DIR}/regression/EvalFunc/EvalFunc/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             244     244       0         0
+Others                             241     241       0         0
 ----------------------------------------------------------------
-                                   244     244       0         0
+                                   241     241       0         0
 ===================== END REDUCTION RESULT =====================

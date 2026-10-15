@@ -982,8 +982,6 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/dut.sv:146:37: Compile generate block "gen_lane".
 [WRN:CP5851] $Source01/dut.sv:75:20: Failed to bind "p".
 [WRN:CP5851] $Source01/dut.sv:76:19: Failed to bind "s".
-[WRN:CP5851] $Source01/dut.sv:148:46: Failed to bind "u_if".
-[WRN:CP5851] $Source01/dut.sv:148:51: Failed to bind "data".
 [WRN:PA5506] $Source01/dut.sv:40:23: No timescale set for "macro_mod".
 [WRN:PA5506] $Source01/dut.sv:46:1: No timescale set for "passthru".
 [WRN:PA5506] $Source01/dut.sv:54:1: No timescale set for "adder #(.W(8))".
@@ -2314,128 +2312,132 @@ Design name:unnamed:
         GenRegion start:145:3 end:150:14:
           vpiParent: Module name:gen_top #(.N(2))
           vpiFullName: gen_top #(.N(2))
-          vpiStmt GenFor start:146:5 end:149:8:
-            vpiParent: GenRegion
-            vpiFullName: gen_top #(.N(2))
-            vpiForInitStmt (1 items):
-              Assignment start:146:10 end:146:15:
+          vpiStmt (1 items):
+            GenFor start:146:5 end:149:8:
+              vpiParent: GenRegion
+              vpiFullName: gen_top #(.N(2))
+              vpiForInitStmt (1 items):
+                Assignment start:146:10 end:146:15:
+                  vpiParent: GenFor
+                  vpiLhs RefObj name:i start:146:10 end:146:11:
+                    vpiParent: Assignment
+                    vpiName: i
+                    vpiFullName: gen_top #(.N(2)).i
+                    vpiActual: Variable name:i
+                  vpiRhs Constant start:146:14 end:146:15:
+                    vpiParent: Assignment
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: gen_top #(.N(2))
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiForIncStmt (1 items):
+                Operation start:146:24 end:146:27:
+                  vpiParent: GenFor
+                  vpiOpType: post inc (64)
+                  vpiOperand (1 items):
+                    RefObj name:i start:146:24 end:146:25:
+                      vpiParent: Operation
+                      vpiName: i
+                      vpiFullName: gen_top #(.N(2)).i
+                      vpiActual: Variable name:i
+              vpiCondition Operation start:146:17 end:146:22:
                 vpiParent: GenFor
-                vpiLhs RefObj name:i start:146:10 end:146:11:
-                  vpiParent: Assignment
-                  vpiName: i
-                  vpiFullName: gen_top #(.N(2)).i
-                  vpiActual: Variable name:i
-                vpiRhs Constant start:146:14 end:146:15:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: gen_top #(.N(2))
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "0"
-                  vpiValue: 0
-            vpiForIncStmt (1 items):
-              Operation start:146:24 end:146:27:
-                vpiParent: GenFor
-                vpiOpType: post inc (64)
-                vpiOperand (1 items):
-                  RefObj name:i start:146:24 end:146:25:
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:i start:146:17 end:146:18:
                     vpiParent: Operation
                     vpiName: i
                     vpiFullName: gen_top #(.N(2)).i
                     vpiActual: Variable name:i
-            vpiCondition Operation start:146:17 end:146:22:
-              vpiParent: GenFor
-              vpiOpType: less than (20)
-              vpiOperand (2 items):
-                RefObj name:i start:146:17 end:146:18:
-                  vpiParent: Operation
-                  vpiName: i
-                  vpiFullName: gen_top #(.N(2)).i
-                  vpiActual: Variable name:i
-                RefObj name:N start:146:21 end:146:22:
-                  vpiParent: Operation
-                  vpiName: N
-                  vpiFullName: gen_top #(.N(2)).N
-                  vpiActual: Parameter name:N
-            vpiStmt Begin name:gen_lane start:146:29 end:149:8:
-              vpiParent: GenFor
-              vpiName Identifier name:gen_lane start:146:37 end:146:45:
-              vpiFullName: gen_top #(.N(2)).gen_lane
-              vpiTypespec (2 items):
-                BitTypespec:
-                  vpiParent: Begin name:gen_lane
-                ModuleTypespec name:passthru start:148:7 end:148:15:
-                  vpiParent: Begin name:gen_lane
-                  vpiName Identifier name:passthru start:148:7 end:148:15:
-                  vpiDefName: passthru
-                  vpiModule: Module name:passthru
-              vpiStmt (2 items):
-                RefInstance name:u_if start:147:17 end:147:21:
-                  vpiParent: Begin name:gen_lane
-                  vpiName: u_if
-                  vpiTypespec RefTypespec name:simple_if start:147:7 end:147:16:
-                    vpiParent: RefInstance name:u_if
-                    vpiName: simple_if
-                    vpiFullName: gen_top #(.N(2)).gen_lane.u_if.simple_if
-                    vpiActual: InterfaceTypespec name:simple_if
-                RefInstance name:u_pt start:148:17 end:148:21:
-                  vpiParent: Begin name:gen_lane
-                  vpiName: u_pt
-                  vpiTypespec RefTypespec name:passthru start:148:7 end:148:15:
-                    vpiParent: RefInstance name:u_pt
-                    vpiName: passthru
-                    vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.passthru
-                    vpiActual: ModuleTypespec name:passthru
-                  vpiArgument (3 items):
-                    NamedArgument start:148:22 end:148:35:
+                  RefObj name:N start:146:21 end:146:22:
+                    vpiParent: Operation
+                    vpiName: N
+                    vpiFullName: gen_top #(.N(2)).N
+                    vpiActual: Parameter name:N
+              vpiStmt GenRegion name:gen_lane start:146:29 end:149:8:
+                vpiParent: GenFor
+                vpiName Identifier name:gen_lane start:146:37 end:146:45:
+                vpiFullName: gen_top #(.N(2)).gen_lane
+                vpiTypespec (2 items):
+                  BitTypespec:
+                    vpiParent: GenRegion name:gen_lane
+                  ModuleTypespec name:passthru start:148:7 end:148:15:
+                    vpiParent: GenRegion name:gen_lane
+                    vpiName Identifier name:passthru start:148:7 end:148:15:
+                    vpiDefName: passthru
+                    vpiModule: Module name:passthru
+                vpiStmt (2 items):
+                  RefInstance name:u_if start:147:17 end:147:21:
+                    vpiParent: GenRegion name:gen_lane
+                    vpiName: u_if
+                    vpiTypespec RefTypespec name:simple_if start:147:7 end:147:16:
+                      vpiParent: RefInstance name:u_if
+                      vpiName: simple_if
+                      vpiFullName: gen_top #(.N(2)).gen_lane.u_if.simple_if
+                      vpiActual: InterfaceTypespec name:simple_if
+                  RefInstance name:u_pt start:148:17 end:148:21:
+                    vpiParent: GenRegion name:gen_lane
+                    vpiName: u_pt
+                    vpiTypespec RefTypespec name:passthru start:148:7 end:148:15:
                       vpiParent: RefInstance name:u_pt
-                      vpiConnByName: true
-                      vpiLowConn RefObj name:in_clk start:148:23 end:148:29:
-                        vpiParent: NamedArgument
-                        vpiName: in_clk
-                        vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.in_clk
-                        vpiActual: Port name:in_clk
-                      vpiHighConn Constant start:148:30 end:148:34:
-                        vpiParent: NamedArgument
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: gen_top #(.N(2)).gen_lane.u_pt
-                          vpiActual: BitTypespec
-                        vpiConstType: binary (3)
-                        vpiSize: 1
-                        vpiDecompile: "1'b0"
-                        vpiValue: "0"
-                    NamedArgument start:148:37 end:148:56:
-                      vpiParent: RefInstance name:u_pt
-                      vpiConnByName: true
-                      vpiLowConn RefObj name:in_data start:148:38 end:148:45:
-                        vpiParent: NamedArgument
-                        vpiName: in_data
-                        vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.in_data
-                        vpiActual: Port name:in_data
-                      vpiHighConn RefObj name:u_if.data start:148:46 end:148:55:
-                        vpiParent: NamedArgument
-                        vpiName: u_if.data
-                        vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.u_if.data
-                        vpiPathElem (2 items):
-                          RefObj name:u_if start:148:46 end:148:50:
-                            vpiParent: RefObj name:u_if.data
-                            vpiName: u_if
-                            vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.u_if
-                          RefObj name:data start:148:51 end:148:55:
-                            vpiParent: RefObj name:u_if.data
-                            vpiName: data
-                            vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.data
-                    NamedArgument start:148:58 end:148:69:
-                      vpiParent: RefInstance name:u_pt
-                      vpiConnByName: true
-                      vpiLowConn RefObj name:out_data start:148:59 end:148:67:
-                        vpiParent: NamedArgument
-                        vpiName: out_data
-                        vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.out_data
-                        vpiActual: Port name:out_data
+                      vpiName: passthru
+                      vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.passthru
+                      vpiActual: ModuleTypespec name:passthru
+                    vpiArgument (3 items):
+                      NamedArgument start:148:22 end:148:35:
+                        vpiParent: RefInstance name:u_pt
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:in_clk start:148:23 end:148:29:
+                          vpiParent: NamedArgument
+                          vpiName: in_clk
+                          vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.in_clk
+                          vpiActual: Port name:in_clk
+                        vpiHighConn Constant start:148:30 end:148:34:
+                          vpiParent: NamedArgument
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: gen_top #(.N(2)).gen_lane.u_pt
+                            vpiActual: BitTypespec
+                          vpiConstType: binary (3)
+                          vpiSize: 1
+                          vpiDecompile: "1'b0"
+                          vpiValue: "0"
+                      NamedArgument start:148:37 end:148:56:
+                        vpiParent: RefInstance name:u_pt
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:in_data start:148:38 end:148:45:
+                          vpiParent: NamedArgument
+                          vpiName: in_data
+                          vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.in_data
+                          vpiActual: Port name:in_data
+                        vpiHighConn RefObj name:u_if.data start:148:46 end:148:55:
+                          vpiParent: NamedArgument
+                          vpiName: u_if.data
+                          vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.u_if.data
+                          vpiPathElem (2 items):
+                            RefObj name:u_if start:148:46 end:148:50:
+                              vpiParent: RefObj name:u_if.data
+                              vpiName: u_if
+                              vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.u_if
+                              vpiActual: RefInstance name:u_if
+                            RefObj name:data start:148:51 end:148:55:
+                              vpiParent: RefObj name:u_if.data
+                              vpiName: data
+                              vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.data
+                              vpiActual: Variable name:data
+                          vpiActual: Variable name:data
+                      NamedArgument start:148:58 end:148:69:
+                        vpiParent: RefInstance name:u_pt
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:out_data start:148:59 end:148:67:
+                          vpiParent: NamedArgument
+                          vpiName: out_data
+                          vpiFullName: gen_top #(.N(2)).gen_lane.u_pt.out_data
+                          vpiActual: Port name:out_data
   vpiTypespec (11 items):
     InterfaceTypespec name:simple_if:
       vpiParent: Design name:unnamed
@@ -2538,7 +2540,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 2
-[WARNING] : 13
+[WARNING] : 11
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

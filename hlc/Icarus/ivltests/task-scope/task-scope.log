@@ -424,6 +424,33 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: a
               vpiFullName: nest.incr.a
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: Task name:incr
+              vpiRange (1 items):
+                Range start:30:13 end:30:18:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:30:14 end:30:15:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: nest.incr
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "7"
+                    vpiValue: 7
+                  vpiRightRange Constant start:30:16 end:30:17:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: nest.incr
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
           vpiIODecl (1 items):
             IODecl name:a start:30:19 end:30:20:
               vpiParent: Task name:incr
@@ -433,98 +460,67 @@ Design name:unnamed:
                 vpiParent: IODecl name:a
                 vpiFullName: nest.incr.a
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:31:7 end:34:10:
             vpiParent: Task name:incr
             vpiFullName: nest.incr
-            vpiTypespec (1 items):
-              LogicTypespec:
+            vpiStmt (2 items):
+              Assignment start:32:3 end:32:11:
                 vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:30:13 end:30:18:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:30:14 end:30:15:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: nest.incr
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "7"
-                      vpiValue: 7
-                    vpiRightRange Constant start:30:16 end:30:17:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: nest.incr
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-            vpiStmt (1 items):
-              Begin start:31:7 end:34:10:
-                vpiParent: Begin
-                vpiFullName: nest.incr
-                vpiStmt (2 items):
-                  Assignment start:32:3 end:32:11:
-                    vpiParent: Begin
-                    vpiLhs RefObj name:r start:32:3 end:32:4:
-                      vpiParent: Assignment
+                vpiLhs RefObj name:r start:32:3 end:32:4:
+                  vpiParent: Assignment
+                  vpiName: r
+                  vpiFullName: nest.incr.r
+                  vpiActual: Variable name:r
+                vpiRhs Operation start:32:8 end:32:11:
+                  vpiParent: Assignment
+                  vpiOpType: add (24)
+                  vpiOperand (2 items):
+                    RefObj name:r start:32:8 end:32:9:
+                      vpiParent: Operation
                       vpiName: r
                       vpiFullName: nest.incr.r
                       vpiActual: Variable name:r
-                    vpiRhs Operation start:32:8 end:32:11:
-                      vpiParent: Assignment
-                      vpiOpType: add (24)
-                      vpiOperand (2 items):
-                        RefObj name:r start:32:8 end:32:9:
-                          vpiParent: Operation
-                          vpiName: r
-                          vpiFullName: nest.incr.r
-                          vpiActual: Variable name:r
-                        RefObj name:a start:32:10 end:32:11:
-                          vpiParent: Operation
-                          vpiName: a
-                          vpiFullName: nest.incr.a
-                          vpiActual: IODecl name:a
-                  DelayControl start:33:3 end:33:25:
-                    vpiParent: Begin
-                    vpiDelay: 1
-                    vpiStmt SysTaskCall name:$display start:33:6 end:33:24:
-                      vpiParent: DelayControl
-                      vpiName Identifier name:$display start:33:6 end:33:14:
-                      vpiArgument (2 items):
-                        NamedArgument start:33:15 end:33:21:
-                          vpiParent: SysTaskCall name:$display
-                          vpiHighConn Constant start:33:15 end:33:21:
-                            vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: nest.incr
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 32
-                            vpiDecompile: "\"R=%b\""
-                            vpiValue: R=%b
-                        NamedArgument start:33:22 end:33:23:
-                          vpiParent: SysTaskCall name:$display
-                          vpiHighConn RefObj name:r start:33:22 end:33:23:
-                            vpiParent: NamedArgument
-                            vpiName: r
-                            vpiFullName: nest.incr.r
-                            vpiActual: Variable name:r
-                    vpiDelay Constant start:33:4 end:33:5:
-                      vpiParent: DelayControl
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: nest.incr
-                        vpiActual: IntTypespec
-                      vpiConstType: int (7)
-                      vpiSize: 32
-                      vpiDecompile: "1"
-                      vpiValue: 1
+                    RefObj name:a start:32:10 end:32:11:
+                      vpiParent: Operation
+                      vpiName: a
+                      vpiFullName: nest.incr.a
+                      vpiActual: IODecl name:a
+              DelayControl start:33:3 end:33:25:
+                vpiParent: Begin
+                vpiDelay: 1
+                vpiStmt SysTaskCall name:$display start:33:6 end:33:24:
+                  vpiParent: DelayControl
+                  vpiName Identifier name:$display start:33:6 end:33:14:
+                  vpiArgument (2 items):
+                    NamedArgument start:33:15 end:33:21:
+                      vpiParent: SysTaskCall name:$display
+                      vpiHighConn Constant start:33:15 end:33:21:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: nest.incr
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 32
+                        vpiDecompile: "\"R=%b\""
+                        vpiValue: R=%b
+                    NamedArgument start:33:22 end:33:23:
+                      vpiParent: SysTaskCall name:$display
+                      vpiHighConn RefObj name:r start:33:22 end:33:23:
+                        vpiParent: NamedArgument
+                        vpiName: r
+                        vpiFullName: nest.incr.r
+                        vpiActual: Variable name:r
+                vpiDelay Constant start:33:4 end:33:5:
+                  vpiParent: DelayControl
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: nest.incr
+                    vpiActual: IntTypespec
+                  vpiConstType: int (7)
+                  vpiSize: 32
+                  vpiDecompile: "1"
+                  vpiValue: 1
       vpiPort (1 items):
         Port name:r start:24:13 end:24:14:
           vpiParent: Module name:nest
@@ -882,7 +878,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/task-scope/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             122     122       0         0
+Others                             121     121       0         0
 ----------------------------------------------------------------
-                                   122     122       0         0
+                                   121     121       0         0
 ===================== END REDUCTION RESULT =====================

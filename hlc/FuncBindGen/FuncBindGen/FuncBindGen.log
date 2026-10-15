@@ -190,9 +190,7 @@ n<$Source01/dut.sv> u<175> t<Top_level_rule> c<1> l<1:1> el<15:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "top".
 [INF:CP5836] $Source01/dut.sv:5:27: Compile generate block "gen_block".
-[WRN:CP5851] $Source01/dut.sv:11:23: Failed to bind "get_casted_param".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "top".
-[ERR:LN7705] $Source01/dut.sv:11:23: Null Actual: id:76, type:SubroutineCall, name:get_casted_param, relation:vpiOperand.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -313,138 +311,134 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
-          vpiStmt Begin name:gen_block start:5:19 end:12:7:
+          vpiStmt GenRegion name:gen_block start:5:19 end:12:7:
             vpiParent: GenIf
             vpiName Identifier name:gen_block start:5:27 end:5:36:
             vpiFullName: top.gen_block
-            vpiStmt (2 items):
+            vpiTaskFunc (1 items):
               Function name:get_casted_param start:6:7 end:9:18:
-                vpiParent: Begin name:gen_block
+                vpiParent: GenRegion name:gen_block
                 vpiName Identifier name:get_casted_param start:6:42 end:6:58:
                 vpiFullName: top.gen_block.get_casted_param
+                vpiVariable (1 items):
+                  Variable name:dec_tmp_sub start:7:32 end:7:43:
+                    vpiParent: Function name:get_casted_param
+                    vpiTypespec RefTypespec start:7:10 end:7:31:
+                      vpiParent: Variable name:dec_tmp_sub
+                      vpiFullName: top.gen_block.get_casted_param.dec_tmp_sub
+                      vpiActual: LogicTypespec
+                    vpiName: dec_tmp_sub
+                    vpiFullName: top.gen_block.get_casted_param.dec_tmp_sub
+                    vpiAutomatic: true
+                    vpiValue Operation start:7:46 end:7:65:
+                      vpiParent: Variable name:dec_tmp_sub
+                      vpiTypespec RefTypespec:
+                        vpiParent: Operation
+                        vpiFullName: top.gen_block.get_casted_param.dec_tmp_sub
+                        vpiPathElem (1 items):
+                          Operation:
+                            vpiParent: RefTypespec
+                            vpiOpType: type (95)
+                            vpiOperand (1 items):
+                              RefObj name:PTR_WIDTH start:7:47 end:7:56:
+                                vpiParent: Operation
+                                vpiName: PTR_WIDTH
+                                vpiFullName: top.gen_block.get_casted_param.dec_tmp_sub.PTR_WIDTH
+                                vpiActual: Parameter name:PTR_WIDTH
+                      vpiOpType: cast (81)
+                      vpiOperand (1 items):
+                        RefObj name:Depth start:7:59 end:7:64:
+                          vpiParent: Operation
+                          vpiName: Depth
+                          vpiFullName: top.gen_block.get_casted_param.dec_tmp_sub.Depth
+                          vpiActual: Parameter name:Depth
+                vpiTypespec (2 items):
+                  LogicTypespec start:6:26 end:6:41:
+                    vpiParent: Function name:get_casted_param
+                    vpiRange (1 items):
+                      Range start:6:26 end:6:41:
+                        vpiParent: LogicTypespec
+                        vpiLeftRange Operation start:6:27 end:6:38:
+                          vpiParent: Range
+                          vpiOpType: subtract (11)
+                          vpiOperand (2 items):
+                            RefObj name:PTR_WIDTH start:6:27 end:6:36:
+                              vpiParent: Operation
+                              vpiName: PTR_WIDTH
+                              vpiFullName: top.gen_block.get_casted_param.PTR_WIDTH
+                              vpiActual: Parameter name:PTR_WIDTH
+                            Constant start:6:37 end:6:38:
+                              vpiParent: Operation
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: top.gen_block.get_casted_param
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                        vpiRightRange Constant start:6:39 end:6:40:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: top.gen_block.get_casted_param
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                    vpiVector: true
+                  LogicTypespec:
+                    vpiParent: Function name:get_casted_param
+                    vpiRange (1 items):
+                      Range start:7:16 end:7:31:
+                        vpiParent: LogicTypespec
+                        vpiLeftRange Operation start:7:17 end:7:28:
+                          vpiParent: Range
+                          vpiOpType: subtract (11)
+                          vpiOperand (2 items):
+                            RefObj name:PTR_WIDTH start:7:17 end:7:26:
+                              vpiParent: Operation
+                              vpiName: PTR_WIDTH
+                              vpiFullName: top.gen_block.get_casted_param.PTR_WIDTH
+                              vpiActual: Parameter name:PTR_WIDTH
+                            Constant start:7:27 end:7:28:
+                              vpiParent: Operation
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: top.gen_block.get_casted_param
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                        vpiRightRange Constant start:7:29 end:7:30:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: top.gen_block.get_casted_param
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                    vpiVector: true
                 vpiVisibility: public (1)
                 vpiAutomatic: true
-                vpiStmt Begin:
+                vpiStmt ReturnStmt start:8:10 end:8:29:
                   vpiParent: Function name:get_casted_param
-                  vpiFullName: top.gen_block.get_casted_param
-                  vpiVariable (1 items):
-                    Variable name:dec_tmp_sub start:7:32 end:7:43:
-                      vpiParent: Begin
-                      vpiTypespec RefTypespec start:7:10 end:7:31:
-                        vpiParent: Variable name:dec_tmp_sub
-                        vpiFullName: top.gen_block.get_casted_param.dec_tmp_sub
-                        vpiActual: LogicTypespec
-                      vpiName: dec_tmp_sub
-                      vpiFullName: top.gen_block.get_casted_param.dec_tmp_sub
-                      vpiAutomatic: true
-                      vpiValue Operation start:7:46 end:7:65:
-                        vpiParent: Variable name:dec_tmp_sub
-                        vpiTypespec RefTypespec:
-                          vpiParent: Operation
-                          vpiFullName: top.gen_block.get_casted_param.dec_tmp_sub
-                          vpiPathElem (1 items):
-                            Operation:
-                              vpiParent: RefTypespec
-                              vpiOpType: type (95)
-                              vpiOperand (1 items):
-                                RefObj name:PTR_WIDTH start:7:47 end:7:56:
-                                  vpiParent: Operation
-                                  vpiName: PTR_WIDTH
-                                  vpiFullName: top.gen_block.get_casted_param.dec_tmp_sub.PTR_WIDTH
-                                  vpiActual: Parameter name:PTR_WIDTH
-                        vpiOpType: cast (81)
-                        vpiOperand (1 items):
-                          RefObj name:Depth start:7:59 end:7:64:
-                            vpiParent: Operation
-                            vpiName: Depth
-                            vpiFullName: top.gen_block.get_casted_param.dec_tmp_sub.Depth
-                            vpiActual: Parameter name:Depth
-                  vpiTypespec (2 items):
-                    LogicTypespec start:6:26 end:6:41:
-                      vpiParent: Begin
-                      vpiRange (1 items):
-                        Range start:6:26 end:6:41:
-                          vpiParent: LogicTypespec
-                          vpiLeftRange Operation start:6:27 end:6:38:
-                            vpiParent: Range
-                            vpiOpType: subtract (11)
-                            vpiOperand (2 items):
-                              RefObj name:PTR_WIDTH start:6:27 end:6:36:
-                                vpiParent: Operation
-                                vpiName: PTR_WIDTH
-                                vpiFullName: top.gen_block.get_casted_param.PTR_WIDTH
-                                vpiActual: Parameter name:PTR_WIDTH
-                              Constant start:6:37 end:6:38:
-                                vpiParent: Operation
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: top.gen_block.get_casted_param
-                                  vpiActual: IntTypespec
-                                vpiConstType: unsigned int (9)
-                                vpiSize: 64
-                                vpiDecompile: "1"
-                                vpiValue: 1
-                          vpiRightRange Constant start:6:39 end:6:40:
-                            vpiParent: Range
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: top.gen_block.get_casted_param
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "0"
-                            vpiValue: 0
-                      vpiVector: true
-                    LogicTypespec:
-                      vpiParent: Begin
-                      vpiRange (1 items):
-                        Range start:7:16 end:7:31:
-                          vpiParent: LogicTypespec
-                          vpiLeftRange Operation start:7:17 end:7:28:
-                            vpiParent: Range
-                            vpiOpType: subtract (11)
-                            vpiOperand (2 items):
-                              RefObj name:PTR_WIDTH start:7:17 end:7:26:
-                                vpiParent: Operation
-                                vpiName: PTR_WIDTH
-                                vpiFullName: top.gen_block.get_casted_param.PTR_WIDTH
-                                vpiActual: Parameter name:PTR_WIDTH
-                              Constant start:7:27 end:7:28:
-                                vpiParent: Operation
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: top.gen_block.get_casted_param
-                                  vpiActual: IntTypespec
-                                vpiConstType: unsigned int (9)
-                                vpiSize: 64
-                                vpiDecompile: "1"
-                                vpiValue: 1
-                          vpiRightRange Constant start:7:29 end:7:30:
-                            vpiParent: Range
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: top.gen_block.get_casted_param
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "0"
-                            vpiValue: 0
-                      vpiVector: true
-                  vpiStmt (2 items):
-                    Variable name:dec_tmp_sub:
-                    ReturnStmt start:8:10 end:8:29:
-                      vpiParent: Begin
-                      vpiCondition RefObj name:dec_tmp_sub start:8:17 end:8:28:
-                        vpiParent: ReturnStmt
-                        vpiName: dec_tmp_sub
-                        vpiFullName: top.gen_block.get_casted_param.dec_tmp_sub
-                        vpiActual: Variable name:dec_tmp_sub
+                  vpiCondition RefObj name:dec_tmp_sub start:8:17 end:8:28:
+                    vpiParent: ReturnStmt
+                    vpiName: dec_tmp_sub
+                    vpiFullName: top.gen_block.get_casted_param.dec_tmp_sub
+                    vpiActual: Variable name:dec_tmp_sub
                 vpiReturn RefTypespec start:6:26 end:6:41:
                   vpiParent: Function name:get_casted_param
                   vpiFullName: top.gen_block.get_casted_param
                   vpiActual: LogicTypespec
+            vpiStmt (1 items):
               ContAssign start:11:14 end:11:42:
-                vpiParent: Begin name:gen_block
+                vpiParent: GenRegion name:gen_block
                 vpiLhs RefObj name:o start:11:14 end:11:15:
                   vpiParent: ContAssign
                   vpiName: o
@@ -458,9 +452,10 @@ Design name:unnamed:
                     vpiActual: IntTypespec
                   vpiOpType: cast (81)
                   vpiOperand (1 items):
-                    SubroutineCall name:get_casted_param start:11:23 end:11:41:
+                    FuncCall name:get_casted_param start:11:23 end:11:41:
                       vpiParent: Operation
                       vpiName Identifier name:get_casted_param start:11:23 end:11:39:
+                      vpiTaskFunc: Function name:get_casted_param
   vpiTypespec (3 items):
     ModuleTypespec name:top:
       vpiParent: Design name:unnamed
@@ -479,8 +474,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -528,7 +523,7 @@ Operation                            6       3       0         3
 RefObj                              11       8       0         3
 RefTypespec                         15      15       3         3
 ----------------------------------------------------------------
-Others                              31      31       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    70      64       6        12
+                                    69      63       6        12
 ===================== END REDUCTION RESULT =====================

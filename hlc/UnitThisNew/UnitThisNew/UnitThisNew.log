@@ -360,17 +360,17 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/dut.sv:39:15: Failed to bind "kill_update_thread".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "toto".
 [ERR:CP5909] $Source01/dut.sv:9:13: Illegal use of this: clone.
-[ERR:LN7705] $Source01/dut.sv:9:18: Null Actual: id:63, type:SubroutineCall, name:create, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:9:25: Null Actual: id:60, type:SubroutineCall, name:get_name, relation:vpiHighConn.
-[ERR:LN7705] $Source01/dut.sv:11:11: Null Actual: id:70, type:SubroutineCall, name:copy, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:9:18: Null Actual: id:62, type:SubroutineCall, name:create, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:9:25: Null Actual: id:59, type:SubroutineCall, name:get_name, relation:vpiHighConn.
+[ERR:LN7705] $Source01/dut.sv:11:11: Null Actual: id:69, type:SubroutineCall, name:copy, relation:vpiPathElem.
 [ERR:CP5909] $Source01/dut.sv:11:16: Illegal use of this: clone.
 [ERR:CP5909] $Source01/dut.sv:27:8: Illegal use of this: add_field.
 [ERR:LN7705] $Source01/dut.sv:27:27: Null Actual: id:111, type:SubroutineCall, name:get_lsb_pos_in_register, relation:vpiPathElem.
 [ERR:CP5909] $Source01/dut.sv:33:11: Illegal use of this: is_recording_enabled.
 [ERR:CP5909] $Source01/dut.sv:38:11: Illegal use of this: start_update_thread.
-[ERR:LN7705] $Source01/dut.sv:38:32: Null Actual: id:141, type:MethodFuncCall, name:exists, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:38:32: Null Actual: id:140, type:MethodFuncCall, name:exists, relation:vpiPathElem.
 [ERR:CP5909] $Source01/dut.sv:39:10: Illegal use of this: start_update_thread.
-[ERR:LN7705] $Source01/dut.sv:39:15: Null Actual: id:148, type:SubroutineCall, name:kill_update_thread, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:39:15: Null Actual: id:147, type:SubroutineCall, name:kill_update_thread, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -448,7 +448,6 @@ Design name:unnamed:
                 vpiParent: IODecl name:action
                 vpiName: uvm_action
                 vpiFullName: toto::uvm_string_to_action::action::uvm_action
-          vpiStmt: Variable name:actions
           vpiReturn RefTypespec start:3:23 end:3:26:
             vpiParent: Function name:uvm_string_to_action
             vpiFullName: toto::uvm_string_to_action
@@ -693,6 +692,15 @@ Design name:unnamed:
           vpiParent: Package name:toto
           vpiName Identifier name:start_update_thread start:36:33 end:36:52:
           vpiFullName: toto::start_update_thread
+          vpiVariable (1 items):
+            Variable name:rg start:37:15 end:37:17:
+              vpiParent: Function name:start_update_thread
+              vpiTypespec RefTypespec name:uvm_reg start:37:7 end:37:14:
+                vpiParent: Variable name:rg
+                vpiName: uvm_reg
+                vpiFullName: toto::start_update_thread::rg::uvm_reg
+              vpiName: rg
+              vpiFullName: toto::start_update_thread::rg
           vpiVisibility: public (1)
           vpiPrefix RefObj name:uvm_reg_backdoor start:36:15 end:36:31:
             vpiParent: Function name:start_update_thread
@@ -707,70 +715,56 @@ Design name:unnamed:
                 vpiParent: IODecl name:element
                 vpiName: uvm_object
                 vpiFullName: toto::start_update_thread::element::uvm_object
-          vpiStmt Begin:
+          vpiStmt IfStmt start:38:7 end:40:10:
             vpiParent: Function name:start_update_thread
-            vpiFullName: toto::start_update_thread
-            vpiVariable (1 items):
-              Variable name:rg start:37:15 end:37:17:
-                vpiParent: Begin
-                vpiTypespec RefTypespec name:uvm_reg start:37:7 end:37:14:
-                  vpiParent: Variable name:rg
-                  vpiName: uvm_reg
-                  vpiFullName: toto::start_update_thread::rg::uvm_reg
-                vpiName: rg
-                vpiFullName: toto::start_update_thread::rg
-            vpiStmt (2 items):
-              Variable name:rg:
-              IfStmt start:38:7 end:40:10:
-                vpiParent: Begin
-                vpiCondition RefObj name:this.m_update_thread.exists(element) start:38:11 end:38:47:
-                  vpiParent: IfStmt
-                  vpiName: this.m_update_thread.exists(element)
-                  vpiFullName: toto::start_update_thread::this.m_update_thread.exists(element)
-                  vpiPathElem (3 items):
-                    RefObj name:this start:38:11 end:38:15:
-                      vpiParent: RefObj name:this.m_update_thread.exists(element)
+            vpiCondition RefObj name:this.m_update_thread.exists(element) start:38:11 end:38:47:
+              vpiParent: IfStmt
+              vpiName: this.m_update_thread.exists(element)
+              vpiFullName: toto::start_update_thread::this.m_update_thread.exists(element)
+              vpiPathElem (3 items):
+                RefObj name:this start:38:11 end:38:15:
+                  vpiParent: RefObj name:this.m_update_thread.exists(element)
+                  vpiName: this
+                  vpiFullName: toto::start_update_thread::this
+                RefObj name:m_update_thread start:38:16 end:38:31:
+                  vpiParent: RefObj name:this.m_update_thread.exists(element)
+                  vpiName: m_update_thread
+                  vpiFullName: toto::start_update_thread::m_update_thread
+                MethodFuncCall name:exists start:38:32 end:38:47:
+                  vpiParent: RefObj name:this.m_update_thread.exists(element)
+                  vpiName Identifier name:exists start:38:32 end:38:38:
+                  vpiArgument (1 items):
+                    NamedArgument start:38:39 end:38:46:
+                      vpiParent: MethodFuncCall name:exists
+                      vpiHighConn RefObj name:element start:38:39 end:38:46:
+                        vpiParent: NamedArgument
+                        vpiName: element
+                        vpiFullName: toto::start_update_thread::this.m_update_thread.exists(element)::element
+                        vpiActual: IODecl name:element
+            vpiStmt Begin start:38:49 end:40:10:
+              vpiParent: IfStmt
+              vpiFullName: toto::start_update_thread
+              vpiStmt (1 items):
+                RefObj name:this.kill_update_thread(element) start:39:10 end:39:42:
+                  vpiParent: Begin
+                  vpiName: this.kill_update_thread(element)
+                  vpiFullName: toto::start_update_thread::this.kill_update_thread(element)
+                  vpiPathElem (2 items):
+                    RefObj name:this start:39:10 end:39:14:
+                      vpiParent: RefObj name:this.kill_update_thread(element)
                       vpiName: this
                       vpiFullName: toto::start_update_thread::this
-                    RefObj name:m_update_thread start:38:16 end:38:31:
-                      vpiParent: RefObj name:this.m_update_thread.exists(element)
-                      vpiName: m_update_thread
-                      vpiFullName: toto::start_update_thread::m_update_thread
-                    MethodFuncCall name:exists start:38:32 end:38:47:
-                      vpiParent: RefObj name:this.m_update_thread.exists(element)
-                      vpiName Identifier name:exists start:38:32 end:38:38:
+                    SubroutineCall name:kill_update_thread start:39:15 end:39:42:
+                      vpiParent: RefObj name:this.kill_update_thread(element)
+                      vpiName Identifier name:kill_update_thread start:39:15 end:39:33:
                       vpiArgument (1 items):
-                        NamedArgument start:38:39 end:38:46:
-                          vpiParent: MethodFuncCall name:exists
-                          vpiHighConn RefObj name:element start:38:39 end:38:46:
+                        NamedArgument start:39:34 end:39:41:
+                          vpiParent: SubroutineCall name:kill_update_thread
+                          vpiHighConn RefObj name:element start:39:34 end:39:41:
                             vpiParent: NamedArgument
                             vpiName: element
-                            vpiFullName: toto::start_update_thread::this.m_update_thread.exists(element)::element
+                            vpiFullName: toto::start_update_thread::this.kill_update_thread(element)::kill_update_thread::element
                             vpiActual: IODecl name:element
-                vpiStmt Begin start:38:49 end:40:10:
-                  vpiParent: IfStmt
-                  vpiFullName: toto::start_update_thread
-                  vpiStmt (1 items):
-                    RefObj name:this.kill_update_thread(element) start:39:10 end:39:42:
-                      vpiParent: Begin
-                      vpiName: this.kill_update_thread(element)
-                      vpiFullName: toto::start_update_thread::this.kill_update_thread(element)
-                      vpiPathElem (2 items):
-                        RefObj name:this start:39:10 end:39:14:
-                          vpiParent: RefObj name:this.kill_update_thread(element)
-                          vpiName: this
-                          vpiFullName: toto::start_update_thread::this
-                        SubroutineCall name:kill_update_thread start:39:15 end:39:42:
-                          vpiParent: RefObj name:this.kill_update_thread(element)
-                          vpiName Identifier name:kill_update_thread start:39:15 end:39:33:
-                          vpiArgument (1 items):
-                            NamedArgument start:39:34 end:39:41:
-                              vpiParent: SubroutineCall name:kill_update_thread
-                              vpiHighConn RefObj name:element start:39:34 end:39:41:
-                                vpiParent: NamedArgument
-                                vpiName: element
-                                vpiFullName: toto::start_update_thread::this.kill_update_thread(element)::kill_update_thread::element
-                                vpiActual: IODecl name:element
           vpiReturn RefTypespec start:36:10 end:36:14:
             vpiParent: Function name:start_update_thread
             vpiFullName: toto::start_update_thread
@@ -843,7 +837,7 @@ COMMAND: ${HLC_DIR}/regression/UnitThisNew/UnitThisNew/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1497    1497       0         0
+Others                            1496    1496       0         0
 ----------------------------------------------------------------
-                                  1497    1497       0         0
+                                  1496    1496       0         0
 ===================== END REDUCTION RESULT =====================

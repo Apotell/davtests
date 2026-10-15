@@ -1970,6 +1970,10 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: external
               vpiFullName: tsk.center_task.external
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: Task name:center_task
+              vpiScalar: true
           vpiIODecl (1 items):
             IODecl name:external start:132:13 end:132:21:
               vpiParent: Task name:center_task
@@ -1979,60 +1983,52 @@ Design name:unnamed:
                 vpiParent: IODecl name:external
                 vpiFullName: tsk.center_task.external
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:133:7 end:141:10:
             vpiParent: Task name:center_task
             vpiFullName: tsk.center_task
-            vpiTypespec (1 items):
-              LogicTypespec:
+            vpiStmt (2 items):
+              IfStmt start:134:3 end:136:6:
                 vpiParent: Begin
-                vpiScalar: true
-            vpiStmt (1 items):
-              Begin start:133:7 end:141:10:
+                vpiCondition RefObj name:toggle start:134:7 end:134:13:
+                  vpiParent: IfStmt
+                  vpiName: toggle
+                  vpiFullName: tsk.center_task.toggle
+                  vpiActual: Net name:toggle
+                vpiStmt Begin start:134:15 end:136:6:
+                  vpiParent: IfStmt
+                  vpiFullName: tsk.center_task
+              IfStmt start:137:3 end:140:6:
                 vpiParent: Begin
-                vpiFullName: tsk.center_task
-                vpiStmt (2 items):
-                  IfStmt start:134:3 end:136:6:
-                    vpiParent: Begin
-                    vpiCondition RefObj name:toggle start:134:7 end:134:13:
-                      vpiParent: IfStmt
-                      vpiName: toggle
-                      vpiFullName: tsk.center_task.toggle
-                      vpiActual: Net name:toggle
-                    vpiStmt Begin start:134:15 end:136:6:
-                      vpiParent: IfStmt
-                      vpiFullName: tsk.center_task
-                  IfStmt start:137:3 end:140:6:
-                    vpiParent: Begin
-                    vpiCondition RefObj name:external start:137:7 end:137:15:
-                      vpiParent: IfStmt
-                      vpiName: external
-                      vpiFullName: tsk.center_task.external
-                      vpiActual: IODecl name:external
-                    vpiStmt Begin start:137:17 end:140:6:
-                      vpiParent: IfStmt
-                      vpiFullName: tsk.center_task
-                      vpiStmt (1 items):
-                        SysTaskCall name:$write start:139:6 end:139:49:
-                          vpiParent: Begin
-                          vpiName Identifier name:$write start:139:6 end:139:12:
-                          vpiArgument (2 items):
-                            NamedArgument start:139:13 end:139:41:
-                              vpiParent: SysTaskCall name:$write
-                              vpiHighConn Constant start:139:13 end:139:41:
-                                vpiParent: NamedArgument
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: tsk.center_task
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiSize: 200
-                                vpiDecompile: "\"[%0t] Got external pulse\\n\""
-                                vpiValue: "[%0t] Got external pulse\\n"
-                            NamedArgument start:139:43 end:139:48:
-                              vpiParent: SysTaskCall name:$write
-                              vpiHighConn SysFuncCall name:$time start:139:43 end:139:48:
-                                vpiParent: NamedArgument
-                                vpiName Identifier name:$time start:139:43 end:139:48:
+                vpiCondition RefObj name:external start:137:7 end:137:15:
+                  vpiParent: IfStmt
+                  vpiName: external
+                  vpiFullName: tsk.center_task.external
+                  vpiActual: IODecl name:external
+                vpiStmt Begin start:137:17 end:140:6:
+                  vpiParent: IfStmt
+                  vpiFullName: tsk.center_task
+                  vpiStmt (1 items):
+                    SysTaskCall name:$write start:139:6 end:139:49:
+                      vpiParent: Begin
+                      vpiName Identifier name:$write start:139:6 end:139:12:
+                      vpiArgument (2 items):
+                        NamedArgument start:139:13 end:139:41:
+                          vpiParent: SysTaskCall name:$write
+                          vpiHighConn Constant start:139:13 end:139:41:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: tsk.center_task
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 200
+                            vpiDecompile: "\"[%0t] Got external pulse\\n\""
+                            vpiValue: "[%0t] Got external pulse\\n"
+                        NamedArgument start:139:43 end:139:48:
+                          vpiParent: SysTaskCall name:$write
+                          vpiHighConn SysFuncCall name:$time start:139:43 end:139:48:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$time start:139:43 end:139:48:
       vpiNet (2 items):
         Net name:clk start:122:10 end:122:13:
           vpiParent: Module name:tsk
@@ -2324,7 +2320,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_cover_line/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             322     322       0         0
+Others                             321     321       0         0
 ----------------------------------------------------------------
-                                   322     322       0         0
+                                   321     321       0         0
 ===================== END REDUCTION RESULT =====================

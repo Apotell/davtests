@@ -226,6 +226,22 @@ Design name:unnamed:
           vpiParent: ClassDefn name:a2
           vpiName Identifier name:do_randomize start:23:10 end:23:22:
           vpiFullName: a2::do_randomize
+          vpiVariable (1 items):
+            Variable name:result start:24:13 end:24:19:
+              vpiParent: Task name:do_randomize
+              vpiTypespec RefTypespec start:24:9 end:24:12:
+                vpiParent: Variable name:result
+                vpiFullName: a2::do_randomize::result
+                vpiActual: IntTypespec
+              vpiName: result
+              vpiFullName: a2::do_randomize::result
+              vpiAutomatic: true
+          vpiTypespec (1 items):
+            ClassTypespec name:a1 start:23:23 end:23:25:
+              vpiParent: Task name:do_randomize
+              vpiName Identifier name:a1 start:23:23 end:23:25:
+              vpiDefName: a1
+              vpiClassDefn: ClassDefn name:a1
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -255,96 +271,75 @@ Design name:unnamed:
                 vpiParent: IODecl name:z
                 vpiFullName: a2::do_randomize::z
                 vpiActual: IntTypespec
-          vpiStmt Begin:
+          vpiStmt Assignment start:25:9 end:25:58:
             vpiParent: Task name:do_randomize
-            vpiFullName: a2::do_randomize
-            vpiVariable (1 items):
-              Variable name:result start:24:13 end:24:19:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:24:9 end:24:12:
-                  vpiParent: Variable name:result
-                  vpiFullName: a2::do_randomize::result
-                  vpiActual: IntTypespec
-                vpiName: result
-                vpiFullName: a2::do_randomize::result
-                vpiAutomatic: true
-            vpiTypespec (1 items):
-              ClassTypespec name:a1 start:23:23 end:23:25:
-                vpiParent: Begin
-                vpiName Identifier name:a1 start:23:23 end:23:25:
-                vpiDefName: a1
-                vpiClassDefn: ClassDefn name:a1
-            vpiStmt (2 items):
-              Variable name:result:
-              Assignment start:25:9 end:25:58:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:result start:25:9 end:25:15:
-                  vpiParent: Assignment
-                  vpiName: result
-                  vpiFullName: a2::do_randomize::result
-                  vpiActual: Variable name:result
-                vpiRhs RefObj name:obj.randomize() start:25:18 end:25:58:
-                  vpiParent: Assignment
-                  vpiName: obj.randomize()
-                  vpiFullName: a2::do_randomize::obj.randomize()
-                  vpiPathElem (2 items):
-                    RefObj name:obj start:25:18 end:25:21:
-                      vpiParent: RefObj name:obj.randomize()
-                      vpiName: obj
-                      vpiFullName: a2::do_randomize::obj
-                      vpiActual: IODecl name:obj
-                    MethodFuncCall name:randomize start:25:22 end:25:58:
-                      vpiParent: RefObj name:obj.randomize()
-                      vpiName Identifier name:randomize:
-                      vpiTaskFunc: Function name:randomize
-                      vpiWith Constraint start:25:39 end:25:58:
-                        vpiParent: MethodFuncCall name:randomize
-                        vpiFullName: a2::do_randomize::obj.randomize()
-                        vpiConstraintItem (2 items):
-                          Operation start:25:40 end:25:45:
-                            vpiParent: Constraint
-                            vpiOpType: greater than (18)
+            vpiBlocking: true
+            vpiLhs RefObj name:result start:25:9 end:25:15:
+              vpiParent: Assignment
+              vpiName: result
+              vpiFullName: a2::do_randomize::result
+              vpiActual: Variable name:result
+            vpiRhs RefObj name:obj.randomize() start:25:18 end:25:58:
+              vpiParent: Assignment
+              vpiName: obj.randomize()
+              vpiFullName: a2::do_randomize::obj.randomize()
+              vpiPathElem (2 items):
+                RefObj name:obj start:25:18 end:25:21:
+                  vpiParent: RefObj name:obj.randomize()
+                  vpiName: obj
+                  vpiFullName: a2::do_randomize::obj
+                  vpiActual: IODecl name:obj
+                MethodFuncCall name:randomize start:25:22 end:25:58:
+                  vpiParent: RefObj name:obj.randomize()
+                  vpiName Identifier name:randomize:
+                  vpiTaskFunc: Function name:randomize
+                  vpiWith Constraint start:25:39 end:25:58:
+                    vpiParent: MethodFuncCall name:randomize
+                    vpiFullName: a2::do_randomize::obj.randomize()
+                    vpiConstraintItem (2 items):
+                      Operation start:25:40 end:25:45:
+                        vpiParent: Constraint
+                        vpiOpType: greater than (18)
+                        vpiOperand (2 items):
+                          RefObj name:x start:25:40 end:25:41:
+                            vpiParent: Operation
+                            vpiName: x
+                            vpiFullName: a2::do_randomize::obj.randomize()::x
+                            vpiActual: IODecl name:x
+                          Constant start:25:44 end:25:45:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: a2::do_randomize::obj.randomize()
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                      Operation start:25:47 end:25:56:
+                        vpiParent: Constraint
+                        vpiOpType: less than (20)
+                        vpiOperand (2 items):
+                          RefObj name:x start:25:47 end:25:48:
+                            vpiParent: Operation
+                            vpiName: x
+                            vpiFullName: a2::do_randomize::obj.randomize()::x
+                            vpiActual: IODecl name:x
+                          Operation start:25:51 end:25:56:
+                            vpiParent: Operation
+                            vpiOpType: add (24)
                             vpiOperand (2 items):
-                              RefObj name:x start:25:40 end:25:41:
+                              RefObj name:y start:25:51 end:25:52:
                                 vpiParent: Operation
-                                vpiName: x
-                                vpiFullName: a2::do_randomize::obj.randomize()::x
-                                vpiActual: IODecl name:x
-                              Constant start:25:44 end:25:45:
+                                vpiName: y
+                                vpiFullName: a2::do_randomize::obj.randomize()::y
+                                vpiActual: Variable name:y
+                              RefObj name:z start:25:55 end:25:56:
                                 vpiParent: Operation
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: a2::do_randomize::obj.randomize()
-                                  vpiActual: IntTypespec
-                                vpiConstType: unsigned int (9)
-                                vpiSize: 64
-                                vpiDecompile: "0"
-                                vpiValue: 0
-                          Operation start:25:47 end:25:56:
-                            vpiParent: Constraint
-                            vpiOpType: less than (20)
-                            vpiOperand (2 items):
-                              RefObj name:x start:25:47 end:25:48:
-                                vpiParent: Operation
-                                vpiName: x
-                                vpiFullName: a2::do_randomize::obj.randomize()::x
-                                vpiActual: IODecl name:x
-                              Operation start:25:51 end:25:56:
-                                vpiParent: Operation
-                                vpiOpType: add (24)
-                                vpiOperand (2 items):
-                                  RefObj name:y start:25:51 end:25:52:
-                                    vpiParent: Operation
-                                    vpiName: y
-                                    vpiFullName: a2::do_randomize::obj.randomize()::y
-                                    vpiActual: Variable name:y
-                                  RefObj name:z start:25:55 end:25:56:
-                                    vpiParent: Operation
-                                    vpiName: z
-                                    vpiFullName: a2::do_randomize::obj.randomize()::z
-                                    vpiActual: IODecl name:z
-                  vpiActual: MethodFuncCall name:randomize
+                                vpiName: z
+                                vpiFullName: a2::do_randomize::obj.randomize()::z
+                                vpiActual: IODecl name:z
+              vpiActual: MethodFuncCall name:randomize
   vpiTypespec (9 items):
     ClassTypespec name:a1 start:16:7 end:16:9:
       vpiParent: Design name:unnamed
@@ -423,7 +418,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.7--in-line-constraints--rand
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1429    1429       0         0
+Others                            1428    1428       0         0
 ----------------------------------------------------------------
-                                  1429    1429       0         0
+                                  1428    1428       0         0
 ===================== END REDUCTION RESULT =====================

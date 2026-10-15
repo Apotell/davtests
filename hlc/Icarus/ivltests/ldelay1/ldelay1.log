@@ -560,11 +560,7 @@ n<$Source01/ldelay1.v> u<546> t<Top_level_rule> c<1> l<24:1> el<68:1>
         n<> u<542> t<ENDMODULE> p<543> l<66:1> el<66:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/ldelay1.v:24:1: Compile module "test".
-[WRN:CP5851] $Source01/ldelay1.v:44:5: Failed to bind "error".
-[WRN:CP5851] $Source01/ldelay1.v:63:10: Failed to bind "error".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:CP5886] $Source01/ldelay1.v:44:5: Illegal hierarchical reference: error.
-[ERR:CP5886] $Source01/ldelay1.v:63:10: Illegal hierarchical reference: error.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -615,7 +611,7 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName Identifier name:ok start:30:9 end:30:11:
           vpiFullName: test.ok
-          vpiVariable (1 items):
+          vpiVariable (2 items):
             Variable name:qq start:31:13 end:31:15:
               vpiParent: Task name:ok
               vpiTypespec RefTypespec:
@@ -624,6 +620,20 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: qq
               vpiFullName: test.ok.qq
+            Variable name:error start:32:11 end:32:16:
+              vpiParent: Task name:ok
+              vpiTypespec RefTypespec start:32:7 end:32:10:
+                vpiParent: Variable name:error
+                vpiFullName: test.ok.error
+                vpiActual: LogicTypespec
+              vpiName: error
+              vpiFullName: test.ok.error
+          vpiTypespec (2 items):
+            LogicTypespec:
+              vpiParent: Task name:ok
+              vpiScalar: true
+            LogicTypespec:
+              vpiParent: Task name:ok
           vpiIODecl (1 items):
             IODecl name:qq start:31:13 end:31:15:
               vpiParent: Task name:ok
@@ -633,103 +643,83 @@ Design name:unnamed:
                 vpiParent: IODecl name:qq
                 vpiFullName: test.ok.qq
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:33:7 end:39:10:
             vpiParent: Task name:ok
             vpiFullName: test.ok
-            vpiVariable (1 items):
-              Variable name:error start:32:11 end:32:16:
+            vpiStmt (1 items):
+              IfStmt start:34:3 end:38:8:
                 vpiParent: Begin
-                vpiTypespec RefTypespec start:32:7 end:32:10:
-                  vpiParent: Variable name:error
-                  vpiFullName: test.ok.error
-                  vpiActual: LogicTypespec
-                vpiName: error
-                vpiFullName: test.ok.error
-            vpiTypespec (2 items):
-              LogicTypespec:
-                vpiParent: Begin
-                vpiScalar: true
-              LogicTypespec:
-                vpiParent: Begin
-            vpiStmt (2 items):
-              Variable name:error:
-              Begin start:33:7 end:39:10:
-                vpiParent: Begin
-                vpiFullName: test.ok
-                vpiStmt (1 items):
-                  IfStmt start:34:3 end:38:8:
-                    vpiParent: Begin
-                    vpiCondition Operation start:34:7 end:34:15:
-                      vpiParent: IfStmt
-                      vpiOpType: case neq (17)
-                      vpiOperand (2 items):
-                        RefObj name:q start:34:7 end:34:8:
-                          vpiParent: Operation
-                          vpiName: q
-                          vpiFullName: test.ok.q
-                          vpiActual: Net name:q
-                        RefObj name:qq start:34:13 end:34:15:
-                          vpiParent: Operation
-                          vpiName: qq
-                          vpiFullName: test.ok.qq
-                          vpiActual: IODecl name:qq
-                    vpiStmt Begin start:35:5 end:38:8:
-                      vpiParent: IfStmt
-                      vpiFullName: test.ok
-                      vpiStmt (2 items):
-                        Assignment start:36:8 end:36:17:
-                          vpiParent: Begin
-                          vpiBlocking: true
-                          vpiLhs RefObj name:error start:36:8 end:36:13:
-                            vpiParent: Assignment
-                            vpiName: error
-                            vpiFullName: test.ok.error
-                            vpiActual: Variable name:error
-                          vpiRhs Constant start:36:16 end:36:17:
-                            vpiParent: Assignment
+                vpiCondition Operation start:34:7 end:34:15:
+                  vpiParent: IfStmt
+                  vpiOpType: case neq (17)
+                  vpiOperand (2 items):
+                    RefObj name:q start:34:7 end:34:8:
+                      vpiParent: Operation
+                      vpiName: q
+                      vpiFullName: test.ok.q
+                      vpiActual: Net name:q
+                    RefObj name:qq start:34:13 end:34:15:
+                      vpiParent: Operation
+                      vpiName: qq
+                      vpiFullName: test.ok.qq
+                      vpiActual: IODecl name:qq
+                vpiStmt Begin start:35:5 end:38:8:
+                  vpiParent: IfStmt
+                  vpiFullName: test.ok
+                  vpiStmt (2 items):
+                    Assignment start:36:8 end:36:17:
+                      vpiParent: Begin
+                      vpiBlocking: true
+                      vpiLhs RefObj name:error start:36:8 end:36:13:
+                        vpiParent: Assignment
+                        vpiName: error
+                        vpiFullName: test.ok.error
+                        vpiActual: Variable name:error
+                      vpiRhs Constant start:36:16 end:36:17:
+                        vpiParent: Assignment
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: test.ok
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                    SysTaskCall name:$display start:37:8 end:37:62:
+                      vpiParent: Begin
+                      vpiName Identifier name:$display start:37:8 end:37:16:
+                      vpiArgument (4 items):
+                        NamedArgument start:37:17 end:37:47:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn Constant start:37:17 end:37:47:
+                            vpiParent: NamedArgument
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
                               vpiFullName: test.ok
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "1"
-                            vpiValue: 1
-                        SysTaskCall name:$display start:37:8 end:37:62:
-                          vpiParent: Begin
-                          vpiName Identifier name:$display start:37:8 end:37:16:
-                          vpiArgument (4 items):
-                            NamedArgument start:37:17 end:37:47:
-                              vpiParent: SysTaskCall name:$display
-                              vpiHighConn Constant start:37:17 end:37:47:
-                                vpiParent: NamedArgument
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: test.ok
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiSize: 224
-                                vpiDecompile: "\"%0d: FAILED: q=%b, expect %b\""
-                                vpiValue: "%0d: FAILED: q=%b, expect %b"
-                            NamedArgument start:37:49 end:37:54:
-                              vpiParent: SysTaskCall name:$display
-                              vpiHighConn SysFuncCall name:$time start:37:49 end:37:54:
-                                vpiParent: NamedArgument
-                                vpiName Identifier name:$time start:37:49 end:37:54:
-                            NamedArgument start:37:56 end:37:57:
-                              vpiParent: SysTaskCall name:$display
-                              vpiHighConn RefObj name:q start:37:56 end:37:57:
-                                vpiParent: NamedArgument
-                                vpiName: q
-                                vpiFullName: test.ok.q
-                                vpiActual: Net name:q
-                            NamedArgument start:37:59 end:37:61:
-                              vpiParent: SysTaskCall name:$display
-                              vpiHighConn RefObj name:qq start:37:59 end:37:61:
-                                vpiParent: NamedArgument
-                                vpiName: qq
-                                vpiFullName: test.ok.qq
-                                vpiActual: IODecl name:qq
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 224
+                            vpiDecompile: "\"%0d: FAILED: q=%b, expect %b\""
+                            vpiValue: "%0d: FAILED: q=%b, expect %b"
+                        NamedArgument start:37:49 end:37:54:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn SysFuncCall name:$time start:37:49 end:37:54:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$time start:37:49 end:37:54:
+                        NamedArgument start:37:56 end:37:57:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn RefObj name:q start:37:56 end:37:57:
+                            vpiParent: NamedArgument
+                            vpiName: q
+                            vpiFullName: test.ok.q
+                            vpiActual: Net name:q
+                        NamedArgument start:37:59 end:37:61:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn RefObj name:qq start:37:59 end:37:61:
+                            vpiParent: NamedArgument
+                            vpiName: qq
+                            vpiFullName: test.ok.qq
+                            vpiActual: IODecl name:qq
       vpiNet (1 items):
         Net name:q start:26:9 end:26:10:
           vpiParent: Module name:test
@@ -765,6 +755,8 @@ Design name:unnamed:
                       vpiParent: RefObj name:ok.error
                       vpiName: error
                       vpiFullName: test.error
+                      vpiActual: Variable name:error
+                  vpiActual: Variable name:error
                 vpiRhs Constant start:44:13 end:44:14:
                   vpiParent: Assignment
                   vpiTypespec RefTypespec:
@@ -1244,6 +1236,8 @@ Design name:unnamed:
                           vpiParent: RefObj name:ok.error
                           vpiName: error
                           vpiFullName: test.error
+                          vpiActual: Variable name:error
+                      vpiActual: Variable name:error
                 vpiStmt SysTaskCall name:$display start:64:4 end:64:22:
                   vpiParent: IfStmt
                   vpiName Identifier name:$display start:64:4 end:64:12:
@@ -1329,8 +1323,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 2
+[  ERROR] : 0
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1374,7 +1368,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/ldelay1/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             199     199       0         0
+Others                             198     198       0         0
 ----------------------------------------------------------------
-                                   199     199       0         0
+                                   198     198       0         0
 ===================== END REDUCTION RESULT =====================

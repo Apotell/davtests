@@ -564,15 +564,7 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/rotate.v:15:17: Compile generate block "netgen".
 [INF:CP5836] $Source01/rotate.v:19:25: Compile generate block "net".
 [INF:CP5836] $Source01/rotate.v:29:17: Compile generate block "router".
-[WRN:CP5851] $Source01/rotate.v:27:16: Failed to bind "netgen".
-[WRN:CP5851] $Source01/rotate.v:30:24: Failed to bind "netgen".
-[WRN:CP5851] $Source01/rotate.v:30:51: Failed to bind "out".
-[WRN:CP5851] $Source01/rotate.v:30:41: Failed to bind "netgen".
-[WRN:CP5851] $Source01/rotate.v:35:29: Failed to bind "out".
-[WRN:CP5851] $Source01/rotate.v:35:19: Failed to bind "netgen".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:CP5886] $Source01/rotate.v:35:29: Illegal hierarchical reference: out.
-[ERR:CP5886] $Source01/rotate.v:30:51: Illegal hierarchical reference: out.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -682,7 +674,7 @@ Design name:unnamed:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
           vpiName Identifier name:wrap start:37:16 end:37:20:
           vpiFullName: a23_barrel_shift_fpga_rotate.wrap
-          vpiVariable (2 items):
+          vpiVariable (3 items):
             Variable name:pos start:38:15 end:38:18:
               vpiParent: Function name:wrap
               vpiTypespec RefTypespec start:38:7 end:38:14:
@@ -699,6 +691,44 @@ Design name:unnamed:
                 vpiActual: IntegerTypespec
               vpiName: level
               vpiFullName: a23_barrel_shift_fpga_rotate.wrap.level
+            Variable name:out start:40:9 end:40:12:
+              vpiParent: Function name:wrap
+              vpiTypespec RefTypespec start:40:1 end:40:8:
+                vpiParent: Variable name:out
+                vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out
+                vpiActual: IntegerTypespec
+              vpiName: out
+              vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out
+          vpiTypespec (2 items):
+            LogicTypespec start:37:10 end:37:15:
+              vpiParent: Function name:wrap
+              vpiRange (1 items):
+                Range start:37:10 end:37:15:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:37:11 end:37:12:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: a23_barrel_shift_fpga_rotate.wrap
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "4"
+                    vpiValue: 4
+                  vpiRightRange Constant start:37:13 end:37:14:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: a23_barrel_shift_fpga_rotate.wrap
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
+            IntegerTypespec:
+              vpiParent: Function name:wrap
+              vpiSigned: true
           vpiVisibility: public (1)
           vpiIODecl (2 items):
             IODecl name:pos start:38:15 end:38:18:
@@ -717,134 +747,90 @@ Design name:unnamed:
                 vpiParent: IODecl name:level
                 vpiFullName: a23_barrel_shift_fpga_rotate.wrap.level
                 vpiActual: IntegerTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:41:1 end:44:4:
             vpiParent: Function name:wrap
             vpiFullName: a23_barrel_shift_fpga_rotate.wrap
-            vpiVariable (1 items):
-              Variable name:out start:40:9 end:40:12:
+            vpiStmt (2 items):
+              Assignment start:42:9 end:42:33:
                 vpiParent: Begin
-                vpiTypespec RefTypespec start:40:1 end:40:8:
-                  vpiParent: Variable name:out
+                vpiBlocking: true
+                vpiLhs RefObj name:out start:42:9 end:42:12:
+                  vpiParent: Assignment
+                  vpiName: out
                   vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out
-                  vpiActual: IntegerTypespec
-                vpiName: out
-                vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out
-            vpiTypespec (2 items):
-              LogicTypespec start:37:10 end:37:15:
+                  vpiActual: Variable name:out
+                vpiRhs Operation start:42:15 end:42:33:
+                  vpiParent: Assignment
+                  vpiOpType: subtract (11)
+                  vpiOperand (2 items):
+                    RefObj name:pos start:42:15 end:42:18:
+                      vpiParent: Operation
+                      vpiName: pos
+                      vpiFullName: a23_barrel_shift_fpga_rotate.wrap.pos
+                      vpiActual: IODecl name:pos
+                    Operation start:42:22 end:42:32:
+                      vpiParent: Operation
+                      vpiOpType: logical shift left (22)
+                      vpiOperand (2 items):
+                        Constant start:42:22 end:42:23:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: a23_barrel_shift_fpga_rotate.wrap
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                        RefObj name:level start:42:27 end:42:32:
+                          vpiParent: Operation
+                          vpiName: level
+                          vpiFullName: a23_barrel_shift_fpga_rotate.wrap.level
+                          vpiActual: IODecl name:level
+              Assignment start:43:9 end:43:24:
                 vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:37:10 end:37:15:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:37:11 end:37:12:
+                vpiBlocking: true
+                vpiLhs RefObj name:wrap start:43:9 end:43:13:
+                  vpiParent: Assignment
+                  vpiName: wrap
+                  vpiFullName: a23_barrel_shift_fpga_rotate.wrap.wrap
+                  vpiActual: Function name:wrap
+                vpiRhs PartSelect name:out[4:0] start:43:16 end:43:24:
+                  vpiParent: Assignment
+                  vpiName: out[4:0]
+                  vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out[4:0]
+                  vpiPrefix RefObj name:out start:43:16 end:43:19:
+                    vpiParent: PartSelect name:out[4:0]
+                    vpiName: out
+                    vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out[4:0].out
+                    vpiActual: Variable name:out
+                  vpiRange Range start:43:20 end:43:23:
+                    vpiParent: PartSelect name:out[4:0]
+                    vpiLeftRange Constant start:43:20 end:43:21:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: a23_barrel_shift_fpga_rotate.wrap
+                        vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out[4:0]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "4"
                       vpiValue: 4
-                    vpiRightRange Constant start:37:13 end:37:14:
+                    vpiRightRange Constant start:43:22 end:43:23:
                       vpiParent: Range
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: a23_barrel_shift_fpga_rotate.wrap
+                        vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out[4:0]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
-                vpiVector: true
-              IntegerTypespec:
-                vpiParent: Begin
-                vpiSigned: true
-            vpiStmt (2 items):
-              Variable name:out:
-              Begin start:41:1 end:44:4:
-                vpiParent: Begin
-                vpiFullName: a23_barrel_shift_fpga_rotate.wrap
-                vpiStmt (2 items):
-                  Assignment start:42:9 end:42:33:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:out start:42:9 end:42:12:
-                      vpiParent: Assignment
-                      vpiName: out
-                      vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out
-                      vpiActual: Variable name:out
-                    vpiRhs Operation start:42:15 end:42:33:
-                      vpiParent: Assignment
-                      vpiOpType: subtract (11)
-                      vpiOperand (2 items):
-                        RefObj name:pos start:42:15 end:42:18:
-                          vpiParent: Operation
-                          vpiName: pos
-                          vpiFullName: a23_barrel_shift_fpga_rotate.wrap.pos
-                          vpiActual: IODecl name:pos
-                        Operation start:42:22 end:42:32:
-                          vpiParent: Operation
-                          vpiOpType: logical shift left (22)
-                          vpiOperand (2 items):
-                            Constant start:42:22 end:42:23:
-                              vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: a23_barrel_shift_fpga_rotate.wrap
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "1"
-                              vpiValue: 1
-                            RefObj name:level start:42:27 end:42:32:
-                              vpiParent: Operation
-                              vpiName: level
-                              vpiFullName: a23_barrel_shift_fpga_rotate.wrap.level
-                              vpiActual: IODecl name:level
-                  Assignment start:43:9 end:43:24:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:wrap start:43:9 end:43:13:
-                      vpiParent: Assignment
-                      vpiName: wrap
-                      vpiFullName: a23_barrel_shift_fpga_rotate.wrap.wrap
-                      vpiActual: Function name:wrap
-                    vpiRhs PartSelect name:out[4:0] start:43:16 end:43:24:
-                      vpiParent: Assignment
-                      vpiName: out[4:0]
-                      vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out[4:0]
-                      vpiPrefix RefObj name:out start:43:16 end:43:19:
-                        vpiParent: PartSelect name:out[4:0]
-                        vpiName: out
-                        vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out[4:0].out
-                        vpiActual: Variable name:out
-                      vpiRange Range start:43:20 end:43:23:
-                        vpiParent: PartSelect name:out[4:0]
-                        vpiLeftRange Constant start:43:20 end:43:21:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out[4:0]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "4"
-                          vpiValue: 4
-                        vpiRightRange Constant start:43:22 end:43:23:
-                          vpiParent: Range
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: a23_barrel_shift_fpga_rotate.wrap.out[4:0]
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "0"
-                          vpiValue: 0
           vpiReturn RefTypespec start:37:10 end:37:15:
             vpiParent: Function name:wrap
             vpiFullName: a23_barrel_shift_fpga_rotate.wrap
             vpiActual: LogicTypespec
-      vpiNet (5 items):
+      vpiNet (4 items):
         Net name:i_in start:5:15 end:5:19:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
           vpiTypespec RefTypespec start:5:8 end:5:14:
@@ -880,16 +866,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: rot_prod
           vpiFullName: a23_barrel_shift_fpga_rotate.rot_prod
-          vpiNetType: wire (1)
-        Net name:in start:16:29 end:16:31:
-          vpiParent: Module name:a23_barrel_shift_fpga_rotate
-          vpiTypespec RefTypespec start:16:22 end:16:28:
-            vpiParent: Net name:in
-            vpiFullName: a23_barrel_shift_fpga_rotate.in
-            vpiActual: LogicTypespec
-          vpiName: in
-          vpiFullName: a23_barrel_shift_fpga_rotate.in
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:i_in start:3:37 end:3:41:
@@ -965,6 +941,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:netgen[0]
                   vpiName: netgen
                   vpiFullName: a23_barrel_shift_fpga_rotate.netgen[0].out.netgen
+                  vpiActual: GenRegion name:netgen
                 vpiIndex Constant start:35:26 end:35:27:
                   vpiParent: BitSelect name:netgen[0]
                   vpiTypespec RefTypespec:
@@ -979,528 +956,544 @@ Design name:unnamed:
                 vpiParent: RefObj name:netgen[0].out
                 vpiName: out
                 vpiFullName: a23_barrel_shift_fpga_rotate.out
+                vpiActual: Variable name:out
+            vpiActual: Variable name:out
       vpiGenStmt (1 items):
         GenRegion start:12:1 end:32:12:
           vpiParent: Module name:a23_barrel_shift_fpga_rotate
           vpiFullName: a23_barrel_shift_fpga_rotate
-          vpiStmt Begin:
-            vpiParent: GenRegion
-            vpiFullName: a23_barrel_shift_fpga_rotate
-            vpiVariable (2 items):
-              Variable name:i start:13:8 end:13:9:
-                vpiParent: Begin
-                vpiName: i
-                vpiFullName: a23_barrel_shift_fpga_rotate.i
-              Variable name:j start:13:11 end:13:12:
-                vpiParent: Begin
-                vpiName: j
-                vpiFullName: a23_barrel_shift_fpga_rotate.j
-            vpiStmt (3 items):
-              GenFor start:14:9 end:24:12:
-                vpiParent: Begin
-                vpiFullName: a23_barrel_shift_fpga_rotate
-                vpiForInitStmt (1 items):
-                  Assignment start:14:14 end:14:19:
-                    vpiParent: GenFor
-                    vpiLhs RefObj name:i start:14:14 end:14:15:
-                      vpiParent: Assignment
-                      vpiName: i
-                      vpiFullName: a23_barrel_shift_fpga_rotate.i
-                      vpiActual: Variable name:i
-                    vpiRhs Constant start:14:18 end:14:19:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: a23_barrel_shift_fpga_rotate
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiForIncStmt (1 items):
-                  Assignment start:14:28 end:14:37:
-                    vpiParent: GenFor
-                    vpiBlocking: true
-                    vpiLhs RefObj name:i start:14:28 end:14:29:
-                      vpiParent: Assignment
-                      vpiName: i
-                      vpiFullName: a23_barrel_shift_fpga_rotate.i
-                      vpiActual: Variable name:i
-                    vpiRhs Operation start:14:32 end:14:37:
-                      vpiParent: Assignment
-                      vpiOpType: add (24)
-                      vpiOperand (2 items):
-                        RefObj name:i start:14:32 end:14:33:
-                          vpiParent: Operation
-                          vpiName: i
-                          vpiFullName: a23_barrel_shift_fpga_rotate.i
-                          vpiActual: Variable name:i
-                        Constant start:14:36 end:14:37:
-                          vpiParent: Operation
+          vpiVariable (2 items):
+            Variable name:i start:13:8 end:13:9:
+              vpiParent: GenRegion
+              vpiName: i
+              vpiFullName: a23_barrel_shift_fpga_rotate.i
+            Variable name:j start:13:11 end:13:12:
+              vpiParent: GenRegion
+              vpiName: j
+              vpiFullName: a23_barrel_shift_fpga_rotate.j
+          vpiStmt (3 items):
+            GenFor start:14:9 end:24:12:
+              vpiParent: GenRegion
+              vpiFullName: a23_barrel_shift_fpga_rotate
+              vpiForInitStmt (1 items):
+                Assignment start:14:14 end:14:19:
+                  vpiParent: GenFor
+                  vpiLhs RefObj name:i start:14:14 end:14:15:
+                    vpiParent: Assignment
+                    vpiName: i
+                    vpiFullName: a23_barrel_shift_fpga_rotate.i
+                    vpiActual: Variable name:i
+                  vpiRhs Constant start:14:18 end:14:19:
+                    vpiParent: Assignment
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: a23_barrel_shift_fpga_rotate
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiForIncStmt (1 items):
+                Assignment start:14:28 end:14:37:
+                  vpiParent: GenFor
+                  vpiBlocking: true
+                  vpiLhs RefObj name:i start:14:28 end:14:29:
+                    vpiParent: Assignment
+                    vpiName: i
+                    vpiFullName: a23_barrel_shift_fpga_rotate.i
+                    vpiActual: Variable name:i
+                  vpiRhs Operation start:14:32 end:14:37:
+                    vpiParent: Assignment
+                    vpiOpType: add (24)
+                    vpiOperand (2 items):
+                      RefObj name:i start:14:32 end:14:33:
+                        vpiParent: Operation
+                        vpiName: i
+                        vpiFullName: a23_barrel_shift_fpga_rotate.i
+                        vpiActual: Variable name:i
+                      Constant start:14:36 end:14:37:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: a23_barrel_shift_fpga_rotate
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+              vpiCondition Operation start:14:21 end:14:26:
+                vpiParent: GenFor
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:i start:14:21 end:14:22:
+                    vpiParent: Operation
+                    vpiName: i
+                    vpiFullName: a23_barrel_shift_fpga_rotate.i
+                    vpiActual: Variable name:i
+                  Constant start:14:25 end:14:26:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: a23_barrel_shift_fpga_rotate
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "5"
+                    vpiValue: 5
+              vpiStmt GenRegion name:netgen start:15:9 end:24:12:
+                vpiParent: GenFor
+                vpiName Identifier name:netgen start:15:17 end:15:23:
+                vpiFullName: a23_barrel_shift_fpga_rotate.netgen
+                vpiVariable (1 items):
+                  Variable name:out start:17:28 end:17:31:
+                    vpiParent: GenRegion name:netgen
+                    vpiTypespec RefTypespec start:17:17 end:17:27:
+                      vpiParent: Variable name:out
+                      vpiFullName: a23_barrel_shift_fpga_rotate.netgen.out
+                      vpiActual: LogicTypespec
+                    vpiName: out
+                    vpiFullName: a23_barrel_shift_fpga_rotate.netgen.out
+                vpiTypespec (2 items):
+                  LogicTypespec:
+                    vpiParent: GenRegion name:netgen
+                    vpiRange (1 items):
+                      Range start:16:22 end:16:28:
+                        vpiParent: LogicTypespec
+                        vpiLeftRange Constant start:16:23 end:16:25:
+                          vpiParent: Range
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: a23_barrel_shift_fpga_rotate
+                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
-                vpiCondition Operation start:14:21 end:14:26:
-                  vpiParent: GenFor
-                  vpiOpType: less than (20)
-                  vpiOperand (2 items):
-                    RefObj name:i start:14:21 end:14:22:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: a23_barrel_shift_fpga_rotate.i
-                      vpiActual: Variable name:i
-                    Constant start:14:25 end:14:26:
-                      vpiParent: Operation
+                          vpiDecompile: "31"
+                          vpiValue: 31
+                        vpiRightRange Constant start:16:26 end:16:27:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                    vpiVector: true
+                  LogicTypespec:
+                    vpiParent: GenRegion name:netgen
+                    vpiRange (1 items):
+                      Range start:17:21 end:17:27:
+                        vpiParent: LogicTypespec
+                        vpiLeftRange Constant start:17:22 end:17:24:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "31"
+                          vpiValue: 31
+                        vpiRightRange Constant start:17:25 end:17:26:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                    vpiVector: true
+                vpiNet (1 items):
+                  Net name:in start:16:29 end:16:31:
+                    vpiParent: GenRegion name:netgen
+                    vpiTypespec RefTypespec start:16:22 end:16:28:
+                      vpiParent: Net name:in
+                      vpiFullName: a23_barrel_shift_fpga_rotate.netgen.in
+                      vpiActual: LogicTypespec
+                    vpiName: in
+                    vpiFullName: a23_barrel_shift_fpga_rotate.netgen.in
+                    vpiNetDeclAssign: true
+                    vpiNetType: wire (1)
+                vpiStmt (1 items):
+                  GenFor start:18:17 end:23:20:
+                    vpiParent: GenRegion name:netgen
+                    vpiFullName: a23_barrel_shift_fpga_rotate.netgen
+                    vpiForInitStmt (1 items):
+                      Assignment start:18:22 end:18:27:
+                        vpiParent: GenFor
+                        vpiLhs RefObj name:j start:18:22 end:18:23:
+                          vpiParent: Assignment
+                          vpiName: j
+                          vpiFullName: a23_barrel_shift_fpga_rotate.netgen.j
+                          vpiActual: Variable name:j
+                        vpiRhs Constant start:18:26 end:18:27:
+                          vpiParent: Assignment
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                    vpiForIncStmt (1 items):
+                      Assignment start:18:37 end:18:46:
+                        vpiParent: GenFor
+                        vpiBlocking: true
+                        vpiLhs RefObj name:j start:18:37 end:18:38:
+                          vpiParent: Assignment
+                          vpiName: j
+                          vpiFullName: a23_barrel_shift_fpga_rotate.netgen.j
+                          vpiActual: Variable name:j
+                        vpiRhs Operation start:18:41 end:18:46:
+                          vpiParent: Assignment
+                          vpiOpType: add (24)
+                          vpiOperand (2 items):
+                            RefObj name:j start:18:41 end:18:42:
+                              vpiParent: Operation
+                              vpiName: j
+                              vpiFullName: a23_barrel_shift_fpga_rotate.netgen.j
+                              vpiActual: Variable name:j
+                            Constant start:18:45 end:18:46:
+                              vpiParent: Operation
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: a23_barrel_shift_fpga_rotate.netgen
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                    vpiCondition Operation start:18:29 end:18:35:
+                      vpiParent: GenFor
+                      vpiOpType: less than (20)
+                      vpiOperand (2 items):
+                        RefObj name:j start:18:29 end:18:30:
+                          vpiParent: Operation
+                          vpiName: j
+                          vpiFullName: a23_barrel_shift_fpga_rotate.netgen.j
+                          vpiActual: Variable name:j
+                        Constant start:18:33 end:18:35:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "32"
+                          vpiValue: 32
+                    vpiStmt GenRegion name:net start:19:17 end:23:20:
+                      vpiParent: GenFor
+                      vpiName Identifier name:net start:19:25 end:19:28:
+                      vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net
+                      vpiStmt (1 items):
+                        Always start:20:25 end:22:89:
+                          vpiParent: GenRegion name:net
+                          vpiStmt EventControl start:20:32 end:22:89:
+                            vpiParent: Always
+                            vpiStmt Assignment start:21:33 end:22:88:
+                              vpiParent: EventControl
+                              vpiBlocking: true
+                              vpiLhs BitSelect name:out[j] start:21:33 end:21:39:
+                                vpiParent: Assignment
+                                vpiName: out[j]
+                                vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.out[j]
+                                vpiPrefix RefObj name:out start:21:33 end:21:36:
+                                  vpiParent: BitSelect name:out[j]
+                                  vpiName: out
+                                  vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.out
+                                  vpiActual: Variable name:out
+                                vpiIndex RefObj name:j start:21:37 end:21:38:
+                                  vpiParent: BitSelect name:out[j]
+                                  vpiName: j
+                                  vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.j
+                                  vpiActual: Variable name:j
+                              vpiRhs Operation start:21:42 end:22:88:
+                                vpiParent: Assignment
+                                vpiOpType: bitwise or (29)
+                                vpiOperand (2 items):
+                                  Operation start:21:42 end:21:80:
+                                    vpiParent: Operation
+                                    vpiOpType: bitwise and (28)
+                                    vpiOperand (2 items):
+                                      BitSelect name:in[j] start:21:42 end:21:47:
+                                        vpiParent: Operation
+                                        vpiName: in[j]
+                                        vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in[j]
+                                        vpiPrefix RefObj name:in start:21:42 end:21:44:
+                                          vpiParent: BitSelect name:in[j]
+                                          vpiName: in
+                                          vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in
+                                          vpiActual: Net name:in
+                                        vpiIndex RefObj name:j start:21:45 end:21:46:
+                                          vpiParent: BitSelect name:in[j]
+                                          vpiName: j
+                                          vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.j
+                                          vpiActual: Variable name:j
+                                      Operation start:21:51 end:21:79:
+                                        vpiParent: Operation
+                                        vpiOpType: bitwise xor (30)
+                                        vpiOperand (2 items):
+                                          Operation start:21:51 end:21:67:
+                                            vpiParent: Operation
+                                            vpiOpType: bitwise negation (4)
+                                            vpiOperand (1 items):
+                                              BitSelect name:shift_amount[i] start:21:52 end:21:67:
+                                                vpiParent: Operation
+                                                vpiName: shift_amount[i]
+                                                vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.shift_amount[i]
+                                                vpiPrefix RefObj name:shift_amount start:21:52 end:21:64:
+                                                  vpiParent: BitSelect name:shift_amount[i]
+                                                  vpiName: shift_amount
+                                                  vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.shift_amount
+                                                  vpiActual: Net name:shift_amount
+                                                vpiIndex RefObj name:i start:21:65 end:21:66:
+                                                  vpiParent: BitSelect name:shift_amount[i]
+                                                  vpiName: i
+                                                  vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.i
+                                                  vpiActual: Variable name:i
+                                          RefObj name:direction start:21:70 end:21:79:
+                                            vpiParent: Operation
+                                            vpiName: direction
+                                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.direction
+                                            vpiActual: Net name:direction
+                                  Operation start:22:42 end:22:88:
+                                    vpiParent: Operation
+                                    vpiOpType: bitwise and (28)
+                                    vpiOperand (2 items):
+                                      BitSelect name:in[wrap(j, i)] start:22:42 end:22:56:
+                                        vpiParent: Operation
+                                        vpiName: in[wrap(j, i)]
+                                        vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in[wrap(j, i)]
+                                        vpiPrefix RefObj name:in start:22:42 end:22:44:
+                                          vpiParent: BitSelect name:in[wrap(j, i)]
+                                          vpiName: in
+                                          vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in
+                                          vpiActual: Net name:in
+                                        vpiIndex MethodFuncCall name:wrap start:22:45 end:22:55:
+                                          vpiParent: BitSelect name:in[wrap(j, i)]
+                                          vpiName Identifier name:wrap start:22:45 end:22:49:
+                                          vpiTaskFunc: Function name:wrap
+                                          vpiArgument (2 items):
+                                            NamedArgument start:22:50 end:22:51:
+                                              vpiParent: MethodFuncCall name:wrap
+                                              vpiHighConn RefObj name:j start:22:50 end:22:51:
+                                                vpiParent: NamedArgument
+                                                vpiName: j
+                                                vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in[wrap(j, i)].j
+                                                vpiActual: Variable name:j
+                                            NamedArgument start:22:53 end:22:54:
+                                              vpiParent: MethodFuncCall name:wrap
+                                              vpiHighConn RefObj name:i start:22:53 end:22:54:
+                                                vpiParent: NamedArgument
+                                                vpiName: i
+                                                vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in[wrap(j, i)].i
+                                                vpiActual: Variable name:i
+                                      Operation start:22:60 end:22:87:
+                                        vpiParent: Operation
+                                        vpiOpType: bitwise xor (30)
+                                        vpiOperand (2 items):
+                                          BitSelect name:shift_amount[i] start:22:60 end:22:75:
+                                            vpiParent: Operation
+                                            vpiName: shift_amount[i]
+                                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.shift_amount[i]
+                                            vpiPrefix RefObj name:shift_amount start:22:60 end:22:72:
+                                              vpiParent: BitSelect name:shift_amount[i]
+                                              vpiName: shift_amount
+                                              vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.shift_amount
+                                              vpiActual: Net name:shift_amount
+                                            vpiIndex RefObj name:i start:22:73 end:22:74:
+                                              vpiParent: BitSelect name:shift_amount[i]
+                                              vpiName: i
+                                              vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.i
+                                              vpiActual: Variable name:i
+                                          RefObj name:direction start:22:78 end:22:87:
+                                            vpiParent: Operation
+                                            vpiName: direction
+                                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.direction
+                                            vpiActual: Net name:direction
+                            vpiIsImplicitControl: true
+                          vpiAlwaysType: always (1)
+            ContAssign start:27:16 end:27:35:
+              vpiParent: GenRegion
+              vpiLhs RefObj name:netgen[4].in start:27:16 end:27:28:
+                vpiParent: ContAssign
+                vpiName: netgen[4].in
+                vpiFullName: a23_barrel_shift_fpga_rotate.netgen[4].in
+                vpiPathElem (2 items):
+                  BitSelect name:netgen[4] start:27:16 end:27:24:
+                    vpiParent: RefObj name:netgen[4].in
+                    vpiName: netgen[4]
+                    vpiFullName: a23_barrel_shift_fpga_rotate.netgen[4].in.netgen[4]
+                    vpiPrefix RefObj name:netgen start:27:16 end:27:22:
+                      vpiParent: BitSelect name:netgen[4]
+                      vpiName: netgen
+                      vpiFullName: a23_barrel_shift_fpga_rotate.netgen[4].in.netgen
+                      vpiActual: GenRegion name:netgen
+                    vpiIndex Constant start:27:23 end:27:24:
+                      vpiParent: BitSelect name:netgen[4]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: a23_barrel_shift_fpga_rotate
+                        vpiFullName: a23_barrel_shift_fpga_rotate.netgen[4].in.netgen[4]
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
-                      vpiDecompile: "5"
-                      vpiValue: 5
-                vpiStmt Begin name:netgen start:15:9 end:24:12:
+                      vpiDecompile: "4"
+                      vpiValue: 4
+                  RefObj name:in start:27:26 end:27:28:
+                    vpiParent: RefObj name:netgen[4].in
+                    vpiName: in
+                    vpiFullName: a23_barrel_shift_fpga_rotate.in
+                    vpiActual: Net name:in
+                vpiActual: Net name:in
+              vpiRhs RefObj name:i_in start:27:31 end:27:35:
+                vpiParent: ContAssign
+                vpiName: i_in
+                vpiFullName: a23_barrel_shift_fpga_rotate.i_in
+                vpiActual: Net name:i_in
+            GenFor start:28:9 end:31:12:
+              vpiParent: GenRegion
+              vpiFullName: a23_barrel_shift_fpga_rotate
+              vpiForInitStmt (1 items):
+                Assignment start:28:14 end:28:19:
                   vpiParent: GenFor
-                  vpiName Identifier name:netgen start:15:17 end:15:23:
-                  vpiFullName: a23_barrel_shift_fpga_rotate.netgen
-                  vpiVariable (1 items):
-                    Variable name:out start:17:28 end:17:31:
-                      vpiParent: Begin name:netgen
-                      vpiTypespec RefTypespec start:17:17 end:17:27:
-                        vpiParent: Variable name:out
-                        vpiFullName: a23_barrel_shift_fpga_rotate.netgen.out
-                        vpiActual: LogicTypespec
-                      vpiName: out
-                      vpiFullName: a23_barrel_shift_fpga_rotate.netgen.out
-                  vpiTypespec (2 items):
-                    LogicTypespec:
-                      vpiParent: Begin name:netgen
-                      vpiRange (1 items):
-                        Range start:16:22 end:16:28:
-                          vpiParent: LogicTypespec
-                          vpiLeftRange Constant start:16:23 end:16:25:
-                            vpiParent: Range
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: a23_barrel_shift_fpga_rotate.netgen
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "31"
-                            vpiValue: 31
-                          vpiRightRange Constant start:16:26 end:16:27:
-                            vpiParent: Range
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: a23_barrel_shift_fpga_rotate.netgen
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "0"
-                            vpiValue: 0
-                      vpiVector: true
-                    LogicTypespec:
-                      vpiParent: Begin name:netgen
-                      vpiRange (1 items):
-                        Range start:17:21 end:17:27:
-                          vpiParent: LogicTypespec
-                          vpiLeftRange Constant start:17:22 end:17:24:
-                            vpiParent: Range
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: a23_barrel_shift_fpga_rotate.netgen
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "31"
-                            vpiValue: 31
-                          vpiRightRange Constant start:17:25 end:17:26:
-                            vpiParent: Range
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: a23_barrel_shift_fpga_rotate.netgen
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "0"
-                            vpiValue: 0
-                      vpiVector: true
-                  vpiStmt (2 items):
-                    Variable name:out:
-                    GenFor start:18:17 end:23:20:
-                      vpiParent: Begin name:netgen
-                      vpiFullName: a23_barrel_shift_fpga_rotate.netgen
-                      vpiForInitStmt (1 items):
-                        Assignment start:18:22 end:18:27:
-                          vpiParent: GenFor
-                          vpiLhs RefObj name:j start:18:22 end:18:23:
-                            vpiParent: Assignment
-                            vpiName: j
-                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen.j
-                            vpiActual: Variable name:j
-                          vpiRhs Constant start:18:26 end:18:27:
-                            vpiParent: Assignment
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: a23_barrel_shift_fpga_rotate.netgen
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "0"
-                            vpiValue: 0
-                      vpiForIncStmt (1 items):
-                        Assignment start:18:37 end:18:46:
-                          vpiParent: GenFor
-                          vpiBlocking: true
-                          vpiLhs RefObj name:j start:18:37 end:18:38:
-                            vpiParent: Assignment
-                            vpiName: j
-                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen.j
-                            vpiActual: Variable name:j
-                          vpiRhs Operation start:18:41 end:18:46:
-                            vpiParent: Assignment
-                            vpiOpType: add (24)
+                  vpiLhs RefObj name:i start:28:14 end:28:15:
+                    vpiParent: Assignment
+                    vpiName: i
+                    vpiFullName: a23_barrel_shift_fpga_rotate.i
+                    vpiActual: Variable name:i
+                  vpiRhs Constant start:28:18 end:28:19:
+                    vpiParent: Assignment
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: a23_barrel_shift_fpga_rotate
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
+              vpiForIncStmt (1 items):
+                Assignment start:28:28 end:28:37:
+                  vpiParent: GenFor
+                  vpiBlocking: true
+                  vpiLhs RefObj name:i start:28:28 end:28:29:
+                    vpiParent: Assignment
+                    vpiName: i
+                    vpiFullName: a23_barrel_shift_fpga_rotate.i
+                    vpiActual: Variable name:i
+                  vpiRhs Operation start:28:32 end:28:37:
+                    vpiParent: Assignment
+                    vpiOpType: add (24)
+                    vpiOperand (2 items):
+                      RefObj name:i start:28:32 end:28:33:
+                        vpiParent: Operation
+                        vpiName: i
+                        vpiFullName: a23_barrel_shift_fpga_rotate.i
+                        vpiActual: Variable name:i
+                      Constant start:28:36 end:28:37:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: a23_barrel_shift_fpga_rotate
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+              vpiCondition Operation start:28:21 end:28:26:
+                vpiParent: GenFor
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:i start:28:21 end:28:22:
+                    vpiParent: Operation
+                    vpiName: i
+                    vpiFullName: a23_barrel_shift_fpga_rotate.i
+                    vpiActual: Variable name:i
+                  Constant start:28:25 end:28:26:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: a23_barrel_shift_fpga_rotate
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "5"
+                    vpiValue: 5
+              vpiStmt GenRegion name:router start:29:9 end:31:12:
+                vpiParent: GenFor
+                vpiName Identifier name:router start:29:17 end:29:23:
+                vpiFullName: a23_barrel_shift_fpga_rotate.router
+                vpiStmt (1 items):
+                  ContAssign start:30:24 end:30:54:
+                    vpiParent: GenRegion name:router
+                    vpiLhs RefObj name:netgen[i - 1].in start:30:24 end:30:38:
+                      vpiParent: ContAssign
+                      vpiName: netgen[i - 1].in
+                      vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i - 1].in
+                      vpiPathElem (2 items):
+                        BitSelect name:netgen[i - 1] start:30:24 end:30:34:
+                          vpiParent: RefObj name:netgen[i - 1].in
+                          vpiName: netgen[i - 1]
+                          vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i - 1].in.netgen[i - 1]
+                          vpiPrefix RefObj name:netgen start:30:24 end:30:30:
+                            vpiParent: BitSelect name:netgen[i - 1]
+                            vpiName: netgen
+                            vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i - 1].in.netgen
+                            vpiActual: GenRegion name:netgen
+                          vpiIndex Operation start:30:31 end:30:34:
+                            vpiParent: BitSelect name:netgen[i - 1]
+                            vpiOpType: subtract (11)
                             vpiOperand (2 items):
-                              RefObj name:j start:18:41 end:18:42:
+                              RefObj name:i start:30:31 end:30:32:
                                 vpiParent: Operation
-                                vpiName: j
-                                vpiFullName: a23_barrel_shift_fpga_rotate.netgen.j
-                                vpiActual: Variable name:j
-                              Constant start:18:45 end:18:46:
+                                vpiName: i
+                                vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i - 1].in.netgen[i - 1].i
+                                vpiActual: Variable name:i
+                              Constant start:30:33 end:30:34:
                                 vpiParent: Operation
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: a23_barrel_shift_fpga_rotate.netgen
+                                  vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i - 1].in.netgen[i - 1]
                                   vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
                                 vpiDecompile: "1"
                                 vpiValue: 1
-                      vpiCondition Operation start:18:29 end:18:35:
-                        vpiParent: GenFor
-                        vpiOpType: less than (20)
-                        vpiOperand (2 items):
-                          RefObj name:j start:18:29 end:18:30:
-                            vpiParent: Operation
-                            vpiName: j
-                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen.j
-                            vpiActual: Variable name:j
-                          Constant start:18:33 end:18:35:
-                            vpiParent: Operation
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: a23_barrel_shift_fpga_rotate.netgen
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "32"
-                            vpiValue: 32
-                      vpiStmt Begin name:net start:19:17 end:23:20:
-                        vpiParent: GenFor
-                        vpiName Identifier name:net start:19:25 end:19:28:
-                        vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net
-                        vpiStmt (1 items):
-                          Always start:20:25 end:22:89:
-                            vpiParent: Begin name:net
-                            vpiStmt EventControl start:20:32 end:22:89:
-                              vpiParent: Always
-                              vpiStmt Assignment start:21:33 end:22:88:
-                                vpiParent: EventControl
-                                vpiBlocking: true
-                                vpiLhs BitSelect name:out[j] start:21:33 end:21:39:
-                                  vpiParent: Assignment
-                                  vpiName: out[j]
-                                  vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.out[j]
-                                  vpiPrefix RefObj name:out start:21:33 end:21:36:
-                                    vpiParent: BitSelect name:out[j]
-                                    vpiName: out
-                                    vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.out
-                                    vpiActual: Variable name:out
-                                  vpiIndex RefObj name:j start:21:37 end:21:38:
-                                    vpiParent: BitSelect name:out[j]
-                                    vpiName: j
-                                    vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.j
-                                    vpiActual: Variable name:j
-                                vpiRhs Operation start:21:42 end:22:88:
-                                  vpiParent: Assignment
-                                  vpiOpType: bitwise or (29)
-                                  vpiOperand (2 items):
-                                    Operation start:21:42 end:21:80:
-                                      vpiParent: Operation
-                                      vpiOpType: bitwise and (28)
-                                      vpiOperand (2 items):
-                                        BitSelect name:in[j] start:21:42 end:21:47:
-                                          vpiParent: Operation
-                                          vpiName: in[j]
-                                          vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in[j]
-                                          vpiPrefix RefObj name:in start:21:42 end:21:44:
-                                            vpiParent: BitSelect name:in[j]
-                                            vpiName: in
-                                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in
-                                            vpiActual: Net name:in
-                                          vpiIndex RefObj name:j start:21:45 end:21:46:
-                                            vpiParent: BitSelect name:in[j]
-                                            vpiName: j
-                                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.j
-                                            vpiActual: Variable name:j
-                                        Operation start:21:51 end:21:79:
-                                          vpiParent: Operation
-                                          vpiOpType: bitwise xor (30)
-                                          vpiOperand (2 items):
-                                            Operation start:21:51 end:21:67:
-                                              vpiParent: Operation
-                                              vpiOpType: bitwise negation (4)
-                                              vpiOperand (1 items):
-                                                BitSelect name:shift_amount[i] start:21:52 end:21:67:
-                                                  vpiParent: Operation
-                                                  vpiName: shift_amount[i]
-                                                  vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.shift_amount[i]
-                                                  vpiPrefix RefObj name:shift_amount start:21:52 end:21:64:
-                                                    vpiParent: BitSelect name:shift_amount[i]
-                                                    vpiName: shift_amount
-                                                    vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.shift_amount
-                                                    vpiActual: Net name:shift_amount
-                                                  vpiIndex RefObj name:i start:21:65 end:21:66:
-                                                    vpiParent: BitSelect name:shift_amount[i]
-                                                    vpiName: i
-                                                    vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.i
-                                                    vpiActual: Variable name:i
-                                            RefObj name:direction start:21:70 end:21:79:
-                                              vpiParent: Operation
-                                              vpiName: direction
-                                              vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.direction
-                                              vpiActual: Net name:direction
-                                    Operation start:22:42 end:22:88:
-                                      vpiParent: Operation
-                                      vpiOpType: bitwise and (28)
-                                      vpiOperand (2 items):
-                                        BitSelect name:in[wrap(j, i)] start:22:42 end:22:56:
-                                          vpiParent: Operation
-                                          vpiName: in[wrap(j, i)]
-                                          vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in[wrap(j, i)]
-                                          vpiPrefix RefObj name:in start:22:42 end:22:44:
-                                            vpiParent: BitSelect name:in[wrap(j, i)]
-                                            vpiName: in
-                                            vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in
-                                            vpiActual: Net name:in
-                                          vpiIndex MethodFuncCall name:wrap start:22:45 end:22:55:
-                                            vpiParent: BitSelect name:in[wrap(j, i)]
-                                            vpiName Identifier name:wrap start:22:45 end:22:49:
-                                            vpiTaskFunc: Function name:wrap
-                                            vpiArgument (2 items):
-                                              NamedArgument start:22:50 end:22:51:
-                                                vpiParent: MethodFuncCall name:wrap
-                                                vpiHighConn RefObj name:j start:22:50 end:22:51:
-                                                  vpiParent: NamedArgument
-                                                  vpiName: j
-                                                  vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in[wrap(j, i)].j
-                                                  vpiActual: Variable name:j
-                                              NamedArgument start:22:53 end:22:54:
-                                                vpiParent: MethodFuncCall name:wrap
-                                                vpiHighConn RefObj name:i start:22:53 end:22:54:
-                                                  vpiParent: NamedArgument
-                                                  vpiName: i
-                                                  vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.in[wrap(j, i)].i
-                                                  vpiActual: Variable name:i
-                                        Operation start:22:60 end:22:87:
-                                          vpiParent: Operation
-                                          vpiOpType: bitwise xor (30)
-                                          vpiOperand (2 items):
-                                            BitSelect name:shift_amount[i] start:22:60 end:22:75:
-                                              vpiParent: Operation
-                                              vpiName: shift_amount[i]
-                                              vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.shift_amount[i]
-                                              vpiPrefix RefObj name:shift_amount start:22:60 end:22:72:
-                                                vpiParent: BitSelect name:shift_amount[i]
-                                                vpiName: shift_amount
-                                                vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.shift_amount
-                                                vpiActual: Net name:shift_amount
-                                              vpiIndex RefObj name:i start:22:73 end:22:74:
-                                                vpiParent: BitSelect name:shift_amount[i]
-                                                vpiName: i
-                                                vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.i
-                                                vpiActual: Variable name:i
-                                            RefObj name:direction start:22:78 end:22:87:
-                                              vpiParent: Operation
-                                              vpiName: direction
-                                              vpiFullName: a23_barrel_shift_fpga_rotate.netgen.net.direction
-                                              vpiActual: Net name:direction
-                              vpiIsImplicitControl: true
-                            vpiAlwaysType: always (1)
-              ContAssign start:27:16 end:27:35:
-                vpiParent: Begin
-                vpiLhs RefObj name:netgen[4].in start:27:16 end:27:28:
-                  vpiParent: ContAssign
-                  vpiName: netgen[4].in
-                  vpiFullName: a23_barrel_shift_fpga_rotate.netgen[4].in
-                  vpiPathElem (2 items):
-                    BitSelect name:netgen[4] start:27:16 end:27:24:
-                      vpiParent: RefObj name:netgen[4].in
-                      vpiName: netgen[4]
-                      vpiFullName: a23_barrel_shift_fpga_rotate.netgen[4].in.netgen[4]
-                      vpiPrefix RefObj name:netgen start:27:16 end:27:22:
-                        vpiParent: BitSelect name:netgen[4]
-                        vpiName: netgen
-                        vpiFullName: a23_barrel_shift_fpga_rotate.netgen[4].in.netgen
-                      vpiIndex Constant start:27:23 end:27:24:
-                        vpiParent: BitSelect name:netgen[4]
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: a23_barrel_shift_fpga_rotate.netgen[4].in.netgen[4]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "4"
-                        vpiValue: 4
-                    RefObj name:in start:27:26 end:27:28:
-                      vpiParent: RefObj name:netgen[4].in
-                      vpiName: in
-                      vpiFullName: a23_barrel_shift_fpga_rotate.in
+                        RefObj name:in start:30:36 end:30:38:
+                          vpiParent: RefObj name:netgen[i - 1].in
+                          vpiName: in
+                          vpiFullName: a23_barrel_shift_fpga_rotate.router.in
+                          vpiActual: Net name:in
                       vpiActual: Net name:in
-                vpiRhs RefObj name:i_in start:27:31 end:27:35:
-                  vpiParent: ContAssign
-                  vpiName: i_in
-                  vpiFullName: a23_barrel_shift_fpga_rotate.i_in
-                  vpiActual: Net name:i_in
-              GenFor start:28:9 end:31:12:
-                vpiParent: Begin
-                vpiFullName: a23_barrel_shift_fpga_rotate
-                vpiForInitStmt (1 items):
-                  Assignment start:28:14 end:28:19:
-                    vpiParent: GenFor
-                    vpiLhs RefObj name:i start:28:14 end:28:15:
-                      vpiParent: Assignment
-                      vpiName: i
-                      vpiFullName: a23_barrel_shift_fpga_rotate.i
-                      vpiActual: Variable name:i
-                    vpiRhs Constant start:28:18 end:28:19:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: a23_barrel_shift_fpga_rotate
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-                vpiForIncStmt (1 items):
-                  Assignment start:28:28 end:28:37:
-                    vpiParent: GenFor
-                    vpiBlocking: true
-                    vpiLhs RefObj name:i start:28:28 end:28:29:
-                      vpiParent: Assignment
-                      vpiName: i
-                      vpiFullName: a23_barrel_shift_fpga_rotate.i
-                      vpiActual: Variable name:i
-                    vpiRhs Operation start:28:32 end:28:37:
-                      vpiParent: Assignment
-                      vpiOpType: add (24)
-                      vpiOperand (2 items):
-                        RefObj name:i start:28:32 end:28:33:
-                          vpiParent: Operation
-                          vpiName: i
-                          vpiFullName: a23_barrel_shift_fpga_rotate.i
-                          vpiActual: Variable name:i
-                        Constant start:28:36 end:28:37:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: a23_barrel_shift_fpga_rotate
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
-                vpiCondition Operation start:28:21 end:28:26:
-                  vpiParent: GenFor
-                  vpiOpType: less than (20)
-                  vpiOperand (2 items):
-                    RefObj name:i start:28:21 end:28:22:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: a23_barrel_shift_fpga_rotate.i
-                      vpiActual: Variable name:i
-                    Constant start:28:25 end:28:26:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: a23_barrel_shift_fpga_rotate
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "5"
-                      vpiValue: 5
-                vpiStmt Begin name:router start:29:9 end:31:12:
-                  vpiParent: GenFor
-                  vpiName Identifier name:router start:29:17 end:29:23:
-                  vpiFullName: a23_barrel_shift_fpga_rotate.router
-                  vpiStmt (1 items):
-                    ContAssign start:30:24 end:30:54:
-                      vpiParent: Begin name:router
-                      vpiLhs RefObj name:netgen[i - 1].in start:30:24 end:30:38:
-                        vpiParent: ContAssign
-                        vpiName: netgen[i - 1].in
-                        vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i - 1].in
-                        vpiPathElem (2 items):
-                          BitSelect name:netgen[i - 1] start:30:24 end:30:34:
-                            vpiParent: RefObj name:netgen[i - 1].in
-                            vpiName: netgen[i - 1]
-                            vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i - 1].in.netgen[i - 1]
-                            vpiPrefix RefObj name:netgen start:30:24 end:30:30:
-                              vpiParent: BitSelect name:netgen[i - 1]
-                              vpiName: netgen
-                              vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i - 1].in.netgen
-                            vpiIndex Operation start:30:31 end:30:34:
-                              vpiParent: BitSelect name:netgen[i - 1]
-                              vpiOpType: subtract (11)
-                              vpiOperand (2 items):
-                                RefObj name:i start:30:31 end:30:32:
-                                  vpiParent: Operation
-                                  vpiName: i
-                                  vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i - 1].in.netgen[i - 1].i
-                                  vpiActual: Variable name:i
-                                Constant start:30:33 end:30:34:
-                                  vpiParent: Operation
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i - 1].in.netgen[i - 1]
-                                    vpiActual: IntTypespec
-                                  vpiConstType: unsigned int (9)
-                                  vpiSize: 64
-                                  vpiDecompile: "1"
-                                  vpiValue: 1
-                          RefObj name:in start:30:36 end:30:38:
-                            vpiParent: RefObj name:netgen[i - 1].in
-                            vpiName: in
-                            vpiFullName: a23_barrel_shift_fpga_rotate.router.in
-                            vpiActual: Net name:in
-                      vpiRhs RefObj name:netgen[i].out start:30:41 end:30:54:
-                        vpiParent: ContAssign
-                        vpiName: netgen[i].out
-                        vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i].out
-                        vpiPathElem (2 items):
-                          BitSelect name:netgen[i] start:30:41 end:30:49:
-                            vpiParent: RefObj name:netgen[i].out
-                            vpiName: netgen[i]
-                            vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i].out.netgen[i]
-                            vpiPrefix RefObj name:netgen start:30:41 end:30:47:
-                              vpiParent: BitSelect name:netgen[i]
-                              vpiName: netgen
-                              vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i].out.netgen
-                            vpiIndex RefObj name:i start:30:48 end:30:49:
-                              vpiParent: BitSelect name:netgen[i]
-                              vpiName: i
-                              vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i].out.i
-                              vpiActual: Variable name:i
-                          RefObj name:out start:30:51 end:30:54:
-                            vpiParent: RefObj name:netgen[i].out
-                            vpiName: out
-                            vpiFullName: a23_barrel_shift_fpga_rotate.router.out
+                    vpiRhs RefObj name:netgen[i].out start:30:41 end:30:54:
+                      vpiParent: ContAssign
+                      vpiName: netgen[i].out
+                      vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i].out
+                      vpiPathElem (2 items):
+                        BitSelect name:netgen[i] start:30:41 end:30:49:
+                          vpiParent: RefObj name:netgen[i].out
+                          vpiName: netgen[i]
+                          vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i].out.netgen[i]
+                          vpiPrefix RefObj name:netgen start:30:41 end:30:47:
+                            vpiParent: BitSelect name:netgen[i]
+                            vpiName: netgen
+                            vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i].out.netgen
+                            vpiActual: GenRegion name:netgen
+                          vpiIndex RefObj name:i start:30:48 end:30:49:
+                            vpiParent: BitSelect name:netgen[i]
+                            vpiName: i
+                            vpiFullName: a23_barrel_shift_fpga_rotate.router.netgen[i].out.i
+                            vpiActual: Variable name:i
+                        RefObj name:out start:30:51 end:30:54:
+                          vpiParent: RefObj name:netgen[i].out
+                          vpiName: out
+                          vpiFullName: a23_barrel_shift_fpga_rotate.router.out
+                          vpiActual: Variable name:out
+                      vpiActual: Variable name:out
   vpiTypespec (2 items):
     ModuleTypespec name:a23_barrel_shift_fpga_rotate:
       vpiParent: Design name:unnamed
@@ -1517,8 +1510,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
-[WARNING] : 6
+[  ERROR] : 0
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1562,7 +1555,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTestSuite/simple/rotate/design.hldb ${HLC_DI
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             220     220       0         0
+Others                             218     218       0         0
 ----------------------------------------------------------------
-                                   220     220       0         0
+                                   218     218       0         0
 ===================== END REDUCTION RESULT =====================

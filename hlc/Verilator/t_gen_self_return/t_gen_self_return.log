@@ -1028,6 +1028,12 @@ Design name:unnamed:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
           vpiName Identifier name:index_calc start:20:37 end:20:47:
           vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).index_calc
+          vpiTypespec (2 items):
+            LogicTypespec:
+              vpiParent: Function name:index_calc
+              vpiScalar: true
+            BitTypespec:
+              vpiParent: Function name:index_calc
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (2 items):
@@ -1050,12 +1056,6 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:index_calc
             vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).index_calc
-            vpiTypespec (2 items):
-              LogicTypespec:
-                vpiParent: Begin
-                vpiScalar: true
-              BitTypespec:
-                vpiParent: Begin
             vpiStmt (4 items):
               Assignment start:21:7 end:21:25:
                 vpiParent: Begin
@@ -1472,144 +1472,146 @@ Design name:unnamed:
         GenRegion start:30:4 end:36:15:
           vpiParent: Module name:dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
           vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16))
-          vpiStmt Begin name:ram_dataout_gen start:31:7 end:35:10:
-            vpiParent: GenRegion
-            vpiName Identifier name:ram_dataout_gen start:31:15 end:31:30:
-            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen
-            vpiStmt (1 items):
-              GenFor start:32:10 end:34:13:
-                vpiParent: Begin name:ram_dataout_gen
-                vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen
-                vpiVariable (1 items):
-                  Variable name:i start:32:22 end:32:23:
+          vpiStmt (1 items):
+            GenRegion name:ram_dataout_gen start:31:7 end:35:10:
+              vpiParent: GenRegion
+              vpiName Identifier name:ram_dataout_gen start:31:15 end:31:30:
+              vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen
+              vpiStmt (1 items):
+                GenFor start:32:10 end:34:13:
+                  vpiParent: GenRegion name:ram_dataout_gen
+                  vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen
+                  vpiVariable (1 items):
+                    Variable name:i start:32:22 end:32:23:
+                      vpiParent: GenFor
+                      vpiName: i
+                      vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.i
+                  vpiForInitStmt (1 items):
+                    Assignment start:32:22 end:32:27:
+                      vpiParent: GenFor
+                      vpiLhs: Variable name:i
+                      vpiRhs Constant start:32:26 end:32:27:
+                        vpiParent: Assignment
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "0"
+                        vpiValue: 0
+                  vpiForIncStmt (1 items):
+                    Operation start:32:49 end:32:52:
+                      vpiParent: GenFor
+                      vpiOpType: post inc (64)
+                      vpiOperand (1 items):
+                        RefObj name:i start:32:49 end:32:50:
+                          vpiParent: Operation
+                          vpiName: i
+                          vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.i
+                          vpiActual: Variable name:i
+                  vpiCondition Operation start:32:29 end:32:47:
                     vpiParent: GenFor
-                    vpiName: i
-                    vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.i
-                vpiForInitStmt (1 items):
-                  Assignment start:32:22 end:32:27:
-                    vpiParent: GenFor
-                    vpiLhs: Variable name:i
-                    vpiRhs Constant start:32:26 end:32:27:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiForIncStmt (1 items):
-                  Operation start:32:49 end:32:52:
-                    vpiParent: GenFor
-                    vpiOpType: post inc (64)
-                    vpiOperand (1 items):
-                      RefObj name:i start:32:49 end:32:50:
+                    vpiOpType: less than (20)
+                    vpiOperand (2 items):
+                      RefObj name:i start:32:29 end:32:30:
                         vpiParent: Operation
                         vpiName: i
                         vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.i
                         vpiActual: Variable name:i
-                vpiCondition Operation start:32:29 end:32:47:
-                  vpiParent: GenFor
-                  vpiOpType: less than (20)
-                  vpiOperand (2 items):
-                    RefObj name:i start:32:29 end:32:30:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.i
-                      vpiActual: Variable name:i
-                    RefObj name:NUM_RAM_BLOCKS start:32:33 end:32:47:
-                      vpiParent: Operation
-                      vpiName: NUM_RAM_BLOCKS
-                      vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.NUM_RAM_BLOCKS
-                      vpiActual: Parameter name:NUM_RAM_BLOCKS
-                vpiStmt Begin start:32:54 end:34:13:
-                  vpiParent: GenFor
-                  vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen
-                  vpiStmt (1 items):
-                    Always start:33:13 end:33:84:
-                      vpiParent: Begin
-                      vpiStmt Assignment start:33:25 end:33:83:
-                        vpiParent: Always
-                        vpiBlocking: true
-                        vpiLhs PartSelect name:ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]] start:33:25 end:33:79:
-                          vpiParent: Assignment
-                          vpiName: ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]]
-                          vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]]
-                          vpiPrefix RefObj name:ram_dataout start:33:25 end:33:36:
-                            vpiParent: PartSelect name:ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]]
-                            vpiName: ram_dataout
-                            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].ram_dataout
-                            vpiActual: Variable name:ram_dataout
-                          vpiRange Range start:33:37 end:33:78:
-                            vpiParent: PartSelect name:ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]]
-                            vpiLeftRange Operation start:33:37 end:33:59:
-                              vpiParent: Range
-                              vpiOpType: subtract (11)
-                              vpiOperand (2 items):
-                                BitSelect name:RAM_BLOCK_INDEX[i + 1] start:33:37 end:33:57:
-                                  vpiParent: Operation
-                                  vpiName: RAM_BLOCK_INDEX[i + 1]
-                                  vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].RAM_BLOCK_INDEX[i + 1]
-                                  vpiPrefix RefObj name:RAM_BLOCK_INDEX start:33:37 end:33:52:
-                                    vpiParent: BitSelect name:RAM_BLOCK_INDEX[i + 1]
-                                    vpiName: RAM_BLOCK_INDEX
-                                    vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].RAM_BLOCK_INDEX
-                                    vpiActual: Parameter name:RAM_BLOCK_INDEX
-                                  vpiIndex Operation start:33:53 end:33:56:
-                                    vpiParent: BitSelect name:RAM_BLOCK_INDEX[i + 1]
-                                    vpiOpType: add (24)
-                                    vpiOperand (2 items):
-                                      RefObj name:i start:33:53 end:33:54:
-                                        vpiParent: Operation
-                                        vpiName: i
-                                        vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].RAM_BLOCK_INDEX[i + 1].i
-                                        vpiActual: Variable name:i
-                                      Constant start:33:55 end:33:56:
-                                        vpiParent: Operation
-                                        vpiTypespec RefTypespec:
-                                          vpiParent: Constant
-                                          vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].RAM_BLOCK_INDEX[i + 1]
-                                          vpiActual: IntTypespec
-                                        vpiConstType: unsigned int (9)
-                                        vpiSize: 64
-                                        vpiDecompile: "1"
-                                        vpiValue: 1
-                                Constant start:33:58 end:33:59:
-                                  vpiParent: Operation
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]]
-                                    vpiActual: IntTypespec
-                                  vpiConstType: unsigned int (9)
-                                  vpiSize: 64
-                                  vpiDecompile: "1"
-                                  vpiValue: 1
-                            vpiRightRange BitSelect name:RAM_BLOCK_INDEX[i] start:33:60 end:33:78:
-                              vpiParent: Range
-                              vpiName: RAM_BLOCK_INDEX[i]
-                              vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].RAM_BLOCK_INDEX[i]
-                              vpiPrefix RefObj name:RAM_BLOCK_INDEX start:33:60 end:33:75:
-                                vpiParent: BitSelect name:RAM_BLOCK_INDEX[i]
-                                vpiName: RAM_BLOCK_INDEX
-                                vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].RAM_BLOCK_INDEX
-                                vpiActual: Parameter name:RAM_BLOCK_INDEX
-                              vpiIndex RefObj name:i start:33:76 end:33:77:
-                                vpiParent: BitSelect name:RAM_BLOCK_INDEX[i]
-                                vpiName: i
-                                vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].i
-                                vpiActual: Variable name:i
-                        vpiRhs Constant start:33:82 end:33:83:
-                          vpiParent: Assignment
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "0"
-                          vpiValue: 0
-                      vpiAlwaysType: comb (2)
+                      RefObj name:NUM_RAM_BLOCKS start:32:33 end:32:47:
+                        vpiParent: Operation
+                        vpiName: NUM_RAM_BLOCKS
+                        vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.NUM_RAM_BLOCKS
+                        vpiActual: Parameter name:NUM_RAM_BLOCKS
+                  vpiStmt GenRegion start:32:54 end:34:13:
+                    vpiParent: GenFor
+                    vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen
+                    vpiImplicitDecl: true
+                    vpiStmt (1 items):
+                      Always start:33:13 end:33:84:
+                        vpiParent: GenRegion
+                        vpiStmt Assignment start:33:25 end:33:83:
+                          vpiParent: Always
+                          vpiBlocking: true
+                          vpiLhs PartSelect name:ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]] start:33:25 end:33:79:
+                            vpiParent: Assignment
+                            vpiName: ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]]
+                            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]]
+                            vpiPrefix RefObj name:ram_dataout start:33:25 end:33:36:
+                              vpiParent: PartSelect name:ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]]
+                              vpiName: ram_dataout
+                              vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].ram_dataout
+                              vpiActual: Variable name:ram_dataout
+                            vpiRange Range start:33:37 end:33:78:
+                              vpiParent: PartSelect name:ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]]
+                              vpiLeftRange Operation start:33:37 end:33:59:
+                                vpiParent: Range
+                                vpiOpType: subtract (11)
+                                vpiOperand (2 items):
+                                  BitSelect name:RAM_BLOCK_INDEX[i + 1] start:33:37 end:33:57:
+                                    vpiParent: Operation
+                                    vpiName: RAM_BLOCK_INDEX[i + 1]
+                                    vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].RAM_BLOCK_INDEX[i + 1]
+                                    vpiPrefix RefObj name:RAM_BLOCK_INDEX start:33:37 end:33:52:
+                                      vpiParent: BitSelect name:RAM_BLOCK_INDEX[i + 1]
+                                      vpiName: RAM_BLOCK_INDEX
+                                      vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].RAM_BLOCK_INDEX
+                                      vpiActual: Parameter name:RAM_BLOCK_INDEX
+                                    vpiIndex Operation start:33:53 end:33:56:
+                                      vpiParent: BitSelect name:RAM_BLOCK_INDEX[i + 1]
+                                      vpiOpType: add (24)
+                                      vpiOperand (2 items):
+                                        RefObj name:i start:33:53 end:33:54:
+                                          vpiParent: Operation
+                                          vpiName: i
+                                          vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].RAM_BLOCK_INDEX[i + 1].i
+                                          vpiActual: Variable name:i
+                                        Constant start:33:55 end:33:56:
+                                          vpiParent: Operation
+                                          vpiTypespec RefTypespec:
+                                            vpiParent: Constant
+                                            vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].RAM_BLOCK_INDEX[i + 1]
+                                            vpiActual: IntTypespec
+                                          vpiConstType: unsigned int (9)
+                                          vpiSize: 64
+                                          vpiDecompile: "1"
+                                          vpiValue: 1
+                                  Constant start:33:58 end:33:59:
+                                    vpiParent: Operation
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]]
+                                      vpiActual: IntTypespec
+                                    vpiConstType: unsigned int (9)
+                                    vpiSize: 64
+                                    vpiDecompile: "1"
+                                    vpiValue: 1
+                              vpiRightRange BitSelect name:RAM_BLOCK_INDEX[i] start:33:60 end:33:78:
+                                vpiParent: Range
+                                vpiName: RAM_BLOCK_INDEX[i]
+                                vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].RAM_BLOCK_INDEX[i]
+                                vpiPrefix RefObj name:RAM_BLOCK_INDEX start:33:60 end:33:75:
+                                  vpiParent: BitSelect name:RAM_BLOCK_INDEX[i]
+                                  vpiName: RAM_BLOCK_INDEX
+                                  vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].RAM_BLOCK_INDEX
+                                  vpiActual: Parameter name:RAM_BLOCK_INDEX
+                                vpiIndex RefObj name:i start:33:76 end:33:77:
+                                  vpiParent: BitSelect name:RAM_BLOCK_INDEX[i]
+                                  vpiName: i
+                                  vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen.ram_dataout[RAM_BLOCK_INDEX[i+1]-1:RAM_BLOCK_INDEX[i]].i
+                                  vpiActual: Variable name:i
+                          vpiRhs Constant start:33:82 end:33:83:
+                            vpiParent: Assignment
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: dut #(.DEPTH(16), .WIDTH(32), .RAM_SPLIT_WIDTH(16)).ram_dataout_gen
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "0"
+                            vpiValue: 0
+                        vpiAlwaysType: comb (2)
     Module name:t file:$Source01/t_gen_self_return.v start:46:1 end:54:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:46:8 end:46:9:

@@ -231,7 +231,6 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:9:1: No timescale set for "alert_pkg".
 [WRN:PA5506] $Source01/dut.sv:17:1: No timescale set for "M".
 [WRN:PA5506] $Source01/dut.sv:20:1: No timescale set for "alert_handler".
-[ERR:DB2038] $Source01/dut.sv:25:42: 'vpiStmt' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -545,13 +544,13 @@ Design name:unnamed:
                 vpiName: NAlerts
                 vpiFullName: alert_handler.NAlerts
                 vpiActual: Parameter name:NAlerts
-          vpiStmt Begin name:gen_alerts start:25:42 end:30:6:
+          vpiStmt GenRegion name:gen_alerts start:25:42 end:30:6:
             vpiParent: GenFor
             vpiName Identifier name:gen_alerts start:25:50 end:25:60:
             vpiFullName: alert_handler.gen_alerts
             vpiParameter (1 items):
               Parameter name:debug start:26:16 end:26:21:
-                vpiParent: Begin name:gen_alerts
+                vpiParent: GenRegion name:gen_alerts
                 vpiTypespec RefTypespec:
                   vpiParent: Parameter name:debug
                   vpiFullName: alert_handler.gen_alerts.debug
@@ -561,7 +560,7 @@ Design name:unnamed:
                 vpiLocalParam: true
             vpiParamAssign (1 items):
               ParamAssign start:26:16 end:26:34:
-                vpiParent: Begin name:gen_alerts
+                vpiParent: GenRegion name:gen_alerts
                 vpiLhs RefObj name:debug start:26:16 end:26:21:
                   vpiParent: ParamAssign
                   vpiName: debug
@@ -583,30 +582,29 @@ Design name:unnamed:
                     vpiActual: Variable name:k
             vpiTypespec (1 items):
               LogicTypespec:
-                vpiParent: Begin name:gen_alerts
+                vpiParent: GenRegion name:gen_alerts
                 vpiScalar: true
-            vpiStmt (3 items):
-              Parameter name:debug:
-              ParamAssign:
+            vpiStmt (1 items):
               GenIf start:27:5 end:29:8:
-                vpiParent: Begin name:gen_alerts
+                vpiParent: GenRegion name:gen_alerts
                 vpiCondition RefObj name:debug start:27:9 end:27:14:
                   vpiParent: GenIf
                   vpiName: debug
                   vpiFullName: alert_handler.gen_alerts.debug
                   vpiActual: Parameter name:debug
-                vpiStmt Begin start:27:16 end:29:8:
+                vpiStmt GenRegion start:27:16 end:29:8:
                   vpiParent: GenIf
                   vpiFullName: alert_handler.gen_alerts
                   vpiTypespec (1 items):
                     ModuleTypespec name:M start:28:7 end:28:8:
-                      vpiParent: Begin
+                      vpiParent: GenRegion
                       vpiName Identifier name:M start:28:7 end:28:8:
                       vpiDefName: M
                       vpiModule: Module name:M
+                  vpiImplicitDecl: true
                   vpiStmt (1 items):
                     RefInstance name:u start:28:9 end:28:10:
-                      vpiParent: Begin
+                      vpiParent: GenRegion
                       vpiName: u
                       vpiTypespec RefTypespec name:M start:28:7 end:28:8:
                         vpiParent: RefInstance name:u
@@ -640,7 +638,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************

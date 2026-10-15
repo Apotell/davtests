@@ -359,7 +359,7 @@ Design name:unnamed:
           vpiParent: Module name:test
           vpiName Identifier name:fun1 start:6:13 end:6:17:
           vpiFullName: test.fun1
-          vpiVariable (1 items):
+          vpiVariable (2 items):
             Variable name:parm start:7:20 end:7:24:
               vpiParent: Function name:fun1
               vpiTypespec RefTypespec start:7:13 end:7:19:
@@ -368,6 +368,43 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: parm
               vpiFullName: test.fun1.parm
+            Variable name:tmp start:8:12 end:8:15:
+              vpiParent: Function name:fun1
+              vpiTypespec RefTypespec start:8:7 end:8:11:
+                vpiParent: Variable name:tmp
+                vpiFullName: test.fun1.tmp
+                vpiActual: RealTypespec
+              vpiName: tmp
+              vpiFullName: test.fun1.tmp
+          vpiTypespec (2 items):
+            LogicTypespec start:6:13 end:6:13:
+              vpiParent: Function name:fun1
+            LogicTypespec:
+              vpiParent: Function name:fun1
+              vpiRange (1 items):
+                Range start:7:13 end:7:19:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:7:14 end:7:16:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: test.fun1
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "31"
+                    vpiValue: 31
+                  vpiRightRange Constant start:7:17 end:7:18:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: test.fun1
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:parm start:7:20 end:7:24:
@@ -378,98 +415,55 @@ Design name:unnamed:
                 vpiParent: IODecl name:parm
                 vpiFullName: test.fun1.parm
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:10:7 end:13:10:
             vpiParent: Function name:fun1
             vpiFullName: test.fun1
-            vpiVariable (1 items):
-              Variable name:tmp start:8:12 end:8:15:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:8:7 end:8:11:
-                  vpiParent: Variable name:tmp
-                  vpiFullName: test.fun1.tmp
-                  vpiActual: RealTypespec
-                vpiName: tmp
-                vpiFullName: test.fun1.tmp
-            vpiTypespec (2 items):
-              LogicTypespec start:6:13 end:6:13:
-                vpiParent: Begin
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:7:13 end:7:19:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:7:14 end:7:16:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: test.fun1
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "31"
-                      vpiValue: 31
-                    vpiRightRange Constant start:7:17 end:7:18:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: test.fun1
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
             vpiStmt (2 items):
-              Variable name:tmp:
-              Begin start:10:7 end:13:10:
+              Assignment start:11:3 end:11:12:
                 vpiParent: Begin
-                vpiFullName: test.fun1
-                vpiStmt (2 items):
-                  Assignment start:11:3 end:11:12:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:tmp start:11:3 end:11:6:
-                      vpiParent: Assignment
-                      vpiName: tmp
-                      vpiFullName: test.fun1.tmp
-                      vpiActual: Variable name:tmp
-                    vpiRhs Constant start:11:9 end:11:12:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: test.fun1
-                        vpiActual: RealTypespec
-                      vpiConstType: real (2)
-                      vpiSize: 64
-                      vpiDecompile: "0.0"
-                      vpiValue: 0
-                  Assignment start:12:3 end:12:17:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:fun1 start:12:3 end:12:7:
-                      vpiParent: Assignment
-                      vpiName: fun1
-                      vpiFullName: test.fun1.fun1
-                      vpiActual: Function name:fun1
-                    vpiRhs BitSelect name:parm[0] start:12:10 end:12:17:
-                      vpiParent: Assignment
-                      vpiName: parm[0]
+                vpiBlocking: true
+                vpiLhs RefObj name:tmp start:11:3 end:11:6:
+                  vpiParent: Assignment
+                  vpiName: tmp
+                  vpiFullName: test.fun1.tmp
+                  vpiActual: Variable name:tmp
+                vpiRhs Constant start:11:9 end:11:12:
+                  vpiParent: Assignment
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: test.fun1
+                    vpiActual: RealTypespec
+                  vpiConstType: real (2)
+                  vpiSize: 64
+                  vpiDecompile: "0.0"
+                  vpiValue: 0
+              Assignment start:12:3 end:12:17:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:fun1 start:12:3 end:12:7:
+                  vpiParent: Assignment
+                  vpiName: fun1
+                  vpiFullName: test.fun1.fun1
+                  vpiActual: Function name:fun1
+                vpiRhs BitSelect name:parm[0] start:12:10 end:12:17:
+                  vpiParent: Assignment
+                  vpiName: parm[0]
+                  vpiFullName: test.fun1.parm[0]
+                  vpiPrefix RefObj name:parm start:12:10 end:12:14:
+                    vpiParent: BitSelect name:parm[0]
+                    vpiName: parm
+                    vpiFullName: test.fun1.parm
+                    vpiActual: IODecl name:parm
+                  vpiIndex Constant start:12:15 end:12:16:
+                    vpiParent: BitSelect name:parm[0]
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
                       vpiFullName: test.fun1.parm[0]
-                      vpiPrefix RefObj name:parm start:12:10 end:12:14:
-                        vpiParent: BitSelect name:parm[0]
-                        vpiName: parm
-                        vpiFullName: test.fun1.parm
-                        vpiActual: IODecl name:parm
-                      vpiIndex Constant start:12:15 end:12:16:
-                        vpiParent: BitSelect name:parm[0]
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: test.fun1.parm[0]
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "0"
-                        vpiValue: 0
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
           vpiReturn RefTypespec start:6:13 end:6:13:
             vpiParent: Function name:fun1
             vpiFullName: test.fun1
@@ -692,7 +686,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/scope5/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              93      93       0         0
+Others                              92      92       0         0
 ----------------------------------------------------------------
-                                    93      93       0         0
+                                    92      92       0         0
 ===================== END REDUCTION RESULT =====================

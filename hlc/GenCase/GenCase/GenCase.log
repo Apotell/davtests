@@ -295,7 +295,7 @@ Design name:unnamed:
             vpiSize: 2
             vpiDecompile: "2'sb11"
             vpiValue: "11"
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         BitTypespec:
           vpiParent: Module name:top
         BitTypespec:
@@ -328,9 +328,6 @@ Design name:unnamed:
                 vpiValue: 0
           vpiSigned: true
           vpiVector: true
-        UnsupportedTypespec name:BAD start:15:14 end:15:17:
-          vpiParent: Module name:top
-          vpiName Identifier name:BAD start:15:14 end:15:17:
       vpiDefName: top
       vpiDefNetType: wire (1)
       vpiLibrary RefObj name:work start:5:8 end:5:11:
@@ -357,19 +354,19 @@ Design name:unnamed:
                   vpiName: x_1sb1
                   vpiFullName: top.x_1sb1
                   vpiActual: Parameter name:x_1sb1
-              vpiStmt Begin name:tag1 start:12:13 end:14:8:
+              vpiStmt GenRegion name:tag1 start:12:13 end:14:8:
                 vpiParent: CaseItem
                 vpiName Identifier name:tag1 start:12:20 end:12:24:
                 vpiFullName: top.tag1
                 vpiTypespec (1 items):
                   ModuleTypespec name:GOOD start:13:7 end:13:11:
-                    vpiParent: Begin name:tag1
+                    vpiParent: GenRegion name:tag1
                     vpiName Identifier name:GOOD start:13:7 end:13:11:
                     vpiDefName: GOOD
                     vpiModule: Module name:GOOD
                 vpiStmt (1 items):
                   RefInstance name:u2 start:13:12 end:13:14:
-                    vpiParent: Begin name:tag1
+                    vpiParent: GenRegion name:tag1
                     vpiName: u2
                     vpiTypespec RefTypespec name:GOOD start:13:7 end:13:11:
                       vpiParent: RefInstance name:u2
@@ -378,14 +375,23 @@ Design name:unnamed:
                       vpiActual: ModuleTypespec name:GOOD
             CaseItem start:15:5 end:15:23:
               vpiParent: GenCase
-              vpiStmt RefInstance name:u3 start:15:18 end:15:20:
+              vpiStmt GenRegion start:15:14 end:15:23:
                 vpiParent: CaseItem
-                vpiName: u3
-                vpiTypespec RefTypespec name:BAD start:15:14 end:15:17:
-                  vpiParent: RefInstance name:u3
-                  vpiName: BAD
-                  vpiFullName: top.u3.BAD
-                  vpiActual: UnsupportedTypespec name:BAD
+                vpiFullName: top
+                vpiTypespec (1 items):
+                  UnsupportedTypespec name:BAD start:15:14 end:15:17:
+                    vpiParent: GenRegion
+                    vpiName Identifier name:BAD start:15:14 end:15:17:
+                vpiImplicitDecl: true
+                vpiStmt (1 items):
+                  RefInstance name:u3 start:15:18 end:15:20:
+                    vpiParent: GenRegion
+                    vpiName: u3
+                    vpiTypespec RefTypespec name:BAD start:15:14 end:15:17:
+                      vpiParent: RefInstance name:u3
+                      vpiName: BAD
+                      vpiFullName: top.u3.BAD
+                      vpiActual: UnsupportedTypespec name:BAD
   vpiTypespec (4 items):
     ModuleTypespec name:GOOD:
       vpiParent: Design name:unnamed
@@ -455,7 +461,7 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 RefObj                               8       7       0         1
 ----------------------------------------------------------------
-Others                              55      55       0         0
+Others                              56      56       0         0
 ----------------------------------------------------------------
-                                    63      62       0         1
+                                    64      63       0         1
 ===================== END REDUCTION RESULT =====================

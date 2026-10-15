@@ -4930,7 +4930,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:sync start:235:13 end:235:17:
           vpiFullName: t.sync
-          vpiVariable (1 items):
+          vpiVariable (2 items):
             Variable name:cexp start:236:19 end:236:23:
               vpiParent: Function name:sync
               vpiTypespec RefTypespec start:236:13 end:236:18:
@@ -4939,6 +4939,69 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: cexp
               vpiFullName: t.sync.cexp
+            Variable name:cgot start:237:17 end:237:21:
+              vpiParent: Function name:sync
+              vpiTypespec RefTypespec start:237:7 end:237:16:
+                vpiParent: Variable name:cgot
+                vpiFullName: t.sync.cgot
+                vpiActual: LogicTypespec
+              vpiName: cgot
+              vpiFullName: t.sync.cgot
+          vpiTypespec (3 items):
+            LogicTypespec start:235:13 end:235:13:
+              vpiParent: Function name:sync
+            LogicTypespec:
+              vpiParent: Function name:sync
+              vpiRange (1 items):
+                Range start:236:13 end:236:18:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:236:14 end:236:15:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.sync
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "7"
+                    vpiValue: 7
+                  vpiRightRange Constant start:236:16 end:236:17:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.sync
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
+            LogicTypespec:
+              vpiParent: Function name:sync
+              vpiRange (1 items):
+                Range start:237:11 end:237:16:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:237:12 end:237:13:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.sync
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "7"
+                    vpiValue: 7
+                  vpiRightRange Constant start:237:14 end:237:15:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.sync
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:cexp start:236:19 end:236:23:
@@ -4949,165 +5012,96 @@ Design name:unnamed:
                 vpiParent: IODecl name:cexp
                 vpiFullName: t.sync.cexp
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:238:7 end:242:10:
             vpiParent: Function name:sync
             vpiFullName: t.sync
-            vpiVariable (1 items):
-              Variable name:cgot start:237:17 end:237:21:
+            vpiTypespec (1 items):
+              BitTypespec:
                 vpiParent: Begin
-                vpiTypespec RefTypespec start:237:7 end:237:16:
-                  vpiParent: Variable name:cgot
+            vpiStmt (3 items):
+              Assignment start:239:3 end:239:22:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:cgot start:239:3 end:239:7:
+                  vpiParent: Assignment
+                  vpiName: cgot
                   vpiFullName: t.sync.cgot
-                  vpiActual: LogicTypespec
-                vpiName: cgot
-                vpiFullName: t.sync.cgot
-            vpiTypespec (3 items):
-              LogicTypespec start:235:13 end:235:13:
+                  vpiActual: Variable name:cgot
+                vpiRhs SysFuncCall name:$fgetc start:239:10 end:239:22:
+                  vpiParent: Assignment
+                  vpiName Identifier name:$fgetc start:239:10 end:239:16:
+                  vpiArgument (1 items):
+                    NamedArgument start:239:17 end:239:21:
+                      vpiParent: SysFuncCall name:$fgetc
+                      vpiHighConn RefObj name:file start:239:17 end:239:21:
+                        vpiParent: NamedArgument
+                        vpiName: file
+                        vpiFullName: t.sync.file
+                        vpiActual: Variable name:file
+              IfStmt start:240:3 end:240:53:
                 vpiParent: Begin
-              LogicTypespec:
+                vpiCondition Constant start:30:18 end:30:22:
+                  vpiParent: IfStmt
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: t.sync
+                    vpiActual: BitTypespec
+                  vpiConstType: binary (3)
+                  vpiSize: 1
+                  vpiDecompile: "1'b0"
+                  vpiValue: "0"
+                vpiStmt SysTaskCall name:$write start:240:17 end:240:52:
+                  vpiParent: IfStmt
+                  vpiName Identifier name:$write start:240:17 end:240:23:
+                  vpiArgument (3 items):
+                    NamedArgument start:240:24 end:240:40:
+                      vpiParent: SysTaskCall name:$write
+                      vpiHighConn Constant start:240:24 end:240:40:
+                        vpiParent: NamedArgument
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t.sync
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 104
+                        vpiDecompile: "\"sync=%x='%c'\\n\""
+                        vpiValue: "sync=%x='%c'\\n"
+                    NamedArgument start:240:42 end:240:46:
+                      vpiParent: SysTaskCall name:$write
+                      vpiHighConn RefObj name:cgot start:240:42 end:240:46:
+                        vpiParent: NamedArgument
+                        vpiName: cgot
+                        vpiFullName: t.sync.cgot
+                        vpiActual: Variable name:cgot
+                    NamedArgument start:240:47 end:240:51:
+                      vpiParent: SysTaskCall name:$write
+                      vpiHighConn RefObj name:cgot start:240:47 end:240:51:
+                        vpiParent: NamedArgument
+                        vpiName: cgot
+                        vpiFullName: t.sync.cgot
+                        vpiActual: Variable name:cgot
+              Assignment start:241:3 end:241:24:
                 vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:236:13 end:236:18:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:236:14 end:236:15:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.sync
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "7"
-                      vpiValue: 7
-                    vpiRightRange Constant start:236:16 end:236:17:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.sync
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:237:11 end:237:16:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:237:12 end:237:13:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.sync
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "7"
-                      vpiValue: 7
-                    vpiRightRange Constant start:237:14 end:237:15:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.sync
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-            vpiStmt (2 items):
-              Variable name:cgot:
-              Begin start:238:7 end:242:10:
-                vpiParent: Begin
-                vpiFullName: t.sync
-                vpiTypespec (1 items):
-                  BitTypespec:
-                    vpiParent: Begin
-                vpiStmt (3 items):
-                  Assignment start:239:3 end:239:22:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:cgot start:239:3 end:239:7:
-                      vpiParent: Assignment
+                vpiBlocking: true
+                vpiLhs RefObj name:sync start:241:3 end:241:7:
+                  vpiParent: Assignment
+                  vpiName: sync
+                  vpiFullName: t.sync.sync
+                  vpiActual: Function name:sync
+                vpiRhs Operation start:241:11 end:241:23:
+                  vpiParent: Assignment
+                  vpiOpType: equal (14)
+                  vpiOperand (2 items):
+                    RefObj name:cgot start:241:11 end:241:15:
+                      vpiParent: Operation
                       vpiName: cgot
                       vpiFullName: t.sync.cgot
                       vpiActual: Variable name:cgot
-                    vpiRhs SysFuncCall name:$fgetc start:239:10 end:239:22:
-                      vpiParent: Assignment
-                      vpiName Identifier name:$fgetc start:239:10 end:239:16:
-                      vpiArgument (1 items):
-                        NamedArgument start:239:17 end:239:21:
-                          vpiParent: SysFuncCall name:$fgetc
-                          vpiHighConn RefObj name:file start:239:17 end:239:21:
-                            vpiParent: NamedArgument
-                            vpiName: file
-                            vpiFullName: t.sync.file
-                            vpiActual: Variable name:file
-                  IfStmt start:240:3 end:240:53:
-                    vpiParent: Begin
-                    vpiCondition Constant start:30:18 end:30:22:
-                      vpiParent: IfStmt
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.sync
-                        vpiActual: BitTypespec
-                      vpiConstType: binary (3)
-                      vpiSize: 1
-                      vpiDecompile: "1'b0"
-                      vpiValue: "0"
-                    vpiStmt SysTaskCall name:$write start:240:17 end:240:52:
-                      vpiParent: IfStmt
-                      vpiName Identifier name:$write start:240:17 end:240:23:
-                      vpiArgument (3 items):
-                        NamedArgument start:240:24 end:240:40:
-                          vpiParent: SysTaskCall name:$write
-                          vpiHighConn Constant start:240:24 end:240:40:
-                            vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t.sync
-                              vpiActual: StringTypespec
-                            vpiConstType: string (6)
-                            vpiSize: 104
-                            vpiDecompile: "\"sync=%x='%c'\\n\""
-                            vpiValue: "sync=%x='%c'\\n"
-                        NamedArgument start:240:42 end:240:46:
-                          vpiParent: SysTaskCall name:$write
-                          vpiHighConn RefObj name:cgot start:240:42 end:240:46:
-                            vpiParent: NamedArgument
-                            vpiName: cgot
-                            vpiFullName: t.sync.cgot
-                            vpiActual: Variable name:cgot
-                        NamedArgument start:240:47 end:240:51:
-                          vpiParent: SysTaskCall name:$write
-                          vpiHighConn RefObj name:cgot start:240:47 end:240:51:
-                            vpiParent: NamedArgument
-                            vpiName: cgot
-                            vpiFullName: t.sync.cgot
-                            vpiActual: Variable name:cgot
-                  Assignment start:241:3 end:241:24:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:sync start:241:3 end:241:7:
-                      vpiParent: Assignment
-                      vpiName: sync
-                      vpiFullName: t.sync.sync
-                      vpiActual: Function name:sync
-                    vpiRhs Operation start:241:11 end:241:23:
-                      vpiParent: Assignment
-                      vpiOpType: equal (14)
-                      vpiOperand (2 items):
-                        RefObj name:cgot start:241:11 end:241:15:
-                          vpiParent: Operation
-                          vpiName: cgot
-                          vpiFullName: t.sync.cgot
-                          vpiActual: Variable name:cgot
-                        RefObj name:cexp start:241:19 end:241:23:
-                          vpiParent: Operation
-                          vpiName: cexp
-                          vpiFullName: t.sync.cexp
-                          vpiActual: IODecl name:cexp
+                    RefObj name:cexp start:241:19 end:241:23:
+                      vpiParent: Operation
+                      vpiName: cexp
+                      vpiFullName: t.sync.cexp
+                      vpiActual: IODecl name:cexp
           vpiReturn RefTypespec start:235:13 end:235:13:
             vpiParent: Function name:sync
             vpiFullName: t.sync
@@ -7009,21 +7003,8 @@ Design name:unnamed:
         SysTaskCall name:$write:
         SysTaskCall name:$stop:
         SysTaskCall name:$stop:
-        SysTaskCall name:$stop:
         SysFuncCall name:$fscanf:
         SysTaskCall name:$stop:
-        SysTaskCall name:$write:
-        SysTaskCall name:$stop:
-        SysTaskCall name:$stop:
-        SysTaskCall name:$stop:
-        SysTaskCall name:$stop:
-        SysTaskCall name:$stop:
-        SysTaskCall name:$write:
-        SysTaskCall name:$stop:
-        SysTaskCall name:$stop:
-        SysTaskCall name:$stop:
-        SysTaskCall name:$stop:
-        SysTaskCall name:$stop:
         SysTaskCall name:$stop:
         SysTaskCall name:$write:
         SysTaskCall name:$stop:
@@ -7036,17 +7017,30 @@ Design name:unnamed:
         SysTaskCall name:$stop:
         SysTaskCall name:$stop:
         SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$write:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
+        SysTaskCall name:$stop:
         SysTaskCall name:$write:
         SysTaskCall name:$stop:
         SysTaskCall name:$stop:
         SysTaskCall name:$stop:
         SysTaskCall name:$write:
-        SysTaskCall name:$stop:
         SysTaskCall name:$stop:
         SysTaskCall name:$stop:
         SysTaskCall name:$stop:
         SysTaskCall name:$stop:
         SysFuncCall name:$fgetc:
+        SysTaskCall name:$stop:
         SysTaskCall name:$fclose start:228:3 end:228:17:
           vpiParent: Module name:t
           vpiName Identifier name:$fclose start:228:4 end:228:10:
@@ -7179,12 +7173,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0.0001"
                 vpiValue: 0.0001
-          vpiStmt Begin start:10:66 end:10:175:
+          vpiStmt GenRegion start:10:66 end:10:175:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (2 items):
               SysTaskCall name:$write start:10:72 end:10:164:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:10:73 end:10:78:
                 vpiArgument (5 items):
                   NamedArgument start:10:79 end:10:114:
@@ -7243,7 +7238,7 @@ Design name:unnamed:
                       vpiDecompile: "0.1"
                       vpiValue: 0.1
               SysTaskCall name:$stop start:10:165 end:10:171:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:10:166 end:10:170:
         GenIf start:145:3 end:145:46:
           vpiParent: Module name:t
@@ -7266,12 +7261,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "64'hfffffffffffc65a5"
                 vpiValue: fffffffffffc65a5
-          vpiStmt Begin:
+          vpiStmt GenRegion start:145:40 end:145:46:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:145:40 end:145:46:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:145:41 end:145:45:
         GenIf start:150:3 end:150:50:
           vpiParent: Module name:t
@@ -7285,12 +7281,13 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:150:17 end:150:50:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$write start:150:17 end:150:50:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:150:18 end:150:23:
                 vpiArgument (3 items):
                   NamedArgument start:150:24 end:150:38:
@@ -7405,12 +7402,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0.0001"
                 vpiValue: 0.0001
-          vpiStmt Begin start:10:66 end:10:175:
+          vpiStmt GenRegion start:10:66 end:10:175:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (2 items):
               SysTaskCall name:$write start:10:72 end:10:164:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:10:73 end:10:78:
                 vpiArgument (5 items):
                   NamedArgument start:10:79 end:10:114:
@@ -7469,7 +7467,7 @@ Design name:unnamed:
                       vpiDecompile: "0.2"
                       vpiValue: 0.2
               SysTaskCall name:$stop start:10:165 end:10:171:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:10:166 end:10:170:
         GenIf start:155:3 end:155:50:
           vpiParent: Module name:t
@@ -7483,12 +7481,13 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:155:17 end:155:50:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$write start:155:17 end:155:50:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:155:18 end:155:23:
                 vpiArgument (3 items):
                   NamedArgument start:155:24 end:155:38:
@@ -7603,12 +7602,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0.0001"
                 vpiValue: 0.0001
-          vpiStmt Begin start:10:66 end:10:175:
+          vpiStmt GenRegion start:10:66 end:10:175:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (2 items):
               SysTaskCall name:$write start:10:72 end:10:164:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:10:73 end:10:78:
                 vpiArgument (5 items):
                   NamedArgument start:10:79 end:10:114:
@@ -7667,7 +7667,7 @@ Design name:unnamed:
                       vpiDecompile: "0.3"
                       vpiValue: 0.3
               SysTaskCall name:$stop start:10:165 end:10:171:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:10:166 end:10:170:
         GenIf start:160:3 end:160:56:
           vpiParent: Module name:t
@@ -7681,12 +7681,13 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:160:17 end:160:56:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$write start:160:17 end:160:56:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:160:18 end:160:23:
                 vpiArgument (3 items):
                   NamedArgument start:160:24 end:160:38:
@@ -7736,12 +7737,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
-          vpiStmt Begin:
+          vpiStmt GenRegion start:161:19 end:161:25:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:161:19 end:161:25:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:161:20 end:161:24:
         GenIf start:10:30 end:10:175:
           vpiParent: Module name:t
@@ -7829,12 +7831,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0.0001"
                 vpiValue: 0.0001
-          vpiStmt Begin start:10:66 end:10:175:
+          vpiStmt GenRegion start:10:66 end:10:175:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (2 items):
               SysTaskCall name:$write start:10:72 end:10:164:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:10:73 end:10:78:
                 vpiArgument (5 items):
                   NamedArgument start:10:79 end:10:114:
@@ -7893,7 +7896,7 @@ Design name:unnamed:
                       vpiDecompile: "0.2"
                       vpiValue: 0.2
               SysTaskCall name:$stop start:10:165 end:10:171:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:10:166 end:10:170:
         GenIf start:163:3 end:163:46:
           vpiParent: Module name:t
@@ -7916,12 +7919,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "64'hfffffffffffc65a4"
                 vpiValue: fffffffffffc65a4
-          vpiStmt Begin:
+          vpiStmt GenRegion start:163:40 end:163:46:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:163:40 end:163:46:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:163:41 end:163:45:
         GenIf start:166:3 end:166:34:
           vpiParent: Module name:t
@@ -7961,12 +7965,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
-          vpiStmt Begin:
+          vpiStmt GenRegion start:166:28 end:166:34:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:166:28 end:166:34:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:166:29 end:166:33:
         GenIf start:168:3 end:168:25:
           vpiParent: Module name:t
@@ -7991,12 +7996,13 @@ Design name:unnamed:
                       vpiSize: 8
                       vpiDecompile: "\"*\""
                       vpiValue: "*"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:168:19 end:168:25:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:168:19 end:168:25:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:168:20 end:168:24:
         GenIf start:170:3 end:170:74:
           vpiParent: Module name:t
@@ -8010,12 +8016,13 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:170:17 end:170:74:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$write start:170:17 end:170:74:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:170:18 end:170:23:
                 vpiArgument (4 items):
                   NamedArgument start:170:24 end:170:47:
@@ -8072,12 +8079,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
-          vpiStmt Begin:
+          vpiStmt GenRegion start:171:19 end:171:25:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:171:19 end:171:25:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:171:20 end:171:24:
         GenIf start:172:3 end:172:32:
           vpiParent: Module name:t
@@ -8100,12 +8108,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "64'h1f"
                 vpiValue: "1f"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:172:26 end:172:32:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:172:26 end:172:32:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:172:27 end:172:31:
         GenIf start:173:3 end:173:48:
           vpiParent: Module name:t
@@ -8128,12 +8137,13 @@ Design name:unnamed:
                 vpiSize: 128
                 vpiDecompile: "128'h23790468902348923"
                 vpiValue: "23790468902348923"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:173:42 end:173:48:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:173:42 end:173:48:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:173:43 end:173:47:
         GenIf start:175:3 end:175:26:
           vpiParent: Module name:t
@@ -8158,12 +8168,13 @@ Design name:unnamed:
                       vpiSize: 8
                       vpiDecompile: "\"\\n\""
                       vpiValue: "\\n"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:175:20 end:175:26:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:175:20 end:175:26:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:175:21 end:175:25:
         GenIf start:176:3 end:176:25:
           vpiParent: Module name:t
@@ -8188,12 +8199,13 @@ Design name:unnamed:
                       vpiSize: 8
                       vpiDecompile: "\"*\""
                       vpiValue: "*"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:176:19 end:176:25:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:176:19 end:176:25:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:176:20 end:176:24:
         GenIf start:178:3 end:178:89:
           vpiParent: Module name:t
@@ -8207,12 +8219,13 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:178:17 end:178:89:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$write start:178:17 end:178:89:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:178:18 end:178:23:
                 vpiArgument (5 items):
                   NamedArgument start:178:24 end:178:53:
@@ -8276,12 +8289,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "3"
                 vpiValue: 3
-          vpiStmt Begin:
+          vpiStmt GenRegion start:179:19 end:179:25:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:179:19 end:179:25:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:179:20 end:179:24:
         GenIf start:180:3 end:180:31:
           vpiParent: Module name:t
@@ -8304,12 +8318,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "64'h2"
                 vpiValue: "2"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:180:25 end:180:31:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:180:25 end:180:31:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:180:26 end:180:30:
         GenIf start:181:3 end:181:36:
           vpiParent: Module name:t
@@ -8332,12 +8347,13 @@ Design name:unnamed:
                 vpiSize: 128
                 vpiDecompile: "128'hd2a55"
                 vpiValue: d2a55
-          vpiStmt Begin:
+          vpiStmt GenRegion start:181:30 end:181:36:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:181:30 end:181:36:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:181:31 end:181:35:
         GenIf start:182:3 end:182:48:
           vpiParent: Module name:t
@@ -8360,12 +8376,13 @@ Design name:unnamed:
                 vpiSize: 128
                 vpiDecompile: "\"\\0\\0\\0\\0note_the_two\""
                 vpiValue: "\\0\\0\\0\\0note_the_two"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:182:42 end:182:48:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:182:42 end:182:48:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:182:43 end:182:47:
         GenIf start:184:3 end:184:26:
           vpiParent: Module name:t
@@ -8390,12 +8407,13 @@ Design name:unnamed:
                       vpiSize: 8
                       vpiDecompile: "\"\\n\""
                       vpiValue: "\\n"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:184:20 end:184:26:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:184:20 end:184:26:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:184:21 end:184:25:
         GenIf start:185:3 end:185:25:
           vpiParent: Module name:t
@@ -8420,12 +8438,13 @@ Design name:unnamed:
                       vpiSize: 8
                       vpiDecompile: "\"*\""
                       vpiValue: "*"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:185:19 end:185:25:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:185:19 end:185:25:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:185:20 end:185:24:
         GenIf start:187:3 end:187:74:
           vpiParent: Module name:t
@@ -8439,12 +8458,13 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:187:17 end:187:74:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$write start:187:17 end:187:74:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:187:18 end:187:23:
                 vpiArgument (4 items):
                   NamedArgument start:187:24 end:187:47:
@@ -8501,12 +8521,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
-          vpiStmt Begin:
+          vpiStmt GenRegion start:188:19 end:188:25:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:188:19 end:188:25:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:188:20 end:188:24:
         GenIf start:189:3 end:189:32:
           vpiParent: Module name:t
@@ -8529,12 +8550,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "64'h13"
                 vpiValue: "13"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:189:26 end:189:32:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:189:26 end:189:32:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:189:27 end:189:31:
         GenIf start:190:3 end:190:35:
           vpiParent: Module name:t
@@ -8557,12 +8579,13 @@ Design name:unnamed:
                 vpiSize: 128
                 vpiDecompile: "128'h1573"
                 vpiValue: "1573"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:190:29 end:190:35:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:190:29 end:190:35:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:190:30 end:190:34:
         GenIf start:192:3 end:192:26:
           vpiParent: Module name:t
@@ -8587,12 +8610,13 @@ Design name:unnamed:
                       vpiSize: 8
                       vpiDecompile: "\"\\n\""
                       vpiValue: "\\n"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:192:20 end:192:26:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:192:20 end:192:26:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:192:21 end:192:25:
         GenIf start:193:3 end:193:25:
           vpiParent: Module name:t
@@ -8617,12 +8641,13 @@ Design name:unnamed:
                       vpiSize: 8
                       vpiDecompile: "\"*\""
                       vpiValue: "*"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:193:19 end:193:25:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:193:19 end:193:25:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:193:20 end:193:24:
         GenIf start:195:3 end:195:57:
           vpiParent: Module name:t
@@ -8636,12 +8661,13 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:195:17 end:195:57:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$write start:195:17 end:195:57:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:195:18 end:195:23:
                 vpiArgument (3 items):
                   NamedArgument start:195:24 end:195:39:
@@ -8691,12 +8717,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-          vpiStmt Begin:
+          vpiStmt GenRegion start:196:19 end:196:25:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:196:19 end:196:25:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:196:20 end:196:24:
         GenIf start:197:3 end:197:46:
           vpiParent: Module name:t
@@ -8719,12 +8746,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "64'hfffffffffffc65a5"
                 vpiValue: fffffffffffc65a5
-          vpiStmt Begin:
+          vpiStmt GenRegion start:197:40 end:197:46:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:197:40 end:197:46:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:197:41 end:197:45:
         GenIf start:199:3 end:199:26:
           vpiParent: Module name:t
@@ -8749,12 +8777,13 @@ Design name:unnamed:
                       vpiSize: 8
                       vpiDecompile: "\"\\n\""
                       vpiValue: "\\n"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:199:20 end:199:26:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:199:20 end:199:26:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:199:21 end:199:25:
         GenIf start:200:3 end:200:25:
           vpiParent: Module name:t
@@ -8779,12 +8808,13 @@ Design name:unnamed:
                       vpiSize: 8
                       vpiDecompile: "\"*\""
                       vpiValue: "*"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:200:19 end:200:25:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:200:19 end:200:25:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:200:20 end:200:24:
         GenIf start:202:3 end:202:70:
           vpiParent: Module name:t
@@ -8798,12 +8828,13 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:202:17 end:202:70:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$write start:202:17 end:202:70:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:202:18 end:202:23:
                 vpiArgument (4 items):
                   NamedArgument start:202:24 end:202:43:
@@ -8860,12 +8891,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
-          vpiStmt Begin:
+          vpiStmt GenRegion start:203:19 end:203:25:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:203:19 end:203:25:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:203:20 end:203:24:
         GenIf start:204:3 end:204:29:
           vpiParent: Module name:t
@@ -8888,12 +8920,13 @@ Design name:unnamed:
                 vpiSize: 8
                 vpiDecompile: "\"f\""
                 vpiValue: f
-          vpiStmt Begin:
+          vpiStmt GenRegion start:204:23 end:204:29:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:204:23 end:204:29:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:204:24 end:204:28:
         GenIf start:205:3 end:205:49:
           vpiParent: Module name:t
@@ -8916,12 +8949,13 @@ Design name:unnamed:
                 vpiSize: 128
                 vpiDecompile: "\"\\0\\0\\0\\0\\0redfishblah\""
                 vpiValue: "\\0\\0\\0\\0\\0redfishblah"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:205:43 end:205:49:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:205:43 end:205:49:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:205:44 end:205:48:
         GenIf start:208:3 end:208:56:
           vpiParent: Module name:t
@@ -8935,12 +8969,13 @@ Design name:unnamed:
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:208:17 end:208:56:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$write start:208:17 end:208:56:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$write start:208:18 end:208:23:
                 vpiArgument (3 items):
                   NamedArgument start:208:24 end:208:38:
@@ -8990,12 +9025,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-          vpiStmt Begin:
+          vpiStmt GenRegion start:209:19 end:209:25:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:209:19 end:209:25:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:209:20 end:209:24:
         GenIf start:210:3 end:210:30:
           vpiParent: Module name:t
@@ -9018,12 +9054,13 @@ Design name:unnamed:
                 vpiSize: 8
                 vpiDecompile: "\"\\n\""
                 vpiValue: "\\n"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:210:24 end:210:30:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:210:24 end:210:30:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:210:25 end:210:29:
         GenIf start:218:3 end:218:32:
           vpiParent: Module name:t
@@ -9046,12 +9083,13 @@ Design name:unnamed:
                 vpiSize: 32
                 vpiDecompile: "\"4321\""
                 vpiValue: "4321"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:218:26 end:218:32:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:218:26 end:218:32:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:218:27 end:218:31:
         GenIf start:224:3 end:224:32:
           vpiParent: Module name:t
@@ -9074,12 +9112,13 @@ Design name:unnamed:
                 vpiSize: 32
                 vpiDecompile: "\"9876\""
                 vpiValue: "9876"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:224:26 end:224:32:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:224:26 end:224:32:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:224:27 end:224:31:
         GenIf start:226:3 end:226:35:
           vpiParent: Module name:t
@@ -9108,12 +9147,13 @@ Design name:unnamed:
                 vpiSize: 8
                 vpiDecompile: "\"\\n\""
                 vpiValue: "\\n"
-          vpiStmt Begin:
+          vpiStmt GenRegion start:226:29 end:226:35:
             vpiParent: GenIf
             vpiFullName: t
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               SysTaskCall name:$stop start:226:29 end:226:35:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiName Identifier name:$stop start:226:30 end:226:34:
   vpiTypespec (6 items):
     ModuleTypespec name:t:
@@ -9187,7 +9227,7 @@ Constant                           181     175       6        12
 Operation                           89      83       0         6
 RefTypespec                        199     191       4        12
 ----------------------------------------------------------------
-Others                            1000    1000       0         0
+Others                             999     999       0         0
 ----------------------------------------------------------------
-                                  1469    1449      10        30
+                                  1468    1448      10        30
 ===================== END REDUCTION RESULT =====================

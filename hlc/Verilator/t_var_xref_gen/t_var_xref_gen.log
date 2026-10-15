@@ -340,10 +340,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_var_xref_gen.v:9:1: Compile module "t".
 [INF:CP5804] $Source01/t_var_xref_gen.v:27:1: Compile module "memory".
 [INF:CP5836] $Source01/t_var_xref_gen.v:37:16: Compile generate block "cxrow_inst".
-[WRN:CP5851] $Source01/t_var_xref_gen.v:21:17: Failed to bind "cxrow_inst".
-[WRN:CP5851] $Source01/t_var_xref_gen.v:21:31: Failed to bind "cmem_xrow".
-[WRN:CP5851] $Source01/t_var_xref_gen.v:42:18: Failed to bind "cxrow_inst".
-[WRN:CP5851] $Source01/t_var_xref_gen.v:42:32: Failed to bind "cmem_xrow".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -517,6 +513,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:cxrow_inst[0]
                   vpiName: cxrow_inst
                   vpiFullName: t.i_mem.cxrow_inst[0].cmem_xrow[0].cxrow_inst
+                  vpiActual: GenRegion name:cxrow_inst
                 vpiIndex Constant start:21:28 end:21:29:
                   vpiParent: BitSelect name:cxrow_inst[0]
                   vpiTypespec RefTypespec:
@@ -535,6 +532,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:cmem_xrow[0]
                   vpiName: cmem_xrow
                   vpiFullName: t.i_mem.cxrow_inst[0].cmem_xrow[0].cmem_xrow
+                  vpiActual: Variable name:cmem_xrow
                 vpiIndex Constant start:21:41 end:21:42:
                   vpiParent: BitSelect name:cmem_xrow[0]
                   vpiTypespec RefTypespec:
@@ -545,6 +543,7 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
+            vpiActual: BitSelect name:cmem_xrow[0]
           vpiRhs Constant start:21:46 end:21:51:
             vpiParent: ContAssign
             vpiTypespec RefTypespec:
@@ -779,6 +778,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:cxrow_inst[0]
                   vpiName: cxrow_inst
                   vpiFullName: memory.cxrow_inst[0].cmem_xrow[addr].cxrow_inst
+                  vpiActual: GenRegion name:cxrow_inst
                 vpiIndex Constant start:42:29 end:42:30:
                   vpiParent: BitSelect name:cxrow_inst[0]
                   vpiTypespec RefTypespec:
@@ -797,116 +797,99 @@ Design name:unnamed:
                   vpiParent: BitSelect name:cmem_xrow[addr]
                   vpiName: cmem_xrow
                   vpiFullName: memory.cxrow_inst[0].cmem_xrow[addr].cmem_xrow
+                  vpiActual: Variable name:cmem_xrow
                 vpiIndex RefObj name:addr start:42:42 end:42:46:
                   vpiParent: BitSelect name:cmem_xrow[addr]
                   vpiName: addr
                   vpiFullName: memory.cxrow_inst[0].cmem_xrow[addr].addr
                   vpiActual: Net name:addr
+            vpiActual: BitSelect name:cmem_xrow[addr]
       vpiGenStmt (1 items):
         GenRegion start:34:4 end:40:15:
           vpiParent: Module name:memory
           vpiFullName: memory
-          vpiStmt Begin:
-            vpiParent: GenRegion
-            vpiFullName: memory
-            vpiVariable (1 items):
-              Variable name:g_cx start:35:16 end:35:20:
-                vpiParent: Begin
-                vpiName: g_cx
-                vpiFullName: memory.g_cx
-            vpiStmt (1 items):
-              GenFor start:36:7 end:39:12:
-                vpiParent: Begin
-                vpiFullName: memory
-                vpiForInitStmt (1 items):
-                  Assignment start:36:12 end:36:20:
-                    vpiParent: GenFor
-                    vpiLhs RefObj name:g_cx start:36:12 end:36:16:
-                      vpiParent: Assignment
-                      vpiName: g_cx
-                      vpiFullName: memory.g_cx
-                      vpiActual: Variable name:g_cx
-                    vpiRhs Constant start:36:19 end:36:20:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: memory
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiForIncStmt (1 items):
-                  Operation start:36:42 end:36:48:
-                    vpiParent: GenFor
-                    vpiOpType: post inc (64)
-                    vpiOperand (1 items):
-                      RefObj name:g_cx start:36:42 end:36:46:
-                        vpiParent: Operation
-                        vpiName: g_cx
-                        vpiFullName: memory.g_cx
-                        vpiActual: Variable name:g_cx
-                vpiCondition Operation start:36:22 end:36:40:
+          vpiVariable (1 items):
+            Variable name:g_cx start:35:16 end:35:20:
+              vpiParent: GenRegion
+              vpiName: g_cx
+              vpiFullName: memory.g_cx
+          vpiStmt (1 items):
+            GenFor start:36:7 end:39:12:
+              vpiParent: GenRegion
+              vpiFullName: memory
+              vpiForInitStmt (1 items):
+                Assignment start:36:12 end:36:20:
                   vpiParent: GenFor
-                  vpiOpType: less than (20)
-                  vpiOperand (2 items):
-                    RefObj name:g_cx start:36:22 end:36:26:
+                  vpiLhs RefObj name:g_cx start:36:12 end:36:16:
+                    vpiParent: Assignment
+                    vpiName: g_cx
+                    vpiFullName: memory.g_cx
+                    vpiActual: Variable name:g_cx
+                  vpiRhs Constant start:36:19 end:36:20:
+                    vpiParent: Assignment
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: memory
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiForIncStmt (1 items):
+                Operation start:36:42 end:36:48:
+                  vpiParent: GenFor
+                  vpiOpType: post inc (64)
+                  vpiOperand (1 items):
+                    RefObj name:g_cx start:36:42 end:36:46:
                       vpiParent: Operation
                       vpiName: g_cx
                       vpiFullName: memory.g_cx
                       vpiActual: Variable name:g_cx
-                    RefObj name:CM_NUMXROWS start:36:29 end:36:40:
-                      vpiParent: Operation
-                      vpiName: CM_NUMXROWS
-                      vpiFullName: memory.CM_NUMXROWS
-                      vpiActual: Parameter name:CM_NUMXROWS
-                vpiStmt Begin name:cxrow_inst start:37:9 end:39:12:
-                  vpiParent: GenFor
-                  vpiName Identifier name:cxrow_inst start:37:16 end:37:26:
-                  vpiFullName: memory.cxrow_inst
-                  vpiVariable (1 items):
-                    Variable name:cmem_xrow start:38:23 end:38:32:
-                      vpiParent: Begin name:cxrow_inst
-                      vpiTypespec RefTypespec name:logic [15:0] [0:CM_XROWSIZE-1] start:38:12 end:38:22:
-                        vpiParent: Variable name:cmem_xrow
-                        vpiName: logic [15:0] [0:CM_XROWSIZE-1]
-                        vpiFullName: memory.cxrow_inst.cmem_xrow.logic [15:0] [0:CM_XROWSIZE-1]
-                        vpiActual: ArrayTypespec
-                      vpiName: cmem_xrow
-                      vpiFullName: memory.cxrow_inst.cmem_xrow
-                  vpiTypespec (2 items):
-                    LogicTypespec:
-                      vpiParent: Begin name:cxrow_inst
-                      vpiRange (1 items):
-                        Range start:38:16 end:38:22:
-                          vpiParent: LogicTypespec
-                          vpiLeftRange Constant start:38:17 end:38:19:
-                            vpiParent: Range
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: memory.cxrow_inst
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "15"
-                            vpiValue: 15
-                          vpiRightRange Constant start:38:20 end:38:21:
-                            vpiParent: Range
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: memory.cxrow_inst
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "0"
-                            vpiValue: 0
-                      vpiVector: true
-                    ArrayTypespec:
-                      vpiParent: Begin name:cxrow_inst
-                      vpiArrayType: static (1)
-                      vpiRange Range start:38:32 end:38:51:
-                        vpiParent: ArrayTypespec
-                        vpiLeftRange Constant start:38:33 end:38:34:
+              vpiCondition Operation start:36:22 end:36:40:
+                vpiParent: GenFor
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:g_cx start:36:22 end:36:26:
+                    vpiParent: Operation
+                    vpiName: g_cx
+                    vpiFullName: memory.g_cx
+                    vpiActual: Variable name:g_cx
+                  RefObj name:CM_NUMXROWS start:36:29 end:36:40:
+                    vpiParent: Operation
+                    vpiName: CM_NUMXROWS
+                    vpiFullName: memory.CM_NUMXROWS
+                    vpiActual: Parameter name:CM_NUMXROWS
+              vpiStmt GenRegion name:cxrow_inst start:37:9 end:39:12:
+                vpiParent: GenFor
+                vpiName Identifier name:cxrow_inst start:37:16 end:37:26:
+                vpiFullName: memory.cxrow_inst
+                vpiVariable (1 items):
+                  Variable name:cmem_xrow start:38:23 end:38:32:
+                    vpiParent: GenRegion name:cxrow_inst
+                    vpiTypespec RefTypespec name:logic [15:0] [0:CM_XROWSIZE-1] start:38:12 end:38:22:
+                      vpiParent: Variable name:cmem_xrow
+                      vpiName: logic [15:0] [0:CM_XROWSIZE-1]
+                      vpiFullName: memory.cxrow_inst.cmem_xrow.logic [15:0] [0:CM_XROWSIZE-1]
+                      vpiActual: ArrayTypespec
+                    vpiName: cmem_xrow
+                    vpiFullName: memory.cxrow_inst.cmem_xrow
+                vpiTypespec (2 items):
+                  LogicTypespec:
+                    vpiParent: GenRegion name:cxrow_inst
+                    vpiRange (1 items):
+                      Range start:38:16 end:38:22:
+                        vpiParent: LogicTypespec
+                        vpiLeftRange Constant start:38:17 end:38:19:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: memory.cxrow_inst
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "15"
+                          vpiValue: 15
+                        vpiRightRange Constant start:38:20 end:38:21:
                           vpiParent: Range
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
@@ -916,31 +899,45 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "0"
                           vpiValue: 0
-                        vpiRightRange Operation start:38:35 end:38:50:
-                          vpiParent: Range
-                          vpiOpType: subtract (11)
-                          vpiOperand (2 items):
-                            RefObj name:CM_XROWSIZE start:38:35 end:38:46:
-                              vpiParent: Operation
-                              vpiName: CM_XROWSIZE
-                              vpiFullName: memory.cxrow_inst.CM_XROWSIZE
-                              vpiActual: Parameter name:CM_XROWSIZE
-                            Constant start:38:49 end:38:50:
-                              vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: memory.cxrow_inst
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "1"
-                              vpiValue: 1
-                      vpiElemTypespec RefTypespec start:38:12 end:38:22:
-                        vpiParent: ArrayTypespec
-                        vpiFullName: memory.cxrow_inst
-                        vpiActual: LogicTypespec
-                  vpiStmt (1 items):
-                    Variable name:cmem_xrow:
+                    vpiVector: true
+                  ArrayTypespec:
+                    vpiParent: GenRegion name:cxrow_inst
+                    vpiArrayType: static (1)
+                    vpiRange Range start:38:32 end:38:51:
+                      vpiParent: ArrayTypespec
+                      vpiLeftRange Constant start:38:33 end:38:34:
+                        vpiParent: Range
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: memory.cxrow_inst
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "0"
+                        vpiValue: 0
+                      vpiRightRange Operation start:38:35 end:38:50:
+                        vpiParent: Range
+                        vpiOpType: subtract (11)
+                        vpiOperand (2 items):
+                          RefObj name:CM_XROWSIZE start:38:35 end:38:46:
+                            vpiParent: Operation
+                            vpiName: CM_XROWSIZE
+                            vpiFullName: memory.cxrow_inst.CM_XROWSIZE
+                            vpiActual: Parameter name:CM_XROWSIZE
+                          Constant start:38:49 end:38:50:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: memory.cxrow_inst
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                    vpiElemTypespec RefTypespec start:38:12 end:38:22:
+                      vpiParent: ArrayTypespec
+                      vpiFullName: memory.cxrow_inst
+                      vpiActual: LogicTypespec
   vpiTypespec (4 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -965,7 +962,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1013,7 +1010,7 @@ Operation                            3       2       0         1
 RefObj                              27      26       0         1
 RefTypespec                         34      34       1         1
 ----------------------------------------------------------------
-Others                              61      61       0         0
+Others                              60      60       0         0
 ----------------------------------------------------------------
-                                   144     142       2         4
+                                   143     141       2         4
 ===================== END REDUCTION RESULT =====================

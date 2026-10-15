@@ -24,7 +24,6 @@ COMMAND: -wd ../../../tests/ApbSlave -timescale=1ns/1ns +vcs+flush+all +warn=all
 [ERR:CP5824] $Source02/svunit_base/svunit_testrunner.sv:26:1: Multiply defined typedef "svunit_testsuite".
 [ERR:CP5824] $Source02/svunit_base/svunit_pkg.sv:24:1: Multiply defined typedef "svunit_testcase".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:DB2038] 'vpiStmt' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -2407,113 +2406,108 @@ Design name:unnamed:
               vpiParent: ClassDefn name:svunit_base
               vpiName Identifier name:report start:77:28 end:77:34:
               vpiFullName: svunit_pkg::svunit_base::report
-              vpiVisibility: public (1)
-              vpiStmt Begin:
-                vpiParent: Function name:report
-                vpiFullName: svunit_pkg::svunit_base::report
-                vpiVariable (1 items):
-                  Variable name:str start:78:10 end:78:13:
-                    vpiParent: Begin
-                    vpiTypespec RefTypespec start:78:3 end:78:9:
-                      vpiParent: Variable name:str
-                      vpiFullName: svunit_pkg::svunit_base::report::str
-                      vpiActual: StringTypespec
-                    vpiName: str
+              vpiVariable (1 items):
+                Variable name:str start:78:10 end:78:13:
+                  vpiParent: Function name:report
+                  vpiTypespec RefTypespec start:78:3 end:78:9:
+                    vpiParent: Variable name:str
                     vpiFullName: svunit_pkg::svunit_base::report::str
-                    vpiValue Operation start:78:16 end:78:44:
-                      vpiParent: Variable name:str
-                      vpiOpType: condition (32)
-                      vpiOperand (3 items):
-                        RefObj name:success start:78:17 end:78:24:
-                          vpiParent: Operation
-                          vpiName: success
-                          vpiFullName: svunit_pkg::svunit_base::report::str::success
-                          vpiActual: Variable name:success
-                        Constant start:78:27 end:78:35:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
+                    vpiActual: StringTypespec
+                  vpiName: str
+                  vpiFullName: svunit_pkg::svunit_base::report::str
+                  vpiValue Operation start:78:16 end:78:44:
+                    vpiParent: Variable name:str
+                    vpiOpType: condition (32)
+                    vpiOperand (3 items):
+                      RefObj name:success start:78:17 end:78:24:
+                        vpiParent: Operation
+                        vpiName: success
+                        vpiFullName: svunit_pkg::svunit_base::report::str::success
+                        vpiActual: Variable name:success
+                      Constant start:78:27 end:78:35:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: svunit_pkg::svunit_base::report::str
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"PASSED\""
+                        vpiValue: PASSED
+                      Constant start:78:36 end:78:44:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: svunit_pkg::svunit_base::report::str
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"FAILED\""
+                        vpiValue: FAILED
+              vpiVisibility: public (1)
+              vpiStmt SysTaskCall name:$display start:103:3 end:103:83:
+                vpiParent: Function name:report
+                vpiName Identifier name:$display start:103:3 end:103:11:
+                vpiTaskFunc: Task name:$display
+                vpiArgument (4 items):
+                  NamedArgument start:103:12 end:103:35:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn Constant start:103:12 end:103:35:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: svunit_pkg::svunit_base::report
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"INFO:  [%0t][%0s]: %s\""
+                      vpiValue: "INFO:  [%0t][%0s]: %s"
+                  NamedArgument start:103:37 end:103:42:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn SysFuncCall name:$time start:103:37 end:103:42:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:103:37 end:103:42:
+                      vpiTaskFunc: Function name:$time
+                  NamedArgument start:103:44 end:103:48:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn RefObj name:name start:103:44 end:103:48:
+                      vpiParent: NamedArgument
+                      vpiName: name
+                      vpiFullName: svunit_pkg::svunit_base::report::name
+                      vpiActual: Variable name:name
+                  NamedArgument start:103:50 end:103:82:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn SysFuncCall name:$sformatf start:103:50 end:103:82:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$sformatf start:103:50 end:103:59:
+                      vpiTaskFunc: Function name:$sformatf
+                      vpiArgument (3 items):
+                        NamedArgument start:103:60 end:103:70:
+                          vpiParent: SysFuncCall name:$sformatf
+                          vpiHighConn Constant start:103:60 end:103:70:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: svunit_pkg::svunit_base::report
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 64
+                            vpiDecompile: "\"%0s::%0s\""
+                            vpiValue: "%0s::%0s"
+                        NamedArgument start:103:72 end:103:76:
+                          vpiParent: SysFuncCall name:$sformatf
+                          vpiHighConn RefObj name:name start:103:72 end:103:76:
+                            vpiParent: NamedArgument
+                            vpiName: name
+                            vpiFullName: svunit_pkg::svunit_base::report::name
+                            vpiActual: Variable name:name
+                        NamedArgument start:103:78 end:103:81:
+                          vpiParent: SysFuncCall name:$sformatf
+                          vpiHighConn RefObj name:str start:103:78 end:103:81:
+                            vpiParent: NamedArgument
+                            vpiName: str
                             vpiFullName: svunit_pkg::svunit_base::report::str
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 48
-                          vpiDecompile: "\"PASSED\""
-                          vpiValue: PASSED
-                        Constant start:78:36 end:78:44:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: svunit_pkg::svunit_base::report::str
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 48
-                          vpiDecompile: "\"FAILED\""
-                          vpiValue: FAILED
-                vpiStmt (2 items):
-                  Variable name:str:
-                  SysTaskCall name:$display start:103:3 end:103:83:
-                    vpiParent: Begin
-                    vpiName Identifier name:$display start:103:3 end:103:11:
-                    vpiTaskFunc: Task name:$display
-                    vpiArgument (4 items):
-                      NamedArgument start:103:12 end:103:35:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn Constant start:103:12 end:103:35:
-                          vpiParent: NamedArgument
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: svunit_pkg::svunit_base::report
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 168
-                          vpiDecompile: "\"INFO:  [%0t][%0s]: %s\""
-                          vpiValue: "INFO:  [%0t][%0s]: %s"
-                      NamedArgument start:103:37 end:103:42:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn SysFuncCall name:$time start:103:37 end:103:42:
-                          vpiParent: NamedArgument
-                          vpiName Identifier name:$time start:103:37 end:103:42:
-                          vpiTaskFunc: Function name:$time
-                      NamedArgument start:103:44 end:103:48:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn RefObj name:name start:103:44 end:103:48:
-                          vpiParent: NamedArgument
-                          vpiName: name
-                          vpiFullName: svunit_pkg::svunit_base::report::name
-                          vpiActual: Variable name:name
-                      NamedArgument start:103:50 end:103:82:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn SysFuncCall name:$sformatf start:103:50 end:103:82:
-                          vpiParent: NamedArgument
-                          vpiName Identifier name:$sformatf start:103:50 end:103:59:
-                          vpiTaskFunc: Function name:$sformatf
-                          vpiArgument (3 items):
-                            NamedArgument start:103:60 end:103:70:
-                              vpiParent: SysFuncCall name:$sformatf
-                              vpiHighConn Constant start:103:60 end:103:70:
-                                vpiParent: NamedArgument
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: svunit_pkg::svunit_base::report
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiSize: 64
-                                vpiDecompile: "\"%0s::%0s\""
-                                vpiValue: "%0s::%0s"
-                            NamedArgument start:103:72 end:103:76:
-                              vpiParent: SysFuncCall name:$sformatf
-                              vpiHighConn RefObj name:name start:103:72 end:103:76:
-                                vpiParent: NamedArgument
-                                vpiName: name
-                                vpiFullName: svunit_pkg::svunit_base::report::name
-                                vpiActual: Variable name:name
-                            NamedArgument start:103:78 end:103:81:
-                              vpiParent: SysFuncCall name:$sformatf
-                              vpiHighConn RefObj name:str start:103:78 end:103:81:
-                                vpiParent: NamedArgument
-                                vpiName: str
-                                vpiFullName: svunit_pkg::svunit_base::report::str
-                                vpiActual: Variable name:str
+                            vpiActual: Variable name:str
               vpiReturn RefTypespec start:77:10 end:77:14:
                 vpiParent: Function name:report
                 vpiFullName: svunit_pkg::svunit_base::report
@@ -2766,39 +2760,46 @@ Design name:unnamed:
               vpiParent: ClassDefn name:svunit_testcase
               vpiName Identifier name:give_up start:108:6 end:108:30:
               vpiFullName: svunit_pkg::svunit_testcase::give_up
-              vpiStmt Begin:
+              vpiNamedEvent (1 items):
+                NamedEvent name:never start:109:9 end:109:14:
+                  vpiParent: Task name:give_up
+                  vpiName: never
+                  vpiFullName: svunit_pkg::svunit_testcase::give_up::never
+                  vpiTypespec RefTypespec name:never start:109:9 end:109:14:
+                    vpiParent: NamedEvent name:never
+                    vpiName: never
+                    vpiFullName: svunit_pkg::svunit_testcase::give_up::never::never
+                    vpiActual: EventTypespec name:never
+              vpiTypespec (1 items):
+                EventTypespec name:never start:109:9 end:109:14:
+                  vpiParent: Task name:give_up
+                  vpiName: never
+                  vpiNamedEvent: NamedEvent name:never
+              vpiStmt EventControl start:110:3 end:110:12:
                 vpiParent: Task name:give_up
-                vpiFullName: svunit_pkg::svunit_testcase::give_up
-                vpiNamedEvent (1 items):
-                  NamedEvent name:never start:109:9 end:109:14:
-                    vpiParent: Begin
-                    vpiName: never
-                    vpiFullName: svunit_pkg::svunit_testcase::give_up::never
-                    vpiTypespec RefTypespec name:never start:109:9 end:109:14:
-                      vpiParent: NamedEvent name:never
-                      vpiName: never
-                      vpiFullName: svunit_pkg::svunit_testcase::give_up::never::never
-                      vpiActual: EventTypespec name:never
-                vpiTypespec (1 items):
-                  EventTypespec name:never start:109:9 end:109:14:
-                    vpiParent: Begin
-                    vpiName: never
-                    vpiNamedEvent: NamedEvent name:never
-                vpiStmt (2 items):
-                  NamedEvent name:never:
-                  EventControl start:110:3 end:110:12:
-                    vpiParent: Begin
-                    vpiCondition RefObj name:never start:110:5 end:110:10:
-                      vpiParent: EventControl
-                      vpiName: never
-                      vpiFullName: svunit_pkg::svunit_testcase::give_up::never
-                      vpiActual: NamedEvent name:never
-                    vpiStmt NullStmt:
-                      vpiParent: EventControl
+                vpiCondition RefObj name:never start:110:5 end:110:10:
+                  vpiParent: EventControl
+                  vpiName: never
+                  vpiFullName: svunit_pkg::svunit_testcase::give_up::never
+                  vpiActual: NamedEvent name:never
+                vpiStmt NullStmt:
+                  vpiParent: EventControl
             Function name:fail start:129:1 end:142:12:
               vpiParent: ClassDefn name:svunit_testcase
               vpiName Identifier name:fail start:129:31 end:129:35:
               vpiFullName: svunit_pkg::svunit_testcase::fail
+              vpiVariable (1 items):
+                Variable name:_d start:130:10 end:130:12:
+                  vpiParent: Function name:fail
+                  vpiTypespec RefTypespec start:130:3 end:130:9:
+                    vpiParent: Variable name:_d
+                    vpiFullName: svunit_pkg::svunit_testcase::fail::_d
+                    vpiActual: StringTypespec
+                  vpiName: "_d"
+                  vpiFullName: svunit_pkg::svunit_testcase::fail::_d
+              vpiTypespec (1 items):
+                BitTypespec:
+                  vpiParent: Function name:fail
               vpiVisibility: public (1)
               vpiIODecl (6 items):
                 IODecl name:c start:129:43 end:129:44:
@@ -2858,210 +2859,193 @@ Design name:unnamed:
                     vpiParent: IODecl name:d
                     vpiFullName: svunit_pkg::svunit_testcase::fail::d
                     vpiActual: StringTypespec
-              vpiStmt Begin:
+              vpiStmt IfElse start:131:3 end:141:6:
                 vpiParent: Function name:fail
-                vpiFullName: svunit_pkg::svunit_testcase::fail
-                vpiVariable (1 items):
-                  Variable name:_d start:130:10 end:130:12:
-                    vpiParent: Begin
-                    vpiTypespec RefTypespec start:130:3 end:130:9:
-                      vpiParent: Variable name:_d
-                      vpiFullName: svunit_pkg::svunit_testcase::fail::_d
-                      vpiActual: StringTypespec
-                    vpiName: "_d"
-                    vpiFullName: svunit_pkg::svunit_testcase::fail::_d
-                vpiTypespec (1 items):
-                  BitTypespec:
-                    vpiParent: Begin
-                vpiStmt (2 items):
-                  Variable name:_d:
-                  IfElse start:131:3 end:141:6:
-                    vpiParent: Begin
-                    vpiCondition RefObj name:b start:131:7 end:131:8:
-                      vpiParent: IfElse
-                      vpiName: b
-                      vpiFullName: svunit_pkg::svunit_testcase::fail::b
-                      vpiActual: IODecl name:b
-                    vpiStmt Begin start:131:10 end:138:6:
-                      vpiParent: IfElse
-                      vpiFullName: svunit_pkg::svunit_testcase::fail
-                      vpiStmt (4 items):
-                        Operation start:132:5 end:132:18:
-                          vpiParent: Begin
-                          vpiOpType: post inc (64)
-                          vpiOperand (1 items):
-                            RefObj name:error_count start:132:5 end:132:16:
-                              vpiParent: Operation
-                              vpiName: error_count
-                              vpiFullName: svunit_pkg::svunit_testcase::fail::error_count
-                              vpiActual: Variable name:error_count
-                        IfStmt start:133:5 end:135:8:
-                          vpiParent: Begin
-                          vpiCondition Operation start:133:9 end:133:16:
-                            vpiParent: IfStmt
-                            vpiOpType: not equal (15)
-                            vpiOperand (2 items):
-                              RefObj name:d start:133:9 end:133:10:
-                                vpiParent: Operation
-                                vpiName: d
-                                vpiFullName: svunit_pkg::svunit_testcase::fail::d
-                                vpiActual: IODecl name:d
-                              Constant start:133:14 end:133:16:
-                                vpiParent: Operation
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: svunit_pkg::svunit_testcase::fail
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiDecompile: "\"\""
-                                vpiValue: ""
-                          vpiStmt Begin start:133:18 end:135:8:
-                            vpiParent: IfStmt
-                            vpiFullName: svunit_pkg::svunit_testcase::fail
-                            vpiStmt (1 items):
-                              SysTaskCall name:$sformat start:134:7 end:134:33:
-                                vpiParent: Begin
-                                vpiName Identifier name:$sformat start:134:7 end:134:15:
-                                vpiTaskFunc: Task name:$sformat
-                                vpiArgument (3 items):
-                                  NamedArgument start:134:16 end:134:18:
-                                    vpiParent: SysTaskCall name:$sformat
-                                    vpiHighConn RefObj name:_d start:134:16 end:134:18:
-                                      vpiParent: NamedArgument
-                                      vpiName: "_d"
-                                      vpiFullName: svunit_pkg::svunit_testcase::fail::_d
-                                      vpiActual: Variable name:_d
-                                  NamedArgument start:134:20 end:134:29:
-                                    vpiParent: SysTaskCall name:$sformat
-                                    vpiHighConn Constant start:134:20 end:134:29:
-                                      vpiParent: NamedArgument
-                                      vpiTypespec RefTypespec:
-                                        vpiParent: Constant
-                                        vpiFullName: svunit_pkg::svunit_testcase::fail
-                                        vpiActual: StringTypespec
-                                      vpiConstType: string (6)
-                                      vpiSize: 56
-                                      vpiDecompile: "\"[ %s ] \""
-                                      vpiValue: "[ %s ]"
-                                  NamedArgument start:134:31 end:134:32:
-                                    vpiParent: SysTaskCall name:$sformat
-                                    vpiHighConn RefObj name:d start:134:31 end:134:32:
-                                      vpiParent: NamedArgument
-                                      vpiName: d
-                                      vpiFullName: svunit_pkg::svunit_testcase::fail::d
-                                      vpiActual: IODecl name:d
-                        SysTaskCall name:$display start:114:3 end:114:100:
-                          vpiParent: Begin
-                          vpiName Identifier name:$display start:114:3 end:114:11:
-                          vpiTaskFunc: Task name:$display
-                          vpiArgument (4 items):
-                            NamedArgument start:114:12 end:114:35:
-                              vpiParent: SysTaskCall name:$display
-                              vpiHighConn Constant start:114:12 end:114:35:
-                                vpiParent: NamedArgument
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: svunit_pkg::svunit_testcase::fail
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiSize: 168
-                                vpiDecompile: "\"ERROR: [%0t][%0s]: %s\""
-                                vpiValue: "ERROR: [%0t][%0s]: %s"
-                            NamedArgument start:114:37 end:114:42:
-                              vpiParent: SysTaskCall name:$display
-                              vpiHighConn SysFuncCall name:$time start:114:37 end:114:42:
-                                vpiParent: NamedArgument
-                                vpiName Identifier name:$time start:114:37 end:114:42:
-                                vpiTaskFunc: Function name:$time
-                            NamedArgument start:114:44 end:114:48:
-                              vpiParent: SysTaskCall name:$display
-                              vpiHighConn RefObj name:name start:114:44 end:114:48:
-                                vpiParent: NamedArgument
-                                vpiName: name
-                                vpiFullName: svunit_pkg::svunit_testcase::fail::name
-                                vpiActual: Variable name:name
-                            NamedArgument start:114:50 end:114:99:
-                              vpiParent: SysTaskCall name:$display
-                              vpiHighConn SysFuncCall name:$sformatf start:114:50 end:114:99:
-                                vpiParent: NamedArgument
-                                vpiName Identifier name:$sformatf start:114:50 end:114:59:
-                                vpiTaskFunc: Function name:$sformatf
-                                vpiArgument (6 items):
-                                  NamedArgument start:114:60 end:114:87:
-                                    vpiParent: SysFuncCall name:$sformatf
-                                    vpiHighConn Constant start:114:60 end:114:87:
-                                      vpiParent: NamedArgument
-                                      vpiTypespec RefTypespec:
-                                        vpiParent: Constant
-                                        vpiFullName: svunit_pkg::svunit_testcase::fail
-                                        vpiActual: StringTypespec
-                                      vpiConstType: string (6)
-                                      vpiSize: 200
-                                      vpiDecompile: "\"%s: %s %s(at %s line:%0d)\""
-                                      vpiValue: "%s: %s %s(at %s line:%0d)"
-                                  NamedArgument start:114:88 end:114:89:
-                                    vpiParent: SysFuncCall name:$sformatf
-                                    vpiHighConn RefObj name:c start:114:88 end:114:89:
-                                      vpiParent: NamedArgument
-                                      vpiName: c
-                                      vpiFullName: svunit_pkg::svunit_testcase::fail::c
-                                      vpiActual: IODecl name:c
-                                  NamedArgument start:114:90 end:114:91:
-                                    vpiParent: SysFuncCall name:$sformatf
-                                    vpiHighConn RefObj name:s start:114:90 end:114:91:
-                                      vpiParent: NamedArgument
-                                      vpiName: s
-                                      vpiFullName: svunit_pkg::svunit_testcase::fail::s
-                                      vpiActual: IODecl name:s
-                                  NamedArgument start:114:92 end:114:94:
-                                    vpiParent: SysFuncCall name:$sformatf
-                                    vpiHighConn RefObj name:_d start:114:92 end:114:94:
-                                      vpiParent: NamedArgument
-                                      vpiName: "_d"
-                                      vpiFullName: svunit_pkg::svunit_testcase::fail::_d
-                                      vpiActual: Variable name:_d
-                                  NamedArgument start:114:95 end:114:96:
-                                    vpiParent: SysFuncCall name:$sformatf
-                                    vpiHighConn RefObj name:f start:114:95 end:114:96:
-                                      vpiParent: NamedArgument
-                                      vpiName: f
-                                      vpiFullName: svunit_pkg::svunit_testcase::fail::f
-                                      vpiActual: IODecl name:f
-                                  NamedArgument start:114:97 end:114:98:
-                                    vpiParent: SysFuncCall name:$sformatf
-                                    vpiHighConn RefObj name:l start:114:97 end:114:98:
-                                      vpiParent: NamedArgument
-                                      vpiName: l
-                                      vpiFullName: svunit_pkg::svunit_testcase::fail::l
-                                      vpiActual: IODecl name:l
-                        ReturnStmt start:137:5 end:137:14:
-                          vpiParent: Begin
-                          vpiCondition Constant start:137:12 end:137:13:
-                            vpiParent: ReturnStmt
+                vpiCondition RefObj name:b start:131:7 end:131:8:
+                  vpiParent: IfElse
+                  vpiName: b
+                  vpiFullName: svunit_pkg::svunit_testcase::fail::b
+                  vpiActual: IODecl name:b
+                vpiStmt Begin start:131:10 end:138:6:
+                  vpiParent: IfElse
+                  vpiFullName: svunit_pkg::svunit_testcase::fail
+                  vpiStmt (4 items):
+                    Operation start:132:5 end:132:18:
+                      vpiParent: Begin
+                      vpiOpType: post inc (64)
+                      vpiOperand (1 items):
+                        RefObj name:error_count start:132:5 end:132:16:
+                          vpiParent: Operation
+                          vpiName: error_count
+                          vpiFullName: svunit_pkg::svunit_testcase::fail::error_count
+                          vpiActual: Variable name:error_count
+                    IfStmt start:133:5 end:135:8:
+                      vpiParent: Begin
+                      vpiCondition Operation start:133:9 end:133:16:
+                        vpiParent: IfStmt
+                        vpiOpType: not equal (15)
+                        vpiOperand (2 items):
+                          RefObj name:d start:133:9 end:133:10:
+                            vpiParent: Operation
+                            vpiName: d
+                            vpiFullName: svunit_pkg::svunit_testcase::fail::d
+                            vpiActual: IODecl name:d
+                          Constant start:133:14 end:133:16:
+                            vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
                               vpiFullName: svunit_pkg::svunit_testcase::fail
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "1"
-                            vpiValue: 1
-                    vpiElseStmt Begin start:139:8 end:141:6:
-                      vpiParent: IfElse
-                      vpiFullName: svunit_pkg::svunit_testcase::fail
-                      vpiStmt (1 items):
-                        ReturnStmt start:140:5 end:140:14:
-                          vpiParent: Begin
-                          vpiCondition Constant start:140:12 end:140:13:
-                            vpiParent: ReturnStmt
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiDecompile: "\"\""
+                            vpiValue: ""
+                      vpiStmt Begin start:133:18 end:135:8:
+                        vpiParent: IfStmt
+                        vpiFullName: svunit_pkg::svunit_testcase::fail
+                        vpiStmt (1 items):
+                          SysTaskCall name:$sformat start:134:7 end:134:33:
+                            vpiParent: Begin
+                            vpiName Identifier name:$sformat start:134:7 end:134:15:
+                            vpiTaskFunc: Task name:$sformat
+                            vpiArgument (3 items):
+                              NamedArgument start:134:16 end:134:18:
+                                vpiParent: SysTaskCall name:$sformat
+                                vpiHighConn RefObj name:_d start:134:16 end:134:18:
+                                  vpiParent: NamedArgument
+                                  vpiName: "_d"
+                                  vpiFullName: svunit_pkg::svunit_testcase::fail::_d
+                                  vpiActual: Variable name:_d
+                              NamedArgument start:134:20 end:134:29:
+                                vpiParent: SysTaskCall name:$sformat
+                                vpiHighConn Constant start:134:20 end:134:29:
+                                  vpiParent: NamedArgument
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: svunit_pkg::svunit_testcase::fail
+                                    vpiActual: StringTypespec
+                                  vpiConstType: string (6)
+                                  vpiSize: 56
+                                  vpiDecompile: "\"[ %s ] \""
+                                  vpiValue: "[ %s ]"
+                              NamedArgument start:134:31 end:134:32:
+                                vpiParent: SysTaskCall name:$sformat
+                                vpiHighConn RefObj name:d start:134:31 end:134:32:
+                                  vpiParent: NamedArgument
+                                  vpiName: d
+                                  vpiFullName: svunit_pkg::svunit_testcase::fail::d
+                                  vpiActual: IODecl name:d
+                    SysTaskCall name:$display start:114:3 end:114:100:
+                      vpiParent: Begin
+                      vpiName Identifier name:$display start:114:3 end:114:11:
+                      vpiTaskFunc: Task name:$display
+                      vpiArgument (4 items):
+                        NamedArgument start:114:12 end:114:35:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn Constant start:114:12 end:114:35:
+                            vpiParent: NamedArgument
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
                               vpiFullName: svunit_pkg::svunit_testcase::fail
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "0"
-                            vpiValue: 0
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 168
+                            vpiDecompile: "\"ERROR: [%0t][%0s]: %s\""
+                            vpiValue: "ERROR: [%0t][%0s]: %s"
+                        NamedArgument start:114:37 end:114:42:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn SysFuncCall name:$time start:114:37 end:114:42:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$time start:114:37 end:114:42:
+                            vpiTaskFunc: Function name:$time
+                        NamedArgument start:114:44 end:114:48:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn RefObj name:name start:114:44 end:114:48:
+                            vpiParent: NamedArgument
+                            vpiName: name
+                            vpiFullName: svunit_pkg::svunit_testcase::fail::name
+                            vpiActual: Variable name:name
+                        NamedArgument start:114:50 end:114:99:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn SysFuncCall name:$sformatf start:114:50 end:114:99:
+                            vpiParent: NamedArgument
+                            vpiName Identifier name:$sformatf start:114:50 end:114:59:
+                            vpiTaskFunc: Function name:$sformatf
+                            vpiArgument (6 items):
+                              NamedArgument start:114:60 end:114:87:
+                                vpiParent: SysFuncCall name:$sformatf
+                                vpiHighConn Constant start:114:60 end:114:87:
+                                  vpiParent: NamedArgument
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: svunit_pkg::svunit_testcase::fail
+                                    vpiActual: StringTypespec
+                                  vpiConstType: string (6)
+                                  vpiSize: 200
+                                  vpiDecompile: "\"%s: %s %s(at %s line:%0d)\""
+                                  vpiValue: "%s: %s %s(at %s line:%0d)"
+                              NamedArgument start:114:88 end:114:89:
+                                vpiParent: SysFuncCall name:$sformatf
+                                vpiHighConn RefObj name:c start:114:88 end:114:89:
+                                  vpiParent: NamedArgument
+                                  vpiName: c
+                                  vpiFullName: svunit_pkg::svunit_testcase::fail::c
+                                  vpiActual: IODecl name:c
+                              NamedArgument start:114:90 end:114:91:
+                                vpiParent: SysFuncCall name:$sformatf
+                                vpiHighConn RefObj name:s start:114:90 end:114:91:
+                                  vpiParent: NamedArgument
+                                  vpiName: s
+                                  vpiFullName: svunit_pkg::svunit_testcase::fail::s
+                                  vpiActual: IODecl name:s
+                              NamedArgument start:114:92 end:114:94:
+                                vpiParent: SysFuncCall name:$sformatf
+                                vpiHighConn RefObj name:_d start:114:92 end:114:94:
+                                  vpiParent: NamedArgument
+                                  vpiName: "_d"
+                                  vpiFullName: svunit_pkg::svunit_testcase::fail::_d
+                                  vpiActual: Variable name:_d
+                              NamedArgument start:114:95 end:114:96:
+                                vpiParent: SysFuncCall name:$sformatf
+                                vpiHighConn RefObj name:f start:114:95 end:114:96:
+                                  vpiParent: NamedArgument
+                                  vpiName: f
+                                  vpiFullName: svunit_pkg::svunit_testcase::fail::f
+                                  vpiActual: IODecl name:f
+                              NamedArgument start:114:97 end:114:98:
+                                vpiParent: SysFuncCall name:$sformatf
+                                vpiHighConn RefObj name:l start:114:97 end:114:98:
+                                  vpiParent: NamedArgument
+                                  vpiName: l
+                                  vpiFullName: svunit_pkg::svunit_testcase::fail::l
+                                  vpiActual: IODecl name:l
+                    ReturnStmt start:137:5 end:137:14:
+                      vpiParent: Begin
+                      vpiCondition Constant start:137:12 end:137:13:
+                        vpiParent: ReturnStmt
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: svunit_pkg::svunit_testcase::fail
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                vpiElseStmt Begin start:139:8 end:141:6:
+                  vpiParent: IfElse
+                  vpiFullName: svunit_pkg::svunit_testcase::fail
+                  vpiStmt (1 items):
+                    ReturnStmt start:140:5 end:140:14:
+                      vpiParent: Begin
+                      vpiCondition Constant start:140:12 end:140:13:
+                        vpiParent: ReturnStmt
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: svunit_pkg::svunit_testcase::fail
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "0"
+                        vpiValue: 0
               vpiReturn RefTypespec start:129:10 end:129:13:
                 vpiParent: Function name:fail
                 vpiFullName: svunit_pkg::svunit_testcase::fail
@@ -3212,129 +3196,124 @@ Design name:unnamed:
               vpiParent: ClassDefn name:svunit_testcase
               vpiName Identifier name:report start:189:32 end:189:38:
               vpiFullName: svunit_pkg::svunit_testcase::report
-              vpiVisibility: public (1)
-              vpiStmt Begin:
-                vpiParent: Function name:report
-                vpiFullName: svunit_pkg::svunit_testcase::report
-                vpiVariable (1 items):
-                  Variable name:success_str start:190:10 end:190:21:
-                    vpiParent: Begin
-                    vpiTypespec RefTypespec start:190:3 end:190:9:
-                      vpiParent: Variable name:success_str
-                      vpiFullName: svunit_pkg::svunit_testcase::report::success_str
-                      vpiActual: StringTypespec
-                    vpiName: success_str
+              vpiVariable (1 items):
+                Variable name:success_str start:190:10 end:190:21:
+                  vpiParent: Function name:report
+                  vpiTypespec RefTypespec start:190:3 end:190:9:
+                    vpiParent: Variable name:success_str
                     vpiFullName: svunit_pkg::svunit_testcase::report::success_str
-                    vpiValue Operation start:190:24 end:190:52:
-                      vpiParent: Variable name:success_str
-                      vpiOpType: condition (32)
-                      vpiOperand (3 items):
-                        RefObj name:success start:190:25 end:190:32:
-                          vpiParent: Operation
-                          vpiName: success
-                          vpiFullName: svunit_pkg::svunit_testcase::report::success_str::success
-                          vpiActual: Variable name:success
-                        Constant start:190:35 end:190:43:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
+                    vpiActual: StringTypespec
+                  vpiName: success_str
+                  vpiFullName: svunit_pkg::svunit_testcase::report::success_str
+                  vpiValue Operation start:190:24 end:190:52:
+                    vpiParent: Variable name:success_str
+                    vpiOpType: condition (32)
+                    vpiOperand (3 items):
+                      RefObj name:success start:190:25 end:190:32:
+                        vpiParent: Operation
+                        vpiName: success
+                        vpiFullName: svunit_pkg::svunit_testcase::report::success_str::success
+                        vpiActual: Variable name:success
+                      Constant start:190:35 end:190:43:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: svunit_pkg::svunit_testcase::report::success_str
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"PASSED\""
+                        vpiValue: PASSED
+                      Constant start:190:44 end:190:52:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: svunit_pkg::svunit_testcase::report::success_str
+                          vpiActual: StringTypespec
+                        vpiConstType: string (6)
+                        vpiSize: 48
+                        vpiDecompile: "\"FAILED\""
+                        vpiValue: FAILED
+              vpiVisibility: public (1)
+              vpiStmt SysTaskCall name:$display start:103:3 end:106:17:
+                vpiParent: Function name:report
+                vpiName Identifier name:$display start:103:3 end:103:11:
+                vpiTaskFunc: Task name:$display
+                vpiArgument (4 items):
+                  NamedArgument start:103:12 end:103:35:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn Constant start:103:12 end:103:35:
+                      vpiParent: NamedArgument
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: svunit_pkg::svunit_testcase::report
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 168
+                      vpiDecompile: "\"INFO:  [%0t][%0s]: %s\""
+                      vpiValue: "INFO:  [%0t][%0s]: %s"
+                  NamedArgument start:103:37 end:103:42:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn SysFuncCall name:$time start:103:37 end:103:42:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$time start:103:37 end:103:42:
+                      vpiTaskFunc: Function name:$time
+                  NamedArgument start:103:44 end:103:48:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn RefObj name:name start:103:44 end:103:48:
+                      vpiParent: NamedArgument
+                      vpiName: name
+                      vpiFullName: svunit_pkg::svunit_testcase::report::name
+                      vpiActual: Variable name:name
+                  NamedArgument start:103:50 end:106:16:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn SysFuncCall name:$sformatf start:103:50 end:106:16:
+                      vpiParent: NamedArgument
+                      vpiName Identifier name:$sformatf start:103:50 end:103:59:
+                      vpiTaskFunc: Function name:$sformatf
+                      vpiArgument (4 items):
+                        NamedArgument start:103:60 end:103:92:
+                          vpiParent: SysFuncCall name:$sformatf
+                          vpiHighConn Constant start:103:60 end:103:92:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: svunit_pkg::svunit_testcase::report
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 240
+                            vpiDecompile: "\"%0s (%0d of %0d tests passing)\""
+                            vpiValue: "%0s (%0d of %0d tests passing)"
+                        NamedArgument start:104:5 end:104:16:
+                          vpiParent: SysFuncCall name:$sformatf
+                          vpiHighConn RefObj name:success_str start:104:5 end:104:16:
+                            vpiParent: NamedArgument
+                            vpiName: success_str
                             vpiFullName: svunit_pkg::svunit_testcase::report::success_str
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 48
-                          vpiDecompile: "\"PASSED\""
-                          vpiValue: PASSED
-                        Constant start:190:44 end:190:52:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: svunit_pkg::svunit_testcase::report::success_str
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 48
-                          vpiDecompile: "\"FAILED\""
-                          vpiValue: FAILED
-                vpiStmt (2 items):
-                  Variable name:success_str:
-                  SysTaskCall name:$display start:103:3 end:106:17:
-                    vpiParent: Begin
-                    vpiName Identifier name:$display start:103:3 end:103:11:
-                    vpiTaskFunc: Task name:$display
-                    vpiArgument (4 items):
-                      NamedArgument start:103:12 end:103:35:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn Constant start:103:12 end:103:35:
-                          vpiParent: NamedArgument
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: svunit_pkg::svunit_testcase::report
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 168
-                          vpiDecompile: "\"INFO:  [%0t][%0s]: %s\""
-                          vpiValue: "INFO:  [%0t][%0s]: %s"
-                      NamedArgument start:103:37 end:103:42:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn SysFuncCall name:$time start:103:37 end:103:42:
-                          vpiParent: NamedArgument
-                          vpiName Identifier name:$time start:103:37 end:103:42:
-                          vpiTaskFunc: Function name:$time
-                      NamedArgument start:103:44 end:103:48:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn RefObj name:name start:103:44 end:103:48:
-                          vpiParent: NamedArgument
-                          vpiName: name
-                          vpiFullName: svunit_pkg::svunit_testcase::report::name
-                          vpiActual: Variable name:name
-                      NamedArgument start:103:50 end:106:16:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn SysFuncCall name:$sformatf start:103:50 end:106:16:
-                          vpiParent: NamedArgument
-                          vpiName Identifier name:$sformatf start:103:50 end:103:59:
-                          vpiTaskFunc: Function name:$sformatf
-                          vpiArgument (4 items):
-                            NamedArgument start:103:60 end:103:92:
-                              vpiParent: SysFuncCall name:$sformatf
-                              vpiHighConn Constant start:103:60 end:103:92:
-                                vpiParent: NamedArgument
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: svunit_pkg::svunit_testcase::report
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiSize: 240
-                                vpiDecompile: "\"%0s (%0d of %0d tests passing)\""
-                                vpiValue: "%0s (%0d of %0d tests passing)"
-                            NamedArgument start:104:5 end:104:16:
-                              vpiParent: SysFuncCall name:$sformatf
-                              vpiHighConn RefObj name:success_str start:104:5 end:104:16:
-                                vpiParent: NamedArgument
-                                vpiName: success_str
-                                vpiFullName: svunit_pkg::svunit_testcase::report::success_str
-                                vpiActual: Variable name:success_str
-                            NamedArgument start:105:5 end:105:27:
-                              vpiParent: SysFuncCall name:$sformatf
-                              vpiHighConn Operation start:105:5 end:105:27:
-                                vpiParent: NamedArgument
-                                vpiOpType: subtract (11)
-                                vpiOperand (2 items):
-                                  RefObj name:test_count start:105:5 end:105:15:
-                                    vpiParent: Operation
-                                    vpiName: test_count
-                                    vpiFullName: svunit_pkg::svunit_testcase::report::test_count
-                                    vpiActual: Variable name:test_count
-                                  RefObj name:error_count start:105:16 end:105:27:
-                                    vpiParent: Operation
-                                    vpiName: error_count
-                                    vpiFullName: svunit_pkg::svunit_testcase::report::error_count
-                                    vpiActual: Variable name:error_count
-                            NamedArgument start:106:5 end:106:15:
-                              vpiParent: SysFuncCall name:$sformatf
-                              vpiHighConn RefObj name:test_count start:106:5 end:106:15:
-                                vpiParent: NamedArgument
+                            vpiActual: Variable name:success_str
+                        NamedArgument start:105:5 end:105:27:
+                          vpiParent: SysFuncCall name:$sformatf
+                          vpiHighConn Operation start:105:5 end:105:27:
+                            vpiParent: NamedArgument
+                            vpiOpType: subtract (11)
+                            vpiOperand (2 items):
+                              RefObj name:test_count start:105:5 end:105:15:
+                                vpiParent: Operation
                                 vpiName: test_count
                                 vpiFullName: svunit_pkg::svunit_testcase::report::test_count
                                 vpiActual: Variable name:test_count
+                              RefObj name:error_count start:105:16 end:105:27:
+                                vpiParent: Operation
+                                vpiName: error_count
+                                vpiFullName: svunit_pkg::svunit_testcase::report::error_count
+                                vpiActual: Variable name:error_count
+                        NamedArgument start:106:5 end:106:15:
+                          vpiParent: SysFuncCall name:$sformatf
+                          vpiHighConn RefObj name:test_count start:106:5 end:106:15:
+                            vpiParent: NamedArgument
+                            vpiName: test_count
+                            vpiFullName: svunit_pkg::svunit_testcase::report::test_count
+                            vpiActual: Variable name:test_count
               vpiReturn RefTypespec start:189:10 end:189:14:
                 vpiParent: Function name:report
                 vpiFullName: svunit_pkg::svunit_testcase::report
@@ -3640,6 +3619,12 @@ Design name:unnamed:
               vpiParent: ClassDefn name:svunit_testsuite
               vpiName Identifier name:add_testcase start:66:33 end:66:45:
               vpiFullName: svunit_pkg::svunit_testsuite::add_testcase
+              vpiTypespec (1 items):
+                ClassTypespec name:svunit_testcase start:66:46 end:66:61:
+                  vpiParent: Function name:add_testcase
+                  vpiName Identifier name:svunit_testcase start:66:46 end:66:61:
+                  vpiDefName: svunit_testcase
+                  vpiClassDefn: ClassDefn name:svunit_testcase
               vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:svunit start:66:62 end:66:68:
@@ -3654,12 +3639,6 @@ Design name:unnamed:
               vpiStmt Begin:
                 vpiParent: Function name:add_testcase
                 vpiFullName: svunit_pkg::svunit_testsuite::add_testcase
-                vpiTypespec (1 items):
-                  ClassTypespec name:svunit_testcase start:66:46 end:66:61:
-                    vpiParent: Begin
-                    vpiName Identifier name:svunit_testcase start:66:46 end:66:61:
-                    vpiDefName: svunit_testcase
-                    vpiClassDefn: ClassDefn name:svunit_testcase
                 vpiStmt (2 items):
                   SysTaskCall name:$display start:103:3 end:103:112:
                     vpiParent: Begin
@@ -3804,30 +3783,28 @@ Design name:unnamed:
               vpiParent: ClassDefn name:svunit_testsuite
               vpiName Identifier name:report start:85:33 end:85:39:
               vpiFullName: svunit_pkg::svunit_testsuite::report
+              vpiVariable (2 items):
+                Variable name:pass_cnt start:86:11 end:86:19:
+                  vpiParent: Function name:report
+                  vpiTypespec RefTypespec start:86:3 end:86:6:
+                    vpiParent: Variable name:pass_cnt
+                    vpiFullName: svunit_pkg::svunit_testsuite::report::pass_cnt
+                    vpiActual: IntTypespec
+                  vpiName: pass_cnt
+                  vpiFullName: svunit_pkg::svunit_testsuite::report::pass_cnt
+                Variable name:success_str start:87:11 end:87:22:
+                  vpiParent: Function name:report
+                  vpiTypespec RefTypespec start:87:3 end:87:9:
+                    vpiParent: Variable name:success_str
+                    vpiFullName: svunit_pkg::svunit_testsuite::report::success_str
+                    vpiActual: StringTypespec
+                  vpiName: success_str
+                  vpiFullName: svunit_pkg::svunit_testsuite::report::success_str
               vpiVisibility: public (1)
               vpiStmt Begin:
                 vpiParent: Function name:report
                 vpiFullName: svunit_pkg::svunit_testsuite::report
-                vpiVariable (2 items):
-                  Variable name:pass_cnt start:86:11 end:86:19:
-                    vpiParent: Begin
-                    vpiTypespec RefTypespec start:86:3 end:86:6:
-                      vpiParent: Variable name:pass_cnt
-                      vpiFullName: svunit_pkg::svunit_testsuite::report::pass_cnt
-                      vpiActual: IntTypespec
-                    vpiName: pass_cnt
-                    vpiFullName: svunit_pkg::svunit_testsuite::report::pass_cnt
-                  Variable name:success_str start:87:11 end:87:22:
-                    vpiParent: Begin
-                    vpiTypespec RefTypespec start:87:3 end:87:9:
-                      vpiParent: Variable name:success_str
-                      vpiFullName: svunit_pkg::svunit_testsuite::report::success_str
-                      vpiActual: StringTypespec
-                    vpiName: success_str
-                    vpiFullName: svunit_pkg::svunit_testsuite::report::success_str
-                vpiStmt (8 items):
-                  Variable name:pass_cnt:
-                  Variable name:success_str:
+                vpiStmt (6 items):
                   ForeachStmt start:89:3 end:90:35:
                     vpiParent: Begin
                     vpiFullName: svunit_pkg::svunit_testsuite::report
@@ -4351,6 +4328,12 @@ Design name:unnamed:
               vpiParent: ClassDefn name:svunit_testrunner
               vpiName Identifier name:add_testsuite start:65:34 end:65:47:
               vpiFullName: svunit_pkg::svunit_testrunner::add_testsuite
+              vpiTypespec (1 items):
+                ClassTypespec name:svunit_testsuite start:65:48 end:65:64:
+                  vpiParent: Function name:add_testsuite
+                  vpiName Identifier name:svunit_testsuite start:65:48 end:65:64:
+                  vpiDefName: svunit_testsuite
+                  vpiClassDefn: ClassDefn name:svunit_testsuite
               vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:suite start:65:65 end:65:70:
@@ -4365,12 +4348,6 @@ Design name:unnamed:
               vpiStmt Begin:
                 vpiParent: Function name:add_testsuite
                 vpiFullName: svunit_pkg::svunit_testrunner::add_testsuite
-                vpiTypespec (1 items):
-                  ClassTypespec name:svunit_testsuite start:65:48 end:65:64:
-                    vpiParent: Begin
-                    vpiName Identifier name:svunit_testsuite start:65:48 end:65:64:
-                    vpiDefName: svunit_testsuite
-                    vpiClassDefn: ClassDefn name:svunit_testsuite
                 vpiStmt (2 items):
                   SysTaskCall name:$display start:103:3 end:103:108:
                     vpiParent: Begin
@@ -4469,30 +4446,28 @@ Design name:unnamed:
               vpiParent: ClassDefn name:svunit_testrunner
               vpiName Identifier name:report start:75:34 end:75:40:
               vpiFullName: svunit_pkg::svunit_testrunner::report
+              vpiVariable (2 items):
+                Variable name:pass_cnt start:76:11 end:76:19:
+                  vpiParent: Function name:report
+                  vpiTypespec RefTypespec start:76:3 end:76:6:
+                    vpiParent: Variable name:pass_cnt
+                    vpiFullName: svunit_pkg::svunit_testrunner::report::pass_cnt
+                    vpiActual: IntTypespec
+                  vpiName: pass_cnt
+                  vpiFullName: svunit_pkg::svunit_testrunner::report::pass_cnt
+                Variable name:success_str start:77:11 end:77:22:
+                  vpiParent: Function name:report
+                  vpiTypespec RefTypespec start:77:3 end:77:9:
+                    vpiParent: Variable name:success_str
+                    vpiFullName: svunit_pkg::svunit_testrunner::report::success_str
+                    vpiActual: StringTypespec
+                  vpiName: success_str
+                  vpiFullName: svunit_pkg::svunit_testrunner::report::success_str
               vpiVisibility: public (1)
               vpiStmt Begin:
                 vpiParent: Function name:report
                 vpiFullName: svunit_pkg::svunit_testrunner::report
-                vpiVariable (2 items):
-                  Variable name:pass_cnt start:76:11 end:76:19:
-                    vpiParent: Begin
-                    vpiTypespec RefTypespec start:76:3 end:76:6:
-                      vpiParent: Variable name:pass_cnt
-                      vpiFullName: svunit_pkg::svunit_testrunner::report::pass_cnt
-                      vpiActual: IntTypespec
-                    vpiName: pass_cnt
-                    vpiFullName: svunit_pkg::svunit_testrunner::report::pass_cnt
-                  Variable name:success_str start:77:11 end:77:22:
-                    vpiParent: Begin
-                    vpiTypespec RefTypespec start:77:3 end:77:9:
-                      vpiParent: Variable name:success_str
-                      vpiFullName: svunit_pkg::svunit_testrunner::report::success_str
-                      vpiActual: StringTypespec
-                    vpiName: success_str
-                    vpiFullName: svunit_pkg::svunit_testrunner::report::success_str
-                vpiStmt (7 items):
-                  Variable name:pass_cnt:
-                  Variable name:success_str:
+                vpiStmt (5 items):
                   Begin start:79:3 end:82:6:
                     vpiParent: Begin
                     vpiFullName: svunit_pkg::svunit_testrunner::report
@@ -9154,6 +9129,61 @@ Design name:unnamed:
           vpiParent: Module name:apb_slave_unit_test
           vpiName Identifier name:write start:179:8 end:179:13:
           vpiFullName: apb_slave_unit_test.write
+          vpiTypespec (3 items):
+            LogicTypespec:
+              vpiParent: Task name:write
+              vpiRange (1 items):
+                Range start:179:20 end:179:25:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:179:21 end:179:22:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: apb_slave_unit_test.write
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "7"
+                    vpiValue: 7
+                  vpiRightRange Constant start:179:23 end:179:24:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: apb_slave_unit_test.write
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
+            LogicTypespec:
+              vpiParent: Task name:write
+              vpiRange (1 items):
+                Range start:180:20 end:180:26:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:180:21 end:180:23:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: apb_slave_unit_test.write
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "31"
+                    vpiValue: 31
+                  vpiRightRange Constant start:180:24 end:180:25:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: apb_slave_unit_test.write
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
+            LogicTypespec:
+              vpiParent: Task name:write
           vpiIODecl (5 items):
             IODecl name:addr start:179:26 end:179:30:
               vpiParent: Task name:write
@@ -9228,61 +9258,6 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Task name:write
             vpiFullName: apb_slave_unit_test.write
-            vpiTypespec (3 items):
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:179:20 end:179:25:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:179:21 end:179:22:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: apb_slave_unit_test.write
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "7"
-                      vpiValue: 7
-                    vpiRightRange Constant start:179:23 end:179:24:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: apb_slave_unit_test.write
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:180:20 end:180:26:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:180:21 end:180:23:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: apb_slave_unit_test.write
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "31"
-                      vpiValue: 31
-                    vpiRightRange Constant start:180:24 end:180:25:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: apb_slave_unit_test.write
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-              LogicTypespec:
-                vpiParent: Begin
             vpiStmt (11 items):
               IfStmt start:186:5 end:190:8:
                 vpiParent: Begin
@@ -9502,6 +9477,61 @@ Design name:unnamed:
           vpiParent: Module name:apb_slave_unit_test
           vpiName Identifier name:read start:218:8 end:218:12:
           vpiFullName: apb_slave_unit_test.read
+          vpiTypespec (3 items):
+            LogicTypespec:
+              vpiParent: Task name:read
+              vpiRange (1 items):
+                Range start:218:19 end:218:24:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:218:20 end:218:21:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: apb_slave_unit_test.read
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "7"
+                    vpiValue: 7
+                  vpiRightRange Constant start:218:22 end:218:23:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: apb_slave_unit_test.read
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
+            LogicTypespec:
+              vpiParent: Task name:read
+              vpiRange (1 items):
+                Range start:218:44 end:218:50:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:218:45 end:218:47:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: apb_slave_unit_test.read
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "31"
+                    vpiValue: 31
+                  vpiRightRange Constant start:218:48 end:218:49:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: apb_slave_unit_test.read
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
+            LogicTypespec:
+              vpiParent: Task name:read
           vpiIODecl (3 items):
             IODecl name:addr start:218:25 end:218:29:
               vpiParent: Task name:read
@@ -9540,61 +9570,6 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Task name:read
             vpiFullName: apb_slave_unit_test.read
-            vpiTypespec (3 items):
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:218:19 end:218:24:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:218:20 end:218:21:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: apb_slave_unit_test.read
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "7"
-                      vpiValue: 7
-                    vpiRightRange Constant start:218:22 end:218:23:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: apb_slave_unit_test.read
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:218:44 end:218:50:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:218:45 end:218:47:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: apb_slave_unit_test.read
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "31"
-                      vpiValue: 31
-                    vpiRightRange Constant start:218:48 end:218:49:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: apb_slave_unit_test.read
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-              LogicTypespec:
-                vpiParent: Begin
             vpiStmt (10 items):
               IfStmt start:222:5 end:226:8:
                 vpiParent: Begin
@@ -10126,7 +10101,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 3
 [WARNING] : 1
 [   NOTE] : 2
 ********************************************************************************
@@ -10181,7 +10156,7 @@ Operation                           56      46       0        10
 RefObj                             417     403       0        14
 RefTypespec                        701     700       8         9
 ----------------------------------------------------------------
-Others                            3938    3938       0         0
+Others                            3934    3934       0         0
 ----------------------------------------------------------------
-                                  5324    5298      16        42
+                                  5320    5294      16        42
 ===================== END REDUCTION RESULT =====================

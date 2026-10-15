@@ -14,17 +14,14 @@ COMMAND: -wd ../../../tests/ForElab -sverilog top.v -writepp -d inst -nobuiltin 
 [INF:CP5836] $Source01/top.v:32:20: Compile generate block "gen_normal_case".
 [INF:CP5836] $Source01/top.v:37:65: Compile generate block "gen_tree".
 [INF:CP5804] $Source01/top.v:49:1: Compile module "tlul_socket_m1".
+[INF:CP5836] $Source01/top.v:52:47: Compile generate block "gen_arb_ppc".
 [INF:CP5836] $Source01/top.v:54:60: Compile generate block "gen_tree_arb".
 [INF:CP5836] $Source01/top.v:62:20: Compile generate block "gen_unknown".
-[INF:CP5836] $Source01/top.v:52:47: Compile generate block "gen_arb_ppc".
 [WRN:CP5851] $Source01/top.v:30:23: Failed to bind "req_i".
 [WRN:CP5851] $Source01/top.v:57:32: Failed to bind "tl_h2d_t".
 [WRN:PA5506] $Source01/top.v:1:1: No timescale set for "tlul_pkg".
 [WRN:PA5506] $Source01/top.v:16:1: No timescale set for "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1))".
 [WRN:PA5506] $Source01/top.v:49:1: No timescale set for "tlul_socket_m1".
-[ERR:DB2038] $Source01/top.v:32:12: 'vpiStmt' property value has invalid objects.
-[ERR:DB2038] $Source01/top.v:37:57: 'vpiStmt' property value has invalid objects.
-[ERR:DB2038] $Source01/top.v:37:57: 'vpiStmt' property value has invalid objects.
 [ERR:DB2038] $Source01/top.v:37:57: 'vpiStmt' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
@@ -246,13 +243,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-          vpiStmt Begin name:gen_degenerate_case start:28:15 end:32:6:
+          vpiStmt GenRegion name:gen_degenerate_case start:28:15 end:32:6:
             vpiParent: GenIfElse
             vpiName Identifier name:gen_degenerate_case start:28:23 end:28:42:
             vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).gen_degenerate_case"
             vpiStmt (1 items):
               ContAssign start:30:12 end:30:31:
-                vpiParent: Begin name:gen_degenerate_case
+                vpiParent: GenRegion name:gen_degenerate_case
                 vpiLhs RefObj name:valid_o start:30:12 end:30:19:
                   vpiParent: ContAssign
                   vpiName: valid_o
@@ -275,13 +272,13 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
-          vpiElseStmt Begin name:gen_normal_case start:32:12 end:45:6:
+          vpiElseStmt GenRegion name:gen_normal_case start:32:12 end:45:6:
             vpiParent: GenIfElse
             vpiName Identifier name:gen_normal_case start:32:20 end:32:35:
             vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).gen_normal_case"
             vpiVariable (1 items):
               Variable name:req start:35:47 end:35:50:
-                vpiParent: Begin name:gen_normal_case
+                vpiParent: GenRegion name:gen_normal_case
                 vpiTypespec RefTypespec start:35:5 end:35:18:
                   vpiParent: Variable name:req
                   vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).gen_normal_case.req"
@@ -290,7 +287,7 @@ Design name:unnamed:
                 vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).gen_normal_case.req"
             vpiParameter (1 items):
               Parameter name:N_LEVELS start:34:29 end:34:37:
-                vpiParent: Begin name:gen_normal_case
+                vpiParent: GenRegion name:gen_normal_case
                 vpiTypespec RefTypespec start:34:16 end:34:28:
                   vpiParent: Parameter name:N_LEVELS
                   vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).gen_normal_case.N_LEVELS"
@@ -300,7 +297,7 @@ Design name:unnamed:
                 vpiLocalParam: true
             vpiParamAssign (1 items):
               ParamAssign start:34:29 end:34:49:
-                vpiParent: Begin name:gen_normal_case
+                vpiParent: GenRegion name:gen_normal_case
                 vpiLhs RefObj name:N_LEVELS start:34:29 end:34:37:
                   vpiParent: ParamAssign
                   vpiName: N_LEVELS
@@ -319,7 +316,7 @@ Design name:unnamed:
                         vpiActual: Parameter name:N
             vpiTypespec (1 items):
               LogicTypespec:
-                vpiParent: Begin name:gen_normal_case
+                vpiParent: GenRegion name:gen_normal_case
                 vpiRange (1 items):
                   Range start:35:11 end:35:18:
                     vpiParent: LogicTypespec
@@ -353,12 +350,9 @@ Design name:unnamed:
                       vpiDecompile: "0"
                       vpiValue: 0
                 vpiVector: true
-            vpiStmt (4 items):
-              Parameter name:N_LEVELS:
-              ParamAssign:
-              Variable name:req:
+            vpiStmt (1 items):
               GenFor start:37:5 end:43:19:
-                vpiParent: Begin name:gen_normal_case
+                vpiParent: GenRegion name:gen_normal_case
                 vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).gen_normal_case"
                 vpiVariable (1 items):
                   Variable name:level start:37:17 end:37:22:
@@ -417,13 +411,13 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "1"
                           vpiValue: 1
-                vpiStmt Begin name:gen_tree start:37:57 end:43:19:
+                vpiStmt GenRegion name:gen_tree start:37:57 end:43:19:
                   vpiParent: GenFor
                   vpiName Identifier name:gen_tree start:37:65 end:37:73:
                   vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).gen_normal_case.gen_tree"
                   vpiParameter (2 items):
                     Parameter name:base0 start:39:31 end:39:36:
-                      vpiParent: Begin name:gen_tree
+                      vpiParent: GenRegion name:gen_tree
                       vpiTypespec RefTypespec start:39:18 end:39:30:
                         vpiParent: Parameter name:base0
                         vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).gen_normal_case.gen_tree.base0"
@@ -432,7 +426,7 @@ Design name:unnamed:
                       vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).gen_normal_case.gen_tree.base0"
                       vpiLocalParam: true
                     Parameter name:base1 start:40:31 end:40:36:
-                      vpiParent: Begin name:gen_tree
+                      vpiParent: GenRegion name:gen_tree
                       vpiTypespec RefTypespec start:40:18 end:40:30:
                         vpiParent: Parameter name:base1
                         vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).gen_normal_case.gen_tree.base1"
@@ -442,7 +436,7 @@ Design name:unnamed:
                       vpiLocalParam: true
                   vpiParamAssign (2 items):
                     ParamAssign start:39:31 end:39:51:
-                      vpiParent: Begin name:gen_tree
+                      vpiParent: GenRegion name:gen_tree
                       vpiLhs RefObj name:base0 start:39:31 end:39:36:
                         vpiParent: ParamAssign
                         vpiName: base0
@@ -482,7 +476,7 @@ Design name:unnamed:
                             vpiDecompile: "1"
                             vpiValue: 1
                     ParamAssign start:40:31 end:40:55:
-                      vpiParent: Begin name:gen_tree
+                      vpiParent: GenRegion name:gen_tree
                       vpiLhs RefObj name:base1 start:40:31 end:40:36:
                         vpiParent: ParamAssign
                         vpiName: base1
@@ -535,13 +529,9 @@ Design name:unnamed:
                             vpiSize: 64
                             vpiDecompile: "1"
                             vpiValue: 1
-                  vpiStmt (5 items):
-                    Parameter name:base0:
-                    ParamAssign:
-                    Parameter name:base1:
-                    ParamAssign:
+                  vpiStmt (1 items):
                     Gate name:gate start:41:10 end:41:14:
-                      vpiParent: Begin name:gen_tree
+                      vpiParent: GenRegion name:gen_tree
                       vpiName: gate
                       vpiFullName: "prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1)).gen_normal_case.gen_tree.gate"
                       vpiDefName Identifier name:work@or start:41:7 end:41:9:
@@ -619,135 +609,131 @@ Design name:unnamed:
                 vpiSize: 24
                 vpiDecompile: "\"PPC\""
                 vpiValue: PPC
-          vpiStmt Begin name:gen_arb_ppc start:52:39 end:54:6:
+          vpiStmt GenRegion name:gen_arb_ppc start:52:39 end:54:6:
             vpiParent: GenIfElse
             vpiName Identifier name:gen_arb_ppc start:52:47 end:52:58:
             vpiFullName: tlul_socket_m1.gen_arb_ppc
-          vpiElseStmt Begin:
+          vpiElseStmt GenIfElse start:54:12 end:64:6:
             vpiParent: GenIfElse
-            vpiFullName: tlul_socket_m1
-            vpiStmt (1 items):
-              GenIfElse start:54:12 end:64:6:
-                vpiParent: Begin
-                vpiCondition Operation start:54:16 end:54:50:
-                  vpiParent: GenIfElse
-                  vpiOpType: equal (14)
-                  vpiOperand (2 items):
-                    RefObj name:tlul_pkg::ArbiterImpl start:54:16:
-                      vpiParent: Operation
-                      vpiName: tlul_pkg::ArbiterImpl
-                      vpiFullName: tlul_socket_m1.tlul_pkg::ArbiterImpl
-                      vpiPathElem (2 items):
-                        RefObj name:tlul_pkg start:54:16 end:54:24:
-                          vpiParent: RefObj name:tlul_pkg::ArbiterImpl
-                          vpiName: tlul_pkg
-                          vpiFullName: tlul_socket_m1.tlul_pkg
-                          vpiActual: Package name:tlul_pkg
-                        RefObj name:ArbiterImpl start:54:26 end:54:37:
-                          vpiParent: RefObj name:tlul_pkg::ArbiterImpl
-                          vpiName: ArbiterImpl
-                          vpiFullName: tlul_socket_m1.ArbiterImpl
-                          vpiActual: Parameter name:ArbiterImpl
+            vpiCondition Operation start:54:16 end:54:50:
+              vpiParent: GenIfElse
+              vpiOpType: equal (14)
+              vpiOperand (2 items):
+                RefObj name:tlul_pkg::ArbiterImpl start:54:16:
+                  vpiParent: Operation
+                  vpiName: tlul_pkg::ArbiterImpl
+                  vpiFullName: tlul_socket_m1.tlul_pkg::ArbiterImpl
+                  vpiPathElem (2 items):
+                    RefObj name:tlul_pkg start:54:16 end:54:24:
+                      vpiParent: RefObj name:tlul_pkg::ArbiterImpl
+                      vpiName: tlul_pkg
+                      vpiFullName: tlul_socket_m1.tlul_pkg
+                      vpiActual: Package name:tlul_pkg
+                    RefObj name:ArbiterImpl start:54:26 end:54:37:
+                      vpiParent: RefObj name:tlul_pkg::ArbiterImpl
+                      vpiName: ArbiterImpl
+                      vpiFullName: tlul_socket_m1.ArbiterImpl
                       vpiActual: Parameter name:ArbiterImpl
-                    Constant start:54:41 end:54:50:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: tlul_socket_m1
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 56
-                      vpiDecompile: "\"BINTREE\""
-                      vpiValue: BINTREE
-                vpiStmt Begin name:gen_tree_arb start:54:52 end:62:6:
-                  vpiParent: GenIfElse
-                  vpiName Identifier name:gen_tree_arb start:54:60 end:54:72:
-                  vpiFullName: tlul_socket_m1.gen_tree_arb
-                  vpiTypespec (1 items):
-                    ModuleTypespec name:prim_arbiter_tree start:55:5 end:55:22:
-                      vpiParent: Begin name:gen_tree_arb
-                      vpiName Identifier name:prim_arbiter_tree start:55:5 end:55:22:
-                      vpiDefName: prim_arbiter_tree
-                      vpiParamAssign (2 items):
-                        ParamAssign start:56:7 end:56:18:
-                          vpiParent: ModuleTypespec name:prim_arbiter_tree
-                          vpiConnByName: true
-                          vpiOverridden: true
-                          vpiLhs RefObj name:N start:56:8 end:56:9:
-                            vpiParent: ParamAssign
-                            vpiName: N
-                            vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.N
-                            vpiActual: Parameter name:N
-                          vpiRhs Constant start:56:16 end:56:17:
-                            vpiParent: ParamAssign
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "4"
-                            vpiValue: 4
-                        ParamAssign start:57:7 end:57:42:
-                          vpiParent: ModuleTypespec name:prim_arbiter_tree
-                          vpiConnByName: true
-                          vpiOverridden: true
-                          vpiLhs RefObj name:DW start:57:8 end:57:10:
-                            vpiParent: ParamAssign
-                            vpiName: DW
-                            vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.DW
-                            vpiActual: Parameter name:DW
-                          vpiRhs SysFuncCall name:$bits start:57:16 end:57:41:
-                            vpiParent: ParamAssign
-                            vpiName Identifier name:$bits start:57:16 end:57:21:
-                            vpiArgument (1 items):
-                              NamedArgument start:57:22 end:57:40:
-                                vpiParent: SysFuncCall name:$bits
-                                vpiHighConn RefObj name:tlul_pkg::tl_h2d_t start:57:22 end:57:40:
-                                  vpiParent: NamedArgument
-                                  vpiName: tlul_pkg::tl_h2d_t
-                                  vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.tlul_pkg::tl_h2d_t
-                                  vpiPathElem (2 items):
-                                    RefObj name:tlul_pkg start:57:22 end:57:30:
-                                      vpiParent: RefObj name:tlul_pkg::tl_h2d_t
-                                      vpiName: tlul_pkg
-                                      vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.tlul_pkg
-                                      vpiActual: Package name:tlul_pkg
-                                    RefObj name:tl_h2d_t start:57:32 end:57:40:
-                                      vpiParent: RefObj name:tlul_pkg::tl_h2d_t
-                                      vpiName: tl_h2d_t
-                                      vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.tl_h2d_t
-                      vpiModule: "Module name:prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1))"
-                  vpiStmt (1 items):
-                    RefInstance name:u_reqarb start:58:7 end:58:15:
-                      vpiParent: Begin name:gen_tree_arb
-                      vpiName: u_reqarb
-                      vpiTypespec RefTypespec name:prim_arbiter_tree start:55:5 end:55:22:
-                        vpiParent: RefInstance name:u_reqarb
-                        vpiName: prim_arbiter_tree
-                        vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.prim_arbiter_tree
-                        vpiActual: ModuleTypespec name:prim_arbiter_tree
-                      vpiArgument (2 items):
-                        NamedArgument start:59:7 end:59:13:
-                          vpiParent: RefInstance name:u_reqarb
-                          vpiConnByName: true
-                          vpiLowConn RefObj name:clk_i start:59:8 end:59:13:
-                            vpiParent: NamedArgument
-                            vpiName: clk_i
-                            vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.clk_i
-                            vpiActual: Port name:clk_i
-                        NamedArgument start:60:7 end:60:14:
-                          vpiParent: RefInstance name:u_reqarb
-                          vpiConnByName: true
-                          vpiLowConn RefObj name:rst_ni start:60:8 end:60:14:
-                            vpiParent: NamedArgument
-                            vpiName: rst_ni
-                            vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.rst_ni
-                            vpiActual: Port name:rst_ni
-                vpiElseStmt Begin name:gen_unknown start:62:12 end:64:6:
-                  vpiParent: GenIfElse
-                  vpiName Identifier name:gen_unknown start:62:20 end:62:31:
-                  vpiFullName: tlul_socket_m1.gen_unknown
+                  vpiActual: Parameter name:ArbiterImpl
+                Constant start:54:41 end:54:50:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: tlul_socket_m1
+                    vpiActual: StringTypespec
+                  vpiConstType: string (6)
+                  vpiSize: 56
+                  vpiDecompile: "\"BINTREE\""
+                  vpiValue: BINTREE
+            vpiStmt GenRegion name:gen_tree_arb start:54:52 end:62:6:
+              vpiParent: GenIfElse
+              vpiName Identifier name:gen_tree_arb start:54:60 end:54:72:
+              vpiFullName: tlul_socket_m1.gen_tree_arb
+              vpiTypespec (1 items):
+                ModuleTypespec name:prim_arbiter_tree start:55:5 end:55:22:
+                  vpiParent: GenRegion name:gen_tree_arb
+                  vpiName Identifier name:prim_arbiter_tree start:55:5 end:55:22:
+                  vpiDefName: prim_arbiter_tree
+                  vpiParamAssign (2 items):
+                    ParamAssign start:56:7 end:56:18:
+                      vpiParent: ModuleTypespec name:prim_arbiter_tree
+                      vpiConnByName: true
+                      vpiOverridden: true
+                      vpiLhs RefObj name:N start:56:8 end:56:9:
+                        vpiParent: ParamAssign
+                        vpiName: N
+                        vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.N
+                        vpiActual: Parameter name:N
+                      vpiRhs Constant start:56:16 end:56:17:
+                        vpiParent: ParamAssign
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "4"
+                        vpiValue: 4
+                    ParamAssign start:57:7 end:57:42:
+                      vpiParent: ModuleTypespec name:prim_arbiter_tree
+                      vpiConnByName: true
+                      vpiOverridden: true
+                      vpiLhs RefObj name:DW start:57:8 end:57:10:
+                        vpiParent: ParamAssign
+                        vpiName: DW
+                        vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.DW
+                        vpiActual: Parameter name:DW
+                      vpiRhs SysFuncCall name:$bits start:57:16 end:57:41:
+                        vpiParent: ParamAssign
+                        vpiName Identifier name:$bits start:57:16 end:57:21:
+                        vpiArgument (1 items):
+                          NamedArgument start:57:22 end:57:40:
+                            vpiParent: SysFuncCall name:$bits
+                            vpiHighConn RefObj name:tlul_pkg::tl_h2d_t start:57:22 end:57:40:
+                              vpiParent: NamedArgument
+                              vpiName: tlul_pkg::tl_h2d_t
+                              vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.tlul_pkg::tl_h2d_t
+                              vpiPathElem (2 items):
+                                RefObj name:tlul_pkg start:57:22 end:57:30:
+                                  vpiParent: RefObj name:tlul_pkg::tl_h2d_t
+                                  vpiName: tlul_pkg
+                                  vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.tlul_pkg
+                                  vpiActual: Package name:tlul_pkg
+                                RefObj name:tl_h2d_t start:57:32 end:57:40:
+                                  vpiParent: RefObj name:tlul_pkg::tl_h2d_t
+                                  vpiName: tl_h2d_t
+                                  vpiFullName: tlul_socket_m1.gen_tree_arb.prim_arbiter_tree.tl_h2d_t
+                  vpiModule: "Module name:prim_arbiter_tree #(.N(4), .DW(32), .Lock(1'b1))"
+              vpiStmt (1 items):
+                RefInstance name:u_reqarb start:58:7 end:58:15:
+                  vpiParent: GenRegion name:gen_tree_arb
+                  vpiName: u_reqarb
+                  vpiTypespec RefTypespec name:prim_arbiter_tree start:55:5 end:55:22:
+                    vpiParent: RefInstance name:u_reqarb
+                    vpiName: prim_arbiter_tree
+                    vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.prim_arbiter_tree
+                    vpiActual: ModuleTypespec name:prim_arbiter_tree
+                  vpiArgument (2 items):
+                    NamedArgument start:59:7 end:59:13:
+                      vpiParent: RefInstance name:u_reqarb
+                      vpiConnByName: true
+                      vpiLowConn RefObj name:clk_i start:59:8 end:59:13:
+                        vpiParent: NamedArgument
+                        vpiName: clk_i
+                        vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.clk_i
+                        vpiActual: Port name:clk_i
+                    NamedArgument start:60:7 end:60:14:
+                      vpiParent: RefInstance name:u_reqarb
+                      vpiConnByName: true
+                      vpiLowConn RefObj name:rst_ni start:60:8 end:60:14:
+                        vpiParent: NamedArgument
+                        vpiName: rst_ni
+                        vpiFullName: tlul_socket_m1.gen_tree_arb.u_reqarb.rst_ni
+                        vpiActual: Port name:rst_ni
+            vpiElseStmt GenRegion name:gen_unknown start:62:12 end:64:6:
+              vpiParent: GenIfElse
+              vpiName Identifier name:gen_unknown start:62:20 end:62:31:
+              vpiFullName: tlul_socket_m1.gen_unknown
   vpiTypespec (5 items):
     StringTypespec:
       vpiParent: Design name:unnamed
@@ -773,7 +759,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 1
 [WARNING] : 5
 [   NOTE] : 0
 ********************************************************************************
@@ -825,7 +811,7 @@ RefObj                              38      34       0         4
 RefTypespec                         31      31       3         3
 SysFuncCall                          2       1       0         1
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              58      58       0         0
 ----------------------------------------------------------------
-                                   180     171       7        16
+                                   179     170       7        16
 ===================== END REDUCTION RESULT =====================

@@ -601,7 +601,6 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:24:1: No timescale set for "fifo_sync #(.ReqDepth(6))".
 [WRN:PA5506] $Source01/dut.sv:38:1: No timescale set for "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))".
 [WRN:PA5506] $Source01/dut.sv:54:1: No timescale set for "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))".
-[ERR:DB2038] $Source01/dut.sv:15:12: 'vpiStmt' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -676,16 +675,16 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
-          vpiStmt Begin name:gen_passthru start:8:19 end:15:6:
+          vpiStmt GenRegion name:gen_passthru start:8:19 end:15:6:
             vpiParent: GenIfElse
             vpiName Identifier name:gen_passthru start:8:27 end:8:39:
             vpiFullName: prim_fifo_sync #(.Depth(4)).gen_passthru
             vpiTypespec (1 items):
               BitTypespec:
-                vpiParent: Begin name:gen_passthru
+                vpiParent: GenRegion name:gen_passthru
             vpiStmt (1 items):
               ContAssign start:11:12 end:11:24:
-                vpiParent: Begin name:gen_passthru
+                vpiParent: GenRegion name:gen_passthru
                 vpiLhs RefObj name:depth start:11:12 end:11:17:
                   vpiParent: ContAssign
                   vpiName: depth
@@ -700,13 +699,13 @@ Design name:unnamed:
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-          vpiElseStmt Begin name:gen_normal start:15:12 end:20:6:
+          vpiElseStmt GenRegion name:gen_normal start:15:12 end:20:6:
             vpiParent: GenIfElse
             vpiName Identifier name:gen_normal start:15:20 end:15:30:
             vpiFullName: prim_fifo_sync #(.Depth(4)).gen_normal
             vpiParameter (1 items):
               Parameter name:PTRV_W start:18:29 end:18:35:
-                vpiParent: Begin name:gen_normal
+                vpiParent: GenRegion name:gen_normal
                 vpiTypespec RefTypespec start:18:16 end:18:28:
                   vpiParent: Parameter name:PTRV_W
                   vpiFullName: prim_fifo_sync #(.Depth(4)).gen_normal.PTRV_W
@@ -716,7 +715,7 @@ Design name:unnamed:
                 vpiLocalParam: true
             vpiParamAssign (1 items):
               ParamAssign start:18:29 end:18:72:
-                vpiParent: Begin name:gen_normal
+                vpiParent: GenRegion name:gen_normal
                 vpiLhs RefObj name:PTRV_W start:18:29 end:18:35:
                   vpiParent: ParamAssign
                   vpiName: PTRV_W
@@ -753,9 +752,6 @@ Design name:unnamed:
                                 vpiName: Depth
                                 vpiFullName: prim_fifo_sync #(.Depth(4)).gen_normal.Depth
                                 vpiActual: Parameter name:Depth
-            vpiStmt (2 items):
-              Parameter name:PTRV_W:
-              ParamAssign:
     Module name:fifo_sync #(.ReqDepth(6)) file:$Source01/dut.sv start:24:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:fifo_sync #(.ReqDepth(6)) start:24:8 end:24:17:
@@ -1125,13 +1121,13 @@ Design name:unnamed:
                 vpiName: N
                 vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).N"
                 vpiActual: Parameter name:N
-          vpiStmt Begin name:gen_dfifo start:44:36 end:48:6:
+          vpiStmt GenRegion name:gen_dfifo start:44:36 end:48:6:
             vpiParent: GenFor
             vpiName Identifier name:gen_dfifo start:44:44 end:44:53:
             vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).gen_dfifo"
             vpiTypespec (1 items):
               ModuleTypespec name:fifo_sync start:45:5 end:45:14:
-                vpiParent: Begin name:gen_dfifo
+                vpiParent: GenRegion name:gen_dfifo
                 vpiName Identifier name:fifo_sync start:45:5 end:45:14:
                 vpiDefName: fifo_sync
                 vpiParamAssign (1 items):
@@ -1186,7 +1182,7 @@ Design name:unnamed:
                 vpiModule: Module name:fifo_sync #(.ReqDepth(6))
             vpiStmt (1 items):
               RefInstance name:fifo_d start:47:7 end:47:13:
-                vpiParent: Begin name:gen_dfifo
+                vpiParent: GenRegion name:gen_dfifo
                 vpiName: fifo_d
                 vpiTypespec RefTypespec name:fifo_sync start:45:5 end:45:14:
                   vpiParent: RefInstance name:fifo_d
@@ -1497,13 +1493,13 @@ Design name:unnamed:
                 vpiName: N
                 vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).N"
                 vpiActual: Parameter name:N
-          vpiStmt Begin name:gen_dfifo start:60:36 end:64:6:
+          vpiStmt GenRegion name:gen_dfifo start:60:36 end:64:6:
             vpiParent: GenFor
             vpiName Identifier name:gen_dfifo start:60:44 end:60:53:
             vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).gen_dfifo"
             vpiTypespec (1 items):
               ModuleTypespec name:fifo_sync start:61:5 end:61:14:
-                vpiParent: Begin name:gen_dfifo
+                vpiParent: GenRegion name:gen_dfifo
                 vpiName Identifier name:fifo_sync start:61:5 end:61:14:
                 vpiDefName: fifo_sync
                 vpiParamAssign (1 items):
@@ -1558,7 +1554,7 @@ Design name:unnamed:
                 vpiModule: Module name:fifo_sync #(.ReqDepth(6))
             vpiStmt (1 items):
               RefInstance name:fifo_d start:63:7 end:63:13:
-                vpiParent: Begin name:gen_dfifo
+                vpiParent: GenRegion name:gen_dfifo
                 vpiName: fifo_d
                 vpiTypespec RefTypespec name:fifo_sync start:61:5 end:61:14:
                   vpiParent: RefInstance name:fifo_d
@@ -1608,7 +1604,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************

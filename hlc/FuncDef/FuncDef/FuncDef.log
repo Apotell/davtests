@@ -190,8 +190,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/dut.sv:15:40: Failed to bind "notCDom_normDistReduced2".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "mulAddRecFNToRaw_preMul".
 [ERR:DB2029] $Source01/dut.sv:13:5: Unsupported typespec "countLeadingZeros".
-[ERR:LN7701] Invalid name: id:69, type:RefObj, name:, relation:vpiLowConn.
-[ERR:LN7701] Invalid name: id:72, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:68, type:RefObj, name:, relation:vpiLowConn.
+[ERR:LN7701] Invalid name: id:71, type:RefObj, name:, relation:vpiLowConn.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -275,6 +275,10 @@ Design name:unnamed:
                 vpiActual: IntegerTypespec
               vpiName: a
               vpiFullName: mulAddRecFNToRaw_preMul.clog2.a
+          vpiTypespec (1 items):
+            IntegerTypespec:
+              vpiParent: Function name:clog2
+              vpiSigned: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:a start:4:19 end:4:20:
@@ -285,36 +289,78 @@ Design name:unnamed:
                 vpiParent: IODecl name:a
                 vpiFullName: mulAddRecFNToRaw_preMul.clog2.a
                 vpiActual: IntegerTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:6:5 end:9:8:
             vpiParent: Function name:clog2
             vpiFullName: mulAddRecFNToRaw_preMul.clog2
-            vpiTypespec (1 items):
-              IntegerTypespec:
+            vpiStmt (2 items):
+              Assignment start:7:9 end:7:18:
                 vpiParent: Begin
-                vpiSigned: true
-            vpiStmt (1 items):
-              Begin start:6:5 end:9:8:
-                vpiParent: Begin
-                vpiFullName: mulAddRecFNToRaw_preMul.clog2
-                vpiStmt (2 items):
-                  Assignment start:7:9 end:7:18:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:a start:7:9 end:7:10:
-                      vpiParent: Assignment
+                vpiBlocking: true
+                vpiLhs RefObj name:a start:7:9 end:7:10:
+                  vpiParent: Assignment
+                  vpiName: a
+                  vpiFullName: mulAddRecFNToRaw_preMul.clog2.a
+                  vpiActual: IODecl name:a
+                vpiRhs Operation start:7:13 end:7:18:
+                  vpiParent: Assignment
+                  vpiOpType: subtract (11)
+                  vpiOperand (2 items):
+                    RefObj name:a start:7:13 end:7:14:
+                      vpiParent: Operation
                       vpiName: a
                       vpiFullName: mulAddRecFNToRaw_preMul.clog2.a
                       vpiActual: IODecl name:a
-                    vpiRhs Operation start:7:13 end:7:18:
+                    Constant start:7:17 end:7:18:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mulAddRecFNToRaw_preMul.clog2
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "1"
+                      vpiValue: 1
+              ForStmt start:8:9 end:8:60:
+                vpiParent: Begin
+                vpiFullName: mulAddRecFNToRaw_preMul.clog2
+                vpiForInitStmt (1 items):
+                  Assignment start:8:14 end:8:23:
+                    vpiParent: ForStmt
+                    vpiBlocking: true
+                    vpiLhs RefObj name:clog2 start:8:14 end:8:19:
                       vpiParent: Assignment
-                      vpiOpType: subtract (11)
+                      vpiName: clog2
+                      vpiFullName: mulAddRecFNToRaw_preMul.clog2.clog2
+                      vpiActual: Function name:clog2
+                    vpiRhs Constant start:8:22 end:8:23:
+                      vpiParent: Assignment
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mulAddRecFNToRaw_preMul.clog2
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "0"
+                      vpiValue: 0
+                vpiForIncStmt (1 items):
+                  Assignment start:8:32 end:8:49:
+                    vpiParent: ForStmt
+                    vpiBlocking: true
+                    vpiLhs RefObj name:clog2 start:8:32 end:8:37:
+                      vpiParent: Assignment
+                      vpiName: clog2
+                      vpiFullName: mulAddRecFNToRaw_preMul.clog2.clog2
+                      vpiActual: Function name:clog2
+                    vpiRhs Operation start:8:40 end:8:49:
+                      vpiParent: Assignment
+                      vpiOpType: add (24)
                       vpiOperand (2 items):
-                        RefObj name:a start:7:13 end:7:14:
+                        RefObj name:clog2 start:8:40 end:8:45:
                           vpiParent: Operation
-                          vpiName: a
-                          vpiFullName: mulAddRecFNToRaw_preMul.clog2.a
-                          vpiActual: IODecl name:a
-                        Constant start:7:17 end:7:18:
+                          vpiName: clog2
+                          vpiFullName: mulAddRecFNToRaw_preMul.clog2.clog2
+                          vpiActual: Function name:clog2
+                        Constant start:8:48 end:8:49:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
@@ -324,102 +370,52 @@ Design name:unnamed:
                           vpiSize: 64
                           vpiDecompile: "1"
                           vpiValue: 1
-                  ForStmt start:8:9 end:8:60:
-                    vpiParent: Begin
-                    vpiFullName: mulAddRecFNToRaw_preMul.clog2
-                    vpiForInitStmt (1 items):
-                      Assignment start:8:14 end:8:23:
-                        vpiParent: ForStmt
-                        vpiBlocking: true
-                        vpiLhs RefObj name:clog2 start:8:14 end:8:19:
-                          vpiParent: Assignment
-                          vpiName: clog2
-                          vpiFullName: mulAddRecFNToRaw_preMul.clog2.clog2
-                          vpiActual: Function name:clog2
-                        vpiRhs Constant start:8:22 end:8:23:
-                          vpiParent: Assignment
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: mulAddRecFNToRaw_preMul.clog2
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "0"
-                          vpiValue: 0
-                    vpiForIncStmt (1 items):
-                      Assignment start:8:32 end:8:49:
-                        vpiParent: ForStmt
-                        vpiBlocking: true
-                        vpiLhs RefObj name:clog2 start:8:32 end:8:37:
-                          vpiParent: Assignment
-                          vpiName: clog2
-                          vpiFullName: mulAddRecFNToRaw_preMul.clog2.clog2
-                          vpiActual: Function name:clog2
-                        vpiRhs Operation start:8:40 end:8:49:
-                          vpiParent: Assignment
-                          vpiOpType: add (24)
-                          vpiOperand (2 items):
-                            RefObj name:clog2 start:8:40 end:8:45:
-                              vpiParent: Operation
-                              vpiName: clog2
-                              vpiFullName: mulAddRecFNToRaw_preMul.clog2.clog2
-                              vpiActual: Function name:clog2
-                            Constant start:8:48 end:8:49:
-                              vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: mulAddRecFNToRaw_preMul.clog2
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "1"
-                              vpiValue: 1
-                    vpiCondition Operation start:8:25 end:8:30:
-                      vpiParent: ForStmt
-                      vpiOpType: greater than (18)
-                      vpiOperand (2 items):
-                        RefObj name:a start:8:25 end:8:26:
-                          vpiParent: Operation
-                          vpiName: a
-                          vpiFullName: mulAddRecFNToRaw_preMul.clog2.a
-                          vpiActual: IODecl name:a
-                        Constant start:8:29 end:8:30:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: mulAddRecFNToRaw_preMul.clog2
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "0"
-                          vpiValue: 0
-                    vpiStmt Assignment start:8:51 end:8:59:
-                      vpiParent: ForStmt
-                      vpiBlocking: true
-                      vpiLhs RefObj name:a start:8:51 end:8:52:
-                        vpiParent: Assignment
+                vpiCondition Operation start:8:25 end:8:30:
+                  vpiParent: ForStmt
+                  vpiOpType: greater than (18)
+                  vpiOperand (2 items):
+                    RefObj name:a start:8:25 end:8:26:
+                      vpiParent: Operation
+                      vpiName: a
+                      vpiFullName: mulAddRecFNToRaw_preMul.clog2.a
+                      vpiActual: IODecl name:a
+                    Constant start:8:29 end:8:30:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: mulAddRecFNToRaw_preMul.clog2
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "0"
+                      vpiValue: 0
+                vpiStmt Assignment start:8:51 end:8:59:
+                  vpiParent: ForStmt
+                  vpiBlocking: true
+                  vpiLhs RefObj name:a start:8:51 end:8:52:
+                    vpiParent: Assignment
+                    vpiName: a
+                    vpiFullName: mulAddRecFNToRaw_preMul.clog2.a
+                    vpiActual: IODecl name:a
+                  vpiRhs Operation start:8:55 end:8:59:
+                    vpiParent: Assignment
+                    vpiOpType: logical shift right (23)
+                    vpiOperand (2 items):
+                      RefObj name:a start:8:55 end:8:56:
+                        vpiParent: Operation
                         vpiName: a
                         vpiFullName: mulAddRecFNToRaw_preMul.clog2.a
                         vpiActual: IODecl name:a
-                      vpiRhs Operation start:8:55 end:8:59:
-                        vpiParent: Assignment
-                        vpiOpType: logical shift right (23)
-                        vpiOperand (2 items):
-                          RefObj name:a start:8:55 end:8:56:
-                            vpiParent: Operation
-                            vpiName: a
-                            vpiFullName: mulAddRecFNToRaw_preMul.clog2.a
-                            vpiActual: IODecl name:a
-                          Constant start:8:58 end:8:59:
-                            vpiParent: Operation
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: mulAddRecFNToRaw_preMul.clog2
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "1"
-                            vpiValue: 1
+                      Constant start:8:58 end:8:59:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: mulAddRecFNToRaw_preMul.clog2
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
           vpiReturn RefTypespec start:3:10 end:3:17:
             vpiParent: Function name:clog2
             vpiFullName: mulAddRecFNToRaw_preMul.clog2
@@ -513,7 +509,7 @@ COMMAND: ${HLC_DIR}/regression/FuncDef/FuncDef/design.hldb ${HLC_DIR}/regression
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              68      68       0         0
+Others                              67      67       0         0
 ----------------------------------------------------------------
-                                    68      68       0         0
+                                    67      67       0         0
 ===================== END REDUCTION RESULT =====================

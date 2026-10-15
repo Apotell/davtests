@@ -2200,6 +2200,10 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: Sum
               vpiFullName: Test.t1.Sum
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: Task name:t1
+              vpiScalar: true
           vpiIODecl (3 items):
             IODecl name:In1 start:78:13 end:78:16:
               vpiParent: Task name:t1
@@ -2225,41 +2229,33 @@ Design name:unnamed:
                 vpiParent: IODecl name:Sum
                 vpiFullName: Test.t1.Sum
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Assignment start:80:7 end:80:22:
             vpiParent: Task name:t1
-            vpiFullName: Test.t1
-            vpiTypespec (1 items):
-              LogicTypespec:
-                vpiParent: Begin
-                vpiScalar: true
-            vpiStmt (1 items):
-              Assignment start:80:7 end:80:22:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:Sum start:80:7 end:80:10:
-                  vpiParent: Assignment
-                  vpiName: Sum
-                  vpiFullName: Test.t1.Sum
-                  vpiActual: IODecl name:Sum
-                vpiRhs Operation start:80:13 end:80:22:
-                  vpiParent: Assignment
-                  vpiOpType: bitwise xor (30)
-                  vpiOperand (2 items):
-                    RefObj name:In1 start:80:13 end:80:16:
-                      vpiParent: Operation
-                      vpiName: In1
-                      vpiFullName: Test.t1.In1
-                      vpiActual: IODecl name:In1
-                    RefObj name:In2 start:80:19 end:80:22:
-                      vpiParent: Operation
-                      vpiName: In2
-                      vpiFullName: Test.t1.In2
-                      vpiActual: IODecl name:In2
+            vpiBlocking: true
+            vpiLhs RefObj name:Sum start:80:7 end:80:10:
+              vpiParent: Assignment
+              vpiName: Sum
+              vpiFullName: Test.t1.Sum
+              vpiActual: IODecl name:Sum
+            vpiRhs Operation start:80:13 end:80:22:
+              vpiParent: Assignment
+              vpiOpType: bitwise xor (30)
+              vpiOperand (2 items):
+                RefObj name:In1 start:80:13 end:80:16:
+                  vpiParent: Operation
+                  vpiName: In1
+                  vpiFullName: Test.t1.In1
+                  vpiActual: IODecl name:In1
+                RefObj name:In2 start:80:19 end:80:22:
+                  vpiParent: Operation
+                  vpiName: In2
+                  vpiFullName: Test.t1.In2
+                  vpiActual: IODecl name:In2
         Task name:t2 start:83:4 end:91:11:
           vpiParent: Module name:Test
           vpiName Identifier name:t2 start:83:9 end:83:11:
           vpiFullName: Test.t2
-          vpiVariable (3 items):
+          vpiVariable (4 items):
             Variable name:In1 start:84:18 end:84:21:
               vpiParent: Task name:t2
               vpiTypespec RefTypespec start:84:12 end:84:17:
@@ -2284,6 +2280,70 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: Sum
               vpiFullName: Test.t2.Sum
+            Variable name:I start:86:19 end:86:20:
+              vpiParent: Task name:t2
+              vpiTypespec RefTypespec start:86:7 end:86:14:
+                vpiParent: Variable name:I
+                vpiFullName: Test.t2.I
+                vpiActual: IntegerTypespec
+              vpiName: I
+              vpiFullName: Test.t2.I
+          vpiTypespec (3 items):
+            LogicTypespec:
+              vpiParent: Task name:t2
+              vpiRange (1 items):
+                Range start:84:12 end:84:17:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:84:13 end:84:14:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: Test.t2
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "9"
+                    vpiValue: 9
+                  vpiRightRange Constant start:84:15 end:84:16:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: Test.t2
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
+            LogicTypespec:
+              vpiParent: Task name:t2
+              vpiRange (1 items):
+                Range start:85:14 end:85:19:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:85:15 end:85:16:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: Test.t2
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "9"
+                    vpiValue: 9
+                  vpiRightRange Constant start:85:17 end:85:18:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: Test.t2
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
+            IntegerTypespec:
+              vpiParent: Task name:t2
+              vpiSigned: true
           vpiIODecl (3 items):
             IODecl name:In1 start:84:18 end:84:21:
               vpiParent: Task name:t2
@@ -2309,140 +2369,51 @@ Design name:unnamed:
                 vpiParent: IODecl name:Sum
                 vpiFullName: Test.t2.Sum
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:87:7 end:90:10:
             vpiParent: Task name:t2
             vpiFullName: Test.t2
-            vpiVariable (1 items):
-              Variable name:I start:86:19 end:86:20:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:86:7 end:86:14:
-                  vpiParent: Variable name:I
-                  vpiFullName: Test.t2.I
-                  vpiActual: IntegerTypespec
-                vpiName: I
-                vpiFullName: Test.t2.I
-            vpiTypespec (3 items):
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:84:12 end:84:17:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:84:13 end:84:14:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: Test.t2
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "9"
-                      vpiValue: 9
-                    vpiRightRange Constant start:84:15 end:84:16:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: Test.t2
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:85:14 end:85:19:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:85:15 end:85:16:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: Test.t2
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "9"
-                      vpiValue: 9
-                    vpiRightRange Constant start:85:17 end:85:18:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: Test.t2
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-              IntegerTypespec:
-                vpiParent: Begin
-                vpiSigned: true
-            vpiStmt (2 items):
-              Variable name:I:
-              Begin start:87:7 end:90:10:
+            vpiStmt (1 items):
+              ForStmt start:88:3 end:89:30:
                 vpiParent: Begin
                 vpiFullName: Test.t2
-                vpiStmt (1 items):
-                  ForStmt start:88:3 end:89:30:
-                    vpiParent: Begin
-                    vpiFullName: Test.t2
-                    vpiForInitStmt (1 items):
-                      Assignment start:88:8 end:88:11:
-                        vpiParent: ForStmt
-                        vpiBlocking: true
-                        vpiLhs RefObj name:I start:88:8 end:88:9:
-                          vpiParent: Assignment
-                          vpiName: I
-                          vpiFullName: Test.t2.I
-                          vpiActual: Variable name:I
-                        vpiRhs Constant start:88:10 end:88:11:
-                          vpiParent: Assignment
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: Test.t2
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "0"
-                          vpiValue: 0
-                    vpiForIncStmt (1 items):
-                      Assignment start:88:17 end:88:22:
-                        vpiParent: ForStmt
-                        vpiBlocking: true
-                        vpiLhs RefObj name:I start:88:17 end:88:18:
-                          vpiParent: Assignment
-                          vpiName: I
-                          vpiFullName: Test.t2.I
-                          vpiActual: Variable name:I
-                        vpiRhs Operation start:88:19 end:88:22:
-                          vpiParent: Assignment
-                          vpiOpType: add (24)
-                          vpiOperand (2 items):
-                            RefObj name:I start:88:19 end:88:20:
-                              vpiParent: Operation
-                              vpiName: I
-                              vpiFullName: Test.t2.I
-                              vpiActual: Variable name:I
-                            Constant start:88:21 end:88:22:
-                              vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: Test.t2
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "1"
-                              vpiValue: 1
-                    vpiCondition Operation start:88:12 end:88:16:
-                      vpiParent: ForStmt
-                      vpiOpType: less than (20)
+                vpiForInitStmt (1 items):
+                  Assignment start:88:8 end:88:11:
+                    vpiParent: ForStmt
+                    vpiBlocking: true
+                    vpiLhs RefObj name:I start:88:8 end:88:9:
+                      vpiParent: Assignment
+                      vpiName: I
+                      vpiFullName: Test.t2.I
+                      vpiActual: Variable name:I
+                    vpiRhs Constant start:88:10 end:88:11:
+                      vpiParent: Assignment
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: Test.t2
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "0"
+                      vpiValue: 0
+                vpiForIncStmt (1 items):
+                  Assignment start:88:17 end:88:22:
+                    vpiParent: ForStmt
+                    vpiBlocking: true
+                    vpiLhs RefObj name:I start:88:17 end:88:18:
+                      vpiParent: Assignment
+                      vpiName: I
+                      vpiFullName: Test.t2.I
+                      vpiActual: Variable name:I
+                    vpiRhs Operation start:88:19 end:88:22:
+                      vpiParent: Assignment
+                      vpiOpType: add (24)
                       vpiOperand (2 items):
-                        RefObj name:I start:88:12 end:88:13:
+                        RefObj name:I start:88:19 end:88:20:
                           vpiParent: Operation
                           vpiName: I
                           vpiFullName: Test.t2.I
                           vpiActual: Variable name:I
-                        Constant start:88:14 end:88:16:
+                        Constant start:88:21 end:88:22:
                           vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
@@ -2450,61 +2421,80 @@ Design name:unnamed:
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
-                          vpiDecompile: "10"
-                          vpiValue: 10
-                    vpiStmt MethodTaskCall name:t1 start:89:5 end:89:29:
-                      vpiParent: ForStmt
-                      vpiName Identifier name:t1 start:89:5 end:89:7:
-                      vpiTaskFunc: Task name:t1
-                      vpiArgument (3 items):
-                        NamedArgument start:89:8 end:89:14:
-                          vpiParent: MethodTaskCall name:t1
-                          vpiHighConn BitSelect name:In1[I] start:89:8 end:89:14:
-                            vpiParent: NamedArgument
-                            vpiName: In1[I]
-                            vpiFullName: Test.t2.In1[I]
-                            vpiPrefix RefObj name:In1 start:89:8 end:89:11:
-                              vpiParent: BitSelect name:In1[I]
-                              vpiName: In1
-                              vpiFullName: Test.t2.In1
-                              vpiActual: IODecl name:In1
-                            vpiIndex RefObj name:I start:89:12 end:89:13:
-                              vpiParent: BitSelect name:In1[I]
-                              vpiName: I
-                              vpiFullName: Test.t2.I
-                              vpiActual: Variable name:I
-                        NamedArgument start:89:15 end:89:21:
-                          vpiParent: MethodTaskCall name:t1
-                          vpiHighConn BitSelect name:In2[I] start:89:15 end:89:21:
-                            vpiParent: NamedArgument
-                            vpiName: In2[I]
-                            vpiFullName: Test.t2.In2[I]
-                            vpiPrefix RefObj name:In2 start:89:15 end:89:18:
-                              vpiParent: BitSelect name:In2[I]
-                              vpiName: In2
-                              vpiFullName: Test.t2.In2
-                              vpiActual: IODecl name:In2
-                            vpiIndex RefObj name:I start:89:19 end:89:20:
-                              vpiParent: BitSelect name:In2[I]
-                              vpiName: I
-                              vpiFullName: Test.t2.I
-                              vpiActual: Variable name:I
-                        NamedArgument start:89:22 end:89:28:
-                          vpiParent: MethodTaskCall name:t1
-                          vpiHighConn BitSelect name:Sum[I] start:89:22 end:89:28:
-                            vpiParent: NamedArgument
-                            vpiName: Sum[I]
-                            vpiFullName: Test.t2.Sum[I]
-                            vpiPrefix RefObj name:Sum start:89:22 end:89:25:
-                              vpiParent: BitSelect name:Sum[I]
-                              vpiName: Sum
-                              vpiFullName: Test.t2.Sum
-                              vpiActual: IODecl name:Sum
-                            vpiIndex RefObj name:I start:89:26 end:89:27:
-                              vpiParent: BitSelect name:Sum[I]
-                              vpiName: I
-                              vpiFullName: Test.t2.I
-                              vpiActual: Variable name:I
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                vpiCondition Operation start:88:12 end:88:16:
+                  vpiParent: ForStmt
+                  vpiOpType: less than (20)
+                  vpiOperand (2 items):
+                    RefObj name:I start:88:12 end:88:13:
+                      vpiParent: Operation
+                      vpiName: I
+                      vpiFullName: Test.t2.I
+                      vpiActual: Variable name:I
+                    Constant start:88:14 end:88:16:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: Test.t2
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "10"
+                      vpiValue: 10
+                vpiStmt MethodTaskCall name:t1 start:89:5 end:89:29:
+                  vpiParent: ForStmt
+                  vpiName Identifier name:t1 start:89:5 end:89:7:
+                  vpiTaskFunc: Task name:t1
+                  vpiArgument (3 items):
+                    NamedArgument start:89:8 end:89:14:
+                      vpiParent: MethodTaskCall name:t1
+                      vpiHighConn BitSelect name:In1[I] start:89:8 end:89:14:
+                        vpiParent: NamedArgument
+                        vpiName: In1[I]
+                        vpiFullName: Test.t2.In1[I]
+                        vpiPrefix RefObj name:In1 start:89:8 end:89:11:
+                          vpiParent: BitSelect name:In1[I]
+                          vpiName: In1
+                          vpiFullName: Test.t2.In1
+                          vpiActual: IODecl name:In1
+                        vpiIndex RefObj name:I start:89:12 end:89:13:
+                          vpiParent: BitSelect name:In1[I]
+                          vpiName: I
+                          vpiFullName: Test.t2.I
+                          vpiActual: Variable name:I
+                    NamedArgument start:89:15 end:89:21:
+                      vpiParent: MethodTaskCall name:t1
+                      vpiHighConn BitSelect name:In2[I] start:89:15 end:89:21:
+                        vpiParent: NamedArgument
+                        vpiName: In2[I]
+                        vpiFullName: Test.t2.In2[I]
+                        vpiPrefix RefObj name:In2 start:89:15 end:89:18:
+                          vpiParent: BitSelect name:In2[I]
+                          vpiName: In2
+                          vpiFullName: Test.t2.In2
+                          vpiActual: IODecl name:In2
+                        vpiIndex RefObj name:I start:89:19 end:89:20:
+                          vpiParent: BitSelect name:In2[I]
+                          vpiName: I
+                          vpiFullName: Test.t2.I
+                          vpiActual: Variable name:I
+                    NamedArgument start:89:22 end:89:28:
+                      vpiParent: MethodTaskCall name:t1
+                      vpiHighConn BitSelect name:Sum[I] start:89:22 end:89:28:
+                        vpiParent: NamedArgument
+                        vpiName: Sum[I]
+                        vpiFullName: Test.t2.Sum[I]
+                        vpiPrefix RefObj name:Sum start:89:22 end:89:25:
+                          vpiParent: BitSelect name:Sum[I]
+                          vpiName: Sum
+                          vpiFullName: Test.t2.Sum
+                          vpiActual: IODecl name:Sum
+                        vpiIndex RefObj name:I start:89:26 end:89:27:
+                          vpiParent: BitSelect name:Sum[I]
+                          vpiName: I
+                          vpiFullName: Test.t2.I
+                          vpiActual: Variable name:I
       vpiNet (2 items):
         Net name:I1 start:70:16 end:70:18:
           vpiParent: Module name:Test
@@ -2686,7 +2676,7 @@ Operation                           20      15       0         5
 RefObj                              58      53       0         5
 RefTypespec                         88      88       5         5
 ----------------------------------------------------------------
-Others                             164     164       0         0
+Others                             162     162       0         0
 ----------------------------------------------------------------
-                                   389     379      10        20
+                                   387     377      10        20
 ===================== END REDUCTION RESULT =====================

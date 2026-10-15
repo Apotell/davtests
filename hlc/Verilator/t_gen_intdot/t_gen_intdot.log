@@ -849,10 +849,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_gen_intdot.v:74:1: Compile module "Test".
 [INF:CP5804] $Source01/t_gen_intdot.v:84:1: Compile module "Genit".
 [INF:CP5836] $Source01/t_gen_intdot.v:106:10: Compile generate block "foo".
-[WRN:CP5851] $Source01/t_gen_intdot.v:114:30: Failed to bind "tt".
-[WRN:CP5851] $Source01/t_gen_intdot.v:114:33: Failed to bind "gen".
-[WRN:CP5851] $Source01/t_gen_intdot.v:114:37: Failed to bind "Internal".
-[WRN:CP5851] $Source01/t_gen_intdot.v:114:23: Failed to bind "foo".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1844,6 +1840,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:foo[0]
                   vpiName: foo
                   vpiFullName: Genit.Result2.t.g.foo[0].tt.gen.Internal.foo
+                  vpiActual: GenRegion name:foo
                 vpiIndex Constant start:114:27 end:114:28:
                   vpiParent: BitSelect name:foo[0]
                   vpiTypespec RefTypespec:
@@ -1858,14 +1855,18 @@ Design name:unnamed:
                 vpiParent: RefObj name:t.g.foo[0].tt.gen.Internal
                 vpiName: tt
                 vpiFullName: Genit.Result2.tt
+                vpiActual: RefInstance name:tt
               RefObj name:gen start:114:33 end:114:36:
                 vpiParent: RefObj name:t.g.foo[0].tt.gen.Internal
                 vpiName: gen
                 vpiFullName: Genit.Result2.gen
+                vpiActual: RefInstance name:gen
               RefObj name:Internal start:114:37 end:114:45:
                 vpiParent: RefObj name:t.g.foo[0].tt.gen.Internal
                 vpiName: Internal
                 vpiFullName: Genit.Result2.Internal
+                vpiActual: Variable name:Internal
+            vpiActual: Variable name:Internal
       vpiPort (3 items):
         Port name:clk start:84:15 end:84:18:
           vpiParent: Module name:Genit
@@ -1960,131 +1961,132 @@ Design name:unnamed:
         GenRegion start:100:4 end:109:15:
           vpiParent: Module name:Genit
           vpiFullName: Genit
-          vpiStmt GenFor start:101:7 end:108:5:
-            vpiParent: GenRegion
-            vpiFullName: Genit
-            vpiVariable (1 items):
-              Variable name:i start:105:5 end:105:6:
-                vpiParent: GenFor
-                vpiName: i
-                vpiFullName: Genit.i
-            vpiForInitStmt (1 items):
-              Assignment start:105:5 end:105:10:
-                vpiParent: GenFor
-                vpiLhs: Variable name:i
-                vpiRhs Constant start:105:9 end:105:10:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: Genit
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "0"
-                  vpiValue: 0
-            vpiForIncStmt (1 items):
-              Assignment start:105:19 end:105:28:
-                vpiParent: GenFor
-                vpiBlocking: true
-                vpiLhs RefObj name:i start:105:19 end:105:20:
-                  vpiParent: Assignment
+          vpiStmt (1 items):
+            GenFor start:101:7 end:108:5:
+              vpiParent: GenRegion
+              vpiFullName: Genit
+              vpiVariable (1 items):
+                Variable name:i start:105:5 end:105:6:
+                  vpiParent: GenFor
                   vpiName: i
                   vpiFullName: Genit.i
-                  vpiActual: Variable name:i
-                vpiRhs Operation start:105:23 end:105:28:
-                  vpiParent: Assignment
-                  vpiOpType: add (24)
-                  vpiOperand (2 items):
-                    RefObj name:i start:105:23 end:105:24:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: Genit.i
-                      vpiActual: Variable name:i
-                    Constant start:105:27 end:105:28:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: Genit
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-            vpiCondition Operation start:105:12 end:105:17:
-              vpiParent: GenFor
-              vpiOpType: less than (20)
-              vpiOperand (2 items):
-                RefObj name:i start:105:12 end:105:13:
-                  vpiParent: Operation
-                  vpiName: i
-                  vpiFullName: Genit.i
-                  vpiActual: Variable name:i
-                Constant start:105:16 end:105:17:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: Genit
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "1"
-                  vpiValue: 1
-            vpiStmt Begin name:foo start:106:2 end:108:5:
-              vpiParent: GenFor
-              vpiName Identifier name:foo start:106:10 end:106:13:
-              vpiFullName: Genit.foo
-              vpiTypespec (1 items):
-                ModuleTypespec name:Test start:107:5 end:107:9:
-                  vpiParent: Begin name:foo
-                  vpiName Identifier name:Test start:107:5 end:107:9:
-                  vpiDefName: Test
-                  vpiModule: Module name:Test
-              vpiStmt (1 items):
-                RefInstance name:tt start:107:10 end:107:12:
-                  vpiParent: Begin name:foo
-                  vpiName: tt
-                  vpiTypespec RefTypespec name:Test start:107:5 end:107:9:
-                    vpiParent: RefInstance name:tt
-                    vpiName: Test
-                    vpiFullName: Genit.foo.tt.Test
-                    vpiActual: ModuleTypespec name:Test
-                  vpiArgument (3 items):
-                    NamedArgument start:107:14 end:107:17:
+              vpiForInitStmt (1 items):
+                Assignment start:105:5 end:105:10:
+                  vpiParent: GenFor
+                  vpiLhs: Variable name:i
+                  vpiRhs Constant start:105:9 end:105:10:
+                    vpiParent: Assignment
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: Genit
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiForIncStmt (1 items):
+                Assignment start:105:19 end:105:28:
+                  vpiParent: GenFor
+                  vpiBlocking: true
+                  vpiLhs RefObj name:i start:105:19 end:105:20:
+                    vpiParent: Assignment
+                    vpiName: i
+                    vpiFullName: Genit.i
+                    vpiActual: Variable name:i
+                  vpiRhs Operation start:105:23 end:105:28:
+                    vpiParent: Assignment
+                    vpiOpType: add (24)
+                    vpiOperand (2 items):
+                      RefObj name:i start:105:23 end:105:24:
+                        vpiParent: Operation
+                        vpiName: i
+                        vpiFullName: Genit.i
+                        vpiActual: Variable name:i
+                      Constant start:105:27 end:105:28:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: Genit
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+              vpiCondition Operation start:105:12 end:105:17:
+                vpiParent: GenFor
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:i start:105:12 end:105:13:
+                    vpiParent: Operation
+                    vpiName: i
+                    vpiFullName: Genit.i
+                    vpiActual: Variable name:i
+                  Constant start:105:16 end:105:17:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: Genit
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
+              vpiStmt GenRegion name:foo start:106:2 end:108:5:
+                vpiParent: GenFor
+                vpiName Identifier name:foo start:106:10 end:106:13:
+                vpiFullName: Genit.foo
+                vpiTypespec (1 items):
+                  ModuleTypespec name:Test start:107:5 end:107:9:
+                    vpiParent: GenRegion name:foo
+                    vpiName Identifier name:Test start:107:5 end:107:9:
+                    vpiDefName: Test
+                    vpiModule: Module name:Test
+                vpiStmt (1 items):
+                  RefInstance name:tt start:107:10 end:107:12:
+                    vpiParent: GenRegion name:foo
+                    vpiName: tt
+                    vpiTypespec RefTypespec name:Test start:107:5 end:107:9:
                       vpiParent: RefInstance name:tt
-                      vpiLowConn RefObj name:clk:
-                        vpiParent: NamedArgument
-                        vpiName: clk
-                        vpiFullName: Genit.foo.tt.clk
-                        vpiActual: Port name:clk
-                      vpiHighConn RefObj name:clk start:107:14 end:107:17:
-                        vpiParent: NamedArgument
-                        vpiName: clk
-                        vpiFullName: Genit.foo.tt.clk
-                        vpiActual: Net name:clk
-                    NamedArgument start:107:19 end:107:24:
-                      vpiParent: RefInstance name:tt
-                      vpiLowConn RefObj name:value:
-                        vpiParent: NamedArgument
-                        vpiName: value
-                        vpiFullName: Genit.foo.tt.value
-                        vpiActual: Port name:value
-                      vpiHighConn RefObj name:value start:107:19 end:107:24:
-                        vpiParent: NamedArgument
-                        vpiName: value
-                        vpiFullName: Genit.foo.tt.value
-                        vpiActual: Net name:value
-                    NamedArgument start:107:26 end:107:32:
-                      vpiParent: RefInstance name:tt
-                      vpiLowConn RefObj name:result:
-                        vpiParent: NamedArgument
-                        vpiName: result
-                        vpiFullName: Genit.foo.tt.result
-                        vpiActual: Port name:result
-                      vpiHighConn RefObj name:result start:107:26 end:107:32:
-                        vpiParent: NamedArgument
-                        vpiName: result
-                        vpiFullName: Genit.foo.tt.result
-                        vpiActual: Net name:result
+                      vpiName: Test
+                      vpiFullName: Genit.foo.tt.Test
+                      vpiActual: ModuleTypespec name:Test
+                    vpiArgument (3 items):
+                      NamedArgument start:107:14 end:107:17:
+                        vpiParent: RefInstance name:tt
+                        vpiLowConn RefObj name:clk:
+                          vpiParent: NamedArgument
+                          vpiName: clk
+                          vpiFullName: Genit.foo.tt.clk
+                          vpiActual: Port name:clk
+                        vpiHighConn RefObj name:clk start:107:14 end:107:17:
+                          vpiParent: NamedArgument
+                          vpiName: clk
+                          vpiFullName: Genit.foo.tt.clk
+                          vpiActual: Net name:clk
+                      NamedArgument start:107:19 end:107:24:
+                        vpiParent: RefInstance name:tt
+                        vpiLowConn RefObj name:value:
+                          vpiParent: NamedArgument
+                          vpiName: value
+                          vpiFullName: Genit.foo.tt.value
+                          vpiActual: Port name:value
+                        vpiHighConn RefObj name:value start:107:19 end:107:24:
+                          vpiParent: NamedArgument
+                          vpiName: value
+                          vpiFullName: Genit.foo.tt.value
+                          vpiActual: Net name:value
+                      NamedArgument start:107:26 end:107:32:
+                        vpiParent: RefInstance name:tt
+                        vpiLowConn RefObj name:result:
+                          vpiParent: NamedArgument
+                          vpiName: result
+                          vpiFullName: Genit.foo.tt.result
+                          vpiActual: Port name:result
+                        vpiHighConn RefObj name:result start:107:26 end:107:32:
+                          vpiParent: NamedArgument
+                          vpiName: result
+                          vpiFullName: Genit.foo.tt.result
+                          vpiActual: Net name:result
   vpiTypespec (7 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -2124,7 +2126,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

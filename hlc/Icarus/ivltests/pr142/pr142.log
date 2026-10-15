@@ -472,6 +472,33 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: waitcnt
               vpiFullName: testit.idle.waitcnt
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: Task name:idle
+              vpiRange (1 items):
+                Range start:32:13 end:32:19:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:32:14 end:32:16:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: testit.idle
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "15"
+                    vpiValue: 15
+                  vpiRightRange Constant start:32:17 end:32:18:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: testit.idle
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
           vpiIODecl (1 items):
             IODecl name:waitcnt start:32:20 end:32:27:
               vpiParent: Task name:idle
@@ -481,136 +508,105 @@ Design name:unnamed:
                 vpiParent: IODecl name:waitcnt
                 vpiFullName: testit.idle.waitcnt
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin name:idletask start:34:4 end:43:7:
             vpiParent: Task name:idle
-            vpiFullName: testit.idle
+            vpiName Identifier name:idletask start:34:11 end:34:19:
+            vpiFullName: testit.idle.idletask
+            vpiVariable (1 items):
+              Variable name:i start:36:15 end:36:16:
+                vpiParent: Begin name:idletask
+                vpiTypespec RefTypespec start:36:7 end:36:14:
+                  vpiParent: Variable name:i
+                  vpiFullName: testit.idle.idletask.i
+                  vpiActual: IntegerTypespec
+                vpiName: i
+                vpiFullName: testit.idle.idletask.i
             vpiTypespec (1 items):
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:32:13 end:32:19:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:32:14 end:32:16:
-                      vpiParent: Range
+              IntegerTypespec:
+                vpiParent: Begin name:idletask
+                vpiSigned: true
+            vpiStmt (1 items):
+              ForStmt start:37:7 end:41:13:
+                vpiParent: Begin name:idletask
+                vpiFullName: testit.idle.idletask
+                vpiForInitStmt (1 items):
+                  Assignment start:37:12 end:37:15:
+                    vpiParent: ForStmt
+                    vpiBlocking: true
+                    vpiLhs RefObj name:i start:37:12 end:37:13:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: testit.idle.idletask.i
+                      vpiActual: Variable name:i
+                    vpiRhs Constant start:37:14 end:37:15:
+                      vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: testit.idle
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "15"
-                      vpiValue: 15
-                    vpiRightRange Constant start:32:17 end:32:18:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: testit.idle
+                        vpiFullName: testit.idle.idletask
                         vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
-                vpiVector: true
-            vpiStmt (1 items):
-              Begin name:idletask start:34:4 end:43:7:
-                vpiParent: Begin
-                vpiName Identifier name:idletask start:34:11 end:34:19:
-                vpiFullName: testit.idle.idletask
-                vpiVariable (1 items):
-                  Variable name:i start:36:15 end:36:16:
-                    vpiParent: Begin name:idletask
-                    vpiTypespec RefTypespec start:36:7 end:36:14:
-                      vpiParent: Variable name:i
+                vpiForIncStmt (1 items):
+                  Assignment start:37:30 end:37:39:
+                    vpiParent: ForStmt
+                    vpiBlocking: true
+                    vpiLhs RefObj name:i start:37:30 end:37:31:
+                      vpiParent: Assignment
+                      vpiName: i
                       vpiFullName: testit.idle.idletask.i
-                      vpiActual: IntegerTypespec
-                    vpiName: i
-                    vpiFullName: testit.idle.idletask.i
-                vpiTypespec (1 items):
-                  IntegerTypespec:
-                    vpiParent: Begin name:idletask
-                    vpiSigned: true
-                vpiStmt (1 items):
-                  ForStmt start:37:7 end:41:13:
-                    vpiParent: Begin name:idletask
-                    vpiFullName: testit.idle.idletask
-                    vpiForInitStmt (1 items):
-                      Assignment start:37:12 end:37:15:
-                        vpiParent: ForStmt
-                        vpiBlocking: true
-                        vpiLhs RefObj name:i start:37:12 end:37:13:
-                          vpiParent: Assignment
+                      vpiActual: Variable name:i
+                    vpiRhs Operation start:37:34 end:37:39:
+                      vpiParent: Assignment
+                      vpiOpType: add (24)
+                      vpiOperand (2 items):
+                        RefObj name:i start:37:34 end:37:35:
+                          vpiParent: Operation
                           vpiName: i
                           vpiFullName: testit.idle.idletask.i
                           vpiActual: Variable name:i
-                        vpiRhs Constant start:37:14 end:37:15:
-                          vpiParent: Assignment
+                        Constant start:37:38 end:37:39:
+                          vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: testit.idle.idletask
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
-                          vpiDecompile: "0"
-                          vpiValue: 0
-                    vpiForIncStmt (1 items):
-                      Assignment start:37:30 end:37:39:
-                        vpiParent: ForStmt
-                        vpiBlocking: true
-                        vpiLhs RefObj name:i start:37:30 end:37:31:
-                          vpiParent: Assignment
-                          vpiName: i
-                          vpiFullName: testit.idle.idletask.i
-                          vpiActual: Variable name:i
-                        vpiRhs Operation start:37:34 end:37:39:
-                          vpiParent: Assignment
-                          vpiOpType: add (24)
-                          vpiOperand (2 items):
-                            RefObj name:i start:37:34 end:37:35:
-                              vpiParent: Operation
-                              vpiName: i
-                              vpiFullName: testit.idle.idletask.i
-                              vpiActual: Variable name:i
-                            Constant start:37:38 end:37:39:
-                              vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: testit.idle.idletask
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "1"
-                              vpiValue: 1
-                    vpiCondition Operation start:37:17 end:37:28:
-                      vpiParent: ForStmt
-                      vpiOpType: less than (20)
-                      vpiOperand (2 items):
-                        RefObj name:i start:37:17 end:37:18:
-                          vpiParent: Operation
-                          vpiName: i
-                          vpiFullName: testit.idle.idletask.i
-                          vpiActual: Variable name:i
-                        RefObj name:waitcnt start:37:21 end:37:28:
-                          vpiParent: Operation
-                          vpiName: waitcnt
-                          vpiFullName: testit.idle.idletask.waitcnt
-                          vpiActual: IODecl name:waitcnt
-                    vpiStmt Begin start:38:10 end:41:13:
-                      vpiParent: ForStmt
-                      vpiFullName: testit.idle.idletask
-                      vpiStmt (1 items):
-                        EventControl start:39:13 end:39:29:
-                          vpiParent: Begin
-                          vpiCondition Operation start:39:16 end:39:27:
-                            vpiParent: EventControl
-                            vpiOpType: posedge (39)
-                            vpiOperand (1 items):
-                              RefObj name:clk start:39:24 end:39:27:
-                                vpiParent: Operation
-                                vpiName: clk
-                                vpiFullName: testit.idle.idletask.clk
-                                vpiActual: Variable name:clk
-                          vpiStmt NullStmt:
-                            vpiParent: EventControl
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                vpiCondition Operation start:37:17 end:37:28:
+                  vpiParent: ForStmt
+                  vpiOpType: less than (20)
+                  vpiOperand (2 items):
+                    RefObj name:i start:37:17 end:37:18:
+                      vpiParent: Operation
+                      vpiName: i
+                      vpiFullName: testit.idle.idletask.i
+                      vpiActual: Variable name:i
+                    RefObj name:waitcnt start:37:21 end:37:28:
+                      vpiParent: Operation
+                      vpiName: waitcnt
+                      vpiFullName: testit.idle.idletask.waitcnt
+                      vpiActual: IODecl name:waitcnt
+                vpiStmt Begin start:38:10 end:41:13:
+                  vpiParent: ForStmt
+                  vpiFullName: testit.idle.idletask
+                  vpiStmt (1 items):
+                    EventControl start:39:13 end:39:29:
+                      vpiParent: Begin
+                      vpiCondition Operation start:39:16 end:39:27:
+                        vpiParent: EventControl
+                        vpiOpType: posedge (39)
+                        vpiOperand (1 items):
+                          RefObj name:clk start:39:24 end:39:27:
+                            vpiParent: Operation
+                            vpiName: clk
+                            vpiFullName: testit.idle.idletask.clk
+                            vpiActual: Variable name:clk
+                      vpiStmt NullStmt:
+                        vpiParent: EventControl
       vpiProcess (2 items):
         Always start:26:4 end:29:10:
           vpiParent: Module name:testit
@@ -920,7 +916,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/pr142/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             122     122       0         0
+Others                             121     121       0         0
 ----------------------------------------------------------------
-                                   122     122       0         0
+                                   121     121       0         0
 ===================== END REDUCTION RESULT =====================

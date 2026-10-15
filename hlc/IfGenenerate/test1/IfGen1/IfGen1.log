@@ -180,7 +180,6 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/dut1.sv:10:40: Compile generate block "g_last_level".
 [INF:CP5836] $Source01/dut1.sv:13:53: Compile generate block "g_level".
 [WRN:PA5506] $Source01/dut1.sv:1:1: No timescale set for "lzc #(.WIDTH(64))".
-[ERR:DB2038] $Source01/dut1.sv:11:15: 'vpiStmt' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -316,16 +315,16 @@ Design name:unnamed:
                     vpiSize: 64
                     vpiDecompile: "1"
                     vpiValue: 1
-          vpiStmt Begin name:g_last_level start:10:32 end:11:8:
+          vpiStmt GenRegion name:g_last_level start:10:32 end:11:8:
             vpiParent: GenIfElse
             vpiName Identifier name:g_last_level start:10:40 end:10:52:
             vpiFullName: lzc #(.WIDTH(64)).g_last_level
-          vpiElseStmt Begin start:11:15 end:16:8:
+          vpiElseStmt GenRegion start:11:15 end:16:8:
             vpiParent: GenIfElse
             vpiFullName: lzc #(.WIDTH(64))
             vpiParameter (1 items):
               Parameter name:POWER start:12:22 end:12:27:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiTypespec RefTypespec start:12:18 end:12:21:
                   vpiParent: Parameter name:POWER
                   vpiFullName: lzc #(.WIDTH(64)).POWER
@@ -335,7 +334,7 @@ Design name:unnamed:
                 vpiLocalParam: true
             vpiParamAssign (1 items):
               ParamAssign start:12:22 end:12:39:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiLhs RefObj name:POWER start:12:22 end:12:27:
                   vpiParent: ParamAssign
                   vpiName: POWER
@@ -360,11 +359,10 @@ Design name:unnamed:
                       vpiName: level
                       vpiFullName: lzc #(.WIDTH(64)).level
                       vpiActual: Parameter name:level
-            vpiStmt (3 items):
-              Parameter name:POWER:
-              ParamAssign:
+            vpiImplicitDecl: true
+            vpiStmt (1 items):
               GenFor start:13:7 end:14:10:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiFullName: lzc #(.WIDTH(64))
                 vpiVariable (1 items):
                   Variable name:l start:13:19 end:13:20:
@@ -423,7 +421,7 @@ Design name:unnamed:
                           vpiName: level
                           vpiFullName: lzc #(.WIDTH(64)).level
                           vpiActual: Parameter name:level
-                vpiStmt Begin name:g_level start:13:45 end:14:10:
+                vpiStmt GenRegion name:g_level start:13:45 end:14:10:
                   vpiParent: GenFor
                   vpiName Identifier name:g_level start:13:53 end:13:60:
                   vpiFullName: lzc #(.WIDTH(64)).g_level
@@ -446,7 +444,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************

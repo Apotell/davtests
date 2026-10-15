@@ -299,10 +299,6 @@ AST_DEBUG_END
 [NTE:CP5810] $Source01/dut.sv:3:23: Implicit port type (wire) for "out4".
 [INF:CP5836] $Source01/dut.sv:21:24: Compile generate block "blk3".
 [INF:CP5836] $Source01/dut.sv:26:24: Compile generate block "blk4".
-[WRN:CP5851] $Source01/dut.sv:25:23: Failed to bind "blk3".
-[WRN:CP5851] $Source01/dut.sv:25:28: Failed to bind "x".
-[WRN:CP5851] $Source01/dut.sv:30:23: Failed to bind "blk4".
-[WRN:CP5851] $Source01/dut.sv:30:28: Failed to bind "x".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "matching_end_labels_top".
 ====== HLDB =======
 Design name:unnamed:
@@ -578,12 +574,13 @@ Design name:unnamed:
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-          vpiStmt Begin start:20:12 end:31:8:
+          vpiStmt GenRegion start:20:12 end:31:8:
             vpiParent: GenIf
             vpiFullName: matching_end_labels_top
+            vpiImplicitDecl: true
             vpiStmt (4 items):
               GenIf start:21:9 end:24:12:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiCondition Constant start:21:13 end:21:14:
                   vpiParent: GenIf
                   vpiTypespec RefTypespec:
@@ -594,13 +591,13 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-                vpiStmt Begin name:blk3 start:21:16 end:24:12:
+                vpiStmt GenRegion name:blk3 start:21:16 end:24:12:
                   vpiParent: GenIf
                   vpiName Identifier name:blk3 start:21:24 end:21:28:
                   vpiFullName: matching_end_labels_top.blk3
                   vpiVariable (1 items):
                     Variable name:x start:22:17 end:22:18:
-                      vpiParent: Begin name:blk3
+                      vpiParent: GenRegion name:blk3
                       vpiTypespec RefTypespec start:22:13 end:22:16:
                         vpiParent: Variable name:x
                         vpiFullName: matching_end_labels_top.blk3.x
@@ -609,11 +606,10 @@ Design name:unnamed:
                       vpiFullName: matching_end_labels_top.blk3.x
                   vpiTypespec (1 items):
                     LogicTypespec:
-                      vpiParent: Begin name:blk3
-                  vpiStmt (2 items):
-                    Variable name:x:
+                      vpiParent: GenRegion name:blk3
+                  vpiStmt (1 items):
                     ContAssign start:23:20 end:23:25:
-                      vpiParent: Begin name:blk3
+                      vpiParent: GenRegion name:blk3
                       vpiLhs RefObj name:x start:23:20 end:23:21:
                         vpiParent: ContAssign
                         vpiName: x
@@ -630,7 +626,7 @@ Design name:unnamed:
                         vpiDecompile: "3"
                         vpiValue: 3
               ContAssign start:25:16 end:25:29:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiLhs RefObj name:out3 start:25:16 end:25:20:
                   vpiParent: ContAssign
                   vpiName: out3
@@ -645,12 +641,15 @@ Design name:unnamed:
                       vpiParent: RefObj name:blk3.x
                       vpiName: blk3
                       vpiFullName: matching_end_labels_top.blk3
+                      vpiActual: GenRegion name:blk3
                     RefObj name:x start:25:28 end:25:29:
                       vpiParent: RefObj name:blk3.x
                       vpiName: x
                       vpiFullName: matching_end_labels_top.x
+                      vpiActual: Variable name:x
+                  vpiActual: Variable name:x
               GenIf start:26:9 end:29:19:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiCondition Constant start:26:13 end:26:14:
                   vpiParent: GenIf
                   vpiTypespec RefTypespec:
@@ -661,13 +660,13 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-                vpiStmt Begin name:blk4 start:26:16 end:29:19:
+                vpiStmt GenRegion name:blk4 start:26:16 end:29:19:
                   vpiParent: GenIf
                   vpiName Identifier name:blk4 start:26:24 end:26:28:
                   vpiFullName: matching_end_labels_top.blk4
                   vpiVariable (1 items):
                     Variable name:x start:27:17 end:27:18:
-                      vpiParent: Begin name:blk4
+                      vpiParent: GenRegion name:blk4
                       vpiTypespec RefTypespec start:27:13 end:27:16:
                         vpiParent: Variable name:x
                         vpiFullName: matching_end_labels_top.blk4.x
@@ -676,11 +675,10 @@ Design name:unnamed:
                       vpiFullName: matching_end_labels_top.blk4.x
                   vpiTypespec (1 items):
                     LogicTypespec:
-                      vpiParent: Begin name:blk4
-                  vpiStmt (2 items):
-                    Variable name:x:
+                      vpiParent: GenRegion name:blk4
+                  vpiStmt (1 items):
                     ContAssign start:28:20 end:28:25:
-                      vpiParent: Begin name:blk4
+                      vpiParent: GenRegion name:blk4
                       vpiLhs RefObj name:x start:28:20 end:28:21:
                         vpiParent: ContAssign
                         vpiName: x
@@ -698,7 +696,7 @@ Design name:unnamed:
                         vpiValue: 4
                   vpiEndLabel Identifier name:blk4 start:29:15 end:29:19:
               ContAssign start:30:16 end:30:29:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiLhs RefObj name:out4 start:30:16 end:30:20:
                   vpiParent: ContAssign
                   vpiName: out4
@@ -713,10 +711,13 @@ Design name:unnamed:
                       vpiParent: RefObj name:blk4.x
                       vpiName: blk4
                       vpiFullName: matching_end_labels_top.blk4
+                      vpiActual: GenRegion name:blk4
                     RefObj name:x start:30:28 end:30:29:
                       vpiParent: RefObj name:blk4.x
                       vpiName: x
                       vpiFullName: matching_end_labels_top.x
+                      vpiActual: Variable name:x
+                  vpiActual: Variable name:x
   vpiTypespec (2 items):
     ModuleTypespec name:matching_end_labels_top:
       vpiParent: Design name:unnamed
@@ -734,7 +735,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 5
+[WARNING] : 1
 [   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

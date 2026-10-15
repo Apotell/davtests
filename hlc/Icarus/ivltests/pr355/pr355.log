@@ -689,6 +689,50 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: x
               vpiFullName: testFunction.short_to_int.x
+          vpiTypespec (2 items):
+            IntegerTypespec:
+              vpiParent: Function name:short_to_int
+              vpiSigned: true
+            LogicTypespec:
+              vpiParent: Function name:short_to_int
+              vpiRange (1 items):
+                Range start:71:10 end:71:23:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Operation start:71:11 end:71:20:
+                    vpiParent: Range
+                    vpiOpType: subtract (11)
+                    vpiOperand (2 items):
+                      Constant start:24:16 end:24:17:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: testFunction.short_to_int
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "4"
+                        vpiValue: 4
+                      Constant start:71:19 end:71:20:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: testFunction.short_to_int
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                  vpiRightRange Constant start:71:21 end:71:22:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: testFunction.short_to_int
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:x start:71:24 end:71:25:
@@ -699,101 +743,53 @@ Design name:unnamed:
                 vpiParent: IODecl name:x
                 vpiFullName: testFunction.short_to_int.x
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:72:4 end:75:7:
             vpiParent: Function name:short_to_int
             vpiFullName: testFunction.short_to_int
-            vpiTypespec (2 items):
-              IntegerTypespec:
+            vpiStmt (2 items):
+              Assignment start:73:4 end:73:20:
                 vpiParent: Begin
-                vpiSigned: true
-              LogicTypespec:
+                vpiBlocking: true
+                vpiLhs RefObj name:short_to_int start:73:4 end:73:16:
+                  vpiParent: Assignment
+                  vpiName: short_to_int
+                  vpiFullName: testFunction.short_to_int.short_to_int
+                  vpiActual: Function name:short_to_int
+                vpiRhs RefObj name:x start:73:19 end:73:20:
+                  vpiParent: Assignment
+                  vpiName: x
+                  vpiFullName: testFunction.short_to_int.x
+                  vpiActual: IODecl name:x
+              SysTaskCall name:$display start:74:4 end:74:56:
                 vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:71:10 end:71:23:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Operation start:71:11 end:71:20:
-                      vpiParent: Range
-                      vpiOpType: subtract (11)
-                      vpiOperand (2 items):
-                        Constant start:24:16 end:24:17:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: testFunction.short_to_int
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "4"
-                          vpiValue: 4
-                        Constant start:71:19 end:71:20:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: testFunction.short_to_int
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
-                    vpiRightRange Constant start:71:21 end:71:22:
-                      vpiParent: Range
+                vpiName Identifier name:$display start:74:4 end:74:12:
+                vpiArgument (3 items):
+                  NamedArgument start:74:13 end:74:38:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn Constant start:74:13 end:74:38:
+                      vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
                         vpiFullName: testFunction.short_to_int
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-            vpiStmt (1 items):
-              Begin start:72:4 end:75:7:
-                vpiParent: Begin
-                vpiFullName: testFunction.short_to_int
-                vpiStmt (2 items):
-                  Assignment start:73:4 end:73:20:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:short_to_int start:73:4 end:73:16:
-                      vpiParent: Assignment
-                      vpiName: short_to_int
-                      vpiFullName: testFunction.short_to_int.short_to_int
-                      vpiActual: Function name:short_to_int
-                    vpiRhs RefObj name:x start:73:19 end:73:20:
-                      vpiParent: Assignment
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 176
+                      vpiDecompile: "\"\\tshort_to_int(%b) = %b\""
+                      vpiValue: "\\tshort_to_int(%b) = %b"
+                  NamedArgument start:74:40 end:74:41:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn RefObj name:x start:74:40 end:74:41:
+                      vpiParent: NamedArgument
                       vpiName: x
                       vpiFullName: testFunction.short_to_int.x
                       vpiActual: IODecl name:x
-                  SysTaskCall name:$display start:74:4 end:74:56:
-                    vpiParent: Begin
-                    vpiName Identifier name:$display start:74:4 end:74:12:
-                    vpiArgument (3 items):
-                      NamedArgument start:74:13 end:74:38:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn Constant start:74:13 end:74:38:
-                          vpiParent: NamedArgument
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: testFunction.short_to_int
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 176
-                          vpiDecompile: "\"\\tshort_to_int(%b) = %b\""
-                          vpiValue: "\\tshort_to_int(%b) = %b"
-                      NamedArgument start:74:40 end:74:41:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn RefObj name:x start:74:40 end:74:41:
-                          vpiParent: NamedArgument
-                          vpiName: x
-                          vpiFullName: testFunction.short_to_int.x
-                          vpiActual: IODecl name:x
-                      NamedArgument start:74:43 end:74:55:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn RefObj name:short_to_int start:74:43 end:74:55:
-                          vpiParent: NamedArgument
-                          vpiName: short_to_int
-                          vpiFullName: testFunction.short_to_int.short_to_int
-                          vpiActual: Function name:short_to_int
+                  NamedArgument start:74:43 end:74:55:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn RefObj name:short_to_int start:74:43 end:74:55:
+                      vpiParent: NamedArgument
+                      vpiName: short_to_int
+                      vpiFullName: testFunction.short_to_int.short_to_int
+                      vpiActual: Function name:short_to_int
           vpiReturn RefTypespec start:69:13 end:69:20:
             vpiParent: Function name:short_to_int
             vpiFullName: testFunction.short_to_int
@@ -1222,7 +1218,7 @@ Constant                            22      17       4         9
 Operation                            9       4       0         5
 RefTypespec                         30      25       4         9
 ----------------------------------------------------------------
-Others                             114     114       0         0
+Others                             113     113       0         0
 ----------------------------------------------------------------
-                                   175     160       8        23
+                                   174     159       8        23
 ===================== END REDUCTION RESULT =====================

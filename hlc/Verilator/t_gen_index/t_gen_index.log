@@ -565,12 +565,6 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/t_gen_index.v:51:52: Compile generate block "bar_inst".
 [INF:CP5804] $Source01/t_gen_index.v:61:1: Compile module "bar".
 [NTE:CP5810] $Source01/t_gen_index.v:61:24: Implicit port type (wire) for "y".
-[WRN:CP5851] $Source01/t_gen_index.v:45:35: Failed to bind "i_bar".
-[WRN:CP5851] $Source01/t_gen_index.v:45:41: Failed to bind "r".
-[WRN:CP5851] $Source01/t_gen_index.v:45:18: Failed to bind "bar_inst".
-[WRN:CP5851] $Source01/t_gen_index.v:46:39: Failed to bind "i_bar".
-[WRN:CP5851] $Source01/t_gen_index.v:46:45: Failed to bind "r".
-[WRN:CP5851] $Source01/t_gen_index.v:46:18: Failed to bind "bar_inst".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -1101,13 +1095,13 @@ Design name:unnamed:
           vpiParent: Module name:foo
           vpiName Identifier name:peek_bar start:44:13 end:44:21:
           vpiFullName: foo.peek_bar
+          vpiTypespec (1 items):
+            LogicTypespec start:44:13 end:44:13:
+              vpiParent: Function name:peek_bar
           vpiVisibility: public (1)
           vpiStmt Begin:
             vpiParent: Function name:peek_bar
             vpiFullName: foo.peek_bar
-            vpiTypespec (1 items):
-              LogicTypespec start:44:13 end:44:13:
-                vpiParent: Begin
             vpiStmt (2 items):
               Assignment start:45:7 end:45:42:
                 vpiParent: Begin
@@ -1130,6 +1124,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:bar_inst[8]
                         vpiName: bar_inst
                         vpiFullName: foo.peek_bar.bar_inst[8].i_bar.r.bar_inst
+                        vpiActual: GenRegion name:bar_inst
                       vpiIndex Constant start:15:15 end:15:16:
                         vpiParent: BitSelect name:bar_inst[8]
                         vpiTypespec RefTypespec:
@@ -1144,10 +1139,13 @@ Design name:unnamed:
                       vpiParent: RefObj name:bar_inst[8].i_bar.r
                       vpiName: i_bar
                       vpiFullName: foo.peek_bar.i_bar
+                      vpiActual: RefInstance name:i_bar
                     RefObj name:r start:45:41 end:45:42:
                       vpiParent: RefObj name:bar_inst[8].i_bar.r
                       vpiName: r
                       vpiFullName: foo.peek_bar.r
+                      vpiActual: Variable name:r
+                  vpiActual: Variable name:r
               Assignment start:46:7 end:46:46:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -1169,6 +1167,7 @@ Design name:unnamed:
                         vpiParent: BitSelect name:bar_inst[8 + 1]
                         vpiName: bar_inst
                         vpiFullName: foo.peek_bar.bar_inst[8 + 1].i_bar.r.bar_inst
+                        vpiActual: GenRegion name:bar_inst
                       vpiIndex Operation start:46:27 end:46:37:
                         vpiParent: BitSelect name:bar_inst[8 + 1]
                         vpiOpType: add (24)
@@ -1197,10 +1196,13 @@ Design name:unnamed:
                       vpiParent: RefObj name:bar_inst[8 + 1].i_bar.r
                       vpiName: i_bar
                       vpiFullName: foo.peek_bar.i_bar
+                      vpiActual: RefInstance name:i_bar
                     RefObj name:r start:46:45 end:46:46:
                       vpiParent: RefObj name:bar_inst[8 + 1].i_bar.r
                       vpiName: r
                       vpiFullName: foo.peek_bar.r
+                      vpiActual: Variable name:r
+                  vpiActual: Variable name:r
           vpiReturn RefTypespec start:44:13 end:44:13:
             vpiParent: Function name:peek_bar
             vpiFullName: foo.peek_bar
@@ -1277,165 +1279,166 @@ Design name:unnamed:
         GenRegion start:50:4 end:56:15:
           vpiParent: Module name:foo
           vpiFullName: foo
-          vpiStmt GenFor start:51:7 end:55:10:
-            vpiParent: GenRegion
-            vpiFullName: foo
-            vpiForInitStmt (1 items):
-              Assignment start:51:12 end:15:16:
+          vpiStmt (1 items):
+            GenFor start:51:7 end:55:10:
+              vpiParent: GenRegion
+              vpiFullName: foo
+              vpiForInitStmt (1 items):
+                Assignment start:51:12 end:15:16:
+                  vpiParent: GenFor
+                  vpiLhs RefObj name:g start:51:12 end:51:13:
+                    vpiParent: Assignment
+                    vpiName: g
+                    vpiFullName: foo.g
+                    vpiActual: Variable name:g
+                  vpiRhs Constant start:15:15 end:15:16:
+                    vpiParent: Assignment
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: foo
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "8"
+                    vpiValue: 8
+              vpiForIncStmt (1 items):
+                Assignment start:51:34 end:51:43:
+                  vpiParent: GenFor
+                  vpiBlocking: true
+                  vpiLhs RefObj name:g start:51:34 end:51:35:
+                    vpiParent: Assignment
+                    vpiName: g
+                    vpiFullName: foo.g
+                    vpiActual: Variable name:g
+                  vpiRhs Operation start:51:38 end:51:43:
+                    vpiParent: Assignment
+                    vpiOpType: add (24)
+                    vpiOperand (2 items):
+                      RefObj name:g start:51:38 end:51:39:
+                        vpiParent: Operation
+                        vpiName: g
+                        vpiFullName: foo.g
+                        vpiActual: Variable name:g
+                      Constant start:51:42 end:51:43:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: foo
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+              vpiCondition Operation start:51:24 end:51:32:
                 vpiParent: GenFor
-                vpiLhs RefObj name:g start:51:12 end:51:13:
-                  vpiParent: Assignment
-                  vpiName: g
-                  vpiFullName: foo.g
-                  vpiActual: Variable name:g
-                vpiRhs Constant start:15:15 end:15:16:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: foo
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "8"
-                  vpiValue: 8
-            vpiForIncStmt (1 items):
-              Assignment start:51:34 end:51:43:
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:g start:51:24 end:51:25:
+                    vpiParent: Operation
+                    vpiName: g
+                    vpiFullName: foo.g
+                    vpiActual: Variable name:g
+                  Operation start:17:16 end:17:30:
+                    vpiParent: Operation
+                    vpiOpType: add (24)
+                    vpiOperand (2 items):
+                      Constant start:15:15 end:15:16:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: foo
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "8"
+                        vpiValue: 8
+                      Constant start:16:15 end:16:16:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: foo
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "4"
+                        vpiValue: 4
+              vpiStmt GenRegion name:bar_inst start:51:45 end:55:10:
                 vpiParent: GenFor
-                vpiBlocking: true
-                vpiLhs RefObj name:g start:51:34 end:51:35:
-                  vpiParent: Assignment
-                  vpiName: g
-                  vpiFullName: foo.g
-                  vpiActual: Variable name:g
-                vpiRhs Operation start:51:38 end:51:43:
-                  vpiParent: Assignment
-                  vpiOpType: add (24)
-                  vpiOperand (2 items):
-                    RefObj name:g start:51:38 end:51:39:
-                      vpiParent: Operation
-                      vpiName: g
-                      vpiFullName: foo.g
-                      vpiActual: Variable name:g
-                    Constant start:51:42 end:51:43:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: foo
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-            vpiCondition Operation start:51:24 end:51:32:
-              vpiParent: GenFor
-              vpiOpType: less than (20)
-              vpiOperand (2 items):
-                RefObj name:g start:51:24 end:51:25:
-                  vpiParent: Operation
-                  vpiName: g
-                  vpiFullName: foo.g
-                  vpiActual: Variable name:g
-                Operation start:17:16 end:17:30:
-                  vpiParent: Operation
-                  vpiOpType: add (24)
-                  vpiOperand (2 items):
-                    Constant start:15:15 end:15:16:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: foo
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "8"
-                      vpiValue: 8
-                    Constant start:16:15 end:16:16:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: foo
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "4"
-                      vpiValue: 4
-            vpiStmt Begin name:bar_inst start:51:45 end:55:10:
-              vpiParent: GenFor
-              vpiName Identifier name:bar_inst start:51:52 end:51:60:
-              vpiFullName: foo.bar_inst
-              vpiTypespec (1 items):
-                ModuleTypespec name:bar start:52:10 end:52:13:
-                  vpiParent: Begin name:bar_inst
-                  vpiName Identifier name:bar start:52:10 end:52:13:
-                  vpiDefName: bar
-                  vpiModule: Module name:bar
-              vpiStmt (1 items):
-                RefInstance name:i_bar start:52:14 end:52:19:
-                  vpiParent: Begin name:bar_inst
-                  vpiName: i_bar
-                  vpiTypespec RefTypespec name:bar start:52:10 end:52:13:
-                    vpiParent: RefInstance name:i_bar
-                    vpiName: bar
-                    vpiFullName: foo.bar_inst.i_bar.bar
-                    vpiActual: ModuleTypespec name:bar
-                  vpiArgument (3 items):
-                    NamedArgument start:52:20 end:52:31:
+                vpiName Identifier name:bar_inst start:51:52 end:51:60:
+                vpiFullName: foo.bar_inst
+                vpiTypespec (1 items):
+                  ModuleTypespec name:bar start:52:10 end:52:13:
+                    vpiParent: GenRegion name:bar_inst
+                    vpiName Identifier name:bar start:52:10 end:52:13:
+                    vpiDefName: bar
+                    vpiModule: Module name:bar
+                vpiStmt (1 items):
+                  RefInstance name:i_bar start:52:14 end:52:19:
+                    vpiParent: GenRegion name:bar_inst
+                    vpiName: i_bar
+                    vpiTypespec RefTypespec name:bar start:52:10 end:52:13:
                       vpiParent: RefInstance name:i_bar
-                      vpiConnByName: true
-                      vpiLowConn RefObj name:x start:52:21 end:52:22:
-                        vpiParent: NamedArgument
-                        vpiName: x
-                        vpiFullName: foo.bar_inst.i_bar.x
-                        vpiActual: Port name:x
-                      vpiHighConn BitSelect name:x[g] start:52:26 end:52:30:
-                        vpiParent: NamedArgument
-                        vpiName: x[g]
-                        vpiFullName: foo.bar_inst.i_bar.x[g]
-                        vpiPrefix RefObj name:x start:52:26 end:52:27:
-                          vpiParent: BitSelect name:x[g]
+                      vpiName: bar
+                      vpiFullName: foo.bar_inst.i_bar.bar
+                      vpiActual: ModuleTypespec name:bar
+                    vpiArgument (3 items):
+                      NamedArgument start:52:20 end:52:31:
+                        vpiParent: RefInstance name:i_bar
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:x start:52:21 end:52:22:
+                          vpiParent: NamedArgument
                           vpiName: x
                           vpiFullName: foo.bar_inst.i_bar.x
-                          vpiActual: Net name:x
-                        vpiIndex RefObj name:g start:52:28 end:52:29:
-                          vpiParent: BitSelect name:x[g]
-                          vpiName: g
-                          vpiFullName: foo.bar_inst.i_bar.g
-                          vpiActual: Variable name:g
-                    NamedArgument start:53:6 end:53:17:
-                      vpiParent: RefInstance name:i_bar
-                      vpiConnByName: true
-                      vpiLowConn RefObj name:y start:53:7 end:53:8:
-                        vpiParent: NamedArgument
-                        vpiName: y
-                        vpiFullName: foo.bar_inst.i_bar.y
-                        vpiActual: Port name:y
-                      vpiHighConn BitSelect name:y[g] start:53:12 end:53:16:
-                        vpiParent: NamedArgument
-                        vpiName: y[g]
-                        vpiFullName: foo.bar_inst.i_bar.y[g]
-                        vpiPrefix RefObj name:y start:53:12 end:53:13:
-                          vpiParent: BitSelect name:y[g]
+                          vpiActual: Port name:x
+                        vpiHighConn BitSelect name:x[g] start:52:26 end:52:30:
+                          vpiParent: NamedArgument
+                          vpiName: x[g]
+                          vpiFullName: foo.bar_inst.i_bar.x[g]
+                          vpiPrefix RefObj name:x start:52:26 end:52:27:
+                            vpiParent: BitSelect name:x[g]
+                            vpiName: x
+                            vpiFullName: foo.bar_inst.i_bar.x
+                            vpiActual: Net name:x
+                          vpiIndex RefObj name:g start:52:28 end:52:29:
+                            vpiParent: BitSelect name:x[g]
+                            vpiName: g
+                            vpiFullName: foo.bar_inst.i_bar.g
+                            vpiActual: Variable name:g
+                      NamedArgument start:53:6 end:53:17:
+                        vpiParent: RefInstance name:i_bar
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:y start:53:7 end:53:8:
+                          vpiParent: NamedArgument
                           vpiName: y
                           vpiFullName: foo.bar_inst.i_bar.y
-                          vpiActual: Net name:y
-                        vpiIndex RefObj name:g start:53:14 end:53:15:
-                          vpiParent: BitSelect name:y[g]
-                          vpiName: g
-                          vpiFullName: foo.bar_inst.i_bar.g
-                          vpiActual: Variable name:g
-                    NamedArgument start:54:6 end:54:16:
-                      vpiParent: RefInstance name:i_bar
-                      vpiConnByName: true
-                      vpiLowConn RefObj name:clk start:54:7 end:54:10:
-                        vpiParent: NamedArgument
-                        vpiName: clk
-                        vpiFullName: foo.bar_inst.i_bar.clk
-                        vpiActual: Port name:clk
-                      vpiHighConn RefObj name:clk start:54:12 end:54:15:
-                        vpiParent: NamedArgument
-                        vpiName: clk
-                        vpiFullName: foo.bar_inst.i_bar.clk
-                        vpiActual: Net name:clk
+                          vpiActual: Port name:y
+                        vpiHighConn BitSelect name:y[g] start:53:12 end:53:16:
+                          vpiParent: NamedArgument
+                          vpiName: y[g]
+                          vpiFullName: foo.bar_inst.i_bar.y[g]
+                          vpiPrefix RefObj name:y start:53:12 end:53:13:
+                            vpiParent: BitSelect name:y[g]
+                            vpiName: y
+                            vpiFullName: foo.bar_inst.i_bar.y
+                            vpiActual: Net name:y
+                          vpiIndex RefObj name:g start:53:14 end:53:15:
+                            vpiParent: BitSelect name:y[g]
+                            vpiName: g
+                            vpiFullName: foo.bar_inst.i_bar.g
+                            vpiActual: Variable name:g
+                      NamedArgument start:54:6 end:54:16:
+                        vpiParent: RefInstance name:i_bar
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:clk start:54:7 end:54:10:
+                          vpiParent: NamedArgument
+                          vpiName: clk
+                          vpiFullName: foo.bar_inst.i_bar.clk
+                          vpiActual: Port name:clk
+                        vpiHighConn RefObj name:clk start:54:12 end:54:15:
+                          vpiParent: NamedArgument
+                          vpiName: clk
+                          vpiFullName: foo.bar_inst.i_bar.clk
+                          vpiActual: Net name:clk
       vpiEndLabel Identifier name:foo start:58:13 end:58:16:
     Module name:bar file:$Source01/t_gen_index.v start:61:1 end:72:16:
       vpiParent: Design name:unnamed
@@ -1636,7 +1639,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 0
 [   NOTE] : 2
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

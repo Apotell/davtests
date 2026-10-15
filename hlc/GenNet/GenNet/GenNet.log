@@ -256,8 +256,8 @@ n<$Source01/dut.sv> u<242> t<Top_level_rule> c<1> l<1:1> el<24:1>
   n<// dut> u<241> t<LINE_COMMENT> p<242> l<23:11> el<23:17>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "prim_subreg_arb".
-[INF:CP5836] $Source01/dut.sv:11:42: Compile generate block "gen_ro".
 [INF:CP5836] $Source01/dut.sv:8:57: Compile generate block "gen_w".
+[INF:CP5836] $Source01/dut.sv:11:42: Compile generate block "gen_ro".
 [INF:CP5804] $Source01/dut.sv:17:1: Compile module "dut".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "prim_subreg_arb #(.DW(32), .SWACCESS("RW"))".
 [WRN:PA5506] $Source01/dut.sv:17:1: No timescale set for "dut".
@@ -443,13 +443,13 @@ Design name:unnamed:
                     vpiSize: 16
                     vpiDecompile: "\"WO\""
                     vpiValue: WO
-          vpiStmt Begin name:gen_w start:8:49 end:11:6:
+          vpiStmt GenRegion name:gen_w start:8:49 end:11:6:
             vpiParent: GenIfElse
             vpiName Identifier name:gen_w start:8:57 end:8:62:
             vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_w
             vpiVariable (1 items):
               Variable name:unused_q_wo start:9:20 end:9:31:
-                vpiParent: Begin name:gen_w
+                vpiParent: GenRegion name:gen_w
                 vpiTypespec RefTypespec start:9:5 end:9:19:
                   vpiParent: Variable name:unused_q_wo
                   vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_w.unused_q_wo
@@ -458,7 +458,7 @@ Design name:unnamed:
                 vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_w.unused_q_wo
             vpiTypespec (1 items):
               LogicTypespec:
-                vpiParent: Begin name:gen_w
+                vpiParent: GenRegion name:gen_w
                 vpiRange (1 items):
                   Range start:9:11 end:9:19:
                     vpiParent: LogicTypespec
@@ -492,10 +492,9 @@ Design name:unnamed:
                       vpiDecompile: "0"
                       vpiValue: 0
                 vpiVector: true
-            vpiStmt (2 items):
-              Variable name:unused_q_wo:
+            vpiStmt (1 items):
               ContAssign start:10:12 end:10:27:
-                vpiParent: Begin name:gen_w
+                vpiParent: GenRegion name:gen_w
                 vpiLhs RefObj name:unused_q_wo start:10:12 end:10:23:
                   vpiParent: ContAssign
                   vpiName: unused_q_wo
@@ -506,94 +505,89 @@ Design name:unnamed:
                   vpiName: q
                   vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_w.q
                   vpiActual: Net name:q
-          vpiElseStmt Begin:
+          vpiElseStmt GenIf start:11:12 end:14:6:
             vpiParent: GenIfElse
-            vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW"))
-            vpiStmt (1 items):
-              GenIf start:11:12 end:14:6:
-                vpiParent: Begin
-                vpiCondition Operation start:11:16 end:11:32:
-                  vpiParent: GenIf
-                  vpiOpType: equal (14)
-                  vpiOperand (2 items):
-                    RefObj name:SWACCESS start:11:16 end:11:24:
-                      vpiParent: Operation
-                      vpiName: SWACCESS
-                      vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).SWACCESS
-                      vpiActual: Parameter name:SWACCESS
-                    Constant start:11:28 end:11:32:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW"))
-                        vpiActual: StringTypespec
-                      vpiConstType: string (6)
-                      vpiSize: 16
-                      vpiDecompile: "\"RO\""
-                      vpiValue: RO
-                vpiStmt Begin name:gen_ro start:11:34 end:14:6:
-                  vpiParent: GenIf
-                  vpiName Identifier name:gen_ro start:11:42 end:11:48:
-                  vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro
-                  vpiVariable (1 items):
-                    Variable name:unused_q_ro start:12:20 end:12:31:
-                      vpiParent: Begin name:gen_ro
-                      vpiTypespec RefTypespec start:12:5 end:12:19:
-                        vpiParent: Variable name:unused_q_ro
-                        vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro.unused_q_ro
-                        vpiActual: LogicTypespec
-                      vpiName: unused_q_ro
-                      vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro.unused_q_ro
-                  vpiTypespec (1 items):
-                    LogicTypespec:
-                      vpiParent: Begin name:gen_ro
-                      vpiRange (1 items):
-                        Range start:12:11 end:12:19:
-                          vpiParent: LogicTypespec
-                          vpiLeftRange Operation start:12:12 end:12:16:
-                            vpiParent: Range
-                            vpiOpType: subtract (11)
-                            vpiOperand (2 items):
-                              RefObj name:DW start:12:12 end:12:14:
-                                vpiParent: Operation
-                                vpiName: DW
-                                vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro.DW
-                                vpiActual: Parameter name:DW
-                              Constant start:12:15 end:12:16:
-                                vpiParent: Operation
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro
-                                  vpiActual: IntTypespec
-                                vpiConstType: unsigned int (9)
-                                vpiSize: 64
-                                vpiDecompile: "1"
-                                vpiValue: 1
-                          vpiRightRange Constant start:12:17 end:12:18:
-                            vpiParent: Range
+            vpiCondition Operation start:11:16 end:11:32:
+              vpiParent: GenIf
+              vpiOpType: equal (14)
+              vpiOperand (2 items):
+                RefObj name:SWACCESS start:11:16 end:11:24:
+                  vpiParent: Operation
+                  vpiName: SWACCESS
+                  vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).SWACCESS
+                  vpiActual: Parameter name:SWACCESS
+                Constant start:11:28 end:11:32:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW"))
+                    vpiActual: StringTypespec
+                  vpiConstType: string (6)
+                  vpiSize: 16
+                  vpiDecompile: "\"RO\""
+                  vpiValue: RO
+            vpiStmt GenRegion name:gen_ro start:11:34 end:14:6:
+              vpiParent: GenIf
+              vpiName Identifier name:gen_ro start:11:42 end:11:48:
+              vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro
+              vpiVariable (1 items):
+                Variable name:unused_q_ro start:12:20 end:12:31:
+                  vpiParent: GenRegion name:gen_ro
+                  vpiTypespec RefTypespec start:12:5 end:12:19:
+                    vpiParent: Variable name:unused_q_ro
+                    vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro.unused_q_ro
+                    vpiActual: LogicTypespec
+                  vpiName: unused_q_ro
+                  vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro.unused_q_ro
+              vpiTypespec (1 items):
+                LogicTypespec:
+                  vpiParent: GenRegion name:gen_ro
+                  vpiRange (1 items):
+                    Range start:12:11 end:12:19:
+                      vpiParent: LogicTypespec
+                      vpiLeftRange Operation start:12:12 end:12:16:
+                        vpiParent: Range
+                        vpiOpType: subtract (11)
+                        vpiOperand (2 items):
+                          RefObj name:DW start:12:12 end:12:14:
+                            vpiParent: Operation
+                            vpiName: DW
+                            vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro.DW
+                            vpiActual: Parameter name:DW
+                          Constant start:12:15 end:12:16:
+                            vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
                               vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
-                            vpiDecompile: "0"
-                            vpiValue: 0
-                      vpiVector: true
-                  vpiStmt (2 items):
-                    Variable name:unused_q_ro:
-                    ContAssign start:13:12 end:13:28:
-                      vpiParent: Begin name:gen_ro
-                      vpiLhs RefObj name:unused_q_ro start:13:12 end:13:23:
-                        vpiParent: ContAssign
-                        vpiName: unused_q_ro
-                        vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro.unused_q_ro
-                        vpiActual: Variable name:unused_q_ro
-                      vpiRhs RefObj name:q start:13:27 end:13:28:
-                        vpiParent: ContAssign
-                        vpiName: q
-                        vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro.q
-                        vpiActual: Net name:q
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                      vpiRightRange Constant start:12:17 end:12:18:
+                        vpiParent: Range
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "0"
+                        vpiValue: 0
+                  vpiVector: true
+              vpiStmt (1 items):
+                ContAssign start:13:12 end:13:28:
+                  vpiParent: GenRegion name:gen_ro
+                  vpiLhs RefObj name:unused_q_ro start:13:12 end:13:23:
+                    vpiParent: ContAssign
+                    vpiName: unused_q_ro
+                    vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro.unused_q_ro
+                    vpiActual: Variable name:unused_q_ro
+                  vpiRhs RefObj name:q start:13:27 end:13:28:
+                    vpiParent: ContAssign
+                    vpiName: q
+                    vpiFullName: prim_subreg_arb #(.DW(32), .SWACCESS("RW")).gen_ro.q
+                    vpiActual: Net name:q
     Module name:dut file:$Source01/dut.sv start:17:1 end:23:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:17:8 end:17:11:
@@ -733,7 +727,7 @@ Operation                            7       4       0         3
 RefObj                              17      14       0         3
 RefTypespec                         20      20       3         3
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              42      42       0         0
 ----------------------------------------------------------------
-                                   100      94       6        12
+                                    99      93       6        12
 ===================== END REDUCTION RESULT =====================

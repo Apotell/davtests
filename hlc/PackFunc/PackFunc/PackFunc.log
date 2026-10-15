@@ -237,7 +237,7 @@ Design name:unnamed:
           vpiParent: Package name:aa
           vpiName Identifier name:foo_bar start:10:35 end:10:42:
           vpiFullName: aa::foo_bar
-          vpiVariable (1 items):
+          vpiVariable (3 items):
             Variable name:a start:12:24 end:12:25:
               vpiParent: Function name:foo_bar
               vpiTypespec RefTypespec name:b::foo_bar_t start:12:11 end:12:23:
@@ -258,6 +258,78 @@ Design name:unnamed:
                 vpiActual: TypedefTypespec name:foo_bar_t
               vpiName: a
               vpiFullName: aa::foo_bar::a
+            Variable name:y start:14:18 end:14:19:
+              vpiParent: Function name:foo_bar
+              vpiTypespec RefTypespec name:b::foo_bar_t start:14:5 end:14:17:
+                vpiParent: Variable name:y
+                vpiName: b::foo_bar_t
+                vpiFullName: aa::foo_bar::y::b::foo_bar_t
+                vpiPathElem (2 items):
+                  RefObj name:b start:14:5 end:14:6:
+                    vpiParent: RefTypespec name:b::foo_bar_t
+                    vpiName: b
+                    vpiFullName: aa::foo_bar::y::b
+                    vpiActual: Package name:b
+                  RefTypespec name:foo_bar_t start:14:8 end:14:17:
+                    vpiParent: RefTypespec name:b::foo_bar_t
+                    vpiName: foo_bar_t
+                    vpiFullName: aa::foo_bar::y::b::foo_bar_t::foo_bar_t
+                    vpiActual: TypedefTypespec name:foo_bar_t
+                vpiActual: TypedefTypespec name:foo_bar_t
+              vpiName: y
+              vpiFullName: aa::foo_bar::y
+              vpiAutomatic: true
+            Variable name:a_vec start:15:24 end:15:29:
+              vpiParent: Function name:foo_bar
+              vpiTypespec RefTypespec start:15:5 end:15:23:
+                vpiParent: Variable name:a_vec
+                vpiFullName: aa::foo_bar::a_vec
+                vpiActual: LogicTypespec
+              vpiName: a_vec
+              vpiFullName: aa::foo_bar::a_vec
+              vpiAutomatic: true
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: Function name:foo_bar
+              vpiRange (1 items):
+                Range start:15:9 end:15:23:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Operation start:15:10 end:15:20:
+                    vpiParent: Range
+                    vpiOpType: subtract (11)
+                    vpiOperand (2 items):
+                      SysFuncCall name:$bits start:15:10 end:15:18:
+                        vpiParent: Operation
+                        vpiName Identifier name:$bits start:15:10 end:15:15:
+                        vpiArgument (1 items):
+                          NamedArgument start:15:16 end:15:17:
+                            vpiParent: SysFuncCall name:$bits
+                            vpiHighConn RefObj name:a start:15:16 end:15:17:
+                              vpiParent: NamedArgument
+                              vpiName: a
+                              vpiFullName: aa::foo_bar::a
+                              vpiActual: IODecl name:a
+                      Constant start:15:19 end:15:20:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: aa::foo_bar
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                  vpiRightRange Constant start:15:21 end:15:22:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: aa::foo_bar
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (1 items):
@@ -281,102 +353,23 @@ Design name:unnamed:
                     vpiFullName: aa::foo_bar::a::b::foo_bar_t::foo_bar_t
                     vpiActual: TypedefTypespec name:foo_bar_t
                 vpiActual: TypedefTypespec name:foo_bar_t
-          vpiStmt Begin:
+          vpiStmt Begin start:17:5 end:19:8:
             vpiParent: Function name:foo_bar
             vpiFullName: aa::foo_bar
-            vpiVariable (2 items):
-              Variable name:y start:14:18 end:14:19:
+            vpiStmt (1 items):
+              Assignment start:18:7 end:18:18:
                 vpiParent: Begin
-                vpiTypespec RefTypespec name:b::foo_bar_t start:14:5 end:14:17:
-                  vpiParent: Variable name:y
-                  vpiName: b::foo_bar_t
-                  vpiFullName: aa::foo_bar::y::b::foo_bar_t
-                  vpiPathElem (2 items):
-                    RefObj name:b start:14:5 end:14:6:
-                      vpiParent: RefTypespec name:b::foo_bar_t
-                      vpiName: b
-                      vpiFullName: aa::foo_bar::y::b
-                      vpiActual: Package name:b
-                    RefTypespec name:foo_bar_t start:14:8 end:14:17:
-                      vpiParent: RefTypespec name:b::foo_bar_t
-                      vpiName: foo_bar_t
-                      vpiFullName: aa::foo_bar::y::b::foo_bar_t::foo_bar_t
-                      vpiActual: TypedefTypespec name:foo_bar_t
-                  vpiActual: TypedefTypespec name:foo_bar_t
-                vpiName: y
-                vpiFullName: aa::foo_bar::y
-                vpiAutomatic: true
-              Variable name:a_vec start:15:24 end:15:29:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:15:5 end:15:23:
-                  vpiParent: Variable name:a_vec
-                  vpiFullName: aa::foo_bar::a_vec
-                  vpiActual: LogicTypespec
-                vpiName: a_vec
-                vpiFullName: aa::foo_bar::a_vec
-                vpiAutomatic: true
-            vpiTypespec (1 items):
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:15:9 end:15:23:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Operation start:15:10 end:15:20:
-                      vpiParent: Range
-                      vpiOpType: subtract (11)
-                      vpiOperand (2 items):
-                        SysFuncCall name:$bits start:15:10 end:15:18:
-                          vpiParent: Operation
-                          vpiName Identifier name:$bits start:15:10 end:15:15:
-                          vpiArgument (1 items):
-                            NamedArgument start:15:16 end:15:17:
-                              vpiParent: SysFuncCall name:$bits
-                              vpiHighConn RefObj name:a start:15:16 end:15:17:
-                                vpiParent: NamedArgument
-                                vpiName: a
-                                vpiFullName: aa::foo_bar::a
-                                vpiActual: IODecl name:a
-                        Constant start:15:19 end:15:20:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: aa::foo_bar
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
-                    vpiRightRange Constant start:15:21 end:15:22:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: aa::foo_bar
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-            vpiStmt (3 items):
-              Variable name:y:
-              Variable name:a_vec:
-              Begin start:17:5 end:19:8:
-                vpiParent: Begin
-                vpiFullName: aa::foo_bar
-                vpiStmt (1 items):
-                  Assignment start:18:7 end:18:18:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:foo_bar start:18:7 end:18:14:
-                      vpiParent: Assignment
-                      vpiName: foo_bar
-                      vpiFullName: aa::foo_bar::foo_bar
-                      vpiActual: Function name:foo_bar
-                    vpiRhs RefObj name:y start:18:17 end:18:18:
-                      vpiParent: Assignment
-                      vpiName: y
-                      vpiFullName: aa::foo_bar::y
-                      vpiActual: Variable name:y
+                vpiBlocking: true
+                vpiLhs RefObj name:foo_bar start:18:7 end:18:14:
+                  vpiParent: Assignment
+                  vpiName: foo_bar
+                  vpiFullName: aa::foo_bar::foo_bar
+                  vpiActual: Function name:foo_bar
+                vpiRhs RefObj name:y start:18:17 end:18:18:
+                  vpiParent: Assignment
+                  vpiName: y
+                  vpiFullName: aa::foo_bar::y
+                  vpiActual: Variable name:y
           vpiReturn RefTypespec name:b::foo_bar_t start:10:22 end:10:34:
             vpiParent: Function name:foo_bar
             vpiName: b::foo_bar_t
@@ -449,7 +442,7 @@ COMMAND: ${HLC_DIR}/regression/PackFunc/PackFunc/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              61      61       0         0
+Others                              60      60       0         0
 ----------------------------------------------------------------
-                                    61      61       0         0
+                                    60      60       0         0
 ===================== END REDUCTION RESULT =====================

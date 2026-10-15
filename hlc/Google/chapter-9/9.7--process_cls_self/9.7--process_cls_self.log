@@ -165,7 +165,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/9.7--process_cls_self.sv:23:15: Failed to bind "process".
 [WRN:CP5851] $Source01/9.7--process_cls_self.sv:23:24: Failed to bind "self".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/9.7--process_cls_self.sv:23:24: Null Actual: id:35, type:MethodFuncCall, name:self, relation:vpiPathElem.
+[ERR:LN7705] $Source01/9.7--process_cls_self.sv:23:24: Null Actual: id:34, type:MethodFuncCall, name:self, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -193,6 +193,35 @@ Design name:unnamed:
           vpiParent: Module name:process_tb
           vpiName Identifier name:test start:16:17 end:16:21:
           vpiFullName: process_tb.test
+          vpiVariable (1 items):
+            Variable name:job start:17:11 end:17:14:
+              vpiParent: Task name:test
+              vpiTypespec RefTypespec name:process [] start:17:3 end:17:16:
+                vpiParent: Variable name:job
+                vpiName: process []
+                vpiFullName: process_tb.test.job.process []
+                vpiActual: ArrayTypespec
+              vpiName: job
+              vpiFullName: process_tb.test.job
+              vpiAutomatic: true
+              vpiValue ArrayExpr start:17:19 end:17:26:
+                vpiParent: Variable name:job
+                vpiExpr (1 items):
+                  RefObj name:N start:17:24 end:17:25:
+                    vpiParent: ArrayExpr
+                    vpiName: N
+                    vpiFullName: process_tb.test.job.N
+                    vpiActual: IODecl name:N
+          vpiTypespec (1 items):
+            ArrayTypespec:
+              vpiParent: Task name:test
+              vpiArrayType: dynamic (2)
+              vpiRange Range start:17:14 end:17:16:
+                vpiParent: ArrayTypespec
+              vpiElemTypespec RefTypespec name:process start:17:3 end:17:10:
+                vpiParent: ArrayTypespec
+                vpiName: process
+                vpiFullName: process_tb.test.process
           vpiAutomatic: true
           vpiIODecl (1 items):
             IODecl name:N start:16:27 end:16:28:
@@ -203,133 +232,98 @@ Design name:unnamed:
                 vpiParent: IODecl name:N
                 vpiFullName: process_tb.test.N
                 vpiActual: IntTypespec
-          vpiStmt Begin:
+          vpiStmt ForeachStmt start:19:3 end:26:13:
             vpiParent: Task name:test
             vpiFullName: process_tb.test
             vpiVariable (1 items):
-              Variable name:job start:17:11 end:17:14:
-                vpiParent: Begin
-                vpiTypespec RefTypespec name:process [] start:17:3 end:17:16:
-                  vpiParent: Variable name:job
-                  vpiName: process []
-                  vpiFullName: process_tb.test.job.process []
-                  vpiActual: ArrayTypespec
-                vpiName: job
-                vpiFullName: process_tb.test.job
-                vpiAutomatic: true
-                vpiValue ArrayExpr start:17:19 end:17:26:
-                  vpiParent: Variable name:job
-                  vpiExpr (1 items):
-                    RefObj name:N start:17:24 end:17:25:
-                      vpiParent: ArrayExpr
-                      vpiName: N
-                      vpiFullName: process_tb.test.job.N
-                      vpiActual: IODecl name:N
-            vpiTypespec (1 items):
-              ArrayTypespec:
-                vpiParent: Begin
-                vpiArrayType: dynamic (2)
-                vpiRange Range start:17:14 end:17:16:
-                  vpiParent: ArrayTypespec
-                vpiElemTypespec RefTypespec name:process start:17:3 end:17:10:
-                  vpiParent: ArrayTypespec
-                  vpiName: process
-                  vpiFullName: process_tb.test.process
-            vpiStmt (2 items):
-              Variable name:job:
-              ForeachStmt start:19:3 end:26:13:
-                vpiParent: Begin
-                vpiFullName: process_tb.test
-                vpiVariable (1 items):
-                  Variable name:i start:19:15 end:19:16:
-                    vpiParent: ForeachStmt
+              Variable name:i start:19:15 end:19:16:
+                vpiParent: ForeachStmt
+                vpiName: i
+                vpiFullName: process_tb.test.i
+                vpiIsIterator: true
+            vpiVariable RefObj name:job start:19:11 end:19:14:
+              vpiParent: ForeachStmt
+              vpiName: job
+              vpiFullName: process_tb.test.job
+              vpiActual: Variable name:job
+            vpiLoopVars (1 items):
+              Variable name:i:
+            vpiStmt ForkStmt start:20:4 end:26:13:
+              vpiParent: ForeachStmt
+              vpiFullName: process_tb.test
+              vpiVariable (1 items):
+                Variable name:k start:21:19 end:21:20:
+                  vpiParent: ForkStmt
+                  vpiTypespec RefTypespec start:21:15 end:21:18:
+                    vpiParent: Variable name:k
+                    vpiFullName: process_tb.test.k
+                    vpiActual: IntTypespec
+                  vpiName: k
+                  vpiFullName: process_tb.test.k
+                  vpiAutomatic: true
+                  vpiValue RefObj name:i start:21:23 end:21:24:
+                    vpiParent: Variable name:k
                     vpiName: i
-                    vpiFullName: process_tb.test.i
-                    vpiIsIterator: true
-                vpiVariable RefObj name:job start:19:11 end:19:14:
-                  vpiParent: ForeachStmt
-                  vpiName: job
-                  vpiFullName: process_tb.test.job
-                  vpiActual: Variable name:job
-                vpiLoopVars (1 items):
-                  Variable name:i:
-                vpiStmt ForkStmt start:20:4 end:26:13:
-                  vpiParent: ForeachStmt
+                    vpiFullName: process_tb.test.k.i
+                    vpiActual: Variable name:i
+              vpiJoinType: none (1)
+              vpiStmt (1 items):
+                Begin start:22:5 end:25:8:
+                  vpiParent: ForkStmt
                   vpiFullName: process_tb.test
-                  vpiVariable (1 items):
-                    Variable name:k start:21:19 end:21:20:
-                      vpiParent: ForkStmt
-                      vpiTypespec RefTypespec start:21:15 end:21:18:
-                        vpiParent: Variable name:k
-                        vpiFullName: process_tb.test.k
-                        vpiActual: IntTypespec
-                      vpiName: k
-                      vpiFullName: process_tb.test.k
-                      vpiAutomatic: true
-                      vpiValue RefObj name:i start:21:23 end:21:24:
-                        vpiParent: Variable name:k
-                        vpiName: i
-                        vpiFullName: process_tb.test.k.i
-                        vpiActual: Variable name:i
-                  vpiJoinType: none (1)
                   vpiStmt (2 items):
-                    Variable name:k:
-                    Begin start:22:5 end:25:8:
-                      vpiParent: ForkStmt
-                      vpiFullName: process_tb.test
-                      vpiStmt (2 items):
-                        Assignment start:23:6 end:23:30:
-                          vpiParent: Begin
-                          vpiBlocking: true
-                          vpiLhs BitSelect name:job[k] start:23:6 end:23:12:
-                            vpiParent: Assignment
-                            vpiName: job[k]
-                            vpiFullName: process_tb.test.job[k]
-                            vpiPrefix RefObj name:job start:23:6 end:23:9:
-                              vpiParent: BitSelect name:job[k]
-                              vpiName: job
-                              vpiFullName: process_tb.test.job
-                              vpiActual: Variable name:job
-                            vpiIndex RefObj name:k start:23:10 end:23:11:
-                              vpiParent: BitSelect name:job[k]
-                              vpiName: k
-                              vpiFullName: process_tb.test.k
-                              vpiActual: Variable name:k
-                          vpiRhs RefObj name:process.self() start:23:15 end:23:30:
-                            vpiParent: Assignment
-                            vpiName: process.self()
-                            vpiFullName: process_tb.test.process.self()
-                            vpiPathElem (2 items):
-                              RefObj name:process start:23:15 end:23:22:
-                                vpiParent: RefObj name:process.self()
-                                vpiName: process
-                                vpiFullName: process_tb.test.process
-                              MethodFuncCall name:self start:23:24 end:23:30:
-                                vpiParent: RefObj name:process.self()
-                                vpiName Identifier name:self start:23:24 end:23:28:
-                        SysTaskCall name:$display start:24:6 end:24:31:
-                          vpiParent: Begin
-                          vpiName Identifier name:$display start:24:6 end:24:14:
-                          vpiArgument (2 items):
-                            NamedArgument start:24:15 end:24:27:
-                              vpiParent: SysTaskCall name:$display
-                              vpiHighConn Constant start:24:15 end:24:27:
-                                vpiParent: NamedArgument
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: process_tb.test
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiSize: 80
-                                vpiDecompile: "\"process %d\""
-                                vpiValue: process %d
-                            NamedArgument start:24:29 end:24:30:
-                              vpiParent: SysTaskCall name:$display
-                              vpiHighConn RefObj name:k start:24:29 end:24:30:
-                                vpiParent: NamedArgument
-                                vpiName: k
-                                vpiFullName: process_tb.test.k
-                                vpiActual: Variable name:k
+                    Assignment start:23:6 end:23:30:
+                      vpiParent: Begin
+                      vpiBlocking: true
+                      vpiLhs BitSelect name:job[k] start:23:6 end:23:12:
+                        vpiParent: Assignment
+                        vpiName: job[k]
+                        vpiFullName: process_tb.test.job[k]
+                        vpiPrefix RefObj name:job start:23:6 end:23:9:
+                          vpiParent: BitSelect name:job[k]
+                          vpiName: job
+                          vpiFullName: process_tb.test.job
+                          vpiActual: Variable name:job
+                        vpiIndex RefObj name:k start:23:10 end:23:11:
+                          vpiParent: BitSelect name:job[k]
+                          vpiName: k
+                          vpiFullName: process_tb.test.k
+                          vpiActual: Variable name:k
+                      vpiRhs RefObj name:process.self() start:23:15 end:23:30:
+                        vpiParent: Assignment
+                        vpiName: process.self()
+                        vpiFullName: process_tb.test.process.self()
+                        vpiPathElem (2 items):
+                          RefObj name:process start:23:15 end:23:22:
+                            vpiParent: RefObj name:process.self()
+                            vpiName: process
+                            vpiFullName: process_tb.test.process
+                          MethodFuncCall name:self start:23:24 end:23:30:
+                            vpiParent: RefObj name:process.self()
+                            vpiName Identifier name:self start:23:24 end:23:28:
+                    SysTaskCall name:$display start:24:6 end:24:31:
+                      vpiParent: Begin
+                      vpiName Identifier name:$display start:24:6 end:24:14:
+                      vpiArgument (2 items):
+                        NamedArgument start:24:15 end:24:27:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn Constant start:24:15 end:24:27:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: process_tb.test
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 80
+                            vpiDecompile: "\"process %d\""
+                            vpiValue: process %d
+                        NamedArgument start:24:29 end:24:30:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn RefObj name:k start:24:29 end:24:30:
+                            vpiParent: NamedArgument
+                            vpiName: k
+                            vpiFullName: process_tb.test.k
+                            vpiActual: Variable name:k
       vpiProcess (1 items):
         Initial start:29:2 end:31:5:
           vpiParent: Module name:process_tb
@@ -419,7 +413,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-9/9.7--process_cls_self/design.hld
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              53      53       0         0
+Others                              52      52       0         0
 ----------------------------------------------------------------
-                                    53      53       0         0
+                                    52      52       0         0
 ===================== END REDUCTION RESULT =====================

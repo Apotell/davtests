@@ -1090,9 +1090,9 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/top.v:20:1: Compile module "my_module".
 [INF:CP5804] $Source01/top.v:26:1: Compile module "top".
 [INF:CP5804] $Source01/top.v:35:1: Compile module "test".
-[INF:CP5836] $Source01/top.v:45:37: Compile generate block "g1".
-[INF:CP5836] $Source01/top.v:43:38: Compile generate block "g1".
 [INF:CP5836] $Source01/top.v:41:26: Compile generate block "g1".
+[INF:CP5836] $Source01/top.v:43:38: Compile generate block "g1".
+[INF:CP5836] $Source01/top.v:45:37: Compile generate block "g1".
 [INF:CP5836] $Source01/top.v:51:29: Compile generate block "g1".
 [INF:CP5836] $Source01/top.v:52:32: Compile generate block "g1".
 [INF:CP5836] $Source01/top.v:63:26: Compile generate block "u1".
@@ -2096,70 +2096,115 @@ Design name:unnamed:
         GenRegion start:40:6 end:48:14:
           vpiParent: Module name:test
           vpiFullName: test
-          vpiStmt GenIfElse start:41:2 end:47:8:
-            vpiParent: GenRegion
-            vpiCondition Operation start:41:6 end:41:16:
-              vpiParent: GenIfElse
-              vpiOpType: greater than (18)
-              vpiOperand (2 items):
-                RefObj name:POWER1 start:41:6 end:41:12:
-                  vpiParent: Operation
-                  vpiName: POWER1
-                  vpiFullName: test.POWER1
-                  vpiActual: Parameter name:POWER1
-                Constant start:41:15 end:41:16:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: test
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "2"
-                  vpiValue: 2
-            vpiStmt Begin name:g1 start:41:18 end:43:8:
-              vpiParent: GenIfElse
-              vpiName Identifier name:g1 start:41:26 end:41:28:
-              vpiFullName: test.g1
-              vpiStmt (1 items):
-                Gate name:u1 start:42:11 end:42:13:
-                  vpiParent: Begin name:g1
-                  vpiName: u1
-                  vpiFullName: test.g1.u1
-                  vpiDefName Identifier name:work@and start:42:7 end:42:10:
-                  vpiPrimType: and (1)
-                  vpiPrimTerm (2 items):
-                    PrimTerm start:42:14 end:42:15:
-                      vpiParent: Gate name:u1
-                      vpiDirection: output (2)
-                      vpiExpr RefObj name:a start:42:14 end:42:15:
-                        vpiParent: PrimTerm
-                        vpiName: a
-                        vpiFullName: test.g1.u1.a
-                    PrimTerm start:42:16 end:42:17:
-                      vpiParent: Gate name:u1
-                      vpiDirection: input (1)
-                      vpiTermIndex: 1
-                      vpiExpr RefObj name:b start:42:16 end:42:17:
-                        vpiParent: PrimTerm
-                        vpiName: b
-                        vpiFullName: test.g1.u1.b
-            vpiElseStmt Begin:
-              vpiParent: GenIfElse
-              vpiFullName: test
-              vpiStmt (1 items):
-                GenIfElse start:43:14 end:47:8:
-                  vpiParent: Begin
-                  vpiCondition Operation start:43:18 end:43:29:
-                    vpiParent: GenIfElse
-                    vpiOpType: equal (14)
+          vpiStmt (1 items):
+            GenIfElse start:41:2 end:47:8:
+              vpiParent: GenRegion
+              vpiCondition Operation start:41:6 end:41:16:
+                vpiParent: GenIfElse
+                vpiOpType: greater than (18)
+                vpiOperand (2 items):
+                  RefObj name:POWER1 start:41:6 end:41:12:
+                    vpiParent: Operation
+                    vpiName: POWER1
+                    vpiFullName: test.POWER1
+                    vpiActual: Parameter name:POWER1
+                  Constant start:41:15 end:41:16:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: test
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "2"
+                    vpiValue: 2
+              vpiStmt GenRegion name:g1 start:41:18 end:43:8:
+                vpiParent: GenIfElse
+                vpiName Identifier name:g1 start:41:26 end:41:28:
+                vpiFullName: test.g1
+                vpiStmt (1 items):
+                  Gate name:u1 start:42:11 end:42:13:
+                    vpiParent: GenRegion name:g1
+                    vpiName: u1
+                    vpiFullName: test.g1.u1
+                    vpiDefName Identifier name:work@and start:42:7 end:42:10:
+                    vpiPrimType: and (1)
+                    vpiPrimTerm (2 items):
+                      PrimTerm start:42:14 end:42:15:
+                        vpiParent: Gate name:u1
+                        vpiDirection: output (2)
+                        vpiExpr RefObj name:a start:42:14 end:42:15:
+                          vpiParent: PrimTerm
+                          vpiName: a
+                          vpiFullName: test.g1.u1.a
+                      PrimTerm start:42:16 end:42:17:
+                        vpiParent: Gate name:u1
+                        vpiDirection: input (1)
+                        vpiTermIndex: 1
+                        vpiExpr RefObj name:b start:42:16 end:42:17:
+                          vpiParent: PrimTerm
+                          vpiName: b
+                          vpiFullName: test.g1.u1.b
+              vpiElseStmt GenIfElse start:43:14 end:47:8:
+                vpiParent: GenIfElse
+                vpiCondition Operation start:43:18 end:43:29:
+                  vpiParent: GenIfElse
+                  vpiOpType: equal (14)
+                  vpiOperand (2 items):
+                    RefObj name:POWER2 start:43:18 end:43:24:
+                      vpiParent: Operation
+                      vpiName: POWER2
+                      vpiFullName: test.POWER2
+                      vpiActual: Parameter name:POWER2
+                    Constant start:43:28 end:43:29:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "1"
+                      vpiValue: 1
+                vpiStmt GenRegion name:g1 start:43:31 end:45:8:
+                  vpiParent: GenIfElse
+                  vpiName Identifier name:g1 start:43:38 end:43:40:
+                  vpiFullName: test.g1
+                  vpiStmt (1 items):
+                    Gate name:u2 start:44:11 end:44:13:
+                      vpiParent: GenRegion name:g1
+                      vpiName: u2
+                      vpiFullName: test.g1.u2
+                      vpiDefName Identifier name:work@and start:44:7 end:44:10:
+                      vpiPrimType: and (1)
+                      vpiPrimTerm (2 items):
+                        PrimTerm start:44:14 end:44:15:
+                          vpiParent: Gate name:u2
+                          vpiDirection: output (2)
+                          vpiExpr RefObj name:a start:44:14 end:44:15:
+                            vpiParent: PrimTerm
+                            vpiName: a
+                            vpiFullName: test.g1.u2.a
+                        PrimTerm start:44:16 end:44:17:
+                          vpiParent: Gate name:u2
+                          vpiDirection: input (1)
+                          vpiTermIndex: 1
+                          vpiExpr RefObj name:b start:44:16 end:44:17:
+                            vpiParent: PrimTerm
+                            vpiName: b
+                            vpiFullName: test.g1.u2.b
+                vpiElseStmt GenIf start:45:14 end:47:8:
+                  vpiParent: GenIfElse
+                  vpiCondition Operation start:45:18 end:45:28:
+                    vpiParent: GenIf
+                    vpiOpType: greater than (18)
                     vpiOperand (2 items):
-                      RefObj name:POWER2 start:43:18 end:43:24:
+                      RefObj name:POWER2 start:45:18 end:45:24:
                         vpiParent: Operation
                         vpiName: POWER2
                         vpiFullName: test.POWER2
                         vpiActual: Parameter name:POWER2
-                      Constant start:43:28 end:43:29:
+                      Constant start:45:27 end:45:28:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
@@ -2167,164 +2212,113 @@ Design name:unnamed:
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                  vpiStmt Begin name:g1 start:43:31 end:45:8:
-                    vpiParent: GenIfElse
-                    vpiName Identifier name:g1 start:43:38 end:43:40:
+                        vpiDecompile: "0"
+                        vpiValue: 0
+                  vpiStmt GenRegion name:g1 start:45:30 end:47:8:
+                    vpiParent: GenIf
+                    vpiName Identifier name:g1 start:45:37 end:45:39:
                     vpiFullName: test.g1
                     vpiStmt (1 items):
-                      Gate name:u2 start:44:11 end:44:13:
-                        vpiParent: Begin name:g1
-                        vpiName: u2
-                        vpiFullName: test.g1.u2
-                        vpiDefName Identifier name:work@and start:44:7 end:44:10:
+                      Gate name:u3 start:46:11 end:46:13:
+                        vpiParent: GenRegion name:g1
+                        vpiName: u3
+                        vpiFullName: test.g1.u3
+                        vpiDefName Identifier name:work@and start:46:7 end:46:10:
                         vpiPrimType: and (1)
                         vpiPrimTerm (2 items):
-                          PrimTerm start:44:14 end:44:15:
-                            vpiParent: Gate name:u2
+                          PrimTerm start:46:14 end:46:15:
+                            vpiParent: Gate name:u3
                             vpiDirection: output (2)
-                            vpiExpr RefObj name:a start:44:14 end:44:15:
+                            vpiExpr RefObj name:a start:46:14 end:46:15:
                               vpiParent: PrimTerm
                               vpiName: a
-                              vpiFullName: test.g1.u2.a
-                          PrimTerm start:44:16 end:44:17:
-                            vpiParent: Gate name:u2
+                              vpiFullName: test.g1.u3.a
+                          PrimTerm start:46:16 end:46:17:
+                            vpiParent: Gate name:u3
                             vpiDirection: input (1)
                             vpiTermIndex: 1
-                            vpiExpr RefObj name:b start:44:16 end:44:17:
+                            vpiExpr RefObj name:b start:46:16 end:46:17:
                               vpiParent: PrimTerm
                               vpiName: b
-                              vpiFullName: test.g1.u2.b
-                  vpiElseStmt Begin:
-                    vpiParent: GenIfElse
-                    vpiFullName: test
-                    vpiStmt (1 items):
-                      GenIf start:45:14 end:47:8:
-                        vpiParent: Begin
-                        vpiCondition Operation start:45:18 end:45:28:
-                          vpiParent: GenIf
-                          vpiOpType: greater than (18)
-                          vpiOperand (2 items):
-                            RefObj name:POWER2 start:45:18 end:45:24:
-                              vpiParent: Operation
-                              vpiName: POWER2
-                              vpiFullName: test.POWER2
-                              vpiActual: Parameter name:POWER2
-                            Constant start:45:27 end:45:28:
-                              vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: test
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "0"
-                              vpiValue: 0
-                        vpiStmt Begin name:g1 start:45:30 end:47:8:
-                          vpiParent: GenIf
-                          vpiName Identifier name:g1 start:45:37 end:45:39:
-                          vpiFullName: test.g1
-                          vpiStmt (1 items):
-                            Gate name:u3 start:46:11 end:46:13:
-                              vpiParent: Begin name:g1
-                              vpiName: u3
-                              vpiFullName: test.g1.u3
-                              vpiDefName Identifier name:work@and start:46:7 end:46:10:
-                              vpiPrimType: and (1)
-                              vpiPrimTerm (2 items):
-                                PrimTerm start:46:14 end:46:15:
-                                  vpiParent: Gate name:u3
-                                  vpiDirection: output (2)
-                                  vpiExpr RefObj name:a start:46:14 end:46:15:
-                                    vpiParent: PrimTerm
-                                    vpiName: a
-                                    vpiFullName: test.g1.u3.a
-                                PrimTerm start:46:16 end:46:17:
-                                  vpiParent: Gate name:u3
-                                  vpiDirection: input (1)
-                                  vpiTermIndex: 1
-                                  vpiExpr RefObj name:b start:46:16 end:46:17:
-                                    vpiParent: PrimTerm
-                                    vpiName: b
-                                    vpiFullName: test.g1.u3.b
+                              vpiFullName: test.g1.u3.b
         GenRegion start:50:2 end:56:14:
           vpiParent: Module name:test
           vpiFullName: test
-          vpiStmt GenIf start:51:5 end:55:8:
-            vpiParent: GenRegion
-            vpiCondition Operation start:51:9 end:51:19:
-              vpiParent: GenIf
-              vpiOpType: greater than (18)
-              vpiOperand (2 items):
-                RefObj name:POWER1 start:51:9 end:51:15:
-                  vpiParent: Operation
-                  vpiName: POWER1
-                  vpiFullName: test.POWER1
-                  vpiActual: Parameter name:POWER1
-                Constant start:51:18 end:51:19:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: test
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "0"
-                  vpiValue: 0
-            vpiStmt Begin name:g1 start:51:21 end:55:8:
-              vpiParent: GenIf
-              vpiName Identifier name:g1 start:51:29 end:51:31:
-              vpiFullName: test.g1
-              vpiStmt (1 items):
-                GenIf start:52:8 end:54:11:
-                  vpiParent: Begin name:g1
-                  vpiCondition Operation start:52:12 end:52:23:
-                    vpiParent: GenIf
-                    vpiOpType: greater or equal (19)
-                    vpiOperand (2 items):
-                      RefObj name:POWER2 start:52:12 end:52:18:
-                        vpiParent: Operation
-                        vpiName: POWER2
-                        vpiFullName: test.g1.POWER2
-                        vpiActual: Parameter name:POWER2
-                      Constant start:52:22 end:52:23:
-                        vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: test.g1
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "1"
-                        vpiValue: 1
-                  vpiStmt Begin name:g1 start:52:25 end:54:11:
-                    vpiParent: GenIf
-                    vpiName Identifier name:g1 start:52:32 end:52:34:
-                    vpiFullName: test.g1.g1
-                    vpiStmt (1 items):
-                      Gate name:u4 start:53:14 end:53:16:
-                        vpiParent: Begin name:g1
-                        vpiName: u4
-                        vpiFullName: test.g1.g1.u4
-                        vpiDefName Identifier name:work@and start:53:10 end:53:13:
-                        vpiPrimType: and (1)
-                        vpiPrimTerm (2 items):
-                          PrimTerm start:53:17 end:53:18:
-                            vpiParent: Gate name:u4
-                            vpiDirection: output (2)
-                            vpiExpr RefObj name:a start:53:17 end:53:18:
-                              vpiParent: PrimTerm
-                              vpiName: a
-                              vpiFullName: test.g1.g1.u4.a
-                          PrimTerm start:53:19 end:53:20:
-                            vpiParent: Gate name:u4
-                            vpiDirection: input (1)
-                            vpiTermIndex: 1
-                            vpiExpr RefObj name:b start:53:19 end:53:20:
-                              vpiParent: PrimTerm
-                              vpiName: b
-                              vpiFullName: test.g1.g1.u4.b
+          vpiStmt (1 items):
+            GenIf start:51:5 end:55:8:
+              vpiParent: GenRegion
+              vpiCondition Operation start:51:9 end:51:19:
+                vpiParent: GenIf
+                vpiOpType: greater than (18)
+                vpiOperand (2 items):
+                  RefObj name:POWER1 start:51:9 end:51:15:
+                    vpiParent: Operation
+                    vpiName: POWER1
+                    vpiFullName: test.POWER1
+                    vpiActual: Parameter name:POWER1
+                  Constant start:51:18 end:51:19:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: test
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiStmt GenRegion name:g1 start:51:21 end:55:8:
+                vpiParent: GenIf
+                vpiName Identifier name:g1 start:51:29 end:51:31:
+                vpiFullName: test.g1
+                vpiStmt (1 items):
+                  GenIf start:52:8 end:54:11:
+                    vpiParent: GenRegion name:g1
+                    vpiCondition Operation start:52:12 end:52:23:
+                      vpiParent: GenIf
+                      vpiOpType: greater or equal (19)
+                      vpiOperand (2 items):
+                        RefObj name:POWER2 start:52:12 end:52:18:
+                          vpiParent: Operation
+                          vpiName: POWER2
+                          vpiFullName: test.g1.POWER2
+                          vpiActual: Parameter name:POWER2
+                        Constant start:52:22 end:52:23:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: test.g1
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                    vpiStmt GenRegion name:g1 start:52:25 end:54:11:
+                      vpiParent: GenIf
+                      vpiName Identifier name:g1 start:52:32 end:52:34:
+                      vpiFullName: test.g1.g1
+                      vpiStmt (1 items):
+                        Gate name:u4 start:53:14 end:53:16:
+                          vpiParent: GenRegion name:g1
+                          vpiName: u4
+                          vpiFullName: test.g1.g1.u4
+                          vpiDefName Identifier name:work@and start:53:10 end:53:13:
+                          vpiPrimType: and (1)
+                          vpiPrimTerm (2 items):
+                            PrimTerm start:53:17 end:53:18:
+                              vpiParent: Gate name:u4
+                              vpiDirection: output (2)
+                              vpiExpr RefObj name:a start:53:17 end:53:18:
+                                vpiParent: PrimTerm
+                                vpiName: a
+                                vpiFullName: test.g1.g1.u4.a
+                            PrimTerm start:53:19 end:53:20:
+                              vpiParent: Gate name:u4
+                              vpiDirection: input (1)
+                              vpiTermIndex: 1
+                              vpiExpr RefObj name:b start:53:19 end:53:20:
+                                vpiParent: PrimTerm
+                                vpiName: b
+                                vpiFullName: test.g1.g1.u4.b
         GenCase start:62:6 end:72:14:
           vpiParent: Module name:test
           vpiCondition RefObj name:POWER1 start:62:12 end:62:18:
@@ -2366,13 +2360,13 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "2"
                   vpiValue: 2
-              vpiStmt Begin name:u1 start:63:18 end:65:14:
+              vpiStmt GenRegion name:u1 start:63:18 end:65:14:
                 vpiParent: CaseItem
                 vpiName Identifier name:u1 start:63:26 end:63:28:
                 vpiFullName: test.u1
                 vpiStmt (1 items):
                   Gate name:g1 start:64:17 end:64:19:
-                    vpiParent: Begin name:u1
+                    vpiParent: GenRegion name:u1
                     vpiName: g1
                     vpiFullName: test.u1.g1
                     vpiDefName Identifier name:work@xor start:64:13 end:64:16:
@@ -2414,13 +2408,13 @@ Design name:unnamed:
                   vpiSize: 64
                   vpiDecompile: "3"
                   vpiValue: 3
-              vpiStmt Begin name:u1 start:66:12 end:68:14:
+              vpiStmt GenRegion name:u1 start:66:12 end:68:14:
                 vpiParent: CaseItem
                 vpiName Identifier name:u1 start:66:20 end:66:22:
                 vpiFullName: test.u1
                 vpiStmt (1 items):
                   Gate name:g1 start:67:17 end:67:19:
-                    vpiParent: Begin name:u1
+                    vpiParent: GenRegion name:u1
                     vpiName: g1
                     vpiFullName: test.u1.g1
                     vpiDefName Identifier name:work@and start:67:13 end:67:16:
@@ -2451,13 +2445,13 @@ Design name:unnamed:
                           vpiFullName: test.u1.g1.c
             CaseItem start:69:9 end:71:14:
               vpiParent: GenCase
-              vpiStmt Begin name:u1 start:69:18 end:71:14:
+              vpiStmt GenRegion name:u1 start:69:18 end:71:14:
                 vpiParent: CaseItem
                 vpiName Identifier name:u1 start:69:26 end:69:28:
                 vpiFullName: test.u1
                 vpiStmt (1 items):
                   Gate name:g1 start:70:18 end:70:20:
-                    vpiParent: Begin name:u1
+                    vpiParent: GenRegion name:u1
                     vpiName: g1
                     vpiFullName: test.u1.g1
                     vpiDefName Identifier name:work@xnor start:70:13 end:70:17:
@@ -2693,352 +2687,353 @@ Design name:unnamed:
         GenRegion start:14:1 end:52:12:
           vpiParent: Module name:small_test
           vpiFullName: small_test
-          vpiStmt GenFor start:15:1 end:51:4:
-            vpiParent: GenRegion
-            vpiFullName: small_test
-            vpiForInitStmt (1 items):
-              Assignment start:16:3 end:16:6:
-                vpiParent: GenFor
-                vpiLhs RefObj name:i start:16:3 end:16:4:
-                  vpiParent: Assignment
-                  vpiName: i
-                  vpiFullName: small_test.i
-                  vpiActual: Variable name:i
-                vpiRhs Constant start:16:5 end:16:6:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: small_test
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "0"
-                  vpiValue: 0
-            vpiForIncStmt (1 items):
-              Assignment start:16:16 end:16:21:
-                vpiParent: GenFor
-                vpiBlocking: true
-                vpiLhs RefObj name:i start:16:16 end:16:17:
-                  vpiParent: Assignment
-                  vpiName: i
-                  vpiFullName: small_test.i
-                  vpiActual: Variable name:i
-                vpiRhs Operation start:16:18 end:16:21:
-                  vpiParent: Assignment
-                  vpiOpType: add (24)
-                  vpiOperand (2 items):
-                    RefObj name:i start:16:18 end:16:19:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: small_test.i
-                      vpiActual: Variable name:i
-                    Constant start:16:20 end:16:21:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: small_test
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-            vpiCondition Operation start:16:8 end:16:14:
-              vpiParent: GenFor
-              vpiOpType: less than (20)
-              vpiOperand (2 items):
-                RefObj name:i start:16:8 end:16:9:
-                  vpiParent: Operation
-                  vpiName: i
-                  vpiFullName: small_test.i
-                  vpiActual: Variable name:i
-                RefObj name:SIZE start:16:10 end:16:14:
-                  vpiParent: Operation
-                  vpiName: SIZE
-                  vpiFullName: small_test.SIZE
-                  vpiActual: Parameter name:SIZE
-            vpiStmt Begin name:B1 start:17:1 end:51:4:
-              vpiParent: GenFor
-              vpiName Identifier name:B1 start:18:2 end:18:4:
-              vpiFullName: small_test.B1
-              vpiTypespec (1 items):
-                UnsupportedTypespec name:M1 start:20:1 end:20:3:
-                  vpiParent: Begin name:B1
-                  vpiName Identifier name:M1 start:20:1 end:20:3:
-              vpiStmt (3 items):
-                RefInstance name:N1 start:20:4 end:20:6:
-                  vpiParent: Begin name:B1
-                  vpiName: N1
-                  vpiTypespec RefTypespec name:M1 start:20:1 end:20:3:
-                    vpiParent: RefInstance name:N1
-                    vpiName: M1
-                    vpiFullName: small_test.B1.N1.M1
-                    vpiActual: UnsupportedTypespec name:M1
-                GenFor start:22:1 end:36:4:
-                  vpiParent: Begin name:B1
-                  vpiFullName: small_test.B1
-                  vpiForInitStmt (1 items):
-                    Assignment start:23:3 end:23:6:
-                      vpiParent: GenFor
-                      vpiLhs RefObj name:j start:23:3 end:23:4:
-                        vpiParent: Assignment
-                        vpiName: j
-                        vpiFullName: small_test.B1.j
-                        vpiActual: Variable name:j
-                      vpiRhs Constant start:23:5 end:23:6:
-                        vpiParent: Assignment
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: small_test.B1
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "0"
-                        vpiValue: 0
-                  vpiForIncStmt (1 items):
-                    Assignment start:23:16 end:23:21:
-                      vpiParent: GenFor
-                      vpiBlocking: true
-                      vpiLhs RefObj name:j start:23:16 end:23:17:
-                        vpiParent: Assignment
-                        vpiName: j
-                        vpiFullName: small_test.B1.j
-                        vpiActual: Variable name:j
-                      vpiRhs Operation start:23:18 end:23:21:
-                        vpiParent: Assignment
-                        vpiOpType: add (24)
-                        vpiOperand (2 items):
-                          RefObj name:j start:23:18 end:23:19:
-                            vpiParent: Operation
-                            vpiName: j
-                            vpiFullName: small_test.B1.j
-                            vpiActual: Variable name:j
-                          Constant start:23:20 end:23:21:
-                            vpiParent: Operation
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: small_test.B1
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "1"
-                            vpiValue: 1
-                  vpiCondition Operation start:23:8 end:23:14:
-                    vpiParent: GenFor
-                    vpiOpType: less than (20)
+          vpiStmt (1 items):
+            GenFor start:15:1 end:51:4:
+              vpiParent: GenRegion
+              vpiFullName: small_test
+              vpiForInitStmt (1 items):
+                Assignment start:16:3 end:16:6:
+                  vpiParent: GenFor
+                  vpiLhs RefObj name:i start:16:3 end:16:4:
+                    vpiParent: Assignment
+                    vpiName: i
+                    vpiFullName: small_test.i
+                    vpiActual: Variable name:i
+                  vpiRhs Constant start:16:5 end:16:6:
+                    vpiParent: Assignment
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: small_test
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiForIncStmt (1 items):
+                Assignment start:16:16 end:16:21:
+                  vpiParent: GenFor
+                  vpiBlocking: true
+                  vpiLhs RefObj name:i start:16:16 end:16:17:
+                    vpiParent: Assignment
+                    vpiName: i
+                    vpiFullName: small_test.i
+                    vpiActual: Variable name:i
+                  vpiRhs Operation start:16:18 end:16:21:
+                    vpiParent: Assignment
+                    vpiOpType: add (24)
                     vpiOperand (2 items):
-                      RefObj name:j start:23:8 end:23:9:
-                        vpiParent: Operation
-                        vpiName: j
-                        vpiFullName: small_test.B1.j
-                        vpiActual: Variable name:j
-                      RefObj name:SIZE start:23:10 end:23:14:
-                        vpiParent: Operation
-                        vpiName: SIZE
-                        vpiFullName: small_test.B1.SIZE
-                        vpiActual: Parameter name:SIZE
-                  vpiStmt Begin name:B2 start:24:1 end:36:4:
-                    vpiParent: GenFor
-                    vpiName Identifier name:B2 start:25:2 end:25:4:
-                    vpiFullName: small_test.B1.B2
-                    vpiTypespec (1 items):
-                      UnsupportedTypespec name:M2 start:26:1 end:26:3:
-                        vpiParent: Begin name:B2
-                        vpiName Identifier name:M2 start:26:1 end:26:3:
-                    vpiStmt (2 items):
-                      RefInstance name:N2 start:26:4 end:26:6:
-                        vpiParent: Begin name:B2
-                        vpiName: N2
-                        vpiTypespec RefTypespec name:M2 start:26:1 end:26:3:
-                          vpiParent: RefInstance name:N2
-                          vpiName: M2
-                          vpiFullName: small_test.B1.B2.N2.M2
-                          vpiActual: UnsupportedTypespec name:M2
-                      GenFor start:29:1 end:34:4:
-                        vpiParent: Begin name:B2
-                        vpiFullName: small_test.B1.B2
-                        vpiForInitStmt (1 items):
-                          Assignment start:30:3 end:30:6:
-                            vpiParent: GenFor
-                            vpiLhs RefObj name:k start:30:3 end:30:4:
-                              vpiParent: Assignment
-                              vpiName: k
-                              vpiFullName: small_test.B1.B2.k
-                              vpiActual: Variable name:k
-                            vpiRhs Constant start:30:5 end:30:6:
-                              vpiParent: Assignment
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: small_test.B1.B2
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "0"
-                              vpiValue: 0
-                        vpiForIncStmt (1 items):
-                          Assignment start:30:16 end:30:21:
-                            vpiParent: GenFor
-                            vpiBlocking: true
-                            vpiLhs RefObj name:k start:30:16 end:30:17:
-                              vpiParent: Assignment
-                              vpiName: k
-                              vpiFullName: small_test.B1.B2.k
-                              vpiActual: Variable name:k
-                            vpiRhs Operation start:30:18 end:30:21:
-                              vpiParent: Assignment
-                              vpiOpType: add (24)
-                              vpiOperand (2 items):
-                                RefObj name:k start:30:18 end:30:19:
-                                  vpiParent: Operation
-                                  vpiName: k
-                                  vpiFullName: small_test.B1.B2.k
-                                  vpiActual: Variable name:k
-                                Constant start:30:20 end:30:21:
-                                  vpiParent: Operation
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: small_test.B1.B2
-                                    vpiActual: IntTypespec
-                                  vpiConstType: unsigned int (9)
-                                  vpiSize: 64
-                                  vpiDecompile: "1"
-                                  vpiValue: 1
-                        vpiCondition Operation start:30:8 end:30:14:
-                          vpiParent: GenFor
-                          vpiOpType: less than (20)
-                          vpiOperand (2 items):
-                            RefObj name:k start:30:8 end:30:9:
-                              vpiParent: Operation
-                              vpiName: k
-                              vpiFullName: small_test.B1.B2.k
-                              vpiActual: Variable name:k
-                            RefObj name:SIZE start:30:10 end:30:14:
-                              vpiParent: Operation
-                              vpiName: SIZE
-                              vpiFullName: small_test.B1.B2.SIZE
-                              vpiActual: Parameter name:SIZE
-                        vpiStmt Begin name:B3 start:31:1 end:34:4:
-                          vpiParent: GenFor
-                          vpiName Identifier name:B3 start:32:2 end:32:4:
-                          vpiFullName: small_test.B1.B2.B3
-                          vpiTypespec (1 items):
-                            UnsupportedTypespec name:M3 start:33:1 end:33:3:
-                              vpiParent: Begin name:B3
-                              vpiName Identifier name:M3 start:33:1 end:33:3:
-                          vpiStmt (1 items):
-                            RefInstance name:N3 start:33:4 end:33:6:
-                              vpiParent: Begin name:B3
-                              vpiName: N3
-                              vpiTypespec RefTypespec name:M3 start:33:1 end:33:3:
-                                vpiParent: RefInstance name:N3
-                                vpiName: M3
-                                vpiFullName: small_test.B1.B2.B3.N3.M3
-                                vpiActual: UnsupportedTypespec name:M3
-                GenIf start:37:1 end:50:4:
-                  vpiParent: Begin name:B1
-                  vpiCondition Operation start:38:3 end:38:6:
-                    vpiParent: GenIf
-                    vpiOpType: greater than (18)
-                    vpiOperand (2 items):
-                      RefObj name:i start:38:3 end:38:4:
+                      RefObj name:i start:16:18 end:16:19:
                         vpiParent: Operation
                         vpiName: i
-                        vpiFullName: small_test.B1.i
+                        vpiFullName: small_test.i
                         vpiActual: Variable name:i
-                      Constant start:38:5 end:38:6:
+                      Constant start:16:20 end:16:21:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: small_test.B1
+                          vpiFullName: small_test
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
-                        vpiDecompile: "0"
-                        vpiValue: 0
-                  vpiStmt Begin name:B4 start:39:1 end:50:4:
-                    vpiParent: GenIf
-                    vpiName Identifier name:B4 start:40:2 end:40:4:
-                    vpiFullName: small_test.B1.B4
-                    vpiStmt (1 items):
-                      GenFor start:42:1 end:48:4:
-                        vpiParent: Begin name:B4
-                        vpiFullName: small_test.B1.B4
-                        vpiForInitStmt (1 items):
-                          Assignment start:43:3 end:43:6:
-                            vpiParent: GenFor
-                            vpiLhs RefObj name:m start:43:3 end:43:4:
-                              vpiParent: Assignment
-                              vpiName: m
-                              vpiFullName: small_test.B1.B4.m
-                              vpiActual: Variable name:m
-                            vpiRhs Constant start:43:5 end:43:6:
-                              vpiParent: Assignment
+                        vpiDecompile: "1"
+                        vpiValue: 1
+              vpiCondition Operation start:16:8 end:16:14:
+                vpiParent: GenFor
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:i start:16:8 end:16:9:
+                    vpiParent: Operation
+                    vpiName: i
+                    vpiFullName: small_test.i
+                    vpiActual: Variable name:i
+                  RefObj name:SIZE start:16:10 end:16:14:
+                    vpiParent: Operation
+                    vpiName: SIZE
+                    vpiFullName: small_test.SIZE
+                    vpiActual: Parameter name:SIZE
+              vpiStmt GenRegion name:B1 start:17:1 end:51:4:
+                vpiParent: GenFor
+                vpiName Identifier name:B1 start:18:2 end:18:4:
+                vpiFullName: small_test.B1
+                vpiTypespec (1 items):
+                  UnsupportedTypespec name:M1 start:20:1 end:20:3:
+                    vpiParent: GenRegion name:B1
+                    vpiName Identifier name:M1 start:20:1 end:20:3:
+                vpiStmt (3 items):
+                  RefInstance name:N1 start:20:4 end:20:6:
+                    vpiParent: GenRegion name:B1
+                    vpiName: N1
+                    vpiTypespec RefTypespec name:M1 start:20:1 end:20:3:
+                      vpiParent: RefInstance name:N1
+                      vpiName: M1
+                      vpiFullName: small_test.B1.N1.M1
+                      vpiActual: UnsupportedTypespec name:M1
+                  GenFor start:22:1 end:36:4:
+                    vpiParent: GenRegion name:B1
+                    vpiFullName: small_test.B1
+                    vpiForInitStmt (1 items):
+                      Assignment start:23:3 end:23:6:
+                        vpiParent: GenFor
+                        vpiLhs RefObj name:j start:23:3 end:23:4:
+                          vpiParent: Assignment
+                          vpiName: j
+                          vpiFullName: small_test.B1.j
+                          vpiActual: Variable name:j
+                        vpiRhs Constant start:23:5 end:23:6:
+                          vpiParent: Assignment
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: small_test.B1
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                    vpiForIncStmt (1 items):
+                      Assignment start:23:16 end:23:21:
+                        vpiParent: GenFor
+                        vpiBlocking: true
+                        vpiLhs RefObj name:j start:23:16 end:23:17:
+                          vpiParent: Assignment
+                          vpiName: j
+                          vpiFullName: small_test.B1.j
+                          vpiActual: Variable name:j
+                        vpiRhs Operation start:23:18 end:23:21:
+                          vpiParent: Assignment
+                          vpiOpType: add (24)
+                          vpiOperand (2 items):
+                            RefObj name:j start:23:18 end:23:19:
+                              vpiParent: Operation
+                              vpiName: j
+                              vpiFullName: small_test.B1.j
+                              vpiActual: Variable name:j
+                            Constant start:23:20 end:23:21:
+                              vpiParent: Operation
                               vpiTypespec RefTypespec:
                                 vpiParent: Constant
-                                vpiFullName: small_test.B1.B4
+                                vpiFullName: small_test.B1
                                 vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
-                              vpiDecompile: "0"
-                              vpiValue: 0
-                        vpiForIncStmt (1 items):
-                          Assignment start:43:16 end:43:21:
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                    vpiCondition Operation start:23:8 end:23:14:
+                      vpiParent: GenFor
+                      vpiOpType: less than (20)
+                      vpiOperand (2 items):
+                        RefObj name:j start:23:8 end:23:9:
+                          vpiParent: Operation
+                          vpiName: j
+                          vpiFullName: small_test.B1.j
+                          vpiActual: Variable name:j
+                        RefObj name:SIZE start:23:10 end:23:14:
+                          vpiParent: Operation
+                          vpiName: SIZE
+                          vpiFullName: small_test.B1.SIZE
+                          vpiActual: Parameter name:SIZE
+                    vpiStmt GenRegion name:B2 start:24:1 end:36:4:
+                      vpiParent: GenFor
+                      vpiName Identifier name:B2 start:25:2 end:25:4:
+                      vpiFullName: small_test.B1.B2
+                      vpiTypespec (1 items):
+                        UnsupportedTypespec name:M2 start:26:1 end:26:3:
+                          vpiParent: GenRegion name:B2
+                          vpiName Identifier name:M2 start:26:1 end:26:3:
+                      vpiStmt (2 items):
+                        RefInstance name:N2 start:26:4 end:26:6:
+                          vpiParent: GenRegion name:B2
+                          vpiName: N2
+                          vpiTypespec RefTypespec name:M2 start:26:1 end:26:3:
+                            vpiParent: RefInstance name:N2
+                            vpiName: M2
+                            vpiFullName: small_test.B1.B2.N2.M2
+                            vpiActual: UnsupportedTypespec name:M2
+                        GenFor start:29:1 end:34:4:
+                          vpiParent: GenRegion name:B2
+                          vpiFullName: small_test.B1.B2
+                          vpiForInitStmt (1 items):
+                            Assignment start:30:3 end:30:6:
+                              vpiParent: GenFor
+                              vpiLhs RefObj name:k start:30:3 end:30:4:
+                                vpiParent: Assignment
+                                vpiName: k
+                                vpiFullName: small_test.B1.B2.k
+                                vpiActual: Variable name:k
+                              vpiRhs Constant start:30:5 end:30:6:
+                                vpiParent: Assignment
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: small_test.B1.B2
+                                  vpiActual: IntTypespec
+                                vpiConstType: unsigned int (9)
+                                vpiSize: 64
+                                vpiDecompile: "0"
+                                vpiValue: 0
+                          vpiForIncStmt (1 items):
+                            Assignment start:30:16 end:30:21:
+                              vpiParent: GenFor
+                              vpiBlocking: true
+                              vpiLhs RefObj name:k start:30:16 end:30:17:
+                                vpiParent: Assignment
+                                vpiName: k
+                                vpiFullName: small_test.B1.B2.k
+                                vpiActual: Variable name:k
+                              vpiRhs Operation start:30:18 end:30:21:
+                                vpiParent: Assignment
+                                vpiOpType: add (24)
+                                vpiOperand (2 items):
+                                  RefObj name:k start:30:18 end:30:19:
+                                    vpiParent: Operation
+                                    vpiName: k
+                                    vpiFullName: small_test.B1.B2.k
+                                    vpiActual: Variable name:k
+                                  Constant start:30:20 end:30:21:
+                                    vpiParent: Operation
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: small_test.B1.B2
+                                      vpiActual: IntTypespec
+                                    vpiConstType: unsigned int (9)
+                                    vpiSize: 64
+                                    vpiDecompile: "1"
+                                    vpiValue: 1
+                          vpiCondition Operation start:30:8 end:30:14:
                             vpiParent: GenFor
-                            vpiBlocking: true
-                            vpiLhs RefObj name:m start:43:16 end:43:17:
-                              vpiParent: Assignment
-                              vpiName: m
-                              vpiFullName: small_test.B1.B4.m
-                              vpiActual: Variable name:m
-                            vpiRhs Operation start:43:18 end:43:21:
-                              vpiParent: Assignment
-                              vpiOpType: add (24)
-                              vpiOperand (2 items):
-                                RefObj name:m start:43:18 end:43:19:
-                                  vpiParent: Operation
-                                  vpiName: m
-                                  vpiFullName: small_test.B1.B4.m
-                                  vpiActual: Variable name:m
-                                Constant start:43:20 end:43:21:
-                                  vpiParent: Operation
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: small_test.B1.B4
-                                    vpiActual: IntTypespec
-                                  vpiConstType: unsigned int (9)
-                                  vpiSize: 64
-                                  vpiDecompile: "1"
-                                  vpiValue: 1
-                        vpiCondition Operation start:43:8 end:43:14:
-                          vpiParent: GenFor
-                          vpiOpType: less than (20)
-                          vpiOperand (2 items):
-                            RefObj name:m start:43:8 end:43:9:
-                              vpiParent: Operation
-                              vpiName: m
-                              vpiFullName: small_test.B1.B4.m
-                              vpiActual: Variable name:m
-                            RefObj name:SIZE start:43:10 end:43:14:
-                              vpiParent: Operation
-                              vpiName: SIZE
-                              vpiFullName: small_test.B1.B4.SIZE
-                              vpiActual: Parameter name:SIZE
-                        vpiStmt Begin name:B5 start:44:1 end:48:4:
-                          vpiParent: GenFor
-                          vpiName Identifier name:B5 start:45:2 end:45:4:
-                          vpiFullName: small_test.B1.B4.B5
-                          vpiTypespec (1 items):
-                            UnsupportedTypespec name:M4 start:46:1 end:46:3:
-                              vpiParent: Begin name:B5
-                              vpiName Identifier name:M4 start:46:1 end:46:3:
-                          vpiStmt (1 items):
-                            RefInstance name:N4 start:46:4 end:46:6:
-                              vpiParent: Begin name:B5
-                              vpiName: N4
-                              vpiTypespec RefTypespec name:M4 start:46:1 end:46:3:
-                                vpiParent: RefInstance name:N4
-                                vpiName: M4
-                                vpiFullName: small_test.B1.B4.B5.N4.M4
-                                vpiActual: UnsupportedTypespec name:M4
+                            vpiOpType: less than (20)
+                            vpiOperand (2 items):
+                              RefObj name:k start:30:8 end:30:9:
+                                vpiParent: Operation
+                                vpiName: k
+                                vpiFullName: small_test.B1.B2.k
+                                vpiActual: Variable name:k
+                              RefObj name:SIZE start:30:10 end:30:14:
+                                vpiParent: Operation
+                                vpiName: SIZE
+                                vpiFullName: small_test.B1.B2.SIZE
+                                vpiActual: Parameter name:SIZE
+                          vpiStmt GenRegion name:B3 start:31:1 end:34:4:
+                            vpiParent: GenFor
+                            vpiName Identifier name:B3 start:32:2 end:32:4:
+                            vpiFullName: small_test.B1.B2.B3
+                            vpiTypespec (1 items):
+                              UnsupportedTypespec name:M3 start:33:1 end:33:3:
+                                vpiParent: GenRegion name:B3
+                                vpiName Identifier name:M3 start:33:1 end:33:3:
+                            vpiStmt (1 items):
+                              RefInstance name:N3 start:33:4 end:33:6:
+                                vpiParent: GenRegion name:B3
+                                vpiName: N3
+                                vpiTypespec RefTypespec name:M3 start:33:1 end:33:3:
+                                  vpiParent: RefInstance name:N3
+                                  vpiName: M3
+                                  vpiFullName: small_test.B1.B2.B3.N3.M3
+                                  vpiActual: UnsupportedTypespec name:M3
+                  GenIf start:37:1 end:50:4:
+                    vpiParent: GenRegion name:B1
+                    vpiCondition Operation start:38:3 end:38:6:
+                      vpiParent: GenIf
+                      vpiOpType: greater than (18)
+                      vpiOperand (2 items):
+                        RefObj name:i start:38:3 end:38:4:
+                          vpiParent: Operation
+                          vpiName: i
+                          vpiFullName: small_test.B1.i
+                          vpiActual: Variable name:i
+                        Constant start:38:5 end:38:6:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: small_test.B1
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                    vpiStmt GenRegion name:B4 start:39:1 end:50:4:
+                      vpiParent: GenIf
+                      vpiName Identifier name:B4 start:40:2 end:40:4:
+                      vpiFullName: small_test.B1.B4
+                      vpiStmt (1 items):
+                        GenFor start:42:1 end:48:4:
+                          vpiParent: GenRegion name:B4
+                          vpiFullName: small_test.B1.B4
+                          vpiForInitStmt (1 items):
+                            Assignment start:43:3 end:43:6:
+                              vpiParent: GenFor
+                              vpiLhs RefObj name:m start:43:3 end:43:4:
+                                vpiParent: Assignment
+                                vpiName: m
+                                vpiFullName: small_test.B1.B4.m
+                                vpiActual: Variable name:m
+                              vpiRhs Constant start:43:5 end:43:6:
+                                vpiParent: Assignment
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: small_test.B1.B4
+                                  vpiActual: IntTypespec
+                                vpiConstType: unsigned int (9)
+                                vpiSize: 64
+                                vpiDecompile: "0"
+                                vpiValue: 0
+                          vpiForIncStmt (1 items):
+                            Assignment start:43:16 end:43:21:
+                              vpiParent: GenFor
+                              vpiBlocking: true
+                              vpiLhs RefObj name:m start:43:16 end:43:17:
+                                vpiParent: Assignment
+                                vpiName: m
+                                vpiFullName: small_test.B1.B4.m
+                                vpiActual: Variable name:m
+                              vpiRhs Operation start:43:18 end:43:21:
+                                vpiParent: Assignment
+                                vpiOpType: add (24)
+                                vpiOperand (2 items):
+                                  RefObj name:m start:43:18 end:43:19:
+                                    vpiParent: Operation
+                                    vpiName: m
+                                    vpiFullName: small_test.B1.B4.m
+                                    vpiActual: Variable name:m
+                                  Constant start:43:20 end:43:21:
+                                    vpiParent: Operation
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: small_test.B1.B4
+                                      vpiActual: IntTypespec
+                                    vpiConstType: unsigned int (9)
+                                    vpiSize: 64
+                                    vpiDecompile: "1"
+                                    vpiValue: 1
+                          vpiCondition Operation start:43:8 end:43:14:
+                            vpiParent: GenFor
+                            vpiOpType: less than (20)
+                            vpiOperand (2 items):
+                              RefObj name:m start:43:8 end:43:9:
+                                vpiParent: Operation
+                                vpiName: m
+                                vpiFullName: small_test.B1.B4.m
+                                vpiActual: Variable name:m
+                              RefObj name:SIZE start:43:10 end:43:14:
+                                vpiParent: Operation
+                                vpiName: SIZE
+                                vpiFullName: small_test.B1.B4.SIZE
+                                vpiActual: Parameter name:SIZE
+                          vpiStmt GenRegion name:B5 start:44:1 end:48:4:
+                            vpiParent: GenFor
+                            vpiName Identifier name:B5 start:45:2 end:45:4:
+                            vpiFullName: small_test.B1.B4.B5
+                            vpiTypespec (1 items):
+                              UnsupportedTypespec name:M4 start:46:1 end:46:3:
+                                vpiParent: GenRegion name:B5
+                                vpiName Identifier name:M4 start:46:1 end:46:3:
+                            vpiStmt (1 items):
+                              RefInstance name:N4 start:46:4 end:46:6:
+                                vpiParent: GenRegion name:B5
+                                vpiName: N4
+                                vpiTypespec RefTypespec name:M4 start:46:1 end:46:3:
+                                  vpiParent: RefInstance name:N4
+                                  vpiName: M4
+                                  vpiFullName: small_test.B1.B4.B5.N4.M4
+                                  vpiActual: UnsupportedTypespec name:M4
   vpiTypespec (17 items):
     ModuleTypespec name:bottom1:
       vpiParent: Design name:unnamed
@@ -3161,7 +3156,7 @@ Operation                           15      10       0         5
 RefObj                             118     113       0         5
 RefTypespec                        436     436       5         5
 ----------------------------------------------------------------
-Others                            1254    1254       0         0
+Others                            1252    1252       0         0
 ----------------------------------------------------------------
-                                  1874    1864      10        20
+                                  1872    1862      10        20
 ===================== END REDUCTION RESULT =====================

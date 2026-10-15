@@ -2736,6 +2736,53 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:f_for start:70:21 end:70:26:
           vpiFullName: t.f_for
+          vpiVariable (2 items):
+            Variable name:i start:71:15 end:71:16:
+              vpiParent: Function name:f_for
+              vpiTypespec RefTypespec start:71:7 end:71:14:
+                vpiParent: Variable name:i
+                vpiFullName: t.f_for.i
+                vpiActual: IntegerTypespec
+              vpiName: i
+              vpiFullName: t.f_for.i
+            Variable name:times start:72:15 end:72:20:
+              vpiParent: Function name:f_for
+              vpiTypespec RefTypespec start:72:7 end:72:14:
+                vpiParent: Variable name:times
+                vpiFullName: t.f_for.times
+                vpiActual: IntegerTypespec
+              vpiName: times
+              vpiFullName: t.f_for.times
+          vpiTypespec (2 items):
+            IntegerTypespec:
+              vpiParent: Function name:f_for
+              vpiSigned: true
+            LogicTypespec:
+              vpiParent: Function name:f_for
+              vpiRange (1 items):
+                Range start:70:33 end:70:39:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:70:34 end:70:36:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.f_for
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "31"
+                    vpiValue: 31
+                  vpiRightRange Constant start:70:37 end:70:38:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.f_for
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:a start:70:40 end:70:41:
@@ -2746,47 +2793,42 @@ Design name:unnamed:
                 vpiParent: IODecl name:a
                 vpiFullName: t.f_for.a
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:73:7 end:77:10:
             vpiParent: Function name:f_for
             vpiFullName: t.f_for
-            vpiVariable (2 items):
-              Variable name:i start:71:15 end:71:16:
+            vpiStmt (3 items):
+              Assignment start:74:3 end:74:12:
                 vpiParent: Begin
-                vpiTypespec RefTypespec start:71:7 end:71:14:
-                  vpiParent: Variable name:i
-                  vpiFullName: t.f_for.i
-                  vpiActual: IntegerTypespec
-                vpiName: i
-                vpiFullName: t.f_for.i
-              Variable name:times start:72:15 end:72:20:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:72:7 end:72:14:
-                  vpiParent: Variable name:times
+                vpiBlocking: true
+                vpiLhs RefObj name:times start:74:3 end:74:8:
+                  vpiParent: Assignment
+                  vpiName: times
                   vpiFullName: t.f_for.times
-                  vpiActual: IntegerTypespec
-                vpiName: times
-                vpiFullName: t.f_for.times
-            vpiTypespec (2 items):
-              IntegerTypespec:
+                  vpiActual: Variable name:times
+                vpiRhs Constant start:74:11 end:74:12:
+                  vpiParent: Assignment
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: t.f_for
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "1"
+                  vpiValue: 1
+              ForStmt start:75:3 end:75:41:
                 vpiParent: Begin
-                vpiSigned: true
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:70:33 end:70:39:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:70:34 end:70:36:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.f_for
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "31"
-                      vpiValue: 31
-                    vpiRightRange Constant start:70:37 end:70:38:
-                      vpiParent: Range
+                vpiFullName: t.f_for
+                vpiForInitStmt (1 items):
+                  Assignment start:75:8 end:75:11:
+                    vpiParent: ForStmt
+                    vpiBlocking: true
+                    vpiLhs RefObj name:i start:75:8 end:75:9:
+                      vpiParent: Assignment
+                      vpiName: i
+                      vpiFullName: t.f_for.i
+                      vpiActual: Variable name:i
+                    vpiRhs Constant start:75:10 end:75:11:
+                      vpiParent: Assignment
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
                         vpiFullName: t.f_for
@@ -2795,136 +2837,88 @@ Design name:unnamed:
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
-                vpiVector: true
-            vpiStmt (3 items):
-              Variable name:i:
-              Variable name:times:
-              Begin start:73:7 end:77:10:
-                vpiParent: Begin
-                vpiFullName: t.f_for
-                vpiStmt (3 items):
-                  Assignment start:74:3 end:74:12:
-                    vpiParent: Begin
+                vpiForIncStmt (1 items):
+                  Assignment start:75:18 end:75:23:
+                    vpiParent: ForStmt
                     vpiBlocking: true
-                    vpiLhs RefObj name:times start:74:3 end:74:8:
+                    vpiLhs RefObj name:i start:75:18 end:75:19:
                       vpiParent: Assignment
-                      vpiName: times
-                      vpiFullName: t.f_for.times
-                      vpiActual: Variable name:times
-                    vpiRhs Constant start:74:11 end:74:12:
+                      vpiName: i
+                      vpiFullName: t.f_for.i
+                      vpiActual: Variable name:i
+                    vpiRhs Operation start:75:20 end:75:23:
                       vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.f_for
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-                  ForStmt start:75:3 end:75:41:
-                    vpiParent: Begin
-                    vpiFullName: t.f_for
-                    vpiForInitStmt (1 items):
-                      Assignment start:75:8 end:75:11:
-                        vpiParent: ForStmt
-                        vpiBlocking: true
-                        vpiLhs RefObj name:i start:75:8 end:75:9:
-                          vpiParent: Assignment
+                      vpiOpType: add (24)
+                      vpiOperand (2 items):
+                        RefObj name:i start:75:20 end:75:21:
+                          vpiParent: Operation
                           vpiName: i
                           vpiFullName: t.f_for.i
                           vpiActual: Variable name:i
-                        vpiRhs Constant start:75:10 end:75:11:
-                          vpiParent: Assignment
+                        Constant start:75:22 end:75:23:
+                          vpiParent: Operation
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
                             vpiFullName: t.f_for
                             vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
-                          vpiDecompile: "0"
-                          vpiValue: 0
-                    vpiForIncStmt (1 items):
-                      Assignment start:75:18 end:75:23:
-                        vpiParent: ForStmt
-                        vpiBlocking: true
-                        vpiLhs RefObj name:i start:75:18 end:75:19:
-                          vpiParent: Assignment
-                          vpiName: i
-                          vpiFullName: t.f_for.i
-                          vpiActual: Variable name:i
-                        vpiRhs Operation start:75:20 end:75:23:
-                          vpiParent: Assignment
-                          vpiOpType: add (24)
-                          vpiOperand (2 items):
-                            RefObj name:i start:75:20 end:75:21:
-                              vpiParent: Operation
-                              vpiName: i
-                              vpiFullName: t.f_for.i
-                              vpiActual: Variable name:i
-                            Constant start:75:22 end:75:23:
-                              vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t.f_for
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "1"
-                              vpiValue: 1
-                    vpiCondition Operation start:75:13 end:75:16:
-                      vpiParent: ForStmt
-                      vpiOpType: less than (20)
-                      vpiOperand (2 items):
-                        RefObj name:i start:75:13 end:75:14:
-                          vpiParent: Operation
-                          vpiName: i
-                          vpiFullName: t.f_for.i
-                          vpiActual: Variable name:i
-                        RefObj name:a start:75:15 end:75:16:
-                          vpiParent: Operation
-                          vpiName: a
-                          vpiFullName: t.f_for.a
-                          vpiActual: IODecl name:a
-                    vpiStmt Assignment start:75:25 end:75:40:
-                      vpiParent: ForStmt
-                      vpiBlocking: true
-                      vpiLhs RefObj name:times start:75:25 end:75:30:
-                        vpiParent: Assignment
+                          vpiDecompile: "1"
+                          vpiValue: 1
+                vpiCondition Operation start:75:13 end:75:16:
+                  vpiParent: ForStmt
+                  vpiOpType: less than (20)
+                  vpiOperand (2 items):
+                    RefObj name:i start:75:13 end:75:14:
+                      vpiParent: Operation
+                      vpiName: i
+                      vpiFullName: t.f_for.i
+                      vpiActual: Variable name:i
+                    RefObj name:a start:75:15 end:75:16:
+                      vpiParent: Operation
+                      vpiName: a
+                      vpiFullName: t.f_for.a
+                      vpiActual: IODecl name:a
+                vpiStmt Assignment start:75:25 end:75:40:
+                  vpiParent: ForStmt
+                  vpiBlocking: true
+                  vpiLhs RefObj name:times start:75:25 end:75:30:
+                    vpiParent: Assignment
+                    vpiName: times
+                    vpiFullName: t.f_for.times
+                    vpiActual: Variable name:times
+                  vpiRhs Operation start:75:33 end:75:40:
+                    vpiParent: Assignment
+                    vpiOpType: multiply (25)
+                    vpiOperand (2 items):
+                      RefObj name:times start:75:33 end:75:38:
+                        vpiParent: Operation
                         vpiName: times
                         vpiFullName: t.f_for.times
                         vpiActual: Variable name:times
-                      vpiRhs Operation start:75:33 end:75:40:
-                        vpiParent: Assignment
-                        vpiOpType: multiply (25)
-                        vpiOperand (2 items):
-                          RefObj name:times start:75:33 end:75:38:
-                            vpiParent: Operation
-                            vpiName: times
-                            vpiFullName: t.f_for.times
-                            vpiActual: Variable name:times
-                          Constant start:75:39 end:75:40:
-                            vpiParent: Operation
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t.f_for
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "2"
-                            vpiValue: 2
-                  Assignment start:76:3 end:76:16:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:f_for start:76:3 end:76:8:
-                      vpiParent: Assignment
-                      vpiName: f_for
-                      vpiFullName: t.f_for.f_for
-                      vpiActual: Function name:f_for
-                    vpiRhs RefObj name:times start:76:11 end:76:16:
-                      vpiParent: Assignment
-                      vpiName: times
-                      vpiFullName: t.f_for.times
-                      vpiActual: Variable name:times
+                      Constant start:75:39 end:75:40:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t.f_for
+                          vpiActual: IntTypespec
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "2"
+                        vpiValue: 2
+              Assignment start:76:3 end:76:16:
+                vpiParent: Begin
+                vpiBlocking: true
+                vpiLhs RefObj name:f_for start:76:3 end:76:8:
+                  vpiParent: Assignment
+                  vpiName: f_for
+                  vpiFullName: t.f_for.f_for
+                  vpiActual: Function name:f_for
+                vpiRhs RefObj name:times start:76:11 end:76:16:
+                  vpiParent: Assignment
+                  vpiName: times
+                  vpiFullName: t.f_for.times
+                  vpiActual: Variable name:times
           vpiReturn RefTypespec start:70:13 end:70:20:
             vpiParent: Function name:f_for
             vpiFullName: t.f_for
@@ -2933,6 +2927,45 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:f_while start:80:21 end:80:28:
           vpiFullName: t.f_while
+          vpiVariable (1 items):
+            Variable name:i start:81:15 end:81:16:
+              vpiParent: Function name:f_while
+              vpiTypespec RefTypespec start:81:7 end:81:14:
+                vpiParent: Variable name:i
+                vpiFullName: t.f_while.i
+                vpiActual: IntegerTypespec
+              vpiName: i
+              vpiFullName: t.f_while.i
+          vpiTypespec (2 items):
+            IntegerTypespec:
+              vpiParent: Function name:f_while
+              vpiSigned: true
+            LogicTypespec:
+              vpiParent: Function name:f_while
+              vpiRange (1 items):
+                Range start:80:35 end:80:41:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:80:36 end:80:38:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.f_while
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "31"
+                    vpiValue: 31
+                  vpiRightRange Constant start:80:39 end:80:40:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.f_while
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:a start:80:42 end:80:43:
@@ -2943,191 +2976,147 @@ Design name:unnamed:
                 vpiParent: IODecl name:a
                 vpiFullName: t.f_while.a
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:82:7 end:91:10:
             vpiParent: Function name:f_while
             vpiFullName: t.f_while
-            vpiVariable (1 items):
-              Variable name:i start:81:15 end:81:16:
+            vpiStmt (3 items):
+              Assignment start:83:3 end:83:6:
                 vpiParent: Begin
-                vpiTypespec RefTypespec start:81:7 end:81:14:
-                  vpiParent: Variable name:i
+                vpiBlocking: true
+                vpiLhs RefObj name:i start:83:3 end:83:4:
+                  vpiParent: Assignment
+                  vpiName: i
                   vpiFullName: t.f_while.i
-                  vpiActual: IntegerTypespec
-                vpiName: i
-                vpiFullName: t.f_while.i
-            vpiTypespec (2 items):
-              IntegerTypespec:
+                  vpiActual: Variable name:i
+                vpiRhs Constant start:83:5 end:83:6:
+                  vpiParent: Assignment
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: t.f_while
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "0"
+                  vpiValue: 0
+              Begin name:named start:84:3 end:86:14:
                 vpiParent: Begin
-                vpiSigned: true
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:80:35 end:80:41:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:80:36 end:80:38:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.f_while
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "31"
-                      vpiValue: 31
-                    vpiRightRange Constant start:80:39 end:80:40:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.f_while
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-            vpiStmt (2 items):
-              Variable name:i:
-              Begin start:82:7 end:91:10:
-                vpiParent: Begin
-                vpiFullName: t.f_while
-                vpiStmt (3 items):
-                  Assignment start:83:3 end:83:6:
-                    vpiParent: Begin
+                vpiName Identifier name:named start:84:11 end:84:16:
+                vpiFullName: t.f_while.named
+                vpiStmt (1 items):
+                  Assignment start:85:6 end:85:17:
+                    vpiParent: Begin name:named
                     vpiBlocking: true
-                    vpiLhs RefObj name:i start:83:3 end:83:4:
+                    vpiLhs RefObj name:f_while start:85:6 end:85:13:
                       vpiParent: Assignment
+                      vpiName: f_while
+                      vpiFullName: t.f_while.named.f_while
+                      vpiActual: Function name:f_while
+                    vpiRhs Constant start:85:16 end:85:17:
+                      vpiParent: Assignment
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t.f_while.named
+                        vpiActual: IntTypespec
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "1"
+                      vpiValue: 1
+                vpiEndLabel Identifier name:named start:86:9 end:86:14:
+              WhileStmt start:87:3 end:90:6:
+                vpiParent: Begin
+                vpiCondition Operation start:87:10 end:87:14:
+                  vpiParent: WhileStmt
+                  vpiOpType: less or equal (21)
+                  vpiOperand (2 items):
+                    RefObj name:i start:87:10 end:87:11:
+                      vpiParent: Operation
                       vpiName: i
                       vpiFullName: t.f_while.i
                       vpiActual: Variable name:i
-                    vpiRhs Constant start:83:5 end:83:6:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.f_while
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                  Begin name:named start:84:3 end:86:14:
-                    vpiParent: Begin
-                    vpiName Identifier name:named start:84:11 end:84:16:
-                    vpiFullName: t.f_while.named
-                    vpiStmt (1 items):
-                      Assignment start:85:6 end:85:17:
-                        vpiParent: Begin name:named
-                        vpiBlocking: true
-                        vpiLhs RefObj name:f_while start:85:6 end:85:13:
-                          vpiParent: Assignment
-                          vpiName: f_while
-                          vpiFullName: t.f_while.named.f_while
-                          vpiActual: Function name:f_while
-                        vpiRhs Constant start:85:16 end:85:17:
-                          vpiParent: Assignment
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.f_while.named
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
-                    vpiEndLabel Identifier name:named start:86:9 end:86:14:
-                  WhileStmt start:87:3 end:90:6:
-                    vpiParent: Begin
-                    vpiCondition Operation start:87:10 end:87:14:
-                      vpiParent: WhileStmt
-                      vpiOpType: less or equal (21)
-                      vpiOperand (2 items):
-                        RefObj name:i start:87:10 end:87:11:
-                          vpiParent: Operation
+                    RefObj name:a start:87:13 end:87:14:
+                      vpiParent: Operation
+                      vpiName: a
+                      vpiFullName: t.f_while.a
+                      vpiActual: IODecl name:a
+                vpiStmt Begin start:87:16 end:90:6:
+                  vpiParent: WhileStmt
+                  vpiFullName: t.f_while
+                  vpiStmt (2 items):
+                    IfStmt start:88:6 end:88:38:
+                      vpiParent: Begin
+                      vpiCondition BitSelect name:i[0] start:88:10 end:88:14:
+                        vpiParent: IfStmt
+                        vpiName: i[0]
+                        vpiFullName: t.f_while.i[0]
+                        vpiPrefix RefObj name:i start:88:10 end:88:11:
+                          vpiParent: BitSelect name:i[0]
                           vpiName: i
                           vpiFullName: t.f_while.i
                           vpiActual: Variable name:i
-                        RefObj name:a start:87:13 end:87:14:
-                          vpiParent: Operation
-                          vpiName: a
-                          vpiFullName: t.f_while.a
-                          vpiActual: IODecl name:a
-                    vpiStmt Begin start:87:16 end:90:6:
-                      vpiParent: WhileStmt
-                      vpiFullName: t.f_while
-                      vpiStmt (2 items):
-                        IfStmt start:88:6 end:88:38:
-                          vpiParent: Begin
-                          vpiCondition BitSelect name:i[0] start:88:10 end:88:14:
-                            vpiParent: IfStmt
-                            vpiName: i[0]
+                        vpiIndex Constant start:88:12 end:88:13:
+                          vpiParent: BitSelect name:i[0]
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
                             vpiFullName: t.f_while.i[0]
-                            vpiPrefix RefObj name:i start:88:10 end:88:11:
-                              vpiParent: BitSelect name:i[0]
-                              vpiName: i
-                              vpiFullName: t.f_while.i
-                              vpiActual: Variable name:i
-                            vpiIndex Constant start:88:12 end:88:13:
-                              vpiParent: BitSelect name:i[0]
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t.f_while.i[0]
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "0"
-                              vpiValue: 0
-                          vpiStmt Assignment start:88:16 end:88:37:
-                            vpiParent: IfStmt
-                            vpiBlocking: true
-                            vpiLhs RefObj name:f_while start:88:16 end:88:23:
-                              vpiParent: Assignment
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                      vpiStmt Assignment start:88:16 end:88:37:
+                        vpiParent: IfStmt
+                        vpiBlocking: true
+                        vpiLhs RefObj name:f_while start:88:16 end:88:23:
+                          vpiParent: Assignment
+                          vpiName: f_while
+                          vpiFullName: t.f_while.f_while
+                          vpiActual: Function name:f_while
+                        vpiRhs Operation start:88:26 end:88:37:
+                          vpiParent: Assignment
+                          vpiOpType: add (24)
+                          vpiOperand (2 items):
+                            RefObj name:f_while start:88:26 end:88:33:
+                              vpiParent: Operation
                               vpiName: f_while
                               vpiFullName: t.f_while.f_while
                               vpiActual: Function name:f_while
-                            vpiRhs Operation start:88:26 end:88:37:
-                              vpiParent: Assignment
-                              vpiOpType: add (24)
-                              vpiOperand (2 items):
-                                RefObj name:f_while start:88:26 end:88:33:
-                                  vpiParent: Operation
-                                  vpiName: f_while
-                                  vpiFullName: t.f_while.f_while
-                                  vpiActual: Function name:f_while
-                                Constant start:88:36 end:88:37:
-                                  vpiParent: Operation
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t.f_while
-                                    vpiActual: IntTypespec
-                                  vpiConstType: unsigned int (9)
-                                  vpiSize: 64
-                                  vpiDecompile: "1"
-                                  vpiValue: 1
-                        Assignment start:89:6 end:89:15:
-                          vpiParent: Begin
-                          vpiBlocking: true
-                          vpiLhs RefObj name:i start:89:6 end:89:7:
-                            vpiParent: Assignment
+                            Constant start:88:36 end:88:37:
+                              vpiParent: Operation
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t.f_while
+                                vpiActual: IntTypespec
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                    Assignment start:89:6 end:89:15:
+                      vpiParent: Begin
+                      vpiBlocking: true
+                      vpiLhs RefObj name:i start:89:6 end:89:7:
+                        vpiParent: Assignment
+                        vpiName: i
+                        vpiFullName: t.f_while.i
+                        vpiActual: Variable name:i
+                      vpiRhs Operation start:89:10 end:89:15:
+                        vpiParent: Assignment
+                        vpiOpType: add (24)
+                        vpiOperand (2 items):
+                          RefObj name:i start:89:10 end:89:11:
+                            vpiParent: Operation
                             vpiName: i
                             vpiFullName: t.f_while.i
                             vpiActual: Variable name:i
-                          vpiRhs Operation start:89:10 end:89:15:
-                            vpiParent: Assignment
-                            vpiOpType: add (24)
-                            vpiOperand (2 items):
-                              RefObj name:i start:89:10 end:89:11:
-                                vpiParent: Operation
-                                vpiName: i
-                                vpiFullName: t.f_while.i
-                                vpiActual: Variable name:i
-                              Constant start:89:14 end:89:15:
-                                vpiParent: Operation
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: t.f_while
-                                  vpiActual: IntTypespec
-                                vpiConstType: unsigned int (9)
-                                vpiSize: 64
-                                vpiDecompile: "1"
-                                vpiValue: 1
+                          Constant start:89:14 end:89:15:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t.f_while
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
           vpiReturn RefTypespec start:80:13 end:80:20:
             vpiParent: Function name:f_while
             vpiFullName: t.f_while
@@ -3322,6 +3311,55 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:f_return start:104:21 end:104:29:
           vpiFullName: t.f_return
+          vpiVariable (1 items):
+            Variable name:out start:105:15 end:105:18:
+              vpiParent: Function name:f_return
+              vpiTypespec RefTypespec start:105:7 end:105:14:
+                vpiParent: Variable name:out
+                vpiFullName: t.f_return.out
+                vpiActual: IntegerTypespec
+              vpiName: out
+              vpiFullName: t.f_return.out
+              vpiValue Constant start:105:21 end:105:22:
+                vpiParent: Variable name:out
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.f_return.out
+                  vpiActual: IntTypespec
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "2"
+                vpiValue: 2
+          vpiTypespec (2 items):
+            IntegerTypespec:
+              vpiParent: Function name:f_return
+              vpiSigned: true
+            LogicTypespec:
+              vpiParent: Function name:f_return
+              vpiRange (1 items):
+                Range start:104:36 end:104:42:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:104:37 end:104:39:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.f_return
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "31"
+                    vpiValue: 31
+                  vpiRightRange Constant start:104:40 end:104:41:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.f_return
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:a start:104:43 end:104:44:
@@ -3335,57 +3373,7 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:f_return
             vpiFullName: t.f_return
-            vpiVariable (1 items):
-              Variable name:out start:105:15 end:105:18:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:105:7 end:105:14:
-                  vpiParent: Variable name:out
-                  vpiFullName: t.f_return.out
-                  vpiActual: IntegerTypespec
-                vpiName: out
-                vpiFullName: t.f_return.out
-                vpiValue Constant start:105:21 end:105:22:
-                  vpiParent: Variable name:out
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t.f_return.out
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "2"
-                  vpiValue: 2
-            vpiTypespec (2 items):
-              IntegerTypespec:
-                vpiParent: Begin
-                vpiSigned: true
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:104:36 end:104:42:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:104:37 end:104:39:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.f_return
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "31"
-                      vpiValue: 31
-                    vpiRightRange Constant start:104:40 end:104:41:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.f_return
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-            vpiStmt (4 items):
-              Variable name:out:
+            vpiStmt (3 items):
               WhileStmt start:106:7 end:109:10:
                 vpiParent: Begin
                 vpiCondition Constant start:106:14 end:106:15:
@@ -3713,6 +3701,46 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:f_return_struct start:122:25 end:122:40:
           vpiFullName: t.f_return_struct
+          vpiVariable (1 items):
+            Variable name:result start:123:19 end:123:25:
+              vpiParent: Function name:f_return_struct
+              vpiTypespec RefTypespec name:bigstruct_t start:123:7 end:123:18:
+                vpiParent: Variable name:result
+                vpiName: bigstruct_t
+                vpiFullName: t.f_return_struct.result.bigstruct_t
+                vpiActual: TypedefTypespec name:bigstruct_t
+              vpiName: result
+              vpiFullName: t.f_return_struct.result
+          vpiTypespec (2 items):
+            LogicTypespec:
+              vpiParent: Function name:f_return_struct
+              vpiScalar: true
+            LogicTypespec:
+              vpiParent: Function name:f_return_struct
+              vpiRange (1 items):
+                Range start:122:74 end:122:80:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:122:75 end:122:77:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.f_return_struct
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "31"
+                    vpiValue: 31
+                  vpiRightRange Constant start:122:78 end:122:79:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t.f_return_struct
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
           vpiVisibility: public (1)
           vpiIODecl (3 items):
             IODecl name:first start:122:47 end:122:52:
@@ -3742,48 +3770,7 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:f_return_struct
             vpiFullName: t.f_return_struct
-            vpiVariable (1 items):
-              Variable name:result start:123:19 end:123:25:
-                vpiParent: Begin
-                vpiTypespec RefTypespec name:bigstruct_t start:123:7 end:123:18:
-                  vpiParent: Variable name:result
-                  vpiName: bigstruct_t
-                  vpiFullName: t.f_return_struct.result.bigstruct_t
-                  vpiActual: TypedefTypespec name:bigstruct_t
-                vpiName: result
-                vpiFullName: t.f_return_struct.result
-            vpiTypespec (2 items):
-              LogicTypespec:
-                vpiParent: Begin
-                vpiScalar: true
-              LogicTypespec:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:122:74 end:122:80:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:122:75 end:122:77:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.f_return_struct
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "31"
-                      vpiValue: 31
-                    vpiRightRange Constant start:122:78 end:122:79:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t.f_return_struct
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-            vpiStmt (5 items):
-              Variable name:result:
+            vpiStmt (4 items):
               Assignment start:124:7 end:124:25:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -4402,7 +4389,7 @@ Operation                           28      22       0         6
 RefObj                             106     102       0         4
 RefTypespec                        134     130       4         8
 ----------------------------------------------------------------
-Others                             284     284       0         0
+Others                             282     282       0         0
 ----------------------------------------------------------------
-                                   637     621      10        26
+                                   635     619      10        26
 ===================== END REDUCTION RESULT =====================

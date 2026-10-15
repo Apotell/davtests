@@ -175,9 +175,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_genfor_hier.v:11:1: Compile module "t".
 [INF:CP5836] $Source01/t_genfor_hier.v:12:70: Compile generate block "m1_b".
 [WRN:CP5851] $Source01/t_genfor_hier.v:8:4: Failed to bind "logic".
-[WRN:CP5851] $Source01/t_genfor_hier.v:16:42: Failed to bind "m1_inst".
-[WRN:CP5851] $Source01/t_genfor_hier.v:16:50: Failed to bind "v1".
-[WRN:CP5851] $Source01/t_genfor_hier.v:16:19: Failed to bind "m1_b".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -305,19 +302,19 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "4"
                 vpiValue: 4
-          vpiStmt Begin name:m1_b start:12:62 end:14:7:
+          vpiStmt GenRegion name:m1_b start:12:62 end:14:7:
             vpiParent: GenFor
             vpiName Identifier name:m1_b start:12:70 end:12:74:
             vpiFullName: t.m1_b
             vpiTypespec (1 items):
               ModuleTypespec name:m1 start:13:7 end:13:9:
-                vpiParent: Begin name:m1_b
+                vpiParent: GenRegion name:m1_b
                 vpiName Identifier name:m1 start:13:7 end:13:9:
                 vpiDefName: m1
                 vpiModule: Module name:m1
             vpiStmt (1 items):
               RefInstance name:m1_inst start:13:10 end:13:17:
-                vpiParent: Begin name:m1_b
+                vpiParent: GenRegion name:m1_b
                 vpiName: m1_inst
                 vpiTypespec RefTypespec name:m1 start:13:7 end:13:9:
                   vpiParent: RefInstance name:m1_inst
@@ -375,15 +372,16 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "4"
                 vpiValue: 4
-          vpiStmt Begin start:15:80 end:17:7:
+          vpiStmt GenRegion start:15:80 end:17:7:
             vpiParent: GenFor
             vpiFullName: t
             vpiTypespec (1 items):
               BitTypespec:
-                vpiParent: Begin
+                vpiParent: GenRegion
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               Always start:16:7 end:16:60:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiStmt Assignment start:16:19 end:16:59:
                   vpiParent: Always
                   vpiBlocking: true
@@ -400,6 +398,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:m1_b[the_other_genvar]
                           vpiName: m1_b
                           vpiFullName: t.m1_b[the_other_genvar].m1_inst.v1.m1_b
+                          vpiActual: GenRegion name:m1_b
                         vpiIndex RefObj name:the_other_genvar start:16:24 end:16:40:
                           vpiParent: BitSelect name:m1_b[the_other_genvar]
                           vpiName: the_other_genvar
@@ -409,10 +408,13 @@ Design name:unnamed:
                         vpiParent: RefObj name:m1_b[the_other_genvar].m1_inst.v1
                         vpiName: m1_inst
                         vpiFullName: t.m1_inst
+                        vpiActual: RefInstance name:m1_inst
                       RefObj name:v1 start:16:50 end:16:52:
                         vpiParent: RefObj name:m1_b[the_other_genvar].m1_inst.v1
                         vpiName: v1
                         vpiFullName: t.v1
+                        vpiActual: Variable name:v1
+                    vpiActual: Variable name:v1
                   vpiRhs Constant start:16:55 end:16:59:
                     vpiParent: Assignment
                     vpiTypespec RefTypespec:
@@ -448,7 +450,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

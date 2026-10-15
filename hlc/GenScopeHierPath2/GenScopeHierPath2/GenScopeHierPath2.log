@@ -349,18 +349,10 @@ n<$Source01/dut.sv> u<334> t<Top_level_rule> c<1> l<1:1> el<26:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "mod".
 [NTE:CP5810] $Source01/dut.sv:2:24: Implicit port type (wire) for "out".
+[INF:CP5836] $Source01/dut.sv:5:25: Compile generate block "blk1".
+[INF:CP5836] $Source01/dut.sv:8:30: Compile generate block "blk2".
 [INF:CP5836] $Source01/dut.sv:11:30: Compile generate block "blk3".
 [INF:CP5836] $Source01/dut.sv:14:18: Compile generate block "blk4".
-[INF:CP5836] $Source01/dut.sv:8:30: Compile generate block "blk2".
-[INF:CP5836] $Source01/dut.sv:5:25: Compile generate block "blk1".
-[WRN:CP5851] $Source01/dut.sv:18:28: Failed to bind "blk1".
-[WRN:CP5851] $Source01/dut.sv:18:33: Failed to bind "w".
-[WRN:CP5851] $Source01/dut.sv:20:28: Failed to bind "blk2".
-[WRN:CP5851] $Source01/dut.sv:20:33: Failed to bind "x".
-[WRN:CP5851] $Source01/dut.sv:22:28: Failed to bind "blk3".
-[WRN:CP5851] $Source01/dut.sv:22:33: Failed to bind "y".
-[WRN:CP5851] $Source01/dut.sv:24:28: Failed to bind "blk4".
-[WRN:CP5851] $Source01/dut.sv:24:33: Failed to bind "z".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "mod".
 ====== HLDB =======
 Design name:unnamed:
@@ -441,7 +433,7 @@ Design name:unnamed:
         vpiActual: Library name:work
       vpiCell: mod
       vpiAutomatic: true
-      vpiNet (5 items):
+      vpiNet (1 items):
         Net name:out start:2:24 end:2:27:
           vpiParent: Module name:mod
           vpiTypespec RefTypespec start:2:17 end:2:23:
@@ -450,50 +442,6 @@ Design name:unnamed:
             vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: mod.out
-          vpiNetType: wire (1)
-        Net name:y start:12:14 end:12:15:
-          vpiParent: Module name:mod
-          vpiTypespec RefTypespec name:logic [5]:
-            vpiParent: Net name:y
-            vpiName: logic [5]
-            vpiFullName: mod.y.logic [5]
-            vpiActual: ArrayTypespec
-          vpiName: y
-          vpiFullName: mod.y
-          vpiNetDeclAssign: true
-          vpiNetType: wire (1)
-        Net name:z start:15:14 end:15:15:
-          vpiParent: Module name:mod
-          vpiTypespec RefTypespec name:logic [7]:
-            vpiParent: Net name:z
-            vpiName: logic [7]
-            vpiFullName: mod.z.logic [7]
-            vpiActual: ArrayTypespec
-          vpiName: z
-          vpiFullName: mod.z
-          vpiNetDeclAssign: true
-          vpiNetType: wire (1)
-        Net name:x start:9:14 end:9:15:
-          vpiParent: Module name:mod
-          vpiTypespec RefTypespec name:logic [3]:
-            vpiParent: Net name:x
-            vpiName: logic [3]
-            vpiFullName: mod.x.logic [3]
-            vpiActual: ArrayTypespec
-          vpiName: x
-          vpiFullName: mod.x
-          vpiNetDeclAssign: true
-          vpiNetType: wire (1)
-        Net name:w start:6:14 end:6:15:
-          vpiParent: Module name:mod
-          vpiTypespec RefTypespec name:logic [2]:
-            vpiParent: Net name:w
-            vpiName: logic [2]
-            vpiFullName: mod.w.logic [2]
-            vpiActual: ArrayTypespec
-          vpiName: w
-          vpiFullName: mod.w
-          vpiNetDeclAssign: true
           vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:out start:2:24 end:2:27:
@@ -536,13 +484,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-          vpiStmt Begin name:blk1 start:5:17 end:7:8:
+          vpiStmt GenRegion name:blk1 start:5:17 end:7:8:
             vpiParent: GenIfElse
             vpiName Identifier name:blk1 start:5:25 end:5:29:
             vpiFullName: mod.blk1
             vpiTypespec (2 items):
               ArrayTypespec:
-                vpiParent: Begin name:blk1
+                vpiParent: GenRegion name:blk1
                 vpiArrayType: static (1)
                 vpiRange Range start:6:16 end:6:19:
                   vpiParent: ArrayTypespec
@@ -565,151 +513,191 @@ Design name:unnamed:
                   vpiFullName: mod.blk1
                   vpiActual: LogicTypespec
               LogicTypespec:
-                vpiParent: Begin name:blk1
+                vpiParent: GenRegion name:blk1
                 vpiScalar: true
-          vpiElseStmt Begin:
+            vpiNet (1 items):
+              Net name:w start:6:14 end:6:15:
+                vpiParent: GenRegion name:blk1
+                vpiTypespec RefTypespec name:logic [2]:
+                  vpiParent: Net name:w
+                  vpiName: logic [2]
+                  vpiFullName: mod.blk1.w.logic [2]
+                  vpiActual: ArrayTypespec
+                vpiName: w
+                vpiFullName: mod.blk1.w
+                vpiNetDeclAssign: true
+                vpiNetType: wire (1)
+          vpiElseStmt GenIfElse start:8:10 end:16:8:
             vpiParent: GenIfElse
-            vpiFullName: mod
-            vpiStmt (1 items):
-              GenIfElse start:8:10 end:16:8:
-                vpiParent: Begin
-                vpiCondition Operation start:8:14 end:8:20:
-                  vpiParent: GenIfElse
-                  vpiOpType: equal (14)
-                  vpiOperand (2 items):
-                    RefObj name:P start:8:14 end:8:15:
-                      vpiParent: Operation
-                      vpiName: P
-                      vpiFullName: mod.P
-                      vpiActual: Parameter name:P
-                    Constant start:8:19 end:8:20:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: mod
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "2"
-                      vpiValue: 2
-                vpiStmt Begin name:blk2 start:8:22 end:10:8:
-                  vpiParent: GenIfElse
-                  vpiName Identifier name:blk2 start:8:30 end:8:34:
-                  vpiFullName: mod.blk2
-                  vpiTypespec (2 items):
-                    ArrayTypespec:
-                      vpiParent: Begin name:blk2
-                      vpiArrayType: static (1)
-                      vpiRange Range start:9:16 end:9:19:
-                        vpiParent: ArrayTypespec
-                        vpiLeftRange Operation:
-                          vpiParent: Range
-                          vpiOpType: subtract (11)
-                          vpiOperand (1 items):
-                            Constant start:9:17 end:9:18:
-                              vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: mod.blk2
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "3"
-                              vpiValue: 3
-                      vpiElemTypespec RefTypespec:
-                        vpiParent: ArrayTypespec
-                        vpiFullName: mod.blk2
-                        vpiActual: LogicTypespec
-                    LogicTypespec:
-                      vpiParent: Begin name:blk2
-                      vpiScalar: true
-                vpiElseStmt Begin:
-                  vpiParent: GenIfElse
-                  vpiFullName: mod
-                  vpiStmt (1 items):
-                    GenIfElse start:11:10 end:16:8:
-                      vpiParent: Begin
-                      vpiCondition Operation start:11:14 end:11:20:
-                        vpiParent: GenIfElse
-                        vpiOpType: equal (14)
-                        vpiOperand (2 items):
-                          RefObj name:P start:11:14 end:11:15:
-                            vpiParent: Operation
-                            vpiName: P
-                            vpiFullName: mod.P
-                            vpiActual: Parameter name:P
-                          Constant start:11:19 end:11:20:
+            vpiCondition Operation start:8:14 end:8:20:
+              vpiParent: GenIfElse
+              vpiOpType: equal (14)
+              vpiOperand (2 items):
+                RefObj name:P start:8:14 end:8:15:
+                  vpiParent: Operation
+                  vpiName: P
+                  vpiFullName: mod.P
+                  vpiActual: Parameter name:P
+                Constant start:8:19 end:8:20:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: mod
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "2"
+                  vpiValue: 2
+            vpiStmt GenRegion name:blk2 start:8:22 end:10:8:
+              vpiParent: GenIfElse
+              vpiName Identifier name:blk2 start:8:30 end:8:34:
+              vpiFullName: mod.blk2
+              vpiTypespec (2 items):
+                ArrayTypespec:
+                  vpiParent: GenRegion name:blk2
+                  vpiArrayType: static (1)
+                  vpiRange Range start:9:16 end:9:19:
+                    vpiParent: ArrayTypespec
+                    vpiLeftRange Operation:
+                      vpiParent: Range
+                      vpiOpType: subtract (11)
+                      vpiOperand (1 items):
+                        Constant start:9:17 end:9:18:
+                          vpiParent: Operation
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: mod.blk2
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "3"
+                          vpiValue: 3
+                  vpiElemTypespec RefTypespec:
+                    vpiParent: ArrayTypespec
+                    vpiFullName: mod.blk2
+                    vpiActual: LogicTypespec
+                LogicTypespec:
+                  vpiParent: GenRegion name:blk2
+                  vpiScalar: true
+              vpiNet (1 items):
+                Net name:x start:9:14 end:9:15:
+                  vpiParent: GenRegion name:blk2
+                  vpiTypespec RefTypespec name:logic [3]:
+                    vpiParent: Net name:x
+                    vpiName: logic [3]
+                    vpiFullName: mod.blk2.x.logic [3]
+                    vpiActual: ArrayTypespec
+                  vpiName: x
+                  vpiFullName: mod.blk2.x
+                  vpiNetDeclAssign: true
+                  vpiNetType: wire (1)
+            vpiElseStmt GenIfElse start:11:10 end:16:8:
+              vpiParent: GenIfElse
+              vpiCondition Operation start:11:14 end:11:20:
+                vpiParent: GenIfElse
+                vpiOpType: equal (14)
+                vpiOperand (2 items):
+                  RefObj name:P start:11:14 end:11:15:
+                    vpiParent: Operation
+                    vpiName: P
+                    vpiFullName: mod.P
+                    vpiActual: Parameter name:P
+                  Constant start:11:19 end:11:20:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: mod
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "3"
+                    vpiValue: 3
+              vpiStmt GenRegion name:blk3 start:11:22 end:13:8:
+                vpiParent: GenIfElse
+                vpiName Identifier name:blk3 start:11:30 end:11:34:
+                vpiFullName: mod.blk3
+                vpiTypespec (2 items):
+                  ArrayTypespec:
+                    vpiParent: GenRegion name:blk3
+                    vpiArrayType: static (1)
+                    vpiRange Range start:12:16 end:12:19:
+                      vpiParent: ArrayTypespec
+                      vpiLeftRange Operation:
+                        vpiParent: Range
+                        vpiOpType: subtract (11)
+                        vpiOperand (1 items):
+                          Constant start:12:17 end:12:18:
                             vpiParent: Operation
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: mod
+                              vpiFullName: mod.blk3
                               vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
-                            vpiDecompile: "3"
-                            vpiValue: 3
-                      vpiStmt Begin name:blk3 start:11:22 end:13:8:
-                        vpiParent: GenIfElse
-                        vpiName Identifier name:blk3 start:11:30 end:11:34:
-                        vpiFullName: mod.blk3
-                        vpiTypespec (2 items):
-                          ArrayTypespec:
-                            vpiParent: Begin name:blk3
-                            vpiArrayType: static (1)
-                            vpiRange Range start:12:16 end:12:19:
-                              vpiParent: ArrayTypespec
-                              vpiLeftRange Operation:
-                                vpiParent: Range
-                                vpiOpType: subtract (11)
-                                vpiOperand (1 items):
-                                  Constant start:12:17 end:12:18:
-                                    vpiParent: Operation
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: mod.blk3
-                                      vpiActual: IntTypespec
-                                    vpiConstType: unsigned int (9)
-                                    vpiSize: 64
-                                    vpiDecompile: "5"
-                                    vpiValue: 5
-                            vpiElemTypespec RefTypespec:
-                              vpiParent: ArrayTypespec
-                              vpiFullName: mod.blk3
-                              vpiActual: LogicTypespec
-                          LogicTypespec:
-                            vpiParent: Begin name:blk3
-                            vpiScalar: true
-                      vpiElseStmt Begin name:blk4 start:14:10 end:16:8:
-                        vpiParent: GenIfElse
-                        vpiName Identifier name:blk4 start:14:18 end:14:22:
-                        vpiFullName: mod.blk4
-                        vpiTypespec (2 items):
-                          ArrayTypespec:
-                            vpiParent: Begin name:blk4
-                            vpiArrayType: static (1)
-                            vpiRange Range start:15:16 end:15:19:
-                              vpiParent: ArrayTypespec
-                              vpiLeftRange Operation:
-                                vpiParent: Range
-                                vpiOpType: subtract (11)
-                                vpiOperand (1 items):
-                                  Constant start:15:17 end:15:18:
-                                    vpiParent: Operation
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: mod.blk4
-                                      vpiActual: IntTypespec
-                                    vpiConstType: unsigned int (9)
-                                    vpiSize: 64
-                                    vpiDecompile: "7"
-                                    vpiValue: 7
-                            vpiElemTypespec RefTypespec:
-                              vpiParent: ArrayTypespec
+                            vpiDecompile: "5"
+                            vpiValue: 5
+                    vpiElemTypespec RefTypespec:
+                      vpiParent: ArrayTypespec
+                      vpiFullName: mod.blk3
+                      vpiActual: LogicTypespec
+                  LogicTypespec:
+                    vpiParent: GenRegion name:blk3
+                    vpiScalar: true
+                vpiNet (1 items):
+                  Net name:y start:12:14 end:12:15:
+                    vpiParent: GenRegion name:blk3
+                    vpiTypespec RefTypespec name:logic [5]:
+                      vpiParent: Net name:y
+                      vpiName: logic [5]
+                      vpiFullName: mod.blk3.y.logic [5]
+                      vpiActual: ArrayTypespec
+                    vpiName: y
+                    vpiFullName: mod.blk3.y
+                    vpiNetDeclAssign: true
+                    vpiNetType: wire (1)
+              vpiElseStmt GenRegion name:blk4 start:14:10 end:16:8:
+                vpiParent: GenIfElse
+                vpiName Identifier name:blk4 start:14:18 end:14:22:
+                vpiFullName: mod.blk4
+                vpiTypespec (2 items):
+                  ArrayTypespec:
+                    vpiParent: GenRegion name:blk4
+                    vpiArrayType: static (1)
+                    vpiRange Range start:15:16 end:15:19:
+                      vpiParent: ArrayTypespec
+                      vpiLeftRange Operation:
+                        vpiParent: Range
+                        vpiOpType: subtract (11)
+                        vpiOperand (1 items):
+                          Constant start:15:17 end:15:18:
+                            vpiParent: Operation
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
                               vpiFullName: mod.blk4
-                              vpiActual: LogicTypespec
-                          LogicTypespec:
-                            vpiParent: Begin name:blk4
-                            vpiScalar: true
+                              vpiActual: IntTypespec
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "7"
+                            vpiValue: 7
+                    vpiElemTypespec RefTypespec:
+                      vpiParent: ArrayTypespec
+                      vpiFullName: mod.blk4
+                      vpiActual: LogicTypespec
+                  LogicTypespec:
+                    vpiParent: GenRegion name:blk4
+                    vpiScalar: true
+                vpiNet (1 items):
+                  Net name:z start:15:14 end:15:15:
+                    vpiParent: GenRegion name:blk4
+                    vpiTypespec RefTypespec name:logic [7]:
+                      vpiParent: Net name:z
+                      vpiName: logic [7]
+                      vpiFullName: mod.blk4.z.logic [7]
+                      vpiActual: ArrayTypespec
+                    vpiName: z
+                    vpiFullName: mod.blk4.z
+                    vpiNetDeclAssign: true
+                    vpiNetType: wire (1)
         GenIfElse start:17:5 end:24:36:
           vpiParent: Module name:mod
           vpiCondition Operation start:17:9 end:17:15:
@@ -731,12 +719,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
-          vpiStmt Begin:
+          vpiStmt GenRegion start:18:9 end:18:36:
             vpiParent: GenIfElse
             vpiFullName: mod
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               ContAssign start:18:16 end:18:35:
-                vpiParent: Begin
+                vpiParent: GenRegion
                 vpiLhs RefObj name:out start:18:16 end:18:19:
                   vpiParent: ContAssign
                   vpiName: out
@@ -757,150 +746,157 @@ Design name:unnamed:
                             vpiParent: RefObj name:blk1.w
                             vpiName: blk1
                             vpiFullName: mod.blk1
+                            vpiActual: GenRegion name:blk1
                           RefObj name:w start:18:33 end:18:34:
                             vpiParent: RefObj name:blk1.w
                             vpiName: w
                             vpiFullName: mod.w
-          vpiElseStmt Begin:
+                            vpiActual: Net name:w
+                        vpiActual: Net name:w
+          vpiElseStmt GenIfElse start:19:10 end:24:36:
             vpiParent: GenIfElse
-            vpiFullName: mod
-            vpiStmt (1 items):
-              GenIfElse start:19:10 end:24:36:
-                vpiParent: Begin
-                vpiCondition Operation start:19:14 end:19:20:
-                  vpiParent: GenIfElse
-                  vpiOpType: equal (14)
-                  vpiOperand (2 items):
-                    RefObj name:P start:19:14 end:19:15:
-                      vpiParent: Operation
-                      vpiName: P
-                      vpiFullName: mod.P
-                      vpiActual: Parameter name:P
-                    Constant start:19:19 end:19:20:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: mod
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "2"
-                      vpiValue: 2
-                vpiStmt Begin:
-                  vpiParent: GenIfElse
-                  vpiFullName: mod
-                  vpiStmt (1 items):
-                    ContAssign start:20:16 end:20:35:
-                      vpiParent: Begin
-                      vpiLhs RefObj name:out start:20:16 end:20:19:
-                        vpiParent: ContAssign
-                        vpiName: out
-                        vpiFullName: mod.out
-                        vpiActual: Net name:out
-                      vpiRhs SysFuncCall name:$bits start:20:22 end:20:35:
-                        vpiParent: ContAssign
-                        vpiName Identifier name:$bits start:20:22 end:20:27:
-                        vpiArgument (1 items):
-                          NamedArgument start:20:28 end:20:34:
-                            vpiParent: SysFuncCall name:$bits
-                            vpiHighConn RefObj name:blk2.x start:20:28 end:20:34:
-                              vpiParent: NamedArgument
-                              vpiName: blk2.x
-                              vpiFullName: mod.blk2.x
-                              vpiPathElem (2 items):
-                                RefObj name:blk2 start:20:28 end:20:32:
-                                  vpiParent: RefObj name:blk2.x
-                                  vpiName: blk2
-                                  vpiFullName: mod.blk2
-                                RefObj name:x start:20:33 end:20:34:
-                                  vpiParent: RefObj name:blk2.x
-                                  vpiName: x
-                                  vpiFullName: mod.x
-                vpiElseStmt Begin:
-                  vpiParent: GenIfElse
-                  vpiFullName: mod
-                  vpiStmt (1 items):
-                    GenIfElse start:21:10 end:24:36:
-                      vpiParent: Begin
-                      vpiCondition Operation start:21:14 end:21:20:
-                        vpiParent: GenIfElse
-                        vpiOpType: equal (14)
-                        vpiOperand (2 items):
-                          RefObj name:P start:21:14 end:21:15:
-                            vpiParent: Operation
-                            vpiName: P
-                            vpiFullName: mod.P
-                            vpiActual: Parameter name:P
-                          Constant start:21:19 end:21:20:
-                            vpiParent: Operation
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: mod
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "3"
-                            vpiValue: 3
-                      vpiStmt Begin:
-                        vpiParent: GenIfElse
-                        vpiFullName: mod
-                        vpiStmt (1 items):
-                          ContAssign start:22:16 end:22:35:
-                            vpiParent: Begin
-                            vpiLhs RefObj name:out start:22:16 end:22:19:
-                              vpiParent: ContAssign
-                              vpiName: out
-                              vpiFullName: mod.out
-                              vpiActual: Net name:out
-                            vpiRhs SysFuncCall name:$bits start:22:22 end:22:35:
-                              vpiParent: ContAssign
-                              vpiName Identifier name:$bits start:22:22 end:22:27:
-                              vpiArgument (1 items):
-                                NamedArgument start:22:28 end:22:34:
-                                  vpiParent: SysFuncCall name:$bits
-                                  vpiHighConn RefObj name:blk3.y start:22:28 end:22:34:
-                                    vpiParent: NamedArgument
-                                    vpiName: blk3.y
-                                    vpiFullName: mod.blk3.y
-                                    vpiPathElem (2 items):
-                                      RefObj name:blk3 start:22:28 end:22:32:
-                                        vpiParent: RefObj name:blk3.y
-                                        vpiName: blk3
-                                        vpiFullName: mod.blk3
-                                      RefObj name:y start:22:33 end:22:34:
-                                        vpiParent: RefObj name:blk3.y
-                                        vpiName: y
-                                        vpiFullName: mod.y
-                      vpiElseStmt Begin:
-                        vpiParent: GenIfElse
-                        vpiFullName: mod
-                        vpiStmt (1 items):
-                          ContAssign start:24:16 end:24:35:
-                            vpiParent: Begin
-                            vpiLhs RefObj name:out start:24:16 end:24:19:
-                              vpiParent: ContAssign
-                              vpiName: out
-                              vpiFullName: mod.out
-                              vpiActual: Net name:out
-                            vpiRhs SysFuncCall name:$bits start:24:22 end:24:35:
-                              vpiParent: ContAssign
-                              vpiName Identifier name:$bits start:24:22 end:24:27:
-                              vpiArgument (1 items):
-                                NamedArgument start:24:28 end:24:34:
-                                  vpiParent: SysFuncCall name:$bits
-                                  vpiHighConn RefObj name:blk4.z start:24:28 end:24:34:
-                                    vpiParent: NamedArgument
-                                    vpiName: blk4.z
-                                    vpiFullName: mod.blk4.z
-                                    vpiPathElem (2 items):
-                                      RefObj name:blk4 start:24:28 end:24:32:
-                                        vpiParent: RefObj name:blk4.z
-                                        vpiName: blk4
-                                        vpiFullName: mod.blk4
-                                      RefObj name:z start:24:33 end:24:34:
-                                        vpiParent: RefObj name:blk4.z
-                                        vpiName: z
-                                        vpiFullName: mod.z
+            vpiCondition Operation start:19:14 end:19:20:
+              vpiParent: GenIfElse
+              vpiOpType: equal (14)
+              vpiOperand (2 items):
+                RefObj name:P start:19:14 end:19:15:
+                  vpiParent: Operation
+                  vpiName: P
+                  vpiFullName: mod.P
+                  vpiActual: Parameter name:P
+                Constant start:19:19 end:19:20:
+                  vpiParent: Operation
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: mod
+                    vpiActual: IntTypespec
+                  vpiConstType: unsigned int (9)
+                  vpiSize: 64
+                  vpiDecompile: "2"
+                  vpiValue: 2
+            vpiStmt GenRegion start:20:9 end:20:36:
+              vpiParent: GenIfElse
+              vpiFullName: mod
+              vpiImplicitDecl: true
+              vpiStmt (1 items):
+                ContAssign start:20:16 end:20:35:
+                  vpiParent: GenRegion
+                  vpiLhs RefObj name:out start:20:16 end:20:19:
+                    vpiParent: ContAssign
+                    vpiName: out
+                    vpiFullName: mod.out
+                    vpiActual: Net name:out
+                  vpiRhs SysFuncCall name:$bits start:20:22 end:20:35:
+                    vpiParent: ContAssign
+                    vpiName Identifier name:$bits start:20:22 end:20:27:
+                    vpiArgument (1 items):
+                      NamedArgument start:20:28 end:20:34:
+                        vpiParent: SysFuncCall name:$bits
+                        vpiHighConn RefObj name:blk2.x start:20:28 end:20:34:
+                          vpiParent: NamedArgument
+                          vpiName: blk2.x
+                          vpiFullName: mod.blk2.x
+                          vpiPathElem (2 items):
+                            RefObj name:blk2 start:20:28 end:20:32:
+                              vpiParent: RefObj name:blk2.x
+                              vpiName: blk2
+                              vpiFullName: mod.blk2
+                              vpiActual: GenRegion name:blk2
+                            RefObj name:x start:20:33 end:20:34:
+                              vpiParent: RefObj name:blk2.x
+                              vpiName: x
+                              vpiFullName: mod.x
+                              vpiActual: Net name:x
+                          vpiActual: Net name:x
+            vpiElseStmt GenIfElse start:21:10 end:24:36:
+              vpiParent: GenIfElse
+              vpiCondition Operation start:21:14 end:21:20:
+                vpiParent: GenIfElse
+                vpiOpType: equal (14)
+                vpiOperand (2 items):
+                  RefObj name:P start:21:14 end:21:15:
+                    vpiParent: Operation
+                    vpiName: P
+                    vpiFullName: mod.P
+                    vpiActual: Parameter name:P
+                  Constant start:21:19 end:21:20:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: mod
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "3"
+                    vpiValue: 3
+              vpiStmt GenRegion start:22:9 end:22:36:
+                vpiParent: GenIfElse
+                vpiFullName: mod
+                vpiImplicitDecl: true
+                vpiStmt (1 items):
+                  ContAssign start:22:16 end:22:35:
+                    vpiParent: GenRegion
+                    vpiLhs RefObj name:out start:22:16 end:22:19:
+                      vpiParent: ContAssign
+                      vpiName: out
+                      vpiFullName: mod.out
+                      vpiActual: Net name:out
+                    vpiRhs SysFuncCall name:$bits start:22:22 end:22:35:
+                      vpiParent: ContAssign
+                      vpiName Identifier name:$bits start:22:22 end:22:27:
+                      vpiArgument (1 items):
+                        NamedArgument start:22:28 end:22:34:
+                          vpiParent: SysFuncCall name:$bits
+                          vpiHighConn RefObj name:blk3.y start:22:28 end:22:34:
+                            vpiParent: NamedArgument
+                            vpiName: blk3.y
+                            vpiFullName: mod.blk3.y
+                            vpiPathElem (2 items):
+                              RefObj name:blk3 start:22:28 end:22:32:
+                                vpiParent: RefObj name:blk3.y
+                                vpiName: blk3
+                                vpiFullName: mod.blk3
+                                vpiActual: GenRegion name:blk3
+                              RefObj name:y start:22:33 end:22:34:
+                                vpiParent: RefObj name:blk3.y
+                                vpiName: y
+                                vpiFullName: mod.y
+                                vpiActual: Net name:y
+                            vpiActual: Net name:y
+              vpiElseStmt GenRegion start:24:9 end:24:36:
+                vpiParent: GenIfElse
+                vpiFullName: mod
+                vpiImplicitDecl: true
+                vpiStmt (1 items):
+                  ContAssign start:24:16 end:24:35:
+                    vpiParent: GenRegion
+                    vpiLhs RefObj name:out start:24:16 end:24:19:
+                      vpiParent: ContAssign
+                      vpiName: out
+                      vpiFullName: mod.out
+                      vpiActual: Net name:out
+                    vpiRhs SysFuncCall name:$bits start:24:22 end:24:35:
+                      vpiParent: ContAssign
+                      vpiName Identifier name:$bits start:24:22 end:24:27:
+                      vpiArgument (1 items):
+                        NamedArgument start:24:28 end:24:34:
+                          vpiParent: SysFuncCall name:$bits
+                          vpiHighConn RefObj name:blk4.z start:24:28 end:24:34:
+                            vpiParent: NamedArgument
+                            vpiName: blk4.z
+                            vpiFullName: mod.blk4.z
+                            vpiPathElem (2 items):
+                              RefObj name:blk4 start:24:28 end:24:32:
+                                vpiParent: RefObj name:blk4.z
+                                vpiName: blk4
+                                vpiFullName: mod.blk4
+                                vpiActual: GenRegion name:blk4
+                              RefObj name:z start:24:33 end:24:34:
+                                vpiParent: RefObj name:blk4.z
+                                vpiName: z
+                                vpiFullName: mod.z
+                                vpiActual: Net name:z
+                            vpiActual: Net name:z
   vpiTypespec (2 items):
     ModuleTypespec name:mod:
       vpiParent: Design name:unnamed
@@ -918,7 +914,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 9
+[WARNING] : 1
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -966,7 +962,7 @@ Operation                           10       4       0         6
 RefObj                              25      19       0         6
 RefTypespec                         24      24       6         6
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              66      66       0         0
 ----------------------------------------------------------------
-                                   142     130      12        24
+                                   138     126      12        24
 ===================== END REDUCTION RESULT =====================

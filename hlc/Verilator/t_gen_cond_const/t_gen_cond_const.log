@@ -685,71 +685,73 @@ Design name:unnamed:
         GenRegion start:61:4 end:69:15:
           vpiParent: "Module name:test_gen #(.SIZE(4), .MASK(4'b0))"
           vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
-          vpiStmt GenIf start:62:7 end:68:10:
-            vpiParent: GenRegion
-            vpiCondition Operation start:62:11 end:62:36:
-              vpiParent: GenIf
-              vpiOpType: logical and (26)
-              vpiOperand (2 items):
-                Operation start:62:12 end:62:24:
-                  vpiParent: Operation
-                  vpiOpType: less than (20)
-                  vpiOperand (2 items):
-                    RefObj name:SIZE start:62:12 end:62:16:
-                      vpiParent: Operation
-                      vpiName: SIZE
-                      vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).SIZE"
-                      vpiActual: Parameter name:SIZE
-                    Constant start:62:19 end:62:24:
-                      vpiParent: Operation
+          vpiStmt (1 items):
+            GenIf start:62:7 end:68:10:
+              vpiParent: GenRegion
+              vpiCondition Operation start:62:11 end:62:36:
+                vpiParent: GenIf
+                vpiOpType: logical and (26)
+                vpiOperand (2 items):
+                  Operation start:62:12 end:62:24:
+                    vpiParent: Operation
+                    vpiOpType: less than (20)
+                    vpiOperand (2 items):
+                      RefObj name:SIZE start:62:12 end:62:16:
+                        vpiParent: Operation
+                        vpiName: SIZE
+                        vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).SIZE"
+                        vpiActual: Parameter name:SIZE
+                      Constant start:62:19 end:62:24:
+                        vpiParent: Operation
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
+                          vpiActual: IntTypespec
+                        vpiConstType: hexadecimal (5)
+                        vpiSize: 8
+                        vpiDecompile: "8'h04"
+                        vpiValue: "04"
+                  BitSelect name:MASK[0] start:62:29 end:62:36:
+                    vpiParent: Operation
+                    vpiName: MASK[0]
+                    vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK[0]"
+                    vpiPrefix RefObj name:MASK start:62:29 end:62:33:
+                      vpiParent: BitSelect name:MASK[0]
+                      vpiName: MASK
+                      vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK"
+                      vpiActual: Parameter name:MASK
+                    vpiIndex Constant start:62:34 end:62:35:
+                      vpiParent: BitSelect name:MASK[0]
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
-                        vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
+                        vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK[0]"
                         vpiActual: IntTypespec
-                      vpiConstType: hexadecimal (5)
-                      vpiSize: 8
-                      vpiDecompile: "8'h04"
-                      vpiValue: "04"
-                BitSelect name:MASK[0] start:62:29 end:62:36:
-                  vpiParent: Operation
-                  vpiName: MASK[0]
-                  vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK[0]"
-                  vpiPrefix RefObj name:MASK start:62:29 end:62:33:
-                    vpiParent: BitSelect name:MASK[0]
-                    vpiName: MASK
-                    vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK"
-                    vpiActual: Parameter name:MASK
-                  vpiIndex Constant start:62:34 end:62:35:
-                    vpiParent: BitSelect name:MASK[0]
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).MASK[0]"
-                      vpiActual: IntTypespec
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
-                    vpiDecompile: "0"
-                    vpiValue: 0
-            vpiStmt Begin start:62:38 end:68:10:
-              vpiParent: GenIf
-              vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
-              vpiStmt (1 items):
-                Always start:63:3 end:67:6:
-                  vpiParent: Begin
-                  vpiStmt EventControl start:63:10 end:67:6:
-                    vpiParent: Always
-                    vpiCondition Operation start:63:12 end:63:23:
-                      vpiParent: EventControl
-                      vpiOpType: posedge (39)
-                      vpiOperand (1 items):
-                        RefObj name:clk start:63:20 end:63:23:
-                          vpiParent: Operation
-                          vpiName: clk
-                          vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).clk"
-                          vpiActual: Net name:clk
-                    vpiStmt Begin start:63:25 end:67:6:
-                      vpiParent: EventControl
-                      vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
-                  vpiAlwaysType: always (1)
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "0"
+                      vpiValue: 0
+              vpiStmt GenRegion start:62:38 end:68:10:
+                vpiParent: GenIf
+                vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
+                vpiImplicitDecl: true
+                vpiStmt (1 items):
+                  Always start:63:3 end:67:6:
+                    vpiParent: GenRegion
+                    vpiStmt EventControl start:63:10 end:67:6:
+                      vpiParent: Always
+                      vpiCondition Operation start:63:12 end:63:23:
+                        vpiParent: EventControl
+                        vpiOpType: posedge (39)
+                        vpiOperand (1 items):
+                          RefObj name:clk start:63:20 end:63:23:
+                            vpiParent: Operation
+                            vpiName: clk
+                            vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0)).clk"
+                            vpiActual: Net name:clk
+                      vpiStmt Begin start:63:25 end:67:6:
+                        vpiParent: EventControl
+                        vpiFullName: "test_gen #(.SIZE(4), .MASK(4'b0))"
+                    vpiAlwaysType: always (1)
   vpiTypespec (6 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed

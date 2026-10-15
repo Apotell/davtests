@@ -432,20 +432,6 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/hierdefparam.v:14:37: Compile generate block "bar".
 [INF:CP5804] $Source01/hierdefparam.v:22:1: Compile module "hierdefparam_b".
 [NTE:CP5810] $Source01/hierdefparam.v:22:51: Implicit port type (wire) for "Y".
-[WRN:CP5851] $Source01/hierdefparam.v:7:12: Failed to bind "foo".
-[WRN:CP5851] $Source01/hierdefparam.v:7:16: Failed to bind "mod_a".
-[WRN:CP5851] $Source01/hierdefparam.v:7:29: Failed to bind "mod_b".
-[WRN:CP5851] $Source01/hierdefparam.v:7:35: Failed to bind "addvalue".
-[WRN:CP5851] $Source01/hierdefparam.v:7:22: Failed to bind "bar".
-[WRN:CP5851] $Source01/hierdefparam.v:8:12: Failed to bind "foo".
-[WRN:CP5851] $Source01/hierdefparam.v:8:16: Failed to bind "mod_a".
-[WRN:CP5851] $Source01/hierdefparam.v:8:29: Failed to bind "mod_b".
-[WRN:CP5851] $Source01/hierdefparam.v:8:35: Failed to bind "addvalue".
-[WRN:CP5851] $Source01/hierdefparam.v:8:22: Failed to bind "bar".
-[WRN:CP5851] $Source01/hierdefparam.v:19:10: Failed to bind "bar".
-[WRN:CP5851] $Source01/hierdefparam.v:19:24: Failed to bind "bar".
-[WRN:CP5851] $Source01/hierdefparam.v:19:35: Failed to bind "bar".
-[WRN:CP5851] $Source01/hierdefparam.v:19:49: Failed to bind "bar".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -589,10 +575,12 @@ Design name:unnamed:
                 vpiParent: RefObj name:foo.mod_a.bar[0].mod_b.addvalue
                 vpiName: foo
                 vpiFullName: hierdefparam_top.foo
+                vpiActual: GenRegion name:foo
               RefObj name:mod_a start:7:16 end:7:21:
                 vpiParent: RefObj name:foo.mod_a.bar[0].mod_b.addvalue
                 vpiName: mod_a
                 vpiFullName: hierdefparam_top.mod_a
+                vpiActual: RefInstance name:mod_a
               BitSelect name:bar[0] start:7:22 end:7:27:
                 vpiParent: RefObj name:foo.mod_a.bar[0].mod_b.addvalue
                 vpiName: bar[0]
@@ -601,6 +589,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:bar[0]
                   vpiName: bar
                   vpiFullName: hierdefparam_top.foo.mod_a.bar[0].mod_b.addvalue.bar
+                  vpiActual: GenRegion name:bar
                 vpiIndex Constant start:7:26 end:7:27:
                   vpiParent: BitSelect name:bar[0]
                   vpiTypespec RefTypespec:
@@ -615,10 +604,13 @@ Design name:unnamed:
                 vpiParent: RefObj name:foo.mod_a.bar[0].mod_b.addvalue
                 vpiName: mod_b
                 vpiFullName: hierdefparam_top.mod_b
+                vpiActual: RefInstance name:mod_b
               RefObj name:addvalue start:7:35 end:7:43:
                 vpiParent: RefObj name:foo.mod_a.bar[0].mod_b.addvalue
                 vpiName: addvalue
                 vpiFullName: hierdefparam_top.addvalue
+                vpiActual: Parameter name:addvalue
+            vpiActual: Parameter name:addvalue
           vpiRhs Constant start:7:46 end:7:48:
             vpiParent: DefParam
             vpiTypespec RefTypespec:
@@ -640,10 +632,12 @@ Design name:unnamed:
                 vpiParent: RefObj name:foo.mod_a.bar[1].mod_b.addvalue
                 vpiName: foo
                 vpiFullName: hierdefparam_top.foo
+                vpiActual: GenRegion name:foo
               RefObj name:mod_a start:8:16 end:8:21:
                 vpiParent: RefObj name:foo.mod_a.bar[1].mod_b.addvalue
                 vpiName: mod_a
                 vpiFullName: hierdefparam_top.mod_a
+                vpiActual: RefInstance name:mod_a
               BitSelect name:bar[1] start:8:22 end:8:27:
                 vpiParent: RefObj name:foo.mod_a.bar[1].mod_b.addvalue
                 vpiName: bar[1]
@@ -652,6 +646,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:bar[1]
                   vpiName: bar
                   vpiFullName: hierdefparam_top.foo.mod_a.bar[1].mod_b.addvalue.bar
+                  vpiActual: GenRegion name:bar
                 vpiIndex Constant start:8:26 end:8:27:
                   vpiParent: BitSelect name:bar[1]
                   vpiTypespec RefTypespec:
@@ -666,10 +661,13 @@ Design name:unnamed:
                 vpiParent: RefObj name:foo.mod_a.bar[1].mod_b.addvalue
                 vpiName: mod_b
                 vpiFullName: hierdefparam_top.mod_b
+                vpiActual: RefInstance name:mod_b
               RefObj name:addvalue start:8:35 end:8:43:
                 vpiParent: RefObj name:foo.mod_a.bar[1].mod_b.addvalue
                 vpiName: addvalue
                 vpiFullName: hierdefparam_top.addvalue
+                vpiActual: Parameter name:addvalue
+            vpiActual: Parameter name:addvalue
           vpiRhs Constant start:8:46 end:8:48:
             vpiParent: DefParam
             vpiTypespec RefTypespec:
@@ -684,52 +682,53 @@ Design name:unnamed:
         GenRegion start:4:3 end:6:18:
           vpiParent: Module name:hierdefparam_top
           vpiFullName: hierdefparam_top
-          vpiStmt Begin name:foo start:4:12 end:6:6:
-            vpiParent: GenRegion
-            vpiName Identifier name:foo start:4:18 end:4:21:
-            vpiFullName: hierdefparam_top.foo
-            vpiTypespec (1 items):
-              ModuleTypespec name:hierdefparam_a start:5:5 end:5:19:
-                vpiParent: Begin name:foo
-                vpiName Identifier name:hierdefparam_a start:5:5 end:5:19:
-                vpiDefName: hierdefparam_a
-                vpiModule: Module name:hierdefparam_a
-            vpiStmt (1 items):
-              RefInstance name:mod_a start:5:20 end:5:25:
-                vpiParent: Begin name:foo
-                vpiName: mod_a
-                vpiTypespec RefTypespec name:hierdefparam_a start:5:5 end:5:19:
-                  vpiParent: RefInstance name:mod_a
-                  vpiName: hierdefparam_a
-                  vpiFullName: hierdefparam_top.foo.mod_a.hierdefparam_a
-                  vpiActual: ModuleTypespec name:hierdefparam_a
-                vpiArgument (2 items):
-                  NamedArgument start:5:26 end:5:31:
+          vpiStmt (1 items):
+            GenRegion name:foo start:4:12 end:6:6:
+              vpiParent: GenRegion
+              vpiName Identifier name:foo start:4:18 end:4:21:
+              vpiFullName: hierdefparam_top.foo
+              vpiTypespec (1 items):
+                ModuleTypespec name:hierdefparam_a start:5:5 end:5:19:
+                  vpiParent: GenRegion name:foo
+                  vpiName Identifier name:hierdefparam_a start:5:5 end:5:19:
+                  vpiDefName: hierdefparam_a
+                  vpiModule: Module name:hierdefparam_a
+              vpiStmt (1 items):
+                RefInstance name:mod_a start:5:20 end:5:25:
+                  vpiParent: GenRegion name:foo
+                  vpiName: mod_a
+                  vpiTypespec RefTypespec name:hierdefparam_a start:5:5 end:5:19:
                     vpiParent: RefInstance name:mod_a
-                    vpiConnByName: true
-                    vpiLowConn RefObj name:A start:5:27 end:5:28:
-                      vpiParent: NamedArgument
-                      vpiName: A
-                      vpiFullName: hierdefparam_top.foo.mod_a.A
-                      vpiActual: Port name:A
-                    vpiHighConn RefObj name:A start:5:29 end:5:30:
-                      vpiParent: NamedArgument
-                      vpiName: A
-                      vpiFullName: hierdefparam_top.foo.mod_a.A
-                      vpiActual: Variable name:A
-                  NamedArgument start:5:33 end:5:38:
-                    vpiParent: RefInstance name:mod_a
-                    vpiConnByName: true
-                    vpiLowConn RefObj name:Y start:5:34 end:5:35:
-                      vpiParent: NamedArgument
-                      vpiName: Y
-                      vpiFullName: hierdefparam_top.foo.mod_a.Y
-                      vpiActual: Port name:Y
-                    vpiHighConn RefObj name:Y start:5:36 end:5:37:
-                      vpiParent: NamedArgument
-                      vpiName: Y
-                      vpiFullName: hierdefparam_top.foo.mod_a.Y
-                      vpiActual: Variable name:Y
+                    vpiName: hierdefparam_a
+                    vpiFullName: hierdefparam_top.foo.mod_a.hierdefparam_a
+                    vpiActual: ModuleTypespec name:hierdefparam_a
+                  vpiArgument (2 items):
+                    NamedArgument start:5:26 end:5:31:
+                      vpiParent: RefInstance name:mod_a
+                      vpiConnByName: true
+                      vpiLowConn RefObj name:A start:5:27 end:5:28:
+                        vpiParent: NamedArgument
+                        vpiName: A
+                        vpiFullName: hierdefparam_top.foo.mod_a.A
+                        vpiActual: Port name:A
+                      vpiHighConn RefObj name:A start:5:29 end:5:30:
+                        vpiParent: NamedArgument
+                        vpiName: A
+                        vpiFullName: hierdefparam_top.foo.mod_a.A
+                        vpiActual: Variable name:A
+                    NamedArgument start:5:33 end:5:38:
+                      vpiParent: RefInstance name:mod_a
+                      vpiConnByName: true
+                      vpiLowConn RefObj name:Y start:5:34 end:5:35:
+                        vpiParent: NamedArgument
+                        vpiName: Y
+                        vpiFullName: hierdefparam_top.foo.mod_a.Y
+                        vpiActual: Port name:Y
+                      vpiHighConn RefObj name:Y start:5:36 end:5:37:
+                        vpiParent: NamedArgument
+                        vpiName: Y
+                        vpiFullName: hierdefparam_top.foo.mod_a.Y
+                        vpiActual: Variable name:Y
     Module name:hierdefparam_a file:$Source01/hierdefparam.v start:11:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:hierdefparam_a start:11:8 end:11:22:
@@ -817,27 +816,6 @@ Design name:unnamed:
         vpiActual: Library name:work
       vpiCell: hierdefparam_a
       vpiAutomatic: true
-      vpiNet (2 items):
-        Net name:a start:15:18 end:15:19:
-          vpiParent: Module name:hierdefparam_a
-          vpiTypespec RefTypespec start:15:12 end:15:17:
-            vpiParent: Net name:a
-            vpiFullName: hierdefparam_a.a
-            vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: hierdefparam_a.a
-          vpiNetDeclAssign: true
-          vpiNetType: wire (1)
-        Net name:y start:15:21 end:15:22:
-          vpiParent: Module name:hierdefparam_a
-          vpiTypespec RefTypespec start:15:12 end:15:17:
-            vpiParent: Net name:y
-            vpiFullName: hierdefparam_a.y
-            vpiActual: LogicTypespec
-          vpiName: y
-          vpiFullName: hierdefparam_a.y
-          vpiNetDeclAssign: true
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:A start:11:35 end:11:36:
           vpiParent: Module name:hierdefparam_a
@@ -881,6 +859,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:bar[0]
                   vpiName: bar
                   vpiFullName: hierdefparam_a.bar[0].a.bar
+                  vpiActual: GenRegion name:bar
                 vpiIndex Constant start:19:14 end:19:15:
                   vpiParent: BitSelect name:bar[0]
                   vpiTypespec RefTypespec:
@@ -896,6 +875,7 @@ Design name:unnamed:
                 vpiName: a
                 vpiFullName: hierdefparam_a.a
                 vpiActual: Net name:a
+            vpiActual: Net name:a
           vpiRhs RefObj name:A start:19:21 end:19:22:
             vpiParent: ContAssign
             vpiName: A
@@ -916,6 +896,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:bar[1]
                   vpiName: bar
                   vpiFullName: hierdefparam_a.bar[1].a.bar
+                  vpiActual: GenRegion name:bar
                 vpiIndex Constant start:19:28 end:19:29:
                   vpiParent: BitSelect name:bar[1]
                   vpiTypespec RefTypespec:
@@ -931,6 +912,7 @@ Design name:unnamed:
                 vpiName: a
                 vpiFullName: hierdefparam_a.a
                 vpiActual: Net name:a
+            vpiActual: Net name:a
           vpiRhs RefObj name:bar[0].y start:19:35 end:19:43:
             vpiParent: ContAssign
             vpiName: bar[0].y
@@ -944,6 +926,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:bar[0]
                   vpiName: bar
                   vpiFullName: hierdefparam_a.bar[0].y.bar
+                  vpiActual: GenRegion name:bar
                 vpiIndex Constant start:19:39 end:19:40:
                   vpiParent: BitSelect name:bar[0]
                   vpiTypespec RefTypespec:
@@ -959,6 +942,7 @@ Design name:unnamed:
                 vpiName: y
                 vpiFullName: hierdefparam_a.y
                 vpiActual: Net name:y
+            vpiActual: Net name:y
         ContAssign start:19:45 end:19:57:
           vpiParent: Module name:hierdefparam_a
           vpiLhs RefObj name:Y start:19:45 end:19:46:
@@ -979,6 +963,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:bar[1]
                   vpiName: bar
                   vpiFullName: hierdefparam_a.bar[1].y.bar
+                  vpiActual: GenRegion name:bar
                 vpiIndex Constant start:19:53 end:19:54:
                   vpiParent: BitSelect name:bar[1]
                   vpiTypespec RefTypespec:
@@ -994,150 +979,173 @@ Design name:unnamed:
                 vpiName: y
                 vpiFullName: hierdefparam_a.y
                 vpiActual: Net name:y
+            vpiActual: Net name:y
       vpiGenStmt (1 items):
         GenRegion start:13:3 end:18:14:
           vpiParent: Module name:hierdefparam_a
           vpiFullName: hierdefparam_a
-          vpiStmt GenFor start:14:5 end:17:8:
-            vpiParent: GenRegion
-            vpiFullName: hierdefparam_a
-            vpiForInitStmt (1 items):
-              Assignment start:14:10 end:14:15:
-                vpiParent: GenFor
-                vpiLhs RefObj name:i start:14:10 end:14:11:
-                  vpiParent: Assignment
-                  vpiName: i
-                  vpiFullName: hierdefparam_a.i
-                  vpiActual: Variable name:i
-                vpiRhs Constant start:14:14 end:14:15:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: hierdefparam_a
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "0"
-                  vpiValue: 0
-            vpiForIncStmt (1 items):
-              Assignment start:14:24 end:14:29:
-                vpiParent: GenFor
-                vpiBlocking: true
-                vpiLhs RefObj name:i start:14:24 end:14:25:
-                  vpiParent: Assignment
-                  vpiName: i
-                  vpiFullName: hierdefparam_a.i
-                  vpiActual: Variable name:i
-                vpiRhs Operation start:14:26 end:14:29:
-                  vpiParent: Assignment
-                  vpiOpType: add (24)
-                  vpiOperand (2 items):
-                    RefObj name:i start:14:26 end:14:27:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: hierdefparam_a.i
-                      vpiActual: Variable name:i
-                    Constant start:14:28 end:14:29:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: hierdefparam_a
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-            vpiCondition Operation start:14:17 end:14:22:
-              vpiParent: GenFor
-              vpiOpType: less than (20)
-              vpiOperand (2 items):
-                RefObj name:i start:14:17 end:14:18:
-                  vpiParent: Operation
-                  vpiName: i
-                  vpiFullName: hierdefparam_a.i
-                  vpiActual: Variable name:i
-                Constant start:14:21 end:14:22:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: hierdefparam_a
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "2"
-                  vpiValue: 2
-            vpiStmt Begin name:bar start:14:31 end:17:8:
-              vpiParent: GenFor
-              vpiName Identifier name:bar start:14:37 end:14:40:
-              vpiFullName: hierdefparam_a.bar
-              vpiTypespec (2 items):
-                LogicTypespec:
-                  vpiParent: Begin name:bar
-                  vpiRange (1 items):
-                    Range start:15:12 end:15:17:
-                      vpiParent: LogicTypespec
-                      vpiLeftRange Constant start:15:13 end:15:14:
-                        vpiParent: Range
+          vpiStmt (1 items):
+            GenFor start:14:5 end:17:8:
+              vpiParent: GenRegion
+              vpiFullName: hierdefparam_a
+              vpiForInitStmt (1 items):
+                Assignment start:14:10 end:14:15:
+                  vpiParent: GenFor
+                  vpiLhs RefObj name:i start:14:10 end:14:11:
+                    vpiParent: Assignment
+                    vpiName: i
+                    vpiFullName: hierdefparam_a.i
+                    vpiActual: Variable name:i
+                  vpiRhs Constant start:14:14 end:14:15:
+                    vpiParent: Assignment
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: hierdefparam_a
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiForIncStmt (1 items):
+                Assignment start:14:24 end:14:29:
+                  vpiParent: GenFor
+                  vpiBlocking: true
+                  vpiLhs RefObj name:i start:14:24 end:14:25:
+                    vpiParent: Assignment
+                    vpiName: i
+                    vpiFullName: hierdefparam_a.i
+                    vpiActual: Variable name:i
+                  vpiRhs Operation start:14:26 end:14:29:
+                    vpiParent: Assignment
+                    vpiOpType: add (24)
+                    vpiOperand (2 items):
+                      RefObj name:i start:14:26 end:14:27:
+                        vpiParent: Operation
+                        vpiName: i
+                        vpiFullName: hierdefparam_a.i
+                        vpiActual: Variable name:i
+                      Constant start:14:28 end:14:29:
+                        vpiParent: Operation
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
-                          vpiFullName: hierdefparam_a.bar
+                          vpiFullName: hierdefparam_a
                           vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
-                        vpiDecompile: "7"
-                        vpiValue: 7
-                      vpiRightRange Constant start:15:15 end:15:16:
-                        vpiParent: Range
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: hierdefparam_a.bar
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "0"
-                        vpiValue: 0
-                  vpiVector: true
-                ModuleTypespec name:hierdefparam_b start:16:7 end:16:21:
-                  vpiParent: Begin name:bar
-                  vpiName Identifier name:hierdefparam_b start:16:7 end:16:21:
-                  vpiDefName: hierdefparam_b
-                  vpiModule: Module name:hierdefparam_b
-              vpiStmt (1 items):
-                RefInstance name:mod_b start:16:22 end:16:27:
-                  vpiParent: Begin name:bar
-                  vpiName: mod_b
-                  vpiTypespec RefTypespec name:hierdefparam_b start:16:7 end:16:21:
-                    vpiParent: RefInstance name:mod_b
-                    vpiName: hierdefparam_b
-                    vpiFullName: hierdefparam_a.bar.mod_b.hierdefparam_b
-                    vpiActual: ModuleTypespec name:hierdefparam_b
-                  vpiArgument (2 items):
-                    NamedArgument start:16:28 end:16:33:
+                        vpiDecompile: "1"
+                        vpiValue: 1
+              vpiCondition Operation start:14:17 end:14:22:
+                vpiParent: GenFor
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:i start:14:17 end:14:18:
+                    vpiParent: Operation
+                    vpiName: i
+                    vpiFullName: hierdefparam_a.i
+                    vpiActual: Variable name:i
+                  Constant start:14:21 end:14:22:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: hierdefparam_a
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "2"
+                    vpiValue: 2
+              vpiStmt GenRegion name:bar start:14:31 end:17:8:
+                vpiParent: GenFor
+                vpiName Identifier name:bar start:14:37 end:14:40:
+                vpiFullName: hierdefparam_a.bar
+                vpiTypespec (2 items):
+                  LogicTypespec:
+                    vpiParent: GenRegion name:bar
+                    vpiRange (1 items):
+                      Range start:15:12 end:15:17:
+                        vpiParent: LogicTypespec
+                        vpiLeftRange Constant start:15:13 end:15:14:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: hierdefparam_a.bar
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "7"
+                          vpiValue: 7
+                        vpiRightRange Constant start:15:15 end:15:16:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: hierdefparam_a.bar
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                    vpiVector: true
+                  ModuleTypespec name:hierdefparam_b start:16:7 end:16:21:
+                    vpiParent: GenRegion name:bar
+                    vpiName Identifier name:hierdefparam_b start:16:7 end:16:21:
+                    vpiDefName: hierdefparam_b
+                    vpiModule: Module name:hierdefparam_b
+                vpiNet (2 items):
+                  Net name:a start:15:18 end:15:19:
+                    vpiParent: GenRegion name:bar
+                    vpiTypespec RefTypespec start:15:12 end:15:17:
+                      vpiParent: Net name:a
+                      vpiFullName: hierdefparam_a.bar.a
+                      vpiActual: LogicTypespec
+                    vpiName: a
+                    vpiFullName: hierdefparam_a.bar.a
+                    vpiNetDeclAssign: true
+                    vpiNetType: wire (1)
+                  Net name:y start:15:21 end:15:22:
+                    vpiParent: GenRegion name:bar
+                    vpiTypespec RefTypespec start:15:12 end:15:17:
+                      vpiParent: Net name:y
+                      vpiFullName: hierdefparam_a.bar.y
+                      vpiActual: LogicTypespec
+                    vpiName: y
+                    vpiFullName: hierdefparam_a.bar.y
+                    vpiNetDeclAssign: true
+                    vpiNetType: wire (1)
+                vpiStmt (1 items):
+                  RefInstance name:mod_b start:16:22 end:16:27:
+                    vpiParent: GenRegion name:bar
+                    vpiName: mod_b
+                    vpiTypespec RefTypespec name:hierdefparam_b start:16:7 end:16:21:
                       vpiParent: RefInstance name:mod_b
-                      vpiConnByName: true
-                      vpiLowConn RefObj name:A start:16:29 end:16:30:
-                        vpiParent: NamedArgument
-                        vpiName: A
-                        vpiFullName: hierdefparam_a.bar.mod_b.A
-                        vpiActual: Port name:A
-                      vpiHighConn RefObj name:a start:16:31 end:16:32:
-                        vpiParent: NamedArgument
-                        vpiName: a
-                        vpiFullName: hierdefparam_a.bar.mod_b.a
-                        vpiActual: Net name:a
-                    NamedArgument start:16:35 end:16:40:
-                      vpiParent: RefInstance name:mod_b
-                      vpiConnByName: true
-                      vpiLowConn RefObj name:Y start:16:36 end:16:37:
-                        vpiParent: NamedArgument
-                        vpiName: Y
-                        vpiFullName: hierdefparam_a.bar.mod_b.Y
-                        vpiActual: Port name:Y
-                      vpiHighConn RefObj name:y start:16:38 end:16:39:
-                        vpiParent: NamedArgument
-                        vpiName: y
-                        vpiFullName: hierdefparam_a.bar.mod_b.y
-                        vpiActual: Net name:y
+                      vpiName: hierdefparam_b
+                      vpiFullName: hierdefparam_a.bar.mod_b.hierdefparam_b
+                      vpiActual: ModuleTypespec name:hierdefparam_b
+                    vpiArgument (2 items):
+                      NamedArgument start:16:28 end:16:33:
+                        vpiParent: RefInstance name:mod_b
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:A start:16:29 end:16:30:
+                          vpiParent: NamedArgument
+                          vpiName: A
+                          vpiFullName: hierdefparam_a.bar.mod_b.A
+                          vpiActual: Port name:A
+                        vpiHighConn RefObj name:a start:16:31 end:16:32:
+                          vpiParent: NamedArgument
+                          vpiName: a
+                          vpiFullName: hierdefparam_a.bar.mod_b.a
+                          vpiActual: Net name:a
+                      NamedArgument start:16:35 end:16:40:
+                        vpiParent: RefInstance name:mod_b
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:Y start:16:36 end:16:37:
+                          vpiParent: NamedArgument
+                          vpiName: Y
+                          vpiFullName: hierdefparam_a.bar.mod_b.Y
+                          vpiActual: Port name:Y
+                        vpiHighConn RefObj name:y start:16:38 end:16:39:
+                          vpiParent: NamedArgument
+                          vpiName: y
+                          vpiFullName: hierdefparam_a.bar.mod_b.y
+                          vpiActual: Net name:y
     Module name:hierdefparam_b file:$Source01/hierdefparam.v start:22:1 end:25:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:hierdefparam_b start:22:8 end:22:22:
@@ -1352,7 +1360,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 14
+[WARNING] : 0
 [   NOTE] : 3
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

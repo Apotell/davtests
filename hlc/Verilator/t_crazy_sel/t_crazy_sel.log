@@ -249,9 +249,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_crazy_sel.v:40:1: Compile module "bar".
 [WRN:CP5851] $Source01/t_crazy_sel.v:8:4: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_crazy_sel.v:25:4: Failed to bind "logic".
-[WRN:CP5851] $Source01/t_crazy_sel.v:26:41: Failed to bind "foo_inst".
-[WRN:CP5851] $Source01/t_crazy_sel.v:26:50: Failed to bind "y".
-[WRN:CP5851] $Source01/t_crazy_sel.v:26:15: Failed to bind "foo_loop".
 [WRN:CP5851] $Source01/t_crazy_sel.v:37:4: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -365,6 +362,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:foo_loop[bar_inst.THE_LP]
                   vpiName: foo_loop
                   vpiFullName: t.foo_loop[bar_inst.THE_LP].foo_inst.y.foo_loop
+                  vpiActual: GenRegion name:foo_loop
                 vpiIndex RefObj name:bar_inst.THE_LP start:26:24 end:26:39:
                   vpiParent: BitSelect name:foo_loop[bar_inst.THE_LP]
                   vpiName: bar_inst.THE_LP
@@ -385,10 +383,13 @@ Design name:unnamed:
                 vpiParent: RefObj name:foo_loop[bar_inst.THE_LP].foo_inst.y
                 vpiName: foo_inst
                 vpiFullName: t.foo_inst
+                vpiActual: RefInstance name:foo_inst
               RefObj name:y start:26:50 end:26:51:
                 vpiParent: RefObj name:foo_loop[bar_inst.THE_LP].foo_inst.y
                 vpiName: y
                 vpiFullName: t.y
+                vpiActual: Variable name:y
+            vpiActual: Variable name:y
       vpiSysTaskCall (2 items):
         SysTaskCall name:$write:
         SysTaskCall name:$finish:
@@ -405,75 +406,76 @@ Design name:unnamed:
         GenRegion start:17:4 end:21:15:
           vpiParent: Module name:t
           vpiFullName: t
-          vpiStmt GenFor start:18:7 end:20:10:
-            vpiParent: GenRegion
-            vpiFullName: t
-            vpiForInitStmt (1 items):
-              Assignment start:18:12 end:18:26:
+          vpiStmt (1 items):
+            GenFor start:18:7 end:20:10:
+              vpiParent: GenRegion
+              vpiFullName: t
+              vpiForInitStmt (1 items):
+                Assignment start:18:12 end:18:26:
+                  vpiParent: GenFor
+                  vpiLhs RefObj name:the_genvar start:18:12 end:18:22:
+                    vpiParent: Assignment
+                    vpiName: the_genvar
+                    vpiFullName: t.the_genvar
+                    vpiActual: Variable name:the_genvar
+                  vpiRhs Constant start:18:25 end:18:26:
+                    vpiParent: Assignment
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiForIncStmt (1 items):
+                Operation start:18:44 end:18:56:
+                  vpiParent: GenFor
+                  vpiOpType: post inc (64)
+                  vpiOperand (1 items):
+                    RefObj name:the_genvar start:18:44 end:18:54:
+                      vpiParent: Operation
+                      vpiName: the_genvar
+                      vpiFullName: t.the_genvar
+                      vpiActual: Variable name:the_genvar
+              vpiCondition Operation start:18:28 end:18:42:
                 vpiParent: GenFor
-                vpiLhs RefObj name:the_genvar start:18:12 end:18:22:
-                  vpiParent: Assignment
-                  vpiName: the_genvar
-                  vpiFullName: t.the_genvar
-                  vpiActual: Variable name:the_genvar
-                vpiRhs Constant start:18:25 end:18:26:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "0"
-                  vpiValue: 0
-            vpiForIncStmt (1 items):
-              Operation start:18:44 end:18:56:
-                vpiParent: GenFor
-                vpiOpType: post inc (64)
-                vpiOperand (1 items):
-                  RefObj name:the_genvar start:18:44 end:18:54:
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:the_genvar start:18:28 end:18:38:
                     vpiParent: Operation
                     vpiName: the_genvar
                     vpiFullName: t.the_genvar
                     vpiActual: Variable name:the_genvar
-            vpiCondition Operation start:18:28 end:18:42:
-              vpiParent: GenFor
-              vpiOpType: less than (20)
-              vpiOperand (2 items):
-                RefObj name:the_genvar start:18:28 end:18:38:
-                  vpiParent: Operation
-                  vpiName: the_genvar
-                  vpiFullName: t.the_genvar
-                  vpiActual: Variable name:the_genvar
-                Constant start:18:41 end:18:42:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "4"
-                  vpiValue: 4
-            vpiStmt Begin name:foo_loop start:18:58 end:20:10:
-              vpiParent: GenFor
-              vpiName Identifier name:foo_loop start:18:65 end:18:73:
-              vpiFullName: t.foo_loop
-              vpiTypespec (1 items):
-                ModuleTypespec name:foo start:19:10 end:19:13:
-                  vpiParent: Begin name:foo_loop
-                  vpiName Identifier name:foo start:19:10 end:19:13:
-                  vpiDefName: foo
-                  vpiModule: Module name:foo
-              vpiStmt (1 items):
-                RefInstance name:foo_inst start:19:14 end:19:22:
-                  vpiParent: Begin name:foo_loop
-                  vpiName: foo_inst
-                  vpiTypespec RefTypespec name:foo start:19:10 end:19:13:
-                    vpiParent: RefInstance name:foo_inst
-                    vpiName: foo
-                    vpiFullName: t.foo_loop.foo_inst.foo
-                    vpiActual: ModuleTypespec name:foo
+                  Constant start:18:41 end:18:42:
+                    vpiParent: Operation
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "4"
+                    vpiValue: 4
+              vpiStmt GenRegion name:foo_loop start:18:58 end:20:10:
+                vpiParent: GenFor
+                vpiName Identifier name:foo_loop start:18:65 end:18:73:
+                vpiFullName: t.foo_loop
+                vpiTypespec (1 items):
+                  ModuleTypespec name:foo start:19:10 end:19:13:
+                    vpiParent: GenRegion name:foo_loop
+                    vpiName Identifier name:foo start:19:10 end:19:13:
+                    vpiDefName: foo
+                    vpiModule: Module name:foo
+                vpiStmt (1 items):
+                  RefInstance name:foo_inst start:19:14 end:19:22:
+                    vpiParent: GenRegion name:foo_loop
+                    vpiName: foo_inst
+                    vpiTypespec RefTypespec name:foo start:19:10 end:19:13:
+                      vpiParent: RefInstance name:foo_inst
+                      vpiName: foo
+                      vpiFullName: t.foo_loop.foo_inst.foo
+                      vpiActual: ModuleTypespec name:foo
     Module name:foo file:$Source01/t_crazy_sel.v start:36:1 end:38:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:36:8 end:36:11:
@@ -605,7 +607,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

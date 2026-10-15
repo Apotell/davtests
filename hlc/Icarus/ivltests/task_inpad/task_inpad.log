@@ -365,6 +365,33 @@ Design name:unnamed:
                 vpiActual: LogicTypespec
               vpiName: x
               vpiFullName: test.writeInto.x
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: Task name:writeInto
+              vpiRange (1 items):
+                Range start:28:13 end:28:19:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:28:14 end:28:16:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: test.writeInto
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "31"
+                    vpiValue: 31
+                  vpiRightRange Constant start:28:17 end:28:18:
+                    vpiParent: Range
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: test.writeInto
+                      vpiActual: IntTypespec
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+              vpiVector: true
           vpiIODecl (1 items):
             IODecl name:x start:28:20 end:28:21:
               vpiParent: Task name:writeInto
@@ -374,142 +401,111 @@ Design name:unnamed:
                 vpiParent: IODecl name:x
                 vpiFullName: test.writeInto.x
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:29:7 end:35:10:
             vpiParent: Task name:writeInto
             vpiFullName: test.writeInto
-            vpiTypespec (1 items):
-              LogicTypespec:
+            vpiStmt (2 items):
+              SysTaskCall name:$display start:30:3 end:30:22:
                 vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:28:13 end:28:19:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:28:14 end:28:16:
-                      vpiParent: Range
+                vpiName Identifier name:$display start:30:3 end:30:11:
+                vpiArgument (2 items):
+                  NamedArgument start:30:12 end:30:18:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn Constant start:30:12 end:30:18:
+                      vpiParent: NamedArgument
                       vpiTypespec RefTypespec:
                         vpiParent: Constant
                         vpiFullName: test.writeInto
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "31"
-                      vpiValue: 31
-                    vpiRightRange Constant start:28:17 end:28:18:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: test.writeInto
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-            vpiStmt (1 items):
-              Begin start:29:7 end:35:10:
+                        vpiActual: StringTypespec
+                      vpiConstType: string (6)
+                      vpiSize: 32
+                      vpiDecompile: "\"x=%h\""
+                      vpiValue: x=%h
+                  NamedArgument start:30:20 end:30:21:
+                    vpiParent: SysTaskCall name:$display
+                    vpiHighConn RefObj name:x start:30:20 end:30:21:
+                      vpiParent: NamedArgument
+                      vpiName: x
+                      vpiFullName: test.writeInto.x
+                      vpiActual: IODecl name:x
+              IfStmt start:31:3 end:34:6:
                 vpiParent: Begin
-                vpiFullName: test.writeInto
-                vpiStmt (2 items):
-                  SysTaskCall name:$display start:30:3 end:30:22:
-                    vpiParent: Begin
-                    vpiName Identifier name:$display start:30:3 end:30:11:
-                    vpiArgument (2 items):
-                      NamedArgument start:30:12 end:30:18:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn Constant start:30:12 end:30:18:
-                          vpiParent: NamedArgument
+                vpiCondition Operation start:31:7 end:31:25:
+                  vpiParent: IfStmt
+                  vpiOpType: case neq (17)
+                  vpiOperand (2 items):
+                    PartSelect name:x[31:10] start:31:7 end:31:15:
+                      vpiParent: Operation
+                      vpiName: x[31:10]
+                      vpiFullName: test.writeInto.x[31:10]
+                      vpiPrefix RefObj name:x start:31:7 end:31:8:
+                        vpiParent: PartSelect name:x[31:10]
+                        vpiName: x
+                        vpiFullName: test.writeInto.x[31:10].x
+                        vpiActual: IODecl name:x
+                      vpiRange Range start:31:9 end:31:14:
+                        vpiParent: PartSelect name:x[31:10]
+                        vpiLeftRange Constant start:31:9 end:31:11:
+                          vpiParent: Range
                           vpiTypespec RefTypespec:
                             vpiParent: Constant
-                            vpiFullName: test.writeInto
-                            vpiActual: StringTypespec
-                          vpiConstType: string (6)
-                          vpiSize: 32
-                          vpiDecompile: "\"x=%h\""
-                          vpiValue: x=%h
-                      NamedArgument start:30:20 end:30:21:
-                        vpiParent: SysTaskCall name:$display
-                        vpiHighConn RefObj name:x start:30:20 end:30:21:
-                          vpiParent: NamedArgument
-                          vpiName: x
-                          vpiFullName: test.writeInto.x
-                          vpiActual: IODecl name:x
-                  IfStmt start:31:3 end:34:6:
-                    vpiParent: Begin
-                    vpiCondition Operation start:31:7 end:31:25:
-                      vpiParent: IfStmt
-                      vpiOpType: case neq (17)
-                      vpiOperand (2 items):
-                        PartSelect name:x[31:10] start:31:7 end:31:15:
-                          vpiParent: Operation
-                          vpiName: x[31:10]
-                          vpiFullName: test.writeInto.x[31:10]
-                          vpiPrefix RefObj name:x start:31:7 end:31:8:
-                            vpiParent: PartSelect name:x[31:10]
-                            vpiName: x
-                            vpiFullName: test.writeInto.x[31:10].x
-                            vpiActual: IODecl name:x
-                          vpiRange Range start:31:9 end:31:14:
-                            vpiParent: PartSelect name:x[31:10]
-                            vpiLeftRange Constant start:31:9 end:31:11:
-                              vpiParent: Range
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: test.writeInto.x[31:10]
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "31"
-                              vpiValue: 31
-                            vpiRightRange Constant start:31:12 end:31:14:
-                              vpiParent: Range
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: test.writeInto.x[31:10]
-                                vpiActual: IntTypespec
-                              vpiConstType: unsigned int (9)
-                              vpiSize: 64
-                              vpiDecompile: "10"
-                              vpiValue: 10
-                        Constant start:31:20 end:31:25:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: test.writeInto
+                            vpiFullName: test.writeInto.x[31:10]
                             vpiActual: IntTypespec
-                          vpiConstType: decimal (1)
-                          vpiSize: 22
-                          vpiDecompile: "22'd0"
-                          vpiValue: "0"
-                    vpiStmt Begin start:31:27 end:34:6:
-                      vpiParent: IfStmt
-                      vpiFullName: test.writeInto
-                      vpiStmt (2 items):
-                        SysTaskCall name:$display start:32:6 end:32:38:
-                          vpiParent: Begin
-                          vpiName Identifier name:$display start:32:6 end:32:14:
-                          vpiArgument (2 items):
-                            NamedArgument start:32:15 end:32:34:
-                              vpiParent: SysTaskCall name:$display
-                              vpiHighConn Constant start:32:15 end:32:34:
-                                vpiParent: NamedArgument
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: test.writeInto
-                                  vpiActual: StringTypespec
-                                vpiConstType: string (6)
-                                vpiSize: 136
-                                vpiDecompile: "\"FAILED -- x is %b\""
-                                vpiValue: FAILED -- x is %b
-                            NamedArgument start:32:36 end:32:37:
-                              vpiParent: SysTaskCall name:$display
-                              vpiHighConn RefObj name:x start:32:36 end:32:37:
-                                vpiParent: NamedArgument
-                                vpiName: x
-                                vpiFullName: test.writeInto.x
-                                vpiActual: IODecl name:x
-                        SysTaskCall name:$finish start:33:6 end:33:13:
-                          vpiParent: Begin
-                          vpiName Identifier name:$finish start:33:6 end:33:13:
-                          vpiIsProperty: true
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "31"
+                          vpiValue: 31
+                        vpiRightRange Constant start:31:12 end:31:14:
+                          vpiParent: Range
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: test.writeInto.x[31:10]
+                            vpiActual: IntTypespec
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "10"
+                          vpiValue: 10
+                    Constant start:31:20 end:31:25:
+                      vpiParent: Operation
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: test.writeInto
+                        vpiActual: IntTypespec
+                      vpiConstType: decimal (1)
+                      vpiSize: 22
+                      vpiDecompile: "22'd0"
+                      vpiValue: "0"
+                vpiStmt Begin start:31:27 end:34:6:
+                  vpiParent: IfStmt
+                  vpiFullName: test.writeInto
+                  vpiStmt (2 items):
+                    SysTaskCall name:$display start:32:6 end:32:38:
+                      vpiParent: Begin
+                      vpiName Identifier name:$display start:32:6 end:32:14:
+                      vpiArgument (2 items):
+                        NamedArgument start:32:15 end:32:34:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn Constant start:32:15 end:32:34:
+                            vpiParent: NamedArgument
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: test.writeInto
+                              vpiActual: StringTypespec
+                            vpiConstType: string (6)
+                            vpiSize: 136
+                            vpiDecompile: "\"FAILED -- x is %b\""
+                            vpiValue: FAILED -- x is %b
+                        NamedArgument start:32:36 end:32:37:
+                          vpiParent: SysTaskCall name:$display
+                          vpiHighConn RefObj name:x start:32:36 end:32:37:
+                            vpiParent: NamedArgument
+                            vpiName: x
+                            vpiFullName: test.writeInto.x
+                            vpiActual: IODecl name:x
+                    SysTaskCall name:$finish start:33:6 end:33:13:
+                      vpiParent: Begin
+                      vpiName Identifier name:$finish start:33:6 end:33:13:
+                      vpiIsProperty: true
       vpiProcess (1 items):
         Initial start:40:4 end:46:6:
           vpiParent: Module name:test
@@ -661,7 +657,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/task_inpad/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              92      92       0         0
+Others                              91      91       0         0
 ----------------------------------------------------------------
-                                    92      92       0         0
+                                    91      91       0         0
 ===================== END REDUCTION RESULT =====================

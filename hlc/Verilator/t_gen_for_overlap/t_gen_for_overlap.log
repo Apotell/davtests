@@ -486,10 +486,6 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/t_gen_for_overlap.v:15:32: Compile generate block "gblk".
 [INF:CP5804] $Source01/t_gen_for_overlap.v:35:1: Compile module "sub1".
 [INF:CP5804] $Source01/t_gen_for_overlap.v:43:1: Compile module "sub2".
-[WRN:CP5851] $Source01/t_gen_for_overlap.v:26:13: Failed to bind "gblk".
-[WRN:CP5851] $Source01/t_gen_for_overlap.v:27:13: Failed to bind "gblk".
-[WRN:CP5851] $Source01/t_gen_for_overlap.v:28:13: Failed to bind "gblk".
-[WRN:CP5851] $Source01/t_gen_for_overlap.v:29:13: Failed to bind "gblk".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -695,6 +691,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:gblk[1]
                               vpiName: gblk
                               vpiFullName: t.t.gblk[1].u.IN.gblk
+                              vpiActual: GenRegion name:gblk
                             vpiIndex Constant start:26:18 end:26:19:
                               vpiParent: BitSelect name:gblk[1]
                               vpiTypespec RefTypespec:
@@ -715,6 +712,7 @@ Design name:unnamed:
                             vpiName: IN
                             vpiFullName: t.IN
                             vpiActual: Parameter name:IN
+                        vpiActual: Parameter name:IN
                       Constant start:26:29 end:26:30:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -753,6 +751,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:gblk[2]
                               vpiName: gblk
                               vpiFullName: t.t.gblk[2].u.IN.gblk
+                              vpiActual: GenRegion name:gblk
                             vpiIndex Constant start:27:18 end:27:19:
                               vpiParent: BitSelect name:gblk[2]
                               vpiTypespec RefTypespec:
@@ -773,6 +772,7 @@ Design name:unnamed:
                             vpiName: IN
                             vpiFullName: t.IN
                             vpiActual: Parameter name:IN
+                        vpiActual: Parameter name:IN
                       Constant start:27:29 end:27:30:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -811,6 +811,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:gblk[1]
                               vpiName: gblk
                               vpiFullName: t.t.gblk[1].u.FLAVOR.gblk
+                              vpiActual: GenRegion name:gblk
                             vpiIndex Constant start:28:18 end:28:19:
                               vpiParent: BitSelect name:gblk[1]
                               vpiTypespec RefTypespec:
@@ -831,6 +832,7 @@ Design name:unnamed:
                             vpiName: FLAVOR
                             vpiFullName: t.FLAVOR
                             vpiActual: Parameter name:FLAVOR
+                        vpiActual: Parameter name:FLAVOR
                       Constant start:28:33 end:28:34:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -869,6 +871,7 @@ Design name:unnamed:
                               vpiParent: BitSelect name:gblk[2]
                               vpiName: gblk
                               vpiFullName: t.t.gblk[2].u.FLAVOR.gblk
+                              vpiActual: GenRegion name:gblk
                             vpiIndex Constant start:29:18 end:29:19:
                               vpiParent: BitSelect name:gblk[2]
                               vpiTypespec RefTypespec:
@@ -889,6 +892,7 @@ Design name:unnamed:
                             vpiName: FLAVOR
                             vpiFullName: t.FLAVOR
                             vpiActual: Parameter name:FLAVOR
+                        vpiActual: Parameter name:FLAVOR
                       Constant start:29:33 end:29:34:
                         vpiParent: Operation
                         vpiTypespec RefTypespec:
@@ -993,13 +997,13 @@ Design name:unnamed:
                 vpiSize: 64
                 vpiDecompile: "3"
                 vpiValue: 3
-          vpiStmt Begin name:gblk start:15:24 end:18:7:
+          vpiStmt GenRegion name:gblk start:15:24 end:18:7:
             vpiParent: GenFor
             vpiName Identifier name:gblk start:15:32 end:15:36:
             vpiFullName: t.gblk
             vpiTypespec (1 items):
               ModuleTypespec name:sub2 start:16:7 end:16:11:
-                vpiParent: Begin name:gblk
+                vpiParent: GenRegion name:gblk
                 vpiName Identifier name:sub2 start:16:7 end:16:11:
                 vpiDefName: sub2
                 vpiParamAssign (1 items):
@@ -1020,7 +1024,7 @@ Design name:unnamed:
                 vpiModule: Module name:sub2
             vpiStmt (1 items):
               RefInstance name:u start:16:22 end:16:23:
-                vpiParent: Begin name:gblk
+                vpiParent: GenRegion name:gblk
                 vpiName: u
                 vpiTypespec RefTypespec name:sub2 start:16:7 end:16:11:
                   vpiParent: RefInstance name:u
@@ -1246,7 +1250,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

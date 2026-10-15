@@ -166,10 +166,6 @@ n<$Source01/t_dpi_string.v> u<151> t<Top_level_rule> c<1> l<8:1> el<27:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_dpi_string.v:8:1: Compile module "t".
 [INF:CP5836] $Source01/t_dpi_string.v:13:15: Compile generate block "DSM".
-[WRN:CP5851] $Source01/t_dpi_string.v:19:16: Failed to bind "DSM".
-[WRN:CP5851] $Source01/t_dpi_string.v:19:20: Failed to bind "SOME_STRING".
-[WRN:CP5851] $Source01/t_dpi_string.v:20:23: Failed to bind "DSM".
-[WRN:CP5851] $Source01/t_dpi_string.v:20:27: Failed to bind "SOME_STRING".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -235,10 +231,13 @@ Design name:unnamed:
                           vpiParent: RefObj name:DSM.SOME_STRING
                           vpiName: DSM
                           vpiFullName: t.DSM
+                          vpiActual: GenRegion name:DSM
                         RefObj name:SOME_STRING start:19:20 end:19:31:
                           vpiParent: RefObj name:DSM.SOME_STRING
                           vpiName: SOME_STRING
                           vpiFullName: t.SOME_STRING
+                          vpiActual: Variable name:SOME_STRING
+                      vpiActual: Variable name:SOME_STRING
                   NamedArgument start:19:33 end:19:37:
                     vpiParent: SysTaskCall name:$sformat
                     vpiHighConn Constant start:19:33 end:19:37:
@@ -273,10 +272,13 @@ Design name:unnamed:
                                 vpiParent: RefObj name:DSM.SOME_STRING
                                 vpiName: DSM
                                 vpiFullName: t.DSM
+                                vpiActual: GenRegion name:DSM
                               RefObj name:SOME_STRING start:20:27 end:20:38:
                                 vpiParent: RefObj name:DSM.SOME_STRING
                                 vpiName: SOME_STRING
                                 vpiFullName: t.SOME_STRING
+                                vpiActual: Variable name:SOME_STRING
+                            vpiActual: Variable name:SOME_STRING
                     Constant start:20:43 end:20:44:
                       vpiParent: Operation
                       vpiTypespec RefTypespec:
@@ -320,21 +322,20 @@ Design name:unnamed:
         GenRegion start:12:4 end:16:15:
           vpiParent: Module name:t
           vpiFullName: t
-          vpiStmt Begin name:DSM start:13:7 end:15:10:
-            vpiParent: GenRegion
-            vpiName Identifier name:DSM start:13:15 end:13:18:
-            vpiFullName: t.DSM
-            vpiVariable (1 items):
-              Variable name:SOME_STRING start:14:17 end:14:28:
-                vpiParent: Begin name:DSM
-                vpiTypespec RefTypespec start:14:10 end:14:16:
-                  vpiParent: Variable name:SOME_STRING
+          vpiStmt (1 items):
+            GenRegion name:DSM start:13:7 end:15:10:
+              vpiParent: GenRegion
+              vpiName Identifier name:DSM start:13:15 end:13:18:
+              vpiFullName: t.DSM
+              vpiVariable (1 items):
+                Variable name:SOME_STRING start:14:17 end:14:28:
+                  vpiParent: GenRegion name:DSM
+                  vpiTypespec RefTypespec start:14:10 end:14:16:
+                    vpiParent: Variable name:SOME_STRING
+                    vpiFullName: t.DSM.SOME_STRING
+                    vpiActual: StringTypespec
+                  vpiName: SOME_STRING
                   vpiFullName: t.DSM.SOME_STRING
-                  vpiActual: StringTypespec
-                vpiName: SOME_STRING
-                vpiFullName: t.DSM.SOME_STRING
-            vpiStmt (1 items):
-              Variable name:SOME_STRING:
   vpiTypespec (3 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -354,7 +355,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
