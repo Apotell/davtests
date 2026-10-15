@@ -23,48 +23,46 @@
 //   end
 //   endmodule
 //
-// "`timescale 1 fs / 1 fs" sets both time unit and time precision to
-// 10^-15 (1 fs), so Module, SourceFile, and (since there is only this one
-// directive) their values all agree: -15 / -15.
+// IEEE 1800-2023 Sec 20.4.2, "$timeformat": "$timeformat [ ( units_number ,
+// precision_number , suffix_string , minimum_field_width ) ] ;" -- here
+// units_number -9 (ns), precision 5, suffix "ns" and minimum field width
+// 10, which set how "%t" formats times (Sec 21.2.1.3).
 //
-// $timeformat (tags: 20.4) is called here with 4 arguments: "-9" (the
-// units_number), "5" (the precision), "\"ns\"" (the suffix_string), and
-// "10" (the minimum field width). The "-9" literal is a unary minus
-// applied to a positive literal, not itself a literal -- per the same
-// pattern as "$unsigned(-4)" in chapter 11.7, HLC represents it as an
-// Operation (vpiMinusOp) wrapping a Constant "9", not a folded Constant
-// "-9".
+// Sec 5.7.1: an integer literal carries no sign, so "-9" is the unary minus
+// operator (Sec 11.4.3) applied to the literal 9.
 //
-// $display("%t", $realtime) -- $realtime is called here with no
-// parentheses; as in 20.3--realtime, it is NOT flagged as a property
-// (vpiIsProperty) in the HLDB.
+// Sec 22.7: "`timescale 1 fs / 1 fs" sets the module's time unit and
+// precision; Sec 37 (VPI) encodes both as the power-of-10 exponent of the
+// value in seconds: 1 fs = 10^-15 -> -15 / -15.
 //
 // Checked:
 //   - design has module "top" with exactly 1 process, and it is an Initial
+//   - "top"'s time unit and precision are both -15 (1 fs)
 //   - the Initial's body is a Begin (from the explicit "begin ... end")
-//     declaring no variables and wrapping exactly 2 statements
-//   - the first statement is a SysTaskCall named "$timeformat" with
-//     exactly 4 arguments: an Operation (vpiMinusOp) wrapping a Constant
-//     unsigned int "9", a Constant unsigned int "5", a Constant string
-//     "ns", and a Constant unsigned int "10"
-//   - the second statement is a SysTaskCall named "$display" with exactly
-//     2 arguments: a Constant string "%t" and a SysFuncCall named
-//     "$realtime"
-//   - the "$realtime" SysFuncCall has no argument list and is NOT flagged
-//     as a property (vpiIsProperty)
-//   - the Module's (and SourceFile's) time unit and time precision are
-//     both -15 (1 fs)
-//   - compiler reports zero errors
+//     declaring no variables and wrapping exactly 2 statements, in order
+//   - statement 1 is a SysTaskCall "$timeformat" with exactly 4 arguments:
+//     a unary minus Operation on Constant "9", then Constants "5", "ns"
+//     (string) and "10"
+//   - statement 2 is a SysTaskCall "$display" with exactly 2 arguments: a
+//     string Constant "%t" and a SysFuncCall "$realtime" with no arguments
+//   - compiler reports zero fatal, syntax and error diagnostics; this also
+//     covers "endmodule", which has no HLDB node of its own
 //
-// NOT CHECKED: runtime effects (the actual formatted time string that
-// $display("%t", ...) would print, after $timeformat changes the default
-// formatting) cannot be observed -- HLC is a compiler/elaborator with no
-// simulation capability, so no execution ever happens for this test to
-// check.
+// Call arguments are read through NamedArgument::getHighConn(): this HLDB
+// wraps every tf_call argument, positional ones included, in a NamedArgument.
+//
+// NOT CHECKED:
+//   - runtime effects (the formatted time text printed by "%t") -- HLC is a
+//     compiler/elaborator with no simulation capability; the .sv header
+//     tags this test as "simulation parsing".
+//   - the SourceFile's time unit / precision -- Sec 22.7 applies
+//     "`timescale" to design elements; a per-file timescale is an HLDB
+//     detail, not something the LRM defines.
+//   - the vpiConstType of the unsized literals 9, 5 and 10, and
+//     vpiIsProperty on "$realtime" -- HLDB encodings, not LRM.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -74,8 +72,8 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
 #include <hldb/operation.h>
-#include <hldb/source_file.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_func_call.h>
 #include <hldb/sys_task_call.h>
@@ -89,14 +87,21 @@ class TimeformatTaskTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  static const hldb::Module *getModule() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
-
-  static const hldb::SourceFile *getSourceFile() {
-    if (m_design->getSourceFiles() == nullptr || m_design->getSourceFiles()->empty()) {
+  // Every tf_call argument is wrapped in a NamedArgument; the actual
+  // argument expression is its high conn.
+  template <typename T>
+  static const T *getArgument(const hldb::NamedArgumentCollection *args, size_t index) {
+    if (args == nullptr || args->size() <= index) {
       return nullptr;
     }
-    return m_design->getSourceFiles()->at(0);
+    const hldb::NamedArgument *const arg = args->at(index);
+    if (arg == nullptr) {
+      return nullptr;
+    }
+    return arg->getHighConn<T>();
   }
+
+  static const hldb::Module *getModule() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Initial *getInitialProcess() {
     const hldb::Module *const mod = getModule();
@@ -114,28 +119,24 @@ class TimeformatTaskTest : public Test {
     return init->getStmt<hldb::Begin>();
   }
 
-  static const hldb::SysTaskCall *getTimeformatCall() {
+  static const hldb::SysTaskCall *getStmt(size_t index) {
     const hldb::Begin *const body = getInitialBody();
-    if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->empty()) {
+    if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->size() <= index) {
       return nullptr;
     }
-    return any_cast<hldb::SysTaskCall>(body->getStmts()->at(0));
+    return any_cast<hldb::SysTaskCall>(body->getStmts()->at(index));
   }
 
-  static const hldb::SysTaskCall *getDisplayCall() {
-    const hldb::Begin *const body = getInitialBody();
-    if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->size() < 2u) {
-      return nullptr;
-    }
-    return any_cast<hldb::SysTaskCall>(body->getStmts()->at(1));
-  }
+  static const hldb::SysTaskCall *getTimeformatCall() { return getStmt(0); }
+
+  static const hldb::SysTaskCall *getDisplayCall() { return getStmt(1); }
 
   static const hldb::SysFuncCall *getRealtimeCall() {
     const hldb::SysTaskCall *const display = getDisplayCall();
-    if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
+    if (display == nullptr) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    return getArgument<hldb::SysFuncCall>(display->getArguments(), 1);
   }
 };
 
@@ -154,7 +155,8 @@ TEST_F(TimeformatTaskTest, ModuleHasOneInitialProcess) {
 TEST_F(TimeformatTaskTest, InitialBodyIsBeginWithNoVariablesAndTwoStmts) {
   const hldb::Begin *const body = getInitialBody();
   ASSERT_NE(body, nullptr) << "'initial begin ... end' should wrap the body in a Begin";
-  EXPECT_EQ(body->getVariables(), nullptr) << "no variable is declared in this body";
+  EXPECT_TRUE(body->getVariables() == nullptr || body->getVariables()->empty())
+      << "no variable is declared in this body";
   ASSERT_NE(body->getStmts(), nullptr);
   EXPECT_EQ(body->getStmts()->size(), 2u) << "'$timeformat(...);' and '$display(...);' are the only statements";
 }
@@ -164,15 +166,8 @@ TEST_F(TimeformatTaskTest, InitialBodyIsBeginWithNoVariablesAndTwoStmts) {
 TEST_F(TimeformatTaskTest, ModuleTimeUnitAndPrecisionAreFemtosecond) {
   const hldb::Module *const mod = getModule();
   ASSERT_NE(mod, nullptr);
-  EXPECT_EQ(mod->getTimeUnit(), -15) << "time unit should be -15 (1 fs = 10^-15 s)";
-  EXPECT_EQ(mod->getTimePrecision(), -15) << "time precision should be -15 (1 fs = 10^-15 s)";
-}
-
-TEST_F(TimeformatTaskTest, SourceFileTimeUnitAndPrecisionAreFemtosecond) {
-  const hldb::SourceFile *const sf = getSourceFile();
-  ASSERT_NE(sf, nullptr);
-  EXPECT_EQ(sf->getTimeUnit(), -15) << "source file time unit should be -15 (1 fs = 10^-15 s)";
-  EXPECT_EQ(sf->getTimePrecision(), -15) << "source file time precision should be -15 (1 fs = 10^-15 s)";
+  EXPECT_EQ(mod->getTimeUnit(), -15) << "22.7: time unit should be -15 (1 fs = 10^-15 s)";
+  EXPECT_EQ(mod->getTimePrecision(), -15) << "22.7: time precision should be -15 (1 fs = 10^-15 s)";
 }
 
 // --- $timeformat(-9, 5, "ns", 10); --------------------------------------------
@@ -183,35 +178,33 @@ TEST_F(TimeformatTaskTest, FirstStmtIsTimeformatSysTaskCall) {
   EXPECT_EQ(call->getName(), "$timeformat");
 }
 
-TEST_F(TimeformatTaskTest, TimeformatCallHasFourArguments) {
+TEST_F(TimeformatTaskTest, TimeformatCallHasFourArgumentsInOrder) {
   const hldb::SysTaskCall *const call = getTimeformatCall();
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
-  ASSERT_EQ(call->getArguments()->size(), 4u);
+  ASSERT_EQ(call->getArguments()->size(), 4u)
+      << "20.4.2: units_number, precision_number, suffix_string, minimum_field_width";
 
-  const hldb::Operation *const unitsNumber = any_cast<hldb::Operation>(call->getArguments()->at(0));
-  ASSERT_NE(unitsNumber, nullptr) << "'-9' should be an unfolded unary-minus Operation, not a plain Constant";
+  const hldb::Operation *const unitsNumber = getArgument<hldb::Operation>(call->getArguments(), 0);
+  ASSERT_NE(unitsNumber, nullptr) << "5.7.1: '-9' is the unary minus operator applied to the literal 9";
   EXPECT_EQ(unitsNumber->getOpType(), vpiMinusOp);
   ASSERT_NE(unitsNumber->getOperands(), nullptr);
   ASSERT_EQ(unitsNumber->getOperands()->size(), 1u);
   const hldb::Constant *const unitsNumberOperand = any_cast<hldb::Constant>(unitsNumber->getOperands()->at(0));
-  ASSERT_NE(unitsNumberOperand, nullptr);
-  EXPECT_EQ(unitsNumberOperand->getConstType(), vpiUIntConst);
+  ASSERT_NE(unitsNumberOperand, nullptr) << "'9' should be a Constant";
   EXPECT_EQ(unitsNumberOperand->getDecompile(), "9");
 
-  const hldb::Constant *const precision = any_cast<hldb::Constant>(call->getArguments()->at(1));
+  const hldb::Constant *const precision = getArgument<hldb::Constant>(call->getArguments(), 1);
   ASSERT_NE(precision, nullptr) << "'5' should be a Constant";
-  EXPECT_EQ(precision->getConstType(), vpiUIntConst);
   EXPECT_EQ(precision->getDecompile(), "5");
 
-  const hldb::Constant *const suffix = any_cast<hldb::Constant>(call->getArguments()->at(2));
+  const hldb::Constant *const suffix = getArgument<hldb::Constant>(call->getArguments(), 2);
   ASSERT_NE(suffix, nullptr) << "'\"ns\"' should be a Constant";
-  EXPECT_EQ(suffix->getConstType(), vpiStringConst);
+  EXPECT_EQ(suffix->getConstType(), vpiStringConst) << "'\"ns\"' is a string literal";
   EXPECT_EQ(suffix->getDecompile(), "\"ns\"");
 
-  const hldb::Constant *const width = any_cast<hldb::Constant>(call->getArguments()->at(3));
+  const hldb::Constant *const width = getArgument<hldb::Constant>(call->getArguments(), 3);
   ASSERT_NE(width, nullptr) << "'10' should be a Constant";
-  EXPECT_EQ(width->getConstType(), vpiUIntConst);
   EXPECT_EQ(width->getDecompile(), "10");
 }
 
@@ -229,31 +222,29 @@ TEST_F(TimeformatTaskTest, DisplayCallHasFormatAndRealtimeArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::Constant *const fmt = getArgument<hldb::Constant>(call->getArguments(), 0);
   ASSERT_NE(fmt, nullptr) << "'\"%t\"' should be a Constant";
-  EXPECT_EQ(fmt->getConstType(), vpiStringConst);
+  EXPECT_EQ(fmt->getConstType(), vpiStringConst) << "'\"%t\"' is a string literal";
   EXPECT_EQ(fmt->getDecompile(), "\"%t\"");
 
   EXPECT_NE(getRealtimeCall(), nullptr) << "'$realtime' should be a SysFuncCall";
 }
 
-TEST_F(TimeformatTaskTest, RealtimeCallIsNamedCorrectly) {
+TEST_F(TimeformatTaskTest, RealtimeCallIsNamedCorrectlyWithNoArguments) {
   const hldb::SysFuncCall *const call = getRealtimeCall();
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "$realtime");
-}
-
-TEST_F(TimeformatTaskTest, RealtimeCallHasNoArgumentsAndIsNotProperty) {
-  const hldb::SysFuncCall *const call = getRealtimeCall();
-  ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getArguments(), nullptr) << "'$realtime' never takes an argument list";
-  EXPECT_FALSE(call->getIsProperty()) << "20.3: a parenthesis-less '$realtime' is not flagged as a property";
+  EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
+      << "20.3: '$realtime' takes no arguments";
 }
 
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(TimeformatTaskTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0) << "'module top(); ... endmodule' should parse as one complete module";
+  EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
 }
 
 }  // namespace hlc
