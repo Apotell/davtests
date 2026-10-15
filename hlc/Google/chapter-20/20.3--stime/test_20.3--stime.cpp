@@ -20,39 +20,32 @@
 //   	$display($stime);
 //   endmodule
 //
-// IEEE 1800-2023 Sec 20.3, "Simulation time functions": "function [31:0]
-// $stime;" -- returns the lower 32 bits of the current simulation time as
-// an unsigned integer, scaled to the local time unit, and takes no
-// arguments.
-//
-// $stime is called here with no parentheses, and -- unlike "$realtime"
-// (tested in 20.3--realtime, which is NOT flagged as a property) -- it IS
-// flagged as a property (vpiIsProperty) in the HLDB, the same as a
-// parenthesis-less "$random". These two near-identical, argument-less
-// time functions differ on this point, so each is verified independently
-// rather than assumed.
-//
-// There is no "begin ... end" in the source, so the Initial process's
-// statement is the "$display" SysTaskCall directly, with no Begin wrapper
-// in between.
+// IEEE 1800-2023 Sec 20.3, "Simulation time system functions", Syntax 20-2:
+// "time_function ::= $time | $stime | $realtime" -- $stime takes no
+// arguments. Sec 20.3.2: it returns the current simulation time as an
+// unsigned 32-bit integer, scaled to the time unit of the calling module.
+// Since there is no "begin ... end" in the source, the initial procedure's
+// statement (Sec 9.2.1) is the "$display" call itself.
 //
 // Checked:
 //   - design has module "top" with exactly 1 process, and it is an Initial
 //   - the Initial's statement is a SysTaskCall named "$display" directly
 //     (no Begin wrapper, since there is no "begin ... end" in the source)
 //     with exactly 1 argument: a SysFuncCall named "$stime"
-//   - the "$stime" SysFuncCall has no argument list and IS flagged as a
-//     property (vpiIsProperty)
-//   - compiler reports zero errors
+//   - the "$stime" SysFuncCall has no arguments
+//   - compiler reports zero fatal, syntax and error diagnostics
 //
-// NOT CHECKED: runtime effects (the actual simulation time value returned
-// by $stime) cannot be observed -- HLC is a compiler/elaborator with no
-// simulation capability, so no execution ever happens for this test to
-// check.
+// Call arguments are read through NamedArgument::getHighConn(): this HLDB
+// wraps every tf_call argument, positional ones included, in a NamedArgument.
+//
+// NOT CHECKED:
+//   - runtime effects (the simulation time value returned by $stime) -- HLC
+//     is a compiler/elaborator with no simulation capability.
+//   - vpiIsProperty on "$stime" -- that is an HLDB encoding, not something
+//     Sec 20.3 dictates.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -60,6 +53,7 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_func_call.h>
 #include <hldb/sys_task_call.h>
@@ -73,6 +67,20 @@ class StimeFunctionTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
+  // Every tf_call argument is wrapped in a NamedArgument; the actual
+  // argument expression is its high conn.
+  template <typename T>
+  static const T *getArgument(const hldb::NamedArgumentCollection *args, size_t index) {
+    if (args == nullptr || args->size() <= index) {
+      return nullptr;
+    }
+    const hldb::NamedArgument *const arg = args->at(index);
+    if (arg == nullptr) {
+      return nullptr;
+    }
+    return arg->getHighConn<T>();
+  }
+
   static const hldb::Module *getModule() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Initial *getInitialProcess() {
@@ -93,10 +101,10 @@ class StimeFunctionTest : public Test {
 
   static const hldb::SysFuncCall *getStimeCall() {
     const hldb::SysTaskCall *const display = getDisplayCall();
-    if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->empty()) {
+    if (display == nullptr) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(0));
+    return getArgument<hldb::SysFuncCall>(display->getArguments(), 0);
   }
 };
 
@@ -112,7 +120,7 @@ TEST_F(StimeFunctionTest, ModuleHasOneInitialProcess) {
   EXPECT_NE(getInitialProcess(), nullptr);
 }
 
-// --- $display($stime); -------------------------------------------------------
+// --- $display($stime); ---------------------------------------------------------
 
 TEST_F(StimeFunctionTest, InitialStmtIsDisplaySysTaskCall) {
   const hldb::SysTaskCall *const call = getDisplayCall();
@@ -135,17 +143,20 @@ TEST_F(StimeFunctionTest, StimeCallIsNamedCorrectly) {
   EXPECT_EQ(call->getName(), "$stime");
 }
 
-TEST_F(StimeFunctionTest, StimeCallHasNoArgumentsAndIsProperty) {
+TEST_F(StimeFunctionTest, StimeCallHasNoArguments) {
   const hldb::SysFuncCall *const call = getStimeCall();
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getArguments(), nullptr) << "'$stime' called without parentheses or arguments";
-  EXPECT_TRUE(call->getIsProperty())
-      << "20.3: a parenthesis-less '$stime' is modeled as a property, unlike '$realtime'";
+  EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "20.3: '$stime' takes no arguments";
 }
 
 // --- compiler diagnostics -----------------------------------------------------
 
-TEST_F(StimeFunctionTest, CompilesWithNoErrors) { EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr); }
+TEST_F(StimeFunctionTest, CompilesWithNoErrors) {
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
+}
 
 }  // namespace hlc
 

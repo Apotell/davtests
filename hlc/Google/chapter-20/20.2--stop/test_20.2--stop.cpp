@@ -20,27 +20,28 @@
 //   	$stop;
 //   endmodule
 //
-// $stop (tags: 20.2) is a no-argument simulation control task. There is no
-// "begin ... end" in the source, so the Initial process's statement is the
-// "$stop" SysTaskCall directly, with no Begin wrapper in between. Called
-// without parentheses, it is modeled as a property (vpiIsProperty), the
-// same way a parenthesis-less "$random" is.
+// IEEE 1800-2023 Sec 20.2, "Simulation control system tasks", Syntax 20-1:
+// "simulation_control_task ::= $stop [ ( n ) ] ; | ..." -- the diagnostic
+// level argument n is optional; when it is omitted, a value of 1 is taken
+// as the default. Since there is no "begin ... end" in the source, the
+// initial procedure's statement (Sec 9.2.1) is the "$stop" call itself.
 //
 // Checked:
 //   - design has module "top" with exactly 1 process, and it is an Initial
 //   - the Initial's statement is a SysTaskCall named "$stop" directly (no
 //     Begin wrapper, since there is no "begin ... end" in the source)
-//   - the "$stop" SysTaskCall has no argument list (called without
-//     parentheses) and is flagged as a property (vpiIsProperty)
-//   - compiler reports zero errors
+//   - the "$stop" SysTaskCall has no arguments (n is omitted)
+//   - compiler reports zero fatal, syntax and error diagnostics
 //
-// NOT CHECKED: runtime effects (whether $stop actually suspends simulation)
-// cannot be observed -- HLC is a compiler/elaborator with no simulation
-// capability, so no execution ever happens for this test to check.
+// NOT CHECKED:
+//   - runtime effects (simulation actually being suspended, and the default
+//     diagnostic level 1 being used) -- HLC is a compiler/elaborator with no
+//     simulation capability.
+//   - vpiIsProperty on the parenthesis-less "$stop" -- that is an HLDB
+//     encoding, not something Sec 20.2 dictates.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -91,7 +92,7 @@ TEST_F(StopTaskTest, ModuleHasOneInitialProcess) {
   EXPECT_NE(getInitialProcess(), nullptr);
 }
 
-// --- $stop; ----------------------------------------------------------------
+// --- $stop; --------------------------------------------------------------------
 
 TEST_F(StopTaskTest, InitialStmtIsStopSysTaskCall) {
   const hldb::SysTaskCall *const call = getStopCall();
@@ -99,16 +100,21 @@ TEST_F(StopTaskTest, InitialStmtIsStopSysTaskCall) {
   EXPECT_EQ(call->getName(), "$stop");
 }
 
-TEST_F(StopTaskTest, StopCallHasNoArgumentsAndIsProperty) {
+TEST_F(StopTaskTest, StopCallHasNoArguments) {
   const hldb::SysTaskCall *const call = getStopCall();
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getArguments(), nullptr) << "'$stop' called without parentheses or arguments";
-  EXPECT_TRUE(call->getIsProperty()) << "20.2: a parenthesis-less '$stop' is modeled as a property";
+  EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
+      << "20.2: '$stop' is called here without the optional argument n";
 }
 
 // --- compiler diagnostics -----------------------------------------------------
 
-TEST_F(StopTaskTest, CompilesWithNoErrors) { EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr); }
+TEST_F(StopTaskTest, CompilesWithNoErrors) {
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
+}
 
 }  // namespace hlc
 
