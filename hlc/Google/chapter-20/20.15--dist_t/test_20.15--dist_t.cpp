@@ -31,25 +31,27 @@
 //   - design has module "top" with exactly 1 process, and it is an Initial
 //   - the Initial's body is a Begin (from the explicit "begin ... end")
 //     wrapping exactly 1 variable and 1 statement
-//   - the variable is "seed": IntegerTypespec (signed), initial value
-//     Constant unsigned int "1234"
+//   - the variable is "seed": IntegerTypespec (signed, Sec 6.11), initial
+//     value Constant "1234"
 //   - the statement is a SysTaskCall named "$display" with exactly 2
-//     arguments: a Constant string "%d" and a SysFuncCall named
-//     "$dist_t"
-//   - the "$dist_t" SysFuncCall has exactly 2 arguments: a RefObj
-//     "seed" resolving to the Variable "seed", and a Constant unsigned int
-//     "3" (the degree of freedom)
-//   - compiler reports zero errors
+//     arguments: a string Constant "%d" and a SysFuncCall named "$dist_t"
+//   - the "$dist_t" SysFuncCall has exactly 2 arguments: a RefObj "seed"
+//     resolving to the Variable "seed" (the inout seed), and a Constant "3"
+//     (the degree of freedom)
+//   - compiler reports zero fatal, syntax and error diagnostics
 //
-// NOT CHECKED: runtime effects (the actual pseudo-random value returned by
-// $dist_t) cannot be observed -- HLC is a compiler/elaborator with no
-// simulation capability, so no execution ever happens for this test to
-// check, matching the .hlc file's own note that this is a parsing, not
-// simulation, test.
+// Call arguments are read through NamedArgument::getHighConn(): this HLDB
+// wraps every tf_call argument, positional ones included, in a NamedArgument.
+//
+// NOT CHECKED:
+//   - runtime effects (the pseudo-random value returned by $dist_t and the
+//     updated seed) -- HLC is a compiler/elaborator with no simulation
+//     capability; the .sv header tags this test as "simulation parsing".
+//   - the vpiConstType of the unsized literals 1234 and 3 -- that is a
+//     compiler encoding, not something Sec 20.15 dictates.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -60,6 +62,7 @@
 #include <hldb/initial.h>
 #include <hldb/integer_typespec.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sv_vpi_user.h>
@@ -76,6 +79,20 @@ class DistTFunctionTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
+  // Every tf_call argument is wrapped in a NamedArgument; the actual
+  // argument expression is its high conn.
+  template <typename T>
+  static const T *getArgument(const hldb::NamedArgumentCollection *args, size_t index) {
+    if (args == nullptr || args->size() <= index) {
+      return nullptr;
+    }
+    const hldb::NamedArgument *const arg = args->at(index);
+    if (arg == nullptr) {
+      return nullptr;
+    }
+    return arg->getHighConn<T>();
+  }
+
   static const hldb::Module *getModule() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Initial *getInitialProcess() {
@@ -112,10 +129,10 @@ class DistTFunctionTest : public Test {
 
   static const hldb::SysFuncCall *getDistTCall() {
     const hldb::SysTaskCall *const display = getDisplayCall();
-    if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
+    if (display == nullptr) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    return getArgument<hldb::SysFuncCall>(display->getArguments(), 1);
   }
 };
 
@@ -150,7 +167,7 @@ TEST_F(DistTFunctionTest, SeedIsSignedIntegerVariable) {
   ASSERT_NE(ref, nullptr);
   const hldb::IntegerTypespec *const ts = ref->getActual<hldb::IntegerTypespec>();
   ASSERT_NE(ts, nullptr) << "'integer seed' should have an IntegerTypespec";
-  EXPECT_TRUE(ts->getSigned());
+  EXPECT_TRUE(ts->getSigned()) << "6.11: 'integer' is a signed type";
 }
 
 TEST_F(DistTFunctionTest, SeedHasInitialValue1234) {
@@ -158,11 +175,10 @@ TEST_F(DistTFunctionTest, SeedHasInitialValue1234) {
   ASSERT_NE(seed, nullptr);
   const hldb::Constant *const init = seed->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr) << "'= 1234' should be a Constant";
-  EXPECT_EQ(init->getConstType(), vpiUIntConst);
   EXPECT_EQ(init->getDecompile(), "1234");
 }
 
-// --- $display("%d", $dist_t(seed, 3)); --------------------------------------------
+// --- $display("%d", $dist_t(seed, 3)); -----------------------------------------
 
 TEST_F(DistTFunctionTest, StmtIsDisplaySysTaskCall) {
   const hldb::SysTaskCall *const call = getDisplayCall();
@@ -176,9 +192,9 @@ TEST_F(DistTFunctionTest, DisplayCallHasFormatAndDistTArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::Constant *const fmt = getArgument<hldb::Constant>(call->getArguments(), 0);
   ASSERT_NE(fmt, nullptr) << "'\"%d\"' should be a Constant";
-  EXPECT_EQ(fmt->getConstType(), vpiStringConst);
+  EXPECT_EQ(fmt->getConstType(), vpiStringConst) << "'\"%d\"' is a string literal";
   EXPECT_EQ(fmt->getDecompile(), "\"%d\"");
 
   EXPECT_NE(getDistTCall(), nullptr) << "'$dist_t(...)' should be a SysFuncCall";
@@ -196,20 +212,25 @@ TEST_F(DistTFunctionTest, DistTCallHasSeedAndDfArguments) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u) << "20.15: '$dist_t' takes an inout seed and an input df argument";
 
-  const hldb::RefObj *const seedArg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::RefObj *const seedArg = getArgument<hldb::RefObj>(call->getArguments(), 0);
   ASSERT_NE(seedArg, nullptr) << "'seed' should be a RefObj";
   EXPECT_EQ(seedArg->getName(), "seed");
-  EXPECT_EQ(seedArg->getActual<hldb::Variable>(), getSeedVariable());
+  EXPECT_EQ(seedArg->getActual<hldb::Variable>(), getSeedVariable())
+      << "'seed' argument should bind to the 'integer seed' declared in the begin block";
 
-  const hldb::Constant *const df = any_cast<hldb::Constant>(call->getArguments()->at(1));
+  const hldb::Constant *const df = getArgument<hldb::Constant>(call->getArguments(), 1);
   ASSERT_NE(df, nullptr) << "'3' should be a Constant";
-  EXPECT_EQ(df->getConstType(), vpiUIntConst);
   EXPECT_EQ(df->getDecompile(), "3");
 }
 
 // --- compiler diagnostics -----------------------------------------------------
 
-TEST_F(DistTFunctionTest, CompilesWithNoErrors) { EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr); }
+TEST_F(DistTFunctionTest, CompilesWithNoErrors) {
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
+}
 
 }  // namespace hlc
 
