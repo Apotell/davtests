@@ -21,31 +21,32 @@
 //   end
 //   endmodule
 //
-// IEEE 1800-2023 Sec 20.15, "Probabilistic distribution functions":
-// "function integer $random (inout integer seed);" -- when called without
-// a seed argument and without parentheses, $random is used as a property
-// (vpiIsProperty) rather than a function call with an argument list, and
-// simply returns a pseudo-random number using the default seed.
+// IEEE 1800-2023 Sec 20.15.2, "$random function": "$random [ ( seed ) ]" --
+// the seed argument and its parentheses are optional. Without a seed,
+// $random returns a signed 32-bit pseudo-random number from the default
+// seed.
 //
 // Checked:
 //   - design has module "top" with exactly 1 process, and it is an Initial
 //   - the Initial's body is a Begin (from the explicit "begin ... end")
 //     declaring no variables and wrapping exactly 1 statement
 //   - the statement is a SysTaskCall named "$display" with exactly 2
-//     arguments: a Constant string "%d" and a SysFuncCall named "$random"
-//   - the "$random" SysFuncCall has no argument list (called without
-//     parentheses or a seed) and is flagged as a property (vpiIsProperty)
-//   - compiler reports zero errors
+//     arguments: a string Constant "%d" and a SysFuncCall named "$random"
+//   - the "$random" SysFuncCall has no arguments (no seed is passed)
+//   - compiler reports zero fatal, syntax and error diagnostics
 //
-// NOT CHECKED: runtime effects (the actual pseudo-random value returned by
-// $random) cannot be observed -- HLC is a compiler/elaborator with no
-// simulation capability, so no execution ever happens for this test to
-// check, matching the .hlc file's own note that this is a parsing, not
-// simulation, test.
+// Call arguments are read through NamedArgument::getHighConn(): this HLDB
+// wraps every tf_call argument, positional ones included, in a NamedArgument.
+//
+// NOT CHECKED:
+//   - runtime effects (the pseudo-random value returned by $random) -- HLC
+//     is a compiler/elaborator with no simulation capability; the .sv
+//     header tags this test as "simulation parsing".
+//   - vpiIsProperty on the parenthesis-less "$random" -- that is an HLDB
+//     encoding, not something Sec 20.15 dictates.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -55,6 +56,7 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_func_call.h>
 #include <hldb/sys_task_call.h>
@@ -68,6 +70,20 @@ class RandomFunctionTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
+  // Every tf_call argument is wrapped in a NamedArgument; the actual
+  // argument expression is its high conn.
+  template <typename T>
+  static const T *getArgument(const hldb::NamedArgumentCollection *args, size_t index) {
+    if (args == nullptr || args->size() <= index) {
+      return nullptr;
+    }
+    const hldb::NamedArgument *const arg = args->at(index);
+    if (arg == nullptr) {
+      return nullptr;
+    }
+    return arg->getHighConn<T>();
+  }
+
   static const hldb::Module *getModule() { return hldb::findByName<hldb::Module>("top", m_design->getAllModules()); }
 
   static const hldb::Initial *getInitialProcess() {
@@ -96,10 +112,10 @@ class RandomFunctionTest : public Test {
 
   static const hldb::SysFuncCall *getRandomCall() {
     const hldb::SysTaskCall *const display = getDisplayCall();
-    if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
+    if (display == nullptr) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    return getArgument<hldb::SysFuncCall>(display->getArguments(), 1);
   }
 };
 
@@ -118,12 +134,13 @@ TEST_F(RandomFunctionTest, ModuleHasOneInitialProcess) {
 TEST_F(RandomFunctionTest, InitialBodyIsBeginWithNoVariablesAndOneStmt) {
   const hldb::Begin *const body = getInitialBody();
   ASSERT_NE(body, nullptr) << "'initial begin ... end' should wrap the body in a Begin";
-  EXPECT_EQ(body->getVariables(), nullptr) << "no variable is declared in this body";
+  EXPECT_TRUE(body->getVariables() == nullptr || body->getVariables()->empty())
+      << "no variable is declared in this body";
   ASSERT_NE(body->getStmts(), nullptr);
   EXPECT_EQ(body->getStmts()->size(), 1u) << "'$display(...);' is the only statement";
 }
 
-// --- $display("%d", $random); -----------------------------------------------------
+// --- $display("%d", $random); --------------------------------------------------
 
 TEST_F(RandomFunctionTest, StmtIsDisplaySysTaskCall) {
   const hldb::SysTaskCall *const call = getDisplayCall();
@@ -137,9 +154,9 @@ TEST_F(RandomFunctionTest, DisplayCallHasFormatAndRandomArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::Constant *const fmt = getArgument<hldb::Constant>(call->getArguments(), 0);
   ASSERT_NE(fmt, nullptr) << "'\"%d\"' should be a Constant";
-  EXPECT_EQ(fmt->getConstType(), vpiStringConst);
+  EXPECT_EQ(fmt->getConstType(), vpiStringConst) << "'\"%d\"' is a string literal";
   EXPECT_EQ(fmt->getDecompile(), "\"%d\"");
 
   EXPECT_NE(getRandomCall(), nullptr) << "'$random' should be a SysFuncCall";
@@ -151,17 +168,20 @@ TEST_F(RandomFunctionTest, RandomCallIsNamedCorrectly) {
   EXPECT_EQ(call->getName(), "$random");
 }
 
-TEST_F(RandomFunctionTest, RandomCallHasNoArgumentsAndIsProperty) {
+TEST_F(RandomFunctionTest, RandomCallHasNoSeedArgument) {
   const hldb::SysFuncCall *const call = getRandomCall();
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getArguments(), nullptr) << "'$random' called without parentheses or a seed argument";
-  EXPECT_TRUE(call->getIsProperty()) << "20.15: a parenthesis-less '$random' is modeled as a property";
+  EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
+      << "20.15.2: '$random' is called here without the optional seed argument";
 }
 
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(RandomFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
 }
 
 }  // namespace hlc

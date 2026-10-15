@@ -20,28 +20,27 @@
 //   	$exit;
 //   endmodule
 //
-// $exit (tags: 20.2) is a no-argument simulation control task. There is no
-// "begin ... end" in the source, so the Initial process's statement is the
-// "$exit" SysTaskCall directly, with no Begin wrapper in between. Called
-// without parentheses, it is modeled as a property (vpiIsProperty), the
-// same way a parenthesis-less "$random" is.
+// IEEE 1800-2023 Sec 20.2, "Simulation control system tasks", Syntax 20-1:
+// "simulation_control_task ::= ... | $exit [ ( ) ] ;" -- $exit takes no
+// arguments and its empty parentheses are optional. Its semantics are
+// described in Sec 24.7. Since there is no "begin ... end" in the source,
+// the initial procedure's statement (Sec 9.2.1) is the "$exit" call itself.
 //
 // Checked:
 //   - design has module "top" with exactly 1 process, and it is an Initial
 //   - the Initial's statement is a SysTaskCall named "$exit" directly (no
 //     Begin wrapper, since there is no "begin ... end" in the source)
-//   - the "$exit" SysTaskCall has no argument list (called without
-//     parentheses) and is flagged as a property (vpiIsProperty)
-//   - compiler reports zero errors
+//   - the "$exit" SysTaskCall has no arguments
+//   - compiler reports zero fatal, syntax and error diagnostics
 //
-// NOT CHECKED: runtime effects (whether $exit actually terminates
-// simulation) cannot be observed -- HLC is a compiler/elaborator with no
-// simulation capability, so no execution ever happens for this test to
-// check.
+// NOT CHECKED:
+//   - runtime effects (whether $exit actually ends the simulation) -- HLC
+//     is a compiler/elaborator with no simulation capability.
+//   - vpiIsProperty on the parenthesis-less "$exit" -- that is an HLDB
+//     encoding, not something Sec 20.2 dictates.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -100,16 +99,20 @@ TEST_F(ExitTaskTest, InitialStmtIsExitSysTaskCall) {
   EXPECT_EQ(call->getName(), "$exit");
 }
 
-TEST_F(ExitTaskTest, ExitCallHasNoArgumentsAndIsProperty) {
+TEST_F(ExitTaskTest, ExitCallHasNoArguments) {
   const hldb::SysTaskCall *const call = getExitCall();
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getArguments(), nullptr) << "'$exit' called without parentheses or arguments";
-  EXPECT_TRUE(call->getIsProperty()) << "20.2: a parenthesis-less '$exit' is modeled as a property";
+  EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "20.2: '$exit' takes no arguments";
 }
 
 // --- compiler diagnostics -----------------------------------------------------
 
-TEST_F(ExitTaskTest, CompilesWithNoErrors) { EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr); }
+TEST_F(ExitTaskTest, CompilesWithNoErrors) {
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
+}
 
 }  // namespace hlc
 
