@@ -134,7 +134,8 @@ class CountbitsFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    return arg1->getHighConn<hldb::SysFuncCall>();
   }
 
   static void expectDisplayFormat(size_t stmtIndex, std::string_view text, int32_t size) {
@@ -144,7 +145,8 @@ class CountbitsFunctionTest : public Test {
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 2u) << "statement " << stmtIndex << ": a format and one call";
 
-    const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
     EXPECT_EQ(fmt->getConstType(), vpiStringConst);
     EXPECT_EQ(fmt->getSize(), size) << "8 bits per character";
@@ -155,8 +157,8 @@ class CountbitsFunctionTest : public Test {
   }
 
   // Every call's first argument is a reference to the declared "val".
-  static void expectValReference(const hldb::Any *arg) {
-    const hldb::RefObj *const ref = any_cast<hldb::RefObj>(arg);
+  static void expectValReference(const hldb::NamedArgument *arg) {
+    const hldb::RefObj *const ref = arg->getHighConn<hldb::RefObj>();
     ASSERT_NE(ref, nullptr) << "'val' should be a RefObj";
     EXPECT_EQ(ref->getName(), "val");
     ASSERT_NE(getVal(), nullptr);
@@ -166,8 +168,8 @@ class CountbitsFunctionTest : public Test {
   // A control bit ('0, '1, 'x or 'z) is a 1-bit binary Constant. TypespecT is
   // BitTypespec for '0 / '1 and LogicTypespec for 'x / 'z.
   template <typename TypespecT>
-  static void expectControlBit(const hldb::Any *arg, std::string_view decompile) {
-    const hldb::Constant *const bit = any_cast<hldb::Constant>(arg);
+  static void expectControlBit(const hldb::NamedArgument *arg, std::string_view decompile) {
+    const hldb::Constant *const bit = arg->getHighConn<hldb::Constant>();
     ASSERT_NE(bit, nullptr) << decompile << " should be a Constant";
     EXPECT_EQ(bit->getConstType(), vpiBinaryConst);
     EXPECT_EQ(bit->getSize(), 1);

@@ -104,7 +104,8 @@ class PowFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    return arg1->getHighConn<hldb::SysFuncCall>();
   }
 };
 
@@ -143,7 +144,8 @@ TEST_F(PowFunctionTest, DisplayCallHasFormatAndPowArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getSize(), 184) << "23 characters * 8 bits";
@@ -176,7 +178,8 @@ TEST_F(PowFunctionTest, PowFirstArgumentIsRealX) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const x = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  const hldb::Constant *const x = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(x, nullptr) << "'2.25' should be a Constant";
   EXPECT_EQ(x->getConstType(), vpiRealConst);
   EXPECT_EQ(x->getSize(), 64);
@@ -193,7 +196,8 @@ TEST_F(PowFunctionTest, PowSecondArgumentIsIntY) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const y = any_cast<hldb::Constant>(call->getArguments()->at(1));
+  const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
+  const hldb::Constant *const y = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(y, nullptr) << "'2' should be a Constant";
   EXPECT_EQ(y->getConstType(), vpiUIntConst);
   EXPECT_EQ(y->getSize(), 64);

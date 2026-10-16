@@ -135,7 +135,8 @@ class IsunknownFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    return arg1->getHighConn<hldb::SysFuncCall>();
   }
 
   // "[3:0]": a LogicTypespec vector with one range of unsigned int bounds.
@@ -193,7 +194,8 @@ class IsunknownFunctionTest : public Test {
     ASSERT_NE(display->getArguments(), nullptr);
     ASSERT_EQ(display->getArguments()->size(), 2u);
 
-    const hldb::Constant *const fmt = any_cast<hldb::Constant>(display->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
+    const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
     EXPECT_EQ(fmt->getConstType(), vpiStringConst);
     EXPECT_EQ(fmt->getSize(), 144) << "18 characters * 8 bits";
@@ -208,7 +210,8 @@ class IsunknownFunctionTest : public Test {
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u) << "20.9: '$isunknown' takes a single argument";
 
-    const hldb::RefObj *const arg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const callArg0 = call->getArguments()->at(0);
+    const hldb::RefObj *const arg = callArg0->getHighConn<hldb::RefObj>();
     ASSERT_NE(arg, nullptr) << "'" << name << "' should be a RefObj";
     EXPECT_EQ(arg->getName(), name);
     ASSERT_NE(getParam(name), nullptr);

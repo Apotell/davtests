@@ -101,10 +101,12 @@ class HypotFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    return arg1->getHighConn<hldb::SysFuncCall>();
   }
 
-  static void expectRealConstant(const hldb::Constant *constant, std::string_view decompile) {
+  static void expectRealConstant(const hldb::NamedArgument *arg, std::string_view decompile) {
+    const hldb::Constant *const constant = arg->getHighConn<hldb::Constant>();
     ASSERT_NE(constant, nullptr);
     EXPECT_EQ(constant->getConstType(), vpiRealConst);
     EXPECT_EQ(constant->getSize(), 64);
@@ -151,7 +153,8 @@ TEST_F(HypotFunctionTest, DisplayCallHasFormatAndHypotArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getSize(), 16) << "2 characters * 8 bits";
@@ -183,7 +186,7 @@ TEST_F(HypotFunctionTest, HypotFirstArgumentIsRealX) {
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
-  expectRealConstant(any_cast<hldb::Constant>(call->getArguments()->at(0)), "2.1");
+  expectRealConstant(call->getArguments()->at(0), "2.1");
 }
 
 TEST_F(HypotFunctionTest, HypotSecondArgumentIsRealY) {
@@ -191,7 +194,7 @@ TEST_F(HypotFunctionTest, HypotSecondArgumentIsRealY) {
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
-  expectRealConstant(any_cast<hldb::Constant>(call->getArguments()->at(1)), "3.7");
+  expectRealConstant(call->getArguments()->at(1), "3.7");
 }
 
 // --- compiler diagnostics -----------------------------------------------------

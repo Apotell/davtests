@@ -99,7 +99,8 @@ class FloorFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
+    return arg1->getHighConn<hldb::SysFuncCall>();
   }
 };
 
@@ -138,7 +139,8 @@ TEST_F(FloorFunctionTest, DisplayCallHasFormatAndFloorArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getSize(), 144) << "18 characters * 8 bits";
@@ -164,7 +166,8 @@ TEST_F(FloorFunctionTest, FloorCallHasOneRealArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "20.8: '$floor' takes a single real argument";
 
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr) << "'2.1' should be a Constant";
   EXPECT_EQ(arg->getConstType(), vpiRealConst);
   EXPECT_EQ(arg->getSize(), 64);

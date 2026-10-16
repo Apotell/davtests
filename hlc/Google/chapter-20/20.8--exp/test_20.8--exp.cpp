@@ -100,7 +100,8 @@ class ExpFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() <= argIndex) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(argIndex));
+    const hldb::NamedArgument *const argi = display->getArguments()->at(argIndex);
+    return argi->getHighConn<hldb::SysFuncCall>();
   }
 
   // Both calls are "$exp(1)": one Constant unsigned int argument "1".
@@ -110,7 +111,8 @@ class ExpFunctionTest : public Test {
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u) << "20.8: '$exp' takes a single argument";
 
-    const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+    const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(arg, nullptr) << "'1' should be a Constant";
     EXPECT_EQ(arg->getConstType(), vpiUIntConst);
     EXPECT_EQ(arg->getSize(), 64);
@@ -157,7 +159,8 @@ TEST_F(ExpFunctionTest, DisplayCallHasFormatAndTwoExpArguments) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 3u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getSize(), 304) << "38 characters * 8 bits";
