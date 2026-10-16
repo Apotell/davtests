@@ -16,7 +16,7 @@
 
 // Validates the HLDB model of module ref ports (IEEE 1800-2023):
 //   Sec 37.13 detail 1  -- vpiDirection of an io decl is vpiRef for a pass-by-ref port
-//   Sec 37.14           -- the port itself stays a vpiPort, vpiPortType is vpiPort
+//   Sec 37.14 detail 1  -- the port itself stays a vpiPort, vpiPortType is vpiPort
 //   Sec 37.15 detail 1  -- a ref obj exists for a port with ref direction; it names the
 //                          variable that is the low conn of the ref port
 //   Sec 37.15 detail 2  -- that ref obj is reached through the io decl of the instance
@@ -104,16 +104,10 @@ TEST_F(ModuleRefPort, InputPortKeepsItsDirection) {
 }
 
 TEST_F(ModuleRefPort, AnsiPortTypeIsPort) {
-  GTEST_SKIP() << "IEEE 1800-2023 Sec 37.14 detail 1: vpiPortType shall be vpiPort for a port that is "
-                  "neither an interface port nor a modport port; HLC only sets vpiPortType for "
-                  "interface/modport ports and leaves it unset otherwise.";
   checkPortTypeIsPort("ansi_ref");
 }
 
 TEST_F(ModuleRefPort, NonAnsiPortTypeIsPort) {
-  GTEST_SKIP() << "IEEE 1800-2023 Sec 37.14 detail 1: vpiPortType shall be vpiPort for a port that is "
-                  "neither an interface port nor a modport port; HLC only sets vpiPortType for "
-                  "interface/modport ports and leaves it unset otherwise.";
   checkPortTypeIsPort("nonansi_ref");
 }
 
