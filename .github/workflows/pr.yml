@@ -63,7 +63,7 @@ jobs:
     name: "Regression | ubuntu | filtered"
     needs: preflight
     if: needs.preflight.outputs.run_regression == 'true'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     env:
       build-artifact-name: hlc_ubuntu_release_${{ needs.preflight.outputs.build_run_number }}
@@ -167,7 +167,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { platform: ubuntu, os: ubuntu-24.04, shard: 0, num_shards: 1 }
+          - { platform: ubuntu, os: ubuntu-26.04, shard: 0, num_shards: 1 }
 
     steps:
     - name: Checkout repository
@@ -213,6 +213,7 @@ jobs:
         variant: ${{ runner.os == 'Windows' && 'sccache' || 'ccache' }}
         key: "${{ matrix.platform }}-${{ github.ref_name }}/${{ matrix.shard }}"
         restore-keys: "${{ matrix.platform }}-master/${{ matrix.shard }}"
+        evict-old-files: 'job'
 
     - name: Download artifact (build)
       uses: actions/download-artifact@v7
@@ -261,3 +262,32 @@ jobs:
     - name: Test
       timeout-minutes: 15
       run: ctest --test-dir out/build --output-on-failure
+
+# Cache Cleanup #######################################################################################################
+
+  # Cache entries are immutable, so every run saves a new timestamp-suffixed
+  # entry. Keep only the newest entry per key prefix on this ref so frequently
+  # run PRs don't push other branches' caches out of the repo-wide quota.
+  CacheCleanup:
+    needs: [cpp_tests]
+    if: always()
+    runs-on: ubuntu-26.04
+    permissions:
+      actions: write
+
+    steps:
+    - name: Delete older caches on this ref
+      env:
+        GH_TOKEN: ${{ github.token }}
+        GH_REPO: ${{ github.repository }}
+      run: |
+        # Strip ccache-action's trailing ISO timestamp ("-YYYY-MM-DDT...") to
+        # group entries by prefix.
+        gh cache list --ref "${{ github.ref }}" --limit 1000         \
+          --json id,key,createdAt                                    \
+          --jq 'group_by(.key | sub("-[0-9]{4}-[0-9]{2}-[0-9]{2}[T-].*$"; ""))
+                | .[] | sort_by(.createdAt) | .[:-1][] | .id'        |
+        while read -r id; do
+          echo "Deleting cache ${id}"
+          gh cache delete "${id}"
+        done

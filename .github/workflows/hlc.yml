@@ -56,7 +56,7 @@ jobs:
         num_shards: [8]
         shard: [0, 1, 2, 3, 4, 5, 6, 7]
         config:
-        - { os: ubuntu-24.04, tag: ubuntu, build-type: release }
+        - { os: ubuntu-26.04, tag: ubuntu, build-type: release }
         # - { os: windows-2022, tag: windows, build-type: release }
 
     env:
@@ -156,8 +156,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { platform: ubuntu, os: ubuntu-24.04, shard: 0, num_shards: 2 }
-          - { platform: ubuntu, os: ubuntu-24.04, shard: 1, num_shards: 2 }
+          - { platform: ubuntu, os: ubuntu-26.04, shard: 0, num_shards: 3 }
+          - { platform: ubuntu, os: ubuntu-26.04, shard: 1, num_shards: 3 }
+          - { platform: ubuntu, os: ubuntu-26.04, shard: 2, num_shards: 3 }
 
     env:
       build-artifact-name: hlc_${{ matrix.platform }}_release_${{ github.event.inputs.run_number }}
@@ -182,8 +183,9 @@ jobs:
         variant: 'ccache'
         key: "${{ matrix.platform }}-${{ github.ref_name }}/${{ matrix.shard }}"
         restore-keys: |
-          "${{ matrix.platform }}-master/${{ matrix.shard }}"
+          ${{ matrix.platform }}-master/${{ matrix.shard }}
           ${{ matrix.platform }}-master
+        evict-old-files: 'job'
 
     - name: Download artifact (build)
       uses: actions/download-artifact@v7
@@ -246,7 +248,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { os: ubuntu-24.04, tag: ubuntu, build-type: release }
+        - { os: ubuntu-26.04, tag: ubuntu, build-type: release }
         # - { os: windows-2022, tag: windows, build-type: release }
 
     steps:
@@ -301,3 +303,32 @@ jobs:
           env.json
           reducer.csv
           regression.csv
+
+# Cache Cleanup #######################################################################################################
+
+  # Cache entries are immutable, so every run saves a new timestamp-suffixed
+  # entry. Keep only the newest entry per key prefix on this ref so frequently
+  # run branches don't push other branches' caches out of the repo-wide quota.
+  CacheCleanup:
+    needs: [cpp_tests]
+    if: always()
+    runs-on: ubuntu-26.04
+    permissions:
+      actions: write
+
+    steps:
+    - name: Delete older caches on this ref
+      env:
+        GH_TOKEN: ${{ github.token }}
+        GH_REPO: ${{ github.repository }}
+      run: |
+        # Strip ccache-action's trailing ISO timestamp ("-YYYY-MM-DDT...") to
+        # group entries by prefix.
+        gh cache list --ref "${{ github.ref }}" --limit 1000         \
+          --json id,key,createdAt                                    \
+          --jq 'group_by(.key | sub("-[0-9]{4}-[0-9]{2}-[0-9]{2}[T-].*$"; ""))
+                | .[] | sort_by(.createdAt) | .[:-1][] | .id'        |
+        while read -r id; do
+          echo "Deleting cache ${id}"
+          gh cache delete "${id}"
+        done
