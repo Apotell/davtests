@@ -252,8 +252,7 @@ TEST_F(InterfaceIdentifiers, AnsiSignalPortHasDirectionAndIsNotInterfacePort) {
   const hldb::Port *const clk = hldb::findByName<hldb::Port>("clk", m->getPorts());
   ASSERT_NE(clk, nullptr);
   EXPECT_EQ(clk->getDirection(), vpiInput);
-  EXPECT_NE(clk->getPortType(), vpiInterfacePort);
-  EXPECT_NE(clk->getPortType(), vpiModportPort);
+  EXPECT_EQ(clk->getPortType(), vpiPort);  // Sec 37.14 detail 1
 }
 
 TEST_F(InterfaceIdentifiers, NonAnsiPortsAreInterfaceIODecls) {
