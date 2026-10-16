@@ -169,7 +169,7 @@ n<$Source01/unary_nor2.v> u<354> t<Top_level_rule> c<1> l<23:1> el<55:1>
                                                     n<> u<129> t<Select> p<130> c<128> l<35:14> el<35:14>
                                                       n<> u<128> t<Bit_select> p<129> l<35:14> el<35:14>
                                                   n<> u<136> t<Expression> p<137> c<135> l<35:16> el<35:23>
-                                                    n<> u<135> t<REDUCTION_NOR> p<136> s<134> l<35:16> el<35:18>
+                                                    n<> u<135> t<UnaryOp_ReductNor> p<136> s<134> l<35:16> el<35:18>
                                                     n<> u<134> t<Expression> p<136> c<133> l<35:19> el<35:23>
                                                       n<> u<133> t<Primary> p<134> c<132> l<35:19> el<35:23>
                                                         n<> u<132> t<Primary_literal> p<133> c<131> l<35:19> el<35:23>
@@ -269,7 +269,7 @@ n<$Source01/unary_nor2.v> u<354> t<Top_level_rule> c<1> l<23:1> el<55:1>
                                     n<> u<238> t<Select> p<239> c<237> l<44:11> el<44:11>
                                       n<> u<237> t<Bit_select> p<238> l<44:11> el<44:11>
                                   n<> u<245> t<Expression> p<246> c<244> l<44:13> el<44:20>
-                                    n<> u<244> t<REDUCTION_NOR> p<245> s<243> l<44:13> el<44:15>
+                                    n<> u<244> t<UnaryOp_ReductNor> p<245> s<243> l<44:13> el<44:15>
                                     n<> u<243> t<Expression> p<245> c<242> l<44:16> el<44:20>
                                       n<> u<242> t<Primary> p<243> c<241> l<44:16> el<44:20>
                                         n<> u<241> t<Primary_literal> p<242> c<240> l<44:16> el<44:20>
@@ -385,28 +385,28 @@ Design name:unnamed:
       vpiVariable (3 items):
         Variable name:vect start:25:11 end:25:15:
           vpiParent: Module name:main
+          vpiName: vect
+          vpiFullName: main.vect
           vpiTypespec RefTypespec start:25:1 end:25:10:
             vpiParent: Variable name:vect
             vpiFullName: main.vect
             vpiActual: LogicTypespec
-          vpiName: vect
-          vpiFullName: main.vect
         Variable name:error start:26:6 end:26:11:
           vpiParent: Module name:main
+          vpiName: error
+          vpiFullName: main.error
           vpiTypespec RefTypespec start:26:1 end:26:4:
             vpiParent: Variable name:error
             vpiFullName: main.error
             vpiActual: LogicTypespec
-          vpiName: error
-          vpiFullName: main.error
         Variable name:result start:27:5 end:27:11:
           vpiParent: Module name:main
+          vpiName: result
+          vpiFullName: main.result
           vpiTypespec RefTypespec start:27:1 end:27:4:
             vpiParent: Variable name:result
             vpiFullName: main.result
             vpiActual: LogicTypespec
-          vpiName: result
-          vpiFullName: main.result
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:main
@@ -415,36 +415,38 @@ Design name:unnamed:
               vpiParent: LogicTypespec
               vpiLeftRange Constant start:25:6 end:25:7:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: main
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "3"
                 vpiValue: 3
-              vpiRightRange Constant start:25:8 end:25:9:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: main
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:25:8 end:25:9:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: main
+                  vpiActual: IntTypespec
           vpiVector: true
         LogicTypespec:
           vpiParent: Module name:main
+          vpiScalar: true
       vpiDefName: main
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:23:8 end:23:12:
         vpiParent: Module name:main
         vpiName: work
         vpiFullName: main.work
         vpiActual: Library name:work
       vpiCell: main
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:30:1 end:52:5:
           vpiParent: Module name:main
@@ -465,14 +467,14 @@ Design name:unnamed:
                   vpiActual: Variable name:error
                 vpiRhs Constant start:32:12 end:32:13:
                   vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: main
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: main
+                    vpiActual: IntTypespec
               ForStmt start:33:4 end:41:8:
                 vpiParent: Begin
                 vpiFullName: main
@@ -487,14 +489,14 @@ Design name:unnamed:
                       vpiActual: Variable name:vect
                     vpiRhs Constant start:33:13 end:33:20:
                       vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: main
-                        vpiActual: LogicTypespec
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b0001"
                       vpiValue: "0001"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: LogicTypespec
                 vpiForIncStmt (1 items):
                   Assignment start:33:34 end:33:49:
                     vpiParent: ForStmt
@@ -515,14 +517,14 @@ Design name:unnamed:
                           vpiActual: Variable name:vect
                         Constant start:33:48 end:33:49:
                           vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: main
-                            vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
                           vpiDecompile: "1"
                           vpiValue: 1
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: main
+                            vpiActual: IntTypespec
                 vpiCondition Operation start:33:21 end:33:33:
                   vpiParent: ForStmt
                   vpiOpType: less than (20)
@@ -534,14 +536,14 @@ Design name:unnamed:
                       vpiActual: Variable name:vect
                     Constant start:33:26 end:33:33:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: main
-                        vpiActual: LogicTypespec
                       vpiConstType: binary (3)
                       vpiSize: 4
                       vpiDecompile: "4'b1111"
                       vpiValue: "1111"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: LogicTypespec
                 vpiStmt Begin start:34:5 end:41:8:
                   vpiParent: ForStmt
                   vpiFullName: main
@@ -559,6 +561,7 @@ Design name:unnamed:
                         vpiActual: Variable name:result
                       vpiRhs Operation start:35:16 end:35:23:
                         vpiParent: Assignment
+                        vpiOpType: unary nor (8)
                         vpiOperand (1 items):
                           RefObj name:vect start:35:19 end:35:23:
                             vpiParent: Operation
@@ -578,14 +581,14 @@ Design name:unnamed:
                             vpiActual: Variable name:result
                           Constant start:36:21 end:36:25:
                             vpiParent: Operation
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: main
-                              vpiActual: BitTypespec
                             vpiConstType: binary (3)
                             vpiSize: 1
                             vpiDecompile: "1'b0"
                             vpiValue: "0"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: BitTypespec
                       vpiStmt Begin start:37:9 end:40:12:
                         vpiParent: IfStmt
                         vpiFullName: main
@@ -601,14 +604,14 @@ Design name:unnamed:
                                 vpiParent: SysTaskCall name:$display
                                 vpiHighConn Constant start:38:21 end:38:51:
                                   vpiParent: NamedArgument
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: main
-                                    vpiActual: StringTypespec
                                   vpiConstType: string (6)
                                   vpiSize: 224
                                   vpiDecompile: "\"FAILED - Unary nor ~|(%b)=%b\""
                                   vpiValue: FAILED - Unary nor ~|(%b)=%b
+                                  vpiTypespec RefTypespec:
+                                    vpiParent: Constant
+                                    vpiFullName: main
+                                    vpiActual: StringTypespec
                               NamedArgument start:38:52 end:38:56:
                                 vpiParent: SysTaskCall name:$display
                                 vpiHighConn RefObj name:vect start:38:52 end:38:56:
@@ -633,14 +636,14 @@ Design name:unnamed:
                               vpiActual: Variable name:error
                             vpiRhs Constant start:39:20 end:39:24:
                               vpiParent: Assignment
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: main
-                                vpiActual: BitTypespec
                               vpiConstType: binary (3)
                               vpiSize: 1
                               vpiDecompile: "1'b1"
                               vpiValue: "1"
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: main
+                                vpiActual: BitTypespec
               DelayControl start:42:4 end:42:7:
                 vpiParent: Begin
                 vpiDelay: 1
@@ -648,14 +651,14 @@ Design name:unnamed:
                   vpiParent: DelayControl
                 vpiDelay Constant start:42:5 end:42:6:
                   vpiParent: DelayControl
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: main
-                    vpiActual: IntTypespec
                   vpiConstType: int (7)
                   vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: main
+                    vpiActual: IntTypespec
               Assignment start:43:4 end:43:18:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -666,14 +669,14 @@ Design name:unnamed:
                   vpiActual: Variable name:vect
                 vpiRhs Constant start:43:11 end:43:18:
                   vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: main
-                    vpiActual: LogicTypespec
                   vpiConstType: binary (3)
                   vpiSize: 4
                   vpiDecompile: "4'b0000"
                   vpiValue: "0000"
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: main
+                    vpiActual: LogicTypespec
               Assignment start:44:4 end:44:20:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -684,6 +687,7 @@ Design name:unnamed:
                   vpiActual: Variable name:result
                 vpiRhs Operation start:44:13 end:44:20:
                   vpiParent: Assignment
+                  vpiOpType: unary nor (8)
                   vpiOperand (1 items):
                     RefObj name:vect start:44:16 end:44:20:
                       vpiParent: Operation
@@ -703,14 +707,14 @@ Design name:unnamed:
                       vpiActual: Variable name:result
                     Constant start:45:18 end:45:22:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: main
-                        vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
                       vpiValue: "1"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: BitTypespec
                 vpiStmt Begin start:46:6 end:49:9:
                   vpiParent: IfStmt
                   vpiFullName: main
@@ -726,14 +730,14 @@ Design name:unnamed:
                           vpiParent: SysTaskCall name:$display
                           vpiHighConn Constant start:47:17 end:47:47:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: main
-                              vpiActual: StringTypespec
                             vpiConstType: string (6)
                             vpiSize: 224
                             vpiDecompile: "\"FAILED - Unary nor |~(%b)=%b\""
                             vpiValue: FAILED - Unary nor |~(%b)=%b
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: main
+                              vpiActual: StringTypespec
                         NamedArgument start:47:48 end:47:52:
                           vpiParent: SysTaskCall name:$display
                           vpiHighConn RefObj name:vect start:47:48 end:47:52:
@@ -758,14 +762,14 @@ Design name:unnamed:
                         vpiActual: Variable name:error
                       vpiRhs Constant start:48:16 end:48:20:
                         vpiParent: Assignment
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: main
-                          vpiActual: BitTypespec
                         vpiConstType: binary (3)
                         vpiSize: 1
                         vpiDecompile: "1'b1"
                         vpiValue: "1"
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: main
+                          vpiActual: BitTypespec
               IfStmt start:50:4 end:51:25:
                 vpiParent: Begin
                 vpiCondition Operation start:50:7 end:50:18:
@@ -779,14 +783,14 @@ Design name:unnamed:
                       vpiActual: Variable name:error
                     Constant start:50:17 end:50:18:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: main
-                        vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: IntTypespec
                 vpiStmt SysTaskCall name:$display start:51:6 end:51:24:
                   vpiParent: IfStmt
                   vpiName Identifier name:$display start:51:6 end:51:14:
@@ -795,14 +799,14 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiHighConn Constant start:51:15 end:51:23:
                         vpiParent: NamedArgument
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: main
-                          vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 48
                         vpiDecompile: "\"PASSED\""
                         vpiValue: PASSED
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: main
+                          vpiActual: StringTypespec
       vpiSysTaskCall (3 items):
         SysTaskCall name:$display:
         SysTaskCall name:$display:

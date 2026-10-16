@@ -116,9 +116,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "ForNarrowRequest".
 [INF:CP5804] $Source01/dut.sv:8:1: Compile module "InitializedBlockRAM".
 [INF:CP5836] $Source01/dut.sv:11:20: Compile generate block "body".
-[WRN:CP5851] $Source01/dut.sv:17:15: Failed to bind "body".
-[WRN:CP5851] $Source01/dut.sv:17:20: Failed to bind "ram".
-[WRN:CP5851] $Source01/dut.sv:17:24: Failed to bind "array".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "ForNarrowRequest".
 [WRN:PA5506] $Source01/dut.sv:8:1: No timescale set for "InitializedBlockRAM".
 ====== HLDB =======
@@ -137,59 +134,61 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:array start:3:7 end:3:12:
           vpiParent: Module name:ForNarrowRequest
+          vpiName: array
+          vpiFullName: ForNarrowRequest.array
           vpiTypespec RefTypespec name:int [10] start:3:3 end:3:6:
             vpiParent: Variable name:array
             vpiName: int [10]
             vpiFullName: ForNarrowRequest.array.int [10]
             vpiActual: ArrayTypespec
-          vpiName: array
-          vpiFullName: ForNarrowRequest.array
       vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:ForNarrowRequest
           vpiArrayType: static (1)
           vpiRange Range start:3:12 end:3:16:
             vpiParent: ArrayTypespec
-            vpiLeftRange Operation:
+            vpiRightRange Operation:
               vpiParent: Range
               vpiOpType: subtract (11)
               vpiOperand (1 items):
                 Constant start:3:13 end:3:15:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: ForNarrowRequest
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "10"
                   vpiValue: 10
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: ForNarrowRequest
+                    vpiActual: IntTypespec
           vpiElemTypespec RefTypespec start:3:3 end:3:6:
             vpiParent: ArrayTypespec
             vpiFullName: ForNarrowRequest
             vpiActual: IntTypespec
       vpiDefName: ForNarrowRequest
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:24:
         vpiParent: Module name:ForNarrowRequest
         vpiName: work
         vpiFullName: ForNarrowRequest.work
         vpiActual: Library name:work
       vpiCell: ForNarrowRequest
-      vpiAutomatic: true
     Module name:InitializedBlockRAM file:$Source01/dut.sv start:8:1 end:20:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:InitializedBlockRAM start:8:8 end:8:27:
       vpiFullName: InitializedBlockRAM
       vpiDefName: InitializedBlockRAM
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:8:8 end:8:27:
         vpiParent: Module name:InitializedBlockRAM
         vpiName: work
         vpiFullName: InitializedBlockRAM.work
         vpiActual: Library name:work
       vpiCell: InitializedBlockRAM
-      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:InitializeMemory start:16:3 end:18:14:
           vpiParent: Module name:InitializedBlockRAM
@@ -212,14 +211,18 @@ Design name:unnamed:
                       vpiParent: RefObj name:body.ram.array
                       vpiName: body
                       vpiFullName: InitializedBlockRAM.InitializeMemory.body
+                      vpiActual: GenBlock name:body
                     RefObj name:ram start:17:20 end:17:23:
                       vpiParent: RefObj name:body.ram.array
                       vpiName: ram
                       vpiFullName: InitializedBlockRAM.InitializeMemory.ram
+                      vpiActual: RefInstance name:ram
                     RefObj name:array start:17:24 end:17:29:
                       vpiParent: RefObj name:body.ram.array
                       vpiName: array
                       vpiFullName: InitializedBlockRAM.InitializeMemory.array
+                      vpiActual: Variable name:array
+                  vpiActual: Variable name:array
           vpiReturn RefTypespec start:16:22 end:16:26:
             vpiParent: Function name:InitializeMemory
             vpiFullName: InitializedBlockRAM.InitializeMemory
@@ -229,38 +232,38 @@ Design name:unnamed:
       vpiGenStmt (1 items):
         GenRegion start:10:3 end:14:14:
           vpiParent: Module name:InitializedBlockRAM
-          vpiFullName: InitializedBlockRAM
-          vpiStmt GenIf start:11:5 end:13:8:
-            vpiParent: GenRegion
-            vpiCondition Constant start:11:9 end:11:10:
-              vpiParent: GenIf
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: InitializedBlockRAM
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "1"
-              vpiValue: 1
-            vpiStmt Begin name:body start:11:12 end:13:8:
-              vpiParent: GenIf
-              vpiName Identifier name:body start:11:20 end:11:24:
-              vpiFullName: InitializedBlockRAM.body
-              vpiTypespec (1 items):
-                ModuleTypespec name:ForNarrowRequest start:12:9 end:12:25:
-                  vpiParent: Begin name:body
-                  vpiName Identifier name:ForNarrowRequest start:12:9 end:12:25:
-                  vpiDefName: ForNarrowRequest
-                  vpiModule: Module name:ForNarrowRequest
-              vpiStmt (1 items):
-                RefInstance name:ram start:12:26 end:12:29:
-                  vpiParent: Begin name:body
-                  vpiName: ram
-                  vpiTypespec RefTypespec name:ForNarrowRequest start:12:9 end:12:25:
-                    vpiParent: RefInstance name:ram
-                    vpiName: ForNarrowRequest
-                    vpiFullName: InitializedBlockRAM.body.ram.ForNarrowRequest
-                    vpiActual: ModuleTypespec name:ForNarrowRequest
+          vpiStmt (1 items):
+            GenIf start:11:5 end:13:8:
+              vpiParent: GenRegion
+              vpiCondition Constant start:11:9 end:11:10:
+                vpiParent: GenIf
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "1"
+                vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: InitializedBlockRAM
+                  vpiActual: IntTypespec
+              vpiStmt GenBlock name:body start:11:12 end:13:8:
+                vpiParent: GenIf
+                vpiName Identifier name:body start:11:20 end:11:24:
+                vpiFullName: InitializedBlockRAM.body
+                vpiTypespec (1 items):
+                  ModuleTypespec name:ForNarrowRequest start:12:9 end:12:25:
+                    vpiParent: GenBlock name:body
+                    vpiName Identifier name:ForNarrowRequest start:12:9 end:12:25:
+                    vpiDefName: ForNarrowRequest
+                    vpiModule: Module name:ForNarrowRequest
+                vpiStmt (1 items):
+                  RefInstance name:ram start:12:26 end:12:29:
+                    vpiParent: GenBlock name:body
+                    vpiName: ram
+                    vpiTypespec RefTypespec name:ForNarrowRequest start:12:9 end:12:25:
+                      vpiParent: RefInstance name:ram
+                      vpiName: ForNarrowRequest
+                      vpiFullName: InitializedBlockRAM.body.ram.ForNarrowRequest
+                      vpiActual: ModuleTypespec name:ForNarrowRequest
   vpiTypespec (4 items):
     ModuleTypespec name:ForNarrowRequest:
       vpiParent: Design name:unnamed
@@ -285,7 +288,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 5
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -328,8 +331,12 @@ COMMAND: ${HLC_DIR}/regression/GenModHierPath/GenModHierPath/design.hldb ${HLC_D
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             2       2       1         1
+LongIntTypespec                      0       1       1         0
+Operation                            1       0       0         1
+RefTypespec                          6       6       1         1
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              35      35       0         0
 ----------------------------------------------------------------
-                                    44      44       0         0
+                                    44      44       3         3
 ===================== END REDUCTION RESULT =====================

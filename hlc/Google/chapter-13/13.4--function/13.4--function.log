@@ -115,18 +115,28 @@ Design name:unnamed:
       vpiFullName: top
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:16:8 end:16:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
-      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:test start:18:1 end:20:12:
           vpiParent: Module name:top
           vpiName Identifier name:test start:18:14 end:18:18:
           vpiFullName: top.test
+          vpiVariable (1 items):
+            Variable name:val start:18:23 end:18:26:
+              vpiParent: Function name:test
+              vpiName: val
+              vpiFullName: top.test.val
+              vpiTypespec RefTypespec start:18:19 end:18:22:
+                vpiParent: Variable name:val
+                vpiFullName: top.test.val
+                vpiActual: IntTypespec
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:val start:18:23 end:18:26:
@@ -147,17 +157,17 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: val
                   vpiFullName: top.test.val
-                  vpiActual: IODecl name:val
+                  vpiActual: Variable name:val
                 Constant start:19:15 end:19:16:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: top.test
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top.test
+                    vpiActual: IntTypespec
           vpiReturn RefTypespec start:18:10 end:18:13:
             vpiParent: Function name:test
             vpiFullName: top.test
@@ -173,14 +183,14 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$display
                 vpiHighConn Constant start:23:11 end:23:31:
                   vpiParent: NamedArgument
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: top
-                    vpiActual: StringTypespec
                   vpiConstType: string (6)
                   vpiSize: 144
                   vpiDecompile: "\":assert: (%d == 2)\""
                   vpiValue: ":assert: (%d == 2)"
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top
+                    vpiActual: StringTypespec
               NamedArgument start:23:33 end:23:40:
                 vpiParent: SysTaskCall name:$display
                 vpiHighConn MethodFuncCall name:test start:23:33 end:23:40:
@@ -192,14 +202,14 @@ Design name:unnamed:
                       vpiParent: MethodFuncCall name:test
                       vpiHighConn Constant start:23:38 end:23:39:
                         vpiParent: NamedArgument
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: top
-                          vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
                         vpiDecompile: "1"
                         vpiValue: 1
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top
+                          vpiActual: IntTypespec
       vpiSysTaskCall (1 items):
         SysTaskCall name:$display:
   vpiTypespec (3 items):
@@ -265,7 +275,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-13/13.4--function/design.hldb ${HL
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              33      33       0         0
+Others                              35      35       0         0
 ----------------------------------------------------------------
-                                    33      33       0         0
+                                    35      35       0         0
 ===================== END REDUCTION RESULT =====================

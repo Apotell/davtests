@@ -98,6 +98,7 @@ n<$Source01/t_func_tie_bad.v> u<83> t<Top_level_rule> c<1> l<6:1> el<21:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/t_func_tie_bad.v:6:1: Compile module "t".
 [WRN:CP5851] $Source01/t_func_tie_bad.v:16:14: Failed to bind "bit".
+[WRN:CP5851] $Source01/t_func_tie_bad.v:16:14: Failed to bind "bit".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -114,18 +115,36 @@ Design name:unnamed:
       vpiFullName: t
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:6:8 end:6:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:func start:13:4 end:18:15:
           vpiParent: Module name:t
           vpiName Identifier name:func start:13:27 end:13:31:
           vpiFullName: t.func
+          vpiVariable (2 items):
+            Variable name:a start:15:17 end:15:18:
+              vpiParent: Function name:func
+              vpiName: a
+              vpiFullName: t.func.a
+              vpiTypespec RefTypespec start:15:13 end:15:16:
+                vpiParent: Variable name:a
+                vpiFullName: t.func.a
+                vpiActual: IntTypespec
+            Variable name:b start:16:18 end:16:19:
+              vpiParent: Function name:func
+              vpiName: b
+              vpiFullName: t.func.b
+              vpiTypespec RefTypespec name:bit start:16:14 end:16:17:
+                vpiParent: Variable name:b
+                vpiName: bit
+                vpiFullName: t.func.b.bit
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (2 items):
@@ -149,14 +168,14 @@ Design name:unnamed:
             vpiParent: Function name:func
             vpiCondition Constant start:17:14 end:17:15:
               vpiParent: ReturnStmt
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t.func
-                vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: t.func
+                vpiActual: IntTypespec
           vpiReturn RefTypespec start:13:23 end:13:26:
             vpiParent: Function name:func
             vpiFullName: t.func
@@ -180,26 +199,26 @@ Design name:unnamed:
                     vpiParent: MethodFuncCall name:func
                     vpiHighConn Constant start:10:12 end:10:13:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                   NamedArgument start:10:15 end:10:19:
                     vpiParent: MethodFuncCall name:func
                     vpiHighConn Constant start:10:15 end:10:19:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
                       vpiValue: "1"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: BitTypespec
   vpiTypespec (2 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -217,7 +236,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -261,7 +280,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_tie_bad/design.hldb ${HLC_DIR}/r
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              31      31       0         0
+Others                              35      35       0         0
 ----------------------------------------------------------------
-                                    31      31       0         0
+                                    35      35       0         0
 ===================== END REDUCTION RESULT =====================

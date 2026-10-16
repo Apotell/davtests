@@ -337,20 +337,8 @@ AST_DEBUG_END
 [INF:CP5836] $Source01/dut.sv:5:20: Compile generate block "blk".
 [INF:CP5804] $Source01/dut.sv:12:1: Compile module "top".
 [INF:CP5836] $Source01/dut.sv:17:20: Compile generate block "blk".
-[WRN:CP5851] $Source01/dut.sv:24:18: Failed to bind "blk".
-[WRN:CP5851] $Source01/dut.sv:24:22: Failed to bind "f".
-[WRN:CP5851] $Source01/dut.sv:26:20: Failed to bind "blk".
-[WRN:CP5851] $Source01/dut.sv:26:24: Failed to bind "f".
-[WRN:CP5851] $Source01/dut.sv:28:22: Failed to bind "blk".
-[WRN:CP5851] $Source01/dut.sv:28:26: Failed to bind "f".
-[WRN:CP5851] $Source01/dut.sv:30:24: Failed to bind "blk".
-[WRN:CP5851] $Source01/dut.sv:30:28: Failed to bind "f".
 [WRN:PA5506] $Source01/dut.sv:12:1: No timescale set for "top".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "intf".
-[ERR:LN7705] $Source01/dut.sv:24:22: Null Actual: id:70, type:SubroutineCall, name:f, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:26:24: Null Actual: id:85, type:SubroutineCall, name:f, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:28:26: Null Actual: id:100, type:SubroutineCall, name:f, relation:vpiPathElem.
-[ERR:LN7705] $Source01/dut.sv:30:28: Null Actual: id:117, type:SubroutineCall, name:f, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -366,6 +354,7 @@ Design name:unnamed:
       vpiFullName: intf
       vpiDefName: intf
       vpiDefNetType: wire (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:11 end:1:15:
         vpiParent: Interface name:intf
         vpiName: work
@@ -387,14 +376,14 @@ Design name:unnamed:
             vpiParent: Function name:f
             vpiCondition Constant start:3:16 end:3:17:
               vpiParent: ReturnStmt
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: intf.f
-                vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "1"
               vpiValue: 1
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: intf.f
+                vpiActual: IntTypespec
           vpiReturn RefTypespec start:2:24 end:2:31:
             vpiParent: Function name:f
             vpiFullName: intf.f
@@ -404,21 +393,21 @@ Design name:unnamed:
           vpiParent: Interface name:intf
           vpiCondition Constant start:5:9 end:5:10:
             vpiParent: GenIf
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: intf
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-          vpiStmt Begin name:blk start:5:12 end:9:8:
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: intf
+              vpiActual: IntTypespec
+          vpiStmt GenBlock name:blk start:5:12 end:9:8:
             vpiParent: GenIf
             vpiName Identifier name:blk start:5:20 end:5:23:
             vpiFullName: intf.blk
-            vpiStmt (1 items):
+            vpiTaskFunc (1 items):
               Function name:f start:6:9 end:8:20:
-                vpiParent: Begin name:blk
+                vpiParent: GenBlock name:blk
                 vpiName Identifier name:f start:6:36 end:6:37:
                 vpiFullName: intf.blk.f
                 vpiTypespec (1 items):
@@ -431,14 +420,14 @@ Design name:unnamed:
                   vpiParent: Function name:f
                   vpiCondition Constant start:7:20 end:7:21:
                     vpiParent: ReturnStmt
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: intf.blk.f
-                      vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "2"
                     vpiValue: 2
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: intf.blk.f
+                      vpiActual: IntTypespec
                 vpiReturn RefTypespec start:6:28 end:6:35:
                   vpiParent: Function name:f
                   vpiFullName: intf.blk.f
@@ -450,13 +439,14 @@ Design name:unnamed:
       vpiFullName: top
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:12:8 end:12:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
-      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:f start:14:5 end:16:16:
           vpiParent: Module name:top
@@ -472,14 +462,14 @@ Design name:unnamed:
             vpiParent: Function name:f
             vpiCondition Constant start:15:16 end:15:17:
               vpiParent: ReturnStmt
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: top.f
-                vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "3"
               vpiValue: 3
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: top.f
+                vpiActual: IntTypespec
           vpiReturn RefTypespec start:14:24 end:14:31:
             vpiParent: Function name:f
             vpiFullName: top.f
@@ -516,9 +506,12 @@ Design name:unnamed:
                           vpiParent: RefObj name:blk.f()
                           vpiName: blk
                           vpiFullName: top.blk
-                        SubroutineCall name:f start:24:22 end:24:25:
+                          vpiActual: GenBlock name:blk
+                        FuncCall name:f start:24:22 end:24:25:
                           vpiParent: RefObj name:blk.f()
                           vpiName Identifier name:f start:24:22 end:24:23:
+                          vpiTaskFunc: Function name:f
+                      vpiActual: FuncCall name:f
               SysTaskCall name:$display start:25:9 end:25:24:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:25:9 end:25:17:
@@ -560,9 +553,12 @@ Design name:unnamed:
                           vpiParent: RefObj name:i.blk.f()
                           vpiName: blk
                           vpiFullName: top.blk
-                        SubroutineCall name:f start:26:24 end:26:27:
+                          vpiActual: GenBlock name:blk
+                        FuncCall name:f start:26:24 end:26:27:
                           vpiParent: RefObj name:i.blk.f()
                           vpiName Identifier name:f start:26:24 end:26:25:
+                          vpiTaskFunc: Function name:f
+                      vpiActual: FuncCall name:f
               SysTaskCall name:$display start:27:9 end:27:26:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:27:9 end:27:17:
@@ -604,9 +600,12 @@ Design name:unnamed:
                           vpiParent: RefObj name:top.blk.f()
                           vpiName: blk
                           vpiFullName: top.blk
-                        SubroutineCall name:f start:28:26 end:28:29:
+                          vpiActual: GenBlock name:blk
+                        FuncCall name:f start:28:26 end:28:29:
                           vpiParent: RefObj name:top.blk.f()
                           vpiName Identifier name:f start:28:26 end:28:27:
+                          vpiTaskFunc: Function name:f
+                      vpiActual: FuncCall name:f
               SysTaskCall name:$display start:29:9 end:29:28:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:29:9 end:29:17:
@@ -658,9 +657,12 @@ Design name:unnamed:
                           vpiParent: RefObj name:top.i.blk.f()
                           vpiName: blk
                           vpiFullName: top.blk
-                        SubroutineCall name:f start:30:28 end:30:31:
+                          vpiActual: GenBlock name:blk
+                        FuncCall name:f start:30:28 end:30:31:
                           vpiParent: RefObj name:top.i.blk.f()
                           vpiName Identifier name:f start:30:28 end:30:29:
+                          vpiTaskFunc: Function name:f
+                      vpiActual: FuncCall name:f
       vpiSysTaskCall (8 items):
         SysTaskCall name:$display:
         SysTaskCall name:$display:
@@ -684,21 +686,21 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiCondition Constant start:17:9 end:17:10:
             vpiParent: GenIf
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: top
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
-          vpiStmt Begin name:blk start:17:12 end:21:8:
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top
+              vpiActual: IntTypespec
+          vpiStmt GenBlock name:blk start:17:12 end:21:8:
             vpiParent: GenIf
             vpiName Identifier name:blk start:17:20 end:17:23:
             vpiFullName: top.blk
-            vpiStmt (1 items):
+            vpiTaskFunc (1 items):
               Function name:f start:18:9 end:20:20:
-                vpiParent: Begin name:blk
+                vpiParent: GenBlock name:blk
                 vpiName Identifier name:f start:18:36 end:18:37:
                 vpiFullName: top.blk.f
                 vpiTypespec (1 items):
@@ -711,14 +713,14 @@ Design name:unnamed:
                   vpiParent: Function name:f
                   vpiCondition Constant start:19:20 end:19:21:
                     vpiParent: ReturnStmt
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: top.blk.f
-                      vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "4"
                     vpiValue: 4
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: top.blk.f
+                      vpiActual: IntTypespec
                 vpiReturn RefTypespec start:18:28 end:18:35:
                   vpiParent: Function name:f
                   vpiFullName: top.blk.f
@@ -744,8 +746,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
-[WARNING] : 10
+[  ERROR] : 0
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

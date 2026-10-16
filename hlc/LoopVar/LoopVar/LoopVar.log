@@ -95,46 +95,47 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:array start:2:9 end:2:14:
           vpiParent: Module name:dut
+          vpiName: array
+          vpiFullName: dut.array
           vpiTypespec RefTypespec name:int [16] start:2:5 end:2:8:
             vpiParent: Variable name:array
             vpiName: int [16]
             vpiFullName: dut.array.int [16]
             vpiActual: ArrayTypespec
-          vpiName: array
-          vpiFullName: dut.array
       vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:dut
           vpiArrayType: static (1)
           vpiRange Range start:2:14 end:2:18:
             vpiParent: ArrayTypespec
-            vpiLeftRange Operation:
+            vpiRightRange Operation:
               vpiParent: Range
               vpiOpType: subtract (11)
               vpiOperand (1 items):
                 Constant start:2:15 end:2:17:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: dut
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "16"
                   vpiValue: 16
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: dut
+                    vpiActual: IntTypespec
           vpiElemTypespec RefTypespec start:2:5 end:2:8:
             vpiParent: ArrayTypespec
             vpiFullName: dut
             vpiActual: IntTypespec
       vpiDefName: dut
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:11:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
         vpiActual: Library name:work
       vpiCell: dut
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:4:5 end:7:8:
           vpiParent: Module name:dut
@@ -150,6 +151,7 @@ Design name:unnamed:
                     vpiParent: ForeachStmt
                     vpiName: i
                     vpiFullName: dut.i
+                    vpiAutomatic: true
                     vpiIsIterator: true
                 vpiVariable RefObj name:array start:5:17 end:5:22:
                   vpiParent: ForeachStmt
@@ -240,8 +242,12 @@ COMMAND: ${HLC_DIR}/regression/LoopVar/LoopVar/design.hldb ${HLC_DIR}/regression
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             1       1       1         1
+LongIntTypespec                      0       1       1         0
+Operation                            1       0       0         1
+RefTypespec                          3       3       1         1
 ----------------------------------------------------------------
-Others                              28      28       0         0
+Others                              23      23       0         0
 ----------------------------------------------------------------
-                                    28      28       0         0
+                                    28      28       3         3
 ===================== END REDUCTION RESULT =====================

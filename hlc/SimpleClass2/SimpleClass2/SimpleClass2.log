@@ -26,8 +26,8 @@ COMMAND: -wd ../../../tests/SimpleClass2 +incdir+. -sverilog -writepp -d inst -m
 [WRN:PA5506] $Source01/top.v:8:1: No timescale set for "p1".
 [WRN:PA5506] $Source01/top.v:26:1: No timescale set for "p3".
 [WRN:PA5506] $Source01/top.v:31:1: No timescale set for "p2".
-[ERR:LN7705] $Source01/top.v:44:16: Null Actual: id:157, type:SubroutineCall, name:addq, relation:vpiPathElem.
-[ERR:LN7705] $Source01/top.v:46:21: Null Actual: id:168, type:SubroutineCall, name:len1, relation:vpiPathElem.
+[ERR:LN7705] $Source01/top.v:44:16: Null Actual: id:160, type:SubroutineCall, name:addq, relation:vpiPathElem.
+[ERR:LN7705] $Source01/top.v:46:21: Null Actual: id:171, type:SubroutineCall, name:len1, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -82,15 +82,15 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:toto start:11:10 end:11:14:
               vpiParent: ClassDefn name:c1
-              vpiTypespec RefTypespec start:11:3 end:11:9:
-                vpiParent: Variable name:toto
-                vpiFullName: p1::c1::toto
-                vpiActual: StringTypespec
               vpiName: toto
               vpiFullName: p1::c1::toto
               vpiAutomatic: true
               vpiRandType: (1)
               vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:11:3 end:11:9:
+                vpiParent: Variable name:toto
+                vpiFullName: p1::c1::toto
+                vpiActual: StringTypespec
           vpiTypespec (1 items):
             ClassTypespec name:c1:
               vpiParent: ClassDefn name:c1
@@ -111,9 +111,19 @@ Design name:unnamed:
               vpiParent: ClassDefn name:c1
               vpiName Identifier name:foo start:15:12 end:15:15:
               vpiFullName: p1::c1::foo
+              vpiVariable (1 items):
+                Variable name:name start:15:23 end:15:27:
+                  vpiParent: Function name:foo
+                  vpiName: name
+                  vpiFullName: p1::c1::foo::name
+                  vpiTypespec RefTypespec start:15:16 end:15:22:
+                    vpiParent: Variable name:name
+                    vpiFullName: p1::c1::foo::name
+                    vpiActual: StringTypespec
               vpiTypespec (1 items):
                 LogicTypespec start:15:12 end:15:12:
                   vpiParent: Function name:foo
+                  vpiScalar: true
               vpiMethod: true
               vpiVisibility: public (1)
               vpiAutomatic: true
@@ -124,13 +134,13 @@ Design name:unnamed:
                   vpiDirection: input (1)
                   vpiExpr Constant start:15:30 end:15:32:
                     vpiParent: IODecl name:name
+                    vpiConstType: string (6)
+                    vpiDecompile: "\"\""
+                    vpiValue: ""
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: p1::c1::foo::name
                       vpiActual: StringTypespec
-                    vpiConstType: string (6)
-                    vpiDecompile: "\"\""
-                    vpiValue: ""
                   vpiTypespec RefTypespec start:15:16 end:15:22:
                     vpiParent: IODecl name:name
                     vpiFullName: p1::c1::foo::name
@@ -208,14 +218,14 @@ Design name:unnamed:
           vpiName Identifier name:p1 start:33:8 end:33:10:
           vpiImportTypespecItem Constant start:33:12 end:33:13:
             vpiParent: ImportTypespec name:p1
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: p2::p1
-              vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 8
             vpiDecompile: "*"
             vpiValue: "*"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: p2::p1
+              vpiActual: StringTypespec
         ClassTypespec name:c2 start:35:7 end:35:9:
           vpiParent: Package name:p2
           vpiName Identifier name:c2:
@@ -246,18 +256,23 @@ Design name:unnamed:
           vpiVariable (2 items):
             Variable name:id_actions start:37:26 end:37:36:
               vpiParent: ClassDefn name:c2
-              vpiTypespec RefTypespec name:uvm_id_actions_array start:37:5 end:37:25:
-                vpiParent: Variable name:id_actions
-                vpiName: uvm_id_actions_array
-                vpiFullName: p2::c2::id_actions::uvm_id_actions_array
-                vpiActual: TypedefTypespec name:uvm_id_actions_array
               vpiName: id_actions
               vpiFullName: p2::c2::id_actions
               vpiAutomatic: true
               vpiRandType: (1)
               vpiVisibility: public (1)
+              vpiTypespec RefTypespec name:uvm_id_actions_array start:37:5 end:37:25:
+                vpiParent: Variable name:id_actions
+                vpiName: uvm_id_actions_array
+                vpiFullName: p2::c2::id_actions::uvm_id_actions_array
+                vpiActual: TypedefTypespec name:uvm_id_actions_array
             Variable name:inst1 start:38:12 end:38:17:
               vpiParent: ClassDefn name:c2
+              vpiName: inst1
+              vpiFullName: p2::c2::inst1
+              vpiAutomatic: true
+              vpiRandType: (1)
+              vpiVisibility: public (1)
               vpiTypespec RefTypespec name:p3::c33 start:38:4 end:38:11:
                 vpiParent: Variable name:inst1
                 vpiName: p3::c33
@@ -274,11 +289,6 @@ Design name:unnamed:
                     vpiFullName: p2::c2::inst1::p3::c33::c33
                     vpiActual: ClassTypespec name:c33
                 vpiActual: ClassTypespec name:c33
-              vpiName: inst1
-              vpiFullName: p2::c2::inst1
-              vpiAutomatic: true
-              vpiRandType: (1)
-              vpiVisibility: public (1)
           vpiTypespec (4 items):
             ClassTypespec name:uvm_pool #(string, uvm_action) start:36:12 end:36:41:
               vpiParent: ClassDefn name:c2
@@ -337,6 +347,15 @@ Design name:unnamed:
               vpiParent: ClassDefn name:c2
               vpiName Identifier name:new:
               vpiFullName: p2::c2::new
+              vpiVariable (1 items):
+                Variable name:name start:40:22 end:40:26:
+                  vpiParent: Function name:new
+                  vpiName: name
+                  vpiFullName: p2::c2::new::name
+                  vpiTypespec RefTypespec start:40:15 end:40:21:
+                    vpiParent: Variable name:name
+                    vpiFullName: p2::c2::new::name
+                    vpiActual: StringTypespec
               vpiMethod: true
               vpiVisibility: public (1)
               vpiAutomatic: true
@@ -347,14 +366,14 @@ Design name:unnamed:
                   vpiDirection: input (1)
                   vpiExpr Constant start:40:29 end:40:48:
                     vpiParent: IODecl name:name
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: p2::c2::new::name
-                      vpiActual: StringTypespec
                     vpiConstType: string (6)
                     vpiSize: 136
                     vpiDecompile: "\"svaunit_sequencer\""
                     vpiValue: svaunit_sequencer
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: p2::c2::new::name
+                      vpiActual: StringTypespec
                   vpiTypespec RefTypespec start:40:15 end:40:21:
                     vpiParent: IODecl name:name
                     vpiFullName: p2::c2::new::name
@@ -384,7 +403,7 @@ Design name:unnamed:
                               vpiParent: NamedArgument
                               vpiName: name
                               vpiFullName: p2::c2::new::super.new(name)::name
-                              vpiActual: IODecl name:name
+                              vpiActual: Variable name:name
                   RefObj name:super.foo(name) start:42:5 end:42:20:
                     vpiParent: Begin
                     vpiName: super.foo(name)
@@ -406,7 +425,7 @@ Design name:unnamed:
                               vpiParent: NamedArgument
                               vpiName: name
                               vpiFullName: p2::c2::new::super.foo(name)::name
-                              vpiActual: IODecl name:name
+                              vpiActual: Variable name:name
                     vpiActual: MethodFuncCall name:foo
                   RefObj name:this.id_actions.add(id, action) start:43:5 end:43:36:
                     vpiParent: Begin
@@ -537,6 +556,7 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec start:3:12 end:3:12:
               vpiParent: Function name:add
+              vpiScalar: true
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -617,7 +637,7 @@ COMMAND: ${HLC_DIR}/regression/SimpleClass2/SimpleClass2/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1518    1518       0         0
+Others                            1656    1656       0         0
 ----------------------------------------------------------------
-                                  1518    1518       0         0
+                                  1656    1656       0         0
 ===================== END REDUCTION RESULT =====================

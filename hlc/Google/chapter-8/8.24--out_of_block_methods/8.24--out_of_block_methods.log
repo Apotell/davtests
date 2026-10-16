@@ -223,13 +223,13 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:test_obj start:26:11 end:26:19:
           vpiParent: Module name:class_tb
+          vpiName: test_obj
+          vpiFullName: class_tb.test_obj
           vpiTypespec RefTypespec name:test_cls start:26:2 end:26:10:
             vpiParent: Variable name:test_obj
             vpiName: test_cls
             vpiFullName: class_tb.test_obj.test_cls
             vpiActual: ClassTypespec name:test_cls
-          vpiName: test_obj
-          vpiFullName: class_tb.test_obj
       vpiTypespec (1 items):
         ClassTypespec name:test_cls start:16:8 end:16:16:
           vpiParent: Module name:class_tb
@@ -238,13 +238,14 @@ Design name:unnamed:
           vpiClassDefn: ClassDefn name:test_cls
       vpiDefName: class_tb
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:15:8 end:15:16:
         vpiParent: Module name:class_tb
         vpiName: work
         vpiFullName: class_tb.work
         vpiActual: Library name:work
       vpiCell: class_tb
-      vpiAutomatic: true
       vpiClassDefn (1 items):
         ClassDefn name:test_cls file:$Source01/8.24--out_of_block_methods.sv start:16:2 end:19:10:
           vpiParent: Module name:class_tb
@@ -253,15 +254,15 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:a start:17:7 end:17:8:
               vpiParent: ClassDefn name:test_cls
-              vpiTypespec RefTypespec start:17:3 end:17:6:
-                vpiParent: Variable name:a
-                vpiFullName: class_tb::test_cls::a
-                vpiActual: IntTypespec
               vpiName: a
               vpiFullName: class_tb::test_cls::a
               vpiAutomatic: true
               vpiRandType: (1)
               vpiVisibility: public (1)
+              vpiTypespec RefTypespec start:17:3 end:17:6:
+                vpiParent: Variable name:a
+                vpiFullName: class_tb::test_cls::a
+                vpiActual: IntTypespec
           vpiDefName: test_cls
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -276,6 +277,15 @@ Design name:unnamed:
               vpiParent: ClassDefn name:test_cls
               vpiName Identifier name:test_method start:21:26 end:21:37:
               vpiFullName: class_tb::test_cls::test_method
+              vpiVariable (1 items):
+                Variable name:val start:21:42 end:21:45:
+                  vpiParent: Function name:test_method
+                  vpiName: val
+                  vpiFullName: class_tb::test_cls::test_method::val
+                  vpiTypespec RefTypespec start:21:38 end:21:41:
+                    vpiParent: Variable name:val
+                    vpiFullName: class_tb::test_cls::test_method::val
+                    vpiActual: IntTypespec
               vpiVisibility: public (1)
               vpiIODecl (1 items):
                 IODecl name:val start:21:42 end:21:45:
@@ -298,14 +308,14 @@ Design name:unnamed:
                         vpiParent: SysTaskCall name:$display
                         vpiHighConn Constant start:22:12 end:22:25:
                           vpiParent: NamedArgument
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: class_tb::test_cls::test_method
-                            vpiActual: StringTypespec
                           vpiConstType: string (6)
                           vpiSize: 88
                           vpiDecompile: "\"test_method\""
                           vpiValue: test_method
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: class_tb::test_cls::test_method
+                            vpiActual: StringTypespec
                   Assignment start:23:3 end:23:11:
                     vpiParent: Begin
                     vpiBlocking: true
@@ -327,7 +337,7 @@ Design name:unnamed:
                           vpiParent: Operation
                           vpiName: val
                           vpiFullName: class_tb::test_cls::test_method::val
-                          vpiActual: IODecl name:val
+                          vpiActual: Variable name:val
               vpiReturn RefTypespec start:21:11 end:21:15:
                 vpiParent: Function name:test_method
                 vpiFullName: class_tb::test_cls::test_method
@@ -392,14 +402,14 @@ Design name:unnamed:
                   vpiActual: Variable name:a
                 vpiRhs Constant start:31:16 end:31:18:
                   vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: class_tb
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "12"
                   vpiValue: 12
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: class_tb
+                    vpiActual: IntTypespec
               SysTaskCall name:$display start:33:3 end:33:23:
                 vpiParent: Begin
                 vpiName Identifier name:$display start:33:3 end:33:11:
@@ -441,14 +451,14 @@ Design name:unnamed:
                         vpiParent: MethodFuncCall name:test_method
                         vpiHighConn Constant start:35:24 end:35:25:
                           vpiParent: NamedArgument
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: class_tb.test_obj.test_method(9)
-                            vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
                           vpiDecompile: "9"
                           vpiValue: 9
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: class_tb.test_obj.test_method(9)
+                            vpiActual: IntTypespec
                 vpiActual: MethodFuncCall name:test_method
               SysTaskCall name:$display start:37:3 end:37:23:
                 vpiParent: Begin
@@ -541,7 +551,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.24--out_of_block_methods/desig
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              73      73       0         0
+Others                              75      75       0         0
 ----------------------------------------------------------------
-                                    73      73       0         0
+                                    75      75       0         0
 ===================== END REDUCTION RESULT =====================

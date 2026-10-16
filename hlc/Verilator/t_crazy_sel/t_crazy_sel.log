@@ -249,9 +249,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_crazy_sel.v:40:1: Compile module "bar".
 [WRN:CP5851] $Source01/t_crazy_sel.v:8:4: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_crazy_sel.v:25:4: Failed to bind "logic".
-[WRN:CP5851] $Source01/t_crazy_sel.v:26:41: Failed to bind "foo_inst".
-[WRN:CP5851] $Source01/t_crazy_sel.v:26:50: Failed to bind "y".
-[WRN:CP5851] $Source01/t_crazy_sel.v:26:15: Failed to bind "foo_loop".
 [WRN:CP5851] $Source01/t_crazy_sel.v:37:4: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -270,14 +267,15 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:a start:8:10 end:8:11:
           vpiParent: Interface name:foo_intf
+          vpiName: a
+          vpiFullName: foo_intf.a
           vpiTypespec RefTypespec name:logic start:8:4 end:8:9:
             vpiParent: Variable name:a
             vpiName: logic
             vpiFullName: foo_intf.a.logic
-          vpiName: a
-          vpiFullName: foo_intf.a
       vpiDefName: foo_intf
       vpiDefNetType: wire (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:7:11 end:7:19:
         vpiParent: Interface name:foo_intf
         vpiName: work
@@ -296,12 +294,12 @@ Design name:unnamed:
           vpiFullName: t.the_genvar
         Variable name:x start:25:10 end:25:11:
           vpiParent: Module name:t
+          vpiName: x
+          vpiFullName: t.x
           vpiTypespec RefTypespec name:logic start:25:4 end:25:9:
             vpiParent: Variable name:x
             vpiName: logic
             vpiFullName: t.x.logic
-          vpiName: x
-          vpiFullName: t.x
       vpiTypespec (1 items):
         ModuleTypespec name:bar start:23:4 end:23:7:
           vpiParent: Module name:t
@@ -310,13 +308,14 @@ Design name:unnamed:
           vpiModule: Module name:bar
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:15:8 end:15:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:30:4 end:33:7:
           vpiParent: Module name:t
@@ -332,14 +331,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:31:14 end:31:38:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 168
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
                       vpiValue: "*-* All Finished *-*\\n"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
               SysTaskCall name:$finish start:32:7 end:32:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:32:7 end:32:14:
@@ -365,6 +364,7 @@ Design name:unnamed:
                   vpiParent: BitSelect name:foo_loop[bar_inst.THE_LP]
                   vpiName: foo_loop
                   vpiFullName: t.foo_loop[bar_inst.THE_LP].foo_inst.y.foo_loop
+                  vpiActual: GenBlock name:foo_loop
                 vpiIndex RefObj name:bar_inst.THE_LP start:26:24 end:26:39:
                   vpiParent: BitSelect name:foo_loop[bar_inst.THE_LP]
                   vpiName: bar_inst.THE_LP
@@ -385,10 +385,13 @@ Design name:unnamed:
                 vpiParent: RefObj name:foo_loop[bar_inst.THE_LP].foo_inst.y
                 vpiName: foo_inst
                 vpiFullName: t.foo_inst
+                vpiActual: RefInstance name:foo_inst
               RefObj name:y start:26:50 end:26:51:
                 vpiParent: RefObj name:foo_loop[bar_inst.THE_LP].foo_inst.y
                 vpiName: y
                 vpiFullName: t.y
+                vpiActual: Variable name:y
+            vpiActual: Variable name:y
       vpiSysTaskCall (2 items):
         SysTaskCall name:$write:
         SysTaskCall name:$finish:
@@ -404,76 +407,76 @@ Design name:unnamed:
       vpiGenStmt (1 items):
         GenRegion start:17:4 end:21:15:
           vpiParent: Module name:t
-          vpiFullName: t
-          vpiStmt GenFor start:18:7 end:20:10:
-            vpiParent: GenRegion
-            vpiFullName: t
-            vpiForInitStmt (1 items):
-              Assignment start:18:12 end:18:26:
+          vpiStmt (1 items):
+            GenFor start:18:7 end:20:10:
+              vpiParent: GenRegion
+              vpiFullName: t
+              vpiForInitStmt (1 items):
+                Assignment start:18:12 end:18:26:
+                  vpiParent: GenFor
+                  vpiLhs RefObj name:the_genvar start:18:12 end:18:22:
+                    vpiParent: Assignment
+                    vpiName: the_genvar
+                    vpiFullName: t.the_genvar
+                    vpiActual: Variable name:the_genvar
+                  vpiRhs Constant start:18:25 end:18:26:
+                    vpiParent: Assignment
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t
+                      vpiActual: IntTypespec
+              vpiForIncStmt (1 items):
+                Operation start:18:44 end:18:56:
+                  vpiParent: GenFor
+                  vpiOpType: post inc (64)
+                  vpiOperand (1 items):
+                    RefObj name:the_genvar start:18:44 end:18:54:
+                      vpiParent: Operation
+                      vpiName: the_genvar
+                      vpiFullName: t.the_genvar
+                      vpiActual: Variable name:the_genvar
+              vpiCondition Operation start:18:28 end:18:42:
                 vpiParent: GenFor
-                vpiLhs RefObj name:the_genvar start:18:12 end:18:22:
-                  vpiParent: Assignment
-                  vpiName: the_genvar
-                  vpiFullName: t.the_genvar
-                  vpiActual: Variable name:the_genvar
-                vpiRhs Constant start:18:25 end:18:26:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "0"
-                  vpiValue: 0
-            vpiForIncStmt (1 items):
-              Operation start:18:44 end:18:56:
-                vpiParent: GenFor
-                vpiOpType: post inc (64)
-                vpiOperand (1 items):
-                  RefObj name:the_genvar start:18:44 end:18:54:
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:the_genvar start:18:28 end:18:38:
                     vpiParent: Operation
                     vpiName: the_genvar
                     vpiFullName: t.the_genvar
                     vpiActual: Variable name:the_genvar
-            vpiCondition Operation start:18:28 end:18:42:
-              vpiParent: GenFor
-              vpiOpType: less than (20)
-              vpiOperand (2 items):
-                RefObj name:the_genvar start:18:28 end:18:38:
-                  vpiParent: Operation
-                  vpiName: the_genvar
-                  vpiFullName: t.the_genvar
-                  vpiActual: Variable name:the_genvar
-                Constant start:18:41 end:18:42:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "4"
-                  vpiValue: 4
-            vpiStmt Begin name:foo_loop start:18:58 end:20:10:
-              vpiParent: GenFor
-              vpiName Identifier name:foo_loop start:18:65 end:18:73:
-              vpiFullName: t.foo_loop
-              vpiTypespec (1 items):
-                ModuleTypespec name:foo start:19:10 end:19:13:
-                  vpiParent: Begin name:foo_loop
-                  vpiName Identifier name:foo start:19:10 end:19:13:
-                  vpiDefName: foo
-                  vpiModule: Module name:foo
-              vpiStmt (1 items):
-                RefInstance name:foo_inst start:19:14 end:19:22:
-                  vpiParent: Begin name:foo_loop
-                  vpiName: foo_inst
-                  vpiTypespec RefTypespec name:foo start:19:10 end:19:13:
-                    vpiParent: RefInstance name:foo_inst
-                    vpiName: foo
-                    vpiFullName: t.foo_loop.foo_inst.foo
-                    vpiActual: ModuleTypespec name:foo
+                  Constant start:18:41 end:18:42:
+                    vpiParent: Operation
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "4"
+                    vpiValue: 4
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t
+                      vpiActual: IntTypespec
+              vpiStmt GenBlock name:foo_loop start:18:58 end:20:10:
+                vpiParent: GenFor
+                vpiName Identifier name:foo_loop start:18:65 end:18:73:
+                vpiFullName: t.foo_loop
+                vpiTypespec (1 items):
+                  ModuleTypespec name:foo start:19:10 end:19:13:
+                    vpiParent: GenBlock name:foo_loop
+                    vpiName Identifier name:foo start:19:10 end:19:13:
+                    vpiDefName: foo
+                    vpiModule: Module name:foo
+                vpiStmt (1 items):
+                  RefInstance name:foo_inst start:19:14 end:19:22:
+                    vpiParent: GenBlock name:foo_loop
+                    vpiName: foo_inst
+                    vpiTypespec RefTypespec name:foo start:19:10 end:19:13:
+                      vpiParent: RefInstance name:foo_inst
+                      vpiName: foo
+                      vpiFullName: t.foo_loop.foo_inst.foo
+                      vpiActual: ModuleTypespec name:foo
     Module name:foo file:$Source01/t_crazy_sel.v start:36:1 end:38:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:36:8 end:36:11:
@@ -481,21 +484,22 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:y start:37:10 end:37:11:
           vpiParent: Module name:foo
+          vpiName: y
+          vpiFullName: foo.y
           vpiTypespec RefTypespec name:logic start:37:4 end:37:9:
             vpiParent: Variable name:y
             vpiName: logic
             vpiFullName: foo.y.logic
-          vpiName: y
-          vpiFullName: foo.y
       vpiDefName: foo
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:36:8 end:36:11:
         vpiParent: Module name:foo
         vpiName: work
         vpiFullName: foo.work
         vpiActual: Library name:work
       vpiCell: foo
-      vpiAutomatic: true
     Module name:bar file:$Source01/t_crazy_sel.v start:40:1 end:42:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bar start:40:8 end:40:11:
@@ -503,13 +507,13 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:THE_LP start:41:15 end:41:21:
           vpiParent: Module name:bar
+          vpiName: THE_LP
+          vpiFullName: bar.THE_LP
+          vpiLocalParam: true
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:THE_LP
             vpiFullName: bar.THE_LP
             vpiActual: LogicTypespec
-          vpiName: THE_LP
-          vpiFullName: bar.THE_LP
-          vpiLocalParam: true
       vpiParamAssign (1 items):
         ParamAssign start:41:15 end:41:25:
           vpiParent: Module name:bar
@@ -520,27 +524,28 @@ Design name:unnamed:
             vpiActual: Parameter name:THE_LP
           vpiRhs Constant start:41:24 end:41:25:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: bar
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: bar
+              vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:bar
           vpiScalar: true
       vpiDefName: bar
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:40:8 end:40:11:
         vpiParent: Module name:bar
         vpiName: work
         vpiFullName: bar.work
         vpiActual: Library name:work
       vpiCell: bar
-      vpiAutomatic: true
   vpiTypespec (6 items):
     InterfaceTypespec name:foo_intf:
       vpiParent: Design name:unnamed
@@ -572,6 +577,15 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:the_other_func start:11:18 end:11:32:
       vpiFullName: the_other_func
+      vpiVariable (1 items):
+        Variable name:val start:11:48 end:11:51:
+          vpiParent: Function name:the_other_func
+          vpiName: val
+          vpiFullName: the_other_func.val
+          vpiTypespec RefTypespec start:11:40 end:11:47:
+            vpiParent: Variable name:val
+            vpiFullName: the_other_func.val
+            vpiActual: IntegerTypespec
       vpiTypespec (1 items):
         IntegerTypespec:
           vpiParent: Function name:the_other_func
@@ -592,7 +606,7 @@ Design name:unnamed:
           vpiParent: ReturnStmt
           vpiName: val
           vpiFullName: the_other_func.val
-          vpiActual: IODecl name:val
+          vpiActual: Variable name:val
       vpiReturn RefTypespec start:11:10 end:11:17:
         vpiParent: Function name:the_other_func
         vpiFullName: the_other_func
@@ -605,7 +619,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -649,7 +663,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_crazy_sel/design.hldb ${HLC_DIR}/regr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              89      89       0         0
+Others                              91      91       0         0
 ----------------------------------------------------------------
-                                    89      89       0         0
+                                    91      91       0         0
 ===================== END REDUCTION RESULT =====================

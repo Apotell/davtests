@@ -107,13 +107,14 @@ Design name:unnamed:
       vpiFullName: top
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
-      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:nop start:2:5 end:5:16:
           vpiParent: Module name:top
@@ -122,12 +123,42 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:foo start:3:15 end:3:18:
               vpiParent: Function name:nop
+              vpiName: foo
+              vpiFullName: top.nop.foo
               vpiTypespec RefTypespec:
                 vpiParent: Variable name:foo
                 vpiFullName: top.nop.foo
                 vpiActual: LogicTypespec
-              vpiName: foo
-              vpiFullName: top.nop.foo
+          vpiTypespec (2 items):
+            LogicTypespec start:2:24 end:2:30:
+              vpiParent: Function name:nop
+              vpiRange (1 items):
+                Range start:2:24 end:2:30:
+                  vpiParent: LogicTypespec
+                  vpiLeftRange Constant start:2:25 end:2:27:
+                    vpiParent: Range
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "31"
+                    vpiValue: 31
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: top.nop
+                      vpiActual: IntTypespec
+                  vpiRightRange Constant start:2:28 end:2:29:
+                    vpiParent: Range
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: top.nop
+                      vpiActual: IntTypespec
+              vpiVector: true
+            LogicTypespec:
+              vpiParent: Function name:nop
+              vpiScalar: true
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (1 items):
@@ -139,58 +170,24 @@ Design name:unnamed:
                 vpiParent: IODecl name:foo
                 vpiFullName: top.nop.foo
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Assignment start:4:9 end:4:27:
             vpiParent: Function name:nop
-            vpiFullName: top.nop
-            vpiTypespec (2 items):
-              LogicTypespec start:2:24 end:2:30:
-                vpiParent: Begin
-                vpiRange (1 items):
-                  Range start:2:24 end:2:30:
-                    vpiParent: LogicTypespec
-                    vpiLeftRange Constant start:2:25 end:2:27:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: top.nop
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "31"
-                      vpiValue: 31
-                    vpiRightRange Constant start:2:28 end:2:29:
-                      vpiParent: Range
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: top.nop
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiVector: true
-              LogicTypespec:
-                vpiParent: Begin
-                vpiScalar: true
-            vpiStmt (1 items):
-              Assignment start:4:9 end:4:27:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:nop start:4:9 end:4:12:
-                  vpiParent: Assignment
-                  vpiName: nop
-                  vpiFullName: top.nop.nop
-                  vpiActual: Function name:nop
-                vpiRhs Constant start:4:15 end:4:27:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: top.nop
-                    vpiActual: IntTypespec
-                  vpiConstType: hexadecimal (5)
-                  vpiSize: 32
-                  vpiDecompile: "32'h00000013"
-                  vpiValue: "00000013"
+            vpiBlocking: true
+            vpiLhs RefObj name:nop start:4:9 end:4:12:
+              vpiParent: Assignment
+              vpiName: nop
+              vpiFullName: top.nop.nop
+              vpiActual: Function name:nop
+            vpiRhs Constant start:4:15 end:4:27:
+              vpiParent: Assignment
+              vpiConstType: hexadecimal (5)
+              vpiSize: 32
+              vpiDecompile: "32'h00000013"
+              vpiValue: "00000013"
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: top.nop
+                vpiActual: IntTypespec
           vpiReturn RefTypespec start:2:24 end:2:30:
             vpiParent: Function name:nop
             vpiFullName: top.nop
@@ -213,14 +210,14 @@ Design name:unnamed:
                       vpiParent: MethodFuncCall name:nop
                       vpiHighConn Constant start:6:26 end:6:27:
                         vpiParent: NamedArgument
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: top
-                          vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
                         vpiDecompile: "0"
                         vpiValue: 0
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top
+                          vpiActual: IntTypespec
       vpiSysTaskCall (1 items):
         SysTaskCall name:$display:
   vpiTypespec (3 items):
@@ -286,7 +283,7 @@ COMMAND: ${HLC_DIR}/regression/Zachjs/basic/empty_args_v/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              39      39       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    39      39       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

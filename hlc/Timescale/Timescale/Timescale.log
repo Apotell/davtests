@@ -4,27 +4,383 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Timescale dut.sv -fileunit -nobuiltin -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Timescale/Timescale
+COMMAND: -wd ../../../tests/Timescale dut.sv timescale.sv decl.sv nested.sv cu_timeunit.sv units.sv errors.sv errors_timescale_inside.sv errors_cu_late.sv -fileunit -nobuiltin -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Timescale/Timescale
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:CM5019] Separate compilation-unit mode is on.
 [INF:PP5223] Preprocessing source file "$Source01/dut.sv".
+[INF:PP5223] Preprocessing source file "$Source01/timescale.sv".
+[INF:PP5223] Preprocessing source file "$Source01/decl.sv".
+[INF:PP5223] Preprocessing source file "$Source01/nested.sv".
+[INF:PP5223] Preprocessing source file "$Source01/cu_timeunit.sv".
+[INF:PP5223] Preprocessing source file "$Source01/units.sv".
+[INF:PP5223] Preprocessing source file "$Source01/errors.sv".
+[INF:PP5223] Preprocessing source file "$Source01/errors_timescale_inside.sv".
+[INF:PP5223] Preprocessing source file "$Source01/errors_cu_late.sv".
+[ERR:PP5221] $Source01/errors_timescale_inside.sv:6:1: Illegal directive in design element "`timescale".
 [INF:PA5502] Parsing source file "$Source01/dut.sv".
+[INF:PA5502] Parsing source file "$Source01/timescale.sv".
+[INF:PA5502] Parsing source file "$Source01/decl.sv".
+[INF:PA5502] Parsing source file "$Source01/nested.sv".
+[INF:PA5502] Parsing source file "$Source01/cu_timeunit.sv".
+[INF:PA5502] Parsing source file "$Source01/units.sv".
+[INF:PA5502] Parsing source file "$Source01/errors.sv".
+[INF:PA5502] Parsing source file "$Source01/errors_timescale_inside.sv".
+[INF:PA5502] Parsing source file "$Source01/errors_cu_late.sv".
+[SNT:PA5508] $Source01/errors_timescale_inside.sv:6: Syntax error: mismatched input '`timescale' expecting {';', 'default', 'module', 'endmodule', 'extern', 'macromodule', 'interface', 'program', 'virtual', 'class', 'timeunit', 'timeprecision', 'checker', 'type', 'clocking', 'defparam', 'bind', 'const', 'function', 'static', 'constraint', 'if', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'genvar', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', '$', 'export', DOLLAR_UNIT, '(*', 'assert', 'property', 'assume', 'cover', 'not', 'or', 'and', 'sequence', 'covergroup', 'pulldown', 'pullup', 'cmos', 'rcmos', 'bufif0', 'bufif1', 'notif0', 'notif1', 'nmos', 'pmos', 'rnmos', 'rpmos', 'nand', 'nor', 'xor', 'xnor', 'buf', 'tranif0', 'tranif1', 'rtranif1', 'rtranif0', 'tran', 'rtran', 'generate', 'case', 'for', 'global', 'initial', 'assign', 'alias', 'always', 'always_comb', 'always_latch', 'always_ff', 'restrict', 'let', 'this', DOLLAR_ROOT, 'randomize', 'final', 'task', 'specify', 'sample', '=', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, '`pragma', HLC_MACRO_NOT_DEFINED},
+`timescale 1ns / 1ps
+^-- $Source01/errors_timescale_inside.sv:6:0:.
+[SNT:PA5508] $Source01/errors_timescale_inside.sv:7: Syntax error: extraneous input 'endmodule' expecting <EOF>,
+endmodule
+^-- $Source01/errors_timescale_inside.sv:7:0:.
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "m1".
 [INF:CP5804] $Source01/dut.sv:4:3: Compile module "m11".
 [INF:CP5804] $Source01/dut.sv:8:3: Compile module "m12".
 [INF:CP5804] $Source01/dut.sv:15:1: Compile module "m2".
-[WRN:PA5506] $Source01/dut.sv:8:3: No timescale set for "m12".
+[INF:CP5804] $Source01/timescale.sv:7:1: Compile module "t_a".
+[INF:CP5804] $Source01/timescale.sv:10:1: Compile module "t_b".
+[INF:CP5804] $Source01/timescale.sv:13:1: Compile module "t_own".
+[INF:CP5804] $Source01/timescale.sv:17:1: Compile module "t_prec_only".
+[INF:CP5804] $Source01/timescale.sv:21:1: Compile module "t_unit_only".
+[INF:CP5804] $Source01/timescale.sv:25:1: Compile module "t_outer".
+[INF:CP5804] $Source01/timescale.sv:27:3: Compile module "t_inner".
+[INF:CP5804] $Source01/timescale.sv:31:1: Compile module "t_outer_none".
+[INF:CP5804] $Source01/timescale.sv:32:3: Compile module "t_inner_of_none".
+[INF:CP5805] $Source01/timescale.sv:36:1: Compile interface "t_if".
+[INF:CP5807] $Source01/timescale.sv:39:9: Compile program "t_prog".
+[WRN:CP5815] $Source01/timescale.sv:39:9: Using programs is discouraged "t_prog", programs are obsoleted by UVM.
+[INF:CP5802] $Source01/timescale.sv:42:1: Compile package "t_pkg".
+[INF:CP5804] $Source01/timescale.sv:47:1: Compile module "t_c".
+[INF:CP5804] $Source01/timescale.sv:52:1: Compile module "t_spaced".
+[INF:CP5804] $Source01/timescale.sv:57:1: Compile module "t_after_resetall".
+[INF:CP5804] $Source01/timescale.sv:62:1: Compile module "t_test".
+[INF:CP5804] $Source01/decl.sv:6:1: Compile module "d_unit_only".
+[INF:CP5804] $Source01/decl.sv:10:1: Compile module "d_unit_slash".
+[INF:CP5804] $Source01/decl.sv:14:1: Compile module "d_unit_then_prec".
+[INF:CP5804] $Source01/decl.sv:19:1: Compile module "d_prec_then_unit".
+[INF:CP5804] $Source01/decl.sv:24:1: Compile module "d_prec_only".
+[INF:CP5804] $Source01/decl.sv:28:1: Compile module "d_unit_equals_prec".
+[INF:CP5804] $Source01/decl.sv:32:1: Compile module "d_repeat_match".
+[INF:CP5804] $Source01/decl.sv:40:1: Compile module "d_none".
+[INF:CP5805] $Source01/decl.sv:43:1: Compile interface "d_if".
+[INF:CP5807] $Source01/decl.sv:47:9: Compile program "d_prog".
+[WRN:CP5815] $Source01/decl.sv:47:9: Using programs is discouraged "d_prog", programs are obsoleted by UVM.
+[INF:CP5802] $Source01/decl.sv:51:1: Compile package "d_pkg".
+[INF:CP5804] $Source01/nested.sv:6:1: Compile module "n_outer".
+[INF:CP5804] $Source01/nested.sv:9:3: Compile module "n_inner_none".
+[INF:CP5804] $Source01/nested.sv:12:3: Compile module "n_inner_prec".
+[INF:CP5804] $Source01/nested.sv:16:3: Compile module "n_inner_unit".
+[INF:CP5804] $Source01/nested.sv:20:3: Compile module "n_mid".
+[INF:CP5804] $Source01/nested.sv:21:5: Compile module "n_deep".
+[INF:CP5804] $Source01/nested.sv:25:3: Compile module "n_mid_own".
+[INF:CP5804] $Source01/nested.sv:27:5: Compile module "n_deep_own".
+[INF:CP5805] $Source01/nested.sv:31:3: Compile interface "n_inner_if".
+[INF:CP5805] $Source01/nested.sv:35:1: Compile interface "n_outer_if".
+[INF:CP5805] $Source01/nested.sv:38:3: Compile interface "n_nested_if".
+[INF:CP5804] $Source01/nested.sv:42:1: Compile module "n_outer_none".
+[INF:CP5804] $Source01/nested.sv:43:3: Compile module "n_inner_of_none".
+[INF:CP5804] $Source01/cu_timeunit.sv:10:1: Compile module "c_none".
+[INF:CP5804] $Source01/cu_timeunit.sv:13:1: Compile module "c_unit_only".
+[INF:CP5804] $Source01/cu_timeunit.sv:17:1: Compile module "c_prec_only".
+[INF:CP5804] $Source01/cu_timeunit.sv:21:1: Compile module "c_outer".
+[INF:CP5804] $Source01/cu_timeunit.sv:23:3: Compile module "c_inner".
+[INF:CP5805] $Source01/cu_timeunit.sv:27:1: Compile interface "c_if".
+[INF:CP5807] $Source01/cu_timeunit.sv:30:9: Compile program "c_prog".
+[WRN:CP5815] $Source01/cu_timeunit.sv:30:9: Using programs is discouraged "c_prog", programs are obsoleted by UVM.
+[INF:CP5802] $Source01/cu_timeunit.sv:33:1: Compile package "c_pkg".
+[INF:CP5804] $Source01/cu_timeunit.sv:38:1: Compile module "c_after_timescale".
+[INF:CP5804] $Source01/cu_timeunit.sv:43:1: Compile module "c_after_resetall".
+[INF:CP5804] $Source01/units.sv:7:1: Compile module "u_unit_1s".
+[INF:CP5804] $Source01/units.sv:10:1: Compile module "u_unit_10s".
+[INF:CP5804] $Source01/units.sv:13:1: Compile module "u_unit_100s".
+[INF:CP5804] $Source01/units.sv:16:1: Compile module "u_unit_1ms".
+[INF:CP5804] $Source01/units.sv:19:1: Compile module "u_unit_10ms".
+[INF:CP5804] $Source01/units.sv:22:1: Compile module "u_unit_100ms".
+[INF:CP5804] $Source01/units.sv:25:1: Compile module "u_unit_1us".
+[INF:CP5804] $Source01/units.sv:28:1: Compile module "u_unit_10us".
+[INF:CP5804] $Source01/units.sv:31:1: Compile module "u_unit_100us".
+[INF:CP5804] $Source01/units.sv:34:1: Compile module "u_unit_1ns".
+[INF:CP5804] $Source01/units.sv:37:1: Compile module "u_unit_10ns".
+[INF:CP5804] $Source01/units.sv:40:1: Compile module "u_unit_100ns".
+[INF:CP5804] $Source01/units.sv:43:1: Compile module "u_unit_1ps".
+[INF:CP5804] $Source01/units.sv:46:1: Compile module "u_unit_10ps".
+[INF:CP5804] $Source01/units.sv:49:1: Compile module "u_unit_100ps".
+[INF:CP5804] $Source01/units.sv:52:1: Compile module "u_unit_1fs".
+[INF:CP5804] $Source01/units.sv:55:1: Compile module "u_unit_10fs".
+[INF:CP5804] $Source01/units.sv:58:1: Compile module "u_unit_100fs".
+[INF:CP5804] $Source01/units.sv:63:1: Compile module "u_prec_1s".
+[INF:CP5804] $Source01/units.sv:66:1: Compile module "u_prec_10s".
+[INF:CP5804] $Source01/units.sv:69:1: Compile module "u_prec_100s".
+[INF:CP5804] $Source01/units.sv:72:1: Compile module "u_prec_1ms".
+[INF:CP5804] $Source01/units.sv:75:1: Compile module "u_prec_10ms".
+[INF:CP5804] $Source01/units.sv:78:1: Compile module "u_prec_100ms".
+[INF:CP5804] $Source01/units.sv:81:1: Compile module "u_prec_1us".
+[INF:CP5804] $Source01/units.sv:84:1: Compile module "u_prec_10us".
+[INF:CP5804] $Source01/units.sv:87:1: Compile module "u_prec_100us".
+[INF:CP5804] $Source01/units.sv:90:1: Compile module "u_prec_1ns".
+[INF:CP5804] $Source01/units.sv:93:1: Compile module "u_prec_10ns".
+[INF:CP5804] $Source01/units.sv:96:1: Compile module "u_prec_100ns".
+[INF:CP5804] $Source01/units.sv:99:1: Compile module "u_prec_1ps".
+[INF:CP5804] $Source01/units.sv:102:1: Compile module "u_prec_10ps".
+[INF:CP5804] $Source01/units.sv:105:1: Compile module "u_prec_100ps".
+[INF:CP5804] $Source01/units.sv:108:1: Compile module "u_prec_1fs".
+[INF:CP5804] $Source01/units.sv:111:1: Compile module "u_prec_10fs".
+[INF:CP5804] $Source01/units.sv:114:1: Compile module "u_prec_100fs".
+[INF:CP5804] $Source01/errors.sv:4:1: Compile module "e_coarse_decl".
+[ERR:CP5840] $Source01/errors.sv:5:18: Illegal timescale: e_coarse_decl.
+[INF:CP5804] $Source01/errors.sv:8:1: Compile module "e_repeat_mismatch".
+[ERR:CP5840] $Source01/errors.sv:11:3: Illegal timescale: e_repeat_mismatch.
+[INF:CP5804] $Source01/errors.sv:14:1: Compile module "e_not_first".
+[ERR:CP5840] $Source01/errors.sv:16:3: Illegal timescale: e_not_first.
+[INF:CP5804] $Source01/errors.sv:19:1: Compile module "e_step".
+[ERR:CP5840] $Source01/errors.sv:20:3: Illegal timescale: e_step.
+[INF:CP5804] $Source01/errors.sv:23:1: Compile module "e_bad_magnitude".
+[INF:CP5804] $Source01/errors.sv:27:1: Compile module "e_fixed_point".
+[INF:CP5804] $Source01/errors.sv:31:1: Compile module "e_space_unit".
+[INF:CP5804] $Source01/errors.sv:35:1: Compile module "e_space_precision".
+[INF:CP5804] $Source01/errors.sv:39:1: Compile module "e_parent".
+[INF:CP5804] $Source01/errors.sv:41:3: Compile module "e_child_coarse".
+[INF:CP5804] $Source01/errors.sv:48:1: Compile module "e_after_coarse_timescale".
+[INF:CP5804] $Source01/errors.sv:53:1: Compile module "e_after_bad_magnitude".
+[INF:CP5804] $Source01/errors_timescale_inside.sv:5:1: Compile module "e_timescale_inside".
+[INF:CP5804] $Source01/errors_cu_late.sv:6:1: Compile module "e_cu_before".
+[INF:CP5804] $Source01/errors_cu_late.sv:11:1: Compile module "e_cu_after".
+[WRN:PA5506] $Source01/timescale.sv:57:1: No timescale set for "t_after_resetall".
+[WRN:PA5506] $Source01/decl.sv:6:1: No timescale set for "d_unit_only".
+[WRN:PA5506] $Source01/decl.sv:24:1: No timescale set for "d_prec_only".
+[WRN:PA5506] $Source01/decl.sv:40:1: No timescale set for "d_none".
+[WRN:PA5506] $Source01/nested.sv:42:1: No timescale set for "n_outer_none".
+[WRN:PA5506] $Source01/nested.sv:43:3: No timescale set for "n_inner_of_none".
+[WRN:PA5506] $Source01/units.sv:7:1: No timescale set for "u_unit_1s".
+[WRN:PA5506] $Source01/units.sv:63:1: No timescale set for "u_prec_1s".
+[WRN:PA5506] $Source01/errors.sv:8:1: No timescale set for "e_repeat_mismatch".
+[WRN:PA5506] $Source01/errors.sv:14:1: No timescale set for "e_not_first".
+[WRN:PA5506] $Source01/errors.sv:19:1: No timescale set for "e_step".
+[WRN:PA5506] $Source01/errors.sv:23:1: No timescale set for "e_bad_magnitude".
+[WRN:PA5506] $Source01/errors.sv:27:1: No timescale set for "e_fixed_point".
+[WRN:PA5506] $Source01/errors.sv:31:1: No timescale set for "e_space_unit".
+[WRN:PA5506] $Source01/errors.sv:35:1: No timescale set for "e_space_precision".
+[WRN:PA5506] $Source01/errors.sv:39:1: No timescale set for "e_parent".
+[WRN:PA5506] $Source01/errors_timescale_inside.sv:5:1: No timescale set for "e_timescale_inside".
+[WRN:PA5506] $Source01/errors_cu_late.sv:6:1: No timescale set for "e_cu_before".
+[WRN:PA5506] $Source01/errors_cu_late.sv:11:1: No timescale set for "e_cu_after".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
-  vpiSourceFile (1 items):
+  vpiSourceFile (9 items):
     SourceFile name:dut.sv file:$Source01/dut.sv:
       vpiParent: Design name:unnamed
       vpiName: dut.sv
       vpiPreprocFile: "$Output/lib/work/dut.sv"
-      vpiTimePrecision: -12
+    SourceFile name:timescale.sv file:$Source01/timescale.sv:
+      vpiParent: Design name:unnamed
+      vpiName: timescale.sv
+      vpiPreprocFile: "$Output/lib/work/timescale.sv"
+      vpiDirective (1 items):
+        GenericDirective start:55:1 end:55:10:
+          vpiParent: SourceFile name:timescale.sv
+          vpiDirectiveType: resetall (31)
+    SourceFile name:decl.sv file:$Source01/decl.sv:
+      vpiParent: Design name:unnamed
+      vpiName: decl.sv
+      vpiPreprocFile: "$Output/lib/work/decl.sv"
+    SourceFile name:nested.sv file:$Source01/nested.sv:
+      vpiParent: Design name:unnamed
+      vpiName: nested.sv
+      vpiPreprocFile: "$Output/lib/work/nested.sv"
+    SourceFile name:cu_timeunit.sv file:$Source01/cu_timeunit.sv:
+      vpiParent: Design name:unnamed
+      vpiName: cu_timeunit.sv
+      vpiPreprocFile: "$Output/lib/work/cu_timeunit.sv"
+      vpiTimePrecision: -9
+      vpiTimeUnit: -6
+      vpiDirective (1 items):
+        GenericDirective start:41:1 end:41:10:
+          vpiParent: SourceFile name:cu_timeunit.sv
+          vpiDirectiveType: resetall (31)
+    SourceFile name:units.sv file:$Source01/units.sv:
+      vpiParent: Design name:unnamed
+      vpiName: units.sv
+      vpiPreprocFile: "$Output/lib/work/units.sv"
+    SourceFile name:errors.sv file:$Source01/errors.sv:
+      vpiParent: Design name:unnamed
+      vpiName: errors.sv
+      vpiPreprocFile: "$Output/lib/work/errors.sv"
+    SourceFile name:errors_timescale_inside.sv file:$Source01/errors_timescale_inside.sv:
+      vpiParent: Design name:unnamed
+      vpiName: errors_timescale_inside.sv
+      vpiPreprocFile: "$Output/lib/work/errors_timescale_inside.sv"
+    SourceFile name:errors_cu_late.sv file:$Source01/errors_cu_late.sv:
+      vpiParent: Design name:unnamed
+      vpiName: errors_cu_late.sv
+      vpiPreprocFile: "$Output/lib/work/errors_cu_late.sv"
       vpiTimeUnit: -9
-  vpiAllModules (2 items):
+  vpiAllPackages (3 items):
+    Package name:t_pkg file:$Source01/timescale.sv start:42:1 end:43:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_pkg start:42:9 end:42:14:
+      vpiFullName: t_pkg
+      vpiDefName: t_pkg
+      vpiDefNetType: wire (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -9
+      vpiLibrary RefObj name:work start:42:9 end:42:14:
+        vpiParent: Package name:t_pkg
+        vpiName: work
+        vpiFullName: t_pkg::work
+        vpiActual: Library name:work
+      vpiCell: t_pkg
+    Package name:d_pkg file:$Source01/decl.sv start:51:1 end:53:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_pkg start:51:9 end:51:14:
+      vpiFullName: d_pkg
+      vpiDefName: d_pkg
+      vpiDefNetType: wire (1)
+      vpiTimePrecision: -6
+      vpiTimeUnit: -4
+      vpiLibrary RefObj name:work start:51:9 end:51:14:
+        vpiParent: Package name:d_pkg
+        vpiName: work
+        vpiFullName: d_pkg::work
+        vpiActual: Library name:work
+      vpiCell: d_pkg
+    Package name:c_pkg file:$Source01/cu_timeunit.sv start:33:1 end:34:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_pkg start:33:9 end:33:14:
+      vpiFullName: c_pkg
+      vpiDefName: c_pkg
+      vpiDefNetType: wire (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -6
+      vpiLibrary RefObj name:work start:33:9 end:33:14:
+        vpiParent: Package name:c_pkg
+        vpiName: work
+        vpiFullName: c_pkg::work
+        vpiActual: Library name:work
+      vpiCell: c_pkg
+  vpiAllInterfaces (4 items):
+    Interface name:t_if file:$Source01/timescale.sv start:36:1 end:37:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_if start:36:11 end:36:15:
+      vpiFullName: t_if
+      vpiDefName: t_if
+      vpiDefNetType: wire (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:36:11 end:36:15:
+        vpiParent: Interface name:t_if
+        vpiName: work
+        vpiFullName: t_if.work
+        vpiActual: Library name:work
+      vpiCell: t_if
+    Interface name:d_if file:$Source01/decl.sv start:43:1 end:45:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_if start:43:11 end:43:15:
+      vpiFullName: d_if
+      vpiDefName: d_if
+      vpiDefNetType: wire (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -6
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:43:11 end:43:15:
+        vpiParent: Interface name:d_if
+        vpiName: work
+        vpiFullName: d_if.work
+        vpiActual: Library name:work
+      vpiCell: d_if
+    Interface name:n_outer_if file:$Source01/nested.sv start:35:1 end:40:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:n_outer_if start:35:11 end:35:21:
+      vpiFullName: n_outer_if
+      vpiDefName: n_outer_if
+      vpiDefNetType: wire (1)
+      vpiTimePrecision: -8
+      vpiTimeUnit: -7
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:35:11 end:35:21:
+        vpiParent: Interface name:n_outer_if
+        vpiName: work
+        vpiFullName: n_outer_if.work
+        vpiActual: Library name:work
+      vpiCell: n_outer_if
+      vpiInterface (1 items):
+        Interface name:n_nested_if file:$Source01/nested.sv start:38:3 end:39:15:
+          vpiParent: Interface name:n_outer_if
+          vpiName Identifier name:n_nested_if start:38:13 end:38:24:
+          vpiFullName: n_outer_if.n_nested_if
+          vpiDefName: n_nested_if
+          vpiDefNetType: wire (1)
+          vpiTimePrecision: -8
+          vpiTimeUnit: -7
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:38:13 end:38:24:
+            vpiParent: Interface name:n_nested_if
+            vpiName: work
+            vpiFullName: n_outer_if.n_nested_if.work
+            vpiActual: Library name:work
+          vpiCell: n_nested_if
+    Interface name:c_if file:$Source01/cu_timeunit.sv start:27:1 end:28:13:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_if start:27:11 end:27:15:
+      vpiFullName: c_if
+      vpiDefName: c_if
+      vpiDefNetType: wire (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -6
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:27:11 end:27:15:
+        vpiParent: Interface name:c_if
+        vpiName: work
+        vpiFullName: c_if.work
+        vpiActual: Library name:work
+      vpiCell: c_if
+  vpiAllPrograms (3 items):
+    Program name:t_prog file:$Source01/timescale.sv start:39:1 end:40:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_prog start:39:9 end:39:15:
+      vpiFullName: t_prog
+      vpiDefName: t_prog
+      vpiDefNetType: wire (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:39:9 end:39:15:
+        vpiParent: Program name:t_prog
+        vpiName: work
+        vpiFullName: t_prog.work
+        vpiActual: Library name:work
+      vpiCell: t_prog
+    Program name:d_prog file:$Source01/decl.sv start:47:1 end:49:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_prog start:47:9 end:47:15:
+      vpiFullName: d_prog
+      vpiDefName: d_prog
+      vpiDefNetType: wire (1)
+      vpiTimePrecision: -7
+      vpiTimeUnit: -5
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:47:9 end:47:15:
+        vpiParent: Program name:d_prog
+        vpiName: work
+        vpiFullName: d_prog.work
+        vpiActual: Library name:work
+      vpiCell: d_prog
+    Program name:c_prog file:$Source01/cu_timeunit.sv start:30:1 end:31:11:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_prog start:30:9 end:30:15:
+      vpiFullName: c_prog
+      vpiDefName: c_prog
+      vpiDefNetType: wire (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -6
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:30:9 end:30:15:
+        vpiParent: Program name:c_prog
+        vpiName: work
+        vpiFullName: c_prog.work
+        vpiActual: Library name:work
+      vpiCell: c_prog
+  vpiAllModules (79 items):
     Module name:m1 file:$Source01/dut.sv start:1:1 end:11:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:m1 start:1:9 end:1:11:
@@ -32,6 +388,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:m1
+          vpiScalar: true
         ModuleTypespec name:m11:
           vpiParent: Module name:m1
           vpiName Identifier name:m11 start:4:10 end:4:13:
@@ -44,25 +401,26 @@ Design name:unnamed:
           vpiModule: Module name:m12
       vpiDefName: m1
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -8
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:9 end:1:11:
         vpiParent: Module name:m1
         vpiName: work
         vpiFullName: m1.work
         vpiActual: Library name:work
       vpiCell: m1
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:a start:1:24 end:1:25:
           vpiParent: Module name:m1
+          vpiName: a
+          vpiFullName: m1.a
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec start:1:18 end:1:23:
             vpiParent: Net name:a
             vpiFullName: m1.a
             vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: m1.a
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:a start:1:24 end:1:25:
           vpiParent: Module name:m1
@@ -85,27 +443,29 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Module name:m11
+              vpiScalar: true
           vpiDefName: m11
           vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
           vpiTimePrecision: -11
           vpiTimeUnit: -8
+          vpiUnconnDrive: highz (1)
           vpiLibrary RefObj name:work start:4:10 end:4:13:
             vpiParent: Module name:m11
             vpiName: work
             vpiFullName: m1.m11.work
             vpiActual: Library name:work
           vpiCell: m11
-          vpiAutomatic: true
           vpiNet (1 items):
             Net name:a start:4:26 end:4:27:
               vpiParent: Module name:m11
+              vpiName: a
+              vpiFullName: m1.m11.a
+              vpiNetType: wire (1)
               vpiTypespec RefTypespec start:4:20 end:4:25:
                 vpiParent: Net name:a
                 vpiFullName: m1.m11.a
                 vpiActual: LogicTypespec
-              vpiName: a
-              vpiFullName: m1.m11.a
-              vpiNetType: wire (1)
           vpiPort (1 items):
             Port name:a start:4:26 end:4:27:
               vpiParent: Module name:m11
@@ -127,26 +487,29 @@ Design name:unnamed:
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Module name:m12
+              vpiScalar: true
           vpiDefName: m12
           vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
           vpiTimePrecision: -12
+          vpiTimeUnit: -8
+          vpiUnconnDrive: highz (1)
           vpiLibrary RefObj name:work start:8:11 end:8:14:
             vpiParent: Module name:m12
             vpiName: work
             vpiFullName: m1.m12.work
             vpiActual: Library name:work
           vpiCell: m12
-          vpiAutomatic: true
           vpiNet (1 items):
             Net name:a start:8:27 end:8:28:
               vpiParent: Module name:m12
+              vpiName: a
+              vpiFullName: m1.m12.a
+              vpiNetType: wire (1)
               vpiTypespec RefTypespec start:8:21 end:8:26:
                 vpiParent: Net name:a
                 vpiFullName: m1.m12.a
                 vpiActual: LogicTypespec
-              vpiName: a
-              vpiFullName: m1.m12.a
-              vpiNetType: wire (1)
           vpiPort (1 items):
             Port name:a start:8:27 end:8:28:
               vpiParent: Module name:m12
@@ -168,27 +531,29 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:m2
+          vpiScalar: true
       vpiDefName: m2
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:15:8 end:15:10:
         vpiParent: Module name:m2
         vpiName: work
         vpiFullName: m2.work
         vpiActual: Library name:work
       vpiCell: m2
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:a start:15:23 end:15:24:
           vpiParent: Module name:m2
+          vpiName: a
+          vpiFullName: m2.a
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec start:15:17 end:15:22:
             vpiParent: Net name:a
             vpiFullName: m2.a
             vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: m2.a
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:a start:15:23 end:15:24:
           vpiParent: Module name:m2
@@ -203,7 +568,1536 @@ Design name:unnamed:
             vpiParent: Port name:a
             vpiFullName: m2.a
             vpiActual: LogicTypespec
-  vpiTypespec (2 items):
+    Module name:t_a file:$Source01/timescale.sv start:7:1 end:8:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_a start:7:8 end:7:11:
+      vpiFullName: t_a
+      vpiDefName: t_a
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:7:8 end:7:11:
+        vpiParent: Module name:t_a
+        vpiName: work
+        vpiFullName: t_a.work
+        vpiActual: Library name:work
+      vpiCell: t_a
+    Module name:t_b file:$Source01/timescale.sv start:10:1 end:11:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_b start:10:8 end:10:11:
+      vpiFullName: t_b
+      vpiDefName: t_b
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:10:8 end:10:11:
+        vpiParent: Module name:t_b
+        vpiName: work
+        vpiFullName: t_b.work
+        vpiActual: Library name:work
+      vpiCell: t_b
+    Module name:t_own file:$Source01/timescale.sv start:13:1 end:15:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_own start:13:8 end:13:13:
+      vpiFullName: t_own
+      vpiDefName: t_own
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -10
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:13:8 end:13:13:
+        vpiParent: Module name:t_own
+        vpiName: work
+        vpiFullName: t_own.work
+        vpiActual: Library name:work
+      vpiCell: t_own
+    Module name:t_prec_only file:$Source01/timescale.sv start:17:1 end:19:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_prec_only start:17:8 end:17:19:
+      vpiFullName: t_prec_only
+      vpiDefName: t_prec_only
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:17:8 end:17:19:
+        vpiParent: Module name:t_prec_only
+        vpiName: work
+        vpiFullName: t_prec_only.work
+        vpiActual: Library name:work
+      vpiCell: t_prec_only
+    Module name:t_unit_only file:$Source01/timescale.sv start:21:1 end:23:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_unit_only start:21:8 end:21:19:
+      vpiFullName: t_unit_only
+      vpiDefName: t_unit_only
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -8
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:21:8 end:21:19:
+        vpiParent: Module name:t_unit_only
+        vpiName: work
+        vpiFullName: t_unit_only.work
+        vpiActual: Library name:work
+      vpiCell: t_unit_only
+    Module name:t_outer file:$Source01/timescale.sv start:25:1 end:29:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_outer start:25:8 end:25:15:
+      vpiFullName: t_outer
+      vpiTypespec (1 items):
+        ModuleTypespec name:t_inner:
+          vpiParent: Module name:t_outer
+          vpiName Identifier name:t_inner start:27:10 end:27:17:
+          vpiDefName: t_inner
+          vpiModule: Module name:t_inner
+      vpiDefName: t_outer
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -6
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:25:8 end:25:15:
+        vpiParent: Module name:t_outer
+        vpiName: work
+        vpiFullName: t_outer.work
+        vpiActual: Library name:work
+      vpiCell: t_outer
+      vpiModule (1 items):
+        Module name:t_inner file:$Source01/timescale.sv start:27:3 end:28:12:
+          vpiParent: Module name:t_outer
+          vpiName Identifier name:t_inner start:27:10 end:27:17:
+          vpiFullName: t_inner
+          vpiDefName: t_inner
+          vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
+          vpiTimePrecision: -9
+          vpiTimeUnit: -6
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:27:10 end:27:17:
+            vpiParent: Module name:t_inner
+            vpiName: work
+            vpiFullName: t_outer.t_inner.work
+            vpiActual: Library name:work
+          vpiCell: t_inner
+    Module name:t_outer_none file:$Source01/timescale.sv start:31:1 end:34:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_outer_none start:31:8 end:31:20:
+      vpiFullName: t_outer_none
+      vpiTypespec (1 items):
+        ModuleTypespec name:t_inner_of_none:
+          vpiParent: Module name:t_outer_none
+          vpiName Identifier name:t_inner_of_none start:32:10 end:32:25:
+          vpiDefName: t_inner_of_none
+          vpiModule: Module name:t_inner_of_none
+      vpiDefName: t_outer_none
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:31:8 end:31:20:
+        vpiParent: Module name:t_outer_none
+        vpiName: work
+        vpiFullName: t_outer_none.work
+        vpiActual: Library name:work
+      vpiCell: t_outer_none
+      vpiModule (1 items):
+        Module name:t_inner_of_none file:$Source01/timescale.sv start:32:3 end:33:12:
+          vpiParent: Module name:t_outer_none
+          vpiName Identifier name:t_inner_of_none start:32:10 end:32:25:
+          vpiFullName: t_inner_of_none
+          vpiDefName: t_inner_of_none
+          vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
+          vpiTimePrecision: -11
+          vpiTimeUnit: -9
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:32:10 end:32:25:
+            vpiParent: Module name:t_inner_of_none
+            vpiName: work
+            vpiFullName: t_outer_none.t_inner_of_none.work
+            vpiActual: Library name:work
+          vpiCell: t_inner_of_none
+    Module name:t_c file:$Source01/timescale.sv start:47:1 end:48:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_c start:47:8 end:47:11:
+      vpiFullName: t_c
+      vpiDefName: t_c
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiTimeUnit: -12
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:47:8 end:47:11:
+        vpiParent: Module name:t_c
+        vpiName: work
+        vpiFullName: t_c.work
+        vpiActual: Library name:work
+      vpiCell: t_c
+    Module name:t_spaced file:$Source01/timescale.sv start:52:1 end:53:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_spaced start:52:8 end:52:16:
+      vpiFullName: t_spaced
+      vpiDefName: t_spaced
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -7
+      vpiTimeUnit: -5
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:52:8 end:52:16:
+        vpiParent: Module name:t_spaced
+        vpiName: work
+        vpiFullName: t_spaced.work
+        vpiActual: Library name:work
+      vpiCell: t_spaced
+    Module name:t_after_resetall file:$Source01/timescale.sv start:57:1 end:58:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_after_resetall start:57:8 end:57:24:
+      vpiFullName: t_after_resetall
+      vpiDefName: t_after_resetall
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:57:8 end:57:24:
+        vpiParent: Module name:t_after_resetall
+        vpiName: work
+        vpiFullName: t_after_resetall.work
+        vpiActual: Library name:work
+      vpiCell: t_after_resetall
+    Module name:t_test file:$Source01/timescale.sv start:62:1 end:63:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_test start:62:8 end:62:14:
+      vpiFullName: t_test
+      vpiDefName: t_test
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -8
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:62:8 end:62:14:
+        vpiParent: Module name:t_test
+        vpiName: work
+        vpiFullName: t_test.work
+        vpiActual: Library name:work
+      vpiCell: t_test
+    Module name:d_unit_only file:$Source01/decl.sv start:6:1 end:8:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_unit_only start:6:8 end:6:19:
+      vpiFullName: d_unit_only
+      vpiDefName: d_unit_only
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimeUnit: -10
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:6:8 end:6:19:
+        vpiParent: Module name:d_unit_only
+        vpiName: work
+        vpiFullName: d_unit_only.work
+        vpiActual: Library name:work
+      vpiCell: d_unit_only
+    Module name:d_unit_slash file:$Source01/decl.sv start:10:1 end:12:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_unit_slash start:10:8 end:10:20:
+      vpiFullName: d_unit_slash
+      vpiDefName: d_unit_slash
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -14
+      vpiTimeUnit: -10
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:10:8 end:10:20:
+        vpiParent: Module name:d_unit_slash
+        vpiName: work
+        vpiFullName: d_unit_slash.work
+        vpiActual: Library name:work
+      vpiCell: d_unit_slash
+    Module name:d_unit_then_prec file:$Source01/decl.sv start:14:1 end:17:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_unit_then_prec start:14:8 end:14:24:
+      vpiFullName: d_unit_then_prec
+      vpiDefName: d_unit_then_prec
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -14
+      vpiTimeUnit: -10
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:14:8 end:14:24:
+        vpiParent: Module name:d_unit_then_prec
+        vpiName: work
+        vpiFullName: d_unit_then_prec.work
+        vpiActual: Library name:work
+      vpiCell: d_unit_then_prec
+    Module name:d_prec_then_unit file:$Source01/decl.sv start:19:1 end:22:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_prec_then_unit start:19:8 end:19:24:
+      vpiFullName: d_prec_then_unit
+      vpiDefName: d_prec_then_unit
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -14
+      vpiTimeUnit: -10
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:19:8 end:19:24:
+        vpiParent: Module name:d_prec_then_unit
+        vpiName: work
+        vpiFullName: d_prec_then_unit.work
+        vpiActual: Library name:work
+      vpiCell: d_prec_then_unit
+    Module name:d_prec_only file:$Source01/decl.sv start:24:1 end:26:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_prec_only start:24:8 end:24:19:
+      vpiFullName: d_prec_only
+      vpiDefName: d_prec_only
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:24:8 end:24:19:
+        vpiParent: Module name:d_prec_only
+        vpiName: work
+        vpiFullName: d_prec_only.work
+        vpiActual: Library name:work
+      vpiCell: d_prec_only
+    Module name:d_unit_equals_prec file:$Source01/decl.sv start:28:1 end:30:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_unit_equals_prec start:28:8 end:28:26:
+      vpiFullName: d_unit_equals_prec
+      vpiDefName: d_unit_equals_prec
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:28:8 end:28:26:
+        vpiParent: Module name:d_unit_equals_prec
+        vpiName: work
+        vpiFullName: d_unit_equals_prec.work
+        vpiActual: Library name:work
+      vpiCell: d_unit_equals_prec
+    Module name:d_repeat_match file:$Source01/decl.sv start:32:1 end:38:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_repeat_match start:32:8 end:32:22:
+      vpiFullName: d_repeat_match
+      vpiVariable (1 items):
+        Variable name:x start:35:9 end:35:10:
+          vpiParent: Module name:d_repeat_match
+          vpiName: x
+          vpiFullName: d_repeat_match.x
+          vpiTypespec RefTypespec start:35:3 end:35:8:
+            vpiParent: Variable name:x
+            vpiFullName: d_repeat_match.x
+            vpiActual: LogicTypespec
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:d_repeat_match
+          vpiScalar: true
+      vpiDefName: d_repeat_match
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:32:8 end:32:22:
+        vpiParent: Module name:d_repeat_match
+        vpiName: work
+        vpiFullName: d_repeat_match.work
+        vpiActual: Library name:work
+      vpiCell: d_repeat_match
+    Module name:d_none file:$Source01/decl.sv start:40:1 end:41:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_none start:40:8 end:40:14:
+      vpiFullName: d_none
+      vpiDefName: d_none
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:40:8 end:40:14:
+        vpiParent: Module name:d_none
+        vpiName: work
+        vpiFullName: d_none.work
+        vpiActual: Library name:work
+      vpiCell: d_none
+    Module name:n_outer file:$Source01/nested.sv start:6:1 end:33:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:n_outer start:6:8 end:6:15:
+      vpiFullName: n_outer
+      vpiTypespec (5 items):
+        ModuleTypespec name:n_inner_none:
+          vpiParent: Module name:n_outer
+          vpiName Identifier name:n_inner_none start:9:10 end:9:22:
+          vpiDefName: n_inner_none
+          vpiModule: Module name:n_inner_none
+        ModuleTypespec name:n_inner_prec:
+          vpiParent: Module name:n_outer
+          vpiName Identifier name:n_inner_prec start:12:10 end:12:22:
+          vpiDefName: n_inner_prec
+          vpiModule: Module name:n_inner_prec
+        ModuleTypespec name:n_inner_unit:
+          vpiParent: Module name:n_outer
+          vpiName Identifier name:n_inner_unit start:16:10 end:16:22:
+          vpiDefName: n_inner_unit
+          vpiModule: Module name:n_inner_unit
+        ModuleTypespec name:n_mid:
+          vpiParent: Module name:n_outer
+          vpiName Identifier name:n_mid start:20:10 end:20:15:
+          vpiDefName: n_mid
+          vpiModule: Module name:n_mid
+        ModuleTypespec name:n_mid_own:
+          vpiParent: Module name:n_outer
+          vpiName Identifier name:n_mid_own start:25:10 end:25:19:
+          vpiDefName: n_mid_own
+          vpiModule: Module name:n_mid_own
+      vpiDefName: n_outer
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiTimeUnit: -8
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:6:8 end:6:15:
+        vpiParent: Module name:n_outer
+        vpiName: work
+        vpiFullName: n_outer.work
+        vpiActual: Library name:work
+      vpiCell: n_outer
+      vpiInterface (1 items):
+        Interface name:n_inner_if file:$Source01/nested.sv start:31:3 end:32:15:
+          vpiParent: Module name:n_outer
+          vpiName Identifier name:n_inner_if start:31:13 end:31:23:
+          vpiFullName: n_outer.n_inner_if
+          vpiDefName: n_inner_if
+          vpiDefNetType: wire (1)
+          vpiTimePrecision: -12
+          vpiTimeUnit: -8
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:31:13 end:31:23:
+            vpiParent: Interface name:n_inner_if
+            vpiName: work
+            vpiFullName: n_outer.n_inner_if.work
+            vpiActual: Library name:work
+          vpiCell: n_inner_if
+      vpiModule (5 items):
+        Module name:n_inner_none file:$Source01/nested.sv start:9:3 end:10:12:
+          vpiParent: Module name:n_outer
+          vpiName Identifier name:n_inner_none start:9:10 end:9:22:
+          vpiFullName: n_inner_none
+          vpiDefName: n_inner_none
+          vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
+          vpiTimePrecision: -12
+          vpiTimeUnit: -8
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:9:10 end:9:22:
+            vpiParent: Module name:n_inner_none
+            vpiName: work
+            vpiFullName: n_outer.n_inner_none.work
+            vpiActual: Library name:work
+          vpiCell: n_inner_none
+        Module name:n_inner_prec file:$Source01/nested.sv start:12:3 end:14:12:
+          vpiParent: Module name:n_outer
+          vpiName Identifier name:n_inner_prec start:12:10 end:12:22:
+          vpiFullName: n_inner_prec
+          vpiDefName: n_inner_prec
+          vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
+          vpiTimePrecision: -13
+          vpiTimeUnit: -8
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:12:10 end:12:22:
+            vpiParent: Module name:n_inner_prec
+            vpiName: work
+            vpiFullName: n_outer.n_inner_prec.work
+            vpiActual: Library name:work
+          vpiCell: n_inner_prec
+        Module name:n_inner_unit file:$Source01/nested.sv start:16:3 end:18:12:
+          vpiParent: Module name:n_outer
+          vpiName Identifier name:n_inner_unit start:16:10 end:16:22:
+          vpiFullName: n_inner_unit
+          vpiDefName: n_inner_unit
+          vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
+          vpiTimePrecision: -12
+          vpiTimeUnit: -6
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:16:10 end:16:22:
+            vpiParent: Module name:n_inner_unit
+            vpiName: work
+            vpiFullName: n_outer.n_inner_unit.work
+            vpiActual: Library name:work
+          vpiCell: n_inner_unit
+        Module name:n_mid file:$Source01/nested.sv start:20:3 end:23:12:
+          vpiParent: Module name:n_outer
+          vpiName Identifier name:n_mid start:20:10 end:20:15:
+          vpiFullName: n_mid
+          vpiTypespec (1 items):
+            ModuleTypespec name:n_deep:
+              vpiParent: Module name:n_mid
+              vpiName Identifier name:n_deep start:21:12 end:21:18:
+              vpiDefName: n_deep
+              vpiModule: Module name:n_deep
+          vpiDefName: n_mid
+          vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
+          vpiTimePrecision: -12
+          vpiTimeUnit: -8
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:20:10 end:20:15:
+            vpiParent: Module name:n_mid
+            vpiName: work
+            vpiFullName: n_outer.n_mid.work
+            vpiActual: Library name:work
+          vpiCell: n_mid
+          vpiModule (1 items):
+            Module name:n_deep file:$Source01/nested.sv start:21:5 end:22:14:
+              vpiParent: Module name:n_mid
+              vpiName Identifier name:n_deep start:21:12 end:21:18:
+              vpiFullName: n_deep
+              vpiDefName: n_deep
+              vpiDefNetType: wire (1)
+              vpiDefDelayMode: none (1)
+              vpiTimePrecision: -12
+              vpiTimeUnit: -8
+              vpiUnconnDrive: highz (1)
+              vpiLibrary RefObj name:work start:21:12 end:21:18:
+                vpiParent: Module name:n_deep
+                vpiName: work
+                vpiFullName: n_outer.n_mid.n_deep.work
+                vpiActual: Library name:work
+              vpiCell: n_deep
+        Module name:n_mid_own file:$Source01/nested.sv start:25:3 end:29:12:
+          vpiParent: Module name:n_outer
+          vpiName Identifier name:n_mid_own start:25:10 end:25:19:
+          vpiFullName: n_mid_own
+          vpiTypespec (1 items):
+            ModuleTypespec name:n_deep_own:
+              vpiParent: Module name:n_mid_own
+              vpiName Identifier name:n_deep_own start:27:12 end:27:22:
+              vpiDefName: n_deep_own
+              vpiModule: Module name:n_deep_own
+          vpiDefName: n_mid_own
+          vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
+          vpiTimePrecision: -8
+          vpiTimeUnit: -7
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:25:10 end:25:19:
+            vpiParent: Module name:n_mid_own
+            vpiName: work
+            vpiFullName: n_outer.n_mid_own.work
+            vpiActual: Library name:work
+          vpiCell: n_mid_own
+          vpiModule (1 items):
+            Module name:n_deep_own file:$Source01/nested.sv start:27:5 end:28:14:
+              vpiParent: Module name:n_mid_own
+              vpiName Identifier name:n_deep_own start:27:12 end:27:22:
+              vpiFullName: n_deep_own
+              vpiDefName: n_deep_own
+              vpiDefNetType: wire (1)
+              vpiDefDelayMode: none (1)
+              vpiTimePrecision: -8
+              vpiTimeUnit: -7
+              vpiUnconnDrive: highz (1)
+              vpiLibrary RefObj name:work start:27:12 end:27:22:
+                vpiParent: Module name:n_deep_own
+                vpiName: work
+                vpiFullName: n_outer.n_mid_own.n_deep_own.work
+                vpiActual: Library name:work
+              vpiCell: n_deep_own
+    Module name:n_outer_none file:$Source01/nested.sv start:42:1 end:45:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:n_outer_none start:42:8 end:42:20:
+      vpiFullName: n_outer_none
+      vpiTypespec (1 items):
+        ModuleTypespec name:n_inner_of_none:
+          vpiParent: Module name:n_outer_none
+          vpiName Identifier name:n_inner_of_none start:43:10 end:43:25:
+          vpiDefName: n_inner_of_none
+          vpiModule: Module name:n_inner_of_none
+      vpiDefName: n_outer_none
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:42:8 end:42:20:
+        vpiParent: Module name:n_outer_none
+        vpiName: work
+        vpiFullName: n_outer_none.work
+        vpiActual: Library name:work
+      vpiCell: n_outer_none
+      vpiModule (1 items):
+        Module name:n_inner_of_none file:$Source01/nested.sv start:43:3 end:44:12:
+          vpiParent: Module name:n_outer_none
+          vpiName Identifier name:n_inner_of_none start:43:10 end:43:25:
+          vpiFullName: n_inner_of_none
+          vpiDefName: n_inner_of_none
+          vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:43:10 end:43:25:
+            vpiParent: Module name:n_inner_of_none
+            vpiName: work
+            vpiFullName: n_outer_none.n_inner_of_none.work
+            vpiActual: Library name:work
+          vpiCell: n_inner_of_none
+    Module name:c_none file:$Source01/cu_timeunit.sv start:10:1 end:11:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_none start:10:8 end:10:14:
+      vpiFullName: c_none
+      vpiDefName: c_none
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -6
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:10:8 end:10:14:
+        vpiParent: Module name:c_none
+        vpiName: work
+        vpiFullName: c_none.work
+        vpiActual: Library name:work
+      vpiCell: c_none
+    Module name:c_unit_only file:$Source01/cu_timeunit.sv start:13:1 end:15:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_unit_only start:13:8 end:13:19:
+      vpiFullName: c_unit_only
+      vpiDefName: c_unit_only
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -8
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:13:8 end:13:19:
+        vpiParent: Module name:c_unit_only
+        vpiName: work
+        vpiFullName: c_unit_only.work
+        vpiActual: Library name:work
+      vpiCell: c_unit_only
+    Module name:c_prec_only file:$Source01/cu_timeunit.sv start:17:1 end:19:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_prec_only start:17:8 end:17:19:
+      vpiFullName: c_prec_only
+      vpiDefName: c_prec_only
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiTimeUnit: -6
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:17:8 end:17:19:
+        vpiParent: Module name:c_prec_only
+        vpiName: work
+        vpiFullName: c_prec_only.work
+        vpiActual: Library name:work
+      vpiCell: c_prec_only
+    Module name:c_outer file:$Source01/cu_timeunit.sv start:21:1 end:25:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_outer start:21:8 end:21:15:
+      vpiFullName: c_outer
+      vpiTypespec (1 items):
+        ModuleTypespec name:c_inner:
+          vpiParent: Module name:c_outer
+          vpiName Identifier name:c_inner start:23:10 end:23:17:
+          vpiDefName: c_inner
+          vpiModule: Module name:c_inner
+      vpiDefName: c_outer
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -8
+      vpiTimeUnit: -7
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:21:8 end:21:15:
+        vpiParent: Module name:c_outer
+        vpiName: work
+        vpiFullName: c_outer.work
+        vpiActual: Library name:work
+      vpiCell: c_outer
+      vpiModule (1 items):
+        Module name:c_inner file:$Source01/cu_timeunit.sv start:23:3 end:24:12:
+          vpiParent: Module name:c_outer
+          vpiName Identifier name:c_inner start:23:10 end:23:17:
+          vpiFullName: c_inner
+          vpiDefName: c_inner
+          vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
+          vpiTimePrecision: -8
+          vpiTimeUnit: -7
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:23:10 end:23:17:
+            vpiParent: Module name:c_inner
+            vpiName: work
+            vpiFullName: c_outer.c_inner.work
+            vpiActual: Library name:work
+          vpiCell: c_inner
+    Module name:c_after_timescale file:$Source01/cu_timeunit.sv start:38:1 end:39:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_after_timescale start:38:8 end:38:25:
+      vpiFullName: c_after_timescale
+      vpiDefName: c_after_timescale
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -12
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:38:8 end:38:25:
+        vpiParent: Module name:c_after_timescale
+        vpiName: work
+        vpiFullName: c_after_timescale.work
+        vpiActual: Library name:work
+      vpiCell: c_after_timescale
+    Module name:c_after_resetall file:$Source01/cu_timeunit.sv start:43:1 end:44:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_after_resetall start:43:8 end:43:24:
+      vpiFullName: c_after_resetall
+      vpiDefName: c_after_resetall
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: -6
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:43:8 end:43:24:
+        vpiParent: Module name:c_after_resetall
+        vpiName: work
+        vpiFullName: c_after_resetall.work
+        vpiActual: Library name:work
+      vpiCell: c_after_resetall
+    Module name:u_unit_1s file:$Source01/units.sv start:7:1 end:9:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_1s start:7:8 end:7:17:
+      vpiFullName: u_unit_1s
+      vpiDefName: u_unit_1s
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:7:8 end:7:17:
+        vpiParent: Module name:u_unit_1s
+        vpiName: work
+        vpiFullName: u_unit_1s.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_1s
+    Module name:u_unit_10s file:$Source01/units.sv start:10:1 end:12:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_10s start:10:8 end:10:18:
+      vpiFullName: u_unit_10s
+      vpiDefName: u_unit_10s
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: 1
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:10:8 end:10:18:
+        vpiParent: Module name:u_unit_10s
+        vpiName: work
+        vpiFullName: u_unit_10s.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_10s
+    Module name:u_unit_100s file:$Source01/units.sv start:13:1 end:15:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_100s start:13:8 end:13:19:
+      vpiFullName: u_unit_100s
+      vpiDefName: u_unit_100s
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:13:8 end:13:19:
+        vpiParent: Module name:u_unit_100s
+        vpiName: work
+        vpiFullName: u_unit_100s.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_100s
+    Module name:u_unit_1ms file:$Source01/units.sv start:16:1 end:18:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_1ms start:16:8 end:16:18:
+      vpiFullName: u_unit_1ms
+      vpiDefName: u_unit_1ms
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -3
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:16:8 end:16:18:
+        vpiParent: Module name:u_unit_1ms
+        vpiName: work
+        vpiFullName: u_unit_1ms.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_1ms
+    Module name:u_unit_10ms file:$Source01/units.sv start:19:1 end:21:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_10ms start:19:8 end:19:19:
+      vpiFullName: u_unit_10ms
+      vpiDefName: u_unit_10ms
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:19:8 end:19:19:
+        vpiParent: Module name:u_unit_10ms
+        vpiName: work
+        vpiFullName: u_unit_10ms.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_10ms
+    Module name:u_unit_100ms file:$Source01/units.sv start:22:1 end:24:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_100ms start:22:8 end:22:20:
+      vpiFullName: u_unit_100ms
+      vpiDefName: u_unit_100ms
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -1
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:22:8 end:22:20:
+        vpiParent: Module name:u_unit_100ms
+        vpiName: work
+        vpiFullName: u_unit_100ms.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_100ms
+    Module name:u_unit_1us file:$Source01/units.sv start:25:1 end:27:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_1us start:25:8 end:25:18:
+      vpiFullName: u_unit_1us
+      vpiDefName: u_unit_1us
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -6
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:25:8 end:25:18:
+        vpiParent: Module name:u_unit_1us
+        vpiName: work
+        vpiFullName: u_unit_1us.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_1us
+    Module name:u_unit_10us file:$Source01/units.sv start:28:1 end:30:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_10us start:28:8 end:28:19:
+      vpiFullName: u_unit_10us
+      vpiDefName: u_unit_10us
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -5
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:28:8 end:28:19:
+        vpiParent: Module name:u_unit_10us
+        vpiName: work
+        vpiFullName: u_unit_10us.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_10us
+    Module name:u_unit_100us file:$Source01/units.sv start:31:1 end:33:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_100us start:31:8 end:31:20:
+      vpiFullName: u_unit_100us
+      vpiDefName: u_unit_100us
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -4
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:31:8 end:31:20:
+        vpiParent: Module name:u_unit_100us
+        vpiName: work
+        vpiFullName: u_unit_100us.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_100us
+    Module name:u_unit_1ns file:$Source01/units.sv start:34:1 end:36:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_1ns start:34:8 end:34:18:
+      vpiFullName: u_unit_1ns
+      vpiDefName: u_unit_1ns
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:34:8 end:34:18:
+        vpiParent: Module name:u_unit_1ns
+        vpiName: work
+        vpiFullName: u_unit_1ns.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_1ns
+    Module name:u_unit_10ns file:$Source01/units.sv start:37:1 end:39:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_10ns start:37:8 end:37:19:
+      vpiFullName: u_unit_10ns
+      vpiDefName: u_unit_10ns
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -8
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:37:8 end:37:19:
+        vpiParent: Module name:u_unit_10ns
+        vpiName: work
+        vpiFullName: u_unit_10ns.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_10ns
+    Module name:u_unit_100ns file:$Source01/units.sv start:40:1 end:42:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_100ns start:40:8 end:40:20:
+      vpiFullName: u_unit_100ns
+      vpiDefName: u_unit_100ns
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -7
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:40:8 end:40:20:
+        vpiParent: Module name:u_unit_100ns
+        vpiName: work
+        vpiFullName: u_unit_100ns.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_100ns
+    Module name:u_unit_1ps file:$Source01/units.sv start:43:1 end:45:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_1ps start:43:8 end:43:18:
+      vpiFullName: u_unit_1ps
+      vpiDefName: u_unit_1ps
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -12
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:43:8 end:43:18:
+        vpiParent: Module name:u_unit_1ps
+        vpiName: work
+        vpiFullName: u_unit_1ps.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_1ps
+    Module name:u_unit_10ps file:$Source01/units.sv start:46:1 end:48:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_10ps start:46:8 end:46:19:
+      vpiFullName: u_unit_10ps
+      vpiDefName: u_unit_10ps
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -11
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:46:8 end:46:19:
+        vpiParent: Module name:u_unit_10ps
+        vpiName: work
+        vpiFullName: u_unit_10ps.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_10ps
+    Module name:u_unit_100ps file:$Source01/units.sv start:49:1 end:51:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_100ps start:49:8 end:49:20:
+      vpiFullName: u_unit_100ps
+      vpiDefName: u_unit_100ps
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -10
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:49:8 end:49:20:
+        vpiParent: Module name:u_unit_100ps
+        vpiName: work
+        vpiFullName: u_unit_100ps.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_100ps
+    Module name:u_unit_1fs file:$Source01/units.sv start:52:1 end:54:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_1fs start:52:8 end:52:18:
+      vpiFullName: u_unit_1fs
+      vpiDefName: u_unit_1fs
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -15
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:52:8 end:52:18:
+        vpiParent: Module name:u_unit_1fs
+        vpiName: work
+        vpiFullName: u_unit_1fs.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_1fs
+    Module name:u_unit_10fs file:$Source01/units.sv start:55:1 end:57:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_10fs start:55:8 end:55:19:
+      vpiFullName: u_unit_10fs
+      vpiDefName: u_unit_10fs
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -14
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:55:8 end:55:19:
+        vpiParent: Module name:u_unit_10fs
+        vpiName: work
+        vpiFullName: u_unit_10fs.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_10fs
+    Module name:u_unit_100fs file:$Source01/units.sv start:58:1 end:60:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_100fs start:58:8 end:58:20:
+      vpiFullName: u_unit_100fs
+      vpiDefName: u_unit_100fs
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: -13
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:58:8 end:58:20:
+        vpiParent: Module name:u_unit_100fs
+        vpiName: work
+        vpiFullName: u_unit_100fs.work
+        vpiActual: Library name:work
+      vpiCell: u_unit_100fs
+    Module name:u_prec_1s file:$Source01/units.sv start:63:1 end:65:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_1s start:63:8 end:63:17:
+      vpiFullName: u_prec_1s
+      vpiDefName: u_prec_1s
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:63:8 end:63:17:
+        vpiParent: Module name:u_prec_1s
+        vpiName: work
+        vpiFullName: u_prec_1s.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_1s
+    Module name:u_prec_10s file:$Source01/units.sv start:66:1 end:68:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_10s start:66:8 end:66:18:
+      vpiFullName: u_prec_10s
+      vpiDefName: u_prec_10s
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: 1
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:66:8 end:66:18:
+        vpiParent: Module name:u_prec_10s
+        vpiName: work
+        vpiFullName: u_prec_10s.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_10s
+    Module name:u_prec_100s file:$Source01/units.sv start:69:1 end:71:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_100s start:69:8 end:69:19:
+      vpiFullName: u_prec_100s
+      vpiDefName: u_prec_100s
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: 2
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:69:8 end:69:19:
+        vpiParent: Module name:u_prec_100s
+        vpiName: work
+        vpiFullName: u_prec_100s.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_100s
+    Module name:u_prec_1ms file:$Source01/units.sv start:72:1 end:74:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_1ms start:72:8 end:72:18:
+      vpiFullName: u_prec_1ms
+      vpiDefName: u_prec_1ms
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -3
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:72:8 end:72:18:
+        vpiParent: Module name:u_prec_1ms
+        vpiName: work
+        vpiFullName: u_prec_1ms.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_1ms
+    Module name:u_prec_10ms file:$Source01/units.sv start:75:1 end:77:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_10ms start:75:8 end:75:19:
+      vpiFullName: u_prec_10ms
+      vpiDefName: u_prec_10ms
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -2
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:75:8 end:75:19:
+        vpiParent: Module name:u_prec_10ms
+        vpiName: work
+        vpiFullName: u_prec_10ms.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_10ms
+    Module name:u_prec_100ms file:$Source01/units.sv start:78:1 end:80:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_100ms start:78:8 end:78:20:
+      vpiFullName: u_prec_100ms
+      vpiDefName: u_prec_100ms
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -1
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:78:8 end:78:20:
+        vpiParent: Module name:u_prec_100ms
+        vpiName: work
+        vpiFullName: u_prec_100ms.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_100ms
+    Module name:u_prec_1us file:$Source01/units.sv start:81:1 end:83:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_1us start:81:8 end:81:18:
+      vpiFullName: u_prec_1us
+      vpiDefName: u_prec_1us
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -6
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:81:8 end:81:18:
+        vpiParent: Module name:u_prec_1us
+        vpiName: work
+        vpiFullName: u_prec_1us.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_1us
+    Module name:u_prec_10us file:$Source01/units.sv start:84:1 end:86:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_10us start:84:8 end:84:19:
+      vpiFullName: u_prec_10us
+      vpiDefName: u_prec_10us
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -5
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:84:8 end:84:19:
+        vpiParent: Module name:u_prec_10us
+        vpiName: work
+        vpiFullName: u_prec_10us.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_10us
+    Module name:u_prec_100us file:$Source01/units.sv start:87:1 end:89:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_100us start:87:8 end:87:20:
+      vpiFullName: u_prec_100us
+      vpiDefName: u_prec_100us
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -4
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:87:8 end:87:20:
+        vpiParent: Module name:u_prec_100us
+        vpiName: work
+        vpiFullName: u_prec_100us.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_100us
+    Module name:u_prec_1ns file:$Source01/units.sv start:90:1 end:92:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_1ns start:90:8 end:90:18:
+      vpiFullName: u_prec_1ns
+      vpiDefName: u_prec_1ns
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -9
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:90:8 end:90:18:
+        vpiParent: Module name:u_prec_1ns
+        vpiName: work
+        vpiFullName: u_prec_1ns.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_1ns
+    Module name:u_prec_10ns file:$Source01/units.sv start:93:1 end:95:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_10ns start:93:8 end:93:19:
+      vpiFullName: u_prec_10ns
+      vpiDefName: u_prec_10ns
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -8
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:93:8 end:93:19:
+        vpiParent: Module name:u_prec_10ns
+        vpiName: work
+        vpiFullName: u_prec_10ns.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_10ns
+    Module name:u_prec_100ns file:$Source01/units.sv start:96:1 end:98:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_100ns start:96:8 end:96:20:
+      vpiFullName: u_prec_100ns
+      vpiDefName: u_prec_100ns
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -7
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:96:8 end:96:20:
+        vpiParent: Module name:u_prec_100ns
+        vpiName: work
+        vpiFullName: u_prec_100ns.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_100ns
+    Module name:u_prec_1ps file:$Source01/units.sv start:99:1 end:101:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_1ps start:99:8 end:99:18:
+      vpiFullName: u_prec_1ps
+      vpiDefName: u_prec_1ps
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:99:8 end:99:18:
+        vpiParent: Module name:u_prec_1ps
+        vpiName: work
+        vpiFullName: u_prec_1ps.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_1ps
+    Module name:u_prec_10ps file:$Source01/units.sv start:102:1 end:104:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_10ps start:102:8 end:102:19:
+      vpiFullName: u_prec_10ps
+      vpiDefName: u_prec_10ps
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -11
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:102:8 end:102:19:
+        vpiParent: Module name:u_prec_10ps
+        vpiName: work
+        vpiFullName: u_prec_10ps.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_10ps
+    Module name:u_prec_100ps file:$Source01/units.sv start:105:1 end:107:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_100ps start:105:8 end:105:20:
+      vpiFullName: u_prec_100ps
+      vpiDefName: u_prec_100ps
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -10
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:105:8 end:105:20:
+        vpiParent: Module name:u_prec_100ps
+        vpiName: work
+        vpiFullName: u_prec_100ps.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_100ps
+    Module name:u_prec_1fs file:$Source01/units.sv start:108:1 end:110:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_1fs start:108:8 end:108:18:
+      vpiFullName: u_prec_1fs
+      vpiDefName: u_prec_1fs
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -15
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:108:8 end:108:18:
+        vpiParent: Module name:u_prec_1fs
+        vpiName: work
+        vpiFullName: u_prec_1fs.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_1fs
+    Module name:u_prec_10fs file:$Source01/units.sv start:111:1 end:113:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_10fs start:111:8 end:111:19:
+      vpiFullName: u_prec_10fs
+      vpiDefName: u_prec_10fs
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -14
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:111:8 end:111:19:
+        vpiParent: Module name:u_prec_10fs
+        vpiName: work
+        vpiFullName: u_prec_10fs.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_10fs
+    Module name:u_prec_100fs file:$Source01/units.sv start:114:1 end:116:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_100fs start:114:8 end:114:20:
+      vpiFullName: u_prec_100fs
+      vpiDefName: u_prec_100fs
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -13
+      vpiTimeUnit: 2
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:114:8 end:114:20:
+        vpiParent: Module name:u_prec_100fs
+        vpiName: work
+        vpiFullName: u_prec_100fs.work
+        vpiActual: Library name:work
+      vpiCell: u_prec_100fs
+    Module name:e_coarse_decl file:$Source01/errors.sv start:4:1 end:6:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_coarse_decl start:4:8 end:4:21:
+      vpiFullName: e_coarse_decl
+      vpiDefName: e_coarse_decl
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -6
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:4:8 end:4:21:
+        vpiParent: Module name:e_coarse_decl
+        vpiName: work
+        vpiFullName: e_coarse_decl.work
+        vpiActual: Library name:work
+      vpiCell: e_coarse_decl
+    Module name:e_repeat_mismatch file:$Source01/errors.sv start:8:1 end:12:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_repeat_mismatch start:8:8 end:8:25:
+      vpiFullName: e_repeat_mismatch
+      vpiVariable (1 items):
+        Variable name:x start:10:9 end:10:10:
+          vpiParent: Module name:e_repeat_mismatch
+          vpiName: x
+          vpiFullName: e_repeat_mismatch.x
+          vpiTypespec RefTypespec start:10:3 end:10:8:
+            vpiParent: Variable name:x
+            vpiFullName: e_repeat_mismatch.x
+            vpiActual: LogicTypespec
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:e_repeat_mismatch
+          vpiScalar: true
+      vpiDefName: e_repeat_mismatch
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimeUnit: -8
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:8:8 end:8:25:
+        vpiParent: Module name:e_repeat_mismatch
+        vpiName: work
+        vpiFullName: e_repeat_mismatch.work
+        vpiActual: Library name:work
+      vpiCell: e_repeat_mismatch
+    Module name:e_not_first file:$Source01/errors.sv start:14:1 end:17:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_not_first start:14:8 end:14:19:
+      vpiFullName: e_not_first
+      vpiVariable (1 items):
+        Variable name:x start:15:9 end:15:10:
+          vpiParent: Module name:e_not_first
+          vpiName: x
+          vpiFullName: e_not_first.x
+          vpiTypespec RefTypespec start:15:3 end:15:8:
+            vpiParent: Variable name:x
+            vpiFullName: e_not_first.x
+            vpiActual: LogicTypespec
+      vpiTypespec (1 items):
+        LogicTypespec:
+          vpiParent: Module name:e_not_first
+          vpiScalar: true
+      vpiDefName: e_not_first
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:14:8 end:14:19:
+        vpiParent: Module name:e_not_first
+        vpiName: work
+        vpiFullName: e_not_first.work
+        vpiActual: Library name:work
+      vpiCell: e_not_first
+    Module name:e_step file:$Source01/errors.sv start:19:1 end:21:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_step start:19:8 end:19:14:
+      vpiFullName: e_step
+      vpiDefName: e_step
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:19:8 end:19:14:
+        vpiParent: Module name:e_step
+        vpiName: work
+        vpiFullName: e_step.work
+        vpiActual: Library name:work
+      vpiCell: e_step
+    Module name:e_bad_magnitude file:$Source01/errors.sv start:23:1 end:25:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_bad_magnitude start:23:8 end:23:23:
+      vpiFullName: e_bad_magnitude
+      vpiDefName: e_bad_magnitude
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:23:8 end:23:23:
+        vpiParent: Module name:e_bad_magnitude
+        vpiName: work
+        vpiFullName: e_bad_magnitude.work
+        vpiActual: Library name:work
+      vpiCell: e_bad_magnitude
+    Module name:e_fixed_point file:$Source01/errors.sv start:27:1 end:29:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_fixed_point start:27:8 end:27:21:
+      vpiFullName: e_fixed_point
+      vpiDefName: e_fixed_point
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:27:8 end:27:21:
+        vpiParent: Module name:e_fixed_point
+        vpiName: work
+        vpiFullName: e_fixed_point.work
+        vpiActual: Library name:work
+      vpiCell: e_fixed_point
+    Module name:e_space_unit file:$Source01/errors.sv start:31:1 end:33:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_space_unit start:31:8 end:31:20:
+      vpiFullName: e_space_unit
+      vpiDefName: e_space_unit
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimeUnit: -8
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:31:8 end:31:20:
+        vpiParent: Module name:e_space_unit
+        vpiName: work
+        vpiFullName: e_space_unit.work
+        vpiActual: Library name:work
+      vpiCell: e_space_unit
+    Module name:e_space_precision file:$Source01/errors.sv start:35:1 end:37:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_space_precision start:35:8 end:35:25:
+      vpiFullName: e_space_precision
+      vpiDefName: e_space_precision
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:35:8 end:35:25:
+        vpiParent: Module name:e_space_precision
+        vpiName: work
+        vpiFullName: e_space_precision.work
+        vpiActual: Library name:work
+      vpiCell: e_space_precision
+    Module name:e_parent file:$Source01/errors.sv start:39:1 end:44:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_parent start:39:8 end:39:16:
+      vpiFullName: e_parent
+      vpiTypespec (1 items):
+        ModuleTypespec name:e_child_coarse:
+          vpiParent: Module name:e_parent
+          vpiName Identifier name:e_child_coarse start:41:10 end:41:24:
+          vpiDefName: e_child_coarse
+          vpiModule: Module name:e_child_coarse
+      vpiDefName: e_parent
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:39:8 end:39:16:
+        vpiParent: Module name:e_parent
+        vpiName: work
+        vpiFullName: e_parent.work
+        vpiActual: Library name:work
+      vpiCell: e_parent
+      vpiModule (1 items):
+        Module name:e_child_coarse file:$Source01/errors.sv start:41:3 end:43:12:
+          vpiParent: Module name:e_parent
+          vpiName Identifier name:e_child_coarse start:41:10 end:41:24:
+          vpiFullName: e_child_coarse
+          vpiDefName: e_child_coarse
+          vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
+          vpiTimePrecision: -6
+          vpiTimeUnit: -9
+          vpiUnconnDrive: highz (1)
+          vpiLibrary RefObj name:work start:41:10 end:41:24:
+            vpiParent: Module name:e_child_coarse
+            vpiName: work
+            vpiFullName: e_parent.e_child_coarse.work
+            vpiActual: Library name:work
+          vpiCell: e_child_coarse
+    Module name:e_after_coarse_timescale file:$Source01/errors.sv start:48:1 end:49:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_after_coarse_timescale start:48:8 end:48:32:
+      vpiFullName: e_after_coarse_timescale
+      vpiDefName: e_after_coarse_timescale
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -6
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:48:8 end:48:32:
+        vpiParent: Module name:e_after_coarse_timescale
+        vpiName: work
+        vpiFullName: e_after_coarse_timescale.work
+        vpiActual: Library name:work
+      vpiCell: e_after_coarse_timescale
+    Module name:e_after_bad_magnitude file:$Source01/errors.sv start:53:1 end:54:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_after_bad_magnitude start:53:8 end:53:29:
+      vpiFullName: e_after_bad_magnitude
+      vpiDefName: e_after_bad_magnitude
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:53:8 end:53:29:
+        vpiParent: Module name:e_after_bad_magnitude
+        vpiName: work
+        vpiFullName: e_after_bad_magnitude.work
+        vpiActual: Library name:work
+      vpiCell: e_after_bad_magnitude
+    Module name:e_timescale_inside file:$Source01/errors_timescale_inside.sv start:5:1 end:5:27:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_timescale_inside start:5:8 end:5:26:
+      vpiFullName: e_timescale_inside
+      vpiDefName: e_timescale_inside
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:5:8 end:5:26:
+        vpiParent: Module name:e_timescale_inside
+        vpiName: work
+        vpiFullName: e_timescale_inside.work
+        vpiActual: Library name:work
+      vpiCell: e_timescale_inside
+    Module name:e_cu_before file:$Source01/errors_cu_late.sv start:6:1 end:7:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_cu_before start:6:8 end:6:19:
+      vpiFullName: e_cu_before
+      vpiDefName: e_cu_before
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:6:8 end:6:19:
+        vpiParent: Module name:e_cu_before
+        vpiName: work
+        vpiFullName: e_cu_before.work
+        vpiActual: Library name:work
+      vpiCell: e_cu_before
+    Module name:e_cu_after file:$Source01/errors_cu_late.sv start:11:1 end:12:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_cu_after start:11:8 end:11:18:
+      vpiFullName: e_cu_after
+      vpiDefName: e_cu_after
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:11:8 end:11:18:
+        vpiParent: Module name:e_cu_after
+        vpiName: work
+        vpiFullName: e_cu_after.work
+        vpiActual: Library name:work
+      vpiCell: e_cu_after
+  vpiTypespec (88 items):
     ModuleTypespec name:m1:
       vpiParent: Design name:unnamed
       vpiName Identifier name:m1 start:1:9 end:1:11:
@@ -214,15 +2108,445 @@ Design name:unnamed:
       vpiName Identifier name:m2 start:15:8 end:15:10:
       vpiDefName: m2
       vpiModule: Module name:m2
+    ModuleTypespec name:t_a:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_a start:7:8 end:7:11:
+      vpiDefName: t_a
+      vpiModule: Module name:t_a
+    ModuleTypespec name:t_b:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_b start:10:8 end:10:11:
+      vpiDefName: t_b
+      vpiModule: Module name:t_b
+    ModuleTypespec name:t_own:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_own start:13:8 end:13:13:
+      vpiDefName: t_own
+      vpiModule: Module name:t_own
+    ModuleTypespec name:t_prec_only:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_prec_only start:17:8 end:17:19:
+      vpiDefName: t_prec_only
+      vpiModule: Module name:t_prec_only
+    ModuleTypespec name:t_unit_only:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_unit_only start:21:8 end:21:19:
+      vpiDefName: t_unit_only
+      vpiModule: Module name:t_unit_only
+    ModuleTypespec name:t_outer:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_outer start:25:8 end:25:15:
+      vpiDefName: t_outer
+      vpiModule: Module name:t_outer
+    ModuleTypespec name:t_outer_none:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_outer_none start:31:8 end:31:20:
+      vpiDefName: t_outer_none
+      vpiModule: Module name:t_outer_none
+    InterfaceTypespec name:t_if:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_if start:36:11 end:36:15:
+      vpiDefName: t_if
+      vpiInterface: Interface name:t_if
+    ProgramTypespec name:t_prog:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_prog start:39:9 end:39:15:
+      vpiDefName: t_prog
+      vpiProgram: Program name:t_prog
+    ModuleTypespec name:t_c:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_c start:47:8 end:47:11:
+      vpiDefName: t_c
+      vpiModule: Module name:t_c
+    ModuleTypespec name:t_spaced:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_spaced start:52:8 end:52:16:
+      vpiDefName: t_spaced
+      vpiModule: Module name:t_spaced
+    ModuleTypespec name:t_after_resetall:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_after_resetall start:57:8 end:57:24:
+      vpiDefName: t_after_resetall
+      vpiModule: Module name:t_after_resetall
+    ModuleTypespec name:t_test:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:t_test start:62:8 end:62:14:
+      vpiDefName: t_test
+      vpiModule: Module name:t_test
+    ModuleTypespec name:d_unit_only:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_unit_only start:6:8 end:6:19:
+      vpiDefName: d_unit_only
+      vpiModule: Module name:d_unit_only
+    ModuleTypespec name:d_unit_slash:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_unit_slash start:10:8 end:10:20:
+      vpiDefName: d_unit_slash
+      vpiModule: Module name:d_unit_slash
+    ModuleTypespec name:d_unit_then_prec:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_unit_then_prec start:14:8 end:14:24:
+      vpiDefName: d_unit_then_prec
+      vpiModule: Module name:d_unit_then_prec
+    ModuleTypespec name:d_prec_then_unit:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_prec_then_unit start:19:8 end:19:24:
+      vpiDefName: d_prec_then_unit
+      vpiModule: Module name:d_prec_then_unit
+    ModuleTypespec name:d_prec_only:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_prec_only start:24:8 end:24:19:
+      vpiDefName: d_prec_only
+      vpiModule: Module name:d_prec_only
+    ModuleTypespec name:d_unit_equals_prec:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_unit_equals_prec start:28:8 end:28:26:
+      vpiDefName: d_unit_equals_prec
+      vpiModule: Module name:d_unit_equals_prec
+    ModuleTypespec name:d_repeat_match:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_repeat_match start:32:8 end:32:22:
+      vpiDefName: d_repeat_match
+      vpiModule: Module name:d_repeat_match
+    ModuleTypespec name:d_none:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_none start:40:8 end:40:14:
+      vpiDefName: d_none
+      vpiModule: Module name:d_none
+    InterfaceTypespec name:d_if:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_if start:43:11 end:43:15:
+      vpiDefName: d_if
+      vpiInterface: Interface name:d_if
+    ProgramTypespec name:d_prog:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:d_prog start:47:9 end:47:15:
+      vpiDefName: d_prog
+      vpiProgram: Program name:d_prog
+    ModuleTypespec name:n_outer:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:n_outer start:6:8 end:6:15:
+      vpiDefName: n_outer
+      vpiModule: Module name:n_outer
+    InterfaceTypespec name:n_inner_if:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:n_inner_if start:31:13 end:31:23:
+      vpiDefName: n_inner_if
+      vpiInterface: Interface name:n_inner_if
+    InterfaceTypespec name:n_outer_if:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:n_outer_if start:35:11 end:35:21:
+      vpiDefName: n_outer_if
+      vpiInterface: Interface name:n_outer_if
+    InterfaceTypespec name:n_nested_if:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:n_nested_if start:38:13 end:38:24:
+      vpiDefName: n_nested_if
+      vpiInterface: Interface name:n_nested_if
+    ModuleTypespec name:n_outer_none:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:n_outer_none start:42:8 end:42:20:
+      vpiDefName: n_outer_none
+      vpiModule: Module name:n_outer_none
+    ModuleTypespec name:c_none:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_none start:10:8 end:10:14:
+      vpiDefName: c_none
+      vpiModule: Module name:c_none
+    ModuleTypespec name:c_unit_only:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_unit_only start:13:8 end:13:19:
+      vpiDefName: c_unit_only
+      vpiModule: Module name:c_unit_only
+    ModuleTypespec name:c_prec_only:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_prec_only start:17:8 end:17:19:
+      vpiDefName: c_prec_only
+      vpiModule: Module name:c_prec_only
+    ModuleTypespec name:c_outer:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_outer start:21:8 end:21:15:
+      vpiDefName: c_outer
+      vpiModule: Module name:c_outer
+    InterfaceTypespec name:c_if:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_if start:27:11 end:27:15:
+      vpiDefName: c_if
+      vpiInterface: Interface name:c_if
+    ProgramTypespec name:c_prog:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_prog start:30:9 end:30:15:
+      vpiDefName: c_prog
+      vpiProgram: Program name:c_prog
+    ModuleTypespec name:c_after_timescale:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_after_timescale start:38:8 end:38:25:
+      vpiDefName: c_after_timescale
+      vpiModule: Module name:c_after_timescale
+    ModuleTypespec name:c_after_resetall:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:c_after_resetall start:43:8 end:43:24:
+      vpiDefName: c_after_resetall
+      vpiModule: Module name:c_after_resetall
+    ModuleTypespec name:u_unit_1s:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_1s start:7:8 end:7:17:
+      vpiDefName: u_unit_1s
+      vpiModule: Module name:u_unit_1s
+    ModuleTypespec name:u_unit_10s:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_10s start:10:8 end:10:18:
+      vpiDefName: u_unit_10s
+      vpiModule: Module name:u_unit_10s
+    ModuleTypespec name:u_unit_100s:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_100s start:13:8 end:13:19:
+      vpiDefName: u_unit_100s
+      vpiModule: Module name:u_unit_100s
+    ModuleTypespec name:u_unit_1ms:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_1ms start:16:8 end:16:18:
+      vpiDefName: u_unit_1ms
+      vpiModule: Module name:u_unit_1ms
+    ModuleTypespec name:u_unit_10ms:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_10ms start:19:8 end:19:19:
+      vpiDefName: u_unit_10ms
+      vpiModule: Module name:u_unit_10ms
+    ModuleTypespec name:u_unit_100ms:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_100ms start:22:8 end:22:20:
+      vpiDefName: u_unit_100ms
+      vpiModule: Module name:u_unit_100ms
+    ModuleTypespec name:u_unit_1us:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_1us start:25:8 end:25:18:
+      vpiDefName: u_unit_1us
+      vpiModule: Module name:u_unit_1us
+    ModuleTypespec name:u_unit_10us:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_10us start:28:8 end:28:19:
+      vpiDefName: u_unit_10us
+      vpiModule: Module name:u_unit_10us
+    ModuleTypespec name:u_unit_100us:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_100us start:31:8 end:31:20:
+      vpiDefName: u_unit_100us
+      vpiModule: Module name:u_unit_100us
+    ModuleTypespec name:u_unit_1ns:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_1ns start:34:8 end:34:18:
+      vpiDefName: u_unit_1ns
+      vpiModule: Module name:u_unit_1ns
+    ModuleTypespec name:u_unit_10ns:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_10ns start:37:8 end:37:19:
+      vpiDefName: u_unit_10ns
+      vpiModule: Module name:u_unit_10ns
+    ModuleTypespec name:u_unit_100ns:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_100ns start:40:8 end:40:20:
+      vpiDefName: u_unit_100ns
+      vpiModule: Module name:u_unit_100ns
+    ModuleTypespec name:u_unit_1ps:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_1ps start:43:8 end:43:18:
+      vpiDefName: u_unit_1ps
+      vpiModule: Module name:u_unit_1ps
+    ModuleTypespec name:u_unit_10ps:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_10ps start:46:8 end:46:19:
+      vpiDefName: u_unit_10ps
+      vpiModule: Module name:u_unit_10ps
+    ModuleTypespec name:u_unit_100ps:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_100ps start:49:8 end:49:20:
+      vpiDefName: u_unit_100ps
+      vpiModule: Module name:u_unit_100ps
+    ModuleTypespec name:u_unit_1fs:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_1fs start:52:8 end:52:18:
+      vpiDefName: u_unit_1fs
+      vpiModule: Module name:u_unit_1fs
+    ModuleTypespec name:u_unit_10fs:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_10fs start:55:8 end:55:19:
+      vpiDefName: u_unit_10fs
+      vpiModule: Module name:u_unit_10fs
+    ModuleTypespec name:u_unit_100fs:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_unit_100fs start:58:8 end:58:20:
+      vpiDefName: u_unit_100fs
+      vpiModule: Module name:u_unit_100fs
+    ModuleTypespec name:u_prec_1s:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_1s start:63:8 end:63:17:
+      vpiDefName: u_prec_1s
+      vpiModule: Module name:u_prec_1s
+    ModuleTypespec name:u_prec_10s:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_10s start:66:8 end:66:18:
+      vpiDefName: u_prec_10s
+      vpiModule: Module name:u_prec_10s
+    ModuleTypespec name:u_prec_100s:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_100s start:69:8 end:69:19:
+      vpiDefName: u_prec_100s
+      vpiModule: Module name:u_prec_100s
+    ModuleTypespec name:u_prec_1ms:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_1ms start:72:8 end:72:18:
+      vpiDefName: u_prec_1ms
+      vpiModule: Module name:u_prec_1ms
+    ModuleTypespec name:u_prec_10ms:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_10ms start:75:8 end:75:19:
+      vpiDefName: u_prec_10ms
+      vpiModule: Module name:u_prec_10ms
+    ModuleTypespec name:u_prec_100ms:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_100ms start:78:8 end:78:20:
+      vpiDefName: u_prec_100ms
+      vpiModule: Module name:u_prec_100ms
+    ModuleTypespec name:u_prec_1us:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_1us start:81:8 end:81:18:
+      vpiDefName: u_prec_1us
+      vpiModule: Module name:u_prec_1us
+    ModuleTypespec name:u_prec_10us:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_10us start:84:8 end:84:19:
+      vpiDefName: u_prec_10us
+      vpiModule: Module name:u_prec_10us
+    ModuleTypespec name:u_prec_100us:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_100us start:87:8 end:87:20:
+      vpiDefName: u_prec_100us
+      vpiModule: Module name:u_prec_100us
+    ModuleTypespec name:u_prec_1ns:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_1ns start:90:8 end:90:18:
+      vpiDefName: u_prec_1ns
+      vpiModule: Module name:u_prec_1ns
+    ModuleTypespec name:u_prec_10ns:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_10ns start:93:8 end:93:19:
+      vpiDefName: u_prec_10ns
+      vpiModule: Module name:u_prec_10ns
+    ModuleTypespec name:u_prec_100ns:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_100ns start:96:8 end:96:20:
+      vpiDefName: u_prec_100ns
+      vpiModule: Module name:u_prec_100ns
+    ModuleTypespec name:u_prec_1ps:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_1ps start:99:8 end:99:18:
+      vpiDefName: u_prec_1ps
+      vpiModule: Module name:u_prec_1ps
+    ModuleTypespec name:u_prec_10ps:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_10ps start:102:8 end:102:19:
+      vpiDefName: u_prec_10ps
+      vpiModule: Module name:u_prec_10ps
+    ModuleTypespec name:u_prec_100ps:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_100ps start:105:8 end:105:20:
+      vpiDefName: u_prec_100ps
+      vpiModule: Module name:u_prec_100ps
+    ModuleTypespec name:u_prec_1fs:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_1fs start:108:8 end:108:18:
+      vpiDefName: u_prec_1fs
+      vpiModule: Module name:u_prec_1fs
+    ModuleTypespec name:u_prec_10fs:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_10fs start:111:8 end:111:19:
+      vpiDefName: u_prec_10fs
+      vpiModule: Module name:u_prec_10fs
+    ModuleTypespec name:u_prec_100fs:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:u_prec_100fs start:114:8 end:114:20:
+      vpiDefName: u_prec_100fs
+      vpiModule: Module name:u_prec_100fs
+    ModuleTypespec name:e_coarse_decl:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_coarse_decl start:4:8 end:4:21:
+      vpiDefName: e_coarse_decl
+      vpiModule: Module name:e_coarse_decl
+    ModuleTypespec name:e_repeat_mismatch:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_repeat_mismatch start:8:8 end:8:25:
+      vpiDefName: e_repeat_mismatch
+      vpiModule: Module name:e_repeat_mismatch
+    ModuleTypespec name:e_not_first:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_not_first start:14:8 end:14:19:
+      vpiDefName: e_not_first
+      vpiModule: Module name:e_not_first
+    ModuleTypespec name:e_step:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_step start:19:8 end:19:14:
+      vpiDefName: e_step
+      vpiModule: Module name:e_step
+    ModuleTypespec name:e_bad_magnitude:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_bad_magnitude start:23:8 end:23:23:
+      vpiDefName: e_bad_magnitude
+      vpiModule: Module name:e_bad_magnitude
+    ModuleTypespec name:e_fixed_point:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_fixed_point start:27:8 end:27:21:
+      vpiDefName: e_fixed_point
+      vpiModule: Module name:e_fixed_point
+    ModuleTypespec name:e_space_unit:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_space_unit start:31:8 end:31:20:
+      vpiDefName: e_space_unit
+      vpiModule: Module name:e_space_unit
+    ModuleTypespec name:e_space_precision:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_space_precision start:35:8 end:35:25:
+      vpiDefName: e_space_precision
+      vpiModule: Module name:e_space_precision
+    ModuleTypespec name:e_parent:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_parent start:39:8 end:39:16:
+      vpiDefName: e_parent
+      vpiModule: Module name:e_parent
+    ModuleTypespec name:e_after_coarse_timescale:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_after_coarse_timescale start:48:8 end:48:32:
+      vpiDefName: e_after_coarse_timescale
+      vpiModule: Module name:e_after_coarse_timescale
+    ModuleTypespec name:e_after_bad_magnitude:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_after_bad_magnitude start:53:8 end:53:29:
+      vpiDefName: e_after_bad_magnitude
+      vpiModule: Module name:e_after_bad_magnitude
+    ModuleTypespec name:e_timescale_inside:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_timescale_inside start:5:8 end:5:26:
+      vpiDefName: e_timescale_inside
+      vpiModule: Module name:e_timescale_inside
+    ModuleTypespec name:e_cu_before:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_cu_before start:6:8 end:6:19:
+      vpiDefName: e_cu_before
+      vpiModule: Module name:e_cu_before
+    ModuleTypespec name:e_cu_after:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:e_cu_after start:11:8 end:11:18:
+      vpiDefName: e_cu_after
+      vpiModule: Module name:e_cu_after
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
       vpiName: work
 ===================
 [  FATAL] : 0
-[ SYNTAX] : 0
-[  ERROR] : 0
-[WARNING] : 1
+[ SYNTAX] : 2
+[  ERROR] : 5
+[WARNING] : 22
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -237,25 +2561,49 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Timescale/Timescale/mounts.json
 
 
-{'result': {'coverage': 79.55,
+{'result': {'coverage': 84.97,
             'error_count': 0,
-            'file_count': 1,
-            'files': {'$Output/lib/work/dut.sv': {'post_len': 45,
-                                                  'pre_len': 220}},
-            'post_len': 45,
-            'pre_len': 220,
+            'file_count': 9,
+            'files': {'$Output/lib/work/cu_timeunit.sv': {'post_len': 41,
+                                                          'pre_len': 384},
+                      '$Output/lib/work/decl.sv': {'post_len': 81,
+                                                   'pre_len': 590},
+                      '$Output/lib/work/dut.sv': {'post_len': 40,
+                                                  'pre_len': 215},
+                      '$Output/lib/work/errors.sv': {'post_len': 81,
+                                                     'pre_len': 598},
+                      '$Output/lib/work/errors_cu_late.sv': {'post_len': 3,
+                                                             'pre_len': 68},
+                      '$Output/lib/work/errors_timescale_inside.sv': {'post_len': 18,
+                                                                      'pre_len': 55},
+                      '$Output/lib/work/nested.sv': {'post_len': 36,
+                                                     'pre_len': 467},
+                      '$Output/lib/work/timescale.sv': {'post_len': 104,
+                                                        'pre_len': 574},
+                      '$Output/lib/work/units.sv': {'post_len': 300,
+                                                    'pre_len': 1734}},
+            'post_len': 704,
+            'pre_len': 4685,
             'test_name': 'Timescale/Timescale'}}
 
-+-------------------------+----------+-----------+
-| INPUT                   |   PRELEN |   POSTLEN |
-+=========================+==========+===========+
-| $Output/lib/work/dut.sv |      220 |        45 |
-+=========================+==========+===========+
-|                         |      220 |        45 |
-+-------------------------+----------+-----------+
++---------------------------------------------+----------+-----------+
+| INPUT                                       |   PRELEN |   POSTLEN |
++=============================================+==========+===========+
+| $Output/lib/work/dut.sv                     |      215 |        40 |
+| $Output/lib/work/timescale.sv               |      574 |       104 |
+| $Output/lib/work/decl.sv                    |      590 |        81 |
+| $Output/lib/work/nested.sv                  |      467 |        36 |
+| $Output/lib/work/cu_timeunit.sv             |      384 |        41 |
+| $Output/lib/work/units.sv                   |     1734 |       300 |
+| $Output/lib/work/errors.sv                  |      598 |        81 |
+| $Output/lib/work/errors_timescale_inside.sv |       55 |        18 |
+| $Output/lib/work/errors_cu_late.sv          |       68 |         3 |
++=============================================+==========+===========+
+|                                             |     4685 |       704 |
++---------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 79.55
+[COVERAGE] : 84.97
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -266,7 +2614,7 @@ COMMAND: ${HLC_DIR}/regression/Timescale/Timescale/design.hldb ${HLC_DIR}/regres
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              48      48       0         0
+Others                             574     574       0         0
 ----------------------------------------------------------------
-                                    48      48       0         0
+                                   574     574       0         0
 ===================== END REDUCTION RESULT =====================

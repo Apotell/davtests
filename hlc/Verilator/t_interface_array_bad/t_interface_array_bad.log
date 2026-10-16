@@ -285,7 +285,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_interface_array_bad.v:45:1: Compile module "baz".
 [WRN:CP5851] $Source01/t_interface_array_bad.v:7:4: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_array_bad.v:19:4: Failed to bind "logic".
-[WRN:CP5851] $Source01/t_interface_array_bad.v:22:21: Failed to bind "a".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -303,14 +302,15 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:a start:7:10 end:7:11:
           vpiParent: Interface name:foo_intf
+          vpiName: a
+          vpiFullName: foo_intf.a
           vpiTypespec RefTypespec name:logic start:7:4 end:7:9:
             vpiParent: Variable name:a
             vpiName: logic
             vpiFullName: foo_intf.a.logic
-          vpiName: a
-          vpiFullName: foo_intf.a
       vpiDefName: foo_intf
       vpiDefNetType: wire (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:6:11 end:6:19:
         vpiParent: Interface name:foo_intf
         vpiName: work
@@ -325,23 +325,23 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:bar start:19:20 end:19:23:
           vpiParent: Module name:t
+          vpiName: bar
+          vpiFullName: t.bar
           vpiTypespec RefTypespec name:logic [7:0] start:19:4 end:19:19:
             vpiParent: Variable name:bar
             vpiName: logic [7:0]
             vpiFullName: t.bar.logic [7:0]
             vpiActual: ArrayTypespec
-          vpiName: bar
-          vpiFullName: t.bar
       vpiParameter (1 items):
         Parameter name:N start:16:15 end:16:16:
           vpiParent: Module name:t
+          vpiName: N
+          vpiFullName: t.N
+          vpiLocalParam: true
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:N
             vpiFullName: t.N
             vpiActual: LogicTypespec
-          vpiName: N
-          vpiFullName: t.N
-          vpiLocalParam: true
       vpiParamAssign (1 items):
         ParamAssign start:16:15 end:16:20:
           vpiParent: Module name:t
@@ -352,14 +352,14 @@ Design name:unnamed:
             vpiActual: Parameter name:N
           vpiRhs Constant start:16:19 end:16:20:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "4"
             vpiValue: 4
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t
+              vpiActual: IntTypespec
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -380,24 +380,24 @@ Design name:unnamed:
                   vpiActual: Parameter name:N
                 Constant start:18:21 end:18:22:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: t
+                    vpiActual: IntTypespec
             vpiRightRange Constant start:18:23 end:18:24:
               vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t
-                vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: t
+                vpiActual: IntTypespec
           vpiElemTypespec RefTypespec name:foo_intf start:18:4 end:18:12:
             vpiParent: ArrayTypespec
             vpiName: foo_intf
@@ -411,24 +411,24 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiLeftRange Constant start:19:12 end:19:13:
               vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t
-                vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "7"
               vpiValue: 7
-            vpiRightRange Constant start:19:16 end:19:17:
-              vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
                 vpiFullName: t
                 vpiActual: IntTypespec
+            vpiRightRange Constant start:19:16 end:19:17:
+              vpiParent: Range
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: t
+                vpiActual: IntTypespec
           vpiElemTypespec RefTypespec name:logic start:19:4 end:19:9:
             vpiParent: ArrayTypespec
             vpiName: logic
@@ -442,13 +442,14 @@ Design name:unnamed:
           vpiModule: Module name:baz
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:14:8 end:14:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:38:4 end:41:7:
           vpiParent: Module name:t
@@ -464,14 +465,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:39:14 end:39:38:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 168
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
                       vpiValue: "*-* All Finished *-*\\n"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
               SysTaskCall name:$finish start:40:7 end:40:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:40:7 end:40:14:
@@ -502,16 +503,18 @@ Design name:unnamed:
                 vpiParent: RefObj name:foos[bar].a
                 vpiName: a
                 vpiFullName: t.a
+                vpiActual: Variable name:a
+            vpiActual: Variable name:a
           vpiRhs Constant start:22:25 end:22:29:
             vpiParent: ContAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t
-              vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b1"
             vpiValue: "1"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t
+              vpiActual: BitTypespec
       vpiSysTaskCall (2 items):
         SysTaskCall name:$write:
         SysTaskCall name:$finish:
@@ -547,13 +550,13 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:the_lp start:52:15 end:52:21:
           vpiParent: Module name:baz
+          vpiName: the_lp
+          vpiFullName: baz.the_lp
+          vpiLocalParam: true
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:the_lp
             vpiFullName: baz.the_lp
             vpiActual: LogicTypespec
-          vpiName: the_lp
-          vpiFullName: baz.the_lp
-          vpiLocalParam: true
       vpiParamAssign (1 items):
         ParamAssign start:52:15 end:52:25:
           vpiParent: Module name:baz
@@ -564,14 +567,14 @@ Design name:unnamed:
             vpiActual: Parameter name:the_lp
           vpiRhs Constant start:52:24 end:52:25:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: baz
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "5"
             vpiValue: 5
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: baz
+              vpiActual: IntTypespec
       vpiTypespec (3 items):
         IntegerTypespec:
           vpiParent: Module name:baz
@@ -585,18 +588,28 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: baz
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:45:8 end:45:11:
         vpiParent: Module name:baz
         vpiName: work
         vpiFullName: baz.work
         vpiActual: Library name:work
       vpiCell: baz
-      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:the_func start:48:4 end:50:15:
           vpiParent: Module name:baz
           vpiName Identifier name:the_func start:48:21 end:48:29:
           vpiFullName: baz.the_func
+          vpiVariable (1 items):
+            Variable name:val start:48:45 end:48:48:
+              vpiParent: Function name:the_func
+              vpiName: val
+              vpiFullName: baz.the_func.val
+              vpiTypespec RefTypespec start:48:37 end:48:44:
+                vpiParent: Variable name:val
+                vpiFullName: baz.the_func.val
+                vpiActual: IntegerTypespec
           vpiTypespec (1 items):
             IntegerTypespec:
               vpiParent: Function name:the_func
@@ -617,7 +630,7 @@ Design name:unnamed:
               vpiParent: ReturnStmt
               vpiName: val
               vpiFullName: baz.the_func.val
-              vpiActual: IODecl name:val
+              vpiActual: Variable name:val
           vpiReturn RefTypespec start:48:13 end:48:20:
             vpiParent: Function name:the_func
             vpiFullName: baz.the_func
@@ -648,6 +661,15 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:the_other_func start:10:18 end:10:32:
       vpiFullName: the_other_func
+      vpiVariable (1 items):
+        Variable name:val start:10:48 end:10:51:
+          vpiParent: Function name:the_other_func
+          vpiName: val
+          vpiFullName: the_other_func.val
+          vpiTypespec RefTypespec start:10:40 end:10:47:
+            vpiParent: Variable name:val
+            vpiFullName: the_other_func.val
+            vpiActual: IntegerTypespec
       vpiTypespec (1 items):
         IntegerTypespec:
           vpiParent: Function name:the_other_func
@@ -668,7 +690,7 @@ Design name:unnamed:
           vpiParent: ReturnStmt
           vpiName: val
           vpiFullName: the_other_func.val
-          vpiActual: IODecl name:val
+          vpiActual: Variable name:val
       vpiReturn RefTypespec start:10:10 end:10:17:
         vpiParent: Function name:the_other_func
         vpiFullName: the_other_func
@@ -681,7 +703,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -727,9 +749,9 @@ Name                            Before   After   Added   Removed
 Constant                             8       8       1         1
 Operation                            1       0       0         1
 RefObj                              12      11       0         1
-RefTypespec                         21      21       1         1
+RefTypespec                         23      23       1         1
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              61      61       0         0
 ----------------------------------------------------------------
-                                   101      99       2         4
+                                   105     103       2         4
 ===================== END REDUCTION RESULT =====================

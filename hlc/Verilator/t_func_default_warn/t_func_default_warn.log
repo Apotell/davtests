@@ -150,6 +150,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_func_default_warn.v:16:1: Compile module "t".
 [WRN:CP5851] $Source01/t_func_default_warn.v:7:10: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_func_default_warn.v:11:10: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_func_default_warn.v:11:10: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_func_default_warn.v:17:4: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -168,21 +169,22 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:foo_val start:17:10 end:17:17:
           vpiParent: Module name:t
+          vpiName: foo_val
+          vpiFullName: t.foo_val
           vpiTypespec RefTypespec name:logic start:17:4 end:17:9:
             vpiParent: Variable name:foo_val
             vpiName: logic
             vpiFullName: t.foo_val.logic
-          vpiName: foo_val
-          vpiFullName: t.foo_val
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:16:8 end:16:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:19:4 end:25:7:
           vpiParent: Module name:t
@@ -218,14 +220,14 @@ Design name:unnamed:
                       vpiActual: Variable name:foo_val
                     Constant start:21:22 end:21:26:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b0"
                       vpiValue: "0"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: BitTypespec
                 vpiStmt SysTaskCall name:$stop start:21:28 end:21:33:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:21:28 end:21:33:
@@ -238,14 +240,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:23:14 end:23:38:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 168
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
                       vpiValue: "*-* All Finished *-*\\n"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
               SysTaskCall name:$finish start:24:7 end:24:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:24:7 end:24:14:
@@ -270,6 +272,15 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:7:16 end:7:19:
       vpiFullName: foo
+      vpiVariable (1 items):
+        Variable name:x start:11:16 end:11:17:
+          vpiParent: Function name:foo
+          vpiName: x
+          vpiFullName: foo.x
+          vpiTypespec RefTypespec name:logic start:11:10 end:11:15:
+            vpiParent: Variable name:x
+            vpiName: logic
+            vpiFullName: foo.x.logic
       vpiVisibility: public (1)
       vpiIODecl (1 items):
         IODecl name:x start:11:16 end:11:17:
@@ -278,14 +289,14 @@ Design name:unnamed:
           vpiDirection: input (1)
           vpiExpr Constant start:11:20 end:11:21:
             vpiParent: IODecl name:x
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: foo.x
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: foo.x
+              vpiActual: IntTypespec
           vpiTypespec RefTypespec name:logic start:11:10 end:11:15:
             vpiParent: IODecl name:x
             vpiName: logic
@@ -296,7 +307,7 @@ Design name:unnamed:
           vpiParent: ReturnStmt
           vpiName: x
           vpiFullName: foo.x
-          vpiActual: IODecl name:x
+          vpiActual: Variable name:x
       vpiReturn RefTypespec name:logic start:7:10 end:7:15:
         vpiParent: Function name:foo
         vpiName: logic
@@ -309,7 +320,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 3
+[WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -353,7 +364,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_default_warn/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              45      45       0         0
 ----------------------------------------------------------------
-                                    43      43       0         0
+                                    45      45       0         0
 ===================== END REDUCTION RESULT =====================

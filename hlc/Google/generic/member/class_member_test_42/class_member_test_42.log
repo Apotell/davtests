@@ -58,6 +58,7 @@ n<$Source01/class_member_test_42.sv> u<44> t<Top_level_rule> c<1> l<6:1> el<10:9
             n<> u<38> t<ENDCLASS> p<39> l<10:1> el<10:9>
 AST_DEBUG_END
 [WRN:CP5851] $Source01/class_member_test_42.sv:7:36: Failed to bind "time_if".
+[WRN:CP5851] $Source01/class_member_test_42.sv:7:36: Failed to bind "time_if".
 [WRN:CP5851] $Source01/class_member_test_42.sv:8:8: Failed to bind "name".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -93,6 +94,23 @@ Design name:unnamed:
           vpiParent: ClassDefn name:constructible
           vpiName Identifier name:new:
           vpiFullName: constructible::new
+          vpiVariable (2 items):
+            Variable name:name start:7:22 end:7:26:
+              vpiParent: Function name:new
+              vpiName: name
+              vpiFullName: constructible::new::name
+              vpiTypespec RefTypespec start:7:15 end:7:21:
+                vpiParent: Variable name:name
+                vpiFullName: constructible::new::name
+                vpiActual: StringTypespec
+            Variable name:vif start:7:44 end:7:47:
+              vpiParent: Function name:new
+              vpiName: vif
+              vpiFullName: constructible::new::vif
+              vpiTypespec RefTypespec name:time_if start:7:36 end:7:43:
+                vpiParent: Variable name:vif
+                vpiName: time_if
+                vpiFullName: constructible::new::vif::time_if
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -134,7 +152,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: name
               vpiFullName: constructible::new::name
-              vpiActual: IODecl name:name
+              vpiActual: Variable name:name
           vpiReturn RefTypespec name:constructible:
             vpiParent: Function name:new
             vpiName: constructible
@@ -156,7 +174,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 2
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -200,7 +218,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_42/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              24      24       0         0
+Others                              28      28       0         0
 ----------------------------------------------------------------
-                                    24      24       0         0
+                                    28      28       0         0
 ===================== END REDUCTION RESULT =====================

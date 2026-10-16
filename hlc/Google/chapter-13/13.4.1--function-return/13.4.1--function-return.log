@@ -125,18 +125,36 @@ Design name:unnamed:
       vpiFullName: top
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:16:8 end:16:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
-      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:add start:18:1 end:20:12:
           vpiParent: Module name:top
           vpiName Identifier name:add start:18:14 end:18:17:
           vpiFullName: top.add
+          vpiVariable (2 items):
+            Variable name:a start:18:22 end:18:23:
+              vpiParent: Function name:add
+              vpiName: a
+              vpiFullName: top.add.a
+              vpiTypespec RefTypespec start:18:18 end:18:21:
+                vpiParent: Variable name:a
+                vpiFullName: top.add.a
+                vpiActual: IntTypespec
+            Variable name:b start:18:29 end:18:30:
+              vpiParent: Function name:add
+              vpiName: b
+              vpiFullName: top.add.b
+              vpiTypespec RefTypespec start:18:25 end:18:28:
+                vpiParent: Variable name:b
+                vpiFullName: top.add.b
+                vpiActual: IntTypespec
           vpiVisibility: public (1)
           vpiIODecl (2 items):
             IODecl name:a start:18:22 end:18:23:
@@ -165,12 +183,12 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: top.add.a
-                  vpiActual: IODecl name:a
+                  vpiActual: Variable name:a
                 RefObj name:b start:19:13 end:19:14:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: top.add.b
-                  vpiActual: IODecl name:b
+                  vpiActual: Variable name:b
           vpiReturn RefTypespec start:18:10 end:18:13:
             vpiParent: Function name:add
             vpiFullName: top.add
@@ -186,14 +204,14 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$display
                 vpiHighConn Constant start:23:11 end:23:32:
                   vpiParent: NamedArgument
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: top
-                    vpiActual: StringTypespec
                   vpiConstType: string (6)
                   vpiSize: 152
                   vpiDecompile: "\":assert: (%d == 90)\""
                   vpiValue: ":assert: (%d == 90)"
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top
+                    vpiActual: StringTypespec
               NamedArgument start:23:34 end:23:45:
                 vpiParent: SysTaskCall name:$display
                 vpiHighConn MethodFuncCall name:add start:23:34 end:23:45:
@@ -205,26 +223,26 @@ Design name:unnamed:
                       vpiParent: MethodFuncCall name:add
                       vpiHighConn Constant start:23:38 end:23:40:
                         vpiParent: NamedArgument
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: top
-                          vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
                         vpiDecompile: "30"
                         vpiValue: 30
-                    NamedArgument start:23:42 end:23:44:
-                      vpiParent: MethodFuncCall name:add
-                      vpiHighConn Constant start:23:42 end:23:44:
-                        vpiParent: NamedArgument
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
                           vpiFullName: top
                           vpiActual: IntTypespec
+                    NamedArgument start:23:42 end:23:44:
+                      vpiParent: MethodFuncCall name:add
+                      vpiHighConn Constant start:23:42 end:23:44:
+                        vpiParent: NamedArgument
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
                         vpiDecompile: "60"
                         vpiValue: 60
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: top
+                          vpiActual: IntTypespec
       vpiSysTaskCall (1 items):
         SysTaskCall name:$display:
   vpiTypespec (3 items):
@@ -290,7 +308,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-13/13.4.1--function-return/design.
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              41      41       0         0
 ----------------------------------------------------------------
-                                    37      37       0         0
+                                    41      41       0         0
 ===================== END REDUCTION RESULT =====================

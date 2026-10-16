@@ -229,6 +229,16 @@ Design name:unnamed:
               vpiParent: ClassDefn name:tt
               vpiName Identifier name:reg2bus start:10:36 end:10:43:
               vpiFullName: pkg::tt::reg2bus
+              vpiVariable (1 items):
+                Variable name:rw start:10:69 end:10:71:
+                  vpiParent: Function name:reg2bus
+                  vpiName: rw
+                  vpiFullName: pkg::tt::reg2bus::rw
+                  vpiTypespec RefTypespec name:uvm_reg_bus_op start:10:54 end:10:68:
+                    vpiParent: Variable name:rw
+                    vpiName: uvm_reg_bus_op
+                    vpiFullName: pkg::tt::reg2bus::rw::uvm_reg_bus_op
+                    vpiActual: TypedefTypespec name:uvm_reg_bus_op
               vpiMethod: true
               vpiVisibility: public (1)
               vpiVirtual: true
@@ -253,12 +263,12 @@ Design name:unnamed:
                     vpiVariable (1 items):
                       Variable name:i start:12:10 end:12:11:
                         vpiParent: ForStmt
+                        vpiName: i
+                        vpiFullName: pkg::tt::reg2bus::i
                         vpiTypespec RefTypespec start:12:6 end:12:9:
                           vpiParent: Variable name:i
                           vpiFullName: pkg::tt::reg2bus::i
                           vpiActual: IntTypespec
-                        vpiName: i
-                        vpiFullName: pkg::tt::reg2bus::i
                     vpiForInitStmt (1 items):
                       Assignment start:12:10 end:12:15:
                         vpiParent: ForStmt
@@ -269,14 +279,14 @@ Design name:unnamed:
                           vpiActual: Variable name:i
                         vpiRhs Constant start:12:14 end:12:15:
                           vpiParent: Assignment
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: pkg::tt::reg2bus
-                            vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
                           vpiDecompile: "0"
                           vpiValue: 0
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: pkg::tt::reg2bus
+                            vpiActual: IntTypespec
                     vpiForIncStmt (1 items):
                       Operation start:12:29 end:12:32:
                         vpiParent: ForStmt
@@ -316,7 +326,7 @@ Design name:unnamed:
                                 vpiParent: RefObj name:rw.data[i]
                                 vpiName: rw
                                 vpiFullName: pkg::tt::reg2bus::rw
-                                vpiActual: IODecl name:rw
+                                vpiActual: Variable name:rw
                               BitSelect name:data[i] start:13:7 end:13:13:
                                 vpiParent: RefObj name:rw.data[i]
                                 vpiName: data[i]
@@ -341,8 +351,8 @@ Design name:unnamed:
                                 vpiParent: RefObj name:rw.data[i*8+:8]
                                 vpiName: rw
                                 vpiFullName: pkg::tt::reg2bus::rw
-                                vpiActual: IODecl name:rw
-                              IndexedPartSelect name:data[i*8+:8] start:13:20 end:13:31:
+                                vpiActual: Variable name:rw
+                              IndexedPartSelect name:data[i*8+:8] start:13:20 end:13:32:
                                 vpiParent: RefObj name:rw.data[i*8+:8]
                                 vpiName: data[i*8+:8]
                                 vpiFullName: pkg::tt::reg2bus::rw.data[i*8+:8]::data[i*8+:8]
@@ -351,36 +361,38 @@ Design name:unnamed:
                                   vpiName: data
                                   vpiFullName: pkg::tt::reg2bus::rw.data[i*8+:8]::data
                                   vpiActual: TypespecMember name:data
-                                vpiIndexedPartSelectType: pos indexed (1)
-                                vpiBaseExpr Operation start:13:25 end:13:28:
+                                vpiRange IndexedRange start:13:25 end:13:31:
                                   vpiParent: IndexedPartSelect name:data[i*8+:8]
-                                  vpiOpType: multiply (25)
-                                  vpiOperand (2 items):
-                                    RefObj name:i start:13:25 end:13:26:
-                                      vpiParent: Operation
-                                      vpiName: i
-                                      vpiFullName: pkg::tt::reg2bus::rw.data[i*8+:8]::data[i*8+:8]::i
-                                      vpiActual: Variable name:i
-                                    Constant start:13:27 end:13:28:
-                                      vpiParent: Operation
-                                      vpiTypespec RefTypespec:
-                                        vpiParent: Constant
-                                        vpiFullName: pkg::tt::reg2bus::rw.data[i*8+:8]::data[i*8+:8]
-                                        vpiActual: IntTypespec
-                                      vpiConstType: unsigned int (9)
-                                      vpiSize: 64
-                                      vpiDecompile: "8"
-                                      vpiValue: 8
-                                vpiWidthExpr Constant start:13:30 end:13:31:
-                                  vpiParent: IndexedPartSelect name:data[i*8+:8]
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: pkg::tt::reg2bus::rw.data[i*8+:8]::data[i*8+:8]
-                                    vpiActual: IntTypespec
-                                  vpiConstType: unsigned int (9)
-                                  vpiSize: 64
-                                  vpiDecompile: "8"
-                                  vpiValue: 8
+                                  vpiIndexedPartSelectType: pos indexed (1)
+                                  vpiBaseExpr Operation start:13:25 end:13:28:
+                                    vpiParent: IndexedRange
+                                    vpiOpType: multiply (25)
+                                    vpiOperand (2 items):
+                                      RefObj name:i start:13:25 end:13:26:
+                                        vpiParent: Operation
+                                        vpiName: i
+                                        vpiFullName: pkg::tt::reg2bus::rw.data[i*8+:8]::data[i*8+:8]::i
+                                        vpiActual: Variable name:i
+                                      Constant start:13:27 end:13:28:
+                                        vpiParent: Operation
+                                        vpiConstType: unsigned int (9)
+                                        vpiSize: 64
+                                        vpiDecompile: "8"
+                                        vpiValue: 8
+                                        vpiTypespec RefTypespec:
+                                          vpiParent: Constant
+                                          vpiFullName: pkg::tt::reg2bus::rw.data[i*8+:8]::data[i*8+:8]
+                                          vpiActual: IntTypespec
+                                  vpiWidthExpr Constant start:13:30 end:13:31:
+                                    vpiParent: IndexedRange
+                                    vpiConstType: unsigned int (9)
+                                    vpiSize: 64
+                                    vpiDecompile: "8"
+                                    vpiValue: 8
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: pkg::tt::reg2bus::rw.data[i*8+:8]::data[i*8+:8]
+                                      vpiActual: IntTypespec
                             vpiActual: IndexedPartSelect name:data[i*8+:8]
                   ReturnStmt start:17:1 end:17:11:
                     vpiParent: Begin
@@ -448,7 +460,7 @@ COMMAND: ${HLC_DIR}/regression/IndexPartSelectBind/IndexPartSelectBind/design.hl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              59      59       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                    59      59       0         0
+                                    62      62       0         0
 ===================== END REDUCTION RESULT =====================

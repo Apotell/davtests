@@ -526,31 +526,32 @@ Design name:unnamed:
       vpiVariable (3 items):
         Variable name:r start:19:9 end:19:10:
           vpiParent: Module name:lvl2
+          vpiName: r
+          vpiFullName: lvl2.r
           vpiTypespec RefTypespec start:19:5 end:19:8:
             vpiParent: Variable name:r
             vpiFullName: lvl2.r
             vpiActual: LogicTypespec
-          vpiName: r
-          vpiFullName: lvl2.r
         Variable name:t start:20:10 end:20:11:
           vpiParent: Module name:lvl2
+          vpiName: t
+          vpiFullName: lvl2.t
           vpiTypespec RefTypespec start:20:5 end:20:9:
             vpiParent: Variable name:t
             vpiFullName: lvl2.t
             vpiActual: TimeTypespec
-          vpiName: t
-          vpiFullName: lvl2.t
         Variable name:i start:22:13 end:22:14:
           vpiParent: Module name:lvl2
+          vpiName: i
+          vpiFullName: lvl2.i
           vpiTypespec RefTypespec start:22:5 end:22:12:
             vpiParent: Variable name:i
             vpiFullName: lvl2.i
             vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: lvl2.i
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:lvl2
+          vpiScalar: true
         EventTypespec name:e start:21:11 end:21:12:
           vpiParent: Module name:lvl2
           vpiName: e
@@ -560,13 +561,14 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: lvl2
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:18:8 end:18:12:
         vpiParent: Module name:lvl2
         vpiName: work
         vpiFullName: lvl2.work
         vpiActual: Library name:work
       vpiCell: lvl2
-      vpiAutomatic: true
       vpiTaskFunc (2 items):
         Task name:t_my start:24:5 end:26:12:
           vpiParent: Module name:lvl2
@@ -585,14 +587,14 @@ Design name:unnamed:
               vpiActual: Variable name:r
             vpiRhs Constant start:25:6 end:25:10:
               vpiParent: Assignment
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: lvl2.t_my
-                vpiActual: BitTypespec
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "1'b0"
               vpiValue: "0"
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: lvl2.t_my
+                vpiActual: BitTypespec
         Function name:f_my start:28:5 end:33:16:
           vpiParent: Module name:lvl2
           vpiName Identifier name:f_my start:28:14 end:28:18:
@@ -600,12 +602,19 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:in start:29:8 end:29:10:
               vpiParent: Function name:f_my
+              vpiName: in
+              vpiFullName: lvl2.f_my.in
               vpiTypespec RefTypespec:
                 vpiParent: Variable name:in
                 vpiFullName: lvl2.f_my.in
                 vpiActual: LogicTypespec
-              vpiName: in
-              vpiFullName: lvl2.f_my.in
+          vpiTypespec (2 items):
+            LogicTypespec start:28:14 end:28:14:
+              vpiParent: Function name:f_my
+              vpiScalar: true
+            LogicTypespec:
+              vpiParent: Function name:f_my
+              vpiScalar: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:in start:29:8 end:29:10:
@@ -616,37 +625,27 @@ Design name:unnamed:
                 vpiParent: IODecl name:in
                 vpiFullName: lvl2.f_my.in
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:30:5 end:32:8:
             vpiParent: Function name:f_my
             vpiFullName: lvl2.f_my
-            vpiTypespec (2 items):
-              LogicTypespec start:28:14 end:28:14:
-                vpiParent: Begin
-              LogicTypespec:
-                vpiParent: Begin
-                vpiScalar: true
             vpiStmt (1 items):
-              Begin start:30:5 end:32:8:
+              Assignment start:31:2 end:31:12:
                 vpiParent: Begin
-                vpiFullName: lvl2.f_my
-                vpiStmt (1 items):
-                  Assignment start:31:2 end:31:12:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:f_my start:31:2 end:31:6:
-                      vpiParent: Assignment
-                      vpiName: f_my
-                      vpiFullName: lvl2.f_my.f_my
-                      vpiActual: Function name:f_my
-                    vpiRhs Operation start:31:9 end:31:12:
-                      vpiParent: Assignment
-                      vpiOpType: not (3)
-                      vpiOperand (1 items):
-                        RefObj name:in start:31:10 end:31:12:
-                          vpiParent: Operation
-                          vpiName: in
-                          vpiFullName: lvl2.f_my.in
-                          vpiActual: IODecl name:in
+                vpiBlocking: true
+                vpiLhs RefObj name:f_my start:31:2 end:31:6:
+                  vpiParent: Assignment
+                  vpiName: f_my
+                  vpiFullName: lvl2.f_my.f_my
+                  vpiActual: Function name:f_my
+                vpiRhs Operation start:31:9 end:31:12:
+                  vpiParent: Assignment
+                  vpiOpType: not (3)
+                  vpiOperand (1 items):
+                    RefObj name:in start:31:10 end:31:12:
+                      vpiParent: Operation
+                      vpiName: in
+                      vpiFullName: lvl2.f_my.in
+                      vpiActual: Variable name:in
           vpiReturn RefTypespec start:28:14 end:28:14:
             vpiParent: Function name:f_my
             vpiFullName: lvl2.f_my
@@ -744,13 +743,14 @@ Design name:unnamed:
           vpiModule: Module name:lvl2
       vpiDefName: lvl1
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:44:8 end:44:12:
         vpiParent: Module name:lvl1
         vpiName: work
         vpiFullName: lvl1.work
         vpiActual: Library name:work
       vpiCell: lvl1
-      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:lvl2 start:45:10 end:45:14:
           vpiParent: Module name:lvl1
@@ -777,31 +777,32 @@ Design name:unnamed:
       vpiVariable (3 items):
         Variable name:r start:49:9 end:49:10:
           vpiParent: Module name:top0
+          vpiName: r
+          vpiFullName: top0.r
           vpiTypespec RefTypespec start:49:5 end:49:8:
             vpiParent: Variable name:r
             vpiFullName: top0.r
             vpiActual: LogicTypespec
-          vpiName: r
-          vpiFullName: top0.r
         Variable name:t start:50:10 end:50:11:
           vpiParent: Module name:top0
+          vpiName: t
+          vpiFullName: top0.t
           vpiTypespec RefTypespec start:50:5 end:50:9:
             vpiParent: Variable name:t
             vpiFullName: top0.t
             vpiActual: TimeTypespec
-          vpiName: t
-          vpiFullName: top0.t
         Variable name:i start:52:13 end:52:14:
           vpiParent: Module name:top0
+          vpiName: i
+          vpiFullName: top0.i
           vpiTypespec RefTypespec start:52:5 end:52:12:
             vpiParent: Variable name:i
             vpiFullName: top0.i
             vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: top0.i
       vpiTypespec (5 items):
         LogicTypespec:
           vpiParent: Module name:top0
+          vpiScalar: true
         EventTypespec name:e start:51:11 end:51:12:
           vpiParent: Module name:top0
           vpiName: e
@@ -821,13 +822,14 @@ Design name:unnamed:
           vpiModule: Module name:lvl1
       vpiDefName: top0
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:48:8 end:48:12:
         vpiParent: Module name:top0
         vpiName: work
         vpiFullName: top0.work
         vpiActual: Library name:work
       vpiCell: top0
-      vpiAutomatic: true
       vpiTaskFunc (2 items):
         Task name:t_my start:54:5 end:56:12:
           vpiParent: Module name:top0
@@ -846,14 +848,14 @@ Design name:unnamed:
               vpiActual: Variable name:r
             vpiRhs Constant start:55:6 end:55:10:
               vpiParent: Assignment
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: top0.t_my
-                vpiActual: BitTypespec
               vpiConstType: binary (3)
               vpiSize: 1
               vpiDecompile: "1'b0"
               vpiValue: "0"
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: top0.t_my
+                vpiActual: BitTypespec
         Function name:f_my start:58:5 end:63:16:
           vpiParent: Module name:top0
           vpiName Identifier name:f_my start:58:14 end:58:18:
@@ -861,12 +863,19 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:in start:59:8 end:59:10:
               vpiParent: Function name:f_my
+              vpiName: in
+              vpiFullName: top0.f_my.in
               vpiTypespec RefTypespec:
                 vpiParent: Variable name:in
                 vpiFullName: top0.f_my.in
                 vpiActual: LogicTypespec
-              vpiName: in
-              vpiFullName: top0.f_my.in
+          vpiTypespec (2 items):
+            LogicTypespec start:58:14 end:58:14:
+              vpiParent: Function name:f_my
+              vpiScalar: true
+            LogicTypespec:
+              vpiParent: Function name:f_my
+              vpiScalar: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:in start:59:8 end:59:10:
@@ -877,37 +886,27 @@ Design name:unnamed:
                 vpiParent: IODecl name:in
                 vpiFullName: top0.f_my.in
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Begin start:60:5 end:62:8:
             vpiParent: Function name:f_my
             vpiFullName: top0.f_my
-            vpiTypespec (2 items):
-              LogicTypespec start:58:14 end:58:14:
-                vpiParent: Begin
-              LogicTypespec:
-                vpiParent: Begin
-                vpiScalar: true
             vpiStmt (1 items):
-              Begin start:60:5 end:62:8:
+              Assignment start:61:2 end:61:12:
                 vpiParent: Begin
-                vpiFullName: top0.f_my
-                vpiStmt (1 items):
-                  Assignment start:61:2 end:61:12:
-                    vpiParent: Begin
-                    vpiBlocking: true
-                    vpiLhs RefObj name:f_my start:61:2 end:61:6:
-                      vpiParent: Assignment
-                      vpiName: f_my
-                      vpiFullName: top0.f_my.f_my
-                      vpiActual: Function name:f_my
-                    vpiRhs Operation start:61:9 end:61:12:
-                      vpiParent: Assignment
-                      vpiOpType: not (3)
-                      vpiOperand (1 items):
-                        RefObj name:in start:61:10 end:61:12:
-                          vpiParent: Operation
-                          vpiName: in
-                          vpiFullName: top0.f_my.in
-                          vpiActual: IODecl name:in
+                vpiBlocking: true
+                vpiLhs RefObj name:f_my start:61:2 end:61:6:
+                  vpiParent: Assignment
+                  vpiName: f_my
+                  vpiFullName: top0.f_my.f_my
+                  vpiActual: Function name:f_my
+                vpiRhs Operation start:61:9 end:61:12:
+                  vpiParent: Assignment
+                  vpiOpType: not (3)
+                  vpiOperand (1 items):
+                    RefObj name:in start:61:10 end:61:12:
+                      vpiParent: Operation
+                      vpiName: in
+                      vpiFullName: top0.f_my.in
+                      vpiActual: Variable name:in
           vpiReturn RefTypespec start:58:14 end:58:14:
             vpiParent: Function name:f_my
             vpiFullName: top0.f_my
@@ -1016,13 +1015,14 @@ Design name:unnamed:
       vpiFullName: top1
       vpiDefName: top1
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:78:8 end:78:12:
         vpiParent: Module name:top1
         vpiName: work
         vpiFullName: top1.work
         vpiActual: Library name:work
       vpiCell: top1
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:79:5 end:81:8:
           vpiParent: Module name:top1
@@ -1112,7 +1112,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/vpi/by_name/design.hldb ${HLC_DIR}/regress
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             156     156       0         0
+Others                             154     154       0         0
 ----------------------------------------------------------------
-                                   156     156       0         0
+                                   154     154       0         0
 ===================== END REDUCTION RESULT =====================

@@ -122,15 +122,15 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:size start:16:9 end:16:13:
           vpiParent: ClassDefn name:Foo
-          vpiTypespec RefTypespec start:16:1 end:16:8:
-            vpiParent: Variable name:size
-            vpiFullName: Foo::size
-            vpiActual: IntegerTypespec
           vpiName: size
           vpiFullName: Foo::size
           vpiAutomatic: true
           vpiRandType: (1)
           vpiVisibility: public (1)
+          vpiTypespec RefTypespec start:16:1 end:16:8:
+            vpiParent: Variable name:size
+            vpiFullName: Foo::size
+            vpiActual: IntegerTypespec
       vpiTypespec (2 items):
         IntegerTypespec:
           vpiParent: ClassDefn name:Foo
@@ -154,6 +154,15 @@ Design name:unnamed:
           vpiParent: ClassDefn name:Foo
           vpiName Identifier name:new:
           vpiFullName: Foo::new
+          vpiVariable (1 items):
+            Variable name:size start:17:23 end:17:27:
+              vpiParent: Function name:new
+              vpiName: size
+              vpiFullName: Foo::new::size
+              vpiTypespec RefTypespec start:17:15 end:17:22:
+                vpiParent: Variable name:size
+                vpiFullName: Foo::new::size
+                vpiActual: IntegerTypespec
           vpiTypespec (1 items):
             IntegerTypespec:
               vpiParent: Function name:new
@@ -197,7 +206,7 @@ Design name:unnamed:
                   vpiParent: Assignment
                   vpiName: size
                   vpiFullName: Foo::new::size
-                  vpiActual: IODecl name:size
+                  vpiActual: Variable name:size
           vpiReturn RefTypespec name:Foo:
             vpiParent: Function name:new
             vpiName: Foo
@@ -222,14 +231,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:24:12 end:24:27:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: Foo::print
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 104
                       vpiDecompile: "\"Hello, world!\""
                       vpiValue: Hello, world!
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: Foo::print
+                        vpiActual: StringTypespec
   vpiAllModules (1 items):
     Module name:test file:$Source01/class_test_30.sv start:29:1 end:30:10:
       vpiParent: Design name:unnamed
@@ -237,13 +246,14 @@ Design name:unnamed:
       vpiFullName: test
       vpiDefName: test
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:29:8 end:29:12:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
-      vpiAutomatic: true
   vpiTypespec (3 items):
     ClassTypespec name:Foo start:15:7 end:15:10:
       vpiParent: Design name:unnamed
@@ -309,7 +319,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/class/class_test_30/design.hldb ${
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              40      40       0         0
+Others                              42      42       0         0
 ----------------------------------------------------------------
-                                    40      40       0         0
+                                    42      42       0         0
 ===================== END REDUCTION RESULT =====================

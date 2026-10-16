@@ -686,19 +686,17 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:c start:55:10 end:55:11:
           vpiParent: Module name:t
+          vpiName: c
+          vpiFullName: t.c
           vpiTypespec RefTypespec start:55:4 end:55:7:
             vpiParent: Variable name:c
             vpiFullName: t.c
             vpiActual: LogicTypespec
-          vpiName: c
-          vpiFullName: t.c
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
         BitTypespec:
-          vpiParent: Module name:t
-        LogicTypespec:
           vpiParent: Module name:t
         ModuleTypespec name:test start:57:4 end:57:8:
           vpiParent: Module name:t
@@ -707,33 +705,34 @@ Design name:unnamed:
           vpiModule: Module name:test
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:47:8 end:47:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiNet (3 items):
         Net name:clk start:51:10 end:51:13:
           vpiParent: Module name:t
+          vpiName: clk
+          vpiFullName: t.clk
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: t.clk
-          vpiNetType: wire (1)
         Net name:a start:53:10 end:53:11:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:a
-            vpiFullName: t.a
-            vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: t.a
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:a
+            vpiFullName: t.a
+            vpiActual: LogicTypespec
           vpiValue RefObj name:clk start:53:14 end:53:17:
             vpiParent: Net name:a
             vpiName: clk
@@ -741,24 +740,24 @@ Design name:unnamed:
             vpiActual: Net name:clk
         Net name:b start:54:10 end:54:11:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:b
-            vpiFullName: t.b
-            vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: t.b
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: t.b
+            vpiActual: LogicTypespec
           vpiValue Constant start:54:14 end:54:18:
             vpiParent: Net name:b
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.b
-              vpiActual: BitTypespec
             vpiConstType: binary (3)
             vpiSize: 1
             vpiDecompile: "1'b0"
             vpiValue: "0"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.b
+              vpiActual: BitTypespec
       vpiPort (1 items):
         Port name:clk start:49:4 end:49:7:
           vpiParent: Module name:t
@@ -799,14 +798,14 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$write
                       vpiHighConn Constant start:63:14 end:63:38:
                         vpiParent: NamedArgument
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: t
-                          vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 168
                         vpiDecompile: "\"*-* All Finished *-*\\n\""
                         vpiValue: "*-* All Finished *-*\\n"
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: StringTypespec
                 SysTaskCall name:$finish start:64:7 end:64:14:
                   vpiParent: Begin
                   vpiName Identifier name:$finish start:64:7 end:64:14:
@@ -845,20 +844,15 @@ Design name:unnamed:
       vpiVariable (2 items):
         Variable name:e start:77:13 end:77:14:
           vpiParent: Module name:test
+          vpiName: e
+          vpiFullName: test.e
           vpiTypespec RefTypespec name:t_pinid start:77:4 end:77:11:
             vpiParent: Variable name:e
             vpiName: t_pinid
             vpiFullName: test.e.t_pinid
             vpiActual: TypedefTypespec name:t_pinid
-          vpiName: e
-          vpiFullName: test.e
         Variable name:myarray1 start:78:10 end:78:18:
           vpiParent: Module name:test
-          vpiTypespec RefTypespec name:int [] start:78:4 end:78:7:
-            vpiParent: Variable name:myarray1
-            vpiName: int []
-            vpiFullName: test.myarray1.int []
-            vpiActual: ArrayTypespec
           vpiName: myarray1
           vpiFullName: test.myarray1
           vpiValue BitSelect name:new[e.num] start:78:24 end:78:35:
@@ -883,6 +877,11 @@ Design name:unnamed:
                   vpiParent: RefObj name:e.num
                   vpiName Identifier name:num start:78:31 end:78:34:
                   vpiIsProperty: true
+          vpiTypespec RefTypespec name:int [] start:78:4 end:78:7:
+            vpiParent: Variable name:myarray1
+            vpiName: int []
+            vpiFullName: test.myarray1.int []
+            vpiActual: ArrayTypespec
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:test
@@ -898,23 +897,24 @@ Design name:unnamed:
             vpiActual: IntTypespec
       vpiDefName: test
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:70:8 end:70:12:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:74:10 end:74:13:
           vpiParent: Module name:test
+          vpiName: clk
+          vpiFullName: test.clk
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: test.clk
             vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: test.clk
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:72:4 end:72:7:
           vpiParent: Module name:test
@@ -1101,14 +1101,14 @@ Design name:unnamed:
           vpiName Identifier name:PINID_A0 start:15:2 end:15:10:
           vpiValue Constant start:15:13 end:15:18:
             vpiParent: EnumConst name:PINID_A0
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: PINID_A0
-              vpiActual: IntTypespec
             vpiConstType: decimal (1)
             vpiSize: 32
             vpiDecompile: "32'd0"
             vpiValue: "0"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: PINID_A0
+              vpiActual: IntTypespec
         EnumConst name:PINID_A1 start:17:12 end:17:20:
           vpiParent: Enum
           vpiName Identifier name:PINID_A1 start:17:12 end:17:20:
@@ -1607,7 +1607,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_enum_type_pins/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             412     412       0         0
+Others                             411     411       0         0
 ----------------------------------------------------------------
-                                   412     412       0         0
+                                   411     411       0         0
 ===================== END REDUCTION RESULT =====================

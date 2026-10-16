@@ -94,11 +94,11 @@ Design name:unnamed:
           vpiDirectiveType: default_nettype (6)
           vpiValue Constant start:1:18 end:1:22:
             vpiParent: GenericDirective
+            vpiDecompile: "12"
             vpiTypespec RefTypespec:
               vpiParent: Constant
               vpiFullName: dut.sv
               vpiActual: IntTypespec
-            vpiDecompile: "12"
   vpiAllModules (1 items):
     Module name:top file:$Source01/dut.sv start:3:1 end:7:10:
       vpiParent: Design name:unnamed
@@ -106,18 +106,28 @@ Design name:unnamed:
       vpiFullName: top
       vpiDefName: top
       vpiDefNetType: none (12)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:3:8 end:3:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
-      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:doFoo start:4:5 end:6:16:
           vpiParent: Module name:top
           vpiName Identifier name:doFoo start:4:22 end:4:27:
           vpiFullName: top.doFoo
+          vpiVariable (1 items):
+            Variable name:depth start:4:42 end:4:47:
+              vpiParent: Function name:doFoo
+              vpiName: depth
+              vpiFullName: top.doFoo.depth
+              vpiTypespec RefTypespec start:4:34 end:4:41:
+                vpiParent: Variable name:depth
+                vpiFullName: top.doFoo.depth
+                vpiActual: IntegerTypespec
           vpiTypespec (1 items):
             IntegerTypespec:
               vpiParent: Function name:doFoo
@@ -156,7 +166,7 @@ Design name:unnamed:
                           vpiParent: NamedArgument
                           vpiName: depth
                           vpiFullName: top.doFoo.depth
-                          vpiActual: IODecl name:depth
+                          vpiActual: Variable name:depth
           vpiReturn RefTypespec start:4:14 end:4:21:
             vpiParent: Function name:doFoo
             vpiFullName: top.doFoo
@@ -224,7 +234,7 @@ COMMAND: ${HLC_DIR}/regression/LateBindingFuncArg/LateBindingFuncArg/design.hldb
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              28      28       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    28      28       0         0
+                                    30      30       0         0
 ===================== END REDUCTION RESULT =====================

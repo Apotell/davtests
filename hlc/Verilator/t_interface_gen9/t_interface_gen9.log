@@ -216,23 +216,24 @@ Design name:unnamed:
       vpiFullName: t1
       vpiDefName: t1
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:8:8 end:8:10:
         vpiParent: Module name:t1
         vpiName: work
         vpiFullName: t1.work
         vpiActual: Library name:work
       vpiCell: t1
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:foo start:8:23 end:8:26:
           vpiParent: Module name:t1
+          vpiName: foo
+          vpiFullName: t1.foo
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec name:logic start:8:17 end:8:22:
             vpiParent: Net name:foo
             vpiName: logic
             vpiFullName: t1.foo.logic
-          vpiName: foo
-          vpiFullName: t1.foo
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:foo start:8:23 end:8:26:
           vpiParent: Module name:t1
@@ -262,14 +263,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiHighConn Constant start:10:16 end:10:23:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t1
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 40
                       vpiDecompile: "\"%m %d\""
                       vpiValue: "%m %d"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t1
+                        vpiActual: StringTypespec
                   NamedArgument start:10:25 end:10:28:
                     vpiParent: SysTaskCall name:$display
                     vpiHighConn RefObj name:foo start:10:25 end:10:28:
@@ -283,16 +284,20 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:14:8 end:14:9:
       vpiFullName: t
-      vpiVariable (1 items):
+      vpiVariable (2 items):
         Variable name:my_foo start:16:16 end:16:22:
           vpiParent: Module name:t
+          vpiName: my_foo
+          vpiFullName: t.my_foo
           vpiTypespec RefTypespec name:logic [1:0] start:16:4 end:16:15:
             vpiParent: Variable name:my_foo
             vpiName: logic [1:0]
             vpiFullName: t.my_foo.logic [1:0]
             vpiActual: ArrayTypespec
-          vpiName: my_foo
-          vpiFullName: t.my_foo
+        Variable name:the_genvar start:19:14 end:19:24:
+          vpiParent: Module name:t
+          vpiName: the_genvar
+          vpiFullName: t.the_genvar
       vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:t
@@ -302,37 +307,38 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiLeftRange Constant start:16:11 end:16:12:
               vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t
-                vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "1"
               vpiValue: 1
-            vpiRightRange Constant start:16:13 end:16:14:
-              vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
                 vpiFullName: t
                 vpiActual: IntTypespec
+            vpiRightRange Constant start:16:13 end:16:14:
+              vpiParent: Range
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: t
+                vpiActual: IntTypespec
           vpiElemTypespec RefTypespec name:logic start:16:4 end:16:9:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:14:8 end:14:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:28:4 end:31:7:
           vpiParent: Module name:t
@@ -348,14 +354,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:29:14 end:29:38:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 168
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
                       vpiValue: "*-* All Finished *-*\\n"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
               SysTaskCall name:$finish start:30:7 end:30:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:30:7 end:30:14:
@@ -366,108 +372,99 @@ Design name:unnamed:
       vpiGenStmt (1 items):
         GenRegion start:18:4 end:26:15:
           vpiParent: Module name:t
-          vpiFullName: t
-          vpiStmt Begin:
-            vpiParent: GenRegion
-            vpiFullName: t
-            vpiVariable (1 items):
-              Variable name:the_genvar start:19:14 end:19:24:
-                vpiParent: Begin
-                vpiName: the_genvar
-                vpiFullName: t.the_genvar
-            vpiStmt (1 items):
-              GenFor start:20:7 end:25:10:
-                vpiParent: Begin
-                vpiFullName: t
-                vpiForInitStmt (1 items):
-                  Assignment start:20:12 end:20:26:
-                    vpiParent: GenFor
-                    vpiLhs RefObj name:the_genvar start:20:12 end:20:22:
-                      vpiParent: Assignment
-                      vpiName: the_genvar
-                      vpiFullName: t.the_genvar
-                      vpiActual: Variable name:the_genvar
-                    vpiRhs Constant start:20:25 end:20:26:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiForIncStmt (1 items):
-                  Operation start:20:44 end:20:56:
-                    vpiParent: GenFor
-                    vpiOpType: post inc (64)
-                    vpiOperand (1 items):
-                      RefObj name:the_genvar start:20:44 end:20:54:
-                        vpiParent: Operation
-                        vpiName: the_genvar
-                        vpiFullName: t.the_genvar
-                        vpiActual: Variable name:the_genvar
-                vpiCondition Operation start:20:28 end:20:42:
+          vpiStmt (1 items):
+            GenFor start:20:7 end:25:10:
+              vpiParent: GenRegion
+              vpiFullName: t
+              vpiForInitStmt (1 items):
+                Assignment start:20:12 end:20:26:
                   vpiParent: GenFor
-                  vpiOpType: less than (20)
-                  vpiOperand (2 items):
-                    RefObj name:the_genvar start:20:28 end:20:38:
+                  vpiLhs RefObj name:the_genvar start:20:12 end:20:22:
+                    vpiParent: Assignment
+                    vpiName: the_genvar
+                    vpiFullName: t.the_genvar
+                    vpiActual: Variable name:the_genvar
+                  vpiRhs Constant start:20:25 end:20:26:
+                    vpiParent: Assignment
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t
+                      vpiActual: IntTypespec
+              vpiForIncStmt (1 items):
+                Operation start:20:44 end:20:56:
+                  vpiParent: GenFor
+                  vpiOpType: post inc (64)
+                  vpiOperand (1 items):
+                    RefObj name:the_genvar start:20:44 end:20:54:
                       vpiParent: Operation
                       vpiName: the_genvar
                       vpiFullName: t.the_genvar
                       vpiActual: Variable name:the_genvar
-                    Constant start:20:41 end:20:42:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "2"
-                      vpiValue: 2
-                vpiStmt Begin name:TestIf start:20:58 end:25:10:
-                  vpiParent: GenFor
-                  vpiName Identifier name:TestIf start:20:66 end:20:72:
-                  vpiFullName: t.TestIf
-                  vpiTypespec (1 items):
-                    ModuleTypespec name:t1 start:23:10 end:23:12:
-                      vpiParent: Begin name:TestIf
-                      vpiName Identifier name:t1 start:23:10 end:23:12:
-                      vpiDefName: t1
-                      vpiModule: Module name:t1
-                  vpiStmt (1 items):
-                    RefInstance name:t start:23:13 end:23:14:
-                      vpiParent: Begin name:TestIf
-                      vpiName: t
-                      vpiTypespec RefTypespec name:t1 start:23:10 end:23:12:
+              vpiCondition Operation start:20:28 end:20:42:
+                vpiParent: GenFor
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:the_genvar start:20:28 end:20:38:
+                    vpiParent: Operation
+                    vpiName: the_genvar
+                    vpiFullName: t.the_genvar
+                    vpiActual: Variable name:the_genvar
+                  Constant start:20:41 end:20:42:
+                    vpiParent: Operation
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "2"
+                    vpiValue: 2
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t
+                      vpiActual: IntTypespec
+              vpiStmt GenBlock name:TestIf start:20:58 end:25:10:
+                vpiParent: GenFor
+                vpiName Identifier name:TestIf start:20:66 end:20:72:
+                vpiFullName: t.TestIf
+                vpiTypespec (1 items):
+                  ModuleTypespec name:t1 start:23:10 end:23:12:
+                    vpiParent: GenBlock name:TestIf
+                    vpiName Identifier name:t1 start:23:10 end:23:12:
+                    vpiDefName: t1
+                    vpiModule: Module name:t1
+                vpiStmt (1 items):
+                  RefInstance name:t start:23:13 end:23:14:
+                    vpiParent: GenBlock name:TestIf
+                    vpiName: t
+                    vpiTypespec RefTypespec name:t1 start:23:10 end:23:12:
+                      vpiParent: RefInstance name:t
+                      vpiName: t1
+                      vpiFullName: t.TestIf.t.t1
+                      vpiActual: ModuleTypespec name:t1
+                    vpiArgument (1 items):
+                      NamedArgument start:23:16 end:23:40:
                         vpiParent: RefInstance name:t
-                        vpiName: t1
-                        vpiFullName: t.TestIf.t.t1
-                        vpiActual: ModuleTypespec name:t1
-                      vpiArgument (1 items):
-                        NamedArgument start:23:16 end:23:40:
-                          vpiParent: RefInstance name:t
-                          vpiConnByName: true
-                          vpiLowConn RefObj name:foo start:23:17 end:23:20:
-                            vpiParent: NamedArgument
-                            vpiName: foo
-                            vpiFullName: t.TestIf.t.foo
-                            vpiActual: Port name:foo
-                          vpiHighConn BitSelect name:my_foo[the_genvar] start:23:21 end:23:39:
-                            vpiParent: NamedArgument
-                            vpiName: my_foo[the_genvar]
-                            vpiFullName: t.TestIf.t.my_foo[the_genvar]
-                            vpiPrefix RefObj name:my_foo start:23:21 end:23:27:
-                              vpiParent: BitSelect name:my_foo[the_genvar]
-                              vpiName: my_foo
-                              vpiFullName: t.TestIf.t.my_foo
-                              vpiActual: Variable name:my_foo
-                            vpiIndex RefObj name:the_genvar start:23:28 end:23:38:
-                              vpiParent: BitSelect name:my_foo[the_genvar]
-                              vpiName: the_genvar
-                              vpiFullName: t.TestIf.t.the_genvar
-                              vpiActual: Variable name:the_genvar
+                        vpiConnByName: true
+                        vpiLowConn RefObj name:foo start:23:17 end:23:20:
+                          vpiParent: NamedArgument
+                          vpiName: foo
+                          vpiFullName: t.TestIf.t.foo
+                          vpiActual: Port name:foo
+                        vpiHighConn BitSelect name:my_foo[the_genvar] start:23:21 end:23:39:
+                          vpiParent: NamedArgument
+                          vpiName: my_foo[the_genvar]
+                          vpiFullName: t.TestIf.t.my_foo[the_genvar]
+                          vpiPrefix RefObj name:my_foo start:23:21 end:23:27:
+                            vpiParent: BitSelect name:my_foo[the_genvar]
+                            vpiName: my_foo
+                            vpiFullName: t.TestIf.t.my_foo
+                            vpiActual: Variable name:my_foo
+                          vpiIndex RefObj name:the_genvar start:23:28 end:23:38:
+                            vpiParent: BitSelect name:my_foo[the_genvar]
+                            vpiName: the_genvar
+                            vpiFullName: t.TestIf.t.the_genvar
+                            vpiActual: Variable name:the_genvar
   vpiTypespec (4 items):
     ModuleTypespec name:t1:
       vpiParent: Design name:unnamed
@@ -536,7 +533,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_gen9/design.hldb ${HLC_DIR}
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              73      73       0         0
+Others                              72      72       0         0
 ----------------------------------------------------------------
-                                    73      73       0         0
+                                    72      72       0         0
 ===================== END REDUCTION RESULT =====================

@@ -115,13 +115,14 @@ Design name:unnamed:
       vpiFullName: GOOD
       vpiDefName: GOOD
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:2:8 end:2:12:
         vpiParent: Module name:GOOD
         vpiName: work
         vpiFullName: GOOD.work
         vpiActual: Library name:work
       vpiCell: GOOD
-      vpiAutomatic: true
     Module name:dut file:$Source01/dut.sv start:6:1 end:15:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:6:8 end:6:11:
@@ -140,33 +141,28 @@ Design name:unnamed:
               vpiName Identifier name:EXC_CAUSE_IRQ_SOFTWARE_M start:8:3 end:8:27:
               vpiValue Operation start:8:34 end:8:47:
                 vpiParent: EnumConst name:EXC_CAUSE_IRQ_SOFTWARE_M
-                vpiTypespec RefTypespec name:logic [5:0] start:7:14 end:7:25:
-                  vpiParent: Operation
-                  vpiName: logic [5:0]
-                  vpiFullName: dut.EXC_CAUSE_IRQ_SOFTWARE_M.logic [5:0]
-                  vpiActual: LogicTypespec
                 vpiOpType: concatenation (33)
                 vpiOperand (2 items):
                   Constant start:8:35 end:8:39:
                     vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: dut.EXC_CAUSE_IRQ_SOFTWARE_M
-                      vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b1"
                     vpiValue: "1"
-                  Constant start:8:41 end:8:46:
-                    vpiParent: Operation
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: dut.EXC_CAUSE_IRQ_SOFTWARE_M
-                      vpiActual: IntTypespec
+                      vpiActual: BitTypespec
+                  Constant start:8:41 end:8:46:
+                    vpiParent: Operation
                     vpiConstType: decimal (1)
                     vpiSize: 5
                     vpiDecompile: "5'd03"
                     vpiValue: "3"
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: dut.EXC_CAUSE_IRQ_SOFTWARE_M
+                      vpiActual: IntTypespec
       vpiTypedef (1 items):
         Typedef name:exc_cause_e start:7:1 end:9:15:
           vpiParent: Module name:dut
@@ -183,24 +179,24 @@ Design name:unnamed:
               vpiParent: LogicTypespec
               vpiLeftRange Constant start:7:21 end:7:22:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "5"
                 vpiValue: 5
-              vpiRightRange Constant start:7:23 end:7:24:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: dut
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:7:23 end:7:24:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: dut
+                  vpiActual: IntTypespec
           vpiVector: true
         BitTypespec:
           vpiParent: Module name:dut
@@ -214,13 +210,14 @@ Design name:unnamed:
           vpiTypedef: Typedef name:exc_cause_e
       vpiDefName: dut
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:6:8 end:6:11:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
         vpiActual: Library name:work
       vpiCell: dut
-      vpiAutomatic: true
       vpiGenStmt (1 items):
         GenIf start:11:3 end:13:6:
           vpiParent: Module name:dut
@@ -235,26 +232,27 @@ Design name:unnamed:
                 vpiActual: EnumConst name:EXC_CAUSE_IRQ_SOFTWARE_M
               Constant start:11:35 end:11:44:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut
-                  vpiActual: LogicTypespec
                 vpiConstType: binary (3)
                 vpiSize: 6
                 vpiDecompile: "6'b100011"
                 vpiValue: "100011"
-          vpiStmt Begin start:11:46 end:13:6:
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: dut
+                  vpiActual: LogicTypespec
+          vpiStmt GenBlock start:11:46 end:13:6:
             vpiParent: GenIf
             vpiFullName: dut
             vpiTypespec (1 items):
               ModuleTypespec name:GOOD start:12:5 end:12:9:
-                vpiParent: Begin
+                vpiParent: GenBlock
                 vpiName Identifier name:GOOD start:12:5 end:12:9:
                 vpiDefName: GOOD
                 vpiModule: Module name:GOOD
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               RefInstance name:good start:12:10 end:12:14:
-                vpiParent: Begin
+                vpiParent: GenBlock
                 vpiName: good
                 vpiTypespec RefTypespec name:GOOD start:12:5 end:12:9:
                   vpiParent: RefInstance name:good
@@ -330,9 +328,9 @@ Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                             5       4       1         2
 Operation                            2       1       0         1
-RefTypespec                          9       6       0         3
+RefTypespec                          8       6       0         2
 ----------------------------------------------------------------
 Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    49      44       1         6
+                                    48      44       1         5
 ===================== END REDUCTION RESULT =====================

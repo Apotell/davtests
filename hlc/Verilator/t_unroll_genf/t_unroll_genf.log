@@ -186,13 +186,14 @@ Design name:unnamed:
       vpiFullName: sub
       vpiDefName: sub
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:7:8 end:7:11:
         vpiParent: Module name:sub
         vpiName: work
         vpiFullName: sub.work
         vpiActual: Library name:work
       vpiCell: sub
-      vpiAutomatic: true
     Module name:t file:$Source01/t_unroll_genf.v start:16:1 end:29:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t start:16:8 end:16:9:
@@ -204,13 +205,14 @@ Design name:unnamed:
           vpiFullName: t.j
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:16:8 end:16:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:24:4 end:27:7:
           vpiParent: Module name:t
@@ -226,14 +228,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:25:14 end:25:38:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 168
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
                       vpiValue: "*-* All Finished *-*\\n"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
               SysTaskCall name:$finish start:26:7 end:26:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:26:7 end:26:14:
@@ -244,96 +246,101 @@ Design name:unnamed:
       vpiGenStmt (1 items):
         GenRegion start:19:4 end:22:15:
           vpiParent: Module name:t
-          vpiFullName: t
-          vpiStmt GenFor start:20:7 end:21:19:
-            vpiParent: GenRegion
-            vpiFullName: t
-            vpiTypespec (1 items):
-              ModuleTypespec name:sub start:21:9 end:21:12:
-                vpiParent: GenFor
-                vpiName Identifier name:sub start:21:9 end:21:12:
-                vpiDefName: sub
-                vpiModule: Module name:sub
-            vpiForInitStmt (1 items):
-              Assignment start:20:12 end:20:17:
-                vpiParent: GenFor
-                vpiLhs RefObj name:j start:20:12 end:20:13:
-                  vpiParent: Assignment
-                  vpiName: j
-                  vpiFullName: t.j
-                  vpiActual: Variable name:j
-                vpiRhs Constant start:20:16 end:20:17:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "0"
-                  vpiValue: 0
-            vpiForIncStmt (1 items):
-              Assignment start:20:33 end:20:38:
-                vpiParent: GenFor
-                vpiBlocking: true
-                vpiLhs RefObj name:j start:20:33 end:20:34:
-                  vpiParent: Assignment
-                  vpiName: j
-                  vpiFullName: t.j
-                  vpiActual: Variable name:j
-                vpiRhs Operation start:20:35 end:20:38:
-                  vpiParent: Assignment
-                  vpiOpType: add (24)
-                  vpiOperand (2 items):
-                    RefObj name:j start:20:35 end:20:36:
-                      vpiParent: Operation
-                      vpiName: j
-                      vpiFullName: t.j
-                      vpiActual: Variable name:j
-                    Constant start:20:37 end:20:38:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-            vpiCondition Operation start:20:19 end:20:31:
-              vpiParent: GenFor
-              vpiOpType: less than (20)
-              vpiOperand (2 items):
-                RefObj name:j start:20:19 end:20:20:
-                  vpiParent: Operation
-                  vpiName: j
-                  vpiFullName: t.j
-                  vpiActual: Variable name:j
-                FuncCall name:cdiv start:20:23 end:20:31:
-                  vpiParent: Operation
-                  vpiName Identifier name:cdiv start:20:23 end:20:27:
-                  vpiTaskFunc: Function name:cdiv
-                  vpiArgument (1 items):
-                    NamedArgument start:20:28 end:20:30:
-                      vpiParent: FuncCall name:cdiv
-                      vpiHighConn Constant start:20:28 end:20:30:
-                        vpiParent: NamedArgument
+          vpiStmt (1 items):
+            GenFor start:20:7 end:21:19:
+              vpiParent: GenRegion
+              vpiFullName: t
+              vpiForInitStmt (1 items):
+                Assignment start:20:12 end:20:17:
+                  vpiParent: GenFor
+                  vpiLhs RefObj name:j start:20:12 end:20:13:
+                    vpiParent: Assignment
+                    vpiName: j
+                    vpiFullName: t.j
+                    vpiActual: Variable name:j
+                  vpiRhs Constant start:20:16 end:20:17:
+                    vpiParent: Assignment
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t
+                      vpiActual: IntTypespec
+              vpiForIncStmt (1 items):
+                Assignment start:20:33 end:20:38:
+                  vpiParent: GenFor
+                  vpiBlocking: true
+                  vpiLhs RefObj name:j start:20:33 end:20:34:
+                    vpiParent: Assignment
+                    vpiName: j
+                    vpiFullName: t.j
+                    vpiActual: Variable name:j
+                  vpiRhs Operation start:20:35 end:20:38:
+                    vpiParent: Assignment
+                    vpiOpType: add (24)
+                    vpiOperand (2 items):
+                      RefObj name:j start:20:35 end:20:36:
+                        vpiParent: Operation
+                        vpiName: j
+                        vpiFullName: t.j
+                        vpiActual: Variable name:j
+                      Constant start:20:37 end:20:38:
+                        vpiParent: Operation
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
                         vpiTypespec RefTypespec:
                           vpiParent: Constant
                           vpiFullName: t
                           vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "10"
-                        vpiValue: 10
-            vpiStmt RefInstance name:sub start:21:13 end:21:16:
-              vpiParent: GenFor
-              vpiName: sub
-              vpiTypespec RefTypespec name:sub start:21:9 end:21:12:
-                vpiParent: RefInstance name:sub
-                vpiName: sub
-                vpiFullName: t.sub.sub
-                vpiActual: ModuleTypespec name:sub
+              vpiCondition Operation start:20:19 end:20:31:
+                vpiParent: GenFor
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:j start:20:19 end:20:20:
+                    vpiParent: Operation
+                    vpiName: j
+                    vpiFullName: t.j
+                    vpiActual: Variable name:j
+                  FuncCall name:cdiv start:20:23 end:20:31:
+                    vpiParent: Operation
+                    vpiName Identifier name:cdiv start:20:23 end:20:27:
+                    vpiTaskFunc: Function name:cdiv
+                    vpiArgument (1 items):
+                      NamedArgument start:20:28 end:20:30:
+                        vpiParent: FuncCall name:cdiv
+                        vpiHighConn Constant start:20:28 end:20:30:
+                          vpiParent: NamedArgument
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "10"
+                          vpiValue: 10
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: t
+                            vpiActual: IntTypespec
+              vpiStmt GenBlock start:21:9 end:21:19:
+                vpiParent: GenFor
+                vpiFullName: t
+                vpiTypespec (1 items):
+                  ModuleTypespec name:sub start:21:9 end:21:12:
+                    vpiParent: GenBlock
+                    vpiName Identifier name:sub start:21:9 end:21:12:
+                    vpiDefName: sub
+                    vpiModule: Module name:sub
+                vpiImplicitDecl: true
+                vpiStmt (1 items):
+                  RefInstance name:sub start:21:13 end:21:16:
+                    vpiParent: GenBlock
+                    vpiName: sub
+                    vpiTypespec RefTypespec name:sub start:21:9 end:21:12:
+                      vpiParent: RefInstance name:sub
+                      vpiName: sub
+                      vpiFullName: t.sub.sub
+                      vpiActual: ModuleTypespec name:sub
   vpiTypespec (4 items):
     ModuleTypespec name:sub:
       vpiParent: Design name:unnamed
@@ -355,6 +362,15 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:cdiv start:10:18 end:10:22:
       vpiFullName: cdiv
+      vpiVariable (1 items):
+        Variable name:x start:10:37 end:10:38:
+          vpiParent: Function name:cdiv
+          vpiName: x
+          vpiFullName: cdiv.x
+          vpiTypespec RefTypespec start:10:29 end:10:36:
+            vpiParent: Variable name:x
+            vpiFullName: cdiv.x
+            vpiActual: IntegerTypespec
       vpiTypespec (1 items):
         IntegerTypespec:
           vpiParent: Function name:cdiv
@@ -383,14 +399,14 @@ Design name:unnamed:
               vpiActual: Function name:cdiv
             vpiRhs Constant start:12:14 end:12:16:
               vpiParent: Assignment
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: cdiv
-                vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "10"
               vpiValue: 10
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: cdiv
+                vpiActual: IntTypespec
       vpiReturn RefTypespec start:10:10 end:10:17:
         vpiParent: Function name:cdiv
         vpiFullName: cdiv
@@ -447,7 +463,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_unroll_genf/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              63      63       0         0
 ----------------------------------------------------------------
-                                    60      60       0         0
+                                    63      63       0         0
 ===================== END REDUCTION RESULT =====================

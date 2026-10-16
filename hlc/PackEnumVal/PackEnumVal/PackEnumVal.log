@@ -154,27 +154,27 @@ Design name:unnamed:
               vpiName Identifier name:On start:5:5 end:5:7:
               vpiValue Constant start:5:11 end:5:12:
                 vpiParent: EnumConst name:On
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: test_package::On
-                  vpiActual: LogicTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: test_package::On
+                  vpiActual: LogicTypespec
             EnumConst name:Off start:6:5 end:6:12:
               vpiParent: Enum
               vpiName Identifier name:Off start:6:5 end:6:8:
               vpiValue Constant start:6:11 end:6:12:
                 vpiParent: EnumConst name:Off
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: test_package::Off
-                  vpiActual: LogicTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: test_package::Off
+                  vpiActual: LogicTypespec
       vpiTypedef (1 items):
         Typedef name:lc_tx_t start:4:3 end:7:13:
           vpiParent: Package name:test_package
@@ -186,6 +186,7 @@ Design name:unnamed:
       vpiTypespec (3 items):
         LogicTypespec:
           vpiParent: Package name:test_package
+          vpiScalar: true
         EnumTypespec start:4:11 end:7:4:
           vpiParent: Package name:test_package
           vpiEnum: Enum
@@ -207,9 +208,20 @@ Design name:unnamed:
           vpiParent: Package name:test_package
           vpiName Identifier name:test_true start:9:28 end:9:37:
           vpiFullName: test_package::test_true
+          vpiVariable (1 items):
+            Variable name:val start:9:46 end:9:49:
+              vpiParent: Function name:test_true
+              vpiName: val
+              vpiFullName: test_package::test_true::val
+              vpiTypespec RefTypespec name:lc_tx_t start:9:38 end:9:45:
+                vpiParent: Variable name:val
+                vpiName: lc_tx_t
+                vpiFullName: test_package::test_true::val::lc_tx_t
+                vpiActual: TypedefTypespec name:lc_tx_t
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:test_true
+              vpiScalar: true
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (1 items):
@@ -237,7 +249,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: val
                   vpiFullName: test_package::test_true::val
-                  vpiActual: IODecl name:val
+                  vpiActual: Variable name:val
           vpiEndLabel Identifier name:test_true start:11:17 end:11:26:
           vpiReturn RefTypespec start:9:22 end:9:27:
             vpiParent: Function name:test_true
@@ -251,34 +263,36 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:o start:16:40 end:16:41:
           vpiParent: Module name:top
+          vpiName: o
+          vpiFullName: top.o
           vpiTypespec RefTypespec start:16:34 end:16:39:
             vpiParent: Variable name:o
             vpiFullName: top.o
             vpiActual: LogicTypespec
-          vpiName: o
-          vpiFullName: top.o
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top
+          vpiScalar: true
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:16:8 end:16:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:i start:16:24 end:16:25:
           vpiParent: Module name:top
+          vpiName: i
+          vpiFullName: top.i
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec start:16:18 end:16:23:
             vpiParent: Net name:i
             vpiFullName: top.i
             vpiActual: LogicTypespec
-          vpiName: i
-          vpiFullName: top.i
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:i start:16:24 end:16:25:
           vpiParent: Module name:top
@@ -398,7 +412,7 @@ COMMAND: ${HLC_DIR}/regression/PackEnumVal/PackEnumVal/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              60      60       0         0
+Others                              62      62       0         0
 ----------------------------------------------------------------
-                                    60      60       0         0
+                                    62      62       0         0
 ===================== END REDUCTION RESULT =====================

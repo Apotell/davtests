@@ -370,13 +370,14 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_interface_modport_export.v:50:23: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:50:29: Failed to bind "ie".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:50:46: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_interface_modport_export.v:50:46: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:61:12: Failed to bind "mp_i".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:65:7: Failed to bind "ii".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:65:10: Failed to bind "data".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:66:11: Failed to bind "ii".
 [WRN:CP5851] $Source01/t_interface_modport_export.v:66:14: Failed to bind "myfunc".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/t_interface_modport_export.v:66:14: Null Actual: id:117, type:SubroutineCall, name:myfunc, relation:vpiPathElem.
+[ERR:LN7705] $Source01/t_interface_modport_export.v:66:14: Null Actual: id:119, type:SubroutineCall, name:myfunc, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -393,17 +394,19 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:data start:14:11 end:14:15:
           vpiParent: Interface name:test_if
+          vpiName: data
+          vpiFullName: test_if.data
           vpiTypespec RefTypespec name:logic start:14:4 end:14:9:
             vpiParent: Variable name:data
             vpiName: logic
             vpiFullName: test_if.data.logic
-          vpiName: data
-          vpiFullName: test_if.data
       vpiTypespec (1 items):
         LogicTypespec start:11:20 end:11:20:
           vpiParent: Interface name:test_if
+          vpiScalar: true
       vpiDefName: test_if
       vpiDefNetType: wire (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:8:11 end:8:18:
         vpiParent: Interface name:test_if
         vpiName: work
@@ -468,23 +471,24 @@ Design name:unnamed:
           vpiModule: Module name:testmod_caller
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:31:8 end:31:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:35:10 end:35:13:
           vpiParent: Module name:t
+          vpiName: clk
+          vpiFullName: t.clk
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: t.clk
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:33:4 end:33:7:
           vpiParent: Module name:t
@@ -593,18 +597,28 @@ Design name:unnamed:
       vpiFullName: testmod_callee
       vpiDefName: testmod_callee
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:45:8 end:45:22:
         vpiParent: Module name:testmod_callee
         vpiName: work
         vpiFullName: testmod_callee.work
         vpiActual: Library name:work
       vpiCell: testmod_callee
-      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:myfunc start:50:4 end:54:15:
           vpiParent: Module name:testmod_callee
           vpiName Identifier name:myfunc start:50:32 end:50:38:
           vpiFullName: testmod_callee.myfunc
+          vpiVariable (1 items):
+            Variable name:val start:50:52 end:50:55:
+              vpiParent: Function name:myfunc
+              vpiName: val
+              vpiFullName: testmod_callee.myfunc.val
+              vpiTypespec RefTypespec name:logic start:50:46 end:50:51:
+                vpiParent: Variable name:val
+                vpiName: logic
+                vpiFullName: testmod_callee.myfunc.val.logic
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiPrefix RefObj name:ie start:50:29 end:50:31:
@@ -643,17 +657,17 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: val
                       vpiFullName: testmod_callee.myfunc.val
-                      vpiActual: IODecl name:val
+                      vpiActual: Variable name:val
                     Constant start:52:20 end:52:24:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: testmod_callee.myfunc
-                        vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b0"
                       vpiValue: "0"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: testmod_callee.myfunc
+                        vpiActual: BitTypespec
           vpiReturn RefTypespec name:logic start:50:23 end:50:28:
             vpiParent: Function name:myfunc
             vpiName: logic
@@ -691,23 +705,24 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: testmod_caller
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:58:8 end:58:22:
         vpiParent: Module name:testmod_caller
         vpiName: work
         vpiFullName: testmod_caller.work
         vpiActual: Library name:work
       vpiCell: testmod_caller
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:60:10 end:60:13:
           vpiParent: Module name:testmod_caller
+          vpiName: clk
+          vpiFullName: testmod_caller.clk
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: testmod_caller.clk
             vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: testmod_caller.clk
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:clk start:60:10 end:60:13:
           vpiParent: Module name:testmod_caller
@@ -783,14 +798,14 @@ Design name:unnamed:
                         vpiFullName: testmod_caller.data
                   vpiRhs Constant start:65:17 end:65:21:
                     vpiParent: Assignment
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: testmod_caller
-                      vpiActual: BitTypespec
                     vpiConstType: binary (3)
                     vpiSize: 1
                     vpiDecompile: "1'b0"
                     vpiValue: "0"
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: testmod_caller
+                      vpiActual: BitTypespec
                 IfElse start:66:7 end:72:10:
                   vpiParent: Begin
                   "vpiCondition RefObj name:ii.myfunc(1'b0) start:66:11 end:66:27":
@@ -810,14 +825,14 @@ Design name:unnamed:
                             vpiParent: SubroutineCall name:myfunc
                             vpiHighConn Constant start:66:22 end:66:26:
                               vpiParent: NamedArgument
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: "testmod_caller.ii.myfunc(1'b0).myfunc"
-                                vpiActual: BitTypespec
                               vpiConstType: binary (3)
                               vpiSize: 1
                               vpiDecompile: "1'b0"
                               vpiValue: "0"
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: "testmod_caller.ii.myfunc(1'b0).myfunc"
+                                vpiActual: BitTypespec
                   vpiStmt Begin start:66:29 end:69:10:
                     vpiParent: IfElse
                     vpiFullName: testmod_caller
@@ -830,14 +845,14 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiHighConn Constant start:67:10 end:67:34:
                               vpiParent: NamedArgument
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: testmod_caller
-                                vpiActual: StringTypespec
                               vpiConstType: string (6)
                               vpiSize: 168
                               vpiDecompile: "\"*-* All Finished *-*\\n\""
                               vpiValue: "*-* All Finished *-*\\n"
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: testmod_caller
+                                vpiActual: StringTypespec
                       SysTaskCall name:$finish start:68:3 end:68:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:68:3 end:68:10:
@@ -886,7 +901,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 14
+[WARNING] : 15
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -930,7 +945,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_interface_modport_export/design.hldb 
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             129     129       0         0
+Others                             131     131       0         0
 ----------------------------------------------------------------
-                                   129     129       0         0
+                                   131     131       0         0
 ===================== END REDUCTION RESULT =====================

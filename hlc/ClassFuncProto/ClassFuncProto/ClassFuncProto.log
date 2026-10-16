@@ -251,12 +251,12 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:d start:50:5 end:50:6:
           vpiParent: Module name:toto
+          vpiName: d
+          vpiFullName: toto.d
           vpiTypespec RefTypespec name:DD start:50:2 end:50:4:
             vpiParent: Variable name:d
             vpiName: DD
             vpiFullName: toto.d.DD
-          vpiName: d
-          vpiFullName: toto.d
       vpiTypespec (3 items):
         ClassTypespec name:c2 start:8:7 end:8:9:
           vpiParent: Module name:toto
@@ -275,13 +275,14 @@ Design name:unnamed:
           vpiClassDefn: ClassDefn name:c1
       vpiDefName: toto
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:6:8 end:6:12:
         vpiParent: Module name:toto
         vpiName: work
         vpiFullName: toto.work
         vpiActual: Library name:work
       vpiCell: toto
-      vpiAutomatic: true
       vpiClassDefn (3 items):
         ClassDefn name:c2 file:$Source01/top.v start:8:1 end:12:9:
           vpiParent: Module name:toto
@@ -360,14 +361,14 @@ Design name:unnamed:
                   vpiName Identifier name:UVM_ERROR start:25:3 end:25:12:
                   vpiValue Constant start:25:15 end:25:21:
                     vpiParent: EnumConst name:UVM_ERROR
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: toto::c1::UVM_ERROR
-                      vpiActual: ArrayTypespec
                     vpiConstType: string (6)
                     vpiSize: 32
                     vpiDecompile: "\"toto\""
                     vpiValue: toto
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: toto::c1::UVM_ERROR
+                      vpiActual: ArrayTypespec
                 EnumConst name:UVM_FATAL start:26:3 end:26:12:
                   vpiParent: Enum
                   vpiName Identifier name:UVM_FATAL start:26:3 end:26:12:
@@ -393,24 +394,24 @@ Design name:unnamed:
                 vpiParent: ArrayTypespec
                 vpiLeftRange Constant start:21:19 end:21:20:
                   vpiParent: Range
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: toto::c1
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
-                vpiRightRange Constant start:21:21 end:21:22:
-                  vpiParent: Range
                   vpiTypespec RefTypespec:
                     vpiParent: Constant
                     vpiFullName: toto::c1
                     vpiActual: IntTypespec
+                vpiRightRange Constant start:21:21 end:21:22:
+                  vpiParent: Range
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: toto::c1
+                    vpiActual: IntTypespec
               vpiElemTypespec RefTypespec name:bit start:21:14 end:21:23:
                 vpiParent: ArrayTypespec
                 vpiName: bit
@@ -448,17 +449,16 @@ Design name:unnamed:
               vpiVariable (1 items):
                 Variable name:t start:31:9 end:31:10:
                   vpiParent: Function name:get_current_item
+                  vpiName: t
+                  vpiFullName: toto::c1::get_current_item::t
+                  vpiAutomatic: true
                   vpiTypespec RefTypespec name:REQ start:31:5 end:31:8:
                     vpiParent: Variable name:t
                     vpiName: REQ
                     vpiFullName: toto::c1::get_current_item::t::REQ
-                  vpiName: t
-                  vpiFullName: toto::c1::get_current_item::t
-                  vpiAutomatic: true
               vpiMethod: true
               vpiVisibility: public (1)
               vpiAutomatic: true
-              vpiStmt: Variable name:t
               vpiReturn RefTypespec name:REQ start:30:10 end:30:13:
                 vpiParent: Function name:get_current_item
                 vpiName: REQ
@@ -467,6 +467,16 @@ Design name:unnamed:
               vpiParent: ClassDefn name:c1
               vpiName Identifier name:connect start:35:16 end:35:23:
               vpiFullName: toto::c1::connect
+              vpiVariable (1 items):
+                Variable name:provider start:35:34 end:35:42:
+                  vpiParent: Function name:connect
+                  vpiName: provider
+                  vpiFullName: toto::c1::connect::provider
+                  vpiTypespec RefTypespec name:this_type start:35:24 end:35:33:
+                    vpiParent: Variable name:provider
+                    vpiName: this_type
+                    vpiFullName: toto::c1::connect::provider::this_type
+                    vpiActual: TypedefTypespec name:this_type
               vpiMethod: true
               vpiVisibility: public (1)
               vpiAutomatic: true
@@ -488,6 +498,25 @@ Design name:unnamed:
               vpiParent: ClassDefn name:c1
               vpiName Identifier name:get_verbosity_level start:38:17 end:38:36:
               vpiFullName: toto::c1::get_verbosity_level
+              vpiVariable (2 items):
+                Variable name:severity start:38:50 end:38:58:
+                  vpiParent: Function name:get_verbosity_level
+                  vpiName: severity
+                  vpiFullName: toto::c1::get_verbosity_level::severity
+                  vpiTypespec RefTypespec name:uvm_severity start:38:37 end:38:49:
+                    vpiParent: Variable name:severity
+                    vpiName: uvm_severity
+                    vpiFullName: toto::c1::get_verbosity_level::severity::uvm_severity
+                    vpiActual: TypedefTypespec name:uvm_severity
+                Variable name:reg_a start:38:79 end:38:84:
+                  vpiParent: Function name:get_verbosity_level
+                  vpiName: reg_a
+                  vpiFullName: toto::c1::get_verbosity_level::reg_a
+                  vpiTypespec RefTypespec name:uvm_reg [] start:38:71 end:38:78:
+                    vpiParent: Variable name:reg_a
+                    vpiName: uvm_reg []
+                    vpiFullName: toto::c1::get_verbosity_level::reg_a::uvm_reg []
+                    vpiActual: ArrayTypespec
               vpiTypespec (1 items):
                 ArrayTypespec:
                   vpiParent: Function name:get_verbosity_level
@@ -533,6 +562,25 @@ Design name:unnamed:
               vpiParent: ClassDefn name:c1
               vpiName Identifier name:set_verbosity_level start:41:15 end:41:34:
               vpiFullName: toto::c1::set_verbosity_level
+              vpiVariable (2 items):
+                Variable name:severity start:41:48 end:41:56:
+                  vpiParent: Function name:set_verbosity_level
+                  vpiName: severity
+                  vpiFullName: toto::c1::set_verbosity_level::severity
+                  vpiTypespec RefTypespec name:uvm_severity start:41:35 end:41:47:
+                    vpiParent: Variable name:severity
+                    vpiName: uvm_severity
+                    vpiFullName: toto::c1::set_verbosity_level::severity::uvm_severity
+                    vpiActual: TypedefTypespec name:uvm_severity
+                Variable name:reg_a start:41:79 end:41:84:
+                  vpiParent: Function name:set_verbosity_level
+                  vpiName: reg_a
+                  vpiFullName: toto::c1::set_verbosity_level::reg_a
+                  vpiTypespec RefTypespec name:uvm_reg [] start:41:71 end:41:78:
+                    vpiParent: Variable name:reg_a
+                    vpiName: uvm_reg []
+                    vpiFullName: toto::c1::set_verbosity_level::reg_a::uvm_reg []
+                    vpiActual: ArrayTypespec
               vpiTypespec (1 items):
                 ArrayTypespec:
                   vpiParent: Function name:set_verbosity_level
@@ -578,6 +626,24 @@ Design name:unnamed:
               vpiParent: ClassDefn name:c1
               vpiName Identifier name:wait_for_total_count start:44:7 end:44:27:
               vpiFullName: toto::c1::wait_for_total_count
+              vpiVariable (2 items):
+                Variable name:obj start:44:31 end:44:34:
+                  vpiParent: Task name:wait_for_total_count
+                  vpiName: obj
+                  vpiFullName: toto::c1::wait_for_total_count::obj
+                  vpiTypespec RefTypespec name:c2 start:44:28 end:44:30:
+                    vpiParent: Variable name:obj
+                    vpiName: c2
+                    vpiFullName: toto::c1::wait_for_total_count::obj::c2
+                    vpiActual: ClassTypespec name:c2
+                Variable name:count start:44:45 end:44:50:
+                  vpiParent: Task name:wait_for_total_count
+                  vpiName: count
+                  vpiFullName: toto::c1::wait_for_total_count::count
+                  vpiTypespec RefTypespec start:44:41 end:44:44:
+                    vpiParent: Variable name:count
+                    vpiFullName: toto::c1::wait_for_total_count::count
+                    vpiActual: IntTypespec
               vpiTypespec (1 items):
                 ClassTypespec name:c2 start:44:28 end:44:30:
                   vpiParent: Task name:wait_for_total_count
@@ -607,14 +673,14 @@ Design name:unnamed:
                   vpiDirection: input (1)
                   vpiExpr Constant start:44:51 end:44:52:
                     vpiParent: IODecl name:count
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: toto::c1::wait_for_total_count::count
-                      vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: toto::c1::wait_for_total_count::count
+                      vpiActual: IntTypespec
                   vpiTypespec RefTypespec start:44:41 end:44:44:
                     vpiParent: IODecl name:count
                     vpiFullName: toto::c1::wait_for_total_count::count
@@ -692,7 +758,7 @@ COMMAND: ${HLC_DIR}/regression/ClassFuncProto/ClassFuncProto/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1487    1487       0         0
+Others                            1635    1635       0         0
 ----------------------------------------------------------------
-                                  1487    1487       0         0
+                                  1635    1635       0         0
 ===================== END REDUCTION RESULT =====================

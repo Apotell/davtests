@@ -139,13 +139,14 @@ Design name:unnamed:
       vpiFullName: GOOD
       vpiDefName: GOOD
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:12:
         vpiParent: Module name:GOOD
         vpiName: work
         vpiFullName: GOOD.work
         vpiActual: Library name:work
       vpiCell: GOOD
-      vpiAutomatic: true
     "Module name:param_test #(.DRspDepth(4'h2)) file:$Source01/dut.sv start:4:1 end:10:10":
       vpiParent: Design name:unnamed
       "vpiName Identifier name:param_test #(.DRspDepth(4'h2)) start:4:8 end:4:18":
@@ -153,12 +154,12 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:DRspDepth start:5:25 end:5:34:
           vpiParent: "Module name:param_test #(.DRspDepth(4'h2))"
+          vpiName: DRspDepth
+          vpiFullName: "param_test #(.DRspDepth(4'h2)).DRspDepth"
           vpiTypespec RefTypespec start:5:11 end:5:20:
             vpiParent: Parameter name:DRspDepth
             vpiFullName: "param_test #(.DRspDepth(4'h2)).DRspDepth"
             vpiActual: BitTypespec
-          vpiName: DRspDepth
-          vpiFullName: "param_test #(.DRspDepth(4'h2)).DRspDepth"
       vpiParamAssign (1 items):
         ParamAssign start:5:25 end:5:41:
           vpiParent: "Module name:param_test #(.DRspDepth(4'h2))"
@@ -169,14 +170,14 @@ Design name:unnamed:
             vpiActual: Parameter name:DRspDepth
           vpiRhs Constant start:5:37 end:5:41:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: "param_test #(.DRspDepth(4'h2))"
-              vpiActual: IntTypespec
             vpiConstType: hexadecimal (5)
             vpiSize: 4
             vpiDecompile: "4'h2"
             vpiValue: "2"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "param_test #(.DRspDepth(4'h2))"
+              vpiActual: IntTypespec
       vpiTypespec (1 items):
         BitTypespec:
           vpiParent: "Module name:param_test #(.DRspDepth(4'h2))"
@@ -185,34 +186,35 @@ Design name:unnamed:
               vpiParent: BitTypespec
               vpiLeftRange Constant start:5:16 end:5:17:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "param_test #(.DRspDepth(4'h2))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "3"
                 vpiValue: 3
-              vpiRightRange Constant start:5:18 end:5:19:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: "param_test #(.DRspDepth(4'h2))"
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:5:18 end:5:19:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "param_test #(.DRspDepth(4'h2))"
+                  vpiActual: IntTypespec
           vpiVector: true
       vpiDefName: param_test
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:4:8 end:4:18:
         vpiParent: "Module name:param_test #(.DRspDepth(4'h2))"
         vpiName: work
         vpiFullName: "param_test #(.DRspDepth(4'h2)).work"
         vpiActual: Library name:work
       vpiCell: param_test
-      vpiAutomatic: true
       vpiGenStmt (1 items):
         GenIf start:7:4 end:9:7:
           vpiParent: "Module name:param_test #(.DRspDepth(4'h2))"
@@ -227,26 +229,27 @@ Design name:unnamed:
                 vpiActual: Parameter name:DRspDepth
               Constant start:7:21 end:7:22:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "param_test #(.DRspDepth(4'h2))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
-          vpiStmt Begin start:7:24 end:9:7:
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "param_test #(.DRspDepth(4'h2))"
+                  vpiActual: IntTypespec
+          vpiStmt GenBlock start:7:24 end:9:7:
             vpiParent: GenIf
             vpiFullName: "param_test #(.DRspDepth(4'h2))"
             vpiTypespec (1 items):
               ModuleTypespec name:GOOD start:8:6 end:8:10:
-                vpiParent: Begin
+                vpiParent: GenBlock
                 vpiName Identifier name:GOOD start:8:6 end:8:10:
                 vpiDefName: GOOD
                 vpiModule: Module name:GOOD
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               RefInstance name:good start:8:11 end:8:15:
-                vpiParent: Begin
+                vpiParent: GenBlock
                 vpiName: good
                 vpiTypespec RefTypespec name:GOOD start:8:6 end:8:10:
                   vpiParent: RefInstance name:good
@@ -274,24 +277,25 @@ Design name:unnamed:
                 vpiActual: Parameter name:DRspDepth
               vpiRhs Constant start:15:16 end:15:20:
                 vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut.param_test
-                  vpiActual: IntTypespec
                 vpiConstType: hexadecimal (5)
                 vpiSize: 4
                 vpiDecompile: "4'h0"
                 vpiValue: "0"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: dut.param_test
+                  vpiActual: IntTypespec
           vpiModule: "Module name:param_test #(.DRspDepth(4'h2))"
       vpiDefName: dut
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:12:8 end:12:11:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
         vpiActual: Library name:work
       vpiCell: dut
-      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:t1 start:16:5 end:16:7:
           vpiParent: Module name:dut

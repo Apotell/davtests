@@ -683,8 +683,6 @@ AST_DEBUG_END
 [ERR:DB2029] $Source01/t_interface_gen.v:24:4: Unsupported typespec "".
 [ERR:LN7705] $Source01/t_interface_gen.v:38:13: Null Actual: id:129, type:SubroutineCall, name:get_value, relation:vpiPathElem.
 [ERR:LN7705] $Source01/t_interface_gen.v:39:13: Null Actual: id:140, type:SubroutineCall, name:get_value, relation:vpiPathElem.
-[ERR:CP5886] $Source01/t_interface_gen.v:57:22: Illegal hierarchical reference: valuea.
-[ERR:CP5886] $Source01/t_interface_gen.v:60:22: Illegal hierarchical reference: valueb.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -701,12 +699,12 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:MODE start:68:14 end:68:18:
           vpiParent: Interface name:ifc
+          vpiName: MODE
+          vpiFullName: ifc.MODE
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:MODE
             vpiFullName: ifc.MODE
             vpiActual: LogicTypespec
-          vpiName: MODE
-          vpiFullName: ifc.MODE
       vpiParamAssign (1 items):
         ParamAssign start:68:14 end:68:22:
           vpiParent: Interface name:ifc
@@ -717,20 +715,21 @@ Design name:unnamed:
             vpiActual: Parameter name:MODE
           vpiRhs Constant start:68:21 end:68:22:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: ifc
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: ifc
+              vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:ifc
           vpiScalar: true
       vpiDefName: ifc
       vpiDefNetType: wire (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:67:11 end:67:14:
         vpiParent: Interface name:ifc
         vpiName: work
@@ -738,121 +737,126 @@ Design name:unnamed:
         vpiActual: Library name:work
       vpiCell: ifc
       vpiGenStmt (1 items):
-        GenIfElse start:75:13 end:84:7:
+        GenRegion start:75:4 end:85:15:
           vpiParent: Interface name:ifc
-          vpiCondition Operation start:75:17 end:75:26:
-            vpiParent: GenIfElse
-            vpiOpType: equal (14)
-            vpiOperand (2 items):
-              RefObj name:MODE start:75:17 end:75:21:
-                vpiParent: Operation
-                vpiName: MODE
-                vpiFullName: ifc.MODE
-                vpiActual: Parameter name:MODE
-              Constant start:75:25 end:75:26:
-                vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: ifc
-                  vpiActual: IntTypespec
-                vpiConstType: unsigned int (9)
-                vpiSize: 64
-                vpiDecompile: "0"
-                vpiValue: 0
-          vpiStmt Begin start:75:28 end:79:7:
-            vpiParent: GenIfElse
-            vpiFullName: ifc
-            vpiVariable (1 items):
-              Variable name:valuea start:76:15 end:76:21:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:76:7 end:76:14:
-                  vpiParent: Variable name:valuea
-                  vpiFullName: ifc.valuea
-                  vpiActual: IntegerTypespec
-                vpiName: valuea
-                vpiFullName: ifc.valuea
-            vpiTypespec (1 items):
-              IntegerTypespec:
-                vpiParent: Begin
-                vpiSigned: true
-            vpiStmt (3 items):
-              Variable name:valuea:
-              Modport name:out_modport start:77:15 end:77:26:
-                vpiParent: Begin
-                vpiName Identifier name:out_modport:
-                vpiIODecl (1 items):
-                  IODecl name:valuea start:77:35 end:77:41:
-                    vpiParent: Modport name:out_modport
+          vpiStmt (1 items):
+            GenIfElse start:75:13 end:84:7:
+              vpiParent: GenRegion
+              vpiCondition Operation start:75:17 end:75:26:
+                vpiParent: GenIfElse
+                vpiOpType: equal (14)
+                vpiOperand (2 items):
+                  RefObj name:MODE start:75:17 end:75:21:
+                    vpiParent: Operation
+                    vpiName: MODE
+                    vpiFullName: ifc.MODE
+                    vpiActual: Parameter name:MODE
+                  Constant start:75:25 end:75:26:
+                    vpiParent: Operation
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: ifc
+                      vpiActual: IntTypespec
+              vpiStmt GenBlock start:75:28 end:79:7:
+                vpiParent: GenIfElse
+                vpiFullName: ifc
+                vpiVariable (1 items):
+                  Variable name:valuea start:76:15 end:76:21:
+                    vpiParent: GenBlock
                     vpiName: valuea
-                    vpiDirection: output (2)
-                vpiInterface: Interface name:ifc
-              Function name:get_valuea start:78:7 end:78:64:
-                vpiParent: Begin
-                vpiName Identifier name:get_valuea start:78:24 end:78:34:
-                vpiFullName: ifc.get_valuea
+                    vpiFullName: ifc.valuea
+                    vpiTypespec RefTypespec start:76:7 end:76:14:
+                      vpiParent: Variable name:valuea
+                      vpiFullName: ifc.valuea
+                      vpiActual: IntegerTypespec
                 vpiTypespec (1 items):
                   IntegerTypespec:
-                    vpiParent: Function name:get_valuea
+                    vpiParent: GenBlock
                     vpiSigned: true
-                vpiVisibility: public (1)
-                vpiStmt ReturnStmt start:78:38 end:78:52:
-                  vpiParent: Function name:get_valuea
-                  vpiCondition RefObj name:valuea start:78:45 end:78:51:
-                    vpiParent: ReturnStmt
-                    vpiName: valuea
-                    vpiFullName: ifc.get_valuea.valuea
-                    vpiActual: Variable name:valuea
-                vpiReturn RefTypespec start:78:16 end:78:23:
-                  vpiParent: Function name:get_valuea
-                  vpiFullName: ifc.get_valuea
-                  vpiActual: IntegerTypespec
-          vpiElseStmt Begin start:80:9 end:84:7:
-            vpiParent: GenIfElse
-            vpiFullName: ifc
-            vpiVariable (1 items):
-              Variable name:valueb start:81:15 end:81:21:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:81:7 end:81:14:
-                  vpiParent: Variable name:valueb
-                  vpiFullName: ifc.valueb
-                  vpiActual: IntegerTypespec
-                vpiName: valueb
-                vpiFullName: ifc.valueb
-            vpiTypespec (1 items):
-              IntegerTypespec:
-                vpiParent: Begin
-                vpiSigned: true
-            vpiStmt (3 items):
-              Variable name:valueb:
-              Modport name:out_modport start:82:15 end:82:26:
-                vpiParent: Begin
-                vpiName Identifier name:out_modport:
-                vpiIODecl (1 items):
-                  IODecl name:valueb start:82:35 end:82:41:
-                    vpiParent: Modport name:out_modport
+                vpiImplicitDecl: true
+                vpiTaskFunc (1 items):
+                  Function name:get_valuea start:78:7 end:78:64:
+                    vpiParent: GenBlock
+                    vpiName Identifier name:get_valuea start:78:24 end:78:34:
+                    vpiFullName: ifc.get_valuea
+                    vpiTypespec (1 items):
+                      IntegerTypespec:
+                        vpiParent: Function name:get_valuea
+                        vpiSigned: true
+                    vpiVisibility: public (1)
+                    vpiStmt ReturnStmt start:78:38 end:78:52:
+                      vpiParent: Function name:get_valuea
+                      vpiCondition RefObj name:valuea start:78:45 end:78:51:
+                        vpiParent: ReturnStmt
+                        vpiName: valuea
+                        vpiFullName: ifc.get_valuea.valuea
+                        vpiActual: Variable name:valuea
+                    vpiReturn RefTypespec start:78:16 end:78:23:
+                      vpiParent: Function name:get_valuea
+                      vpiFullName: ifc.get_valuea
+                      vpiActual: IntegerTypespec
+                vpiStmt (1 items):
+                  Modport name:out_modport start:77:15 end:77:26:
+                    vpiParent: GenBlock
+                    vpiName Identifier name:out_modport:
+                    vpiIODecl (1 items):
+                      IODecl name:valuea start:77:35 end:77:41:
+                        vpiParent: Modport name:out_modport
+                        vpiName: valuea
+                        vpiDirection: output (2)
+                    vpiInterface: Interface name:ifc
+              vpiElseStmt GenBlock start:80:9 end:84:7:
+                vpiParent: GenIfElse
+                vpiFullName: ifc
+                vpiVariable (1 items):
+                  Variable name:valueb start:81:15 end:81:21:
+                    vpiParent: GenBlock
                     vpiName: valueb
-                    vpiDirection: output (2)
-                vpiInterface: Interface name:ifc
-              Function name:get_valueb start:83:7 end:83:64:
-                vpiParent: Begin
-                vpiName Identifier name:get_valueb start:83:24 end:83:34:
-                vpiFullName: ifc.get_valueb
+                    vpiFullName: ifc.valueb
+                    vpiTypespec RefTypespec start:81:7 end:81:14:
+                      vpiParent: Variable name:valueb
+                      vpiFullName: ifc.valueb
+                      vpiActual: IntegerTypespec
                 vpiTypespec (1 items):
                   IntegerTypespec:
-                    vpiParent: Function name:get_valueb
+                    vpiParent: GenBlock
                     vpiSigned: true
-                vpiVisibility: public (1)
-                vpiStmt ReturnStmt start:83:38 end:83:52:
-                  vpiParent: Function name:get_valueb
-                  vpiCondition RefObj name:valueb start:83:45 end:83:51:
-                    vpiParent: ReturnStmt
-                    vpiName: valueb
-                    vpiFullName: ifc.get_valueb.valueb
-                    vpiActual: Variable name:valueb
-                vpiReturn RefTypespec start:83:16 end:83:23:
-                  vpiParent: Function name:get_valueb
-                  vpiFullName: ifc.get_valueb
-                  vpiActual: IntegerTypespec
+                vpiImplicitDecl: true
+                vpiTaskFunc (1 items):
+                  Function name:get_valueb start:83:7 end:83:64:
+                    vpiParent: GenBlock
+                    vpiName Identifier name:get_valueb start:83:24 end:83:34:
+                    vpiFullName: ifc.get_valueb
+                    vpiTypespec (1 items):
+                      IntegerTypespec:
+                        vpiParent: Function name:get_valueb
+                        vpiSigned: true
+                    vpiVisibility: public (1)
+                    vpiStmt ReturnStmt start:83:38 end:83:52:
+                      vpiParent: Function name:get_valueb
+                      vpiCondition RefObj name:valueb start:83:45 end:83:51:
+                        vpiParent: ReturnStmt
+                        vpiName: valueb
+                        vpiFullName: ifc.get_valueb.valueb
+                        vpiActual: Variable name:valueb
+                    vpiReturn RefTypespec start:83:16 end:83:23:
+                      vpiParent: Function name:get_valueb
+                      vpiFullName: ifc.get_valueb
+                      vpiActual: IntegerTypespec
+                vpiStmt (1 items):
+                  Modport name:out_modport start:82:15 end:82:26:
+                    vpiParent: GenBlock
+                    vpiName Identifier name:out_modport:
+                    vpiIODecl (1 items):
+                      IODecl name:valueb start:82:35 end:82:41:
+                        vpiParent: Modport name:out_modport
+                        vpiName: valueb
+                        vpiDirection: output (2)
+                    vpiInterface: Interface name:ifc
   vpiAllModules (2 items):
     Module name:t file:$Source01/t_interface_gen.v start:15:1 end:44:10:
       vpiParent: Design name:unnamed
@@ -861,22 +865,22 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:cyc start:21:12 end:21:15:
           vpiParent: Module name:t
-          vpiTypespec RefTypespec start:21:4 end:21:11:
-            vpiParent: Variable name:cyc
-            vpiFullName: t.cyc
-            vpiActual: IntegerTypespec
           vpiName: cyc
           vpiFullName: t.cyc
           vpiValue Constant start:21:16 end:21:17:
             vpiParent: Variable name:cyc
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.cyc
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.cyc
+              vpiActual: IntTypespec
+          vpiTypespec RefTypespec start:21:4 end:21:11:
+            vpiParent: Variable name:cyc
+            vpiFullName: t.cyc
+            vpiActual: IntegerTypespec
       vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:t
@@ -892,27 +896,27 @@ Design name:unnamed:
               vpiOverridden: true
               vpiRhs Constant start:23:10 end:23:11:
                 vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
             ParamAssign start:23:10 end:23:11:
               vpiParent: UnsupportedTypespec
               vpiOverridden: true
               vpiRhs Constant start:23:10 end:23:11:
                 vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
         UnsupportedTypespec start:24:4 end:24:12:
           vpiParent: Module name:t
           vpiParamAssign (2 items):
@@ -921,27 +925,27 @@ Design name:unnamed:
               vpiOverridden: true
               vpiRhs Constant start:24:10 end:24:11:
                 vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
             ParamAssign start:24:10 end:24:11:
               vpiParent: UnsupportedTypespec
               vpiOverridden: true
               vpiRhs Constant start:24:10 end:24:11:
                 vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t
+                  vpiActual: IntTypespec
         ModuleTypespec name:sub start:26:4 end:26:7:
           vpiParent: Module name:t
           vpiName Identifier name:sub start:26:4 end:26:7:
@@ -957,14 +961,14 @@ Design name:unnamed:
                 vpiActual: Parameter name:MODE
               vpiRhs Constant start:26:10 end:26:11:
                 vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.sub
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "1"
                 vpiValue: 1
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.sub
+                  vpiActual: IntTypespec
           vpiModule: Module name:sub #(.MODE(0))
         ModuleTypespec name:sub start:28:4 end:28:7:
           vpiParent: Module name:t
@@ -981,34 +985,35 @@ Design name:unnamed:
                 vpiActual: Parameter name:MODE
               vpiRhs Constant start:28:10 end:28:11:
                 vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.sub
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.sub
+                  vpiActual: IntTypespec
           vpiModule: Module name:sub #(.MODE(0))
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:15:8 end:15:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:clk start:20:10 end:20:13:
           vpiParent: Module name:t
+          vpiName: clk
+          vpiFullName: t.clk
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: t.clk
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:clk start:17:4 end:17:7:
           vpiParent: Module name:t
@@ -1059,14 +1064,14 @@ Design name:unnamed:
                         vpiActual: Variable name:cyc
                       Constant start:32:20 end:32:21:
                         vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: t
-                          vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
                         vpiDecompile: "1"
                         vpiValue: 1
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: IntTypespec
                 IfStmt start:33:7 end:36:10:
                   vpiParent: Begin
                   vpiCondition Operation start:33:11 end:33:17:
@@ -1080,14 +1085,14 @@ Design name:unnamed:
                         vpiActual: Variable name:cyc
                       Constant start:33:16 end:33:17:
                         vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: t
-                          vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
                         vpiDecompile: "1"
                         vpiValue: 1
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: IntTypespec
                   vpiStmt Begin start:33:19 end:36:10:
                     vpiParent: IfStmt
                     vpiFullName: t
@@ -1114,14 +1119,14 @@ Design name:unnamed:
                                   vpiFullName: t.MODE
                             Constant start:34:21 end:34:22:
                               vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
                               vpiDecompile: "1"
                               vpiValue: 1
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: IntTypespec
                         vpiStmt SysTaskCall name:$stop start:34:24 end:34:29:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:34:24 end:34:29:
@@ -1148,14 +1153,14 @@ Design name:unnamed:
                                   vpiFullName: t.MODE
                             Constant start:35:21 end:35:22:
                               vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
                               vpiDecompile: "2"
                               vpiValue: 2
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: IntTypespec
                         vpiStmt SysTaskCall name:$stop start:35:24 end:35:29:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:35:24 end:35:29:
@@ -1173,14 +1178,14 @@ Design name:unnamed:
                         vpiActual: Variable name:cyc
                       Constant start:37:16 end:37:18:
                         vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: t
-                          vpiActual: IntTypespec
                         vpiConstType: unsigned int (9)
                         vpiSize: 64
                         vpiDecompile: "20"
                         vpiValue: 20
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t
+                          vpiActual: IntTypespec
                   vpiStmt Begin start:37:20 end:42:10:
                     vpiParent: IfStmt
                     vpiFullName: t
@@ -1206,14 +1211,14 @@ Design name:unnamed:
                                   vpiName Identifier name:get_value start:38:13 end:38:22:
                             Constant start:38:28 end:38:29:
                               vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
                               vpiDecompile: "4"
                               vpiValue: 4
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: IntTypespec
                         vpiStmt SysTaskCall name:$stop start:38:31 end:38:36:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:38:31 end:38:36:
@@ -1239,14 +1244,14 @@ Design name:unnamed:
                                   vpiName Identifier name:get_value start:39:13 end:39:22:
                             Constant start:39:28 end:39:29:
                               vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: IntTypespec
                               vpiConstType: unsigned int (9)
                               vpiSize: 64
                               vpiDecompile: "5"
                               vpiValue: 5
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: IntTypespec
                         vpiStmt SysTaskCall name:$stop start:39:31 end:39:36:
                           vpiParent: IfStmt
                           vpiName Identifier name:$stop start:39:31 end:39:36:
@@ -1259,14 +1264,14 @@ Design name:unnamed:
                             vpiParent: SysTaskCall name:$write
                             vpiHighConn Constant start:40:10 end:40:34:
                               vpiParent: NamedArgument
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: StringTypespec
                               vpiConstType: string (6)
                               vpiSize: 168
                               vpiDecompile: "\"*-* All Finished *-*\\n\""
                               vpiValue: "*-* All Finished *-*\\n"
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: StringTypespec
                       SysTaskCall name:$finish start:41:3 end:41:10:
                         vpiParent: Begin
                         vpiName Identifier name:$finish start:41:3 end:41:10:
@@ -1326,14 +1331,14 @@ Design name:unnamed:
                 vpiActual: Port name:i_value
               vpiHighConn Constant start:27:12 end:27:13:
                 vpiParent: NamedArgument
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.ca
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "4"
                 vpiValue: 4
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.ca
+                  vpiActual: IntTypespec
         RefInstance name:cb start:28:13 end:28:15:
           vpiParent: Module name:t
           vpiName: cb
@@ -1366,14 +1371,14 @@ Design name:unnamed:
                 vpiActual: Port name:i_value
               vpiHighConn Constant start:29:12 end:29:13:
                 vpiParent: NamedArgument
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.cb
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "5"
                 vpiValue: 5
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.cb
+                  vpiActual: IntTypespec
     Module name:sub #(.MODE(0)) file:$Source01/t_interface_gen.v start:46:1 end:65:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:sub #(.MODE(0)) start:46:8 end:46:11:
@@ -1381,12 +1386,12 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:MODE start:47:15 end:47:19:
           vpiParent: Module name:sub #(.MODE(0))
+          vpiName: MODE
+          vpiFullName: sub #(.MODE(0)).MODE
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:MODE
             vpiFullName: sub #(.MODE(0)).MODE
             vpiActual: LogicTypespec
-          vpiName: MODE
-          vpiFullName: sub #(.MODE(0)).MODE
       vpiParamAssign (1 items):
         ParamAssign start:47:15 end:47:23:
           vpiParent: Module name:sub #(.MODE(0))
@@ -1397,14 +1402,14 @@ Design name:unnamed:
             vpiActual: Parameter name:MODE
           vpiRhs Constant start:47:22 end:47:23:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: sub #(.MODE(0))
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "0"
             vpiValue: 0
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: sub #(.MODE(0))
+              vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:sub #(.MODE(0))
@@ -1414,23 +1419,24 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: sub
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:46:8 end:46:11:
         vpiParent: Module name:sub #(.MODE(0))
         vpiName: work
         vpiFullName: sub #(.MODE(0)).work
         vpiActual: Library name:work
       vpiCell: sub
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:i_value start:50:18 end:50:25:
           vpiParent: Module name:sub #(.MODE(0))
+          vpiName: i_value
+          vpiFullName: sub #(.MODE(0)).i_value
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec start:50:10 end:50:17:
             vpiParent: Net name:i_value
             vpiFullName: sub #(.MODE(0)).i_value
             vpiActual: IntegerTypespec
-          vpiName: i_value
-          vpiFullName: sub #(.MODE(0)).i_value
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:isub start:49:20 end:49:24:
           vpiParent: Module name:sub #(.MODE(0))
@@ -1470,115 +1476,113 @@ Design name:unnamed:
       vpiGenStmt (1 items):
         GenRegion start:56:4 end:62:15:
           vpiParent: Module name:sub #(.MODE(0))
-          vpiFullName: sub #(.MODE(0))
-          vpiStmt GenIfElse start:56:13 end:61:7:
-            vpiParent: GenRegion
-            vpiCondition Operation start:56:17 end:56:26:
-              vpiParent: GenIfElse
-              vpiOpType: equal (14)
-              vpiOperand (2 items):
-                RefObj name:MODE start:56:17 end:56:21:
-                  vpiParent: Operation
-                  vpiName: MODE
-                  vpiFullName: sub #(.MODE(0)).MODE
-                  vpiActual: Parameter name:MODE
-                Constant start:56:25 end:56:26:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: sub #(.MODE(0))
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "1"
-                  vpiValue: 1
-            vpiStmt Begin start:56:28 end:58:7:
-              vpiParent: GenIfElse
-              vpiFullName: sub #(.MODE(0))
-              vpiStmt (1 items):
-                Always start:57:7 end:57:39:
-                  vpiParent: Begin
-                  vpiStmt EventControl start:57:14 end:57:39:
-                    vpiParent: Always
-                    vpiStmt Assignment start:57:17 end:57:38:
-                      vpiParent: EventControl
-                      vpiBlocking: true
-                      vpiLhs RefObj name:isub.valuea start:57:17 end:57:28:
-                        vpiParent: Assignment
-                        vpiName: isub.valuea
-                        vpiFullName: sub #(.MODE(0)).isub.valuea
-                        vpiPathElem (2 items):
-                          RefObj name:isub start:57:17 end:57:21:
-                            vpiParent: RefObj name:isub.valuea
-                            vpiName: isub
-                            vpiFullName: sub #(.MODE(0)).isub
-                          RefObj name:valuea start:57:22 end:57:28:
-                            vpiParent: RefObj name:isub.valuea
-                            vpiName: valuea
-                            vpiFullName: sub #(.MODE(0)).valuea
-                      vpiRhs RefObj name:i_value start:57:31 end:57:38:
-                        vpiParent: Assignment
-                        vpiName: i_value
-                        vpiFullName: sub #(.MODE(0)).i_value
-                        vpiActual: Net name:i_value
-                    vpiIsImplicitControl: true
-                  vpiAlwaysType: always (1)
-            vpiElseStmt Begin:
-              vpiParent: GenIfElse
-              vpiFullName: sub #(.MODE(0))
-              vpiStmt (1 items):
-                GenIf start:59:9 end:61:7:
-                  vpiParent: Begin
-                  vpiCondition Operation start:59:13 end:59:22:
-                    vpiParent: GenIf
-                    vpiOpType: equal (14)
-                    vpiOperand (2 items):
-                      RefObj name:MODE start:59:13 end:59:17:
-                        vpiParent: Operation
-                        vpiName: MODE
-                        vpiFullName: sub #(.MODE(0)).MODE
-                        vpiActual: Parameter name:MODE
-                      Constant start:59:21 end:59:22:
-                        vpiParent: Operation
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: sub #(.MODE(0))
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "2"
-                        vpiValue: 2
-                  vpiStmt Begin start:59:24 end:61:7:
-                    vpiParent: GenIf
-                    vpiFullName: sub #(.MODE(0))
-                    vpiStmt (1 items):
-                      Always start:60:7 end:60:39:
-                        vpiParent: Begin
-                        vpiStmt EventControl start:60:14 end:60:39:
-                          vpiParent: Always
-                          vpiStmt Assignment start:60:17 end:60:38:
-                            vpiParent: EventControl
-                            vpiBlocking: true
-                            vpiLhs RefObj name:isub.valueb start:60:17 end:60:28:
-                              vpiParent: Assignment
-                              vpiName: isub.valueb
-                              vpiFullName: sub #(.MODE(0)).isub.valueb
-                              vpiPathElem (2 items):
-                                RefObj name:isub start:60:17 end:60:21:
-                                  vpiParent: RefObj name:isub.valueb
-                                  vpiName: isub
-                                  vpiFullName: sub #(.MODE(0)).isub
-                                RefObj name:valueb start:60:22 end:60:28:
-                                  vpiParent: RefObj name:isub.valueb
-                                  vpiName: valueb
-                                  vpiFullName: sub #(.MODE(0)).valueb
-                            vpiRhs RefObj name:i_value start:60:31 end:60:38:
-                              vpiParent: Assignment
-                              vpiName: i_value
-                              vpiFullName: sub #(.MODE(0)).i_value
-                              vpiActual: Net name:i_value
-                          vpiIsImplicitControl: true
-                        vpiAlwaysType: always (1)
+          vpiStmt (1 items):
+            GenIfElse start:56:13 end:61:7:
+              vpiParent: GenRegion
+              vpiCondition Operation start:56:17 end:56:26:
+                vpiParent: GenIfElse
+                vpiOpType: equal (14)
+                vpiOperand (2 items):
+                  RefObj name:MODE start:56:17 end:56:21:
+                    vpiParent: Operation
+                    vpiName: MODE
+                    vpiFullName: sub #(.MODE(0)).MODE
+                    vpiActual: Parameter name:MODE
+                  Constant start:56:25 end:56:26:
+                    vpiParent: Operation
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: sub #(.MODE(0))
+                      vpiActual: IntTypespec
+              vpiStmt GenBlock start:56:28 end:58:7:
+                vpiParent: GenIfElse
+                vpiFullName: sub #(.MODE(0))
+                vpiImplicitDecl: true
+                vpiStmt (1 items):
+                  Always start:57:7 end:57:39:
+                    vpiParent: GenBlock
+                    vpiStmt EventControl start:57:14 end:57:39:
+                      vpiParent: Always
+                      vpiStmt Assignment start:57:17 end:57:38:
+                        vpiParent: EventControl
+                        vpiBlocking: true
+                        vpiLhs RefObj name:isub.valuea start:57:17 end:57:28:
+                          vpiParent: Assignment
+                          vpiName: isub.valuea
+                          vpiFullName: sub #(.MODE(0)).isub.valuea
+                          vpiPathElem (2 items):
+                            RefObj name:isub start:57:17 end:57:21:
+                              vpiParent: RefObj name:isub.valuea
+                              vpiName: isub
+                              vpiFullName: sub #(.MODE(0)).isub
+                            RefObj name:valuea start:57:22 end:57:28:
+                              vpiParent: RefObj name:isub.valuea
+                              vpiName: valuea
+                              vpiFullName: sub #(.MODE(0)).valuea
+                        vpiRhs RefObj name:i_value start:57:31 end:57:38:
+                          vpiParent: Assignment
+                          vpiName: i_value
+                          vpiFullName: sub #(.MODE(0)).i_value
+                          vpiActual: Net name:i_value
+                      vpiIsImplicitControl: true
+                    vpiAlwaysType: always (1)
+              vpiElseStmt GenIf start:59:9 end:61:7:
+                vpiParent: GenIfElse
+                vpiCondition Operation start:59:13 end:59:22:
+                  vpiParent: GenIf
+                  vpiOpType: equal (14)
+                  vpiOperand (2 items):
+                    RefObj name:MODE start:59:13 end:59:17:
+                      vpiParent: Operation
+                      vpiName: MODE
+                      vpiFullName: sub #(.MODE(0)).MODE
+                      vpiActual: Parameter name:MODE
+                    Constant start:59:21 end:59:22:
+                      vpiParent: Operation
+                      vpiConstType: unsigned int (9)
+                      vpiSize: 64
+                      vpiDecompile: "2"
+                      vpiValue: 2
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: sub #(.MODE(0))
+                        vpiActual: IntTypespec
+                vpiStmt GenBlock start:59:24 end:61:7:
+                  vpiParent: GenIf
+                  vpiFullName: sub #(.MODE(0))
+                  vpiImplicitDecl: true
+                  vpiStmt (1 items):
+                    Always start:60:7 end:60:39:
+                      vpiParent: GenBlock
+                      vpiStmt EventControl start:60:14 end:60:39:
+                        vpiParent: Always
+                        vpiStmt Assignment start:60:17 end:60:38:
+                          vpiParent: EventControl
+                          vpiBlocking: true
+                          vpiLhs RefObj name:isub.valueb start:60:17 end:60:28:
+                            vpiParent: Assignment
+                            vpiName: isub.valueb
+                            vpiFullName: sub #(.MODE(0)).isub.valueb
+                            vpiPathElem (2 items):
+                              RefObj name:isub start:60:17 end:60:21:
+                                vpiParent: RefObj name:isub.valueb
+                                vpiName: isub
+                                vpiFullName: sub #(.MODE(0)).isub
+                              RefObj name:valueb start:60:22 end:60:28:
+                                vpiParent: RefObj name:isub.valueb
+                                vpiName: valueb
+                                vpiFullName: sub #(.MODE(0)).valueb
+                          vpiRhs RefObj name:i_value start:60:31 end:60:38:
+                            vpiParent: Assignment
+                            vpiName: i_value
+                            vpiFullName: sub #(.MODE(0)).i_value
+                            vpiActual: Net name:i_value
+                        vpiIsImplicitControl: true
+                      vpiAlwaysType: always (1)
   vpiTypespec (5 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -1607,7 +1611,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 12
+[  ERROR] : 10
 [WARNING] : 10
 [   NOTE] : 0
 ********************************************************************************

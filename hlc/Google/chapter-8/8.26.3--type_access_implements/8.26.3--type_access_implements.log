@@ -152,6 +152,7 @@ n<$Source01/8.26.3--type_access_implements.sv> u<138> t<Top_level_rule> c<1> l<1
         n<> u<134> t<ENDMODULE> p<135> l<34:1> el<34:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/8.26.3--type_access_implements.sv:16:1: Compile module "class_tb".
+[WRN:CP5851] $Source01/8.26.3--type_access_implements.sv:23:31: Failed to bind "ihello::int_t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -169,13 +170,13 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:obj start:28:8 end:28:11:
           vpiParent: Module name:class_tb
+          vpiName: obj
+          vpiFullName: class_tb.obj
           vpiTypespec RefTypespec name:Hello start:28:2 end:28:7:
             vpiParent: Variable name:obj
             vpiName: Hello
             vpiFullName: class_tb.obj.Hello
             vpiActual: ClassTypespec name:Hello
-          vpiName: obj
-          vpiFullName: class_tb.obj
       vpiTypespec (2 items):
         ClassTypespec name:ihello start:17:18 end:17:24:
           vpiParent: Module name:class_tb
@@ -189,13 +190,14 @@ Design name:unnamed:
           vpiClassDefn: ClassDefn name:Hello
       vpiDefName: class_tb
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:16:8 end:16:16:
         vpiParent: Module name:class_tb
         vpiName: work
         vpiFullName: class_tb.work
         vpiActual: Library name:work
       vpiCell: class_tb
-      vpiAutomatic: true
       vpiClassDefn (2 items):
         ClassDefn name:ihello file:$Source01/8.26.3--type_access_implements.sv start:17:2 end:20:10:
           vpiParent: Module name:class_tb
@@ -271,6 +273,15 @@ Design name:unnamed:
               vpiParent: ClassDefn name:Hello
               vpiName Identifier name:hello start:23:25 end:23:30:
               vpiFullName: class_tb::Hello::hello
+              vpiVariable (1 items):
+                Variable name:val start:23:45 end:23:48:
+                  vpiParent: Function name:hello
+                  vpiName: val
+                  vpiFullName: class_tb::Hello::hello::val
+                  vpiTypespec RefTypespec name:ihello::int_t start:23:31 end:23:44:
+                    vpiParent: Variable name:val
+                    vpiName: ihello::int_t
+                    vpiFullName: class_tb::Hello::hello::val::ihello::int_t
               vpiMethod: true
               vpiVisibility: public (1)
               vpiVirtual: true
@@ -304,21 +315,21 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiHighConn Constant start:24:13 end:24:33:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: class_tb::Hello::hello
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 144
                       vpiDecompile: "\":assert:(%d == 12)\""
                       vpiValue: ":assert:(%d == 12)"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: class_tb::Hello::hello
+                        vpiActual: StringTypespec
                   NamedArgument start:24:35 end:24:38:
                     vpiParent: SysTaskCall name:$display
                     vpiHighConn RefObj name:val start:24:35 end:24:38:
                       vpiParent: NamedArgument
                       vpiName: val
                       vpiFullName: class_tb::Hello::hello::val
-                      vpiActual: IODecl name:val
+                      vpiActual: Variable name:val
               vpiReturn RefTypespec start:23:20 end:23:24:
                 vpiParent: Function name:hello
                 vpiFullName: class_tb::Hello::hello
@@ -361,14 +372,14 @@ Design name:unnamed:
                         vpiParent: MethodFuncCall name:hello
                         vpiHighConn Constant start:32:13 end:32:15:
                           vpiParent: NamedArgument
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: class_tb.obj.hello(12)
-                            vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
                           vpiDecompile: "12"
                           vpiValue: 12
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: class_tb.obj.hello(12)
+                            vpiActual: IntTypespec
                 vpiActual: MethodFuncCall name:hello
       vpiSysTaskCall (1 items):
         SysTaskCall name:$display:
@@ -393,7 +404,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -437,7 +448,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.26.3--type_access_implements/d
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              63      63       0         0
+Others                              65      65       0         0
 ----------------------------------------------------------------
-                                    63      63       0         0
+                                    65      65       0         0
 ===================== END REDUCTION RESULT =====================

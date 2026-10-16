@@ -1027,7 +1027,9 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_func_types.v:12:43: Failed to bind "byte".
 [WRN:CP5851] $Source01/t_func_types.v:18:13: Failed to bind "bit".
 [WRN:CP5851] $Source01/t_func_types.v:18:36: Failed to bind "bit".
+[WRN:CP5851] $Source01/t_func_types.v:18:36: Failed to bind "bit".
 [WRN:CP5851] $Source01/t_func_types.v:20:13: Failed to bind "byte".
+[WRN:CP5851] $Source01/t_func_types.v:20:36: Failed to bind "byte".
 [WRN:CP5851] $Source01/t_func_types.v:20:36: Failed to bind "byte".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -1046,24 +1048,25 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:c start:25:12 end:25:13:
           vpiParent: Module name:t
+          vpiName: c
+          vpiFullName: t.c
           vpiTypespec RefTypespec start:25:4 end:25:11:
             vpiParent: Variable name:c
             vpiFullName: t.c
             vpiActual: ChandleTypespec
-          vpiName: c
-          vpiFullName: t.c
       vpiTypespec (1 items):
         ChandleTypespec start:25:4 end:25:11:
           vpiParent: Module name:t
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:6:8 end:6:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiTaskFunc (13 items):
         Function name:int123 start:8:4 end:8:56:
           vpiParent: Module name:t
@@ -1080,14 +1083,14 @@ Design name:unnamed:
               vpiActual: Function name:int123
             vpiRhs Constant start:8:36 end:8:43:
               vpiParent: Assignment
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t.int123
-                vpiActual: IntTypespec
               vpiConstType: hexadecimal (5)
               vpiSize: 32
               vpiDecompile: "32'h123"
               vpiValue: "123"
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: t.int123
+                vpiActual: IntTypespec
           vpiReturn RefTypespec start:8:13 end:8:16:
             vpiParent: Function name:int123
             vpiFullName: t.int123
@@ -1099,12 +1102,12 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:i start:10:52 end:10:53:
               vpiParent: Function name:f_bit
+              vpiName: i
+              vpiFullName: t.f_bit.i
               vpiTypespec RefTypespec name:bit start:10:43 end:10:46:
                 vpiParent: Variable name:i
                 vpiName: bit
                 vpiFullName: t.f_bit.i.bit
-              vpiName: i
-              vpiFullName: t.f_bit.i
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:i start:10:52 end:10:53:
@@ -1115,27 +1118,23 @@ Design name:unnamed:
                 vpiParent: IODecl name:i
                 vpiName: bit
                 vpiFullName: t.f_bit.i.bit
-          vpiStmt Begin:
+          vpiStmt Assignment start:10:56 end:10:71:
             vpiParent: Function name:f_bit
-            vpiFullName: t.f_bit
-            vpiStmt (1 items):
-              Assignment start:10:56 end:10:71:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:f_bit start:10:56 end:10:61:
-                  vpiParent: Assignment
-                  vpiName: f_bit
-                  vpiFullName: t.f_bit.f_bit
-                  vpiActual: Function name:f_bit
-                vpiRhs Operation start:10:69 end:10:71:
-                  vpiParent: Assignment
-                  vpiOpType: bitwise negation (4)
-                  vpiOperand (1 items):
-                    RefObj name:i start:10:70 end:10:71:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: t.f_bit.i
-                      vpiActual: IODecl name:i
+            vpiBlocking: true
+            vpiLhs RefObj name:f_bit start:10:56 end:10:61:
+              vpiParent: Assignment
+              vpiName: f_bit
+              vpiFullName: t.f_bit.f_bit
+              vpiActual: Function name:f_bit
+            vpiRhs Operation start:10:69 end:10:71:
+              vpiParent: Assignment
+              vpiOpType: bitwise negation (4)
+              vpiOperand (1 items):
+                RefObj name:i start:10:70 end:10:71:
+                  vpiParent: Operation
+                  vpiName: i
+                  vpiFullName: t.f_bit.i
+                  vpiActual: Variable name:i
           vpiReturn RefTypespec name:bit start:10:13 end:10:16:
             vpiParent: Function name:f_bit
             vpiName: bit
@@ -1147,12 +1146,12 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:i start:11:52 end:11:53:
               vpiParent: Function name:f_int
+              vpiName: i
+              vpiFullName: t.f_int.i
               vpiTypespec RefTypespec start:11:43 end:11:46:
                 vpiParent: Variable name:i
                 vpiFullName: t.f_int.i
                 vpiActual: IntTypespec
-              vpiName: i
-              vpiFullName: t.f_int.i
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:i start:11:52 end:11:53:
@@ -1163,27 +1162,23 @@ Design name:unnamed:
                 vpiParent: IODecl name:i
                 vpiFullName: t.f_int.i
                 vpiActual: IntTypespec
-          vpiStmt Begin:
+          vpiStmt Assignment start:11:56 end:11:71:
             vpiParent: Function name:f_int
-            vpiFullName: t.f_int
-            vpiStmt (1 items):
-              Assignment start:11:56 end:11:71:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:f_int start:11:56 end:11:61:
-                  vpiParent: Assignment
-                  vpiName: f_int
-                  vpiFullName: t.f_int.f_int
-                  vpiActual: Function name:f_int
-                vpiRhs Operation start:11:69 end:11:71:
-                  vpiParent: Assignment
-                  vpiOpType: bitwise negation (4)
-                  vpiOperand (1 items):
-                    RefObj name:i start:11:70 end:11:71:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: t.f_int.i
-                      vpiActual: IODecl name:i
+            vpiBlocking: true
+            vpiLhs RefObj name:f_int start:11:56 end:11:61:
+              vpiParent: Assignment
+              vpiName: f_int
+              vpiFullName: t.f_int.f_int
+              vpiActual: Function name:f_int
+            vpiRhs Operation start:11:69 end:11:71:
+              vpiParent: Assignment
+              vpiOpType: bitwise negation (4)
+              vpiOperand (1 items):
+                RefObj name:i start:11:70 end:11:71:
+                  vpiParent: Operation
+                  vpiName: i
+                  vpiFullName: t.f_int.i
+                  vpiActual: Variable name:i
           vpiReturn RefTypespec start:11:13 end:11:16:
             vpiParent: Function name:f_int
             vpiFullName: t.f_int
@@ -1195,12 +1190,12 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:i start:12:52 end:12:53:
               vpiParent: Function name:f_byte
+              vpiName: i
+              vpiFullName: t.f_byte.i
               vpiTypespec RefTypespec name:byte start:12:43 end:12:47:
                 vpiParent: Variable name:i
                 vpiName: byte
                 vpiFullName: t.f_byte.i.byte
-              vpiName: i
-              vpiFullName: t.f_byte.i
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:i start:12:52 end:12:53:
@@ -1211,27 +1206,23 @@ Design name:unnamed:
                 vpiParent: IODecl name:i
                 vpiName: byte
                 vpiFullName: t.f_byte.i.byte
-          vpiStmt Begin:
+          vpiStmt Assignment start:12:56 end:12:71:
             vpiParent: Function name:f_byte
-            vpiFullName: t.f_byte
-            vpiStmt (1 items):
-              Assignment start:12:56 end:12:71:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:f_byte start:12:56 end:12:62:
-                  vpiParent: Assignment
-                  vpiName: f_byte
-                  vpiFullName: t.f_byte.f_byte
-                  vpiActual: Function name:f_byte
-                vpiRhs Operation start:12:69 end:12:71:
-                  vpiParent: Assignment
-                  vpiOpType: bitwise negation (4)
-                  vpiOperand (1 items):
-                    RefObj name:i start:12:70 end:12:71:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: t.f_byte.i
-                      vpiActual: IODecl name:i
+            vpiBlocking: true
+            vpiLhs RefObj name:f_byte start:12:56 end:12:62:
+              vpiParent: Assignment
+              vpiName: f_byte
+              vpiFullName: t.f_byte.f_byte
+              vpiActual: Function name:f_byte
+            vpiRhs Operation start:12:69 end:12:71:
+              vpiParent: Assignment
+              vpiOpType: bitwise negation (4)
+              vpiOperand (1 items):
+                RefObj name:i start:12:70 end:12:71:
+                  vpiParent: Operation
+                  vpiName: i
+                  vpiFullName: t.f_byte.i
+                  vpiActual: Variable name:i
           vpiReturn RefTypespec name:byte start:12:13 end:12:17:
             vpiParent: Function name:f_byte
             vpiName: byte
@@ -1243,12 +1234,12 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:i start:13:52 end:13:53:
               vpiParent: Function name:f_shortint
+              vpiName: i
+              vpiFullName: t.f_shortint.i
               vpiTypespec RefTypespec start:13:43 end:13:51:
                 vpiParent: Variable name:i
                 vpiFullName: t.f_shortint.i
                 vpiActual: ShortIntTypespec
-              vpiName: i
-              vpiFullName: t.f_shortint.i
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:i start:13:52 end:13:53:
@@ -1259,27 +1250,23 @@ Design name:unnamed:
                 vpiParent: IODecl name:i
                 vpiFullName: t.f_shortint.i
                 vpiActual: ShortIntTypespec
-          vpiStmt Begin:
+          vpiStmt Assignment start:13:56 end:13:71:
             vpiParent: Function name:f_shortint
-            vpiFullName: t.f_shortint
-            vpiStmt (1 items):
-              Assignment start:13:56 end:13:71:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:f_shortint start:13:56 end:13:66:
-                  vpiParent: Assignment
-                  vpiName: f_shortint
-                  vpiFullName: t.f_shortint.f_shortint
-                  vpiActual: Function name:f_shortint
-                vpiRhs Operation start:13:69 end:13:71:
-                  vpiParent: Assignment
-                  vpiOpType: bitwise negation (4)
-                  vpiOperand (1 items):
-                    RefObj name:i start:13:70 end:13:71:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: t.f_shortint.i
-                      vpiActual: IODecl name:i
+            vpiBlocking: true
+            vpiLhs RefObj name:f_shortint start:13:56 end:13:66:
+              vpiParent: Assignment
+              vpiName: f_shortint
+              vpiFullName: t.f_shortint.f_shortint
+              vpiActual: Function name:f_shortint
+            vpiRhs Operation start:13:69 end:13:71:
+              vpiParent: Assignment
+              vpiOpType: bitwise negation (4)
+              vpiOperand (1 items):
+                RefObj name:i start:13:70 end:13:71:
+                  vpiParent: Operation
+                  vpiName: i
+                  vpiFullName: t.f_shortint.i
+                  vpiActual: Variable name:i
           vpiReturn RefTypespec start:13:13 end:13:21:
             vpiParent: Function name:f_shortint
             vpiFullName: t.f_shortint
@@ -1291,12 +1278,12 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:i start:14:52 end:14:53:
               vpiParent: Function name:f_longint
+              vpiName: i
+              vpiFullName: t.f_longint.i
               vpiTypespec RefTypespec start:14:43 end:14:50:
                 vpiParent: Variable name:i
                 vpiFullName: t.f_longint.i
                 vpiActual: LongIntTypespec
-              vpiName: i
-              vpiFullName: t.f_longint.i
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:i start:14:52 end:14:53:
@@ -1307,27 +1294,23 @@ Design name:unnamed:
                 vpiParent: IODecl name:i
                 vpiFullName: t.f_longint.i
                 vpiActual: LongIntTypespec
-          vpiStmt Begin:
+          vpiStmt Assignment start:14:56 end:14:71:
             vpiParent: Function name:f_longint
-            vpiFullName: t.f_longint
-            vpiStmt (1 items):
-              Assignment start:14:56 end:14:71:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:f_longint start:14:56 end:14:65:
-                  vpiParent: Assignment
-                  vpiName: f_longint
-                  vpiFullName: t.f_longint.f_longint
-                  vpiActual: Function name:f_longint
-                vpiRhs Operation start:14:69 end:14:71:
-                  vpiParent: Assignment
-                  vpiOpType: bitwise negation (4)
-                  vpiOperand (1 items):
-                    RefObj name:i start:14:70 end:14:71:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: t.f_longint.i
-                      vpiActual: IODecl name:i
+            vpiBlocking: true
+            vpiLhs RefObj name:f_longint start:14:56 end:14:65:
+              vpiParent: Assignment
+              vpiName: f_longint
+              vpiFullName: t.f_longint.f_longint
+              vpiActual: Function name:f_longint
+            vpiRhs Operation start:14:69 end:14:71:
+              vpiParent: Assignment
+              vpiOpType: bitwise negation (4)
+              vpiOperand (1 items):
+                RefObj name:i start:14:70 end:14:71:
+                  vpiParent: Operation
+                  vpiName: i
+                  vpiFullName: t.f_longint.i
+                  vpiActual: Variable name:i
           vpiReturn RefTypespec start:14:13 end:14:20:
             vpiParent: Function name:f_longint
             vpiFullName: t.f_longint
@@ -1339,12 +1322,15 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:i start:15:52 end:15:53:
               vpiParent: Function name:f_chandle
+              vpiName: i
+              vpiFullName: t.f_chandle.i
               vpiTypespec RefTypespec start:15:43 end:15:50:
                 vpiParent: Variable name:i
                 vpiFullName: t.f_chandle.i
                 vpiActual: ChandleTypespec
-              vpiName: i
-              vpiFullName: t.f_chandle.i
+          vpiTypespec (1 items):
+            ChandleTypespec start:15:13 end:15:20:
+              vpiParent: Function name:f_chandle
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:i start:15:52 end:15:53:
@@ -1355,26 +1341,19 @@ Design name:unnamed:
                 vpiParent: IODecl name:i
                 vpiFullName: t.f_chandle.i
                 vpiActual: ChandleTypespec
-          vpiStmt Begin:
+          vpiStmt Assignment start:15:56 end:15:70:
             vpiParent: Function name:f_chandle
-            vpiFullName: t.f_chandle
-            vpiTypespec (1 items):
-              ChandleTypespec start:15:13 end:15:20:
-                vpiParent: Begin
-            vpiStmt (1 items):
-              Assignment start:15:56 end:15:70:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:f_chandle start:15:56 end:15:65:
-                  vpiParent: Assignment
-                  vpiName: f_chandle
-                  vpiFullName: t.f_chandle.f_chandle
-                  vpiActual: Function name:f_chandle
-                vpiRhs RefObj name:i start:15:69 end:15:70:
-                  vpiParent: Assignment
-                  vpiName: i
-                  vpiFullName: t.f_chandle.i
-                  vpiActual: IODecl name:i
+            vpiBlocking: true
+            vpiLhs RefObj name:f_chandle start:15:56 end:15:65:
+              vpiParent: Assignment
+              vpiName: f_chandle
+              vpiFullName: t.f_chandle.f_chandle
+              vpiActual: Function name:f_chandle
+            vpiRhs RefObj name:i start:15:69 end:15:70:
+              vpiParent: Assignment
+              vpiName: i
+              vpiFullName: t.f_chandle.i
+              vpiActual: Variable name:i
           vpiReturn RefTypespec start:15:13 end:15:20:
             vpiParent: Function name:f_chandle
             vpiFullName: t.f_chandle
@@ -1383,6 +1362,15 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:g_bit start:18:25 end:18:30:
           vpiFullName: t.g_bit
+          vpiVariable (1 items):
+            Variable name:i start:18:45 end:18:46:
+              vpiParent: Function name:g_bit
+              vpiName: i
+              vpiFullName: t.g_bit.i
+              vpiTypespec RefTypespec name:bit start:18:36 end:18:39:
+                vpiParent: Variable name:i
+                vpiName: bit
+                vpiFullName: t.g_bit.i.bit
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:i start:18:45 end:18:46:
@@ -1409,7 +1397,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: i
                   vpiFullName: t.g_bit.i
-                  vpiActual: IODecl name:i
+                  vpiActual: Variable name:i
           vpiReturn RefTypespec name:bit start:18:13 end:18:16:
             vpiParent: Function name:g_bit
             vpiName: bit
@@ -1418,6 +1406,15 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:g_int start:19:25 end:19:30:
           vpiFullName: t.g_int
+          vpiVariable (1 items):
+            Variable name:i start:19:45 end:19:46:
+              vpiParent: Function name:g_int
+              vpiName: i
+              vpiFullName: t.g_int.i
+              vpiTypespec RefTypespec start:19:36 end:19:39:
+                vpiParent: Variable name:i
+                vpiFullName: t.g_int.i
+                vpiActual: IntTypespec
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:i start:19:45 end:19:46:
@@ -1444,7 +1441,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: i
                   vpiFullName: t.g_int.i
-                  vpiActual: IODecl name:i
+                  vpiActual: Variable name:i
           vpiReturn RefTypespec start:19:13 end:19:16:
             vpiParent: Function name:g_int
             vpiFullName: t.g_int
@@ -1453,6 +1450,15 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:g_byte start:20:25 end:20:31:
           vpiFullName: t.g_byte
+          vpiVariable (1 items):
+            Variable name:i start:20:45 end:20:46:
+              vpiParent: Function name:g_byte
+              vpiName: i
+              vpiFullName: t.g_byte.i
+              vpiTypespec RefTypespec name:byte start:20:36 end:20:40:
+                vpiParent: Variable name:i
+                vpiName: byte
+                vpiFullName: t.g_byte.i.byte
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:i start:20:45 end:20:46:
@@ -1479,7 +1485,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: i
                   vpiFullName: t.g_byte.i
-                  vpiActual: IODecl name:i
+                  vpiActual: Variable name:i
           vpiReturn RefTypespec name:byte start:20:13 end:20:17:
             vpiParent: Function name:g_byte
             vpiName: byte
@@ -1488,6 +1494,15 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:g_shortint start:21:25 end:21:35:
           vpiFullName: t.g_shortint
+          vpiVariable (1 items):
+            Variable name:i start:21:45 end:21:46:
+              vpiParent: Function name:g_shortint
+              vpiName: i
+              vpiFullName: t.g_shortint.i
+              vpiTypespec RefTypespec start:21:36 end:21:44:
+                vpiParent: Variable name:i
+                vpiFullName: t.g_shortint.i
+                vpiActual: ShortIntTypespec
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:i start:21:45 end:21:46:
@@ -1514,7 +1529,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: i
                   vpiFullName: t.g_shortint.i
-                  vpiActual: IODecl name:i
+                  vpiActual: Variable name:i
           vpiReturn RefTypespec start:21:13 end:21:21:
             vpiParent: Function name:g_shortint
             vpiFullName: t.g_shortint
@@ -1523,6 +1538,15 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:g_longint start:22:25 end:22:34:
           vpiFullName: t.g_longint
+          vpiVariable (1 items):
+            Variable name:i start:22:45 end:22:46:
+              vpiParent: Function name:g_longint
+              vpiName: i
+              vpiFullName: t.g_longint.i
+              vpiTypespec RefTypespec start:22:36 end:22:43:
+                vpiParent: Variable name:i
+                vpiFullName: t.g_longint.i
+                vpiActual: LongIntTypespec
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:i start:22:45 end:22:46:
@@ -1549,7 +1573,7 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: i
                   vpiFullName: t.g_longint.i
-                  vpiActual: IODecl name:i
+                  vpiActual: Variable name:i
           vpiReturn RefTypespec start:22:13 end:22:20:
             vpiParent: Function name:g_longint
             vpiFullName: t.g_longint
@@ -1558,6 +1582,15 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:g_chandle start:23:25 end:23:34:
           vpiFullName: t.g_chandle
+          vpiVariable (1 items):
+            Variable name:i start:23:45 end:23:46:
+              vpiParent: Function name:g_chandle
+              vpiName: i
+              vpiFullName: t.g_chandle.i
+              vpiTypespec RefTypespec start:23:36 end:23:43:
+                vpiParent: Variable name:i
+                vpiFullName: t.g_chandle.i
+                vpiActual: ChandleTypespec
           vpiTypespec (1 items):
             ChandleTypespec start:23:13 end:23:20:
               vpiParent: Function name:g_chandle
@@ -1583,7 +1616,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: i
               vpiFullName: t.g_chandle.i
-              vpiActual: IODecl name:i
+              vpiActual: Variable name:i
           vpiReturn RefTypespec start:23:13 end:23:20:
             vpiParent: Function name:g_chandle
             vpiFullName: t.g_chandle
@@ -1607,14 +1640,14 @@ Design name:unnamed:
                       vpiTaskFunc: Function name:int123
                     Constant start:29:24 end:29:31:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 32
                       vpiDecompile: "32'h123"
                       vpiValue: "123"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiStmt SysTaskCall name:$stop start:29:33 end:29:38:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:29:33 end:29:38:
@@ -1634,24 +1667,24 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:f_bit
                           vpiHighConn Constant start:31:17 end:31:21:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 1
                             vpiDecompile: "1'h1"
                             vpiValue: "1"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                     Constant start:31:27 end:31:31:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 1
                       vpiDecompile: "1'h0"
                       vpiValue: "0"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiStmt SysTaskCall name:$stop start:31:33 end:31:38:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:31:33 end:31:38:
@@ -1671,24 +1704,24 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:f_bit
                           vpiHighConn Constant start:32:17 end:32:21:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 1
                             vpiDecompile: "1'h0"
                             vpiValue: "0"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                     Constant start:32:27 end:32:31:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 1
                       vpiDecompile: "1'h1"
                       vpiValue: "1"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiStmt SysTaskCall name:$stop start:32:33 end:32:38:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:32:33 end:32:38:
@@ -1708,24 +1741,24 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:f_int
                           vpiHighConn Constant start:33:17 end:33:22:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 32
                             vpiDecompile: "32'h1"
                             vpiValue: "1"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                     Constant start:33:28 end:33:40:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 32
                       vpiDecompile: "32'hfffffffe"
                       vpiValue: fffffffe
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiStmt SysTaskCall name:$stop start:33:42 end:33:47:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:33:42 end:33:47:
@@ -1745,24 +1778,24 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:f_byte
                           vpiHighConn Constant start:34:18 end:34:22:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 8
                             vpiDecompile: "8'h1"
                             vpiValue: "1"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                     Constant start:34:28 end:34:33:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 8
                       vpiDecompile: "8'hfe"
                       vpiValue: fe
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiStmt SysTaskCall name:$stop start:34:35 end:34:40:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:34:35 end:34:40:
@@ -1782,24 +1815,24 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:f_shortint
                           vpiHighConn Constant start:35:22 end:35:27:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 16
                             vpiDecompile: "16'h1"
                             vpiValue: "1"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                     Constant start:35:33 end:35:41:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 16
                       vpiDecompile: "16'hfffe"
                       vpiValue: fffe
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiStmt SysTaskCall name:$stop start:35:43 end:35:48:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:35:43 end:35:48:
@@ -1819,24 +1852,24 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:f_longint
                           vpiHighConn Constant start:36:21 end:36:26:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 64
                             vpiDecompile: "64'h1"
                             vpiValue: "1"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                     Constant start:36:32 end:36:52:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: LongIntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 64
                       vpiDecompile: "64'hfffffffffffffffe"
                       vpiValue: fffffffffffffffe
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: LongIntTypespec
                 vpiStmt SysTaskCall name:$stop start:36:54 end:36:59:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:36:54 end:36:59:
@@ -1883,24 +1916,24 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:g_bit
                           vpiHighConn Constant start:39:17 end:39:21:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 1
                             vpiDecompile: "1'h1"
                             vpiValue: "1"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                     Constant start:39:27 end:39:31:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 1
                       vpiDecompile: "1'h0"
                       vpiValue: "0"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiStmt SysTaskCall name:$stop start:39:33 end:39:38:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:39:33 end:39:38:
@@ -1920,24 +1953,24 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:g_bit
                           vpiHighConn Constant start:40:17 end:40:21:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 1
                             vpiDecompile: "1'h0"
                             vpiValue: "0"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                     Constant start:40:27 end:40:31:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 1
                       vpiDecompile: "1'h1"
                       vpiValue: "1"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiStmt SysTaskCall name:$stop start:40:33 end:40:38:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:40:33 end:40:38:
@@ -1957,24 +1990,24 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:g_int
                           vpiHighConn Constant start:41:17 end:41:22:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 32
                             vpiDecompile: "32'h1"
                             vpiValue: "1"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                     Constant start:41:28 end:41:40:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 32
                       vpiDecompile: "32'hfffffffe"
                       vpiValue: fffffffe
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiStmt SysTaskCall name:$stop start:41:42 end:41:47:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:41:42 end:41:47:
@@ -1994,24 +2027,24 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:g_byte
                           vpiHighConn Constant start:42:18 end:42:22:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 8
                             vpiDecompile: "8'h1"
                             vpiValue: "1"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                     Constant start:42:28 end:42:33:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 8
                       vpiDecompile: "8'hfe"
                       vpiValue: fe
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiStmt SysTaskCall name:$stop start:42:35 end:42:40:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:42:35 end:42:40:
@@ -2031,24 +2064,24 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:g_shortint
                           vpiHighConn Constant start:43:22 end:43:27:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 16
                             vpiDecompile: "16'h1"
                             vpiValue: "1"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                     Constant start:43:33 end:43:41:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 16
                       vpiDecompile: "16'hfffe"
                       vpiValue: fffe
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiStmt SysTaskCall name:$stop start:43:43 end:43:48:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:43:43 end:43:48:
@@ -2068,24 +2101,24 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:g_longint
                           vpiHighConn Constant start:44:21 end:44:26:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: hexadecimal (5)
                             vpiSize: 64
                             vpiDecompile: "64'h1"
                             vpiValue: "1"
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                     Constant start:44:32 end:44:52:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: LongIntTypespec
                       vpiConstType: hexadecimal (5)
                       vpiSize: 64
                       vpiDecompile: "64'hfffffffffffffffe"
                       vpiValue: fffffffffffffffe
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: LongIntTypespec
                 vpiStmt SysTaskCall name:$stop start:44:54 end:44:59:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:44:54 end:44:59:
@@ -2125,14 +2158,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:47:14 end:47:38:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 168
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
                       vpiValue: "*-* All Finished *-*\\n"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
               SysTaskCall name:$finish start:48:7 end:48:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:48:7 end:48:14:
@@ -2184,7 +2217,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 10
+[WARNING] : 12
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -2228,7 +2261,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_types/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             318     318       0         0
+Others                             324     324       0         0
 ----------------------------------------------------------------
-                                   318     318       0         0
+                                   324     324       0         0
 ===================== END REDUCTION RESULT =====================

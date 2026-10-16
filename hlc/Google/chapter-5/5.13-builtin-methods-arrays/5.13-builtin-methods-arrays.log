@@ -109,13 +109,13 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:array start:7:13 end:7:18:
           vpiParent: Module name:top
+          vpiName: array
+          vpiFullName: top.array
           vpiTypespec RefTypespec name:logic [7:0] [3] start:7:3 end:7:12:
             vpiParent: Variable name:array
             vpiName: logic [7:0] [3]
             vpiFullName: top.array.logic [7:0] [3]
             vpiActual: ArrayTypespec
-          vpiName: array
-          vpiFullName: top.array
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:top
@@ -124,57 +124,58 @@ Design name:unnamed:
               vpiParent: LogicTypespec
               vpiLeftRange Constant start:7:8 end:7:9:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "7"
                 vpiValue: 7
-              vpiRightRange Constant start:7:10 end:7:11:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: top
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:7:10 end:7:11:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top
+                  vpiActual: IntTypespec
           vpiVector: true
         ArrayTypespec:
           vpiParent: Module name:top
           vpiArrayType: static (1)
           vpiRange Range start:7:19 end:7:22:
             vpiParent: ArrayTypespec
-            vpiLeftRange Operation:
+            vpiRightRange Operation:
               vpiParent: Range
               vpiOpType: subtract (11)
               vpiOperand (1 items):
                 Constant start:7:20 end:7:21:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: top
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "3"
                   vpiValue: 3
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top
+                    vpiActual: IntTypespec
           vpiElemTypespec RefTypespec start:7:3 end:7:12:
             vpiParent: ArrayTypespec
             vpiFullName: top
             vpiActual: LogicTypespec
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:6:8 end:6:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:9:3 end:11:6:
           vpiParent: Module name:top
@@ -192,14 +193,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$display
                     vpiHighConn Constant start:10:15 end:10:32:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: top
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 112
                       vpiDecompile: "\"Array size %d\\n\""
                       vpiValue: Array size %d\n
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: top
+                        vpiActual: StringTypespec
                   NamedArgument start:10:34 end:10:46:
                     vpiParent: SysTaskCall name:$display
                     vpiHighConn RefObj name:array.size() start:10:34 end:10:46:
@@ -279,8 +280,12 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-5/5.13-builtin-methods-arrays/desi
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             4       4       1         1
+LongIntTypespec                      0       1       1         0
+Operation                            1       0       0         1
+RefTypespec                          6       6       1         1
 ----------------------------------------------------------------
-Others                              38      38       0         0
+Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    38      38       0         0
+                                    38      38       3         3
 ===================== END REDUCTION RESULT =====================

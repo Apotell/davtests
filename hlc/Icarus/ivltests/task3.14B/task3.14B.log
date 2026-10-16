@@ -177,24 +177,26 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:globvar start:24:5 end:24:12:
           vpiParent: Module name:main
+          vpiName: globvar
+          vpiFullName: main.globvar
           vpiTypespec RefTypespec start:24:1 end:24:4:
             vpiParent: Variable name:globvar
             vpiFullName: main.globvar
             vpiActual: LogicTypespec
-          vpiName: globvar
-          vpiFullName: main.globvar
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:main
+          vpiScalar: true
       vpiDefName: main
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:22:8 end:22:12:
         vpiParent: Module name:main
         vpiName: work
         vpiFullName: main.work
         vpiActual: Library name:work
       vpiCell: main
-      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Task name:my_task start:26:1 end:29:8:
           vpiParent: Module name:main
@@ -203,12 +205,16 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:in1 start:27:9 end:27:12:
               vpiParent: Task name:my_task
+              vpiName: in1
+              vpiFullName: main.my_task.in1
               vpiTypespec RefTypespec:
                 vpiParent: Variable name:in1
                 vpiFullName: main.my_task.in1
                 vpiActual: LogicTypespec
-              vpiName: in1
-              vpiFullName: main.my_task.in1
+          vpiTypespec (1 items):
+            LogicTypespec:
+              vpiParent: Task name:my_task
+              vpiScalar: true
           vpiIODecl (1 items):
             IODecl name:in1 start:27:9 end:27:12:
               vpiParent: Task name:my_task
@@ -218,27 +224,19 @@ Design name:unnamed:
                 vpiParent: IODecl name:in1
                 vpiFullName: main.my_task.in1
                 vpiActual: LogicTypespec
-          vpiStmt Begin:
+          vpiStmt Assignment start:28:3 end:28:16:
             vpiParent: Task name:my_task
-            vpiFullName: main.my_task
-            vpiTypespec (1 items):
-              LogicTypespec:
-                vpiParent: Begin
-                vpiScalar: true
-            vpiStmt (1 items):
-              Assignment start:28:3 end:28:16:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:globvar start:28:3 end:28:10:
-                  vpiParent: Assignment
-                  vpiName: globvar
-                  vpiFullName: main.my_task.globvar
-                  vpiActual: Variable name:globvar
-                vpiRhs RefObj name:in1 start:28:13 end:28:16:
-                  vpiParent: Assignment
-                  vpiName: in1
-                  vpiFullName: main.my_task.in1
-                  vpiActual: IODecl name:in1
+            vpiBlocking: true
+            vpiLhs RefObj name:globvar start:28:3 end:28:10:
+              vpiParent: Assignment
+              vpiName: globvar
+              vpiFullName: main.my_task.globvar
+              vpiActual: Variable name:globvar
+            vpiRhs RefObj name:in1 start:28:13 end:28:16:
+              vpiParent: Assignment
+              vpiName: in1
+              vpiFullName: main.my_task.in1
+              vpiActual: Variable name:in1
       vpiProcess (1 items):
         Initial start:31:1 end:39:6:
           vpiParent: Module name:main
@@ -259,14 +257,14 @@ Design name:unnamed:
                   vpiActual: Variable name:globvar
                 vpiRhs Constant start:33:15 end:33:19:
                   vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: main
-                    vpiActual: BitTypespec
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: main
+                    vpiActual: BitTypespec
               MethodTaskCall name:my_task start:34:5 end:34:18:
                 vpiParent: Begin
                 vpiName Identifier name:my_task start:34:5 end:34:12:
@@ -276,14 +274,14 @@ Design name:unnamed:
                     vpiParent: MethodTaskCall name:my_task
                     vpiHighConn Constant start:34:13 end:34:17:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: main
-                        vpiActual: BitTypespec
                       vpiConstType: binary (3)
                       vpiSize: 1
                       vpiDecompile: "1'b1"
                       vpiValue: "1"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: main
+                        vpiActual: BitTypespec
               IfElse start:35:5 end:38:79:
                 vpiParent: Begin
                 vpiCondition RefObj name:globvar start:35:8 end:35:15:
@@ -299,14 +297,14 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiHighConn Constant start:36:16 end:36:24:
                         vpiParent: NamedArgument
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: main
-                          vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 48
                         vpiDecompile: "\"PASSED\""
                         vpiValue: PASSED
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: main
+                          vpiActual: StringTypespec
                 vpiElseStmt SysTaskCall name:$display start:38:7 end:38:78:
                   vpiParent: IfElse
                   vpiName Identifier name:$display start:38:7 end:38:15:
@@ -315,14 +313,14 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiHighConn Constant start:38:16 end:38:77:
                         vpiParent: NamedArgument
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: main
-                          vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 472
                         vpiDecompile: "\"FAILED - task 3.14B task didn't correctly affect global var\""
                         vpiValue: "FAILED - task 3.14B task didn't correctly affect global var"
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: main
+                          vpiActual: StringTypespec
       vpiSysTaskCall (2 items):
         SysTaskCall name:$display:
         SysTaskCall name:$display:
@@ -386,7 +384,7 @@ COMMAND: ${HLC_DIR}/regression/Icarus/ivltests/task3.14B/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              48      48       0         0
+Others                              47      47       0         0
 ----------------------------------------------------------------
-                                    48      48       0         0
+                                    47      47       0         0
 ===================== END REDUCTION RESULT =====================

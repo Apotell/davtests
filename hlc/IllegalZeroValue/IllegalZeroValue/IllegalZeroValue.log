@@ -62,48 +62,50 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:illegal start:3:5 end:3:12:
           vpiParent: Module name:test
+          vpiName: illegal
+          vpiFullName: test.illegal
           vpiTypespec RefTypespec name:logic [0] start:3:1 end:3:4:
             vpiParent: Variable name:illegal
             vpiName: logic [0]
             vpiFullName: test.illegal.logic [0]
             vpiActual: ArrayTypespec
-          vpiName: illegal
-          vpiFullName: test.illegal
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:test
+          vpiScalar: true
         ArrayTypespec:
           vpiParent: Module name:test
           vpiArrayType: static (1)
           vpiRange Range start:3:12 end:3:15:
             vpiParent: ArrayTypespec
-            vpiLeftRange Operation:
+            vpiRightRange Operation:
               vpiParent: Range
               vpiOpType: subtract (11)
               vpiOperand (1 items):
                 Constant start:3:13 end:3:14:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: test
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: test
+                    vpiActual: IntTypespec
           vpiElemTypespec RefTypespec start:3:1 end:3:4:
             vpiParent: ArrayTypespec
             vpiFullName: test
             vpiActual: LogicTypespec
       vpiDefName: test
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:12:
         vpiParent: Module name:test
         vpiName: work
         vpiFullName: test.work
         vpiActual: Library name:work
       vpiCell: test
-      vpiAutomatic: true
   vpiTypespec (2 items):
     ModuleTypespec name:test:
       vpiParent: Design name:unnamed
@@ -164,8 +166,12 @@ COMMAND: ${HLC_DIR}/regression/IllegalZeroValue/IllegalZeroValue/design.hldb ${H
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             1       1       1         1
+LongIntTypespec                      0       1       1         0
+Operation                            1       0       0         1
+RefTypespec                          3       3       1         1
 ----------------------------------------------------------------
-Others                              19      19       0         0
+Others                              14      14       0         0
 ----------------------------------------------------------------
-                                    19      19       0         0
+                                    19      19       3         3
 ===================== END REDUCTION RESULT =====================

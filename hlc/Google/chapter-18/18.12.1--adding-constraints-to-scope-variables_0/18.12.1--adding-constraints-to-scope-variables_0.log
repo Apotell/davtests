@@ -118,7 +118,7 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:19: Failed to bind "std".
 [WRN:CP5851] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:24: Failed to bind "randomize".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:24: Null Actual: id:35, type:MethodFuncCall, name:randomize, relation:vpiPathElem.
+[ERR:LN7705] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:24: Null Actual: id:36, type:MethodFuncCall, name:randomize, relation:vpiPathElem.
 [ERR:DB2038] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:42: 'vpiConstraintItem' property value has invalid objects.
 [ERR:DB2038] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:42: 'vpiConstraintItem' property value has invalid objects.
 ====== HLDB =======
@@ -148,6 +148,33 @@ Design name:unnamed:
           vpiParent: ClassDefn name:a
           vpiName Identifier name:do_randomize start:17:18 end:17:30:
           vpiFullName: a::do_randomize
+          vpiVariable (3 items):
+            Variable name:y start:17:35 end:17:36:
+              vpiParent: Function name:do_randomize
+              vpiName: y
+              vpiFullName: a::do_randomize::y
+              vpiTypespec RefTypespec start:17:31 end:17:34:
+                vpiParent: Variable name:y
+                vpiFullName: a::do_randomize::y
+                vpiActual: IntTypespec
+            Variable name:x start:18:13 end:18:14:
+              vpiParent: Function name:do_randomize
+              vpiName: x
+              vpiFullName: a::do_randomize::x
+              vpiAutomatic: true
+              vpiTypespec RefTypespec start:18:9 end:18:12:
+                vpiParent: Variable name:x
+                vpiFullName: a::do_randomize::x
+                vpiActual: IntTypespec
+            Variable name:success start:18:16 end:18:23:
+              vpiParent: Function name:do_randomize
+              vpiName: success
+              vpiFullName: a::do_randomize::success
+              vpiAutomatic: true
+              vpiTypespec RefTypespec start:18:9 end:18:12:
+                vpiParent: Variable name:success
+                vpiFullName: a::do_randomize::success
+                vpiActual: IntTypespec
           vpiMethod: true
           vpiVisibility: public (1)
           vpiAutomatic: true
@@ -163,27 +190,7 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:do_randomize
             vpiFullName: a::do_randomize
-            vpiVariable (2 items):
-              Variable name:x start:18:13 end:18:14:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:18:9 end:18:12:
-                  vpiParent: Variable name:x
-                  vpiFullName: a::do_randomize::x
-                  vpiActual: IntTypespec
-                vpiName: x
-                vpiFullName: a::do_randomize::x
-                vpiAutomatic: true
-              Variable name:success start:18:16 end:18:23:
-                vpiParent: Begin
-                vpiTypespec RefTypespec start:18:9 end:18:12:
-                  vpiParent: Variable name:success
-                  vpiFullName: a::do_randomize::success
-                  vpiActual: IntTypespec
-                vpiName: success
-                vpiFullName: a::do_randomize::success
-            vpiStmt (4 items):
-              Variable name:x:
-              Variable name:success:
+            vpiStmt (2 items):
               Assignment start:19:9 end:19:57:
                 vpiParent: Begin
                 vpiBlocking: true
@@ -219,14 +226,14 @@ Design name:unnamed:
                                 vpiActual: Variable name:x
                               Constant start:19:47 end:19:48:
                                 vpiParent: Operation
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: a::do_randomize::std.randomize()
-                                  vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
                                 vpiDecompile: "0"
                                 vpiValue: 0
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: a::do_randomize::std.randomize()
+                                  vpiActual: IntTypespec
                           Operation start:19:50 end:19:55:
                             vpiParent: Constraint
                             vpiOpType: less than (20)
@@ -240,7 +247,7 @@ Design name:unnamed:
                                 vpiParent: Operation
                                 vpiName: y
                                 vpiFullName: a::do_randomize::std.randomize()::y
-                                vpiActual: IODecl name:y
+                                vpiActual: Variable name:y
               ReturnStmt start:20:9 end:20:24:
                 vpiParent: Begin
                 vpiCondition RefObj name:success start:20:16 end:20:23:
@@ -313,7 +320,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.12.1--adding-constraints-to-
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              36      36       0         0
+Others                              38      38       0         0
 ----------------------------------------------------------------
-                                    36      36       0         0
+                                    38      38       0         0
 ===================== END REDUCTION RESULT =====================

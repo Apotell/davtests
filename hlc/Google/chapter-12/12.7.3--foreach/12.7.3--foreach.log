@@ -132,11 +132,6 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:test start:16:9 end:16:13:
           vpiParent: Module name:foreach_tb
-          vpiTypespec RefTypespec name:string [4] start:16:2 end:16:8:
-            vpiParent: Variable name:test
-            vpiName: string [4]
-            vpiFullName: foreach_tb.test.string [4]
-            vpiActual: ArrayTypespec
           vpiName: test
           vpiFullName: foreach_tb.test
           vpiValue Operation start:16:20 end:16:49:
@@ -145,77 +140,83 @@ Design name:unnamed:
             vpiOperand (4 items):
               Constant start:16:22 end:16:27:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: foreach_tb.test
-                  vpiActual: StringTypespec
                 vpiConstType: string (6)
                 vpiSize: 24
                 vpiDecompile: "\"111\""
                 vpiValue: "111"
-              Constant start:16:29 end:16:34:
-                vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: foreach_tb.test
                   vpiActual: StringTypespec
+              Constant start:16:29 end:16:34:
+                vpiParent: Operation
                 vpiConstType: string (6)
                 vpiSize: 24
                 vpiDecompile: "\"222\""
                 vpiValue: "222"
-              Constant start:16:36 end:16:41:
-                vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: foreach_tb.test
                   vpiActual: StringTypespec
+              Constant start:16:36 end:16:41:
+                vpiParent: Operation
                 vpiConstType: string (6)
                 vpiSize: 24
                 vpiDecompile: "\"333\""
                 vpiValue: "333"
-              Constant start:16:43 end:16:48:
-                vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: foreach_tb.test
                   vpiActual: StringTypespec
+              Constant start:16:43 end:16:48:
+                vpiParent: Operation
                 vpiConstType: string (6)
                 vpiSize: 24
                 vpiDecompile: "\"444\""
                 vpiValue: "444"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: foreach_tb.test
+                  vpiActual: StringTypespec
+          vpiTypespec RefTypespec name:string [4] start:16:2 end:16:8:
+            vpiParent: Variable name:test
+            vpiName: string [4]
+            vpiFullName: foreach_tb.test.string [4]
+            vpiActual: ArrayTypespec
       vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:foreach_tb
           vpiArrayType: static (1)
           vpiRange Range start:16:14 end:16:17:
             vpiParent: ArrayTypespec
-            vpiLeftRange Operation:
+            vpiRightRange Operation:
               vpiParent: Range
               vpiOpType: subtract (11)
               vpiOperand (1 items):
                 Constant start:16:15 end:16:16:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: foreach_tb
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "4"
                   vpiValue: 4
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: foreach_tb
+                    vpiActual: IntTypespec
           vpiElemTypespec RefTypespec start:16:2 end:16:8:
             vpiParent: ArrayTypespec
             vpiFullName: foreach_tb
             vpiActual: StringTypespec
       vpiDefName: foreach_tb
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:15:8 end:15:18:
         vpiParent: Module name:foreach_tb
         vpiName: work
         vpiFullName: foreach_tb.work
         vpiActual: Library name:work
       vpiCell: foreach_tb
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:17:2 end:20:5:
           vpiParent: Module name:foreach_tb
@@ -231,6 +232,7 @@ Design name:unnamed:
                     vpiParent: ForeachStmt
                     vpiName: i
                     vpiFullName: foreach_tb.i
+                    vpiAutomatic: true
                     vpiIsIterator: true
                 vpiVariable RefObj name:test start:18:11 end:18:15:
                   vpiParent: ForeachStmt
@@ -330,8 +332,12 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-12/12.7.3--foreach/design.hldb ${H
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             5       5       1         1
+LongIntTypespec                      0       1       1         0
+Operation                            2       1       0         1
+RefTypespec                          7       7       1         1
 ----------------------------------------------------------------
-Others                              41      41       0         0
+Others                              27      27       0         0
 ----------------------------------------------------------------
-                                    41      41       0         0
+                                    41      41       3         3
 ===================== END REDUCTION RESULT =====================

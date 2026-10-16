@@ -366,6 +366,15 @@ Design name:unnamed:
           vpiParent: Package name:functions
           vpiName Identifier name:abs start:9:18 end:9:21:
           vpiFullName: functions::abs
+          vpiVariable (1 items):
+            Variable name:num start:9:28 end:9:31:
+              vpiParent: Function name:abs
+              vpiName: num
+              vpiFullName: functions::abs::num
+              vpiTypespec RefTypespec start:9:23 end:9:27:
+                vpiParent: Variable name:num
+                vpiFullName: functions::abs::num
+                vpiActual: RealTypespec
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:num start:9:28 end:9:31:
@@ -396,17 +405,17 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: num
                       vpiFullName: functions::abs::num
-                      vpiActual: IODecl name:num
+                      vpiActual: Variable name:num
                     Constant start:10:19 end:10:20:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: functions::abs
-                        vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: functions::abs
+                        vpiActual: IntTypespec
                 Operation start:10:24 end:10:28:
                   vpiParent: Operation
                   vpiOpType: minus (1)
@@ -415,12 +424,12 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: num
                       vpiFullName: functions::abs::num
-                      vpiActual: IODecl name:num
+                      vpiActual: Variable name:num
                 RefObj name:num start:10:31 end:10:34:
                   vpiParent: Operation
                   vpiName: num
                   vpiFullName: functions::abs::num
-                  vpiActual: IODecl name:num
+                  vpiActual: Variable name:num
           vpiReturn RefTypespec start:9:13 end:9:17:
             vpiParent: Function name:abs
             vpiFullName: functions::abs
@@ -429,6 +438,15 @@ Design name:unnamed:
           vpiParent: Package name:functions
           vpiName Identifier name:neg start:12:18 end:12:21:
           vpiFullName: functions::neg
+          vpiVariable (1 items):
+            Variable name:num start:12:28 end:12:31:
+              vpiParent: Function name:neg
+              vpiName: num
+              vpiFullName: functions::neg::num
+              vpiTypespec RefTypespec start:12:23 end:12:27:
+                vpiParent: Variable name:num
+                vpiFullName: functions::neg::num
+                vpiActual: RealTypespec
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:num start:12:28 end:12:31:
@@ -456,7 +474,7 @@ Design name:unnamed:
                         vpiParent: NamedArgument
                         vpiName: num
                         vpiFullName: functions::neg::num
-                        vpiActual: IODecl name:num
+                        vpiActual: Variable name:num
           vpiReturn RefTypespec start:12:13 end:12:17:
             vpiParent: Function name:neg
             vpiFullName: functions::neg
@@ -469,13 +487,13 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:P start:19:15 end:19:16:
           vpiParent: Module name:t
+          vpiName: P
+          vpiFullName: t.P
+          vpiLocalParam: true
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:P
             vpiFullName: t.P
             vpiActual: LogicTypespec
-          vpiName: P
-          vpiFullName: t.P
-          vpiLocalParam: true
       vpiParamAssign (1 items):
         ParamAssign start:19:15 end:19:20:
           vpiParent: Module name:t
@@ -486,40 +504,41 @@ Design name:unnamed:
             vpiActual: Parameter name:P
           vpiRhs Constant start:19:19 end:19:20:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "1"
             vpiValue: 1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t
+              vpiActual: IntTypespec
       vpiTypespec (2 items):
         ImportTypespec name:functions start:18:11 end:18:23:
           vpiParent: Module name:t
           vpiName Identifier name:functions start:18:11 end:18:20:
           vpiImportTypespecItem Constant start:18:22 end:18:23:
             vpiParent: ImportTypespec name:functions
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t.functions
-              vpiActual: StringTypespec
             vpiConstType: string (6)
             vpiSize: 8
             vpiDecompile: "*"
             vpiValue: "*"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t.functions
+              vpiActual: StringTypespec
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:17:8 end:17:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiSysTaskCall (6 items):
         SysTaskCall name:$stop:
         SysTaskCall name:$stop:
@@ -530,222 +549,223 @@ Design name:unnamed:
       vpiGenStmt (1 items):
         GenRegion start:20:4 end:31:15:
           vpiParent: Module name:t
-          vpiFullName: t
-          vpiStmt GenIf start:21:7 end:30:10:
-            vpiParent: GenRegion
-            vpiCondition Operation start:21:11 end:21:17:
-              vpiParent: GenIf
-              vpiOpType: equal (14)
-              vpiOperand (2 items):
-                RefObj name:P start:21:11 end:21:12:
-                  vpiParent: Operation
-                  vpiName: P
-                  vpiFullName: t.P
-                  vpiActual: Parameter name:P
-                Constant start:21:16 end:21:17:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "1"
-                  vpiValue: 1
-            vpiStmt Begin start:21:19 end:30:10:
-              vpiParent: GenIf
-              vpiFullName: t
-              vpiStmt (1 items):
-                Initial start:22:3 end:29:6:
-                  vpiParent: Begin
-                  vpiStmt Begin start:22:11 end:29:6:
-                    vpiParent: Initial
-                    vpiFullName: t
-                    vpiStmt (6 items):
-                      IfStmt start:23:6 end:23:34:
-                        vpiParent: Begin
-                        vpiCondition Operation start:23:10 end:23:26:
-                          vpiParent: IfStmt
-                          vpiOpType: not equal (15)
-                          vpiOperand (2 items):
-                            FuncCall name:abs start:23:10 end:23:19:
-                              vpiParent: Operation
-                              vpiName Identifier name:abs start:23:10 end:23:13:
-                              vpiTaskFunc: Function name:abs
-                              vpiArgument (1 items):
-                                NamedArgument start:23:14 end:23:18:
-                                  vpiParent: FuncCall name:abs
-                                  vpiHighConn Operation start:23:14 end:23:18:
-                                    vpiParent: NamedArgument
-                                    vpiOpType: minus (1)
-                                    vpiOperand (1 items):
-                                      Constant start:23:15 end:23:18:
-                                        vpiParent: Operation
-                                        vpiTypespec RefTypespec:
-                                          vpiParent: Constant
-                                          vpiFullName: t
-                                          vpiActual: RealTypespec
-                                        vpiConstType: real (2)
-                                        vpiSize: 64
-                                        vpiDecompile: "2.1"
-                                        vpiValue: 2.1
-                            Constant start:23:23 end:23:26:
-                              vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: RealTypespec
-                              vpiConstType: real (2)
-                              vpiSize: 64
-                              vpiDecompile: "2.1"
-                              vpiValue: 2.1
-                        vpiStmt SysTaskCall name:$stop start:23:28 end:23:33:
-                          vpiParent: IfStmt
-                          vpiName Identifier name:$stop start:23:28 end:23:33:
-                          vpiIsProperty: true
-                      IfStmt start:24:6 end:24:33:
-                        vpiParent: Begin
-                        vpiCondition Operation start:24:10 end:24:25:
-                          vpiParent: IfStmt
-                          vpiOpType: not equal (15)
-                          vpiOperand (2 items):
-                            FuncCall name:abs start:24:10 end:24:18:
-                              vpiParent: Operation
-                              vpiName Identifier name:abs start:24:10 end:24:13:
-                              vpiTaskFunc: Function name:abs
-                              vpiArgument (1 items):
-                                NamedArgument start:24:14 end:24:17:
-                                  vpiParent: FuncCall name:abs
-                                  vpiHighConn Constant start:24:14 end:24:17:
-                                    vpiParent: NamedArgument
+          vpiStmt (1 items):
+            GenIf start:21:7 end:30:10:
+              vpiParent: GenRegion
+              vpiCondition Operation start:21:11 end:21:17:
+                vpiParent: GenIf
+                vpiOpType: equal (14)
+                vpiOperand (2 items):
+                  RefObj name:P start:21:11 end:21:12:
+                    vpiParent: Operation
+                    vpiName: P
+                    vpiFullName: t.P
+                    vpiActual: Parameter name:P
+                  Constant start:21:16 end:21:17:
+                    vpiParent: Operation
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t
+                      vpiActual: IntTypespec
+              vpiStmt GenBlock start:21:19 end:30:10:
+                vpiParent: GenIf
+                vpiFullName: t
+                vpiImplicitDecl: true
+                vpiStmt (1 items):
+                  Initial start:22:3 end:29:6:
+                    vpiParent: GenBlock
+                    vpiStmt Begin start:22:11 end:29:6:
+                      vpiParent: Initial
+                      vpiFullName: t
+                      vpiStmt (6 items):
+                        IfStmt start:23:6 end:23:34:
+                          vpiParent: Begin
+                          vpiCondition Operation start:23:10 end:23:26:
+                            vpiParent: IfStmt
+                            vpiOpType: not equal (15)
+                            vpiOperand (2 items):
+                              FuncCall name:abs start:23:10 end:23:19:
+                                vpiParent: Operation
+                                vpiName Identifier name:abs start:23:10 end:23:13:
+                                vpiTaskFunc: Function name:abs
+                                vpiArgument (1 items):
+                                  NamedArgument start:23:14 end:23:18:
+                                    vpiParent: FuncCall name:abs
+                                    vpiHighConn Operation start:23:14 end:23:18:
+                                      vpiParent: NamedArgument
+                                      vpiOpType: minus (1)
+                                      vpiOperand (1 items):
+                                        Constant start:23:15 end:23:18:
+                                          vpiParent: Operation
+                                          vpiConstType: real (2)
+                                          vpiSize: 64
+                                          vpiDecompile: "2.1"
+                                          vpiValue: 2.1
+                                          vpiTypespec RefTypespec:
+                                            vpiParent: Constant
+                                            vpiFullName: t
+                                            vpiActual: RealTypespec
+                              Constant start:23:23 end:23:26:
+                                vpiParent: Operation
+                                vpiConstType: real (2)
+                                vpiSize: 64
+                                vpiDecompile: "2.1"
+                                vpiValue: 2.1
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: t
+                                  vpiActual: RealTypespec
+                          vpiStmt SysTaskCall name:$stop start:23:28 end:23:33:
+                            vpiParent: IfStmt
+                            vpiName Identifier name:$stop start:23:28 end:23:33:
+                            vpiIsProperty: true
+                        IfStmt start:24:6 end:24:33:
+                          vpiParent: Begin
+                          vpiCondition Operation start:24:10 end:24:25:
+                            vpiParent: IfStmt
+                            vpiOpType: not equal (15)
+                            vpiOperand (2 items):
+                              FuncCall name:abs start:24:10 end:24:18:
+                                vpiParent: Operation
+                                vpiName Identifier name:abs start:24:10 end:24:13:
+                                vpiTaskFunc: Function name:abs
+                                vpiArgument (1 items):
+                                  NamedArgument start:24:14 end:24:17:
+                                    vpiParent: FuncCall name:abs
+                                    vpiHighConn Constant start:24:14 end:24:17:
+                                      vpiParent: NamedArgument
+                                      vpiConstType: real (2)
+                                      vpiSize: 64
+                                      vpiDecompile: "2.2"
+                                      vpiValue: 2.2
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: t
+                                        vpiActual: RealTypespec
+                              Constant start:24:22 end:24:25:
+                                vpiParent: Operation
+                                vpiConstType: real (2)
+                                vpiSize: 64
+                                vpiDecompile: "2.2"
+                                vpiValue: 2.2
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: t
+                                  vpiActual: RealTypespec
+                          vpiStmt SysTaskCall name:$stop start:24:27 end:24:32:
+                            vpiParent: IfStmt
+                            vpiName Identifier name:$stop start:24:27 end:24:32:
+                            vpiIsProperty: true
+                        IfStmt start:25:6 end:25:35:
+                          vpiParent: Begin
+                          vpiCondition Operation start:25:10 end:25:27:
+                            vpiParent: IfStmt
+                            vpiOpType: not equal (15)
+                            vpiOperand (2 items):
+                              FuncCall name:neg start:25:10 end:25:19:
+                                vpiParent: Operation
+                                vpiName Identifier name:neg start:25:10 end:25:13:
+                                vpiTaskFunc: Function name:neg
+                                vpiArgument (1 items):
+                                  NamedArgument start:25:14 end:25:18:
+                                    vpiParent: FuncCall name:neg
+                                    vpiHighConn Operation start:25:14 end:25:18:
+                                      vpiParent: NamedArgument
+                                      vpiOpType: minus (1)
+                                      vpiOperand (1 items):
+                                        Constant start:25:15 end:25:18:
+                                          vpiParent: Operation
+                                          vpiConstType: real (2)
+                                          vpiSize: 64
+                                          vpiDecompile: "2.1"
+                                          vpiValue: 2.1
+                                          vpiTypespec RefTypespec:
+                                            vpiParent: Constant
+                                            vpiFullName: t
+                                            vpiActual: RealTypespec
+                              Operation start:25:23 end:25:27:
+                                vpiParent: Operation
+                                vpiOpType: minus (1)
+                                vpiOperand (1 items):
+                                  Constant start:25:24 end:25:27:
+                                    vpiParent: Operation
+                                    vpiConstType: real (2)
+                                    vpiSize: 64
+                                    vpiDecompile: "2.1"
+                                    vpiValue: 2.1
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
                                       vpiFullName: t
                                       vpiActual: RealTypespec
+                          vpiStmt SysTaskCall name:$stop start:25:29 end:25:34:
+                            vpiParent: IfStmt
+                            vpiName Identifier name:$stop start:25:29 end:25:34:
+                            vpiIsProperty: true
+                        IfStmt start:26:6 end:26:34:
+                          vpiParent: Begin
+                          vpiCondition Operation start:26:10 end:26:26:
+                            vpiParent: IfStmt
+                            vpiOpType: not equal (15)
+                            vpiOperand (2 items):
+                              FuncCall name:neg start:26:10 end:26:18:
+                                vpiParent: Operation
+                                vpiName Identifier name:neg start:26:10 end:26:13:
+                                vpiTaskFunc: Function name:neg
+                                vpiArgument (1 items):
+                                  NamedArgument start:26:14 end:26:17:
+                                    vpiParent: FuncCall name:neg
+                                    vpiHighConn Constant start:26:14 end:26:17:
+                                      vpiParent: NamedArgument
+                                      vpiConstType: real (2)
+                                      vpiSize: 64
+                                      vpiDecompile: "2.2"
+                                      vpiValue: 2.2
+                                      vpiTypespec RefTypespec:
+                                        vpiParent: Constant
+                                        vpiFullName: t
+                                        vpiActual: RealTypespec
+                              Operation start:26:22 end:26:26:
+                                vpiParent: Operation
+                                vpiOpType: minus (1)
+                                vpiOperand (1 items):
+                                  Constant start:26:23 end:26:26:
+                                    vpiParent: Operation
                                     vpiConstType: real (2)
                                     vpiSize: 64
                                     vpiDecompile: "2.2"
                                     vpiValue: 2.2
-                            Constant start:24:22 end:24:25:
-                              vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: RealTypespec
-                              vpiConstType: real (2)
-                              vpiSize: 64
-                              vpiDecompile: "2.2"
-                              vpiValue: 2.2
-                        vpiStmt SysTaskCall name:$stop start:24:27 end:24:32:
-                          vpiParent: IfStmt
-                          vpiName Identifier name:$stop start:24:27 end:24:32:
-                          vpiIsProperty: true
-                      IfStmt start:25:6 end:25:35:
-                        vpiParent: Begin
-                        vpiCondition Operation start:25:10 end:25:27:
-                          vpiParent: IfStmt
-                          vpiOpType: not equal (15)
-                          vpiOperand (2 items):
-                            FuncCall name:neg start:25:10 end:25:19:
-                              vpiParent: Operation
-                              vpiName Identifier name:neg start:25:10 end:25:13:
-                              vpiTaskFunc: Function name:neg
-                              vpiArgument (1 items):
-                                NamedArgument start:25:14 end:25:18:
-                                  vpiParent: FuncCall name:neg
-                                  vpiHighConn Operation start:25:14 end:25:18:
-                                    vpiParent: NamedArgument
-                                    vpiOpType: minus (1)
-                                    vpiOperand (1 items):
-                                      Constant start:25:15 end:25:18:
-                                        vpiParent: Operation
-                                        vpiTypespec RefTypespec:
-                                          vpiParent: Constant
-                                          vpiFullName: t
-                                          vpiActual: RealTypespec
-                                        vpiConstType: real (2)
-                                        vpiSize: 64
-                                        vpiDecompile: "2.1"
-                                        vpiValue: 2.1
-                            Operation start:25:23 end:25:27:
-                              vpiParent: Operation
-                              vpiOpType: minus (1)
-                              vpiOperand (1 items):
-                                Constant start:25:24 end:25:27:
-                                  vpiParent: Operation
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: RealTypespec
-                                  vpiConstType: real (2)
-                                  vpiSize: 64
-                                  vpiDecompile: "2.1"
-                                  vpiValue: 2.1
-                        vpiStmt SysTaskCall name:$stop start:25:29 end:25:34:
-                          vpiParent: IfStmt
-                          vpiName Identifier name:$stop start:25:29 end:25:34:
-                          vpiIsProperty: true
-                      IfStmt start:26:6 end:26:34:
-                        vpiParent: Begin
-                        vpiCondition Operation start:26:10 end:26:26:
-                          vpiParent: IfStmt
-                          vpiOpType: not equal (15)
-                          vpiOperand (2 items):
-                            FuncCall name:neg start:26:10 end:26:18:
-                              vpiParent: Operation
-                              vpiName Identifier name:neg start:26:10 end:26:13:
-                              vpiTaskFunc: Function name:neg
-                              vpiArgument (1 items):
-                                NamedArgument start:26:14 end:26:17:
-                                  vpiParent: FuncCall name:neg
-                                  vpiHighConn Constant start:26:14 end:26:17:
-                                    vpiParent: NamedArgument
                                     vpiTypespec RefTypespec:
                                       vpiParent: Constant
                                       vpiFullName: t
                                       vpiActual: RealTypespec
-                                    vpiConstType: real (2)
-                                    vpiSize: 64
-                                    vpiDecompile: "2.2"
-                                    vpiValue: 2.2
-                            Operation start:26:22 end:26:26:
-                              vpiParent: Operation
-                              vpiOpType: minus (1)
-                              vpiOperand (1 items):
-                                Constant start:26:23 end:26:26:
-                                  vpiParent: Operation
-                                  vpiTypespec RefTypespec:
-                                    vpiParent: Constant
-                                    vpiFullName: t
-                                    vpiActual: RealTypespec
-                                  vpiConstType: real (2)
-                                  vpiSize: 64
-                                  vpiDecompile: "2.2"
-                                  vpiValue: 2.2
-                        vpiStmt SysTaskCall name:$stop start:26:28 end:26:33:
-                          vpiParent: IfStmt
-                          vpiName Identifier name:$stop start:26:28 end:26:33:
+                          vpiStmt SysTaskCall name:$stop start:26:28 end:26:33:
+                            vpiParent: IfStmt
+                            vpiName Identifier name:$stop start:26:28 end:26:33:
+                            vpiIsProperty: true
+                        SysTaskCall name:$write start:27:6 end:27:38:
+                          vpiParent: Begin
+                          vpiName Identifier name:$write start:27:6 end:27:12:
+                          vpiArgument (1 items):
+                            NamedArgument start:27:13 end:27:37:
+                              vpiParent: SysTaskCall name:$write
+                              vpiHighConn Constant start:27:13 end:27:37:
+                                vpiParent: NamedArgument
+                                vpiConstType: string (6)
+                                vpiSize: 168
+                                vpiDecompile: "\"*-* All Finished *-*\\n\""
+                                vpiValue: "*-* All Finished *-*\\n"
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: t
+                                  vpiActual: StringTypespec
+                        SysTaskCall name:$finish start:28:6 end:28:13:
+                          vpiParent: Begin
+                          vpiName Identifier name:$finish start:28:6 end:28:13:
                           vpiIsProperty: true
-                      SysTaskCall name:$write start:27:6 end:27:38:
-                        vpiParent: Begin
-                        vpiName Identifier name:$write start:27:6 end:27:12:
-                        vpiArgument (1 items):
-                          NamedArgument start:27:13 end:27:37:
-                            vpiParent: SysTaskCall name:$write
-                            vpiHighConn Constant start:27:13 end:27:37:
-                              vpiParent: NamedArgument
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: StringTypespec
-                              vpiConstType: string (6)
-                              vpiSize: 168
-                              vpiDecompile: "\"*-* All Finished *-*\\n\""
-                              vpiValue: "*-* All Finished *-*\\n"
-                      SysTaskCall name:$finish start:28:6 end:28:13:
-                        vpiParent: Begin
-                        vpiName Identifier name:$finish start:28:6 end:28:13:
-                        vpiIsProperty: true
   vpiTypespec (4 items):
     RealTypespec:
       vpiParent: Design name:unnamed
@@ -813,9 +833,9 @@ Name                            Before   After   Added   Removed
 Constant                            13      13       5         5
 Operation                           13       8       0         5
 RefObj                               9       8       0         1
-RefTypespec                         18      18       5         5
+RefTypespec                         20      20       5         5
 ----------------------------------------------------------------
-Others                              63      63       0         0
+Others                              65      65       0         0
 ----------------------------------------------------------------
-                                   116     110      10        16
+                                   120     114      10        16
 ===================== END REDUCTION RESULT =====================

@@ -238,6 +238,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_func_defaults.v:9:20: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_func_defaults.v:13:20: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_func_defaults.v:15:10: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_func_defaults.v:15:10: Failed to bind "logic".
+[WRN:CP5851] $Source01/t_func_defaults.v:16:10: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_func_defaults.v:16:10: Failed to bind "logic".
 [WRN:CP5851] $Source01/t_func_defaults.v:22:4: Failed to bind "logic".
 [INF:CM5028] Using global timescale: "1ns/1ns".
@@ -257,13 +259,13 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:foo_val start:22:16 end:22:23:
           vpiParent: Module name:t
+          vpiName: foo_val
+          vpiFullName: t.foo_val
           vpiTypespec RefTypespec name:logic [1:0] start:22:4 end:22:15:
             vpiParent: Variable name:foo_val
             vpiName: logic [1:0]
             vpiFullName: t.foo_val.logic [1:0]
             vpiActual: ArrayTypespec
-          vpiName: foo_val
-          vpiFullName: t.foo_val
       vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:t
@@ -273,37 +275,38 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiLeftRange Constant start:22:11 end:22:12:
               vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t
-                vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "1"
               vpiValue: 1
-            vpiRightRange Constant start:22:13 end:22:14:
-              vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
                 vpiFullName: t
                 vpiActual: IntTypespec
+            vpiRightRange Constant start:22:13 end:22:14:
+              vpiParent: Range
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: t
+                vpiActual: IntTypespec
           vpiElemTypespec RefTypespec name:logic start:22:4 end:22:9:
             vpiParent: ArrayTypespec
             vpiName: logic
             vpiFullName: t.logic
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:21:8 end:21:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:24:4 end:30:7:
           vpiParent: Module name:t
@@ -336,14 +339,14 @@ Design name:unnamed:
                       vpiActual: Variable name:foo_val
                     Constant start:26:22 end:26:27:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: LogicTypespec
                       vpiConstType: binary (3)
                       vpiSize: 2
                       vpiDecompile: "2'b10"
                       vpiValue: "10"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: LogicTypespec
                 vpiStmt SysTaskCall name:$stop start:26:29 end:26:34:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:26:29 end:26:34:
@@ -356,14 +359,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:28:14 end:28:38:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 168
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
                       vpiValue: "*-* All Finished *-*\\n"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
               SysTaskCall name:$finish start:29:7 end:29:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:29:7 end:29:14:
@@ -401,14 +404,14 @@ Design name:unnamed:
         vpiParent: Function name:calc_y
         vpiCondition Constant start:10:11 end:10:15:
           vpiParent: ReturnStmt
-          vpiTypespec RefTypespec:
-            vpiParent: Constant
-            vpiFullName: calc_y
-            vpiActual: BitTypespec
           vpiConstType: binary (3)
           vpiSize: 1
           vpiDecompile: "1'b1"
           vpiValue: "1"
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiFullName: calc_y
+            vpiActual: BitTypespec
       vpiReturn RefTypespec name:logic start:9:20 end:9:25:
         vpiParent: Function name:calc_y
         vpiName: logic
@@ -417,6 +420,23 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:foo start:13:32 end:13:35:
       vpiFullName: foo
+      vpiVariable (2 items):
+        Variable name:x start:15:16 end:15:17:
+          vpiParent: Function name:foo
+          vpiName: x
+          vpiFullName: foo.x
+          vpiTypespec RefTypespec name:logic start:15:10 end:15:15:
+            vpiParent: Variable name:x
+            vpiName: logic
+            vpiFullName: foo.x.logic
+        Variable name:y start:16:16 end:16:17:
+          vpiParent: Function name:foo
+          vpiName: y
+          vpiFullName: foo.y
+          vpiTypespec RefTypespec name:logic start:16:10 end:16:15:
+            vpiParent: Variable name:y
+            vpiName: logic
+            vpiFullName: foo.y.logic
       vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Function name:foo
@@ -426,24 +446,24 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiLeftRange Constant start:13:27 end:13:28:
               vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: foo
-                vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "1"
               vpiValue: 1
-            vpiRightRange Constant start:13:29 end:13:30:
-              vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
                 vpiFullName: foo
                 vpiActual: IntTypespec
+            vpiRightRange Constant start:13:29 end:13:30:
+              vpiParent: Range
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: foo
+                vpiActual: IntTypespec
           vpiElemTypespec RefTypespec name:logic start:13:20 end:13:25:
             vpiParent: ArrayTypespec
             vpiName: logic
@@ -486,12 +506,12 @@ Design name:unnamed:
               vpiParent: Operation
               vpiName: x
               vpiFullName: foo.x
-              vpiActual: IODecl name:x
+              vpiActual: Variable name:x
             RefObj name:y start:18:15 end:18:16:
               vpiParent: Operation
               vpiName: y
               vpiFullName: foo.y
-              vpiActual: IODecl name:y
+              vpiActual: Variable name:y
       vpiReturn RefTypespec name:logic [1:0] start:13:20 end:13:31:
         vpiParent: Function name:foo
         vpiName: logic [1:0]
@@ -500,13 +520,13 @@ Design name:unnamed:
   vpiParameter (1 items):
     Parameter name:Bar start:7:17 end:7:20:
       vpiParent: Design name:unnamed
+      vpiName: Bar
+      vpiFullName: Bar
+      vpiLocalParam: true
       vpiTypespec RefTypespec name:logic start:7:11 end:7:16:
         vpiParent: Parameter name:Bar
         vpiName: logic
         vpiFullName: Bar.logic
-      vpiName: Bar
-      vpiFullName: Bar
-      vpiLocalParam: true
   vpiParamAssign (1 items):
     ParamAssign start:7:17 end:7:27:
       vpiParent: Design name:unnamed
@@ -517,13 +537,13 @@ Design name:unnamed:
         vpiActual: Parameter name:Bar
       vpiRhs Constant start:7:23 end:7:27:
         vpiParent: ParamAssign
-        vpiTypespec RefTypespec:
-          vpiParent: Constant
-          vpiActual: BitTypespec
         vpiConstType: binary (3)
         vpiSize: 1
         vpiDecompile: "1'b1"
         vpiValue: "1"
+        vpiTypespec RefTypespec:
+          vpiParent: Constant
+          vpiActual: BitTypespec
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -532,7 +552,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 6
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -576,7 +596,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_func_defaults/design.hldb ${HLC_DIR}/
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              76      76       0         0
+Others                              80      80       0         0
 ----------------------------------------------------------------
-                                    76      76       0         0
+                                    80      80       0         0
 ===================== END REDUCTION RESULT =====================

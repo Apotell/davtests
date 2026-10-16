@@ -635,6 +635,8 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_dpi_shortcircuit2.v:25:65: Failed to bind "bit".
 [WRN:CP5851] $Source01/t_dpi_shortcircuit2.v:30:4: Failed to bind "bit".
 [WRN:CP5851] $Source01/t_dpi_shortcircuit2.v:33:30: Failed to bind "bit".
+[WRN:CP5851] $Source01/t_dpi_shortcircuit2.v:33:30: Failed to bind "bit".
+[WRN:CP5851] $Source01/t_dpi_shortcircuit2.v:33:39: Failed to bind "bit".
 [WRN:CP5851] $Source01/t_dpi_shortcircuit2.v:33:39: Failed to bind "bit".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -653,62 +655,88 @@ Design name:unnamed:
       vpiVariable (5 items):
         Variable name:i start:27:12 end:27:13:
           vpiParent: Module name:t
+          vpiName: i
+          vpiFullName: t.i
           vpiTypespec RefTypespec start:27:4 end:27:11:
             vpiParent: Variable name:i
             vpiFullName: t.i
             vpiActual: IntegerTypespec
-          vpiName: i
-          vpiFullName: t.i
         Variable name:j start:28:12 end:28:13:
           vpiParent: Module name:t
+          vpiName: j
+          vpiFullName: t.j
           vpiTypespec RefTypespec start:28:4 end:28:11:
             vpiParent: Variable name:j
             vpiFullName: t.j
             vpiActual: IntegerTypespec
-          vpiName: j
-          vpiFullName: t.j
         Variable name:k start:29:12 end:29:13:
           vpiParent: Module name:t
+          vpiName: k
+          vpiFullName: t.k
           vpiTypespec RefTypespec start:29:4 end:29:11:
             vpiParent: Variable name:k
             vpiFullName: t.k
             vpiActual: IntegerTypespec
-          vpiName: k
-          vpiFullName: t.k
         Variable name:b start:30:12 end:30:13:
           vpiParent: Module name:t
+          vpiName: b
+          vpiFullName: t.b
           vpiTypespec RefTypespec name:bit start:30:4 end:30:7:
             vpiParent: Variable name:b
             vpiName: bit
             vpiFullName: t.b.bit
-          vpiName: b
-          vpiFullName: t.b
         Variable name:errors start:31:12 end:31:18:
           vpiParent: Module name:t
+          vpiName: errors
+          vpiFullName: t.errors
           vpiTypespec RefTypespec start:31:4 end:31:11:
             vpiParent: Variable name:errors
             vpiFullName: t.errors
             vpiActual: IntegerTypespec
-          vpiName: errors
-          vpiFullName: t.errors
       vpiTypespec (1 items):
         IntegerTypespec:
           vpiParent: Module name:t
           vpiSigned: true
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:18:8 end:18:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiTaskFunc (2 items):
         Task name:check1 start:33:4 end:38:11:
           vpiParent: Module name:t
           vpiName Identifier name:check1 start:33:9 end:33:15:
           vpiFullName: t.check1
+          vpiVariable (3 items):
+            Variable name:line start:33:24 end:33:28:
+              vpiParent: Task name:check1
+              vpiName: line
+              vpiFullName: t.check1.line
+              vpiTypespec RefTypespec start:33:16 end:33:23:
+                vpiParent: Variable name:line
+                vpiFullName: t.check1.line
+                vpiActual: IntegerTypespec
+            Variable name:got start:33:34 end:33:37:
+              vpiParent: Task name:check1
+              vpiName: got
+              vpiFullName: t.check1.got
+              vpiTypespec RefTypespec name:bit start:33:30 end:33:33:
+                vpiParent: Variable name:got
+                vpiName: bit
+                vpiFullName: t.check1.got.bit
+            Variable name:ex start:33:43 end:33:45:
+              vpiParent: Task name:check1
+              vpiName: ex
+              vpiFullName: t.check1.ex
+              vpiTypespec RefTypespec name:bit start:33:39 end:33:42:
+                vpiParent: Variable name:ex
+                vpiName: bit
+                vpiFullName: t.check1.ex.bit
           vpiTypespec (1 items):
             IntegerTypespec:
               vpiParent: Task name:check1
@@ -748,12 +776,12 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: got
                   vpiFullName: t.check1.got
-                  vpiActual: IODecl name:got
+                  vpiActual: Variable name:got
                 RefObj name:ex start:34:18 end:34:20:
                   vpiParent: Operation
                   vpiName: ex
                   vpiFullName: t.check1.ex
-                  vpiActual: IODecl name:ex
+                  vpiActual: Variable name:ex
             vpiStmt Begin start:34:22 end:37:10:
               vpiParent: IfStmt
               vpiFullName: t.check1
@@ -766,35 +794,35 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiHighConn Constant start:35:12 end:35:63:
                         vpiParent: NamedArgument
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: t.check1
-                          vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 392
                         vpiDecompile: "\"%%Error: Line %0d: Bad result, got=%0d expect=%0d\""
                         vpiValue: "%%Error: Line %0d: Bad result, got=%0d expect=%0d"
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t.check1
+                          vpiActual: StringTypespec
                     NamedArgument start:35:64 end:35:68:
                       vpiParent: SysTaskCall name:$display
                       vpiHighConn RefObj name:line start:35:64 end:35:68:
                         vpiParent: NamedArgument
                         vpiName: line
                         vpiFullName: t.check1.line
-                        vpiActual: IODecl name:line
+                        vpiActual: Variable name:line
                     NamedArgument start:35:69 end:35:72:
                       vpiParent: SysTaskCall name:$display
                       vpiHighConn RefObj name:got start:35:69 end:35:72:
                         vpiParent: NamedArgument
                         vpiName: got
                         vpiFullName: t.check1.got
-                        vpiActual: IODecl name:got
+                        vpiActual: Variable name:got
                     NamedArgument start:35:73 end:35:75:
                       vpiParent: SysTaskCall name:$display
                       vpiHighConn RefObj name:ex start:35:73 end:35:75:
                         vpiParent: NamedArgument
                         vpiName: ex
                         vpiFullName: t.check1.ex
-                        vpiActual: IODecl name:ex
+                        vpiActual: Variable name:ex
                 Operation start:36:3 end:36:11:
                   vpiParent: Begin
                   vpiOpType: post inc (64)
@@ -808,6 +836,31 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName Identifier name:check start:39:9 end:39:14:
           vpiFullName: t.check
+          vpiVariable (3 items):
+            Variable name:line start:39:23 end:39:27:
+              vpiParent: Task name:check
+              vpiName: line
+              vpiFullName: t.check.line
+              vpiTypespec RefTypespec start:39:15 end:39:22:
+                vpiParent: Variable name:line
+                vpiFullName: t.check.line
+                vpiActual: IntegerTypespec
+            Variable name:got start:39:33 end:39:36:
+              vpiParent: Task name:check
+              vpiName: got
+              vpiFullName: t.check.got
+              vpiTypespec RefTypespec start:39:29 end:39:32:
+                vpiParent: Variable name:got
+                vpiFullName: t.check.got
+                vpiActual: IntTypespec
+            Variable name:ex start:39:42 end:39:44:
+              vpiParent: Task name:check
+              vpiName: ex
+              vpiFullName: t.check.ex
+              vpiTypespec RefTypespec start:39:38 end:39:41:
+                vpiParent: Variable name:ex
+                vpiFullName: t.check.ex
+                vpiActual: IntTypespec
           vpiTypespec (1 items):
             IntegerTypespec:
               vpiParent: Task name:check
@@ -847,12 +900,12 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: got
                   vpiFullName: t.check.got
-                  vpiActual: IODecl name:got
+                  vpiActual: Variable name:got
                 RefObj name:ex start:40:18 end:40:20:
                   vpiParent: Operation
                   vpiName: ex
                   vpiFullName: t.check.ex
-                  vpiActual: IODecl name:ex
+                  vpiActual: Variable name:ex
             vpiStmt Begin start:40:22 end:43:10:
               vpiParent: IfStmt
               vpiFullName: t.check
@@ -865,35 +918,35 @@ Design name:unnamed:
                       vpiParent: SysTaskCall name:$display
                       vpiHighConn Constant start:41:12 end:41:63:
                         vpiParent: NamedArgument
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: t.check
-                          vpiActual: StringTypespec
                         vpiConstType: string (6)
                         vpiSize: 392
                         vpiDecompile: "\"%%Error: Line %0d: Bad result, got=%0d expect=%0d\""
                         vpiValue: "%%Error: Line %0d: Bad result, got=%0d expect=%0d"
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t.check
+                          vpiActual: StringTypespec
                     NamedArgument start:41:64 end:41:68:
                       vpiParent: SysTaskCall name:$display
                       vpiHighConn RefObj name:line start:41:64 end:41:68:
                         vpiParent: NamedArgument
                         vpiName: line
                         vpiFullName: t.check.line
-                        vpiActual: IODecl name:line
+                        vpiActual: Variable name:line
                     NamedArgument start:41:69 end:41:72:
                       vpiParent: SysTaskCall name:$display
                       vpiHighConn RefObj name:got start:41:69 end:41:72:
                         vpiParent: NamedArgument
                         vpiName: got
                         vpiFullName: t.check.got
-                        vpiActual: IODecl name:got
+                        vpiActual: Variable name:got
                     NamedArgument start:41:73 end:41:75:
                       vpiParent: SysTaskCall name:$display
                       vpiHighConn RefObj name:ex start:41:73 end:41:75:
                         vpiParent: NamedArgument
                         vpiName: ex
                         vpiFullName: t.check.ex
-                        vpiActual: IODecl name:ex
+                        vpiActual: Variable name:ex
                 Operation start:42:3 end:42:11:
                   vpiParent: Begin
                   vpiOpType: post inc (64)
@@ -910,6 +963,7 @@ Design name:unnamed:
           vpiFullName: t.dpii_clear
           vpiAccessType: DPIImport (4)
           vpiDPICStr: DPI-C (2)
+          vpiDPICIdentifier: dpii_clear
           vpiReturn RefTypespec start:21:28 end:21:31:
             vpiParent: FunctionDecl name:dpii_clear
             vpiFullName: t.dpii_clear
@@ -920,6 +974,7 @@ Design name:unnamed:
           vpiFullName: t.dpii_count
           vpiAccessType: DPIImport (4)
           vpiDPICStr: DPI-C (2)
+          vpiDPICIdentifier: dpii_count
           vpiIODecl (1 items):
             IODecl name:ctr start:22:54 end:22:57:
               vpiParent: FunctionDecl name:dpii_count
@@ -939,6 +994,7 @@ Design name:unnamed:
           vpiFullName: t.dpii_inc0
           vpiAccessType: DPIImport (4)
           vpiDPICStr: DPI-C (2)
+          vpiDPICIdentifier: dpii_inc0
           vpiIODecl (1 items):
             IODecl name:ctr start:23:54 end:23:57:
               vpiParent: FunctionDecl name:dpii_inc0
@@ -958,6 +1014,7 @@ Design name:unnamed:
           vpiFullName: t.dpii_inc1
           vpiAccessType: DPIImport (4)
           vpiDPICStr: DPI-C (2)
+          vpiDPICIdentifier: dpii_inc1
           vpiIODecl (1 items):
             IODecl name:ctr start:24:54 end:24:57:
               vpiParent: FunctionDecl name:dpii_inc1
@@ -977,6 +1034,7 @@ Design name:unnamed:
           vpiFullName: t.dpii_incx
           vpiAccessType: DPIImport (4)
           vpiDPICStr: DPI-C (2)
+          vpiDPICIdentifier: dpii_incx
           vpiIODecl (2 items):
             IODecl name:ctr start:25:54 end:25:57:
               vpiParent: FunctionDecl name:dpii_incx
@@ -1019,14 +1077,14 @@ Design name:unnamed:
                   vpiActual: Variable name:j
                 vpiRhs Constant start:52:11 end:52:12:
                   vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: t
+                    vpiActual: IntTypespec
               ForStmt start:53:7 end:59:10:
                 vpiParent: Begin
                 vpiFullName: t
@@ -1041,14 +1099,14 @@ Design name:unnamed:
                       vpiActual: Variable name:i
                     vpiRhs Constant start:53:14 end:53:15:
                       vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "0"
                       vpiValue: 0
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiForIncStmt (1 items):
                   Operation start:53:23 end:53:26:
                     vpiParent: ForStmt
@@ -1070,14 +1128,14 @@ Design name:unnamed:
                       vpiActual: Variable name:i
                     Constant start:53:19 end:53:21:
                       vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "64"
                       vpiValue: 64
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                 vpiStmt Begin start:53:28 end:59:10:
                   vpiParent: ForStmt
                   vpiFullName: t
@@ -1095,14 +1153,14 @@ Design name:unnamed:
                           vpiActual: Variable name:i
                         vpiIndex Constant start:54:9 end:54:10:
                           vpiParent: BitSelect name:i[0]
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t.i[0]
-                            vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
                           vpiDecompile: "0"
                           vpiValue: 0
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: t.i[0]
+                            vpiActual: IntTypespec
                       vpiStmt Assignment start:55:5 end:55:10:
                         vpiParent: IfElse
                         vpiBlocking: true
@@ -1113,14 +1171,14 @@ Design name:unnamed:
                           vpiActual: Variable name:j
                         vpiRhs Constant start:55:9 end:55:10:
                           vpiParent: Assignment
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t
-                            vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
                           vpiDecompile: "0"
                           vpiValue: 0
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: t
+                            vpiActual: IntTypespec
                       vpiElseStmt Assignment start:57:5 end:57:30:
                         vpiParent: IfElse
                         vpiBlocking: true
@@ -1135,14 +1193,14 @@ Design name:unnamed:
                           vpiOperand (2 items):
                             Constant start:57:10 end:57:15:
                               vpiParent: Operation
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: t
-                                vpiActual: LogicTypespec
                               vpiConstType: binary (3)
                               vpiSize: 31
                               vpiDecompile: "31'b0"
                               vpiValue: "0"
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: t
+                                vpiActual: LogicTypespec
                             MethodFuncCall name:dpii_inc1 start:57:17 end:57:29:
                               vpiParent: Operation
                               vpiName Identifier name:dpii_inc1 start:57:17 end:57:26:
@@ -1152,14 +1210,14 @@ Design name:unnamed:
                                   vpiParent: MethodFuncCall name:dpii_inc1
                                   vpiHighConn Constant start:57:27 end:57:28:
                                     vpiParent: NamedArgument
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: t
-                                      vpiActual: IntTypespec
                                     vpiConstType: unsigned int (9)
                                     vpiSize: 64
                                     vpiDecompile: "0"
                                     vpiValue: 0
+                                    vpiTypespec RefTypespec:
+                                      vpiParent: Constant
+                                      vpiFullName: t
+                                      vpiActual: IntTypespec
                     Assignment start:58:3 end:58:12:
                       vpiParent: Begin
                       vpiBlocking: true
@@ -1190,14 +1248,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:60:14 end:60:20:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 24
                       vpiDecompile: "\"%x\\n\""
                       vpiValue: "%x\\n"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
                   NamedArgument start:60:21 end:60:22:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn RefObj name:k start:60:21 end:60:22:
@@ -1214,14 +1272,14 @@ Design name:unnamed:
                     vpiParent: MethodTaskCall name:check
                     vpiHighConn Constant start:61:14 end:61:16:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "61"
                       vpiValue: 61
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
                   NamedArgument start:61:25 end:61:38:
                     vpiParent: MethodTaskCall name:check
                     vpiHighConn MethodFuncCall name:dpii_count start:61:25 end:61:38:
@@ -1233,26 +1291,26 @@ Design name:unnamed:
                           vpiParent: MethodFuncCall name:dpii_count
                           vpiHighConn Constant start:61:36 end:61:37:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t
-                              vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
                             vpiDecompile: "0"
                             vpiValue: 0
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t
+                              vpiActual: IntTypespec
                   NamedArgument start:61:40 end:61:42:
                     vpiParent: MethodTaskCall name:check
                     vpiHighConn Constant start:61:40 end:61:42:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: IntTypespec
                       vpiConstType: unsigned int (9)
                       vpiSize: 64
                       vpiDecompile: "32"
                       vpiValue: 32
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: IntTypespec
               IfStmt start:63:7 end:63:26:
                 vpiParent: Begin
                 vpiCondition Operation start:63:11 end:63:18:
@@ -1276,14 +1334,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:64:14 end:64:38:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 168
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
                       vpiValue: "*-* All Finished *-*\\n"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t
+                        vpiActual: StringTypespec
               SysTaskCall name:$finish start:65:7 end:65:14:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:65:7 end:65:14:
@@ -1316,7 +1374,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 7
+[WARNING] : 9
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1360,7 +1418,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_dpi_shortcircuit2/design.hldb ${HLC_D
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             179     179       0         0
+Others                             191     191       0         0
 ----------------------------------------------------------------
-                                   179     179       0         0
+                                   191     191       0         0
 ===================== END REDUCTION RESULT =====================

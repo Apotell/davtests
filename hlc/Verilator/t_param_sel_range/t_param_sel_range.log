@@ -370,6 +370,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/t_param_sel_range.v:5:1: Compile module "t".
 [NTE:CP5810] $Source01/t_param_sel_range.v:8:18: Implicit port type (wire) for "out".
 [INF:CP5804] $Source01/t_param_sel_range.v:15:1: Compile module "submod".
+[WRN:CP5851] $Source01/t_param_sel_range.v:11:28: Failed to bind ".*".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -404,52 +405,53 @@ Design name:unnamed:
                 vpiActual: Parameter name:STAGES
               vpiRhs Constant start:11:21 end:11:22:
                 vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t.submod
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "5"
                 vpiValue: 5
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t.submod
+                  vpiActual: IntTypespec
           vpiModule: Module name:submod
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:5:8 end:5:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiNet (3 items):
         Net name:rst_n start:6:18 end:6:23:
           vpiParent: Module name:t
+          vpiName: rst_n
+          vpiFullName: t.rst_n
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:rst_n
             vpiFullName: t.rst_n
             vpiActual: LogicTypespec
-          vpiName: rst_n
-          vpiFullName: t.rst_n
-          vpiNetType: wire (1)
         Net name:clk start:7:18 end:7:21:
           vpiParent: Module name:t
+          vpiName: clk
+          vpiFullName: t.clk
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: t.clk
             vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: t.clk
-          vpiNetType: wire (1)
         Net name:out start:8:18 end:8:21:
           vpiParent: Module name:t
+          vpiName: out
+          vpiFullName: t.out
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:out
             vpiFullName: t.out
             vpiActual: LogicTypespec
-          vpiName: out
-          vpiFullName: t.out
-          vpiNetType: wire (1)
       vpiPort (3 items):
         Port name:rst_n start:6:18 end:6:23:
           vpiParent: Module name:t
@@ -502,8 +504,7 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:11:28 end:11:30:
               vpiParent: RefInstance name:u2
-              vpiConnByName: true
-              vpiLowConn RefObj name:.*:
+              vpiHighConn RefObj name:.* start:11:28 end:11:30:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.u2..*
@@ -514,21 +515,21 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:r_rst start:28:21 end:28:26:
           vpiParent: Module name:submod
+          vpiName: r_rst
+          vpiFullName: submod.r_rst
           vpiTypespec RefTypespec start:28:4 end:28:20:
             vpiParent: Variable name:r_rst
             vpiFullName: submod.r_rst
             vpiActual: LogicTypespec
-          vpiName: r_rst
-          vpiFullName: submod.r_rst
       vpiParameter (1 items):
         Parameter name:STAGES start:22:14 end:22:20:
           vpiParent: Module name:submod
+          vpiName: STAGES
+          vpiFullName: submod.STAGES
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:STAGES
             vpiFullName: submod.STAGES
             vpiActual: LogicTypespec
-          vpiName: STAGES
-          vpiFullName: submod.STAGES
       vpiParamAssign (1 items):
         ParamAssign start:22:14 end:22:24:
           vpiParent: Module name:submod
@@ -539,14 +540,14 @@ Design name:unnamed:
             vpiActual: Parameter name:STAGES
           vpiRhs Constant start:22:23 end:22:24:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: submod
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "4"
             vpiValue: 4
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: submod
+              vpiActual: IntTypespec
       vpiTypespec (2 items):
         LogicTypespec:
           vpiParent: Module name:submod
@@ -567,63 +568,64 @@ Design name:unnamed:
                     vpiActual: Parameter name:STAGES
                   Constant start:28:16 end:28:17:
                     vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: submod
-                      vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "1"
                     vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: submod
+                      vpiActual: IntTypespec
               vpiRightRange Constant start:28:18 end:28:19:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: submod
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: submod
+                  vpiActual: IntTypespec
           vpiVector: true
       vpiDefName: submod
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:15:8 end:15:14:
         vpiParent: Module name:submod
         vpiName: work
         vpiFullName: submod.work
         vpiActual: Library name:work
       vpiCell: submod
-      vpiAutomatic: true
       vpiNet (3 items):
         Net name:rst_n start:24:12 end:24:17:
           vpiParent: Module name:submod
+          vpiName: rst_n
+          vpiFullName: submod.rst_n
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:rst_n
             vpiFullName: submod.rst_n
             vpiActual: LogicTypespec
-          vpiName: rst_n
-          vpiFullName: submod.rst_n
-          vpiNetType: wire (1)
         Net name:clk start:25:12 end:25:15:
           vpiParent: Module name:submod
+          vpiName: clk
+          vpiFullName: submod.clk
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
             vpiFullName: submod.clk
             vpiActual: LogicTypespec
-          vpiName: clk
-          vpiFullName: submod.clk
-          vpiNetType: wire (1)
         Net name:out start:26:12 end:26:15:
           vpiParent: Module name:submod
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:out
-            vpiFullName: submod.out
-            vpiActual: LogicTypespec
           vpiName: out
           vpiFullName: submod.out
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:out
+            vpiFullName: submod.out
+            vpiActual: LogicTypespec
           vpiValue BitSelect name:r_rst[STAGES - 1] start:46:15 end:46:30:
             vpiParent: Net name:out
             vpiName: r_rst[STAGES - 1]
@@ -644,14 +646,14 @@ Design name:unnamed:
                   vpiActual: Parameter name:STAGES
                 Constant start:46:28 end:46:29:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: submod.out.r_rst[STAGES - 1]
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: submod.out.r_rst[STAGES - 1]
+                    vpiActual: IntTypespec
       vpiPort (3 items):
         Port name:out start:17:4 end:17:7:
           vpiParent: Module name:submod
@@ -691,272 +693,273 @@ Design name:unnamed:
       vpiGenStmt (1 items):
         GenRegion start:30:4 end:44:15:
           vpiParent: Module name:submod
-          vpiFullName: submod
-          vpiStmt GenFor start:32:7 end:43:10:
-            vpiParent: GenRegion
-            vpiFullName: submod
-            vpiVariable (1 items):
-              Variable name:i start:32:19 end:32:20:
-                vpiParent: GenFor
-                vpiName: i
-                vpiFullName: submod.i
-            vpiForInitStmt (1 items):
-              Assignment start:32:19 end:32:22:
-                vpiParent: GenFor
-                vpiLhs: Variable name:i
-                vpiRhs Constant start:32:21 end:32:22:
-                  vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: submod
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "0"
-                  vpiValue: 0
-            vpiForIncStmt (1 items):
-              Assignment start:32:38 end:32:43:
-                vpiParent: GenFor
-                vpiBlocking: true
-                vpiLhs RefObj name:i start:32:38 end:32:39:
-                  vpiParent: Assignment
-                  vpiName: i
-                  vpiFullName: submod.i
-                  vpiActual: Variable name:i
-                vpiRhs Operation start:32:40 end:32:43:
-                  vpiParent: Assignment
-                  vpiOpType: add (24)
-                  vpiOperand (2 items):
-                    RefObj name:i start:32:40 end:32:41:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: submod.i
-                      vpiActual: Variable name:i
-                    Constant start:32:42 end:32:43:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: submod
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-            vpiCondition Operation start:32:24 end:32:36:
-              vpiParent: GenFor
-              vpiOpType: less than (20)
-              vpiOperand (2 items):
-                RefObj name:i start:32:24 end:32:25:
-                  vpiParent: Operation
-                  vpiName: i
-                  vpiFullName: submod.i
-                  vpiActual: Variable name:i
-                Operation start:32:26 end:32:36:
-                  vpiParent: Operation
-                  vpiOpType: subtract (11)
-                  vpiOperand (2 items):
-                    Operation start:32:26 end:32:34:
-                      vpiParent: Operation
-                      vpiOpType: add (24)
-                      vpiOperand (2 items):
-                        RefObj name:STAGES start:32:26 end:32:32:
-                          vpiParent: Operation
-                          vpiName: STAGES
-                          vpiFullName: submod.STAGES
-                          vpiActual: Parameter name:STAGES
-                        Constant start:32:33 end:32:34:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: submod
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
-                    Constant start:32:35 end:32:36:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: submod
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "1"
-                      vpiValue: 1
-            vpiStmt Begin start:32:45 end:43:10:
-              vpiParent: GenFor
+          vpiStmt (1 items):
+            GenFor start:32:7 end:43:10:
+              vpiParent: GenRegion
               vpiFullName: submod
-              vpiStmt (1 items):
-                Always start:33:10 end:42:13:
-                  vpiParent: Begin
-                  vpiStmt EventControl start:33:17 end:42:13:
-                    vpiParent: Always
-                    vpiCondition Operation start:33:19 end:33:47:
-                      vpiParent: EventControl
-                      vpiOpType: event or (35)
-                      vpiOperand (2 items):
-                        Operation start:33:19 end:33:30:
-                          vpiParent: Operation
-                          vpiOpType: posedge (39)
-                          vpiOperand (1 items):
-                            RefObj name:clk start:33:27 end:33:30:
-                              vpiParent: Operation
-                              vpiName: clk
-                              vpiFullName: submod.clk
-                              vpiActual: Net name:clk
-                        Operation start:33:34 end:33:47:
-                          vpiParent: Operation
-                          vpiOpType: negedge (40)
-                          vpiOperand (1 items):
-                            RefObj name:rst_n start:33:42 end:33:47:
-                              vpiParent: Operation
-                              vpiName: rst_n
-                              vpiFullName: submod.rst_n
-                              vpiActual: Net name:rst_n
-                    vpiStmt Begin start:33:49 end:42:13:
-                      vpiParent: EventControl
+              vpiVariable (1 items):
+                Variable name:i start:32:19 end:32:20:
+                  vpiParent: GenFor
+                  vpiName: i
+                  vpiFullName: submod.i
+              vpiForInitStmt (1 items):
+                Assignment start:32:19 end:32:22:
+                  vpiParent: GenFor
+                  vpiLhs: Variable name:i
+                  vpiRhs Constant start:32:21 end:32:22:
+                    vpiParent: Assignment
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
                       vpiFullName: submod
-                      vpiTypespec (1 items):
-                        BitTypespec:
-                          vpiParent: Begin
-                      vpiStmt (1 items):
-                        IfElse start:34:13 end:41:16:
-                          vpiParent: Begin
-                          vpiCondition Operation start:34:17 end:34:23:
-                            vpiParent: IfElse
-                            vpiOpType: bitwise negation (4)
+                      vpiActual: IntTypespec
+              vpiForIncStmt (1 items):
+                Assignment start:32:38 end:32:43:
+                  vpiParent: GenFor
+                  vpiBlocking: true
+                  vpiLhs RefObj name:i start:32:38 end:32:39:
+                    vpiParent: Assignment
+                    vpiName: i
+                    vpiFullName: submod.i
+                    vpiActual: Variable name:i
+                  vpiRhs Operation start:32:40 end:32:43:
+                    vpiParent: Assignment
+                    vpiOpType: add (24)
+                    vpiOperand (2 items):
+                      RefObj name:i start:32:40 end:32:41:
+                        vpiParent: Operation
+                        vpiName: i
+                        vpiFullName: submod.i
+                        vpiActual: Variable name:i
+                      Constant start:32:42 end:32:43:
+                        vpiParent: Operation
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: submod
+                          vpiActual: IntTypespec
+              vpiCondition Operation start:32:24 end:32:36:
+                vpiParent: GenFor
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:i start:32:24 end:32:25:
+                    vpiParent: Operation
+                    vpiName: i
+                    vpiFullName: submod.i
+                    vpiActual: Variable name:i
+                  Operation start:32:26 end:32:36:
+                    vpiParent: Operation
+                    vpiOpType: subtract (11)
+                    vpiOperand (2 items):
+                      Operation start:32:26 end:32:34:
+                        vpiParent: Operation
+                        vpiOpType: add (24)
+                        vpiOperand (2 items):
+                          RefObj name:STAGES start:32:26 end:32:32:
+                            vpiParent: Operation
+                            vpiName: STAGES
+                            vpiFullName: submod.STAGES
+                            vpiActual: Parameter name:STAGES
+                          Constant start:32:33 end:32:34:
+                            vpiParent: Operation
+                            vpiConstType: unsigned int (9)
+                            vpiSize: 64
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: submod
+                              vpiActual: IntTypespec
+                      Constant start:32:35 end:32:36:
+                        vpiParent: Operation
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: submod
+                          vpiActual: IntTypespec
+              vpiStmt GenBlock start:32:45 end:43:10:
+                vpiParent: GenFor
+                vpiFullName: submod
+                vpiImplicitDecl: true
+                vpiStmt (1 items):
+                  Always start:33:10 end:42:13:
+                    vpiParent: GenBlock
+                    vpiStmt EventControl start:33:17 end:42:13:
+                      vpiParent: Always
+                      vpiCondition Operation start:33:19 end:33:47:
+                        vpiParent: EventControl
+                        vpiOpType: event or (35)
+                        vpiOperand (2 items):
+                          Operation start:33:19 end:33:30:
+                            vpiParent: Operation
+                            vpiOpType: posedge (39)
                             vpiOperand (1 items):
-                              RefObj name:rst_n start:34:18 end:34:23:
+                              RefObj name:clk start:33:27 end:33:30:
+                                vpiParent: Operation
+                                vpiName: clk
+                                vpiFullName: submod.clk
+                                vpiActual: Net name:clk
+                          Operation start:33:34 end:33:47:
+                            vpiParent: Operation
+                            vpiOpType: negedge (40)
+                            vpiOperand (1 items):
+                              RefObj name:rst_n start:33:42 end:33:47:
                                 vpiParent: Operation
                                 vpiName: rst_n
                                 vpiFullName: submod.rst_n
                                 vpiActual: Net name:rst_n
-                          vpiStmt Assignment start:35:15 end:35:31:
-                            vpiParent: IfElse
-                            vpiLhs BitSelect name:r_rst[i] start:35:15 end:35:23:
-                              vpiParent: Assignment
-                              vpiName: r_rst[i]
-                              vpiFullName: submod.r_rst[i]
-                              vpiPrefix RefObj name:r_rst start:35:15 end:35:20:
-                                vpiParent: BitSelect name:r_rst[i]
-                                vpiName: r_rst
-                                vpiFullName: submod.r_rst
-                                vpiActual: Variable name:r_rst
-                              vpiIndex RefObj name:i start:35:21 end:35:22:
-                                vpiParent: BitSelect name:r_rst[i]
-                                vpiName: i
-                                vpiFullName: submod.i
-                                vpiActual: Variable name:i
-                            vpiRhs Constant start:35:27 end:35:31:
-                              vpiParent: Assignment
-                              vpiTypespec RefTypespec:
-                                vpiParent: Constant
-                                vpiFullName: submod
-                                vpiActual: BitTypespec
-                              vpiConstType: binary (3)
-                              vpiSize: 1
-                              vpiDecompile: "1'b0"
-                              vpiValue: "0"
-                          vpiElseStmt Begin start:36:18 end:41:16:
-                            vpiParent: IfElse
-                            vpiFullName: submod
-                            vpiTypespec (1 items):
-                              BitTypespec:
-                                vpiParent: Begin
-                            vpiStmt (1 items):
-                              IfElse start:37:16 end:40:41:
-                                vpiParent: Begin
-                                vpiCondition Operation start:37:20 end:37:24:
-                                  vpiParent: IfElse
-                                  vpiOpType: equal (14)
-                                  vpiOperand (2 items):
-                                    RefObj name:i start:37:20 end:37:21:
-                                      vpiParent: Operation
-                                      vpiName: i
-                                      vpiFullName: submod.i
-                                      vpiActual: Variable name:i
-                                    Constant start:37:23 end:37:24:
-                                      vpiParent: Operation
+                      vpiStmt Begin start:33:49 end:42:13:
+                        vpiParent: EventControl
+                        vpiFullName: submod
+                        vpiTypespec (1 items):
+                          BitTypespec:
+                            vpiParent: Begin
+                        vpiStmt (1 items):
+                          IfElse start:34:13 end:41:16:
+                            vpiParent: Begin
+                            vpiCondition Operation start:34:17 end:34:23:
+                              vpiParent: IfElse
+                              vpiOpType: bitwise negation (4)
+                              vpiOperand (1 items):
+                                RefObj name:rst_n start:34:18 end:34:23:
+                                  vpiParent: Operation
+                                  vpiName: rst_n
+                                  vpiFullName: submod.rst_n
+                                  vpiActual: Net name:rst_n
+                            vpiStmt Assignment start:35:15 end:35:31:
+                              vpiParent: IfElse
+                              vpiLhs BitSelect name:r_rst[i] start:35:15 end:35:23:
+                                vpiParent: Assignment
+                                vpiName: r_rst[i]
+                                vpiFullName: submod.r_rst[i]
+                                vpiPrefix RefObj name:r_rst start:35:15 end:35:20:
+                                  vpiParent: BitSelect name:r_rst[i]
+                                  vpiName: r_rst
+                                  vpiFullName: submod.r_rst
+                                  vpiActual: Variable name:r_rst
+                                vpiIndex RefObj name:i start:35:21 end:35:22:
+                                  vpiParent: BitSelect name:r_rst[i]
+                                  vpiName: i
+                                  vpiFullName: submod.i
+                                  vpiActual: Variable name:i
+                              vpiRhs Constant start:35:27 end:35:31:
+                                vpiParent: Assignment
+                                vpiConstType: binary (3)
+                                vpiSize: 1
+                                vpiDecompile: "1'b0"
+                                vpiValue: "0"
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: submod
+                                  vpiActual: BitTypespec
+                            vpiElseStmt Begin start:36:18 end:41:16:
+                              vpiParent: IfElse
+                              vpiFullName: submod
+                              vpiTypespec (1 items):
+                                BitTypespec:
+                                  vpiParent: Begin
+                              vpiStmt (1 items):
+                                IfElse start:37:16 end:40:41:
+                                  vpiParent: Begin
+                                  vpiCondition Operation start:37:20 end:37:24:
+                                    vpiParent: IfElse
+                                    vpiOpType: equal (14)
+                                    vpiOperand (2 items):
+                                      RefObj name:i start:37:20 end:37:21:
+                                        vpiParent: Operation
+                                        vpiName: i
+                                        vpiFullName: submod.i
+                                        vpiActual: Variable name:i
+                                      Constant start:37:23 end:37:24:
+                                        vpiParent: Operation
+                                        vpiConstType: unsigned int (9)
+                                        vpiSize: 64
+                                        vpiDecompile: "0"
+                                        vpiValue: 0
+                                        vpiTypespec RefTypespec:
+                                          vpiParent: Constant
+                                          vpiFullName: submod
+                                          vpiActual: IntTypespec
+                                  vpiStmt Assignment start:38:18 end:38:34:
+                                    vpiParent: IfElse
+                                    vpiLhs BitSelect name:r_rst[i] start:38:18 end:38:26:
+                                      vpiParent: Assignment
+                                      vpiName: r_rst[i]
+                                      vpiFullName: submod.r_rst[i]
+                                      vpiPrefix RefObj name:r_rst start:38:18 end:38:23:
+                                        vpiParent: BitSelect name:r_rst[i]
+                                        vpiName: r_rst
+                                        vpiFullName: submod.r_rst
+                                        vpiActual: Variable name:r_rst
+                                      vpiIndex RefObj name:i start:38:24 end:38:25:
+                                        vpiParent: BitSelect name:r_rst[i]
+                                        vpiName: i
+                                        vpiFullName: submod.i
+                                        vpiActual: Variable name:i
+                                    vpiRhs Constant start:38:30 end:38:34:
+                                      vpiParent: Assignment
+                                      vpiConstType: binary (3)
+                                      vpiSize: 1
+                                      vpiDecompile: "1'b1"
+                                      vpiValue: "1"
                                       vpiTypespec RefTypespec:
                                         vpiParent: Constant
                                         vpiFullName: submod
-                                        vpiActual: IntTypespec
-                                      vpiConstType: unsigned int (9)
-                                      vpiSize: 64
-                                      vpiDecompile: "0"
-                                      vpiValue: 0
-                                vpiStmt Assignment start:38:18 end:38:34:
-                                  vpiParent: IfElse
-                                  vpiLhs BitSelect name:r_rst[i] start:38:18 end:38:26:
-                                    vpiParent: Assignment
-                                    vpiName: r_rst[i]
-                                    vpiFullName: submod.r_rst[i]
-                                    vpiPrefix RefObj name:r_rst start:38:18 end:38:23:
-                                      vpiParent: BitSelect name:r_rst[i]
-                                      vpiName: r_rst
-                                      vpiFullName: submod.r_rst
-                                      vpiActual: Variable name:r_rst
-                                    vpiIndex RefObj name:i start:38:24 end:38:25:
-                                      vpiParent: BitSelect name:r_rst[i]
-                                      vpiName: i
-                                      vpiFullName: submod.i
-                                      vpiActual: Variable name:i
-                                  vpiRhs Constant start:38:30 end:38:34:
-                                    vpiParent: Assignment
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: submod
-                                      vpiActual: BitTypespec
-                                    vpiConstType: binary (3)
-                                    vpiSize: 1
-                                    vpiDecompile: "1'b1"
-                                    vpiValue: "1"
-                                vpiElseStmt Assignment start:40:18 end:40:40:
-                                  vpiParent: IfElse
-                                  vpiLhs BitSelect name:r_rst[i] start:40:18 end:40:26:
-                                    vpiParent: Assignment
-                                    vpiName: r_rst[i]
-                                    vpiFullName: submod.r_rst[i]
-                                    vpiPrefix RefObj name:r_rst start:40:18 end:40:23:
-                                      vpiParent: BitSelect name:r_rst[i]
-                                      vpiName: r_rst
-                                      vpiFullName: submod.r_rst
-                                      vpiActual: Variable name:r_rst
-                                    vpiIndex RefObj name:i start:40:24 end:40:25:
-                                      vpiParent: BitSelect name:r_rst[i]
-                                      vpiName: i
-                                      vpiFullName: submod.i
-                                      vpiActual: Variable name:i
-                                  vpiRhs BitSelect name:r_rst[i - 1] start:40:30 end:40:40:
-                                    vpiParent: Assignment
-                                    vpiName: r_rst[i - 1]
-                                    vpiFullName: submod.r_rst[i - 1]
-                                    vpiPrefix RefObj name:r_rst start:40:30 end:40:35:
-                                      vpiParent: BitSelect name:r_rst[i - 1]
-                                      vpiName: r_rst
-                                      vpiFullName: submod.r_rst
-                                      vpiActual: Variable name:r_rst
-                                    vpiIndex Operation start:40:36 end:40:39:
-                                      vpiParent: BitSelect name:r_rst[i - 1]
-                                      vpiOpType: subtract (11)
-                                      vpiOperand (2 items):
-                                        RefObj name:i start:40:36 end:40:37:
-                                          vpiParent: Operation
-                                          vpiName: i
-                                          vpiFullName: submod.r_rst[i - 1].i
-                                          vpiActual: Variable name:i
-                                        Constant start:40:38 end:40:39:
-                                          vpiParent: Operation
-                                          vpiTypespec RefTypespec:
-                                            vpiParent: Constant
-                                            vpiFullName: submod.r_rst[i - 1]
-                                            vpiActual: IntTypespec
-                                          vpiConstType: unsigned int (9)
-                                          vpiSize: 64
-                                          vpiDecompile: "1"
-                                          vpiValue: 1
-                  vpiAlwaysType: always (1)
+                                        vpiActual: BitTypespec
+                                  vpiElseStmt Assignment start:40:18 end:40:40:
+                                    vpiParent: IfElse
+                                    vpiLhs BitSelect name:r_rst[i] start:40:18 end:40:26:
+                                      vpiParent: Assignment
+                                      vpiName: r_rst[i]
+                                      vpiFullName: submod.r_rst[i]
+                                      vpiPrefix RefObj name:r_rst start:40:18 end:40:23:
+                                        vpiParent: BitSelect name:r_rst[i]
+                                        vpiName: r_rst
+                                        vpiFullName: submod.r_rst
+                                        vpiActual: Variable name:r_rst
+                                      vpiIndex RefObj name:i start:40:24 end:40:25:
+                                        vpiParent: BitSelect name:r_rst[i]
+                                        vpiName: i
+                                        vpiFullName: submod.i
+                                        vpiActual: Variable name:i
+                                    vpiRhs BitSelect name:r_rst[i - 1] start:40:30 end:40:40:
+                                      vpiParent: Assignment
+                                      vpiName: r_rst[i - 1]
+                                      vpiFullName: submod.r_rst[i - 1]
+                                      vpiPrefix RefObj name:r_rst start:40:30 end:40:35:
+                                        vpiParent: BitSelect name:r_rst[i - 1]
+                                        vpiName: r_rst
+                                        vpiFullName: submod.r_rst
+                                        vpiActual: Variable name:r_rst
+                                      vpiIndex Operation start:40:36 end:40:39:
+                                        vpiParent: BitSelect name:r_rst[i - 1]
+                                        vpiOpType: subtract (11)
+                                        vpiOperand (2 items):
+                                          RefObj name:i start:40:36 end:40:37:
+                                            vpiParent: Operation
+                                            vpiName: i
+                                            vpiFullName: submod.r_rst[i - 1].i
+                                            vpiActual: Variable name:i
+                                          Constant start:40:38 end:40:39:
+                                            vpiParent: Operation
+                                            vpiConstType: unsigned int (9)
+                                            vpiSize: 64
+                                            vpiDecompile: "1"
+                                            vpiValue: 1
+                                            vpiTypespec RefTypespec:
+                                              vpiParent: Constant
+                                              vpiFullName: submod.r_rst[i - 1]
+                                              vpiActual: IntTypespec
+                    vpiAlwaysType: always (1)
   vpiTypespec (3 items):
     ModuleTypespec name:t:
       vpiParent: Design name:unnamed
@@ -979,7 +982,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 0
+[WARNING] : 1
 [   NOTE] : 1
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -128,6 +128,7 @@ n<$Source01/basic04.sv> u<113> t<Top_level_rule> c<1> l<1:1> el<11:1>
 AST_DEBUG_END
 [INF:CP5804] $Source01/basic04.sv:1:1: Compile module "top_properties".
 [WRN:CP5851] $Source01/basic04.sv:10:6: Failed to bind "top".
+[WRN:CP5851] $Source01/basic04.sv:10:42: Failed to bind ".*".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -210,52 +211,54 @@ Design name:unnamed:
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:top_properties
+          vpiScalar: true
       vpiDefName: top_properties
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:22:
         vpiParent: Module name:top_properties
         vpiName: work
         vpiFullName: top_properties.work
         vpiActual: Library name:work
       vpiCell: top_properties
-      vpiAutomatic: true
       vpiNet (4 items):
         Net name:clock start:1:36 end:1:41:
           vpiParent: Module name:top_properties
+          vpiName: clock
+          vpiFullName: top_properties.clock
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec start:1:30 end:1:35:
             vpiParent: Net name:clock
             vpiFullName: top_properties.clock
             vpiActual: LogicTypespec
-          vpiName: clock
-          vpiFullName: top_properties.clock
-          vpiNetType: wire (1)
         Net name:read start:1:43 end:1:47:
           vpiParent: Module name:top_properties
+          vpiName: read
+          vpiFullName: top_properties.read
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:read
             vpiFullName: top_properties.read
             vpiActual: LogicTypespec
-          vpiName: read
-          vpiFullName: top_properties.read
-          vpiNetType: wire (1)
         Net name:write start:1:49 end:1:54:
           vpiParent: Module name:top_properties
+          vpiName: write
+          vpiFullName: top_properties.write
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:write
             vpiFullName: top_properties.write
             vpiActual: LogicTypespec
-          vpiName: write
-          vpiFullName: top_properties.write
-          vpiNetType: wire (1)
         Net name:ready start:1:56 end:1:61:
           vpiParent: Module name:top_properties
+          vpiName: ready
+          vpiFullName: top_properties.ready
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:ready
             vpiFullName: top_properties.ready
             vpiActual: LogicTypespec
-          vpiName: ready
-          vpiFullName: top_properties.ready
-          vpiNetType: wire (1)
       vpiPort (4 items):
         Port name:clock start:1:36 end:1:41:
           vpiParent: Module name:top_properties
@@ -338,8 +341,7 @@ Design name:unnamed:
         vpiArgument (1 items):
           NamedArgument start:10:42 end:10:44:
             vpiParent: RefInstance name:properties_inst
-            vpiConnByName: true
-            vpiLowConn RefObj name:.*:
+            vpiHighConn RefObj name:.* start:10:42 end:10:44:
               vpiParent: NamedArgument
               vpiName: ".*"
               vpiFullName: properties_inst..*
@@ -351,7 +353,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 1
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

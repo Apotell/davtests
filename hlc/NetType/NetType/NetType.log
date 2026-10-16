@@ -232,24 +232,26 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:my_real_net start:13:13 end:13:24:
           vpiParent: Module name:dut
+          vpiName: my_real_net
+          vpiFullName: dut.my_real_net
           vpiTypespec RefTypespec name:my_real start:13:5 end:13:12:
             vpiParent: Variable name:my_real_net
             vpiName: my_real
             vpiFullName: dut.my_real_net.my_real
-          vpiName: my_real_net
-          vpiFullName: dut.my_real_net
       vpiDefName: dut
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:11:8 end:11:11:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
         vpiActual: Library name:work
       vpiCell: dut
-      vpiAutomatic: true
   vpiTypespec (6 items):
     BitTypespec:
       vpiParent: Design name:unnamed
+      vpiScalar: true
     RealTypespec:
       vpiParent: Design name:unnamed
     ModuleTypespec name:dut:
@@ -277,6 +279,7 @@ Design name:unnamed:
       vpiTypespec (1 items):
         BitTypespec:
           vpiParent: Function name:my_function
+          vpiScalar: true
       vpiVisibility: public (1)
       vpiAutomatic: true
       vpiReturn RefTypespec start:3:20 end:3:23:
@@ -287,6 +290,27 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:Tsum start:28:22 end:28:26:
       vpiFullName: Tsum
+      vpiVariable (1 items):
+        Variable name:driver start:28:36 end:28:42:
+          vpiParent: Function name:Tsum
+          vpiName: driver
+          vpiFullName: Tsum.driver
+          vpiTypespec RefTypespec name:T [] start:28:34 end:28:35:
+            vpiParent: Variable name:driver
+            vpiName: T []
+            vpiFullName: Tsum.driver.T []
+            vpiActual: ArrayTypespec
+      vpiTypespec (1 items):
+        ArrayTypespec:
+          vpiParent: Function name:Tsum
+          vpiArrayType: dynamic (2)
+          vpiRange Range start:28:42 end:28:44:
+            vpiParent: ArrayTypespec
+          vpiElemTypespec RefTypespec name:T start:28:34 end:28:35:
+            vpiParent: ArrayTypespec
+            vpiName: T
+            vpiFullName: Tsum.T
+            vpiActual: TypedefTypespec name:T
       vpiVisibility: public (1)
       vpiAutomatic: true
       vpiIODecl (1 items):
@@ -302,17 +326,6 @@ Design name:unnamed:
       vpiStmt Begin:
         vpiParent: Function name:Tsum
         vpiFullName: Tsum
-        vpiTypespec (1 items):
-          ArrayTypespec:
-            vpiParent: Begin
-            vpiArrayType: dynamic (2)
-            vpiRange Range start:28:42 end:28:44:
-              vpiParent: ArrayTypespec
-            vpiElemTypespec RefTypespec name:T start:28:34 end:28:35:
-              vpiParent: ArrayTypespec
-              vpiName: T
-              vpiFullName: Tsum.T
-              vpiActual: TypedefTypespec name:T
         vpiStmt (2 items):
           Assignment start:29:3 end:29:20:
             vpiParent: Begin
@@ -335,14 +348,14 @@ Design name:unnamed:
               vpiActual: TypespecMember name:field1
             vpiRhs Constant start:29:17 end:29:20:
               vpiParent: Assignment
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: Tsum
-                vpiActual: RealTypespec
               vpiConstType: real (2)
               vpiSize: 64
               vpiDecompile: "0.0"
               vpiValue: 0
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: Tsum
+                vpiActual: RealTypespec
           ForeachStmt start:30:3 end:31:37:
             vpiParent: Begin
             vpiFullName: Tsum
@@ -351,12 +364,13 @@ Design name:unnamed:
                 vpiParent: ForeachStmt
                 vpiName: i
                 vpiFullName: Tsum.i
+                vpiAutomatic: true
                 vpiIsIterator: true
             vpiVariable RefObj name:driver start:30:12 end:30:18:
               vpiParent: ForeachStmt
               vpiName: driver
               vpiFullName: Tsum.driver
-              vpiActual: IODecl name:driver
+              vpiActual: Variable name:driver
             vpiLoopVars (1 items):
               Variable name:i:
             vpiStmt Assignment start:31:5 end:31:36:
@@ -411,7 +425,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:driver[i]
                           vpiName: driver
                           vpiFullName: Tsum.driver[i].field1.driver
-                          vpiActual: IODecl name:driver
+                          vpiActual: Variable name:driver
                         vpiIndex RefObj name:i start:31:27 end:31:28:
                           vpiParent: BitSelect name:driver[i]
                           vpiName: i
@@ -432,6 +446,16 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:my_function2 start:41:25 end:41:37:
       vpiFullName: my_function2
+      vpiVariable (1 items):
+        Variable name:driver start:41:49 end:41:55:
+          vpiParent: Function name:my_function2
+          vpiName: driver
+          vpiFullName: my_function2.driver
+          vpiTypespec RefTypespec name:real [] start:41:44 end:41:48:
+            vpiParent: Variable name:driver
+            vpiName: real []
+            vpiFullName: my_function2.driver.real []
+            vpiActual: ArrayTypespec
       vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Function name:my_function2
@@ -600,7 +624,7 @@ COMMAND: ${HLC_DIR}/regression/NetType/NetType/design.hldb ${HLC_DIR}/regression
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              90      90       0         0
+Others                              94      94       0         0
 ----------------------------------------------------------------
-                                    90      90       0         0
+                                    94      94       0         0
 ===================== END REDUCTION RESULT =====================

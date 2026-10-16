@@ -114,7 +114,7 @@ n<$Source01/dut.sv> u<574> t<Top_level_rule> c<1> l<2:1> el<68:1>
                                                     n<> u<70> t<CLOSE_PARENS> p<71> l<18:53> el<18:54>
                                               n<> u<87> t<BinaryOp_Plus> p<88> s<86> l<18:55> el<18:56>
                                               n<> u<86> t<Constant_expression> p<88> c<85> l<18:57> el<18:72>
-                                                n<> u<85> t<REDUCTION_NOR> p<86> s<84> l<18:57> el<18:59>
+                                                n<> u<85> t<UnaryOp_ReductNor> p<86> s<84> l<18:57> el<18:59>
                                                 n<> u<84> t<Constant_primary> p<86> c<83> l<18:59> el<18:72>
                                                   n<> u<83> t<Subroutine_call> p<84> c<74> l<18:59> el<18:72>
                                                     n<$> u<74> t<DOLLAR> p<83> s<75> l<18:59> el<18:60>
@@ -601,7 +601,6 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:24:1: No timescale set for "fifo_sync #(.ReqDepth(6))".
 [WRN:PA5506] $Source01/dut.sv:38:1: No timescale set for "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))".
 [WRN:PA5506] $Source01/dut.sv:54:1: No timescale set for "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))".
-[ERR:DB2038] $Source01/dut.sv:15:12: 'vpiStmt' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -618,12 +617,12 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:Depth start:3:26 end:3:31:
           vpiParent: Module name:prim_fifo_sync #(.Depth(4))
+          vpiName: Depth
+          vpiFullName: prim_fifo_sync #(.Depth(4)).Depth
           vpiTypespec RefTypespec start:3:13 end:3:25:
             vpiParent: Parameter name:Depth
             vpiFullName: prim_fifo_sync #(.Depth(4)).Depth
             vpiActual: IntTypespec
-          vpiName: Depth
-          vpiFullName: prim_fifo_sync #(.Depth(4)).Depth
       vpiParamAssign (1 items):
         ParamAssign start:3:26 end:3:41:
           vpiParent: Module name:prim_fifo_sync #(.Depth(4))
@@ -634,23 +633,24 @@ Design name:unnamed:
             vpiActual: Parameter name:Depth
           vpiRhs Constant start:3:40 end:3:41:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: prim_fifo_sync #(.Depth(4))
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "4"
             vpiValue: 4
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: prim_fifo_sync #(.Depth(4))
+              vpiActual: IntTypespec
       vpiDefName: prim_fifo_sync
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:2:8 end:2:22:
         vpiParent: Module name:prim_fifo_sync #(.Depth(4))
         vpiName: work
         vpiFullName: prim_fifo_sync #(.Depth(4)).work
         vpiActual: Library name:work
       vpiCell: prim_fifo_sync
-      vpiAutomatic: true
       vpiSysTaskCall (2 items):
         SysFuncCall name:$clog2:
         SysFuncCall name:$clog2:
@@ -668,55 +668,55 @@ Design name:unnamed:
                 vpiActual: Parameter name:Depth
               Constant start:8:16 end:8:17:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: prim_fifo_sync #(.Depth(4))
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
-          vpiStmt Begin name:gen_passthru start:8:19 end:15:6:
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: prim_fifo_sync #(.Depth(4))
+                  vpiActual: IntTypespec
+          vpiStmt GenBlock name:gen_passthru start:8:19 end:15:6:
             vpiParent: GenIfElse
             vpiName Identifier name:gen_passthru start:8:27 end:8:39:
             vpiFullName: prim_fifo_sync #(.Depth(4)).gen_passthru
             vpiTypespec (1 items):
               BitTypespec:
-                vpiParent: Begin name:gen_passthru
+                vpiParent: GenBlock name:gen_passthru
             vpiStmt (1 items):
               ContAssign start:11:12 end:11:24:
-                vpiParent: Begin name:gen_passthru
+                vpiParent: GenBlock name:gen_passthru
                 vpiLhs RefObj name:depth start:11:12 end:11:17:
                   vpiParent: ContAssign
                   vpiName: depth
                   vpiFullName: prim_fifo_sync #(.Depth(4)).gen_passthru.depth
                 vpiRhs Constant start:11:20 end:11:24:
                   vpiParent: ContAssign
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: prim_fifo_sync #(.Depth(4)).gen_passthru
-                    vpiActual: BitTypespec
                   vpiConstType: binary (3)
                   vpiSize: 1
                   vpiDecompile: "1'b0"
                   vpiValue: "0"
-          vpiElseStmt Begin name:gen_normal start:15:12 end:20:6:
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: prim_fifo_sync #(.Depth(4)).gen_passthru
+                    vpiActual: BitTypespec
+          vpiElseStmt GenBlock name:gen_normal start:15:12 end:20:6:
             vpiParent: GenIfElse
             vpiName Identifier name:gen_normal start:15:20 end:15:30:
             vpiFullName: prim_fifo_sync #(.Depth(4)).gen_normal
             vpiParameter (1 items):
               Parameter name:PTRV_W start:18:29 end:18:35:
-                vpiParent: Begin name:gen_normal
+                vpiParent: GenBlock name:gen_normal
+                vpiName: PTRV_W
+                vpiFullName: prim_fifo_sync #(.Depth(4)).gen_normal.PTRV_W
+                vpiLocalParam: true
                 vpiTypespec RefTypespec start:18:16 end:18:28:
                   vpiParent: Parameter name:PTRV_W
                   vpiFullName: prim_fifo_sync #(.Depth(4)).gen_normal.PTRV_W
                   vpiActual: IntTypespec
-                vpiName: PTRV_W
-                vpiFullName: prim_fifo_sync #(.Depth(4)).gen_normal.PTRV_W
-                vpiLocalParam: true
             vpiParamAssign (1 items):
               ParamAssign start:18:29 end:18:72:
-                vpiParent: Begin name:gen_normal
+                vpiParent: GenBlock name:gen_normal
                 vpiLhs RefObj name:PTRV_W start:18:29 end:18:35:
                   vpiParent: ParamAssign
                   vpiName: PTRV_W
@@ -740,6 +740,7 @@ Design name:unnamed:
                             vpiActual: Parameter name:Depth
                     Operation start:18:57 end:18:72:
                       vpiParent: Operation
+                      vpiOpType: unary nor (8)
                       vpiOperand (1 items):
                         SysFuncCall name:$clog2 start:18:59 end:18:72:
                           vpiParent: Operation
@@ -753,9 +754,6 @@ Design name:unnamed:
                                 vpiName: Depth
                                 vpiFullName: prim_fifo_sync #(.Depth(4)).gen_normal.Depth
                                 vpiActual: Parameter name:Depth
-            vpiStmt (2 items):
-              Parameter name:PTRV_W:
-              ParamAssign:
     Module name:fifo_sync #(.ReqDepth(6)) file:$Source01/dut.sv start:24:1 end:33:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:fifo_sync #(.ReqDepth(6)) start:24:8 end:24:17:
@@ -763,12 +761,12 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:ReqDepth start:25:26 end:25:34:
           vpiParent: Module name:fifo_sync #(.ReqDepth(6))
+          vpiName: ReqDepth
+          vpiFullName: fifo_sync #(.ReqDepth(6)).ReqDepth
           vpiTypespec RefTypespec start:25:13 end:25:25:
             vpiParent: Parameter name:ReqDepth
             vpiFullName: fifo_sync #(.ReqDepth(6)).ReqDepth
             vpiActual: IntTypespec
-          vpiName: ReqDepth
-          vpiFullName: fifo_sync #(.ReqDepth(6)).ReqDepth
       vpiParamAssign (1 items):
         ParamAssign start:25:26 end:25:38:
           vpiParent: Module name:fifo_sync #(.ReqDepth(6))
@@ -779,14 +777,14 @@ Design name:unnamed:
             vpiActual: Parameter name:ReqDepth
           vpiRhs Constant start:25:37 end:25:38:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: fifo_sync #(.ReqDepth(6))
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "6"
             vpiValue: 6
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: fifo_sync #(.ReqDepth(6))
+              vpiActual: IntTypespec
       vpiTypespec (1 items):
         ModuleTypespec name:prim_fifo_sync start:30:3 end:30:17:
           vpiParent: Module name:fifo_sync #(.ReqDepth(6))
@@ -810,13 +808,14 @@ Design name:unnamed:
           vpiModule: Module name:prim_fifo_sync #(.Depth(4))
       vpiDefName: fifo_sync
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:24:8 end:24:17:
         vpiParent: Module name:fifo_sync #(.ReqDepth(6))
         vpiName: work
         vpiFullName: fifo_sync #(.ReqDepth(6)).work
         vpiActual: Library name:work
       vpiCell: fifo_sync
-      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:reqfifo start:30:38 end:30:45:
           vpiParent: Module name:fifo_sync #(.ReqDepth(6))
@@ -833,38 +832,38 @@ Design name:unnamed:
       vpiParameter (4 items):
         Parameter name:N start:39:27 end:39:28:
           vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
+          vpiName: N
+          vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).N"
           vpiTypespec RefTypespec start:39:13 end:39:25:
             vpiParent: Parameter name:N
             vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).N"
             vpiActual: IntTypespec
-          vpiName: N
-          vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).N"
         Parameter name:DReqDepth start:40:23 end:40:32:
           vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
+          vpiName: DReqDepth
+          vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).DReqDepth"
           vpiTypespec RefTypespec start:40:13 end:40:22:
             vpiParent: Parameter name:DReqDepth
             vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).DReqDepth"
             vpiActual: BitTypespec
-          vpiName: DReqDepth
-          vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).DReqDepth"
         Parameter name:AA start:41:23 end:41:25:
           vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
+          vpiName: AA
+          vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).AA"
+          vpiLocalParam: true
           vpiTypespec RefTypespec start:41:13 end:41:22:
             vpiParent: Parameter name:AA
             vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).AA"
             vpiActual: BitTypespec
-          vpiName: AA
-          vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).AA"
-          vpiLocalParam: true
         Parameter name:BB start:42:23 end:42:25:
           vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
+          vpiName: BB
+          vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).BB"
+          vpiLocalParam: true
           vpiTypespec RefTypespec start:42:13 end:42:22:
             vpiParent: Parameter name:BB
             vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).BB"
             vpiActual: BitTypespec
-          vpiName: BB
-          vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).BB"
-          vpiLocalParam: true
       vpiParamAssign (4 items):
         ParamAssign start:39:27 end:39:40:
           vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
@@ -875,14 +874,14 @@ Design name:unnamed:
             vpiActual: Parameter name:N
           vpiRhs Constant start:39:39 end:39:40:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
+              vpiActual: IntTypespec
         ParamAssign start:40:23 end:40:44:
           vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
           vpiLhs RefObj name:DReqDepth start:40:23 end:40:32:
@@ -905,14 +904,14 @@ Design name:unnamed:
                 vpiOperand (1 items):
                   Constant start:40:38 end:40:42:
                     vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
-                      vpiActual: IntTypespec
                     vpiConstType: hexadecimal (5)
                     vpiSize: 4
                     vpiDecompile: "4'h2"
                     vpiValue: "2"
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
+                      vpiActual: IntTypespec
         ParamAssign start:41:23 end:41:41:
           vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
           vpiLhs RefObj name:AA start:41:23 end:41:25:
@@ -931,14 +930,14 @@ Design name:unnamed:
                 vpiActual: Parameter name:DReqDepth
               Constant start:41:40 end:41:41:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
+                  vpiActual: IntTypespec
         ParamAssign start:42:23 end:42:45:
           vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
           vpiLhs RefObj name:BB start:42:23 end:42:25:
@@ -946,7 +945,7 @@ Design name:unnamed:
             vpiName: BB
             vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).BB"
             vpiActual: Parameter name:BB
-          vpiRhs IndexedPartSelect name:DReqDepth[1*4+:4] start:42:28 end:42:44:
+          vpiRhs IndexedPartSelect name:DReqDepth[1*4+:4] start:42:28 end:42:45:
             vpiParent: ParamAssign
             vpiName: DReqDepth[1*4+:4]
             vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).DReqDepth[1*4+:4]"
@@ -955,41 +954,43 @@ Design name:unnamed:
               vpiName: DReqDepth
               vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).DReqDepth"
               vpiActual: Parameter name:DReqDepth
-            vpiIndexedPartSelectType: pos indexed (1)
-            vpiBaseExpr Operation start:42:38 end:42:41:
+            vpiRange IndexedRange start:42:38 end:42:44:
               vpiParent: IndexedPartSelect name:DReqDepth[1*4+:4]
-              vpiOpType: multiply (25)
-              vpiOperand (2 items):
-                Constant start:42:38 end:42:39:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).DReqDepth[1*4+:4]"
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "1"
-                  vpiValue: 1
-                Constant start:42:40 end:42:41:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).DReqDepth[1*4+:4]"
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "4"
-                  vpiValue: 4
-            vpiWidthExpr Constant start:42:43 end:42:44:
-              vpiParent: IndexedPartSelect name:DReqDepth[1*4+:4]
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).DReqDepth[1*4+:4]"
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "4"
-              vpiValue: 4
+              vpiIndexedPartSelectType: pos indexed (1)
+              vpiBaseExpr Operation start:42:38 end:42:41:
+                vpiParent: IndexedRange
+                vpiOpType: multiply (25)
+                vpiOperand (2 items):
+                  Constant start:42:38 end:42:39:
+                    vpiParent: Operation
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).DReqDepth[1*4+:4]"
+                      vpiActual: IntTypespec
+                  Constant start:42:40 end:42:41:
+                    vpiParent: Operation
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "4"
+                    vpiValue: 4
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).DReqDepth[1*4+:4]"
+                      vpiActual: IntTypespec
+              vpiWidthExpr Constant start:42:43 end:42:44:
+                vpiParent: IndexedRange
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "4"
+                vpiValue: 4
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).DReqDepth[1*4+:4]"
+                  vpiActual: IntTypespec
       vpiTypespec (3 items):
         BitTypespec:
           vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
@@ -998,24 +999,24 @@ Design name:unnamed:
               vpiParent: BitTypespec
               vpiLeftRange Constant start:40:18 end:40:19:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "7"
                 vpiValue: 7
-              vpiRightRange Constant start:40:20 end:40:21:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:40:20 end:40:21:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
+                  vpiActual: IntTypespec
           vpiVector: true
         BitTypespec:
           vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
@@ -1024,24 +1025,24 @@ Design name:unnamed:
               vpiParent: BitTypespec
               vpiLeftRange Constant start:41:18 end:41:19:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "7"
                 vpiValue: 7
-              vpiRightRange Constant start:41:20 end:41:21:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:41:20 end:41:21:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
+                  vpiActual: IntTypespec
           vpiVector: true
         BitTypespec:
           vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
@@ -1050,34 +1051,35 @@ Design name:unnamed:
               vpiParent: BitTypespec
               vpiLeftRange Constant start:42:18 end:42:19:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "7"
                 vpiValue: 7
-              vpiRightRange Constant start:42:20 end:42:21:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:42:20 end:42:21:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
+                  vpiActual: IntTypespec
           vpiVector: true
       vpiDefName: socket_1n
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:38:8 end:38:17:
         vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
         vpiName: work
         vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).work"
         vpiActual: Library name:work
       vpiCell: socket_1n
-      vpiAutomatic: true
       vpiGenStmt (1 items):
         GenFor start:44:3 end:48:6:
           vpiParent: "Module name:socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
@@ -1093,14 +1095,14 @@ Design name:unnamed:
               vpiLhs: Variable name:i
               vpiRhs Constant start:44:19 end:44:20:
                 vpiParent: Assignment
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}}))"
+                  vpiActual: IntTypespec
           vpiForIncStmt (1 items):
             Operation start:44:31 end:44:34:
               vpiParent: GenFor
@@ -1125,13 +1127,13 @@ Design name:unnamed:
                 vpiName: N
                 vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).N"
                 vpiActual: Parameter name:N
-          vpiStmt Begin name:gen_dfifo start:44:36 end:48:6:
+          vpiStmt GenBlock name:gen_dfifo start:44:36 end:48:6:
             vpiParent: GenFor
             vpiName Identifier name:gen_dfifo start:44:44 end:44:53:
             vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).gen_dfifo"
             vpiTypespec (1 items):
               ModuleTypespec name:fifo_sync start:45:5 end:45:14:
-                vpiParent: Begin name:gen_dfifo
+                vpiParent: GenBlock name:gen_dfifo
                 vpiName Identifier name:fifo_sync start:45:5 end:45:14:
                 vpiDefName: fifo_sync
                 vpiParamAssign (1 items):
@@ -1153,40 +1155,42 @@ Design name:unnamed:
                         vpiName: DReqDepth
                         vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).gen_dfifo.fifo_sync.DReqDepth"
                         vpiActual: Parameter name:DReqDepth
-                      vpiIndexedPartSelectType: pos indexed (1)
-                      vpiBaseExpr Operation start:46:27 end:46:30:
+                      vpiRange IndexedRange start:46:27 end:46:33:
                         vpiParent: IndexedPartSelect name:DReqDepth[i*4+:4]
-                        vpiOpType: multiply (25)
-                        vpiOperand (2 items):
-                          RefObj name:i start:46:27 end:46:28:
-                            vpiParent: Operation
-                            vpiName: i
-                            vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).gen_dfifo.fifo_sync.DReqDepth[i*4+:4].i"
-                            vpiActual: Variable name:i
-                          Constant start:46:29 end:46:30:
-                            vpiParent: Operation
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).gen_dfifo.fifo_sync.DReqDepth[i*4+:4]"
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "4"
-                            vpiValue: 4
-                      vpiWidthExpr Constant start:46:32 end:46:33:
-                        vpiParent: IndexedPartSelect name:DReqDepth[i*4+:4]
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).gen_dfifo.fifo_sync.DReqDepth[i*4+:4]"
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "4"
-                        vpiValue: 4
+                        vpiIndexedPartSelectType: pos indexed (1)
+                        vpiBaseExpr Operation start:46:27 end:46:30:
+                          vpiParent: IndexedRange
+                          vpiOpType: multiply (25)
+                          vpiOperand (2 items):
+                            RefObj name:i start:46:27 end:46:28:
+                              vpiParent: Operation
+                              vpiName: i
+                              vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).gen_dfifo.fifo_sync.DReqDepth[i*4+:4].i"
+                              vpiActual: Variable name:i
+                            Constant start:46:29 end:46:30:
+                              vpiParent: Operation
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "4"
+                              vpiValue: 4
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).gen_dfifo.fifo_sync.DReqDepth[i*4+:4]"
+                                vpiActual: IntTypespec
+                        vpiWidthExpr Constant start:46:32 end:46:33:
+                          vpiParent: IndexedRange
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "4"
+                          vpiValue: 4
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: "socket_1n #(.N(2), .DReqDepth({N{{4'h2}}})).gen_dfifo.fifo_sync.DReqDepth[i*4+:4]"
+                            vpiActual: IntTypespec
                 vpiModule: Module name:fifo_sync #(.ReqDepth(6))
             vpiStmt (1 items):
               RefInstance name:fifo_d start:47:7 end:47:13:
-                vpiParent: Begin name:gen_dfifo
+                vpiParent: GenBlock name:gen_dfifo
                 vpiName: fifo_d
                 vpiTypespec RefTypespec name:fifo_sync start:45:5 end:45:14:
                   vpiParent: RefInstance name:fifo_d
@@ -1200,38 +1204,38 @@ Design name:unnamed:
       vpiParameter (4 items):
         Parameter name:N start:55:27 end:55:28:
           vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
+          vpiName: N
+          vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).N"
           vpiTypespec RefTypespec start:55:13 end:55:25:
             vpiParent: Parameter name:N
             vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).N"
             vpiActual: IntTypespec
-          vpiName: N
-          vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).N"
         Parameter name:DReqDepth start:56:23 end:56:32:
           vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
+          vpiName: DReqDepth
+          vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).DReqDepth"
           vpiTypespec RefTypespec start:56:13 end:56:22:
             vpiParent: Parameter name:DReqDepth
             vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).DReqDepth"
             vpiActual: BitTypespec
-          vpiName: DReqDepth
-          vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).DReqDepth"
         Parameter name:AA start:57:23 end:57:25:
           vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
+          vpiName: AA
+          vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).AA"
+          vpiLocalParam: true
           vpiTypespec RefTypespec start:57:13 end:57:22:
             vpiParent: Parameter name:AA
             vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).AA"
             vpiActual: BitTypespec
-          vpiName: AA
-          vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).AA"
-          vpiLocalParam: true
         Parameter name:BB start:58:23 end:58:25:
           vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
+          vpiName: BB
+          vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).BB"
+          vpiLocalParam: true
           vpiTypespec RefTypespec start:58:13 end:58:22:
             vpiParent: Parameter name:BB
             vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).BB"
             vpiActual: BitTypespec
-          vpiName: BB
-          vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).BB"
-          vpiLocalParam: true
       vpiParamAssign (4 items):
         ParamAssign start:55:27 end:55:40:
           vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
@@ -1242,14 +1246,14 @@ Design name:unnamed:
             vpiActual: Parameter name:N
           vpiRhs Constant start:55:39 end:55:40:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "2"
             vpiValue: 2
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
+              vpiActual: IntTypespec
         ParamAssign start:56:23 end:56:44:
           vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
           vpiLhs RefObj name:DReqDepth start:56:23 end:56:32:
@@ -1263,28 +1267,28 @@ Design name:unnamed:
             vpiOperand (2 items):
               Constant start:56:36 end:56:37:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
+                  vpiActual: IntTypespec
               Operation start:56:37 end:56:43:
                 vpiParent: Operation
                 vpiOpType: concatenation (33)
                 vpiOperand (1 items):
                   Constant start:56:38 end:56:42:
                     vpiParent: Operation
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
-                      vpiActual: IntTypespec
                     vpiConstType: hexadecimal (5)
                     vpiSize: 4
                     vpiDecompile: "4'h0"
                     vpiValue: "0"
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
+                      vpiActual: IntTypespec
         ParamAssign start:57:23 end:57:41:
           vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
           vpiLhs RefObj name:AA start:57:23 end:57:25:
@@ -1303,14 +1307,14 @@ Design name:unnamed:
                 vpiActual: Parameter name:DReqDepth
               Constant start:57:40 end:57:41:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
+                  vpiActual: IntTypespec
         ParamAssign start:58:23 end:58:45:
           vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
           vpiLhs RefObj name:BB start:58:23 end:58:25:
@@ -1318,7 +1322,7 @@ Design name:unnamed:
             vpiName: BB
             vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).BB"
             vpiActual: Parameter name:BB
-          vpiRhs IndexedPartSelect name:DReqDepth[1*4+:4] start:58:28 end:58:44:
+          vpiRhs IndexedPartSelect name:DReqDepth[1*4+:4] start:58:28 end:58:45:
             vpiParent: ParamAssign
             vpiName: DReqDepth[1*4+:4]
             vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).DReqDepth[1*4+:4]"
@@ -1327,41 +1331,43 @@ Design name:unnamed:
               vpiName: DReqDepth
               vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).DReqDepth"
               vpiActual: Parameter name:DReqDepth
-            vpiIndexedPartSelectType: pos indexed (1)
-            vpiBaseExpr Operation start:58:38 end:58:41:
+            vpiRange IndexedRange start:58:38 end:58:44:
               vpiParent: IndexedPartSelect name:DReqDepth[1*4+:4]
-              vpiOpType: multiply (25)
-              vpiOperand (2 items):
-                Constant start:58:38 end:58:39:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).DReqDepth[1*4+:4]"
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "1"
-                  vpiValue: 1
-                Constant start:58:40 end:58:41:
-                  vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).DReqDepth[1*4+:4]"
-                    vpiActual: IntTypespec
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
-                  vpiDecompile: "4"
-                  vpiValue: 4
-            vpiWidthExpr Constant start:58:43 end:58:44:
-              vpiParent: IndexedPartSelect name:DReqDepth[1*4+:4]
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).DReqDepth[1*4+:4]"
-                vpiActual: IntTypespec
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
-              vpiDecompile: "4"
-              vpiValue: 4
+              vpiIndexedPartSelectType: pos indexed (1)
+              vpiBaseExpr Operation start:58:38 end:58:41:
+                vpiParent: IndexedRange
+                vpiOpType: multiply (25)
+                vpiOperand (2 items):
+                  Constant start:58:38 end:58:39:
+                    vpiParent: Operation
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).DReqDepth[1*4+:4]"
+                      vpiActual: IntTypespec
+                  Constant start:58:40 end:58:41:
+                    vpiParent: Operation
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "4"
+                    vpiValue: 4
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).DReqDepth[1*4+:4]"
+                      vpiActual: IntTypespec
+              vpiWidthExpr Constant start:58:43 end:58:44:
+                vpiParent: IndexedRange
+                vpiConstType: unsigned int (9)
+                vpiSize: 64
+                vpiDecompile: "4"
+                vpiValue: 4
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).DReqDepth[1*4+:4]"
+                  vpiActual: IntTypespec
       vpiTypespec (3 items):
         BitTypespec:
           vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
@@ -1370,24 +1376,24 @@ Design name:unnamed:
               vpiParent: BitTypespec
               vpiLeftRange Constant start:56:18 end:56:19:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "7"
                 vpiValue: 7
-              vpiRightRange Constant start:56:20 end:56:21:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:56:20 end:56:21:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
+                  vpiActual: IntTypespec
           vpiVector: true
         BitTypespec:
           vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
@@ -1396,24 +1402,24 @@ Design name:unnamed:
               vpiParent: BitTypespec
               vpiLeftRange Constant start:57:18 end:57:19:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "7"
                 vpiValue: 7
-              vpiRightRange Constant start:57:20 end:57:21:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:57:20 end:57:21:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
+                  vpiActual: IntTypespec
           vpiVector: true
         BitTypespec:
           vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
@@ -1422,34 +1428,35 @@ Design name:unnamed:
               vpiParent: BitTypespec
               vpiLeftRange Constant start:58:18 end:58:19:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "7"
                 vpiValue: 7
-              vpiRightRange Constant start:58:20 end:58:21:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:58:20 end:58:21:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
+                  vpiActual: IntTypespec
           vpiVector: true
       vpiDefName: all_zero
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:54:8 end:54:16:
         vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
         vpiName: work
         vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).work"
         vpiActual: Library name:work
       vpiCell: all_zero
-      vpiAutomatic: true
       vpiGenStmt (1 items):
         GenFor start:60:3 end:64:6:
           vpiParent: "Module name:all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
@@ -1465,14 +1472,14 @@ Design name:unnamed:
               vpiLhs: Variable name:i
               vpiRhs Constant start:60:19 end:60:20:
                 vpiParent: Assignment
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}}))"
+                  vpiActual: IntTypespec
           vpiForIncStmt (1 items):
             Operation start:60:31 end:60:34:
               vpiParent: GenFor
@@ -1497,13 +1504,13 @@ Design name:unnamed:
                 vpiName: N
                 vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).N"
                 vpiActual: Parameter name:N
-          vpiStmt Begin name:gen_dfifo start:60:36 end:64:6:
+          vpiStmt GenBlock name:gen_dfifo start:60:36 end:64:6:
             vpiParent: GenFor
             vpiName Identifier name:gen_dfifo start:60:44 end:60:53:
             vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).gen_dfifo"
             vpiTypespec (1 items):
               ModuleTypespec name:fifo_sync start:61:5 end:61:14:
-                vpiParent: Begin name:gen_dfifo
+                vpiParent: GenBlock name:gen_dfifo
                 vpiName Identifier name:fifo_sync start:61:5 end:61:14:
                 vpiDefName: fifo_sync
                 vpiParamAssign (1 items):
@@ -1525,40 +1532,42 @@ Design name:unnamed:
                         vpiName: DReqDepth
                         vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).gen_dfifo.fifo_sync.DReqDepth"
                         vpiActual: Parameter name:DReqDepth
-                      vpiIndexedPartSelectType: pos indexed (1)
-                      vpiBaseExpr Operation start:62:27 end:62:30:
+                      vpiRange IndexedRange start:62:27 end:62:33:
                         vpiParent: IndexedPartSelect name:DReqDepth[i*4+:4]
-                        vpiOpType: multiply (25)
-                        vpiOperand (2 items):
-                          RefObj name:i start:62:27 end:62:28:
-                            vpiParent: Operation
-                            vpiName: i
-                            vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).gen_dfifo.fifo_sync.DReqDepth[i*4+:4].i"
-                            vpiActual: Variable name:i
-                          Constant start:62:29 end:62:30:
-                            vpiParent: Operation
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).gen_dfifo.fifo_sync.DReqDepth[i*4+:4]"
-                              vpiActual: IntTypespec
-                            vpiConstType: unsigned int (9)
-                            vpiSize: 64
-                            vpiDecompile: "4"
-                            vpiValue: 4
-                      vpiWidthExpr Constant start:62:32 end:62:33:
-                        vpiParent: IndexedPartSelect name:DReqDepth[i*4+:4]
-                        vpiTypespec RefTypespec:
-                          vpiParent: Constant
-                          vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).gen_dfifo.fifo_sync.DReqDepth[i*4+:4]"
-                          vpiActual: IntTypespec
-                        vpiConstType: unsigned int (9)
-                        vpiSize: 64
-                        vpiDecompile: "4"
-                        vpiValue: 4
+                        vpiIndexedPartSelectType: pos indexed (1)
+                        vpiBaseExpr Operation start:62:27 end:62:30:
+                          vpiParent: IndexedRange
+                          vpiOpType: multiply (25)
+                          vpiOperand (2 items):
+                            RefObj name:i start:62:27 end:62:28:
+                              vpiParent: Operation
+                              vpiName: i
+                              vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).gen_dfifo.fifo_sync.DReqDepth[i*4+:4].i"
+                              vpiActual: Variable name:i
+                            Constant start:62:29 end:62:30:
+                              vpiParent: Operation
+                              vpiConstType: unsigned int (9)
+                              vpiSize: 64
+                              vpiDecompile: "4"
+                              vpiValue: 4
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).gen_dfifo.fifo_sync.DReqDepth[i*4+:4]"
+                                vpiActual: IntTypespec
+                        vpiWidthExpr Constant start:62:32 end:62:33:
+                          vpiParent: IndexedRange
+                          vpiConstType: unsigned int (9)
+                          vpiSize: 64
+                          vpiDecompile: "4"
+                          vpiValue: 4
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: "all_zero #(.N(2), .DReqDepth({2{{4'h0}}})).gen_dfifo.fifo_sync.DReqDepth[i*4+:4]"
+                            vpiActual: IntTypespec
                 vpiModule: Module name:fifo_sync #(.ReqDepth(6))
             vpiStmt (1 items):
               RefInstance name:fifo_d start:63:7 end:63:13:
-                vpiParent: Begin name:gen_dfifo
+                vpiParent: GenBlock name:gen_dfifo
                 vpiName: fifo_d
                 vpiTypespec RefTypespec name:fifo_sync start:61:5 end:61:14:
                   vpiParent: RefInstance name:fifo_d
@@ -1608,7 +1617,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
@@ -1655,12 +1664,12 @@ Name                            Before   After   Added   Removed
 Constant                            49      48       7         8
 Identifier                         429     427       0         2
 NamedArgument                        2       0       0         2
-Operation                           17      10       0         7
+Operation                           17       9       0         8
 RefObj                              47      43       0         4
-RefTypespec                        401     396       3         8
+RefTypespec                        468     464       4         8
 SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
-Others                             665     665       0         0
+Others                             736     736       0         0
 ----------------------------------------------------------------
-                                  1612    1589      10        33
+                                  1750    1727      11        34
 ===================== END REDUCTION RESULT =====================

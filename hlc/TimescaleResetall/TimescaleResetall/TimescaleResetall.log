@@ -1,0 +1,337 @@
+********************************************************************************
+*                   Begin HLC SystemVerilog Compiler/Linter                    *
+********************************************************************************
+Copyright (c) 2020 Apotell,
+http://www.apache.org/licenses/LICENSE-2.0
+VERSION: 1.84
+COMMAND: -wd ../../../tests/TimescaleResetall -fileunit -nobuiltin -d db -d ast cu_timeunit.sv no_cu_timeunit.sv -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/TimescaleResetall/TimescaleResetall
+[INF:CM5022] Creating log file "$Output/hlc.log".
+[INF:CM5019] Separate compilation-unit mode is on.
+[INF:PP5223] Preprocessing source file "$Source01/cu_timeunit.sv".
+[INF:PP5223] Preprocessing source file "$Source01/no_cu_timeunit.sv".
+[INF:PA5502] Parsing source file "$Source01/cu_timeunit.sv".
+[INF:PA5502] Parsing source file "$Source01/no_cu_timeunit.sv".
+AST_DEBUG_BEGIN
+Count: 66
+LIB: work
+FILE<0>:$Source01/cu_timeunit.sv
+n<$Source01/cu_timeunit.sv> u<65> t<Top_level_rule> c<1> l<3:1> el<19:1>
+  n<> u<1> t<Null_rule> p<65> s<2> l<3:1> el<3:1>
+  n<// Compilation-unit timeunit/timeprecision, a `timescale, then `resetall.> u<2> t<LINE_COMMENT> p<65> s<3> l<1:1> el<1:74>
+  n<//   IEEE 1800-2023 Sec 3.14.2.3 precedence, Sec 22.7 `timescale, Sec 22.3 `resetall> u<3> t<LINE_COMMENT> p<65> s<63> l<2:1> el<2:85>
+  n<> u<63> t<Source_text> p<65> c<10> s<64> l<3:1> el<18:38>
+    n<> u<10> t<TimeUnitsDecl_TimeUnitTimePrecision> p<63> c<6> s<18> l<3:1> el<4:19>
+      n<10us> u<6> t<Time_literal> p<10> c<4> s<9> l<3:10> el<3:14>
+        n<10> u<4> t<INTEGRAL_NUMBER> p<6> s<5> l<3:10> el<3:12>
+        n<us> u<5> t<SIMPLE_IDENTIFIER> p<6> l<3:12> el<3:14>
+      n<1us> u<9> t<Time_literal> p<10> c<7> l<4:15> el<4:18>
+        n<1> u<7> t<INTEGRAL_NUMBER> p<9> s<8> l<4:15> el<4:16>
+        n<us> u<8> t<SIMPLE_IDENTIFIER> p<9> l<4:16> el<4:18>
+    n<> u<18> t<Description> p<63> c<17> s<19> l<6:1> el<6:40>
+      n<> u<17> t<Module_declaration> p<18> c<15> l<6:1> el<6:40>
+        n<> u<15> t<Module_nonansi_header> p<17> c<11> s<16> l<6:1> el<6:30>
+          n<module> u<11> t<MODULE> p<15> s<12> l<6:1> el<6:7>
+          n<cu_before_timescale> u<12> t<SIMPLE_IDENTIFIER> p<15> s<13> l<6:8> el<6:27>
+          n<> u<13> t<Package_import_declaration_list> p<15> s<14> l<6:27> el<6:27>
+          n<> u<14> t<Port_list> p<15> l<6:27> el<6:29>
+        n<> u<16> t<ENDMODULE> p<17> l<6:31> el<6:40>
+    n<// rule c: 10us / 1us> u<19> t<LINE_COMMENT> p<63> s<28> l<6:49> el<6:70>
+    n<> u<28> t<Description> p<63> c<27> s<36> l<8:1> el<8:19>
+      n<> u<27> t<Top_directives> p<28> c<26> l<8:1> el<8:19>
+        n<> u<26> t<Timescale_directive> p<27> c<22> l<8:1> el<8:19>
+          n<1ns> u<22> t<Time_literal> p<26> c<20> s<25> l<8:12> el<8:15>
+            n<1> u<20> t<INTEGRAL_NUMBER> p<22> s<21> l<8:12> el<8:13>
+            n<ns> u<21> t<SIMPLE_IDENTIFIER> p<22> l<8:13> el<8:15>
+          n<1ps> u<25> t<Time_literal> p<26> c<23> l<8:16> el<8:19>
+            n<1> u<23> t<INTEGRAL_NUMBER> p<25> s<24> l<8:16> el<8:17>
+            n<ps> u<24> t<SIMPLE_IDENTIFIER> p<25> l<8:17> el<8:19>
+    n<> u<36> t<Description> p<63> c<35> s<37> l<10:1> el<10:36>
+      n<> u<35> t<Module_declaration> p<36> c<33> l<10:1> el<10:36>
+        n<> u<33> t<Module_nonansi_header> p<35> c<29> s<34> l<10:1> el<10:26>
+          n<module> u<29> t<MODULE> p<33> s<30> l<10:1> el<10:7>
+          n<after_timescale> u<30> t<SIMPLE_IDENTIFIER> p<33> s<31> l<10:8> el<10:23>
+          n<> u<31> t<Package_import_declaration_list> p<33> s<32> l<10:23> el<10:23>
+          n<> u<32> t<Port_list> p<33> l<10:23> el<10:25>
+        n<> u<34> t<ENDMODULE> p<35> l<10:27> el<10:36>
+    n<// rule b beats c: 1ns / 1ps> u<37> t<LINE_COMMENT> p<63> s<50> l<10:49> el<10:77>
+    n<> u<50> t<Description> p<63> c<49> s<51> l<12:1> el<14:10>
+      n<> u<49> t<Module_declaration> p<50> c<42> l<12:1> el<14:10>
+        n<> u<42> t<Module_nonansi_header> p<49> c<38> s<46> l<12:1> el<12:23>
+          n<module> u<38> t<MODULE> p<42> s<39> l<12:1> el<12:7>
+          n<own_timeunit> u<39> t<SIMPLE_IDENTIFIER> p<42> s<40> l<12:8> el<12:20>
+          n<> u<40> t<Package_import_declaration_list> p<42> s<41> l<12:20> el<12:20>
+          n<> u<41> t<Port_list> p<42> l<12:20> el<12:22>
+        n<> u<46> t<TimeUnitsDecl_TimeUnit> p<49> c<45> s<47> l<13:3> el<13:18>
+          n<100ps> u<45> t<Time_literal> p<46> c<43> l<13:12> el<13:17>
+            n<100> u<43> t<INTEGRAL_NUMBER> p<45> s<44> l<13:12> el<13:15>
+            n<ps> u<44> t<SIMPLE_IDENTIFIER> p<45> l<13:15> el<13:17>
+        n<// own unit, precision from `timescale> u<47> t<LINE_COMMENT> p<49> s<48> l<13:49> el<13:87>
+        n<> u<48> t<ENDMODULE> p<49> l<14:1> el<14:10>
+    n<// 100ps / 1ps> u<51> t<LINE_COMMENT> p<63> s<54> l<14:49> el<14:63>
+    n<> u<54> t<Description> p<63> c<53> s<62> l<16:1> el<16:10>
+      n<> u<53> t<Top_directives> p<54> c<52> l<16:1> el<16:10>
+        n<> u<52> t<Resetall_directive> p<53> l<16:1> el<16:10>
+    n<> u<62> t<Description> p<63> c<61> l<18:1> el<18:38>
+      n<> u<61> t<Module_declaration> p<62> c<59> l<18:1> el<18:38>
+        n<> u<59> t<Module_nonansi_header> p<61> c<55> s<60> l<18:1> el<18:28>
+          n<module> u<55> t<MODULE> p<59> s<56> l<18:1> el<18:7>
+          n<cu_after_resetall> u<56> t<SIMPLE_IDENTIFIER> p<59> s<57> l<18:8> el<18:25>
+          n<> u<57> t<Package_import_declaration_list> p<59> s<58> l<18:25> el<18:25>
+          n<> u<58> t<Port_list> p<59> l<18:25> el<18:27>
+        n<> u<60> t<ENDMODULE> p<61> l<18:29> el<18:38>
+  n<// `timescale gone, back to rule c: 10us / 1us> u<64> t<LINE_COMMENT> p<65> l<18:49> el<18:95>
+AST_DEBUG_END
+AST_DEBUG_BEGIN
+Count: 36
+LIB: work
+FILE<0>:$Source01/no_cu_timeunit.sv
+n<$Source01/no_cu_timeunit.sv> u<35> t<Top_level_rule> c<1> l<3:1> el<10:1>
+  n<> u<1> t<Null_rule> p<35> s<2> l<3:1> el<3:1>
+  n<// No compilation-unit timeunit: after `resetall the default (tool-specific) applies.> u<2> t<LINE_COMMENT> p<35> s<3> l<1:1> el<1:86>
+  n<//   IEEE 1800-2023 Sec 22.7> u<3> t<LINE_COMMENT> p<35> s<33> l<2:1> el<2:29>
+  n<> u<33> t<Source_text> p<35> c<12> s<34> l<3:1> el<9:43>
+    n<> u<12> t<Description> p<33> c<11> s<20> l<3:1> el<3:19>
+      n<> u<11> t<Top_directives> p<12> c<10> l<3:1> el<3:19>
+        n<> u<10> t<Timescale_directive> p<11> c<6> l<3:1> el<3:19>
+          n<1ns> u<6> t<Time_literal> p<10> c<4> s<9> l<3:12> el<3:15>
+            n<1> u<4> t<INTEGRAL_NUMBER> p<6> s<5> l<3:12> el<3:13>
+            n<ns> u<5> t<SIMPLE_IDENTIFIER> p<6> l<3:13> el<3:15>
+          n<1ps> u<9> t<Time_literal> p<10> c<7> l<3:16> el<3:19>
+            n<1> u<7> t<INTEGRAL_NUMBER> p<9> s<8> l<3:16> el<3:17>
+            n<ps> u<8> t<SIMPLE_IDENTIFIER> p<9> l<3:17> el<3:19>
+    n<> u<20> t<Description> p<33> c<19> s<21> l<5:1> el<5:46>
+      n<> u<19> t<Module_declaration> p<20> c<17> l<5:1> el<5:46>
+        n<> u<17> t<Module_nonansi_header> p<19> c<13> s<18> l<5:1> el<5:36>
+          n<module> u<13> t<MODULE> p<17> s<14> l<5:1> el<5:7>
+          n<timescale_before_resetall> u<14> t<SIMPLE_IDENTIFIER> p<17> s<15> l<5:8> el<5:33>
+          n<> u<15> t<Package_import_declaration_list> p<17> s<16> l<5:33> el<5:33>
+          n<> u<16> t<Port_list> p<17> l<5:33> el<5:35>
+        n<> u<18> t<ENDMODULE> p<19> l<5:37> el<5:46>
+    n<// 1ns / 1ps> u<21> t<LINE_COMMENT> p<33> s<24> l<5:49> el<5:61>
+    n<> u<24> t<Description> p<33> c<23> s<32> l<7:1> el<7:10>
+      n<> u<23> t<Top_directives> p<24> c<22> l<7:1> el<7:10>
+        n<> u<22> t<Resetall_directive> p<23> l<7:1> el<7:10>
+    n<> u<32> t<Description> p<33> c<31> l<9:1> el<9:43>
+      n<> u<31> t<Module_declaration> p<32> c<29> l<9:1> el<9:43>
+        n<> u<29> t<Module_nonansi_header> p<31> c<25> s<30> l<9:1> el<9:33>
+          n<module> u<25> t<MODULE> p<29> s<26> l<9:1> el<9:7>
+          n<default_after_resetall> u<26> t<SIMPLE_IDENTIFIER> p<29> s<27> l<9:8> el<9:30>
+          n<> u<27> t<Package_import_declaration_list> p<29> s<28> l<9:30> el<9:30>
+          n<> u<28> t<Port_list> p<29> l<9:30> el<9:32>
+        n<> u<30> t<ENDMODULE> p<31> l<9:34> el<9:43>
+  n<// tool default: unset> u<34> t<LINE_COMMENT> p<35> l<9:49> el<9:71>
+AST_DEBUG_END
+[INF:CP5804] $Source01/cu_timeunit.sv:6:1: Compile module "cu_before_timescale".
+[INF:CP5804] $Source01/cu_timeunit.sv:10:1: Compile module "after_timescale".
+[INF:CP5804] $Source01/cu_timeunit.sv:12:1: Compile module "own_timeunit".
+[INF:CP5804] $Source01/cu_timeunit.sv:18:1: Compile module "cu_after_resetall".
+[INF:CP5804] $Source01/no_cu_timeunit.sv:5:1: Compile module "timescale_before_resetall".
+[INF:CP5804] $Source01/no_cu_timeunit.sv:9:1: Compile module "default_after_resetall".
+[WRN:PA5506] $Source01/no_cu_timeunit.sv:9:1: No timescale set for "default_after_resetall".
+====== HLDB =======
+Design name:unnamed:
+  vpiName: unnamed
+  vpiSourceFile (2 items):
+    SourceFile name:cu_timeunit.sv file:$Source01/cu_timeunit.sv:
+      vpiParent: Design name:unnamed
+      vpiName: cu_timeunit.sv
+      vpiPreprocFile: "$Output/lib/work/cu_timeunit.sv"
+      vpiTimePrecision: -6
+      vpiTimeUnit: -5
+      vpiDirective (1 items):
+        GenericDirective start:16:1 end:16:10:
+          vpiParent: SourceFile name:cu_timeunit.sv
+          vpiDirectiveType: resetall (31)
+    SourceFile name:no_cu_timeunit.sv file:$Source01/no_cu_timeunit.sv:
+      vpiParent: Design name:unnamed
+      vpiName: no_cu_timeunit.sv
+      vpiPreprocFile: "$Output/lib/work/no_cu_timeunit.sv"
+      vpiDirective (1 items):
+        GenericDirective start:7:1 end:7:10:
+          vpiParent: SourceFile name:no_cu_timeunit.sv
+          vpiDirectiveType: resetall (31)
+  vpiAllModules (6 items):
+    Module name:cu_before_timescale file:$Source01/cu_timeunit.sv start:6:1 end:6:40:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:cu_before_timescale start:6:8 end:6:27:
+      vpiFullName: cu_before_timescale
+      vpiDefName: cu_before_timescale
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -6
+      vpiTimeUnit: -5
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:6:8 end:6:27:
+        vpiParent: Module name:cu_before_timescale
+        vpiName: work
+        vpiFullName: cu_before_timescale.work
+        vpiActual: Library name:work
+      vpiCell: cu_before_timescale
+    Module name:after_timescale file:$Source01/cu_timeunit.sv start:10:1 end:10:36:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:after_timescale start:10:8 end:10:23:
+      vpiFullName: after_timescale
+      vpiDefName: after_timescale
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:10:8 end:10:23:
+        vpiParent: Module name:after_timescale
+        vpiName: work
+        vpiFullName: after_timescale.work
+        vpiActual: Library name:work
+      vpiCell: after_timescale
+    Module name:own_timeunit file:$Source01/cu_timeunit.sv start:12:1 end:14:10:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:own_timeunit start:12:8 end:12:20:
+      vpiFullName: own_timeunit
+      vpiDefName: own_timeunit
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiTimeUnit: -10
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:12:8 end:12:20:
+        vpiParent: Module name:own_timeunit
+        vpiName: work
+        vpiFullName: own_timeunit.work
+        vpiActual: Library name:work
+      vpiCell: own_timeunit
+    Module name:cu_after_resetall file:$Source01/cu_timeunit.sv start:18:1 end:18:38:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:cu_after_resetall start:18:8 end:18:25:
+      vpiFullName: cu_after_resetall
+      vpiDefName: cu_after_resetall
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -6
+      vpiTimeUnit: -5
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:18:8 end:18:25:
+        vpiParent: Module name:cu_after_resetall
+        vpiName: work
+        vpiFullName: cu_after_resetall.work
+        vpiActual: Library name:work
+      vpiCell: cu_after_resetall
+    Module name:timescale_before_resetall file:$Source01/no_cu_timeunit.sv start:5:1 end:5:46:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:timescale_before_resetall start:5:8 end:5:33:
+      vpiFullName: timescale_before_resetall
+      vpiDefName: timescale_before_resetall
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiTimePrecision: -12
+      vpiTimeUnit: -9
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:5:8 end:5:33:
+        vpiParent: Module name:timescale_before_resetall
+        vpiName: work
+        vpiFullName: timescale_before_resetall.work
+        vpiActual: Library name:work
+      vpiCell: timescale_before_resetall
+    Module name:default_after_resetall file:$Source01/no_cu_timeunit.sv start:9:1 end:9:43:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:default_after_resetall start:9:8 end:9:30:
+      vpiFullName: default_after_resetall
+      vpiDefName: default_after_resetall
+      vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
+      vpiLibrary RefObj name:work start:9:8 end:9:30:
+        vpiParent: Module name:default_after_resetall
+        vpiName: work
+        vpiFullName: default_after_resetall.work
+        vpiActual: Library name:work
+      vpiCell: default_after_resetall
+  vpiTypespec (6 items):
+    ModuleTypespec name:cu_before_timescale:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:cu_before_timescale start:6:8 end:6:27:
+      vpiDefName: cu_before_timescale
+      vpiModule: Module name:cu_before_timescale
+    ModuleTypespec name:after_timescale:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:after_timescale start:10:8 end:10:23:
+      vpiDefName: after_timescale
+      vpiModule: Module name:after_timescale
+    ModuleTypespec name:own_timeunit:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:own_timeunit start:12:8 end:12:20:
+      vpiDefName: own_timeunit
+      vpiModule: Module name:own_timeunit
+    ModuleTypespec name:cu_after_resetall:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:cu_after_resetall start:18:8 end:18:25:
+      vpiDefName: cu_after_resetall
+      vpiModule: Module name:cu_after_resetall
+    ModuleTypespec name:timescale_before_resetall:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:timescale_before_resetall start:5:8 end:5:33:
+      vpiDefName: timescale_before_resetall
+      vpiModule: Module name:timescale_before_resetall
+    ModuleTypespec name:default_after_resetall:
+      vpiParent: Design name:unnamed
+      vpiName Identifier name:default_after_resetall start:9:8 end:9:30:
+      vpiDefName: default_after_resetall
+      vpiModule: Module name:default_after_resetall
+  vpiLibrary (1 items):
+    Library name:work:
+      vpiParent: Design name:unnamed
+      vpiName: work
+===================
+[  FATAL] : 0
+[ SYNTAX] : 0
+[  ERROR] : 0
+[WARNING] : 1
+[   NOTE] : 0
+********************************************************************************
+*                    End HLC SystemVerilog Compiler/Linter                     *
+********************************************************************************
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+Environment:
+      test-name: TimescaleResetall/TimescaleResetall
+   test-dirpath: ${HLC_DIR}/regression/TimescaleResetall/TimescaleResetall
+  hldb-filepath: ${HLC_DIR}/regression/TimescaleResetall/TimescaleResetall/design.hldb
+mounts-filepath: ${HLC_DIR}/regression/TimescaleResetall/TimescaleResetall/mounts.json
+
+
+{'result': {'coverage': 85.45,
+            'error_count': 0,
+            'file_count': 2,
+            'files': {'$Output/lib/work/cu_timeunit.sv': {'post_len': 30,
+                                                          'pre_len': 216},
+                      '$Output/lib/work/no_cu_timeunit.sv': {'post_len': 18,
+                                                             'pre_len': 114}},
+            'post_len': 48,
+            'pre_len': 330,
+            'test_name': 'TimescaleResetall/TimescaleResetall'}}
+
++------------------------------------+----------+-----------+
+| INPUT                              |   PRELEN |   POSTLEN |
++====================================+==========+===========+
+| $Output/lib/work/cu_timeunit.sv    |      216 |        30 |
+| $Output/lib/work/no_cu_timeunit.sv |      114 |        18 |
++====================================+==========+===========+
+|                                    |      330 |        48 |
++------------------------------------+----------+-----------+
+
+[   ERROR] : 0
+[COVERAGE] : 85.45
+
+
+#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
+
+COMMAND: ${HLC_DIR}/regression/TimescaleResetall/TimescaleResetall/design.hldb ${HLC_DIR}/regression/TimescaleResetall/TimescaleResetall/reduced.hldb
+
+==================== BEGIN REDUCTION RESULT ====================
+Name                            Before   After   Added   Removed
+----------------------------------------------------------------
+----------------------------------------------------------------
+Others                              38      38       0         0
+----------------------------------------------------------------
+                                    38      38       0         0
+===================== END REDUCTION RESULT =====================

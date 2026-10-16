@@ -597,11 +597,6 @@ AST_DEBUG_END
 [WRN:CP5851] $Source01/t_array_interface.v:17:8: Failed to bind "intf_inst".
 [WRN:CP5851] $Source01/t_array_interface.v:17:18: Failed to bind "logic_in_intf".
 [WRN:CP5851] $Source01/t_array_interface.v:29:5: Failed to bind "logic".
-[WRN:CP5851] $Source01/t_array_interface.v:35:27: Failed to bind "logic_in_intf".
-[WRN:CP5851] $Source01/t_array_interface.v:47:21: Failed to bind "logic_in_intf".
-[WRN:CP5851] $Source01/t_array_interface.v:54:27: Failed to bind "logic_in_intf".
-[WRN:CP5851] $Source01/t_array_interface.v:60:19: Failed to bind "logic_in_intf".
-[WRN:CP5851] $Source01/t_array_interface.v:60:44: Failed to bind "logic_in_intf".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -619,14 +614,15 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:logic_in_intf start:7:11 end:7:24:
           vpiParent: Interface name:intf
+          vpiName: logic_in_intf
+          vpiFullName: intf.logic_in_intf
           vpiTypespec RefTypespec name:logic start:7:5 end:7:10:
             vpiParent: Variable name:logic_in_intf
             vpiName: logic
             vpiFullName: intf.logic_in_intf.logic
-          vpiName: logic_in_intf
-          vpiFullName: intf.logic_in_intf
       vpiDefName: intf
       vpiDefNetType: wire (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:6:11 end:6:15:
         vpiParent: Interface name:intf
         vpiName: work
@@ -659,23 +655,24 @@ Design name:unnamed:
       vpiFullName: modify_interface
       vpiDefName: modify_interface
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:12:8 end:12:24:
         vpiParent: Module name:modify_interface
         vpiName: work
         vpiFullName: modify_interface.work
         vpiActual: Library name:work
       vpiCell: modify_interface
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:value start:14:13 end:14:18:
           vpiParent: Module name:modify_interface
+          vpiName: value
+          vpiFullName: modify_interface.value
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec name:logic start:14:7 end:14:12:
             vpiParent: Net name:value
             vpiName: logic
             vpiFullName: modify_interface.value.logic
-          vpiName: value
-          vpiFullName: modify_interface.value
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:value start:14:13 end:14:18:
           vpiParent: Module name:modify_interface
@@ -737,25 +734,33 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:t #(.N(6)) start:24:8 end:24:9:
       vpiFullName: t #(.N(6))
-      vpiVariable (1 items):
+      vpiVariable (3 items):
         Variable name:data start:29:19 end:29:23:
           vpiParent: Module name:t #(.N(6))
+          vpiName: data
+          vpiFullName: t #(.N(6)).data
           vpiTypespec RefTypespec name:logic [N-1:0] start:29:5 end:29:18:
             vpiParent: Variable name:data
             vpiName: logic [N-1:0]
             vpiFullName: t #(.N(6)).data.logic [N-1:0]
             vpiActual: ArrayTypespec
-          vpiName: data
-          vpiFullName: t #(.N(6)).data
+        Variable name:i start:33:16 end:33:17:
+          vpiParent: Module name:t #(.N(6))
+          vpiName: i
+          vpiFullName: t #(.N(6)).i
+        Variable name:j start:51:16 end:51:17:
+          vpiParent: Module name:t #(.N(6))
+          vpiName: j
+          vpiFullName: t #(.N(6)).j
       vpiParameter (1 items):
         Parameter name:N start:26:15 end:26:16:
           vpiParent: Module name:t #(.N(6))
+          vpiName: N
+          vpiFullName: t #(.N(6)).N
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:N
             vpiFullName: t #(.N(6)).N
             vpiActual: LogicTypespec
-          vpiName: N
-          vpiFullName: t #(.N(6)).N
       vpiParamAssign (1 items):
         ParamAssign start:26:15 end:26:20:
           vpiParent: Module name:t #(.N(6))
@@ -766,14 +771,14 @@ Design name:unnamed:
             vpiActual: Parameter name:N
           vpiRhs Constant start:26:19 end:26:20:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: t #(.N(6))
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "6"
             vpiValue: 6
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: t #(.N(6))
+              vpiActual: IntTypespec
       vpiTypespec (7 items):
         LogicTypespec:
           vpiParent: Module name:t #(.N(6))
@@ -794,24 +799,24 @@ Design name:unnamed:
                   vpiActual: Parameter name:N
                 Constant start:28:16 end:28:17:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t #(.N(6))
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: t #(.N(6))
+                    vpiActual: IntTypespec
             vpiRightRange Constant start:28:18 end:28:19:
               vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t #(.N(6))
-                vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: t #(.N(6))
+                vpiActual: IntTypespec
           vpiElemTypespec RefTypespec name:intf start:28:5 end:28:9:
             vpiParent: ArrayTypespec
             vpiName: intf
@@ -834,24 +839,24 @@ Design name:unnamed:
                   vpiActual: Parameter name:N
                 Constant start:29:14 end:29:15:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t #(.N(6))
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "1"
                   vpiValue: 1
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: t #(.N(6))
+                    vpiActual: IntTypespec
             vpiRightRange Constant start:29:16 end:29:17:
               vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: t #(.N(6))
-                vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: t #(.N(6))
+                vpiActual: IntTypespec
           vpiElemTypespec RefTypespec name:logic start:29:5 end:29:10:
             vpiParent: ArrayTypespec
             vpiName: logic
@@ -875,13 +880,14 @@ Design name:unnamed:
           vpiModule: Module name:modify_interface
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:24:8 end:24:9:
         vpiParent: Module name:t #(.N(6))
         vpiName: work
         vpiFullName: t #(.N(6)).work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:59:5 end:63:8:
           vpiParent: Module name:t #(.N(6))
@@ -911,18 +917,20 @@ Design name:unnamed:
                             vpiActual: RefInstance name:ifs
                           vpiIndex Constant start:60:16 end:60:17:
                             vpiParent: BitSelect name:ifs[5]
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: t #(.N(6)).ifs[5].logic_in_intf.ifs[5]
-                              vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
                             vpiDecompile: "5"
                             vpiValue: 5
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: t #(.N(6)).ifs[5].logic_in_intf.ifs[5]
+                              vpiActual: IntTypespec
                         RefObj name:logic_in_intf start:60:19 end:60:32:
                           vpiParent: RefObj name:ifs[5].logic_in_intf
                           vpiName: logic_in_intf
                           vpiFullName: t #(.N(6)).logic_in_intf
+                          vpiActual: Variable name:logic_in_intf
+                      vpiActual: Variable name:logic_in_intf
                     Operation start:60:36 end:60:57:
                       vpiParent: Operation
                       vpiOpType: bitwise negation (4)
@@ -943,18 +951,20 @@ Design name:unnamed:
                                 vpiActual: RefInstance name:ifs
                               vpiIndex Constant start:60:41 end:60:42:
                                 vpiParent: BitSelect name:ifs[4]
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: t #(.N(6)).ifs[4].logic_in_intf.ifs[4]
-                                  vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
                                 vpiDecompile: "4"
                                 vpiValue: 4
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: t #(.N(6)).ifs[4].logic_in_intf.ifs[4]
+                                  vpiActual: IntTypespec
                             RefObj name:logic_in_intf start:60:44 end:60:57:
                               vpiParent: RefObj name:ifs[4].logic_in_intf
                               vpiName: logic_in_intf
                               vpiFullName: t #(.N(6)).logic_in_intf
+                              vpiActual: Variable name:logic_in_intf
+                          vpiActual: Variable name:logic_in_intf
                 vpiStmt SysTaskCall name:$stop start:60:59 end:60:64:
                   vpiParent: IfStmt
                   vpiName Identifier name:$stop start:60:59 end:60:64:
@@ -967,14 +977,14 @@ Design name:unnamed:
                     vpiParent: SysTaskCall name:$write
                     vpiHighConn Constant start:61:15 end:61:39:
                       vpiParent: NamedArgument
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t #(.N(6))
-                        vpiActual: StringTypespec
                       vpiConstType: string (6)
                       vpiSize: 168
                       vpiDecompile: "\"*-* All Finished *-*\\n\""
                       vpiValue: "*-* All Finished *-*\\n"
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: t #(.N(6))
+                        vpiActual: StringTypespec
               SysTaskCall name:$finish start:62:8 end:62:15:
                 vpiParent: Begin
                 vpiName Identifier name:$finish start:62:8 end:62:15:
@@ -993,64 +1003,64 @@ Design name:unnamed:
             vpiOperand (6 items):
               Constant start:30:20 end:30:24:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t #(.N(6))
-                  vpiActual: BitTypespec
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b0"
                 vpiValue: "0"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t #(.N(6))
+                  vpiActual: BitTypespec
               Constant start:30:26 end:30:30:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t #(.N(6))
-                  vpiActual: BitTypespec
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
                 vpiValue: "1"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t #(.N(6))
+                  vpiActual: BitTypespec
               Constant start:30:32 end:30:36:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t #(.N(6))
-                  vpiActual: BitTypespec
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b0"
                 vpiValue: "0"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t #(.N(6))
+                  vpiActual: BitTypespec
               Constant start:30:38 end:30:42:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: t #(.N(6))
-                  vpiActual: BitTypespec
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
                 vpiValue: "1"
-              Constant start:30:44 end:30:48:
-                vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t #(.N(6))
                   vpiActual: BitTypespec
+              Constant start:30:44 end:30:48:
+                vpiParent: Operation
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b0"
                 vpiValue: "0"
-              Constant start:30:50 end:30:54:
-                vpiParent: Operation
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: t #(.N(6))
                   vpiActual: BitTypespec
+              Constant start:30:50 end:30:54:
+                vpiParent: Operation
                 vpiConstType: binary (3)
                 vpiSize: 1
                 vpiDecompile: "1'b1"
                 vpiValue: "1"
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: t #(.N(6))
+                  vpiActual: BitTypespec
       vpiSysTaskCall (4 items):
         SysTaskCall name:$stop:
         SysTaskCall name:$stop:
@@ -1144,14 +1154,14 @@ Design name:unnamed:
                   vpiActual: Variable name:data
                 vpiIndex Constant start:43:18 end:43:19:
                   vpiParent: BitSelect name:data[4]
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t #(.N(6)).m4.data[4]
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "4"
                   vpiValue: 4
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: t #(.N(6)).m4.data[4]
+                    vpiActual: IntTypespec
             NamedArgument start:44:6 end:44:24:
               vpiParent: RefInstance name:m4
               vpiConnByName: true
@@ -1171,14 +1181,14 @@ Design name:unnamed:
                   vpiActual: RefInstance name:ifs
                 vpiIndex Constant start:44:21 end:44:22:
                   vpiParent: BitSelect name:ifs[4]
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t #(.N(6)).m4.ifs[4]
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "4"
                   vpiValue: 4
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: t #(.N(6)).m4.ifs[4]
+                    vpiActual: IntTypespec
         RefInstance name:m5 start:46:22 end:46:24:
           vpiParent: Module name:t #(.N(6))
           vpiName: m5
@@ -1216,18 +1226,20 @@ Design name:unnamed:
                           vpiActual: RefInstance name:ifs
                         vpiIndex Constant start:47:18 end:47:19:
                           vpiParent: BitSelect name:ifs[4]
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t #(.N(6)).m5.ifs[4].logic_in_intf.ifs[4]
-                            vpiActual: IntTypespec
                           vpiConstType: unsigned int (9)
                           vpiSize: 64
                           vpiDecompile: "4"
                           vpiValue: 4
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: t #(.N(6)).m5.ifs[4].logic_in_intf.ifs[4]
+                            vpiActual: IntTypespec
                       RefObj name:logic_in_intf start:47:21 end:47:34:
                         vpiParent: RefObj name:ifs[4].logic_in_intf
                         vpiName: logic_in_intf
                         vpiFullName: t #(.N(6)).m5.logic_in_intf
+                        vpiActual: Variable name:logic_in_intf
+                    vpiActual: Variable name:logic_in_intf
             NamedArgument start:48:6 end:48:24:
               vpiParent: RefInstance name:m5
               vpiConnByName: true
@@ -1247,248 +1259,236 @@ Design name:unnamed:
                   vpiActual: RefInstance name:ifs
                 vpiIndex Constant start:48:21 end:48:22:
                   vpiParent: BitSelect name:ifs[5]
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: t #(.N(6)).m5.ifs[5]
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "5"
                   vpiValue: 5
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: t #(.N(6)).m5.ifs[5]
+                    vpiActual: IntTypespec
       vpiGenStmt (2 items):
         GenRegion start:32:5 end:37:16:
           vpiParent: Module name:t #(.N(6))
-          vpiFullName: t #(.N(6))
-          vpiStmt Begin:
-            vpiParent: GenRegion
-            vpiFullName: t #(.N(6))
-            vpiVariable (1 items):
-              Variable name:i start:33:16 end:33:17:
-                vpiParent: Begin
-                vpiName: i
-                vpiFullName: t #(.N(6)).i
-            vpiStmt (1 items):
-              GenFor start:34:9 end:36:12:
-                vpiParent: Begin
-                vpiFullName: t #(.N(6))
-                vpiForInitStmt (1 items):
-                  Assignment start:34:14 end:34:19:
-                    vpiParent: GenFor
-                    vpiLhs RefObj name:i start:34:14 end:34:15:
-                      vpiParent: Assignment
+          vpiStmt (1 items):
+            GenFor start:34:9 end:36:12:
+              vpiParent: GenRegion
+              vpiFullName: t #(.N(6))
+              vpiForInitStmt (1 items):
+                Assignment start:34:14 end:34:19:
+                  vpiParent: GenFor
+                  vpiLhs RefObj name:i start:34:14 end:34:15:
+                    vpiParent: Assignment
+                    vpiName: i
+                    vpiFullName: t #(.N(6)).i
+                    vpiActual: Variable name:i
+                  vpiRhs Constant start:34:18 end:34:19:
+                    vpiParent: Assignment
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t #(.N(6))
+                      vpiActual: IntTypespec
+              vpiForIncStmt (1 items):
+                Operation start:34:27 end:34:30:
+                  vpiParent: GenFor
+                  vpiOpType: post inc (64)
+                  vpiOperand (1 items):
+                    RefObj name:i start:34:27 end:34:28:
+                      vpiParent: Operation
                       vpiName: i
                       vpiFullName: t #(.N(6)).i
                       vpiActual: Variable name:i
-                    vpiRhs Constant start:34:18 end:34:19:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t #(.N(6))
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiForIncStmt (1 items):
-                  Operation start:34:27 end:34:30:
-                    vpiParent: GenFor
-                    vpiOpType: post inc (64)
-                    vpiOperand (1 items):
-                      RefObj name:i start:34:27 end:34:28:
-                        vpiParent: Operation
+              vpiCondition Operation start:34:20 end:34:25:
+                vpiParent: GenFor
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:i start:34:20 end:34:21:
+                    vpiParent: Operation
+                    vpiName: i
+                    vpiFullName: t #(.N(6)).i
+                    vpiActual: Variable name:i
+                  Constant start:34:24 end:34:25:
+                    vpiParent: Operation
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "3"
+                    vpiValue: 3
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t #(.N(6))
+                      vpiActual: IntTypespec
+              vpiStmt GenBlock start:34:32 end:36:12:
+                vpiParent: GenFor
+                vpiFullName: t #(.N(6))
+                vpiImplicitDecl: true
+                vpiStmt (1 items):
+                  ContAssign start:35:20 end:35:51:
+                    vpiParent: GenBlock
+                    vpiLhs RefObj name:ifs[i].logic_in_intf start:35:20 end:35:40:
+                      vpiParent: ContAssign
+                      vpiName: ifs[i].logic_in_intf
+                      vpiFullName: t #(.N(6)).ifs[i].logic_in_intf
+                      vpiPathElem (2 items):
+                        BitSelect name:ifs[i] start:35:20 end:35:25:
+                          vpiParent: RefObj name:ifs[i].logic_in_intf
+                          vpiName: ifs[i]
+                          vpiFullName: t #(.N(6)).ifs[i].logic_in_intf.ifs[i]
+                          vpiPrefix RefObj name:ifs start:35:20 end:35:23:
+                            vpiParent: BitSelect name:ifs[i]
+                            vpiName: ifs
+                            vpiFullName: t #(.N(6)).ifs[i].logic_in_intf.ifs
+                            vpiActual: RefInstance name:ifs
+                          vpiIndex RefObj name:i start:35:24 end:35:25:
+                            vpiParent: BitSelect name:ifs[i]
+                            vpiName: i
+                            vpiFullName: t #(.N(6)).ifs[i].logic_in_intf.i
+                            vpiActual: Variable name:i
+                        RefObj name:logic_in_intf start:35:27 end:35:40:
+                          vpiParent: RefObj name:ifs[i].logic_in_intf
+                          vpiName: logic_in_intf
+                          vpiFullName: t #(.N(6)).logic_in_intf
+                          vpiActual: Variable name:logic_in_intf
+                      vpiActual: Variable name:logic_in_intf
+                    vpiRhs BitSelect name:data[i] start:35:44 end:35:51:
+                      vpiParent: ContAssign
+                      vpiName: data[i]
+                      vpiFullName: t #(.N(6)).data[i]
+                      vpiPrefix RefObj name:data start:35:44 end:35:48:
+                        vpiParent: BitSelect name:data[i]
+                        vpiName: data
+                        vpiFullName: t #(.N(6)).data
+                        vpiActual: Variable name:data
+                      vpiIndex RefObj name:i start:35:49 end:35:50:
+                        vpiParent: BitSelect name:data[i]
                         vpiName: i
                         vpiFullName: t #(.N(6)).i
                         vpiActual: Variable name:i
-                vpiCondition Operation start:34:20 end:34:25:
-                  vpiParent: GenFor
-                  vpiOpType: less than (20)
-                  vpiOperand (2 items):
-                    RefObj name:i start:34:20 end:34:21:
-                      vpiParent: Operation
-                      vpiName: i
-                      vpiFullName: t #(.N(6)).i
-                      vpiActual: Variable name:i
-                    Constant start:34:24 end:34:25:
-                      vpiParent: Operation
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t #(.N(6))
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "3"
-                      vpiValue: 3
-                vpiStmt Begin start:34:32 end:36:12:
-                  vpiParent: GenFor
-                  vpiFullName: t #(.N(6))
-                  vpiStmt (1 items):
-                    ContAssign start:35:20 end:35:51:
-                      vpiParent: Begin
-                      vpiLhs RefObj name:ifs[i].logic_in_intf start:35:20 end:35:40:
-                        vpiParent: ContAssign
-                        vpiName: ifs[i].logic_in_intf
-                        vpiFullName: t #(.N(6)).ifs[i].logic_in_intf
-                        vpiPathElem (2 items):
-                          BitSelect name:ifs[i] start:35:20 end:35:25:
-                            vpiParent: RefObj name:ifs[i].logic_in_intf
-                            vpiName: ifs[i]
-                            vpiFullName: t #(.N(6)).ifs[i].logic_in_intf.ifs[i]
-                            vpiPrefix RefObj name:ifs start:35:20 end:35:23:
-                              vpiParent: BitSelect name:ifs[i]
-                              vpiName: ifs
-                              vpiFullName: t #(.N(6)).ifs[i].logic_in_intf.ifs
-                              vpiActual: RefInstance name:ifs
-                            vpiIndex RefObj name:i start:35:24 end:35:25:
-                              vpiParent: BitSelect name:ifs[i]
-                              vpiName: i
-                              vpiFullName: t #(.N(6)).ifs[i].logic_in_intf.i
-                              vpiActual: Variable name:i
-                          RefObj name:logic_in_intf start:35:27 end:35:40:
-                            vpiParent: RefObj name:ifs[i].logic_in_intf
-                            vpiName: logic_in_intf
-                            vpiFullName: t #(.N(6)).logic_in_intf
-                      vpiRhs BitSelect name:data[i] start:35:44 end:35:51:
-                        vpiParent: ContAssign
-                        vpiName: data[i]
-                        vpiFullName: t #(.N(6)).data[i]
-                        vpiPrefix RefObj name:data start:35:44 end:35:48:
-                          vpiParent: BitSelect name:data[i]
-                          vpiName: data
-                          vpiFullName: t #(.N(6)).data
-                          vpiActual: Variable name:data
-                        vpiIndex RefObj name:i start:35:49 end:35:50:
-                          vpiParent: BitSelect name:data[i]
-                          vpiName: i
-                          vpiFullName: t #(.N(6)).i
-                          vpiActual: Variable name:i
         GenRegion start:50:5 end:57:16:
           vpiParent: Module name:t #(.N(6))
-          vpiFullName: t #(.N(6))
-          vpiStmt Begin:
-            vpiParent: GenRegion
-            vpiFullName: t #(.N(6))
-            vpiVariable (1 items):
-              Variable name:j start:51:16 end:51:17:
-                vpiParent: Begin
-                vpiName: j
-                vpiFullName: t #(.N(6)).j
-            vpiStmt (1 items):
-              GenFor start:52:9 end:56:12:
-                vpiParent: Begin
-                vpiFullName: t #(.N(6))
-                vpiForInitStmt (1 items):
-                  Assignment start:52:14 end:52:19:
-                    vpiParent: GenFor
-                    vpiLhs RefObj name:j start:52:14 end:52:15:
-                      vpiParent: Assignment
+          vpiStmt (1 items):
+            GenFor start:52:9 end:56:12:
+              vpiParent: GenRegion
+              vpiFullName: t #(.N(6))
+              vpiForInitStmt (1 items):
+                Assignment start:52:14 end:52:19:
+                  vpiParent: GenFor
+                  vpiLhs RefObj name:j start:52:14 end:52:15:
+                    vpiParent: Assignment
+                    vpiName: j
+                    vpiFullName: t #(.N(6)).j
+                    vpiActual: Variable name:j
+                  vpiRhs Constant start:52:18 end:52:19:
+                    vpiParent: Assignment
+                    vpiConstType: unsigned int (9)
+                    vpiSize: 64
+                    vpiDecompile: "0"
+                    vpiValue: 0
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: t #(.N(6))
+                      vpiActual: IntTypespec
+              vpiForIncStmt (1 items):
+                Operation start:52:29 end:52:32:
+                  vpiParent: GenFor
+                  vpiOpType: post inc (64)
+                  vpiOperand (1 items):
+                    RefObj name:j start:52:29 end:52:30:
+                      vpiParent: Operation
                       vpiName: j
                       vpiFullName: t #(.N(6)).j
                       vpiActual: Variable name:j
-                    vpiRhs Constant start:52:18 end:52:19:
-                      vpiParent: Assignment
-                      vpiTypespec RefTypespec:
-                        vpiParent: Constant
-                        vpiFullName: t #(.N(6))
-                        vpiActual: IntTypespec
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
-                      vpiDecompile: "0"
-                      vpiValue: 0
-                vpiForIncStmt (1 items):
-                  Operation start:52:29 end:52:32:
-                    vpiParent: GenFor
-                    vpiOpType: post inc (64)
-                    vpiOperand (1 items):
-                      RefObj name:j start:52:29 end:52:30:
+              vpiCondition Operation start:52:20 end:52:27:
+                vpiParent: GenFor
+                vpiOpType: less than (20)
+                vpiOperand (2 items):
+                  RefObj name:j start:52:20 end:52:21:
+                    vpiParent: Operation
+                    vpiName: j
+                    vpiFullName: t #(.N(6)).j
+                    vpiActual: Variable name:j
+                  Operation start:52:24 end:52:27:
+                    vpiParent: Operation
+                    vpiOpType: subtract (11)
+                    vpiOperand (2 items):
+                      RefObj name:N start:52:24 end:52:25:
                         vpiParent: Operation
-                        vpiName: j
-                        vpiFullName: t #(.N(6)).j
-                        vpiActual: Variable name:j
-                vpiCondition Operation start:52:20 end:52:27:
-                  vpiParent: GenFor
-                  vpiOpType: less than (20)
-                  vpiOperand (2 items):
-                    RefObj name:j start:52:20 end:52:21:
-                      vpiParent: Operation
-                      vpiName: j
-                      vpiFullName: t #(.N(6)).j
-                      vpiActual: Variable name:j
-                    Operation start:52:24 end:52:27:
-                      vpiParent: Operation
-                      vpiOpType: subtract (11)
-                      vpiOperand (2 items):
-                        RefObj name:N start:52:24 end:52:25:
-                          vpiParent: Operation
-                          vpiName: N
-                          vpiFullName: t #(.N(6)).N
-                          vpiActual: Parameter name:N
-                        Constant start:52:26 end:52:27:
-                          vpiParent: Operation
-                          vpiTypespec RefTypespec:
-                            vpiParent: Constant
-                            vpiFullName: t #(.N(6))
-                            vpiActual: IntTypespec
-                          vpiConstType: unsigned int (9)
-                          vpiSize: 64
-                          vpiDecompile: "1"
-                          vpiValue: 1
-                vpiStmt Begin start:52:34 end:56:12:
-                  vpiParent: GenFor
-                  vpiFullName: t #(.N(6))
-                  vpiStmt (1 items):
-                    Initial start:53:13 end:55:16:
-                      vpiParent: Begin
-                      vpiStmt Begin start:53:21 end:55:16:
-                        vpiParent: Initial
-                        vpiFullName: t #(.N(6))
-                        vpiStmt (1 items):
-                          IfStmt start:54:16 end:54:59:
-                            vpiParent: Begin
-                            vpiCondition Operation start:54:20 end:54:51:
-                              vpiParent: IfStmt
-                              vpiOpType: not equal (15)
-                              vpiOperand (2 items):
-                                RefObj name:ifs[j].logic_in_intf start:54:20 end:54:40:
-                                  vpiParent: Operation
-                                  vpiName: ifs[j].logic_in_intf
-                                  vpiFullName: t #(.N(6)).ifs[j].logic_in_intf
-                                  vpiPathElem (2 items):
-                                    BitSelect name:ifs[j] start:54:20 end:54:25:
-                                      vpiParent: RefObj name:ifs[j].logic_in_intf
-                                      vpiName: ifs[j]
-                                      vpiFullName: t #(.N(6)).ifs[j].logic_in_intf.ifs[j]
-                                      vpiPrefix RefObj name:ifs start:54:20 end:54:23:
-                                        vpiParent: BitSelect name:ifs[j]
-                                        vpiName: ifs
-                                        vpiFullName: t #(.N(6)).ifs[j].logic_in_intf.ifs
-                                        vpiActual: RefInstance name:ifs
-                                      vpiIndex RefObj name:j start:54:24 end:54:25:
-                                        vpiParent: BitSelect name:ifs[j]
-                                        vpiName: j
-                                        vpiFullName: t #(.N(6)).ifs[j].logic_in_intf.j
-                                        vpiActual: Variable name:j
-                                    RefObj name:logic_in_intf start:54:27 end:54:40:
-                                      vpiParent: RefObj name:ifs[j].logic_in_intf
-                                      vpiName: logic_in_intf
-                                      vpiFullName: t #(.N(6)).logic_in_intf
-                                BitSelect name:data[j] start:54:44 end:54:51:
-                                  vpiParent: Operation
-                                  vpiName: data[j]
-                                  vpiFullName: t #(.N(6)).data[j]
-                                  vpiPrefix RefObj name:data start:54:44 end:54:48:
-                                    vpiParent: BitSelect name:data[j]
-                                    vpiName: data
-                                    vpiFullName: t #(.N(6)).data
-                                    vpiActual: Variable name:data
-                                  vpiIndex RefObj name:j start:54:49 end:54:50:
-                                    vpiParent: BitSelect name:data[j]
-                                    vpiName: j
-                                    vpiFullName: t #(.N(6)).j
-                                    vpiActual: Variable name:j
-                            vpiStmt SysTaskCall name:$stop start:54:53 end:54:58:
-                              vpiParent: IfStmt
-                              vpiName Identifier name:$stop start:54:53 end:54:58:
-                              vpiIsProperty: true
+                        vpiName: N
+                        vpiFullName: t #(.N(6)).N
+                        vpiActual: Parameter name:N
+                      Constant start:52:26 end:52:27:
+                        vpiParent: Operation
+                        vpiConstType: unsigned int (9)
+                        vpiSize: 64
+                        vpiDecompile: "1"
+                        vpiValue: 1
+                        vpiTypespec RefTypespec:
+                          vpiParent: Constant
+                          vpiFullName: t #(.N(6))
+                          vpiActual: IntTypespec
+              vpiStmt GenBlock start:52:34 end:56:12:
+                vpiParent: GenFor
+                vpiFullName: t #(.N(6))
+                vpiImplicitDecl: true
+                vpiStmt (1 items):
+                  Initial start:53:13 end:55:16:
+                    vpiParent: GenBlock
+                    vpiStmt Begin start:53:21 end:55:16:
+                      vpiParent: Initial
+                      vpiFullName: t #(.N(6))
+                      vpiStmt (1 items):
+                        IfStmt start:54:16 end:54:59:
+                          vpiParent: Begin
+                          vpiCondition Operation start:54:20 end:54:51:
+                            vpiParent: IfStmt
+                            vpiOpType: not equal (15)
+                            vpiOperand (2 items):
+                              RefObj name:ifs[j].logic_in_intf start:54:20 end:54:40:
+                                vpiParent: Operation
+                                vpiName: ifs[j].logic_in_intf
+                                vpiFullName: t #(.N(6)).ifs[j].logic_in_intf
+                                vpiPathElem (2 items):
+                                  BitSelect name:ifs[j] start:54:20 end:54:25:
+                                    vpiParent: RefObj name:ifs[j].logic_in_intf
+                                    vpiName: ifs[j]
+                                    vpiFullName: t #(.N(6)).ifs[j].logic_in_intf.ifs[j]
+                                    vpiPrefix RefObj name:ifs start:54:20 end:54:23:
+                                      vpiParent: BitSelect name:ifs[j]
+                                      vpiName: ifs
+                                      vpiFullName: t #(.N(6)).ifs[j].logic_in_intf.ifs
+                                      vpiActual: RefInstance name:ifs
+                                    vpiIndex RefObj name:j start:54:24 end:54:25:
+                                      vpiParent: BitSelect name:ifs[j]
+                                      vpiName: j
+                                      vpiFullName: t #(.N(6)).ifs[j].logic_in_intf.j
+                                      vpiActual: Variable name:j
+                                  RefObj name:logic_in_intf start:54:27 end:54:40:
+                                    vpiParent: RefObj name:ifs[j].logic_in_intf
+                                    vpiName: logic_in_intf
+                                    vpiFullName: t #(.N(6)).logic_in_intf
+                                    vpiActual: Variable name:logic_in_intf
+                                vpiActual: Variable name:logic_in_intf
+                              BitSelect name:data[j] start:54:44 end:54:51:
+                                vpiParent: Operation
+                                vpiName: data[j]
+                                vpiFullName: t #(.N(6)).data[j]
+                                vpiPrefix RefObj name:data start:54:44 end:54:48:
+                                  vpiParent: BitSelect name:data[j]
+                                  vpiName: data
+                                  vpiFullName: t #(.N(6)).data
+                                  vpiActual: Variable name:data
+                                vpiIndex RefObj name:j start:54:49 end:54:50:
+                                  vpiParent: BitSelect name:data[j]
+                                  vpiName: j
+                                  vpiFullName: t #(.N(6)).j
+                                  vpiActual: Variable name:j
+                          vpiStmt SysTaskCall name:$stop start:54:53 end:54:58:
+                            vpiParent: IfStmt
+                            vpiName Identifier name:$stop start:54:53 end:54:58:
+                            vpiIsProperty: true
   vpiTypespec (5 items):
     InterfaceTypespec name:intf:
       vpiParent: Design name:unnamed
@@ -1524,14 +1524,14 @@ Design name:unnamed:
         vpiParent: Function name:return_3
         vpiCondition Constant start:21:12 end:21:13:
           vpiParent: ReturnStmt
-          vpiTypespec RefTypespec:
-            vpiParent: Constant
-            vpiFullName: return_3
-            vpiActual: IntTypespec
           vpiConstType: unsigned int (9)
           vpiSize: 64
           vpiDecompile: "3"
           vpiValue: 3
+          vpiTypespec RefTypespec:
+            vpiParent: Constant
+            vpiFullName: return_3
+            vpiActual: IntTypespec
       vpiReturn RefTypespec start:20:10 end:20:17:
         vpiParent: Function name:return_3
         vpiFullName: return_3
@@ -1544,7 +1544,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 13
+[WARNING] : 8
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -1592,7 +1592,7 @@ Operation                           12       8       0         4
 RefObj                              53      50       0         3
 RefTypespec                         37      31       3         9
 ----------------------------------------------------------------
-Others                             103     103       0         0
+Others                             101     101       0         0
 ----------------------------------------------------------------
-                                   228     210       7        25
+                                   226     208       7        25
 ===================== END REDUCTION RESULT =====================

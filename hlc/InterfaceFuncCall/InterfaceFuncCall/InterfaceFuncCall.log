@@ -182,7 +182,7 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:9:1: No timescale set for "top".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "Foo".
 [ERR:DB2029] $Source01/dut.sv:11:5: Unsupported typespec "".
-[ERR:LN7705] $Source01/dut.sv:14:24: Null Actual: id:74, type:SubroutineCall, name:bar, relation:vpiPathElem.
+[ERR:LN7705] $Source01/dut.sv:14:24: Null Actual: id:73, type:SubroutineCall, name:bar, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -199,12 +199,12 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:MULTIPLIER start:2:15 end:2:25:
           vpiParent: Interface name:Foo
+          vpiName: MULTIPLIER
+          vpiFullName: Foo.MULTIPLIER
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:MULTIPLIER
             vpiFullName: Foo.MULTIPLIER
             vpiActual: LogicTypespec
-          vpiName: MULTIPLIER
-          vpiFullName: Foo.MULTIPLIER
       vpiParamAssign (1 items):
         ParamAssign start:2:15 end:2:29:
           vpiParent: Interface name:Foo
@@ -215,20 +215,21 @@ Design name:unnamed:
             vpiActual: Parameter name:MULTIPLIER
           vpiRhs Constant start:2:28 end:2:29:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: Foo
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "7"
             vpiValue: 7
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: Foo
+              vpiActual: IntTypespec
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Interface name:Foo
           vpiScalar: true
       vpiDefName: Foo
       vpiDefNetType: wire (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:11 end:1:14:
         vpiParent: Interface name:Foo
         vpiName: work
@@ -243,12 +244,16 @@ Design name:unnamed:
           vpiVariable (1 items):
             Variable name:x start:4:23 end:4:24:
               vpiParent: Function name:bar
+              vpiName: x
+              vpiFullName: Foo.bar.x
               vpiTypespec RefTypespec start:4:15 end:4:22:
                 vpiParent: Variable name:x
                 vpiFullName: Foo.bar.x
                 vpiActual: IntegerTypespec
-              vpiName: x
-              vpiFullName: Foo.bar.x
+          vpiTypespec (1 items):
+            IntegerTypespec:
+              vpiParent: Function name:bar
+              vpiSigned: true
           vpiVisibility: public (1)
           vpiIODecl (1 items):
             IODecl name:x start:4:23 end:4:24:
@@ -259,39 +264,31 @@ Design name:unnamed:
                 vpiParent: IODecl name:x
                 vpiFullName: Foo.bar.x
                 vpiActual: IntegerTypespec
-          vpiStmt Begin:
+          vpiStmt ReturnStmt start:5:9 end:5:35:
             vpiParent: Function name:bar
-            vpiFullName: Foo.bar
-            vpiTypespec (1 items):
-              IntegerTypespec:
-                vpiParent: Begin
-                vpiSigned: true
-            vpiStmt (1 items):
-              ReturnStmt start:5:9 end:5:35:
-                vpiParent: Begin
-                vpiCondition Operation start:5:16 end:5:34:
-                  vpiParent: ReturnStmt
+            vpiCondition Operation start:5:16 end:5:34:
+              vpiParent: ReturnStmt
+              vpiOpType: multiply (25)
+              vpiOperand (2 items):
+                Operation start:5:16 end:5:21:
+                  vpiParent: Operation
                   vpiOpType: multiply (25)
                   vpiOperand (2 items):
-                    Operation start:5:16 end:5:21:
+                    RefObj name:x start:5:16 end:5:17:
                       vpiParent: Operation
-                      vpiOpType: multiply (25)
-                      vpiOperand (2 items):
-                        RefObj name:x start:5:16 end:5:17:
-                          vpiParent: Operation
-                          vpiName: x
-                          vpiFullName: Foo.bar.x
-                          vpiActual: IODecl name:x
-                        RefObj name:x start:5:20 end:5:21:
-                          vpiParent: Operation
-                          vpiName: x
-                          vpiFullName: Foo.bar.x
-                          vpiActual: IODecl name:x
-                    RefObj name:MULTIPLIER start:5:24 end:5:34:
+                      vpiName: x
+                      vpiFullName: Foo.bar.x
+                      vpiActual: Variable name:x
+                    RefObj name:x start:5:20 end:5:21:
                       vpiParent: Operation
-                      vpiName: MULTIPLIER
-                      vpiFullName: Foo.bar.MULTIPLIER
-                      vpiActual: Parameter name:MULTIPLIER
+                      vpiName: x
+                      vpiFullName: Foo.bar.x
+                      vpiActual: Variable name:x
+                RefObj name:MULTIPLIER start:5:24 end:5:34:
+                  vpiParent: Operation
+                  vpiName: MULTIPLIER
+                  vpiFullName: Foo.bar.MULTIPLIER
+                  vpiActual: Parameter name:MULTIPLIER
           vpiReturn RefTypespec start:3:14 end:3:21:
             vpiParent: Function name:bar
             vpiFullName: Foo.bar
@@ -315,14 +312,14 @@ Design name:unnamed:
                 vpiFullName: top.MULTIPLIER
               vpiRhs Constant start:11:23 end:11:24:
                 vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "8"
                 vpiValue: 8
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top
+                  vpiActual: IntTypespec
             ParamAssign start:11:11 end:11:25:
               vpiParent: UnsupportedTypespec
               vpiConnByName: true
@@ -333,23 +330,24 @@ Design name:unnamed:
                 vpiFullName: top.MULTIPLIER
               vpiRhs Constant start:11:23 end:11:24:
                 vpiParent: ParamAssign
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: top
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "8"
                 vpiValue: 8
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: top
+                  vpiActual: IntTypespec
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:9:8 end:9:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:12:5 end:15:8:
           vpiParent: Module name:top
@@ -382,14 +380,14 @@ Design name:unnamed:
                               vpiParent: MethodFuncCall name:bar
                               vpiHighConn Constant start:13:28 end:13:29:
                                 vpiParent: NamedArgument
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: top.foo_1.bar(3)
-                                  vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
                                 vpiDecompile: "3"
                                 vpiValue: 3
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: top.foo_1.bar(3)
+                                  vpiActual: IntTypespec
                       vpiActual: MethodFuncCall name:bar
               SysTaskCall name:$display start:14:9 end:14:31:
                 vpiParent: Begin
@@ -415,14 +413,14 @@ Design name:unnamed:
                               vpiParent: SubroutineCall name:bar
                               vpiHighConn Constant start:14:28 end:14:29:
                                 vpiParent: NamedArgument
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: top.foo_2.bar(3).bar
-                                  vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
                                 vpiDecompile: "3"
                                 vpiValue: 3
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: top.foo_2.bar(3).bar
+                                  vpiActual: IntTypespec
       vpiSysTaskCall (2 items):
         SysTaskCall name:$display:
         SysTaskCall name:$display:
@@ -508,7 +506,7 @@ COMMAND: ${HLC_DIR}/regression/InterfaceFuncCall/InterfaceFuncCall/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              71      71       0         0
 ----------------------------------------------------------------
-                                    72      72       0         0
+                                    71      71       0         0
 ===================== END REDUCTION RESULT =====================

@@ -99,9 +99,12 @@ n<$Source01/class_member_test_43.sv> u<84> t<Top_level_rule> c<1> l<6:1> el<12:9
 AST_DEBUG_END
 [WRN:CP5851] $Source01/class_member_test_43.sv:7:15: Failed to bind "foo".
 [WRN:CP5851] $Source01/class_member_test_43.sv:7:20: Failed to bind "bar".
+[WRN:CP5851] $Source01/class_member_test_43.sv:7:15: Failed to bind "foo::bar".
+[WRN:CP5851] $Source01/class_member_test_43.sv:8:23: Failed to bind "time_if".
 [WRN:CP5851] $Source01/class_member_test_43.sv:8:23: Failed to bind "time_if".
 [WRN:CP5851] $Source01/class_member_test_43.sv:9:5: Failed to bind "baz".
 [WRN:CP5851] $Source01/class_member_test_43.sv:9:16: Failed to bind "foo".
+[WRN:CP5851] $Source01/class_member_test_43.sv:9:5: Failed to bind "baz #(M, N)::foo".
 [WRN:CP5851] $Source01/class_member_test_43.sv:9:10: Failed to bind "M".
 [WRN:CP5851] $Source01/class_member_test_43.sv:9:12: Failed to bind "N".
 [WRN:CP5851] $Source01/class_member_test_43.sv:9:30: Failed to bind "K".
@@ -140,6 +143,39 @@ Design name:unnamed:
           vpiParent: ClassDefn name:constructible
           vpiName Identifier name:new:
           vpiFullName: constructible::new
+          vpiVariable (4 items):
+            Variable name:name start:7:24 end:7:28:
+              vpiParent: Function name:new
+              vpiName: name
+              vpiFullName: constructible::new::name
+              vpiTypespec RefTypespec name:foo::bar start:7:15 end:7:23:
+                vpiParent: Variable name:name
+                vpiName: foo::bar
+                vpiFullName: constructible::new::name::foo::bar
+            Variable name:vif start:8:31 end:8:34:
+              vpiParent: Function name:new
+              vpiName: vif
+              vpiFullName: constructible::new::vif
+              vpiTypespec RefTypespec name:time_if start:8:23 end:8:30:
+                vpiParent: Variable name:vif
+                vpiName: time_if
+                vpiFullName: constructible::new::vif::time_if
+            Variable name:bar start:9:20 end:9:23:
+              vpiParent: Function name:new
+              vpiName: bar
+              vpiFullName: constructible::new::bar
+              vpiTypespec RefTypespec name:baz #(M, N)::foo start:9:5 end:9:19:
+                vpiParent: Variable name:bar
+                vpiName: baz #(M, N)::foo
+                vpiFullName: constructible::new::bar::baz #(M, N)::foo
+            Variable name:b start:9:35 end:9:36:
+              vpiParent: Function name:new
+              vpiName: b
+              vpiFullName: constructible::new::b
+              vpiTypespec RefTypespec start:9:25 end:9:34:
+                vpiParent: Variable name:b
+                vpiFullName: constructible::new::b
+                vpiActual: BitTypespec
           vpiTypespec (1 items):
             BitTypespec:
               vpiParent: Function name:new
@@ -152,14 +188,14 @@ Design name:unnamed:
                     vpiFullName: constructible::new::K
                   vpiRightRange Constant start:9:32 end:9:33:
                     vpiParent: Range
-                    vpiTypespec RefTypespec:
-                      vpiParent: Constant
-                      vpiFullName: constructible::new
-                      vpiActual: IntTypespec
                     vpiConstType: unsigned int (9)
                     vpiSize: 64
                     vpiDecompile: "0"
                     vpiValue: 0
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: constructible::new
+                      vpiActual: IntTypespec
               vpiVector: true
           vpiMethod: true
           vpiVisibility: public (1)
@@ -251,7 +287,7 @@ Design name:unnamed:
               vpiParent: Assignment
               vpiName: name
               vpiFullName: constructible::new::name
-              vpiActual: IODecl name:name
+              vpiActual: Variable name:name
           vpiReturn RefTypespec name:constructible:
             vpiParent: Function name:new
             vpiName: constructible
@@ -274,7 +310,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 9
+[WARNING] : 12
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -318,7 +354,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_43/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              41      41       0         0
+Others                              49      49       0         0
 ----------------------------------------------------------------
-                                    41      41       0         0
+                                    49      49       0         0
 ===================== END REDUCTION RESULT =====================

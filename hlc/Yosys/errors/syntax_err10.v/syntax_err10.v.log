@@ -67,6 +67,7 @@ n<$Source01/errors/syntax_err10.v> u<44> t<Top_level_rule> c<1> l<1:1> el<4:1>
         n<> u<40> t<ENDMODULE> p<41> l<3:1> el<3:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/errors/syntax_err10.v:1:1: Compile module "a".
+[ERR:LN7713] $Source01/errors/syntax_err10.v:1:1: Found 1 orphan node(s).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -84,11 +85,6 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter:
           vpiParent: Module name:a
-          vpiTypespec RefTypespec name:integer [2:0] start:2:11 end:2:18:
-            vpiParent: Parameter
-            vpiName: integer [2:0]
-            vpiFullName: a.integer [2:0]
-            vpiActual: ArrayTypespec
           vpiFullName: a
       vpiParamAssign (1 items):
         ParamAssign start:2:19 end:2:24:
@@ -97,7 +93,7 @@ Design name:unnamed:
             vpiParent: ParamAssign
             vpiFullName: a
             vpiActual: Parameter
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: Module name:a
           vpiArrayType: static (1)
@@ -105,40 +101,34 @@ Design name:unnamed:
             vpiParent: ArrayTypespec
             vpiLeftRange Constant start:2:20 end:2:21:
               vpiParent: Range
-              vpiTypespec RefTypespec:
-                vpiParent: Constant
-                vpiFullName: a
-                vpiActual: IntTypespec
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "2"
               vpiValue: 2
-            vpiRightRange Constant start:2:22 end:2:23:
-              vpiParent: Range
               vpiTypespec RefTypespec:
                 vpiParent: Constant
                 vpiFullName: a
                 vpiActual: IntTypespec
+            vpiRightRange Constant start:2:22 end:2:23:
+              vpiParent: Range
               vpiConstType: unsigned int (9)
               vpiSize: 64
               vpiDecompile: "0"
               vpiValue: 0
-          vpiElemTypespec RefTypespec start:2:11 end:2:18:
-            vpiParent: ArrayTypespec
-            vpiFullName: a
-            vpiActual: IntegerTypespec
-        IntegerTypespec:
-          vpiParent: Module name:a
-          vpiSigned: true
+              vpiTypespec RefTypespec:
+                vpiParent: Constant
+                vpiFullName: a
+                vpiActual: IntTypespec
       vpiDefName: a
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:9:
         vpiParent: Module name:a
         vpiName: work
         vpiFullName: a.work
         vpiActual: Library name:work
       vpiCell: a
-      vpiAutomatic: true
   vpiTypespec (2 items):
     ModuleTypespec name:a:
       vpiParent: Design name:unnamed
@@ -155,7 +145,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 3
-[  ERROR] : 0
+[  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -200,7 +190,7 @@ COMMAND: ${HLC_DIR}/regression/Yosys/errors/syntax_err10.v/design.hldb ${HLC_DIR
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              22      22       0         0
+Others                              19      19       0         0
 ----------------------------------------------------------------
-                                    22      22       0         0
+                                    19      19       0         0
 ===================== END REDUCTION RESULT =====================

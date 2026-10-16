@@ -155,13 +155,14 @@ Design name:unnamed:
       vpiFullName: GOOD
       vpiDefName: GOOD
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:12:
         vpiParent: Module name:GOOD
         vpiName: work
         vpiFullName: GOOD.work
         vpiActual: Library name:work
       vpiCell: GOOD
-      vpiAutomatic: true
     Module name:axi file:$Source01/dut.sv start:4:1 end:22:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:axi start:4:8 end:4:11:
@@ -169,29 +170,29 @@ Design name:unnamed:
       vpiParameter (3 items):
         Parameter name:N_MASTER start:6:15 end:6:23:
           vpiParent: Module name:axi
+          vpiName: N_MASTER
+          vpiFullName: axi.N_MASTER
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:N_MASTER
             vpiFullName: axi.N_MASTER
             vpiActual: LogicTypespec
-          vpiName: N_MASTER
-          vpiFullName: axi.N_MASTER
         Parameter name:LOG_MASTER start:7:15 end:7:25:
           vpiParent: Module name:axi
+          vpiName: LOG_MASTER
+          vpiFullName: axi.LOG_MASTER
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:LOG_MASTER
             vpiFullName: axi.LOG_MASTER
             vpiActual: LogicTypespec
-          vpiName: LOG_MASTER
-          vpiFullName: axi.LOG_MASTER
         Parameter name:TOTAL_N_MASTER start:8:16 end:8:30:
           vpiParent: Module name:axi
+          vpiName: TOTAL_N_MASTER
+          vpiFullName: axi.TOTAL_N_MASTER
+          vpiLocalParam: true
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:TOTAL_N_MASTER
             vpiFullName: axi.TOTAL_N_MASTER
             vpiActual: LogicTypespec
-          vpiName: TOTAL_N_MASTER
-          vpiFullName: axi.TOTAL_N_MASTER
-          vpiLocalParam: true
       vpiParamAssign (3 items):
         ParamAssign start:6:15 end:6:34:
           vpiParent: Module name:axi
@@ -202,14 +203,14 @@ Design name:unnamed:
             vpiActual: Parameter name:N_MASTER
           vpiRhs Constant start:6:33 end:6:34:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: axi
-              vpiActual: IntTypespec
             vpiConstType: unsigned int (9)
             vpiSize: 64
             vpiDecompile: "8"
             vpiValue: 8
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: axi
+              vpiActual: IntTypespec
         ParamAssign start:7:15 end:7:49:
           vpiParent: Module name:axi
           vpiLhs RefObj name:LOG_MASTER start:7:15 end:7:25:
@@ -241,14 +242,14 @@ Design name:unnamed:
             vpiOperand (2 items):
               Constant start:8:36 end:8:37:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: axi
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "2"
                 vpiValue: 2
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: axi
+                  vpiActual: IntTypespec
               RefObj name:LOG_MASTER start:8:39 end:8:49:
                 vpiParent: Operation
                 vpiName: LOG_MASTER
@@ -260,57 +261,59 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: axi
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:4:8 end:4:11:
         vpiParent: Module name:axi
         vpiName: work
         vpiFullName: axi.work
         vpiActual: Library name:work
       vpiCell: axi
-      vpiAutomatic: true
       vpiSysTaskCall (1 items):
         SysFuncCall name:$clog2:
       vpiGenStmt (1 items):
         GenRegion start:10:7 end:20:18:
           vpiParent: Module name:axi
-          vpiFullName: axi
-          vpiStmt GenIfElse start:13:7 end:19:10:
-            vpiParent: GenRegion
-            vpiCondition Operation start:13:10 end:13:36:
-              vpiParent: GenIfElse
-              vpiOpType: not equal (15)
-              vpiOperand (2 items):
-                RefObj name:N_MASTER start:13:10 end:13:18:
-                  vpiParent: Operation
-                  vpiName: N_MASTER
-                  vpiFullName: axi.N_MASTER
-                  vpiActual: Parameter name:N_MASTER
-                RefObj name:TOTAL_N_MASTER start:13:22 end:13:36:
-                  vpiParent: Operation
-                  vpiName: TOTAL_N_MASTER
-                  vpiFullName: axi.TOTAL_N_MASTER
-                  vpiActual: Parameter name:TOTAL_N_MASTER
-            vpiStmt Begin name:ARRAY_INT start:14:7 end:15:10:
-              vpiParent: GenIfElse
-              vpiName Identifier name:ARRAY_INT start:14:15 end:14:24:
-              vpiFullName: axi.ARRAY_INT
-            vpiElseStmt Begin start:17:7 end:19:10:
-              vpiParent: GenIfElse
-              vpiFullName: axi
-              vpiTypespec (1 items):
-                ModuleTypespec name:GOOD start:18:9 end:18:13:
-                  vpiParent: Begin
-                  vpiName Identifier name:GOOD start:18:9 end:18:13:
-                  vpiDefName: GOOD
-                  vpiModule: Module name:GOOD
-              vpiStmt (1 items):
-                RefInstance name:good start:18:14 end:18:18:
-                  vpiParent: Begin
-                  vpiName: good
-                  vpiTypespec RefTypespec name:GOOD start:18:9 end:18:13:
-                    vpiParent: RefInstance name:good
-                    vpiName: GOOD
-                    vpiFullName: axi.good.GOOD
-                    vpiActual: ModuleTypespec name:GOOD
+          vpiStmt (1 items):
+            GenIfElse start:13:7 end:19:10:
+              vpiParent: GenRegion
+              vpiCondition Operation start:13:10 end:13:36:
+                vpiParent: GenIfElse
+                vpiOpType: not equal (15)
+                vpiOperand (2 items):
+                  RefObj name:N_MASTER start:13:10 end:13:18:
+                    vpiParent: Operation
+                    vpiName: N_MASTER
+                    vpiFullName: axi.N_MASTER
+                    vpiActual: Parameter name:N_MASTER
+                  RefObj name:TOTAL_N_MASTER start:13:22 end:13:36:
+                    vpiParent: Operation
+                    vpiName: TOTAL_N_MASTER
+                    vpiFullName: axi.TOTAL_N_MASTER
+                    vpiActual: Parameter name:TOTAL_N_MASTER
+              vpiStmt GenBlock name:ARRAY_INT start:14:7 end:15:10:
+                vpiParent: GenIfElse
+                vpiName Identifier name:ARRAY_INT start:14:15 end:14:24:
+                vpiFullName: axi.ARRAY_INT
+              vpiElseStmt GenBlock start:17:7 end:19:10:
+                vpiParent: GenIfElse
+                vpiFullName: axi
+                vpiTypespec (1 items):
+                  ModuleTypespec name:GOOD start:18:9 end:18:13:
+                    vpiParent: GenBlock
+                    vpiName Identifier name:GOOD start:18:9 end:18:13:
+                    vpiDefName: GOOD
+                    vpiModule: Module name:GOOD
+                vpiImplicitDecl: true
+                vpiStmt (1 items):
+                  RefInstance name:good start:18:14 end:18:18:
+                    vpiParent: GenBlock
+                    vpiName: good
+                    vpiTypespec RefTypespec name:GOOD start:18:9 end:18:13:
+                      vpiParent: RefInstance name:good
+                      vpiName: GOOD
+                      vpiFullName: axi.good.GOOD
+                      vpiActual: ModuleTypespec name:GOOD
   vpiTypespec (3 items):
     ModuleTypespec name:GOOD:
       vpiParent: Design name:unnamed

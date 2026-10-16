@@ -34,6 +34,7 @@ COMMAND: -wd ../../../tests/TimeUnit top.v top1.v -writepp -d 0 -mt max -fileuni
 [ERR:CP5835] Colliding compilation unit name: "bottom1".
 [ERR:CP5835] Colliding compilation unit name: "bottom2".
 [ERR:CP5835] Colliding compilation unit name: "bottom3".
+[WRN:CP5851] $Source01/top.v:9:28: Failed to bind ".*".
 [WRN:CP5851] $Source01/top.v:26:17: Failed to bind "capture".
 [WRN:CP5851] $Source01/top.v:27:13: Failed to bind "clk".
 [WRN:CP5851] $Source01/top.v:89:17: Failed to bind "capture".
@@ -57,14 +58,10 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName: top.v
       vpiPreprocFile: "$Output/lib/work/top.v"
-      vpiTimePrecision: -11
-      vpiTimeUnit: -10
     SourceFile name:top1.v file:$Source01/top1.v:
       vpiParent: Design name:unnamed
       vpiName: top1.v
       vpiPreprocFile: "$Output/lib/work/top1.v"
-      vpiTimePrecision: -11
-      vpiTimeUnit: -10
   vpiAllInterfaces (1 items):
     Interface name:my_interface file:$Source01/top1.v start:2:1 end:10:13:
       vpiParent: Design name:unnamed
@@ -81,24 +78,24 @@ Design name:unnamed:
               vpiParent: LogicTypespec
               vpiLeftRange Constant start:5:10 end:5:11:
                 vpiParent: Range
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: my_interface
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "3"
                 vpiValue: 3
-              vpiRightRange Constant start:5:12 end:5:13:
-                vpiParent: Range
                 vpiTypespec RefTypespec:
                   vpiParent: Constant
                   vpiFullName: my_interface
                   vpiActual: IntTypespec
+              vpiRightRange Constant start:5:12 end:5:13:
+                vpiParent: Range
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: my_interface
+                  vpiActual: IntTypespec
           vpiVector: true
         ClockingBlockTypespec name:cb:
           vpiParent: Interface name:my_interface
@@ -106,6 +103,7 @@ Design name:unnamed:
           vpiClockingBlock: ClockingBlock name:cb
       vpiDefName: my_interface
       vpiDefNetType: wire (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:2:11 end:2:23:
         vpiParent: Interface name:my_interface
         vpiName: work
@@ -115,31 +113,31 @@ Design name:unnamed:
       vpiNet (3 items):
         Net name:clock start:3:9 end:3:14:
           vpiParent: Interface name:my_interface
+          vpiName: clock
+          vpiFullName: my_interface.clock
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clock
             vpiFullName: my_interface.clock
             vpiActual: LogicTypespec
-          vpiName: clock
-          vpiFullName: my_interface.clock
-          vpiNetType: wire (1)
         Net name:select start:4:9 end:4:15:
           vpiParent: Interface name:my_interface
+          vpiName: select
+          vpiFullName: my_interface.select
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:select
             vpiFullName: my_interface.select
             vpiActual: LogicTypespec
-          vpiName: select
-          vpiFullName: my_interface.select
-          vpiNetType: wire (1)
         Net name:data start:5:15 end:5:19:
           vpiParent: Interface name:my_interface
+          vpiName: data
+          vpiFullName: my_interface.data
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec start:5:9 end:5:14:
             vpiParent: Net name:data
             vpiFullName: my_interface.data
             vpiActual: LogicTypespec
-          vpiName: data
-          vpiFullName: my_interface.data
-          vpiNetType: wire (1)
       vpiClockingBlock (1 items):
         ClockingBlock name:cb start:7:3 end:9:14:
           vpiParent: Interface name:my_interface
@@ -226,34 +224,35 @@ Design name:unnamed:
           vpiModule: Module name:bottom3
       vpiDefName: bottom1
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -11
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:3:8 end:3:15:
         vpiParent: Module name:bottom1
         vpiName: work
         vpiFullName: bottom1.work
         vpiActual: Library name:work
       vpiCell: bottom1
-      vpiAutomatic: true
       vpiNet (2 items):
         Net name:a start:3:23 end:3:24:
           vpiParent: Module name:bottom1
+          vpiName: a
+          vpiFullName: bottom1.a
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:a
             vpiFullName: bottom1.a
             vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: bottom1.a
-          vpiNetType: wire (1)
         Net name:b start:3:32 end:3:33:
           vpiParent: Module name:bottom1
+          vpiName: b
+          vpiFullName: bottom1.b
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:b
             vpiFullName: bottom1.b
             vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: bottom1.b
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:3:23 end:3:24:
           vpiParent: Module name:bottom1
@@ -309,14 +308,14 @@ Design name:unnamed:
                   vpiActual: Net name:a
                 vpiIndex Constant start:6:16 end:6:17:
                   vpiParent: BitSelect name:a[0]
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: bottom1.u1.a[0]
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: bottom1.u1.a[0]
+                    vpiActual: IntTypespec
             NamedArgument start:6:20 end:6:21:
               vpiParent: RefInstance name:u1
               vpiLowConn RefObj name:b:
@@ -354,14 +353,14 @@ Design name:unnamed:
                   vpiActual: Net name:a
                 vpiIndex Constant start:7:16 end:7:17:
                   vpiParent: BitSelect name:a[0]
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: bottom1.u2.a[0]
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "0"
                   vpiValue: 0
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: bottom1.u2.a[0]
+                    vpiActual: IntTypespec
             NamedArgument start:7:20 end:7:21:
               vpiParent: RefInstance name:u2
               vpiLowConn RefObj:
@@ -383,8 +382,7 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:9:28 end:9:30:
               vpiParent: RefInstance name:my_interface
-              vpiConnByName: true
-              vpiLowConn RefObj name:.*:
+              vpiHighConn RefObj name:.* start:9:28 end:9:30:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: bottom1.my_interface..*
@@ -398,32 +396,33 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: bottom2
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:13:8 end:13:15:
         vpiParent: Module name:bottom2
         vpiName: work
         vpiFullName: bottom2.work
         vpiActual: Library name:work
       vpiCell: bottom2
-      vpiAutomatic: true
       vpiNet (2 items):
         Net name:a start:13:23 end:13:24:
           vpiParent: Module name:bottom2
+          vpiName: a
+          vpiFullName: bottom2.a
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:a
             vpiFullName: bottom2.a
             vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: bottom2.a
-          vpiNetType: wire (1)
         Net name:b start:13:32 end:13:33:
           vpiParent: Module name:bottom2
+          vpiName: b
+          vpiFullName: bottom2.b
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:b
             vpiFullName: bottom2.b
             vpiActual: LogicTypespec
-          vpiName: b
-          vpiFullName: bottom2.b
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:a start:13:23 end:13:24:
           vpiParent: Module name:bottom2
@@ -494,15 +493,16 @@ Design name:unnamed:
           vpiName Identifier name:ddr start:24:2 end:24:5:
       vpiDefName: bottom3
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
       vpiTimePrecision: -11
       vpiTimeUnit: -10
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:22:8 end:22:15:
         vpiParent: Module name:bottom3
         vpiName: work
         vpiFullName: bottom3.work
         vpiActual: Library name:work
       vpiCell: bottom3
-      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:g_datapath:0:g_io start:24:6 end:24:31:
           vpiParent: Module name:bottom3
@@ -545,15 +545,16 @@ Design name:unnamed:
           vpiName Identifier name:ddr start:87:2 end:87:5:
       vpiDefName: bottom4
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
       vpiTimePrecision: -11
       vpiTimeUnit: -10
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:86:8 end:86:15:
         vpiParent: Module name:bottom4
         vpiName: work
         vpiFullName: bottom4.work
         vpiActual: Library name:work
       vpiCell: bottom4
-      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:g_datapath:0:g_io start:87:6 end:87:31:
           vpiParent: Module name:bottom4
@@ -592,52 +593,56 @@ Design name:unnamed:
       vpiFullName: splice1
       vpiDefName: splice1
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:32:8 end:32:15:
         vpiParent: Module name:splice1
         vpiName: work
         vpiFullName: splice1.work
         vpiActual: Library name:work
       vpiCell: splice1
-      vpiAutomatic: true
     Module name:splice1 file:$Source01/top1.v start:122:1 end:123:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:splice1 start:122:8 end:122:15:
       vpiFullName: splice1
       vpiDefName: splice1
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:122:8 end:122:15:
         vpiParent: Module name:splice1
         vpiName: work
         vpiFullName: splice1.work
         vpiActual: Library name:work
       vpiCell: splice1
-      vpiAutomatic: true
     Module name:splice1 file:$Source01/top1.v start:194:1 end:195:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:splice1 start:194:8 end:194:15:
       vpiFullName: splice1
       vpiDefName: splice1
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:194:8 end:194:15:
         vpiParent: Module name:splice1
         vpiName: work
         vpiFullName: splice1.work
         vpiActual: Library name:work
       vpiCell: splice1
-      vpiAutomatic: true
     Module name:splice1 file:$Source01/top1.v start:253:1 end:254:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:splice1 start:253:8 end:253:15:
       vpiFullName: splice1
       vpiDefName: splice1
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:253:8 end:253:15:
         vpiParent: Module name:splice1
         vpiName: work
         vpiFullName: splice1.work
         vpiActual: Library name:work
       vpiCell: splice1
-      vpiAutomatic: true
     Module name:top file:$Source01/top1.v start:265:1 end:269:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:top start:265:8 end:265:11:
@@ -650,15 +655,16 @@ Design name:unnamed:
           vpiModule: Module name:bottom1
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -10
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:265:8 end:265:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
-      vpiAutomatic: true
       vpiRefInstance (1 items):
         RefInstance name:u1 start:268:9 end:268:11:
           vpiParent: Module name:top
@@ -674,28 +680,30 @@ Design name:unnamed:
       vpiFullName: bottom1
       vpiDefName: bottom1
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -11
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:272:8 end:272:15:
         vpiParent: Module name:bottom1
         vpiName: work
         vpiFullName: bottom1.work
         vpiActual: Library name:work
       vpiCell: bottom1
-      vpiAutomatic: true
     Module name:bottom2 file:$Source01/top1.v start:277:1 end:280:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:bottom2 start:277:8 end:277:15:
       vpiFullName: bottom2
       vpiDefName: bottom2
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:277:8 end:277:15:
         vpiParent: Module name:bottom2
         vpiName: work
         vpiFullName: bottom2.work
         vpiActual: Library name:work
       vpiCell: bottom2
-      vpiAutomatic: true
     Module name:middle file:$Source01/top1.v start:283:1 end:290:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:middle start:283:8 end:283:14:
@@ -711,46 +719,47 @@ Design name:unnamed:
           vpiModule: Module name:nested
       vpiDefName: middle
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
       vpiTimePrecision: -12
       vpiTimeUnit: -11
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:283:8 end:283:14:
         vpiParent: Module name:middle
         vpiName: work
         vpiFullName: middle.work
         vpiActual: Library name:work
       vpiCell: middle
-      vpiAutomatic: true
       vpiNet (3 items):
         Net name:a start:286:8 end:286:9:
           vpiParent: Module name:middle
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:a
-            vpiFullName: middle.a
-            vpiActual: LogicTypespec
           vpiName: a
           vpiFullName: middle.a
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:a
+            vpiFullName: middle.a
+            vpiActual: LogicTypespec
         Net name:b start:286:11 end:286:12:
           vpiParent: Module name:middle
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:b
-            vpiFullName: middle.b
-            vpiActual: LogicTypespec
           vpiName: b
           vpiFullName: middle.b
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:b
+            vpiFullName: middle.b
+            vpiActual: LogicTypespec
         Net name:c start:286:14 end:286:15:
           vpiParent: Module name:middle
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:c
-            vpiFullName: middle.c
-            vpiActual: LogicTypespec
           vpiName: c
           vpiFullName: middle.c
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:c
+            vpiFullName: middle.c
+            vpiActual: LogicTypespec
       vpiModule (1 items):
         Module name:nested file:$Source01/top1.v start:287:3 end:289:12:
           vpiParent: Module name:middle
@@ -758,15 +767,16 @@ Design name:unnamed:
           vpiFullName: nested
           vpiDefName: nested
           vpiDefNetType: wire (1)
+          vpiDefDelayMode: none (1)
           vpiTimePrecision: -12
           vpiTimeUnit: -11
+          vpiUnconnDrive: highz (1)
           vpiLibrary RefObj name:work start:287:10 end:287:16:
             vpiParent: Module name:nested
             vpiName: work
             vpiFullName: middle.nested.work
             vpiActual: Library name:work
           vpiCell: nested
-          vpiAutomatic: true
           vpiContAssign (1 items):
             ContAssign start:288:12 end:288:21:
               vpiParent: Module name:nested
@@ -795,15 +805,16 @@ Design name:unnamed:
       vpiFullName: bottom3
       vpiDefName: bottom3
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
       vpiTimePrecision: -11
       vpiTimeUnit: -10
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:297:8 end:297:15:
         vpiParent: Module name:bottom3
         vpiName: work
         vpiFullName: bottom3.work
         vpiActual: Library name:work
       vpiCell: bottom3
-      vpiAutomatic: true
       vpiRefInstance (3 items):
         RefInstance name:u3 start:298:9 end:298:11:
           vpiParent: Module name:bottom3
@@ -923,7 +934,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 10
-[WARNING] : 11
+[WARNING] : 12
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -970,7 +981,7 @@ COMMAND: ${HLC_DIR}/regression/TimeUnit/TimeUnit/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1596    1596       0         0
+Others                            1730    1730       0         0
 ----------------------------------------------------------------
-                                  1596    1596       0         0
+                                  1730    1730       0         0
 ===================== END REDUCTION RESULT =====================

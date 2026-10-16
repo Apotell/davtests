@@ -57,7 +57,7 @@ n<$Source01/dut.sv> u<97> t<Top_level_rule> c<1> l<1:1> el<15:1>
                         n<> u<36> t<Net_decl_assignment> p<37> c<29> l<5:8> el<5:22>
                           n<ena> u<29> t<SIMPLE_IDENTIFIER> p<36> s<35> l<5:8> el<5:11>
                           n<> u<35> t<Expression> p<36> c<34> l<5:14> el<5:22>
-                            n<> u<34> t<REDUCTION_NOR> p<35> s<33> l<5:14> el<5:16>
+                            n<> u<34> t<UnaryOp_ReductNor> p<35> s<33> l<5:14> el<5:16>
                             n<> u<33> t<Expression> p<35> c<32> l<5:16> el<5:22>
                               n<> u<32> t<Primary> p<33> c<31> l<5:16> el<5:22>
                                 n<> u<31> t<Primary_literal> p<32> c<30> l<5:16> el<5:22>
@@ -137,20 +137,20 @@ Design name:unnamed:
           vpiArrayType: static (1)
           vpiRange Range start:3:20 end:3:23:
             vpiParent: ArrayTypespec
-            vpiLeftRange Operation:
+            vpiRightRange Operation:
               vpiParent: Range
               vpiOpType: subtract (11)
               vpiOperand (1 items):
                 Constant start:3:21 end:3:22:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: top
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "2"
                   vpiValue: 2
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top
+                    vpiActual: IntTypespec
           vpiElemTypespec RefTypespec name:intf start:3:8 end:3:12:
             vpiParent: ArrayTypespec
             vpiName: intf
@@ -160,37 +160,39 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
-      vpiAutomatic: true
       vpiNet (4 items):
         Net name:intf2 start:3:13 end:3:18:
           vpiParent: Module name:top
+          vpiName: intf2
+          vpiFullName: top.intf2
+          vpiNetDeclAssign: true
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec name:intf [2] start:3:8 end:3:12:
             vpiParent: Net name:intf2
             vpiName: intf [2]
             vpiFullName: top.intf2.intf [2]
             vpiActual: ArrayTypespec
-          vpiName: intf2
-          vpiFullName: top.intf2
-          vpiNetDeclAssign: true
-          vpiNetType: wire (1)
         Net name:ena start:5:8 end:5:11:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:ena
-            vpiFullName: top.ena
-            vpiActual: LogicTypespec
           vpiName: ena
           vpiFullName: top.ena
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:ena
+            vpiFullName: top.ena
+            vpiActual: LogicTypespec
           vpiValue Operation start:5:14 end:5:22:
             vpiParent: Net name:ena
+            vpiOpType: unary nor (8)
             vpiOperand (1 items):
               RefObj name:clkcnt start:5:16 end:5:22:
                 vpiParent: Operation
@@ -198,38 +200,38 @@ Design name:unnamed:
                 vpiFullName: top.ena.clkcnt
         Net name:__debug_req_ready start:7:13 end:7:30:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:__debug_req_ready
-            vpiFullName: top.__debug_req_ready
-            vpiActual: LogicTypespec
           vpiName: "__debug_req_ready"
           vpiFullName: top.__debug_req_ready
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:__debug_req_ready
+            vpiFullName: top.__debug_req_ready
+            vpiActual: LogicTypespec
           vpiDelay Constant start:7:9 end:7:12:
             vpiParent: Net name:__debug_req_ready
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: top.__debug_req_ready
-              vpiActual: RealTypespec
             vpiConstType: real (2)
             vpiSize: 64
             vpiDecompile: "0.1"
             vpiValue: 0.1
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: top.__debug_req_ready
+              vpiActual: RealTypespec
           vpiValue RefObj name:debug_req_ready start:7:33 end:7:48:
             vpiParent: Net name:__debug_req_ready
             vpiName: debug_req_ready
             vpiFullName: top.__debug_req_ready.debug_req_ready
         Net name:toto start:9:8 end:9:12:
           vpiParent: Module name:top
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:toto
-            vpiFullName: top.toto
-            vpiActual: LogicTypespec
           vpiName: toto
           vpiFullName: top.toto
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:toto
+            vpiFullName: top.toto
+            vpiActual: LogicTypespec
       vpiContAssign (1 items):
         ContAssign start:11:10 end:11:15:
           vpiParent: Module name:top
@@ -313,8 +315,12 @@ COMMAND: ${HLC_DIR}/regression/ContAssign/ContAssign/design.hldb ${HLC_DIR}/regr
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                            16      16       1         1
+LongIntTypespec                      0       1       1         0
+Operation                            2       1       0         1
+RefTypespec                        426     426       1         1
 ----------------------------------------------------------------
-Others                            1412    1412       0         0
+Others                            1102    1102       0         0
 ----------------------------------------------------------------
-                                  1412    1412       0         0
+                                  1546    1546       3         3
 ===================== END REDUCTION RESULT =====================

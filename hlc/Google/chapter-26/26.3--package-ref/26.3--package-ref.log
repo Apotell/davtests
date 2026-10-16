@@ -139,6 +139,23 @@ Design name:unnamed:
           vpiParent: Package name:mypkg
           vpiName Identifier name:add start:19:14 end:19:17:
           vpiFullName: mypkg::add
+          vpiVariable (2 items):
+            Variable name:a start:19:22 end:19:23:
+              vpiParent: Function name:add
+              vpiName: a
+              vpiFullName: mypkg::add::a
+              vpiTypespec RefTypespec start:19:18 end:19:21:
+                vpiParent: Variable name:a
+                vpiFullName: mypkg::add::a
+                vpiActual: IntTypespec
+            Variable name:b start:19:25 end:19:26:
+              vpiParent: Function name:add
+              vpiName: b
+              vpiFullName: mypkg::add::b
+              vpiTypespec RefTypespec:
+                vpiParent: Variable name:b
+                vpiFullName: mypkg::add::b
+                vpiActual: LogicTypespec
           vpiTypespec (1 items):
             LogicTypespec:
               vpiParent: Function name:add
@@ -171,12 +188,12 @@ Design name:unnamed:
                   vpiParent: Operation
                   vpiName: a
                   vpiFullName: mypkg::add::a
-                  vpiActual: IODecl name:a
+                  vpiActual: Variable name:a
                 RefObj name:b start:20:13 end:20:14:
                   vpiParent: Operation
                   vpiName: b
                   vpiFullName: mypkg::add::b
-                  vpiActual: IODecl name:b
+                  vpiActual: Variable name:b
           vpiReturn RefTypespec start:19:10 end:19:13:
             vpiParent: Function name:add
             vpiFullName: mypkg::add
@@ -189,13 +206,14 @@ Design name:unnamed:
       vpiFullName: top
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:25:8 end:25:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:27:1 end:27:58:
           vpiParent: Module name:top
@@ -207,14 +225,14 @@ Design name:unnamed:
                 vpiParent: SysTaskCall name:$display
                 vpiHighConn Constant start:27:18 end:27:38:
                   vpiParent: NamedArgument
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: top
-                    vpiActual: StringTypespec
                   vpiConstType: string (6)
                   vpiSize: 144
                   vpiDecompile: "\":assert: (%d == 4)\""
                   vpiValue: ":assert: (%d == 4)"
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top
+                    vpiActual: StringTypespec
               NamedArgument start:27:40 end:27:56:
                 vpiParent: SysTaskCall name:$display
                 vpiHighConn RefObj name:mypkg::add(1, 3) start:27:40 end:27:56:
@@ -236,26 +254,26 @@ Design name:unnamed:
                           vpiParent: FuncCall name:add
                           vpiHighConn Constant start:27:51 end:27:52:
                             vpiParent: NamedArgument
-                            vpiTypespec RefTypespec:
-                              vpiParent: Constant
-                              vpiFullName: top.mypkg::add(1, 3)
-                              vpiActual: IntTypespec
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
                             vpiDecompile: "1"
                             vpiValue: 1
-                        NamedArgument start:27:54 end:27:55:
-                          vpiParent: FuncCall name:add
-                          vpiHighConn Constant start:27:54 end:27:55:
-                            vpiParent: NamedArgument
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
                               vpiFullName: top.mypkg::add(1, 3)
                               vpiActual: IntTypespec
+                        NamedArgument start:27:54 end:27:55:
+                          vpiParent: FuncCall name:add
+                          vpiHighConn Constant start:27:54 end:27:55:
+                            vpiParent: NamedArgument
                             vpiConstType: unsigned int (9)
                             vpiSize: 64
                             vpiDecompile: "3"
                             vpiValue: 3
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
+                              vpiFullName: top.mypkg::add(1, 3)
+                              vpiActual: IntTypespec
                   vpiActual: FuncCall name:add
       vpiSysTaskCall (1 items):
         SysTaskCall name:$display:
@@ -322,7 +340,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-26/26.3--package-ref/design.hldb $
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              44      44       0         0
+Others                              48      48       0         0
 ----------------------------------------------------------------
-                                    44      44       0         0
+                                    48      48       0         0
 ===================== END REDUCTION RESULT =====================

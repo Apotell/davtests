@@ -179,13 +179,14 @@ Design name:unnamed:
       vpiFullName: GOOD
       vpiDefName: GOOD
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:12:
         vpiParent: Module name:GOOD
         vpiName: work
         vpiFullName: GOOD.work
         vpiActual: Library name:work
       vpiCell: GOOD
-      vpiAutomatic: true
     Module name:dut file:$Source01/dut.sv start:5:1 end:21:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:dut start:5:8 end:5:11:
@@ -193,12 +194,12 @@ Design name:unnamed:
       vpiParameter (1 items):
         Parameter name:test start:7:11 end:7:15:
           vpiParent: Module name:dut
+          vpiName: test
+          vpiFullName: dut.test
           vpiTypespec RefTypespec:
             vpiParent: Parameter name:test
             vpiFullName: dut.test
             vpiActual: LogicTypespec
-          vpiName: test
-          vpiFullName: dut.test
       vpiParamAssign (1 items):
         ParamAssign start:7:11 end:7:25:
           vpiParent: Module name:dut
@@ -209,27 +210,28 @@ Design name:unnamed:
             vpiActual: Parameter name:test
           vpiRhs Constant start:7:18 end:7:25:
             vpiParent: ParamAssign
-            vpiTypespec RefTypespec:
-              vpiParent: Constant
-              vpiFullName: dut
-              vpiActual: LogicTypespec
             vpiConstType: binary (3)
             vpiSize: 4
             vpiDecompile: "4'b0011"
             vpiValue: "0011"
+            vpiTypespec RefTypespec:
+              vpiParent: Constant
+              vpiFullName: dut
+              vpiActual: LogicTypespec
       vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:dut
           vpiScalar: true
       vpiDefName: dut
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:5:8 end:5:11:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
         vpiActual: Library name:work
       vpiCell: dut
-      vpiAutomatic: true
       vpiGenStmt (1 items):
         GenFor start:9:1 end:19:4:
           vpiParent: Module name:dut
@@ -245,14 +247,14 @@ Design name:unnamed:
               vpiLhs: Variable name:k
               vpiRhs Constant start:9:17 end:9:18:
                 vpiParent: Assignment
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "0"
                 vpiValue: 0
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: dut
+                  vpiActual: IntTypespec
           vpiForIncStmt (1 items):
             Operation start:9:27 end:9:30:
               vpiParent: GenFor
@@ -274,20 +276,21 @@ Design name:unnamed:
                 vpiActual: Variable name:k
               Constant start:9:24 end:9:25:
                 vpiParent: Operation
-                vpiTypespec RefTypespec:
-                  vpiParent: Constant
-                  vpiFullName: dut
-                  vpiActual: IntTypespec
                 vpiConstType: unsigned int (9)
                 vpiSize: 64
                 vpiDecompile: "4"
                 vpiValue: 4
-          vpiStmt Begin start:9:32 end:19:4:
+                vpiTypespec RefTypespec:
+                  vpiParent: Constant
+                  vpiFullName: dut
+                  vpiActual: IntTypespec
+          vpiStmt GenBlock start:9:32 end:19:4:
             vpiParent: GenFor
             vpiFullName: dut
+            vpiImplicitDecl: true
             vpiStmt (1 items):
               GenIf start:10:3 end:18:6:
-                vpiParent: Begin
+                vpiParent: GenBlock
                 vpiCondition BitSelect name:test[k] start:10:7 end:10:14:
                   vpiParent: GenIf
                   vpiName: test[k]
@@ -302,16 +305,17 @@ Design name:unnamed:
                     vpiName: k
                     vpiFullName: dut.k
                     vpiActual: Variable name:k
-                vpiStmt Begin start:10:16 end:18:6:
+                vpiStmt GenBlock start:10:16 end:18:6:
                   vpiParent: GenIf
                   vpiFullName: dut
                   vpiTypespec (1 items):
                     UnsupportedTypespec name:MOD start:11:5 end:11:8:
-                      vpiParent: Begin
+                      vpiParent: GenBlock
                       vpiName Identifier name:MOD start:11:5 end:11:8:
+                  vpiImplicitDecl: true
                   vpiStmt (2 items):
                     RefInstance name:m start:11:9 end:11:10:
-                      vpiParent: Begin
+                      vpiParent: GenBlock
                       vpiName: m
                       vpiTypespec RefTypespec name:MOD start:11:5 end:11:8:
                         vpiParent: RefInstance name:m
@@ -319,7 +323,7 @@ Design name:unnamed:
                         vpiFullName: dut.m.MOD
                         vpiActual: UnsupportedTypespec name:MOD
                     GenIfElse start:12:5 end:16:8:
-                      vpiParent: Begin
+                      vpiParent: GenBlock
                       vpiCondition Operation start:12:9 end:12:25:
                         vpiParent: GenIfElse
                         vpiOpType: logical or (27)
@@ -335,14 +339,14 @@ Design name:unnamed:
                                 vpiActual: Variable name:k
                               Constant start:12:14 end:12:15:
                                 vpiParent: Operation
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: dut
-                                  vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
                                 vpiDecompile: "0"
                                 vpiValue: 0
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: dut
+                                  vpiActual: IntTypespec
                           Operation start:12:19 end:12:25:
                             vpiParent: Operation
                             vpiOpType: equal (14)
@@ -354,42 +358,44 @@ Design name:unnamed:
                                 vpiActual: Variable name:k
                               Constant start:12:24 end:12:25:
                                 vpiParent: Operation
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: dut
-                                  vpiActual: IntTypespec
                                 vpiConstType: unsigned int (9)
                                 vpiSize: 64
                                 vpiDecompile: "1"
                                 vpiValue: 1
-                      vpiStmt Begin start:12:27 end:14:8:
+                                vpiTypespec RefTypespec:
+                                  vpiParent: Constant
+                                  vpiFullName: dut
+                                  vpiActual: IntTypespec
+                      vpiStmt GenBlock start:12:27 end:14:8:
                         vpiParent: GenIfElse
                         vpiFullName: dut
                         vpiTypespec (1 items):
                           ModuleTypespec name:GOOD start:13:8 end:13:12:
-                            vpiParent: Begin
+                            vpiParent: GenBlock
                             vpiName Identifier name:GOOD start:13:8 end:13:12:
                             vpiDefName: GOOD
                             vpiModule: Module name:GOOD
+                        vpiImplicitDecl: true
                         vpiStmt (1 items):
                           RefInstance name:good start:13:13 end:13:17:
-                            vpiParent: Begin
+                            vpiParent: GenBlock
                             vpiName: good
                             vpiTypespec RefTypespec name:GOOD start:13:8 end:13:12:
                               vpiParent: RefInstance name:good
                               vpiName: GOOD
                               vpiFullName: dut.good.GOOD
                               vpiActual: ModuleTypespec name:GOOD
-                      vpiElseStmt Begin start:14:14 end:16:8:
+                      vpiElseStmt GenBlock start:14:14 end:16:8:
                         vpiParent: GenIfElse
                         vpiFullName: dut
                         vpiTypespec (1 items):
                           UnsupportedTypespec name:BAD start:15:8 end:15:11:
-                            vpiParent: Begin
+                            vpiParent: GenBlock
                             vpiName Identifier name:BAD start:15:8 end:15:11:
+                        vpiImplicitDecl: true
                         vpiStmt (1 items):
                           RefInstance name:bad start:15:12 end:15:15:
-                            vpiParent: Begin
+                            vpiParent: GenBlock
                             vpiName: bad
                             vpiTypespec RefTypespec name:BAD start:15:8 end:15:11:
                               vpiParent: RefInstance name:bad

@@ -90,37 +90,37 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:B start:17:14 end:17:15:
           vpiParent: ClassDefn name:a
-          vpiTypespec RefTypespec name:int [5] start:17:10 end:17:13:
-            vpiParent: Variable name:B
-            vpiName: int [5]
-            vpiFullName: a::B::int [5]
-            vpiActual: ArrayTypespec
           vpiName: B
           vpiFullName: a::B
           vpiAutomatic: true
           vpiIsRandomized: true
           vpiRandType: rand (2)
           vpiVisibility: public (1)
+          vpiTypespec RefTypespec name:int [5] start:17:10 end:17:13:
+            vpiParent: Variable name:B
+            vpiName: int [5]
+            vpiFullName: a::B::int [5]
+            vpiActual: ArrayTypespec
       vpiTypespec (1 items):
         ArrayTypespec:
           vpiParent: ClassDefn name:a
           vpiArrayType: static (1)
           vpiRange Range start:17:15 end:17:18:
             vpiParent: ArrayTypespec
-            vpiLeftRange Operation:
+            vpiRightRange Operation:
               vpiParent: Range
               vpiOpType: subtract (11)
               vpiOperand (1 items):
                 Constant start:17:16 end:17:17:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: a
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "5"
                   vpiValue: 5
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: a
+                    vpiActual: IntTypespec
           vpiElemTypespec RefTypespec start:17:10 end:17:13:
             vpiParent: ArrayTypespec
             vpiFullName: a
@@ -159,14 +159,14 @@ Design name:unnamed:
                       vpiName Identifier name:sum start:18:22 end:18:25:
                 Constant start:18:31 end:18:32:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: a::c
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "5"
                   vpiValue: 5
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: a::c
+                    vpiActual: IntTypespec
   vpiTypespec (2 items):
     ClassTypespec name:a start:16:7 end:16:8:
       vpiParent: Design name:unnamed
@@ -227,8 +227,12 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.8.2--array-reduction-itera
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             2       2       1         1
+LongIntTypespec                      0       1       1         0
+Operation                            2       1       0         1
+RefTypespec                          4       4       1         1
 ----------------------------------------------------------------
-Others                              26      26       0         0
+Others                              18      18       0         0
 ----------------------------------------------------------------
-                                    26      26       0         0
+                                    26      26       3         3
 ===================== END REDUCTION RESULT =====================

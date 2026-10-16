@@ -408,6 +408,10 @@ AST_DEBUG_END
 [ERR:LN7714] Found 1 weak node(s).
 [WRN:CP5851] $Source01/t_var_dup_bad.v:21:4: Failed to bind "bit".
 [WRN:CP5851] $Source01/t_var_dup_bad.v:22:4: Failed to bind "bit".
+[WRN:CP5851] $Source01/t_var_dup_bad.v:40:14: Failed to bind ".*".
+[WRN:CP5851] $Source01/t_var_dup_bad.v:41:14: Failed to bind ".*".
+[WRN:CP5851] $Source01/t_var_dup_bad.v:42:14: Failed to bind ".*".
+[WRN:CP5851] $Source01/t_var_dup_bad.v:43:14: Failed to bind ".*".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:LN7701] Invalid name: id:112, type:RefTypespec, name:, relation:vpiTypespec.
 ====== HLDB =======
@@ -426,57 +430,55 @@ Design name:unnamed:
       vpiVariable (6 items):
         Variable name:a start:15:11 end:15:12:
           vpiParent: Module name:t
+          vpiName: a
+          vpiFullName: t.a
           vpiTypespec RefTypespec start:15:4 end:15:7:
             vpiParent: Variable name:a
             vpiFullName: t.a
             vpiActual: LogicTypespec
-          vpiName: a
-          vpiFullName: t.a
         Variable name:l start:18:12 end:18:13:
           vpiParent: Module name:t
+          vpiName: l
+          vpiFullName: t.l
           vpiTypespec RefTypespec start:18:4 end:18:11:
             vpiParent: Variable name:l
             vpiFullName: t.l
             vpiActual: IntegerTypespec
-          vpiName: l
-          vpiFullName: t.l
         Variable name:b start:21:12 end:21:13:
           vpiParent: Module name:t
+          vpiName: b
+          vpiFullName: t.b
           vpiTypespec RefTypespec name:bit start:21:4 end:21:7:
             vpiParent: Variable name:b
             vpiName: bit
             vpiFullName: t.b.bit
-          vpiName: b
-          vpiFullName: t.b
         Variable name:b start:22:12 end:22:13:
           vpiParent: Module name:t
           vpiName: b
           vpiFullName: t.b
         Variable name:og start:33:11 end:33:13:
           vpiParent: Module name:t
+          vpiName: og
+          vpiFullName: t.og
           vpiTypespec RefTypespec start:34:4 end:34:7:
             vpiParent: Variable name:og
             vpiFullName: t.og
             vpiActual: LogicTypespec
-          vpiName: og
-          vpiFullName: t.og
         Variable name:org start:38:15 end:38:18:
           vpiParent: Module name:t
+          vpiName: org
+          vpiFullName: t.org
           vpiTypespec RefTypespec start:37:11 end:37:14:
             vpiParent: Variable name:org
             vpiFullName: t.org
             vpiActual: LogicTypespec
-          vpiName: org
-          vpiFullName: t.org
-      vpiTypespec (7 items):
-        LogicTypespec:
-          vpiParent: Module name:t
-        IntegerTypespec:
-          vpiParent: Module name:t
-          vpiSigned: true
+      vpiTypespec (6 items):
         LogicTypespec:
           vpiParent: Module name:t
           vpiScalar: true
+        IntegerTypespec:
+          vpiParent: Module name:t
+          vpiSigned: true
         ModuleTypespec name:sub0 start:40:4 end:40:8:
           vpiParent: Module name:t
           vpiName Identifier name:sub0 start:40:4 end:40:8:
@@ -499,41 +501,42 @@ Design name:unnamed:
           vpiModule: Module name:sub3
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:6:8 end:6:9:
         vpiParent: Module name:t
         vpiName: work
         vpiFullName: t.work
         vpiActual: Library name:work
       vpiCell: t
-      vpiAutomatic: true
       vpiNet (3 items):
         Net name:o start:24:11 end:24:12:
           vpiParent: Module name:t
+          vpiName: o
+          vpiFullName: t.o
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:o
             vpiFullName: t.o
             vpiActual: LogicTypespec
-          vpiName: o
-          vpiFullName: t.o
-          vpiNetType: wire (1)
         Net name:i start:27:11 end:27:12:
           vpiParent: Module name:t
+          vpiName: i
+          vpiFullName: t.i
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:i
             vpiFullName: t.i
             vpiActual: LogicTypespec
-          vpiName: i
-          vpiFullName: t.i
-          vpiNetType: wire (1)
         Net name:oi start:30:11 end:30:13:
           vpiParent: Module name:t
+          vpiName: oi
+          vpiFullName: t.oi
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:oi
             vpiFullName: t.oi
             vpiActual: LogicTypespec
-          vpiName: oi
-          vpiFullName: t.oi
-          vpiNetType: wire (1)
       vpiPort (6 items):
         Port name:o start:10:4 end:10:5:
           vpiParent: Module name:t
@@ -612,8 +615,7 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:40:14 end:40:16:
               vpiParent: RefInstance name:sub0
-              vpiConnByName: true
-              vpiLowConn RefObj name:.*:
+              vpiHighConn RefObj name:.* start:40:14 end:40:16:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.sub0..*
@@ -628,8 +630,7 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:41:14 end:41:16:
               vpiParent: RefInstance name:sub1
-              vpiConnByName: true
-              vpiLowConn RefObj name:.*:
+              vpiHighConn RefObj name:.* start:41:14 end:41:16:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.sub1..*
@@ -644,8 +645,7 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:42:14 end:42:16:
               vpiParent: RefInstance name:sub2
-              vpiConnByName: true
-              vpiLowConn RefObj name:.*:
+              vpiHighConn RefObj name:.* start:42:14 end:42:16:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.sub2..*
@@ -660,8 +660,7 @@ Design name:unnamed:
           vpiArgument (1 items):
             NamedArgument start:43:14 end:43:16:
               vpiParent: RefInstance name:sub3
-              vpiConnByName: true
-              vpiLowConn RefObj name:.*:
+              vpiHighConn RefObj name:.* start:43:14 end:43:16:
                 vpiParent: NamedArgument
                 vpiName: ".*"
                 vpiFullName: t.sub3..*
@@ -675,23 +674,24 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: sub0
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:46:8 end:46:12:
         vpiParent: Module name:sub0
         vpiName: work
         vpiFullName: sub0.work
         vpiActual: Library name:work
       vpiCell: sub0
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:bad_duport start:51:11 end:51:21:
           vpiParent: Module name:sub0
+          vpiName: bad_duport
+          vpiFullName: sub0.bad_duport
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:bad_duport
             vpiFullName: sub0.bad_duport
             vpiActual: LogicTypespec
-          vpiName: bad_duport
-          vpiFullName: sub0.bad_duport
-          vpiNetType: wire (1)
       vpiPort (2 items):
         Port name:bad_duport start:48:4 end:48:14:
           vpiParent: Module name:sub0
@@ -720,31 +720,32 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: sub1
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:54:8 end:54:12:
         vpiParent: Module name:sub1
         vpiName: work
         vpiFullName: sub1.work
         vpiActual: Library name:work
       vpiCell: sub1
-      vpiAutomatic: true
       vpiNet (2 items):
         Net name:bad_mixport start:57:11 end:57:22:
           vpiParent: Module name:sub1
+          vpiName: bad_mixport
+          vpiFullName: sub1.bad_mixport
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:bad_mixport
             vpiFullName: sub1.bad_mixport
             vpiActual: LogicTypespec
-          vpiName: bad_mixport
-          vpiFullName: sub1.bad_mixport
-          vpiNetType: wire (1)
         Net name:bad_mixport start:56:4 end:56:15:
           vpiParent: Module name:sub1
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:bad_mixport
-            vpiFullName: sub1.bad_mixport
           vpiName: bad_mixport
           vpiFullName: sub1.bad_mixport
           vpiNetType: net (36)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:bad_mixport
+            vpiFullName: sub1.bad_mixport
       vpiPort (2 items):
         Port name:bad_mixport start:56:4 end:56:15:
           vpiParent: Module name:sub1
@@ -778,23 +779,24 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: sub2
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:61:8 end:61:12:
         vpiParent: Module name:sub2
         vpiName: work
         vpiFullName: sub2.work
         vpiActual: Library name:work
       vpiCell: sub2
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:bad_reout_port start:63:11 end:63:25:
           vpiParent: Module name:sub2
+          vpiName: bad_reout_port
+          vpiFullName: sub2.bad_reout_port
+          vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:bad_reout_port
             vpiFullName: sub2.bad_reout_port
             vpiActual: LogicTypespec
-          vpiName: bad_reout_port
-          vpiFullName: sub2.bad_reout_port
-          vpiNetType: wire (1)
       vpiPort (1 items):
         Port name:bad_reout_port start:63:11 end:63:25:
           vpiParent: Module name:sub2
@@ -816,38 +818,37 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:bad_rereg start:70:15 end:70:24:
           vpiParent: Module name:sub3
+          vpiName: bad_rereg
+          vpiFullName: sub3.bad_rereg
           vpiTypespec RefTypespec start:70:11 end:70:14:
             vpiParent: Variable name:bad_rereg
             vpiFullName: sub3.bad_rereg
             vpiActual: LogicTypespec
-          vpiName: bad_rereg
-          vpiFullName: sub3.bad_rereg
-      vpiTypespec (2 items):
+      vpiTypespec (1 items):
         LogicTypespec:
           vpiParent: Module name:sub3
           vpiScalar: true
-        LogicTypespec:
-          vpiParent: Module name:sub3
       vpiDefName: sub3
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:68:8 end:68:12:
         vpiParent: Module name:sub3
         vpiName: work
         vpiFullName: sub3.work
         vpiActual: Library name:work
       vpiCell: sub3
-      vpiAutomatic: true
       vpiNet (1 items):
         Net name:bad_rewire start:69:16 end:69:26:
           vpiParent: Module name:sub3
-          vpiTypespec RefTypespec:
-            vpiParent: Net name:bad_rewire
-            vpiFullName: sub3.bad_rewire
-            vpiActual: LogicTypespec
           vpiName: bad_rewire
           vpiFullName: sub3.bad_rewire
           vpiNetDeclAssign: true
           vpiNetType: wire (1)
+          vpiTypespec RefTypespec:
+            vpiParent: Net name:bad_rewire
+            vpiFullName: sub3.bad_rewire
+            vpiActual: LogicTypespec
       vpiPort (2 items):
         Port name:bad_rewire start:69:16 end:69:26:
           vpiParent: Module name:sub3
@@ -909,7 +910,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 2
 [  ERROR] : 7
-[WARNING] : 2
+[WARNING] : 6
 [   NOTE] : 4
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -953,7 +954,7 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_var_dup_bad/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             123     123       0         0
+Others                             121     121       0         0
 ----------------------------------------------------------------
-                                   123     123       0         0
+                                   121     121       0         0
 ===================== END REDUCTION RESULT =====================

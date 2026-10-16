@@ -123,33 +123,33 @@ Design name:unnamed:
       vpiVariable (1 items):
         Variable name:array start:3:9 end:3:14:
           vpiParent: Module name:dut
+          vpiName: array
+          vpiFullName: dut.array
           vpiTypespec RefTypespec name:int [16][16] start:3:5 end:3:8:
             vpiParent: Variable name:array
             vpiName: int [16][16]
             vpiFullName: dut.array.int [16][16]
             vpiActual: ArrayTypespec
-          vpiName: array
-          vpiFullName: dut.array
       vpiTypespec (2 items):
         ArrayTypespec:
           vpiParent: Module name:dut
           vpiArrayType: static (1)
           vpiRange Range start:3:18 end:3:22:
             vpiParent: ArrayTypespec
-            vpiLeftRange Operation:
+            vpiRightRange Operation:
               vpiParent: Range
               vpiOpType: subtract (11)
               vpiOperand (1 items):
                 Constant start:3:19 end:3:21:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: dut
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "16"
                   vpiValue: 16
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: dut
+                    vpiActual: IntTypespec
           vpiElemTypespec RefTypespec start:3:5 end:3:8:
             vpiParent: ArrayTypespec
             vpiFullName: dut
@@ -159,33 +159,34 @@ Design name:unnamed:
           vpiArrayType: static (1)
           vpiRange Range start:3:14 end:3:18:
             vpiParent: ArrayTypespec
-            vpiLeftRange Operation:
+            vpiRightRange Operation:
               vpiParent: Range
               vpiOpType: subtract (11)
               vpiOperand (1 items):
                 Constant start:3:15 end:3:17:
                   vpiParent: Operation
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: dut
-                    vpiActual: IntTypespec
                   vpiConstType: unsigned int (9)
                   vpiSize: 64
                   vpiDecompile: "16"
                   vpiValue: 16
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: dut
+                    vpiActual: IntTypespec
           vpiElemTypespec RefTypespec:
             vpiParent: ArrayTypespec
             vpiFullName: dut
             vpiActual: ArrayTypespec
       vpiDefName: dut
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:11:
         vpiParent: Module name:dut
         vpiName: work
         vpiFullName: dut.work
         vpiActual: Library name:work
       vpiCell: dut
-      vpiAutomatic: true
       vpiProcess (1 items):
         Initial start:5:5 end:9:8:
           vpiParent: Module name:dut
@@ -201,6 +202,7 @@ Design name:unnamed:
                     vpiParent: ForeachStmt
                     vpiName: i
                     vpiFullName: dut.i
+                    vpiAutomatic: true
                     vpiIsIterator: true
                 vpiVariable RefObj name:array start:6:17 end:6:22:
                   vpiParent: ForeachStmt
@@ -217,6 +219,7 @@ Design name:unnamed:
                       vpiParent: ForeachStmt
                       vpiName: j
                       vpiFullName: dut.j
+                      vpiAutomatic: true
                       vpiIsIterator: true
                   vpiVariable BitSelect name:array[i] start:7:21 end:7:29:
                     vpiParent: ForeachStmt
@@ -334,8 +337,12 @@ COMMAND: ${HLC_DIR}/regression/ForeachSquare/ForeachSquare/design.hldb ${HLC_DIR
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
+Constant                             2       2       2         2
+LongIntTypespec                      0       1       1         0
+Operation                            3       1       0         2
+RefTypespec                          5       5       2         2
 ----------------------------------------------------------------
-Others                              43      43       0         0
+Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    43      43       0         0
+                                    43      42       5         6
 ===================== END REDUCTION RESULT =====================

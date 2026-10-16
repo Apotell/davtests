@@ -142,18 +142,39 @@ Design name:unnamed:
           vpiIsNettype: true
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefDelayMode: none (1)
+      vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:15:8 end:15:11:
         vpiParent: Module name:top
         vpiName: work
         vpiFullName: top.work
         vpiActual: Library name:work
       vpiCell: top
-      vpiAutomatic: true
       vpiTaskFunc (1 items):
         Function name:real_sum start:16:2 end:20:13:
           vpiParent: Module name:top
           vpiName Identifier name:real_sum start:16:26 end:16:34:
           vpiFullName: top.real_sum
+          vpiVariable (1 items):
+            Variable name:driver start:16:47 end:16:53:
+              vpiParent: Function name:real_sum
+              vpiName: driver
+              vpiFullName: top.real_sum.driver
+              vpiTypespec RefTypespec name:real [] start:16:42 end:16:46:
+                vpiParent: Variable name:driver
+                vpiName: real []
+                vpiFullName: top.real_sum.driver.real []
+                vpiActual: ArrayTypespec
+          vpiTypespec (1 items):
+            ArrayTypespec:
+              vpiParent: Function name:real_sum
+              vpiArrayType: dynamic (2)
+              vpiRange Range start:16:53 end:16:55:
+                vpiParent: ArrayTypespec
+              vpiElemTypespec RefTypespec start:16:42 end:16:46:
+                vpiParent: ArrayTypespec
+                vpiFullName: top.real_sum
+                vpiActual: RealTypespec
           vpiVisibility: public (1)
           vpiAutomatic: true
           vpiIODecl (1 items):
@@ -169,16 +190,6 @@ Design name:unnamed:
           vpiStmt Begin:
             vpiParent: Function name:real_sum
             vpiFullName: top.real_sum
-            vpiTypespec (1 items):
-              ArrayTypespec:
-                vpiParent: Begin
-                vpiArrayType: dynamic (2)
-                vpiRange Range start:16:53 end:16:55:
-                  vpiParent: ArrayTypespec
-                vpiElemTypespec RefTypespec start:16:42 end:16:46:
-                  vpiParent: ArrayTypespec
-                  vpiFullName: top.real_sum
-                  vpiActual: RealTypespec
             vpiStmt (2 items):
               Assignment start:17:3 end:17:17:
                 vpiParent: Begin
@@ -190,14 +201,14 @@ Design name:unnamed:
                   vpiActual: Function name:real_sum
                 vpiRhs Constant start:17:14 end:17:17:
                   vpiParent: Assignment
-                  vpiTypespec RefTypespec:
-                    vpiParent: Constant
-                    vpiFullName: top.real_sum
-                    vpiActual: RealTypespec
                   vpiConstType: real (2)
                   vpiSize: 64
                   vpiDecompile: "0.0"
                   vpiValue: 0
+                  vpiTypespec RefTypespec:
+                    vpiParent: Constant
+                    vpiFullName: top.real_sum
+                    vpiActual: RealTypespec
               ForeachStmt start:18:3 end:19:26:
                 vpiParent: Begin
                 vpiFullName: top.real_sum
@@ -206,12 +217,13 @@ Design name:unnamed:
                     vpiParent: ForeachStmt
                     vpiName: i
                     vpiFullName: top.real_sum.i
+                    vpiAutomatic: true
                     vpiIsIterator: true
                 vpiVariable RefObj name:driver start:18:12 end:18:18:
                   vpiParent: ForeachStmt
                   vpiName: driver
                   vpiFullName: top.real_sum.driver
-                  vpiActual: IODecl name:driver
+                  vpiActual: Variable name:driver
                 vpiLoopVars (1 items):
                   Variable name:i:
                 vpiStmt Assignment start:19:4 end:19:25:
@@ -239,7 +251,7 @@ Design name:unnamed:
                           vpiParent: BitSelect name:driver[i]
                           vpiName: driver
                           vpiFullName: top.real_sum.driver
-                          vpiActual: IODecl name:driver
+                          vpiActual: Variable name:driver
                         vpiIndex RefObj name:i start:19:23 end:19:24:
                           vpiParent: BitSelect name:driver[i]
                           vpiName: i
@@ -309,7 +321,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-6/6.6.7--nettype_resolution_fn/des
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              37      37       0         0
+Others                              39      39       0         0
 ----------------------------------------------------------------
-                                    37      37       0         0
+                                    39      39       0         0
 ===================== END REDUCTION RESULT =====================
