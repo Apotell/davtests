@@ -174,7 +174,7 @@ TEST_F(AlwaysNoElabTest, NumBitsDeviceSelIsClog2Ternary) {
   EXPECT_EQ(clog2->getName(), "$clog2");
   ASSERT_NE(clog2->getArguments(), nullptr);
   ASSERT_EQ(clog2->getArguments()->size(), 1u);
-  const hldb::RefObj *const clog2Arg = any_cast<hldb::RefObj>(clog2->getArguments()->at(0));
+  const hldb::RefObj *const clog2Arg = clog2->getArguments()->at(0)->getHighConn<hldb::RefObj>();
   ASSERT_NE(clog2Arg, nullptr);
   EXPECT_EQ(clog2Arg->getName(), "NrDevices");
 

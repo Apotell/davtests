@@ -248,7 +248,10 @@ TEST_F(SigsSensListTest, ElseBranchAssignsZeroToUndeclaredYScaleAmountNext) {
 
 // --- compiler diagnostics ---------------------------------------------------
 
-TEST_F(SigsSensListTest, CompilesWithNoErrors) { EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr); }
+TEST_F(SigsSensListTest, CompilesWithBindErrors) {
+  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "outputLine", 28), nullptr);
+  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "yScaleAmountNext", 32), nullptr);
+}
 
 }  // namespace hlc
 

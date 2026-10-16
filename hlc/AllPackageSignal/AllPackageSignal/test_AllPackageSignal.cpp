@@ -170,11 +170,9 @@ TEST_F(AllPackageSignalTest, FirstFunctionResolvesPkgBParameterAcrossPackages) {
   ASSERT_NE(func, nullptr);
 
   // function body: bit unused_bit[((32 == $bits(pkg_b::ParameterIntEqual4)) ? 1 : -1)];
-  const hldb::Begin *const body = func->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr);
-  ASSERT_NE(body->getVariables(), nullptr);
-  ASSERT_FALSE(body->getVariables()->empty());
-  const hldb::Variable *const unusedBit = hldb::findByName<hldb::Variable>("unused_bit", body->getVariables());
+  ASSERT_NE(func->getVariables(), nullptr);
+  ASSERT_FALSE(func->getVariables()->empty());
+  const hldb::Variable *const unusedBit = hldb::findByName<hldb::Variable>("unused_bit", func->getVariables());
   ASSERT_NE(unusedBit, nullptr);
   ASSERT_NE(unusedBit->getTypespec(), nullptr);
   const hldb::ArrayTypespec *const arrayTypespec = unusedBit->getTypespec()->getActual<hldb::ArrayTypespec>();
@@ -182,7 +180,7 @@ TEST_F(AllPackageSignalTest, FirstFunctionResolvesPkgBParameterAcrossPackages) {
   const hldb::Range *const range = arrayTypespec->getRange();
   ASSERT_NE(range, nullptr);
 
-  const hldb::Operation *const subtract = range->getLeftExpr<hldb::Operation>();
+  const hldb::Operation *const subtract = range->getRightExpr<hldb::Operation>();
   ASSERT_NE(subtract, nullptr);
   ASSERT_EQ(subtract->getOpType(), vpiSubOp);
   ASSERT_NE(subtract->getOperands(), nullptr);
@@ -206,7 +204,7 @@ TEST_F(AllPackageSignalTest, FirstFunctionResolvesPkgBParameterAcrossPackages) {
   ASSERT_NE(bitsCall->getArguments(), nullptr);
   ASSERT_EQ(bitsCall->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const qualifiedRef = any_cast<hldb::RefObj>(bitsCall->getArguments()->at(0));
+  const hldb::RefObj *const qualifiedRef = bitsCall->getArguments()->at(0)->getHighConn<hldb::RefObj>();
   ASSERT_NE(qualifiedRef, nullptr);
   EXPECT_EQ(qualifiedRef->getName(), "pkg_b::ParameterIntEqual4");
   ASSERT_NE(qualifiedRef->getPathElems(), nullptr);

@@ -164,8 +164,9 @@ class ArrayExprFuncArgTest : public Test {
     EXPECT_NE(arrayTs->getElemTypespec()->getActual<hldb::IntTypespec>(), nullptr);
 
     ASSERT_NE(arrayTs->getRange(), nullptr);
-    EXPECT_EQ(arrayTs->getRange()->getRightExpr(), nullptr);
-    const hldb::Operation *const subtract = arrayTs->getRange()->getLeftExpr<hldb::Operation>();
+    EXPECT_EQ(arrayTs->getRange()->getLeftExpr(), nullptr);
+    EXPECT_NE(arrayTs->getRange()->getRightExpr(), nullptr);
+    const hldb::Operation *const subtract = arrayTs->getRange()->getRightExpr<hldb::Operation>();
     ASSERT_NE(subtract, nullptr);
     EXPECT_EQ(subtract->getOpType(), vpiSubOp);
     ASSERT_NE(subtract->getOperands(), nullptr);
@@ -266,7 +267,8 @@ TEST_F(ArrayExprFuncArgTest, AssignVaddrForLoopCopiesVIntoReturnValue) {
   ASSERT_EQ(forStmt->getForInitStmts()->size(), 1u);
   const hldb::Assignment *const init = any_cast<hldb::Assignment>(forStmt->getForInitStmts()->at(0));
   ASSERT_NE(init, nullptr);
-  EXPECT_EQ(init->getLhs<hldb::Variable>(), loopVar) << "for-init's lhs is the loop Variable directly, not a RefObj";
+  ASSERT_NE(init->getLhs<hldb::RefObj>(), nullptr);
+  EXPECT_EQ(init->getLhs<hldb::RefObj>()->getActual(), loopVar) << "for-init's lhs is the loop RefObj";
   const hldb::Constant *const initVal = init->getRhs<hldb::Constant>();
   ASSERT_NE(initVal, nullptr);
   EXPECT_EQ(initVal->getDecompile(), "0");
@@ -369,12 +371,12 @@ TEST_F(ArrayExprFuncArgTest, MaxVaddrPassesArrayParameterVaddrAsPlainArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::RefObj *const vaddrArg = any_cast<hldb::RefObj>(call->getArguments()->at(0));
+  const hldb::RefObj *const vaddrArg = call->getArguments()->at(0)->getHighConn<hldb::RefObj>();
   ASSERT_NE(vaddrArg, nullptr) << "'VADDR' argument -- an array-typed localparam passed as a plain expression";
   EXPECT_EQ(vaddrArg->getName(), "VADDR");
   EXPECT_EQ(vaddrArg->getActual<hldb::Parameter>(), hldb::findByName<hldb::Parameter>("VADDR", mod->getParameters()));
 
-  const hldb::RefObj *const cntArg = any_cast<hldb::RefObj>(call->getArguments()->at(1));
+  const hldb::RefObj *const cntArg = call->getArguments()->at(1)->getHighConn<hldb::RefObj>();
   ASSERT_NE(cntArg, nullptr);
   EXPECT_EQ(cntArg->getName(), "CNT");
 }
@@ -392,16 +394,16 @@ TEST_F(ArrayExprFuncArgTest, TopHasFiveGenerateIfsEachLoggingOneString) {
     ASSERT_NE(genIf, nullptr) << "generate statement index " << i
                               << " should be a GenIf, with no GenRegion "
                                  "wrapper since the source has no explicit 'generate'/'endgenerate'";
-    const hldb::Begin *const body = genIf->getStmt<hldb::Begin>();
+    const hldb::GenBlock *const body = genIf->getStmt<hldb::GenBlock>();
     ASSERT_NE(body, nullptr) << "GenIf index " << i;
     ASSERT_NE(body->getStmts(), nullptr);
     ASSERT_EQ(body->getStmts()->size(), 1u) << "GenIf index " << i;
     const hldb::SysTaskCall *const info = any_cast<hldb::SysTaskCall>(body->getStmts()->at(0));
     ASSERT_NE(info, nullptr) << "GenIf index " << i;
-    EXPECT_EQ(info->getName(), "info") << "GenIf index " << i;
+    EXPECT_EQ(info->getName(), "$info") << "GenIf index " << i;
     ASSERT_NE(info->getArguments(), nullptr) << "GenIf index " << i;
     ASSERT_EQ(info->getArguments()->size(), 1u) << "GenIf index " << i;
-    const hldb::Constant *const msg = any_cast<hldb::Constant>(info->getArguments()->at(0));
+    const hldb::Constant *const msg = info->getArguments()->at(0)->getHighConn<hldb::Constant>();
     ASSERT_NE(msg, nullptr) << "GenIf index " << i;
     EXPECT_EQ(msg->getConstType(), vpiStringConst) << "GenIf index " << i;
   }
