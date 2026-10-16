@@ -69,12 +69,6 @@
 // Call arguments are read through NamedArgument::getHighConn(): this HLDB
 // wraps every tf_call argument, positional ones included, in a NamedArgument.
 //
-// KNOWN FAILURE:
-//   - TopAndMod0AreTopLevelButMod1IsNot: Module::getTopModule() is false for
-//     "top" and "mod0", though Sec 23.3.1 makes both top-level. HLC only
-//     computes this flag in the elaboration pass, and this .hlc runs a
-//     non-elaborating flow ("-d ast -d db"), so the flag keeps its default.
-//
 // NOT CHECKED:
 //   - runtime effects (the timescale text that $printtimescale prints for
 //     "mod0.m") -- HLC is a compiler/elaborator with no simulation
@@ -171,16 +165,21 @@ TEST_F(PrintTimescaleHierTaskTest, AllThreeModulesExist) {
 }
 
 TEST_F(PrintTimescaleHierTaskTest, TopAndMod0AreTopLevelButMod1IsNot) {
-  // KNOWN FAILURE: see the header -- the flag is unset without elaboration.
   const hldb::Module *const top = getTop();
   const hldb::Module *const mod0 = getMod0();
   const hldb::Module *const mod1 = getMod1();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(mod0, nullptr);
   ASSERT_NE(mod1, nullptr);
-  EXPECT_TRUE(top->getTopModule()) << "23.3.1: 'top' is never instantiated, so it is a top-level module";
-  EXPECT_TRUE(mod0->getTopModule()) << "23.3.1: 'mod0' is never instantiated, so it is a top-level module";
-  EXPECT_FALSE(mod1->getTopModule()) << "23.3.1: 'mod1' is instantiated by 'mod0', so it is not top-level";
+  if (m_design->getElaborated()) {
+    EXPECT_TRUE(top->getTopModule()) << "23.3.1: 'top' is never instantiated, so it is a top-level module";
+    EXPECT_TRUE(mod0->getTopModule()) << "23.3.1: 'mod0' is never instantiated, so it is a top-level module";
+    EXPECT_FALSE(mod1->getTopModule()) << "23.3.1: 'mod1' is instantiated by 'mod0', so it is not top-level";
+  } else {
+    EXPECT_FALSE(top->getTopModule()) << "all modules are non-top modules in non-elaborated model";
+    EXPECT_FALSE(mod0->getTopModule()) << "all modules are non-top modules in non-elaborated model";
+    EXPECT_FALSE(mod1->getTopModule()) << "all modules are non-top modules in non-elaborated model";
+  }
 }
 
 // --- `timescale directives ------------------------------------------------------
