@@ -55,6 +55,7 @@
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sv_vpi_user.h>
@@ -101,7 +102,8 @@ class ItorFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = display->getArguments()->back();
+    return arg1->getHighConn<hldb::SysFuncCall>();
   }
 };
 
@@ -140,7 +142,8 @@ TEST_F(ItorFunctionTest, DisplayCallHasFormatAndItorArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->front();
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getSize(), 168) << "21 characters * 8 bits";
@@ -166,7 +169,8 @@ TEST_F(ItorFunctionTest, ItorCallHasOneIntegerArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "20.5: '$itor' takes a single int_val argument";
 
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->front();
+  const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr) << "'20' should be a Constant";
   EXPECT_EQ(arg->getConstType(), vpiUIntConst);
   EXPECT_EQ(arg->getSize(), 64);

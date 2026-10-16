@@ -69,6 +69,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -126,7 +127,8 @@ class ArrayQueriesTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = display->getArguments()->back();
+    return arg1->getHighConn<hldb::SysFuncCall>();
   }
 
   // Checks one range bound: a Constant unsigned int with the given decompiled
@@ -152,7 +154,8 @@ class ArrayQueriesTest : public Test {
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 2u);
 
-    const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->front();
+    const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
     ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
     EXPECT_EQ(fmt->getConstType(), vpiStringConst);
     EXPECT_EQ(fmt->getSize(), size) << "format length * 8 bits";
@@ -167,7 +170,8 @@ class ArrayQueriesTest : public Test {
     ASSERT_NE(queryCall->getArguments(), nullptr);
     ASSERT_EQ(queryCall->getArguments()->size(), 1u) << "'" << query << "' is called with only the array identifier";
 
-    const hldb::RefObj *const arg = any_cast<hldb::RefObj>(queryCall->getArguments()->at(0));
+    const hldb::NamedArgument *const queryCallArg0 = queryCall->getArguments()->front();
+    const hldb::RefObj *const arg = queryCallArg0->getHighConn<hldb::RefObj>();
     ASSERT_NE(arg, nullptr) << "'arr' should be a RefObj";
     EXPECT_EQ(arg->getName(), "arr");
     EXPECT_EQ(arg->getActual<hldb::Variable>(), getArrVariable());

@@ -76,6 +76,7 @@
 #include <hldb/int_typespec.h>
 #include <hldb/logic_typespec.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -153,15 +154,18 @@ class BitsTypeFunctionTest : public Test {
     if (display == nullptr || display->getArguments() == nullptr || display->getArguments()->size() < 2u) {
       return nullptr;
     }
-    return any_cast<hldb::SysFuncCall>(display->getArguments()->at(1));
+    const hldb::NamedArgument *const arg1 = display->getArguments()->back();
+    return arg1->getHighConn<hldb::SysFuncCall>();
   }
 
-  static const hldb::RefObj *getBitsArgument() {
+  static const hldb::Any *getBitsArgument() {
     const hldb::SysFuncCall *const call = getBitsCall();
     if (call == nullptr || call->getArguments() == nullptr || call->getArguments()->empty()) {
       return nullptr;
     }
-    return any_cast<hldb::RefObj>(call->getArguments()->at(0));
+    const hldb::NamedArgument *const arg0 = call->getArguments()->front();
+    if (const hldb::RefObj *const ro = arg0->getHighConn<hldb::RefObj>()) return ro;
+    return arg0->getHighConn<hldb::RefTypespec>();
   }
 
   // Checks one range bound: a Constant unsigned int with the given decompiled
@@ -283,7 +287,8 @@ TEST_F(BitsTypeFunctionTest, DisplayCallHasFormatAndBitsArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
-  const hldb::Constant *const fmt = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::NamedArgument *const arg0 = call->getArguments()->front();
+  const hldb::Constant *const fmt = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(fmt, nullptr) << "the format string should be a Constant";
   EXPECT_EQ(fmt->getConstType(), vpiStringConst);
   EXPECT_EQ(fmt->getSize(), 144) << "18 characters * 8 bits";
@@ -304,32 +309,31 @@ TEST_F(BitsTypeFunctionTest, BitsCallHasMystructArgument) {
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "20.6.2: '$bits' takes a single expression or data_type";
 
-  const hldb::RefObj *const arg = getBitsArgument();
+  const hldb::Any *const arg = getBitsArgument();
   ASSERT_NE(arg, nullptr) << "'mystruct' should be a RefObj";
   EXPECT_EQ(arg->getName(), "mystruct");
+  EXPECT_TRUE(arg->getAnyType() == hldb::AnyType::RefObj || arg->getAnyType() == hldb::AnyType::RefTypespec);
 }
 
 TEST_F(BitsTypeFunctionTest, BitsArgumentResolvesToTypedefTypespec) {
-  GTEST_SKIP() << "HLC binds the '$bits(mystruct)' RefObj's actual to the Typedef declaration, which its own "
-                  "HLDB linter rejects (DB2038); should resolve to the TypedefTypespec 'mystruct', since "
-                  "'$bits ( data_type )' names a type per IEEE 1800-2023 Sec 20.6.2. Fix pending.";
-  const hldb::RefObj *const arg = getBitsArgument();
+  const hldb::Any *const arg = getBitsArgument();
   ASSERT_NE(arg, nullptr);
-  ASSERT_NE(arg->getActual(), nullptr);
-  EXPECT_EQ(arg->getActual()->getVpiType(), vpiTypedefTypespec);
-  EXPECT_EQ(arg->getActual<hldb::TypedefTypespec>(), getTypedefTypespec());
+  EXPECT_TRUE(arg->getAnyType() == hldb::AnyType::RefObj || arg->getAnyType() == hldb::AnyType::RefTypespec);
+  if (const hldb::RefObj *const ro = any_cast<hldb::RefObj>(arg)) {
+    ASSERT_NE(ro->getActual(), nullptr);
+    EXPECT_EQ(ro->getActual()->getVpiType(), vpiTypedef);
+    EXPECT_EQ(ro->getActual<hldb::Typedef>(), getTypedef());
+  } else if (const hldb::RefTypespec *const rt = any_cast<hldb::RefTypespec>(arg)) {
+    ASSERT_NE(rt->getActual(), nullptr);
+    EXPECT_EQ(rt->getActual()->getVpiType(), vpiTypedefTypespec);
+    EXPECT_EQ(rt->getActual<hldb::TypedefTypespec>(), getTypedefTypespec());
+  }
 }
 
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(BitsTypeFunctionTest, CompilesWithNoBindErrors) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr);
-}
-
-TEST_F(BitsTypeFunctionTest, BitsArgumentHasNoIllegalPropertyValue) {
-  GTEST_SKIP() << "HLC reports HLDB_ILLEGAL_PROPERTY_VALUE (DB2038) at 25:39 for the '$bits(mystruct)' RefObj's "
-                  "vpiActual; '$bits ( data_type )' is legal per IEEE 1800-2023 Sec 20.6.2. Fix pending.";
-  EXPECT_EQ(findError(ErrorDefinition::HLDB_ILLEGAL_PROPERTY_VALUE, 25, 39), nullptr);
 }
 
 }  // namespace hlc
