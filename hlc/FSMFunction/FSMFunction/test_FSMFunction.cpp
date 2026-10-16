@@ -139,9 +139,8 @@ class FSMFunctionTest : public Test {
   static const hldb::CaseStmt *getFunctionCaseStmt() {
     const hldb::Function *const fn = getFunction();
     if (fn == nullptr) return nullptr;
-    const hldb::Begin *const begin = fn->getStmt<hldb::Begin>();
-    if (begin == nullptr) return nullptr;
-    return any_cast<hldb::CaseStmt>(begin->getStmts()->front());
+    // IEEE 1800-2023 37.12, Note 5: a single-statement body is the vpiStmt itself.
+    return fn->getStmt<hldb::CaseStmt>();
   }
 };
 

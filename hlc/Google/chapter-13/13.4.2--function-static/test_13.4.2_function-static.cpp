@@ -51,9 +51,12 @@
 //     return typespec resolves to IntTypespec, with exactly 1 IODecl
 //     "val" (getDirection() == vpiInput, IntTypespec)
 //   - add's lifetime is NOT automatic (getAutomatic() == false)
-//   - add's body is a Begin whose own scope has exactly 1 Variable "a"
-//     (initial value Constant "0"), and whose getStmts() has exactly 3
-//     entries: the Variable "a" declaration itself, an Assignment
+//   - add's own scope has exactly 1 Variable "a" (initial value
+//     Constant "0") -- per IEEE 1800-2023 37.12 (Scope), Note 5 the
+//     unnamed begin "contains the statements" of the function, and a
+//     declaration is not a statement; add's body is an unnamed Begin
+//     with no variables of its own, whose getStmts() has exactly 2
+//     entries: an Assignment
 //     ("a = a + val;"), and a ReturnStmt whose getCondition() is
 //     RefObj "a" (same shape as 13.4.2--function-automatic.cpp's body)
 //   - the initial process's body is a Begin with exactly 4 SysTaskCall
@@ -141,34 +144,32 @@ TEST_F(FunctionStaticTest, AddLifetimeIsNotAutomatic) {
 // ---------------------------------------------------------------------------
 // int a = 0; a = a + val; return a;
 // ---------------------------------------------------------------------------
-TEST_F(FunctionStaticTest, BodyScopeHasVariableAInitializedToZero) {
+TEST_F(FunctionStaticTest, FunctionScopeHasVariableAInitializedToZero) {
   const hldb::Function *const add = getAdd();
   ASSERT_NE(add, nullptr);
+  ASSERT_NE(add->getVariables(), nullptr) << "'int a = 0;' is declared in the function's own scope";
+  ASSERT_EQ(add->getVariables()->size(), 1u);
   const hldb::Begin *const body = add->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr) << "function body should be a Begin";
-  ASSERT_NE(body->getVariables(), nullptr);
-  ASSERT_EQ(body->getVariables()->size(), 1u);
-  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", body->getVariables());
+  EXPECT_TRUE((body->getVariables() == nullptr) || body->getVariables()->empty())
+      << "37.12, Note 5: the implicit begin holds statements only";
+  const hldb::Variable *const a = hldb::findByName<hldb::Variable>("a", add->getVariables());
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
   EXPECT_EQ(init->getDecompile(), "0");
 }
 
-TEST_F(FunctionStaticTest, BodyHasThreeStatementsDeclAssignReturn) {
+TEST_F(FunctionStaticTest, BodyHasTwoStatementsAssignReturn) {
   const hldb::Function *const add = getAdd();
   ASSERT_NE(add, nullptr);
   const hldb::Begin *const body = add->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_EQ(body->getStmts()->size(), 3u)
-      << "function body statements include the 'int a = 0;' declaration itself as entry 0";
+  ASSERT_EQ(body->getStmts()->size(), 2u)
+      << "37.12, Note 5: the implicit begin holds the statements only, not the 'int a = 0;' declaration";
 
-  const hldb::Variable *const declEntry = any_cast<hldb::Variable>(body->getStmts()->at(0));
-  ASSERT_NE(declEntry, nullptr);
-  EXPECT_EQ(declEntry->getName(), "a");
-
-  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(1));
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(0));
   ASSERT_NE(assign, nullptr) << "'a = a + val;' should be an Assignment";
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
@@ -177,7 +178,7 @@ TEST_F(FunctionStaticTest, BodyHasThreeStatementsDeclAssignReturn) {
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getOpType(), vpiAddOp);
 
-  const hldb::ReturnStmt *const ret = any_cast<hldb::ReturnStmt>(body->getStmts()->at(2));
+  const hldb::ReturnStmt *const ret = any_cast<hldb::ReturnStmt>(body->getStmts()->at(1));
   ASSERT_NE(ret, nullptr);
   const hldb::RefObj *const retExpr = ret->getCondition<hldb::RefObj>();
   ASSERT_NE(retExpr, nullptr);

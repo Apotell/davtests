@@ -85,19 +85,19 @@
 //   - design has module "process_tb" with one task "test", declared
 //     automatic, with one input IODecl "N" whose typespec resolves to
 //     IntTypespec
-//   - "test"'s body is a Begin (from "task automatic test (...); ... N
-//     statements ... endtask" with more than one item at the top level)
-//     whose own scope declares exactly one Variable: "job"
+//   - "test"'s own scope declares exactly one Variable, "job" (a
+//     declaration, not a statement); its body is an unnamed Begin, since
+//     per IEEE 1800-2023 37.12 (Scope), Note 5 a task with more than one
+//     statement returns "an unnamed begin that contains the statements"
 //   - "job"'s typespec resolves to ArrayTypespec with getArrayType() ==
 //     vpiDynamicArray (a "process job[] = new [N];" dynamic array, not a
 //     fixed-size one), whose element typespec resolves to a ClassTypespec
 //     whose getClassDefn() is the built-in "process" ClassDefn
 //   - "job"'s initializer ("= new [N]") is an ArrayExpr with exactly one
 //     expression, a RefObj "N" resolving to the task's own IODecl "N"
-//   - the Begin's own statement list has exactly 4 entries, in source
-//     order: the "job" declaration itself, the first ForeachStmt (the
-//     fork/join_none loop), the second ForeachStmt (the wait loop), and
-//     the "job[1].await();" call
+//   - the Begin's own statement list has exactly 3 entries, in source
+//     order: the first ForeachStmt (the fork/join_none loop), the second
+//     ForeachStmt (the wait loop), and the "job[1].await();" call
 //   - the first ForeachStmt: own scope declares exactly one Variable "i"
 //     (12.7.3's implicit per-loop scope); its loop variable resolves "job"
 //     to the same Variable; its controlled statement is a ForkStmt with
@@ -105,9 +105,10 @@
 //   - the ForkStmt: own scope declares exactly one Variable "k", flagged
 //     getAutomatic(), whose typespec resolves to IntTypespec and whose
 //     initializer is a RefObj "i" resolving to the foreach loop's own
-//     Variable "i"; its own statement list has exactly 2 entries -- the "k"
-//     declaration itself, then a Begin (from the explicit "begin ... end"
-//     wrapping the fork branch's two statements)
+//     Variable "i"; its own statement list has exactly 1 entry -- a Begin
+//     (from the explicit "begin ... end" wrapping the fork branch's two
+//     statements). The "k" declaration is a block item of the fork, not a
+//     statement (9.3.2), so it appears only in the fork's own scope
 //   - that Begin has exactly 2 statements: a blocking Assignment whose lhs
 //     is BitSelect "job[k]" (prefix resolves to Variable "job", index
 //     resolves to Variable "k") and whose rhs is a RefObj named
@@ -211,31 +212,31 @@ class ProcessClsAwaitTest : public Test {
   }
 
   static const hldb::Variable *getJobVariable() {
-    const hldb::Begin *const body = getTaskBody();
-    if (body == nullptr)
+    const hldb::Task *const task = getTestTask();
+    if (task == nullptr)
       return nullptr;
-    return hldb::findByName<hldb::Variable>("job", body->getVariables());
+    return hldb::findByName<hldb::Variable>("job", task->getVariables());
   }
 
   static const hldb::ForeachStmt *getForkForeach() {
+    const hldb::Begin *const body = getTaskBody();
+    if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->empty())
+      return nullptr;
+    return any_cast<hldb::ForeachStmt>(body->getStmts()->at(0));
+  }
+
+  static const hldb::ForeachStmt *getWaitForeach() {
     const hldb::Begin *const body = getTaskBody();
     if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->size() < 2)
       return nullptr;
     return any_cast<hldb::ForeachStmt>(body->getStmts()->at(1));
   }
 
-  static const hldb::ForeachStmt *getWaitForeach() {
+  static const hldb::RefObj *getAwaitCall() {
     const hldb::Begin *const body = getTaskBody();
     if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->size() < 3)
       return nullptr;
-    return any_cast<hldb::ForeachStmt>(body->getStmts()->at(2));
-  }
-
-  static const hldb::RefObj *getAwaitCall() {
-    const hldb::Begin *const body = getTaskBody();
-    if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->size() < 4)
-      return nullptr;
-    return any_cast<hldb::RefObj>(body->getStmts()->at(3));
+    return any_cast<hldb::RefObj>(body->getStmts()->at(2));
   }
 
   static const hldb::ForkStmt *getForkStmt() {
@@ -254,9 +255,9 @@ class ProcessClsAwaitTest : public Test {
 
   static const hldb::Begin *getForkBranchBegin() {
     const hldb::ForkStmt *const fork = getForkStmt();
-    if (fork == nullptr || fork->getStmts() == nullptr || fork->getStmts()->size() < 2)
+    if (fork == nullptr || fork->getStmts() == nullptr || fork->getStmts()->empty())
       return nullptr;
-    return any_cast<hldb::Begin>(fork->getStmts()->at(1));
+    return any_cast<hldb::Begin>(fork->getStmts()->at(0));
   }
 
   static const hldb::Assignment *getSelfAssignment() {
@@ -326,22 +327,27 @@ TEST_F(ProcessClsAwaitTest, TaskTestIsAutomaticWithOneIntInput) {
   EXPECT_NE(n->getTypespec()->getActual<hldb::IntTypespec>(), nullptr) << "'int N' should resolve to IntTypespec";
 }
 
-TEST_F(ProcessClsAwaitTest, TaskBodyIsBeginWithFourStmts) {
+TEST_F(ProcessClsAwaitTest, TaskBodyIsBeginWithThreeStmts) {
   const hldb::Begin *const body = getTaskBody();
-  ASSERT_NE(body, nullptr) << "task 'test' with more than one top-level item must produce a Begin";
+  ASSERT_NE(body, nullptr) << "task 'test' with more than one statement must produce a Begin (37.12, Note 5)";
   ASSERT_NE(body->getStmts(), nullptr);
-  EXPECT_EQ(body->getStmts()->size(), 4u)
-      << "'job' declaration, the two foreach-loops, and 'job[1].await();' are exactly 4 statements";
+  EXPECT_EQ(body->getStmts()->size(), 3u)
+      << "the two foreach-loops and 'job[1].await();' are exactly 3 statements; the 'job' declaration is not one";
 }
 
 // --- "process job[] = new [N];" ----------------------------------------------
 
 TEST_F(ProcessClsAwaitTest, TaskScopeHasExactlyOneVariableJob) {
+  const hldb::Task *const task = getTestTask();
+  ASSERT_NE(task, nullptr);
+  ASSERT_NE(task->getVariables(), nullptr);
+  ASSERT_EQ(task->getVariables()->size(), 1u);
+  EXPECT_NE(getJobVariable(), nullptr) << "Variable 'job' not found";
+
   const hldb::Begin *const body = getTaskBody();
   ASSERT_NE(body, nullptr);
-  ASSERT_NE(body->getVariables(), nullptr);
-  ASSERT_EQ(body->getVariables()->size(), 1u);
-  EXPECT_NE(getJobVariable(), nullptr) << "Variable 'job' not found";
+  EXPECT_TRUE((body->getVariables() == nullptr) || body->getVariables()->empty())
+      << "37.12, Note 5: the implicit begin holds statements only";
 }
 
 TEST_F(ProcessClsAwaitTest, ProcessClassExists) {
@@ -387,7 +393,7 @@ TEST_F(ProcessClsAwaitTest, JobInitializerIsArrayExprOfN) {
 // --- foreach(job[i]) fork ... join_none --------------------------------------
 
 TEST_F(ProcessClsAwaitTest, FirstStmtIsForkForeach) {
-  EXPECT_NE(getForkForeach(), nullptr) << "the first statement after 'job' should be the fork/join_none foreach-loop";
+  EXPECT_NE(getForkForeach(), nullptr) << "the first statement should be the fork/join_none foreach-loop";
 }
 
 TEST_F(ProcessClsAwaitTest, ForkForeachScopeHasExactlyOneVariableI) {
@@ -443,11 +449,12 @@ TEST_F(ProcessClsAwaitTest, KInitializerIsRefObjResolvingToForeachVariableI) {
       << "'i' in 'automatic int k = i;' should resolve to the enclosing foreach-loop's own Variable 'i'";
 }
 
-TEST_F(ProcessClsAwaitTest, ForkHasTwoStmtsKDeclThenBegin) {
+TEST_F(ProcessClsAwaitTest, ForkHasOneStmtTheBegin) {
   const hldb::ForkStmt *const fork = getForkStmt();
   ASSERT_NE(fork, nullptr);
   ASSERT_NE(fork->getStmts(), nullptr);
-  EXPECT_EQ(fork->getStmts()->size(), 2u) << "the 'k' declaration and the single 'begin ... end' branch";
+  EXPECT_EQ(fork->getStmts()->size(), 1u)
+      << "the single 'begin ... end' branch; the 'k' declaration is a block item, not a statement (9.3.2)";
   EXPECT_NE(getForkBranchBegin(), nullptr) << "the fork's single branch should be a Begin";
 }
 

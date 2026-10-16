@@ -196,21 +196,23 @@ TEST_F(FuncStructTest, CompressHasWPlainAndHiPackedArrayWithDefaultZero) {
 TEST_F(FuncStructTest, CompressBodyAssignsSigmaZeroThenElementZeroOfItsOwnReturnName) {
   const hldb::Function *const compress = getCompress();
   ASSERT_NE(compress, nullptr);
-  const hldb::Begin *const body = compress->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr);
-  ASSERT_NE(body->getVariables(), nullptr);
-  ASSERT_EQ(body->getVariables()->size(), 1u);
-  const hldb::Variable *const sigma0 = hldb::findByName<hldb::Variable>("sigma_0", body->getVariables());
+  // IEEE 1800-2023 37.12, Note 5: 'automatic sha_word_t sigma_0;' is a
+  // declaration of the function's own scope, not a statement.
+  ASSERT_NE(compress->getVariables(), nullptr);
+  ASSERT_EQ(compress->getVariables()->size(), 1u);
+  const hldb::Variable *const sigma0 = hldb::findByName<hldb::Variable>("sigma_0", compress->getVariables());
   ASSERT_NE(sigma0, nullptr);
   EXPECT_TRUE(sigma0->getAutomatic()) << "'automatic sha_word_t sigma_0;' is explicitly automatic";
   const hldb::RefTypespec *const sigma0Rts = sigma0->getTypespec();
   ASSERT_NE(sigma0Rts, nullptr);
   EXPECT_NE(sigma0Rts->getActual<hldb::TypedefTypespec>(), nullptr);
 
+  const hldb::Begin *const body = compress->getStmt<hldb::Begin>();
+  ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_EQ(body->getStmts()->size(), 3u);
+  ASSERT_EQ(body->getStmts()->size(), 2u);
 
-  const hldb::Assignment *const initAssign = any_cast<hldb::Assignment>(body->getStmts()->at(1));
+  const hldb::Assignment *const initAssign = any_cast<hldb::Assignment>(body->getStmts()->at(0));
   ASSERT_NE(initAssign, nullptr) << "'sigma_0 = 32'h11111111;' should be an Assignment";
   const hldb::RefObj *const initLhs = initAssign->getLhs<hldb::RefObj>();
   ASSERT_NE(initLhs, nullptr);
@@ -219,7 +221,7 @@ TEST_F(FuncStructTest, CompressBodyAssignsSigmaZeroThenElementZeroOfItsOwnReturn
   ASSERT_NE(initVal, nullptr);
 
   GTEST_SKIP() << "HLC doesn't model VarSelects yet";
-  const hldb::Assignment *const elemAssign = any_cast<hldb::Assignment>(body->getStmts()->at(2));
+  const hldb::Assignment *const elemAssign = any_cast<hldb::Assignment>(body->getStmts()->at(1));
   ASSERT_NE(elemAssign, nullptr) << "'compress[0] = (sigma_0);' should be an Assignment";
   const hldb::VarSelect *const elemLhs = elemAssign->getLhs<hldb::VarSelect>();
   ASSERT_NE(elemLhs, nullptr) << "'compress[0]' should be a VarSelect indexing the implicit return-name variable";

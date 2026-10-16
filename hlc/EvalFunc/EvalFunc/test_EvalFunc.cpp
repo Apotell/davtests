@@ -130,12 +130,8 @@ TEST_F(EvalFuncTest, FooIsIdentityFunctionOfItsInput) {
   EXPECT_EQ(value->getDirection(), vpiInput)
       << "13.4.3 requires a constant function to have no output/inout/ref arguments";
 
-  const hldb::Begin *const begin = foo->getStmt<hldb::Begin>();
-  ASSERT_NE(begin, nullptr);
-  ASSERT_NE(begin->getStmts(), nullptr);
-  ASSERT_EQ(begin->getStmts()->size(), 1u);
-
-  const hldb::ReturnStmt *const ret = any_cast<hldb::ReturnStmt>(begin->getStmts()->back());
+  // IEEE 1800-2023 37.12, Note 5: a single-statement body is the vpiStmt itself.
+  const hldb::ReturnStmt *const ret = foo->getStmt<hldb::ReturnStmt>();
   ASSERT_NE(ret, nullptr) << "'foo' body should be a plain ReturnStmt (single statement, no begin-end)";
   const hldb::RefObj *const valRef = ret->getCondition<hldb::RefObj>();
   ASSERT_NE(valRef, nullptr) << "'return value;' should reference the IODecl 'value' directly";

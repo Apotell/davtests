@@ -180,12 +180,9 @@ TEST_F(FuncArgsTest, PowABodyIsBeginWithAssignmentThenIf) {
   const hldb::Function *const fn = getFn("pow_a");
   ASSERT_NE(fn, nullptr);
 
-  const hldb::Begin *const outer = fn->getStmt<hldb::Begin>();
-  ASSERT_NE(outer, nullptr);
-  ASSERT_NE(outer->getStmts(), nullptr);
-  ASSERT_EQ(outer->getStmts()->size(), 1u);
-
-  const hldb::Begin *const body = any_cast<hldb::Begin>(outer->getStmts()->at(0));
+  // The explicit 'begin ... end' is the function's single statement, so it
+  // is the vpiStmt itself (IEEE 1800-2023 37.12, Note 5).
+  const hldb::Begin *const body = fn->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr) << "'begin ... end' body should be a Begin scope";
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 2u);
@@ -214,12 +211,9 @@ TEST_F(FuncArgsTest, PowARecursesWithPositionalArguments) {
   const hldb::Function *const fn = getFn("pow_a");
   ASSERT_NE(fn, nullptr);
   
-  const hldb::Begin *const outer = fn->getStmt<hldb::Begin>();
-  ASSERT_NE(outer, nullptr);
-  ASSERT_NE(outer->getStmts(), nullptr);
-  ASSERT_EQ(outer->getStmts()->size(), 1u);
-
-  const hldb::Begin *const body = any_cast<hldb::Begin>(outer->getStmts()->at(0));
+  // The explicit 'begin ... end' is the function's single statement, so it
+  // is the vpiStmt itself (IEEE 1800-2023 37.12, Note 5).
+  const hldb::Begin *const body = fn->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_EQ(body->getStmts()->size(), 2u);
   const hldb::IfStmt *const ifStmt = any_cast<hldb::IfStmt>(body->getStmts()->at(1));

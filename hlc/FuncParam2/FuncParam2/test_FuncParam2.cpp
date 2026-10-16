@@ -124,10 +124,11 @@ TEST_F(FuncParam2Test, FuncDefaultReturnTypeIsLogicIfModeled) {
 TEST_F(FuncParam2Test, FuncLocalParamIsLocalParamWithValueThirtyOne) {
   const hldb::Function *const func = getFunc();
   ASSERT_NE(func, nullptr);
-  const hldb::Begin *const body = func->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr);
-  ASSERT_NE(body->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("FUNC_LOCALPARAM", body->getParamAssigns());
+  // IEEE 1800-2023 37.12, Note 5: a body with no statements has a null
+  // vpiStmt; the declarations belong to the function's own scope.
+  EXPECT_EQ(func->getStmt(), nullptr) << "the function body holds declarations only, no statements";
+  ASSERT_NE(func->getParamAssigns(), nullptr);
+  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("FUNC_LOCALPARAM", func->getParamAssigns());
   ASSERT_NE(pa, nullptr);
   const hldb::RefObj *const pr = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(pr, nullptr);
@@ -152,10 +153,8 @@ TEST_F(FuncParam2Test, FuncLocalParamIsLocalParamWithValueThirtyOne) {
 TEST_F(FuncParam2Test, FuncParameterBehavesAsLocalParamPerSec6_20_2) {
   const hldb::Function *const func = getFunc();
   ASSERT_NE(func, nullptr);
-  const hldb::Begin *const body = func->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr);
-  ASSERT_NE(body->getParamAssigns(), nullptr);
-  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("FUNC_PARAMETER", body->getParamAssigns());
+  ASSERT_NE(func->getParamAssigns(), nullptr);
+  const hldb::ParamAssign *const pa = hldb::findByName<hldb::ParamAssign>("FUNC_PARAMETER", func->getParamAssigns());
   ASSERT_NE(pa, nullptr);
   const hldb::RefObj *const pr = pa->getLhs<hldb::RefObj>();
   ASSERT_NE(pr, nullptr);

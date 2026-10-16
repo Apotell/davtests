@@ -133,11 +133,9 @@ TEST_F(FuncDefTest, Clog2HasOneInputIODeclA) {
 TEST_F(FuncDefTest, Clog2BodyIsBeginBlockWithAssignmentThenForStmt) {
   const hldb::Function *const clog2 = getClog2();
   ASSERT_NE(clog2, nullptr);
-  const hldb::Begin *const outer = clog2->getStmt<hldb::Begin>();
-  ASSERT_NE(outer, nullptr);
-  ASSERT_NE(outer->getStmts(), nullptr);
-  ASSERT_EQ(outer->getStmts()->size(), 1u);
-  const hldb::Begin *const body = any_cast<hldb::Begin>(outer->getStmts()->at(0));
+  // The explicit 'begin ... end' is the function's single statement, so it
+  // is the vpiStmt itself (IEEE 1800-2023 37.12, Note 5).
+  const hldb::Begin *const body = clog2->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr) << "'begin ... end' should produce a Begin block";
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 2u);
@@ -156,11 +154,9 @@ TEST_F(FuncDefTest, Clog2BodyIsBeginBlockWithAssignmentThenForStmt) {
 TEST_F(FuncDefTest, ForStmtConditionIsGreaterThanOperation) {
   const hldb::Function *const clog2 = getClog2();
   ASSERT_NE(clog2, nullptr);
-  const hldb::Begin *const outer = clog2->getStmt<hldb::Begin>();
-  ASSERT_NE(outer, nullptr);
-  ASSERT_NE(outer->getStmts(), nullptr);
-  ASSERT_EQ(outer->getStmts()->size(), 1u);
-  const hldb::Begin *const body = any_cast<hldb::Begin>(outer->getStmts()->at(0));
+  // The explicit 'begin ... end' is the function's single statement, so it
+  // is the vpiStmt itself (IEEE 1800-2023 37.12, Note 5).
+  const hldb::Begin *const body = clog2->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 2u);

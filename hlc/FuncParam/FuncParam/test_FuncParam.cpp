@@ -181,11 +181,9 @@ TEST_F(FuncParamTest, ComputeReturnTypeUsesLfsrDwParameterWidth) {
 TEST_F(FuncParamTest, ComputeBodyDeclaresNextStateWithSameParameterizedWidthAndReturnsIt) {
   const hldb::Function *const compute = getCompute();
   ASSERT_NE(compute, nullptr);
-  const hldb::Begin *const body = compute->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr) << "function body should be a Begin (decl + return)";
-  ASSERT_NE(body->getVariables(), nullptr);
-  ASSERT_EQ(body->getVariables()->size(), 1u);
-  const hldb::Variable *const nextState = hldb::findByName<hldb::Variable>("next_state", body->getVariables());
+  ASSERT_NE(compute->getVariables(), nullptr) << "'next_state' is declared in the function's own scope";
+  ASSERT_EQ(compute->getVariables()->size(), 1u);
+  const hldb::Variable *const nextState = hldb::findByName<hldb::Variable>("next_state", compute->getVariables());
   ASSERT_NE(nextState, nullptr);
 
   const hldb::RefTypespec *const rts = nextState->getTypespec();
@@ -194,10 +192,10 @@ TEST_F(FuncParamTest, ComputeBodyDeclaresNextStateWithSameParameterizedWidthAndR
   ASSERT_NE(logicTs, nullptr) << "'logic [LfsrDw-1:0] next_state' should resolve to a LogicTypespec";
   CheckRangeIsLfsrDwMinusOne(logicTs->getRanges());
 
-  ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_EQ(body->getStmts()->size(), 2u);
-  const hldb::ReturnStmt *const ret = any_cast<hldb::ReturnStmt>(body->getStmts()->at(1));
-  ASSERT_NE(ret, nullptr);
+  // IEEE 1800-2023 37.12, Note 5: the declaration is not a statement, so the
+  // function has exactly one statement and it is returned directly.
+  const hldb::ReturnStmt *const ret = compute->getStmt<hldb::ReturnStmt>();
+  ASSERT_NE(ret, nullptr) << "the single statement 'return next_state;' is not wrapped in a Begin";
   const hldb::RefObj *const retExpr = ret->getCondition<hldb::RefObj>();
   ASSERT_NE(retExpr, nullptr);
   EXPECT_EQ(retExpr->getName(), "next_state");

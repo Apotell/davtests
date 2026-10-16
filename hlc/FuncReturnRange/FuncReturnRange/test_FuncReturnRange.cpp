@@ -191,11 +191,8 @@ TEST_F(FuncReturnRangeTest, Func1ReturnsImplicitLogicWithWidthARangeAndHasOneInp
 TEST_F(FuncReturnRangeTest, Func1BodyAssignsBitwiseNegatedSToItsOwnName) {
   const hldb::Function *const func1 = getFunc1();
   ASSERT_NE(func1, nullptr);
-  const hldb::Begin *const begin = func1->getStmt<hldb::Begin>();
-  ASSERT_NE(begin, nullptr);
-  ASSERT_NE(begin->getStmts(), nullptr);
-  ASSERT_EQ(begin->getStmts()->size(), 1u);
-  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->front());
+  // IEEE 1800-2023 37.12, Note 5: a single-statement body is the vpiStmt itself.
+  const hldb::Assignment *const assign = func1->getStmt<hldb::Assignment>();
   ASSERT_NE(assign, nullptr) << "function body should be a plain Assignment (single statement)";
   EXPECT_TRUE(assign->getBlocking());
 

@@ -42,7 +42,7 @@
 //
 // Both branches use explicit (unnamed) begin/end blocks (Sec 27.3's
 // generate_block "[ generate_block_identifier : ] begin ... end"), so
-// getStmt()/getElseStmt() must each be a Begin, holding one ContAssign
+// getStmt()/getElseStmt() must each be a GenRegion, holding one ContAssign
 // ('a = b') in the then-branch and two ContAssigns ('c = d', 'e = f') in
 // the else-branch -- contrast with GenIf/GenIf/test_GenIf.cpp, whose
 // single-statement branches have no begin/end and so attach their
@@ -56,7 +56,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
+#include <hldb/gen_region.h>
 #include <hldb/cont_assign.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
@@ -88,7 +88,7 @@ class GenIfElseTest : public Test {
     return nullptr;
   }
 
-  static const hldb::ContAssign *findContAssign(const hldb::Begin *blk, std::string_view lhsName) {
+  static const hldb::ContAssign *findContAssign(const hldb::GenRegion *blk, std::string_view lhsName) {
     if (blk == nullptr || blk->getStmts() == nullptr) return nullptr;
     for (const hldb::Any *const stmt : *blk->getStmts()) {
       const hldb::ContAssign *const ca = any_cast<hldb::ContAssign>(stmt);
@@ -122,12 +122,12 @@ TEST_F(GenIfElseTest, ConditionIsBareConstantOne) {
 }
 
 // then-branch: 'begin assign a = b; end' (unnamed, one statement).
-TEST_F(GenIfElseTest, ThenBranchIsUnnamedBeginWithAssignAFromB) {
+TEST_F(GenIfElseTest, ThenBranchIsUnnamedGenRegionWithAssignAFromB) {
   const hldb::GenIfElse *const ifElse = getIfElse();
   ASSERT_NE(ifElse, nullptr);
-  const hldb::Begin *const thenBlk = ifElse->getStmt<hldb::Begin>();
+  const hldb::GenRegion *const thenBlk = ifElse->getStmt<hldb::GenRegion>();
   ASSERT_NE(ifElse->getStmt(), nullptr);
-  ASSERT_NE(thenBlk, nullptr) << "then-branch 'begin assign a = b; end' must be a Begin";
+  ASSERT_NE(thenBlk, nullptr) << "then-branch 'begin assign a = b; end' must be a GenRegion";
   EXPECT_TRUE(thenBlk->getName().empty()) << "then-branch 'begin ... end' has no label";
   ASSERT_NE(thenBlk->getStmts(), nullptr);
   ASSERT_EQ(thenBlk->getStmts()->size(), 1u);
@@ -140,12 +140,12 @@ TEST_F(GenIfElseTest, ThenBranchIsUnnamedBeginWithAssignAFromB) {
 
 // else-branch: 'begin assign c = d; assign e = f; end' (unnamed, two
 // statements).
-TEST_F(GenIfElseTest, ElseBranchIsUnnamedBeginWithTwoAssigns) {
+TEST_F(GenIfElseTest, ElseBranchIsUnnamedGenRegionWithTwoAssigns) {
   const hldb::GenIfElse *const ifElse = getIfElse();
   ASSERT_NE(ifElse, nullptr);
-  const hldb::Begin *const elseBlk = ifElse->getElseStmt<hldb::Begin>();
+  const hldb::GenRegion *const elseBlk = ifElse->getElseStmt<hldb::GenRegion>();
   ASSERT_NE(ifElse->getElseStmt(), nullptr);
-  ASSERT_NE(elseBlk, nullptr) << "else-branch 'begin assign c = d; assign e = f; end' must be a Begin";
+  ASSERT_NE(elseBlk, nullptr) << "else-branch 'begin assign c = d; assign e = f; end' must be a GenRegion";
   EXPECT_TRUE(elseBlk->getName().empty()) << "else-branch 'begin ... end' has no label";
   ASSERT_NE(elseBlk->getStmts(), nullptr);
   ASSERT_EQ(elseBlk->getStmts()->size(), 2u);

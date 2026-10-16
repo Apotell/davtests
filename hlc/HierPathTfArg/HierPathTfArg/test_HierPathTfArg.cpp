@@ -54,11 +54,16 @@
 #include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/func_call.h>
+#include <hldb/function.h>
+#include <hldb/gen_region.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
 #include <hldb/subroutine_call.h>
 #include <hldb/sys_task_call.h>
+
+#include <string>
 
 namespace hlc {
 
@@ -89,6 +94,28 @@ class HierPathTfArgTest : public Test {
       }
     }
     return nullptr;
+  }
+
+  // The last path element of the Nth $display's hierarchical argument, once bound: a FuncCall.
+  static const hldb::FuncCall *getNthPathCall(size_t n) {
+    const hldb::SysTaskCall *const disp = getNthDisplay(n);
+    if (disp == nullptr || disp->getArguments() == nullptr || disp->getArguments()->empty()) return nullptr;
+    const hldb::RefObj *const arg = disp->getArguments()->at(0)->getHighConn<hldb::RefObj>();
+    if (arg == nullptr || arg->getPathElems() == nullptr || arg->getPathElems()->empty()) return nullptr;
+    return any_cast<hldb::FuncCall>(arg->getPathElems()->back());
+  }
+
+  // The named scopes that declare 'any', outermost first: "top.i.blk". Unnamed generate regions
+  // (generate ... endgenerate) are not scopes (Sec 27.3) and are skipped.
+  static std::string getDeclaringScope(const hldb::Any *any) {
+    std::string path;
+    for (const hldb::Any *p = (any == nullptr) ? nullptr : any->getParent(); p != nullptr; p = p->getParent()) {
+      if ((any_cast<hldb::GenRegion>(p) == nullptr) && (any_cast<hldb::Module>(p) == nullptr)) continue;
+      if (p->getName().empty()) continue;
+      path = path.empty() ? std::string(p->getName()) : std::string(p->getName()) + "." + path;
+      if (any_cast<hldb::Module>(p) != nullptr) break;
+    }
+    return path;
   }
 };
 
@@ -146,8 +173,9 @@ TEST_F(HierPathTfArgTest, SecondDisplayArgIsHierPathBlkDotF) {
   ASSERT_NE(scopeElem, nullptr);
   EXPECT_EQ(scopeElem->getName(), std::string_view("blk"));
 
-  const hldb::SubroutineCall *const callElem = any_cast<hldb::SubroutineCall>(arg->getPathElems()->at(1));
-  ASSERT_NE(callElem, nullptr) << "expected a nested SubroutineCall for the 'f(0)' path element";
+  // Bound to the function it calls, so the call is a FuncCall (Sec 23.6).
+  const hldb::FuncCall *const callElem = any_cast<hldb::FuncCall>(arg->getPathElems()->at(1));
+  ASSERT_NE(callElem, nullptr) << "expected a FuncCall for the 'f(0)' path element";
   EXPECT_EQ(callElem->getName(), std::string_view("f"));
   ASSERT_NE(callElem->getArguments(), nullptr);
   ASSERT_EQ(callElem->getArguments()->size(), 1u);
@@ -170,8 +198,8 @@ TEST_F(HierPathTfArgTest, FourthDisplayArgIsHierPathIDotBlkDotF) {
 
   EXPECT_EQ(any_cast<hldb::RefObj>(arg->getPathElems()->at(0))->getName(), std::string_view("i"));
   EXPECT_EQ(any_cast<hldb::RefObj>(arg->getPathElems()->at(1))->getName(), std::string_view("blk"));
-  const hldb::SubroutineCall *const callElem = any_cast<hldb::SubroutineCall>(arg->getPathElems()->at(2));
-  ASSERT_NE(callElem, nullptr);
+  const hldb::FuncCall *const callElem = any_cast<hldb::FuncCall>(arg->getPathElems()->at(2));
+  ASSERT_NE(callElem, nullptr) << "expected a FuncCall for the 'f(0)' path element";
   EXPECT_EQ(callElem->getName(), std::string_view("f"));
 }
 
@@ -201,24 +229,31 @@ TEST_F(HierPathTfArgTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.nbError, 0);
 }
 
-// Known limitation: none of the (possibly hierarchical) function-call path
-// elements above are bound to the Function they call -- RefObj/SubroutineCall
-// path elements carry no resolved actual/taskFunc. Per IEEE 1800-2023 Sec
-// 23.6 a hierarchically-qualified reference must resolve to the specific
-// declared item found by walking the named scopes (so 'blk.f(0)', 'i.f(0)',
-// 'i.blk.f(0)', etc. are four textually-distinct 'f' functions and must each
-// bind to a different declaration), and an unqualified reference that is not
-// directly visible in the calling scope (the bare 'f(0)' here, since 'f' is
-// only declared inside the named blocks 'i', 'blk', and 'i.blk', never
-// directly in 'top') must either bind to a visible declaration or be
-// reported as an unresolved reference -- HLC does neither: it silently
-// leaves the call unbound and reports zero errors. Fix pending.
+// IEEE 1800-2023 Sec 23.6/27.5: a named generate block is a scope, and a hierarchical name is
+// resolved by walking the named scopes, so 'blk.f(0)', 'i.f(0)' and 'i.blk.f(0)' call three
+// different functions 'f'. The unqualified 'f(0)' does not resolve: 'f' is declared only inside
+// the named blocks, never in 'top' itself.
 TEST_F(HierPathTfArgTest, HierarchicalCallsShouldResolveToTheirDeclaredFunction) {
-  GTEST_SKIP() << "HLC does not bind any of $display's (possibly hierarchical) function-call arguments to the "
-                  "Function they invoke, and silently accepts the unqualified 'f(0)' call even though plain 'f' "
-                  "is not directly visible in module top's scope, instead of reporting an unresolved reference; "
-                  "per IEEE 1800-2023 Sec 23.6 each hierarchically-qualified call must bind to the specific "
-                  "declaration reached by walking the named scopes. Fix pending.";
+  const struct {
+    size_t m_display;
+    std::string_view m_function;
+    std::string_view m_scope;
+  } kExpected[] = {
+      {1, "f", "top.blk"},   {2, "f", "top.i"},       {3, "f", "top.i.blk"}, {4, "f3", "top"},
+      {5, "f", "top.blk"},   {6, "f", "top.i"},       {7, "f", "top.i.blk"},
+  };
+  for (const auto &e : kExpected) {
+    const hldb::FuncCall *const call = getNthPathCall(e.m_display);
+    ASSERT_NE(call, nullptr) << "$display #" << e.m_display << ": path must end in a bound FuncCall";
+    const hldb::Function *const fn = call->getTaskFunc<hldb::Function>();
+    ASSERT_NE(fn, nullptr) << "$display #" << e.m_display << ": call not bound to a Function";
+    EXPECT_EQ(fn->getName(), e.m_function);
+    EXPECT_EQ(getDeclaringScope(fn), e.m_scope) << "$display #" << e.m_display << " bound to the wrong '"
+                                                << e.m_function << "'";
+  }
+
+  // $display(f(0)): no 'f' is visible in 'top', so the call stays unbound and is reported.
+  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "f", 27, 18), nullptr);
 }
 
 }  // namespace hlc

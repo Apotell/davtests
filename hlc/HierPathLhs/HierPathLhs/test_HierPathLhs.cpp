@@ -49,7 +49,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
+#include <hldb/gen_region.h>
 #include <hldb/bit_select.h>
 #include <hldb/cont_assign.h>
 #include <hldb/design.h>
@@ -91,13 +91,13 @@ TEST_F(HierPathLhsTest, GenAlertCauseIsAGenScopeArrayOfSizeOne) {
   // ASSERT_NE(gen->getGenScopes(), nullptr);
   // EXPECT_EQ(gen->getGenScopes()->size(), 1u);
   // Unelaborated (no -d inst): the loop generate construct is a GenFor in getGenStmts() whose body
-  // is the Begin named "gen_alert_cause" (Sec 27.4).
+  // is the GenRegion named "gen_alert_cause" (Sec 27.4).
   ASSERT_NE(wrap->getGenStmts(), nullptr);
   ASSERT_EQ(wrap->getGenStmts()->size(), 1u);
   const hldb::GenFor *const gf = any_cast<hldb::GenFor>(wrap->getGenStmts()->at(0));
   ASSERT_NE(gf, nullptr) << "'for (genvar k ...)' should be a GenFor";
   ASSERT_NE(gf->getStmt(), nullptr);
-  const hldb::Begin *const body = any_cast<hldb::Begin>(gf->getStmt());
+  const hldb::GenRegion *const body = any_cast<hldb::GenRegion>(gf->getStmt());
   ASSERT_NE(body, nullptr) << "'begin : gen_alert_cause ... end' should be the GenFor's body";
   EXPECT_EQ(body->getName(), std::string_view{"gen_alert_cause"});
 }

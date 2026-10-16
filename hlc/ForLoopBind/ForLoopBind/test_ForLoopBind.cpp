@@ -58,9 +58,12 @@
 //     in-body task declaration would be.
 //   - Sec 6.20.4/local variable declarations with initializers ("...cbs =
 //     new(this);", "...cbs = new(fields[i]);") are declarations, not
-//     assignments: per this suite's ForeachClass/test_ForeachClass.cpp
-//     precedent, they appear directly in the enclosing Begin's statement
-//     list as Variable objects (not wrapped in an Assignment).
+//     assignments or statements: each is a Variable (not wrapped in an
+//     Assignment) in its declaring scope's getVariables() -- the task's
+//     own scope for the outer "cbs", the foreach body Begin for the inner
+//     one. Per Sec 37.12 (Scope), Note 5, a task with exactly one
+//     statement returns it directly as vpiStmt, so write()'s statement is
+//     the foreach itself.
 //   - Sec 12.7.3 "foreach": "foreach (fields[i])" -- array_name RefObj
 //     "fields" (the class-local queue member), one implicit loop variable
 //     "i".
@@ -133,16 +136,10 @@ class ForLoopBindTest : public Test {
     return hldb::findByName<hldb::Task>("write", cls->getMethods());
   }
 
-  static const hldb::Begin *getWriteBody() {
+  static const hldb::ForeachStmt *getForeachFields() {
     const hldb::Task *const write = getWrite();
     if (write == nullptr) return nullptr;
-    return write->getStmt<hldb::Begin>();
-  }
-
-  static const hldb::ForeachStmt *getForeachFields() {
-    const hldb::Begin *const body = getWriteBody();
-    if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->size() < 2) return nullptr;
-    return any_cast<hldb::ForeachStmt>(body->getStmts()->at(1));
+    return write->getStmt<hldb::ForeachStmt>();
   }
 
   static const hldb::Begin *getForeachBody() {
@@ -193,14 +190,15 @@ TEST_F(ForLoopBindTest, WriteTaskExistsInUvmVregScope) {
   EXPECT_EQ(write->getName(), std::string_view{"write"});
 }
 
-TEST_F(ForLoopBindTest, WriteBodyStartsWithCbsVariableDecl) {
-  const hldb::Begin *const body = getWriteBody();
-  ASSERT_NE(body, nullptr) << "write()'s body should be a Begin (explicit begin-end in source)";
-  ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_GE(body->getStmts()->size(), 2u);
-  const hldb::Variable *const cbs = any_cast<hldb::Variable>(body->getStmts()->at(0));
-  ASSERT_NE(cbs, nullptr) << "'uvm_vreg_cb_iter cbs = new(this);' should be a Variable declaration statement";
-  EXPECT_EQ(cbs->getName(), std::string_view{"cbs"});
+TEST_F(ForLoopBindTest, WriteDeclaresCbsAndItsStatementIsTheForeach) {
+  const hldb::Task *const write = getWrite();
+  ASSERT_NE(write, nullptr);
+  ASSERT_NE(write->getVariables(), nullptr);
+  const hldb::Variable *const cbs = hldb::findByName<hldb::Variable>("cbs", write->getVariables());
+  ASSERT_NE(cbs, nullptr) << "'uvm_vreg_cb_iter cbs = new(this);' is declared in the task's own scope";
+  ASSERT_NE(write->getStmt(), nullptr);
+  EXPECT_EQ(write->getStmt()->getAnyType(), hldb::AnyType::ForeachStmt)
+      << "37.12, Note 5: write()'s single statement is the foreach, not wrapped in a Begin";
 }
 
 // ===========================================================================

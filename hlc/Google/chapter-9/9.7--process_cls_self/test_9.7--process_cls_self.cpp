@@ -190,11 +190,6 @@ TEST_F(ProcessClsSelfTest, JobIsAProcessClassVariable) {
 }
 
 TEST_F(ProcessClsSelfTest, FirstStatementIsForeachOverJobWithForkJoinNone) {
-  GTEST_SKIP() << "This test chains several any_cast steps (Task::getStmt() -> flatten -> ForeachStmt "
-                  "-> getVariable()/getLoopVars() -> getStmt() -> ForkStmt); which link breaks is not "
-                  "confirmable from a pass/fail result alone, and no further header lead distinguishes "
-                  "the possibilities, so this is left open rather than guessed a third time.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("process_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Task *const test = hldb::findByName<hldb::Task>("test", top->getTaskFuncs());

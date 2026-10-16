@@ -151,11 +151,11 @@ TEST_F(FuncStaticTest, Accumulate1IsExplicitlyStaticWithStaticLocalAcc) {
   EXPECT_FALSE(accumulate1->getAutomatic())
       << "'function static' must override the enclosing module's automatic default";
 
-  const hldb::Begin *const body = accumulate1->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr);
-  ASSERT_NE(body->getVariables(), nullptr);
-  ASSERT_EQ(body->getVariables()->size(), 1u);
-  const hldb::Variable *const acc = hldb::findByName<hldb::Variable>("acc", body->getVariables());
+  // IEEE 1800-2023 37.12, Note 5: 'static int acc = 1;' is a declaration of
+  // the function's own scope; the unnamed begin holds only the statements.
+  ASSERT_NE(accumulate1->getVariables(), nullptr);
+  ASSERT_EQ(accumulate1->getVariables()->size(), 1u);
+  const hldb::Variable *const acc = hldb::findByName<hldb::Variable>("acc", accumulate1->getVariables());
   ASSERT_NE(acc, nullptr);
   EXPECT_FALSE(acc->getAutomatic()) << "'static int acc' must be explicitly static";
   const hldb::RefTypespec *const accRts = acc->getTypespec();
@@ -165,14 +165,16 @@ TEST_F(FuncStaticTest, Accumulate1IsExplicitlyStaticWithStaticLocalAcc) {
   ASSERT_NE(init, nullptr);
   EXPECT_EQ(init->getDecompile(), "1");
 
+  const hldb::Begin *const body = accumulate1->getStmt<hldb::Begin>();
+  ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
-  ASSERT_EQ(body->getStmts()->size(), 3u);
-  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(1));
+  ASSERT_EQ(body->getStmts()->size(), 2u);
+  const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(0));
   ASSERT_NE(assign, nullptr) << "'acc = acc + value;' should be an Assignment";
   const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getOpType(), vpiAddOp);
-  const hldb::ReturnStmt *const ret = any_cast<hldb::ReturnStmt>(body->getStmts()->at(2));
+  const hldb::ReturnStmt *const ret = any_cast<hldb::ReturnStmt>(body->getStmts()->at(1));
   ASSERT_NE(ret, nullptr);
   const hldb::RefObj *const retExpr = ret->getCondition<hldb::RefObj>();
   ASSERT_NE(retExpr, nullptr);
@@ -192,11 +194,9 @@ TEST_F(FuncStaticTest, Accumulate2InheritsAutomaticFromModuleDefault) {
                      "Fix pending.";
   }
 
-  const hldb::Begin *const body = accumulate2->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr);
-  ASSERT_NE(body->getVariables(), nullptr);
-  ASSERT_EQ(body->getVariables()->size(), 1u);
-  const hldb::Variable *const acc = hldb::findByName<hldb::Variable>("acc", body->getVariables());
+  ASSERT_NE(accumulate2->getVariables(), nullptr);
+  ASSERT_EQ(accumulate2->getVariables()->size(), 1u);
+  const hldb::Variable *const acc = hldb::findByName<hldb::Variable>("acc", accumulate2->getVariables());
   ASSERT_NE(acc, nullptr);
   if (!acc->getAutomatic()) {
     GTEST_SKIP() << "HLC does not default a lifetime-unspecified local variable ('int acc') to automatic inside "

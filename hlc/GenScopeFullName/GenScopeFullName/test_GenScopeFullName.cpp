@@ -58,7 +58,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
+#include <hldb/gen_region.h>
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
 #include <hldb/module.h>
@@ -89,11 +89,11 @@ class GenScopeFullNameTest : public Test {
   }
 
   // 'begin : gen_modules ... end' is the
-  // loop's generate block, modeled as the GenFor's body Begin (Sec 27.4).
+  // loop's generate block, modeled as the GenFor's body GenRegion (Sec 27.4).
   // GenScope objects only exist after elaboration.
-  static const hldb::Begin *getGenModules() {
+  static const hldb::GenRegion *getGenModules() {
     const hldb::GenFor *const gf = findGenFor(getModule("dut"));
-    return (gf == nullptr) ? nullptr : gf->getStmt<hldb::Begin>();
+    return (gf == nullptr) ? nullptr : gf->getStmt<hldb::GenRegion>();
   }
 };
 
@@ -122,8 +122,8 @@ TEST_F(GenScopeFullNameTest, GenForIsNamedGenModules) {
   ASSERT_NE(gf, nullptr) << "'for (...) begin : gen_modules ... end' not found";
   // EXPECT_EQ(gf->getName(), std::string_view("gen_modules"));
   // The label names the generate block (the GenFor's body), not the GenFor.
-  const hldb::Begin *const block = getGenModules();
-  ASSERT_NE(block, nullptr) << "the generate-for body should be a generate block (Begin)";
+  const hldb::GenRegion *const block = getGenModules();
+  ASSERT_NE(block, nullptr) << "the generate-for body should be a generate block (GenRegion)";
   EXPECT_EQ(block->getName(), std::string_view("gen_modules"));
 }
 
@@ -137,8 +137,8 @@ TEST_F(GenScopeFullNameTest, ModuleInGenscopeDeclaredInsideGenFor) {
   // ASSERT_NE(inst, nullptr);
   // EXPECT_EQ(inst->getDefName(), std::string_view("ibex_counter"));
   // Unelaborated model: the instance is a RefInstance item of the
-  // 'gen_modules' Begin; its module is reached through its typespec.
-  const hldb::Begin *const block = getGenModules();
+  // 'gen_modules' GenRegion; its module is reached through its typespec.
+  const hldb::GenRegion *const block = getGenModules();
   ASSERT_NE(block, nullptr);
   ASSERT_NE(block->getStmts(), nullptr) << "'gen_modules' should carry the 'module_in_genscope' instance";
   const hldb::RefInstance *const inst = hldb::findByName<hldb::RefInstance>("module_in_genscope", block->getStmts());

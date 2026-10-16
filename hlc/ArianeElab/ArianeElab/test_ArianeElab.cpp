@@ -63,12 +63,12 @@
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/gen_if.h>
+#include <hldb/gen_region.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/package.h>
@@ -317,11 +317,18 @@ TEST_F(ArianeElabTest, ExStageGenerateIfInstantiatesFpuWrapWhenFpPresent) {
   }
   ASSERT_NE(genReg, nullptr) << "no GenRegion found among ex_stage's generate statements";
 
-  const hldb::GenIf *const genIf = genReg->getStmt<hldb::GenIf>();
+  // The generate region's items are its vpiStmt list (Sec 27.3).
+  const hldb::GenIf *genIf = nullptr;
+  if (genReg->getStmts() != nullptr) {
+    for (const hldb::Any *const stmt : *genReg->getStmts()) {
+      genIf = any_cast<hldb::GenIf>(stmt);
+      if (genIf != nullptr) break;
+    }
+  }
   ASSERT_NE(genIf, nullptr) << "no GenIf found among ex_stage's generate statements";
 
-  const hldb::Begin *const body = genIf->getStmt<hldb::Begin>();
-  ASSERT_NE(body, nullptr) << "generate-if 'fpu_gen' body is not a Begin";
+  const hldb::GenRegion *const body = genIf->getStmt<hldb::GenRegion>();
+  ASSERT_NE(body, nullptr) << "generate-if 'fpu_gen' body is not a generate block (GenRegion)";
   ASSERT_NE(body->getStmts(), nullptr);
 
   const hldb::RefInstance *fpuI = nullptr;

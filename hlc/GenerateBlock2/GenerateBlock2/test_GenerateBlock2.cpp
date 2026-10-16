@@ -50,17 +50,16 @@
 // Per Sec 27.3, a generate region with more than one item ('genvar
 // loop_int;', 'wire [2:0] int_status;', and the for-loop) does not introduce
 // a new scope by itself, so 'int_status' is expected directly on module
-// 'dut', not nested inside a wrapper scope. As in GenerateBlock, this file
-// unwraps any GenRegion it encounters before checking the underlying
-// GenIf/GenFor, so it stays valid whichever way HLC represents these single-
-// or multi-item generate regions.
+// 'dut', not nested inside a wrapper scope. Each 'generate ... endgenerate'
+// region is a GenRegion holding its items as its vpiStmt list, so this file
+// looks inside any GenRegion it encounters to find the underlying
+// GenIf/GenFor.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
-#include <hldb/begin.h>
 #include <hldb/design.h>
 #include <hldb/gen_for.h>
 #include <hldb/gen_if.h>
@@ -86,41 +85,23 @@ class GenerateBlock2Test : public Test {
     return hldb::findByName<hldb::Module>(name, m_design->getAllModules());
   }
 
-  // Sec 27.3: unwrap a possible GenRegion wrapper around a single generate
-  // item.
-  static const hldb::Any *unwrap(const hldb::Any *item) {
-    while (item != nullptr) {
-      const hldb::GenRegion *const region = any_cast<hldb::GenRegion>(item);
-      if (region == nullptr) break;
-      item = region->getStmt();
-    }
-    return item;
-  }
-
-  static const hldb::GenIf *findGenIf(const hldb::AnyCollection *stmts) {
+  // Sec 27.3: a generate region ('generate ... endgenerate') is a GenRegion
+  // whose items are its vpiStmt list; look inside it for the construct.
+  template <typename T>
+  static const T *findGenStmt(const hldb::AnyCollection *stmts) {
     if (stmts == nullptr) return nullptr;
     for (const hldb::Any *const item : *stmts) {
-      if (const hldb::GenIf *const gi = any_cast<hldb::GenIf>(unwrap(item))) return gi;
-    }
-    return nullptr;
-  }
-
-  static const hldb::GenFor *findGenFor(const hldb::AnyCollection *stmts) {
-    if (stmts == nullptr) return nullptr;
-    for (const hldb::Any *const item : *stmts) {
-      if (const hldb::GenFor *const gf = any_cast<hldb::GenFor>(unwrap(item))) return gf;
-      // A GenRegion holds a single statement, so a multi-item region
-      // ('genvar ...; wire ...; for (...) ...') keeps its items in an unnamed
-      // Begin container. The region adds no scope (Sec 27.3); look inside it.
-      if (any_cast<hldb::GenRegion>(item) != nullptr) {
-        const hldb::Begin *const items = any_cast<hldb::Begin>(unwrap(item));
-        if (items != nullptr && items->getName().empty()) {
-          if (const hldb::GenFor *const gf = findGenFor(items->getStmts())) return gf;
-        }
+      if (const T *const t = any_cast<T>(item)) return t;
+      if (const hldb::GenRegion *const region = any_cast<hldb::GenRegion>(item)) {
+        if (const T *const t = findGenStmt<T>(region->getStmts())) return t;
       }
     }
     return nullptr;
   }
+
+  static const hldb::GenIf *findGenIf(const hldb::AnyCollection *stmts) { return findGenStmt<hldb::GenIf>(stmts); }
+
+  static const hldb::GenFor *findGenFor(const hldb::AnyCollection *stmts) { return findGenStmt<hldb::GenFor>(stmts); }
 };
 
 // ---------------------------------------------------------------------------
@@ -160,8 +141,8 @@ TEST_F(GenerateBlock2Test, GenIfExists) {
   EXPECT_EQ(cond->getOpType(), vpiEqOp) << "Sec 11.4.5: '==' is vpiEqOp";
 
   ASSERT_NE(gi->getStmt(), nullptr) << "GenIf has no body";
-  const hldb::Begin *const blk = gi->getStmt<hldb::Begin>();
-  ASSERT_NE(blk, nullptr) << "'begin : blk end' body must be a Begin";
+  const hldb::GenRegion *const blk = gi->getStmt<hldb::GenRegion>();
+  ASSERT_NE(blk, nullptr) << "'begin : blk end' body must be a generate block (GenRegion)";
   // No end label in the source ('end', not 'end : blk'); the label is the name.
   // EXPECT_EQ(blk->getEndLabel(), std::string_view{"blk"});
   EXPECT_EQ(blk->getName(), std::string_view{"blk"});
@@ -195,8 +176,8 @@ TEST_F(GenerateBlock2Test, GenForBodyIsGenBlkInstantiatingSub) {
   ASSERT_NE(gf, nullptr);
 
   ASSERT_NE(gf->getStmt(), nullptr) << "GenFor has no body";
-  const hldb::Begin *const genBlk = gf->getStmt<hldb::Begin>();
-  ASSERT_NE(genBlk, nullptr) << "'begin : gen_blk ... end' body must be a Begin";
+  const hldb::GenRegion *const genBlk = gf->getStmt<hldb::GenRegion>();
+  ASSERT_NE(genBlk, nullptr) << "'begin : gen_blk ... end' body must be a generate block (GenRegion)";
   // No end label in the source ('end', not 'end : gen_blk'); the label is the
   // name.
   // EXPECT_EQ(genBlk->getEndLabel(), std::string_view{"gen_blk"});
