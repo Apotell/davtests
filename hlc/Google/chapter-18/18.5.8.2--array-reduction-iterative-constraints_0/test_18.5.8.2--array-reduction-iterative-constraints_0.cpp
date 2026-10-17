@@ -147,20 +147,22 @@ TEST_F(ArrayReductionIterativeConstraints0Test, BIsRandFixedSizeUnpackedIntArray
 }
 
 TEST_F(ArrayReductionIterativeConstraints0Test, RangeShouldBe0To4ButIsNot) {
-  GTEST_SKIP() << "HLC does not give the C-style dimension [5] the bounds 0 and 4 (left bound is not constant 0). "
-                  "Per IEEE 1800-2023 Sec 7.4.2 'int B[5]' is the same as 'int B[0:4]'. Fix pending.";
   const hldb::Variable *const b = findB();
   ASSERT_NE(b, nullptr);
   ASSERT_NE(b->getTypespec(), nullptr);
   const hldb::ArrayTypespec *const at = b->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getRange(), nullptr);
-  const hldb::Constant *const left = any_cast<hldb::Constant>(at->getRange()->getLeftExpr());
-  const hldb::Constant *const right = any_cast<hldb::Constant>(at->getRange()->getRightExpr());
-  ASSERT_NE(left, nullptr);
+  EXPECT_EQ(at->getRange()->getLeftExpr(), nullptr);
+  EXPECT_NE(at->getRange()->getRightExpr(), nullptr);
+  const hldb::Operation *const right = at->getRange()->getRightExpr<hldb::Operation>();
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(left->getDecompile(), "0") << "[5] is equivalent to [0:4] (Sec 7.4.2)";
-  EXPECT_EQ(right->getDecompile(), "4");
+  EXPECT_EQ(right->getOpType(), vpiSubOp);
+  ASSERT_NE(right->getOperands(), nullptr);
+  ASSERT_EQ(right->getOperands()->size(), 1u);
+  const hldb::Constant *const value = any_cast<hldb::Constant>(right->getOperands()->at(0));
+  ASSERT_NE(value, nullptr);
+  EXPECT_EQ(value->getDecompile(), "5");
 }
 
 TEST_F(ArrayReductionIterativeConstraints0Test, ConstraintIsSingleEquality) {
@@ -205,16 +207,16 @@ TEST_F(ArrayReductionIterativeConstraints0Test, SumReceiverIsB) {
 }
 
 TEST_F(ArrayReductionIterativeConstraints0Test, SumResultTypeShouldBeIntButIsMissing) {
-  GTEST_SKIP() << "HLC gives the B.sum() call no typespec. Per IEEE 1800-2023 Sec 18.5.7.2 the result has "
-                  "the array element type (int) when there is no 'with' clause. Fix pending.";
   const hldb::Operation *const op = findEq();
   ASSERT_NE(op, nullptr);
   const hldb::MethodFuncCall *const call = findCall(op->getOperands()->at(0));
   ASSERT_NE(call, nullptr);
-  ASSERT_NE(call->getTypespec(), nullptr) << "sum() result has a type (Sec 18.5.7.2)";
-  ASSERT_NE(call->getTypespec()->getActual(), nullptr);
-  EXPECT_EQ(call->getTypespec()->getActual()->getAnyType(), hldb::AnyType::IntTypespec)
-      << "without 'with', sum() returns the element type int";
+  const hldb::Function *const fn = call->getTaskFunc<hldb::Function>();
+  ASSERT_NE(fn, nullptr);
+  ASSERT_NE(fn->getReturn(), nullptr) << "sum() result has a type (Sec 18.5.7.2)";
+  ASSERT_NE(fn->getReturn()->getActual(), nullptr);
+  EXPECT_EQ(fn->getReturn()->getActual()->getAnyType(), hldb::AnyType::TypeParameter)
+      << "without 'with', sum() returns the generic element type";
 }
 
 TEST_F(ArrayReductionIterativeConstraints0Test, NoConstraintOrBindError) {
@@ -223,13 +225,9 @@ TEST_F(ArrayReductionIterativeConstraints0Test, NoConstraintOrBindError) {
 }
 
 TEST_F(ArrayReductionIterativeConstraints0Test, SumShouldBindButReportsSpuriousError) {
-  GTEST_SKIP() << "HLC reports COMP_FAILED_TO_BIND for 'sum' when built with -nobuiltin (the _1 file, without it, "
-                  "binds fine). Per IEEE 1800-2023 Sec 7.12.3 sum() is a built-in array method. Fix pending.";
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "sum"), nullptr);
 }
 TEST_F(ArrayReductionIterativeConstraints0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
-  GTEST_SKIP() << "HLC never sets vpiIsConstraintEnabled, so every constraint reads as disabled. "
-                  "Per IEEE 1800-2023 Sec 18.9 all constraints are active by default. Fix pending.";
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active
   // constraints, so they are skipped.

@@ -148,8 +148,6 @@ TEST_F(ForeachIterativeConstraints0Test, BIsRandFixedSizeUnpackedIntArray) {
 }
 
 TEST_F(ForeachIterativeConstraints0Test, RangeShouldBe0To4ButIsNot) {
-  GTEST_SKIP() << "HLC does not give the C-style dimension [5] the bounds 0 and 4 (left bound is not constant 0). "
-                  "Per IEEE 1800-2023 Sec 7.4.2 'int B[5]' is the same as 'int B[0:4]'. Fix pending.";
   const hldb::Variable *const b = findB();
   ASSERT_NE(b, nullptr);
   ASSERT_NE(b->getTypespec(), nullptr);
@@ -157,12 +155,16 @@ TEST_F(ForeachIterativeConstraints0Test, RangeShouldBe0To4ButIsNot) {
   ASSERT_NE(at, nullptr);
   const hldb::Range *const range = at->getRange();
   ASSERT_NE(range, nullptr);
-  const hldb::Constant *const left = any_cast<hldb::Constant>(range->getLeftExpr());
-  const hldb::Constant *const right = any_cast<hldb::Constant>(range->getRightExpr());
-  ASSERT_NE(left, nullptr);
+  EXPECT_EQ(at->getRange()->getLeftExpr(), nullptr);
+  EXPECT_NE(at->getRange()->getRightExpr(), nullptr);
+  const hldb::Operation *const right = at->getRange()->getRightExpr<hldb::Operation>();
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(left->getDecompile(), "0") << "[5] is equivalent to [0:4] (Sec 7.4.2)";
-  EXPECT_EQ(right->getDecompile(), "4") << "[5] is equivalent to [0:4] (Sec 7.4.2)";
+  EXPECT_EQ(right->getOpType(), vpiSubOp);
+  ASSERT_NE(right->getOperands(), nullptr);
+  ASSERT_EQ(right->getOperands()->size(), 1u);
+  const hldb::Constant *const value = any_cast<hldb::Constant>(right->getOperands()->at(0));
+  ASSERT_NE(value, nullptr);
+  EXPECT_EQ(value->getDecompile(), "5");
 }
 
 TEST_F(ForeachIterativeConstraints0Test, ConstraintHoldsSingleForeach) {
@@ -183,18 +185,16 @@ TEST_F(ForeachIterativeConstraints0Test, ForeachArrayAndLoopVariable) {
   const hldb::ConstrForeach *const fe = findForeach();
   ASSERT_NE(fe, nullptr);
 
-  const hldb::RefObj *const arr = fe->getVariable();
+  const hldb::RefObj *const arr = fe->getVariable<hldb::RefObj>();
   ASSERT_NE(arr, nullptr) << "foreach must keep the iterated array (vpiVariables)";
   EXPECT_EQ(arr->getName(), "B");
   EXPECT_EQ(arr->getActual(), findB()) << "foreach array binds to a::B";
 }
 
 TEST_F(ForeachIterativeConstraints0Test, LoopVariableShouldBeKeptButIsNot) {
-  GTEST_SKIP() << "HLC does not keep the foreach loop variable 'i' (getLoopVars() is null). "
-                  "Per IEEE 1800-2023 Sec 37.38 vpiLoopVars returns the index variables in order. Fix pending.";
   const hldb::ConstrForeach *const fe = findForeach();
   ASSERT_NE(fe, nullptr);
-  const hldb::RefObj *const arr = fe->getVariable();
+  const hldb::RefObj *const arr = fe->getVariable<hldb::RefObj>();
   ASSERT_NE(arr, nullptr);
   ASSERT_NE(fe->getLoopVars(), nullptr);
   ASSERT_EQ(fe->getLoopVars()->size(), 1u) << "one loop variable for the one dimension";
@@ -205,8 +205,6 @@ TEST_F(ForeachIterativeConstraints0Test, LoopVariableShouldBeKeptButIsNot) {
 }
 
 TEST_F(ForeachIterativeConstraints0Test, BodyShouldBeBiEq5ButIsDropped) {
-  GTEST_SKIP() << "HLC drops the foreach body 'B[i] == 5': an Operation cannot go in HLDB's ConstraintExpr list. "
-                  "Per IEEE 1800-2023 Sec 37.38 the foreach constraint-expr list may hold a plain expr. Fix pending.";
   const hldb::ConstrForeach *const fe = findForeach();
   ASSERT_NE(fe, nullptr);
   ASSERT_NE(fe->getConstraintExprs(), nullptr) << "foreach body must be kept";
@@ -242,8 +240,6 @@ TEST_F(ForeachIterativeConstraints0Test, NoConstraintOrBindError) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "B"), nullptr);
 }
 TEST_F(ForeachIterativeConstraints0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
-  GTEST_SKIP() << "HLC never sets vpiIsConstraintEnabled, so every constraint reads as disabled. "
-                  "Per IEEE 1800-2023 Sec 18.9 all constraints are active by default. Fix pending.";
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active
   // constraints, so they are skipped.

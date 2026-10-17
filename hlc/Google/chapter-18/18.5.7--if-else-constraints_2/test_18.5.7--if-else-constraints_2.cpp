@@ -187,9 +187,6 @@ TEST_F(IfElseConstraints2Test, OuterIfElse) {
 }
 
 TEST_F(IfElseConstraints2Test, LeafBranchesShouldBeKeptButAreDropped) {
-  GTEST_SKIP() << "HLC drops the leaf branches 'b2 == 10/3/15' (the nested if-else IS kept): an Operation cannot "
-                  "go in HLDB's ConstraintExpr list. Per IEEE 1800-2023 Sec 37.38 it may hold a plain expr. "
-                  "Fix pending.";
   const hldb::ConstrIfElse *const outer = outerIfElse();
   ASSERT_NE(outer, nullptr);
   expectSingleVarEqLit(outer->getIfConstraintExprs(), "b2", "10");
@@ -220,8 +217,6 @@ TEST_F(IfElseConstraints2Test, NoConstraintError) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c2"), nullptr);
 }
 TEST_F(IfElseConstraints2Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
-  GTEST_SKIP() << "HLC never sets vpiIsConstraintEnabled, so every constraint reads as disabled. "
-                  "Per IEEE 1800-2023 Sec 18.9 all constraints are active by default. Fix pending.";
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active
   // constraints, so they are skipped.

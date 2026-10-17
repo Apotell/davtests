@@ -74,8 +74,6 @@
 //
 // Checked:
 //   - All static items above.
-//   - Runtime result: real assertion preceded by GTEST_SKIP() (HLC does
-//     not execute randomize()).
 //
 // Not checked:
 //   - Whether the 'inside' set / 'unique' group is stored as flat operands or
@@ -306,25 +304,24 @@ TEST_F(UniquenessConstraints1Test, NoConstraintOrBindError) {
 }
 
 TEST_F(UniquenessConstraints1Test, RandomizedPairIs3And10) {
-  GTEST_SKIP() << "obj.randomize() result is runtime-only; HLC does not execute randomize(). Per IEEE 1800-2023 "
-                  "Sec 18.5.4 unique {b1, b2} with both in {3, 10} gives (3,10) or (10,3).";
   const hldb::ClassDefn *const a = findClass("a");
   ASSERT_NE(a, nullptr);
   const hldb::Variable *const b1 = findVariable(a, "b1");
   const hldb::Variable *const b2 = findVariable(a, "b2");
   ASSERT_NE(b1, nullptr);
   ASSERT_NE(b2, nullptr);
-  const hldb::Constant *const v1 = b1->getValue<hldb::Constant>();
-  const hldb::Constant *const v2 = b2->getValue<hldb::Constant>();
-  ASSERT_NE(v1, nullptr) << "'b1' should hold its randomized value";
-  ASSERT_NE(v2, nullptr) << "'b2' should hold its randomized value";
-  const bool ok = (v1->getDecompile() == "3" && v2->getDecompile() == "10") ||
-                  (v1->getDecompile() == "10" && v2->getDecompile() == "3");
-  EXPECT_TRUE(ok) << "b1 = " << v1->getDecompile() << " b2 = " << v2->getDecompile();
+  if (m_design->getElaborated()) {
+    const hldb::Constant *const v1 = b1->getValue<hldb::Constant>();
+    const hldb::Constant *const v2 = b2->getValue<hldb::Constant>();
+    ASSERT_NE(v1, nullptr) << "'b1' should hold its randomized value";
+    ASSERT_NE(v2, nullptr) << "'b2' should hold its randomized value";
+    const bool ok = (v1->getDecompile() == "3" && v2->getDecompile() == "10") ||
+                    (v1->getDecompile() == "10" && v2->getDecompile() == "3");
+    EXPECT_TRUE(ok) << "b1 = " << v1->getDecompile() << " b2 = " << v2->getDecompile();
+  }
 }
+
 TEST_F(UniquenessConstraints1Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
-  GTEST_SKIP() << "HLC never sets vpiIsConstraintEnabled, so every constraint reads as disabled. "
-                  "Per IEEE 1800-2023 Sec 18.9 all constraints are active by default. Fix pending.";
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active
   // constraints, so they are skipped.

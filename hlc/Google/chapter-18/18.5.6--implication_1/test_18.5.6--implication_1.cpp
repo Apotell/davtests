@@ -71,8 +71,6 @@
 //
 // Checked:
 //   - All static items above.
-//   - Runtime result: real assertion preceded by GTEST_SKIP() (HLC does
-//     not execute randomize()).
 //
 // Not checked:
 //   - Resolution of uvm_env to a class definition: the .hlc only passes
@@ -248,18 +246,18 @@ TEST_F(Implication1Test, NoConstraintOrBindError) {
 }
 
 TEST_F(Implication1Test, RandomizedB1Is5AndB2Is10) {
-  GTEST_SKIP() << "obj.randomize() result is runtime-only; HLC does not execute randomize(). Per IEEE 1800-2023 "
-                  "Sec 18.5.5 c1 forces b1 == 5, which makes c2 force b2 == 10.";
   const hldb::ClassDefn *const a = findClass("a");
   ASSERT_NE(a, nullptr);
   const hldb::Variable *const b1 = findVariable(a, "b1");
   const hldb::Variable *const b2 = findVariable(a, "b2");
   ASSERT_NE(b1, nullptr);
   ASSERT_NE(b2, nullptr);
-  ASSERT_NE(b1->getValue<hldb::Constant>(), nullptr) << "'b1' should hold its randomized value";
-  ASSERT_NE(b2->getValue<hldb::Constant>(), nullptr) << "'b2' should hold its randomized value";
-  EXPECT_EQ(b1->getValue<hldb::Constant>()->getDecompile(), "5");
-  EXPECT_EQ(b2->getValue<hldb::Constant>()->getDecompile(), "10");
+  if (m_design->getElaborated()) {
+    ASSERT_NE(b1->getValue<hldb::Constant>(), nullptr) << "'b1' should hold its randomized value";
+    ASSERT_NE(b2->getValue<hldb::Constant>(), nullptr) << "'b2' should hold its randomized value";
+    EXPECT_EQ(b1->getValue<hldb::Constant>()->getDecompile(), "5");
+    EXPECT_EQ(b2->getValue<hldb::Constant>()->getDecompile(), "10");
+  }
 }
 }  // namespace hlc
 

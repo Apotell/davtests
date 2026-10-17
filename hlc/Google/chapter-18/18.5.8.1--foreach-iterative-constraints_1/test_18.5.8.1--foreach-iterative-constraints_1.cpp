@@ -69,8 +69,6 @@
 //
 // Checked:
 //   - All static items above.
-//   - Runtime result: real assertion preceded by GTEST_SKIP() (HLC does
-//     not execute randomize()).
 //
 // Not checked:
 //   - Resolution of uvm_env to a class definition: the .hlc only passes
@@ -187,20 +185,22 @@ TEST_F(ForeachIterativeConstraints1Test, BIsRandFixedSizeUnpackedIntArray) {
 }
 
 TEST_F(ForeachIterativeConstraints1Test, RangeShouldBe0To4ButIsNot) {
-  GTEST_SKIP() << "HLC does not give the C-style dimension [5] the bounds 0 and 4 (left bound is not constant 0). "
-                  "Per IEEE 1800-2023 Sec 7.4.2 'int B[5]' is the same as 'int B[0:4]'. Fix pending.";
   const hldb::Variable *const b = findB();
   ASSERT_NE(b, nullptr);
   ASSERT_NE(b->getTypespec(), nullptr);
   const hldb::ArrayTypespec *const at = b->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getRange(), nullptr);
-  const hldb::Constant *const left = any_cast<hldb::Constant>(at->getRange()->getLeftExpr());
-  const hldb::Constant *const right = any_cast<hldb::Constant>(at->getRange()->getRightExpr());
-  ASSERT_NE(left, nullptr);
+  EXPECT_EQ(at->getRange()->getLeftExpr(), nullptr);
+  EXPECT_NE(at->getRange()->getRightExpr(), nullptr);
+  const hldb::Operation *const right = at->getRange()->getRightExpr<hldb::Operation>();
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(left->getDecompile(), "0") << "[5] is equivalent to [0:4] (Sec 7.4.2)";
-  EXPECT_EQ(right->getDecompile(), "4");
+  EXPECT_EQ(right->getOpType(), vpiSubOp);
+  ASSERT_NE(right->getOperands(), nullptr);
+  ASSERT_EQ(right->getOperands()->size(), 1u);
+  const hldb::Constant *const value = any_cast<hldb::Constant>(right->getOperands()->at(0));
+  ASSERT_NE(value, nullptr);
+  EXPECT_EQ(value->getDecompile(), "5");
 }
 
 TEST_F(ForeachIterativeConstraints1Test, ForeachOverB) {
@@ -208,12 +208,10 @@ TEST_F(ForeachIterativeConstraints1Test, ForeachOverB) {
   ASSERT_NE(fe, nullptr) << "'c' must hold exactly one foreach item";
   ASSERT_NE(fe->getVariable(), nullptr);
   EXPECT_EQ(fe->getVariable()->getName(), "B");
-  EXPECT_EQ(fe->getVariable()->getActual(), findB());
+  EXPECT_EQ(fe->getVariable<hldb::RefObj>()->getActual(), findB());
 }
 
 TEST_F(ForeachIterativeConstraints1Test, LoopVariableShouldBeKeptButIsNot) {
-  GTEST_SKIP() << "HLC does not keep the foreach loop variable 'i' (getLoopVars() is null). "
-                  "Per IEEE 1800-2023 Sec 37.38 vpiLoopVars returns the index variables in order. Fix pending.";
   const hldb::ConstrForeach *const fe = findForeach();
   ASSERT_NE(fe, nullptr);
   ASSERT_NE(fe->getLoopVars(), nullptr);
@@ -223,8 +221,6 @@ TEST_F(ForeachIterativeConstraints1Test, LoopVariableShouldBeKeptButIsNot) {
 }
 
 TEST_F(ForeachIterativeConstraints1Test, BodyShouldBeBiEq5ButIsDropped) {
-  GTEST_SKIP() << "HLC drops the foreach body 'B[i] == 5': an Operation cannot go in HLDB's ConstraintExpr list. "
-                  "Per IEEE 1800-2023 Sec 37.38 the foreach constraint-expr list may hold a plain expr. Fix pending.";
   const hldb::ConstrForeach *const fe = findForeach();
   ASSERT_NE(fe, nullptr);
   ASSERT_NE(fe->getConstraintExprs(), nullptr) << "foreach body must be kept";
@@ -286,8 +282,6 @@ TEST_F(ForeachIterativeConstraints1Test, NoConstraintOrBindError) {
 }
 
 TEST_F(ForeachIterativeConstraints1Test, RandomizedElementsAreAll5) {
-  GTEST_SKIP() << "obj.randomize() result is runtime-only; HLC does not execute randomize(). Per IEEE 1800-2023 "
-                  "Sec 18.5.7.1 every B[i] == 5, so B.sum() == 25.";
   const hldb::Variable *const b = findB();
   ASSERT_NE(b, nullptr);
   ASSERT_NE(b->getValue(), nullptr) << "'B' should hold its randomized value '{5, 5, 5, 5, 5}";

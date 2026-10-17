@@ -200,9 +200,6 @@ TEST_F(IfElseConstraints3Test, InnerIfElseOwnsTheElse) {
 }
 
 TEST_F(IfElseConstraints3Test, InnerBranchesShouldBeKeptButAreDropped) {
-  GTEST_SKIP() << "HLC drops the inner branches 'b3 == 4' / 'b3 == 10': an Operation cannot go in HLDB's "
-                  "ConstraintExpr list. Per IEEE 1800-2023 Sec 37.38 the then/else lists may hold a plain expr. "
-                  "Fix pending.";
   const hldb::ConstrIfElse *const inner = innerIfElse();
   ASSERT_NE(inner, nullptr);
   expectSingleVarEqLit(inner->getIfConstraintExprs(), "b3", "4");
@@ -215,8 +212,6 @@ TEST_F(IfElseConstraints3Test, NoConstraintError) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c3"), nullptr);
 }
 TEST_F(IfElseConstraints3Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
-  GTEST_SKIP() << "HLC never sets vpiIsConstraintEnabled, so every constraint reads as disabled. "
-                  "Per IEEE 1800-2023 Sec 18.9 all constraints are active by default. Fix pending.";
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active
   // constraints, so they are skipped.

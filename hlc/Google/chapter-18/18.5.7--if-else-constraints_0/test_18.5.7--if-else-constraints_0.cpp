@@ -161,8 +161,6 @@ TEST_F(IfElseConstraints0Test, C2IsIfWithoutElse) {
 }
 
 TEST_F(IfElseConstraints0Test, ThenPartShouldBeKeptButIsDropped) {
-  GTEST_SKIP() << "HLC drops the then-part 'b2 == 10': an Operation cannot go in HLDB's ConstraintExpr list. "
-                  "Per IEEE 1800-2023 Sec 37.38 the constraint-expr list may hold a plain expr. Fix pending.";
   const hldb::ConstrIf *const cif = any_cast<hldb::ConstrIf>(singleItem("c2"));
   ASSERT_NE(cif, nullptr);
   ASSERT_NE(cif->getConstraintExprs(), nullptr) << "then-part must be kept";
@@ -175,8 +173,6 @@ TEST_F(IfElseConstraints0Test, NoConstraintError) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c2"), nullptr);
 }
 TEST_F(IfElseConstraints0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
-  GTEST_SKIP() << "HLC never sets vpiIsConstraintEnabled, so every constraint reads as disabled. "
-                  "Per IEEE 1800-2023 Sec 18.9 all constraints are active by default. Fix pending.";
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active
   // constraints, so they are skipped.

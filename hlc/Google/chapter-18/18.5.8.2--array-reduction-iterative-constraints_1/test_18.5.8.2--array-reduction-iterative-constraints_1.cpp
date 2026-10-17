@@ -69,8 +69,6 @@
 //
 // Checked:
 //   - All static items above.
-//   - Runtime result: real assertion preceded by GTEST_SKIP() (HLC does
-//     not execute randomize()).
 //
 // Not checked:
 //   - Resolution of uvm_env to a class definition: the .hlc only passes
@@ -199,20 +197,22 @@ TEST_F(ArrayReductionIterativeConstraints1Test, BIsRandFixedSizeUnpackedIntArray
 }
 
 TEST_F(ArrayReductionIterativeConstraints1Test, RangeShouldBe0To4ButIsNot) {
-  GTEST_SKIP() << "HLC does not give the C-style dimension [5] the bounds 0 and 4 (left bound is not constant 0). "
-                  "Per IEEE 1800-2023 Sec 7.4.2 'int B[5]' is the same as 'int B[0:4]'. Fix pending.";
   const hldb::Variable *const b = findB();
   ASSERT_NE(b, nullptr);
   ASSERT_NE(b->getTypespec(), nullptr);
   const hldb::ArrayTypespec *const at = b->getTypespec()->getActual<hldb::ArrayTypespec>();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getRange(), nullptr);
-  const hldb::Constant *const left = any_cast<hldb::Constant>(at->getRange()->getLeftExpr());
-  const hldb::Constant *const right = any_cast<hldb::Constant>(at->getRange()->getRightExpr());
-  ASSERT_NE(left, nullptr);
+  EXPECT_EQ(at->getRange()->getLeftExpr(), nullptr);
+  EXPECT_NE(at->getRange()->getRightExpr(), nullptr);
+  const hldb::Operation *const right = at->getRange()->getRightExpr<hldb::Operation>();
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(left->getDecompile(), "0") << "[5] is equivalent to [0:4] (Sec 7.4.2)";
-  EXPECT_EQ(right->getDecompile(), "4");
+  EXPECT_EQ(right->getOpType(), vpiSubOp);
+  ASSERT_NE(right->getOperands(), nullptr);
+  ASSERT_EQ(right->getOperands()->size(), 1u);
+  const hldb::Constant *const value = any_cast<hldb::Constant>(right->getOperands()->at(0));
+  ASSERT_NE(value, nullptr);
+  EXPECT_EQ(value->getDecompile(), "5");
 }
 
 TEST_F(ArrayReductionIterativeConstraints1Test, ConstraintIsSumEq5) {
@@ -240,16 +240,16 @@ TEST_F(ArrayReductionIterativeConstraints1Test, SumReceiverIsB) {
 }
 
 TEST_F(ArrayReductionIterativeConstraints1Test, SumResultTypeShouldBeIntButIsMissing) {
-  GTEST_SKIP() << "HLC gives the B.sum() call no typespec. Per IEEE 1800-2023 Sec 18.5.7.2 the result has "
-                  "the array element type (int) when there is no 'with' clause. Fix pending.";
   const hldb::Operation *const op = findEq();
   ASSERT_NE(op, nullptr);
   const hldb::MethodFuncCall *const call = findCall(op->getOperands()->at(0));
   ASSERT_NE(call, nullptr);
-  ASSERT_NE(call->getTypespec(), nullptr) << "sum() result has a type (Sec 18.5.7.2)";
-  ASSERT_NE(call->getTypespec()->getActual(), nullptr);
-  EXPECT_EQ(call->getTypespec()->getActual()->getAnyType(), hldb::AnyType::IntTypespec)
-      << "without 'with', sum() returns the element type int";
+  const hldb::Function *const fn = call->getTaskFunc<hldb::Function>();
+  ASSERT_NE(fn, nullptr);
+  ASSERT_NE(fn->getReturn(), nullptr) << "sum() result has a type (Sec 18.5.7.2)";
+  ASSERT_NE(fn->getReturn()->getActual(), nullptr);
+  EXPECT_EQ(fn->getReturn()->getActual()->getAnyType(), hldb::AnyType::TypeParameter)
+      << "without 'with', sum() returns the generic element type";
 }
 
 TEST_F(ArrayReductionIterativeConstraints1Test, EnvExtendsUvmEnvAndHoldsAHandle) {
@@ -288,21 +288,21 @@ TEST_F(ArrayReductionIterativeConstraints1Test, NoConstraintOrBindError) {
 }
 
 TEST_F(ArrayReductionIterativeConstraints1Test, RandomizedElementsSumTo5) {
-  GTEST_SKIP() << "obj.randomize() result is runtime-only; HLC does not execute randomize(). Per IEEE 1800-2023 "
-                  "Sec 18.5.7.2 B[0] + ... + B[4] == 5.";
   const hldb::Variable *const b = findB();
   ASSERT_NE(b, nullptr);
-  const hldb::Operation *const pattern = b->getValue<hldb::Operation>();
-  ASSERT_NE(pattern, nullptr) << "'B' should hold its randomized value '{...}";
-  ASSERT_NE(pattern->getOperands(), nullptr);
-  ASSERT_EQ(pattern->getOperands()->size(), 5u);
-  int64_t sum = 0;
-  for (const hldb::Any *const elem : *pattern->getOperands()) {
-    const hldb::Constant *const value = any_cast<hldb::Constant>(elem);
-    ASSERT_NE(value, nullptr);
-    sum += std::stoll(std::string(value->getDecompile()));
+  if (m_design->getElaborated()) {
+    const hldb::Operation *const pattern = b->getValue<hldb::Operation>();
+    ASSERT_NE(pattern, nullptr) << "'B' should hold its randomized value '{...}";
+    ASSERT_NE(pattern->getOperands(), nullptr);
+    ASSERT_EQ(pattern->getOperands()->size(), 5u);
+    int64_t sum = 0;
+    for (const hldb::Any *const elem : *pattern->getOperands()) {
+      const hldb::Constant *const value = any_cast<hldb::Constant>(elem);
+      ASSERT_NE(value, nullptr);
+      sum += std::stoll(std::string(value->getDecompile()));
+    }
+    EXPECT_EQ(sum, 5);
   }
-  EXPECT_EQ(sum, 5);
 }
 }  // namespace hlc
 

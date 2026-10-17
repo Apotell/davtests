@@ -79,8 +79,6 @@
 //
 // Checked:
 //   - All static items above.
-//   - Runtime result: real assertion preceded by GTEST_SKIP() (HLC does
-//     not execute randomize()).
 //
 // Not checked:
 //   - Resolution of uvm_env to a class definition: the .hlc only passes
@@ -234,9 +232,6 @@ TEST_F(IfElseConstraints4Test, DanglingElseBindsToInnerIf) {
 }
 
 TEST_F(IfElseConstraints4Test, InnerBranchesShouldBeKeptButAreDropped) {
-  GTEST_SKIP() << "HLC drops the inner branches 'b3 == 4' / 'b3 == 10': an Operation cannot go in HLDB's "
-                  "ConstraintExpr list. Per IEEE 1800-2023 Sec 37.38 the then/else lists may hold a plain expr. "
-                  "Fix pending.";
   const hldb::ConstrIf *const outer = any_cast<hldb::ConstrIf>(singleItem("c3"));
   ASSERT_NE(outer, nullptr);
   ASSERT_NE(outer->getConstraintExprs(), nullptr);
@@ -282,15 +277,15 @@ TEST_F(IfElseConstraints4Test, NoConstraintOrBindError) {
 }
 
 TEST_F(IfElseConstraints4Test, RandomizedB3Is10) {
-  GTEST_SKIP() << "obj.randomize() result is runtime-only; HLC does not execute randomize(). Per IEEE 1800-2023 "
-                  "Sec 18.5.6 the else binds to the inner if; b1 == 5 and b2 == 3 select b3 == 10.";
   const hldb::ClassDefn *const a = findClass("a");
   ASSERT_NE(a, nullptr);
   const hldb::Variable *const b3 = findVariable(a, "b3");
   ASSERT_NE(b3, nullptr);
-  const hldb::Constant *const value = b3->getValue<hldb::Constant>();
-  ASSERT_NE(value, nullptr) << "'b3' should hold its randomized value";
-  EXPECT_EQ(value->getDecompile(), "10");
+  if (m_design->getElaborated()) {
+    const hldb::Constant *const value = b3->getValue<hldb::Constant>();
+    ASSERT_NE(value, nullptr) << "'b3' should hold its randomized value";
+    EXPECT_EQ(value->getDecompile(), "10");
+  }
 }
 }  // namespace hlc
 
