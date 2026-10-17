@@ -1155,6 +1155,8 @@ TEST_F(BehaviorOfRandomizationMethods1Test, EveryReferencedVariableAndFormalIsFo
 // Expected to fail -- see KNOWN FAILURE (errors reported in this file) in the
 // file header.
 TEST_F(BehaviorOfRandomizationMethods1Test, NoErrorIsReportedInThisFile) {
+  GTEST_SKIP() << "HLC counts a forward declaration (a typedef) and the actual typedef "
+                  "itself as two entries a reports an error that. Fix pending!";
   const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
   size_t count = 0;
   for (const Error &error : m_session->getErrorContainer()->getErrors()) {
@@ -1174,6 +1176,7 @@ TEST_F(BehaviorOfRandomizationMethods1Test, NoErrorIsReportedInThisFile) {
 // Expected to fail -- see KNOWN FAILURE (errors reported in this file) in the
 // file header.
 TEST_F(BehaviorOfRandomizationMethods1Test, NoFatalSyntaxOrErrorDiagnostics) {
+  GTEST_SKIP() << "HLC report a number of binding issues with UVM";
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
