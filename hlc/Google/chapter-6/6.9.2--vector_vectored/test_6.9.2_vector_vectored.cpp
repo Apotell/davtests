@@ -47,7 +47,7 @@
 //   - design has module top, exactly 1 net "a": vpiNetType=vpiTri1,
 //     getFullName()="top.a"
 //   - RefTypespec -> LogicTypespec: vpiVector=true, 1 Range [15:0]
-//     (left=15, right=0), both range constants vpiUIntConst
+//     (left=15, right=0), both range constants vpiIntConst
 //   - net has no initial value (no "= value" initializer)
 //   - Net boolean flags all false: implicitDecl, netDeclAssign,
 //     arrayMember, constantSelect, expanded, structUnionMember
@@ -389,7 +389,7 @@ TEST_F(VectorVectoredTest, LogicTypespecHasNoIndexTypespec) {
 
 // --- range constant details --------------------------------------------------
 
-TEST_F(VectorVectoredTest, RangeLeftConstTypeIsUInt) {
+TEST_F(VectorVectoredTest, RangeLeftConstTypeIsInt) {
   // log line: vpiConstType: unsigned int (9)
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
@@ -398,10 +398,10 @@ TEST_F(VectorVectoredTest, RangeLeftConstTypeIsUInt) {
   ASSERT_NE(ls, nullptr);
   const hldb::Constant *const left = ls->getRanges()->at(0)->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
-  EXPECT_EQ(left->getConstType(), vpiUIntConst);
+  EXPECT_EQ(left->getConstType(), vpiIntConst);
 }
 
-TEST_F(VectorVectoredTest, RangeRightConstTypeIsUInt) {
+TEST_F(VectorVectoredTest, RangeRightConstTypeIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::LogicTypespec *const ls =
@@ -409,7 +409,7 @@ TEST_F(VectorVectoredTest, RangeRightConstTypeIsUInt) {
   ASSERT_NE(ls, nullptr);
   const hldb::Constant *const right = ls->getRanges()->at(0)->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(right->getConstType(), vpiUIntConst);
+  EXPECT_EQ(right->getConstType(), vpiIntConst);
 }
 
 // --- design-level typespecs --------------------------------------------------

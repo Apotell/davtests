@@ -41,7 +41,7 @@
 //   - RefObj element[1] is FuncCall "substr" with 2 Constant arguments "1" and "2"
 //   - 'b' does NOT get a pre-evaluated constant value (e.g. "es") -- HLC
 //     stores the unevaluated RefObj expression only
-//   - const type of arguments "1" and "2" is vpiUIntConst (same as itoa lesson)
+//   - const type of arguments "1" and "2" is vpiIntConst (same as itoa lesson)
 //   - the actual string result of a.substr(1, 2) ("es") -- kept as a real
 //     assertion for when HLC adds compile-time evaluation of string methods
 
@@ -222,7 +222,7 @@ TEST_F(StringSubstrTest, SubstrSecondArgumentIsTwo) {
   EXPECT_EQ(arg->getDecompile(), "2");
 }
 
-TEST_F(StringSubstrTest, SubstrArgumentsAreUIntConst) {
+TEST_F(StringSubstrTest, SubstrArgumentsAreIntConst) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -237,13 +237,13 @@ TEST_F(StringSubstrTest, SubstrArgumentsAreUIntConst) {
   ASSERT_NE(arg0, nullptr);
   const hldb::Constant *const hc0 = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(hc0, nullptr);
-  EXPECT_EQ(hc0->getConstType(), vpiUIntConst)
-      << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+  EXPECT_EQ(hc0->getConstType(), vpiIntConst)
+      << "HLDB stores unsized integer literals as vpiIntConst";
   const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
   const hldb::Constant *const hc1 = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(hc1, nullptr);
-  EXPECT_EQ(hc1->getConstType(), vpiUIntConst);
+  EXPECT_EQ(hc1->getConstType(), vpiIntConst);
 }
 
 // ---------------------------------------------------------------------------

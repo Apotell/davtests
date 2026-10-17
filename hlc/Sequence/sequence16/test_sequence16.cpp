@@ -36,7 +36,7 @@
 //   SequenceDecl("seq_goto")
 //     -> getExpr<Operation>() with getOpType() == vpiGotoRepeatOp (78)
 //          operands[0]: RefObj("a")   -- the repeated boolean expression
-//          operands[1]: Constant("3") -- exact count (vpiUIntConst=9)
+//          operands[1]: Constant("3") -- exact count (vpiIntConst=7)
 //
 // Compile-stage: 'seq_goto' in assert property(@(posedge clk) seq_goto)
 // resolves correctly to its SequenceDecl and the compile produces zero
@@ -269,7 +269,7 @@ TEST_F(Sequence16Test, SeqDecl_seq_goto_Op_Operand1_IsNotRange) {
          "(Range is only used for '[->n:m]' with distinct bounds)";
 }
 
-TEST_F(Sequence16Test, SeqDecl_seq_goto_Op_Operand1_IsUIntConst) {
+TEST_F(Sequence16Test, SeqDecl_seq_goto_Op_Operand1_IsIntConst) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::Operation *const op = getGotoRepeatOp(tb);
@@ -279,9 +279,9 @@ TEST_F(Sequence16Test, SeqDecl_seq_goto_Op_Operand1_IsUIntConst) {
   const hldb::Constant *const count =
       any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(count, nullptr);
-  EXPECT_EQ(count->getConstType(), vpiUIntConst)
+  EXPECT_EQ(count->getConstType(), vpiIntConst)
       << "ss.16.9: goto repetition count must be an unsigned integer constant "
-         "(vpiUIntConst=9)";
+         "(vpiIntConst=7)";
 }
 
 TEST_F(Sequence16Test, SeqDecl_seq_goto_Op_Operand1_ValueIsThree) {

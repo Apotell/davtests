@@ -47,7 +47,7 @@
 //     wrapper (confirmed key difference from the _cast variant)
 //   - add operands are RefObj "val" and Constant "1"
 //   - 1st assignment (val=a) rhs is RefObj "a" -> EnumConst
-//   - add constant 1 is stored as vpiUIntConst
+//   - add constant 1 is stored as vpiIntConst
 //   - THE POINT OF THIS FILE: the compiler should report at least one
 //     error for "val += 1;" on an enum variable without a cast, per IEEE
 //     1800-2023 6.19.4 quoted above -- a real, non-skipped,
@@ -209,7 +209,7 @@ TEST_F(EnumNumericalExprNoCastTest, FirstAssignmentRhsIsEnumConstA) {
   EXPECT_NE(rhs->getActual<hldb::EnumConst>(), nullptr);
 }
 
-TEST_F(EnumNumericalExprNoCastTest, AddConstant1IsUIntConst) {
+TEST_F(EnumNumericalExprNoCastTest, AddConstant1IsIntConst) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -224,8 +224,8 @@ TEST_F(EnumNumericalExprNoCastTest, AddConstant1IsUIntConst) {
   ASSERT_EQ(addOp->getOperands()->size(), 2u);
   const hldb::Constant *const rhsOp = any_cast<hldb::Constant>(addOp->getOperands()->at(1));
   ASSERT_NE(rhsOp, nullptr);
-  EXPECT_EQ(rhsOp->getConstType(), vpiUIntConst)
-      << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+  EXPECT_EQ(rhsOp->getConstType(), vpiIntConst)
+      << "HLDB stores unsized integer literals as vpiIntConst";
 }
 
 // ---------------------------------------------------------------------------

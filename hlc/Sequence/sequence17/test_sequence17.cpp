@@ -37,7 +37,7 @@
 //   SequenceDecl("seq_nonconsec")
 //     -> getExpr<Operation>() with getOpType() == vpiRepeatOp (76)
 //          operands[0]: RefObj("a")   -- the repeated boolean expression
-//          operands[1]: Constant("2") -- exact count (vpiUIntConst=9)
+//          operands[1]: Constant("2") -- exact count (vpiIntConst=7)
 //
 // Compile-stage: 'seq_nonconsec' in assert property(@(posedge clk)
 // seq_nonconsec) resolves correctly to its SequenceDecl and the compile
@@ -283,7 +283,7 @@ TEST_F(Sequence17Test, SeqDecl_seq_nonconsec_Op_Operand1_IsNotRange) {
          "(Range is only used for '[=n:m]' with distinct bounds)";
 }
 
-TEST_F(Sequence17Test, SeqDecl_seq_nonconsec_Op_Operand1_IsUIntConst) {
+TEST_F(Sequence17Test, SeqDecl_seq_nonconsec_Op_Operand1_IsIntConst) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::Operation *const op = getNonConsecRepeatOp(tb);
@@ -293,9 +293,9 @@ TEST_F(Sequence17Test, SeqDecl_seq_nonconsec_Op_Operand1_IsUIntConst) {
   const hldb::Constant *const count =
       any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(count, nullptr);
-  EXPECT_EQ(count->getConstType(), vpiUIntConst)
+  EXPECT_EQ(count->getConstType(), vpiIntConst)
       << "ss.16.9.2: non-consecutive repetition count must be an unsigned "
-         "integer constant (vpiUIntConst=9)";
+         "integer constant (vpiIntConst=7)";
 }
 
 TEST_F(Sequence17Test, SeqDecl_seq_nonconsec_Op_Operand1_ValueIsTwo) {

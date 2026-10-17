@@ -26,7 +26,7 @@
 //   'a ##[m:$] b' denotes a cycle delay of at least m cycles between a and b.
 //   The HLDB must represent this as an Operation with opType vpiCycleDelayOp
 //   (71) and three operands: RefObj(a), Range(2,$), RefObj(b). The lower
-//   bound must be a finite vpiUIntConst (9) constant and the upper bound must
+//   bound must be a finite vpiIntConst (7) constant and the upper bound must
 //   be a vpiUnboundedConst (11) constant that decompiles as "$".
 //
 // Compile-stage: 'seq_open' in 'assert property(...)' resolves correctly
@@ -257,8 +257,7 @@ TEST_F(Sequence24Test, SeqOpen_Op_Range_LowerBound_ValueIsTwo) {
       << "ss.16.7: lower bound of '##[2:$]' must decompile to \"2\"";
 }
 
-TEST_F(Sequence24Test, SeqOpen_Op_Range_LowerBound_ConstType_IsUInt) {
-  // Finite delay bounds use vpiUIntConst (9).
+TEST_F(Sequence24Test, SeqOpen_Op_Range_LowerBound_ConstType_IsInt) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");
@@ -272,8 +271,8 @@ TEST_F(Sequence24Test, SeqOpen_Op_Range_LowerBound_ConstType_IsUInt) {
   ASSERT_NE(range, nullptr);
   const hldb::Constant *const lb = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(lb, nullptr);
-  EXPECT_EQ(lb->getConstType(), vpiUIntConst)
-      << "ss.16.7: finite lower bound must be vpiUIntConst (9)";
+  EXPECT_EQ(lb->getConstType(), vpiIntConst)
+      << "ss.16.7: finite lower bound must be vpiIntConst";
 }
 
 TEST_F(Sequence24Test, SeqOpen_Op_Range_UpperBound_IsConstant) {
@@ -311,7 +310,6 @@ TEST_F(Sequence24Test, SeqOpen_Op_Range_UpperBound_DecompilesAsDollar) {
 }
 
 TEST_F(Sequence24Test, SeqOpen_Op_Range_UpperBound_ConstType_IsUnbounded) {
-  // '$' in a delay range is vpiUnboundedConst (11), not vpiUIntConst (9).
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");

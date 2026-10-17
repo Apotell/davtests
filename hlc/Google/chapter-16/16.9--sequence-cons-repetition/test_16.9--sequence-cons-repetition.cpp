@@ -395,15 +395,15 @@ TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_Range_UpperBound_IsTen) {
   EXPECT_EQ(std::string(hi->getDecompile()), "10") << "sec. 16.9: '[*2:10]' upper bound must be 10";
 }
 
-TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_Range_BoundsAreUnsignedInt) {
+TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_Range_BoundsAreInt) {
   const auto *range = seqRepRange(m_design);
   ASSERT_NE(range, nullptr);
   const auto *lo = range->getLeftExpr<hldb::Constant>();
   const auto *hi = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(lo, nullptr);
   ASSERT_NE(hi, nullptr);
-  EXPECT_EQ(lo->getConstType(), vpiUIntConst) << "sec. 16.9: '[*2:10]' lower bound must be vpiUIntConst (9)";
-  EXPECT_EQ(hi->getConstType(), vpiUIntConst) << "sec. 16.9: '[*2:10]' upper bound must be vpiUIntConst (9)";
+  EXPECT_EQ(lo->getConstType(), vpiIntConst) << "sec. 16.9: '[*2:10]' lower bound must be vpiIntConst";
+  EXPECT_EQ(hi->getConstType(), vpiIntConst) << "sec. 16.9: '[*2:10]' upper bound must be vpiIntConst";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq_RepOp_RepeatedExpr_IsRefObjA) {
@@ -581,8 +581,8 @@ TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_DelayRange_BoundsAreUnsigne
   const auto *hi = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(lo, nullptr);
   ASSERT_NE(hi, nullptr);
-  EXPECT_EQ(lo->getConstType(), vpiUIntConst) << "'##[1:2]' lower delay bound must be vpiUIntConst (9)";
-  EXPECT_EQ(hi->getConstType(), vpiUIntConst) << "'##[1:2]' upper delay bound must be vpiUIntConst (9)";
+  EXPECT_EQ(lo->getConstType(), vpiIntConst) << "'##[1:2]' lower delay bound must be vpiIntConst";
+  EXPECT_EQ(hi->getConstType(), vpiIntConst) << "'##[1:2]' upper delay bound must be vpiIntConst";
 }
 
 TEST_F(ConsecutiveRepetitionTest, Seq2_VarCycleDelay_LeftIsRefObjA) {

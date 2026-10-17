@@ -172,8 +172,8 @@ TEST_F(ItorFunctionTest, ItorCallHasOneIntegerArgument) {
   const hldb::NamedArgument *const arg0 = call->getArguments()->front();
   const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr) << "'20' should be a Constant";
-  EXPECT_EQ(arg->getConstType(), vpiUIntConst);
-  EXPECT_EQ(arg->getSize(), 64);
+  EXPECT_EQ(arg->getConstType(), vpiIntConst);
+  EXPECT_EQ(arg->getSize(), 32);
   EXPECT_EQ(arg->getDecompile(), "20");
   EXPECT_EQ(arg->getValue(), "20");
 

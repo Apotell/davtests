@@ -244,7 +244,7 @@ TEST_F(QueuesMaxSizeTest, NetQRangeRightIsBoundConstantFive) {
   const hldb::Constant *const bound = at->getRange()->getRightExpr<hldb::Constant>();
   ASSERT_NE(bound, nullptr) << "7.10.2.7: bounded queue must keep its ':5' bound as the range right expr";
   EXPECT_EQ(bound->getDecompile(), "5");
-  EXPECT_EQ(bound->getConstType(), vpiUIntConst);
+  EXPECT_EQ(bound->getConstType(), vpiIntConst);
 }
 
 TEST_F(QueuesMaxSizeTest, NetQElemTypespecIsSignedIntTypespec) {

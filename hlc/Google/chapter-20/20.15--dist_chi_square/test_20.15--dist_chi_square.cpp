@@ -161,7 +161,7 @@ TEST_F(DistChiSquareFunctionTest, SeedHasInitialValue1234) {
   ASSERT_NE(seed, nullptr);
   const hldb::Constant *const init = seed->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr) << "'= 1234' should be a Constant";
-  EXPECT_EQ(init->getConstType(), vpiUIntConst);
+  EXPECT_EQ(init->getConstType(), vpiIntConst);
   EXPECT_EQ(init->getDecompile(), "1234");
 }
 
@@ -213,7 +213,7 @@ TEST_F(DistChiSquareFunctionTest, DistChiSquareCallHasSeedAndDfArguments) {
   ASSERT_NE(arg1, nullptr);
   const hldb::Constant *const df = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(df, nullptr) << "'3' should be a Constant";
-  EXPECT_EQ(df->getConstType(), vpiUIntConst);
+  EXPECT_EQ(df->getConstType(), vpiIntConst);
   EXPECT_EQ(df->getDecompile(), "3");
 }
 

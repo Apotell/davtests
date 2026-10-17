@@ -662,7 +662,7 @@ TEST_F(ProcessClsAwaitTest, InitialCallsTestWithConstantEight) {
   const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getDecompile(), "8");
-  EXPECT_EQ(arg->getConstType(), vpiUIntConst);
+  EXPECT_EQ(arg->getConstType(), vpiIntConst);
 }
 
 // --- compiler diagnostics -----------------------------------------------------

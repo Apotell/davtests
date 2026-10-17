@@ -403,7 +403,7 @@ TEST_F(DumpfileTest, DumplimitArgumentIsTheWrittenMultiplication) {
     const hldb::Constant *const operand = any_cast<hldb::Constant>(product->getOperands()->at(k));
     ASSERT_NE(operand, nullptr) << "operand " << k << " should be a Constant";
     EXPECT_EQ(operand->getDecompile(), "1024") << "operand " << k;
-    EXPECT_EQ(operand->getConstType(), vpiUIntConst) << "Sec 5.7.1: a bare decimal literal is unsigned";
+    EXPECT_EQ(operand->getConstType(), vpiIntConst) << "Sec 5.7.1: a bare decimal literal is signed";
   }
 }
 

@@ -41,18 +41,18 @@
 //     associative arrays have one)
 //   - ArrayTypespec ElemTypespec: RefTypespec->BitTypespec, vpiVector=true,
 //     getSigned()==false, 1 Range [7:0] (left=7, right=0), range consts are
-//     vpiUIntConst
+//     vpiIntConst
 //   - module has exactly 1 Initial process, body is a Begin with 4
 //     statements
 //   - Stmt[0]: arr = new [16] -- blocking Assignment, RHS=ArrayExpr with 1
-//     Constant "16" (vpiUIntConst)
+//     Constant "16" (vpiIntConst)
 //   - Stmt[1]: SysTaskCall "$display" with 2 arguments; 2nd argument is a
 //     RefObj "arr.size" -- COMPILER BEHAVIOR: arr.size is stored as a
 //     RefObj, not as a recognized built-in method call (same behavior
 //     documented for op-delete.sv), with 2 path elements: RefObj "arr" and
 //     RefObj "size"
 //   - Stmt[2]: arr = new [8] -- a SECOND, independent blocking Assignment,
-//     RHS=ArrayExpr with 1 Constant "8" (vpiUIntConst); per Sec 7.5.1 this
+//     RHS=ArrayExpr with 1 Constant "8" (vpiIntConst); per Sec 7.5.1 this
 //     destructively resizes arr from 16 elements down to 8
 //   - Stmt[3]: SysTaskCall "$display" with 2 arguments; 2nd argument is a
 //     RefObj "arr.size" (same COMPILER BEHAVIOR as Stmt[1])
@@ -233,7 +233,7 @@ TEST_F(DynamicArrayOpSizeTest, RangeRightIs0) {
   EXPECT_EQ(right->getDecompile(), "0");
 }
 
-TEST_F(DynamicArrayOpSizeTest, RangeConstTypesAreUInt) {
+TEST_F(DynamicArrayOpSizeTest, RangeConstTypesAreInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
@@ -248,8 +248,8 @@ TEST_F(DynamicArrayOpSizeTest, RangeConstTypesAreUInt) {
   const hldb::Constant *const right = bt->getRanges()->at(0)->getRightExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(left->getConstType(), vpiUIntConst);
-  EXPECT_EQ(right->getConstType(), vpiUIntConst);
+  EXPECT_EQ(left->getConstType(), vpiIntConst);
+  EXPECT_EQ(right->getConstType(), vpiIntConst);
 }
 
 // --- Initial process ----
@@ -322,7 +322,7 @@ TEST_F(DynamicArrayOpSizeTest, FirstAssignmentRhsIsArrayExprSize16) {
   const hldb::Constant *const c = any_cast<hldb::Constant>(ae->getExprs()->at(0));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "16");
-  EXPECT_EQ(c->getConstType(), vpiUIntConst);
+  EXPECT_EQ(c->getConstType(), vpiIntConst);
 }
 
 // --- Stmt[1]: first $display(arr.size) ----
@@ -405,7 +405,7 @@ TEST_F(DynamicArrayOpSizeTest, ThirdAssignmentRhsIsArrayExprSize8) {
   const hldb::Constant *const c = any_cast<hldb::Constant>(ae->getExprs()->at(0));
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getDecompile(), "8");
-  EXPECT_EQ(c->getConstType(), vpiUIntConst);
+  EXPECT_EQ(c->getConstType(), vpiIntConst);
 }
 
 // --- Stmt[3]: second $display(arr.size) ----

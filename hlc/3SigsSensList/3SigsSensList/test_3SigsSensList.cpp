@@ -223,7 +223,7 @@ TEST_F(SigsSensListTest, ThenBranchAssignsZeroToUndeclaredOutputLine) {
 
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst);
   EXPECT_EQ(rhs->getDecompile(), "0");
 }
 
@@ -242,7 +242,7 @@ TEST_F(SigsSensListTest, ElseBranchAssignsZeroToUndeclaredYScaleAmountNext) {
 
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst);
   EXPECT_EQ(rhs->getDecompile(), "0");
 }
 

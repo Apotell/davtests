@@ -331,7 +331,7 @@ TEST_F(QueuesPopBackAssignTest, ThirdAssignmentRhsIsQZeroToDollarMinusOnePartSel
   const hldb::Constant *const left = rhs->getRange()->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getDecompile(), "0");
-  EXPECT_EQ(left->getConstType(), vpiUIntConst);
+  EXPECT_EQ(left->getConstType(), vpiIntConst);
 }
 
 TEST_F(QueuesPopBackAssignTest, ThirdAssignmentRangeRightIsDollarMinusOneSubtractOp) {
@@ -357,7 +357,7 @@ TEST_F(QueuesPopBackAssignTest, ThirdAssignmentRangeRightIsDollarMinusOneSubtrac
   const hldb::Constant *const one = any_cast<hldb::Constant>(right->getOperands()->at(1));
   ASSERT_NE(one, nullptr) << "operand[1] should be the Constant '1'";
   EXPECT_EQ(one->getDecompile(), "1");
-  EXPECT_EQ(one->getConstType(), vpiUIntConst);
+  EXPECT_EQ(one->getConstType(), vpiIntConst);
 }
 
 // --- $display(":assert: (%d == 2)", q.size) ----

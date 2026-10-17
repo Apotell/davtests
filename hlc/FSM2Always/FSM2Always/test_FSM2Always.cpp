@@ -44,7 +44,7 @@
 //     keyword) -> 4 Variables; no cross-duplication.
 //   - 6.20.2 "Parameter declarations": SIZE/IDLE/GNT0/GNT1 are 4
 //     Parameters, each with a ParamAssign carrying its Constant value
-//     (SIZE=3 decimal -> vpiUIntConst "3"; IDLE/GNT0/GNT1 sized binary
+//     (SIZE=3 decimal -> vpiIntConst "3"; IDLE/GNT0/GNT1 sized binary
 //     literals -> vpiBinaryConst "3'b001"/"3'b010"/"3'b100").
 //   - 9.2.1/9.4.2: module has exactly 3 Always processes.
 //   - 9.4.2.1 "Event OR operator": FSM_COMBO's sensitivity list
@@ -201,7 +201,7 @@ TEST_F(FSM2AlwaysTest, FourParametersWithExpectedValues) {
   const hldb::Constant *const sizeVal = sizeAssign->getRhs<hldb::Constant>();
   ASSERT_NE(sizeVal, nullptr);
   EXPECT_EQ(sizeVal->getDecompile(), std::string_view{"3"});
-  EXPECT_EQ(sizeVal->getConstType(), vpiUIntConst);
+  EXPECT_EQ(sizeVal->getConstType(), vpiIntConst);
 
   const std::pair<std::string_view, std::string_view> expected[3] = {
       {"IDLE", "3'b001"},

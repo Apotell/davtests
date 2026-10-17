@@ -39,7 +39,7 @@
 //   - cast operation typespec is RefTypespec -> TypedefTypespec "e"
 //   - cast operand is Operation(vpiAddOp) with operands RefObj "val" and Constant "1"
 //   - 1st assignment (val=a) rhs is RefObj "a" -> EnumConst
-//   - add inner constant 1 is stored as vpiUIntConst
+//   - add inner constant 1 is stored as vpiIntConst
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -199,7 +199,7 @@ TEST_F(EnumNumericalExprCastTest, FirstAssignmentRhsIsEnumConstA) {
   EXPECT_NE(rhs->getActual<hldb::EnumConst>(), nullptr);
 }
 
-TEST_F(EnumNumericalExprCastTest, CastAddConstant1IsUIntConst) {
+TEST_F(EnumNumericalExprCastTest, CastAddConstant1IsIntConst) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -217,8 +217,8 @@ TEST_F(EnumNumericalExprCastTest, CastAddConstant1IsUIntConst) {
   ASSERT_EQ(addOp->getOperands()->size(), 2u);
   const hldb::Constant *const rhsOp = any_cast<hldb::Constant>(addOp->getOperands()->at(1));
   ASSERT_NE(rhsOp, nullptr);
-  EXPECT_EQ(rhsOp->getConstType(), vpiUIntConst)
-      << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+  EXPECT_EQ(rhsOp->getConstType(), vpiIntConst)
+      << "HLDB stores unsized integer literals as vpiIntConst";
 }
 
 TEST_F(EnumNumericalExprCastTest, CompilerReportsZeroErrors) {

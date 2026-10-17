@@ -44,14 +44,14 @@
 //     associative arrays have one)
 //   - ArrayTypespec ElemTypespec: RefTypespec->BitTypespec, vpiVector=true,
 //     getSigned()==false, 1 Range [7:0] (left=7, right=0), range consts are
-//     vpiUIntConst
+//     vpiIntConst
 //   - module has exactly 1 Initial process, body is a Begin with 6 statements
 //   - Stmt[0]: arr = new [4] -- blocking Assignment, RHS=ArrayExpr with 1
-//     Constant "4" (vpiUIntConst) -- per Sec 7.5.1, this sets arr's size to 4
+//     Constant "4" (vpiIntConst) -- per Sec 7.5.1, this sets arr's size to 4
 //     and (absent an initializer) default-initializes its elements
 //   - Stmt[1..4]: arr[i] = v -- blocking Assignment, LHS=BitSelect "arr[i]"
 //     (prefix RefObj "arr" resolving to the Variable, index Constant i,
-//     vpiUIntConst), RHS=Constant v (vpiUIntConst)
+//     vpiIntConst), RHS=Constant v (vpiIntConst)
 //   - Stmt[5]: SysTaskCall "$display" with 5 arguments: format-string
 //     Constant + 4 BitSelect reads "arr[0]".."arr[3]", each resolving its
 //     prefix RefObj to the Variable
@@ -228,7 +228,7 @@ TEST_F(DynamicArrayOpNewTest, RangeRightIs0) {
   EXPECT_EQ(right->getDecompile(), "0");
 }
 
-TEST_F(DynamicArrayOpNewTest, RangeConstTypesAreUInt) {
+TEST_F(DynamicArrayOpNewTest, RangeConstTypesAreInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
@@ -243,8 +243,8 @@ TEST_F(DynamicArrayOpNewTest, RangeConstTypesAreUInt) {
   const hldb::Constant *const right = bt->getRanges()->at(0)->getRightExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(left->getConstType(), vpiUIntConst);
-  EXPECT_EQ(right->getConstType(), vpiUIntConst);
+  EXPECT_EQ(left->getConstType(), vpiIntConst);
+  EXPECT_EQ(right->getConstType(), vpiIntConst);
 }
 
 // --- Initial process ----
@@ -339,7 +339,7 @@ TEST_F(DynamicArrayOpNewTest, ArrayExprSizeIs4) {
   EXPECT_EQ(c->getDecompile(), "4");
 }
 
-TEST_F(DynamicArrayOpNewTest, ArrayExprSizeConstTypeIsUInt) {
+TEST_F(DynamicArrayOpNewTest, ArrayExprSizeConstTypeIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayExpr *const ae =
@@ -349,7 +349,7 @@ TEST_F(DynamicArrayOpNewTest, ArrayExprSizeConstTypeIsUInt) {
   ASSERT_NE(ae, nullptr);
   const hldb::Constant *const c = any_cast<hldb::Constant>(ae->getExprs()->at(0));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst);
+  EXPECT_EQ(c->getConstType(), vpiIntConst);
 }
 
 // --- Stmt[1..4]: arr[0..3] = 5..8 ----
@@ -379,12 +379,12 @@ TEST_F(DynamicArrayOpNewTest, ElementAssignmentsSetArrZeroThroughThree) {
     const hldb::Constant *const index = lhs->getIndex<hldb::Constant>();
     ASSERT_NE(index, nullptr);
     EXPECT_EQ(index->getDecompile(), expectedIndex[i]);
-    EXPECT_EQ(index->getConstType(), vpiUIntConst);
+    EXPECT_EQ(index->getConstType(), vpiIntConst);
 
     const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
     ASSERT_NE(rhs, nullptr);
     EXPECT_EQ(rhs->getDecompile(), expectedRhs[i]);
-    EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
+    EXPECT_EQ(rhs->getConstType(), vpiIntConst);
   }
 }
 

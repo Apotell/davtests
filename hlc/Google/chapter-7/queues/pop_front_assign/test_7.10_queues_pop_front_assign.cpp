@@ -52,7 +52,7 @@
 //     the first element before it is popped
 //   - "q = q[1:$]": Assignment (blocking) whose rhs is a PartSelect
 //     "q[1:$]" with prefix RefObj "q" (resolved); its Range has left
-//     bound Constant "1" (vpiUIntConst) and right bound Constant "$"
+//     bound Constant "1" (vpiIntConst) and right bound Constant "$"
 //     (vpiUnboundedConst) -- the pop_front-via-slice pattern
 //   - "q.size" must resolve like "q.size()" would (RefObj "q" resolved +
 //     MethodFuncCall "size" taking no arguments) -- see the KNOWN BUG note
@@ -343,7 +343,7 @@ TEST_F(QueuesPopFrontAssignTest, FifthStmtAssignmentRhsIsQOneToDollarPartSelect)
   const hldb::Constant *const left = rhs->getRange()->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   EXPECT_EQ(left->getDecompile(), "1");
-  EXPECT_EQ(left->getConstType(), vpiUIntConst);
+  EXPECT_EQ(left->getConstType(), vpiIntConst);
 
   const hldb::Constant *const right = rhs->getRange()->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);

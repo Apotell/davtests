@@ -352,7 +352,7 @@ TEST_F(QueuesDeleteTest, DeleteWithIndexArgumentIsConstantZero) {
   const hldb::Constant *const index = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(index, nullptr);
   EXPECT_EQ(index->getDecompile(), "0");
-  EXPECT_EQ(index->getConstType(), vpiUIntConst);
+  EXPECT_EQ(index->getConstType(), vpiIntConst);
 }
 
 // --- $display(":assert: (%d == 2)", q.size) ----

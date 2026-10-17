@@ -172,7 +172,7 @@ TEST_F(AssociativeArrayTraversalTest, FirstAssignmentSetsMap1000ToA) {
   EXPECT_NE(prefix->getActual<hldb::Variable>(), nullptr);
   const hldb::Constant *const index = lhs->getIndex<hldb::Constant>();
   ASSERT_NE(index, nullptr);
-  EXPECT_EQ(index->getConstType(), vpiUIntConst);
+  EXPECT_EQ(index->getConstType(), vpiIntConst);
   EXPECT_EQ(index->getDecompile(), "1000");
   EXPECT_EQ(index->getValue(), "1000");
   EXPECT_NE(index->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);

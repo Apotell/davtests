@@ -45,8 +45,8 @@
 //   - module top has no Nets and exactly 1 Variable "val"
 //   - anonymous EnumTypespec with explicit base BitTypespec (bit [1:0],
 //     2-state)
-//   - 3 consts: a (vpiUIntConst "0"), b (vpiBinaryConst "2'bxx"), c
-//     (vpiUIntConst "1") (b is a direct Constant, NOT an Operation like
+//   - 3 consts: a (vpiIntConst "0"), b (vpiBinaryConst "2'bxx"), c
+//     (vpiIntConst "1") (b is a direct Constant, NOT an Operation like
 //     {32{1'bx}} in enum_xx)
 //   - "val" has typespec resolving to EnumTypespec, no initial value
 //   - top has no processes
@@ -139,7 +139,7 @@ TEST_F(EnumXxInvTest, ConstAValueIsZero) {
   ASSERT_NE(e, nullptr);
   const hldb::Constant *const val = e->getEnumConsts()->at(0)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getConstType(), vpiUIntConst);
+  EXPECT_EQ(val->getConstType(), vpiIntConst);
   EXPECT_EQ(val->getDecompile(), std::string_view("0"));
 }
 
@@ -172,7 +172,7 @@ TEST_F(EnumXxInvTest, ConstCValueIsOne) {
   ASSERT_NE(e, nullptr);
   const hldb::Constant *const val = e->getEnumConsts()->at(2)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getConstType(), vpiUIntConst);
+  EXPECT_EQ(val->getConstType(), vpiIntConst);
   EXPECT_EQ(val->getDecompile(), std::string_view("1"));
 }
 

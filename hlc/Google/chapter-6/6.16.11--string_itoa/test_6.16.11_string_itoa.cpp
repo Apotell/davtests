@@ -40,8 +40,8 @@
 //   - Initial stmt is a RefObj named "a.itoa(12)"
 //   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
 //   - RefObj element[1] is FuncCall "itoa" with 1 argument
-//   - argument to itoa is Constant "12" stored as vpiUIntConst (HLDB stores
-//     unsized integer literals as unsigned; vpiIntConst is NOT used here)
+//   - argument to itoa is Constant "12" stored as vpiIntConst (HLDB stores
+//     unsized integer literals as signed; vpiUIntConst is NOT used here)
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -194,8 +194,8 @@ TEST_F(StringItoaTest, ItoaArgumentIs12AsIntegerConst) {
   ASSERT_NE(arg0, nullptr);
   const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
-  EXPECT_EQ(arg->getConstType(), vpiUIntConst)
-      << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+  EXPECT_EQ(arg->getConstType(), vpiIntConst)
+      << "HLDB stores unsized integer literals as vpiIntConst";
 }
 
 TEST_F(StringItoaTest, CompilerReportsZeroErrors) {

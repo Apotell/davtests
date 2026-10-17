@@ -290,7 +290,7 @@ TEST_F(Sequence21Test, MySeq_Op_Operand1_IsConstantDelayOne) {
 }
 
 TEST_F(Sequence21Test, MySeq_Op_Operand1_ConstType_IsInt) {
-  // '##1' produces vpiIntConst (7), not vpiUIntConst (9).
+  // '##1' produces vpiIntConst (7), not vpiIntConst (7).
   // This distinguishes cycle delay constants from repetition count constants.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);

@@ -131,7 +131,7 @@ TEST_F(IntegersUnderscores, AssignmentA_ConstType) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "27_195_000: constType should be unsigned int (9)";
+  EXPECT_EQ(c->getConstType(), vpiIntConst) << "27_195_000: constType should be int";
 }
 
 TEST_F(IntegersUnderscores, AssignmentA_SizeIs64) {
@@ -140,7 +140,7 @@ TEST_F(IntegersUnderscores, AssignmentA_SizeIs64) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 64) << "unsized decimal should have size 64 (Surelog default integer width)";
+  EXPECT_EQ(c->getSize(), 32) << "unsized decimal should have size 32";
 }
 
 TEST_F(IntegersUnderscores, AssignmentA_UnderscoresStripped_getValue) {

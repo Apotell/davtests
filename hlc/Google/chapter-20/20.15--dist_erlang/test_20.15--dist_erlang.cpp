@@ -161,7 +161,7 @@ TEST_F(DistErlangFunctionTest, SeedHasInitialValue1234) {
   ASSERT_NE(seed, nullptr);
   const hldb::Constant *const init = seed->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr) << "'= 1234' should be a Constant";
-  EXPECT_EQ(init->getConstType(), vpiUIntConst);
+  EXPECT_EQ(init->getConstType(), vpiIntConst);
   EXPECT_EQ(init->getDecompile(), "1234");
 }
 
@@ -213,14 +213,14 @@ TEST_F(DistErlangFunctionTest, DistErlangCallHasSeedKAndMeanArguments) {
   ASSERT_NE(arg1, nullptr);
   const hldb::Constant *const k = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(k, nullptr) << "'3' should be a Constant";
-  EXPECT_EQ(k->getConstType(), vpiUIntConst);
+  EXPECT_EQ(k->getConstType(), vpiIntConst);
   EXPECT_EQ(k->getDecompile(), "3");
 
   const hldb::NamedArgument *const arg2 = call->getArguments()->at(2);
   ASSERT_NE(arg2, nullptr);
   const hldb::Constant *const mean = arg2->getHighConn<hldb::Constant>();
   ASSERT_NE(mean, nullptr) << "'100' should be a Constant";
-  EXPECT_EQ(mean->getConstType(), vpiUIntConst);
+  EXPECT_EQ(mean->getConstType(), vpiIntConst);
   EXPECT_EQ(mean->getDecompile(), "100");
 }
 

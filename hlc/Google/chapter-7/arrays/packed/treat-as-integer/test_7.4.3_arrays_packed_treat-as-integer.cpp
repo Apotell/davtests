@@ -146,7 +146,7 @@ TEST_F(PackedTreatAsIntegerTest, SecondAssignmentAddsTwentyNineToArrA) {
   EXPECT_NE(lhsOperand->getActual<hldb::Variable>(), nullptr);
   const hldb::Constant *const rhsOperand = any_cast<hldb::Constant>(op->getOperands()->at(1));
   ASSERT_NE(rhsOperand, nullptr);
-  EXPECT_EQ(rhsOperand->getConstType(), vpiUIntConst);
+  EXPECT_EQ(rhsOperand->getConstType(), vpiIntConst);
   EXPECT_EQ(rhsOperand->getDecompile(), "29");
 }
 

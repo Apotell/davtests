@@ -58,7 +58,7 @@
 //   - design has module "fork_tb" with exactly 3 variables: "a", "b", "c"
 //   - each variable: LogicTypespec, unsigned, no declared ranges; not
 //     duplicated in the net collection; initial value resolves to
-//     Constant "0" (vpiUIntConst)
+//     Constant "0" (vpiIntConst)
 //   - module has exactly 1 process, and it is an Initial
 //   - "initial fork ... join" binds the ForkStmt directly as the Initial's
 //     statement (no wrapping Begin is introduced)
@@ -228,7 +228,7 @@ TEST_F(DisableOtherTest, AllVariablesInitialValueIsConstantZero) {
     const hldb::Constant *const val = v->getValue<hldb::Constant>();
     ASSERT_NE(val, nullptr) << "'reg " << name << " = 0' must carry an initial value";
     EXPECT_EQ(val->getDecompile(), "0");
-    EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+    EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
   }
 }
 
@@ -299,7 +299,7 @@ TEST_F(DisableOtherTest, BlockFirstStmtDelayControlsAssignmentToA) {
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "1");
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst);
 }
 
 TEST_F(DisableOtherTest, BlockSecondStmtDelayControlsAssignmentToB) {
@@ -319,7 +319,7 @@ TEST_F(DisableOtherTest, BlockSecondStmtDelayControlsAssignmentToB) {
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "1");
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst);
 }
 
 // --- #15 disable block; ------------------------------------------------------

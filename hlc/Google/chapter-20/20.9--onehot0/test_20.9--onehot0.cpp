@@ -145,13 +145,13 @@ class Onehot0FunctionTest : public Test {
     ASSERT_NE(range, nullptr);
     const hldb::Constant *const left = range->getLeftExpr<hldb::Constant>();
     ASSERT_NE(left, nullptr);
-    EXPECT_EQ(left->getConstType(), vpiUIntConst);
-    EXPECT_EQ(left->getSize(), 64);
+    EXPECT_EQ(left->getConstType(), vpiIntConst);
+    EXPECT_EQ(left->getSize(), 32);
     EXPECT_EQ(left->getDecompile(), "31");
     const hldb::Constant *const right = range->getRightExpr<hldb::Constant>();
     ASSERT_NE(right, nullptr);
-    EXPECT_EQ(right->getConstType(), vpiUIntConst);
-    EXPECT_EQ(right->getSize(), 64);
+    EXPECT_EQ(right->getConstType(), vpiIntConst);
+    EXPECT_EQ(right->getSize(), 32);
     EXPECT_EQ(right->getDecompile(), "0");
 
     const hldb::Constant *const init = var->getValue<hldb::Constant>();

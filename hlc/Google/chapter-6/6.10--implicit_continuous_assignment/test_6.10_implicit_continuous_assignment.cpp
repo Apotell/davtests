@@ -53,7 +53,7 @@
 //
 // What is checked:
 //   - module top exists, has explicit nets 'a' (wire [3:0], init "8")
-//     and 'b' (wire [3:0], init "5"), both vpiWire, both vpiUIntConst
+//     and 'b' (wire [3:0], init "5"), both vpiWire, both vpiIntConst
 //     initializers
 //   - exactly 1 ContAssign: RHS = vpiUnaryOrOp(vpiBitOrOp(RefObj"a",
 //     RefObj"b"))
@@ -149,7 +149,7 @@ TEST_F(ImplicitContinuousAssignmentTest, ANetInitialValueConstType) {
   ASSERT_NE(a, nullptr);
   const hldb::Constant *const init = a->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
-  EXPECT_EQ(init->getConstType(), vpiUIntConst);
+  EXPECT_EQ(init->getConstType(), vpiIntConst);
 }
 
 TEST_F(ImplicitContinuousAssignmentTest, BNetInitialValueConstType) {
@@ -159,7 +159,7 @@ TEST_F(ImplicitContinuousAssignmentTest, BNetInitialValueConstType) {
   ASSERT_NE(b, nullptr);
   const hldb::Constant *const init = b->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr);
-  EXPECT_EQ(init->getConstType(), vpiUIntConst);
+  EXPECT_EQ(init->getConstType(), vpiIntConst);
 }
 
 TEST_F(ImplicitContinuousAssignmentTest, ANetTypeIsWire) {

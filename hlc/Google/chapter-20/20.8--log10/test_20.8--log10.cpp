@@ -169,8 +169,8 @@ TEST_F(Log10FunctionTest, Log10CallHasOneIntArgument) {
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
   const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr) << "'100' should be a Constant";
-  EXPECT_EQ(arg->getConstType(), vpiUIntConst);
-  EXPECT_EQ(arg->getSize(), 64);
+  EXPECT_EQ(arg->getConstType(), vpiIntConst);
+  EXPECT_EQ(arg->getSize(), 32);
   EXPECT_EQ(arg->getDecompile(), "100");
 
   const hldb::RefTypespec *const ref = arg->getTypespec();

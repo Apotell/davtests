@@ -39,14 +39,14 @@
 // "reg a/b/c = 0" -- same reasoning as 9.3.2--parallel_block_join.sv: each
 // a Variable, single-bit unsigned LogicTypespec, no declared Ranges. All
 // bare decimal literals ("0" x3 initializers, "1", "0", "1") are
-// plain-value literals -> vpiUIntConst.
+// plain-value literals -> vpiIntConst.
 //
 // Checked:
 //   - design has module "parallel_tb" with exactly 3 variables: "a", "b",
 //     "c"
 //   - each variable: LogicTypespec, unsigned, no declared ranges; not
 //     duplicated in the net collection; initial value resolves to
-//     Constant "0" (vpiUIntConst)
+//     Constant "0" (vpiIntConst)
 //   - module has exactly 1 process, and it is an Initial
 //   - the Initial's body is directly a ForkStmt (no enclosing Begin)
 //   - the ForkStmt's getJoinType() is vpiJoinAny; it has exactly 3
@@ -166,7 +166,7 @@ TEST_F(ParallelBlockJoinAnyTest, AllVariablesInitialValueIsConstantZero) {
     const hldb::Constant *const val = v->getValue<hldb::Constant>();
     ASSERT_NE(val, nullptr) << "'reg " << name << " = 0' must carry an initial value";
     EXPECT_EQ(val->getDecompile(), "0");
-    EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+    EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
   }
 }
 
@@ -213,7 +213,7 @@ TEST_F(ParallelBlockJoinAnyTest, FirstStmtIsBlockingAssignToA) {
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "1");
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst);
 }
 
 TEST_F(ParallelBlockJoinAnyTest, SecondStmtIsBlockingAssignToB) {
@@ -227,7 +227,7 @@ TEST_F(ParallelBlockJoinAnyTest, SecondStmtIsBlockingAssignToB) {
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "0");
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst);
 }
 
 TEST_F(ParallelBlockJoinAnyTest, ThirdStmtIsBlockingAssignToC) {
@@ -241,7 +241,7 @@ TEST_F(ParallelBlockJoinAnyTest, ThirdStmtIsBlockingAssignToC) {
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "1");
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst);
 }
 
 // --- compiler diagnostics ----------------------------------------------------

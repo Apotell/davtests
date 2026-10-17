@@ -32,21 +32,21 @@
 // "reg a = 0" -- same reasoning as 9.2.1--initial.sv: a Variable (no
 // net-type keyword), single-bit unsigned LogicTypespec, no declared
 // Ranges, in the module's variable collection only. Both "0" and "1" are
-// plain-value bare decimal literals -> vpiUIntConst (established
+// plain-value bare decimal literals -> vpiIntConst (established
 // precedent; see 9.2.1--initial.sv and the project memory on the
-// vpiIntConst/vpiUIntConst split for delay/count vs. plain-value
+// vpiIntConst/vpiIntConst split for delay/count vs. plain-value
 // contexts -- this is a plain-value context).
 //
 // Checked:
 //   - design has module "initial_tb" with exactly 1 variable: "a"
 //   - variable "a": LogicTypespec, unsigned, no declared ranges (implicit
 //     scalar bit); not duplicated in the net collection; initial value
-//     resolves to Constant "0" (vpiUIntConst)
+//     resolves to Constant "0" (vpiIntConst)
 //   - module has exactly 1 process, and it is a FinalStmt
 //   - the FinalStmt's body is directly an Assignment (no enclosing Begin,
 //     since the source has no begin/end)
 //   - that Assignment is blocking ("="); lhs is a RefObj resolving to
-//     Variable "a"; rhs is Constant "1" (vpiUIntConst)
+//     Variable "a"; rhs is Constant "1" (vpiIntConst)
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/Error.h>
@@ -143,7 +143,7 @@ TEST_F(FinalTest, VariableAInitialValueIsConstantZero) {
   const hldb::Constant *const val = a->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "'reg a = 0' must carry an initial value";
   EXPECT_EQ(val->getDecompile(), "0");
-  EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
 }
 
 // --- final process structure --------------------------------------------------
@@ -193,7 +193,7 @@ TEST_F(FinalTest, AssignmentRhsIsConstantOne) {
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "assignment rhs should be a Constant";
   EXPECT_EQ(rhs->getDecompile(), "1");
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
 }
 
 // --- compiler diagnostics ----------------------------------------------------

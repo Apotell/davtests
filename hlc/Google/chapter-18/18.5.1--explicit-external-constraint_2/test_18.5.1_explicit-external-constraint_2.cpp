@@ -119,8 +119,8 @@ TEST_F(ExplicitExternalConstraint2Test, OutOfClassConstraintExistsAtDesignLevel)
   const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
   ASSERT_NE(a, nullptr);
 
-  const hldb::Constraint *const c = hldb::findByName<hldb::Constraint>("c", m_design->getConstraints());
-  ASSERT_NE(c, nullptr) << "'constraint a::c { b == 5; }' should register a Constraint at Design level "
+  const hldb::Constraint *const c = hldb::findByName<hldb::Constraint>("c", a->getConstraints());
+  ASSERT_NE(c, nullptr) << "'constraint a::c { b == 5; }' should register a Constraint at class level "
                             "(same modeling as 18.5.1--explicit-external-constraint_0.sv)";
 
   const hldb::ClassDefn *const owner = hldb::getReferenced<hldb::ClassDefn>(c->getPrefix());

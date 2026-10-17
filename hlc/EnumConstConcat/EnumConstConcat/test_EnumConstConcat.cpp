@@ -324,8 +324,8 @@ TEST_F(EnumConstConcatTest, GenIfConditionIsEqualityOfReadingLowAnd197) {
 
   const hldb::Constant *const rhs = any_cast<hldb::Constant>(eq->getOperands()->at(1));
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst)
-      << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst)
+      << "HLDB stores unsized integer literals as vpiIntConst";
   EXPECT_EQ(std::string(rhs->getDecompile()), "197");
 }
 

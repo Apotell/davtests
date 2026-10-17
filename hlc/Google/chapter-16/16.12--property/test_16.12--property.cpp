@@ -70,7 +70,7 @@
 //   vpiPosedgeOp   = 39
 //   vpiEqOp        = 14
 //   vpiNotOp       =  3
-//   vpiUIntConst   =  9
+//   vpiIntConst    =  7
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -308,14 +308,14 @@ TEST_F(PropertyTest, ConcAssert0_PropertyExpr_RightOperand_IsConstantOne) {
   EXPECT_EQ(std::string(c->getValue()), "1") << "'a == 1' right operand must be the constant 1";
 }
 
-TEST_F(PropertyTest, ConcAssert0_PropertyExpr_RightOperand_IsUnsignedInt) {
+TEST_F(PropertyTest, ConcAssert0_PropertyExpr_RightOperand_IsInt) {
   const auto *op = getEqOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
   const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "literal '1' in property expression must be vpiUIntConst (9)";
+  EXPECT_EQ(c->getConstType(), vpiIntConst) << "literal '1' in property expression must be vpiIntConst";
 }
 
 // ===========================================================================
@@ -458,7 +458,7 @@ TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_RightIsConstantOne) {
   EXPECT_EQ(std::string(c->getValue()), "1") << "'a == 1' right operand must be the constant 1";
 }
 
-TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_RightIsUnsignedInt) {
+TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_RightIsInt) {
   const auto *cs = getNotClockedSeq(m_design);
   ASSERT_NE(cs, nullptr);
   const auto *op = cs->getSequenceExpr<hldb::Operation>();
@@ -467,7 +467,7 @@ TEST_F(PropertyTest, ConcAssert1_ClockedSeq_SequenceExpr_RightIsUnsignedInt) {
   ASSERT_GE(op->getOperands()->size(), 2u);
   const auto *c = any_cast<const hldb::Constant *>((*op->getOperands())[1]);
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "literal '1' inside ClockedSeq must be vpiUIntConst (9)";
+  EXPECT_EQ(c->getConstType(), vpiIntConst) << "literal '1' inside ClockedSeq must be vpiIntConst";
 }
 
 }  // namespace hlc

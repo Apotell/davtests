@@ -38,7 +38,7 @@
 //   - Begin block has 2 variables: i (IntegerTypespec) and val (TypedefTypespec e)
 //   - 2 statements: val=a (rhs RefObj -> EnumConst) and i=val*4 (rhs vpiMultOp)
 //   - multiply operands are RefObj "val" and Constant "4"
-//   - multiply constant 4 is stored as vpiUIntConst
+//   - multiply constant 4 is stored as vpiIntConst
 //   - multiply Operation carries no static result typespec
 
 #include <hlc/Common/Session.h>
@@ -204,7 +204,7 @@ TEST_F(EnumNumericalExprTest, MultiplyOperandsAreValAnd4) {
   EXPECT_EQ(rhsOp->getDecompile(), std::string_view("4"));
 }
 
-TEST_F(EnumNumericalExprTest, MultiplyConstant4IsUIntConst) {
+TEST_F(EnumNumericalExprTest, MultiplyConstant4IsIntConst) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -219,8 +219,8 @@ TEST_F(EnumNumericalExprTest, MultiplyConstant4IsUIntConst) {
   ASSERT_EQ(op->getOperands()->size(), 2u);
   const hldb::Constant *const rhsOp = any_cast<hldb::Constant>(op->getOperands()->at(1));
   ASSERT_NE(rhsOp, nullptr);
-  EXPECT_EQ(rhsOp->getConstType(), vpiUIntConst)
-      << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+  EXPECT_EQ(rhsOp->getConstType(), vpiIntConst)
+      << "HLDB stores unsized integer literals as vpiIntConst";
 }
 
 TEST_F(EnumNumericalExprTest, MultiplyOpHasNoStaticResultTypespec) {

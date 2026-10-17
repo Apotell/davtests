@@ -112,7 +112,7 @@ class AllPackageSignalTest : public Test {
     ASSERT_NE(assign, nullptr);
     const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
     ASSERT_NE(rhs, nullptr);
-    EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
+    EXPECT_EQ(rhs->getConstType(), vpiIntConst);
     EXPECT_EQ(rhs->getDecompile(), "4");
   }
 };

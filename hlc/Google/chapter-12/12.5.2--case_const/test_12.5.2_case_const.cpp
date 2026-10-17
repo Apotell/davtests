@@ -49,7 +49,7 @@
 //   - module case_tb has exactly 1 Net "a" (wire) and 1 Variable "b" (reg)
 //   - CaseStmt exists, getCaseType() == vpiCaseExact (plain "case", not
 //     casex/casez), getQualifier() == vpiNoQualifier, condition is
-//     Constant "1" (vpiUIntConst) -- not a RefObj, confirming the
+//     Constant "1" (vpiIntConst) -- not a RefObj, confirming the
 //     constant-expression form of 12.5.2
 //   - exactly 5 CaseItems
 //   - the first 4 CaseItems each have exactly one vpiExpr: a BitSelect
@@ -158,7 +158,7 @@ TEST_F(CaseConstTest, ConditionIsConstantOneNotARefObj) {
   ASSERT_NE(cs, nullptr);
   const hldb::Constant *const cond = cs->getCondition<hldb::Constant>();
   ASSERT_NE(cond, nullptr) << "case_expression should be the constant '1', per 12.5.2";
-  EXPECT_EQ(cond->getConstType(), vpiUIntConst);
+  EXPECT_EQ(cond->getConstType(), vpiIntConst);
   EXPECT_EQ(cond->getDecompile(), "1");
 }
 

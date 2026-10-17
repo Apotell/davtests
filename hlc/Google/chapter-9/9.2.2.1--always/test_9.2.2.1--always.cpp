@@ -39,7 +39,7 @@
 // 9.2.1--initial.sv): single-bit, unsigned LogicTypespec, no declared
 // Ranges, in the module's variable collection only. The "0" initializer is
 // a plain-value literal, not a delay/count literal, so it follows this
-// codebase's established plain-value classification (vpiUIntConst), per
+// codebase's established plain-value classification (vpiIntConst), per
 // chapter-5/5.7.1--integers-unsized.sv and 9.2.1--initial.sv.
 //
 // "~a" is IEEE 1800-2017 Sec 11.4.1's UNARY BITWISE NEGATION operator
@@ -50,12 +50,12 @@
 //   - design has module "always_tb" with exactly 1 variable: "a"
 //   - variable "a": LogicTypespec, unsigned, no declared ranges; not
 //     duplicated in the net collection; initial value resolves to
-//     Constant "0" (vpiUIntConst)
+//     Constant "0" (vpiIntConst)
 //   - module has exactly 1 process, and it is an Always whose AlwaysType
 //     is none of vpiAlwaysComb/vpiAlwaysFF/vpiAlwaysLatch
 //   - the Always' body is directly a DelayControl (no enclosing Begin,
 //     since the source has no begin/end)
-//   - that DelayControl's delay resolves to Constant "5" (vpiUIntConst);
+//   - that DelayControl's delay resolves to Constant "5" (vpiIntConst);
 //     its wrapped stmt is the Assignment "a = ~a"
 //   - the Assignment is blocking ("="); lhs is a RefObj resolving to
 //     Variable "a"; rhs is an Operation(vpiBitNegOp) with 1 operand, a
@@ -171,7 +171,7 @@ TEST_F(AlwaysTest, VariableAInitialValueIsConstantZero) {
   const hldb::Constant *const val = a->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "'logic a = 0' must carry an initial value";
   EXPECT_EQ(val->getDecompile(), "0");
-  EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
 }
 
 // --- always process structure -------------------------------------------------

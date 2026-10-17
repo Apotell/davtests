@@ -39,8 +39,8 @@
 //   - Initial stmt is a RefObj named "a.hextoa(12)"
 //   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
 //   - RefObj element[1] is FuncCall "hextoa" with 1 argument (Constant "12")
-//   - argument to hextoa is stored as vpiUIntConst (unsized integer literals
-//     are unsigned in HLC -- same as established in the itoa test)
+//   - argument to hextoa is stored as vpiIntConst (unsized integer literals
+//     are signed in HLC -- same as established in the itoa test)
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
@@ -179,7 +179,7 @@ TEST_F(StringHextoaTest, HextoaArgumentIs12) {
   EXPECT_EQ(arg->getDecompile(), "12");
 }
 
-TEST_F(StringHextoaTest, HextoaArgumentIs12AsUIntConst) {
+TEST_F(StringHextoaTest, HextoaArgumentIs12AsIntConst) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -193,8 +193,8 @@ TEST_F(StringHextoaTest, HextoaArgumentIs12AsUIntConst) {
   ASSERT_NE(arg0, nullptr);
   const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
-  EXPECT_EQ(arg->getConstType(), vpiUIntConst)
-      << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+  EXPECT_EQ(arg->getConstType(), vpiIntConst)
+      << "HLDB stores unsized integer literals as vpiIntConst";
 }
 
 TEST_F(StringHextoaTest, CompilerReportsZeroErrors) {

@@ -82,7 +82,7 @@
 //
 // -- VPI constants ------------------------------------------------------------
 //   vpiMultOp    = 25   (binary multiplication, vpi_user.h)
-//   vpiUIntConst = 9    (unsigned int constant, vpi_user.h)
+//   vpiIntConst  = 7    (int constant, vpi_user.h)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>

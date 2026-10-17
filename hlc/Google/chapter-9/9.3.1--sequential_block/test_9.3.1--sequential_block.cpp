@@ -36,7 +36,7 @@
 // "reg a/b/c = 0" -- same reasoning as 9.2.1--initial.sv: each a Variable
 // (no net-type keyword), single-bit unsigned LogicTypespec, no declared
 // Ranges. All bare decimal literals here ("0" x3 initializers, "1") are
-// plain-value literals -> vpiUIntConst.
+// plain-value literals -> vpiIntConst.
 //
 // The 2nd and 3rd statements ("b = a;", "c = b;") differ from every prior
 // file in this chapter's assignments: their rhs is a plain variable
@@ -47,12 +47,12 @@
 //     "b", "c"
 //   - each variable: LogicTypespec, unsigned, no declared ranges; not
 //     duplicated in the net collection; initial value resolves to
-//     Constant "0" (vpiUIntConst)
+//     Constant "0" (vpiIntConst)
 //   - module has exactly 1 process, and it is an Initial
 //   - the Initial's body is a Begin (since source uses begin/end) with
 //     exactly 3 statements, in source order
 //   - stmt[0] "a = 1": blocking Assignment, lhs RefObj -> Variable "a",
-//     rhs Constant "1" (vpiUIntConst)
+//     rhs Constant "1" (vpiIntConst)
 //   - stmt[1] "b = a": blocking Assignment, lhs RefObj -> Variable "b",
 //     rhs RefObj -> Variable "a"
 //   - stmt[2] "c = b": blocking Assignment, lhs RefObj -> Variable "c",
@@ -169,7 +169,7 @@ TEST_F(SequentialBlockTest, AllVariablesInitialValueIsConstantZero) {
     const hldb::Constant *const val = v->getValue<hldb::Constant>();
     ASSERT_NE(val, nullptr) << "'reg " << name << " = 0' must carry an initial value";
     EXPECT_EQ(val->getDecompile(), "0");
-    EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+    EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
   }
 }
 
@@ -220,7 +220,7 @@ TEST_F(SequentialBlockTest, FirstStmtRhsIsConstantOne) {
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "'a = 1' rhs should be a Constant";
   EXPECT_EQ(rhs->getDecompile(), "1");
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
 }
 
 // --- stmt[1]: b = a -----------------------------------------------------------

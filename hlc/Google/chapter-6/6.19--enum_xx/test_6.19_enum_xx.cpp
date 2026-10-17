@@ -22,7 +22,7 @@
 // Checked:
 //   - design has module top
 //   - anonymous EnumTypespec with explicit base IntegerTypespec
-//   - 3 consts: a (vpiUIntConst "0"), b ({32{1'bx}} = vpiMultiConcatOp), c (vpiUIntConst "1")
+//   - 3 consts: a (vpiIntConst "0"), b ({32{1'bx}} = vpiMultiConcatOp), c (vpiIntConst "1")
 //   - b's MultiConcatOp has operands: Constant "32" and ConcatOp -> Constant "1'bx" (vpiBinaryConst)
 //   - variable "val" exists with typespec -> EnumTypespec
 //   - variable "val" has no initial value
@@ -108,7 +108,7 @@ TEST_F(EnumXxTest, ConstAValueIsZero) {
   ASSERT_NE(e, nullptr);
   const hldb::Constant *const val = e->getEnumConsts()->at(0)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getConstType(), vpiUIntConst);
+  EXPECT_EQ(val->getConstType(), vpiIntConst);
   EXPECT_EQ(val->getDecompile(), std::string_view("0"));
 }
 
@@ -153,7 +153,7 @@ TEST_F(EnumXxTest, ConstCValueIsOne) {
   ASSERT_NE(e, nullptr);
   const hldb::Constant *const val = e->getEnumConsts()->at(2)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getConstType(), vpiUIntConst);
+  EXPECT_EQ(val->getConstType(), vpiIntConst);
   EXPECT_EQ(val->getDecompile(), std::string_view("1"));
 }
 

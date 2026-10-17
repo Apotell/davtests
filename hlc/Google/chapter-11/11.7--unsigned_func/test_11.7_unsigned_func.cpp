@@ -146,7 +146,7 @@ TEST_F(UnsignedFuncTest, InitialBlockHasOneBlockingAssignment) {
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "a");
 }
 
-TEST_F(UnsignedFuncTest, AssignmentRhsIsUnsignedCallOfUnaryMinusFourOperation) {
+TEST_F(UnsignedFuncTest, AssignmentRhsIsSignedCallOfUnaryMinusFourOperation) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -172,6 +172,7 @@ TEST_F(UnsignedFuncTest, AssignmentRhsIsUnsignedCallOfUnaryMinusFourOperation) {
   const hldb::Constant *const operand = any_cast<hldb::Constant>(minus->getOperands()->at(0));
   ASSERT_NE(operand, nullptr);
   EXPECT_EQ(operand->getDecompile(), "4");
+  EXPECT_EQ(operand->getConstType(), vpiIntConst);
 }
 
 // --- design-level typespecs / compiler diagnostics --------------------------

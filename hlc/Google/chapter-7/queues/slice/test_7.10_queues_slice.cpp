@@ -46,7 +46,7 @@
 //     of int, bound 5) and "r" (unbounded queue of int)
 //   - net "q": ArrayTypespec vpiArrayType=queue(4), unpacked, ElemTypespec
 //     -> IntTypespec (signed); range left bound Constant "$"
-//     (vpiConstType=unbounded), right bound Constant "5" (vpiUIntConst)
+//     (vpiConstType=unbounded), right bound Constant "5" (vpiIntConst)
 //   - net "r": ArrayTypespec vpiArrayType=queue(4), unpacked, ElemTypespec
 //     -> IntTypespec (signed); range left bound Constant "$"
 //     (vpiConstType=unbounded), NO right bound (unbounded queue)
@@ -276,7 +276,7 @@ TEST_F(QueuesSliceTest, NetQRangeRightIsBoundConstantFive) {
   const hldb::Constant *const bound = at->getRange()->getRightExpr<hldb::Constant>();
   ASSERT_NE(bound, nullptr) << "7.10.2.7: bounded queue must keep its ':5' bound as the range right expr";
   EXPECT_EQ(bound->getDecompile(), "5");
-  EXPECT_EQ(bound->getConstType(), vpiUIntConst);
+  EXPECT_EQ(bound->getConstType(), vpiIntConst);
 }
 
 TEST_F(QueuesSliceTest, NetQElemTypespecIsSignedIntTypespec) {

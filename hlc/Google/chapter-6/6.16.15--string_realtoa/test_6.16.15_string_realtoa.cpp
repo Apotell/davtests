@@ -40,7 +40,7 @@
 //   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
 //   - RefObj element[1] is FuncCall "realtoa" with 1 argument (Constant "4.76")
 //   - argument to realtoa is stored as vpiRealConst (real literal, unlike the
-//     integer *toa variants which use vpiUIntConst)
+//     integer *toa variants which use vpiIntConst)
 
 #include <hlc/Common/Session.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>

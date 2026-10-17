@@ -96,10 +96,10 @@ TEST_F(ImplicitExternalConstraint0Test, ClassAndPropertyExist) {
 TEST_F(ImplicitExternalConstraint0Test, OutOfClassConstraintIsRegisteredAtDesignLevelWithPrefixToClassA) {
   const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
   ASSERT_NE(a, nullptr);
-  EXPECT_EQ(a->getConstraints(), nullptr) << "out-of-class constraint bodies are not nested under the class";
+  ASSERT_NE(a->getConstraints(), nullptr) << "out-of-class constraint bodies are nested under the class";
 
-  const hldb::Constraint *const c = hldb::findByName<hldb::Constraint>("c", m_design->getConstraints());
-  ASSERT_NE(c, nullptr) << "'constraint a::c { ... }' should register a Constraint at Design level";
+  const hldb::Constraint *const c = hldb::findByName<hldb::Constraint>("c", a->getConstraints());
+  ASSERT_NE(c, nullptr) << "'constraint a::c { ... }' should register a Constraint at class level";
 
   const hldb::ClassDefn *const owner = hldb::getReferenced<hldb::ClassDefn>(c->getPrefix());
   ASSERT_NE(owner, nullptr) << "the constraint's prefix should resolve back to its owning class";
@@ -107,7 +107,11 @@ TEST_F(ImplicitExternalConstraint0Test, OutOfClassConstraintIsRegisteredAtDesign
 }
 
 TEST_F(ImplicitExternalConstraint0Test, ConstraintBodyIsSingleEqualityExpressionBEqualsZero) {
-  const hldb::Constraint *const c = hldb::findByName<hldb::Constraint>("c", m_design->getConstraints());
+  const hldb::ClassDefn *const a = hldb::findByName<hldb::ClassDefn>("a", m_design->getAllClasses());
+  ASSERT_NE(a, nullptr);
+  ASSERT_NE(a->getConstraints(), nullptr) << "out-of-class constraint bodies are nested under the class";
+
+  const hldb::Constraint *const c = hldb::findByName<hldb::Constraint>("c", a->getConstraints());
   ASSERT_NE(c, nullptr);
 
   const hldb::AnyCollection *const items = c->getConstraintItems();

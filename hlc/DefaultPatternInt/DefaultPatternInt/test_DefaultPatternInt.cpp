@@ -44,7 +44,7 @@
 //
 // -- Sec 6.20.4 / 6.11.2 rules under test --------------------------------
 //   * `localparam int unsigned CNT = 2` is a localparam (getLocalParam()
-//     true) with constType vpiUIntConst.
+//     true) with constType vpiIntConst.
 //   * `localparam int unsigned V[CNT] = ...` is likewise a localparam.
 //
 // -- Function under test --------------------------------------------------

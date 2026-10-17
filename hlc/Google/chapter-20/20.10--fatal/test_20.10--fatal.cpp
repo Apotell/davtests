@@ -36,7 +36,7 @@
 //   - the Initial's body is a Begin (from the explicit "begin ... end")
 //     wrapping exactly 1 statement
 //   - that statement is a SysTaskCall named "$fatal" with exactly 2
-//     arguments: a Constant unsigned int "2" (vpiUIntConst) and a Constant
+//     arguments: a Constant unsigned int "2" (vpiIntConst) and a Constant
 //     string "fatal" (vpiStringConst)
 //   - compiler reports zero errors
 //
@@ -135,7 +135,7 @@ TEST_F(FatalTaskTest, FatalCallHasFinishNumberAndStringArgument) {
   ASSERT_NE(arg0, nullptr);
   const hldb::Constant *const finishNumber = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(finishNumber, nullptr) << "'2' should be a Constant";
-  EXPECT_EQ(finishNumber->getConstType(), vpiUIntConst);
+  EXPECT_EQ(finishNumber->getConstType(), vpiIntConst);
   EXPECT_EQ(finishNumber->getDecompile(), "2");
 
   const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);

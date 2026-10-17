@@ -63,7 +63,7 @@
 //
 // -- VPI constants ----
 //   vpiPosedgeOp  = 39
-//   vpiUIntConst  =  9
+//   vpiIntConst   =  7
 //   vpiUnbounded  = 11   (the '$' unbounded value)
 //   vpiWire       =  1   (net type)
 //   vpiAlways     =  1   (always type)
@@ -273,12 +273,12 @@ TEST_F(ParameterUnboundedTest, Net_clk_InitialValueIsZero) {
   EXPECT_EQ(std::string(c->getValue()), "0") << "'wire clk = 0' initial value must be 0";
 }
 
-TEST_F(ParameterUnboundedTest, Net_clk_InitialValue_IsUnsignedInt) {
+TEST_F(ParameterUnboundedTest, Net_clk_InitialValue_IsInt) {
   const auto *net = getNet(m_design, "clk");
   ASSERT_NE(net, nullptr);
   const auto *c = net->getValue<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "literal '0' in 'wire clk = 0' must be vpiUIntConst (9)";
+  EXPECT_EQ(c->getConstType(), vpiIntConst) << "literal '0' in 'wire clk = 0' must be vpiIntConst";
 }
 
 // IEEE 1800-2023 Sec 6.7/6.8: 'clk' has the net-type keyword `wire`, so it
@@ -491,12 +491,12 @@ TEST_F(ParameterUnboundedTest, Assignment_Rhs_IsConstant23) {
   EXPECT_EQ(std::string(c->getValue()), "23") << "'a[0:p] = 23' rhs must be Constant 23";
 }
 
-TEST_F(ParameterUnboundedTest, Assignment_Rhs_IsUnsignedInt) {
+TEST_F(ParameterUnboundedTest, Assignment_Rhs_IsInt) {
   const auto *asgn = getAssignment(m_design);
   ASSERT_NE(asgn, nullptr);
   const auto *c = asgn->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "literal '23' must be vpiUIntConst (9)";
+  EXPECT_EQ(c->getConstType(), vpiIntConst) << "literal '23' must be vpiIntConst";
 }
 
 }  // namespace hlc

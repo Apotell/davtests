@@ -31,10 +31,10 @@
 //   - ArrayTypespec: vpiArrayType=dynamic(2)
 //   - ArrayTypespec ElemTypespec: RefTypespec->BitTypespec
 //   - BitTypespec: vpiVector=true, getSigned()==false, 1 Range [7:0] (left=7, right=0)
-//   - Range constants are vpiUIntConst
+//   - Range constants are vpiIntConst
 //   - module has exactly 1 Initial process
 //   - Initial body is a Begin block with 4 statements
-//   - Stmt[0]: blocking Assignment, RHS=ArrayExpr with 1 Constant "16" (vpiUIntConst)
+//   - Stmt[0]: blocking Assignment, RHS=ArrayExpr with 1 Constant "16" (vpiIntConst)
 //   - Stmt[1]: SysTaskCall "$display" with 2 arguments
 //   - Stmt[2]: RefObj "arr.delete" -- COMPILER BEHAVIOR: arr.delete stored as RefObj
 //       not as a method call; HLC emits EL0535 "Illegal implicit variable"
@@ -208,7 +208,7 @@ TEST_F(OpDeleteTest, RangeRightIs0) {
   EXPECT_EQ(right->getDecompile(), "0");
 }
 
-TEST_F(OpDeleteTest, RangeConstTypesAreUInt) {
+TEST_F(OpDeleteTest, RangeConstTypesAreInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
@@ -223,8 +223,8 @@ TEST_F(OpDeleteTest, RangeConstTypesAreUInt) {
   const hldb::Constant *const right = bt->getRanges()->at(0)->getRightExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(left->getConstType(), vpiUIntConst);
-  EXPECT_EQ(right->getConstType(), vpiUIntConst);
+  EXPECT_EQ(left->getConstType(), vpiIntConst);
+  EXPECT_EQ(right->getConstType(), vpiIntConst);
 }
 
 // --- Initial process ----
@@ -319,7 +319,7 @@ TEST_F(OpDeleteTest, ArrayExprSizeIs16) {
   EXPECT_EQ(c->getDecompile(), "16");
 }
 
-TEST_F(OpDeleteTest, ArrayExprSizeConstTypeIsUInt) {
+TEST_F(OpDeleteTest, ArrayExprSizeConstTypeIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::ArrayExpr *const ae =
@@ -329,7 +329,7 @@ TEST_F(OpDeleteTest, ArrayExprSizeConstTypeIsUInt) {
   ASSERT_NE(ae, nullptr);
   const hldb::Constant *const c = any_cast<hldb::Constant>(ae->getExprs()->at(0));
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst);
+  EXPECT_EQ(c->getConstType(), vpiIntConst);
 }
 
 // --- Stmt[1]: first $display ----

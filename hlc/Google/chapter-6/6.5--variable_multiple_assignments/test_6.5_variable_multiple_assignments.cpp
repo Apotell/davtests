@@ -46,7 +46,7 @@
 //     declaration-time initializer)
 //   - exactly 2 ContAssigns, both LHS RefObj "v" resolving via
 //     getActual<hldb::Variable>() (NOT Net); first RHS Constant "12",
-//     second RHS Constant "13"; both RHS constants are vpiUIntConst
+//     second RHS Constant "13"; both RHS constants are vpiIntConst
 //   - top has no processes
 //   - THE POINT OF THIS FILE: the compiler currently reports zero errors
 //     for driving "v" with two continuous assignments, which IEEE
@@ -160,14 +160,14 @@ TEST_F(VariableMultipleAssignmentsTest, SecondContAssignRhsIsConstant13) {
   EXPECT_EQ(rhs->getDecompile(), "13") << "second ContAssign RHS value is not '13'";
 }
 
-TEST_F(VariableMultipleAssignmentsTest, RhsConstantsAreUIntConst) {
+TEST_F(VariableMultipleAssignmentsTest, RhsConstantsAreIntConst) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_EQ(top->getContAssigns()->size(), 2u);
-  EXPECT_EQ(top->getContAssigns()->at(0)->getRhs<hldb::Constant>()->getConstType(), vpiUIntConst)
-      << "HLDB stores unsized integer literals as vpiUIntConst (9)";
-  EXPECT_EQ(top->getContAssigns()->at(1)->getRhs<hldb::Constant>()->getConstType(), vpiUIntConst);
+  EXPECT_EQ(top->getContAssigns()->at(0)->getRhs<hldb::Constant>()->getConstType(), vpiIntConst)
+      << "HLDB stores unsized integer literals as vpiIntConst";
+  EXPECT_EQ(top->getContAssigns()->at(1)->getRhs<hldb::Constant>()->getConstType(), vpiIntConst);
 }
 
 TEST_F(VariableMultipleAssignmentsTest, NoProcesses) {

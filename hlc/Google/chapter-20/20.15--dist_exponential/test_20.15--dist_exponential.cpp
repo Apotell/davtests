@@ -161,7 +161,7 @@ TEST_F(DistExponentialFunctionTest, SeedHasInitialValue1234) {
   ASSERT_NE(seed, nullptr);
   const hldb::Constant *const init = seed->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr) << "'= 1234' should be a Constant";
-  EXPECT_EQ(init->getConstType(), vpiUIntConst);
+  EXPECT_EQ(init->getConstType(), vpiIntConst);
   EXPECT_EQ(init->getDecompile(), "1234");
 }
 
@@ -213,7 +213,7 @@ TEST_F(DistExponentialFunctionTest, DistExponentialCallHasSeedAndMeanArguments) 
   ASSERT_NE(arg1, nullptr);
   const hldb::Constant *const mean = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(mean, nullptr) << "'100' should be a Constant";
-  EXPECT_EQ(mean->getConstType(), vpiUIntConst);
+  EXPECT_EQ(mean->getConstType(), vpiIntConst);
   EXPECT_EQ(mean->getDecompile(), "100");
 }
 

@@ -155,8 +155,8 @@ class ArrayQueriesMultiDimTest : public Test {
   // and an IntTypespec. Used for range bounds and dimension arguments.
   static void checkUIntConstant(const hldb::Constant *constant, std::string_view literal) {
     ASSERT_NE(constant, nullptr) << "'" << literal << "' should be a Constant";
-    EXPECT_EQ(constant->getConstType(), vpiUIntConst);
-    EXPECT_EQ(constant->getSize(), 64);
+    EXPECT_EQ(constant->getConstType(), vpiIntConst);
+    EXPECT_EQ(constant->getSize(), 32);
     EXPECT_EQ(constant->getDecompile(), literal);
     const hldb::RefTypespec *const ref = constant->getTypespec();
     ASSERT_NE(ref, nullptr);

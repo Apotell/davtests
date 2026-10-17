@@ -55,7 +55,7 @@
 //   - design has module "fork_tb" with exactly 2 variables: "a", "b"
 //   - each variable: LogicTypespec, unsigned, no declared ranges; not
 //     duplicated in the net collection; initial value resolves to
-//     Constant "0" (vpiUIntConst)
+//     Constant "0" (vpiIntConst)
 //   - module has exactly 1 process, and it is an Initial
 //   - "initial begin: block ... end" binds the named Begin "block" directly
 //     as the Initial's statement (no extra wrapping Begin is introduced)
@@ -66,7 +66,7 @@
 //   - the Begin contains exactly 3 sequential statements: "a = 1;",
 //     "disable block;", "b = 1;"
 //   - the first and third statements are plain blocking Assignments to "a"
-//     and "b" respectively, each with a Constant "1" (vpiUIntConst) rhs
+//     and "b" respectively, each with a Constant "1" (vpiIntConst) rhs
 //   - the second statement is a Disable with getVpiType() == vpiDisable;
 //     its expr resolves to a RefObj named "block" whose actual binds back
 //     to the enclosing Begin itself (the self-referential disable target)
@@ -197,7 +197,7 @@ TEST_F(DisableTest, AllVariablesInitialValueIsConstantZero) {
     const hldb::Constant *const val = v->getValue<hldb::Constant>();
     ASSERT_NE(val, nullptr) << "'reg " << name << " = 0' must carry an initial value";
     EXPECT_EQ(val->getDecompile(), "0");
-    EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+    EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
   }
 }
 
@@ -247,7 +247,7 @@ TEST_F(DisableTest, FirstStmtAssignsOneToA) {
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "1");
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst);
 }
 
 // --- disable block; -----------------------------------------------------------
@@ -290,7 +290,7 @@ TEST_F(DisableTest, ThirdStmtAssignsOneToB) {
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
   EXPECT_EQ(rhs->getDecompile(), "1");
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst);
 }
 
 // --- compiler diagnostics ----------------------------------------------------

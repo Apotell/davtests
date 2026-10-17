@@ -129,8 +129,7 @@ TEST_F(CompilerDirectivesDebug, FileDirectiveContainsSourceFilename) {
 TEST_F(CompilerDirectivesDebug, LineDirectiveIsIntegerConstant) {
   const hldb::Constant *const arg = getArg(m_design, 2);
   ASSERT_NE(arg, nullptr) << "`__LINE__ argument not found or not a Constant";
-  // vpiConstType: unsigned int (9)
-  EXPECT_EQ(arg->getConstType(), 9);
+  EXPECT_EQ(arg->getConstType(), vpiIntConst);
 }
 
 TEST_F(CompilerDirectivesDebug, LineDirectiveValueIsSeventeen) {

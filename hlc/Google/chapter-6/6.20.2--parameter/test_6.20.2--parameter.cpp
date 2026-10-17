@@ -27,7 +27,7 @@
 // unsized decimal integer literal (IEEE 1800-2017 Sec 6.20.2, Sec 5.7.1):
 //   - Has an inferred LogicTypespec (Surelog default for untyped parameters).
 //   - Its default value "123" is an unsigned integer constant
-//     (vpiConstType = vpiUIntConst = 9) with size 64.
+//     (vpiConstType = vpiIntConst = 7) with size 64.
 //   - The elaborator creates exactly one ParamAssign binding the parameter
 //     name (LHS RefObj -> actual Parameter) to its value (RHS Constant).
 //
@@ -49,7 +49,7 @@
 //                       `-- vpiDecompile: "123"
 //
 // -- VPI constants ----
-//   vpiUIntConst = 9
+//   vpiIntConst = 7
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -174,13 +174,13 @@ TEST_F(ParameterTest, ParamAssign_Rhs_IsConstant) {
 }
 
 // IEEE 1800-2017 Sec 5.7.1: unsized decimal integer literals without a sign
-// qualifier are unsigned; Surelog encodes this as vpiUIntConst (9).
-TEST_F(ParameterTest, ParamAssign_Rhs_ConstType_IsUnsignedInt) {
+// qualifier are signed.
+TEST_F(ParameterTest, ParamAssign_Rhs_ConstType_IsInt) {
   const hldb::ParamAssign *pa = getParamAssign(m_design);
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst) << "Constant for '123' must have vpiConstType == vpiUIntConst (9)";
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst) << "Constant for '123' must have vpiConstType == vpiIntConst";
 }
 
 // The value string must reproduce the exact source literal.
@@ -200,7 +200,7 @@ TEST_F(ParameterTest, ParamAssign_Rhs_SizeIs64) {
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *rhs = pa->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getSize(), 64) << "unsized decimal literal in untyped parameter must have host-int size (64)";
+  EXPECT_EQ(rhs->getSize(), 32) << "unsized decimal literal in untyped parameter must have host-int size (32)";
 }
 }  // namespace hlc
 

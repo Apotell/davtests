@@ -32,7 +32,7 @@
 //   - design has module top with 1 variable ('e')
 //   - variable 'e' RefTypespec vpiActual resolves to EnumTypespec
 //   - EnumTypespec has 2 consts: "start" and "stop"
-//   - "start" value is stored as vpiUIntConst = "10"
+//   - "start" value is stored as vpiIntConst = "10"
 //   - second const name is "stop" (not "step" -- distinguishes from enum_sequence)
 //   - top has no processes
 //   - "stop" const has no explicit value stored (HLC normalizes stop[11:13] to
@@ -127,7 +127,7 @@ TEST_F(EnumSequenceRangeTest, StartConstValueIs10) {
   ASSERT_NE(ec, nullptr);
   const hldb::Constant *const val = ec->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "'start' EnumConst should have an explicit value";
-  EXPECT_EQ(val->getConstType(), vpiUIntConst);
+  EXPECT_EQ(val->getConstType(), vpiIntConst);
   EXPECT_EQ(val->getDecompile(), std::string_view("10"));
 }
 

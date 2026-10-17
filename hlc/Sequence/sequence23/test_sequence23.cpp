@@ -28,7 +28,7 @@
 //   times. The HLDB must represent this as an Operation with opType
 //   vpiConsecutiveRepeatOp (77), two operands: the base expression and a
 //   Range node whose left bound is m and right bound is n. Both bounds are
-//   finite unsigned integer constants (vpiUIntConst=9).
+//   finite unsigned integer constants (vpiIntConst=7).
 //
 // Compile-stage: 'seq_range' in 'assert property(...)' resolves correctly
 // to SequenceDecl seq_range.
@@ -255,8 +255,7 @@ TEST_F(Sequence23Test, SeqRange_Op_Range_LowerBound_ValueIsTwo) {
       << "ss.16.9.1: lower bound of 'a[*2:4]' must decompile to \"2\"";
 }
 
-TEST_F(Sequence23Test, SeqRange_Op_Range_LowerBound_ConstType_IsUInt) {
-  // Repetition bounds are vpiUIntConst (9), not vpiIntConst (7).
+TEST_F(Sequence23Test, SeqRange_Op_Range_LowerBound_ConstType_IsInt) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_range");
@@ -270,8 +269,8 @@ TEST_F(Sequence23Test, SeqRange_Op_Range_LowerBound_ConstType_IsUInt) {
   ASSERT_NE(range, nullptr);
   const hldb::Constant *const lb = range->getLeftExpr<hldb::Constant>();
   ASSERT_NE(lb, nullptr);
-  EXPECT_EQ(lb->getConstType(), vpiUIntConst)
-      << "ss.16.9.1: repetition lower bound must be vpiUIntConst (9)";
+  EXPECT_EQ(lb->getConstType(), vpiIntConst)
+      << "ss.16.9.1: repetition lower bound must be vpiIntConst";
 }
 
 TEST_F(Sequence23Test, SeqRange_Op_Range_UpperBound_IsConstant) {
@@ -308,7 +307,7 @@ TEST_F(Sequence23Test, SeqRange_Op_Range_UpperBound_ValueIsFour) {
       << "ss.16.9.1: upper bound of 'a[*2:4]' must decompile to \"4\"";
 }
 
-TEST_F(Sequence23Test, SeqRange_Op_Range_UpperBound_ConstType_IsUInt) {
+TEST_F(Sequence23Test, SeqRange_Op_Range_UpperBound_ConstType_IsInt) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_range");
@@ -322,8 +321,8 @@ TEST_F(Sequence23Test, SeqRange_Op_Range_UpperBound_ConstType_IsUInt) {
   ASSERT_NE(range, nullptr);
   const hldb::Constant *const ub = range->getRightExpr<hldb::Constant>();
   ASSERT_NE(ub, nullptr);
-  EXPECT_EQ(ub->getConstType(), vpiUIntConst)
-      << "ss.16.9.1: repetition upper bound must be vpiUIntConst (9)";
+  EXPECT_EQ(ub->getConstType(), vpiIntConst)
+      << "ss.16.9.1: repetition upper bound must be vpiIntConst";
 }
 
 // ===========================================================================

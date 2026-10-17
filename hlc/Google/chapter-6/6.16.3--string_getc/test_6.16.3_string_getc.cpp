@@ -41,8 +41,8 @@
 //   - RefObj element[1] is FuncCall "getc" with 1 argument (Constant "2")
 //   - 'b' does NOT get a pre-evaluated constant value -- HLDB stores the
 //     unevaluated RefObj expression only; compile-time evaluation not performed
-//   - const type of argument "2" is vpiUIntConst (unsized integer literals are
-//     stored as unsigned by HLC, as established in the itoa test)
+//   - const type of argument "2" is vpiIntConst (unsized integer literals are
+//     stored as signed by HLC, as established in the itoa test)
 //   - the actual character result of a.getc(2) ('s') -- kept as a real
 //     assertion for when HLC adds compile-time evaluation of string methods
 
@@ -208,7 +208,7 @@ TEST_F(StringGetcTest, GetcArgumentIsTwo) {
   EXPECT_EQ(arg->getDecompile(), "2");
 }
 
-TEST_F(StringGetcTest, GetcArgumentIsUIntConst) {
+TEST_F(StringGetcTest, GetcArgumentIsIntConst) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
@@ -221,8 +221,8 @@ TEST_F(StringGetcTest, GetcArgumentIsUIntConst) {
   ASSERT_NE(arg0, nullptr);
   const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
-  EXPECT_EQ(arg->getConstType(), vpiUIntConst)
-      << "HLDB stores unsized integer literals as vpiUIntConst, not vpiIntConst";
+  EXPECT_EQ(arg->getConstType(), vpiIntConst)
+      << "HLDB stores unsized integer literals as vpiIntConst";
 }
 
 // ---------------------------------------------------------------------------

@@ -132,7 +132,7 @@ TEST_F(IntegersUnsizedIllegal, RhsIsConstant) {
       << "the numeric '4' from '4af' should be recovered as a Constant RHS";
 }
 
-TEST_F(IntegersUnsizedIllegal, RhsConstTypeIsUnsignedInt) {
+TEST_F(IntegersUnsizedIllegal, RhsConstTypeIsTime) {
   const hldb::Begin *const begin = getBegin(m_design);
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);

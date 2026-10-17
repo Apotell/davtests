@@ -130,7 +130,7 @@ TEST_F(IntegersUnsized, DecimalConstType) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "659: bare decimal -> constType unsigned int (9)";
+  EXPECT_EQ(c->getConstType(), vpiIntConst) << "659: bare decimal -> constType int";
 }
 
 TEST_F(IntegersUnsized, DecimalSizeIs64) {
@@ -139,7 +139,7 @@ TEST_F(IntegersUnsized, DecimalSizeIs64) {
   ASSERT_NE(assign, nullptr);
   const auto *c = assign->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr);
-  EXPECT_EQ(c->getSize(), 64) << "bare decimal constant gets size 64, not -1";
+  EXPECT_EQ(c->getSize(), 32) << "bare decimal constant gets size 32, not -1";
 }
 
 TEST_F(IntegersUnsized, DecimalGetValue) {

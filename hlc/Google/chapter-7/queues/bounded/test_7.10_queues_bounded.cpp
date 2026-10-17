@@ -195,7 +195,7 @@ TEST_F(QueuesBoundedTest, VariableQRangeRightIsBoundConstantTwo) {
   ASSERT_NE(bound, nullptr) << "7.10.2.7: bounded queue must keep its ':2' bound as the range right expr";
   EXPECT_EQ(bound->getDecompile(), "2");
   EXPECT_EQ(bound->getValue(), "2");
-  EXPECT_EQ(bound->getConstType(), vpiUIntConst);
+  EXPECT_EQ(bound->getConstType(), vpiIntConst);
 }
 
 TEST_F(QueuesBoundedTest, VariableQElemTypespecIsSignedIntTypespec) {

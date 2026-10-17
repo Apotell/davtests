@@ -25,7 +25,7 @@
 //   - ArrayTypespec: vpiArrayType=dynamic(2) -- key distinction from static(1) and associative(3)
 //   - ArrayTypespec ElemTypespec: RefTypespec->BitTypespec
 //   - BitTypespec: vpiVector=true, getSigned()==false, 1 Range [7:0] (left=7, right=0)
-//   - Range constants are vpiUIntConst
+//   - Range constants are vpiIntConst
 //   - variable has no initial value
 //   - design has 2 typespecs: ModuleTypespec "top" + IntTypespec (signed)
 //   - top has no processes, no continuous assignments
@@ -236,7 +236,7 @@ TEST_F(DynArrBasic, RangeRightIs0) {
   EXPECT_EQ(right->getDecompile(), "0");
 }
 
-TEST_F(DynArrBasic, RangeLeftConstTypeIsUInt) {
+TEST_F(DynArrBasic, RangeLeftConstTypeIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
@@ -249,10 +249,10 @@ TEST_F(DynArrBasic, RangeLeftConstTypeIsUInt) {
   ASSERT_NE(bt->getRanges(), nullptr);
   const hldb::Constant *const left = bt->getRanges()->at(0)->getLeftExpr<hldb::Constant>();
   ASSERT_NE(left, nullptr);
-  EXPECT_EQ(left->getConstType(), vpiUIntConst);
+  EXPECT_EQ(left->getConstType(), vpiIntConst);
 }
 
-TEST_F(DynArrBasic, RangeRightConstTypeIsUInt) {
+TEST_F(DynArrBasic, RangeRightConstTypeIsInt) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::BitTypespec *const bt = top->getVariables()
@@ -265,7 +265,7 @@ TEST_F(DynArrBasic, RangeRightConstTypeIsUInt) {
   ASSERT_NE(bt->getRanges(), nullptr);
   const hldb::Constant *const right = bt->getRanges()->at(0)->getRightExpr<hldb::Constant>();
   ASSERT_NE(right, nullptr);
-  EXPECT_EQ(right->getConstType(), vpiUIntConst);
+  EXPECT_EQ(right->getConstType(), vpiIntConst);
 }
 
 // --- design-level typespecs ----

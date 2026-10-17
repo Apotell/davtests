@@ -108,13 +108,13 @@
 //     (8 bits), in that order.
 //   - stmt[1] is a SysFuncCall named "$ungetc" and explicitly not a
 //     SysTaskCall, with exactly 2 arguments: a Constant decompiling to "123"
-//     with constType vpiUIntConst -- and explicitly NOT a RefObj, since a
+//     with constType vpiIntConst -- and explicitly NOT a RefObj, since a
 //     pushed-back character is a value rather than a destination -- followed
 //     by RefObj "fd" bound to the declared Variable "fd".
 //   - stmt[2] is a SysTaskCall named "$display" and explicitly not a
 //     SysFuncCall, with exactly 3 arguments: a vpiStringConst Constant whose
 //     text is ":assert: (%d == %d)" and whose width is 152 bits, then a
-//     Constant decompiling to "123" with constType vpiUIntConst, then the
+//     Constant decompiling to "123" with constType vpiIntConst, then the
 //     nested "$fgetc(fd)" call.
 //   - that nested call is a SysFuncCall named "$fgetc" and explicitly not a
 //     SysTaskCall, with exactly 1 argument: RefObj "fd" bound to the declared
@@ -279,8 +279,8 @@ class UngetcTest : public Test {
     const hldb::Constant *const literal = any_cast<hldb::Constant>(argument);
     ASSERT_NE(literal, nullptr) << where << " should be a Constant";
     EXPECT_EQ(literal->getDecompile(), expectedText);
-    EXPECT_EQ(literal->getConstType(), vpiUIntConst)
-        << where << ": Sec 5.7.1 makes a bare decimal literal unsized and unsigned";
+    EXPECT_EQ(literal->getConstType(), vpiIntConst)
+        << where << ": Sec 5.7.1 makes a bare decimal literal unsized and signed";
   }
 };
 

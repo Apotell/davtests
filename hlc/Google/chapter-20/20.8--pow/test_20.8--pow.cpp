@@ -199,8 +199,8 @@ TEST_F(PowFunctionTest, PowSecondArgumentIsIntY) {
   const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
   const hldb::Constant *const y = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(y, nullptr) << "'2' should be a Constant";
-  EXPECT_EQ(y->getConstType(), vpiUIntConst);
-  EXPECT_EQ(y->getSize(), 64);
+  EXPECT_EQ(y->getConstType(), vpiIntConst);
+  EXPECT_EQ(y->getSize(), 32);
   EXPECT_EQ(y->getDecompile(), "2");
 
   const hldb::RefTypespec *const ref = y->getTypespec();

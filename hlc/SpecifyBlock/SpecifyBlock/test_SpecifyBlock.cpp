@@ -183,7 +183,7 @@ TEST_F(SpecifyBlockTest, SpecParam_ExprIsConstant_1) {
   const auto *c = any_cast<hldb::Constant>((*exprs)[0]);
   ASSERT_NE(c, nullptr) << "expr[0] should be a Constant";
   EXPECT_EQ(c->getDecompile(), "1");
-  EXPECT_EQ(c->getConstType(), vpiUIntConst);
+  EXPECT_EQ(c->getConstType(), vpiIntConst);
 }
 
 // --- Tchk[0]: $setup(in1, posedge clk, tSetup) ---

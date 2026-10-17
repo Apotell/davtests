@@ -87,7 +87,7 @@
 //   - the Begin owns exactly one local Variable, "val", whose typespec
 //     resolves to a signed IntTypespec (IEEE 1800-2017 Sec 6.11.1).
 //   - "val"'s declaration-time initializer is a Constant of type
-//     vpiUIntConst decompiling to "1234" with value "1234" -- an unsized,
+//     vpiIntConst decompiling to "1234" with value "1234" -- an unsized,
 //     unbased decimal literal (IEEE 1800-2017 Sec 5.7.1), not a sized or
 //     based one.
 //   - the Begin's getStmts() holds exactly 3 entries. The declaration of
@@ -236,7 +236,7 @@ TEST_F(WriteBohTest, ValInitializerIsUnsizedDecimal1234) {
   ASSERT_NE(val, nullptr);
   const hldb::Constant *const init = val->getValue<hldb::Constant>();
   ASSERT_NE(init, nullptr) << "'int val = 1234;' carries a declaration-time initializer";
-  EXPECT_EQ(init->getConstType(), vpiUIntConst)
+  EXPECT_EQ(init->getConstType(), vpiIntConst)
       << "IEEE 1800-2017 Sec 5.7.1: '1234' is an unsized, unbased decimal literal";
   EXPECT_EQ(init->getDecompile(), "1234");
   EXPECT_EQ(init->getValue(), "1234");

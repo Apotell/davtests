@@ -43,7 +43,7 @@
 // What is checked:
 //   - module top has no Nets and exactly 1 Variable "val"
 //   - anonymous EnumTypespec with explicit base IntegerTypespec
-//   - 3 consts: a (vpiUIntConst "0"), b ({32{1'bx}} = vpiMultiConcatOp),
+//   - 3 consts: a (vpiIntConst "0"), b ({32{1'bx}} = vpiMultiConcatOp),
 //     c (no value -- unassigned after x-value has no vpiValue in UHDM)
 //   - "val" has typespec resolving to EnumTypespec, no initial value
 //   - top has no processes
@@ -136,7 +136,7 @@ TEST_F(EnumXxInvOrderTest, ConstAValueIsZero) {
   ASSERT_NE(e, nullptr);
   const hldb::Constant *const val = e->getEnumConsts()->at(0)->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getConstType(), vpiUIntConst);
+  EXPECT_EQ(val->getConstType(), vpiIntConst);
   EXPECT_EQ(val->getDecompile(), std::string_view("0"));
 }
 

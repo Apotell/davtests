@@ -30,8 +30,8 @@
 // "wire a = 0" / "wire b = 0" / "reg q = 0" -- identical declarations and
 // reasoning to 9.2.2.3--always_latch.sv: "a"/"b" are Nets (1-bit unsigned
 // LogicTypespec, no declared Ranges, net_decl_assignment value via
-// getValue() -> Constant "0", vpiUIntConst); "q" is a Variable (same
-// typespec shape, plain-value "0" initializer -> vpiUIntConst).
+// getValue() -> Constant "0", vpiIntConst); "q" is a Variable (same
+// typespec shape, plain-value "0" initializer -> vpiIntConst).
 // getNetDeclAssign() is asserted true per Sec 6.7.1 but is a CONFIRMED
 // compiler bug (never set, across every net-declaration-with-initializer
 // shape checked so far: plain scalar, vector with sized/based initializer,
@@ -233,7 +233,7 @@ TEST_F(AlwaysFfTest, NetAValueIsConstantZero) {
   const hldb::Constant *const val = a->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "'wire a = 0' must carry its net_decl_assignment value";
   EXPECT_EQ(val->getDecompile(), "0");
-  EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
 }
 
 TEST_F(AlwaysFfTest, NetBValueIsConstantZero) {
@@ -242,7 +242,7 @@ TEST_F(AlwaysFfTest, NetBValueIsConstantZero) {
   const hldb::Constant *const val = b->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "'wire b = 0' must carry its net_decl_assignment value";
   EXPECT_EQ(val->getDecompile(), "0");
-  EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
 }
 
 // --- variable "q" (reg) --------------------------------------------------------
@@ -288,7 +288,7 @@ TEST_F(AlwaysFfTest, VariableQInitialValueIsConstantZero) {
   const hldb::Constant *const val = q->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "'reg q = 0' must carry an initial value";
   EXPECT_EQ(val->getDecompile(), "0");
-  EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
 }
 
 // --- always_ff process structure -----------------------------------------------

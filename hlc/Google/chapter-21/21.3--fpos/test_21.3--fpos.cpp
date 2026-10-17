@@ -111,7 +111,7 @@
 //     Variable.
 //   - stmt[2] is a SysFuncCall "$fseek" (not a SysTaskCall) with exactly 3
 //     arguments: RefObj "fd" bound to the block-scope Variable, Constant 12
-//     and Constant 0, both vpiUIntConst -- the Sec 21.3.5 (fd, offset,
+//     and Constant 0, both vpiIntConst -- the Sec 21.3.5 (fd, offset,
 //     operation) order, with operation 0 meaning "from the start of file".
 //   - stmt[4] is a SysFuncCall "$rewind" (not a SysTaskCall) with exactly 1
 //     argument, RefObj "fd" bound to the block-scope Variable, and its name
@@ -444,14 +444,14 @@ TEST_F(FposTest, FseekArgumentsAreFdOffsetTwelveAndWhenceZero) {
   const hldb::Constant *const offset = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(offset, nullptr) << "arg[1] is the byte offset literal 12";
   EXPECT_EQ(offset->getDecompile(), "12");
-  EXPECT_EQ(offset->getConstType(), vpiUIntConst) << "Sec 5.7.1: a bare decimal literal is unsigned";
+  EXPECT_EQ(offset->getConstType(), vpiIntConst) << "Sec 5.7.1: a bare decimal literal is signed";
 
   const hldb::NamedArgument *const arg2 = fseek->getArguments()->at(2);
   ASSERT_NE(arg2, nullptr);
   const hldb::Constant *const operation = arg2->getHighConn<hldb::Constant>();
   ASSERT_NE(operation, nullptr) << "arg[2] is the operation literal 0";
   EXPECT_EQ(operation->getDecompile(), "0") << "Sec 21.3.5: operation 0 seeks from the start of the file";
-  EXPECT_EQ(operation->getConstType(), vpiUIntConst) << "Sec 5.7.1: a bare decimal literal is unsigned";
+  EXPECT_EQ(operation->getConstType(), vpiIntConst) << "Sec 5.7.1: a bare decimal literal is signed";
 }
 
 // --- stmt[4]: $rewind(fd); ----------------------------------------------------

@@ -239,14 +239,14 @@ TEST_F(QueuesInsertTest, InsertCallHasIndexAndItemArguments) {
   const hldb::Constant *const index = arg0->getHighConn<hldb::Constant>();
   ASSERT_NE(index, nullptr) << "argument[0] (the index) should be a Constant";
   EXPECT_EQ(index->getDecompile(), "0");
-  EXPECT_EQ(index->getConstType(), vpiUIntConst);
+  EXPECT_EQ(index->getConstType(), vpiIntConst);
 
   const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
   const hldb::Constant *const item = arg1->getHighConn<hldb::Constant>();
   ASSERT_NE(item, nullptr) << "argument[1] (the item) should be a Constant";
   EXPECT_EQ(item->getDecompile(), "1");
-  EXPECT_EQ(item->getConstType(), vpiUIntConst);
+  EXPECT_EQ(item->getConstType(), vpiIntConst);
 }
 
 // --- $display(":assert: (%d == 1)", q.size) ----

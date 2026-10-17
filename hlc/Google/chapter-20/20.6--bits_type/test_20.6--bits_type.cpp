@@ -172,8 +172,8 @@ class BitsTypeFunctionTest : public Test {
   // text, size 64, and an IntTypespec.
   static void checkRangeBound(const hldb::Constant *bound, std::string_view literal) {
     ASSERT_NE(bound, nullptr) << "range bound '" << literal << "' should be a Constant";
-    EXPECT_EQ(bound->getConstType(), vpiUIntConst);
-    EXPECT_EQ(bound->getSize(), 64);
+    EXPECT_EQ(bound->getConstType(), vpiIntConst);
+    EXPECT_EQ(bound->getSize(), 32);
     EXPECT_EQ(bound->getDecompile(), literal);
     const hldb::RefTypespec *const ref = bound->getTypespec();
     ASSERT_NE(ref, nullptr);

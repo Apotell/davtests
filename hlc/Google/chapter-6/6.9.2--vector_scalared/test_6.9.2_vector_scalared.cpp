@@ -43,7 +43,7 @@
 //   - module top exists, has exactly 1 Net named "a", vpiNetType=vpiTri1
 //   - Net has a LogicTypespec (via RefTypespec), vpiVector=true, exactly
 //     1 Range: left=15, right=0
-//   - Net's initial value is Constant "0" (vpiUIntConst)
+//   - Net's initial value is Constant "0" (vpiIntConst)
 //   - top has no processes, no continuous assignments
 //   - compiler reports zero errors (this file is fully legal, matching
 //     the spec's own worked example almost verbatim)
@@ -203,7 +203,7 @@ TEST_F(VectorScalaredTest, NetInitialValueIsZero) {
   EXPECT_EQ(val->getDecompile(), "0");
 }
 
-TEST_F(VectorScalaredTest, NetInitialValueConstTypeIsUInt) {
+TEST_F(VectorScalaredTest, NetInitialValueConstTypeIsInt) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getNets(), nullptr);
@@ -211,7 +211,7 @@ TEST_F(VectorScalaredTest, NetInitialValueConstTypeIsUInt) {
   ASSERT_NE(net, nullptr);
   const hldb::Constant *const val = net->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr);
-  EXPECT_EQ(val->getConstType(), vpiUIntConst);
+  EXPECT_EQ(val->getConstType(), vpiIntConst);
 }
 
 TEST_F(VectorScalaredTest, NoProcesses) {

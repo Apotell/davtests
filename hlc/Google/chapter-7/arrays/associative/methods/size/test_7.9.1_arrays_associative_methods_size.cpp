@@ -182,7 +182,7 @@ TEST_F(AssociativeArraySizeTest, FirstAssignmentSetsArrThreeToOne) {
   EXPECT_EQ(lhs->getName(), "arr[3]");
   const hldb::Constant *const index = lhs->getIndex<hldb::Constant>();
   ASSERT_NE(index, nullptr);
-  EXPECT_EQ(index->getConstType(), vpiUIntConst);
+  EXPECT_EQ(index->getConstType(), vpiIntConst);
   EXPECT_EQ(index->getDecompile(), "3");
   EXPECT_NE(index->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();

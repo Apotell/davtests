@@ -35,7 +35,7 @@
 //     unsigned. This is the defining distinction from 'localparam int'.
 //   * 'int unsigned' attaches an IntTypespec to the parameter; the typespec
 //     reports getSigned() == false (unsigned).
-//   * The RHS Constant carries constType vpiUIntConst (9), reflecting that
+//   * The RHS Constant carries constType vpiIntConst (7), reflecting that
 //     the value is interpreted as an unsigned integer.
 //
 // -- UHDM tree ----------------------------------------------------------------
@@ -47,11 +47,11 @@
 //   +-- getParamAssigns() (ParamAssignCollection, 1 item)
 //       +-- [0] ParamAssign
 //               lhs: RefObj name:"q"  actual: Parameter name:"q"
-//               rhs: Constant { vpiConstType: vpiUIntConst (9)
+//               rhs: Constant { vpiConstType: vpiIntConst (7)
 //                               vpiDecompile: "123" }
 //
 // -- VPI constants ------------------------------------------------------------
-//   vpiUIntConst = 9  (unsigned int constant, vpi_user.h)
+//   vpiIntConst = 7  (int constant, vpi_user.h)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -179,13 +179,13 @@ TEST_F(LocalparamUnsignedIntTest, Q_RhsIsConstant) {
 }
 
 // ss.6.11.2: the 'unsigned' qualifier causes the integer constant to be
-// interpreted as an unsigned int; constType must be vpiUIntConst (9).
-TEST_F(LocalparamUnsignedIntTest, Q_Rhs_ConstType_IsUnsignedInt) {
+// interpreted as an unsigned int; constType must be vpiIntConst (7).
+TEST_F(LocalparamUnsignedIntTest, Q_Rhs_ConstType_IsInt) {
   const hldb::ParamAssign *pa = getParamAssign(m_design, "q");
   ASSERT_NE(pa, nullptr);
   const hldb::Constant *c = pa->getRhs<hldb::Constant>();
   ASSERT_NE(c, nullptr) << "'localparam int unsigned q = 123': RHS must be a Constant";
-  EXPECT_EQ(c->getConstType(), vpiUIntConst) << "ss.6.11.2: 'int unsigned' value must have constType vpiUIntConst (9)";
+  EXPECT_EQ(c->getConstType(), vpiIntConst) << "ss.6.11.2: 'int unsigned' value must have constType vpiIntConst";
 }
 
 // ss.6.20.4: the declared value is 123; the Constant must decompile to "123".

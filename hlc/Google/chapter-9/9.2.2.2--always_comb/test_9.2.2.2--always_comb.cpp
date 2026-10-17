@@ -43,7 +43,7 @@
 // 9.2.1--initial.sv / 9.2.2.1--always.sv: single-bit, unsigned
 // LogicTypespec, no declared Ranges, in the module's variable collection
 // only. Its "0" initializer is a plain-value literal, so per this
-// codebase's established plain-value classification it is vpiUIntConst
+// codebase's established plain-value classification it is 
 // (see 9.2.1--initial.sv; tracked open question about this vs. vpiIntConst
 // in delay/count contexts, see project memory).
 //
@@ -54,13 +54,13 @@
 //   - design has module "always_tb" with exactly 1 net ("a") and 1
 //     variable ("b")
 //   - net "a": LogicTypespec, unsigned, no declared ranges; net type is
-//     vpiWire; getValue() resolves to Constant "0" (vpiUIntConst); not
+//     vpiWire; getValue() resolves to Constant "0" (vpiIntConst); not
 //     duplicated in the variable collection. getNetDeclAssign() SHOULD be
 //     true per 6.7.1 but is a confirmed compiler bug (never set) --
 //     asserted anyway and intentionally left failing
 //   - variable "b": LogicTypespec, unsigned, no declared ranges; not
 //     duplicated in the net collection; initial value resolves to
-//     Constant "0" (vpiUIntConst)
+//     Constant "0" (vpiIntConst)
 //   - module has exactly 1 process, and it is an Always whose AlwaysType
 //     is exactly vpiAlwaysComb
 //   - the Always' body is directly an Assignment (no enclosing Begin,
@@ -196,7 +196,7 @@ TEST_F(AlwaysCombTest, NetAValueIsConstantZero) {
   const hldb::Constant *const val = a->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "'wire a = 0' must carry its net_decl_assignment value";
   EXPECT_EQ(val->getDecompile(), "0");
-  EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
 }
 
 // --- variable "b" (reg) --------------------------------------------------------
@@ -242,7 +242,7 @@ TEST_F(AlwaysCombTest, VariableBInitialValueIsConstantZero) {
   const hldb::Constant *const val = b->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "'reg b = 0' must carry an initial value";
   EXPECT_EQ(val->getDecompile(), "0");
-  EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType unsigned int";
 }
 
 // --- always_comb process structure ---------------------------------------------

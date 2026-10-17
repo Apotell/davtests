@@ -398,7 +398,7 @@ TEST_F(ArrayLocatorUniqueIndexTest, SecondDisplayThreeArgsAreQiBitSelectsZeroOne
     const hldb::Constant *const index = sel->getIndex<hldb::Constant>();
     ASSERT_NE(index, nullptr);
     EXPECT_EQ(index->getDecompile(), std::to_string(i));
-    EXPECT_EQ(index->getConstType(), vpiUIntConst);
+    EXPECT_EQ(index->getConstType(), vpiIntConst);
     EXPECT_NE(index->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr);
   }
 }

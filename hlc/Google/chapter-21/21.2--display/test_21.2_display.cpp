@@ -85,7 +85,7 @@
 //
 //   Sec 5.7.1 "Integer literal constants": "1234" is an unsized, unbased
 //   decimal literal. Its decompiled text is "1234"; this tool classifies
-//   a bare decimal literal as vpiUIntConst (established by
+//   a bare decimal literal as vpiIntConst (established by
 //   chapter-5/5.7.1--integers-unsized.sv and
 //   chapter-9/9.2.1--initial.sv).
 //
@@ -269,7 +269,7 @@ TEST_F(DisplayTest, ValInitialValueIsConstant1234) {
   const hldb::Constant *const initValue = val->getValue<hldb::Constant>();
   ASSERT_NE(initValue, nullptr) << "'int val = 1234' carries a declaration-time initializer";
   EXPECT_EQ(initValue->getDecompile(), "1234");
-  EXPECT_EQ(initValue->getConstType(), vpiUIntConst) << "5.7.1: bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(initValue->getConstType(), vpiIntConst) << "5.7.1: bare decimal literal -> constType signed int";
 }
 
 // --- the $display call -------------------------------------------------------

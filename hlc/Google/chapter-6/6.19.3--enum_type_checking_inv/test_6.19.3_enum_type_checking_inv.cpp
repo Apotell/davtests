@@ -39,7 +39,7 @@
 //   - module top has TypedefTypespec "e" -> EnumTypespec with 4 consts
 //     (a, b, c, d)
 //   - Begin block has 1 Variable "val"
-//   - assignment rhs is Constant "1" (vpiUIntConst) -- NOT RefObj ->
+//   - assignment rhs is Constant "1" (vpiIntConst) -- NOT RefObj ->
 //     EnumConst (no enum resolution happened, confirming this is a bare
 //     literal, not a cast enum value)
 //   - THE POINT OF THIS FILE: the compiler should report at least one
@@ -153,7 +153,7 @@ TEST_F(EnumTypeCheckingInvTest, AssignmentRhsIsIntegerConstant) {
   // rhs is a Constant "1" -- NOT a RefObj -> EnumConst
   const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr) << "invalid assignment rhs should be stored as Constant in UHDM";
-  EXPECT_EQ(rhs->getConstType(), vpiUIntConst);
+  EXPECT_EQ(rhs->getConstType(), vpiIntConst);
   EXPECT_EQ(rhs->getDecompile(), std::string_view("1"));
   EXPECT_EQ(assign->getRhs<hldb::RefObj>(), nullptr) << "rhs is an integer literal, not a RefObj -> EnumConst";
 }

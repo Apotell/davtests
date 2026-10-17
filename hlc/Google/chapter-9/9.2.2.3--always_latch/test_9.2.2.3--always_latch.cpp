@@ -30,14 +30,14 @@
 // "wire a = 0" / "wire b = 0" -- same reasoning as 9.2.2.2--always_comb.sv:
 // both are Nets (net-type keyword present), each a 1-bit unsigned
 // LogicTypespec with no declared Ranges, and each net_decl_assignment
-// value resolves via getValue() to Constant "0" (vpiUIntConst). As
+// value resolves via getValue() to Constant "0" (vpiIntConst). As
 // established there, getNetDeclAssign() is asserted true per Sec 6.7.1 but
 // is a CONFIRMED compiler bug (never set) -- see 9.2.2.2--always_comb.cpp
 // for the cross-checked evidence; asserted anyway, intentionally failing.
 //
 // "reg q = 0" is an ordinary variable, same reasoning as the prior files
 // in this chapter: single-bit, unsigned LogicTypespec, no declared Ranges,
-// plain-value "0" initializer -> vpiUIntConst.
+// plain-value "0" initializer -> vpiIntConst.
 //
 // "if(a) q <= b;" -- Sec 12.4 "Conditional if-else statement": with no
 // "else" clause, this must be an IfStmt (not IfElse), whose getCondition()
@@ -58,12 +58,12 @@
 //   - design has module "always_tb" with exactly 2 nets ("a", "b") and 1
 //     variable ("q")
 //   - net "a" / net "b": LogicTypespec, unsigned, no declared ranges; net
-//     type vpiWire; getValue() resolves to Constant "0" (vpiUIntConst);
+//     type vpiWire; getValue() resolves to Constant "0" (vpiIntConst);
 //     not duplicated in the variable collection. getNetDeclAssign() is a
 //     confirmed bug (see above), asserted anyway
 //   - variable "q": LogicTypespec, unsigned, no declared ranges; not
 //     duplicated in the net collection; initial value resolves to
-//     Constant "0" (vpiUIntConst)
+//     Constant "0" (vpiIntConst)
 //   - module has exactly 1 process, and it is an Always whose AlwaysType
 //     is exactly vpiAlwaysLatch
 //   - the Always' body is directly an IfStmt (no enclosing Begin)
@@ -234,7 +234,7 @@ TEST_F(AlwaysLatchTest, NetAValueIsConstantZero) {
   const hldb::Constant *const val = a->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "'wire a = 0' must carry its net_decl_assignment value";
   EXPECT_EQ(val->getDecompile(), "0");
-  EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
 }
 
 TEST_F(AlwaysLatchTest, NetBValueIsConstantZero) {
@@ -243,7 +243,7 @@ TEST_F(AlwaysLatchTest, NetBValueIsConstantZero) {
   const hldb::Constant *const val = b->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "'wire b = 0' must carry its net_decl_assignment value";
   EXPECT_EQ(val->getDecompile(), "0");
-  EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
 }
 
 // --- variable "q" (reg) --------------------------------------------------------
@@ -289,7 +289,7 @@ TEST_F(AlwaysLatchTest, VariableQInitialValueIsConstantZero) {
   const hldb::Constant *const val = q->getValue<hldb::Constant>();
   ASSERT_NE(val, nullptr) << "'reg q = 0' must carry an initial value";
   EXPECT_EQ(val->getDecompile(), "0");
-  EXPECT_EQ(val->getConstType(), vpiUIntConst) << "bare decimal literal -> constType unsigned int (9)";
+  EXPECT_EQ(val->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
 }
 
 // --- always_latch process structure --------------------------------------------

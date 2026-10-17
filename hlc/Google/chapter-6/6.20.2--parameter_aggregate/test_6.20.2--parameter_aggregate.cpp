@@ -30,7 +30,7 @@
 //   - `'{1, 2, 3, 4}` -- assignment pattern literal (IEEE 1800-2017 Sec 10.9.1).
 //     Surelog models this as an Operation with vpiOpType = vpiAssignmentPatternOp (75)
 //     and four Constant operands, one per element.
-//   - Each element literal is an unsized unsigned integer (vpiUIntConst = 9).
+//   - Each element literal is an unsized unsigned integer (vpiIntConst = 7).
 //
 // -- UHDM tree (from log) ----
 //
@@ -48,15 +48,15 @@
 //           `-- vpiRhs  Operation
 //               |-- vpiOpType: assign pattern (75)
 //               `-- vpiOperand (4 items)
-//                   |-- Constant  vpiUIntConst(9)  value:"1"
-//                   |-- Constant  vpiUIntConst(9)  value:"2"
-//                   |-- Constant  vpiUIntConst(9)  value:"3"
-//                   `-- Constant  vpiUIntConst(9)  value:"4"
+//                   |-- Constant  vpiIntConst(9)  value:"1"
+//                   |-- Constant  vpiIntConst(9)  value:"2"
+//                   |-- Constant  vpiIntConst(9)  value:"3"
+//                   `-- Constant  vpiIntConst(9)  value:"4"
 //
 // -- VPI constants ----
 //   vpiAssignmentPatternOp = 75
 //   vpiStaticArray         =  1
-//   vpiUIntConst           =  9
+//   vpiIntConst            =  7
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -299,14 +299,14 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_OperandCount_IsFour) {
 }
 
 // Each element literal is an unsized unsigned integer (Sec 5.7.1).
-TEST_F(ParameterAggregateTest, ParamAssign_Rhs_AllOperands_AreUnsignedIntConst) {
+TEST_F(ParameterAggregateTest, ParamAssign_Rhs_AllOperands_AreIntConst) {
   const hldb::Operation *op = getRhsOp(m_design);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   for (const hldb::Any *elem : *op->getOperands()) {
     const auto *c = any_cast<const hldb::Constant *>(elem);
     ASSERT_NE(c, nullptr) << "each operand must be a Constant";
-    EXPECT_EQ(c->getConstType(), vpiUIntConst) << "each element literal must be vpiUIntConst (9)";
+    EXPECT_EQ(c->getConstType(), vpiIntConst) << "each element literal must be vpiIntConst";
   }
 }
 
@@ -318,7 +318,7 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_AllOperands_SizeIs64) {
   for (const hldb::Any *elem : *op->getOperands()) {
     const auto *c = any_cast<const hldb::Constant *>(elem);
     ASSERT_NE(c, nullptr);
-    EXPECT_EQ(c->getSize(), 64) << "each unsized element literal must have host-int size (64)";
+    EXPECT_EQ(c->getSize(), 32) << "each unsized element literal must have host-int size (32)";
   }
 }
 
