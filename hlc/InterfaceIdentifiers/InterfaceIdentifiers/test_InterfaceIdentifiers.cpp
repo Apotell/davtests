@@ -58,11 +58,23 @@ class InterfaceIdentifiers : public Test {
     return hldb::findByDefName<hldb::Module>(name, m_design->getAllModules());
   }
 
+  // The declaration a ref obj to an interface/modport port names (Sec 37.13 detail 3, 37.15):
+  // the modport when one is given, else the interface.
+  const hldb::Any *findPortTarget(std::string_view interfaceName, std::string_view modportName) const {
+    const hldb::Interface *const i = hldb::findByDefName<hldb::Interface>(interfaceName, m_design->getAllInterfaces());
+    if ((i == nullptr) || modportName.empty()) return i;
+    return hldb::findByName<hldb::Modport>(modportName, i->getModports());
+  }
+
   // IEEE 1800-2023 Sec 37.13/37.15: an interface or modport port of a module is reached
   // through the module's vpiIODecl, whose vpiExpr is a ref obj. Sec 37.14: the port itself
   // stays a vpiPort whose vpiPortType is vpiInterfacePort or vpiModportPort and whose
-  // vpiLowConn is a ref obj. Sec 37.13 detail 3: such a port has no defined direction.
-  void checkInterfacePort(std::string_view moduleName, std::string_view portName, int32_t portType) const {
+  // vpiLowConn is a ref obj. Sec 37.13 detail 3: such a port has no defined direction, and its
+  // ref obj names the interface or modport declaration (37.15: a ref obj's vpiActual is never
+  // the io decl). A generic "interface" port names no declaration until elaborated, so pass no
+  // interface name for it.
+  void checkInterfacePort(std::string_view moduleName, std::string_view portName, int32_t portType,
+                          std::string_view interfaceName = {}, std::string_view modportName = {}) const {
     const hldb::Module *const m = findModule(moduleName);
     ASSERT_NE(m, nullptr) << "Module '" << moduleName << "' not found";
 
@@ -80,7 +92,12 @@ class InterfaceIdentifiers : public Test {
     EXPECT_EQ(port->getDirection(), vpiNoDirection);
     const hldb::RefObj *const lowConn = port->getLowConn<hldb::RefObj>();
     ASSERT_NE(lowConn, nullptr) << "Port '" << portName << "' low conn is not a RefObj";
-    EXPECT_EQ(lowConn->getActual(), iodecl) << "Port '" << portName << "' low conn does not refer to its IODecl";
+    if (!interfaceName.empty()) {
+      const hldb::Any *const target = findPortTarget(interfaceName, modportName);
+      ASSERT_NE(target, nullptr) << interfaceName << "." << modportName;
+      EXPECT_EQ(lowConn->getActual(), target) << "Port '" << portName << "' low conn";
+      EXPECT_EQ(iodecl->getExpr<hldb::RefObj>()->getActual(), target) << "IODecl '" << portName << "' vpiExpr";
+    }
 
     // An interface port is neither a net nor a variable (Sec 23.2.2.3, Annex A.1.3).
     EXPECT_EQ(hldb::findByName<hldb::Net>(portName, m->getNets()), nullptr);
@@ -210,7 +227,7 @@ TEST_F(InterfaceIdentifiers, NonAnsiModportModuleHasMstAndSlv) {
 // ----
 
 TEST_F(InterfaceIdentifiers, AnsiPlainPortIsInterfaceIODecl) {
-  checkInterfacePort("mod_ansi_plain_port", "bus", vpiInterfacePort);
+  checkInterfacePort("mod_ansi_plain_port", "bus", vpiInterfacePort, "BusIf");
 }
 
 TEST_F(InterfaceIdentifiers, AnsiPlainPortIODeclTypespecIsBusIf) {
@@ -226,8 +243,8 @@ TEST_F(InterfaceIdentifiers, AnsiPlainPortIODeclTypespecIsBusIf) {
 }
 
 TEST_F(InterfaceIdentifiers, AnsiModportPortsAreModportIODecls) {
-  checkInterfacePort("mod_ansi_modport_port", "mst", vpiModportPort);
-  checkInterfacePort("mod_ansi_modport_port", "slv", vpiModportPort);
+  checkInterfacePort("mod_ansi_modport_port", "mst", vpiModportPort, "BusIf", "master");
+  checkInterfacePort("mod_ansi_modport_port", "slv", vpiModportPort, "BusIf", "slave");
 }
 
 TEST_F(InterfaceIdentifiers, AnsiGenericPortIsInterfaceIODecl) {
@@ -239,9 +256,9 @@ TEST_F(InterfaceIdentifiers, AnsiGenericModportPortIsModportIODecl) {
 }
 
 TEST_F(InterfaceIdentifiers, AnsiArrayPortsAreIODecls) {
-  checkInterfacePort("mod_ansi_array_port", "bus", vpiInterfacePort);
-  checkInterfacePort("mod_ansi_modport_array_port", "mst", vpiModportPort);
-  checkInterfacePort("mod_ansi_modport_array_port", "slv", vpiModportPort);
+  checkInterfacePort("mod_ansi_array_port", "bus", vpiInterfacePort, "BusIf");
+  checkInterfacePort("mod_ansi_modport_array_port", "mst", vpiModportPort, "BusIf", "master");
+  checkInterfacePort("mod_ansi_modport_array_port", "slv", vpiModportPort, "BusIf", "slave");
 }
 
 TEST_F(InterfaceIdentifiers, AnsiSignalPortHasDirectionAndIsNotInterfacePort) {
@@ -256,28 +273,29 @@ TEST_F(InterfaceIdentifiers, AnsiSignalPortHasDirectionAndIsNotInterfacePort) {
 }
 
 TEST_F(InterfaceIdentifiers, NonAnsiPortsAreInterfaceIODecls) {
-  checkInterfacePort("mod_nonansi_single", "bus", vpiInterfacePort);
-  checkInterfacePort("mod_nonansi_multi", "busA", vpiInterfacePort);
-  checkInterfacePort("mod_nonansi_multi", "busB", vpiInterfacePort);
-  checkInterfacePort("mod_nonansi_array", "bus_arr", vpiInterfacePort);
+  checkInterfacePort("mod_nonansi_single", "bus", vpiInterfacePort, "BusIf");
+  checkInterfacePort("mod_nonansi_multi", "busA", vpiInterfacePort, "BusIf");
+  checkInterfacePort("mod_nonansi_multi", "busB", vpiInterfacePort, "BusIf");
+  checkInterfacePort("mod_nonansi_array", "bus_arr", vpiInterfacePort, "BusIf");
 }
 
 TEST_F(InterfaceIdentifiers, NonAnsiModportPortsAreModportIODecls) {
-  checkInterfacePort("mod_nonansi_modport", "mst", vpiModportPort);
-  checkInterfacePort("mod_nonansi_modport", "slv", vpiModportPort);
-  checkInterfacePort("mod_nonansi_modport_multi", "mstA", vpiModportPort);
-  checkInterfacePort("mod_nonansi_modport_multi", "mstB", vpiModportPort);
-  checkInterfacePort("mod_nonansi_modport_multi", "slv0", vpiModportPort);
-  checkInterfacePort("mod_nonansi_modport_array", "mst_arr", vpiModportPort);
+  checkInterfacePort("mod_nonansi_modport", "mst", vpiModportPort, "BusIf", "master");
+  checkInterfacePort("mod_nonansi_modport", "slv", vpiModportPort, "BusIf", "slave");
+  checkInterfacePort("mod_nonansi_modport_multi", "mstA", vpiModportPort, "BusIf", "master");
+  checkInterfacePort("mod_nonansi_modport_multi", "mstB", vpiModportPort, "BusIf", "master");
+  checkInterfacePort("mod_nonansi_modport_multi", "slv0", vpiModportPort, "BusIf", "slave");
+  checkInterfacePort("mod_nonansi_modport_array", "mst_arr", vpiModportPort, "BusIf", "master");
 }
 
-TEST_F(InterfaceIdentifiers, InterfacePortUseRefersToIODecl) {
+TEST_F(InterfaceIdentifiers, InterfacePortUseRefersToModport) {
   // Sec 37.15 detail 2: a ref obj is reached when traversing an expression that uses an
-  // interface port; in "assign out_bus.data = in_bus.data;" the leading name is that port.
+  // interface port; in "assign out_bus.data = in_bus.data;" the leading name is that port, a
+  // "BusIf.master" port, so its ref obj names modport master (Sec 37.13 detail 3).
   const hldb::Module *const m = findModule("mod_specify_paths");
   ASSERT_NE(m, nullptr);
-  const hldb::IODecl *const outBus = hldb::findByName<hldb::IODecl>("out_bus", m->getIODecls());
-  ASSERT_NE(outBus, nullptr);
+  const hldb::Any *const master = findPortTarget("BusIf", "master");
+  ASSERT_NE(master, nullptr);
   ASSERT_NE(m->getContAssigns(), nullptr);
   ASSERT_FALSE(m->getContAssigns()->empty());
 
@@ -288,7 +306,7 @@ TEST_F(InterfaceIdentifiers, InterfacePortUseRefersToIODecl) {
   const hldb::RefObj *const head = any_cast<hldb::RefObj>(lhs->getPathElems()->front());
   ASSERT_NE(head, nullptr);
   EXPECT_EQ(head->getName(), "out_bus");
-  EXPECT_EQ(head->getActual(), outBus);
+  EXPECT_EQ(head->getActual(), master);
 }
 
 // ----

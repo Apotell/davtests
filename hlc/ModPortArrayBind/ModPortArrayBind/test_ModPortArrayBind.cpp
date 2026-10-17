@@ -272,7 +272,6 @@ TEST_F(ModPortArrayBindTest, PortMRangeIsBNMinusOneDownToZero) {
 }
 
 TEST_F(ModPortArrayBindTest, PortMElementIsInterfaceRestrictedToModportMan) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::ArrayTypespec *const at = getPortMArray();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);
@@ -286,13 +285,11 @@ TEST_F(ModPortArrayBindTest, PortMElementIsInterfaceRestrictedToModportMan) {
 }
 
 TEST_F(ModPortArrayBindTest, InterfacePortNeedsNoDirection) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   EXPECT_EQ(findError(ErrorDefinition::COMP_PORT_MISSING_DIRECTION, "m"), nullptr)
       << "Sec 23.2.2.2: interface_port_header has no port_direction";
 }
 
 TEST_F(ModPortArrayBindTest, ModportAndMemberBind) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "man"), nullptr)
       << "Sec 25.5: 'man' is a modport of r5p_bus_if";
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "vld"), nullptr)

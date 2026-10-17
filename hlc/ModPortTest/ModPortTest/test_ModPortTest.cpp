@@ -266,19 +266,16 @@ TEST_F(ModPortTestTest, MemIfHasSystemAndMemoryModports) {
 }
 
 TEST_F(ModPortTestTest, NonexistentModportInPortHeaderIsDiagnosed) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "system1"), nullptr)
       << "25.5: mem_if has no modport named system1";
 }
 
 TEST_F(ModPortTestTest, ExistingModportInPortHeaderBinds) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "system"), nullptr)
       << "25.5: system is a modport of mem_if";
 }
 
 TEST_F(ModPortTestTest, MemoryCtrl2PortIsModportPortOfMemIfSystem) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Module *const m = getModule("memory_ctrl2");
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getPorts(), nullptr);
@@ -294,7 +291,6 @@ TEST_F(ModPortTestTest, MemoryCtrl2PortIsModportPortOfMemIfSystem) {
 }
 
 TEST_F(ModPortTestTest, InterfacePortsNotWarnedMissingDirection) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   EXPECT_EQ(findError(ErrorDefinition::COMP_PORT_MISSING_DIRECTION, "sif"), nullptr)
       << "23.2.2: interface_port_header has no port_direction";
 }
