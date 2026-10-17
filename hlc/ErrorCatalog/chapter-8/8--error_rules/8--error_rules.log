@@ -403,7 +403,6 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/8--error_rules.sv:80:1: Compile module "r230_m".
 [WRN:CP5851] $Source01/8--error_rules.sv:43:15: Failed to bind "this".
 [WRN:CP5851] $Source01/8--error_rules.sv:43:20: Failed to bind "x".
-[WRN:CP5851] $Source01/8--error_rules.sv:109:10: Failed to bind "f".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:CP5907] $Source01/8--error_rules.sv:21:5: Illegal timing control in function new.
 [ERR:CP5911] $Source01/8--error_rules.sv:70:5: Illegal super.new call in r215_ether.
@@ -512,8 +511,8 @@ Design name:unnamed:
                   vpiActual: Variable name:nonstat
                 vpiRhs Constant start:32:15 end:32:16:
                   vpiParent: Assignment
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
+                  vpiConstType: int (7)
+                  vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
                   vpiTypespec RefTypespec:
@@ -541,8 +540,8 @@ Design name:unnamed:
                   vpiActual: Variable name:nonstat
                 vpiRhs Constant start:33:20 end:33:21:
                   vpiParent: Assignment
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
+                  vpiConstType: int (7)
+                  vpiSize: 32
                   vpiDecompile: "2"
                   vpiValue: 2
                   vpiTypespec RefTypespec:
@@ -603,6 +602,8 @@ Design name:unnamed:
             vpiName: r207_a
             vpiFullName: r207_a::new::r207_a
             vpiActual: ClassTypespec name:r207_a
+      vpiDerivedClasses (1 items):
+        ClassDefn name:r207_b:
     ClassDefn name:r207_b file:$Source01/8--error_rules.sv start:53:1 end:59:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r207_b start:53:7 end:53:13:
@@ -669,8 +670,8 @@ Design name:unnamed:
                   vpiActual: Variable name:x
                 vpiRhs Constant start:56:9 end:56:10:
                   vpiParent: Assignment
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
+                  vpiConstType: int (7)
+                  vpiSize: 32
                   vpiDecompile: "1"
                   vpiValue: 1
                   vpiTypespec RefTypespec:
@@ -734,6 +735,8 @@ Design name:unnamed:
             vpiName: r215_packet
             vpiFullName: r215_packet::new::r215_packet
             vpiActual: ClassTypespec name:r215_packet
+      vpiDerivedClasses (1 items):
+        ClassDefn name:r215_ether:
     ClassDefn name:r215_ether file:$Source01/8--error_rules.sv start:68:1 end:72:9:
       vpiParent: Design name:unnamed
       vpiName Identifier name:r215_ether start:68:7 end:68:17:
@@ -765,8 +768,8 @@ Design name:unnamed:
             vpiParent: Extends
             vpiHighConn Constant start:68:38 end:68:39:
               vpiParent: NamedArgument
-              vpiConstType: unsigned int (9)
-              vpiSize: 64
+              vpiConstType: int (7)
+              vpiSize: 32
               vpiDecompile: "5"
               vpiValue: 5
               vpiTypespec RefTypespec:
@@ -806,8 +809,8 @@ Design name:unnamed:
                     vpiParent: MethodFuncCall name:new
                     vpiHighConn Constant start:70:15 end:70:16:
                       vpiParent: NamedArgument
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
+                      vpiConstType: int (7)
+                      vpiSize: 32
                       vpiDecompile: "5"
                       vpiValue: 5
                       vpiTypespec RefTypespec:
@@ -897,8 +900,8 @@ Design name:unnamed:
                   vpiActual: Variable name:outerProp
                 vpiRhs Constant start:94:19 end:94:20:
                   vpiParent: Assignment
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
+                  vpiConstType: int (7)
+                  vpiSize: 32
                   vpiDecompile: "0"
                   vpiValue: 0
                   vpiTypespec RefTypespec:
@@ -922,12 +925,28 @@ Design name:unnamed:
         vpiFullName: r239_c::work
         vpiActual: Library name:work
       vpiCell: r239_c
+      vpiMethod (1 items):
+        Function name:f start:106:1 end:107:12:
+          vpiParent: ClassDefn name:r239_c
+          vpiName Identifier name:f start:106:23 end:106:24:
+          vpiFullName: r239_c::f
+          vpiVisibility: public (1)
+          vpiPrefix RefObj name:r239_c start:106:15 end:106:21:
+            vpiParent: Function name:f
+            vpiName: r239_c
+            vpiFullName: r239_c::f::r239_c
+            vpiActual: ClassDefn name:r239_c
+          vpiReturn RefTypespec start:106:10 end:106:14:
+            vpiParent: Function name:f
+            vpiFullName: r239_c::f
+            vpiActual: VoidTypespec
       vpiTaskFuncDecl (1 items):
         FunctionDecl name:f start:109:10 end:109:27:
           vpiParent: ClassDefn name:r239_c
           vpiName Identifier name:f start:109:24 end:109:25:
           vpiFullName: r239_c::f
           vpiVisibility: public (1)
+          vpiTaskFunc: Function name:f
           vpiReturn RefTypespec start:109:19 end:109:23:
             vpiParent: FunctionDecl name:f
             vpiFullName: r239_c::f
@@ -1086,21 +1105,6 @@ Design name:unnamed:
       vpiName Identifier name:r239_c:
       vpiDefName: r239_c
       vpiClassDefn: ClassDefn name:r239_c
-  vpiTaskFunc (1 items):
-    Function name:f start:106:1 end:107:12:
-      vpiParent: Design name:unnamed
-      vpiName Identifier name:f start:106:23 end:106:24:
-      vpiFullName: f
-      vpiVisibility: public (1)
-      vpiPrefix RefObj name:r239_c start:106:15 end:106:21:
-        vpiParent: Function name:f
-        vpiName: r239_c
-        vpiFullName: f.r239_c
-        vpiActual: ClassDefn name:r239_c
-      vpiReturn RefTypespec start:106:10 end:106:14:
-        vpiParent: Function name:f
-        vpiFullName: f
-        vpiActual: VoidTypespec
   vpiLibrary (1 items):
     Library name:work:
       vpiParent: Design name:unnamed
@@ -1109,7 +1113,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 1
 [  ERROR] : 4
-[WARNING] : 3
+[WARNING] : 2
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *

@@ -97,8 +97,6 @@ n<$Source01/18.5.13--constraint-guards_0.sv> u<84> t<Top_level_rule> c<1> l<16:1
                                       n<5> u<61> t<INTEGRAL_NUMBER> p<62> l<24:45> el<24:46>
             n<> u<78> t<ENDCLASS> p<79> l<25:1> el<25:9>
 AST_DEBUG_END
-[ERR:LN7713] $Source01/18.5.13--constraint-guards_0.sv:1:1: Found 1 orphan node(s).
-[ERR:LN7714] Found 4 weak node(s).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -181,8 +179,11 @@ Design name:unnamed:
       vpiConstraint (1 items):
         Constraint name:c1 start:24:19 end:24:49:
           vpiParent: ClassDefn name:a
-          vpiName: c1
+          vpiName Identifier name:c1 start:24:16 end:24:18:
           vpiFullName: a::c1
+          vpiAutomatic: true
+          vpiAllocScheme: automatic (1)
+          vpiIsConstraintEnabled: true
           vpiConstraintItem (1 items):
             ConstrIf start:24:21 end:24:47:
               vpiParent: Constraint name:c1
@@ -199,6 +200,26 @@ Design name:unnamed:
                     vpiParent: Operation
                     vpiConstType: null (12)
                     vpiDecompile: null
+              vpiConstraintExpr (1 items):
+                Operation start:24:39 end:24:46:
+                  vpiParent: ConstrIf
+                  vpiOpType: equal (14)
+                  vpiOperand (2 items):
+                    RefObj name:b1 start:24:39 end:24:41:
+                      vpiParent: Operation
+                      vpiName: b1
+                      vpiFullName: a::c1::b1
+                      vpiActual: Variable name:b1
+                    Constant start:24:45 end:24:46:
+                      vpiParent: Operation
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "5"
+                      vpiValue: 5
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: a::c1
+                        vpiActual: IntTypespec
   vpiTypespec (3 items):
     ClassTypespec name:b start:16:7 end:16:8:
       vpiParent: Design name:unnamed
@@ -220,7 +241,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -236,25 +257,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-18/18.5.13--constraint-guards_0/mounts.json
 
 
-{'result': {'coverage': 98.04,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/18.5.13--constraint-guards_0.sv': {'post_len': 2,
+            'files': {'$Output/lib/work/18.5.13--constraint-guards_0.sv': {'post_len': 0,
                                                                            'pre_len': 102}},
-            'post_len': 2,
+            'post_len': 0,
             'pre_len': 102,
             'test_name': 'Google/chapter-18/18.5.13--constraint-guards_0'}}
 
 +--------------------------------------------------+----------+-----------+
 | INPUT                                            |   PRELEN |   POSTLEN |
 +==================================================+==========+===========+
-| $Output/lib/work/18.5.13--constraint-guards_0.sv |      102 |         2 |
+| $Output/lib/work/18.5.13--constraint-guards_0.sv |      102 |         0 |
 +==================================================+==========+===========+
-|                                                  |      102 |         2 |
+|                                                  |      102 |         0 |
 +--------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.04
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -265,7 +286,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.13--constraint-guards_0/de
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              28      28       0         0
+Others                              33      33       0         0
 ----------------------------------------------------------------
-                                    28      28       0         0
+                                    33      33       0         0
 ===================== END REDUCTION RESULT =====================

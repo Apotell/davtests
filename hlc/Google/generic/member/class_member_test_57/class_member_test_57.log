@@ -187,21 +187,22 @@ n<$Source01/class_member_test_57.sv> u<174> t<Top_level_rule> c<1> l<6:1> el<13:
                                   n<> u<153> t<TICK_1> p<154> l<11:15> el<11:17>
             n<> u<168> t<ENDCLASS> p<169> l<13:1> el<13:9>
 AST_DEBUG_END
-[ERR:LN7713] $Source01/class_member_test_57.sv:1:1: Found 2 orphan node(s).
-[ERR:LN7714] Found 18 weak node(s).
 [WRN:CP5851] $Source01/class_member_test_57.sv:6:25: Failed to bind "bar".
 [WRN:CP5851] $Source01/class_member_test_57.sv:8:3: Failed to bind "A".
 [WRN:CP5851] $Source01/class_member_test_57.sv:9:7: Failed to bind "c_g".
 [WRN:CP5851] $Source01/class_member_test_57.sv:9:11: Failed to bind "A".
 [WRN:CP5851] $Source01/class_member_test_57.sv:9:13: Failed to bind "B".
+[WRN:CP5851] $Source01/class_member_test_57.sv:9:22: Failed to bind "c_g".
+[WRN:CP5851] $Source01/class_member_test_57.sv:9:26: Failed to bind "K".
 [WRN:CP5851] $Source01/class_member_test_57.sv:10:7: Failed to bind "c_g".
 [WRN:CP5851] $Source01/class_member_test_57.sv:10:11: Failed to bind "A".
 [WRN:CP5851] $Source01/class_member_test_57.sv:10:13: Failed to bind "B".
+[WRN:CP5851] $Source01/class_member_test_57.sv:10:24: Failed to bind "c_g".
+[WRN:CP5851] $Source01/class_member_test_57.sv:10:28: Failed to bind "K".
 [WRN:CP5851] $Source01/class_member_test_57.sv:11:3: Failed to bind "c_g".
 [WRN:CP5851] $Source01/class_member_test_57.sv:11:7: Failed to bind "A".
 [WRN:CP5851] $Source01/class_member_test_57.sv:11:9: Failed to bind "B".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:DB2038] $Source01/class_member_test_57.sv:7:28: 'vpiConstraintItem' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -237,8 +238,11 @@ Design name:unnamed:
       vpiConstraint (1 items):
         Constraint name:gain_constraint start:7:28 end:12:2:
           vpiParent: ClassDefn name:foo_class
-          vpiName: gain_constraint
+          vpiName Identifier name:gain_constraint start:7:12 end:7:27:
           vpiFullName: foo_class::gain_constraint
+          vpiAutomatic: true
+          vpiAllocScheme: automatic (1)
+          vpiIsConstraintEnabled: true
           vpiConstraintItem (4 items):
             Distribution start:8:3 end:8:29:
               vpiParent: Constraint name:gain_constraint
@@ -248,8 +252,8 @@ Design name:unnamed:
                   vpiDistType: equaldist (1)
                   vpiValueRange Constant start:8:11 end:8:12:
                     vpiParent: DistItem
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
+                    vpiConstType: int (7)
+                    vpiSize: 32
                     vpiDecompile: "1"
                     vpiValue: 1
                     vpiTypespec RefTypespec:
@@ -258,8 +262,8 @@ Design name:unnamed:
                       vpiActual: IntTypespec
                   vpiWeight Constant start:8:16 end:8:18:
                     vpiParent: DistItem
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
+                    vpiConstType: int (7)
+                    vpiSize: 32
                     vpiDecompile: "90"
                     vpiValue: 90
                     vpiTypespec RefTypespec:
@@ -271,8 +275,8 @@ Design name:unnamed:
                   vpiDistType: equaldist (1)
                   vpiValueRange Constant start:8:20 end:8:21:
                     vpiParent: DistItem
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
+                    vpiConstType: int (7)
+                    vpiSize: 32
                     vpiDecompile: "0"
                     vpiValue: 0
                     vpiTypespec RefTypespec:
@@ -281,8 +285,8 @@ Design name:unnamed:
                       vpiActual: IntTypespec
                   vpiWeight Constant start:8:25 end:8:27:
                     vpiParent: DistItem
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
+                    vpiConstType: int (7)
+                    vpiSize: 32
                     vpiDecompile: "10"
                     vpiValue: 10
                     vpiTypespec RefTypespec:
@@ -319,14 +323,53 @@ Design name:unnamed:
                         vpiFullName: foo_class::gain_constraint::c_g[A:B]::B
                   Constant start:9:19 end:9:20:
                     vpiParent: Operation
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
+                    vpiConstType: int (7)
+                    vpiSize: 32
                     vpiDecompile: "0"
                     vpiValue: 0
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: foo_class::gain_constraint
                       vpiActual: IntTypespec
+              vpiConstraintExpr (1 items):
+                Operation start:9:22 end:9:35:
+                  vpiParent: ConstrIf
+                  vpiOpType: equal (14)
+                  vpiOperand (2 items):
+                    PartSelect name:c_g[K:0] start:9:22 end:9:30:
+                      vpiParent: Operation
+                      vpiName: c_g[K:0]
+                      vpiFullName: foo_class::gain_constraint::c_g[K:0]
+                      vpiPrefix RefObj name:c_g start:9:22 end:9:25:
+                        vpiParent: PartSelect name:c_g[K:0]
+                        vpiName: c_g
+                        vpiFullName: foo_class::gain_constraint::c_g[K:0]::c_g
+                      vpiRange Range start:9:26 end:9:29:
+                        vpiParent: PartSelect name:c_g[K:0]
+                        vpiLeftRange RefObj name:K start:9:26 end:9:27:
+                          vpiParent: Range
+                          vpiName: K
+                          vpiFullName: foo_class::gain_constraint::c_g[K:0]::K
+                        vpiRightRange Constant start:9:28 end:9:29:
+                          vpiParent: Range
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: foo_class::gain_constraint::c_g[K:0]
+                            vpiActual: IntTypespec
+                    Constant start:9:34 end:9:35:
+                      vpiParent: Operation
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "0"
+                      vpiValue: 0
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: foo_class::gain_constraint
+                        vpiActual: IntTypespec
             ConstrIf start:10:3 end:10:40:
               vpiParent: Constraint name:gain_constraint
               vpiCondition Operation start:10:7 end:10:20:
@@ -353,14 +396,53 @@ Design name:unnamed:
                         vpiFullName: foo_class::gain_constraint::c_g[A:B]::B
                   Constant start:10:19 end:10:20:
                     vpiParent: Operation
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
+                    vpiConstType: int (7)
+                    vpiSize: 32
                     vpiDecompile: "1"
                     vpiValue: 1
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: foo_class::gain_constraint
                       vpiActual: IntTypespec
+              vpiConstraintExpr (1 items):
+                Operation start:10:24 end:10:37:
+                  vpiParent: ConstrIf
+                  vpiOpType: equal (14)
+                  vpiOperand (2 items):
+                    PartSelect name:c_g[K:0] start:10:24 end:10:32:
+                      vpiParent: Operation
+                      vpiName: c_g[K:0]
+                      vpiFullName: foo_class::gain_constraint::c_g[K:0]
+                      vpiPrefix RefObj name:c_g start:10:24 end:10:27:
+                        vpiParent: PartSelect name:c_g[K:0]
+                        vpiName: c_g
+                        vpiFullName: foo_class::gain_constraint::c_g[K:0]::c_g
+                      vpiRange Range start:10:28 end:10:31:
+                        vpiParent: PartSelect name:c_g[K:0]
+                        vpiLeftRange RefObj name:K start:10:28 end:10:29:
+                          vpiParent: Range
+                          vpiName: K
+                          vpiFullName: foo_class::gain_constraint::c_g[K:0]::K
+                        vpiRightRange Constant start:10:30 end:10:31:
+                          vpiParent: Range
+                          vpiConstType: int (7)
+                          vpiSize: 32
+                          vpiDecompile: "0"
+                          vpiValue: 0
+                          vpiTypespec RefTypespec:
+                            vpiParent: Constant
+                            vpiFullName: foo_class::gain_constraint::c_g[K:0]
+                            vpiActual: IntTypespec
+                    Constant start:10:36 end:10:37:
+                      vpiParent: Operation
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "1"
+                      vpiValue: 1
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: foo_class::gain_constraint
+                        vpiActual: IntTypespec
             Operation start:11:3 end:11:17:
               vpiParent: Constraint name:gain_constraint
               vpiOpType: not equal (15)
@@ -409,8 +491,8 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
-[WARNING] : 11
+[  ERROR] : 0
+[WARNING] : 15
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -425,25 +507,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/generic/member/class_member_test_57/mounts.json
 
 
-{'result': {'coverage': 91.53,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/class_member_test_57.sv': {'post_len': 15,
+            'files': {'$Output/lib/work/class_member_test_57.sv': {'post_len': 0,
                                                                    'pre_len': 177}},
-            'post_len': 15,
+            'post_len': 0,
             'pre_len': 177,
             'test_name': 'Google/generic/member/class_member_test_57'}}
 
 +------------------------------------------+----------+-----------+
 | INPUT                                    |   PRELEN |   POSTLEN |
 +==========================================+==========+===========+
-| $Output/lib/work/class_member_test_57.sv |      177 |        15 |
+| $Output/lib/work/class_member_test_57.sv |      177 |         0 |
 +==========================================+==========+===========+
-|                                          |      177 |        15 |
+|                                          |      177 |         0 |
 +------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 91.53
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -454,7 +536,7 @@ COMMAND: ${HLC_DIR}/regression/Google/generic/member/class_member_test_57/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              52      52       0         0
+Others                              71      71       0         0
 ----------------------------------------------------------------
-                                    52      52       0         0
+                                    71      71       0         0
 ===================== END REDUCTION RESULT =====================

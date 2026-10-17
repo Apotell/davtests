@@ -92,10 +92,7 @@ n<$Source01/18.5.7--if-else-constraints_0.sv> u<79> t<Top_level_rule> c<1> l<16:
                                       n<10> u<56> t<INTEGRAL_NUMBER> p<57> l<19:39> el<19:41>
             n<> u<73> t<ENDCLASS> p<74> l<20:1> el<20:9>
 AST_DEBUG_END
-[ERR:LN7713] $Source01/18.5.7--if-else-constraints_0.sv:1:1: Found 1 orphan node(s).
-[ERR:LN7714] Found 4 weak node(s).
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:DB2038] $Source01/18.5.7--if-else-constraints_0.sv:18:19: 'vpiConstraintItem' property value has invalid objects.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -146,8 +143,11 @@ Design name:unnamed:
       vpiConstraint (2 items):
         Constraint name:c1 start:18:19 end:18:31:
           vpiParent: ClassDefn name:a
-          vpiName: c1
+          vpiName Identifier name:c1 start:18:16 end:18:18:
           vpiFullName: a::c1
+          vpiAutomatic: true
+          vpiAllocScheme: automatic (1)
+          vpiIsConstraintEnabled: true
           vpiConstraintItem (1 items):
             Operation start:18:21 end:18:28:
               vpiParent: Constraint name:c1
@@ -160,8 +160,8 @@ Design name:unnamed:
                   vpiActual: Variable name:b1
                 Constant start:18:27 end:18:28:
                   vpiParent: Operation
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
+                  vpiConstType: int (7)
+                  vpiSize: 32
                   vpiDecompile: "5"
                   vpiValue: 5
                   vpiTypespec RefTypespec:
@@ -170,8 +170,11 @@ Design name:unnamed:
                     vpiActual: IntTypespec
         Constraint name:c2 start:19:19 end:19:44:
           vpiParent: ClassDefn name:a
-          vpiName: c2
+          vpiName Identifier name:c2 start:19:16 end:19:18:
           vpiFullName: a::c2
+          vpiAutomatic: true
+          vpiAllocScheme: automatic (1)
+          vpiIsConstraintEnabled: true
           vpiConstraintItem (1 items):
             ConstrIf start:19:21 end:19:42:
               vpiParent: Constraint name:c2
@@ -186,14 +189,34 @@ Design name:unnamed:
                     vpiActual: Variable name:b1
                   Constant start:19:30 end:19:31:
                     vpiParent: Operation
-                    vpiConstType: unsigned int (9)
-                    vpiSize: 64
+                    vpiConstType: int (7)
+                    vpiSize: 32
                     vpiDecompile: "5"
                     vpiValue: 5
                     vpiTypespec RefTypespec:
                       vpiParent: Constant
                       vpiFullName: a::c2
                       vpiActual: IntTypespec
+              vpiConstraintExpr (1 items):
+                Operation start:19:33 end:19:41:
+                  vpiParent: ConstrIf
+                  vpiOpType: equal (14)
+                  vpiOperand (2 items):
+                    RefObj name:b2 start:19:33 end:19:35:
+                      vpiParent: Operation
+                      vpiName: b2
+                      vpiFullName: a::c2::b2
+                      vpiActual: Variable name:b2
+                    Constant start:19:39 end:19:41:
+                      vpiParent: Operation
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "10"
+                      vpiValue: 10
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: a::c2
+                        vpiActual: IntTypespec
   vpiTypespec (2 items):
     ClassTypespec name:a start:16:7 end:16:8:
       vpiParent: Design name:unnamed
@@ -210,7 +233,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 3
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -226,25 +249,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-18/18.5.7--if-else-constraints_0/mounts.json
 
 
-{'result': {'coverage': 95.88,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/18.5.7--if-else-constraints_0.sv': {'post_len': 4,
+            'files': {'$Output/lib/work/18.5.7--if-else-constraints_0.sv': {'post_len': 0,
                                                                             'pre_len': 97}},
-            'post_len': 4,
+            'post_len': 0,
             'pre_len': 97,
             'test_name': 'Google/chapter-18/18.5.7--if-else-constraints_0'}}
 
 +---------------------------------------------------+----------+-----------+
 | INPUT                                             |   PRELEN |   POSTLEN |
 +===================================================+==========+===========+
-| $Output/lib/work/18.5.7--if-else-constraints_0.sv |       97 |         4 |
+| $Output/lib/work/18.5.7--if-else-constraints_0.sv |       97 |         0 |
 +===================================================+==========+===========+
-|                                                   |       97 |         4 |
+|                                                   |       97 |         0 |
 +---------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 95.88
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -255,7 +278,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.7--if-else-constraints_0/d
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              25      25       0         0
+Others                              31      31       0         0
 ----------------------------------------------------------------
-                                    25      25       0         0
+                                    31      31       0         0
 ===================== END REDUCTION RESULT =====================

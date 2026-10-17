@@ -78,8 +78,6 @@ n<$Source01/18.5.8.1--foreach-iterative-constraints_0.sv> u<65> t<Top_level_rule
                                       n<5> u<42> t<INTEGRAL_NUMBER> p<43> l<18:48> el<18:49>
             n<> u<59> t<ENDCLASS> p<60> l<19:1> el<19:9>
 AST_DEBUG_END
-[ERR:LN7713] $Source01/18.5.8.1--foreach-iterative-constraints_0.sv:1:1: Found 1 orphan node(s).
-[ERR:LN7714] Found 6 weak node(s).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -120,8 +118,8 @@ Design name:unnamed:
               vpiOperand (1 items):
                 Constant start:17:16 end:17:17:
                   vpiParent: Operation
-                  vpiConstType: unsigned int (9)
-                  vpiSize: 64
+                  vpiConstType: int (7)
+                  vpiSize: 32
                   vpiDecompile: "5"
                   vpiValue: 5
                   vpiTypespec RefTypespec:
@@ -144,8 +142,11 @@ Design name:unnamed:
       vpiConstraint (1 items):
         Constraint name:c start:18:18 end:18:52:
           vpiParent: ClassDefn name:a
-          vpiName: c
+          vpiName Identifier name:c start:18:16 end:18:17:
           vpiFullName: a::c
+          vpiAutomatic: true
+          vpiAllocScheme: automatic (1)
+          vpiIsConstraintEnabled: true
           vpiConstraintItem (1 items):
             ConstrForeach start:18:20 end:18:50:
               vpiParent: Constraint name:c
@@ -161,6 +162,35 @@ Design name:unnamed:
                   vpiFullName: a::c::i
                   vpiAutomatic: true
                   vpiIsIterator: true
+              vpiConstraintExpr (1 items):
+                Operation start:18:40 end:18:49:
+                  vpiParent: ConstrForeach
+                  vpiOpType: equal (14)
+                  vpiOperand (2 items):
+                    BitSelect name:B[i] start:18:40 end:18:44:
+                      vpiParent: Operation
+                      vpiName: B[i]
+                      vpiFullName: a::c::B[i]
+                      vpiPrefix RefObj name:B start:18:40 end:18:41:
+                        vpiParent: BitSelect name:B[i]
+                        vpiName: B
+                        vpiFullName: a::c::B
+                        vpiActual: Variable name:B
+                      vpiIndex RefObj name:i start:18:42 end:18:43:
+                        vpiParent: BitSelect name:B[i]
+                        vpiName: i
+                        vpiFullName: a::c::i
+                        vpiActual: Variable name:i
+                    Constant start:18:48 end:18:49:
+                      vpiParent: Operation
+                      vpiConstType: int (7)
+                      vpiSize: 32
+                      vpiDecompile: "5"
+                      vpiValue: 5
+                      vpiTypespec RefTypespec:
+                        vpiParent: Constant
+                        vpiFullName: a::c
+                        vpiActual: IntTypespec
   vpiTypespec (2 items):
     ClassTypespec name:a start:16:7 end:16:8:
       vpiParent: Design name:unnamed
@@ -177,7 +207,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -193,25 +223,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/Google/chapter-18/18.5.8.1--foreach-iterative-constraints_0/mounts.json
 
 
-{'result': {'coverage': 98.7,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/18.5.8.1--foreach-iterative-constraints_0.sv': {'post_len': 1,
+            'files': {'$Output/lib/work/18.5.8.1--foreach-iterative-constraints_0.sv': {'post_len': 0,
                                                                                         'pre_len': 77}},
-            'post_len': 1,
+            'post_len': 0,
             'pre_len': 77,
             'test_name': 'Google/chapter-18/18.5.8.1--foreach-iterative-constraints_0'}}
 
 +---------------------------------------------------------------+----------+-----------+
 | INPUT                                                         |   PRELEN |   POSTLEN |
 +===============================================================+==========+===========+
-| $Output/lib/work/18.5.8.1--foreach-iterative-constraints_0.sv |       77 |         1 |
+| $Output/lib/work/18.5.8.1--foreach-iterative-constraints_0.sv |       77 |         0 |
 +===============================================================+==========+===========+
-|                                                               |       77 |         1 |
+|                                                               |       77 |         0 |
 +---------------------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 98.7
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -221,12 +251,12 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.5.8.1--foreach-iterative-con
 ==================== BEGIN REDUCTION RESULT ====================
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
-Constant                             1       1       1         1
+Constant                             2       2       1         1
 LongIntTypespec                      0       1       1         0
-Operation                            1       0       0         1
-RefTypespec                          3       3       1         1
+Operation                            2       1       0         1
+RefTypespec                          4       4       1         1
 ----------------------------------------------------------------
-Others                              17      17       0         0
+Others                              21      21       0         0
 ----------------------------------------------------------------
-                                    22      22       3         3
+                                    29      29       3         3
 ===================== END REDUCTION RESULT =====================

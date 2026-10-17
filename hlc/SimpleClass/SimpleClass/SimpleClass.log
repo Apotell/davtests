@@ -97,15 +97,13 @@ n<$Source01/top.sv> u<77> t<Top_level_rule> c<1> l<2:1> el<22:1>
 AST_DEBUG_END
 [INF:CP5807] $Source01/top.sv:2:9: Compile program "class_t".
 [WRN:CP5815] $Source01/top.sv:2:9: Using programs is discouraged "class_t", programs are obsoleted by UVM.
+[ERR:CP5823] $Source01/top.sv:6:3: Multiply defined constraint "legal2".
 [WRN:CP5851] $Source01/top.sv:10:9: Failed to bind "len".
 [WRN:CP5851] $Source01/top.sv:11:9: Failed to bind "len".
 [WRN:CP5851] $Source01/top.sv:12:9: Failed to bind "payload".
 [WRN:CP5851] $Source01/top.sv:12:17: Failed to bind "size".
 [WRN:CP5851] $Source01/top.sv:12:27: Failed to bind "len".
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:DB2038] $Source01/top.sv:9:21: 'vpiConstraintItem' property value has invalid objects.
-[ERR:DB2038] $Source01/top.sv:9:21: 'vpiConstraintItem' property value has invalid objects.
-[ERR:DB2038] $Source01/top.sv:9:21: 'vpiConstraintItem' property value has invalid objects.
 [ERR:LN7705] $Source01/top.sv:12:17: Null Actual: id:54, type:MethodFuncCall, name:size, relation:vpiPathElem.
 ====== HLDB =======
 Design name:unnamed:
@@ -149,11 +147,14 @@ Design name:unnamed:
             vpiFullName: class_t::A::work
             vpiActual: Library name:work
           vpiCell: A
-          vpiConstraint (1 items):
+          vpiConstraint (3 items):
             Constraint name:legal start:9:21 end:13:5:
               vpiParent: ClassDefn name:A
-              vpiName: legal
+              vpiName Identifier name:legal start:9:15 end:9:20:
               vpiFullName: class_t::A::legal
+              vpiAutomatic: true
+              vpiAllocScheme: automatic (1)
+              vpiIsConstraintEnabled: true
               vpiConstraintItem (3 items):
                 Operation start:10:9 end:10:17:
                   vpiParent: Constraint name:legal
@@ -165,8 +166,8 @@ Design name:unnamed:
                       vpiFullName: class_t::A::legal::len
                     Constant start:10:16 end:10:17:
                       vpiParent: Operation
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
+                      vpiConstType: int (7)
+                      vpiSize: 32
                       vpiDecompile: "2"
                       vpiValue: 2
                       vpiTypespec RefTypespec:
@@ -183,8 +184,8 @@ Design name:unnamed:
                       vpiFullName: class_t::A::legal::len
                     Constant start:11:16 end:11:17:
                       vpiParent: Operation
-                      vpiConstType: unsigned int (9)
-                      vpiSize: 64
+                      vpiConstType: int (7)
+                      vpiSize: 32
                       vpiDecompile: "5"
                       vpiValue: 5
                       vpiTypespec RefTypespec:
@@ -211,6 +212,18 @@ Design name:unnamed:
                       vpiParent: Operation
                       vpiName: len
                       vpiFullName: class_t::A::legal::len
+            Constraint name:legal2 start:15:4 end:15:30:
+              vpiParent: ClassDefn name:A
+              vpiName Identifier name:legal2 start:15:22 end:15:28:
+              vpiFullName: class_t::A::legal2
+              vpiAutomatic: true
+              vpiAllocScheme: automatic (1)
+            Constraint name:legal2 start:17:4 end:17:30:
+              vpiParent: ClassDefn name:A
+              vpiName Identifier name:legal2 start:17:22 end:17:28:
+              vpiFullName: class_t::A::legal2
+              vpiAutomatic: true
+              vpiAllocScheme: automatic (1)
   vpiTypespec (8 items):
     ProgramTypespec name:class_t:
       vpiParent: Design name:unnamed
@@ -239,7 +252,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 4
+[  ERROR] : 2
 [WARNING] : 6
 [   NOTE] : 2
 ********************************************************************************
@@ -255,25 +268,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/SimpleClass/SimpleClass/mounts.json
 
 
-{'result': {'coverage': 88.89,
+{'result': {'coverage': 100.0,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.sv': {'post_len': 17,
+            'files': {'$Output/lib/work/top.sv': {'post_len': 0,
                                                   'pre_len': 153}},
-            'post_len': 17,
+            'post_len': 0,
             'pre_len': 153,
             'test_name': 'SimpleClass/SimpleClass'}}
 
 +-------------------------+----------+-----------+
 | INPUT                   |   PRELEN |   POSTLEN |
 +=========================+==========+===========+
-| $Output/lib/work/top.sv |      153 |        17 |
+| $Output/lib/work/top.sv |      153 |         0 |
 +=========================+==========+===========+
-|                         |      153 |        17 |
+|                         |      153 |         0 |
 +-------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 88.89
+[COVERAGE] : 100.0
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -284,7 +297,7 @@ COMMAND: ${HLC_DIR}/regression/SimpleClass/SimpleClass/design.hldb ${HLC_DIR}/re
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                            1544    1544       0         0
+Others                            1549    1549       0         0
 ----------------------------------------------------------------
-                                  1544    1544       0         0
+                                  1549    1549       0         0
 ===================== END REDUCTION RESULT =====================
