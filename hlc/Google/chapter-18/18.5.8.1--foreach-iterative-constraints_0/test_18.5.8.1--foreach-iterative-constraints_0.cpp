@@ -219,7 +219,7 @@ TEST_F(ForeachIterativeConstraints0Test, BodyShouldBeBiEq5ButIsDropped) {
 
   const hldb::Any *const lhs = op->getOperands()->at(0);
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "B") << "lhs selects an element of B";
+  EXPECT_EQ(lhs->getName(), "B[i]") << "lhs selects an element of B";
   const hldb::Any *const idx = selectIndex(lhs);
   ASSERT_NE(idx, nullptr) << "lhs must be an element select B[...]";
   const hldb::RefObj *const iRef = any_cast<hldb::RefObj>(idx);

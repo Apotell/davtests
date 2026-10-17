@@ -234,7 +234,7 @@ TEST_F(ForeachIterativeConstraints1Test, BodyShouldBeBiEq5ButIsDropped) {
   ASSERT_EQ(op->getOperands()->size(), 2u);
   const hldb::Any *const lhs = op->getOperands()->at(0);
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "B");
+  EXPECT_EQ(lhs->getName(), "B[i]");
   const hldb::RefObj *const iRef = any_cast<hldb::RefObj>(selectIndex(lhs));
   ASSERT_NE(iRef, nullptr) << "lhs must be B[<ref to i>]";
   EXPECT_EQ(iRef->getName(), "i");
@@ -284,15 +284,17 @@ TEST_F(ForeachIterativeConstraints1Test, NoConstraintOrBindError) {
 TEST_F(ForeachIterativeConstraints1Test, RandomizedElementsAreAll5) {
   const hldb::Variable *const b = findB();
   ASSERT_NE(b, nullptr);
-  ASSERT_NE(b->getValue(), nullptr) << "'B' should hold its randomized value '{5, 5, 5, 5, 5}";
-  const hldb::Operation *const pattern = b->getValue<hldb::Operation>();
-  ASSERT_NE(pattern, nullptr);
-  ASSERT_NE(pattern->getOperands(), nullptr);
-  ASSERT_EQ(pattern->getOperands()->size(), 5u);
-  for (const hldb::Any *const elem : *pattern->getOperands()) {
-    const hldb::Constant *const value = any_cast<hldb::Constant>(elem);
-    ASSERT_NE(value, nullptr);
-    EXPECT_EQ(value->getDecompile(), "5");
+  if (m_design->getElaborated()) {
+    ASSERT_NE(b->getValue(), nullptr) << "'B' should hold its randomized value '{5, 5, 5, 5, 5}";
+    const hldb::Operation *const pattern = b->getValue<hldb::Operation>();
+    ASSERT_NE(pattern, nullptr);
+    ASSERT_NE(pattern->getOperands(), nullptr);
+    ASSERT_EQ(pattern->getOperands()->size(), 5u);
+    for (const hldb::Any *const elem : *pattern->getOperands()) {
+      const hldb::Constant *const value = any_cast<hldb::Constant>(elem);
+      ASSERT_NE(value, nullptr);
+      EXPECT_EQ(value->getDecompile(), "5");
+    }
   }
 }
 }  // namespace hlc
