@@ -194,7 +194,6 @@ TEST_F(NameCollisionBindTest, ModportCsrHasInputPerfCounter) {
 }
 
 TEST_F(NameCollisionBindTest, ModportPortRefersToInterfaceVariable) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Modport *const mp = getModport();
   ASSERT_NE(mp, nullptr);
   ASSERT_NE(mp->getIODecls(), nullptr);
@@ -212,7 +211,6 @@ TEST_F(NameCollisionBindTest, ModportPortRefersToInterfaceVariable) {
 // ===========================================================================
 
 TEST_F(NameCollisionBindTest, PortTypeResolvesToInterfaceAndModport) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const p = getPort();
   ASSERT_NE(p, nullptr);
   ASSERT_NE(p->getTypespec(), nullptr);
@@ -226,7 +224,6 @@ TEST_F(NameCollisionBindTest, PortTypeResolvesToInterfaceAndModport) {
 }
 
 TEST_F(NameCollisionBindTest, PortLowConnBindsToModport) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const p = getPort();
   ASSERT_NE(p, nullptr);
   const hldb::RefObj *const lc = any_cast<hldb::RefObj>(p->getLowConn());
@@ -237,7 +234,6 @@ TEST_F(NameCollisionBindTest, PortLowConnBindsToModport) {
 }
 
 TEST_F(NameCollisionBindTest, InterfacePortNotWarnedMissingDirection) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   EXPECT_EQ(findError(ErrorDefinition::COMP_PORT_MISSING_DIRECTION, "perfCounter"), nullptr)
       << "23.2.2: interface_port_header has no port_direction; none is missing";
 }
@@ -256,7 +252,6 @@ TEST_F(NameCollisionBindTest, RhsIsThreeElementPath) {
 }
 
 TEST_F(NameCollisionBindTest, FirstPerfCounterBindsToPort) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::RefObj *const e = getRhsElem(0);
   ASSERT_NE(e, nullptr);
   EXPECT_EQ(e->getName(), "perfCounter");
@@ -265,7 +260,6 @@ TEST_F(NameCollisionBindTest, FirstPerfCounterBindsToPort) {
 }
 
 TEST_F(NameCollisionBindTest, SecondPerfCounterBindsToInterfaceVariable) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::RefObj *const e = getRhsElem(1);
   ASSERT_NE(e, nullptr);
   EXPECT_EQ(e->getName(), "perfCounter");
@@ -275,7 +269,6 @@ TEST_F(NameCollisionBindTest, SecondPerfCounterBindsToInterfaceVariable) {
 }
 
 TEST_F(NameCollisionBindTest, NumLoadMissBindsToStructMember) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::RefObj *const e = getRhsElem(2);
   ASSERT_NE(e, nullptr);
   EXPECT_EQ(e->getName(), "numLoadMiss");
@@ -288,7 +281,6 @@ TEST_F(NameCollisionBindTest, NumLoadMissBindsToStructMember) {
 }
 
 TEST_F(NameCollisionBindTest, NoFailedToBindOnRhsNames) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "perfCounter"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "numLoadMiss"), nullptr);
 }
