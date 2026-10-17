@@ -111,8 +111,6 @@ class PureConstraint0Test : public Test {
 };
 
 TEST_F(PureConstraint0Test, AbstractBaseHoldsPureConstraint) {
-  GTEST_SKIP() << "HLC drops 'pure constraint c;', so virtual class 'a' has no constraints. "
-                  "Per IEEE 1800-2023 Sec 18.5.2 the pure constraint must be kept on 'a'. Fix pending.";
   const hldb::ClassDefn *const a = findClass("a");
   ASSERT_NE(a, nullptr) << "class 'a' not found";
   EXPECT_TRUE(a->getVirtual()) << "'virtual class a' is abstract (Sec 8.21)";
@@ -183,8 +181,6 @@ TEST_F(PureConstraint0Test, LegalPureConstraintUsageRaisesNoError) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_IMPLICIT_EMPTY_CONSTRAINT, "c"), nullptr);
 }
 TEST_F(PureConstraint0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
-  GTEST_SKIP() << "HLC never sets vpiIsConstraintEnabled, so every constraint reads as disabled. "
-                  "Per IEEE 1800-2023 Sec 18.9 all constraints are active by default. Fix pending.";
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active
   // constraints, so they are skipped.

@@ -179,8 +179,6 @@ TEST_F(ConstraintInheritance0Test, DerivedClassExtendsBase) {
 }
 
 TEST_F(ConstraintInheritance0Test, BaseShouldListDerivedClassButDoesNot) {
-  GTEST_SKIP() << "HLC does not populate vpiDerivedClasses, so class 'a' lists no derived class. "
-                  "Per IEEE 1800-2023 Sec 37.31 'a' must list 'a2'. Fix pending.";
   // IEEE 1800-2023 Sec 37.31 (class defn): vpiDerivedClasses iterates the
   // classes that extend this one, so 'a' must list 'a2'.
   const hldb::ClassDefn *const a = findClass("a");
@@ -240,8 +238,6 @@ TEST_F(ConstraintInheritance0Test, AdditionalConstraintIsNotAnOverride) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "b"), nullptr) << "inherited 'b' must bind in c2";
 }
 TEST_F(ConstraintInheritance0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
-  GTEST_SKIP() << "HLC never sets vpiIsConstraintEnabled, so every constraint reads as disabled. "
-                  "Per IEEE 1800-2023 Sec 18.9 all constraints are active by default. Fix pending.";
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active
   // constraints, so they are skipped.

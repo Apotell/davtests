@@ -85,8 +85,6 @@ class PureConstraint3Test : public Test {
 };
 
 TEST_F(PureConstraint3Test, AbstractBaseHoldsPureConstraint) {
-  GTEST_SKIP() << "HLC drops 'pure constraint c;', so virtual class 'a' has no constraints. "
-                  "Per IEEE 1800-2023 Sec 18.5.2 the pure constraint must be kept on 'a'. Fix pending.";
   const hldb::ClassDefn *const a = findClass("a");
   ASSERT_NE(a, nullptr) << "class 'a' not found";
   EXPECT_TRUE(a->getVirtual()) << "'virtual class a' is abstract (Sec 8.21)";

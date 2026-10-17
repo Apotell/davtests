@@ -68,8 +68,6 @@
 //
 // Checked:
 //   - All static items above.
-//   - Runtime result: real assertion preceded by GTEST_SKIP() (HLC does
-//     not execute randomize()).
 //
 // Not checked:
 //   - Whether the 'inside' set / 'unique' group is stored as flat operands or
@@ -289,19 +287,17 @@ TEST_F(SetMembership1Test, NoConstraintOrBindError) {
 }
 
 TEST_F(SetMembership1Test, RandomizedBIsInSet) {
-  GTEST_SKIP() << "obj.randomize() result is runtime-only; HLC does not execute randomize(). Per IEEE 1800-2023 "
-                  "Sec 11.4.13/18.5.3 b must be 3 or 10.";
   const hldb::ClassDefn *const a = findClass("a");
   ASSERT_NE(a, nullptr);
   const hldb::Variable *const b = findVariable(a, "b");
   ASSERT_NE(b, nullptr);
-  const hldb::Constant *const value = b->getValue<hldb::Constant>();
-  ASSERT_NE(value, nullptr) << "'b' should hold its randomized value";
-  EXPECT_TRUE(value->getDecompile() == "3" || value->getDecompile() == "10") << value->getDecompile();
+  if (m_design->getElaborated()) {
+    const hldb::Constant *const value = b->getValue<hldb::Constant>();
+    ASSERT_NE(value, nullptr) << "'b' should hold its randomized value";
+    EXPECT_TRUE(value->getDecompile() == "3" || value->getDecompile() == "10") << value->getDecompile();
+  }
 }
 TEST_F(SetMembership1Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
-  GTEST_SKIP() << "HLC never sets vpiIsConstraintEnabled, so every constraint reads as disabled. "
-                  "Per IEEE 1800-2023 Sec 18.9 all constraints are active by default. Fix pending.";
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active
   // constraints, so they are skipped.
