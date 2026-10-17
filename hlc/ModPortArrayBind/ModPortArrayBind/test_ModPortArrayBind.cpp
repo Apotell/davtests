@@ -272,7 +272,6 @@ TEST_F(ModPortArrayBindTest, PortMRangeIsBNMinusOneDownToZero) {
 }
 
 TEST_F(ModPortArrayBindTest, PortMElementIsInterfaceRestrictedToModportMan) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::ArrayTypespec *const at = getPortMArray();
   ASSERT_NE(at, nullptr);
   ASSERT_NE(at->getElemTypespec(), nullptr);

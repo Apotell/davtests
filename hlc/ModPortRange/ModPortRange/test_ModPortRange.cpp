@@ -260,7 +260,6 @@ TEST_F(ModPortRangeTest, ConnectTBHasInputVectorPort) {
 // ===========================================================================
 
 TEST_F(ModPortRangeTest, RangeItfPortMyPort1IsModportPortArray) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const p = getPort("range_itf_port", "my_port1");
   ASSERT_NE(p, nullptr);
   EXPECT_EQ(p->getPortType(), vpiModportPort);
@@ -297,7 +296,6 @@ TEST_F(ModPortRangeTest, RangeItfPortMyPort2PortTypeIsPlainPort) {
 // ===========================================================================
 
 TEST_F(ModPortRangeTest, MemoryCtrl1InterfaceAndModportPorts) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const sif1 = getPort("memory_ctrl1", "sif1");
   ASSERT_NE(sif1, nullptr);
   EXPECT_EQ(sif1->getPortType(), vpiInterfacePort);
@@ -336,7 +334,6 @@ TEST_F(ModPortRangeTest, RangeItfPort2HasFourPortsInOrder) {
 }
 
 TEST_F(ModPortRangeTest, RangeItfPort2PortTypes) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Interface *const iface = getIface("MyInterface");
   const hldb::Modport *const mp = getModport("MyInterface", "MyModPort");
   ASSERT_NE(iface, nullptr);

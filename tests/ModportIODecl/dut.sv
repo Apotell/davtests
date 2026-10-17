@@ -65,3 +65,37 @@ endmodule
 // 23.2.2.4: only an input port may have a default value; an interface port may not.
 module bad_default (simple_bus x = 1'b0);
 endmodule
+
+// 30.4.1: a module path source reached through a modport must be an input or inout of it.
+interface sp_if;
+  logic a, b;
+  event e;
+  modport src (input a, output b);
+  modport k (input a, output .Q(2));
+endinterface
+
+module sp (sp_if.src p, output logic y);
+  specify
+    (p.a => y) = 1;  // legal: input of modport src
+    (p.b => y) = 1;  // illegal: output of modport src
+  endspecify
+endmodule
+
+// 25.10: an event is a variable; not listed in modport src, it is not accessible through it.
+module evm (sp_if.src p);
+  initial -> p.e;
+endmodule
+
+// 25.5.4, 37.15: ".Q(2)" is a legal member of modport k, though it names no object.
+module km (sp_if.k p);
+  logic z;
+  initial z = p.Q;
+endmodule
+
+// 6.10: a net declared implicitly by an interface instance's port connection can be listed.
+interface leaf_if (input wire w);
+endinterface
+interface implicit_if;
+  leaf_if l (.w(imp));
+  modport m (input imp);
+endinterface

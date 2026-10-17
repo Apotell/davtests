@@ -163,7 +163,6 @@ TEST_F(ModPortParamTest, CsrUnitHasSingleModportPort) {
 }
 
 TEST_F(ModPortParamTest, PortTypespecResolvesToInterfaceAndModport) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const p = getCsrUnitPort();
   ASSERT_NE(p, nullptr);
   ASSERT_NE(p->getTypespec(), nullptr);
@@ -175,7 +174,6 @@ TEST_F(ModPortParamTest, PortTypespecResolvesToInterfaceAndModport) {
 }
 
 TEST_F(ModPortParamTest, PortLowConnBindsToModport) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const p = getCsrUnitPort();
   ASSERT_NE(p, nullptr);
   const hldb::RefObj *const lc = p->getLowConn<hldb::RefObj>();
