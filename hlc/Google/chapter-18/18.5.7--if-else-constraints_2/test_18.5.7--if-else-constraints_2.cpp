@@ -138,7 +138,7 @@ class IfElseConstraints2Test : public Test {
   }
 
   // Checks a then/else collection holds exactly '<var> == <lit>'.
-  static void expectSingleVarEqLit(const hldb::ConstraintExprCollection *coll, std::string_view var,
+  static void expectSingleVarEqLit(const hldb::AnyCollection *coll, std::string_view var,
                                    std::string_view lit) {
     ASSERT_NE(coll, nullptr) << "branch '" << var << " == " << lit << "' must be kept";
     ASSERT_EQ(coll->size(), 1u);
