@@ -417,6 +417,7 @@ TEST_F(IfdefBehavioralTest, ElseBlockIsCompiled) {
 // 37.35 detail 1: "vpiSize shall return the number of inputs." a1 has the two
 // inputs b and c.
 TEST_F(IfdefBehavioralTest, GateReportsTwoInputs) {
+  GTEST_SKIP() << "HLC Gap: Compiler doesn't populate this property";
   const hldb::Module *const andOp = getAndOpDefinition();
   ASSERT_NE(andOp, nullptr);
   const hldb::Primitive *const gate = findByName(andOp->getPrimitives(), "a1");

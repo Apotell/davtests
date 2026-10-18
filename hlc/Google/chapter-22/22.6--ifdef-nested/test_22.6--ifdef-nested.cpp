@@ -223,6 +223,7 @@
 #include <hldb/initial.h>
 #include <hldb/interface.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
 #include <hldb/net.h>
 #include <hldb/package.h>
 #include <hldb/param_assign.h>
@@ -450,7 +451,7 @@ class IfdefNestedTest : public Test {
   static const hldb::Constant *getDisplayArgument(uint32_t line) {
     const hldb::TFCall *const call = getDisplayCall(line);
     if ((call == nullptr) || (sizeOf(call->getArguments()) != 1)) return nullptr;
-    return ::any_cast<hldb::Constant>(call->getArguments()->front());
+    return call->getArguments()->front()->getHighConn<hldb::Constant>();
   }
 };
 
@@ -625,13 +626,9 @@ TEST_F(IfdefNestedTest, ProcessedBlocksAreCompiled) {
     EXPECT_EQ(call->getStartLine(), expected.m_line);
     EXPECT_EQ(sizeOf(call->getArguments()), 1u) << "line " << expected.m_line;
 
-    if (const hldb::SysTaskCall *const taskCall = ::any_cast<hldb::SysTaskCall>(stmt)) {
-      EXPECT_FALSE(taskCall->getUserDefn()) << "line " << expected.m_line;
-    } else if (const hldb::SysFuncCall *const funcCall = ::any_cast<hldb::SysFuncCall>(stmt)) {
-      EXPECT_FALSE(funcCall->getUserDefn()) << "line " << expected.m_line;
-    } else {
-      ADD_FAILURE() << "line " << expected.m_line << ": neither a system task call nor a system function call";
-    }
+    const hldb::SysTaskCall *const taskCall = ::any_cast<hldb::SysTaskCall>(stmt);
+    ASSERT_NE(taskCall, nullptr);
+    EXPECT_FALSE(taskCall->getUserDefn()) << "line " << expected.m_line;
   }
 }
 

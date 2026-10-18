@@ -173,6 +173,7 @@
 #include <hldb/initial.h>
 #include <hldb/interface.h>
 #include <hldb/module.h>
+#include <hldb/named_argument.h>
 #include <hldb/package.h>
 #include <hldb/param_assign.h>
 #include <hldb/port.h>
@@ -314,7 +315,7 @@ class IfdefChainedNestedTest : public Test {
   static const hldb::Constant *getDisplayArgument(size_t index) {
     const hldb::TFCall *const call = getDisplayCall();
     if ((call == nullptr) || (sizeOf(call->getArguments()) != 2)) return nullptr;
-    return ::any_cast<hldb::Constant>(call->getArguments()->at(index));
+    return call->getArguments()->at(index)->getHighConn<hldb::Constant>();
   }
 };
 
@@ -443,13 +444,9 @@ TEST_F(IfdefChainedNestedTest, OnlyLine27IsCompiled) {
   EXPECT_EQ(call->getStartLine(), 27u);
   EXPECT_EQ(sizeOf(call->getArguments()), 2u);
 
-  if (const hldb::SysTaskCall *const taskCall = ::any_cast<hldb::SysTaskCall>(stmt)) {
-    EXPECT_FALSE(taskCall->getUserDefn());
-  } else if (const hldb::SysFuncCall *const funcCall = ::any_cast<hldb::SysFuncCall>(stmt)) {
-    EXPECT_FALSE(funcCall->getUserDefn());
-  } else {
-    ADD_FAILURE() << "the statement is neither a system task call nor a system function call";
-  }
+  const hldb::SysTaskCall *const taskCall = ::any_cast<hldb::SysTaskCall>(stmt);
+  ASSERT_NE(taskCall, nullptr);
+  EXPECT_FALSE(taskCall->getUserDefn());
 }
 
 // Each $display argument is a string literal (5.9), a vpiConstant with
