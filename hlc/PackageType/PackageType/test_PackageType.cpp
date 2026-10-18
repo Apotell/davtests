@@ -312,7 +312,7 @@ TEST_F(PackageTypeTest, LgMaxCfgsIsClog2OfMaxCfgs) {
   EXPECT_EQ(clog2->getName(), "$clog2");
   ASSERT_NE(clog2->getArguments(), nullptr);
   ASSERT_EQ(clog2->getArguments()->size(), 1u);
-  const hldb::RefObj *const arg = any_cast<hldb::RefObj>(clog2->getArguments()->at(0));
+  const hldb::RefObj *const arg = clog2->getArguments()->at(0)->getHighConn<hldb::RefObj>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getName(), "max_cfgs");
   ASSERT_NE(getParam("max_cfgs"), nullptr);
