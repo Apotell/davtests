@@ -74,11 +74,15 @@ class LowMemLibTest : public Test {
 
 TEST_F(LowMemLibTest, ModuleMytopExists) { EXPECT_NE(getModule("mytop"), nullptr); }
 
-TEST_F(LowMemLibTest, MytopIsEmpty) {
+TEST_F(LowMemLibTest, MytopHasNullPort) {
   const hldb::Module *const m = getModule("mytop");
   ASSERT_NE(m, nullptr);
   EXPECT_EQ(m->getDefName(), "mytop");
-  EXPECT_TRUE(m->getPorts() == nullptr || m->getPorts()->empty());
+  ASSERT_NE(m->getPorts(), nullptr);
+  EXPECT_EQ(m->getPorts()->size(), 1u);
+  EXPECT_EQ(m->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(m->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(m->getPorts()->at(0)->getHighConn(), nullptr);
   EXPECT_TRUE(m->getNets() == nullptr || m->getNets()->empty());
   EXPECT_TRUE(m->getVariables() == nullptr || m->getVariables()->empty());
   EXPECT_TRUE(m->getProcesses() == nullptr || m->getProcesses()->empty());

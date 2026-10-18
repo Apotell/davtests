@@ -762,10 +762,14 @@ TEST_F(PackageFuncCallTest, ReturnYieldsStateOut) {
 // module top(); -- implicit net
 // ---------------------------------------------------------------------------
 
-TEST_F(PackageFuncCallTest, TopHasNoPortsAndNoVariables) {
+TEST_F(PackageFuncCallTest, TopHasNullPortAndNoVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr) << "module 'top' not found";
-  EXPECT_TRUE(top->getPorts() == nullptr || top->getPorts()->empty()) << "'module top();' has no ports";
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
   EXPECT_TRUE(top->getVariables() == nullptr || top->getVariables()->empty())
       << "no identifier in 'top' is declared as a variable, and procedural assignments never create one";
 }

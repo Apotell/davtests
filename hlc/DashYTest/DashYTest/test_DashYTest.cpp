@@ -98,10 +98,14 @@ TEST_F(DashYTestTest, LibraryModuleAndWasPulledIntoDesign) {
   EXPECT_NE(getAnd(), nullptr) << "'-y lib' should resolve 'AND' via lib/AND.v (IEEE 1800-2023 Clause 33)";
 }
 
-TEST_F(DashYTestTest, LibraryModuleAndIsEmpty) {
+TEST_F(DashYTestTest, LibraryModuleAndHasNullPort) {
   const hldb::Module *const mAnd = getAnd();
   ASSERT_NE(mAnd, nullptr);
-  EXPECT_TRUE(!mAnd->getPorts() || mAnd->getPorts()->empty()) << "'module AND();' declares no ports";
+  ASSERT_NE(mAnd->getPorts(), nullptr);
+  EXPECT_EQ(mAnd->getPorts()->size(), 1u);
+  EXPECT_EQ(mAnd->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(mAnd->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(mAnd->getPorts()->at(0)->getHighConn(), nullptr);
   EXPECT_TRUE(!mAnd->getNets() || mAnd->getNets()->empty()) << "'module AND();' declares no nets";
   EXPECT_TRUE(!mAnd->getVariables() || mAnd->getVariables()->empty()) << "'module AND();' declares no variables";
   EXPECT_TRUE(!mAnd->getProcesses() || mAnd->getProcesses()->empty()) << "'module AND();' has no processes";

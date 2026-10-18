@@ -229,11 +229,14 @@ TEST_F(FdisplayBohTest, DesignHasExactlyOneModule) {
 
 TEST_F(FdisplayBohTest, ModuleTopExists) { EXPECT_NE(getTop(), nullptr) << "module 'top' not found"; }
 
-TEST_F(FdisplayBohTest, ModuleTopHasNoPortsAndNoNets) {
+TEST_F(FdisplayBohTest, ModuleTopHasNullPortAndNoNets) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getPorts() == nullptr || top->getPorts()->empty())
-      << "the header is 'module top();' -- an explicitly empty port list";
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
       << "'int' and 'string' carry no net-type keyword, so per IEEE 1800-2017 Sec 6.7/6.8 both "
          "declarations are Variables and the module owns no Net";

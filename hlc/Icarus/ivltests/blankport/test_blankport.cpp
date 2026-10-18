@@ -132,7 +132,7 @@ class BlankPortTest : public Test {
 
 // --- module definitions: port counts ----------------------------------------
 
-TEST_F(BlankPortTest, NoneAndEmptyHaveZeroPorts) {
+TEST_F(BlankPortTest, NoneHasNoPortsAndEmptyHasNullPort) {
   // Sec 23.2.2.1: an omitted port list and an explicit, empty ANSI port list
   // both declare a module with no ports.
   const hldb::Module *const nonce = hldb::findByName<hldb::Module>("nonce", m_design->getAllModules());
@@ -141,7 +141,12 @@ TEST_F(BlankPortTest, NoneAndEmptyHaveZeroPorts) {
 
   const hldb::Module *const empty = hldb::findByName<hldb::Module>("empty", m_design->getAllModules());
   ASSERT_NE(empty, nullptr);
-  EXPECT_EQ(empty->getPorts(), nullptr);
+  ASSERT_NE(empty->getPorts(), nullptr);
+  EXPECT_EQ(empty->getPorts()->size(), 1u);
+  EXPECT_EQ(empty->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(empty->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(empty->getPorts()->at(0)->getHighConn(), nullptr);
+
 }
 
 TEST_F(BlankPortTest, OneTwoThreeHaveExpectedPortCountsAndNames) {

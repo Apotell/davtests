@@ -178,13 +178,17 @@ TEST_F(MonitorTaskTest, CompilesWithoutErrors) {
 
 // 23.2 / 23.2.2: the file declares exactly one module, named `top`, and
 // `module top();` is the empty port list form, so it declares no ports.
-TEST_F(MonitorTaskTest, DeclaresOneModuleNamedTopWithNoPorts) {
+TEST_F(MonitorTaskTest, DeclaresOneModuleNamedTopWithNullPort) {
   ASSERT_EQ(sizeOf(m_design->getAllModules()), 1u);
 
   const hldb::Module *const top = topModule();
   ASSERT_EQ(anyTypeOf(top), hldb::AnyType::Module);
   EXPECT_EQ(top->getName(), "top");
-  EXPECT_EQ(sizeOf(top->getPorts()), 0u);
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
   EXPECT_EQ(top->getEndLabel(), "");  // plain `endmodule`, no `: top` label
 }
 

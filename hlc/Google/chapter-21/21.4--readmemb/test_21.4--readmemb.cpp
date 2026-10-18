@@ -258,12 +258,16 @@ TEST_F(ReadmembTest, ModuleTopExists) { EXPECT_NE(getTop(), nullptr); }
 // Sec 6.7 lists the net_type keywords; neither "logic" nor "string" is one of
 // them, and "module top();" has an empty port list, so nothing here declares
 // a net or drives one continuously.
-TEST_F(ReadmembTest, ModuleHasNoNetsNoPortsAndNoContinuousAssignments) {
+TEST_F(ReadmembTest, ModuleHasNullPortAndNoNetsOrContinuousAssignments) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
       << "'logic' and 'string' are not net-type keywords (IEEE 1800-2023 Sec 6.7)";
-  EXPECT_TRUE(top->getPorts() == nullptr || top->getPorts()->empty()) << "'module top();' has an empty port list";
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
       << "the file contains no 'assign' statement";
 }

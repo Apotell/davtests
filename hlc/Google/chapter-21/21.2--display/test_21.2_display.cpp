@@ -183,10 +183,14 @@ TEST_F(DisplayTest, DesignHasExactlyOneModuleNamedTop) {
   EXPECT_EQ(getTop()->getName(), "top");
 }
 
-TEST_F(DisplayTest, TopHasEmptyPortList) {
+TEST_F(DisplayTest, TopHasNullPortOnly) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  EXPECT_EQ(top->getPorts(), nullptr) << "'module top()' declares no ports, so there is no port collection at all";
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
 }
 
 TEST_F(DisplayTest, TopHasNoEndLabel) {

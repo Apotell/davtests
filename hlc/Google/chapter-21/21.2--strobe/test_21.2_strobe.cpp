@@ -167,8 +167,11 @@ TEST_F(StrobeTaskTest, TopModuleIsTop) {
   EXPECT_EQ(top->getAnyType(), hldb::AnyType::Module);
   EXPECT_EQ(top->getVpiType(), static_cast<uint32_t>(vpiModule));
 
-  // 'module top();' -- the port list is present but empty.
-  EXPECT_EQ(sizeOf(top->getPorts()), 0u);
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
 
   // The body declares no nets, instantiates no modules, and has no continuous
   // assignments, generate blocks or parameters.

@@ -212,14 +212,18 @@ TEST_F(TestPlusargsTest, ModuleTopExists) { EXPECT_NE(getTop(), nullptr); }
 // so every one of the module's declaration collections must come back empty.
 // Asserting the emptiness is what makes the later statement-shape checks
 // meaningful -- nothing was quietly invented to support them.
-TEST_F(TestPlusargsTest, ModuleTopDeclaresNothingAtAll) {
+TEST_F(TestPlusargsTest, ModuleTopDeclaresNothingAtAllExceptNullPort) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
       << "no net-type keyword (IEEE 1800-2023 Sec 6.7) appears anywhere in this file";
   EXPECT_TRUE(top->getVariables() == nullptr || top->getVariables()->empty())
       << "no variable is declared anywhere in this file (Sec 6.8)";
-  EXPECT_TRUE(top->getPorts() == nullptr || top->getPorts()->empty()) << "'module top();' has an empty port list";
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
   EXPECT_TRUE(top->getParameters() == nullptr || top->getParameters()->empty())
       << "no parameter is declared anywhere in this file";
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())

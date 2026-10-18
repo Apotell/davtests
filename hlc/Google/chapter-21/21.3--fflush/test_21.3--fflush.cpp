@@ -206,10 +206,14 @@ TEST_F(FflushTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
 // IEEE 1800-2023 Sec 23.2.2: "module top();" declares an empty
 // list_of_ports.
-TEST_F(FflushTest, ModuleHasNoPorts) {
+TEST_F(FflushTest, ModuleHasNullPortOnly) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getPorts() == nullptr || top->getPorts()->empty()) << "'module top();' declares an empty port list";
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
 }
 
 // IEEE 1800-2023 Sec 6.7/6.8: the file's only declaration uses "int", a

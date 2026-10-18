@@ -437,11 +437,15 @@ TEST_F(VectorVectoredTest, DesignHasIntTypespec) {
 
 // --- module-level checks -----------------------------------------------------
 
-TEST_F(VectorVectoredTest, ModuleHasNoPorts) {
+TEST_F(VectorVectoredTest, ModuleHasNullPortOnly) {
   // `module top()` has an empty port list
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  EXPECT_TRUE(top->getPorts() == nullptr || top->getPorts()->empty());
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
 }
 
 // --- compiler behavior: vectored/scalared modifiers -------------------------

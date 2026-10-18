@@ -299,10 +299,14 @@ TEST_F(PackageNetTest, VariableVIsStaticWithoutInitializer) {
 // module test(); import my_package1::*; initial begin ... end endmodule
 // ---------------------------------------------------------------------------
 
-TEST_F(PackageNetTest, ModuleTestHasNoPortsNetsOrVariables) {
+TEST_F(PackageNetTest, ModuleTestHasNullPortNoNetsOrVariables) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr) << "module 'test' not found";
-  EXPECT_TRUE(top->getPorts() == nullptr || top->getPorts()->empty()) << "'module test();' has an empty port list";
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
       << "6.10: 'v' is declared in my_package1, so no implicit net is created for it";
   EXPECT_TRUE(top->getVariables() == nullptr || top->getVariables()->empty())

@@ -124,10 +124,14 @@ class LargeConstTest : public Test {
   }
 };
 
-TEST_F(LargeConstTest, ModuleDutExistsWithFiveContAssigns) {
+TEST_F(LargeConstTest, ModuleDutExistsWithNullPortAndFiveContAssigns) {
   const hldb::Module *const dut = getDut();
   ASSERT_NE(dut, nullptr);
-  EXPECT_EQ(dut->getPorts(), nullptr) << "the port list is empty (contents are commented out)";
+  ASSERT_NE(dut->getPorts(), nullptr);
+  EXPECT_EQ(dut->getPorts()->size(), 1u);
+  EXPECT_EQ(dut->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(dut->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(dut->getPorts()->at(0)->getHighConn(), nullptr);
   ASSERT_NE(dut->getContAssigns(), nullptr);
   EXPECT_EQ(dut->getContAssigns()->size(), 5u);
   for (std::string_view name : {"a", "b", "c", "d", "e"}) {

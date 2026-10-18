@@ -104,12 +104,16 @@ class MinMaxAvgDelayTest : public Test {
 
 TEST_F(MinMaxAvgDelayTest, ModuleExists) { EXPECT_NE(getTop(), nullptr); }
 
-TEST_F(MinMaxAvgDelayTest, ModuleHasNoNetsNoVariablesNoPorts) {
+TEST_F(MinMaxAvgDelayTest, ModuleHasNoNetsNoVariablesAndNullPort) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty());
   EXPECT_TRUE(top->getVariables() == nullptr || top->getVariables()->empty());
-  EXPECT_TRUE(top->getPorts() == nullptr || top->getPorts()->empty());
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
 }
 
 // --- initial block: #(100:200:300) $display("Done"); ------------------------

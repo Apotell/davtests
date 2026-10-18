@@ -225,7 +225,7 @@ TEST_F(FileTasksTest, ModuleTopExists) { EXPECT_NE(getTop(), nullptr); }
 // Sec 6.21: the begin-end block is a scope, so "int fd;" is local to it and
 // must not surface on the module. The module body contains nothing else --
 // no net-type keyword (Sec 6.7), no port list, no "assign".
-TEST_F(FileTasksTest, ModuleTopDeclaresNothingOfItsOwn) {
+TEST_F(FileTasksTest, ModuleTopDeclaresNothingOfItsOwnExceptNullPort) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   EXPECT_TRUE(top->getVariables() == nullptr || top->getVariables()->empty())
@@ -233,7 +233,11 @@ TEST_F(FileTasksTest, ModuleTopDeclaresNothingOfItsOwn) {
          "to that block -- it must not also appear as a module-level Variable";
   EXPECT_TRUE(top->getNets() == nullptr || top->getNets()->empty())
       << "no net-type keyword (Sec 6.7) appears anywhere in this file";
-  EXPECT_TRUE(top->getPorts() == nullptr || top->getPorts()->empty()) << "'module top();' has an empty port list";
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty())
       << "the file contains no 'assign' statement";
 }

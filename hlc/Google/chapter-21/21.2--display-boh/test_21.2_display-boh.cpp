@@ -158,13 +158,17 @@ TEST_F(DisplayBohTest, ModuleTopExists) {
   EXPECT_EQ(top->getName(), "top");
 }
 
-TEST_F(DisplayBohTest, ModuleHasEmptyPortListAndNoEndLabel) {
+TEST_F(DisplayBohTest, ModuleHasNullPortAndNoEndLabel) {
   // "module top()" is the empty port-list form, and the file closes with a
   // plain "endmodule" -- no ": top" repeated -- so the module carries
   // neither ports nor an end label.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  EXPECT_EQ(top->getPorts(), nullptr) << "'module top()' declares no ports";
+  ASSERT_NE(top->getPorts(), nullptr);
+  EXPECT_EQ(top->getPorts()->size(), 1u);
+  EXPECT_EQ(top->getPorts()->at(0)->getPortIndex(), 0);
+  EXPECT_EQ(top->getPorts()->at(0)->getLowConn(), nullptr);
+  EXPECT_EQ(top->getPorts()->at(0)->getHighConn(), nullptr);
   EXPECT_EQ(top->getEndLabel(), "") << "the source closes with a plain 'endmodule', no ': top' repeated";
 }
 

@@ -246,7 +246,6 @@ TEST_F(ResetallIllegalTest, ModuleTopHasStaticDefaultLifetime) {
 // --- "()" port list ----
 
 TEST_F(ResetallIllegalTest, ModuleTopHasOneNullPort) {
-  GTEST_SKIP() << "Known HLC gap: `module top ();` produces no ports. Annex A.1.3 (list_of_ports ::= ( port { , port } ), port may be empty) and Sec 37.14 detail 10 require one null port; SV3_1aParser.g4 port_list matches \"()\" without a port.";
   // Sec 37.14 detail 10 names "module M();" as declaring a null port.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
