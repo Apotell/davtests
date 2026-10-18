@@ -117,6 +117,10 @@ n<$Source01/18.12.1--adding-constraints-to-scope-variables_0.sv> u<102> t<Top_le
 AST_DEBUG_END
 [WRN:CP5851] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:19: Failed to bind "std".
 [WRN:CP5851] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:24: Failed to bind "randomize".
+[WRN:CP5851] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:34: Failed to bind "x".
+[WRN:CP5851] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:43: Failed to bind "x".
+[WRN:CP5851] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:50: Failed to bind "x".
+[WRN:CP5851] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:54: Failed to bind "y".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 [ERR:LN7705] $Source01/18.12.1--adding-constraints-to-scope-variables_0.sv:19:24: Null Actual: id:36, type:MethodFuncCall, name:randomize, relation:vpiPathElem.
 ====== HLDB =======
@@ -197,21 +201,28 @@ Design name:unnamed:
                   vpiName: success
                   vpiFullName: a::do_randomize::success
                   vpiActual: Variable name:success
-                vpiRhs RefObj name:std.randomize() start:19:19 end:19:57:
+                vpiRhs RefObj name:std.randomize(x) start:19:19 end:19:57:
                   vpiParent: Assignment
-                  vpiName: std.randomize()
-                  vpiFullName: a::do_randomize::std.randomize()
+                  vpiName: std.randomize(x)
+                  vpiFullName: a::do_randomize::std.randomize(x)
                   vpiPathElem (2 items):
                     RefObj name:std start:19:19 end:19:22:
-                      vpiParent: RefObj name:std.randomize()
+                      vpiParent: RefObj name:std.randomize(x)
                       vpiName: std
                       vpiFullName: a::do_randomize::std
                     MethodFuncCall name:randomize start:19:24 end:19:57:
-                      vpiParent: RefObj name:std.randomize()
+                      vpiParent: RefObj name:std.randomize(x)
                       vpiName Identifier name:randomize:
+                      vpiArgument (1 items):
+                        NamedArgument start:19:34 end:19:35:
+                          vpiParent: MethodFuncCall name:randomize
+                          vpiHighConn RefObj name:x start:19:34 end:19:35:
+                            vpiParent: NamedArgument
+                            vpiName: x
+                            vpiFullName: a::do_randomize::std.randomize(x)::x
                       vpiWith Constraint start:19:42 end:19:57:
                         vpiParent: MethodFuncCall name:randomize
-                        vpiFullName: a::do_randomize::std.randomize()
+                        vpiFullName: a::do_randomize::std.randomize(x)
                         vpiIsConstraintEnabled: true
                         vpiConstraintItem (2 items):
                           Operation start:19:43 end:19:48:
@@ -221,8 +232,7 @@ Design name:unnamed:
                               RefObj name:x start:19:43 end:19:44:
                                 vpiParent: Operation
                                 vpiName: x
-                                vpiFullName: a::do_randomize::std.randomize()::x
-                                vpiActual: Variable name:x
+                                vpiFullName: a::do_randomize::std.randomize(x)::x
                               Constant start:19:47 end:19:48:
                                 vpiParent: Operation
                                 vpiConstType: int (7)
@@ -231,7 +241,7 @@ Design name:unnamed:
                                 vpiValue: 0
                                 vpiTypespec RefTypespec:
                                   vpiParent: Constant
-                                  vpiFullName: a::do_randomize::std.randomize()
+                                  vpiFullName: a::do_randomize::std.randomize(x)
                                   vpiActual: IntTypespec
                           Operation start:19:50 end:19:55:
                             vpiParent: Constraint
@@ -240,13 +250,11 @@ Design name:unnamed:
                               RefObj name:x start:19:50 end:19:51:
                                 vpiParent: Operation
                                 vpiName: x
-                                vpiFullName: a::do_randomize::std.randomize()::x
-                                vpiActual: Variable name:x
+                                vpiFullName: a::do_randomize::std.randomize(x)::x
                               RefObj name:y start:19:54 end:19:55:
                                 vpiParent: Operation
                                 vpiName: y
-                                vpiFullName: a::do_randomize::std.randomize()::y
-                                vpiActual: Variable name:y
+                                vpiFullName: a::do_randomize::std.randomize(x)::y
               ReturnStmt start:20:9 end:20:24:
                 vpiParent: Begin
                 vpiCondition RefObj name:success start:20:16 end:20:23:
@@ -275,7 +283,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 1
-[WARNING] : 2
+[WARNING] : 6
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
@@ -319,7 +327,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-18/18.12.1--adding-constraints-to-
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              38      38       0         0
+Others                              40      40       0         0
 ----------------------------------------------------------------
-                                    38      38       0         0
+                                    40      40       0         0
 ===================== END REDUCTION RESULT =====================
