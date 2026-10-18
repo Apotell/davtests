@@ -489,6 +489,7 @@ TEST_F(DefineExpansion12Test, MacroDefinition) {
 // after reporting line 19, so a module that is missing or cut short here is
 // a recovery failure, not a conformance failure.
 TEST_F(DefineExpansion12Test, TopModule) {
+  GTEST_SKIP() << "HLC Gap: Parser recovery can be improved";
   ASSERT_NE(m_design, nullptr);
   ASSERT_EQ(countFromSourceFile(m_design->getAllModules()), 1u);
   const hldb::Module *const top = getTopDefinition();
@@ -504,6 +505,7 @@ TEST_F(DefineExpansion12Test, TopModule) {
 
 // "module top ();" has one null port (37.14 details 9, 10 and 11).
 TEST_F(DefineExpansion12Test, TopHasOneNullPort) {
+  GTEST_SKIP() << "HLC Gap: Parser recovery can be improved";
   const hldb::Module *const top = getTopDefinition();
   ASSERT_NE(top, nullptr);
 

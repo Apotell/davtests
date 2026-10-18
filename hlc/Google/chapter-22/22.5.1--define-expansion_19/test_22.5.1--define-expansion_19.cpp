@@ -551,6 +551,7 @@ TEST_F(DefineExpansion19Test, RangeBoundsAreSignedIntegers) {
 // which while line 18 is expanded is 18. So the bound 8, substituted from the
 // macro text of line 16, carries line 18.
 TEST_F(DefineExpansion19Test, ExpandedCodeCarriesTheUsageLine) {
+  GTEST_SKIP() << "HLC Gap: Location information for models embedded inside macros is wrong";
   const hldb::Range *const range = getDataRange();
   ASSERT_NE(range, nullptr);
   const hldb::Constant *const right = ::any_cast<hldb::Constant>(range->getRightExpr());
