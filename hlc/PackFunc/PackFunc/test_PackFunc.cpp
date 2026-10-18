@@ -351,12 +351,12 @@ TEST_F(PackFuncTest, LocalAVecRangeIsBitsOfAMinusOne) {
   EXPECT_EQ(bits->getName(), "$bits");
   ASSERT_NE(bits->getArguments(), nullptr);
   ASSERT_EQ(bits->getArguments()->size(), 1u);
-  const hldb::RefObj *const a = any_cast<hldb::RefObj>(bits->getArguments()->at(0));
+  const hldb::RefObj *const a = bits->getArguments()->at(0)->getHighConn<hldb::RefObj>();
   ASSERT_NE(a, nullptr);
   EXPECT_EQ(a->getName(), "a");
   ASSERT_NE(fn->getIODecls(), nullptr);
   ASSERT_FALSE(fn->getIODecls()->empty());
-  EXPECT_EQ(a->getActual(), fn->getIODecls()->at(0)) << "'a' is the function's formal";
+  EXPECT_EQ(a->getActual(), fn->getVariables()->at(0)) << "'a' is the function's formal";
   const hldb::Constant *const one = any_cast<hldb::Constant>(left->getOperands()->at(1));
   ASSERT_NE(one, nullptr);
   EXPECT_EQ(one->getDecompile(), "1");

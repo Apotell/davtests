@@ -144,6 +144,12 @@ class PackFuncParentTest : public Test {
     return hldb::findByName<hldb::IODecl>("state_in", fn->getIODecls());
   }
 
+  static const hldb::Variable *getVariable(std::string_view fnName) {
+    const hldb::Function *const fn = getFunction(fnName);
+    if (fn == nullptr) return nullptr;
+    return hldb::findByName<hldb::Variable>("state_in", fn->getVariables());
+  }
+
   // sbox4_16bit's local state_out, owned by the function or by a Begin
   // wrapping its body (a tool convention, so both are searched).
   static const hldb::Variable *getStateOut() {
@@ -190,11 +196,12 @@ class PackFuncParentTest : public Test {
   static void ExpectLowByte(const hldb::Any *expr, std::string_view name, const hldb::Any *target) {
     const hldb::IndexedPartSelect *const sel = any_cast<hldb::IndexedPartSelect>(expr);
     ASSERT_NE(sel, nullptr) << "11.5.1: '" << name << "[0 +: 8]' is an indexed part-select";
-    EXPECT_EQ(sel->getIndexedPartSelectType(), vpiPosIndexed) << "'+:' selects upward from the base";
-    const hldb::Constant *const base = sel->getBaseExpr<hldb::Constant>();
+    const hldb::IndexedRange *const range = sel->getRange();
+    EXPECT_EQ(range->getIndexedPartSelectType(), vpiPosIndexed) << "'+:' selects upward from the base";
+    const hldb::Constant *const base = range->getBaseExpr<hldb::Constant>();
     ASSERT_NE(base, nullptr);
     EXPECT_EQ(base->getDecompile(), "0");
-    const hldb::Constant *const width = sel->getWidthExpr<hldb::Constant>();
+    const hldb::Constant *const width = range->getWidthExpr<hldb::Constant>();
     ASSERT_NE(width, nullptr);
     EXPECT_EQ(width->getDecompile(), "8");
     const hldb::RefObj *const prefix = sel->getPrefix<hldb::RefObj>();
@@ -238,7 +245,7 @@ TEST_F(PackFuncParentTest, Sbox8bitReturnsItsFormal) {
   const hldb::RefObj *const value = ret->getCondition<hldb::RefObj>();
   ASSERT_NE(value, nullptr);
   EXPECT_EQ(value->getName(), "state_in");
-  EXPECT_EQ(value->getActual(), formal) << "'state_in' is sbox4_8bit's own formal";
+  EXPECT_EQ(value->getActual(), getVariable("sbox4_8bit")) << "'state_in' is sbox4_8bit's own formal";
 }
 
 TEST_F(PackFuncParentTest, Sbox16bitHasFormalAndLocalStateOut) {
@@ -293,7 +300,7 @@ TEST_F(PackFuncParentTest, InnerCallBindsToSbox8bitWithOwnFormalSlice) {
   EXPECT_EQ(call->getTaskFunc(), getFunction("sbox4_8bit")) << "26.3: sbox4_8bit is declared in the same package";
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  ExpectLowByte(call->getArguments()->at(0), "state_in", getFormal("sbox4_16bit"));
+  ExpectLowByte(call->getArguments()->at(0)->getHighConn(), "state_in", getVariable("sbox4_16bit"));
 }
 
 // ---------------------------------------------------------------------------
@@ -341,7 +348,7 @@ TEST_F(PackFuncParentTest, ContAssignCallsScopedSbox16bit) {
   EXPECT_EQ(call->getTaskFunc(), getFunction("sbox4_16bit")) << "26.3: the call binds to my_pkg's sbox4_16bit";
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
-  const hldb::Constant *const arg = any_cast<hldb::Constant>(call->getArguments()->at(0));
+  const hldb::Constant *const arg = call->getArguments()->at(0)->getHighConn<hldb::Constant>();
   ASSERT_NE(arg, nullptr);
   EXPECT_EQ(arg->getDecompile(), "16'hABCD");
 }
