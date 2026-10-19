@@ -364,7 +364,9 @@ TEST_F(ParameterAggregateTest, ParamAssign_Rhs_Operand3_ValueIs4) {
 }
 }  // namespace hlc
 
+#ifndef DAVTESTS_BULK_BUILD
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
+#endif

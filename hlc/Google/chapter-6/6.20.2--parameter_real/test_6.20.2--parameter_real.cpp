@@ -159,7 +159,9 @@ TEST_F(ParameterRealTest, P_Rhs_ConstType_IsReal) {
 
 }  // namespace hlc
 
+#ifndef DAVTESTS_BULK_BUILD
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
+#endif

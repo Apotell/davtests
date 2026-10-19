@@ -489,7 +489,9 @@ TEST_F(FdisplayBohTest, CompilerReportsZeroErrors) {
 
 }  // namespace hlc
 
+#ifndef DAVTESTS_BULK_BUILD
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
+#endif

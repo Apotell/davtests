@@ -108,19 +108,19 @@ bool OperandsContainNamedRef(const hldb::Operation *op, std::string_view name) {
 }
 }  // namespace
 
-class PropertyDisableIffTest : public Test {
+class PropertyDisableIffMinTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "16.12--property-disable-iff.hlc"}); }
   static void TearDownTestSuite() { Shutdown(); }
 };
-// ... All tests belonging to PropertyDisableIffTest go here!
+// ... All tests belonging to PropertyDisableIffMinTest go here!
 
-TEST_F(PropertyDisableIffTest, ModuleTopExists) {
+TEST_F(PropertyDisableIffMinTest, ModuleTopExists) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
 }
 
-TEST_F(PropertyDisableIffTest, AssertPropertyIsReachable) {
+TEST_F(PropertyDisableIffMinTest, AssertPropertyIsReachable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
 
@@ -135,7 +135,7 @@ TEST_F(PropertyDisableIffTest, AssertPropertyIsReachable) {
   EXPECT_EQ(assertProp->getElseStmt(), nullptr) << "the source gives no else-clause";
 }
 
-TEST_F(PropertyDisableIffTest, PropertySpecHasPosedgeClockingEventAndDisableCondition) {
+TEST_F(PropertyDisableIffMinTest, PropertySpecHasPosedgeClockingEventAndDisableCondition) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(top->getConcurrentAssertions()->front());
@@ -163,7 +163,7 @@ TEST_F(PropertyDisableIffTest, PropertySpecHasPosedgeClockingEventAndDisableCond
   EXPECT_EQ(disableRef->getName(), std::string_view("a"));
 }
 
-TEST_F(PropertyDisableIffTest, PropertyExprIsOverlappedImplicationOfBAndC) {
+TEST_F(PropertyDisableIffMinTest, PropertyExprIsOverlappedImplicationOfBAndC) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Assert *const assertProp = any_cast<hldb::Assert>(top->getConcurrentAssertions()->front());
@@ -184,7 +184,9 @@ TEST_F(PropertyDisableIffTest, PropertyExprIsOverlappedImplicationOfBAndC) {
 
 }  // namespace hlc
 
+#ifndef DAVTESTS_BULK_BUILD
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
+#endif
