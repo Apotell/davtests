@@ -89,7 +89,10 @@ class Code:
 
 
 def _load_code_table(hlc_repo: Path) -> dict[str, Code]:
-  header = hlc_repo / 'include' / 'Hlc' / 'ErrorReporting' / 'ErrorDefinition.h'
+  # The repo tracks include/hlc (lowercase); an install tree may use include/Hlc.
+  header = next((hlc_repo / 'include' / d / 'ErrorReporting' / 'ErrorDefinition.h' for d in ('hlc', 'Hlc')
+                 if (hlc_repo / 'include' / d / 'ErrorReporting' / 'ErrorDefinition.h').is_file()),
+                hlc_repo / 'include' / 'hlc' / 'ErrorReporting' / 'ErrorDefinition.h')
   source = hlc_repo / 'src' / 'ErrorReporting' / 'ErrorDefinition.cpp'
   if not header.is_file() or not source.is_file():
     raise FileNotFoundError(f'ErrorDefinition.h/.cpp not found under {hlc_repo}')
@@ -192,7 +195,63 @@ def _find_log(log_dirpath: Path, test: TestCase):
     filepath = dirpath / f'{test.name}{suffix}.log'
     if filepath.is_file():
       return filepath
+  # The regression harness names the log after the test directory, not the .hlc stem.
+  for suffix in ('', '.linux', '.osx', '.msys', '.win'):
+    filepath = dirpath / f'{dirpath.name}{suffix}.log'
+    if filepath.is_file():
+      return filepath
   return None
+
+
+_platform_ids = ('.linux', '.osx', '.msys', '.win', '')
+
+
+def _extract_regression_archive(args):
+  """Copies the diagnostic lines of every test log in one regression shard artifact
+  (Regression_*.zip, as uploaded by the regression job) to <out>/<test_id>/<name>.log.
+  Only diagnostics and their continuation lines are kept, so the HLDB dumps never hit the disk."""
+  import io
+  import tarfile
+  import zipfile
+
+  zip_filepath, out_dirpath = args
+  archive_name = Path(zip_filepath).stem
+  count = 0
+  with zipfile.ZipFile(zip_filepath, 'r') as zip_strm:
+    with zip_strm.open(f'{archive_name}.tar.gz') as tar_strm:
+      with tarfile.open(fileobj=tar_strm, mode='r|gz') as archive_strm:
+        for member in archive_strm:
+          if not member.isfile() or not member.name.endswith('.tar.gz'):
+            continue
+          # <archive>/<test_id>.tar.gz holds <name>/<name>.log, name being the last part of test_id.
+          test_id = Path(member.name[:-len('.tar.gz')]).relative_to(archive_name).as_posix()
+          name = Path(test_id).name
+          data = archive_strm.extractfile(member).read()
+          with tarfile.open(fileobj=io.BytesIO(data)) as test_strm:
+            names = set(test_strm.getnames())
+            for platform_id in _platform_ids:
+              log_name = f'{name}/{name}{platform_id}.log'
+              if log_name in names:
+                break
+            else:
+              continue
+            kept = []
+            in_diag = False
+            for raw in test_strm.extractfile(log_name):
+              line = raw.decode('utf-8', errors='replace')
+              if line.startswith('['):
+                in_diag = _re_diag.match(line.rstrip('\r\n')) is not None
+                if in_diag:
+                  kept.append(line)
+              elif in_diag and line[:1] in (' ', '\t'):
+                kept.append(line)
+              else:
+                in_diag = False
+          dirpath = Path(out_dirpath) / test_id
+          dirpath.mkdir(parents=True, exist_ok=True)
+          (dirpath / f'{name}.log').write_text(''.join(kept), encoding='utf-8')
+          count += 1
+  return zip_filepath, count
 
 
 class _ScopeResolver:
@@ -1285,6 +1344,9 @@ def _main():
   parser.add_argument('--log-dirpath', dest='log_dirpath', default=None,
                       help='Directory holding <test_id>/<name>.log; defaults to --test-dirpath (goldens). '
                            'Point it at a regression output directory for fresh mode.')
+  parser.add_argument('--regression-archives', dest='regression_archives', nargs='+', default=None,
+                      help='Regression shard artifacts (Regression_*.zip, glob patterns allowed) to read the logs '
+                           'from instead of --log-dirpath (fresh mode, as in CI).')
   parser.add_argument('--output-dirpath', dest='output_dirpath', default=str(_workspace_dirpath / 'out' / 'error_coverage'),
                       help='Where report.xlsx and summary.md are written.')
   parser.add_argument('--filter', default=None, help='Regex on test id to restrict the run.')
@@ -1300,6 +1362,19 @@ def _main():
   output_dirpath.mkdir(parents=True, exist_ok=True)
   mode = 'golden' if log_dirpath == test_dirpath else 'fresh'
   filter_re = re.compile(args.filter) if args.filter else None
+
+  if args.regression_archives:
+    import glob
+    archives = sorted({str(Path(p).resolve()) for pattern in args.regression_archives for p in glob.glob(pattern)})
+    if not archives:
+      raise FileNotFoundError(f'No regression archives match {args.regression_archives}')
+    log_dirpath = output_dirpath / 'logs'
+    log_dirpath.mkdir(parents=True, exist_ok=True)
+    with multiprocessing.Pool(max(1, min(args.jobs, len(archives)))) as pool:
+      for archive, count in pool.imap_unordered(_extract_regression_archive,
+                                                [(a, str(log_dirpath)) for a in archives]):
+        print(f'Extracted {count} logs from {Path(archive).name}', flush=True)
+    mode = f'fresh ({len(archives)} regression shard(s))'
 
   codes = _load_code_table(hlc_repo)
   code_by_number = {c.number: c for c in codes.values()}

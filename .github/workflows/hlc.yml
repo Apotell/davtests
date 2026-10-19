@@ -253,12 +253,37 @@ jobs:
         # - { os: windows-2022, tag: windows, build-type: release }
 
     steps:
+    # The .hlc and test_*.cpp files are for the error coverage report; the golden logs under
+    # hlc/ (~3 GB) are not needed, the report reads this run's regression logs instead.
     - name: Git Pull
       uses: actions/checkout@v6
       with:
+        sparse-checkout-cone-mode: false
         sparse-checkout: |
-          scripts
-          requirements.txt
+          /scripts/
+          /requirements.txt
+          /hlc/**/*.hlc
+          /hlc/**/test_*.cpp
+
+    - name: Resolve hlc commit of the build
+      id: hlc-commit
+      env:
+        GH_TOKEN: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+      run: |
+        sha=$(gh api repos/Apotell/hlc/actions/runs/${{ github.event.inputs.run_id }} --jq '.head_sha')
+        echo "hlc commit: $sha"
+        echo "sha=$sha" >> $GITHUB_OUTPUT
+
+    - name: Checkout hlc (error definitions only)
+      uses: actions/checkout@v6
+      with:
+        repository: Apotell/hlc
+        ref: ${{ steps.hlc-commit.outputs.sha }}
+        token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+        path: hlc_repo
+        sparse-checkout: |
+          include/hlc/ErrorReporting
+          src/ErrorReporting
 
     - name: Setup Python
       uses: actions/setup-python@v6
@@ -294,6 +319,19 @@ jobs:
           Regression_ubuntu_release_${{ github.run_number }}_{index}  \
           --jobs $(nproc)
 
+    # Joins the diagnostics in this run's regression logs with the findError() checks in
+    # hlc/**/test_*.cpp; writes report.xlsx and appends summary.md to the job summary.
+    - name: Error coverage
+      if: ${{ !cancelled() }}
+      timeout-minutes: 15
+      run: |
+        python3 scripts/error_coverage.py                                         \
+          --hlc-repo hlc_repo                                                     \
+          --test-dirpath hlc                                                      \
+          --regression-archives "Regression_ubuntu_release_${{ github.run_number }}_*.zip" \
+          --output-dirpath error_coverage                                         \
+          --jobs $(nproc)
+
     - name: Archive artifacts
       if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v7
@@ -304,6 +342,8 @@ jobs:
           env.json
           reducer.csv
           regression.csv
+          error_coverage/report.xlsx
+          error_coverage/summary.md
 
 # Cache Cleanup #######################################################################################################
 
