@@ -230,7 +230,9 @@ jobs:
 
     - name: Test
       timeout-minutes: 15
-      run: ctest --test-dir out/build --output-on-failure
+      # Tests run in parallel: each one has its own TEST_TMPDIR (see
+      # cmake/DavTests.cmake), so they do not share hlc temp folders.
+      run: ctest --test-dir out/build --output-on-failure -j 2
 
 # Summarize ###########################################################################################################
 
