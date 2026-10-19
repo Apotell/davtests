@@ -236,11 +236,14 @@ TEST_F(ParamCastTest, NumAgentsIsLocalIntCastOfNumAgentsIdx) {
   const hldb::Operation *const cast = pa->getRhs<hldb::Operation>();
   ASSERT_NE(cast, nullptr) << "unreduced, the cast of NumAgentsIdx to int is an Operation";
   EXPECT_EQ(cast->getOpType(), vpiCastOp) << "6.24.1: a cast";
-  ASSERT_NE(cast->getTypespec(), nullptr);
-  EXPECT_NE(cast->getTypespec()->getActual<hldb::IntTypespec>(), nullptr) << "6.24.1: the cast is to 'int'";
   ASSERT_NE(cast->getOperands(), nullptr);
-  ASSERT_EQ(cast->getOperands()->size(), 1u);
-  const hldb::RefObj *const idx = any_cast<hldb::RefObj>(cast->getOperands()->at(0));
+  ASSERT_EQ(cast->getOperands()->size(), 2u);
+
+  const hldb::RefTypespec *const rt = any_cast<hldb::RefTypespec>(cast->getOperands()->at(0));
+  ASSERT_NE(rt, nullptr);
+  EXPECT_NE(rt->getActual<hldb::IntTypespec>(), nullptr) << "6.24.1: the cast is to 'int'";
+
+  const hldb::RefObj *const idx = any_cast<hldb::RefObj>(cast->getOperands()->at(1));
   ASSERT_NE(idx, nullptr);
   EXPECT_EQ(idx->getName(), "NumAgentsIdx");
   const hldb::Enum *const e = getPartIdxEnum();

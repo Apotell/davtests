@@ -304,7 +304,7 @@ class ParamElabMultiTest : public Test {
   }
 
   // The instance named 'name' in 'block'.
-  static const hldb::RefInstance *findInstance(const hldb::Begin *block, std::string_view name) {
+  static const hldb::RefInstance *findInstance(const hldb::GenBlock *block, std::string_view name) {
     if (block == nullptr || block->getStmts() == nullptr) return nullptr;
     for (const hldb::Any *const item : *block->getStmts()) {
       const hldb::RefInstance *const inst = any_cast<hldb::RefInstance>(item);
@@ -544,7 +544,7 @@ TEST_F(ParamElabMultiTest, GenAssignIsGuardedByPadTypeEqualsB) {
   EXPECT_EQ(b->getName(), "B");
   ASSERT_NE(getEnumConst("B"), nullptr);
   EXPECT_EQ(b->getActual(), getEnumConst("B")) << "26.3: 'B' is imported from prim_pad_wrapper_pkg";
-  const hldb::Begin *const block = genIf->getStmt<hldb::Begin>();
+  const hldb::GenBlock *const block = genIf->getStmt<hldb::GenBlock>();
   ASSERT_NE(block, nullptr) << "27.5: 'begin : gen_assign ... end' is the generate block";
   EXPECT_EQ(block->getName(), "gen_assign");
   const hldb::ContAssign *assign = nullptr;
@@ -564,7 +564,7 @@ TEST_F(ParamElabMultiTest, GenGenericPassesPadTypeToUImplGeneric) {
   const hldb::Constant *const one = genIf->getCondition<hldb::Constant>();
   ASSERT_NE(one, nullptr);
   EXPECT_EQ(one->getDecompile(), "1");
-  const hldb::Begin *const block = genIf->getStmt<hldb::Begin>();
+  const hldb::GenBlock *const block = genIf->getStmt<hldb::GenBlock>();
   ASSERT_NE(block, nullptr);
   EXPECT_EQ(block->getName(), "gen_generic");
   const hldb::RefInstance *const inst = findInstance(block, "u_impl_generic");
@@ -610,7 +610,7 @@ TEST_F(ParamElabMultiTest, GenDioAttrLoopsOverNDioPads) {
   EXPECT_EQ(n->getName(), "NDioPads");
   ASSERT_NE(getParam(getPkg("pinmux_pkg"), "NDioPads"), nullptr);
   EXPECT_EQ(n->getActual(), getParam(getPkg("pinmux_pkg"), "NDioPads")) << "26.3: imported from pinmux_pkg";
-  const hldb::Begin *const block = loop->getStmt<hldb::Begin>();
+  const hldb::GenBlock *const block = loop->getStmt<hldb::GenBlock>();
   ASSERT_NE(block, nullptr);
   EXPECT_EQ(block->getName(), "gen_dio_attr");
   const hldb::RefInstance *const inst = findInstance(block, "u_prim_pad_attr");

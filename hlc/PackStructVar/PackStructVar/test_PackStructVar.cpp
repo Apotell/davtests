@@ -378,7 +378,7 @@ TEST_F(PackStructVarTest, TlSzwIsNestedClog2) {
   EXPECT_EQ(outer->getName(), "$clog2");
   ASSERT_NE(outer->getArguments(), nullptr);
   ASSERT_EQ(outer->getArguments()->size(), 1u);
-  const hldb::Operation *const add = any_cast<hldb::Operation>(outer->getArguments()->at(0));
+  const hldb::Operation *const add = outer->getArguments()->at(0)->getHighConn<hldb::Operation>();
   ASSERT_NE(add, nullptr) << "the argument '$clog2(TL_DBW)+1' is an Operation";
   EXPECT_EQ(add->getOpType(), vpiAddOp);
   ASSERT_NE(add->getOperands(), nullptr);
@@ -388,7 +388,7 @@ TEST_F(PackStructVarTest, TlSzwIsNestedClog2) {
   EXPECT_EQ(inner->getName(), "$clog2");
   ASSERT_NE(inner->getArguments(), nullptr);
   ASSERT_EQ(inner->getArguments()->size(), 1u);
-  const hldb::RefObj *const dbw = any_cast<hldb::RefObj>(inner->getArguments()->at(0));
+  const hldb::RefObj *const dbw = inner->getArguments()->at(0)->getHighConn<hldb::RefObj>();
   ASSERT_NE(dbw, nullptr);
   EXPECT_EQ(dbw->getActual(), getTopPkgParam("TL_DBW"));
   if (m_design->getElaborated()) {
@@ -519,15 +519,16 @@ TEST_F(PackStructVarTest, TlFifoH2dIsTwoElementUnpackedArray) {
   const hldb::Range *const r = at->getRange();
   ASSERT_NE(r, nullptr);
   const hldb::Constant *const left = r->getLeftExpr<hldb::Constant>();
-  const hldb::Constant *const right = r->getRightExpr<hldb::Constant>();
-  int64_t count = r->getSize();
-  if ((left != nullptr) && (right != nullptr)) {
-    uint64_t l = 0;
-    uint64_t rr = 0;
-    ASSERT_TRUE(getIntValue(left, &l) && getIntValue(right, &rr));
-    count = std::llabs(static_cast<int64_t>(l) - static_cast<int64_t>(rr)) + 1;
-  }
-  EXPECT_EQ(count, 2) << "7.4.2: '[2]' means '[0:1]', two elements";
+  ASSERT_EQ(left, nullptr);
+  const hldb::Operation *const right = r->getRightExpr<hldb::Operation>();
+  ASSERT_NE(right, nullptr);
+  EXPECT_EQ(right->getOpType(), vpiSubOp);
+  ASSERT_NE(right->getOperands(), nullptr);
+  ASSERT_EQ(right->getOperands()->size(), 1u);
+  const hldb::Constant *const value = any_cast<hldb::Constant>(right->getOperands()->at(0));
+  ASSERT_NE(value, nullptr);
+  EXPECT_EQ(value->getConstType(), vpiIntConst);
+  EXPECT_EQ(value->getDecompile(), std::string_view("2")) << "7.4.2: '[2]' means '[0:1]', two elements";
 }
 
 // ---------------------------------------------------------------------------

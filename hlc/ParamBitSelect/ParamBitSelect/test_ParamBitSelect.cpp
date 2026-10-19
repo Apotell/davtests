@@ -137,7 +137,7 @@ class ParamBitSelectTest : public Test {
   // The first GenIf found in 'stmt' or in a Begin it holds.
   static const hldb::GenIf *findGenIf(const hldb::Any *stmt) {
     if (const hldb::GenIf *const genIf = any_cast<hldb::GenIf>(stmt)) return genIf;
-    const hldb::Begin *const block = any_cast<hldb::Begin>(stmt);
+    const hldb::GenBlock *const block = any_cast<hldb::GenBlock>(stmt);
     if (block == nullptr || block->getStmts() == nullptr) return nullptr;
     for (const hldb::Any *const item : *block->getStmts()) {
       if (const hldb::GenIf *const found = findGenIf(item)) return found;

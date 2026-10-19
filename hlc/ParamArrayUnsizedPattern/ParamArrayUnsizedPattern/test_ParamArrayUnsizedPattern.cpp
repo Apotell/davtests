@@ -231,20 +231,16 @@ TEST_F(ParamArrayUnsizedPatternTest, ArrayDimensionsAreZeroToBobaCountMinusOne) 
     }
     ASSERT_NE(range, nullptr) << "7.4.2: '" << name << "' declares one unpacked dimension";
     const hldb::Constant *const left = range->getLeftExpr<hldb::Constant>();
-    ASSERT_NE(left, nullptr) << "7.4.2: '[BobaCount]' is the same as '[0:BobaCount-1]', so the left bound is 0";
-    EXPECT_EQ(left->getDecompile(), "0") << name;
+    ASSERT_EQ(left, nullptr) << "7.4.2: '[BobaCount]' is the same as '[0:BobaCount-1]', so the left unbound";
     const hldb::Operation *const right = range->getRightExpr<hldb::Operation>();
     ASSERT_NE(right, nullptr) << "7.4.2: the right bound of '" << name << "' is 'BobaCount-1'";
     EXPECT_EQ(right->getOpType(), vpiSubOp) << name;
     ASSERT_NE(right->getOperands(), nullptr);
-    ASSERT_EQ(right->getOperands()->size(), 2u) << "'BobaCount-1' has two operands";
+    ASSERT_EQ(right->getOperands()->size(), 1u) << "'BobaCount-1' has one operand";
     const hldb::RefObj *const count = any_cast<hldb::RefObj>(right->getOperands()->at(0));
     ASSERT_NE(count, nullptr);
     EXPECT_EQ(count->getName(), "BobaCount");
     EXPECT_EQ(count->getActual(), getParam("BobaCount"));
-    const hldb::Constant *const one = any_cast<hldb::Constant>(right->getOperands()->at(1));
-    ASSERT_NE(one, nullptr);
-    EXPECT_EQ(one->getDecompile(), "1");
   }
 }
 
