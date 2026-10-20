@@ -8,7 +8,7 @@ concurrency:
 on: [pull_request]
 
 env:
-  PYTHON3_VERSION: '3.x'
+  PYTHON3_VERSION: '3.14'
 
 jobs:
 # Preflight ###########################################################################################################
@@ -239,6 +239,10 @@ jobs:
           --num_shards ${{ matrix.num_shards }} \
           --filters @scripts/filter.lst
 
+    # The binary dir is the extracted hlc install itself (build/), so the test executables land in
+    # build/bin next to hlc and its hlc.conf -- the same layout as other platforms. hlc loads
+    # hlc.conf (and through it the precompiled UVM/OVM cache under share/hlc/pkg) from the running
+    # executable's own directory, so a test binary built anywhere else silently runs uncached.
     - name: Configure
       shell: bash
       env:
@@ -251,17 +255,27 @@ jobs:
           -DCMAKE_BUILD_TYPE=RelWithDebInfo                                                     \
           -DCMAKE_C_COMPILER_LAUNCHER=${{ runner.os == 'Windows' && 'sccache' || 'ccache' }}    \
           -DCMAKE_CXX_COMPILER_LAUNCHER=${{ runner.os == 'Windows' && 'sccache' || 'ccache' }}  \
-          -DBUILD_DIR=${{ github.workspace }}/build                                             \
+          -DHLC_BUILD_DIR=${{ github.workspace }}/build                                         \
           -DTEST_LIST_FILE=${{ github.workspace }}/scripts/shard.lst                            \
-          -S . -B out/build
+          -S . -B build
 
     - name: Build
       shell: bash
-      run: cmake --build out/build -j $(nproc 2>/dev/null || echo $NUMBER_OF_PROCESSORS)
+      run: cmake --build build -j $(nproc 2>/dev/null || echo $NUMBER_OF_PROCESSORS)
 
     - name: Test
       timeout-minutes: 15
-      run: ctest --test-dir out/build --output-on-failure
+      shell: bash
+      run: ctest --test-dir build --output-on-failure -j $(nproc 2>/dev/null || echo $NUMBER_OF_PROCESSORS)
+
+    # ctest writes every test's full output -- passing tests included -- to LastTest.log, unlike
+    # --output-on-failure, which only echoes failing tests to the console.
+    - name: Archive test log
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: cpp_tests_${{ matrix.platform }}_${{ matrix.shard }}_${{ github.run_number }}
+        path: build/Testing/Temporary/LastTest.log
 
 # Cache Cleanup #######################################################################################################
 
