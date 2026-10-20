@@ -72,6 +72,7 @@ _re_diag = re.compile(r'^\[(?P<sev>[A-Z]{3}):(?P<prefix>[A-Z]{2})(?P<num>\d+)\] 
 _re_location = re.compile(r'^(?P<path>[$/\\A-Za-z0-9_.][^ ]*?)(?::(?P<line>\d+):(?:(?P<col>\d+):)?)? (?P<msg>.*)$')
 _re_continuation = re.compile(r'^\s+(?P<path>\S+?):(?P<line>\d+):(?:(?P<col>\d+):)?\s')
 _re_quoted = re.compile(r'"([^"]*)"')
+_re_coverage = re.compile(r'^\[COVERAGE\] : (?P<value>\d+(?:\.\d+)?)\s*$')
 
 
 # --------------------------------------------------------------------------------------------------
@@ -239,7 +240,10 @@ def _extract_regression_archive(args):
             in_diag = False
             for raw in test_strm.extractfile(log_name):
               line = raw.decode('utf-8', errors='replace')
-              if line.startswith('['):
+              if _re_coverage.match(line):
+                kept.append(line)
+                in_diag = False
+              elif line.startswith('['):
                 in_diag = _re_diag.match(line.rstrip('\r\n')) is not None
                 if in_diag:
                   kept.append(line)
@@ -294,10 +298,16 @@ def _parse_log(args):
   test, log_filepath, code_by_number, external_pattern, workspace_dirpath = args
   resolver = _ScopeResolver(test.wd_dirpaths, re.compile(external_pattern, re.I), workspace_dirpath)
   reports = []
+  coverage = None
   last = None
   with open(log_filepath, encoding='utf-8', errors='replace') as strm:
     for raw in strm:
       if raw.startswith('['):
+        cov = _re_coverage.match(raw)
+        if cov:
+          coverage = float(cov.group('value'))
+          last = None
+          continue
         m = _re_diag.match(raw.rstrip('\r\n'))
         if not m or m.group('sev') not in _counted_severities:
           last = None
@@ -345,7 +355,7 @@ def _parse_log(args):
           last = None
       else:
         last = None
-  return test.test_id, reports
+  return test.test_id, reports, coverage
 
 
 # --------------------------------------------------------------------------------------------------
@@ -1275,7 +1285,7 @@ def _pct(n, d):
 
 
 def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, assertions_by_test, unparsed, missing_logs,
-                   build_info=None):
+                   build_info=None, coverage_by_test=None):
   buckets = defaultdict(int)
   for name, s in stats.items():
     if s['code'] is not None:
@@ -1296,6 +1306,9 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
   # Distinct (test, id) pairs, the same unit the Problems sheet lists.
   unknown = len({(r.test_id, r.code) for r in local + external if r.code.startswith('?')})
   stale = sum(len(_stale_skip_candidates(v)) for v in assertions_by_test.values())
+  # The [COVERAGE] value scripts/coverage.py prints for each test, averaged over the tests that have one.
+  coverages = list((coverage_by_test or {}).values())
+  avg_coverage = sum(coverages) / len(coverages) if coverages else 0.0
 
   summary = [
     ('Mode', mode),
@@ -1330,11 +1343,12 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     ('  Stale skip candidates (TESTs)', stale),
     ('  Unparsed findError calls', len(unparsed)),
     ('Unknown error ids in logs (test, id pairs)', unknown),
+    ('HLDB coverage (average per test)', f'{avg_coverage:.1f}% over {len(coverages)} tests' if coverages else '-'),
   ]
 
   # Markdown for the job summary. Emoji are written as escapes to keep this file ASCII.
   ok, warn, todo, guard, dead = '\u2705', '\U0001F7E1', '\U0001F535', '\U0001F6E1', '\u26AB'
-  orange, white, fail, skip, caution = '\U0001F7E0', '\u26AA', '\u274C', '\u23ED', '\u26A0\uFE0F'
+  orange, white, fail = '\U0001F7E0', '\u26AA', '\u274C'
   num = lambda n: f'{n:,}'
 
   statuses = defaultdict(int)
@@ -1342,8 +1356,6 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     statuses[_test_status(test, reports_by_test, assertions_by_test, missing_logs)[0]] += 1
   reporting = sum(statuses[s_] for s_ in ('All checked', 'Partly checked', 'Not checked', 'No cpp', 'Problem'))
   exercised = len(codes) - buckets['Dead']
-  conditional = ast['Conditional']
-  problems = ast['Broken'] + ms['Contradiction'] + stale + len(missing_logs) + conditional + len(unparsed) + unknown
 
   bucket_names = ['Checked', 'Not checked', 'Pending', 'Guard-only', 'Dead']
   by_stage = defaultdict(lambda: defaultdict(int))
@@ -1373,9 +1385,12 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     f'{_pct(ms["Checked"], len(main))} |',
     f'| Tests whose reported errors are all checked | {num(statuses["All checked"])} / {num(reporting)} | '
     f'{_pct(statuses["All checked"], reporting)} |',
-    f'| Problems to fix | {num(problems)} | |',
+  ]
+  if coverages:
+    lines.append(f'| HLDB coverage (average over {num(len(coverages))} tests) | | {avg_coverage:.1f}% |')
+  lines += [
     '',
-    '### Error codes by stage', '',
+    '<details><summary><b>Error codes by stage</b></summary>', '',
     f'| Stage | Codes | {ok} Checked | {warn} Not checked | {todo} Pending | {guard} Guard-only | {dead} Dead |',
     '|---|---:|---:|---:|---:|---:|---:|',
   ]
@@ -1385,9 +1400,15 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
   lines += [
     f'| **Total** | **{len(codes)}** | ' + ' | '.join(f'**{buckets[b]}**' for b in bucket_names) + ' |',
     '',
-    f'{ok} a test checks it is reported \u00b7 {warn} reported, but no test checks it \u00b7 '
-    f'{todo} a test expects it, HLC does not report it yet \u00b7 {guard} tests only check it is *not* reported '
-    f'\u00b7 {dead} never reported or checked',
+    '| | Meaning |',
+    '|---|---|',
+    f'| {ok} **Checked** | Reported by HLC and asserted by a test |',
+    f'| {warn} **Not checked** | Reported by HLC, but no test asserts it |',
+    f'| {todo} **Pending** | A test expects it, but HLC doesn\'t report it yet |',
+    f'| {guard} **Guard-only** | Tests only check it\'s *not* reported |',
+    f'| {dead} **Dead** | Never reported, never tested |',
+    '',
+    '</details>',
     '',
     '### Tests', '',
     '| Status | Tests |',
@@ -1401,31 +1422,8 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     f'| {fail} No log | {num(statuses["No log"])} |',
     f'| **Total** | **{num(len(tests))}** |',
     '',
-    f'### Problems to fix ({num(problems)})', '',
-    '| | Count |',
-    '|---|---:|',
-    f'| {fail} Broken: expects an error the log does not have | {ast["Broken"]} |',
-    f'| {fail} Contradiction: reports an error the test says must not appear | {ms["Contradiction"]} |',
-    f'| {skip} Stale skip: skipped, but its checks already pass | {stale} |',
-    f'| {caution} Missing log | {len(missing_logs)} |',
-    f'| {caution} Conditional check does not hold here | {conditional} |',
-    f'| {caution} Unparsed `findError` call | {len(unparsed)} |',
-    f'| {caution} Unknown error id in a log | {unknown} |',
-    '',
   ]
 
-  top = sorted(((name, entry) for name, entry in stats.items()
-                if entry['bucket'] == 'Not checked' and entry['local'] and entry['code'] is not None
-                and entry['code'].severity in _main_severities),
-               key=lambda kv: (-len(kv[1]['local_tests']), kv[0]))[:10]
-  if top:
-    lines += ['<details><summary>Top 10 reported but unchecked error codes</summary>', '',
-              '| Code | Id | Sev | Tests | Times |', '|---|---|---|---:|---:|']
-    for name, entry in top:
-      c = entry['code']
-      code_id = f'{_category_prefixes.get(c.category, "")}{c.number:04d}'
-      lines.append(f'| {name} | {code_id} | {c.severity} | {num(len(entry["local_tests"]))} | {num(entry["local"])} |')
-    lines += ['', '</details>', '']
   lines += [f'Full per-test and per-code detail: `report.xlsx` in the run\'s Summary artifact.', '']
   return summary, '\n'.join(lines)
 
@@ -1499,11 +1497,14 @@ def _main():
   cpp_jobs = [(targets, str(cpp), set(codes)) for targets, cpp in links]
 
   reports_by_test = {}
+  coverage_by_test = {}
   assertions_by_test = defaultdict(list)
   unparsed = []
   with multiprocessing.Pool(max(1, args.jobs)) as pool:
-    for test_id, reports in pool.imap_unordered(_parse_log, log_jobs, chunksize=16):
+    for test_id, reports, coverage in pool.imap_unordered(_parse_log, log_jobs, chunksize=16):
       reports_by_test[test_id] = reports
+      if coverage is not None:
+        coverage_by_test[test_id] = coverage
     print(f'Logs parsed: {len(reports_by_test)}', flush=True)
 
     aid = 0
@@ -1527,7 +1528,8 @@ def _main():
 
   build_info = _build_info(hlc_repo)
   summary_rows, summary_md = _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test,
-                                            assertions_by_test, unparsed, missing_logs, build_info)
+                                            assertions_by_test, unparsed, missing_logs, build_info,
+                                            coverage_by_test)
   (output_dirpath / 'summary.md').write_text(summary_md + '\n', encoding='utf-8')
   _write_xlsx(output_dirpath / 'report.xlsx', codes, tests, stats, reports_by_test, assertions_by_test,
               unparsed, missing_logs, summary_rows)
