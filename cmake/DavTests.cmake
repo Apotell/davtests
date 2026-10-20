@@ -76,10 +76,14 @@ function(davtests_configure_test_target TARGET)
     ${DAVTESTS_ROOT}/third_party/googletest/googletest/include
     ${DAVTESTS_ROOT}/third_party/googletest/googlemock/include
   )
+  target_link_libraries(${TARGET} PRIVATE hlc::hlc_test)
+endfunction()
+
+# Every source must see hlc/config.h before anything else.
+function(davtests_force_include_config TARGET)
   target_compile_options(${TARGET} PRIVATE
     "SHELL:$<IF:$<CXX_COMPILER_ID:MSVC>,/FI hlc/config.h,-include hlc/config.h>"
   )
-  target_link_libraries(${TARGET} PRIVATE hlc::hlc_test)
 endfunction()
 
 # Registers a CTest test that runs EXE in WORK_DIR with the extra arguments.
@@ -100,6 +104,7 @@ function(_davtests_add_standalone TEST_SRC)
   get_filename_component(TEST_DIR  "${TEST_SRC}" DIRECTORY)
   add_executable(${TEST_NAME} "${TEST_SRC}")
   davtests_configure_test_target(${TEST_NAME})
+  davtests_force_include_config(${TEST_NAME})
   davtests_add_ctest(${TEST_NAME} ${TEST_NAME} "${TEST_DIR}")
 endfunction()
 
@@ -117,6 +122,14 @@ function(_davtests_add_bulk BULK_NAME)
   add_executable(${BULK_NAME} ${BULK_SOURCES} "${DAVTESTS_ROOT}/common/bulk_main.cpp")
   davtests_configure_test_target(${BULK_NAME})
   target_compile_definitions(${BULK_NAME} PRIVATE DAVTESTS_BULK_BUILD=1)
+  # Precompiled header shared by every source of the bulk executable; CMake
+  # force-includes it first, so hlc/config.h (its first header) still comes
+  # before anything else and replaces davtests_force_include_config().
+  target_precompile_headers(${BULK_NAME} PRIVATE
+    <hlc/config.h>
+    <hlc/Tests/Test.h>
+    <hldb/hldb.h>
+  )
 
   set(BULK_FIXTURES "")
   foreach(TEST_SRC IN LISTS BULK_SOURCES)
