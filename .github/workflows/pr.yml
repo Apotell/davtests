@@ -257,6 +257,10 @@ jobs:
 
     - name: Build
       shell: bash
+      # The bulk executables use a precompiled header (cmake/DavTests.cmake);
+      # ccache only caches such compiles with these sloppiness settings.
+      env:
+        CCACHE_SLOPPINESS: pch_defines,time_macros,include_file_mtime,include_file_ctime
       run: cmake --build out/build -j $(nproc 2>/dev/null || echo $NUMBER_OF_PROCESSORS)
 
     - name: Test
