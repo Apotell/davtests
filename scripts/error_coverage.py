@@ -124,6 +124,18 @@ def _load_code_table(hlc_repo: Path) -> dict[str, Code]:
   return codes
 
 
+def _load_ignore_list(filepath: Path) -> set[str]:
+  """ErrorDefinition names to leave out of the report: one per line, '#' starts a comment."""
+  if not filepath.is_file():
+    return set()
+  names = set()
+  for line in filepath.read_text(encoding='utf-8').splitlines():
+    name = line.split('#', 1)[0].strip()
+    if name:
+      names.add(name)
+  return names
+
+
 def _make_symbol_regex(text: str):
   # The renderer substitutes the primary location's object into the first %s only.
   index = text.find('%s')
@@ -1285,7 +1297,7 @@ def _pct(n, d):
 
 
 def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, assertions_by_test, unparsed, missing_logs,
-                   build_info=None, coverage_by_test=None):
+                   build_info=None, coverage_by_test=None, ignored_codes=()):
   buckets = defaultdict(int)
   for name, s in stats.items():
     if s['code'] is not None:
@@ -1314,6 +1326,7 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     ('Mode', mode),
     ('Logs', str(log_dirpath)),
     ('Severities (main)', ', '.join(_main_severities) + '  (NTE counted separately, INF excluded)'),
+    ('Ignored codes', ', '.join(ignored_codes) or '-'),
     ('Error codes (ErrorDefinition.h)', len(codes)),
     ('  Checked', buckets['Checked']),
     ('  Not checked (reported, no test checks it)', buckets['Not checked']),
@@ -1374,7 +1387,8 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     lines += [' \u00b7 '.join(build_info), '']
   lines += [
     f'Diagnostics from this run\'s own test sources ({"/".join(_main_severities)}); library sources, INF and NTE '
-    'are left out of the numbers.', '',
+    'are left out of the numbers.'
+    + (f' Ignored codes: {", ".join(f"`{c}`" for c in sorted(ignored_codes))}.' if ignored_codes else ''), '',
     '### At a glance', '',
     '| | Value | % |',
     '|---|---:|---:|',
@@ -1449,6 +1463,9 @@ def _main():
   parser.add_argument('--filter', default=None, help='Regex on test id to restrict the run.')
   parser.add_argument('--external-pattern', dest='external_pattern', default=_default_external_pattern,
                       help='Regex on a source path marking third-party library files.')
+  parser.add_argument('--ignore-file', dest='ignore_file', default=str(_this_dirpath / 'error_coverage_ignore.txt'),
+                      help='File listing error codes to leave out of the report, one name per line. '
+                           'Pass an empty string to ignore nothing.')
   parser.add_argument('--jobs', type=int, default=os.cpu_count() or 1, help='Worker processes.')
   args = parser.parse_args()
   # The summary contains emoji; do not depend on the console code page (cp1252 on Windows).
@@ -1476,8 +1493,14 @@ def _main():
     mode = f'fresh ({len(archives)} regression shard(s))'
 
   codes = _load_code_table(hlc_repo)
+  # Logs and cpp files are read against the full table; ignored codes are dropped afterwards.
   code_by_number = {c.number: c for c in codes.values()}
-  print(f'Codes: {len(codes)}', flush=True)
+  all_code_names = set(codes)
+  ignored = _load_ignore_list(Path(args.ignore_file)) if args.ignore_file else set()
+  for name in sorted(ignored - all_code_names):
+    print(f'Warning: ignored code {name} is not in ErrorDefinition.h', flush=True)
+  codes = {name: code for name, code in codes.items() if name not in ignored}
+  print(f'Codes: {len(codes)} ({len(ignored & all_code_names)} ignored)', flush=True)
 
   tests = _scan_tests(test_dirpath, filter_re)
   print(f'Tests: {len(tests)}', flush=True)
@@ -1494,7 +1517,7 @@ def _main():
     else:
       log_jobs.append((test, log_filepath, code_by_number, args.external_pattern, _workspace_dirpath))
 
-  cpp_jobs = [(targets, str(cpp), set(codes)) for targets, cpp in links]
+  cpp_jobs = [(targets, str(cpp), all_code_names) for targets, cpp in links]
 
   reports_by_test = {}
   coverage_by_test = {}
@@ -1502,7 +1525,7 @@ def _main():
   unparsed = []
   with multiprocessing.Pool(max(1, args.jobs)) as pool:
     for test_id, reports, coverage in pool.imap_unordered(_parse_log, log_jobs, chunksize=16):
-      reports_by_test[test_id] = reports
+      reports_by_test[test_id] = [r for r in reports if r.code not in ignored]
       if coverage is not None:
         coverage_by_test[test_id] = coverage
     print(f'Logs parsed: {len(reports_by_test)}', flush=True)
@@ -1511,6 +1534,8 @@ def _main():
     for targets, cpp, items, bad in pool.imap_unordered(_scan_cpp, cpp_jobs, chunksize=8):
       unparsed.extend(bad)
       for item in items:
+        if item['code'] in ignored:
+          continue
         for test_id in targets:
           aid += 1
           assertions_by_test[test_id].append(Assertion(
@@ -1529,7 +1554,7 @@ def _main():
   build_info = _build_info(hlc_repo)
   summary_rows, summary_md = _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test,
                                             assertions_by_test, unparsed, missing_logs, build_info,
-                                            coverage_by_test)
+                                            coverage_by_test, sorted(ignored & all_code_names))
   (output_dirpath / 'summary.md').write_text(summary_md + '\n', encoding='utf-8')
   _write_xlsx(output_dirpath / 'report.xlsx', codes, tests, stats, reports_by_test, assertions_by_test,
               unparsed, missing_logs, summary_rows)
