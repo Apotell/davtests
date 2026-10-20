@@ -19,11 +19,7 @@
 // generate-for instance array ('bar[0]', 'bar[1]').
 //
 // All expected values are derived from sec. 23.10 / sec. 27.4 of the spec
-// and the SV source. No expected value is taken from the UHDM log, except
-// for the narrow, documented confirmation that HLC currently fails to bind
-// every element of the defparam's hierarchical LHS path (see the
-// GTEST_SKIP() below) -- that failure is a known gap, not something this
-// file asserts as correct.
+// and the SV source. No expected value is taken from the UHDM log.
 //
 // -- sec. 23.10 / sec. 27.4 rules under test ----
 //
@@ -189,11 +185,6 @@ TEST_F(DefParamIndexTest, DefParam0_Lhs_ResolvesThroughInstanceHierarchy) {
   // sec. 23.10: the defparam's hierarchical, array-indexed LHS must
   // eventually resolve to the actual 'addvalue' Parameter of the specific
   // 'bar[0]' instance of 'hierdefparam_b'.
-  GTEST_SKIP() << "HLC currently fails to bind every element of the defparam's hierarchical, indexed LHS path "
-                  "('Failed to bind \"id:31, name:foo\"' and similar, one per path element -- see "
-                  "DefParamIndex.log); per IEEE 1800-2023 sec. 23.10 the LHS of a defparam statement must resolve "
-                  "through the instance hierarchy, including generate-for array indices, to the target parameter. "
-                  "Fix pending.";
   const hldb::DefParam *const dp = getDefParam(m_design, 0);
   ASSERT_NE(dp, nullptr);
   const hldb::RefObj *const lhs = dp->getLhs<hldb::RefObj>();

@@ -83,11 +83,6 @@
 //   - Runtime effect of "disable block;" (that "block"'s pending
 //     "#10 b = 1;" never executes): HLC is a compiler/elaborator with no
 //     simulation, so no execution ever happens for this test to observe.
-//
-// KNOWN LIMITATION (see GTEST_SKIP in DisableTargetsTheSiblingNamedBlock):
-//   - Per Sec 9.6.2, the Disable's RefObj "block" should bind (getActual())
-//     to the sibling "begin: block" fork branch -- HLC currently leaves it
-//     unbound, with no COMP_FAILED_TO_BIND diagnostic raised either.
 // ============================================================================
 
 #include <hlc/Common/Session.h>
@@ -341,13 +336,6 @@ TEST_F(DisableOtherTest, DisableHasVpiDisableType) {
 }
 
 TEST_F(DisableOtherTest, DisableTargetsTheSiblingNamedBlock) {
-  GTEST_SKIP() << "HLC leaves the Disable's RefObj 'block' unbound (getActual() == nullptr, with no "
-                  "COMP_FAILED_TO_BIND diagnostic raised either) when the target named block is a sibling "
-                  "fork branch rather than a lexically enclosing scope. Per IEEE 1800-2023 Sec 9.6.2 the "
-                  "RefObj should bind to the 'begin: block' branch spawned by the same fork -- 'block' is "
-                  "visible from any statement within the fork that declares it, not only from statements "
-                  "nested inside it. Fix pending.";
-
   const hldb::Disable *const disable = getDisableStmt();
   ASSERT_NE(disable, nullptr);
 

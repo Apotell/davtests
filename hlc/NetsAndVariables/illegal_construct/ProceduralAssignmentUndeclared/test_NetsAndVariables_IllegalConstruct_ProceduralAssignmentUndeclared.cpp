@@ -40,8 +40,6 @@ class ProceduralAssignmentUndeclaredTest : public Test {
 };
 
 TEST_F(ProceduralAssignmentUndeclaredTest, ProceduralAssignmentToUndeclaredIsRejected) {
-  GTEST_SKIP() << "a procedural assignment to an undeclared identifier is illegal: implicit declaration is "
-                  "net-only (IEEE 1800 clause 6.10) and never arises from a procedural assignment.";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "undeclared_var"), nullptr)
       << "IEEE 1800-2023 6.10: the assigned identifier is never declared, and an implicit net "

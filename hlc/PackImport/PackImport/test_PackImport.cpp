@@ -333,7 +333,6 @@ TEST_F(PackImportTest, TopHasInputNetClkIAndOutputVariableO1) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (port index
 // not set) in the file header.
 TEST_F(PackImportTest, TopPortIndexesFollowDeclarationOrder) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't set the port-index yet";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPorts(), nullptr);

@@ -472,7 +472,6 @@ TEST_F(PackageValueTest, ImplEHasTwoNamesWithExplicitValues) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG
 // (null port missing) in the file header.
 TEST_F(PackageValueTest, ModuleHasOneNullPort) {
-  GTEST_SKIP() << "HLC Gap: No null port";
   const hldb::Module *const m = getModule();
   ASSERT_NE(m, nullptr) << "module 'prim_diff_decode' not found";
   ASSERT_NE(m->getPorts(), nullptr) << "37.14 detail 10: '()' declares a null port";

@@ -293,7 +293,6 @@ TEST_F(PackedEnumPortTest, TopHasTwoOutputIntVariablePorts) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (port index
 // not set) in the file header.
 TEST_F(PackedEnumPortTest, TopPortIndexesFollowDeclarationOrder) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't set port index";
   const hldb::Module *const top = getModule("top");
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPorts(), nullptr);

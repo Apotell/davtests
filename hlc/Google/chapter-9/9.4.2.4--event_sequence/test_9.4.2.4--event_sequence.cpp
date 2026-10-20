@@ -246,11 +246,6 @@ TEST_F(EventSequenceTest, AtSeqEventControlResolvesToTheSequenceDecl) {
 }
 
 TEST_F(EventSequenceTest, ProceduralAssignmentToWiresAYAndClkIsIllegal) {
-  GTEST_SKIP() << "Whether HLC raises ErrorDefinition::HLDB_ILLEGAL_WIRE_LHS for a plain "
-                  "procedural assignment to a wire (vs. a different ErrorType/symbol, or none at "
-                  "all) was inferred from the error header alone, not confirmed by running the "
-                  "compiler, and no .log was consulted.";
-
   EXPECT_NE(findError(ErrorDefinition::HLDB_ILLEGAL_WIRE_LHS, "a"), nullptr)
       << "'a = 1;' procedurally assigns the net 'a', illegal per IEEE 1800-2023 6.7";
   EXPECT_NE(findError(ErrorDefinition::HLDB_ILLEGAL_WIRE_LHS, "y"), nullptr)

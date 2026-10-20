@@ -305,7 +305,6 @@ TEST_F(PackedArrayHighConnTest, DioPadBankDefaultsToUnbasedUnsizedZero) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (null port
 // missing) in the file header.
 TEST_F(PackedArrayHighConnTest, DutHasOneNullPort) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't model null port";
   const hldb::Module *const dut = getModule("dut");
   ASSERT_NE(dut, nullptr);
   ASSERT_NE(dut->getPorts(), nullptr) << "37.14 detail 10: '()' declares a null port";

@@ -300,7 +300,6 @@ TEST_F(PackEnumValTest, TopHasInputNetIAndOutputVariableO) {
 }
 
 TEST_F(PackEnumValTest, TopPortIndexesFollowDeclarationOrder) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't set the port-index yet";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getPorts(), nullptr);

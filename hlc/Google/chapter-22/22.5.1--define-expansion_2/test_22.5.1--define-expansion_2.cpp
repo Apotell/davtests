@@ -348,7 +348,6 @@ TEST_F(DefineExpansion2Test, ModuleTopHasStaticDefaultLifetime) {
 }
 
 TEST_F(DefineExpansion2Test, ModuleTopHasOneNullPort) {
-  GTEST_SKIP() << "HLC Gap: No null port";
   // Sec 37.14 detail 10 names "module M();" as declaring a null port.
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);

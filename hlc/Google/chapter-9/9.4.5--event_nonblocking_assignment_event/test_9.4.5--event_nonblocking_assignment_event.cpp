@@ -104,10 +104,6 @@ TEST_F(EventNonblockingAssignmentEventTest, AAndBAreVariablesClkIsNet) {
 }
 
 TEST_F(EventNonblockingAssignmentEventTest, AssignmentIsActuallyBlockingWithInlineEventControl) {
-  GTEST_SKIP() << "Whether HLC attaches the intra-assignment '@(posedge clk)' via "
-                  "Assignment::getEventControl() (vs. an alternate wrapping-statement shape) was "
-                  "inferred, not confirmed via a header or a .log.";
-
   const hldb::Module *const top = hldb::findByName<hldb::Module>("block_tb", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);

@@ -153,7 +153,6 @@ TEST_F(ModPortParamTest, ModportNameNotDeclaredInInterfaceIsDiagnosed) {
 // ===========================================================================
 
 TEST_F(ModPortParamTest, CsrUnitHasSingleModportPort) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Module *const m = getModule("CSR_Unit");
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getPorts(), nullptr);

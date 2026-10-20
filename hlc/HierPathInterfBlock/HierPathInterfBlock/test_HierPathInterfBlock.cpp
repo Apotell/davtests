@@ -163,7 +163,6 @@ TEST_F(HierPathInterfBlockTest, NoneOfTheEightHierPathCallsFailToBind) {
 }
 
 TEST_F(HierPathInterfBlockTest, CompilerReportsZeroErrors) {
-  GTEST_SKIP() << "HLC is reporting a number of null actual errors";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);

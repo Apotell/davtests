@@ -194,7 +194,6 @@ TEST_F(ConstraintBlocks0Test, CIsBEquals0) {
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(ConstraintBlocks0Test, CompilerReportsZeroErrors) {
-  GTEST_SKIP() << "HLC reports a HLDB filter issue";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);

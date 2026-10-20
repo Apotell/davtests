@@ -380,7 +380,6 @@ TEST_F(PackageTypeParamTest, ModuleAHasThreePortsInOrder) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG
 // (port index not set) in the file header.
 TEST_F(PackageTypeParamTest, PortIndexesFollowDeclarationOrder) {
-  GTEST_SKIP() << "HLC Gap: Port index aren't populated yet.";
   const hldb::Module *const m = getModuleA();
   ASSERT_NE(m, nullptr);
   ASSERT_NE(m->getPorts(), nullptr);

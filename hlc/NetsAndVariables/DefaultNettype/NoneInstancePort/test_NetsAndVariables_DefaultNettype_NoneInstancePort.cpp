@@ -39,8 +39,6 @@ class NoneInstancePortTest : public Test {
 };
 
 TEST_F(NoneInstancePortTest, UndeclaredInstancePortNetIsRejected) {
-  GTEST_SKIP() << "under `default_nettype none, an undeclared identifier used as a module instance port "
-                  "connection is illegal: there is no default net type to fall back on.";
   ASSERT_NE(m_session->getErrorContainer(), nullptr);
   EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "undeclared_net"), nullptr)
       << "IEEE 1800-2023 22.8 with 6.10: under default_nettype none no implicit net is "

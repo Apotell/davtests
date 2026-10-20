@@ -293,7 +293,6 @@ TEST_F(ModPortRangeTest, RangeItfPortMyPort2IsInputWireUnpackedArray) {
 }
 
 TEST_F(ModPortRangeTest, RangeItfPortMyPort2PortTypeIsPlainPort) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const p = getPort("range_itf_port", "my_port2");
   ASSERT_NE(p, nullptr);
   EXPECT_EQ(p->getPortType(), vpiPort) << "37.14 detail 1: a non-interface port has vpiPortType vpiPort";
@@ -321,7 +320,6 @@ TEST_F(ModPortRangeTest, MemoryCtrl1InterfaceAndModportPorts) {
 // ===========================================================================
 
 TEST_F(ModPortRangeTest, MiddleConn1IsInterfacePortArray) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const p = getPort("middle", "conn1");
   ASSERT_NE(p, nullptr);
   EXPECT_EQ(p->getPortType(), vpiInterfacePort);

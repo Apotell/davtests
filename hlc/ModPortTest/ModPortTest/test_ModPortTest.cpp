@@ -266,7 +266,6 @@ TEST_F(ModPortTestTest, MemIfHasSystemAndMemoryModports) {
 }
 
 TEST_F(ModPortTestTest, NonexistentModportInPortHeaderIsDiagnosed) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
   EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "system1"), nullptr)
       << "25.5: mem_if has no modport named system1";
 }

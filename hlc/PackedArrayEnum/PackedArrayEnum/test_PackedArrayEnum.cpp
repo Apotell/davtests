@@ -138,7 +138,6 @@ class PackedArrayEnumTest : public Test {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackedArrayEnumTest, TopHasOneNullPort) {
-  GTEST_SKIP() << "HLC Gap: Compiler doesn't model null port";
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr) << "module 'top' not found";
   ASSERT_NE(top->getPorts(), nullptr) << "37.14 detail 10: '()' declares a null port";
