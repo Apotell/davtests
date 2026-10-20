@@ -32,7 +32,8 @@ Classification of an assertion:
 A skipped TEST whose findError checks all hold is listed as a stale-skip candidate.
 
 Per error code (exactly one bucket, in priority order):
-  Checked, Not checked (reported but no test checks it), Pending, Guard-only, Dead
+  Checked, Not checked (reported but no test checks it), Pending, Dead
+  A code whose only checks assert that it is absent counts as Dead.
 """
 
 import argparse
@@ -1061,9 +1062,8 @@ def _code_buckets(codes, all_reports, all_assertions):
       bucket = 'Not checked'
     elif s['present'] or s['present_skipped']:
       bucket = 'Pending'
-    elif s['absent']:
-      bucket = 'Guard-only'
     else:
+      # Never reported and no test expects it; checks that it is absent do not count.
       bucket = 'Dead'
     s['bucket'] = bucket
     s['tests_example'] = sorted(s['local_tests'] or s['external_tests'])[:5]
@@ -1143,7 +1143,7 @@ def _write_xlsx(filepath, codes, tests, stats, reports_by_test, assertions_by_te
 
   # By code
   rows = []
-  for name, s in sorted(stats.items(), key=lambda kv: (['Checked', 'Not checked', 'Pending', 'Guard-only', 'Dead'].index(kv[1]['bucket']), kv[0])):
+  for name, s in sorted(stats.items(), key=lambda kv: (['Checked', 'Not checked', 'Pending', 'Dead'].index(kv[1]['bucket']), kv[0])):
     code = s['code']
     if code is None:
       # An id that is not in ErrorDefinition.h comes from a stale log; it is listed under Problems.
@@ -1331,7 +1331,6 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     ('  Checked', buckets['Checked']),
     ('  Not checked (reported, no test checks it)', buckets['Not checked']),
     ('  Pending', buckets['Pending']),
-    ('  Guard-only', buckets['Guard-only']),
     ('  Dead', buckets['Dead']),
     ('Tests', len(tests)),
     ('  With cpp', with_cpp),
@@ -1360,7 +1359,7 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
   ]
 
   # Markdown for the job summary. Emoji are written as escapes to keep this file ASCII.
-  ok, warn, todo, guard, dead = '\u2705', '\U0001F7E1', '\U0001F535', '\U0001F6E1', '\u26AB'
+  ok, warn, todo, dead = '\u2705', '\U0001F7E1', '\U0001F535', '\u26AB'
   orange, white, fail = '\U0001F7E0', '\u26AA', '\u274C'
   num = lambda n: f'{n:,}'
 
@@ -1370,7 +1369,7 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
   reporting = sum(statuses[s_] for s_ in ('All checked', 'Partly checked', 'Not checked', 'No cpp', 'Problem'))
   exercised = len(codes) - buckets['Dead']
 
-  bucket_names = ['Checked', 'Not checked', 'Pending', 'Guard-only', 'Dead']
+  bucket_names = ['Checked', 'Not checked', 'Pending', 'Dead']
   by_stage = defaultdict(lambda: defaultdict(int))
   for name, entry in stats.items():
     code = entry['code']
@@ -1405,8 +1404,8 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
   lines += [
     '',
     '<details><summary><b>Error codes by stage</b></summary>', '',
-    f'| Stage | Codes | {ok} Checked | {warn} Not checked | {todo} Pending | {guard} Guard-only | {dead} Dead |',
-    '|---|---:|---:|---:|---:|---:|---:|',
+    f'| Stage | Codes | {ok} Checked | {warn} Not checked | {todo} Pending | {dead} Dead |',
+    '|---|---:|---:|---:|---:|---:|',
   ]
   for stage in stage_order:
     counts = by_stage[stage]
@@ -1419,8 +1418,7 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     f'| {ok} **Checked** | Reported by HLC and asserted by a test |',
     f'| {warn} **Not checked** | Reported by HLC, but no test asserts it |',
     f'| {todo} **Pending** | A test expects it, but HLC doesn\'t report it yet |',
-    f'| {guard} **Guard-only** | Tests only check it\'s *not* reported |',
-    f'| {dead} **Dead** | Never reported, never tested |',
+    f'| {dead} **Dead** | Never reported, and no test expects it |',
     '',
     '</details>',
     '',
