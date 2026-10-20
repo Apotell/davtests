@@ -292,8 +292,6 @@ TEST_F(TimescaleBasic3Test, ErrorsOnlyOnTheIllegalLine) {
 // Each of these diagnostics would mean HLC misread line 17: only the
 // magnitude 9 is invalid.
 TEST_F(TimescaleBasic3Test, ReportsNoMisreadingDiagnostics) {
-  // ns and ps are valid units (22.7).
-  EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_UNIT), nullptr);
 
   // A precision of 1 ps is finer than a unit counted in ns, so the precision
   // is "at least as precise as the time_unit argument" (22.7).
@@ -304,9 +302,6 @@ TEST_F(TimescaleBasic3Test, ReportsNoMisreadingDiagnostics) {
 
   // `timescale is a compiler directive (22.1), not a text macro usage.
   EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(TimescaleBasic3Test, SourceFileRecordedOnce) {

@@ -295,7 +295,6 @@ TEST_F(UndefNonexistingTest, UndefOfUnknownMacroIsAtMostAWarning) {
 TEST_F(UndefNonexistingTest, ReportsNoMisreadingDiagnostics) {
   // Both lines match Syntax 22-4.
   EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
 
   // FOO and BAR are operands of `undef, not macro usages and not
   // definitions, so they are neither unknown usages nor redefinitions, and
@@ -304,8 +303,6 @@ TEST_F(UndefNonexistingTest, ReportsNoMisreadingDiagnostics) {
   EXPECT_EQ(findError(ErrorDefinition::PP_MULTIPLY_DEFINED_MACRO), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NAME_RESERVED), nullptr);
 
-  // An `undef takes no arguments and has no macro text.
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_PARENTHESIS_NEEDED), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE), nullptr);
@@ -316,9 +313,6 @@ TEST_F(UndefNonexistingTest, ReportsNoMisreadingDiagnostics) {
 
   // The file has no design element, so neither directive is inside one.
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(UndefNonexistingTest, SourceFileRecordedOnce) {

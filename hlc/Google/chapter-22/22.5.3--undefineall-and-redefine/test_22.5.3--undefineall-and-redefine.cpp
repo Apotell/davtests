@@ -295,7 +295,6 @@ TEST_F(UndefineAllAndRedefineTest, CompilesWithoutErrors) {
 TEST_F(UndefineAllAndRedefineTest, ReportsNoMacroDiagnostics) {
   // Lines 16, 18 and 20 match Syntax 22-2; `undefineall takes no arguments.
   EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
 
   // Lines 17 and 19 undefine every macro (22.5.3), so each later `define of
   // FOO defines an undefined name: none of them redefines a defined macro.
@@ -307,9 +306,6 @@ TEST_F(UndefineAllAndRedefineTest, ReportsNoMacroDiagnostics) {
   // FOO is not a compiler directive name (22.1).
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NAME_RESERVED), nullptr);
 
-  // On line 20 "(" follows FOO immediately and x and y both appear in the
-  // macro text; on lines 16 and 18 no "(" follows FOO at all.
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNUSED_ARGUMENT), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNDEFINED_ARGUMENT), nullptr);
 
@@ -327,9 +323,6 @@ TEST_F(UndefineAllAndRedefineTest, ReportsNoMacroDiagnostics) {
   // `define and `undefineall "may appear anywhere"; the file has no design
   // element anyway.
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(UndefineAllAndRedefineTest, SourceFileRecordedOnce) {

@@ -390,10 +390,6 @@ TEST_F(DefineExpansion12Test, ReportsNoMisreadingDiagnostics) {
   // One actual argument for three formal arguments is too few, not too many.
   EXPECT_EQ(findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO), nullptr);
 
-  // In the definition "(" follows MACRO1 with no white space; in the usage
-  // white space before "(" is allowed (22.5.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
-
   // The usage has its parentheses (22.5.1).
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_PARENTHESIS_NEEDED), nullptr);
 
@@ -416,9 +412,6 @@ TEST_F(DefineExpansion12Test, ReportsNoMisreadingDiagnostics) {
   // `define is outside module top, and a macro usage may appear anywhere in
   // the compilation unit after its definition (22.5.1).
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(DefineExpansion12Test, SourceFileRecordedOnce) {

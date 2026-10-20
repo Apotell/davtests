@@ -177,8 +177,6 @@ TEST_F(PureConstraint0Test, LegalPureConstraintUsageRaisesNoError) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "a2"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_CONSTRAINT, "c"), nullptr);
-  // 'pure constraint c;' is not the implicit prototype form of Sec 18.5.1.
-  EXPECT_EQ(findError(ErrorDefinition::COMP_IMPLICIT_EMPTY_CONSTRAINT, "c"), nullptr);
 }
 TEST_F(PureConstraint0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active

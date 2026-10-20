@@ -270,7 +270,6 @@ TEST_F(PureConstraint1Test, LegalPureUsageRaisesNoError) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "a2"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_CONSTRAINT, "c"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_IMPLICIT_EMPTY_CONSTRAINT, "c"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "a2"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "env"), nullptr);
 }

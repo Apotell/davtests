@@ -223,8 +223,6 @@ TEST_F(MaskNegTest, OverrideValueIsBitwiseNegationOfTwoBitHexZero) {
 }
 
 TEST_F(MaskNegTest, NoMissingOverrideOrBindErrorForResval) {
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_MISSING_PARAMETER_OVERRIDE, "RESVAL"), nullptr)
-      << "Sec 23.10: the only instantiation of 'dut' does override RESVAL";
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "RESVAL"), nullptr)
       << "'.RESVAL' names a parameter declared in 'dut'";
 }

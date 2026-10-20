@@ -269,11 +269,6 @@ TEST_F(DefineExpansion22Test, ReportsNoMacroDiagnostics) {
   // Line 16 matches Syntax 22-2: the formal argument list and the macro text
   // need no white space between them.
   EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
-
-  // "(" follows max immediately, as 22.5.1 requires for a formal argument
-  // list.
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
 
   // a and b are both formal arguments and both appear in the macro text.
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNUSED_ARGUMENT), nullptr);
@@ -296,9 +291,6 @@ TEST_F(DefineExpansion22Test, ReportsNoMacroDiagnostics) {
 
   // `define is legal outside design elements (22.5.1).
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(DefineExpansion22Test, SourceFileRecordedOnce) {

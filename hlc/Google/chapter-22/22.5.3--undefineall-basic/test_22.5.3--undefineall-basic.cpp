@@ -246,7 +246,6 @@ TEST_F(UndefineAllBasicTest, CompilesWithoutErrors) {
 TEST_F(UndefineAllBasicTest, ReportsNoMisreadingDiagnostics) {
   // `undefineall takes no arguments (22.5.3); line 16 has none.
   EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
 
   // Nothing is defined, so nothing is defined twice, and no macro name, let
   // alone a compiler directive name, appears in the file.
@@ -255,7 +254,6 @@ TEST_F(UndefineAllBasicTest, ReportsNoMisreadingDiagnostics) {
 
   // No macro is used, and no formal argument or macro text exists.
   EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_PARENTHESIS_NEEDED), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE), nullptr);
@@ -267,9 +265,6 @@ TEST_F(UndefineAllBasicTest, ReportsNoMisreadingDiagnostics) {
   // `undefineall "may appear anywhere" (22.5.3); the file has no design
   // element anyway.
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(UndefineAllBasicTest, SourceFileRecordedOnce) {

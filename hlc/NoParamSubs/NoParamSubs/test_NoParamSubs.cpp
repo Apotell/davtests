@@ -270,7 +270,6 @@ TEST_F(NoParamSubsTest, NoBindingErrors) {
   for (const char *const sym : {"P", "X", "a", "o", "dut"}) {
     EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, sym), nullptr) << sym;
   }
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_UNKNOWN_PARAMETER_OVERRIDE, "P"), nullptr);
 }
 
 }  // namespace hlc

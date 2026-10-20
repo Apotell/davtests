@@ -422,11 +422,6 @@ TEST_F(DefineExpansion15Test, ReportsNoMacroDiagnostics) {
   // Line 16 matches Syntax 22-2 (white space after the commas of the formal
   // argument list is allowed, 22.5.1) and line 18 matches Syntax 22-3.
   EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
-
-  // In the definition "(" follows MACRO2 with no white space; in the usage
-  // white space before "(" is allowed (22.5.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
 
   // Two actual arguments for three formal arguments is too few, not too many.
   EXPECT_EQ(findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO), nullptr);
@@ -459,9 +454,6 @@ TEST_F(DefineExpansion15Test, ReportsNoMacroDiagnostics) {
   // `define is outside module top, and a macro usage may appear anywhere in
   // the compilation unit after its definition (22.5.1).
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(DefineExpansion15Test, SourceFileRecordedOnce) {

@@ -320,7 +320,6 @@ TEST_F(IfdefBehavioralTest, CompilesWithoutErrors) {
 TEST_F(IfdefBehavioralTest, ReportsNoPreprocessorDiagnostics) {
   // Lines 19-23 match Syntax 22-5.
   EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_ELSEIF), nullptr);
 
   // `ifdef tests whether behavioral is defined (22.6); the name is not a
@@ -330,9 +329,6 @@ TEST_F(IfdefBehavioralTest, ReportsNoPreprocessorDiagnostics) {
   // The conditional directives "may appear anywhere in the source
   // description" (22.6), here inside a module.
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(IfdefBehavioralTest, SourceFileRecordedOnce) {

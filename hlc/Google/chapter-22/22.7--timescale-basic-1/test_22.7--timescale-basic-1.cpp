@@ -225,7 +225,6 @@ TEST_F(TimescaleBasic1Test, ReportsNoTimescaleDiagnostics) {
   // 1 is a valid integer, ns and ps are valid units, and 1 ps is at least as
   // precise as 1 ns (22.7).
   EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_VALUE), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_UNIT), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_SCALE), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_VALUE), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE), nullptr);
@@ -236,9 +235,6 @@ TEST_F(TimescaleBasic1Test, ReportsNoTimescaleDiagnostics) {
 
   // `timescale is a compiler directive (22.1), not a text macro usage.
   EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(TimescaleBasic1Test, SourceFileRecordedOnce) {

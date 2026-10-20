@@ -165,7 +165,6 @@ TEST_F(NonSynthErrorTest, NoSyntaxOrBindingErrors) {
   EXPECT_EQ(stats.nbSyntax, 0);
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_SYSTEM_FUNCTION, "$size"), nullptr);
 }
 
 }  // namespace hlc

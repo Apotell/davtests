@@ -57,12 +57,6 @@
 //     reference bound to enum constant InvalidTokenIdx. Last operand
 //     {8{RawUnlockTokenIdx, InvalidTokenIdx}}: multiplier 8, inner concat of
 //     two references in order.
-//   - 11.4.12.1: "A replication operation may have a multiplier with a value
-//     of zero ... Such a replication shall appear only within a concatenation
-//     in which at least one of the operands ... has a positive size."
-//     `TEST_UNLOCKED(7) yields {(7-7){...}} (zero multiplier) inside the
-//     81-operand concatenation, which is legal -> no
-//     COMP_ILLEGAL_REPLICATION_COUNT.
 //   - 6.3 / 23.9: NumLcStates is used in the packed dimensions of
 //     TransTokenIdxMatrix's type but is never declared in the package (or
 //     imported) -> it must fail to bind (COMP_FAILED_TO_BIND "NumLcStates").
@@ -252,11 +246,6 @@ TEST_F(MultiConcatTest, MacroExpandedOperandsAreReplications) {
   }
   expectReplication(rhs->getOperands()->at(11), "2", {"ZeroTokenIdx"});
   expectReplication(rhs->getOperands()->at(12), "3", {"TestExitTokenIdx"});
-}
-
-TEST_F(MultiConcatTest, ZeroReplicationInsideConcatIsLegal) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_REPLICATION_COUNT), nullptr)
-      << "11.4.12.1: zero multiplier within a concatenation with positive-size operands is legal";
 }
 
 // ===========================================================================

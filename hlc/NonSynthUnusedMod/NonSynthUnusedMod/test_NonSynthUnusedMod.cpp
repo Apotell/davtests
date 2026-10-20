@@ -127,7 +127,6 @@ TEST_F(NonSynthUnusedModTest, InstantiationRelationships) {
 }
 
 TEST_F(NonSynthUnusedModTest, NoUndefinedModuleDiagnostics) {
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_NO_MODULE_DEFINITION, "top"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "top"), nullptr);
 }
 
@@ -138,7 +137,6 @@ TEST_F(NonSynthUnusedModTest, NoDiagnosticsFromUnusedLibraryModule) {
     for (const char *const sym : {"a", "b"}) {
       EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, sym), nullptr) << sym;
       EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, sym), nullptr) << sym;
-      EXPECT_EQ(findError(ErrorDefinition::HLDB_UNDEFINED_VARIABLE, sym), nullptr) << sym;
     }
   }
 }

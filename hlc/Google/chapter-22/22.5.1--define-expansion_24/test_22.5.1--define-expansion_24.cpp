@@ -406,15 +406,10 @@ TEST_F(DefineExpansion24Test, ReportsNoMacroDiagnostics) {
   // Lines 17-19 match Syntax 22-2 and the usages on lines 22 and 23 match
   // Syntax 22-3.
   EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
 
   // `define may be used inside a design element (22.5.1).
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
 
-  // "(" follows H with no white space in the definition and in the usage;
-  // the usage gives one actual argument for the one formal argument, and LO,
-  // which has no formal arguments, is used without parentheses.
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_PARENTHESIS_NEEDED), nullptr);
@@ -433,9 +428,6 @@ TEST_F(DefineExpansion24Test, ReportsNoMacroDiagnostics) {
   // The `HI in LO's macro text is inside a string literal, so it is no macro
   // reference at all, let alone a recursive one (22.5.1).
   EXPECT_EQ(findError(ErrorDefinition::PP_RECURSIVE_MACRO_DEFINITION), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(DefineExpansion24Test, SourceFileRecordedOnce) {

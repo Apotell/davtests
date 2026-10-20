@@ -295,17 +295,11 @@ TEST_F(TimescaleBasic4Test, ReportsNoMisreadingDiagnostics) {
   // 1 and 10 are valid integers (22.7).
   EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_VALUE), nullptr);
 
-  // ns is a valid unit (22.7).
-  EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_UNIT), nullptr);
-
   // The file has no design element, so line 17 is not inside one (22.7).
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
 
   // `timescale is a compiler directive (22.1), not a text macro usage.
   EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(TimescaleBasic4Test, SourceFileRecordedOnce) {

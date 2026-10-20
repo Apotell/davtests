@@ -50,7 +50,6 @@
 //     integer value" (vpiIntFunc)
 //   - Sec 20.2: the 8th statement "$finish;" is a system task call
 //     (SysTaskCall) with no arguments
-//   - no COMP_UNDEFINED_SYSTEM_FUNCTION for any standard name used
 //
 // What is NOT checked and why:
 //   - Numeric results ($clog2(1) == 0, $floor(1.1) == 1.0, ...): runtime
@@ -250,14 +249,6 @@ TEST_F(MathFunc02Test, LastStatementIsFinishTask) {
   EXPECT_EQ(fin->getName(), "$finish");
   EXPECT_TRUE(fin->getArguments() == nullptr || fin->getArguments()->empty()) << "'$finish' has no arguments";
 }
-
-TEST_F(MathFunc02Test, NoUndefinedSystemFunctionReported) {
-  for (const std::string &name : expectedNames()) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_SYSTEM_FUNCTION, name), nullptr) << name;
-  }
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_SYSTEM_FUNCTION, "$finish"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

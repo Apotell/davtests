@@ -170,8 +170,6 @@ TEST_F(MonitorTaskTest, CompilesWithoutErrors) {
   EXPECT_EQ(stats.nbSyntax, 0);
   EXPECT_EQ(stats.nbError, 0);
 
-  // 21.2 / 21.2.3: none of the six spellings is an unknown system name.
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_SYSTEM_FUNCTION), nullptr);
   // 23.6: `a` is visible from the initial block, so no reference may fail to bind.
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr);
 }

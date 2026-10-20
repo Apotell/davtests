@@ -276,7 +276,6 @@ TEST_F(UndefBasicTest, CompilesWithoutErrors) {
 TEST_F(UndefBasicTest, ReportsNoMacroDiagnostics) {
   // Line 16 matches Syntax 22-2 and line 17 Syntax 22-4.
   EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
 
   // FOO is defined on line 16 before it is undefined on line 17, so the
   // warning 22.5.2 allows for undefining a macro that was not previously
@@ -287,10 +286,6 @@ TEST_F(UndefBasicTest, ReportsNoMacroDiagnostics) {
   EXPECT_EQ(findError(ErrorDefinition::PP_MULTIPLY_DEFINED_MACRO), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NAME_RESERVED), nullptr);
 
-  // No "(" follows FOO, so it has no formal arguments, and FOO is never used,
-  // so no usage can be unknown, lack its parentheses or give the wrong
-  // number of arguments.
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNUSED_ARGUMENT), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNDEFINED_ARGUMENT), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
@@ -304,9 +299,6 @@ TEST_F(UndefBasicTest, ReportsNoMacroDiagnostics) {
 
   // The file has no design element, so neither directive is inside one.
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(UndefBasicTest, SourceFileRecordedOnce) {

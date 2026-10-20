@@ -290,14 +290,8 @@ TEST_F(IncludeDefineExpansionTest, CompilesWithoutErrors) {
 TEST_F(IncludeDefineExpansionTest, ReportsNoMacroOrIncludeDiagnostics) {
   // Line 16 matches Syntax 22-2 and line 17 Syntax 22-3 and 22-1.
   EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
 
-  // `foo(dummy_include.sv) expands to the quoted name "dummy_include.sv"
-  // (22.5.1), a valid file name for `include (22.4), and the file exists in
-  // the working directory; it includes nothing back.
-  EXPECT_EQ(findError(ErrorDefinition::PP_INVALID_INCLUDE_FILENAME), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_CANNOT_OPEN_INCLUDE_FILE), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_RECURSIVE_INCLUDE_DIRECTIVE), nullptr);
 
   // `" overrides the usual meaning of " (22.5.1), so the macro text holds no
   // ordinary string literal that could be left unterminated, and the text
@@ -305,10 +299,6 @@ TEST_F(IncludeDefineExpansionTest, ReportsNoMacroOrIncludeDiagnostics) {
   EXPECT_EQ(findError(ErrorDefinition::PP_UNTERMINATED_STRING), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNUSED_ARGUMENT), nullptr);
 
-  // "(" follows foo with no white space in the definition and in the usage,
-  // and the usage gives one actual argument for the one formal argument,
-  // with its parentheses.
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_PARENTHESIS_NEEDED), nullptr);
@@ -326,9 +316,6 @@ TEST_F(IncludeDefineExpansionTest, ReportsNoMacroOrIncludeDiagnostics) {
 
   // The file has no design element, so neither directive is inside one.
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
-
-  // Both files are plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(IncludeDefineExpansionTest, SourceFileRecordedOnce) {

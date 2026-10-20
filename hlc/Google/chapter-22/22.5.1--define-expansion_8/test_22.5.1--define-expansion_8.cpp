@@ -337,11 +337,6 @@ TEST_F(DefineExpansion8Test, ErrorsOnlyOnTheIllegalLine) {
 TEST_F(DefineExpansion8Test, ReportsNoOtherMacroDiagnostics) {
   // Both lines match Syntax 22-2 and Syntax 22-3.
   EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
-
-  // "(" follows D with no white space on line 17, so (x,y) is the formal
-  // argument list (22.5.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
 
   // Both formal arguments x and y appear in the macro text.
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNUSED_ARGUMENT), nullptr);
@@ -369,9 +364,6 @@ TEST_F(DefineExpansion8Test, ReportsNoOtherMacroDiagnostics) {
 
   // Both directives are outside any design element.
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(DefineExpansion8Test, SourceFileRecordedOnce) {

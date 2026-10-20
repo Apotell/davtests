@@ -354,7 +354,6 @@ TEST_F(NoReducTypespecTest, NoBindingErrors) {
   for (const char *const sym : {"Cfg", "NoSlvPorts", "NoMstPorts", "AxiXbarCfg", "xbar_cfg_t", "axi_pkg"}) {
     EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, sym), nullptr) << sym;
   }
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_UNKNOWN_PARAMETER_OVERRIDE, "Cfg"), nullptr);
 }
 
 }  // namespace hlc

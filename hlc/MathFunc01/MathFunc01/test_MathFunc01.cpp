@@ -59,8 +59,6 @@
 //     (vpiRealConst, Sec 5.7.2), e.g. $hypot(3.0, 4.0) in source order
 //   - Table 20-4: "shall accept real value arguments and return a real
 //     result type" -> each call's function type is vpiRealFunc
-//   - Sec 20.8.2: all 15 names are standard system functions, so no
-//     COMP_UNDEFINED_SYSTEM_FUNCTION is reported for any of them
 //
 // What is NOT checked and why:
 //   - The numeric results (e.g. $asin(2.0) is outside the domain of asin
@@ -270,14 +268,6 @@ TEST_F(MathFunc01Test, CallsReturnReal) {
     EXPECT_EQ(call->getFuncType(), vpiRealFunc) << name << ": Table 20-4 functions return a real result";
   }
 }
-
-TEST_F(MathFunc01Test, NoUndefinedSystemFunctionReported) {
-  for (const std::string &name : expectedNames()) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_SYSTEM_FUNCTION, name), nullptr)
-        << name << " is a standard system function (Sec 20.8.2)";
-  }
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

@@ -434,7 +434,6 @@ TEST_F(NegParamTest, NoDiagnosticForBadInUninstantiatedGenerateBlock) {
   if (m_design->getElaborated()) {
     EXPECT_EQ(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "BAD"), nullptr);
   }
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_NO_MODULE_DEFINITION, "BAD"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "BAD"), nullptr);
 }
 

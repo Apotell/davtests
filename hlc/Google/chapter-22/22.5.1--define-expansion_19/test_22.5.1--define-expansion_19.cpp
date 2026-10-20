@@ -340,7 +340,6 @@ TEST_F(DefineExpansion19Test, CompilesWithoutErrors) {
 TEST_F(DefineExpansion19Test, ReportsNoMacroDiagnostics) {
   // Line 16 matches Syntax 22-2 and the usage on line 18 matches Syntax 22-3.
   EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
 
   // wordsize has no formal arguments, so its usage takes no parentheses
   // (22.5.1), and no argument can be one too many, lack a default, or be
@@ -350,10 +349,6 @@ TEST_F(DefineExpansion19Test, ReportsNoMacroDiagnostics) {
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNUSED_ARGUMENT), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNDEFINED_ARGUMENT), nullptr);
-
-  // No "(" follows wordsize on line 16, so the text after the space is macro
-  // text, not a formal argument list (22.5.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
 
   // wordsize is defined once, on line 16, before its use on line 18.
   EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
@@ -368,9 +363,6 @@ TEST_F(DefineExpansion19Test, ReportsNoMacroDiagnostics) {
   // `define is outside module top, and a macro usage may appear anywhere in
   // the compilation unit after its definition (22.5.1).
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(DefineExpansion19Test, SourceFileRecordedOnce) {

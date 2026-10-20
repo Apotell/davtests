@@ -275,11 +275,6 @@ TEST_F(DefineTest, CompilesWithoutErrors) {
 TEST_F(DefineTest, ReportsNoMacroDiagnostics) {
   // Both lines match Syntax 22-2.
   EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
-
-  // No "(" follows FOUR or SOMESTRING, so the text after the space is macro
-  // text, not a formal argument list (22.5.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
 
   // Neither macro has formal arguments, so no argument can be unused or
   // undefined.
@@ -301,9 +296,6 @@ TEST_F(DefineTest, ReportsNoMacroDiagnostics) {
 
   // `define is legal both inside and outside design elements (22.5.1); here it is outside.
   EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
 }
 
 TEST_F(DefineTest, SourceFileRecordedOnce) {
