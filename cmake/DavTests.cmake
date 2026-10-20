@@ -65,6 +65,13 @@ if(TEST_LIST_FILE)
   set_property(GLOBAL PROPERTY DAVTESTS_TEST_LIST "${DAVTESTS_TEST_LIST}")
 endif()
 
+# DAVTESTS_USE_PCH: build bulk executables with a precompiled header. This
+# speeds up local builds a lot, but CI turns it off: every source that uses the
+# PCH hashes the .pch binary, which changes with each hlc build (version.h
+# carries the commit SHA, and clang stores header timestamps), so ccache would
+# miss on every bulk source.
+option(DAVTESTS_USE_PCH "Use a precompiled header for bulk test executables" ON)
+
 # Applies the settings shared by every test executable.
 function(davtests_configure_test_target TARGET)
   target_compile_definitions(${TARGET} PRIVATE
@@ -122,14 +129,18 @@ function(_davtests_add_bulk BULK_NAME)
   add_executable(${BULK_NAME} ${BULK_SOURCES} "${DAVTESTS_ROOT}/common/bulk_main.cpp")
   davtests_configure_test_target(${BULK_NAME})
   target_compile_definitions(${BULK_NAME} PRIVATE DAVTESTS_BULK_BUILD=1)
-  # Precompiled header shared by every source of the bulk executable; CMake
-  # force-includes it first, so hlc/config.h (its first header) still comes
-  # before anything else and replaces davtests_force_include_config().
-  target_precompile_headers(${BULK_NAME} PRIVATE
-    <hlc/config.h>
-    <hlc/Tests/Test.h>
-    <hldb/hldb.h>
-  )
+  if(DAVTESTS_USE_PCH)
+    # Precompiled header shared by every source of the bulk executable; CMake
+    # force-includes it first, so hlc/config.h (its first header) still comes
+    # before anything else and replaces davtests_force_include_config().
+    target_precompile_headers(${BULK_NAME} PRIVATE
+      <hlc/config.h>
+      <hlc/Tests/Test.h>
+      <hldb/hldb.h>
+    )
+  else()
+    davtests_force_include_config(${BULK_NAME})
+  endif()
 
   set(BULK_FIXTURES "")
   foreach(TEST_SRC IN LISTS BULK_SOURCES)
