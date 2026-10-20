@@ -1381,30 +1381,39 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
   if 'Other' in by_stage:
     stage_order.append('Other')
 
+  defined = {n: e for n, e in stats.items() if e['code'] is not None}
+  logged = buckets['Checked'] + buckets['Not checked']
+  in_cpp = sum(1 for e in defined.values() if e['present'] or e['present_skipped'] or e['absent'])
+
   lines = ['## Error Coverage', '']
   if build_info:
     lines += [' \u00b7 '.join(build_info), '']
   lines += [
-    f'Diagnostics from this run\'s own test sources ({"/".join(_main_severities)}); library sources, INF and NTE '
-    'are left out of the numbers.'
-    + (f' Ignored codes: {", ".join(f"`{c}`" for c in sorted(ignored_codes))}.' if ignored_codes else ''), '',
-    '### At a glance', '',
+    f'Only errors from each test\'s own source files are counted ({", ".join(_main_severities)}). Library files '
+    '(UVM/OVM), INF/NTE messages'
+    + (f' and ignored codes ({", ".join(f"`{c}`" for c in sorted(ignored_codes))})' if ignored_codes else '')
+    + ' are left out.', '',
+    '### Error codes', '',
+    f'| | Codes | % of {len(codes)} |',
+    '|---|---:|---:|',
+    f'| Error codes defined in HLC | {len(codes)} | |',
+    f'| Error codes produced in HLC logs | {logged} | {_pct(logged, len(codes))} |',
+    f'| Error codes used in CPP test files | {in_cpp} | {_pct(in_cpp, len(codes))} |',
+    f'| **Error codes produced in HLC logs and confirmed by a CPP test** | **{buckets["Checked"]}** | '
+    f'**{_pct(buckets["Checked"], len(codes))}** |',
+    f'| Error codes not seen in any log or CPP test file | {buckets["Dead"]} | {_pct(buckets["Dead"], len(codes))} |',
+    '',
+    '### Errors in logs and tests', '',
     '| | Value | % |',
     '|---|---:|---:|',
-    f'| **Error codes checked by a test** | **{buckets["Checked"]} / {len(codes)}** | '
-    f'**{_pct(buckets["Checked"], len(codes))}** |',
-    f'| Error codes exercised (reported or asserted) | {exercised} / {len(codes)} | {_pct(exercised, len(codes))} |',
-    f'| Reported diagnostics checked by a test | {num(ms["Checked"])} / {num(len(main))} | '
+    f'| Errors reported across all HLC log files, checked by CPP | {num(ms["Checked"])} / {num(len(main))} | '
     f'{_pct(ms["Checked"], len(main))} |',
-    f'| Tests whose reported errors are all checked | {num(statuses["All checked"])} / {num(reporting)} | '
-    f'{_pct(statuses["All checked"], reporting)} |',
-  ]
-  if coverages:
-    lines.append(f'| HLDB coverage (average over {num(len(coverages))} tests) | | {avg_coverage:.1f}% |')
-  lines += [
+    f'| Tests whose every logged error is confirmed by their CPP test | {num(statuses["All checked"])} / '
+    f'{num(reporting)} | {_pct(statuses["All checked"], reporting)} |',
     '',
-    '<details><summary><b>Error codes by stage</b></summary>', '',
-    f'| Stage | Codes | {ok} Checked | {warn} Not checked | {todo} Pending | {dead} Dead |',
+    '<details><summary><b>Error codes by compiler stage</b></summary>', '',
+    f'| Stage | Codes | {ok} Logged and confirmed | {warn} Logged, not confirmed | {todo} Expected by CPP, not logged '
+    f'| {dead} Not seen anywhere |',
     '|---|---:|---:|---:|---:|---:|',
   ]
   for stage in stage_order:
@@ -1415,26 +1424,36 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     '',
     '| | Meaning |',
     '|---|---|',
-    f'| {ok} **Checked** | Reported by HLC and asserted by a test |',
-    f'| {warn} **Not checked** | Reported by HLC, but no test asserts it |',
-    f'| {todo} **Pending** | A test expects it, but HLC doesn\'t report it yet |',
-    f'| {dead} **Dead** | Never reported, and no test expects it |',
+    f'| {ok} **Logged and confirmed** | HLC produces it in a log, and that test\'s CPP file checks it |',
+    f'| {warn} **Logged, not confirmed** | HLC produces it in a log, but no CPP file checks it |',
+    f'| {todo} **Expected by CPP, not logged** | A CPP file expects it, but HLC does not produce it yet |',
+    f'| {dead} **Not seen anywhere** | Not in any log, and no CPP file expects it |',
     '',
     '</details>',
     '',
     '### Tests', '',
     '| Status | Tests |',
     '|---|---:|',
-    f'| {ok} All errors checked | {num(statuses["All checked"])} |',
-    f'| {warn} Partly checked | {num(statuses["Partly checked"])} |',
-    f'| {orange} Has cpp, errors not checked | {num(statuses["Not checked"])} |',
-    f'| {white} No cpp, reports errors | {num(statuses["No cpp"])} |',
-    f'| {fail} Problem | {num(statuses["Problem"])} |',
-    f'| No errors reported | {num(statuses["No errors reported"])} |',
-    f'| {fail} No log | {num(statuses["No log"])} |',
+    f'| {ok} Every logged error confirmed by its CPP file | {num(statuses["All checked"])} |',
+    f'| {warn} Some logged errors confirmed by its CPP file | {num(statuses["Partly checked"])} |',
+    f'| {orange} Has a CPP file, but it confirms no logged error | {num(statuses["Not checked"])} |',
+    f'| {white} No CPP file, but errors in its log | {num(statuses["No cpp"])} |',
+    f'| {fail} CPP file and log disagree | {num(statuses["Problem"])} |',
+    f'| No errors in its log | {num(statuses["No errors reported"])} |',
+    f'| {fail} No log file | {num(statuses["No log"])} |',
     f'| **Total** | **{num(len(tests))}** |',
     '',
   ]
+  if coverages:
+    lines += [
+      '### HLDB coverage', '',
+      'How much of each test\'s source code is represented in the HLDB design, averaged over all tests.', '',
+      '| | Value |',
+      '|---|---:|',
+      f'| **Average HLDB coverage** | **{avg_coverage:.1f}%** |',
+      f'| Tests measured | {num(len(coverages))} |',
+      '',
+    ]
 
   lines += [f'Full per-test and per-code detail: `report.xlsx` in the run\'s Summary artifact.', '']
   return summary, '\n'.join(lines)
