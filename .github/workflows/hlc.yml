@@ -324,6 +324,9 @@ jobs:
     - name: Error coverage
       if: ${{ !cancelled() }}
       timeout-minutes: 15
+      env:
+        HLC_BUILD_NUMBER: ${{ github.event.inputs.run_number }}
+        DAVTESTS_BRANCH: ${{ github.ref_name }}
       run: |
         python3 scripts/error_coverage.py                                         \
           --hlc-repo hlc_repo                                                     \

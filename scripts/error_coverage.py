@@ -1153,27 +1153,7 @@ def _write_xlsx(filepath, codes, tests, stats, reports_by_test, assertions_by_te
 
   rows = []
   for test_id, test in tests.items():
-    main = [r for r in reports_by_test.get(test_id, [])
-            if r.scope == 'local' and r.severity in _main_severities]
-    assertions = assertions_by_test.get(test_id, [])
-    checked = [r for r in main if r.status == 'Checked']
-    not_checked = [r for r in main if r.status != 'Checked']
-    missing = [a for a in assertions if a.status in ('Pending', 'Broken')]
-    problem = any(r.status == 'Contradiction' for r in main) or any(a.status == 'Broken' for a in assertions)
-    if test_id in missing_logs:
-      status = 'No log'
-    elif problem:
-      status = 'Problem'
-    elif not main:
-      status = 'No errors reported'
-    elif not test.cpp_filepaths:
-      status = 'No cpp'
-    elif not not_checked:
-      status = 'All checked'
-    elif checked:
-      status = 'Partly checked'
-    else:
-      status = 'Not checked'
+    status, main, checked, not_checked, missing = _test_status(test, reports_by_test, assertions_by_test, missing_logs)
     rows.append([
       test_id, 'yes' if test.cpp_filepaths else 'no', status,
       round(100.0 * len(checked) / len(main), 1) if main else None,
@@ -1225,6 +1205,32 @@ def _write_xlsx(filepath, codes, tests, stats, reports_by_test, assertions_by_te
   wb.save(filepath)
 
 
+def _test_status(test, reports_by_test, assertions_by_test, missing_logs):
+  """Returns (status, reported, checked, not checked, expected-but-missing) for one test."""
+  main = [r for r in reports_by_test.get(test.test_id, [])
+          if r.scope == 'local' and r.severity in _main_severities]
+  assertions = assertions_by_test.get(test.test_id, [])
+  checked = [r for r in main if r.status == 'Checked']
+  not_checked = [r for r in main if r.status != 'Checked']
+  missing = [a for a in assertions if a.status in ('Pending', 'Broken')]
+  problem = any(r.status == 'Contradiction' for r in main) or any(a.status == 'Broken' for a in assertions)
+  if test.test_id in missing_logs:
+    status = 'No log'
+  elif problem:
+    status = 'Problem'
+  elif not main:
+    status = 'No errors reported'
+  elif not test.cpp_filepaths:
+    status = 'No cpp'
+  elif not not_checked:
+    status = 'All checked'
+  elif checked:
+    status = 'Partly checked'
+  else:
+    status = 'Not checked'
+  return status, main, checked, not_checked, missing
+
+
 def _stale_skip_candidates(assertions):
   by_test = defaultdict(list)
   for a in assertions:
@@ -1239,11 +1245,37 @@ def _stale_skip_candidates(assertions):
   return result
 
 
+def _git_short_sha(dirpath):
+  import subprocess
+  try:
+    return subprocess.run(['git', '-C', str(dirpath), 'rev-parse', '--short=10', 'HEAD'], capture_output=True,
+                          text=True, check=True).stdout.strip()
+  except (OSError, subprocess.CalledProcessError):
+    return ''
+
+
+def _build_info(hlc_repo):
+  """Header parts naming what was tested: hlc commit/build, davtests branch/commit, run."""
+  parts = []
+  hlc_sha = _git_short_sha(hlc_repo)
+  build = os.environ.get('HLC_BUILD_NUMBER')
+  if hlc_sha:
+    parts.append(f'**hlc** `{hlc_sha}`' + (f' (build #{build})' if build else ''))
+  branch = os.environ.get('DAVTESTS_BRANCH') or os.environ.get('GITHUB_REF_NAME')
+  dav_sha = (os.environ.get('GITHUB_SHA') or '')[:10] or _git_short_sha(_workspace_dirpath)
+  if dav_sha:
+    parts.append(f'**davtests** `{branch}` `{dav_sha}`' if branch else f'**davtests** `{dav_sha}`')
+  if os.environ.get('GITHUB_RUN_NUMBER'):
+    parts.append(f'run #{os.environ["GITHUB_RUN_NUMBER"]}')
+  return parts
+
+
 def _pct(n, d):
   return f'{(100.0 * n / d):.1f}%' if d else '-'
 
 
-def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, assertions_by_test, unparsed, missing_logs):
+def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, assertions_by_test, unparsed, missing_logs,
+                   build_info=None):
   buckets = defaultdict(int)
   for name, s in stats.items():
     if s['code'] is not None:
@@ -1261,7 +1293,8 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
   no_cpp_reporting = sum(1 for t in tests.values()
                          if not t.cpp_filepaths and any(r.scope == 'local' and r.severity in _main_severities
                                                         for r in reports_by_test.get(t.test_id, [])))
-  unknown = sum(1 for r in local + external if r.code.startswith('?'))
+  # Distinct (test, id) pairs, the same unit the Problems sheet lists.
+  unknown = len({(r.test_id, r.code) for r in local + external if r.code.startswith('?')})
   stale = sum(len(_stale_skip_candidates(v)) for v in assertions_by_test.values())
 
   summary = [
@@ -1296,38 +1329,104 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     ('  Satisfied while skipped', ast['Satisfied (skipped)']),
     ('  Stale skip candidates (TESTs)', stale),
     ('  Unparsed findError calls', len(unparsed)),
-    ('Unknown codes in logs', unknown),
+    ('Unknown error ids in logs (test, id pairs)', unknown),
   ]
 
-  top = sorted(((name, s) for name, s in stats.items() if s['bucket'] == 'Not checked' and s['local']),
-               key=lambda kv: (-len(kv[1]['local_tests']), kv[0]))[:20]
+  # Markdown for the job summary. Emoji are written as escapes to keep this file ASCII.
+  ok, warn, todo, guard, dead = '\u2705', '\U0001F7E1', '\U0001F535', '\U0001F6E1', '\u26AB'
+  orange, white, fail, skip, caution = '\U0001F7E0', '\u26AA', '\u274C', '\u23ED', '\u26A0\uFE0F'
+  num = lambda n: f'{n:,}'
 
-  lines = ['## Error Coverage', '',
-           f'Mode: **{mode}** - local diagnostics, {"/".join(_main_severities)} (NTE separate, INF and library sources excluded)', '',
-           '| Codes | Checked | Not checked | Pending | Guard-only | Dead |',
-           '|---:|---:|---:|---:|---:|---:|',
-           f'| {len(codes)} | {buckets["Checked"]} | {buckets["Not checked"]} | {buckets["Pending"]} | {buckets["Guard-only"]} | {buckets["Dead"]} |',
-           '',
-           '| Reported | Checked | Not checked | Checked by a skipped test | Contradiction | Notes (NTE) |',
-           '|---:|---:|---:|---:|---:|---:|',
-           f'| {len(main)} | {ms["Checked"]} ({_pct(ms["Checked"], len(main))}) | {ms["Not checked"]} | {ms["Satisfied (skipped)"]} | {ms["Contradiction"]} | {len(notes)} |',
-           '',
-           '| Tests | With cpp | No cpp but reporting | Missing log |',
-           '|---:|---:|---:|---:|',
-           f'| {len(tests)} | {with_cpp} | {no_cpp_reporting} | {len(missing_logs)} |',
-           '',
-           '| Checks | Matched | Pending | Broken | Guard | Contradiction | Stale-skip TESTs | Unparsed |',
-           '|---:|---:|---:|---:|---:|---:|---:|---:|',
-           f'| {len(assertions)} | {ast["Checked"]} | {ast["Pending"]} | {ast["Broken"]} | {ast["Guard"]} | {ast["Contradiction"]} | {stale} | {len(unparsed)} |',
-           '']
+  statuses = defaultdict(int)
+  for test in tests.values():
+    statuses[_test_status(test, reports_by_test, assertions_by_test, missing_logs)[0]] += 1
+  reporting = sum(statuses[s_] for s_ in ('All checked', 'Partly checked', 'Not checked', 'No cpp', 'Problem'))
+  exercised = len(codes) - buckets['Dead']
+  conditional = ast['Conditional']
+  problems = ast['Broken'] + ms['Contradiction'] + stale + len(missing_logs) + conditional + len(unparsed) + unknown
+
+  bucket_names = ['Checked', 'Not checked', 'Pending', 'Guard-only', 'Dead']
+  by_stage = defaultdict(lambda: defaultdict(int))
+  for name, entry in stats.items():
+    code = entry['code']
+    if code is None:
+      continue
+    stage = code.category if code.category in ('COMP', 'ELAB', 'DB', 'CMD', 'PP', 'LINT', 'PARSE') else 'Other'
+    by_stage[stage][entry['bucket']] += 1
+  stage_order = sorted((st for st in by_stage if st != 'Other'), key=lambda st: -sum(by_stage[st].values()))
+  if 'Other' in by_stage:
+    stage_order.append('Other')
+
+  lines = ['## Error Coverage', '']
+  if build_info:
+    lines += [' \u00b7 '.join(build_info), '']
+  lines += [
+    f'Diagnostics from this run\'s own test sources ({"/".join(_main_severities)}); library sources, INF and NTE '
+    'are left out of the numbers.', '',
+    '### At a glance', '',
+    '| | Value | % |',
+    '|---|---:|---:|',
+    f'| **Error codes checked by a test** | **{buckets["Checked"]} / {len(codes)}** | '
+    f'**{_pct(buckets["Checked"], len(codes))}** |',
+    f'| Error codes exercised (reported or asserted) | {exercised} / {len(codes)} | {_pct(exercised, len(codes))} |',
+    f'| Reported diagnostics checked by a test | {num(ms["Checked"])} / {num(len(main))} | '
+    f'{_pct(ms["Checked"], len(main))} |',
+    f'| Tests whose reported errors are all checked | {num(statuses["All checked"])} / {num(reporting)} | '
+    f'{_pct(statuses["All checked"], reporting)} |',
+    f'| Problems to fix | {num(problems)} | |',
+    '',
+    '### Error codes by stage', '',
+    f'| Stage | Codes | {ok} Checked | {warn} Not checked | {todo} Pending | {guard} Guard-only | {dead} Dead |',
+    '|---|---:|---:|---:|---:|---:|---:|',
+  ]
+  for stage in stage_order:
+    counts = by_stage[stage]
+    lines.append(f'| {stage} | {sum(counts.values())} | ' + ' | '.join(str(counts[b]) for b in bucket_names) + ' |')
+  lines += [
+    f'| **Total** | **{len(codes)}** | ' + ' | '.join(f'**{buckets[b]}**' for b in bucket_names) + ' |',
+    '',
+    f'{ok} a test checks it is reported \u00b7 {warn} reported, but no test checks it \u00b7 '
+    f'{todo} a test expects it, HLC does not report it yet \u00b7 {guard} tests only check it is *not* reported '
+    f'\u00b7 {dead} never reported or checked',
+    '',
+    '### Tests', '',
+    '| Status | Tests |',
+    '|---|---:|',
+    f'| {ok} All errors checked | {num(statuses["All checked"])} |',
+    f'| {warn} Partly checked | {num(statuses["Partly checked"])} |',
+    f'| {orange} Has cpp, errors not checked | {num(statuses["Not checked"])} |',
+    f'| {white} No cpp, reports errors | {num(statuses["No cpp"])} |',
+    f'| {fail} Problem | {num(statuses["Problem"])} |',
+    f'| No errors reported | {num(statuses["No errors reported"])} |',
+    f'| {fail} No log | {num(statuses["No log"])} |',
+    f'| **Total** | **{num(len(tests))}** |',
+    '',
+    f'### Problems to fix ({num(problems)})', '',
+    '| | Count |',
+    '|---|---:|',
+    f'| {fail} Broken: expects an error the log does not have | {ast["Broken"]} |',
+    f'| {fail} Contradiction: reports an error the test says must not appear | {ms["Contradiction"]} |',
+    f'| {skip} Stale skip: skipped, but its checks already pass | {stale} |',
+    f'| {caution} Missing log | {len(missing_logs)} |',
+    f'| {caution} Conditional check does not hold here | {conditional} |',
+    f'| {caution} Unparsed `findError` call | {len(unparsed)} |',
+    f'| {caution} Unknown error id in a log | {unknown} |',
+    '',
+  ]
+
+  top = sorted(((name, entry) for name, entry in stats.items()
+                if entry['bucket'] == 'Not checked' and entry['local'] and entry['code'] is not None
+                and entry['code'].severity in _main_severities),
+               key=lambda kv: (-len(kv[1]['local_tests']), kv[0]))[:10]
   if top:
-    lines += ['### Top codes reported but not checked (by tests)', '',
-              '| Code | Id | Severity | Tests | Times reported |', '|---|---|---|---:|---:|']
-    for name, s in top:
-      c = s['code']
-      code_id = f'{_category_prefixes.get(c.category, "")}{c.number:04d}' if c else ''
-      lines.append(f'| {name} | {code_id} | {c.severity if c else ""} | {len(s["local_tests"])} | {s["local"]} |')
-    lines.append('')
+    lines += ['<details><summary>Top 10 reported but unchecked error codes</summary>', '',
+              '| Code | Id | Sev | Tests | Times |', '|---|---|---|---:|---:|']
+    for name, entry in top:
+      c = entry['code']
+      code_id = f'{_category_prefixes.get(c.category, "")}{c.number:04d}'
+      lines.append(f'| {name} | {code_id} | {c.severity} | {num(len(entry["local_tests"]))} | {num(entry["local"])} |')
+    lines += ['', '</details>', '']
+  lines += [f'Full per-test and per-code detail: `report.xlsx` in the run\'s Summary artifact.', '']
   return summary, '\n'.join(lines)
 
 
@@ -1354,6 +1453,8 @@ def _main():
                       help='Regex on a source path marking third-party library files.')
   parser.add_argument('--jobs', type=int, default=os.cpu_count() or 1, help='Worker processes.')
   args = parser.parse_args()
+  # The summary contains emoji; do not depend on the console code page (cp1252 on Windows).
+  sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
   hlc_repo = Path(args.hlc_repo).resolve()
   test_dirpath = Path(args.test_dirpath).resolve()
@@ -1424,8 +1525,9 @@ def _main():
   all_assertions = [a for as_ in assertions_by_test.values() for a in as_]
   stats = _code_buckets(codes, all_reports, all_assertions)
 
+  build_info = _build_info(hlc_repo)
   summary_rows, summary_md = _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test,
-                                            assertions_by_test, unparsed, missing_logs)
+                                            assertions_by_test, unparsed, missing_logs, build_info)
   (output_dirpath / 'summary.md').write_text(summary_md + '\n', encoding='utf-8')
   _write_xlsx(output_dirpath / 'report.xlsx', codes, tests, stats, reports_by_test, assertions_by_test,
               unparsed, missing_logs, summary_rows)
