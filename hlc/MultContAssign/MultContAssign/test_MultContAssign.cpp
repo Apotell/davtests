@@ -263,27 +263,22 @@ TEST_F(MultContAssignTest, OutRhsIsConditionalOperator) {
 // ===========================================================================
 
 TEST_F(MultContAssignTest, StrengthHighz0Weak1) {
-  GTEST_SKIP() << "HLC isn't populating this property";
   expectStrengths(6, vpiHiZ, vpiWeakDrive);
 }
 
 TEST_F(MultContAssignTest, StrengthWeak0Highz1) {
-  GTEST_SKIP() << "HLC isn't populating this property";
   expectStrengths(7, vpiWeakDrive, vpiHiZ);
 }
 
 TEST_F(MultContAssignTest, StrengthWeak0Weak1) {
-  GTEST_SKIP() << "HLC isn't populating this property";
   expectStrengths(13, vpiWeakDrive, vpiWeakDrive);
 }
 
 TEST_F(MultContAssignTest, StrengthWeak1Weak0ReversedOrder) {
-  GTEST_SKIP() << "HLC isn't populating this property";
   expectStrengths(14, vpiWeakDrive, vpiWeakDrive);
 }
 
 TEST_F(MultContAssignTest, StrengthPull1Pull0ReversedOrder) {
-  GTEST_SKIP() << "HLC isn't populating this property";
   expectStrengths(24, vpiPullDrive, vpiPullDrive);
 }
 

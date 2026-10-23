@@ -158,7 +158,6 @@ n<$Source01/8.26.4--illegal_forward_def_implements.sv> u<144> t<Top_level_rule> 
         n<> u<140> t<ENDMODULE> p<141> l<37:1> el<37:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/8.26.4--illegal_forward_def_implements.sv:17:1: Compile module "class_tb".
-[ERR:CP5824] $Source01/8.26.4--illegal_forward_def_implements.sv:17:1: Multiply defined typedef "ihello".
 [WRN:CP5851] $Source01/8.26.4--illegal_forward_def_implements.sv:21:31: Failed to bind "ihello::int_t".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
@@ -174,15 +173,6 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:class_tb start:17:8 end:17:16:
       vpiFullName: class_tb
-      vpiTypedef (1 items):
-        Typedef name:ihello start:18:2 end:18:33:
-          vpiParent: Module name:class_tb
-          vpiName Identifier name:ihello start:18:26 end:18:32:
-          vpiTypedefAlias RefTypespec name:ihello start:18:26 end:18:32:
-            vpiParent: Typedef name:ihello
-            vpiName: ihello
-            vpiFullName: class_tb.ihello.ihello
-            vpiActual: ClassTypespec name:ihello
       vpiVariable (1 items):
         Variable name:obj start:31:8 end:31:11:
           vpiParent: Module name:class_tb
@@ -193,17 +183,11 @@ Design name:unnamed:
             vpiName: Hello
             vpiFullName: class_tb.obj.Hello
             vpiActual: ClassTypespec name:Hello
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         TypedefTypespec name:ihello start:18:2 end:18:33:
           vpiParent: Module name:class_tb
           vpiName Identifier name:ihello start:18:26 end:18:32:
           vpiTypedefKind: interface class (3)
-          vpiTypedef: Typedef name:ihello
-        ClassTypespec name:ihello:
-          vpiParent: Module name:class_tb
-          vpiName Identifier name:ihello:
-          vpiDefName: ihello
-          vpiClassDefn: ClassDefn name:ihello
         ClassTypespec name:Hello start:20:8 end:20:13:
           vpiParent: Module name:class_tb
           vpiName Identifier name:Hello:
@@ -239,7 +223,7 @@ Design name:unnamed:
                 vpiParent: Implements
                 vpiName: ihello
                 vpiFullName: class_tb::Hello::ihello
-                vpiActual: TypedefTypespec name:ihello
+                vpiActual: ClassTypespec name:ihello
           vpiLibrary RefObj name:work start:20:8 end:20:13:
             vpiParent: ClassDefn name:Hello
             vpiName: work
@@ -278,7 +262,7 @@ Design name:unnamed:
                         vpiParent: RefTypespec name:ihello::int_t
                         vpiName: ihello
                         vpiFullName: class_tb::Hello::hello::val::ihello
-                        vpiActual: Typedef name:ihello
+                        vpiActual: ClassDefn name:ihello
                       RefTypespec name:int_t start:21:39 end:21:44:
                         vpiParent: RefTypespec name:ihello::int_t
                         vpiName: int_t
@@ -421,7 +405,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 1
 [   NOTE] : 0
 ********************************************************************************
@@ -466,7 +450,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.26.4--illegal_forward_def_impl
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              70      70       0         0
+Others                              65      65       0         0
 ----------------------------------------------------------------
-                                    70      70       0         0
+                                    65      65       0         0
 ===================== END REDUCTION RESULT =====================

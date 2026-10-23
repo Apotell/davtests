@@ -129,6 +129,13 @@ TEST_F(ForTest, ForStmtScopeHasExactlyOneVariableI) {
   EXPECT_NE(hldb::findByName<hldb::Variable>("i", forStmt->getVariables()), nullptr) << "Variable 'i' not found";
 }
 
+// 37.74 "has local variables" (vpiLocalVarDecls): 'int i' is declared in the for_initialization
+TEST_F(ForTest, ForStmtHasLocalVarDecls) {
+  const hldb::ForStmt *const forStmt = getForStmt();
+  ASSERT_NE(forStmt, nullptr);
+  EXPECT_EQ(forStmt->getLocalVarDecls(), 1) << "37.74: the for_initialization declares 'int i'";
+}
+
 // ---------------------------------------------------------------------------
 // for_initialization: int i = 0
 // ---------------------------------------------------------------------------

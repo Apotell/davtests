@@ -520,12 +520,11 @@ TEST_F(ProcessClsAwaitTest, SelfAssignmentRhsIsProcessSelfMethodCall) {
   ASSERT_NE(rhs->getPathElems(), nullptr);
   ASSERT_EQ(rhs->getPathElems()->size(), 2u) << "'process' scope prefix, then the 'self' call";
 
-  const hldb::RefTypespec *const prefix = any_cast<hldb::RefTypespec>(rhs->getPathElems()->at(0));
-  ASSERT_NE(prefix, nullptr) << "the 'process' scope-resolution prefix should be a RefTypespec";
-  const hldb::ClassTypespec *const process = prefix->getActual<hldb::ClassTypespec>();
-  ASSERT_NE(process, nullptr) << "'process' should resolve to ClassTypespec";
-  ASSERT_NE(process->getClassDefn(), nullptr);
-  EXPECT_EQ(process->getClassDefn()->getName(), "process");
+  const hldb::RefObj *const prefix = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
+  ASSERT_NE(prefix, nullptr) << "the 'process' scope-resolution prefix should be a RefObj";
+  const hldb::ClassDefn *const process = prefix->getActual<hldb::ClassDefn>();
+  ASSERT_NE(process, nullptr) << "'process' should resolve to ClassDefn";
+  EXPECT_EQ(process->getName(), "process");
 
   const hldb::MethodFuncCall *const self = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(self, nullptr) << "'self()' should be a MethodFuncCall";

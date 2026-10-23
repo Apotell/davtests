@@ -83,7 +83,6 @@ n<$Source01/8.27--forward_declaration.sv> u<69> t<Top_level_rule> c<1> l<15:1> e
         n<> u<65> t<ENDMODULE> p<66> l<25:1> el<25:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/8.27--forward_declaration.sv:15:1: Compile module "class_tb".
-[ERR:CP5824] $Source01/8.27--forward_declaration.sv:15:1: Multiply defined typedef "C2".
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -98,26 +97,11 @@ Design name:unnamed:
       vpiParent: Design name:unnamed
       vpiName Identifier name:class_tb start:15:8 end:15:16:
       vpiFullName: class_tb
-      vpiTypedef (1 items):
-        Typedef name:C2 start:16:2 end:16:19:
-          vpiParent: Module name:class_tb
-          vpiName Identifier name:C2 start:16:16 end:16:18:
-          vpiTypedefAlias RefTypespec name:C2 start:16:16 end:16:18:
-            vpiParent: Typedef name:C2
-            vpiName: C2
-            vpiFullName: class_tb.C2.C2
-            vpiActual: ClassTypespec name:C2
-      vpiTypespec (4 items):
+      vpiTypespec (3 items):
         TypedefTypespec name:C2 start:16:2 end:16:19:
           vpiParent: Module name:class_tb
           vpiName Identifier name:C2 start:16:16 end:16:18:
           vpiTypedefKind: class (1)
-          vpiTypedef: Typedef name:C2
-        ClassTypespec name:C2:
-          vpiParent: Module name:class_tb
-          vpiName Identifier name:C2:
-          vpiDefName: C2
-          vpiClassDefn: ClassDefn name:C2
         ClassTypespec name:C1 start:18:8 end:18:10:
           vpiParent: Module name:class_tb
           vpiName Identifier name:C1:
@@ -155,7 +139,13 @@ Design name:unnamed:
                 vpiParent: Variable name:c
                 vpiName: C2
                 vpiFullName: class_tb::C1::c::C2
-                vpiActual: TypedefTypespec name:C2
+                vpiActual: ClassTypespec name:C2
+          vpiTypespec (1 items):
+            ClassTypespec name:C2 start:19:3 end:19:5:
+              vpiParent: ClassDefn name:C1
+              vpiName Identifier name:C2 start:19:3 end:19:5:
+              vpiDefName: C2
+              vpiClassDefn: ClassDefn name:C2
           vpiDefName: C1
           vpiAutomatic: true
           vpiClassType: userdefined class (3)
@@ -215,7 +205,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************
@@ -260,7 +250,7 @@ COMMAND: ${HLC_DIR}/regression/Google/chapter-8/8.27--forward_declaration/design
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              33      33       0         0
+Others                              30      30       0         0
 ----------------------------------------------------------------
-                                    33      33       0         0
+                                    30      30       0         0
 ===================== END REDUCTION RESULT =====================

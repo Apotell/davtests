@@ -622,16 +622,7 @@ class UrandomRange2Test : public Test {
   // Verifies 'type' is a class handle type resolving to 'cls'.
   static void ExpectClassHandle(const hldb::RefTypespec *type, const hldb::ClassDefn *cls, std::string_view what) {
     ASSERT_NE(type, nullptr) << what << " has no typespec";
-    const hldb::ClassTypespec *ct = nullptr;
-    if (const hldb::TypedefTypespec *const tt = type->getActual<hldb::TypedefTypespec>()) {
-      if (const hldb::Typedef *const t = tt->getTypedef()) {
-        if (const hldb::RefTypespec *const rt = t->getAlias()) {
-          ct = rt->getActual<hldb::ClassTypespec>();
-        }
-      }
-    } else {
-      ct = type->getActual<hldb::ClassTypespec>();
-    }
+    const hldb::ClassTypespec *ct = type->getActual<hldb::ClassTypespec>();
     ASSERT_NE(ct, nullptr) << what << " is declared with a class type";
     ASSERT_NE(cls, nullptr) << "the class " << what << " refers to was not found";
     EXPECT_EQ(ct->getClassDefn(), cls) << what << " must resolve to its class";
@@ -931,13 +922,7 @@ TEST_F(UrandomRange2Test, ClassEnvExtendsUvmEnv) {
   const hldb::RefTypespec *const base = ext->getClassTypespecs()->at(0);
   ASSERT_NE(base, nullptr);
   EXPECT_EQ(base->getName(), "uvm_env");
-  const hldb::TypedefTypespec *const tt = base->getActual<hldb::TypedefTypespec>();
-  ASSERT_NE(tt, nullptr);
-  const hldb::Typedef *const t = tt->getTypedef();
-  ASSERT_NE(t, nullptr);
-  const hldb::RefTypespec *const rt = t->getAlias();
-  ASSERT_NE(rt, nullptr);
-  const hldb::ClassTypespec *const ct = rt->getActual<hldb::ClassTypespec>();
+  const hldb::ClassTypespec *const ct = base->getActual<hldb::ClassTypespec>();
   ASSERT_NE(ct, nullptr);
   ASSERT_NE(getUvmClass("uvm_env"), nullptr);
   EXPECT_EQ(ct->getClassDefn(), getUvmClass("uvm_env")) << "26.3: 'uvm_env' is imported from uvm_pkg";

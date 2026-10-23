@@ -922,13 +922,7 @@ TEST_F(UrandomRange1Test, ClassEnvExtendsUvmEnv) {
   const hldb::RefTypespec *const base = ext->getClassTypespecs()->at(0);
   ASSERT_NE(base, nullptr);
   EXPECT_EQ(base->getName(), "uvm_env");
-  const hldb::TypedefTypespec *const tt = base->getActual<hldb::TypedefTypespec>();
-  ASSERT_NE(tt, nullptr);
-  const hldb::Typedef *const t = tt->getTypedef();
-  ASSERT_NE(t, nullptr);
-  const hldb::RefTypespec *const rt = t->getAlias();
-  ASSERT_NE(rt, nullptr);
-  const hldb::ClassTypespec *const ct = rt->getActual<hldb::ClassTypespec>();
+  const hldb::ClassTypespec *const ct = base->getActual<hldb::ClassTypespec>();
   ASSERT_NE(ct, nullptr);
   ASSERT_NE(getUvmClass("uvm_env"), nullptr);
   EXPECT_EQ(ct->getClassDefn(), getUvmClass("uvm_env")) << "26.3: 'uvm_env' is imported from uvm_pkg";

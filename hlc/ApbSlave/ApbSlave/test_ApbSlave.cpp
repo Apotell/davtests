@@ -461,9 +461,7 @@ TEST_F(ApbSlaveTest, WriteTaskHasFiveIODeclsWithThreeDefaults) {
 
 TEST_F(ApbSlaveTest, DesignAndTestbenchBindCleanlyDespiteThirdPartySvunitRedefinitions) {
   EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_TYPEDEF), nullptr)
-      << "svunit_pkg.sv/svunit_testsuite.sv/svunit_testrunner.sv redeclare 'svunit_testcase'/'svunit_testsuite' "
-         "among themselves -- a pre-existing third-party issue, not caused by design.sv/testbench.sv";
+  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_TYPEDEF), nullptr);
 }
 
 }  // namespace hlc
