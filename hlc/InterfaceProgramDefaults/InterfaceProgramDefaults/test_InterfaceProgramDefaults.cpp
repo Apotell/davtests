@@ -20,6 +20,7 @@
 //                             program, checker or generate block.
 //   IEEE 1800-2023 Sec 37.6   interface -> vpiDefaultDisableIff (expr / distribution)
 //   IEEE 1800-2023 Sec 37.6   interface -> vpiDefaultClocking, vpiGlobalClocking (clocking block)
+//   IEEE 1800-2023 Sec 37.9   program   -> vpiDefaultClocking (clocking block)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -29,6 +30,7 @@
 #include <hldb/clocking_block.h>
 #include <hldb/design.h>
 #include <hldb/interface.h>
+#include <hldb/program.h>
 #include <hldb/ref_obj.h>
 #include <hldb/vpi_user.h>
 
@@ -74,6 +76,15 @@ TEST_F(InterfaceProgramDefaultsTest, InterfaceGlobalClocking) {
   const hldb::ClockingBlock *const cb = i->getGlobalClocking();
   ASSERT_NE(cb, nullptr);
   EXPECT_EQ(cb->getName(), "gcb");
+}
+
+// Sec 37.9: "default clocking pcb ..." in a program is its vpiDefaultClocking.
+TEST_F(InterfaceProgramDefaultsTest, ProgramDefaultClocking) {
+  const hldb::Program *const p = hldb::findByName<hldb::Program>("prg", m_design->getAllPrograms());
+  ASSERT_NE(p, nullptr);
+  const hldb::ClockingBlock *const cb = p->getDefaultClocking();
+  ASSERT_NE(cb, nullptr);
+  EXPECT_EQ(cb->getName(), "pcb");
 }
 
 }  // namespace hlc
