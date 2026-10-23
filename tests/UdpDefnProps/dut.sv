@@ -19,3 +19,13 @@ primitive seq_init(output reg q, input d);
     1 : ? : 1;
   endtable
 endprimitive
+
+primitive nonansi_u(o, a, b, c);
+  output o;
+  input a, b;
+  input c;
+  table
+    0 0 0 : 0;
+    1 1 1 : 1;
+  endtable
+endprimitive
