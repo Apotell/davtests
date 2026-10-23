@@ -20,16 +20,22 @@
 //   - 37.51 detail 5: a property formal's vpiDirection is vpiNoDirection
 //     unless it is a local variable formal argument, which is vpiInput
 //     ('local input' or plain 'local', 16.12.19)
+//   - 37.51 detail 4: a property formal's default is reachable through vpiExpr,
+//     whether it is an expr, a clocked sequence or a sequence instance
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/clocked_seq.h>
 #include <hldb/design.h>
 #include <hldb/module.h>
+#include <hldb/operation.h>
 #include <hldb/prop_formal_decl.h>
 #include <hldb/property_decl.h>
+#include <hldb/ref_obj.h>
+#include <hldb/sequence_inst.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/vpi_user.h>
 
@@ -58,6 +64,24 @@ TEST_F(AssertionFormalDirectionTest, PropertyFormalDirection) {
     const hldb::PropFormalDecl *const f = hldb::findByName<hldb::PropFormalDecl>(e.first, p->getPropFormalDecls());
     ASSERT_NE(f, nullptr) << e.first;
     EXPECT_EQ(f->getDirection(), e.second) << "37.51 detail 5: formal '" << e.first << "'";
+  }
+}
+
+TEST_F(AssertionFormalDirectionTest, PropertyFormalDefaultsAreKept) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::PropertyDecl *const pd = hldb::findByName<hldb::PropertyDecl>("pd", top->getPropertyDecls());
+  ASSERT_NE(pd, nullptr);
+  const std::pair<std::string_view, hldb::AnyType> expected[] = {{"s1", hldb::AnyType::ClockedSeq},
+                                                                  {"r2", hldb::AnyType::Operation},
+                                                                  {"s2", hldb::AnyType::SequenceInst},
+                                                                  {"u", hldb::AnyType::RefObj}};
+  for (const std::pair<std::string_view, hldb::AnyType> &e : expected) {
+    const hldb::PropFormalDecl *const f = hldb::findByName<hldb::PropFormalDecl>(e.first, pd->getPropFormalDecls());
+    ASSERT_NE(f, nullptr) << e.first;
+    ASSERT_NE(f->getExpr(), nullptr) << "37.51 detail 4: default of '" << e.first << "'";
+    EXPECT_EQ(f->getExpr()->getAnyType(), e.second) << e.first;
+    EXPECT_EQ(f->getExpr()->getParent(), f) << e.first;
   }
 }
 
