@@ -242,10 +242,12 @@ TEST_F(VectorVectoredTest, NetIsNotArrayMember) {
   EXPECT_FALSE(net->getArrayMember());
 }
 
-TEST_F(VectorVectoredTest, NetHasNoConstantSelect) {
+TEST_F(VectorVectoredTest, NetHasConstantSelect) {
+  // IEEE 1800-2023 Sec 37.16 detail 23: vpiConstantSelect is TRUE for a net with no
+  // parent -- `a` is a declared net, not a member or element of another net.
   const hldb::Net *const net = hldb::findByName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  EXPECT_FALSE(net->getConstantSelect());
+  EXPECT_TRUE(net->getConstantSelect());
 }
 
 TEST_F(VectorVectoredTest, NetIsNotExpanded) {
