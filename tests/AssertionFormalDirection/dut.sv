@@ -12,6 +12,8 @@ module top(input logic clk);
     x;
   endsequence
 
+  let L(lx, int ly = 1) = lx + ly;
+
   sequence sq; clk ##1 clk; endsequence
 
   property pd(sequence s1 = @(posedge clk) clk ##1 clk,

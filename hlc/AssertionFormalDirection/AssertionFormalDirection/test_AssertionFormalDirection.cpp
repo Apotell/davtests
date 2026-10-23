@@ -20,6 +20,10 @@
 //   - 37.51 detail 5: a property formal's vpiDirection is vpiNoDirection
 //     unless it is a local variable formal argument, which is vpiInput
 //     ('local input' or plain 'local', 16.12.19)
+//   - 37.53 detail 4: a sequence formal's vpiDirection is its explicit
+//     direction, vpiInput for a plain 'local' formal (16.8.2), else
+//     vpiNoDirection; a let formal (11.12, modeled as a seq formal decl) is
+//     never a local variable argument, so it is vpiNoDirection
 //   - 37.51 detail 4: a property formal's default is reachable through vpiExpr,
 //     whether it is an expr, a clocked sequence or a sequence instance
 
@@ -30,11 +34,14 @@
 #include <hldb/Utils.h>
 #include <hldb/clocked_seq.h>
 #include <hldb/design.h>
+#include <hldb/let_decl.h>
 #include <hldb/module.h>
 #include <hldb/operation.h>
 #include <hldb/prop_formal_decl.h>
 #include <hldb/property_decl.h>
 #include <hldb/ref_obj.h>
+#include <hldb/seq_formal_decl.h>
+#include <hldb/sequence_decl.h>
 #include <hldb/sequence_inst.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/vpi_user.h>
@@ -64,6 +71,32 @@ TEST_F(AssertionFormalDirectionTest, PropertyFormalDirection) {
     const hldb::PropFormalDecl *const f = hldb::findByName<hldb::PropFormalDecl>(e.first, p->getPropFormalDecls());
     ASSERT_NE(f, nullptr) << e.first;
     EXPECT_EQ(f->getDirection(), e.second) << "37.51 detail 5: formal '" << e.first << "'";
+  }
+}
+
+TEST_F(AssertionFormalDirectionTest, SequenceFormalDirection) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::SequenceDecl *const q = hldb::findByName<hldb::SequenceDecl>("q", top->getSequenceDecls());
+  ASSERT_NE(q, nullptr);
+  const std::pair<std::string_view, int32_t> expected[] = {
+      {"x", vpiNoDirection}, {"y", vpiInput}, {"z", vpiInout}, {"w", vpiOutput}, {"v", vpiInput}};
+  for (const std::pair<std::string_view, int32_t> &e : expected) {
+    const hldb::SeqFormalDecl *const f = hldb::findByName<hldb::SeqFormalDecl>(e.first, q->getSeqFormalDecls());
+    ASSERT_NE(f, nullptr) << e.first;
+    EXPECT_EQ(f->getDirection(), e.second) << "37.53 detail 4: formal '" << e.first << "'";
+  }
+}
+
+TEST_F(AssertionFormalDirectionTest, LetFormalsHaveNoDirection) {
+  const hldb::Module *const top = getTop();
+  ASSERT_NE(top, nullptr);
+  const hldb::LetDecl *const let = hldb::findByName<hldb::LetDecl>("L", top->getLetDecls());
+  ASSERT_NE(let, nullptr);
+  for (std::string_view name : {"lx", "ly"}) {
+    const hldb::SeqFormalDecl *const f = hldb::findByName<hldb::SeqFormalDecl>(name, let->getSeqFormalDecls());
+    ASSERT_NE(f, nullptr) << name;
+    EXPECT_EQ(f->getDirection(), vpiNoDirection) << "37.53 detail 4: let formal '" << name << "'";
   }
 }
 
