@@ -223,6 +223,14 @@ TEST_F(CompilerDirectiveDefaultsTest, DefaultDecayTimeValue) {
   EXPECT_EQ(v->getDecompile(), "100");
 }
 
+// Sec 37.5 vpiDefDecayTime: the module that follows `default_decay_time 100 takes 100.
+// Annex E gives no default, so the modules before the directive are not checked.
+TEST_F(CompilerDirectiveDefaultsTest, ModuleTakesDefaultDecayTime) {
+  const hldb::Module *const m = findModule("c");
+  ASSERT_NE(m, nullptr);
+  EXPECT_EQ(m->getDefDecayTime(), 100);
+}
+
 // Sec 22.14: `begin_keywords carries its version specifier as a string constant.
 TEST_F(CompilerDirectiveDefaultsTest, BeginKeywordsValue) {
   const hldb::GenericDirective *const gd = getDirective(33);
