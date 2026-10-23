@@ -18,6 +18,8 @@
 //
 //   IEEE 1800-2023 Sec 37.17 details 15/22  vpiRandType is one of vpiRand, vpiRandC or
 //                                           vpiNotRand.
+//   IEEE 1800-2023 Sec 37.17 detail 24      vpiVisibility is vpiPublicVis for a class member
+//                                           that is not local/protected, or a non-member.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -88,6 +90,29 @@ TEST_F(VariableDefaultsTest, ClassPropertyRandTypes) {
   const hldb::Variable *const plain = classVariable("plain");
   ASSERT_NE(plain, nullptr);
   EXPECT_EQ(plain->getRandType(), vpiNotRand);
+}
+
+TEST_F(VariableDefaultsTest, NonMemberVariablesArePublic) {
+  for (std::string_view name : {"mod_logic", "mod_int"}) {
+    const hldb::Variable *const v = moduleVariable(name);
+    ASSERT_NE(v, nullptr) << name;
+    EXPECT_EQ(v->getVisibility(), vpiPublicVis) << name;
+  }
+  const hldb::Variable *const t = taskVariable("task_local");
+  ASSERT_NE(t, nullptr);
+  EXPECT_EQ(t->getVisibility(), vpiPublicVis);
+}
+
+TEST_F(VariableDefaultsTest, ClassPropertyVisibility) {
+  const hldb::Variable *const plain = classVariable("plain");
+  ASSERT_NE(plain, nullptr);
+  EXPECT_EQ(plain->getVisibility(), vpiPublicVis);
+  const hldb::Variable *const loc = classVariable("loc");
+  ASSERT_NE(loc, nullptr);
+  EXPECT_EQ(loc->getVisibility(), vpiLocalVis);
+  const hldb::Variable *const prot = classVariable("prot");
+  ASSERT_NE(prot, nullptr);
+  EXPECT_EQ(prot->getVisibility(), vpiProtectedVis);
 }
 
 }  // namespace hlc
