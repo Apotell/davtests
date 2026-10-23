@@ -19,12 +19,14 @@
 //   IEEE 1800-2023 Sec 16.15  default disable iff may appear in a module, interface,
 //                             program, checker or generate block.
 //   IEEE 1800-2023 Sec 37.6   interface -> vpiDefaultDisableIff (expr / distribution)
+//   IEEE 1800-2023 Sec 37.6   interface -> vpiDefaultClocking, vpiGlobalClocking (clocking block)
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
+#include <hldb/clocking_block.h>
 #include <hldb/design.h>
 #include <hldb/interface.h>
 #include <hldb/ref_obj.h>
@@ -54,6 +56,24 @@ TEST_F(InterfaceProgramDefaultsTest, InterfaceDefaultDisableIff) {
   ASSERT_NE(ro, nullptr);
   EXPECT_EQ(ro->getName(), "rst");
   EXPECT_EQ(ro->getParent(), i);
+}
+
+// Sec 37.6: "default clocking cb ..." in an interface is its vpiDefaultClocking.
+TEST_F(InterfaceProgramDefaultsTest, InterfaceDefaultClocking) {
+  const hldb::Interface *const i = findInterface("ifc");
+  ASSERT_NE(i, nullptr);
+  const hldb::ClockingBlock *const cb = i->getDefaultClocking();
+  ASSERT_NE(cb, nullptr);
+  EXPECT_EQ(cb->getName(), "cb");
+}
+
+// Sec 37.6: "global clocking gcb ..." in an interface is its vpiGlobalClocking.
+TEST_F(InterfaceProgramDefaultsTest, InterfaceGlobalClocking) {
+  const hldb::Interface *const i = findInterface("ifc");
+  ASSERT_NE(i, nullptr);
+  const hldb::ClockingBlock *const cb = i->getGlobalClocking();
+  ASSERT_NE(cb, nullptr);
+  EXPECT_EQ(cb->getName(), "gcb");
 }
 
 }  // namespace hlc
