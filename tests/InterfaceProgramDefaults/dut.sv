@@ -3,6 +3,7 @@
 //   Sec 14.12 / 37.6  default clocking    -> interface vpiDefaultClocking
 //   Sec 14.14 / 37.6  global clocking     -> interface vpiGlobalClocking
 //   Sec 14.12 / 37.9  default clocking    -> program vpiDefaultClocking
+//   Sec 16.15 / 37.9  default disable iff -> program vpiDefaultDisableIff
 
 interface ifc(input logic clk, input logic rst);
   default disable iff (rst);
@@ -10,6 +11,7 @@ interface ifc(input logic clk, input logic rst);
   global clocking gcb @(posedge clk); endclocking
 endinterface
 
-program prg(input logic clk);
+program prg(input logic clk, input logic rst);
+  default disable iff (rst);
   default clocking pcb @(posedge clk); endclocking
 endprogram

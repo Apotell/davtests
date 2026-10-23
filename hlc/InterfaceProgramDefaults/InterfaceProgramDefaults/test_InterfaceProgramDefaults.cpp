@@ -20,7 +20,7 @@
 //                             program, checker or generate block.
 //   IEEE 1800-2023 Sec 37.6   interface -> vpiDefaultDisableIff (expr / distribution)
 //   IEEE 1800-2023 Sec 37.6   interface -> vpiDefaultClocking, vpiGlobalClocking (clocking block)
-//   IEEE 1800-2023 Sec 37.9   program   -> vpiDefaultClocking (clocking block)
+//   IEEE 1800-2023 Sec 37.9   program   -> vpiDefaultClocking (clocking block), vpiDefaultDisableIff
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -85,6 +85,16 @@ TEST_F(InterfaceProgramDefaultsTest, ProgramDefaultClocking) {
   const hldb::ClockingBlock *const cb = p->getDefaultClocking();
   ASSERT_NE(cb, nullptr);
   EXPECT_EQ(cb->getName(), "pcb");
+}
+
+// Sec 37.9: "default disable iff (rst);" in a program is its vpiDefaultDisableIff.
+TEST_F(InterfaceProgramDefaultsTest, ProgramDefaultDisableIff) {
+  const hldb::Program *const p = hldb::findByName<hldb::Program>("prg", m_design->getAllPrograms());
+  ASSERT_NE(p, nullptr);
+  const hldb::RefObj *const ro = any_cast<hldb::RefObj>(p->getDefaultDisableIff());
+  ASSERT_NE(ro, nullptr);
+  EXPECT_EQ(ro->getName(), "rst");
+  EXPECT_EQ(ro->getParent(), p);
 }
 
 }  // namespace hlc
