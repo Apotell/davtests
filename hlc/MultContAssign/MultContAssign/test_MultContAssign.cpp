@@ -181,7 +181,6 @@ TEST_F(MultContAssignTest, MultipleContAssignsToVariableIsError) {
 }
 
 TEST_F(MultContAssignTest, MultipleContAssignsToNetsAreLegal) {
-  GTEST_SKIP() << "HLC doesn't report this diagnosis yet";
   for (std::string_view name : {"inout_i1", "inout_i2", "out", "pull_up_1", "X"}) {
     EXPECT_EQ(findError(ErrorDefinition::HLDB_MULTIPLE_CONT_ASSIGN, name), nullptr)
         << "6.5: '" << name << "' is a net; nets can be written by multiple continuous assignments";

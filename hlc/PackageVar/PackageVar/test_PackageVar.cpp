@@ -121,14 +121,6 @@
 // UndeclaredDataReferencesAreReportedAsErrors is expected to fail until HLC is fixed; it is
 // intentionally not skipped or relaxed.
 //
-// KNOWN COMPILER BUG (class reported as a multiply defined typedef), not a defect in this test:
-// HLC reports CP5824 "Multiply
-// defined typedef" for ovm_options_container, which is declared exactly
-// once. Naming the class as a type and as a class scope prefix (8.23)
-// declares nothing.
-// OptionsContainerIsNotReportedMultiplyDefined is expected to fail until HLC is fixed; it is
-// intentionally not skipped or relaxed.
-//
 // What is NOT checked, and why:
 //   - Which diagnostic, if any, HLC gives for the unresolved calls (init,
 //     istop, print_object, get_name, m_field_automation, do_print). The
@@ -582,10 +574,7 @@ TEST_F(PackageVarTest, UndeclaredDataReferencesAreReportedAsErrors) {
   }
 }
 
-// Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG
-// (class reported as a multiply defined typedef) in the file header.
 TEST_F(PackageVarTest, OptionsContainerIsNotReportedMultiplyDefined) {
-  GTEST_SKIP() << "HLC Bug: forward declaration & actual declarations are both being counted";
   EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_TYPEDEF, "ovm_options_container"), nullptr)
       << "class ovm_options_container is declared exactly once, and using it as a type and as a class scope "
          "prefix (8.23) declares nothing";
