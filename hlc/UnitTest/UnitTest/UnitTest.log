@@ -9,20 +9,32 @@ COMMAND: -wd ../../../tests/UnitTest +incdir+. -fileunit -writepp -d ast -d db t
 [INF:CM5019] Separate compilation-unit mode is on.
 [INF:PP5223] Preprocessing source file "$Source01/top.v".
 [INF:PA5502] Parsing source file "$Source01/top.v".
+[SNT:PA5508] $Source01/top.v:34:22: Syntax error: no viable alternative at input 'shifter ~&',
+    shifter = shifter ~& result;
+                      ^-- $Source01/top.v:34:22:.
+[SNT:PA5508] $Source01/top.v:35:12: Syntax error: no viable alternative at input 'shifter =',
+    shifter = shifter ~| result;
+            ^-- $Source01/top.v:35:12:.
+[SNT:PA5508] $Source01/top.v:35:22: Syntax error: missing '=' at '~|',
+    shifter = shifter ~| result;
+                      ^-- $Source01/top.v:35:22:.
+[SNT:PA5508] $Source01/top.v:36: Syntax error: extraneous input 'end' expecting {';', 'default', 'module', 'endmodule', 'extern', 'macromodule', 'interface', 'program', 'virtual', 'class', 'timeunit', 'timeprecision', 'checker', 'type', 'clocking', 'defparam', 'bind', 'const', 'function', 'static', 'constraint', 'if', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'genvar', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', '$', 'export', DOLLAR_UNIT, '(*', 'assert', 'property', 'assume', 'cover', 'not', 'or', 'and', 'sequence', 'covergroup', 'pulldown', 'pullup', 'cmos', 'rcmos', 'bufif0', 'bufif1', 'notif0', 'notif1', 'nmos', 'pmos', 'rnmos', 'rpmos', 'nand', 'nor', 'xor', 'xnor', 'buf', 'tranif0', 'tranif1', 'rtranif1', 'rtranif0', 'tran', 'rtran', 'generate', 'case', 'for', 'global', 'initial', 'assign', 'alias', 'always', 'always_comb', 'always_latch', 'always_ff', 'restrict', 'let', 'this', DOLLAR_ROOT, 'randomize', 'final', 'task', 'specify', 'sample', '=', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, '`pragma', HLC_MACRO_NOT_DEFINED},
+end
+^-- $Source01/top.v:36:0:.
 AST_DEBUG_BEGIN
-Count: 616
+Count: 621
 LIB: work
 FILE<0>:$Source01/top.v
-n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
-  n<> u<1> t<Null_rule> p<615> s<614> l<3:1> el<3:1>
-  n<> u<614> t<Source_text> p<615> c<446> l<3:1> el<67:10>
-    n<> u<446> t<Description> p<614> c<445> s<504> l<3:1> el<38:10>
-      n<> u<445> t<Module_declaration> p<446> c<5> l<3:1> el<38:10>
-        n<> u<5> t<Module_ansi_header> p<445> c<2> s<26> l<3:1> el<3:22>
+n<$Source01/top.v> u<620> t<Top_level_rule> c<1> l<3:1> el<69:1>
+  n<> u<1> t<Null_rule> p<620> s<619> l<3:1> el<3:1>
+  n<> u<619> t<Source_text> p<620> c<451> l<3:1> el<67:10>
+    n<> u<451> t<Description> p<619> c<450> s<509> l<3:1> el<38:10>
+      n<> u<450> t<Module_declaration> p<451> c<5> l<3:1> el<38:10>
+        n<> u<5> t<Module_ansi_header> p<450> c<2> s<26> l<3:1> el<3:22>
           n<module> u<2> t<MODULE> p<5> s<3> l<3:1> el<3:7>
           n<tb_operators> u<3> t<SIMPLE_IDENTIFIER> p<5> s<4> l<3:8> el<3:20>
           n<> u<4> t<Package_import_declaration_list> p<5> l<3:21> el<3:21>
-        n<> u<26> t<Non_port_module_item> p<445> c<25> s<47> l<5:1> el<5:21>
+        n<> u<26> t<Non_port_module_item> p<450> c<25> s<47> l<5:1> el<5:21>
           n<> u<25> t<Module_or_generate_item> p<26> c<24> l<5:1> el<5:21>
             n<> u<24> t<Module_common_item> p<25> c<23> l<5:1> el<5:21>
               n<> u<23> t<Module_or_generate_item_declaration> p<24> c<22> l<5:1> el<5:21>
@@ -43,7 +55,7 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                     n<> u<20> t<Net_decl_assignment_list> p<21> c<19> l<5:13> el<5:20>
                       n<> u<19> t<Net_decl_assignment> p<20> c<18> l<5:13> el<5:20>
                         n<shifter> u<18> t<SIMPLE_IDENTIFIER> p<19> l<5:13> el<5:20>
-        n<> u<47> t<Non_port_module_item> p<445> c<46> s<443> l<6:1> el<6:20>
+        n<> u<47> t<Non_port_module_item> p<450> c<46> s<414> l<6:1> el<6:20>
           n<> u<46> t<Module_or_generate_item> p<47> c<45> l<6:1> el<6:20>
             n<> u<45> t<Module_common_item> p<46> c<44> l<6:1> el<6:20>
               n<> u<44> t<Module_or_generate_item_declaration> p<45> c<43> l<6:1> el<6:20>
@@ -64,15 +76,15 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                     n<> u<41> t<Net_decl_assignment_list> p<42> c<40> l<6:13> el<6:19>
                       n<> u<40> t<Net_decl_assignment> p<41> c<39> l<6:13> el<6:19>
                         n<result> u<39> t<SIMPLE_IDENTIFIER> p<40> l<6:13> el<6:19>
-        n<> u<443> t<Non_port_module_item> p<445> c<442> s<444> l<8:1> el<36:4>
-          n<> u<442> t<Module_or_generate_item> p<443> c<441> l<8:1> el<36:4>
-            n<> u<441> t<Module_common_item> p<442> c<440> l<8:1> el<36:4>
-              n<> u<440> t<Initial_construct> p<441> c<439> l<8:1> el<36:4>
-                n<> u<439> t<Statement_or_null> p<440> c<438> l<8:9> el<36:4>
-                  n<> u<438> t<Statement> p<439> c<437> l<8:9> el<36:4>
-                    n<> u<437> t<Statement_item> p<438> c<436> l<8:9> el<36:4>
-                      n<> u<436> t<Seq_block> p<437> c<66> l<8:9> el<36:4>
-                        n<> u<66> t<Statement_or_null> p<436> c<65> s<80> l<10:5> el<10:30>
+        n<> u<414> t<Non_port_module_item> p<450> c<413> s<416> l<8:1> el<34:14>
+          n<> u<413> t<Module_or_generate_item> p<414> c<412> l<8:1> el<34:14>
+            n<> u<412> t<Module_common_item> p<413> c<411> l<8:1> el<34:14>
+              n<> u<411> t<Initial_construct> p<412> c<410> l<8:1> el<34:14>
+                n<> u<410> t<Statement_or_null> p<411> c<409> l<8:9> el<34:14>
+                  n<> u<409> t<Statement> p<410> c<408> l<8:9> el<34:14>
+                    n<> u<408> t<Statement_item> p<409> c<407> l<8:9> el<34:14>
+                      n<> u<407> t<Seq_block> p<408> c<66> l<8:9> el<34:14>
+                        n<> u<66> t<Statement_or_null> p<407> c<65> s<80> l<10:5> el<10:30>
                           n<> u<65> t<Statement> p<66> c<64> l<10:5> el<10:30>
                             n<> u<64> t<Statement_item> p<65> c<63> l<10:5> el<10:30>
                               n<> u<63> t<Subroutine_call_statement> p<64> c<62> l<10:5> el<10:30>
@@ -91,7 +103,7 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                                           n<> u<55> t<Primary_literal> p<56> c<54> l<10:22> el<10:28>
                                             n<result> u<54> t<SIMPLE_IDENTIFIER> p<55> l<10:22> el<10:28>
                                   n<> u<61> t<CLOSE_PARENS> p<62> l<10:28> el<10:29>
-                        n<> u<80> t<Statement_or_null> p<436> c<79> s<100> l<11:5> el<11:21>
+                        n<> u<80> t<Statement_or_null> p<407> c<79> s<100> l<11:5> el<11:21>
                           n<> u<79> t<Statement> p<80> c<78> l<11:5> el<11:21>
                             n<> u<78> t<Statement_item> p<79> c<77> l<11:5> el<11:21>
                               n<> u<77> t<Blocking_assignment> p<78> c<76> l<11:5> el<11:20>
@@ -105,7 +117,7 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                                     n<> u<74> t<Primary> p<75> c<73> l<11:15> el<11:20>
                                       n<> u<73> t<Primary_literal> p<74> c<72> l<11:15> el<11:20>
                                         n<32'b1> u<72> t<INTEGRAL_NUMBER> p<73> l<11:15> el<11:20>
-                        n<> u<100> t<Statement_or_null> p<436> c<99> s<120> l<13:5> el<13:27>
+                        n<> u<100> t<Statement_or_null> p<407> c<99> s<120> l<13:5> el<13:27>
                           n<> u<99> t<Statement> p<100> c<98> l<13:5> el<13:27>
                             n<> u<98> t<Statement_item> p<99> c<97> l<13:5> el<13:27>
                               n<> u<97> t<Blocking_assignment> p<98> c<96> l<13:5> el<13:26>
@@ -125,7 +137,7 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                                       n<> u<92> t<Primary> p<93> c<91> l<13:25> el<13:26>
                                         n<> u<91> t<Primary_literal> p<92> c<90> l<13:25> el<13:26>
                                           n<4> u<90> t<INTEGRAL_NUMBER> p<91> l<13:25> el<13:26>
-                        n<> u<120> t<Statement_or_null> p<436> c<119> s<140> l<14:5> el<14:27>
+                        n<> u<120> t<Statement_or_null> p<407> c<119> s<140> l<14:5> el<14:27>
                           n<> u<119> t<Statement> p<120> c<118> l<14:5> el<14:27>
                             n<> u<118> t<Statement_item> p<119> c<117> l<14:5> el<14:27>
                               n<> u<117> t<Blocking_assignment> p<118> c<116> l<14:5> el<14:26>
@@ -145,7 +157,7 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                                       n<> u<112> t<Primary> p<113> c<111> l<14:25> el<14:26>
                                         n<> u<111> t<Primary_literal> p<112> c<110> l<14:25> el<14:26>
                                           n<4> u<110> t<INTEGRAL_NUMBER> p<111> l<14:25> el<14:26>
-                        n<> u<140> t<Statement_or_null> p<436> c<139> s<167> l<15:5> el<15:27>
+                        n<> u<140> t<Statement_or_null> p<407> c<139> s<167> l<15:5> el<15:27>
                           n<> u<139> t<Statement> p<140> c<138> l<15:5> el<15:27>
                             n<> u<138> t<Statement_item> p<139> c<137> l<15:5> el<15:27>
                               n<> u<137> t<Blocking_assignment> p<138> c<136> l<15:5> el<15:26>
@@ -165,7 +177,7 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                                       n<> u<132> t<Primary> p<133> c<131> l<15:25> el<15:26>
                                         n<> u<131> t<Primary_literal> p<132> c<130> l<15:25> el<15:26>
                                           n<4> u<130> t<INTEGRAL_NUMBER> p<131> l<15:25> el<15:26>
-                        n<> u<167> t<Statement_or_null> p<436> c<166> s<194> l<16:5> el<16:34>
+                        n<> u<167> t<Statement_or_null> p<407> c<166> s<194> l<16:5> el<16:34>
                           n<> u<166> t<Statement> p<167> c<165> l<16:5> el<16:34>
                             n<> u<165> t<Statement_item> p<166> c<164> l<16:5> el<16:34>
                               n<> u<164> t<Blocking_assignment> p<165> c<163> l<16:5> el<16:33>
@@ -192,7 +204,7 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                                       n<> u<159> t<Primary> p<160> c<158> l<16:31> el<16:33>
                                         n<> u<158> t<Primary_literal> p<159> c<157> l<16:31> el<16:33>
                                           n<31> u<157> t<INTEGRAL_NUMBER> p<158> l<16:31> el<16:33>
-                        n<> u<194> t<Statement_or_null> p<436> c<193> s<214> l<17:5> el<17:34>
+                        n<> u<194> t<Statement_or_null> p<407> c<193> s<214> l<17:5> el<17:34>
                           n<> u<193> t<Statement> p<194> c<192> l<17:5> el<17:34>
                             n<> u<192> t<Statement_item> p<193> c<191> l<17:5> el<17:34>
                               n<> u<191> t<Blocking_assignment> p<192> c<190> l<17:5> el<17:33>
@@ -219,7 +231,7 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                                       n<> u<186> t<Primary> p<187> c<185> l<17:31> el<17:33>
                                         n<> u<185> t<Primary_literal> p<186> c<184> l<17:31> el<17:33>
                                           n<31> u<184> t<INTEGRAL_NUMBER> p<185> l<17:31> el<17:33>
-                        n<> u<214> t<Statement_or_null> p<436> c<213> s<234> l<19:5> el<19:27>
+                        n<> u<214> t<Statement_or_null> p<407> c<213> s<234> l<19:5> el<19:27>
                           n<> u<213> t<Statement> p<214> c<212> l<19:5> el<19:27>
                             n<> u<212> t<Statement_item> p<213> c<211> l<19:5> el<19:27>
                               n<> u<211> t<Blocking_assignment> p<212> c<210> l<19:5> el<19:26>
@@ -239,7 +251,7 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                                       n<> u<206> t<Primary> p<207> c<205> l<19:25> el<19:26>
                                         n<> u<205> t<Primary_literal> p<206> c<204> l<19:25> el<19:26>
                                           n<2> u<204> t<INTEGRAL_NUMBER> p<205> l<19:25> el<19:26>
-                        n<> u<234> t<Statement_or_null> p<436> c<233> s<374> l<20:5> el<20:25>
+                        n<> u<234> t<Statement_or_null> p<407> c<233> s<374> l<20:5> el<20:25>
                           n<> u<233> t<Statement> p<234> c<232> l<20:5> el<20:25>
                             n<> u<232> t<Statement_item> p<233> c<231> l<20:5> el<20:25>
                               n<> u<231> t<Blocking_assignment> p<232> c<230> l<20:5> el<20:24>
@@ -259,7 +271,7 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                                       n<> u<226> t<Primary> p<227> c<225> l<20:23> el<20:24>
                                         n<> u<225> t<Primary_literal> p<226> c<224> l<20:23> el<20:24>
                                           n<4> u<224> t<INTEGRAL_NUMBER> p<225> l<20:23> el<20:24>
-                        n<> u<374> t<Statement_or_null> p<436> c<373> s<394> l<22:5> el<30:8>
+                        n<> u<374> t<Statement_or_null> p<407> c<373> s<394> l<22:5> el<30:8>
                           n<> u<373> t<Statement> p<374> c<372> l<22:5> el<30:8>
                             n<> u<372> t<Statement_item> p<373> c<371> l<22:5> el<30:8>
                               n<> u<371> t<Conditional_statement> p<372> c<246> l<22:5> el<30:8>
@@ -399,7 +411,7 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                                                                                   n<"GTE TEST 3"> u<342> t<QUOTED_STRING> p<343> l<29:18> el<29:30>
                                                                           n<> u<348> t<CLOSE_PARENS> p<349> l<29:30> el<29:31>
                                                                 n<> u<354> t<END> p<355> l<30:5> el<30:8>
-                        n<> u<394> t<Statement_or_null> p<436> c<393> s<414> l<32:5> el<32:35>
+                        n<> u<394> t<Statement_or_null> p<407> c<393> s<406> l<32:5> el<32:35>
                           n<> u<393> t<Statement> p<394> c<392> l<32:5> el<32:35>
                             n<> u<392> t<Statement_item> p<393> c<391> l<32:5> el<32:35>
                               n<> u<391> t<Blocking_assignment> p<392> c<390> l<32:5> el<32:34>
@@ -419,215 +431,220 @@ n<$Source01/top.v> u<615> t<Top_level_rule> c<1> l<3:1> el<69:1>
                                       n<> u<386> t<Primary> p<387> c<385> l<32:27> el<32:34>
                                         n<> u<385> t<Primary_literal> p<386> c<384> l<32:27> el<32:34>
                                           n<shifter> u<384> t<SIMPLE_IDENTIFIER> p<385> l<32:27> el<32:34>
-                        n<> u<414> t<Statement_or_null> p<436> c<413> s<434> l<34:5> el<34:33>
-                          n<> u<413> t<Statement> p<414> c<412> l<34:5> el<34:33>
-                            n<> u<412> t<Statement_item> p<413> c<411> l<34:5> el<34:33>
-                              n<> u<411> t<Blocking_assignment> p<412> c<410> l<34:5> el<34:32>
-                                n<> u<410> t<Variable_assignment> p<411> c<399> l<34:5> el<34:32>
-                                  n<> u<399> t<Variable_lvalue> p<410> c<396> s<409> l<34:5> el<34:12>
+                        n<> u<406> t<Statement_or_null> p<407> c<405> l<34:5> el<34:14>
+                          n<> u<405> t<Statement> p<406> c<404> l<34:5> el<34:14>
+                            n<> u<404> t<Statement_item> p<405> c<403> l<34:5> el<34:14>
+                              n<> u<403> t<Blocking_assignment> p<404> c<402> l<34:5> el<34:14>
+                                n<> u<402> t<Variable_assignment> p<403> c<399> l<34:5> el<34:14>
+                                  n<> u<399> t<Variable_lvalue> p<402> c<396> s<401> l<34:5> el<34:12>
                                     n<> u<396> t<Ps_or_hierarchical_identifier> p<399> c<395> s<398> l<34:5> el<34:12>
                                       n<shifter> u<395> t<SIMPLE_IDENTIFIER> p<396> l<34:5> el<34:12>
                                     n<> u<398> t<Select> p<399> c<397> l<34:13> el<34:13>
                                       n<> u<397> t<Bit_select> p<398> l<34:13> el<34:13>
-                                  n<> u<409> t<Expression> p<410> c<403> l<34:15> el<34:32>
-                                    n<> u<403> t<Expression> p<409> c<402> s<408> l<34:15> el<34:22>
-                                      n<> u<402> t<Primary> p<403> c<401> l<34:15> el<34:22>
-                                        n<> u<401> t<Primary_literal> p<402> c<400> l<34:15> el<34:22>
-                                          n<shifter> u<400> t<SIMPLE_IDENTIFIER> p<401> l<34:15> el<34:22>
-                                    n<> u<408> t<BinaryOp_ReductNand> p<409> s<407> l<34:23> el<34:25>
-                                    n<> u<407> t<Expression> p<409> c<406> l<34:26> el<34:32>
-                                      n<> u<406> t<Primary> p<407> c<405> l<34:26> el<34:32>
-                                        n<> u<405> t<Primary_literal> p<406> c<404> l<34:26> el<34:32>
-                                          n<result> u<404> t<SIMPLE_IDENTIFIER> p<405> l<34:26> el<34:32>
-                        n<> u<434> t<Statement_or_null> p<436> c<433> s<435> l<35:5> el<35:33>
-                          n<> u<433> t<Statement> p<434> c<432> l<35:5> el<35:33>
-                            n<> u<432> t<Statement_item> p<433> c<431> l<35:5> el<35:33>
-                              n<> u<431> t<Blocking_assignment> p<432> c<430> l<35:5> el<35:32>
-                                n<> u<430> t<Variable_assignment> p<431> c<419> l<35:5> el<35:32>
-                                  n<> u<419> t<Variable_lvalue> p<430> c<416> s<429> l<35:5> el<35:12>
-                                    n<> u<416> t<Ps_or_hierarchical_identifier> p<419> c<415> s<418> l<35:5> el<35:12>
-                                      n<shifter> u<415> t<SIMPLE_IDENTIFIER> p<416> l<35:5> el<35:12>
-                                    n<> u<418> t<Select> p<419> c<417> l<35:13> el<35:13>
-                                      n<> u<417> t<Bit_select> p<418> l<35:13> el<35:13>
-                                  n<> u<429> t<Expression> p<430> c<423> l<35:15> el<35:32>
-                                    n<> u<423> t<Expression> p<429> c<422> s<428> l<35:15> el<35:22>
-                                      n<> u<422> t<Primary> p<423> c<421> l<35:15> el<35:22>
-                                        n<> u<421> t<Primary_literal> p<422> c<420> l<35:15> el<35:22>
-                                          n<shifter> u<420> t<SIMPLE_IDENTIFIER> p<421> l<35:15> el<35:22>
-                                    n<> u<428> t<BinaryOp_ReductNor> p<429> s<427> l<35:23> el<35:25>
-                                    n<> u<427> t<Expression> p<429> c<426> l<35:26> el<35:32>
-                                      n<> u<426> t<Primary> p<427> c<425> l<35:26> el<35:32>
-                                        n<> u<425> t<Primary_literal> p<426> c<424> l<35:26> el<35:32>
-                                          n<result> u<424> t<SIMPLE_IDENTIFIER> p<425> l<35:26> el<35:32>
-                        n<> u<435> t<END> p<436> l<36:1> el<36:4>
-        n<> u<444> t<ENDMODULE> p<445> l<38:1> el<38:10>
-    n<> u<504> t<Description> p<614> c<503> s<537> l<40:1> el<44:10>
-      n<> u<503> t<Module_declaration> p<504> c<463> l<40:1> el<44:10>
-        n<> u<463> t<Module_ansi_header> p<503> c<447> s<474> l<40:1> el<40:32>
-          n<module> u<447> t<MODULE> p<463> s<448> l<40:1> el<40:7>
-          n<top> u<448> t<SIMPLE_IDENTIFIER> p<463> s<449> l<40:8> el<40:11>
-          n<> u<449> t<Package_import_declaration_list> p<463> s<462> l<40:12> el<40:12>
-          n<> u<462> t<Port_declaration_list> p<463> c<455> l<40:12> el<40:31>
-            n<> u<455> t<Ansi_port_declaration> p<462> c<453> s<461> l<40:13> el<40:20>
-              n<> u<453> t<Net_port_header> p<455> c<450> s<454> l<40:13> el<40:18>
-                n<> u<450> t<INPUT> p<453> s<452> l<40:13> el<40:18>
-                n<> u<452> t<Net_port_type> p<453> c<451> l<40:19> el<40:19>
-                  n<> u<451> t<Data_type_or_implicit> p<452> l<40:19> el<40:19>
-              n<i> u<454> t<SIMPLE_IDENTIFIER> p<455> l<40:19> el<40:20>
-            n<> u<461> t<Ansi_port_declaration> p<462> c<459> l<40:22> el<40:30>
-              n<> u<459> t<Net_port_header> p<461> c<456> s<460> l<40:22> el<40:28>
-                n<> u<456> t<OUTPUT> p<459> s<458> l<40:22> el<40:28>
-                n<> u<458> t<Net_port_type> p<459> c<457> l<40:29> el<40:29>
-                  n<> u<457> t<Data_type_or_implicit> p<458> l<40:29> el<40:29>
-              n<o> u<460> t<SIMPLE_IDENTIFIER> p<461> l<40:29> el<40:30>
-        n<> u<474> t<Non_port_module_item> p<503> c<473> s<486> l<41:1> el<41:8>
-          n<> u<473> t<Module_or_generate_item> p<474> c<472> l<41:1> el<41:8>
-            n<> u<472> t<Module_common_item> p<473> c<471> l<41:1> el<41:8>
-              n<> u<471> t<Module_or_generate_item_declaration> p<472> c<470> l<41:1> el<41:8>
-                n<> u<470> t<Package_or_generate_item_declaration> p<471> c<469> l<41:1> el<41:8>
-                  n<> u<469> t<Net_declaration> p<470> c<464> l<41:1> el<41:8>
-                    n<> u<464> t<WIRE> p<469> s<465> l<41:1> el<41:5>
-                    n<> u<465> t<Data_type_or_implicit> p<469> s<468> l<41:6> el<41:6>
-                    n<> u<468> t<Net_decl_assignment_list> p<469> c<467> l<41:6> el<41:7>
-                      n<> u<467> t<Net_decl_assignment> p<468> c<466> l<41:6> el<41:7>
-                        n<i> u<466> t<SIMPLE_IDENTIFIER> p<467> l<41:6> el<41:7>
-        n<> u<486> t<Non_port_module_item> p<503> c<485> s<501> l<42:1> el<42:7>
-          n<> u<485> t<Module_or_generate_item> p<486> c<484> l<42:1> el<42:7>
-            n<> u<484> t<Module_common_item> p<485> c<483> l<42:1> el<42:7>
-              n<> u<483> t<Module_or_generate_item_declaration> p<484> c<482> l<42:1> el<42:7>
-                n<> u<482> t<Package_or_generate_item_declaration> p<483> c<481> l<42:1> el<42:7>
-                  n<> u<481> t<Data_declaration> p<482> c<480> l<42:1> el<42:7>
-                    n<> u<480> t<Variable_declaration> p<481> c<476> l<42:1> el<42:7>
-                      n<> u<476> t<Data_type> p<480> c<475> s<479> l<42:1> el<42:4>
-                        n<> u<475> t<REG> p<476> l<42:1> el<42:4>
-                      n<> u<479> t<Variable_decl_assignment_list> p<480> c<478> l<42:5> el<42:6>
-                        n<> u<478> t<Variable_decl_assignment> p<479> c<477> l<42:5> el<42:6>
-                          n<o> u<477> t<SIMPLE_IDENTIFIER> p<478> l<42:5> el<42:6>
-        n<> u<501> t<Non_port_module_item> p<503> c<500> s<502> l<43:1> el<43:14>
-          n<> u<500> t<Module_or_generate_item> p<501> c<499> l<43:1> el<43:14>
-            n<> u<499> t<Module_common_item> p<500> c<498> l<43:1> el<43:14>
-              n<> u<498> t<Continuous_assign> p<499> c<497> l<43:1> el<43:14>
-                n<> u<497> t<Net_assignment_list> p<498> c<496> l<43:8> el<43:13>
-                  n<> u<496> t<Net_assignment> p<497> c<491> l<43:8> el<43:13>
-                    n<> u<491> t<Net_lvalue> p<496> c<488> s<495> l<43:8> el<43:9>
-                      n<> u<488> t<Ps_or_hierarchical_identifier> p<491> c<487> s<490> l<43:8> el<43:9>
-                        n<o> u<487> t<SIMPLE_IDENTIFIER> p<488> l<43:8> el<43:9>
-                      n<> u<490> t<Constant_select> p<491> c<489> l<43:10> el<43:10>
-                        n<> u<489> t<Constant_bit_select> p<490> l<43:10> el<43:10>
-                    n<> u<495> t<Expression> p<496> c<494> l<43:12> el<43:13>
-                      n<> u<494> t<Primary> p<495> c<493> l<43:12> el<43:13>
-                        n<> u<493> t<Primary_literal> p<494> c<492> l<43:12> el<43:13>
-                          n<i> u<492> t<SIMPLE_IDENTIFIER> p<493> l<43:12> el<43:13>
-        n<> u<502> t<ENDMODULE> p<503> l<44:1> el<44:10>
-    n<> u<537> t<Description> p<614> c<536> s<544> l<47:1> el<52:13>
-      n<> u<536> t<Interface_declaration> p<537> c<516> l<47:1> el<52:13>
-        n<> u<516> t<Interface_ansi_header> p<536> c<505> s<525> l<47:1> el<47:35>
-          n<> u<505> t<INTERFACE> p<516> s<506> l<47:1> el<47:10>
-          n<mem_if> u<506> t<SIMPLE_IDENTIFIER> p<516> s<507> l<47:11> el<47:17>
-          n<> u<507> t<Package_import_declaration_list> p<516> s<515> l<47:18> el<47:18>
-          n<> u<515> t<Port_declaration_list> p<516> c<514> l<47:18> el<47:34>
-            n<> u<514> t<Ansi_port_declaration> p<515> c<512> l<47:19> el<47:33>
-              n<> u<512> t<Net_port_header> p<514> c<508> s<513> l<47:19> el<47:29>
-                n<> u<508> t<INPUT> p<512> s<511> l<47:19> el<47:24>
-                n<> u<511> t<Net_port_type> p<512> c<509> l<47:25> el<47:29>
-                  n<> u<509> t<WIRE> p<511> s<510> l<47:25> el<47:29>
-                  n<> u<510> t<Data_type_or_implicit> p<511> l<47:30> el<47:30>
-              n<clk> u<513> t<SIMPLE_IDENTIFIER> p<514> l<47:30> el<47:33>
-        n<> u<525> t<Non_port_interface_item> p<536> c<524> s<534> l<49:3> el<49:31>
-          n<> u<524> t<Interface_or_generate_item> p<525> c<523> l<49:3> el<49:31>
-            n<> u<523> t<Modport_item> p<524> c<517> l<49:12> el<49:30>
-              n<system> u<517> t<SIMPLE_IDENTIFIER> p<523> s<522> l<49:12> el<49:18>
-              n<> u<522> t<Modport_ports_declaration> p<523> c<521> l<49:20> el<49:29>
-                n<> u<521> t<Modport_simple_ports_declaration> p<522> c<518> l<49:20> el<49:29>
-                  n<> u<518> t<INPUT> p<521> s<520> l<49:20> el<49:25>
-                  n<> u<520> t<Modport_simple_port> p<521> c<519> l<49:26> el<49:29>
-                    n<clk> u<519> t<SIMPLE_IDENTIFIER> p<520> l<49:26> el<49:29>
-        n<> u<534> t<Non_port_interface_item> p<536> c<533> s<535> l<50:3> el<50:32>
-          n<> u<533> t<Interface_or_generate_item> p<534> c<532> l<50:3> el<50:32>
-            n<> u<532> t<Modport_item> p<533> c<526> l<50:12> el<50:31>
-              n<memory> u<526> t<SIMPLE_IDENTIFIER> p<532> s<531> l<50:12> el<50:18>
-              n<> u<531> t<Modport_ports_declaration> p<532> c<530> l<50:20> el<50:30>
-                n<> u<530> t<Modport_simple_ports_declaration> p<531> c<527> l<50:20> el<50:30>
-                  n<> u<527> t<OUTPUT> p<530> s<529> l<50:20> el<50:26>
-                  n<> u<529> t<Modport_simple_port> p<530> c<528> l<50:27> el<50:30>
-                    n<clk> u<528> t<SIMPLE_IDENTIFIER> p<529> l<50:27> el<50:30>
-        n<> u<535> t<ENDINTERFACE> p<536> l<52:1> el<52:13>
-    n<> u<544> t<Description> p<614> c<543> s<613> l<54:1> el<55:9>
-      n<> u<543> t<Package_item> p<544> c<542> l<54:1> el<55:9>
-        n<> u<542> t<Package_or_generate_item_declaration> p<543> c<541> l<54:1> el<55:9>
-          n<> u<541> t<Class_declaration> p<542> c<539> l<54:1> el<55:9>
-            n<> u<539> t<CLASS> p<541> s<538> l<54:1> el<54:6>
-            n<DD2> u<538> t<SIMPLE_IDENTIFIER> p<541> s<540> l<54:7> el<54:10>
-            n<> u<540> t<ENDCLASS> p<541> l<55:1> el<55:9>
-    n<> u<613> t<Description> p<614> c<612> l<57:1> el<67:10>
-      n<> u<612> t<Module_declaration> p<613> c<564> l<57:1> el<67:10>
-        n<> u<564> t<Module_ansi_header> p<612> c<545> s<574> l<57:1> el<57:55>
-          n<module> u<545> t<MODULE> p<564> s<546> l<57:1> el<57:7>
-          n<memory_ctrl1> u<546> t<SIMPLE_IDENTIFIER> p<564> s<547> l<57:8> el<57:20>
-          n<> u<547> t<Package_import_declaration_list> p<564> s<563> l<57:21> el<57:21>
-          n<> u<563> t<Port_declaration_list> p<564> c<555> l<57:21> el<57:54>
-            n<> u<555> t<Ansi_port_declaration> p<563> c<553> s<562> l<57:22> el<57:33>
-              n<> u<553> t<Net_port_header> p<555> c<552> s<554> l<57:22> el<57:28>
-                n<> u<552> t<Net_port_type> p<553> c<551> l<57:22> el<57:28>
-                  n<> u<551> t<Data_type_or_implicit> p<552> c<550> l<57:22> el<57:28>
-                    n<> u<550> t<Data_type> p<551> c<549> l<57:22> el<57:28>
-                      n<> u<549> t<Class_type> p<550> c<548> l<57:22> el<57:28>
-                        n<mem_if> u<548> t<SIMPLE_IDENTIFIER> p<549> l<57:22> el<57:28>
-              n<sif1> u<554> t<SIMPLE_IDENTIFIER> p<555> l<57:29> el<57:33>
-            n<> u<562> t<Ansi_port_declaration> p<563> c<560> l<57:35> el<57:53>
-              n<> u<560> t<Interface_port_header> p<562> c<559> s<561> l<57:35> el<57:48>
-                n<> u<559> t<Interface_identifier> p<560> c<556> l<57:35> el<57:48>
-                  n<mem_if> u<556> t<SIMPLE_IDENTIFIER> p<559> s<557> l<57:35> el<57:41>
-                  n<> u<557> t<Constant_bit_select> p<559> s<558> l<57:41> el<57:41>
-                  n<system> u<558> t<SIMPLE_IDENTIFIER> p<559> l<57:42> el<57:48>
-              n<sif2> u<561> t<SIMPLE_IDENTIFIER> p<562> l<57:49> el<57:53>
-        n<> u<574> t<Non_port_module_item> p<612> c<573> s<587> l<59:1> el<59:11>
-          n<> u<573> t<Module_or_generate_item> p<574> c<572> l<59:1> el<59:11>
-            n<> u<572> t<Module_common_item> p<573> c<571> l<59:1> el<59:11>
-              n<> u<571> t<Module_or_generate_item_declaration> p<572> c<570> l<59:1> el<59:11>
-                n<> u<570> t<Package_or_generate_item_declaration> p<571> c<569> l<59:1> el<59:11>
-                  n<> u<569> t<Net_declaration> p<570> c<565> l<59:1> el<59:11>
-                    n<DD1> u<565> t<SIMPLE_IDENTIFIER> p<569> s<568> l<59:1> el<59:4>
-                    n<> u<568> t<Net_decl_assignment_list> p<569> c<567> l<59:5> el<59:10>
-                      n<> u<567> t<Net_decl_assignment> p<568> c<566> l<59:5> el<59:10>
-                        n<toto1> u<566> t<SIMPLE_IDENTIFIER> p<567> l<59:5> el<59:10>
-        n<> u<587> t<Non_port_module_item> p<612> c<586> s<598> l<61:1> el<61:11>
-          n<> u<586> t<Module_or_generate_item> p<587> c<585> l<61:1> el<61:11>
-            n<> u<585> t<Module_common_item> p<586> c<584> l<61:1> el<61:11>
-              n<> u<584> t<Module_or_generate_item_declaration> p<585> c<583> l<61:1> el<61:11>
-                n<> u<583> t<Package_or_generate_item_declaration> p<584> c<582> l<61:1> el<61:11>
-                  n<> u<582> t<Data_declaration> p<583> c<581> l<61:1> el<61:11>
-                    n<> u<581> t<Variable_declaration> p<582> c<577> l<61:1> el<61:11>
-                      n<> u<577> t<Data_type> p<581> c<576> s<580> l<61:1> el<61:4>
-                        n<> u<576> t<Class_type> p<577> c<575> l<61:1> el<61:4>
-                          n<DD2> u<575> t<SIMPLE_IDENTIFIER> p<576> l<61:1> el<61:4>
-                      n<> u<580> t<Variable_decl_assignment_list> p<581> c<579> l<61:5> el<61:10>
-                        n<> u<579> t<Variable_decl_assignment> p<580> c<578> l<61:5> el<61:10>
-                          n<toto2> u<578> t<SIMPLE_IDENTIFIER> p<579> l<61:5> el<61:10>
-        n<> u<598> t<Non_port_module_item> p<612> c<597> s<610> l<63:1> el<63:9>
-          n<> u<597> t<Module_or_generate_item> p<598> c<596> l<63:1> el<63:9>
-            n<> u<596> t<Module_common_item> p<597> c<595> l<63:1> el<63:9>
-              n<> u<595> t<Module_or_generate_item_declaration> p<596> c<594> l<63:1> el<63:9>
-                n<> u<594> t<Package_or_generate_item_declaration> p<595> c<593> l<63:1> el<63:9>
-                  n<> u<593> t<Net_declaration> p<594> c<588> l<63:1> el<63:9>
-                    n<> u<588> t<WIRE> p<593> s<589> l<63:1> el<63:5>
-                    n<> u<589> t<Data_type_or_implicit> p<593> s<592> l<63:6> el<63:6>
-                    n<> u<592> t<Net_decl_assignment_list> p<593> c<591> l<63:6> el<63:8>
-                      n<> u<591> t<Net_decl_assignment> p<592> c<590> l<63:6> el<63:8>
-                        n<i1> u<590> t<SIMPLE_IDENTIFIER> p<591> l<63:6> el<63:8>
-        n<> u<610> t<Non_port_module_item> p<612> c<609> s<611> l<65:1> el<65:8>
-          n<> u<609> t<Module_or_generate_item> p<610> c<608> l<65:1> el<65:8>
-            n<> u<608> t<Module_common_item> p<609> c<607> l<65:1> el<65:8>
-              n<> u<607> t<Module_or_generate_item_declaration> p<608> c<606> l<65:1> el<65:8>
-                n<> u<606> t<Package_or_generate_item_declaration> p<607> c<605> l<65:1> el<65:8>
-                  n<> u<605> t<Data_declaration> p<606> c<604> l<65:1> el<65:8>
-                    n<> u<604> t<Variable_declaration> p<605> c<600> l<65:1> el<65:8>
-                      n<> u<600> t<Data_type> p<604> c<599> s<603> l<65:1> el<65:4>
-                        n<> u<599> t<REG> p<600> l<65:1> el<65:4>
-                      n<> u<603> t<Variable_decl_assignment_list> p<604> c<602> l<65:5> el<65:7>
-                        n<> u<602> t<Variable_decl_assignment> p<603> c<601> l<65:5> el<65:7>
-                          n<o1> u<601> t<SIMPLE_IDENTIFIER> p<602> l<65:5> el<65:7>
-        n<> u<611> t<ENDMODULE> p<612> l<67:1> el<67:10>
+                                  n<> u<401> t<Expression> p<402> c<400> l<34:15> el<34:15>
+                                    n<> u<400> t<Primary> p<401> l<34:15> el<34:15>
+        n<> u<416> t<Non_port_module_item> p<450> c<415> s<418> l<34:15> el<34:15>
+          n<> u<415> t<Module_or_generate_item> p<416> l<34:15> el<34:15>
+        n<> u<418> t<Non_port_module_item> p<450> c<417> s<420> l<34:15> el<34:25>
+          n<> u<417> t<Module_or_generate_item> p<418> l<34:15> el<34:25>
+        n<> u<420> t<Non_port_module_item> p<450> c<419> s<422> l<34:26> el<34:26>
+          n<> u<419> t<Module_or_generate_item> p<420> l<34:26> el<34:26>
+        n<> u<422> t<Non_port_module_item> p<450> c<421> s<427> l<34:26> el<34:32>
+          n<> u<421> t<Module_or_generate_item> p<422> l<34:26> el<34:32>
+        n<> u<427> t<Non_port_module_item> p<450> c<426> s<429> l<34:32> el<34:33>
+          n<> u<426> t<Module_or_generate_item> p<427> c<425> l<34:32> el<34:33>
+            n<> u<425> t<Module_common_item> p<426> c<424> l<34:32> el<34:33>
+              n<> u<424> t<Module_or_generate_item_declaration> p<425> c<423> l<34:32> el<34:33>
+                n<> u<423> t<Package_or_generate_item_declaration> p<424> l<34:32> el<34:33>
+        n<> u<429> t<Non_port_module_item> p<450> c<428> s<431> l<35:5> el<35:5>
+          n<> u<428> t<Module_or_generate_item> p<429> l<35:5> el<35:5>
+        n<> u<431> t<Non_port_module_item> p<450> c<430> s<448> l<35:5> el<35:12>
+          n<> u<430> t<Module_or_generate_item> p<431> l<35:5> el<35:12>
+        n<> u<448> t<Non_port_module_item> p<450> c<447> s<449> l<35:13> el<35:33>
+          n<> u<447> t<Module_or_generate_item> p<448> c<446> l<35:13> el<35:33>
+            n<> u<446> t<Module_common_item> p<447> c<445> l<35:13> el<35:33>
+              n<> u<445> t<Continuous_assign> p<446> c<444> l<35:13> el<35:33>
+                n<> u<444> t<Variable_assignment_list> p<445> c<443> l<35:15> el<35:32>
+                  n<> u<443> t<Variable_assignment> p<444> c<436> l<35:15> el<35:32>
+                    n<> u<436> t<Variable_lvalue> p<443> c<433> s<442> l<35:15> el<35:22>
+                      n<> u<433> t<Ps_or_hierarchical_identifier> p<436> c<432> s<435> l<35:15> el<35:22>
+                        n<shifter> u<432> t<SIMPLE_IDENTIFIER> p<433> l<35:15> el<35:22>
+                      n<> u<435> t<Select> p<436> c<434> l<35:23> el<35:23>
+                        n<> u<434> t<Bit_select> p<435> l<35:23> el<35:23>
+                    n<> u<442> t<Expression> p<443> c<441> l<35:23> el<35:32>
+                      n<> u<441> t<UnaryOp_ReductNor> p<442> s<440> l<35:23> el<35:25>
+                      n<> u<440> t<Expression> p<442> c<439> l<35:26> el<35:32>
+                        n<> u<439> t<Primary> p<440> c<438> l<35:26> el<35:32>
+                          n<> u<438> t<Primary_literal> p<439> c<437> l<35:26> el<35:32>
+                            n<result> u<437> t<SIMPLE_IDENTIFIER> p<438> l<35:26> el<35:32>
+        n<> u<449> t<ENDMODULE> p<450> l<38:1> el<38:10>
+    n<> u<509> t<Description> p<619> c<508> s<542> l<40:1> el<44:10>
+      n<> u<508> t<Module_declaration> p<509> c<468> l<40:1> el<44:10>
+        n<> u<468> t<Module_ansi_header> p<508> c<452> s<479> l<40:1> el<40:32>
+          n<module> u<452> t<MODULE> p<468> s<453> l<40:1> el<40:7>
+          n<top> u<453> t<SIMPLE_IDENTIFIER> p<468> s<454> l<40:8> el<40:11>
+          n<> u<454> t<Package_import_declaration_list> p<468> s<467> l<40:12> el<40:12>
+          n<> u<467> t<Port_declaration_list> p<468> c<460> l<40:12> el<40:31>
+            n<> u<460> t<Ansi_port_declaration> p<467> c<458> s<466> l<40:13> el<40:20>
+              n<> u<458> t<Net_port_header> p<460> c<455> s<459> l<40:13> el<40:18>
+                n<> u<455> t<INPUT> p<458> s<457> l<40:13> el<40:18>
+                n<> u<457> t<Net_port_type> p<458> c<456> l<40:19> el<40:19>
+                  n<> u<456> t<Data_type_or_implicit> p<457> l<40:19> el<40:19>
+              n<i> u<459> t<SIMPLE_IDENTIFIER> p<460> l<40:19> el<40:20>
+            n<> u<466> t<Ansi_port_declaration> p<467> c<464> l<40:22> el<40:30>
+              n<> u<464> t<Net_port_header> p<466> c<461> s<465> l<40:22> el<40:28>
+                n<> u<461> t<OUTPUT> p<464> s<463> l<40:22> el<40:28>
+                n<> u<463> t<Net_port_type> p<464> c<462> l<40:29> el<40:29>
+                  n<> u<462> t<Data_type_or_implicit> p<463> l<40:29> el<40:29>
+              n<o> u<465> t<SIMPLE_IDENTIFIER> p<466> l<40:29> el<40:30>
+        n<> u<479> t<Non_port_module_item> p<508> c<478> s<491> l<41:1> el<41:8>
+          n<> u<478> t<Module_or_generate_item> p<479> c<477> l<41:1> el<41:8>
+            n<> u<477> t<Module_common_item> p<478> c<476> l<41:1> el<41:8>
+              n<> u<476> t<Module_or_generate_item_declaration> p<477> c<475> l<41:1> el<41:8>
+                n<> u<475> t<Package_or_generate_item_declaration> p<476> c<474> l<41:1> el<41:8>
+                  n<> u<474> t<Net_declaration> p<475> c<469> l<41:1> el<41:8>
+                    n<> u<469> t<WIRE> p<474> s<470> l<41:1> el<41:5>
+                    n<> u<470> t<Data_type_or_implicit> p<474> s<473> l<41:6> el<41:6>
+                    n<> u<473> t<Net_decl_assignment_list> p<474> c<472> l<41:6> el<41:7>
+                      n<> u<472> t<Net_decl_assignment> p<473> c<471> l<41:6> el<41:7>
+                        n<i> u<471> t<SIMPLE_IDENTIFIER> p<472> l<41:6> el<41:7>
+        n<> u<491> t<Non_port_module_item> p<508> c<490> s<506> l<42:1> el<42:7>
+          n<> u<490> t<Module_or_generate_item> p<491> c<489> l<42:1> el<42:7>
+            n<> u<489> t<Module_common_item> p<490> c<488> l<42:1> el<42:7>
+              n<> u<488> t<Module_or_generate_item_declaration> p<489> c<487> l<42:1> el<42:7>
+                n<> u<487> t<Package_or_generate_item_declaration> p<488> c<486> l<42:1> el<42:7>
+                  n<> u<486> t<Data_declaration> p<487> c<485> l<42:1> el<42:7>
+                    n<> u<485> t<Variable_declaration> p<486> c<481> l<42:1> el<42:7>
+                      n<> u<481> t<Data_type> p<485> c<480> s<484> l<42:1> el<42:4>
+                        n<> u<480> t<REG> p<481> l<42:1> el<42:4>
+                      n<> u<484> t<Variable_decl_assignment_list> p<485> c<483> l<42:5> el<42:6>
+                        n<> u<483> t<Variable_decl_assignment> p<484> c<482> l<42:5> el<42:6>
+                          n<o> u<482> t<SIMPLE_IDENTIFIER> p<483> l<42:5> el<42:6>
+        n<> u<506> t<Non_port_module_item> p<508> c<505> s<507> l<43:1> el<43:14>
+          n<> u<505> t<Module_or_generate_item> p<506> c<504> l<43:1> el<43:14>
+            n<> u<504> t<Module_common_item> p<505> c<503> l<43:1> el<43:14>
+              n<> u<503> t<Continuous_assign> p<504> c<502> l<43:1> el<43:14>
+                n<> u<502> t<Net_assignment_list> p<503> c<501> l<43:8> el<43:13>
+                  n<> u<501> t<Net_assignment> p<502> c<496> l<43:8> el<43:13>
+                    n<> u<496> t<Net_lvalue> p<501> c<493> s<500> l<43:8> el<43:9>
+                      n<> u<493> t<Ps_or_hierarchical_identifier> p<496> c<492> s<495> l<43:8> el<43:9>
+                        n<o> u<492> t<SIMPLE_IDENTIFIER> p<493> l<43:8> el<43:9>
+                      n<> u<495> t<Constant_select> p<496> c<494> l<43:10> el<43:10>
+                        n<> u<494> t<Constant_bit_select> p<495> l<43:10> el<43:10>
+                    n<> u<500> t<Expression> p<501> c<499> l<43:12> el<43:13>
+                      n<> u<499> t<Primary> p<500> c<498> l<43:12> el<43:13>
+                        n<> u<498> t<Primary_literal> p<499> c<497> l<43:12> el<43:13>
+                          n<i> u<497> t<SIMPLE_IDENTIFIER> p<498> l<43:12> el<43:13>
+        n<> u<507> t<ENDMODULE> p<508> l<44:1> el<44:10>
+    n<> u<542> t<Description> p<619> c<541> s<549> l<47:1> el<52:13>
+      n<> u<541> t<Interface_declaration> p<542> c<521> l<47:1> el<52:13>
+        n<> u<521> t<Interface_ansi_header> p<541> c<510> s<530> l<47:1> el<47:35>
+          n<> u<510> t<INTERFACE> p<521> s<511> l<47:1> el<47:10>
+          n<mem_if> u<511> t<SIMPLE_IDENTIFIER> p<521> s<512> l<47:11> el<47:17>
+          n<> u<512> t<Package_import_declaration_list> p<521> s<520> l<47:18> el<47:18>
+          n<> u<520> t<Port_declaration_list> p<521> c<519> l<47:18> el<47:34>
+            n<> u<519> t<Ansi_port_declaration> p<520> c<517> l<47:19> el<47:33>
+              n<> u<517> t<Net_port_header> p<519> c<513> s<518> l<47:19> el<47:29>
+                n<> u<513> t<INPUT> p<517> s<516> l<47:19> el<47:24>
+                n<> u<516> t<Net_port_type> p<517> c<514> l<47:25> el<47:29>
+                  n<> u<514> t<WIRE> p<516> s<515> l<47:25> el<47:29>
+                  n<> u<515> t<Data_type_or_implicit> p<516> l<47:30> el<47:30>
+              n<clk> u<518> t<SIMPLE_IDENTIFIER> p<519> l<47:30> el<47:33>
+        n<> u<530> t<Non_port_interface_item> p<541> c<529> s<539> l<49:3> el<49:31>
+          n<> u<529> t<Interface_or_generate_item> p<530> c<528> l<49:3> el<49:31>
+            n<> u<528> t<Modport_item> p<529> c<522> l<49:12> el<49:30>
+              n<system> u<522> t<SIMPLE_IDENTIFIER> p<528> s<527> l<49:12> el<49:18>
+              n<> u<527> t<Modport_ports_declaration> p<528> c<526> l<49:20> el<49:29>
+                n<> u<526> t<Modport_simple_ports_declaration> p<527> c<523> l<49:20> el<49:29>
+                  n<> u<523> t<INPUT> p<526> s<525> l<49:20> el<49:25>
+                  n<> u<525> t<Modport_simple_port> p<526> c<524> l<49:26> el<49:29>
+                    n<clk> u<524> t<SIMPLE_IDENTIFIER> p<525> l<49:26> el<49:29>
+        n<> u<539> t<Non_port_interface_item> p<541> c<538> s<540> l<50:3> el<50:32>
+          n<> u<538> t<Interface_or_generate_item> p<539> c<537> l<50:3> el<50:32>
+            n<> u<537> t<Modport_item> p<538> c<531> l<50:12> el<50:31>
+              n<memory> u<531> t<SIMPLE_IDENTIFIER> p<537> s<536> l<50:12> el<50:18>
+              n<> u<536> t<Modport_ports_declaration> p<537> c<535> l<50:20> el<50:30>
+                n<> u<535> t<Modport_simple_ports_declaration> p<536> c<532> l<50:20> el<50:30>
+                  n<> u<532> t<OUTPUT> p<535> s<534> l<50:20> el<50:26>
+                  n<> u<534> t<Modport_simple_port> p<535> c<533> l<50:27> el<50:30>
+                    n<clk> u<533> t<SIMPLE_IDENTIFIER> p<534> l<50:27> el<50:30>
+        n<> u<540> t<ENDINTERFACE> p<541> l<52:1> el<52:13>
+    n<> u<549> t<Description> p<619> c<548> s<618> l<54:1> el<55:9>
+      n<> u<548> t<Package_item> p<549> c<547> l<54:1> el<55:9>
+        n<> u<547> t<Package_or_generate_item_declaration> p<548> c<546> l<54:1> el<55:9>
+          n<> u<546> t<Class_declaration> p<547> c<544> l<54:1> el<55:9>
+            n<> u<544> t<CLASS> p<546> s<543> l<54:1> el<54:6>
+            n<DD2> u<543> t<SIMPLE_IDENTIFIER> p<546> s<545> l<54:7> el<54:10>
+            n<> u<545> t<ENDCLASS> p<546> l<55:1> el<55:9>
+    n<> u<618> t<Description> p<619> c<617> l<57:1> el<67:10>
+      n<> u<617> t<Module_declaration> p<618> c<569> l<57:1> el<67:10>
+        n<> u<569> t<Module_ansi_header> p<617> c<550> s<579> l<57:1> el<57:55>
+          n<module> u<550> t<MODULE> p<569> s<551> l<57:1> el<57:7>
+          n<memory_ctrl1> u<551> t<SIMPLE_IDENTIFIER> p<569> s<552> l<57:8> el<57:20>
+          n<> u<552> t<Package_import_declaration_list> p<569> s<568> l<57:21> el<57:21>
+          n<> u<568> t<Port_declaration_list> p<569> c<560> l<57:21> el<57:54>
+            n<> u<560> t<Ansi_port_declaration> p<568> c<558> s<567> l<57:22> el<57:33>
+              n<> u<558> t<Net_port_header> p<560> c<557> s<559> l<57:22> el<57:28>
+                n<> u<557> t<Net_port_type> p<558> c<556> l<57:22> el<57:28>
+                  n<> u<556> t<Data_type_or_implicit> p<557> c<555> l<57:22> el<57:28>
+                    n<> u<555> t<Data_type> p<556> c<554> l<57:22> el<57:28>
+                      n<> u<554> t<Class_type> p<555> c<553> l<57:22> el<57:28>
+                        n<mem_if> u<553> t<SIMPLE_IDENTIFIER> p<554> l<57:22> el<57:28>
+              n<sif1> u<559> t<SIMPLE_IDENTIFIER> p<560> l<57:29> el<57:33>
+            n<> u<567> t<Ansi_port_declaration> p<568> c<565> l<57:35> el<57:53>
+              n<> u<565> t<Interface_port_header> p<567> c<564> s<566> l<57:35> el<57:48>
+                n<> u<564> t<Interface_identifier> p<565> c<561> l<57:35> el<57:48>
+                  n<mem_if> u<561> t<SIMPLE_IDENTIFIER> p<564> s<562> l<57:35> el<57:41>
+                  n<> u<562> t<Constant_bit_select> p<564> s<563> l<57:41> el<57:41>
+                  n<system> u<563> t<SIMPLE_IDENTIFIER> p<564> l<57:42> el<57:48>
+              n<sif2> u<566> t<SIMPLE_IDENTIFIER> p<567> l<57:49> el<57:53>
+        n<> u<579> t<Non_port_module_item> p<617> c<578> s<592> l<59:1> el<59:11>
+          n<> u<578> t<Module_or_generate_item> p<579> c<577> l<59:1> el<59:11>
+            n<> u<577> t<Module_common_item> p<578> c<576> l<59:1> el<59:11>
+              n<> u<576> t<Module_or_generate_item_declaration> p<577> c<575> l<59:1> el<59:11>
+                n<> u<575> t<Package_or_generate_item_declaration> p<576> c<574> l<59:1> el<59:11>
+                  n<> u<574> t<Net_declaration> p<575> c<570> l<59:1> el<59:11>
+                    n<DD1> u<570> t<SIMPLE_IDENTIFIER> p<574> s<573> l<59:1> el<59:4>
+                    n<> u<573> t<Net_decl_assignment_list> p<574> c<572> l<59:5> el<59:10>
+                      n<> u<572> t<Net_decl_assignment> p<573> c<571> l<59:5> el<59:10>
+                        n<toto1> u<571> t<SIMPLE_IDENTIFIER> p<572> l<59:5> el<59:10>
+        n<> u<592> t<Non_port_module_item> p<617> c<591> s<603> l<61:1> el<61:11>
+          n<> u<591> t<Module_or_generate_item> p<592> c<590> l<61:1> el<61:11>
+            n<> u<590> t<Module_common_item> p<591> c<589> l<61:1> el<61:11>
+              n<> u<589> t<Module_or_generate_item_declaration> p<590> c<588> l<61:1> el<61:11>
+                n<> u<588> t<Package_or_generate_item_declaration> p<589> c<587> l<61:1> el<61:11>
+                  n<> u<587> t<Data_declaration> p<588> c<586> l<61:1> el<61:11>
+                    n<> u<586> t<Variable_declaration> p<587> c<582> l<61:1> el<61:11>
+                      n<> u<582> t<Data_type> p<586> c<581> s<585> l<61:1> el<61:4>
+                        n<> u<581> t<Class_type> p<582> c<580> l<61:1> el<61:4>
+                          n<DD2> u<580> t<SIMPLE_IDENTIFIER> p<581> l<61:1> el<61:4>
+                      n<> u<585> t<Variable_decl_assignment_list> p<586> c<584> l<61:5> el<61:10>
+                        n<> u<584> t<Variable_decl_assignment> p<585> c<583> l<61:5> el<61:10>
+                          n<toto2> u<583> t<SIMPLE_IDENTIFIER> p<584> l<61:5> el<61:10>
+        n<> u<603> t<Non_port_module_item> p<617> c<602> s<615> l<63:1> el<63:9>
+          n<> u<602> t<Module_or_generate_item> p<603> c<601> l<63:1> el<63:9>
+            n<> u<601> t<Module_common_item> p<602> c<600> l<63:1> el<63:9>
+              n<> u<600> t<Module_or_generate_item_declaration> p<601> c<599> l<63:1> el<63:9>
+                n<> u<599> t<Package_or_generate_item_declaration> p<600> c<598> l<63:1> el<63:9>
+                  n<> u<598> t<Net_declaration> p<599> c<593> l<63:1> el<63:9>
+                    n<> u<593> t<WIRE> p<598> s<594> l<63:1> el<63:5>
+                    n<> u<594> t<Data_type_or_implicit> p<598> s<597> l<63:6> el<63:6>
+                    n<> u<597> t<Net_decl_assignment_list> p<598> c<596> l<63:6> el<63:8>
+                      n<> u<596> t<Net_decl_assignment> p<597> c<595> l<63:6> el<63:8>
+                        n<i1> u<595> t<SIMPLE_IDENTIFIER> p<596> l<63:6> el<63:8>
+        n<> u<615> t<Non_port_module_item> p<617> c<614> s<616> l<65:1> el<65:8>
+          n<> u<614> t<Module_or_generate_item> p<615> c<613> l<65:1> el<65:8>
+            n<> u<613> t<Module_common_item> p<614> c<612> l<65:1> el<65:8>
+              n<> u<612> t<Module_or_generate_item_declaration> p<613> c<611> l<65:1> el<65:8>
+                n<> u<611> t<Package_or_generate_item_declaration> p<612> c<610> l<65:1> el<65:8>
+                  n<> u<610> t<Data_declaration> p<611> c<609> l<65:1> el<65:8>
+                    n<> u<609> t<Variable_declaration> p<610> c<605> l<65:1> el<65:8>
+                      n<> u<605> t<Data_type> p<609> c<604> s<608> l<65:1> el<65:4>
+                        n<> u<604> t<REG> p<605> l<65:1> el<65:4>
+                      n<> u<608> t<Variable_decl_assignment_list> p<609> c<607> l<65:5> el<65:7>
+                        n<> u<607> t<Variable_decl_assignment> p<608> c<606> l<65:5> el<65:7>
+                          n<o1> u<606> t<SIMPLE_IDENTIFIER> p<607> l<65:5> el<65:7>
+        n<> u<616> t<ENDMODULE> p<617> l<67:1> el<67:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/top.v:3:1: Compile module "tb_operators".
 [INF:CP5804] $Source01/top.v:40:1: Compile module "top".
@@ -636,6 +653,8 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/top.v:57:1: Compile module "memory_ctrl1".
 [WRN:CP5811] $Source01/top.v:57:29: Port "sif1" definition missing its direction (input, output, inout).
 [WRN:CP5811] $Source01/top.v:57:49: Port "sif2" definition missing its direction (input, output, inout).
+[ERR:LN7713] $Source01/top.v:1:1: Found 2 orphan node(s).
+[ERR:LN7714] Found 3 weak node(s).
 [WRN:CP5851] $Source01/top.v:57:42: Failed to bind "system".
 [WRN:CP5851] $Source01/top.v:59:1: Failed to bind "DD1".
 [WRN:PA5506] $Source01/top.v:3:1: No timescale set for "tb_operators".
@@ -652,7 +671,6 @@ AST_DEBUG_END
 [ERR:DB2019] $Source01/top.v:20:5: Illegal lhs of type wire "result".
 [ERR:DB2019] $Source01/top.v:32:5: Illegal lhs of type wire "result".
 [ERR:DB2019] $Source01/top.v:34:5: Illegal lhs of type wire "shifter".
-[ERR:DB2019] $Source01/top.v:35:5: Illegal lhs of type wire "shifter".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -827,15 +845,15 @@ Design name:unnamed:
             vpiFullName: tb_operators.result
             vpiActual: LogicTypespec
       vpiProcess (1 items):
-        Initial start:8:1 end:36:4:
+        Initial start:8:1 end:34:14:
           vpiParent: Module name:tb_operators
-          vpiStmt Begin start:8:9 end:36:4:
+          vpiStmt Begin start:8:9 end:34:14:
             vpiParent: Initial
             vpiFullName: tb_operators
             vpiTypespec (1 items):
               BitTypespec:
                 vpiParent: Begin
-            vpiStmt (13 items):
+            vpiStmt (12 items):
               SysTaskCall name:$monitor start:10:5 end:10:29:
                 vpiParent: Begin
                 vpiName Identifier name:$monitor start:10:5 end:10:13:
@@ -857,6 +875,7 @@ Design name:unnamed:
               Assignment start:11:5 end:11:20:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:shifter start:11:5 end:11:12:
                   vpiParent: Assignment
                   vpiName: shifter
@@ -875,6 +894,7 @@ Design name:unnamed:
               Assignment start:13:5 end:13:26:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:result start:13:5 end:13:11:
                   vpiParent: Assignment
                   vpiName: result
@@ -902,6 +922,7 @@ Design name:unnamed:
               Assignment start:14:5 end:14:26:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:result start:14:5 end:14:11:
                   vpiParent: Assignment
                   vpiName: result
@@ -929,6 +950,7 @@ Design name:unnamed:
               Assignment start:15:5 end:15:26:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:result start:15:5 end:15:11:
                   vpiParent: Assignment
                   vpiName: result
@@ -956,6 +978,7 @@ Design name:unnamed:
               Assignment start:16:5 end:16:33:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:result start:16:5 end:16:11:
                   vpiParent: Assignment
                   vpiName: result
@@ -1002,6 +1025,7 @@ Design name:unnamed:
               Assignment start:17:5 end:17:33:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:result start:17:5 end:17:11:
                   vpiParent: Assignment
                   vpiName: result
@@ -1048,6 +1072,7 @@ Design name:unnamed:
               Assignment start:19:5 end:19:26:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:result start:19:5 end:19:11:
                   vpiParent: Assignment
                   vpiName: result
@@ -1075,6 +1100,7 @@ Design name:unnamed:
               Assignment start:20:5 end:20:24:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:result start:20:5 end:20:11:
                   vpiParent: Assignment
                   vpiName: result
@@ -1246,6 +1272,7 @@ Design name:unnamed:
               Assignment start:32:5 end:32:34:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:result start:32:5 end:32:11:
                   vpiParent: Assignment
                   vpiName: result
@@ -1265,50 +1292,15 @@ Design name:unnamed:
                       vpiName: shifter
                       vpiFullName: tb_operators.shifter
                       vpiActual: Net name:shifter
-              Assignment start:34:5 end:34:32:
+              Assignment start:34:5 end:34:14:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:shifter start:34:5 end:34:12:
                   vpiParent: Assignment
                   vpiName: shifter
                   vpiFullName: tb_operators.shifter
                   vpiActual: Net name:shifter
-                vpiRhs Operation start:34:15 end:34:32:
-                  vpiParent: Assignment
-                  vpiOpType: unary nand (6)
-                  vpiOperand (2 items):
-                    RefObj name:shifter start:34:15 end:34:22:
-                      vpiParent: Operation
-                      vpiName: shifter
-                      vpiFullName: tb_operators.shifter
-                      vpiActual: Net name:shifter
-                    RefObj name:result start:34:26 end:34:32:
-                      vpiParent: Operation
-                      vpiName: result
-                      vpiFullName: tb_operators.result
-                      vpiActual: Net name:result
-              Assignment start:35:5 end:35:32:
-                vpiParent: Begin
-                vpiBlocking: true
-                vpiLhs RefObj name:shifter start:35:5 end:35:12:
-                  vpiParent: Assignment
-                  vpiName: shifter
-                  vpiFullName: tb_operators.shifter
-                  vpiActual: Net name:shifter
-                vpiRhs Operation start:35:15 end:35:32:
-                  vpiParent: Assignment
-                  vpiOpType: unary nor (8)
-                  vpiOperand (2 items):
-                    RefObj name:shifter start:35:15 end:35:22:
-                      vpiParent: Operation
-                      vpiName: shifter
-                      vpiFullName: tb_operators.shifter
-                      vpiActual: Net name:shifter
-                    RefObj name:result start:35:26 end:35:32:
-                      vpiParent: Operation
-                      vpiName: result
-                      vpiFullName: tb_operators.result
-                      vpiActual: Net name:result
       vpiSysTaskCall (5 items):
         SysTaskCall name:$monitor:
         SysTaskCall name:$display:
@@ -1554,8 +1546,8 @@ Design name:unnamed:
       vpiName: work
 ===================
 [  FATAL] : 0
-[ SYNTAX] : 0
-[  ERROR] : 11
+[ SYNTAX] : 4
+[  ERROR] : 12
 [WARNING] : 8
 [   NOTE] : 1
 ********************************************************************************
@@ -1571,25 +1563,25 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/UnitTest/UnitTest/mounts.json
 
 
-{'result': {'coverage': 99.89,
+{'result': {'coverage': 95.42,
             'error_count': 0,
             'file_count': 1,
-            'files': {'$Output/lib/work/top.v': {'post_len': 1,
+            'files': {'$Output/lib/work/top.v': {'post_len': 41,
                                                  'pre_len': 895}},
-            'post_len': 1,
+            'post_len': 41,
             'pre_len': 895,
             'test_name': 'UnitTest/UnitTest'}}
 
 +------------------------+----------+-----------+
 | INPUT                  |   PRELEN |   POSTLEN |
 +========================+==========+===========+
-| $Output/lib/work/top.v |      895 |         1 |
+| $Output/lib/work/top.v |      895 |        41 |
 +========================+==========+===========+
-|                        |      895 |         1 |
+|                        |      895 |        41 |
 +------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 99.89
+[COVERAGE] : 95.42
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -1600,10 +1592,10 @@ COMMAND: ${HLC_DIR}/regression/UnitTest/UnitTest/design.hldb ${HLC_DIR}/regressi
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            20      16       2         6
-Operation                           16      12       0         4
+Operation                           14      10       0         4
 RefTypespec                         37      33       2         6
 ----------------------------------------------------------------
-Others                             142     142       0         0
+Others                             136     136       0         0
 ----------------------------------------------------------------
-                                   215     203       4        16
+                                   207     195       4        16
 ===================== END REDUCTION RESULT =====================

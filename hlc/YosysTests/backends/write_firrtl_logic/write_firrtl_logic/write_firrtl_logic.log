@@ -14,6 +14,24 @@ COMMAND: -wd ../../../../../tests/YosysTests/backends -writepp -nobuiltin -times
 [INF:PA5502] Parsing source file "$Source01/write_firrtl_logic/top.v".
 [INF:PA5502] Parsing source file "$Source01/write_firrtl_logic/top_clean.v".
 [INF:PA5502] Parsing source file "$Source01/write_firrtl_logic/testbench.v".
+[SNT:PA5508] $Source01/write_firrtl_logic/top.v:28:18: Syntax error: no viable alternative at input 'y~&',
+        A <=  A1|y~&cin~^A1;
+                  ^-- $Source01/write_firrtl_logic/top.v:28:18:.
+[SNT:PA5508] $Source01/write_firrtl_logic/top.v:29: Syntax error: extraneous input 'end' expecting {';', 'default', 'module', 'endmodule', 'extern', 'macromodule', 'interface', 'program', 'virtual', 'class', 'timeunit', 'timeprecision', 'checker', 'type', 'clocking', 'defparam', 'bind', 'const', 'function', 'static', 'constraint', 'if', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'genvar', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', '$', 'export', DOLLAR_UNIT, '(*', 'assert', 'property', 'assume', 'cover', 'not', 'or', 'and', 'sequence', 'covergroup', 'pulldown', 'pullup', 'cmos', 'rcmos', 'bufif0', 'bufif1', 'notif0', 'notif1', 'nmos', 'pmos', 'rnmos', 'rpmos', 'nand', 'nor', 'xor', 'xnor', 'buf', 'tranif0', 'tranif1', 'rtranif1', 'rtranif0', 'tran', 'rtran', 'generate', 'case', 'for', 'global', 'initial', 'assign', 'alias', 'always', 'always_comb', 'always_latch', 'always_ff', 'restrict', 'let', 'this', DOLLAR_ROOT, 'randomize', 'final', 'task', 'specify', 'sample', '=', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, '`pragma', HLC_MACRO_NOT_DEFINED},
+end
+^-- $Source01/write_firrtl_logic/top.v:29:0:.
+[SNT:PA5508] $Source01/write_firrtl_logic/top.v:31:26: Syntax error: no viable alternative at input 'cin~|',
+        cout <=  cout1&cin~|y;
+                          ^-- $Source01/write_firrtl_logic/top.v:31:26:.
+[SNT:PA5508] $Source01/write_firrtl_logic/top.v:32: Syntax error: extraneous input 'end' expecting {';', 'default', 'module', 'endmodule', 'extern', 'macromodule', 'interface', 'program', 'virtual', 'class', 'timeunit', 'timeprecision', 'checker', 'type', 'clocking', 'defparam', 'bind', 'const', 'function', 'static', 'constraint', 'if', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'genvar', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', '$', 'export', DOLLAR_UNIT, '(*', 'assert', 'property', 'assume', 'cover', 'not', 'or', 'and', 'sequence', 'covergroup', 'pulldown', 'pullup', 'cmos', 'rcmos', 'bufif0', 'bufif1', 'notif0', 'notif1', 'nmos', 'pmos', 'rnmos', 'rpmos', 'nand', 'nor', 'xor', 'xnor', 'buf', 'tranif0', 'tranif1', 'rtranif1', 'rtranif0', 'tran', 'rtran', 'generate', 'case', 'for', 'global', 'initial', 'assign', 'alias', 'always', 'always_comb', 'always_latch', 'always_ff', 'restrict', 'let', 'this', DOLLAR_ROOT, 'randomize', 'final', 'task', 'specify', 'sample', '=', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, '`pragma', HLC_MACRO_NOT_DEFINED},
+end
+^-- $Source01/write_firrtl_logic/top.v:32:0:.
+[SNT:PA5508] $Source01/write_firrtl_logic/testbench.v:40:39: Syntax error: mismatched input '~&' expecting ';',
+            patt_out <=  patt_out|in[1]~&in[2];
+                                       ^-- $Source01/write_firrtl_logic/testbench.v:40:39:.
+[SNT:PA5508] $Source01/write_firrtl_logic/testbench.v:44:52: Syntax error: mismatched input '~|' expecting ';',
+            patt_carry_out <=  patt_carry_out1&in[2]~|in[1];
+                                                    ^-- $Source01/write_firrtl_logic/testbench.v:44:52:.
 AST_DEBUG_BEGIN
 Count: 557
 LIB: work
@@ -993,12 +1011,12 @@ n<$Source01/write_firrtl_logic/testbench.v> u<557> t<Top_level_rule> c<1> l<1:1>
                       n<> u<458> t<Statement_or_null> p<459> c<457> l<38:17> el<41:8>
                         n<> u<457> t<Statement> p<458> c<456> l<38:17> el<41:8>
                           n<> u<456> t<Statement_item> p<457> c<455> l<38:17> el<41:8>
-                            n<> u<455> t<Seq_block> p<456> c<453> l<38:17> el<41:8>
-                              n<> u<453> t<Statement_or_null> p<455> c<452> s<454> l<39:9> el<40:48>
-                                n<> u<452> t<Statement> p<453> c<451> l<39:9> el<40:48>
-                                  n<> u<451> t<Statement_item> p<452> c<450> l<39:9> el<40:48>
-                                    n<> u<450> t<Conditional_statement> p<451> c<412> l<39:9> el<40:48>
-                                      n<> u<412> t<Cond_predicate> p<450> c<411> s<449> l<39:13> el<39:18>
+                            n<> u<455> t<Seq_block> p<456> c<441> l<38:17> el<41:8>
+                              n<> u<441> t<Statement_or_null> p<455> c<440> s<453> l<39:9> el<40:42>
+                                n<> u<440> t<Statement> p<441> c<439> l<39:9> el<40:42>
+                                  n<> u<439> t<Statement_item> p<440> c<438> l<39:9> el<40:42>
+                                    n<> u<438> t<Conditional_statement> p<439> c<412> l<39:9> el<40:42>
+                                      n<> u<412> t<Cond_predicate> p<438> c<411> s<437> l<39:13> el<39:18>
                                         n<> u<411> t<Expression_or_cond_pattern> p<412> c<410> l<39:13> el<39:18>
                                           n<> u<410> t<Expression> p<411> c<409> l<39:13> el<39:18>
                                             n<> u<409> t<Primary> p<410> c<408> l<39:13> el<39:18>
@@ -1010,43 +1028,43 @@ n<$Source01/write_firrtl_logic/testbench.v> u<557> t<Top_level_rule> c<1> l<1:1>
                                                       n<> u<404> t<Primary> p<405> c<403> l<39:16> el<39:17>
                                                         n<> u<403> t<Primary_literal> p<404> c<402> l<39:16> el<39:17>
                                                           n<0> u<402> t<INTEGRAL_NUMBER> p<403> l<39:16> el<39:17>
-                                      n<> u<449> t<Statement_or_null> p<450> c<448> l<40:13> el<40:48>
-                                        n<> u<448> t<Statement> p<449> c<447> l<40:13> el<40:48>
-                                          n<> u<447> t<Statement_item> p<448> c<446> l<40:13> el<40:48>
-                                            n<> u<446> t<Nonblocking_assignment> p<447> c<417> l<40:13> el<40:47>
-                                              n<> u<417> t<Variable_lvalue> p<446> c<414> s<445> l<40:13> el<40:21>
+                                      n<> u<437> t<Statement_or_null> p<438> c<436> l<40:13> el<40:42>
+                                        n<> u<436> t<Statement> p<437> c<435> l<40:13> el<40:42>
+                                          n<> u<435> t<Statement_item> p<436> c<434> l<40:13> el<40:42>
+                                            n<> u<434> t<Nonblocking_assignment> p<435> c<417> l<40:13> el<40:40>
+                                              n<> u<417> t<Variable_lvalue> p<434> c<414> s<433> l<40:13> el<40:21>
                                                 n<> u<414> t<Ps_or_hierarchical_identifier> p<417> c<413> s<416> l<40:13> el<40:21>
                                                   n<patt_out> u<413> t<SIMPLE_IDENTIFIER> p<414> l<40:13> el<40:21>
                                                 n<> u<416> t<Select> p<417> c<415> l<40:22> el<40:22>
                                                   n<> u<415> t<Bit_select> p<416> l<40:22> el<40:22>
-                                              n<> u<445> t<Expression> p<446> c<421> l<40:26> el<40:47>
-                                                n<> u<421> t<Expression> p<445> c<420> s<444> l<40:26> el<40:34>
+                                              n<> u<433> t<Expression> p<434> c<421> l<40:26> el<40:40>
+                                                n<> u<421> t<Expression> p<433> c<420> s<432> l<40:26> el<40:34>
                                                   n<> u<420> t<Primary> p<421> c<419> l<40:26> el<40:34>
                                                     n<> u<419> t<Primary_literal> p<420> c<418> l<40:26> el<40:34>
                                                       n<patt_out> u<418> t<SIMPLE_IDENTIFIER> p<419> l<40:26> el<40:34>
-                                                n<> u<444> t<BinaryOp_BitwOr> p<445> s<443> l<40:34> el<40:35>
-                                                n<> u<443> t<Expression> p<445> c<431> l<40:35> el<40:47>
-                                                  n<> u<431> t<Expression> p<443> c<430> s<442> l<40:35> el<40:40>
-                                                    n<> u<430> t<Primary> p<431> c<429> l<40:35> el<40:40>
-                                                      n<> u<429> t<Subroutine_call> p<430> c<422> l<40:35> el<40:40>
-                                                        n<in> u<422> t<SIMPLE_IDENTIFIER> p<429> s<428> l<40:35> el<40:37>
-                                                        n<> u<428> t<Select> p<429> c<427> l<40:37> el<40:40>
-                                                          n<> u<427> t<Bit_select> p<428> c<426> l<40:37> el<40:40>
-                                                            n<> u<426> t<Expression> p<427> c<425> l<40:38> el<40:39>
-                                                              n<> u<425> t<Primary> p<426> c<424> l<40:38> el<40:39>
-                                                                n<> u<424> t<Primary_literal> p<425> c<423> l<40:38> el<40:39>
-                                                                  n<1> u<423> t<INTEGRAL_NUMBER> p<424> l<40:38> el<40:39>
-                                                  n<> u<442> t<BinaryOp_ReductNand> p<443> s<441> l<40:40> el<40:42>
-                                                  n<> u<441> t<Expression> p<443> c<440> l<40:42> el<40:47>
-                                                    n<> u<440> t<Primary> p<441> c<439> l<40:42> el<40:47>
-                                                      n<> u<439> t<Subroutine_call> p<440> c<432> l<40:42> el<40:47>
-                                                        n<in> u<432> t<SIMPLE_IDENTIFIER> p<439> s<438> l<40:42> el<40:44>
-                                                        n<> u<438> t<Select> p<439> c<437> l<40:44> el<40:47>
-                                                          n<> u<437> t<Bit_select> p<438> c<436> l<40:44> el<40:47>
-                                                            n<> u<436> t<Expression> p<437> c<435> l<40:45> el<40:46>
-                                                              n<> u<435> t<Primary> p<436> c<434> l<40:45> el<40:46>
-                                                                n<> u<434> t<Primary_literal> p<435> c<433> l<40:45> el<40:46>
-                                                                  n<2> u<433> t<INTEGRAL_NUMBER> p<434> l<40:45> el<40:46>
+                                                n<> u<432> t<BinaryOp_BitwOr> p<433> s<431> l<40:34> el<40:35>
+                                                n<> u<431> t<Expression> p<433> c<430> l<40:35> el<40:40>
+                                                  n<> u<430> t<Primary> p<431> c<429> l<40:35> el<40:40>
+                                                    n<> u<429> t<Subroutine_call> p<430> c<422> l<40:35> el<40:40>
+                                                      n<in> u<422> t<SIMPLE_IDENTIFIER> p<429> s<428> l<40:35> el<40:37>
+                                                      n<> u<428> t<Select> p<429> c<427> l<40:37> el<40:40>
+                                                        n<> u<427> t<Bit_select> p<428> c<426> l<40:37> el<40:40>
+                                                          n<> u<426> t<Expression> p<427> c<425> l<40:38> el<40:39>
+                                                            n<> u<425> t<Primary> p<426> c<424> l<40:38> el<40:39>
+                                                              n<> u<424> t<Primary_literal> p<425> c<423> l<40:38> el<40:39>
+                                                                n<1> u<423> t<INTEGRAL_NUMBER> p<424> l<40:38> el<40:39>
+                              n<> u<453> t<Statement_or_null> p<455> c<452> s<454> l<40:42> el<40:48>
+                                n<> u<452> t<Statement> p<453> c<451> l<40:42> el<40:48>
+                                  n<> u<451> t<Statement_item> p<452> c<450> l<40:42> el<40:48>
+                                    n<> u<450> t<Subroutine_call_statement> p<451> c<449> l<40:42> el<40:48>
+                                      n<> u<449> t<Subroutine_call> p<450> c<442> l<40:42> el<40:47>
+                                        n<in> u<442> t<SIMPLE_IDENTIFIER> p<449> s<448> l<40:42> el<40:44>
+                                        n<> u<448> t<Select> p<449> c<447> l<40:44> el<40:47>
+                                          n<> u<447> t<Bit_select> p<448> c<446> l<40:44> el<40:47>
+                                            n<> u<446> t<Expression> p<447> c<445> l<40:45> el<40:46>
+                                              n<> u<445> t<Primary> p<446> c<444> l<40:45> el<40:46>
+                                                n<> u<444> t<Primary_literal> p<445> c<443> l<40:45> el<40:46>
+                                                  n<2> u<443> t<INTEGRAL_NUMBER> p<444> l<40:45> el<40:46>
                               n<> u<454> t<END> p<455> l<41:5> el<41:8>
         n<> u<536> t<Non_port_module_item> p<554> c<535> s<552> l<42:5> el<45:8>
           n<> u<535> t<Module_or_generate_item> p<536> c<534> l<42:5> el<45:8>
@@ -1062,12 +1080,12 @@ n<$Source01/write_firrtl_logic/testbench.v> u<557> t<Top_level_rule> c<1> l<1:1>
                       n<> u<529> t<Statement_or_null> p<530> c<528> l<42:17> el<45:8>
                         n<> u<528> t<Statement> p<529> c<527> l<42:17> el<45:8>
                           n<> u<527> t<Statement_item> p<528> c<526> l<42:17> el<45:8>
-                            n<> u<526> t<Seq_block> p<527> c<524> l<42:17> el<45:8>
-                              n<> u<524> t<Statement_or_null> p<526> c<523> s<525> l<43:9> el<44:61>
-                                n<> u<523> t<Statement> p<524> c<522> l<43:9> el<44:61>
-                                  n<> u<522> t<Statement_item> p<523> c<521> l<43:9> el<44:61>
-                                    n<> u<521> t<Conditional_statement> p<522> c<483> l<43:9> el<44:61>
-                                      n<> u<483> t<Cond_predicate> p<521> c<482> s<520> l<43:13> el<43:19>
+                            n<> u<526> t<Seq_block> p<527> c<512> l<42:17> el<45:8>
+                              n<> u<512> t<Statement_or_null> p<526> c<511> s<524> l<43:9> el<44:55>
+                                n<> u<511> t<Statement> p<512> c<510> l<43:9> el<44:55>
+                                  n<> u<510> t<Statement_item> p<511> c<509> l<43:9> el<44:55>
+                                    n<> u<509> t<Conditional_statement> p<510> c<483> l<43:9> el<44:55>
+                                      n<> u<483> t<Cond_predicate> p<509> c<482> s<508> l<43:13> el<43:19>
                                         n<> u<482> t<Expression_or_cond_pattern> p<483> c<481> l<43:13> el<43:19>
                                           n<> u<481> t<Expression> p<482> c<480> l<43:13> el<43:19>
                                             n<> u<480> t<TILDA> p<481> s<479> l<43:13> el<43:14>
@@ -1081,43 +1099,43 @@ n<$Source01/write_firrtl_logic/testbench.v> u<557> t<Top_level_rule> c<1> l<1:1>
                                                         n<> u<473> t<Primary> p<474> c<472> l<43:17> el<43:18>
                                                           n<> u<472> t<Primary_literal> p<473> c<471> l<43:17> el<43:18>
                                                             n<0> u<471> t<INTEGRAL_NUMBER> p<472> l<43:17> el<43:18>
-                                      n<> u<520> t<Statement_or_null> p<521> c<519> l<44:13> el<44:61>
-                                        n<> u<519> t<Statement> p<520> c<518> l<44:13> el<44:61>
-                                          n<> u<518> t<Statement_item> p<519> c<517> l<44:13> el<44:61>
-                                            n<> u<517> t<Nonblocking_assignment> p<518> c<488> l<44:13> el<44:60>
-                                              n<> u<488> t<Variable_lvalue> p<517> c<485> s<516> l<44:13> el<44:27>
+                                      n<> u<508> t<Statement_or_null> p<509> c<507> l<44:13> el<44:55>
+                                        n<> u<507> t<Statement> p<508> c<506> l<44:13> el<44:55>
+                                          n<> u<506> t<Statement_item> p<507> c<505> l<44:13> el<44:55>
+                                            n<> u<505> t<Nonblocking_assignment> p<506> c<488> l<44:13> el<44:53>
+                                              n<> u<488> t<Variable_lvalue> p<505> c<485> s<504> l<44:13> el<44:27>
                                                 n<> u<485> t<Ps_or_hierarchical_identifier> p<488> c<484> s<487> l<44:13> el<44:27>
                                                   n<patt_carry_out> u<484> t<SIMPLE_IDENTIFIER> p<485> l<44:13> el<44:27>
                                                 n<> u<487> t<Select> p<488> c<486> l<44:28> el<44:28>
                                                   n<> u<486> t<Bit_select> p<487> l<44:28> el<44:28>
-                                              n<> u<516> t<Expression> p<517> c<504> l<44:32> el<44:60>
-                                                n<> u<504> t<Expression> p<516> c<492> s<515> l<44:32> el<44:53>
-                                                  n<> u<492> t<Expression> p<504> c<491> s<503> l<44:32> el<44:47>
-                                                    n<> u<491> t<Primary> p<492> c<490> l<44:32> el<44:47>
-                                                      n<> u<490> t<Primary_literal> p<491> c<489> l<44:32> el<44:47>
-                                                        n<patt_carry_out1> u<489> t<SIMPLE_IDENTIFIER> p<490> l<44:32> el<44:47>
-                                                  n<> u<503> t<BinaryOp_BitwAnd> p<504> s<502> l<44:47> el<44:48>
-                                                  n<> u<502> t<Expression> p<504> c<501> l<44:48> el<44:53>
-                                                    n<> u<501> t<Primary> p<502> c<500> l<44:48> el<44:53>
-                                                      n<> u<500> t<Subroutine_call> p<501> c<493> l<44:48> el<44:53>
-                                                        n<in> u<493> t<SIMPLE_IDENTIFIER> p<500> s<499> l<44:48> el<44:50>
-                                                        n<> u<499> t<Select> p<500> c<498> l<44:50> el<44:53>
-                                                          n<> u<498> t<Bit_select> p<499> c<497> l<44:50> el<44:53>
-                                                            n<> u<497> t<Expression> p<498> c<496> l<44:51> el<44:52>
-                                                              n<> u<496> t<Primary> p<497> c<495> l<44:51> el<44:52>
-                                                                n<> u<495> t<Primary_literal> p<496> c<494> l<44:51> el<44:52>
-                                                                  n<2> u<494> t<INTEGRAL_NUMBER> p<495> l<44:51> el<44:52>
-                                                n<> u<515> t<BinaryOp_ReductNor> p<516> s<514> l<44:53> el<44:55>
-                                                n<> u<514> t<Expression> p<516> c<513> l<44:55> el<44:60>
-                                                  n<> u<513> t<Primary> p<514> c<512> l<44:55> el<44:60>
-                                                    n<> u<512> t<Subroutine_call> p<513> c<505> l<44:55> el<44:60>
-                                                      n<in> u<505> t<SIMPLE_IDENTIFIER> p<512> s<511> l<44:55> el<44:57>
-                                                      n<> u<511> t<Select> p<512> c<510> l<44:57> el<44:60>
-                                                        n<> u<510> t<Bit_select> p<511> c<509> l<44:57> el<44:60>
-                                                          n<> u<509> t<Expression> p<510> c<508> l<44:58> el<44:59>
-                                                            n<> u<508> t<Primary> p<509> c<507> l<44:58> el<44:59>
-                                                              n<> u<507> t<Primary_literal> p<508> c<506> l<44:58> el<44:59>
-                                                                n<1> u<506> t<INTEGRAL_NUMBER> p<507> l<44:58> el<44:59>
+                                              n<> u<504> t<Expression> p<505> c<492> l<44:32> el<44:53>
+                                                n<> u<492> t<Expression> p<504> c<491> s<503> l<44:32> el<44:47>
+                                                  n<> u<491> t<Primary> p<492> c<490> l<44:32> el<44:47>
+                                                    n<> u<490> t<Primary_literal> p<491> c<489> l<44:32> el<44:47>
+                                                      n<patt_carry_out1> u<489> t<SIMPLE_IDENTIFIER> p<490> l<44:32> el<44:47>
+                                                n<> u<503> t<BinaryOp_BitwAnd> p<504> s<502> l<44:47> el<44:48>
+                                                n<> u<502> t<Expression> p<504> c<501> l<44:48> el<44:53>
+                                                  n<> u<501> t<Primary> p<502> c<500> l<44:48> el<44:53>
+                                                    n<> u<500> t<Subroutine_call> p<501> c<493> l<44:48> el<44:53>
+                                                      n<in> u<493> t<SIMPLE_IDENTIFIER> p<500> s<499> l<44:48> el<44:50>
+                                                      n<> u<499> t<Select> p<500> c<498> l<44:50> el<44:53>
+                                                        n<> u<498> t<Bit_select> p<499> c<497> l<44:50> el<44:53>
+                                                          n<> u<497> t<Expression> p<498> c<496> l<44:51> el<44:52>
+                                                            n<> u<496> t<Primary> p<497> c<495> l<44:51> el<44:52>
+                                                              n<> u<495> t<Primary_literal> p<496> c<494> l<44:51> el<44:52>
+                                                                n<2> u<494> t<INTEGRAL_NUMBER> p<495> l<44:51> el<44:52>
+                              n<> u<524> t<Statement_or_null> p<526> c<523> s<525> l<44:55> el<44:61>
+                                n<> u<523> t<Statement> p<524> c<522> l<44:55> el<44:61>
+                                  n<> u<522> t<Statement_item> p<523> c<521> l<44:55> el<44:61>
+                                    n<> u<521> t<Subroutine_call_statement> p<522> c<520> l<44:55> el<44:61>
+                                      n<> u<520> t<Subroutine_call> p<521> c<513> l<44:55> el<44:60>
+                                        n<in> u<513> t<SIMPLE_IDENTIFIER> p<520> s<519> l<44:55> el<44:57>
+                                        n<> u<519> t<Select> p<520> c<518> l<44:57> el<44:60>
+                                          n<> u<518> t<Bit_select> p<519> c<517> l<44:57> el<44:60>
+                                            n<> u<517> t<Expression> p<518> c<516> l<44:58> el<44:59>
+                                              n<> u<516> t<Primary> p<517> c<515> l<44:58> el<44:59>
+                                                n<> u<515> t<Primary_literal> p<516> c<514> l<44:58> el<44:59>
+                                                  n<1> u<514> t<INTEGRAL_NUMBER> p<515> l<44:58> el<44:59>
                               n<> u<525> t<END> p<526> l<45:5> el<45:8>
         n<> u<552> t<Non_port_module_item> p<554> c<551> s<553> l<46:2> el<46:29>
           n<> u<551> t<Module_or_generate_item> p<552> c<550> l<46:2> el<46:29>
@@ -1138,15 +1156,15 @@ n<$Source01/write_firrtl_logic/testbench.v> u<557> t<Top_level_rule> c<1> l<1:1>
         n<> u<553> t<ENDMODULE> p<554> l<48:1> el<48:10>
 AST_DEBUG_END
 AST_DEBUG_BEGIN
-Count: 514
+Count: 516
 LIB: work
 FILE<0>:$Source01/write_firrtl_logic/top.v
-n<$Source01/write_firrtl_logic/top.v> u<513> t<Top_level_rule> c<1> l<1:1> el<59:1>
-  n<> u<1> t<Null_rule> p<513> s<512> l<1:1>
-  n<> u<512> t<Source_text> p<513> c<511> l<1:1> el<58:10>
-    n<> u<511> t<Description> p<512> c<510> l<1:1> el<58:10>
-      n<> u<510> t<Module_declaration> p<511> c<40> l<1:1> el<58:10>
-        n<> u<40> t<Module_ansi_header> p<510> c<2> s<54> l<1:1> el<9:4>
+n<$Source01/write_firrtl_logic/top.v> u<515> t<Top_level_rule> c<1> l<1:1> el<59:1>
+  n<> u<1> t<Null_rule> p<515> s<514> l<1:1>
+  n<> u<514> t<Source_text> p<515> c<513> l<1:1> el<58:10>
+    n<> u<513> t<Description> p<514> c<512> l<1:1> el<58:10>
+      n<> u<512> t<Module_declaration> p<513> c<40> l<1:1> el<58:10>
+        n<> u<40> t<Module_ansi_header> p<512> c<2> s<54> l<1:1> el<9:4>
           n<module> u<2> t<MODULE> p<40> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<40> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<40> s<39> l<2:1> el<2:1>
@@ -1185,7 +1203,7 @@ n<$Source01/write_firrtl_logic/top.v> u<513> t<Top_level_rule> c<1> l<1:1> el<59
                     n<> u<33> t<Data_type> p<34> c<32> l<8:9> el<8:12>
                       n<> u<32> t<REG> p<33> l<8:9> el<8:12>
               n<cout> u<37> t<SIMPLE_IDENTIFIER> p<38> l<8:13> el<8:17>
-        n<> u<54> t<Non_port_module_item> p<510> c<53> s<70> l<11:2> el<11:15>
+        n<> u<54> t<Non_port_module_item> p<512> c<53> s<70> l<11:2> el<11:15>
           n<> u<53> t<Module_or_generate_item> p<54> c<52> l<11:2> el<11:15>
             n<> u<52> t<Module_common_item> p<53> c<51> l<11:2> el<11:15>
               n<> u<51> t<Module_or_generate_item_declaration> p<52> c<50> l<11:2> el<11:15>
@@ -1199,7 +1217,7 @@ n<$Source01/write_firrtl_logic/top.v> u<513> t<Top_level_rule> c<1> l<1:1> el<59
                           n<A1> u<43> t<SIMPLE_IDENTIFIER> p<44> l<11:6> el<11:8>
                         n<> u<46> t<Variable_decl_assignment> p<47> c<45> l<11:9> el<11:14>
                           n<cout1> u<45> t<SIMPLE_IDENTIFIER> p<46> l<11:9> el<11:14>
-        n<> u<70> t<Non_port_module_item> p<510> c<69> s<107> l<12:2> el<12:21>
+        n<> u<70> t<Non_port_module_item> p<512> c<69> s<107> l<12:2> el<12:21>
           n<> u<69> t<Module_or_generate_item> p<70> c<68> l<12:2> el<12:21>
             n<> u<68> t<Module_common_item> p<69> c<67> l<12:2> el<12:21>
               n<> u<67> t<Module_or_generate_item_declaration> p<68> c<66> l<12:2> el<12:21>
@@ -1215,7 +1233,7 @@ n<$Source01/write_firrtl_logic/top.v> u<513> t<Top_level_rule> c<1> l<1:1> el<59
                           n<int2> u<59> t<SIMPLE_IDENTIFIER> p<60> l<12:11> el<12:15>
                         n<> u<62> t<Variable_decl_assignment> p<63> c<61> l<12:16> el<12:20>
                           n<int3> u<61> t<SIMPLE_IDENTIFIER> p<62> l<12:16> el<12:20>
-        n<> u<107> t<Non_port_module_item> p<510> c<106> s<151> l<14:2> el<17:5>
+        n<> u<107> t<Non_port_module_item> p<512> c<106> s<151> l<14:2> el<17:5>
           n<> u<106> t<Module_or_generate_item> p<107> c<105> l<14:2> el<17:5>
             n<> u<105> t<Module_common_item> p<106> c<104> l<14:2> el<17:5>
               n<> u<104> t<Initial_construct> p<105> c<103> l<14:2> el<17:5>
@@ -1252,7 +1270,7 @@ n<$Source01/write_firrtl_logic/top.v> u<513> t<Top_level_rule> c<1> l<1:1> el<59
                                       n<> u<91> t<Primary_literal> p<92> c<90> l<16:12> el<16:13>
                                         n<0> u<90> t<INTEGRAL_NUMBER> p<91> l<16:12> el<16:13>
                         n<> u<99> t<END> p<100> l<17:2> el<17:5>
-        n<> u<151> t<Non_port_module_item> p<510> c<150> s<199> l<20:1> el<22:4>
+        n<> u<151> t<Non_port_module_item> p<512> c<150> s<199> l<20:1> el<22:4>
           n<> u<150> t<Module_or_generate_item> p<151> c<149> l<20:1> el<22:4>
             n<> u<149> t<Module_common_item> p<150> c<148> l<20:1> el<22:4>
               n<> u<148> t<Always_construct> p<149> c<108> l<20:1> el<22:4>
@@ -1296,7 +1314,7 @@ n<$Source01/write_firrtl_logic/top.v> u<513> t<Top_level_rule> c<1> l<1:1> el<59
                                               n<> u<129> t<Primary_literal> p<130> c<128> l<21:18> el<21:21>
                                                 n<cin> u<128> t<SIMPLE_IDENTIFIER> p<129> l<21:18> el<21:21>
                               n<> u<140> t<END> p<141> l<22:1> el<22:4>
-        n<> u<199> t<Non_port_module_item> p<510> c<198> s<251> l<23:1> el<25:4>
+        n<> u<199> t<Non_port_module_item> p<512> c<198> s<236> l<23:1> el<25:4>
           n<> u<198> t<Module_or_generate_item> p<199> c<197> l<23:1> el<25:4>
             n<> u<197> t<Module_common_item> p<198> c<196> l<23:1> el<25:4>
               n<> u<196> t<Always_construct> p<197> c<152> l<23:1> el<25:4>
@@ -1344,15 +1362,15 @@ n<$Source01/write_firrtl_logic/top.v> u<513> t<Top_level_rule> c<1> l<1:1> el<59
                                               n<> u<177> t<Primary_literal> p<178> c<176> l<24:27> el<24:28>
                                                 n<A> u<176> t<SIMPLE_IDENTIFIER> p<177> l<24:27> el<24:28>
                               n<> u<188> t<END> p<189> l<25:1> el<25:4>
-        n<> u<251> t<Non_port_module_item> p<510> c<250> s<297> l<27:1> el<29:4>
-          n<> u<250> t<Module_or_generate_item> p<251> c<249> l<27:1> el<29:4>
-            n<> u<249> t<Module_common_item> p<250> c<248> l<27:1> el<29:4>
-              n<> u<248> t<Always_construct> p<249> c<200> l<27:1> el<29:4>
-                n<> u<200> t<ALWAYS> p<248> s<247> l<27:1> el<27:7>
-                n<> u<247> t<Statement> p<248> c<246> l<27:8> el<29:4>
-                  n<> u<246> t<Statement_item> p<247> c<245> l<27:8> el<29:4>
-                    n<> u<245> t<Procedural_timing_control_statement> p<246> c<208> l<27:8> el<29:4>
-                      n<> u<208> t<Procedural_timing_control> p<245> c<207> s<244> l<27:8> el<27:20>
+        n<> u<236> t<Non_port_module_item> p<512> c<235> s<238> l<27:1> el<28:18>
+          n<> u<235> t<Module_or_generate_item> p<236> c<234> l<27:1> el<28:18>
+            n<> u<234> t<Module_common_item> p<235> c<233> l<27:1> el<28:18>
+              n<> u<233> t<Always_construct> p<234> c<200> l<27:1> el<28:18>
+                n<> u<200> t<ALWAYS> p<233> s<232> l<27:1> el<27:7>
+                n<> u<232> t<Statement> p<233> c<231> l<27:8> el<28:18>
+                  n<> u<231> t<Statement_item> p<232> c<230> l<27:8> el<28:18>
+                    n<> u<230> t<Procedural_timing_control_statement> p<231> c<208> l<27:8> el<28:18>
+                      n<> u<208> t<Procedural_timing_control> p<230> c<207> s<229> l<27:8> el<27:20>
                         n<> u<207> t<Event_control> p<208> c<206> l<27:8> el<27:20>
                           n<> u<206> t<Event_expression> p<207> c<201> l<27:10> el<27:19>
                             n<> u<201> t<POSEDGE> p<206> s<205> l<27:10> el<27:17>
@@ -1360,300 +1378,302 @@ n<$Source01/write_firrtl_logic/top.v> u<513> t<Top_level_rule> c<1> l<1:1> el<59
                               n<> u<204> t<Primary> p<205> c<203> l<27:18> el<27:19>
                                 n<> u<203> t<Primary_literal> p<204> c<202> l<27:18> el<27:19>
                                   n<x> u<202> t<SIMPLE_IDENTIFIER> p<203> l<27:18> el<27:19>
-                      n<> u<244> t<Statement_or_null> p<245> c<243> l<27:21> el<29:4>
-                        n<> u<243> t<Statement> p<244> c<242> l<27:21> el<29:4>
-                          n<> u<242> t<Statement_item> p<243> c<241> l<27:21> el<29:4>
-                            n<> u<241> t<Seq_block> p<242> c<239> l<27:21> el<29:4>
-                              n<> u<239> t<Statement_or_null> p<241> c<238> s<240> l<28:9> el<28:29>
-                                n<> u<238> t<Statement> p<239> c<237> l<28:9> el<28:29>
-                                  n<> u<237> t<Statement_item> p<238> c<236> l<28:9> el<28:29>
-                                    n<> u<236> t<Nonblocking_assignment> p<237> c<213> l<28:9> el<28:28>
-                                      n<> u<213> t<Variable_lvalue> p<236> c<210> s<235> l<28:9> el<28:10>
+                      n<> u<229> t<Statement_or_null> p<230> c<228> l<27:21> el<28:18>
+                        n<> u<228> t<Statement> p<229> c<227> l<27:21> el<28:18>
+                          n<> u<227> t<Statement_item> p<228> c<226> l<27:21> el<28:18>
+                            n<> u<226> t<Seq_block> p<227> c<225> l<27:21> el<28:18>
+                              n<> u<225> t<Statement_or_null> p<226> c<224> l<28:9> el<28:18>
+                                n<> u<224> t<Statement> p<225> c<223> l<28:9> el<28:18>
+                                  n<> u<223> t<Statement_item> p<224> c<222> l<28:9> el<28:18>
+                                    n<> u<222> t<Nonblocking_assignment> p<223> c<213> l<28:9> el<28:18>
+                                      n<> u<213> t<Variable_lvalue> p<222> c<210> s<221> l<28:9> el<28:10>
                                         n<> u<210> t<Ps_or_hierarchical_identifier> p<213> c<209> s<212> l<28:9> el<28:10>
                                           n<A> u<209> t<SIMPLE_IDENTIFIER> p<210> l<28:9> el<28:10>
                                         n<> u<212> t<Select> p<213> c<211> l<28:11> el<28:11>
                                           n<> u<211> t<Bit_select> p<212> l<28:11> el<28:11>
-                                      n<> u<235> t<Expression> p<236> c<217> l<28:15> el<28:28>
-                                        n<> u<217> t<Expression> p<235> c<216> s<234> l<28:15> el<28:17>
+                                      n<> u<221> t<Expression> p<222> c<217> l<28:15> el<28:18>
+                                        n<> u<217> t<Expression> p<221> c<216> s<220> l<28:15> el<28:17>
                                           n<> u<216> t<Primary> p<217> c<215> l<28:15> el<28:17>
                                             n<> u<215> t<Primary_literal> p<216> c<214> l<28:15> el<28:17>
                                               n<A1> u<214> t<SIMPLE_IDENTIFIER> p<215> l<28:15> el<28:17>
-                                        n<> u<234> t<BinaryOp_BitwOr> p<235> s<233> l<28:17> el<28:18>
-                                        n<> u<233> t<Expression> p<235> c<227> l<28:18> el<28:28>
-                                          n<> u<227> t<Expression> p<233> c<221> s<232> l<28:18> el<28:24>
-                                            n<> u<221> t<Expression> p<227> c<220> s<226> l<28:18> el<28:19>
-                                              n<> u<220> t<Primary> p<221> c<219> l<28:18> el<28:19>
-                                                n<> u<219> t<Primary_literal> p<220> c<218> l<28:18> el<28:19>
-                                                  n<y> u<218> t<SIMPLE_IDENTIFIER> p<219> l<28:18> el<28:19>
-                                            n<> u<226> t<BinaryOp_ReductNand> p<227> s<225> l<28:19> el<28:21>
-                                            n<> u<225> t<Expression> p<227> c<224> l<28:21> el<28:24>
-                                              n<> u<224> t<Primary> p<225> c<223> l<28:21> el<28:24>
-                                                n<> u<223> t<Primary_literal> p<224> c<222> l<28:21> el<28:24>
-                                                  n<cin> u<222> t<SIMPLE_IDENTIFIER> p<223> l<28:21> el<28:24>
-                                          n<> u<232> t<BinaryOp_ReductXnor2> p<233> s<231> l<28:24> el<28:26>
-                                          n<> u<231> t<Expression> p<233> c<230> l<28:26> el<28:28>
-                                            n<> u<230> t<Primary> p<231> c<229> l<28:26> el<28:28>
-                                              n<> u<229> t<Primary_literal> p<230> c<228> l<28:26> el<28:28>
-                                                n<A1> u<228> t<SIMPLE_IDENTIFIER> p<229> l<28:26> el<28:28>
-                              n<> u<240> t<END> p<241> l<29:1> el<29:4>
-        n<> u<297> t<Non_port_module_item> p<510> c<296> s<436> l<30:1> el<32:4>
-          n<> u<296> t<Module_or_generate_item> p<297> c<295> l<30:1> el<32:4>
-            n<> u<295> t<Module_common_item> p<296> c<294> l<30:1> el<32:4>
-              n<> u<294> t<Always_construct> p<295> c<252> l<30:1> el<32:4>
-                n<> u<252> t<ALWAYS> p<294> s<293> l<30:1> el<30:7>
-                n<> u<293> t<Statement> p<294> c<292> l<30:8> el<32:4>
-                  n<> u<292> t<Statement_item> p<293> c<291> l<30:8> el<32:4>
-                    n<> u<291> t<Procedural_timing_control_statement> p<292> c<260> l<30:8> el<32:4>
-                      n<> u<260> t<Procedural_timing_control> p<291> c<259> s<290> l<30:8> el<30:20>
-                        n<> u<259> t<Event_control> p<260> c<258> l<30:8> el<30:20>
-                          n<> u<258> t<Event_expression> p<259> c<253> l<30:10> el<30:19>
-                            n<> u<253> t<POSEDGE> p<258> s<257> l<30:10> el<30:17>
-                            n<> u<257> t<Expression> p<258> c<256> l<30:18> el<30:19>
-                              n<> u<256> t<Primary> p<257> c<255> l<30:18> el<30:19>
-                                n<> u<255> t<Primary_literal> p<256> c<254> l<30:18> el<30:19>
-                                  n<x> u<254> t<SIMPLE_IDENTIFIER> p<255> l<30:18> el<30:19>
-                      n<> u<290> t<Statement_or_null> p<291> c<289> l<30:21> el<32:4>
-                        n<> u<289> t<Statement> p<290> c<288> l<30:21> el<32:4>
-                          n<> u<288> t<Statement_item> p<289> c<287> l<30:21> el<32:4>
-                            n<> u<287> t<Seq_block> p<288> c<285> l<30:21> el<32:4>
-                              n<> u<285> t<Statement_or_null> p<287> c<284> s<286> l<31:9> el<31:31>
-                                n<> u<284> t<Statement> p<285> c<283> l<31:9> el<31:31>
-                                  n<> u<283> t<Statement_item> p<284> c<282> l<31:9> el<31:31>
-                                    n<> u<282> t<Nonblocking_assignment> p<283> c<265> l<31:9> el<31:30>
-                                      n<> u<265> t<Variable_lvalue> p<282> c<262> s<281> l<31:9> el<31:13>
-                                        n<> u<262> t<Ps_or_hierarchical_identifier> p<265> c<261> s<264> l<31:9> el<31:13>
-                                          n<cout> u<261> t<SIMPLE_IDENTIFIER> p<262> l<31:9> el<31:13>
-                                        n<> u<264> t<Select> p<265> c<263> l<31:14> el<31:14>
-                                          n<> u<263> t<Bit_select> p<264> l<31:14> el<31:14>
-                                      n<> u<281> t<Expression> p<282> c<275> l<31:18> el<31:30>
-                                        n<> u<275> t<Expression> p<281> c<269> s<280> l<31:18> el<31:27>
-                                          n<> u<269> t<Expression> p<275> c<268> s<274> l<31:18> el<31:23>
-                                            n<> u<268> t<Primary> p<269> c<267> l<31:18> el<31:23>
-                                              n<> u<267> t<Primary_literal> p<268> c<266> l<31:18> el<31:23>
-                                                n<cout1> u<266> t<SIMPLE_IDENTIFIER> p<267> l<31:18> el<31:23>
-                                          n<> u<274> t<BinaryOp_BitwAnd> p<275> s<273> l<31:23> el<31:24>
-                                          n<> u<273> t<Expression> p<275> c<272> l<31:24> el<31:27>
-                                            n<> u<272> t<Primary> p<273> c<271> l<31:24> el<31:27>
-                                              n<> u<271> t<Primary_literal> p<272> c<270> l<31:24> el<31:27>
-                                                n<cin> u<270> t<SIMPLE_IDENTIFIER> p<271> l<31:24> el<31:27>
-                                        n<> u<280> t<BinaryOp_ReductNor> p<281> s<279> l<31:27> el<31:29>
-                                        n<> u<279> t<Expression> p<281> c<278> l<31:29> el<31:30>
-                                          n<> u<278> t<Primary> p<279> c<277> l<31:29> el<31:30>
-                                            n<> u<277> t<Primary_literal> p<278> c<276> l<31:29> el<31:30>
-                                              n<y> u<276> t<SIMPLE_IDENTIFIER> p<277> l<31:29> el<31:30>
-                              n<> u<286> t<END> p<287> l<32:1> el<32:4>
-        n<> u<436> t<Non_port_module_item> p<510> c<435> s<508> l<34:1> el<46:4>
-          n<> u<435> t<Module_or_generate_item> p<436> c<434> l<34:1> el<46:4>
-            n<> u<434> t<Module_common_item> p<435> c<433> l<34:1> el<46:4>
-              n<> u<433> t<Always_construct> p<434> c<298> l<34:1> el<46:4>
-                n<> u<298> t<ALWAYS> p<433> s<432> l<34:1> el<34:7>
-                n<> u<432> t<Statement> p<433> c<431> l<34:8> el<46:4>
-                  n<> u<431> t<Statement_item> p<432> c<430> l<34:8> el<46:4>
-                    n<> u<430> t<Procedural_timing_control_statement> p<431> c<306> l<34:8> el<46:4>
-                      n<> u<306> t<Procedural_timing_control> p<430> c<305> s<429> l<34:8> el<34:20>
-                        n<> u<305> t<Event_control> p<306> c<304> l<34:8> el<34:20>
-                          n<> u<304> t<Event_expression> p<305> c<299> l<34:10> el<34:19>
-                            n<> u<299> t<POSEDGE> p<304> s<303> l<34:10> el<34:17>
-                            n<> u<303> t<Expression> p<304> c<302> l<34:18> el<34:19>
-                              n<> u<302> t<Primary> p<303> c<301> l<34:18> el<34:19>
-                                n<> u<301> t<Primary_literal> p<302> c<300> l<34:18> el<34:19>
-                                  n<x> u<300> t<SIMPLE_IDENTIFIER> p<301> l<34:18> el<34:19>
-                      n<> u<429> t<Statement_or_null> p<430> c<428> l<35:1> el<46:4>
-                        n<> u<428> t<Statement> p<429> c<427> l<35:1> el<46:4>
-                          n<> u<427> t<Statement_item> p<428> c<426> l<35:1> el<46:4>
-                            n<> u<426> t<Seq_block> p<427> c<347> l<35:1> el<46:4>
-                              n<> u<347> t<Statement_or_null> p<426> c<346> s<424> l<36:2> el<38:5>
-                                n<> u<346> t<Statement> p<347> c<345> l<36:2> el<38:5>
-                                  n<> u<345> t<Statement_item> p<346> c<344> l<36:2> el<38:5>
-                                    n<> u<344> t<Conditional_statement> p<345> c<318> l<36:2> el<38:5>
-                                      n<> u<318> t<Cond_predicate> p<344> c<317> s<343> l<36:6> el<36:15>
-                                        n<> u<317> t<Expression_or_cond_pattern> p<318> c<316> l<36:6> el<36:15>
-                                          n<> u<316> t<Expression> p<317> c<310> l<36:6> el<36:15>
-                                            n<> u<310> t<Expression> p<316> c<309> s<315> l<36:6> el<36:7>
-                                              n<> u<309> t<Primary> p<310> c<308> l<36:6> el<36:7>
-                                                n<> u<308> t<Primary_literal> p<309> c<307> l<36:6> el<36:7>
-                                                  n<x> u<307> t<SIMPLE_IDENTIFIER> p<308> l<36:6> el<36:7>
-                                            n<> u<315> t<EQUIV> p<316> s<314> l<36:8> el<36:10>
-                                            n<> u<314> t<Expression> p<316> c<313> l<36:11> el<36:15>
-                                              n<> u<313> t<Primary> p<314> c<312> l<36:11> el<36:15>
-                                                n<> u<312> t<Primary_literal> p<313> c<311> l<36:11> el<36:15>
-                                                  n<> u<311> t<ONE_TICK_b1> p<312> l<36:11> el<36:15>
-                                      n<> u<343> t<Statement_or_null> p<344> c<342> l<36:17> el<38:5>
-                                        n<> u<342> t<Statement> p<343> c<341> l<36:17> el<38:5>
-                                          n<> u<341> t<Statement_item> p<342> c<340> l<36:17> el<38:5>
-                                            n<> u<340> t<Seq_block> p<341> c<338> l<36:17> el<38:5>
-                                              n<> u<338> t<Statement_or_null> p<340> c<337> s<339> l<37:2> el<37:15>
-                                                n<> u<337> t<Statement> p<338> c<336> l<37:2> el<37:15>
-                                                  n<> u<336> t<Statement_item> p<337> c<335> l<37:2> el<37:15>
-                                                    n<> u<335> t<Blocking_assignment> p<336> c<334> l<37:2> el<37:14>
-                                                      n<> u<334> t<Variable_assignment> p<335> c<323> l<37:2> el<37:14>
-                                                        n<> u<323> t<Variable_lvalue> p<334> c<320> s<333> l<37:2> el<37:6>
-                                                          n<> u<320> t<Ps_or_hierarchical_identifier> p<323> c<319> s<322> l<37:2> el<37:6>
-                                                            n<int1> u<319> t<SIMPLE_IDENTIFIER> p<320> l<37:2> el<37:6>
-                                                          n<> u<322> t<Select> p<323> c<321> l<37:7> el<37:7>
-                                                            n<> u<321> t<Bit_select> p<322> l<37:7> el<37:7>
-                                                        n<> u<333> t<Expression> p<334> c<327> l<37:9> el<37:14>
-                                                          n<> u<327> t<Expression> p<333> c<326> s<332> l<37:9> el<37:10>
-                                                            n<> u<326> t<Primary> p<327> c<325> l<37:9> el<37:10>
-                                                              n<> u<325> t<Primary_literal> p<326> c<324> l<37:9> el<37:10>
-                                                                n<x> u<324> t<SIMPLE_IDENTIFIER> p<325> l<37:9> el<37:10>
-                                                          n<> u<332> t<BinaryOp_BitwXor> p<333> s<331> l<37:11> el<37:12>
-                                                          n<> u<331> t<Expression> p<333> c<330> l<37:13> el<37:14>
-                                                            n<> u<330> t<Primary> p<331> c<329> l<37:13> el<37:14>
-                                                              n<> u<329> t<Primary_literal> p<330> c<328> l<37:13> el<37:14>
-                                                                n<y> u<328> t<SIMPLE_IDENTIFIER> p<329> l<37:13> el<37:14>
-                                              n<> u<339> t<END> p<340> l<38:2> el<38:5>
-                              n<> u<424> t<Statement_or_null> p<426> c<423> s<425> l<39:2> el<45:5>
-                                n<> u<423> t<Statement> p<424> c<422> l<39:2> el<45:5>
-                                  n<> u<422> t<Statement_item> p<423> c<421> l<39:2> el<45:5>
-                                    n<> u<421> t<Conditional_statement> p<422> c<359> l<39:2> el<45:5>
-                                      n<> u<359> t<Cond_predicate> p<421> c<358> s<420> l<39:6> el<39:15>
-                                        n<> u<358> t<Expression_or_cond_pattern> p<359> c<357> l<39:6> el<39:15>
-                                          n<> u<357> t<Expression> p<358> c<351> l<39:6> el<39:15>
-                                            n<> u<351> t<Expression> p<357> c<350> s<356> l<39:6> el<39:7>
-                                              n<> u<350> t<Primary> p<351> c<349> l<39:6> el<39:7>
-                                                n<> u<349> t<Primary_literal> p<350> c<348> l<39:6> el<39:7>
-                                                  n<x> u<348> t<SIMPLE_IDENTIFIER> p<349> l<39:6> el<39:7>
-                                            n<> u<356> t<NOTEQUAL> p<357> s<355> l<39:8> el<39:10>
-                                            n<> u<355> t<Expression> p<357> c<354> l<39:11> el<39:15>
-                                              n<> u<354> t<Primary> p<355> c<353> l<39:11> el<39:15>
-                                                n<> u<353> t<Primary_literal> p<354> c<352> l<39:11> el<39:15>
-                                                  n<> u<352> t<ONE_TICK_b1> p<353> l<39:11> el<39:15>
-                                      n<> u<420> t<Statement_or_null> p<421> c<419> l<39:17> el<45:5>
-                                        n<> u<419> t<Statement> p<420> c<418> l<39:17> el<45:5>
-                                          n<> u<418> t<Statement_item> p<419> c<417> l<39:17> el<45:5>
-                                            n<> u<417> t<Seq_block> p<418> c<415> l<39:17> el<45:5>
-                                              n<> u<415> t<Statement_or_null> p<417> c<414> s<416> l<40:2> el<44:5>
-                                                n<> u<414> t<Statement> p<415> c<413> l<40:2> el<44:5>
-                                                  n<> u<413> t<Statement_item> p<414> c<412> l<40:2> el<44:5>
-                                                    n<> u<412> t<Conditional_statement> p<413> c<371> l<40:2> el<44:5>
-                                                      n<> u<371> t<Cond_predicate> p<412> c<370> s<411> l<40:6> el<40:14>
-                                                        n<> u<370> t<Expression_or_cond_pattern> p<371> c<369> l<40:6> el<40:14>
-                                                          n<> u<369> t<Expression> p<370> c<363> l<40:6> el<40:14>
-                                                            n<> u<363> t<Expression> p<369> c<362> s<368> l<40:6> el<40:7>
-                                                              n<> u<362> t<Primary> p<363> c<361> l<40:6> el<40:7>
-                                                                n<> u<361> t<Primary_literal> p<362> c<360> l<40:6> el<40:7>
-                                                                  n<y> u<360> t<SIMPLE_IDENTIFIER> p<361> l<40:6> el<40:7>
-                                                            n<> u<368> t<GREATER> p<369> s<367> l<40:8> el<40:9>
-                                                            n<> u<367> t<Expression> p<369> c<366> l<40:10> el<40:14>
-                                                              n<> u<366> t<Primary> p<367> c<365> l<40:10> el<40:14>
-                                                                n<> u<365> t<Primary_literal> p<366> c<364> l<40:10> el<40:14>
-                                                                  n<> u<364> t<ONE_TICK_b0> p<365> l<40:10> el<40:14>
-                                                      n<> u<411> t<Statement_or_null> p<412> c<410> l<40:16> el<44:5>
-                                                        n<> u<410> t<Statement> p<411> c<409> l<40:16> el<44:5>
-                                                          n<> u<409> t<Statement_item> p<410> c<408> l<40:16> el<44:5>
-                                                            n<> u<408> t<Seq_block> p<409> c<406> l<40:16> el<44:5>
-                                                              n<> u<406> t<Statement_or_null> p<408> c<405> s<407> l<41:3> el<43:6>
-                                                                n<> u<405> t<Statement> p<406> c<404> l<41:3> el<43:6>
-                                                                  n<> u<404> t<Statement_item> p<405> c<403> l<41:3> el<43:6>
-                                                                    n<> u<403> t<Conditional_statement> p<404> c<383> l<41:3> el<43:6>
-                                                                      n<> u<383> t<Cond_predicate> p<403> c<382> s<402> l<41:7> el<41:17>
-                                                                        n<> u<382> t<Expression_or_cond_pattern> p<383> c<381> l<41:7> el<41:17>
-                                                                          n<> u<381> t<Expression> p<382> c<375> l<41:7> el<41:17>
-                                                                            n<> u<375> t<Expression> p<381> c<374> s<380> l<41:7> el<41:10>
-                                                                              n<> u<374> t<Primary> p<375> c<373> l<41:7> el<41:10>
-                                                                                n<> u<373> t<Primary_literal> p<374> c<372> l<41:7> el<41:10>
-                                                                                  n<cin> u<372> t<SIMPLE_IDENTIFIER> p<373> l<41:7> el<41:10>
-                                                                            n<> u<380> t<LESS> p<381> s<379> l<41:11> el<41:12>
-                                                                            n<> u<379> t<Expression> p<381> c<378> l<41:13> el<41:17>
-                                                                              n<> u<378> t<Primary> p<379> c<377> l<41:13> el<41:17>
-                                                                                n<> u<377> t<Primary_literal> p<378> c<376> l<41:13> el<41:17>
-                                                                                  n<> u<376> t<ONE_TICK_b1> p<377> l<41:13> el<41:17>
-                                                                      n<> u<402> t<Statement_or_null> p<403> c<401> l<41:19> el<43:6>
-                                                                        n<> u<401> t<Statement> p<402> c<400> l<41:19> el<43:6>
-                                                                          n<> u<400> t<Statement_item> p<401> c<399> l<41:19> el<43:6>
-                                                                            n<> u<399> t<Seq_block> p<400> c<397> l<41:19> el<43:6>
-                                                                              n<> u<397> t<Statement_or_null> p<399> c<396> s<398> l<42:4> el<42:17>
-                                                                                n<> u<396> t<Statement> p<397> c<395> l<42:4> el<42:17>
-                                                                                  n<> u<395> t<Statement_item> p<396> c<394> l<42:4> el<42:17>
-                                                                                    n<> u<394> t<Blocking_assignment> p<395> c<393> l<42:4> el<42:16>
-                                                                                      n<> u<393> t<Variable_assignment> p<394> c<388> l<42:4> el<42:16>
-                                                                                        n<> u<388> t<Variable_lvalue> p<393> c<385> s<392> l<42:4> el<42:8>
-                                                                                          n<> u<385> t<Ps_or_hierarchical_identifier> p<388> c<384> s<387> l<42:4> el<42:8>
-                                                                                            n<int2> u<384> t<SIMPLE_IDENTIFIER> p<385> l<42:4> el<42:8>
-                                                                                          n<> u<387> t<Select> p<388> c<386> l<42:9> el<42:9>
-                                                                                            n<> u<386> t<Bit_select> p<387> l<42:9> el<42:9>
-                                                                                        n<> u<392> t<Expression> p<393> c<391> l<42:11> el<42:16>
-                                                                                          n<> u<391> t<Primary> p<392> c<390> l<42:11> el<42:16>
-                                                                                            n<> u<390> t<Primary_literal> p<391> c<389> l<42:11> el<42:16>
-                                                                                              n<cout1> u<389> t<SIMPLE_IDENTIFIER> p<390> l<42:11> el<42:16>
-                                                                              n<> u<398> t<END> p<399> l<43:3> el<43:6>
-                                                              n<> u<407> t<END> p<408> l<44:2> el<44:5>
-                                              n<> u<416> t<END> p<417> l<45:2> el<45:5>
-                              n<> u<425> t<END> p<426> l<46:1> el<46:4>
-        n<> u<508> t<Non_port_module_item> p<510> c<507> s<509> l<47:2> el<52:5>
-          n<> u<507> t<Module_or_generate_item> p<508> c<506> l<47:2> el<52:5>
-            n<> u<506> t<Module_common_item> p<507> c<505> l<47:2> el<52:5>
-              n<> u<505> t<Always_construct> p<506> c<437> l<47:2> el<52:5>
-                n<> u<437> t<ALWAYS> p<505> s<504> l<47:2> el<47:8>
-                n<> u<504> t<Statement> p<505> c<503> l<47:9> el<52:5>
-                  n<> u<503> t<Statement_item> p<504> c<502> l<47:9> el<52:5>
-                    n<> u<502> t<Procedural_timing_control_statement> p<503> c<445> l<47:9> el<52:5>
-                      n<> u<445> t<Procedural_timing_control> p<502> c<444> s<501> l<47:9> el<47:21>
-                        n<> u<444> t<Event_control> p<445> c<443> l<47:9> el<47:21>
-                          n<> u<443> t<Event_expression> p<444> c<438> l<47:11> el<47:20>
-                            n<> u<438> t<POSEDGE> p<443> s<442> l<47:11> el<47:18>
-                            n<> u<442> t<Expression> p<443> c<441> l<47:19> el<47:20>
-                              n<> u<441> t<Primary> p<442> c<440> l<47:19> el<47:20>
-                                n<> u<440> t<Primary_literal> p<441> c<439> l<47:19> el<47:20>
-                                  n<x> u<439> t<SIMPLE_IDENTIFIER> p<440> l<47:19> el<47:20>
-                      n<> u<501> t<Statement_or_null> p<502> c<500> l<48:2> el<52:5>
-                        n<> u<500> t<Statement> p<501> c<499> l<48:2> el<52:5>
-                          n<> u<499> t<Statement_item> p<500> c<498> l<48:2> el<52:5>
-                            n<> u<498> t<Conditional_statement> p<499> c<457> l<48:2> el<52:5>
-                              n<> u<457> t<Cond_predicate> p<498> c<456> s<497> l<48:6> el<48:15>
-                                n<> u<456> t<Expression_or_cond_pattern> p<457> c<455> l<48:6> el<48:15>
-                                  n<> u<455> t<Expression> p<456> c<449> l<48:6> el<48:15>
-                                    n<> u<449> t<Expression> p<455> c<448> s<454> l<48:6> el<48:7>
-                                      n<> u<448> t<Primary> p<449> c<447> l<48:6> el<48:7>
-                                        n<> u<447> t<Primary_literal> p<448> c<446> l<48:6> el<48:7>
-                                          n<x> u<446> t<SIMPLE_IDENTIFIER> p<447> l<48:6> el<48:7>
-                                    n<> u<454> t<GREATER_EQUAL> p<455> s<453> l<48:8> el<48:10>
-                                    n<> u<453> t<Expression> p<455> c<452> l<48:11> el<48:15>
-                                      n<> u<452> t<Primary> p<453> c<451> l<48:11> el<48:15>
-                                        n<> u<451> t<Primary_literal> p<452> c<450> l<48:11> el<48:15>
-                                          n<> u<450> t<ONE_TICK_b1> p<451> l<48:11> el<48:15>
-                              n<> u<497> t<Statement_or_null> p<498> c<496> l<48:17> el<52:5>
-                                n<> u<496> t<Statement> p<497> c<495> l<48:17> el<52:5>
-                                  n<> u<495> t<Statement_item> p<496> c<494> l<48:17> el<52:5>
-                                    n<> u<494> t<Seq_block> p<495> c<492> l<48:17> el<52:5>
-                                      n<> u<492> t<Statement_or_null> p<494> c<491> s<493> l<49:2> el<51:5>
-                                        n<> u<491> t<Statement> p<492> c<490> l<49:2> el<51:5>
-                                          n<> u<490> t<Statement_item> p<491> c<489> l<49:2> el<51:5>
-                                            n<> u<489> t<Conditional_statement> p<490> c<469> l<49:2> el<51:5>
-                                              n<> u<469> t<Cond_predicate> p<489> c<468> s<488> l<49:6> el<49:15>
-                                                n<> u<468> t<Expression_or_cond_pattern> p<469> c<467> l<49:6> el<49:15>
-                                                  n<> u<467> t<Expression> p<468> c<461> l<49:6> el<49:15>
-                                                    n<> u<461> t<Expression> p<467> c<460> s<466> l<49:6> el<49:7>
-                                                      n<> u<460> t<Primary> p<461> c<459> l<49:6> el<49:7>
-                                                        n<> u<459> t<Primary_literal> p<460> c<458> l<49:6> el<49:7>
-                                                          n<y> u<458> t<SIMPLE_IDENTIFIER> p<459> l<49:6> el<49:7>
-                                                    n<> u<466> t<LESS_EQUAL> p<467> s<465> l<49:8> el<49:10>
-                                                    n<> u<465> t<Expression> p<467> c<464> l<49:11> el<49:15>
-                                                      n<> u<464> t<Primary> p<465> c<463> l<49:11> el<49:15>
-                                                        n<> u<463> t<Primary_literal> p<464> c<462> l<49:11> el<49:15>
-                                                          n<> u<462> t<ONE_TICK_b0> p<463> l<49:11> el<49:15>
-                                              n<> u<488> t<Statement_or_null> p<489> c<487> l<49:17> el<51:5>
-                                                n<> u<487> t<Statement> p<488> c<486> l<49:17> el<51:5>
-                                                  n<> u<486> t<Statement_item> p<487> c<485> l<49:17> el<51:5>
-                                                    n<> u<485> t<Seq_block> p<486> c<483> l<49:17> el<51:5>
-                                                      n<> u<483> t<Statement_or_null> p<485> c<482> s<484> l<50:3> el<50:13>
-                                                        n<> u<482> t<Statement> p<483> c<481> l<50:3> el<50:13>
-                                                          n<> u<481> t<Statement_item> p<482> c<480> l<50:3> el<50:13>
-                                                            n<> u<480> t<Blocking_assignment> p<481> c<479> l<50:3> el<50:12>
-                                                              n<> u<479> t<Variable_assignment> p<480> c<474> l<50:3> el<50:12>
-                                                                n<> u<474> t<Variable_lvalue> p<479> c<471> s<478> l<50:3> el<50:7>
-                                                                  n<> u<471> t<Ps_or_hierarchical_identifier> p<474> c<470> s<473> l<50:3> el<50:7>
-                                                                    n<int3> u<470> t<SIMPLE_IDENTIFIER> p<471> l<50:3> el<50:7>
-                                                                  n<> u<473> t<Select> p<474> c<472> l<50:8> el<50:8>
-                                                                    n<> u<472> t<Bit_select> p<473> l<50:8> el<50:8>
-                                                                n<> u<478> t<Expression> p<479> c<477> l<50:10> el<50:12>
-                                                                  n<> u<477> t<Primary> p<478> c<476> l<50:10> el<50:12>
-                                                                    n<> u<476> t<Primary_literal> p<477> c<475> l<50:10> el<50:12>
-                                                                      n<A1> u<475> t<SIMPLE_IDENTIFIER> p<476> l<50:10> el<50:12>
-                                                      n<> u<484> t<END> p<485> l<51:2> el<51:5>
-                                      n<> u<493> t<END> p<494> l<52:2> el<52:5>
-        n<> u<509> t<ENDMODULE> p<510> l<58:1> el<58:10>
+                                        n<> u<220> t<BinaryOp_BitwOr> p<221> s<219> l<28:17> el<28:18>
+                                        n<> u<219> t<Expression> p<221> c<218> l<28:18> el<28:18>
+                                          n<> u<218> t<Primary> p<219> l<28:18> el<28:18>
+        n<> u<238> t<Non_port_module_item> p<512> c<237> s<240> l<28:18> el<28:18>
+          n<> u<237> t<Module_or_generate_item> p<238> l<28:18> el<28:18>
+        n<> u<240> t<Non_port_module_item> p<512> c<239> s<242> l<28:18> el<28:21>
+          n<> u<239> t<Module_or_generate_item> p<240> l<28:18> el<28:21>
+        n<> u<242> t<Non_port_module_item> p<512> c<241> s<244> l<28:21> el<28:21>
+          n<> u<241> t<Module_or_generate_item> p<242> l<28:21> el<28:21>
+        n<> u<244> t<Non_port_module_item> p<512> c<243> s<246> l<28:21> el<28:26>
+          n<> u<243> t<Module_or_generate_item> p<244> l<28:21> el<28:26>
+        n<> u<246> t<Non_port_module_item> p<512> c<245> s<248> l<28:26> el<28:26>
+          n<> u<245> t<Module_or_generate_item> p<246> l<28:26> el<28:26>
+        n<> u<248> t<Non_port_module_item> p<512> c<247> s<253> l<28:26> el<28:28>
+          n<> u<247> t<Module_or_generate_item> p<248> l<28:26> el<28:28>
+        n<> u<253> t<Non_port_module_item> p<512> c<252> s<290> l<28:28> el<28:29>
+          n<> u<252> t<Module_or_generate_item> p<253> c<251> l<28:28> el<28:29>
+            n<> u<251> t<Module_common_item> p<252> c<250> l<28:28> el<28:29>
+              n<> u<250> t<Module_or_generate_item_declaration> p<251> c<249> l<28:28> el<28:29>
+                n<> u<249> t<Package_or_generate_item_declaration> p<250> l<28:28> el<28:29>
+        n<> u<290> t<Non_port_module_item> p<512> c<289> s<292> l<30:1> el<31:29>
+          n<> u<289> t<Module_or_generate_item> p<290> c<288> l<30:1> el<31:29>
+            n<> u<288> t<Module_common_item> p<289> c<287> l<30:1> el<31:29>
+              n<> u<287> t<Always_construct> p<288> c<254> l<30:1> el<31:29>
+                n<> u<254> t<ALWAYS> p<287> s<286> l<30:1> el<30:7>
+                n<> u<286> t<Statement> p<287> c<285> l<30:8> el<31:29>
+                  n<> u<285> t<Statement_item> p<286> c<284> l<30:8> el<31:29>
+                    n<> u<284> t<Procedural_timing_control_statement> p<285> c<262> l<30:8> el<31:29>
+                      n<> u<262> t<Procedural_timing_control> p<284> c<261> s<283> l<30:8> el<30:20>
+                        n<> u<261> t<Event_control> p<262> c<260> l<30:8> el<30:20>
+                          n<> u<260> t<Event_expression> p<261> c<255> l<30:10> el<30:19>
+                            n<> u<255> t<POSEDGE> p<260> s<259> l<30:10> el<30:17>
+                            n<> u<259> t<Expression> p<260> c<258> l<30:18> el<30:19>
+                              n<> u<258> t<Primary> p<259> c<257> l<30:18> el<30:19>
+                                n<> u<257> t<Primary_literal> p<258> c<256> l<30:18> el<30:19>
+                                  n<x> u<256> t<SIMPLE_IDENTIFIER> p<257> l<30:18> el<30:19>
+                      n<> u<283> t<Statement_or_null> p<284> c<282> l<30:21> el<31:29>
+                        n<> u<282> t<Statement> p<283> c<281> l<30:21> el<31:29>
+                          n<> u<281> t<Statement_item> p<282> c<280> l<30:21> el<31:29>
+                            n<> u<280> t<Seq_block> p<281> c<279> l<30:21> el<31:29>
+                              n<> u<279> t<Statement_or_null> p<280> c<278> l<31:9> el<31:24>
+                                n<> u<278> t<Statement> p<279> c<277> l<31:9> el<31:24>
+                                  n<> u<277> t<Statement_item> p<278> c<276> l<31:9> el<31:24>
+                                    n<> u<276> t<Nonblocking_assignment> p<277> c<267> l<31:9> el<31:24>
+                                      n<> u<267> t<Variable_lvalue> p<276> c<264> s<275> l<31:9> el<31:13>
+                                        n<> u<264> t<Ps_or_hierarchical_identifier> p<267> c<263> s<266> l<31:9> el<31:13>
+                                          n<cout> u<263> t<SIMPLE_IDENTIFIER> p<264> l<31:9> el<31:13>
+                                        n<> u<266> t<Select> p<267> c<265> l<31:14> el<31:14>
+                                          n<> u<265> t<Bit_select> p<266> l<31:14> el<31:14>
+                                      n<> u<275> t<Expression> p<276> c<271> l<31:18> el<31:24>
+                                        n<> u<271> t<Expression> p<275> c<270> s<274> l<31:18> el<31:23>
+                                          n<> u<270> t<Primary> p<271> c<269> l<31:18> el<31:23>
+                                            n<> u<269> t<Primary_literal> p<270> c<268> l<31:18> el<31:23>
+                                              n<cout1> u<268> t<SIMPLE_IDENTIFIER> p<269> l<31:18> el<31:23>
+                                        n<> u<274> t<BinaryOp_BitwAnd> p<275> s<273> l<31:23> el<31:24>
+                                        n<> u<273> t<Expression> p<275> c<272> l<31:24> el<31:24>
+                                          n<> u<272> t<Primary> p<273> l<31:24> el<31:24>
+        n<> u<292> t<Non_port_module_item> p<512> c<291> s<294> l<31:29> el<31:29>
+          n<> u<291> t<Module_or_generate_item> p<292> l<31:29> el<31:29>
+        n<> u<294> t<Non_port_module_item> p<512> c<293> s<299> l<31:29> el<31:30>
+          n<> u<293> t<Module_or_generate_item> p<294> l<31:29> el<31:30>
+        n<> u<299> t<Non_port_module_item> p<512> c<298> s<438> l<31:30> el<31:31>
+          n<> u<298> t<Module_or_generate_item> p<299> c<297> l<31:30> el<31:31>
+            n<> u<297> t<Module_common_item> p<298> c<296> l<31:30> el<31:31>
+              n<> u<296> t<Module_or_generate_item_declaration> p<297> c<295> l<31:30> el<31:31>
+                n<> u<295> t<Package_or_generate_item_declaration> p<296> l<31:30> el<31:31>
+        n<> u<438> t<Non_port_module_item> p<512> c<437> s<510> l<34:1> el<46:4>
+          n<> u<437> t<Module_or_generate_item> p<438> c<436> l<34:1> el<46:4>
+            n<> u<436> t<Module_common_item> p<437> c<435> l<34:1> el<46:4>
+              n<> u<435> t<Always_construct> p<436> c<300> l<34:1> el<46:4>
+                n<> u<300> t<ALWAYS> p<435> s<434> l<34:1> el<34:7>
+                n<> u<434> t<Statement> p<435> c<433> l<34:8> el<46:4>
+                  n<> u<433> t<Statement_item> p<434> c<432> l<34:8> el<46:4>
+                    n<> u<432> t<Procedural_timing_control_statement> p<433> c<308> l<34:8> el<46:4>
+                      n<> u<308> t<Procedural_timing_control> p<432> c<307> s<431> l<34:8> el<34:20>
+                        n<> u<307> t<Event_control> p<308> c<306> l<34:8> el<34:20>
+                          n<> u<306> t<Event_expression> p<307> c<301> l<34:10> el<34:19>
+                            n<> u<301> t<POSEDGE> p<306> s<305> l<34:10> el<34:17>
+                            n<> u<305> t<Expression> p<306> c<304> l<34:18> el<34:19>
+                              n<> u<304> t<Primary> p<305> c<303> l<34:18> el<34:19>
+                                n<> u<303> t<Primary_literal> p<304> c<302> l<34:18> el<34:19>
+                                  n<x> u<302> t<SIMPLE_IDENTIFIER> p<303> l<34:18> el<34:19>
+                      n<> u<431> t<Statement_or_null> p<432> c<430> l<35:1> el<46:4>
+                        n<> u<430> t<Statement> p<431> c<429> l<35:1> el<46:4>
+                          n<> u<429> t<Statement_item> p<430> c<428> l<35:1> el<46:4>
+                            n<> u<428> t<Seq_block> p<429> c<349> l<35:1> el<46:4>
+                              n<> u<349> t<Statement_or_null> p<428> c<348> s<426> l<36:2> el<38:5>
+                                n<> u<348> t<Statement> p<349> c<347> l<36:2> el<38:5>
+                                  n<> u<347> t<Statement_item> p<348> c<346> l<36:2> el<38:5>
+                                    n<> u<346> t<Conditional_statement> p<347> c<320> l<36:2> el<38:5>
+                                      n<> u<320> t<Cond_predicate> p<346> c<319> s<345> l<36:6> el<36:15>
+                                        n<> u<319> t<Expression_or_cond_pattern> p<320> c<318> l<36:6> el<36:15>
+                                          n<> u<318> t<Expression> p<319> c<312> l<36:6> el<36:15>
+                                            n<> u<312> t<Expression> p<318> c<311> s<317> l<36:6> el<36:7>
+                                              n<> u<311> t<Primary> p<312> c<310> l<36:6> el<36:7>
+                                                n<> u<310> t<Primary_literal> p<311> c<309> l<36:6> el<36:7>
+                                                  n<x> u<309> t<SIMPLE_IDENTIFIER> p<310> l<36:6> el<36:7>
+                                            n<> u<317> t<EQUIV> p<318> s<316> l<36:8> el<36:10>
+                                            n<> u<316> t<Expression> p<318> c<315> l<36:11> el<36:15>
+                                              n<> u<315> t<Primary> p<316> c<314> l<36:11> el<36:15>
+                                                n<> u<314> t<Primary_literal> p<315> c<313> l<36:11> el<36:15>
+                                                  n<> u<313> t<ONE_TICK_b1> p<314> l<36:11> el<36:15>
+                                      n<> u<345> t<Statement_or_null> p<346> c<344> l<36:17> el<38:5>
+                                        n<> u<344> t<Statement> p<345> c<343> l<36:17> el<38:5>
+                                          n<> u<343> t<Statement_item> p<344> c<342> l<36:17> el<38:5>
+                                            n<> u<342> t<Seq_block> p<343> c<340> l<36:17> el<38:5>
+                                              n<> u<340> t<Statement_or_null> p<342> c<339> s<341> l<37:2> el<37:15>
+                                                n<> u<339> t<Statement> p<340> c<338> l<37:2> el<37:15>
+                                                  n<> u<338> t<Statement_item> p<339> c<337> l<37:2> el<37:15>
+                                                    n<> u<337> t<Blocking_assignment> p<338> c<336> l<37:2> el<37:14>
+                                                      n<> u<336> t<Variable_assignment> p<337> c<325> l<37:2> el<37:14>
+                                                        n<> u<325> t<Variable_lvalue> p<336> c<322> s<335> l<37:2> el<37:6>
+                                                          n<> u<322> t<Ps_or_hierarchical_identifier> p<325> c<321> s<324> l<37:2> el<37:6>
+                                                            n<int1> u<321> t<SIMPLE_IDENTIFIER> p<322> l<37:2> el<37:6>
+                                                          n<> u<324> t<Select> p<325> c<323> l<37:7> el<37:7>
+                                                            n<> u<323> t<Bit_select> p<324> l<37:7> el<37:7>
+                                                        n<> u<335> t<Expression> p<336> c<329> l<37:9> el<37:14>
+                                                          n<> u<329> t<Expression> p<335> c<328> s<334> l<37:9> el<37:10>
+                                                            n<> u<328> t<Primary> p<329> c<327> l<37:9> el<37:10>
+                                                              n<> u<327> t<Primary_literal> p<328> c<326> l<37:9> el<37:10>
+                                                                n<x> u<326> t<SIMPLE_IDENTIFIER> p<327> l<37:9> el<37:10>
+                                                          n<> u<334> t<BinaryOp_BitwXor> p<335> s<333> l<37:11> el<37:12>
+                                                          n<> u<333> t<Expression> p<335> c<332> l<37:13> el<37:14>
+                                                            n<> u<332> t<Primary> p<333> c<331> l<37:13> el<37:14>
+                                                              n<> u<331> t<Primary_literal> p<332> c<330> l<37:13> el<37:14>
+                                                                n<y> u<330> t<SIMPLE_IDENTIFIER> p<331> l<37:13> el<37:14>
+                                              n<> u<341> t<END> p<342> l<38:2> el<38:5>
+                              n<> u<426> t<Statement_or_null> p<428> c<425> s<427> l<39:2> el<45:5>
+                                n<> u<425> t<Statement> p<426> c<424> l<39:2> el<45:5>
+                                  n<> u<424> t<Statement_item> p<425> c<423> l<39:2> el<45:5>
+                                    n<> u<423> t<Conditional_statement> p<424> c<361> l<39:2> el<45:5>
+                                      n<> u<361> t<Cond_predicate> p<423> c<360> s<422> l<39:6> el<39:15>
+                                        n<> u<360> t<Expression_or_cond_pattern> p<361> c<359> l<39:6> el<39:15>
+                                          n<> u<359> t<Expression> p<360> c<353> l<39:6> el<39:15>
+                                            n<> u<353> t<Expression> p<359> c<352> s<358> l<39:6> el<39:7>
+                                              n<> u<352> t<Primary> p<353> c<351> l<39:6> el<39:7>
+                                                n<> u<351> t<Primary_literal> p<352> c<350> l<39:6> el<39:7>
+                                                  n<x> u<350> t<SIMPLE_IDENTIFIER> p<351> l<39:6> el<39:7>
+                                            n<> u<358> t<NOTEQUAL> p<359> s<357> l<39:8> el<39:10>
+                                            n<> u<357> t<Expression> p<359> c<356> l<39:11> el<39:15>
+                                              n<> u<356> t<Primary> p<357> c<355> l<39:11> el<39:15>
+                                                n<> u<355> t<Primary_literal> p<356> c<354> l<39:11> el<39:15>
+                                                  n<> u<354> t<ONE_TICK_b1> p<355> l<39:11> el<39:15>
+                                      n<> u<422> t<Statement_or_null> p<423> c<421> l<39:17> el<45:5>
+                                        n<> u<421> t<Statement> p<422> c<420> l<39:17> el<45:5>
+                                          n<> u<420> t<Statement_item> p<421> c<419> l<39:17> el<45:5>
+                                            n<> u<419> t<Seq_block> p<420> c<417> l<39:17> el<45:5>
+                                              n<> u<417> t<Statement_or_null> p<419> c<416> s<418> l<40:2> el<44:5>
+                                                n<> u<416> t<Statement> p<417> c<415> l<40:2> el<44:5>
+                                                  n<> u<415> t<Statement_item> p<416> c<414> l<40:2> el<44:5>
+                                                    n<> u<414> t<Conditional_statement> p<415> c<373> l<40:2> el<44:5>
+                                                      n<> u<373> t<Cond_predicate> p<414> c<372> s<413> l<40:6> el<40:14>
+                                                        n<> u<372> t<Expression_or_cond_pattern> p<373> c<371> l<40:6> el<40:14>
+                                                          n<> u<371> t<Expression> p<372> c<365> l<40:6> el<40:14>
+                                                            n<> u<365> t<Expression> p<371> c<364> s<370> l<40:6> el<40:7>
+                                                              n<> u<364> t<Primary> p<365> c<363> l<40:6> el<40:7>
+                                                                n<> u<363> t<Primary_literal> p<364> c<362> l<40:6> el<40:7>
+                                                                  n<y> u<362> t<SIMPLE_IDENTIFIER> p<363> l<40:6> el<40:7>
+                                                            n<> u<370> t<GREATER> p<371> s<369> l<40:8> el<40:9>
+                                                            n<> u<369> t<Expression> p<371> c<368> l<40:10> el<40:14>
+                                                              n<> u<368> t<Primary> p<369> c<367> l<40:10> el<40:14>
+                                                                n<> u<367> t<Primary_literal> p<368> c<366> l<40:10> el<40:14>
+                                                                  n<> u<366> t<ONE_TICK_b0> p<367> l<40:10> el<40:14>
+                                                      n<> u<413> t<Statement_or_null> p<414> c<412> l<40:16> el<44:5>
+                                                        n<> u<412> t<Statement> p<413> c<411> l<40:16> el<44:5>
+                                                          n<> u<411> t<Statement_item> p<412> c<410> l<40:16> el<44:5>
+                                                            n<> u<410> t<Seq_block> p<411> c<408> l<40:16> el<44:5>
+                                                              n<> u<408> t<Statement_or_null> p<410> c<407> s<409> l<41:3> el<43:6>
+                                                                n<> u<407> t<Statement> p<408> c<406> l<41:3> el<43:6>
+                                                                  n<> u<406> t<Statement_item> p<407> c<405> l<41:3> el<43:6>
+                                                                    n<> u<405> t<Conditional_statement> p<406> c<385> l<41:3> el<43:6>
+                                                                      n<> u<385> t<Cond_predicate> p<405> c<384> s<404> l<41:7> el<41:17>
+                                                                        n<> u<384> t<Expression_or_cond_pattern> p<385> c<383> l<41:7> el<41:17>
+                                                                          n<> u<383> t<Expression> p<384> c<377> l<41:7> el<41:17>
+                                                                            n<> u<377> t<Expression> p<383> c<376> s<382> l<41:7> el<41:10>
+                                                                              n<> u<376> t<Primary> p<377> c<375> l<41:7> el<41:10>
+                                                                                n<> u<375> t<Primary_literal> p<376> c<374> l<41:7> el<41:10>
+                                                                                  n<cin> u<374> t<SIMPLE_IDENTIFIER> p<375> l<41:7> el<41:10>
+                                                                            n<> u<382> t<LESS> p<383> s<381> l<41:11> el<41:12>
+                                                                            n<> u<381> t<Expression> p<383> c<380> l<41:13> el<41:17>
+                                                                              n<> u<380> t<Primary> p<381> c<379> l<41:13> el<41:17>
+                                                                                n<> u<379> t<Primary_literal> p<380> c<378> l<41:13> el<41:17>
+                                                                                  n<> u<378> t<ONE_TICK_b1> p<379> l<41:13> el<41:17>
+                                                                      n<> u<404> t<Statement_or_null> p<405> c<403> l<41:19> el<43:6>
+                                                                        n<> u<403> t<Statement> p<404> c<402> l<41:19> el<43:6>
+                                                                          n<> u<402> t<Statement_item> p<403> c<401> l<41:19> el<43:6>
+                                                                            n<> u<401> t<Seq_block> p<402> c<399> l<41:19> el<43:6>
+                                                                              n<> u<399> t<Statement_or_null> p<401> c<398> s<400> l<42:4> el<42:17>
+                                                                                n<> u<398> t<Statement> p<399> c<397> l<42:4> el<42:17>
+                                                                                  n<> u<397> t<Statement_item> p<398> c<396> l<42:4> el<42:17>
+                                                                                    n<> u<396> t<Blocking_assignment> p<397> c<395> l<42:4> el<42:16>
+                                                                                      n<> u<395> t<Variable_assignment> p<396> c<390> l<42:4> el<42:16>
+                                                                                        n<> u<390> t<Variable_lvalue> p<395> c<387> s<394> l<42:4> el<42:8>
+                                                                                          n<> u<387> t<Ps_or_hierarchical_identifier> p<390> c<386> s<389> l<42:4> el<42:8>
+                                                                                            n<int2> u<386> t<SIMPLE_IDENTIFIER> p<387> l<42:4> el<42:8>
+                                                                                          n<> u<389> t<Select> p<390> c<388> l<42:9> el<42:9>
+                                                                                            n<> u<388> t<Bit_select> p<389> l<42:9> el<42:9>
+                                                                                        n<> u<394> t<Expression> p<395> c<393> l<42:11> el<42:16>
+                                                                                          n<> u<393> t<Primary> p<394> c<392> l<42:11> el<42:16>
+                                                                                            n<> u<392> t<Primary_literal> p<393> c<391> l<42:11> el<42:16>
+                                                                                              n<cout1> u<391> t<SIMPLE_IDENTIFIER> p<392> l<42:11> el<42:16>
+                                                                              n<> u<400> t<END> p<401> l<43:3> el<43:6>
+                                                              n<> u<409> t<END> p<410> l<44:2> el<44:5>
+                                              n<> u<418> t<END> p<419> l<45:2> el<45:5>
+                              n<> u<427> t<END> p<428> l<46:1> el<46:4>
+        n<> u<510> t<Non_port_module_item> p<512> c<509> s<511> l<47:2> el<52:5>
+          n<> u<509> t<Module_or_generate_item> p<510> c<508> l<47:2> el<52:5>
+            n<> u<508> t<Module_common_item> p<509> c<507> l<47:2> el<52:5>
+              n<> u<507> t<Always_construct> p<508> c<439> l<47:2> el<52:5>
+                n<> u<439> t<ALWAYS> p<507> s<506> l<47:2> el<47:8>
+                n<> u<506> t<Statement> p<507> c<505> l<47:9> el<52:5>
+                  n<> u<505> t<Statement_item> p<506> c<504> l<47:9> el<52:5>
+                    n<> u<504> t<Procedural_timing_control_statement> p<505> c<447> l<47:9> el<52:5>
+                      n<> u<447> t<Procedural_timing_control> p<504> c<446> s<503> l<47:9> el<47:21>
+                        n<> u<446> t<Event_control> p<447> c<445> l<47:9> el<47:21>
+                          n<> u<445> t<Event_expression> p<446> c<440> l<47:11> el<47:20>
+                            n<> u<440> t<POSEDGE> p<445> s<444> l<47:11> el<47:18>
+                            n<> u<444> t<Expression> p<445> c<443> l<47:19> el<47:20>
+                              n<> u<443> t<Primary> p<444> c<442> l<47:19> el<47:20>
+                                n<> u<442> t<Primary_literal> p<443> c<441> l<47:19> el<47:20>
+                                  n<x> u<441> t<SIMPLE_IDENTIFIER> p<442> l<47:19> el<47:20>
+                      n<> u<503> t<Statement_or_null> p<504> c<502> l<48:2> el<52:5>
+                        n<> u<502> t<Statement> p<503> c<501> l<48:2> el<52:5>
+                          n<> u<501> t<Statement_item> p<502> c<500> l<48:2> el<52:5>
+                            n<> u<500> t<Conditional_statement> p<501> c<459> l<48:2> el<52:5>
+                              n<> u<459> t<Cond_predicate> p<500> c<458> s<499> l<48:6> el<48:15>
+                                n<> u<458> t<Expression_or_cond_pattern> p<459> c<457> l<48:6> el<48:15>
+                                  n<> u<457> t<Expression> p<458> c<451> l<48:6> el<48:15>
+                                    n<> u<451> t<Expression> p<457> c<450> s<456> l<48:6> el<48:7>
+                                      n<> u<450> t<Primary> p<451> c<449> l<48:6> el<48:7>
+                                        n<> u<449> t<Primary_literal> p<450> c<448> l<48:6> el<48:7>
+                                          n<x> u<448> t<SIMPLE_IDENTIFIER> p<449> l<48:6> el<48:7>
+                                    n<> u<456> t<GREATER_EQUAL> p<457> s<455> l<48:8> el<48:10>
+                                    n<> u<455> t<Expression> p<457> c<454> l<48:11> el<48:15>
+                                      n<> u<454> t<Primary> p<455> c<453> l<48:11> el<48:15>
+                                        n<> u<453> t<Primary_literal> p<454> c<452> l<48:11> el<48:15>
+                                          n<> u<452> t<ONE_TICK_b1> p<453> l<48:11> el<48:15>
+                              n<> u<499> t<Statement_or_null> p<500> c<498> l<48:17> el<52:5>
+                                n<> u<498> t<Statement> p<499> c<497> l<48:17> el<52:5>
+                                  n<> u<497> t<Statement_item> p<498> c<496> l<48:17> el<52:5>
+                                    n<> u<496> t<Seq_block> p<497> c<494> l<48:17> el<52:5>
+                                      n<> u<494> t<Statement_or_null> p<496> c<493> s<495> l<49:2> el<51:5>
+                                        n<> u<493> t<Statement> p<494> c<492> l<49:2> el<51:5>
+                                          n<> u<492> t<Statement_item> p<493> c<491> l<49:2> el<51:5>
+                                            n<> u<491> t<Conditional_statement> p<492> c<471> l<49:2> el<51:5>
+                                              n<> u<471> t<Cond_predicate> p<491> c<470> s<490> l<49:6> el<49:15>
+                                                n<> u<470> t<Expression_or_cond_pattern> p<471> c<469> l<49:6> el<49:15>
+                                                  n<> u<469> t<Expression> p<470> c<463> l<49:6> el<49:15>
+                                                    n<> u<463> t<Expression> p<469> c<462> s<468> l<49:6> el<49:7>
+                                                      n<> u<462> t<Primary> p<463> c<461> l<49:6> el<49:7>
+                                                        n<> u<461> t<Primary_literal> p<462> c<460> l<49:6> el<49:7>
+                                                          n<y> u<460> t<SIMPLE_IDENTIFIER> p<461> l<49:6> el<49:7>
+                                                    n<> u<468> t<LESS_EQUAL> p<469> s<467> l<49:8> el<49:10>
+                                                    n<> u<467> t<Expression> p<469> c<466> l<49:11> el<49:15>
+                                                      n<> u<466> t<Primary> p<467> c<465> l<49:11> el<49:15>
+                                                        n<> u<465> t<Primary_literal> p<466> c<464> l<49:11> el<49:15>
+                                                          n<> u<464> t<ONE_TICK_b0> p<465> l<49:11> el<49:15>
+                                              n<> u<490> t<Statement_or_null> p<491> c<489> l<49:17> el<51:5>
+                                                n<> u<489> t<Statement> p<490> c<488> l<49:17> el<51:5>
+                                                  n<> u<488> t<Statement_item> p<489> c<487> l<49:17> el<51:5>
+                                                    n<> u<487> t<Seq_block> p<488> c<485> l<49:17> el<51:5>
+                                                      n<> u<485> t<Statement_or_null> p<487> c<484> s<486> l<50:3> el<50:13>
+                                                        n<> u<484> t<Statement> p<485> c<483> l<50:3> el<50:13>
+                                                          n<> u<483> t<Statement_item> p<484> c<482> l<50:3> el<50:13>
+                                                            n<> u<482> t<Blocking_assignment> p<483> c<481> l<50:3> el<50:12>
+                                                              n<> u<481> t<Variable_assignment> p<482> c<476> l<50:3> el<50:12>
+                                                                n<> u<476> t<Variable_lvalue> p<481> c<473> s<480> l<50:3> el<50:7>
+                                                                  n<> u<473> t<Ps_or_hierarchical_identifier> p<476> c<472> s<475> l<50:3> el<50:7>
+                                                                    n<int3> u<472> t<SIMPLE_IDENTIFIER> p<473> l<50:3> el<50:7>
+                                                                  n<> u<475> t<Select> p<476> c<474> l<50:8> el<50:8>
+                                                                    n<> u<474> t<Bit_select> p<475> l<50:8> el<50:8>
+                                                                n<> u<480> t<Expression> p<481> c<479> l<50:10> el<50:12>
+                                                                  n<> u<479> t<Primary> p<480> c<478> l<50:10> el<50:12>
+                                                                    n<> u<478> t<Primary_literal> p<479> c<477> l<50:10> el<50:12>
+                                                                      n<A1> u<477> t<SIMPLE_IDENTIFIER> p<478> l<50:10> el<50:12>
+                                                      n<> u<486> t<END> p<487> l<51:2> el<51:5>
+                                      n<> u<495> t<END> p<496> l<52:2> el<52:5>
+        n<> u<511> t<ENDMODULE> p<512> l<58:1> el<58:10>
 AST_DEBUG_END
 AST_DEBUG_BEGIN
 Count: 163
@@ -2942,6 +2962,7 @@ Design name:unnamed:
               Assignment start:15:5 end:15:10:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:A start:15:5 end:15:6:
                   vpiParent: Assignment
                   vpiName: A
@@ -2960,6 +2981,7 @@ Design name:unnamed:
               Assignment start:16:5 end:16:13:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:cout start:16:5 end:16:9:
                   vpiParent: Assignment
                   vpiName: cout
@@ -2994,6 +3016,7 @@ Design name:unnamed:
               vpiStmt (1 items):
                 Assignment start:21:5 end:21:21:
                   vpiParent: Begin
+                  vpiOpType: assignment (96)
                   vpiLhs RefObj name:A1 start:21:5 end:21:7:
                     vpiParent: Assignment
                     vpiName: A1
@@ -3041,6 +3064,7 @@ Design name:unnamed:
               vpiStmt (1 items):
                 Assignment start:24:5 end:24:28:
                   vpiParent: Begin
+                  vpiOpType: assignment (96)
                   vpiLhs RefObj name:cout1 start:24:5 end:24:10:
                     vpiParent: Assignment
                     vpiName: cout1
@@ -3074,9 +3098,9 @@ Design name:unnamed:
                             vpiFullName: top.A
                             vpiActual: Variable name:A
           vpiAlwaysType: always (1)
-        Always start:27:1 end:29:4:
+        Always start:27:1 end:28:18:
           vpiParent: Module name:top
-          vpiStmt EventControl start:27:8 end:29:4:
+          vpiStmt EventControl start:27:8 end:28:18:
             vpiParent: Always
             vpiCondition Operation start:27:10 end:27:19:
               vpiParent: EventControl
@@ -3087,53 +3111,31 @@ Design name:unnamed:
                   vpiName: x
                   vpiFullName: top.x
                   vpiActual: Net name:x
-            vpiStmt Begin start:27:21 end:29:4:
+            vpiStmt Begin start:27:21 end:28:18:
               vpiParent: EventControl
               vpiFullName: top
               vpiStmt (1 items):
-                Assignment start:28:9 end:28:28:
+                Assignment start:28:9 end:28:18:
                   vpiParent: Begin
+                  vpiOpType: assignment (96)
                   vpiLhs RefObj name:A start:28:9 end:28:10:
                     vpiParent: Assignment
                     vpiName: A
                     vpiFullName: top.A
                     vpiActual: Variable name:A
-                  vpiRhs Operation start:28:15 end:28:28:
+                  vpiRhs Operation start:28:15 end:28:18:
                     vpiParent: Assignment
                     vpiOpType: bitwise or (29)
-                    vpiOperand (2 items):
+                    vpiOperand (1 items):
                       RefObj name:A1 start:28:15 end:28:17:
                         vpiParent: Operation
                         vpiName: A1
                         vpiFullName: top.A1
                         vpiActual: Variable name:A1
-                      Operation start:28:18 end:28:28:
-                        vpiParent: Operation
-                        vpiOpType: bitwise xnor (31)
-                        vpiOperand (2 items):
-                          Operation start:28:18 end:28:24:
-                            vpiParent: Operation
-                            vpiOpType: unary nand (6)
-                            vpiOperand (2 items):
-                              RefObj name:y start:28:18 end:28:19:
-                                vpiParent: Operation
-                                vpiName: y
-                                vpiFullName: top.y
-                                vpiActual: Net name:y
-                              RefObj name:cin start:28:21 end:28:24:
-                                vpiParent: Operation
-                                vpiName: cin
-                                vpiFullName: top.cin
-                                vpiActual: Net name:cin
-                          RefObj name:A1 start:28:26 end:28:28:
-                            vpiParent: Operation
-                            vpiName: A1
-                            vpiFullName: top.A1
-                            vpiActual: Variable name:A1
           vpiAlwaysType: always (1)
-        Always start:30:1 end:32:4:
+        Always start:30:1 end:31:29:
           vpiParent: Module name:top
-          vpiStmt EventControl start:30:8 end:32:4:
+          vpiStmt EventControl start:30:8 end:31:29:
             vpiParent: Always
             vpiCondition Operation start:30:10 end:30:19:
               vpiParent: EventControl
@@ -3144,40 +3146,27 @@ Design name:unnamed:
                   vpiName: x
                   vpiFullName: top.x
                   vpiActual: Net name:x
-            vpiStmt Begin start:30:21 end:32:4:
+            vpiStmt Begin start:30:21 end:31:29:
               vpiParent: EventControl
               vpiFullName: top
               vpiStmt (1 items):
-                Assignment start:31:9 end:31:30:
+                Assignment start:31:9 end:31:24:
                   vpiParent: Begin
+                  vpiOpType: assignment (96)
                   vpiLhs RefObj name:cout start:31:9 end:31:13:
                     vpiParent: Assignment
                     vpiName: cout
                     vpiFullName: top.cout
                     vpiActual: Variable name:cout
-                  vpiRhs Operation start:31:18 end:31:30:
+                  vpiRhs Operation start:31:18 end:31:24:
                     vpiParent: Assignment
-                    vpiOpType: unary nor (8)
-                    vpiOperand (2 items):
-                      Operation start:31:18 end:31:27:
+                    vpiOpType: bitwise and (28)
+                    vpiOperand (1 items):
+                      RefObj name:cout1 start:31:18 end:31:23:
                         vpiParent: Operation
-                        vpiOpType: bitwise and (28)
-                        vpiOperand (2 items):
-                          RefObj name:cout1 start:31:18 end:31:23:
-                            vpiParent: Operation
-                            vpiName: cout1
-                            vpiFullName: top.cout1
-                            vpiActual: Variable name:cout1
-                          RefObj name:cin start:31:24 end:31:27:
-                            vpiParent: Operation
-                            vpiName: cin
-                            vpiFullName: top.cin
-                            vpiActual: Net name:cin
-                      RefObj name:y start:31:29 end:31:30:
-                        vpiParent: Operation
-                        vpiName: y
-                        vpiFullName: top.y
-                        vpiActual: Net name:y
+                        vpiName: cout1
+                        vpiFullName: top.cout1
+                        vpiActual: Variable name:cout1
           vpiAlwaysType: always (1)
         Always start:34:1 end:46:4:
           vpiParent: Module name:top
@@ -3227,6 +3216,7 @@ Design name:unnamed:
                       Assignment start:37:2 end:37:14:
                         vpiParent: Begin
                         vpiBlocking: true
+                        vpiOpType: assignment (96)
                         vpiLhs RefObj name:int1 start:37:2 end:37:6:
                           vpiParent: Assignment
                           vpiName: int1
@@ -3330,6 +3320,7 @@ Design name:unnamed:
                                   Assignment start:42:4 end:42:16:
                                     vpiParent: Begin
                                     vpiBlocking: true
+                                    vpiOpType: assignment (96)
                                     vpiLhs RefObj name:int2 start:42:4 end:42:8:
                                       vpiParent: Assignment
                                       vpiName: int2
@@ -3410,6 +3401,7 @@ Design name:unnamed:
                         Assignment start:50:3 end:50:12:
                           vpiParent: Begin
                           vpiBlocking: true
+                          vpiOpType: assignment (96)
                           vpiLhs RefObj name:int3 start:50:3 end:50:7:
                             vpiParent: Assignment
                             vpiName: int3
@@ -3569,6 +3561,7 @@ Design name:unnamed:
               Assignment start:12:5 end:12:10:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:A start:12:5 end:12:6:
                   vpiParent: Assignment
                   vpiName: A
@@ -3587,6 +3580,7 @@ Design name:unnamed:
               Assignment start:13:5 end:13:13:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:cout start:13:5 end:13:9:
                   vpiParent: Assignment
                   vpiName: cout
@@ -3621,6 +3615,7 @@ Design name:unnamed:
               vpiStmt (1 items):
                 Assignment start:18:5 end:18:18:
                   vpiParent: Begin
+                  vpiOpType: assignment (96)
                   vpiLhs RefObj name:A start:18:5 end:18:6:
                     vpiParent: Assignment
                     vpiName: A
@@ -3660,6 +3655,7 @@ Design name:unnamed:
               vpiStmt (1 items):
                 Assignment start:21:5 end:21:19:
                   vpiParent: Begin
+                  vpiOpType: assignment (96)
                   vpiLhs RefObj name:cout start:21:5 end:21:9:
                     vpiParent: Assignment
                     vpiName: cout
@@ -3839,6 +3835,7 @@ Design name:unnamed:
                 vpiStmt Assignment start:15:12 end:15:18:
                   vpiParent: DelayControl
                   vpiBlocking: true
+                  vpiOpType: assignment (96)
                   vpiLhs RefObj name:in start:15:12 end:15:14:
                     vpiParent: Assignment
                     vpiName: in
@@ -3886,6 +3883,7 @@ Design name:unnamed:
                       vpiStmt Assignment start:17:16 end:17:27:
                         vpiParent: DelayControl
                         vpiBlocking: true
+                        vpiOpType: assignment (96)
                         vpiLhs RefObj name:in start:17:16 end:17:18:
                           vpiParent: Assignment
                           vpiName: in
@@ -3969,6 +3967,7 @@ Design name:unnamed:
               vpiStmt (1 items):
                 Assignment start:32:5 end:32:34:
                   vpiParent: Begin
+                  vpiOpType: assignment (96)
                   vpiLhs RefObj name:patt_out1 start:32:5 end:32:14:
                     vpiParent: Assignment
                     vpiName: patt_out1
@@ -4058,6 +4057,7 @@ Design name:unnamed:
               vpiStmt (1 items):
                 Assignment start:35:9 end:35:53:
                   vpiParent: Begin
+                  vpiOpType: assignment (96)
                   vpiLhs RefObj name:patt_carry_out1 start:35:9 end:35:24:
                     vpiParent: Assignment
                     vpiName: patt_carry_out1
@@ -4122,8 +4122,8 @@ Design name:unnamed:
             vpiStmt Begin start:38:17 end:41:8:
               vpiParent: EventControl
               vpiFullName: testbench
-              vpiStmt (1 items):
-                IfStmt start:39:9 end:40:48:
+              vpiStmt (2 items):
+                IfStmt start:39:9 end:40:42:
                   vpiParent: Begin
                   vpiCondition BitSelect name:in[0] start:39:13 end:39:18:
                     vpiParent: IfStmt
@@ -4144,14 +4144,15 @@ Design name:unnamed:
                         vpiParent: Constant
                         vpiFullName: testbench.in[0]
                         vpiActual: IntTypespec
-                  vpiStmt Assignment start:40:13 end:40:47:
+                  vpiStmt Assignment start:40:13 end:40:40:
                     vpiParent: IfStmt
+                    vpiOpType: assignment (96)
                     vpiLhs RefObj name:patt_out start:40:13 end:40:21:
                       vpiParent: Assignment
                       vpiName: patt_out
                       vpiFullName: testbench.patt_out
                       vpiActual: Variable name:patt_out
-                    vpiRhs Operation start:40:26 end:40:47:
+                    vpiRhs Operation start:40:26 end:40:40:
                       vpiParent: Assignment
                       vpiOpType: bitwise or (29)
                       vpiOperand (2 items):
@@ -4160,48 +4161,44 @@ Design name:unnamed:
                           vpiName: patt_out
                           vpiFullName: testbench.patt_out
                           vpiActual: Variable name:patt_out
-                        Operation start:40:35 end:40:47:
+                        BitSelect name:in[1] start:40:35 end:40:40:
                           vpiParent: Operation
-                          vpiOpType: unary nand (6)
-                          vpiOperand (2 items):
-                            BitSelect name:in[1] start:40:35 end:40:40:
-                              vpiParent: Operation
-                              vpiName: in[1]
+                          vpiName: in[1]
+                          vpiFullName: testbench.in[1]
+                          vpiPrefix RefObj name:in start:40:35 end:40:37:
+                            vpiParent: BitSelect name:in[1]
+                            vpiName: in
+                            vpiFullName: testbench.in
+                            vpiActual: Variable name:in
+                          vpiIndex Constant start:40:38 end:40:39:
+                            vpiParent: BitSelect name:in[1]
+                            vpiConstType: int (7)
+                            vpiSize: 32
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
                               vpiFullName: testbench.in[1]
-                              vpiPrefix RefObj name:in start:40:35 end:40:37:
-                                vpiParent: BitSelect name:in[1]
-                                vpiName: in
-                                vpiFullName: testbench.in
-                                vpiActual: Variable name:in
-                              vpiIndex Constant start:40:38 end:40:39:
-                                vpiParent: BitSelect name:in[1]
-                                vpiConstType: int (7)
-                                vpiSize: 32
-                                vpiDecompile: "1"
-                                vpiValue: 1
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: testbench.in[1]
-                                  vpiActual: IntTypespec
-                            BitSelect name:in[2] start:40:42 end:40:47:
-                              vpiParent: Operation
-                              vpiName: in[2]
-                              vpiFullName: testbench.in[2]
-                              vpiPrefix RefObj name:in start:40:42 end:40:44:
-                                vpiParent: BitSelect name:in[2]
-                                vpiName: in
-                                vpiFullName: testbench.in
-                                vpiActual: Variable name:in
-                              vpiIndex Constant start:40:45 end:40:46:
-                                vpiParent: BitSelect name:in[2]
-                                vpiConstType: int (7)
-                                vpiSize: 32
-                                vpiDecompile: "2"
-                                vpiValue: 2
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: testbench.in[2]
-                                  vpiActual: IntTypespec
+                              vpiActual: IntTypespec
+                BitSelect name:in[2] start:40:42 end:40:47:
+                  vpiParent: Begin
+                  vpiName: in[2]
+                  vpiFullName: testbench.in[2]
+                  vpiPrefix RefObj name:in start:40:42 end:40:44:
+                    vpiParent: BitSelect name:in[2]
+                    vpiName: in
+                    vpiFullName: testbench.in
+                    vpiActual: Variable name:in
+                  vpiIndex Constant start:40:45 end:40:46:
+                    vpiParent: BitSelect name:in[2]
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "2"
+                    vpiValue: 2
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: testbench.in[2]
+                      vpiActual: IntTypespec
             vpiIsImplicitControl: true
           vpiAlwaysType: always (1)
         Always start:42:5 end:45:8:
@@ -4211,8 +4208,8 @@ Design name:unnamed:
             vpiStmt Begin start:42:17 end:45:8:
               vpiParent: EventControl
               vpiFullName: testbench
-              vpiStmt (1 items):
-                IfStmt start:43:9 end:44:61:
+              vpiStmt (2 items):
+                IfStmt start:43:9 end:44:55:
                   vpiParent: Begin
                   vpiCondition Operation start:43:13 end:43:19:
                     vpiParent: IfStmt
@@ -4237,64 +4234,61 @@ Design name:unnamed:
                             vpiParent: Constant
                             vpiFullName: testbench.in[0]
                             vpiActual: IntTypespec
-                  vpiStmt Assignment start:44:13 end:44:60:
+                  vpiStmt Assignment start:44:13 end:44:53:
                     vpiParent: IfStmt
+                    vpiOpType: assignment (96)
                     vpiLhs RefObj name:patt_carry_out start:44:13 end:44:27:
                       vpiParent: Assignment
                       vpiName: patt_carry_out
                       vpiFullName: testbench.patt_carry_out
                       vpiActual: Variable name:patt_carry_out
-                    vpiRhs Operation start:44:32 end:44:60:
+                    vpiRhs Operation start:44:32 end:44:53:
                       vpiParent: Assignment
-                      vpiOpType: unary nor (8)
+                      vpiOpType: bitwise and (28)
                       vpiOperand (2 items):
-                        Operation start:44:32 end:44:53:
+                        RefObj name:patt_carry_out1 start:44:32 end:44:47:
                           vpiParent: Operation
-                          vpiOpType: bitwise and (28)
-                          vpiOperand (2 items):
-                            RefObj name:patt_carry_out1 start:44:32 end:44:47:
-                              vpiParent: Operation
-                              vpiName: patt_carry_out1
-                              vpiFullName: testbench.patt_carry_out1
-                              vpiActual: Variable name:patt_carry_out1
-                            BitSelect name:in[2] start:44:48 end:44:53:
-                              vpiParent: Operation
-                              vpiName: in[2]
-                              vpiFullName: testbench.in[2]
-                              vpiPrefix RefObj name:in start:44:48 end:44:50:
-                                vpiParent: BitSelect name:in[2]
-                                vpiName: in
-                                vpiFullName: testbench.in
-                                vpiActual: Variable name:in
-                              vpiIndex Constant start:44:51 end:44:52:
-                                vpiParent: BitSelect name:in[2]
-                                vpiConstType: int (7)
-                                vpiSize: 32
-                                vpiDecompile: "2"
-                                vpiValue: 2
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: testbench.in[2]
-                                  vpiActual: IntTypespec
-                        BitSelect name:in[1] start:44:55 end:44:60:
+                          vpiName: patt_carry_out1
+                          vpiFullName: testbench.patt_carry_out1
+                          vpiActual: Variable name:patt_carry_out1
+                        BitSelect name:in[2] start:44:48 end:44:53:
                           vpiParent: Operation
-                          vpiName: in[1]
-                          vpiFullName: testbench.in[1]
-                          vpiPrefix RefObj name:in start:44:55 end:44:57:
-                            vpiParent: BitSelect name:in[1]
+                          vpiName: in[2]
+                          vpiFullName: testbench.in[2]
+                          vpiPrefix RefObj name:in start:44:48 end:44:50:
+                            vpiParent: BitSelect name:in[2]
                             vpiName: in
                             vpiFullName: testbench.in
                             vpiActual: Variable name:in
-                          vpiIndex Constant start:44:58 end:44:59:
-                            vpiParent: BitSelect name:in[1]
+                          vpiIndex Constant start:44:51 end:44:52:
+                            vpiParent: BitSelect name:in[2]
                             vpiConstType: int (7)
                             vpiSize: 32
-                            vpiDecompile: "1"
-                            vpiValue: 1
+                            vpiDecompile: "2"
+                            vpiValue: 2
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: testbench.in[1]
+                              vpiFullName: testbench.in[2]
                               vpiActual: IntTypespec
+                BitSelect name:in[1] start:44:55 end:44:60:
+                  vpiParent: Begin
+                  vpiName: in[1]
+                  vpiFullName: testbench.in[1]
+                  vpiPrefix RefObj name:in start:44:55 end:44:57:
+                    vpiParent: BitSelect name:in[1]
+                    vpiName: in
+                    vpiFullName: testbench.in
+                    vpiActual: Variable name:in
+                  vpiIndex Constant start:44:58 end:44:59:
+                    vpiParent: BitSelect name:in[1]
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: testbench.in[1]
+                      vpiActual: IntTypespec
             vpiIsImplicitControl: true
           vpiAlwaysType: always (1)
       vpiSysTaskCall (1 items):
@@ -4492,7 +4486,7 @@ Design name:unnamed:
       vpiName: work
 ===================
 [  FATAL] : 0
-[ SYNTAX] : 0
+[ SYNTAX] : 6
 [  ERROR] : 1
 [WARNING] : 0
 [   NOTE] : 0
@@ -4509,18 +4503,18 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysTests/backends/write_firrtl_logic/write_firrtl_logic/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 99.17,
             'error_count': 0,
             'file_count': 4,
             'files': {'$Output/lib/work/common.v': {'post_len': 0,
                                                     'pre_len': 832},
-                      '$Output/lib/work/write_firrtl_logic/testbench.v': {'post_len': 0,
+                      '$Output/lib/work/write_firrtl_logic/testbench.v': {'post_len': 2,
                                                                           'pre_len': 601},
-                      '$Output/lib/work/write_firrtl_logic/top.v': {'post_len': 0,
+                      '$Output/lib/work/write_firrtl_logic/top.v': {'post_len': 16,
                                                                     'pre_len': 554},
                       '$Output/lib/work/write_firrtl_logic/top_clean.v': {'post_len': 0,
                                                                           'pre_len': 192}},
-            'post_len': 0,
+            'post_len': 18,
             'pre_len': 2179,
             'test_name': 'YosysTests/backends/write_firrtl_logic/write_firrtl_logic'}}
 
@@ -4528,15 +4522,15 @@ mounts-filepath: ${HLC_DIR}/regression/YosysTests/backends/write_firrtl_logic/wr
 | INPUT                                           |   PRELEN |   POSTLEN |
 +=================================================+==========+===========+
 | $Output/lib/work/common.v                       |      832 |         0 |
-| $Output/lib/work/write_firrtl_logic/top.v       |      554 |         0 |
+| $Output/lib/work/write_firrtl_logic/top.v       |      554 |        16 |
 | $Output/lib/work/write_firrtl_logic/top_clean.v |      192 |         0 |
-| $Output/lib/work/write_firrtl_logic/testbench.v |      601 |         0 |
+| $Output/lib/work/write_firrtl_logic/testbench.v |      601 |         2 |
 +=================================================+==========+===========+
-|                                                 |     2179 |         0 |
+|                                                 |     2179 |        18 |
 +-------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 99.17
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -4547,7 +4541,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/backends/write_firrtl_logic/write_firr
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             646     646       0         0
+Others                             636     636       0         0
 ----------------------------------------------------------------
-                                   646     646       0         0
+                                   636     636       0         0
 ===================== END REDUCTION RESULT =====================

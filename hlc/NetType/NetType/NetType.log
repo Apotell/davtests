@@ -335,6 +335,7 @@ Design name:unnamed:
           Assignment start:29:3 end:29:20:
             vpiParent: Begin
             vpiBlocking: true
+            vpiOpType: assignment (96)
             vpiLhs RefObj name:Tsum.field1 start:29:3 end:29:14:
               vpiParent: Assignment
               vpiName: Tsum.field1
@@ -381,6 +382,7 @@ Design name:unnamed:
             vpiStmt Assignment start:31:5 end:31:36:
               vpiParent: ForeachStmt
               vpiBlocking: true
+              vpiOpType: add (24)
               vpiLhs RefObj name:Tsum.field1 start:31:5 end:31:16:
                 vpiParent: Assignment
                 vpiName: Tsum.field1
@@ -397,51 +399,31 @@ Design name:unnamed:
                     vpiFullName: Tsum.field1
                     vpiActual: TypespecMember name:field1
                 vpiActual: TypespecMember name:field1
-              vpiRhs Operation:
+              vpiRhs RefObj name:driver[i].field1 start:31:20 end:31:36:
                 vpiParent: Assignment
-                vpiOpType: add (24)
-                vpiOperand (2 items):
-                  RefObj name:Tsum.field1 start:31:5 end:31:16:
-                    vpiParent: Operation
-                    vpiName: Tsum.field1
-                    vpiFullName: Tsum.Tsum.field1
-                    vpiPathElem (2 items):
-                      RefObj name:Tsum start:31:5 end:31:9:
-                        vpiParent: RefObj name:Tsum.field1
-                        vpiName: Tsum
-                        vpiFullName: Tsum.Tsum
-                        vpiActual: Function name:Tsum
-                      RefObj name:field1 start:31:10 end:31:16:
-                        vpiParent: RefObj name:Tsum.field1
-                        vpiName: field1
-                        vpiFullName: Tsum.field1
-                        vpiActual: TypespecMember name:field1
+                vpiName: driver[i].field1
+                vpiFullName: Tsum.driver[i].field1
+                vpiPathElem (2 items):
+                  BitSelect name:driver[i] start:31:20 end:31:28:
+                    vpiParent: RefObj name:driver[i].field1
+                    vpiName: driver[i]
+                    vpiFullName: Tsum.driver[i].field1.driver[i]
+                    vpiPrefix RefObj name:driver start:31:20 end:31:26:
+                      vpiParent: BitSelect name:driver[i]
+                      vpiName: driver
+                      vpiFullName: Tsum.driver[i].field1.driver
+                      vpiActual: Variable name:driver
+                    vpiIndex RefObj name:i start:31:27 end:31:28:
+                      vpiParent: BitSelect name:driver[i]
+                      vpiName: i
+                      vpiFullName: Tsum.driver[i].field1.i
+                      vpiActual: Variable name:i
+                  RefObj name:field1 start:31:30 end:31:36:
+                    vpiParent: RefObj name:driver[i].field1
+                    vpiName: field1
+                    vpiFullName: Tsum.field1
                     vpiActual: TypespecMember name:field1
-                  RefObj name:driver[i].field1 start:31:20 end:31:36:
-                    vpiParent: Operation
-                    vpiName: driver[i].field1
-                    vpiFullName: Tsum.driver[i].field1
-                    vpiPathElem (2 items):
-                      BitSelect name:driver[i] start:31:20 end:31:28:
-                        vpiParent: RefObj name:driver[i].field1
-                        vpiName: driver[i]
-                        vpiFullName: Tsum.driver[i].field1.driver[i]
-                        vpiPrefix RefObj name:driver start:31:20 end:31:26:
-                          vpiParent: BitSelect name:driver[i]
-                          vpiName: driver
-                          vpiFullName: Tsum.driver[i].field1.driver
-                          vpiActual: Variable name:driver
-                        vpiIndex RefObj name:i start:31:27 end:31:28:
-                          vpiParent: BitSelect name:driver[i]
-                          vpiName: i
-                          vpiFullName: Tsum.driver[i].field1.i
-                          vpiActual: Variable name:i
-                      RefObj name:field1 start:31:30 end:31:36:
-                        vpiParent: RefObj name:driver[i].field1
-                        vpiName: field1
-                        vpiFullName: Tsum.field1
-                        vpiActual: TypespecMember name:field1
-                    vpiActual: TypespecMember name:field1
+                vpiActual: TypespecMember name:field1
       vpiReturn RefTypespec name:T start:28:20 end:28:21:
         vpiParent: Function name:Tsum
         vpiName: T
@@ -629,7 +611,7 @@ COMMAND: ${HLC_DIR}/regression/NetType/NetType/design.hldb ${HLC_DIR}/regression
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                              95      95       0         0
+Others                              91      91       0         0
 ----------------------------------------------------------------
-                                    95      95       0         0
+                                    91      91       0         0
 ===================== END REDUCTION RESULT =====================

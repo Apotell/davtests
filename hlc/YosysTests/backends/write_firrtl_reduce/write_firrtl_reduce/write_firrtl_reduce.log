@@ -12,6 +12,18 @@ COMMAND: -wd ../../../../../tests/YosysTests/backends -writepp -nobuiltin -times
 [INF:PA5502] Parsing source file "$Source01/common.v".
 [INF:PA5502] Parsing source file "$Source01/write_firrtl_reduce/top.v".
 [INF:PA5502] Parsing source file "$Source01/write_firrtl_reduce/testbench.v".
+[SNT:PA5508] $Source01/write_firrtl_reduce/top.v:22:16: Syntax error: no viable alternative at input 'y~&',
+assign A =  A1|y~&cin~^A1;
+                ^-- $Source01/write_firrtl_reduce/top.v:22:16:.
+[SNT:PA5508] $Source01/write_firrtl_reduce/top.v:23:24: Syntax error: no viable alternative at input 'cin~|',
+assign cout =  cout1&cin~|y;
+                        ^-- $Source01/write_firrtl_reduce/top.v:23:24:.
+[SNT:PA5508] $Source01/write_firrtl_reduce/testbench.v:40:39: Syntax error: mismatched input '~&' expecting ';',
+            patt_out <=  patt_out|in[1]~&in[2];
+                                       ^-- $Source01/write_firrtl_reduce/testbench.v:40:39:.
+[SNT:PA5508] $Source01/write_firrtl_reduce/testbench.v:44:52: Syntax error: mismatched input '~|' expecting ';',
+            patt_carry_out <=  patt_carry_out1&in[2]~|in[1];
+                                                    ^-- $Source01/write_firrtl_reduce/testbench.v:44:52:.
 AST_DEBUG_BEGIN
 Count: 557
 LIB: work
@@ -991,12 +1003,12 @@ n<$Source01/write_firrtl_reduce/testbench.v> u<557> t<Top_level_rule> c<1> l<1:1
                       n<> u<458> t<Statement_or_null> p<459> c<457> l<38:17> el<41:8>
                         n<> u<457> t<Statement> p<458> c<456> l<38:17> el<41:8>
                           n<> u<456> t<Statement_item> p<457> c<455> l<38:17> el<41:8>
-                            n<> u<455> t<Seq_block> p<456> c<453> l<38:17> el<41:8>
-                              n<> u<453> t<Statement_or_null> p<455> c<452> s<454> l<39:9> el<40:48>
-                                n<> u<452> t<Statement> p<453> c<451> l<39:9> el<40:48>
-                                  n<> u<451> t<Statement_item> p<452> c<450> l<39:9> el<40:48>
-                                    n<> u<450> t<Conditional_statement> p<451> c<412> l<39:9> el<40:48>
-                                      n<> u<412> t<Cond_predicate> p<450> c<411> s<449> l<39:13> el<39:18>
+                            n<> u<455> t<Seq_block> p<456> c<441> l<38:17> el<41:8>
+                              n<> u<441> t<Statement_or_null> p<455> c<440> s<453> l<39:9> el<40:42>
+                                n<> u<440> t<Statement> p<441> c<439> l<39:9> el<40:42>
+                                  n<> u<439> t<Statement_item> p<440> c<438> l<39:9> el<40:42>
+                                    n<> u<438> t<Conditional_statement> p<439> c<412> l<39:9> el<40:42>
+                                      n<> u<412> t<Cond_predicate> p<438> c<411> s<437> l<39:13> el<39:18>
                                         n<> u<411> t<Expression_or_cond_pattern> p<412> c<410> l<39:13> el<39:18>
                                           n<> u<410> t<Expression> p<411> c<409> l<39:13> el<39:18>
                                             n<> u<409> t<Primary> p<410> c<408> l<39:13> el<39:18>
@@ -1008,43 +1020,43 @@ n<$Source01/write_firrtl_reduce/testbench.v> u<557> t<Top_level_rule> c<1> l<1:1
                                                       n<> u<404> t<Primary> p<405> c<403> l<39:16> el<39:17>
                                                         n<> u<403> t<Primary_literal> p<404> c<402> l<39:16> el<39:17>
                                                           n<0> u<402> t<INTEGRAL_NUMBER> p<403> l<39:16> el<39:17>
-                                      n<> u<449> t<Statement_or_null> p<450> c<448> l<40:13> el<40:48>
-                                        n<> u<448> t<Statement> p<449> c<447> l<40:13> el<40:48>
-                                          n<> u<447> t<Statement_item> p<448> c<446> l<40:13> el<40:48>
-                                            n<> u<446> t<Nonblocking_assignment> p<447> c<417> l<40:13> el<40:47>
-                                              n<> u<417> t<Variable_lvalue> p<446> c<414> s<445> l<40:13> el<40:21>
+                                      n<> u<437> t<Statement_or_null> p<438> c<436> l<40:13> el<40:42>
+                                        n<> u<436> t<Statement> p<437> c<435> l<40:13> el<40:42>
+                                          n<> u<435> t<Statement_item> p<436> c<434> l<40:13> el<40:42>
+                                            n<> u<434> t<Nonblocking_assignment> p<435> c<417> l<40:13> el<40:40>
+                                              n<> u<417> t<Variable_lvalue> p<434> c<414> s<433> l<40:13> el<40:21>
                                                 n<> u<414> t<Ps_or_hierarchical_identifier> p<417> c<413> s<416> l<40:13> el<40:21>
                                                   n<patt_out> u<413> t<SIMPLE_IDENTIFIER> p<414> l<40:13> el<40:21>
                                                 n<> u<416> t<Select> p<417> c<415> l<40:22> el<40:22>
                                                   n<> u<415> t<Bit_select> p<416> l<40:22> el<40:22>
-                                              n<> u<445> t<Expression> p<446> c<421> l<40:26> el<40:47>
-                                                n<> u<421> t<Expression> p<445> c<420> s<444> l<40:26> el<40:34>
+                                              n<> u<433> t<Expression> p<434> c<421> l<40:26> el<40:40>
+                                                n<> u<421> t<Expression> p<433> c<420> s<432> l<40:26> el<40:34>
                                                   n<> u<420> t<Primary> p<421> c<419> l<40:26> el<40:34>
                                                     n<> u<419> t<Primary_literal> p<420> c<418> l<40:26> el<40:34>
                                                       n<patt_out> u<418> t<SIMPLE_IDENTIFIER> p<419> l<40:26> el<40:34>
-                                                n<> u<444> t<BinaryOp_BitwOr> p<445> s<443> l<40:34> el<40:35>
-                                                n<> u<443> t<Expression> p<445> c<431> l<40:35> el<40:47>
-                                                  n<> u<431> t<Expression> p<443> c<430> s<442> l<40:35> el<40:40>
-                                                    n<> u<430> t<Primary> p<431> c<429> l<40:35> el<40:40>
-                                                      n<> u<429> t<Subroutine_call> p<430> c<422> l<40:35> el<40:40>
-                                                        n<in> u<422> t<SIMPLE_IDENTIFIER> p<429> s<428> l<40:35> el<40:37>
-                                                        n<> u<428> t<Select> p<429> c<427> l<40:37> el<40:40>
-                                                          n<> u<427> t<Bit_select> p<428> c<426> l<40:37> el<40:40>
-                                                            n<> u<426> t<Expression> p<427> c<425> l<40:38> el<40:39>
-                                                              n<> u<425> t<Primary> p<426> c<424> l<40:38> el<40:39>
-                                                                n<> u<424> t<Primary_literal> p<425> c<423> l<40:38> el<40:39>
-                                                                  n<1> u<423> t<INTEGRAL_NUMBER> p<424> l<40:38> el<40:39>
-                                                  n<> u<442> t<BinaryOp_ReductNand> p<443> s<441> l<40:40> el<40:42>
-                                                  n<> u<441> t<Expression> p<443> c<440> l<40:42> el<40:47>
-                                                    n<> u<440> t<Primary> p<441> c<439> l<40:42> el<40:47>
-                                                      n<> u<439> t<Subroutine_call> p<440> c<432> l<40:42> el<40:47>
-                                                        n<in> u<432> t<SIMPLE_IDENTIFIER> p<439> s<438> l<40:42> el<40:44>
-                                                        n<> u<438> t<Select> p<439> c<437> l<40:44> el<40:47>
-                                                          n<> u<437> t<Bit_select> p<438> c<436> l<40:44> el<40:47>
-                                                            n<> u<436> t<Expression> p<437> c<435> l<40:45> el<40:46>
-                                                              n<> u<435> t<Primary> p<436> c<434> l<40:45> el<40:46>
-                                                                n<> u<434> t<Primary_literal> p<435> c<433> l<40:45> el<40:46>
-                                                                  n<2> u<433> t<INTEGRAL_NUMBER> p<434> l<40:45> el<40:46>
+                                                n<> u<432> t<BinaryOp_BitwOr> p<433> s<431> l<40:34> el<40:35>
+                                                n<> u<431> t<Expression> p<433> c<430> l<40:35> el<40:40>
+                                                  n<> u<430> t<Primary> p<431> c<429> l<40:35> el<40:40>
+                                                    n<> u<429> t<Subroutine_call> p<430> c<422> l<40:35> el<40:40>
+                                                      n<in> u<422> t<SIMPLE_IDENTIFIER> p<429> s<428> l<40:35> el<40:37>
+                                                      n<> u<428> t<Select> p<429> c<427> l<40:37> el<40:40>
+                                                        n<> u<427> t<Bit_select> p<428> c<426> l<40:37> el<40:40>
+                                                          n<> u<426> t<Expression> p<427> c<425> l<40:38> el<40:39>
+                                                            n<> u<425> t<Primary> p<426> c<424> l<40:38> el<40:39>
+                                                              n<> u<424> t<Primary_literal> p<425> c<423> l<40:38> el<40:39>
+                                                                n<1> u<423> t<INTEGRAL_NUMBER> p<424> l<40:38> el<40:39>
+                              n<> u<453> t<Statement_or_null> p<455> c<452> s<454> l<40:42> el<40:48>
+                                n<> u<452> t<Statement> p<453> c<451> l<40:42> el<40:48>
+                                  n<> u<451> t<Statement_item> p<452> c<450> l<40:42> el<40:48>
+                                    n<> u<450> t<Subroutine_call_statement> p<451> c<449> l<40:42> el<40:48>
+                                      n<> u<449> t<Subroutine_call> p<450> c<442> l<40:42> el<40:47>
+                                        n<in> u<442> t<SIMPLE_IDENTIFIER> p<449> s<448> l<40:42> el<40:44>
+                                        n<> u<448> t<Select> p<449> c<447> l<40:44> el<40:47>
+                                          n<> u<447> t<Bit_select> p<448> c<446> l<40:44> el<40:47>
+                                            n<> u<446> t<Expression> p<447> c<445> l<40:45> el<40:46>
+                                              n<> u<445> t<Primary> p<446> c<444> l<40:45> el<40:46>
+                                                n<> u<444> t<Primary_literal> p<445> c<443> l<40:45> el<40:46>
+                                                  n<2> u<443> t<INTEGRAL_NUMBER> p<444> l<40:45> el<40:46>
                               n<> u<454> t<END> p<455> l<41:5> el<41:8>
         n<> u<536> t<Non_port_module_item> p<554> c<535> s<552> l<42:5> el<45:8>
           n<> u<535> t<Module_or_generate_item> p<536> c<534> l<42:5> el<45:8>
@@ -1060,12 +1072,12 @@ n<$Source01/write_firrtl_reduce/testbench.v> u<557> t<Top_level_rule> c<1> l<1:1
                       n<> u<529> t<Statement_or_null> p<530> c<528> l<42:17> el<45:8>
                         n<> u<528> t<Statement> p<529> c<527> l<42:17> el<45:8>
                           n<> u<527> t<Statement_item> p<528> c<526> l<42:17> el<45:8>
-                            n<> u<526> t<Seq_block> p<527> c<524> l<42:17> el<45:8>
-                              n<> u<524> t<Statement_or_null> p<526> c<523> s<525> l<43:9> el<44:61>
-                                n<> u<523> t<Statement> p<524> c<522> l<43:9> el<44:61>
-                                  n<> u<522> t<Statement_item> p<523> c<521> l<43:9> el<44:61>
-                                    n<> u<521> t<Conditional_statement> p<522> c<483> l<43:9> el<44:61>
-                                      n<> u<483> t<Cond_predicate> p<521> c<482> s<520> l<43:13> el<43:19>
+                            n<> u<526> t<Seq_block> p<527> c<512> l<42:17> el<45:8>
+                              n<> u<512> t<Statement_or_null> p<526> c<511> s<524> l<43:9> el<44:55>
+                                n<> u<511> t<Statement> p<512> c<510> l<43:9> el<44:55>
+                                  n<> u<510> t<Statement_item> p<511> c<509> l<43:9> el<44:55>
+                                    n<> u<509> t<Conditional_statement> p<510> c<483> l<43:9> el<44:55>
+                                      n<> u<483> t<Cond_predicate> p<509> c<482> s<508> l<43:13> el<43:19>
                                         n<> u<482> t<Expression_or_cond_pattern> p<483> c<481> l<43:13> el<43:19>
                                           n<> u<481> t<Expression> p<482> c<480> l<43:13> el<43:19>
                                             n<> u<480> t<TILDA> p<481> s<479> l<43:13> el<43:14>
@@ -1079,43 +1091,43 @@ n<$Source01/write_firrtl_reduce/testbench.v> u<557> t<Top_level_rule> c<1> l<1:1
                                                         n<> u<473> t<Primary> p<474> c<472> l<43:17> el<43:18>
                                                           n<> u<472> t<Primary_literal> p<473> c<471> l<43:17> el<43:18>
                                                             n<0> u<471> t<INTEGRAL_NUMBER> p<472> l<43:17> el<43:18>
-                                      n<> u<520> t<Statement_or_null> p<521> c<519> l<44:13> el<44:61>
-                                        n<> u<519> t<Statement> p<520> c<518> l<44:13> el<44:61>
-                                          n<> u<518> t<Statement_item> p<519> c<517> l<44:13> el<44:61>
-                                            n<> u<517> t<Nonblocking_assignment> p<518> c<488> l<44:13> el<44:60>
-                                              n<> u<488> t<Variable_lvalue> p<517> c<485> s<516> l<44:13> el<44:27>
+                                      n<> u<508> t<Statement_or_null> p<509> c<507> l<44:13> el<44:55>
+                                        n<> u<507> t<Statement> p<508> c<506> l<44:13> el<44:55>
+                                          n<> u<506> t<Statement_item> p<507> c<505> l<44:13> el<44:55>
+                                            n<> u<505> t<Nonblocking_assignment> p<506> c<488> l<44:13> el<44:53>
+                                              n<> u<488> t<Variable_lvalue> p<505> c<485> s<504> l<44:13> el<44:27>
                                                 n<> u<485> t<Ps_or_hierarchical_identifier> p<488> c<484> s<487> l<44:13> el<44:27>
                                                   n<patt_carry_out> u<484> t<SIMPLE_IDENTIFIER> p<485> l<44:13> el<44:27>
                                                 n<> u<487> t<Select> p<488> c<486> l<44:28> el<44:28>
                                                   n<> u<486> t<Bit_select> p<487> l<44:28> el<44:28>
-                                              n<> u<516> t<Expression> p<517> c<504> l<44:32> el<44:60>
-                                                n<> u<504> t<Expression> p<516> c<492> s<515> l<44:32> el<44:53>
-                                                  n<> u<492> t<Expression> p<504> c<491> s<503> l<44:32> el<44:47>
-                                                    n<> u<491> t<Primary> p<492> c<490> l<44:32> el<44:47>
-                                                      n<> u<490> t<Primary_literal> p<491> c<489> l<44:32> el<44:47>
-                                                        n<patt_carry_out1> u<489> t<SIMPLE_IDENTIFIER> p<490> l<44:32> el<44:47>
-                                                  n<> u<503> t<BinaryOp_BitwAnd> p<504> s<502> l<44:47> el<44:48>
-                                                  n<> u<502> t<Expression> p<504> c<501> l<44:48> el<44:53>
-                                                    n<> u<501> t<Primary> p<502> c<500> l<44:48> el<44:53>
-                                                      n<> u<500> t<Subroutine_call> p<501> c<493> l<44:48> el<44:53>
-                                                        n<in> u<493> t<SIMPLE_IDENTIFIER> p<500> s<499> l<44:48> el<44:50>
-                                                        n<> u<499> t<Select> p<500> c<498> l<44:50> el<44:53>
-                                                          n<> u<498> t<Bit_select> p<499> c<497> l<44:50> el<44:53>
-                                                            n<> u<497> t<Expression> p<498> c<496> l<44:51> el<44:52>
-                                                              n<> u<496> t<Primary> p<497> c<495> l<44:51> el<44:52>
-                                                                n<> u<495> t<Primary_literal> p<496> c<494> l<44:51> el<44:52>
-                                                                  n<2> u<494> t<INTEGRAL_NUMBER> p<495> l<44:51> el<44:52>
-                                                n<> u<515> t<BinaryOp_ReductNor> p<516> s<514> l<44:53> el<44:55>
-                                                n<> u<514> t<Expression> p<516> c<513> l<44:55> el<44:60>
-                                                  n<> u<513> t<Primary> p<514> c<512> l<44:55> el<44:60>
-                                                    n<> u<512> t<Subroutine_call> p<513> c<505> l<44:55> el<44:60>
-                                                      n<in> u<505> t<SIMPLE_IDENTIFIER> p<512> s<511> l<44:55> el<44:57>
-                                                      n<> u<511> t<Select> p<512> c<510> l<44:57> el<44:60>
-                                                        n<> u<510> t<Bit_select> p<511> c<509> l<44:57> el<44:60>
-                                                          n<> u<509> t<Expression> p<510> c<508> l<44:58> el<44:59>
-                                                            n<> u<508> t<Primary> p<509> c<507> l<44:58> el<44:59>
-                                                              n<> u<507> t<Primary_literal> p<508> c<506> l<44:58> el<44:59>
-                                                                n<1> u<506> t<INTEGRAL_NUMBER> p<507> l<44:58> el<44:59>
+                                              n<> u<504> t<Expression> p<505> c<492> l<44:32> el<44:53>
+                                                n<> u<492> t<Expression> p<504> c<491> s<503> l<44:32> el<44:47>
+                                                  n<> u<491> t<Primary> p<492> c<490> l<44:32> el<44:47>
+                                                    n<> u<490> t<Primary_literal> p<491> c<489> l<44:32> el<44:47>
+                                                      n<patt_carry_out1> u<489> t<SIMPLE_IDENTIFIER> p<490> l<44:32> el<44:47>
+                                                n<> u<503> t<BinaryOp_BitwAnd> p<504> s<502> l<44:47> el<44:48>
+                                                n<> u<502> t<Expression> p<504> c<501> l<44:48> el<44:53>
+                                                  n<> u<501> t<Primary> p<502> c<500> l<44:48> el<44:53>
+                                                    n<> u<500> t<Subroutine_call> p<501> c<493> l<44:48> el<44:53>
+                                                      n<in> u<493> t<SIMPLE_IDENTIFIER> p<500> s<499> l<44:48> el<44:50>
+                                                      n<> u<499> t<Select> p<500> c<498> l<44:50> el<44:53>
+                                                        n<> u<498> t<Bit_select> p<499> c<497> l<44:50> el<44:53>
+                                                          n<> u<497> t<Expression> p<498> c<496> l<44:51> el<44:52>
+                                                            n<> u<496> t<Primary> p<497> c<495> l<44:51> el<44:52>
+                                                              n<> u<495> t<Primary_literal> p<496> c<494> l<44:51> el<44:52>
+                                                                n<2> u<494> t<INTEGRAL_NUMBER> p<495> l<44:51> el<44:52>
+                              n<> u<524> t<Statement_or_null> p<526> c<523> s<525> l<44:55> el<44:61>
+                                n<> u<523> t<Statement> p<524> c<522> l<44:55> el<44:61>
+                                  n<> u<522> t<Statement_item> p<523> c<521> l<44:55> el<44:61>
+                                    n<> u<521> t<Subroutine_call_statement> p<522> c<520> l<44:55> el<44:61>
+                                      n<> u<520> t<Subroutine_call> p<521> c<513> l<44:55> el<44:60>
+                                        n<in> u<513> t<SIMPLE_IDENTIFIER> p<520> s<519> l<44:55> el<44:57>
+                                        n<> u<519> t<Select> p<520> c<518> l<44:57> el<44:60>
+                                          n<> u<518> t<Bit_select> p<519> c<517> l<44:57> el<44:60>
+                                            n<> u<517> t<Expression> p<518> c<516> l<44:58> el<44:59>
+                                              n<> u<516> t<Primary> p<517> c<515> l<44:58> el<44:59>
+                                                n<> u<515> t<Primary_literal> p<516> c<514> l<44:58> el<44:59>
+                                                  n<1> u<514> t<INTEGRAL_NUMBER> p<515> l<44:58> el<44:59>
                               n<> u<525> t<END> p<526> l<45:5> el<45:8>
         n<> u<552> t<Non_port_module_item> p<554> c<551> s<553> l<46:2> el<46:29>
           n<> u<551> t<Module_or_generate_item> p<552> c<550> l<46:2> el<46:29>
@@ -1136,15 +1148,15 @@ n<$Source01/write_firrtl_reduce/testbench.v> u<557> t<Top_level_rule> c<1> l<1:1
         n<> u<553> t<ENDMODULE> p<554> l<48:1> el<48:10>
 AST_DEBUG_END
 AST_DEBUG_BEGIN
-Count: 173
+Count: 179
 LIB: work
 FILE<0>:$Source01/write_firrtl_reduce/top.v
-n<$Source01/write_firrtl_reduce/top.v> u<172> t<Top_level_rule> c<1> l<1:1> el<29:1>
-  n<> u<1> t<Null_rule> p<172> s<171> l<1:1>
-  n<> u<171> t<Source_text> p<172> c<170> l<1:1> el<28:10>
-    n<> u<170> t<Description> p<171> c<169> l<1:1> el<28:10>
-      n<> u<169> t<Module_declaration> p<170> c<36> l<1:1> el<28:10>
-        n<> u<36> t<Module_ansi_header> p<169> c<2> s<49> l<1:1> el<9:4>
+n<$Source01/write_firrtl_reduce/top.v> u<178> t<Top_level_rule> c<1> l<1:1> el<29:1>
+  n<> u<1> t<Null_rule> p<178> s<177> l<1:1>
+  n<> u<177> t<Source_text> p<178> c<176> l<1:1> el<28:10>
+    n<> u<176> t<Description> p<177> c<175> l<1:1> el<28:10>
+      n<> u<175> t<Module_declaration> p<176> c<36> l<1:1> el<28:10>
+        n<> u<36> t<Module_ansi_header> p<175> c<2> s<49> l<1:1> el<9:4>
           n<module> u<2> t<MODULE> p<36> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<36> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<36> s<35> l<2:1> el<2:1>
@@ -1179,7 +1191,7 @@ n<$Source01/write_firrtl_reduce/top.v> u<172> t<Top_level_rule> c<1> l<1:1> el<2
                 n<> u<31> t<Net_port_type> p<32> c<30> l<8:9> el<8:9>
                   n<> u<30> t<Data_type_or_implicit> p<31> l<8:9> el<8:9>
               n<cout> u<33> t<SIMPLE_IDENTIFIER> p<34> l<8:9> el<8:13>
-        n<> u<49> t<Non_port_module_item> p<169> c<48> s<50> l<11:2> el<11:16>
+        n<> u<49> t<Non_port_module_item> p<175> c<48> s<50> l<11:2> el<11:16>
           n<> u<48> t<Module_or_generate_item> p<49> c<47> l<11:2> el<11:16>
             n<> u<47> t<Module_common_item> p<48> c<46> l<11:2> el<11:16>
               n<> u<46> t<Module_or_generate_item_declaration> p<47> c<45> l<11:2> el<11:16>
@@ -1192,11 +1204,11 @@ n<$Source01/write_firrtl_reduce/top.v> u<172> t<Top_level_rule> c<1> l<1:1> el<2
                         n<A1> u<39> t<SIMPLE_IDENTIFIER> p<40> l<11:7> el<11:9>
                       n<> u<42> t<Net_decl_assignment> p<43> c<41> l<11:10> el<11:15>
                         n<cout1> u<41> t<SIMPLE_IDENTIFIER> p<42> l<11:10> el<11:15>
-        n<//  initial begin> u<50> t<LINE_COMMENT> p<169> s<51> l<13:1> el<13:18>
-        n<//     A = 0;> u<51> t<LINE_COMMENT> p<169> s<52> l<14:1> el<14:14>
-        n<//     cout = 0;> u<52> t<LINE_COMMENT> p<169> s<53> l<15:1> el<15:17>
-        n<//  end> u<53> t<LINE_COMMENT> p<169> s<78> l<16:1> el<16:8>
-        n<> u<78> t<Non_port_module_item> p<169> c<77> s<107> l<19:1> el<19:24>
+        n<//  initial begin> u<50> t<LINE_COMMENT> p<175> s<51> l<13:1> el<13:18>
+        n<//     A = 0;> u<51> t<LINE_COMMENT> p<175> s<52> l<14:1> el<14:14>
+        n<//     cout = 0;> u<52> t<LINE_COMMENT> p<175> s<53> l<15:1> el<15:17>
+        n<//  end> u<53> t<LINE_COMMENT> p<175> s<78> l<16:1> el<16:8>
+        n<> u<78> t<Non_port_module_item> p<175> c<77> s<107> l<19:1> el<19:24>
           n<> u<77> t<Module_or_generate_item> p<78> c<76> l<19:1> el<19:24>
             n<> u<76> t<Module_common_item> p<77> c<75> l<19:1> el<19:24>
               n<> u<75> t<Continuous_assign> p<76> c<74> l<19:1> el<19:24>
@@ -1221,7 +1233,7 @@ n<$Source01/write_firrtl_reduce/top.v> u<172> t<Top_level_rule> c<1> l<1:1> el<2
                           n<> u<67> t<Primary> p<68> c<66> l<19:20> el<19:23>
                             n<> u<66> t<Primary_literal> p<67> c<65> l<19:20> el<19:23>
                               n<cin> u<65> t<SIMPLE_IDENTIFIER> p<66> l<19:20> el<19:23>
-        n<> u<107> t<Non_port_module_item> p<169> c<106> s<140> l<20:1> el<20:30>
+        n<> u<107> t<Non_port_module_item> p<175> c<106> s<126> l<20:1> el<20:30>
           n<> u<106> t<Module_or_generate_item> p<107> c<105> l<20:1> el<20:30>
             n<> u<105> t<Module_common_item> p<106> c<104> l<20:1> el<20:30>
               n<> u<104> t<Continuous_assign> p<105> c<103> l<20:1> el<20:30>
@@ -1250,67 +1262,73 @@ n<$Source01/write_firrtl_reduce/top.v> u<172> t<Top_level_rule> c<1> l<1:1> el<2
                           n<> u<96> t<Primary> p<97> c<95> l<20:28> el<20:29>
                             n<> u<95> t<Primary_literal> p<96> c<94> l<20:28> el<20:29>
                               n<A> u<94> t<SIMPLE_IDENTIFIER> p<95> l<20:28> el<20:29>
-        n<> u<140> t<Non_port_module_item> p<169> c<139> s<167> l<22:1> el<22:27>
-          n<> u<139> t<Module_or_generate_item> p<140> c<138> l<22:1> el<22:27>
-            n<> u<138> t<Module_common_item> p<139> c<137> l<22:1> el<22:27>
-              n<> u<137> t<Continuous_assign> p<138> c<136> l<22:1> el<22:27>
-                n<> u<136> t<Net_assignment_list> p<137> c<135> l<22:8> el<22:26>
-                  n<> u<135> t<Net_assignment> p<136> c<112> l<22:8> el<22:26>
-                    n<> u<112> t<Net_lvalue> p<135> c<109> s<134> l<22:8> el<22:9>
+        n<> u<126> t<Non_port_module_item> p<175> c<125> s<128> l<22:1> el<22:16>
+          n<> u<125> t<Module_or_generate_item> p<126> c<124> l<22:1> el<22:16>
+            n<> u<124> t<Module_common_item> p<125> c<123> l<22:1> el<22:16>
+              n<> u<123> t<Continuous_assign> p<124> c<122> l<22:1> el<22:16>
+                n<> u<122> t<Net_assignment_list> p<123> c<121> l<22:8> el<22:16>
+                  n<> u<121> t<Net_assignment> p<122> c<112> l<22:8> el<22:16>
+                    n<> u<112> t<Net_lvalue> p<121> c<109> s<120> l<22:8> el<22:9>
                       n<> u<109> t<Ps_or_hierarchical_identifier> p<112> c<108> s<111> l<22:8> el<22:9>
                         n<A> u<108> t<SIMPLE_IDENTIFIER> p<109> l<22:8> el<22:9>
                       n<> u<111> t<Constant_select> p<112> c<110> l<22:10> el<22:10>
                         n<> u<110> t<Constant_bit_select> p<111> l<22:10> el<22:10>
-                    n<> u<134> t<Expression> p<135> c<116> l<22:13> el<22:26>
-                      n<> u<116> t<Expression> p<134> c<115> s<133> l<22:13> el<22:15>
+                    n<> u<120> t<Expression> p<121> c<116> l<22:13> el<22:16>
+                      n<> u<116> t<Expression> p<120> c<115> s<119> l<22:13> el<22:15>
                         n<> u<115> t<Primary> p<116> c<114> l<22:13> el<22:15>
                           n<> u<114> t<Primary_literal> p<115> c<113> l<22:13> el<22:15>
                             n<A1> u<113> t<SIMPLE_IDENTIFIER> p<114> l<22:13> el<22:15>
-                      n<> u<133> t<BinaryOp_BitwOr> p<134> s<132> l<22:15> el<22:16>
-                      n<> u<132> t<Expression> p<134> c<126> l<22:16> el<22:26>
-                        n<> u<126> t<Expression> p<132> c<120> s<131> l<22:16> el<22:22>
-                          n<> u<120> t<Expression> p<126> c<119> s<125> l<22:16> el<22:17>
-                            n<> u<119> t<Primary> p<120> c<118> l<22:16> el<22:17>
-                              n<> u<118> t<Primary_literal> p<119> c<117> l<22:16> el<22:17>
-                                n<y> u<117> t<SIMPLE_IDENTIFIER> p<118> l<22:16> el<22:17>
-                          n<> u<125> t<BinaryOp_ReductNand> p<126> s<124> l<22:17> el<22:19>
-                          n<> u<124> t<Expression> p<126> c<123> l<22:19> el<22:22>
-                            n<> u<123> t<Primary> p<124> c<122> l<22:19> el<22:22>
-                              n<> u<122> t<Primary_literal> p<123> c<121> l<22:19> el<22:22>
-                                n<cin> u<121> t<SIMPLE_IDENTIFIER> p<122> l<22:19> el<22:22>
-                        n<> u<131> t<BinaryOp_ReductXnor2> p<132> s<130> l<22:22> el<22:24>
-                        n<> u<130> t<Expression> p<132> c<129> l<22:24> el<22:26>
-                          n<> u<129> t<Primary> p<130> c<128> l<22:24> el<22:26>
-                            n<> u<128> t<Primary_literal> p<129> c<127> l<22:24> el<22:26>
-                              n<A1> u<127> t<SIMPLE_IDENTIFIER> p<128> l<22:24> el<22:26>
-        n<> u<167> t<Non_port_module_item> p<169> c<166> s<168> l<23:1> el<23:29>
-          n<> u<166> t<Module_or_generate_item> p<167> c<165> l<23:1> el<23:29>
-            n<> u<165> t<Module_common_item> p<166> c<164> l<23:1> el<23:29>
-              n<> u<164> t<Continuous_assign> p<165> c<163> l<23:1> el<23:29>
-                n<> u<163> t<Net_assignment_list> p<164> c<162> l<23:8> el<23:28>
-                  n<> u<162> t<Net_assignment> p<163> c<145> l<23:8> el<23:28>
-                    n<> u<145> t<Net_lvalue> p<162> c<142> s<161> l<23:8> el<23:12>
-                      n<> u<142> t<Ps_or_hierarchical_identifier> p<145> c<141> s<144> l<23:8> el<23:12>
-                        n<cout> u<141> t<SIMPLE_IDENTIFIER> p<142> l<23:8> el<23:12>
-                      n<> u<144> t<Constant_select> p<145> c<143> l<23:13> el<23:13>
-                        n<> u<143> t<Constant_bit_select> p<144> l<23:13> el<23:13>
-                    n<> u<161> t<Expression> p<162> c<155> l<23:16> el<23:28>
-                      n<> u<155> t<Expression> p<161> c<149> s<160> l<23:16> el<23:25>
-                        n<> u<149> t<Expression> p<155> c<148> s<154> l<23:16> el<23:21>
-                          n<> u<148> t<Primary> p<149> c<147> l<23:16> el<23:21>
-                            n<> u<147> t<Primary_literal> p<148> c<146> l<23:16> el<23:21>
-                              n<cout1> u<146> t<SIMPLE_IDENTIFIER> p<147> l<23:16> el<23:21>
-                        n<> u<154> t<BinaryOp_BitwAnd> p<155> s<153> l<23:21> el<23:22>
-                        n<> u<153> t<Expression> p<155> c<152> l<23:22> el<23:25>
-                          n<> u<152> t<Primary> p<153> c<151> l<23:22> el<23:25>
-                            n<> u<151> t<Primary_literal> p<152> c<150> l<23:22> el<23:25>
-                              n<cin> u<150> t<SIMPLE_IDENTIFIER> p<151> l<23:22> el<23:25>
-                      n<> u<160> t<BinaryOp_ReductNor> p<161> s<159> l<23:25> el<23:27>
-                      n<> u<159> t<Expression> p<161> c<158> l<23:27> el<23:28>
-                        n<> u<158> t<Primary> p<159> c<157> l<23:27> el<23:28>
-                          n<> u<157> t<Primary_literal> p<158> c<156> l<23:27> el<23:28>
-                            n<y> u<156> t<SIMPLE_IDENTIFIER> p<157> l<23:27> el<23:28>
-        n<> u<168> t<ENDMODULE> p<169> l<28:1> el<28:10>
+                      n<> u<119> t<BinaryOp_BitwOr> p<120> s<118> l<22:15> el<22:16>
+                      n<> u<118> t<Expression> p<120> c<117> l<22:16> el<22:16>
+                        n<> u<117> t<Primary> p<118> l<22:16> el<22:16>
+        n<> u<128> t<Non_port_module_item> p<175> c<127> s<130> l<22:16> el<22:16>
+          n<> u<127> t<Module_or_generate_item> p<128> l<22:16> el<22:16>
+        n<> u<130> t<Non_port_module_item> p<175> c<129> s<132> l<22:16> el<22:19>
+          n<> u<129> t<Module_or_generate_item> p<130> l<22:16> el<22:19>
+        n<> u<132> t<Non_port_module_item> p<175> c<131> s<134> l<22:19> el<22:19>
+          n<> u<131> t<Module_or_generate_item> p<132> l<22:19> el<22:19>
+        n<> u<134> t<Non_port_module_item> p<175> c<133> s<136> l<22:19> el<22:24>
+          n<> u<133> t<Module_or_generate_item> p<134> l<22:19> el<22:24>
+        n<> u<136> t<Non_port_module_item> p<175> c<135> s<138> l<22:24> el<22:24>
+          n<> u<135> t<Module_or_generate_item> p<136> l<22:24> el<22:24>
+        n<> u<138> t<Non_port_module_item> p<175> c<137> s<143> l<22:24> el<22:26>
+          n<> u<137> t<Module_or_generate_item> p<138> l<22:24> el<22:26>
+        n<> u<143> t<Non_port_module_item> p<175> c<142> s<162> l<22:26> el<22:27>
+          n<> u<142> t<Module_or_generate_item> p<143> c<141> l<22:26> el<22:27>
+            n<> u<141> t<Module_common_item> p<142> c<140> l<22:26> el<22:27>
+              n<> u<140> t<Module_or_generate_item_declaration> p<141> c<139> l<22:26> el<22:27>
+                n<> u<139> t<Package_or_generate_item_declaration> p<140> l<22:26> el<22:27>
+        n<> u<162> t<Non_port_module_item> p<175> c<161> s<164> l<23:1> el<23:22>
+          n<> u<161> t<Module_or_generate_item> p<162> c<160> l<23:1> el<23:22>
+            n<> u<160> t<Module_common_item> p<161> c<159> l<23:1> el<23:22>
+              n<> u<159> t<Continuous_assign> p<160> c<158> l<23:1> el<23:22>
+                n<> u<158> t<Net_assignment_list> p<159> c<157> l<23:8> el<23:22>
+                  n<> u<157> t<Net_assignment> p<158> c<148> l<23:8> el<23:22>
+                    n<> u<148> t<Net_lvalue> p<157> c<145> s<156> l<23:8> el<23:12>
+                      n<> u<145> t<Ps_or_hierarchical_identifier> p<148> c<144> s<147> l<23:8> el<23:12>
+                        n<cout> u<144> t<SIMPLE_IDENTIFIER> p<145> l<23:8> el<23:12>
+                      n<> u<147> t<Constant_select> p<148> c<146> l<23:13> el<23:13>
+                        n<> u<146> t<Constant_bit_select> p<147> l<23:13> el<23:13>
+                    n<> u<156> t<Expression> p<157> c<152> l<23:16> el<23:22>
+                      n<> u<152> t<Expression> p<156> c<151> s<155> l<23:16> el<23:21>
+                        n<> u<151> t<Primary> p<152> c<150> l<23:16> el<23:21>
+                          n<> u<150> t<Primary_literal> p<151> c<149> l<23:16> el<23:21>
+                            n<cout1> u<149> t<SIMPLE_IDENTIFIER> p<150> l<23:16> el<23:21>
+                      n<> u<155> t<BinaryOp_BitwAnd> p<156> s<154> l<23:21> el<23:22>
+                      n<> u<154> t<Expression> p<156> c<153> l<23:22> el<23:22>
+                        n<> u<153> t<Primary> p<154> l<23:22> el<23:22>
+        n<> u<164> t<Non_port_module_item> p<175> c<163> s<166> l<23:22> el<23:27>
+          n<> u<163> t<Module_or_generate_item> p<164> l<23:22> el<23:27>
+        n<> u<166> t<Non_port_module_item> p<175> c<165> s<168> l<23:27> el<23:27>
+          n<> u<165> t<Module_or_generate_item> p<166> l<23:27> el<23:27>
+        n<> u<168> t<Non_port_module_item> p<175> c<167> s<173> l<23:27> el<23:28>
+          n<> u<167> t<Module_or_generate_item> p<168> l<23:27> el<23:28>
+        n<> u<173> t<Non_port_module_item> p<175> c<172> s<174> l<23:28> el<23:29>
+          n<> u<172> t<Module_or_generate_item> p<173> c<171> l<23:28> el<23:29>
+            n<> u<171> t<Module_common_item> p<172> c<170> l<23:28> el<23:29>
+              n<> u<170> t<Module_or_generate_item_declaration> p<171> c<169> l<23:28> el<23:29>
+                n<> u<169> t<Package_or_generate_item_declaration> p<170> l<23:28> el<23:29>
+        n<> u<174> t<ENDMODULE> p<175> l<28:1> el<28:10>
 AST_DEBUG_END
 [INF:CP5804] $Source01/common.v:1:1: Compile module "assert_equal".
 [INF:CP5804] $Source01/common.v:12:1: Compile module "assert_dff".
@@ -2461,75 +2479,38 @@ Design name:unnamed:
                     vpiName: A
                     vpiFullName: top.A
                     vpiActual: Net name:A
-        ContAssign start:22:8 end:22:26:
+        ContAssign start:22:8 end:22:16:
           vpiParent: Module name:top
           vpiLhs RefObj name:A start:22:8 end:22:9:
             vpiParent: ContAssign
             vpiName: A
             vpiFullName: top.A
             vpiActual: Net name:A
-          vpiRhs Operation start:22:13 end:22:26:
+          vpiRhs Operation start:22:13 end:22:16:
             vpiParent: ContAssign
             vpiOpType: bitwise or (29)
-            vpiOperand (2 items):
+            vpiOperand (1 items):
               RefObj name:A1 start:22:13 end:22:15:
                 vpiParent: Operation
                 vpiName: A1
                 vpiFullName: top.A1
                 vpiActual: Net name:A1
-              Operation start:22:16 end:22:26:
-                vpiParent: Operation
-                vpiOpType: bitwise xnor (31)
-                vpiOperand (2 items):
-                  Operation start:22:16 end:22:22:
-                    vpiParent: Operation
-                    vpiOpType: unary nand (6)
-                    vpiOperand (2 items):
-                      RefObj name:y start:22:16 end:22:17:
-                        vpiParent: Operation
-                        vpiName: y
-                        vpiFullName: top.y
-                        vpiActual: Net name:y
-                      RefObj name:cin start:22:19 end:22:22:
-                        vpiParent: Operation
-                        vpiName: cin
-                        vpiFullName: top.cin
-                        vpiActual: Net name:cin
-                  RefObj name:A1 start:22:24 end:22:26:
-                    vpiParent: Operation
-                    vpiName: A1
-                    vpiFullName: top.A1
-                    vpiActual: Net name:A1
-        ContAssign start:23:8 end:23:28:
+        ContAssign start:23:8 end:23:22:
           vpiParent: Module name:top
           vpiLhs RefObj name:cout start:23:8 end:23:12:
             vpiParent: ContAssign
             vpiName: cout
             vpiFullName: top.cout
             vpiActual: Net name:cout
-          vpiRhs Operation start:23:16 end:23:28:
+          vpiRhs Operation start:23:16 end:23:22:
             vpiParent: ContAssign
-            vpiOpType: unary nor (8)
-            vpiOperand (2 items):
-              Operation start:23:16 end:23:25:
+            vpiOpType: bitwise and (28)
+            vpiOperand (1 items):
+              RefObj name:cout1 start:23:16 end:23:21:
                 vpiParent: Operation
-                vpiOpType: bitwise and (28)
-                vpiOperand (2 items):
-                  RefObj name:cout1 start:23:16 end:23:21:
-                    vpiParent: Operation
-                    vpiName: cout1
-                    vpiFullName: top.cout1
-                    vpiActual: Net name:cout1
-                  RefObj name:cin start:23:22 end:23:25:
-                    vpiParent: Operation
-                    vpiName: cin
-                    vpiFullName: top.cin
-                    vpiActual: Net name:cin
-              RefObj name:y start:23:27 end:23:28:
-                vpiParent: Operation
-                vpiName: y
-                vpiFullName: top.y
-                vpiActual: Net name:y
+                vpiName: cout1
+                vpiFullName: top.cout1
+                vpiActual: Net name:cout1
     Module name:testbench file:$Source01/write_firrtl_reduce/testbench.v start:1:1 end:48:10:
       vpiParent: Design name:unnamed
       vpiName Identifier name:testbench start:1:8 end:1:17:
@@ -2689,6 +2670,7 @@ Design name:unnamed:
                 vpiStmt Assignment start:15:12 end:15:18:
                   vpiParent: DelayControl
                   vpiBlocking: true
+                  vpiOpType: assignment (96)
                   vpiLhs RefObj name:in start:15:12 end:15:14:
                     vpiParent: Assignment
                     vpiName: in
@@ -2736,6 +2718,7 @@ Design name:unnamed:
                       vpiStmt Assignment start:17:16 end:17:27:
                         vpiParent: DelayControl
                         vpiBlocking: true
+                        vpiOpType: assignment (96)
                         vpiLhs RefObj name:in start:17:16 end:17:18:
                           vpiParent: Assignment
                           vpiName: in
@@ -2819,6 +2802,7 @@ Design name:unnamed:
               vpiStmt (1 items):
                 Assignment start:32:5 end:32:34:
                   vpiParent: Begin
+                  vpiOpType: assignment (96)
                   vpiLhs RefObj name:patt_out1 start:32:5 end:32:14:
                     vpiParent: Assignment
                     vpiName: patt_out1
@@ -2908,6 +2892,7 @@ Design name:unnamed:
               vpiStmt (1 items):
                 Assignment start:35:9 end:35:53:
                   vpiParent: Begin
+                  vpiOpType: assignment (96)
                   vpiLhs RefObj name:patt_carry_out1 start:35:9 end:35:24:
                     vpiParent: Assignment
                     vpiName: patt_carry_out1
@@ -2972,8 +2957,8 @@ Design name:unnamed:
             vpiStmt Begin start:38:17 end:41:8:
               vpiParent: EventControl
               vpiFullName: testbench
-              vpiStmt (1 items):
-                IfStmt start:39:9 end:40:48:
+              vpiStmt (2 items):
+                IfStmt start:39:9 end:40:42:
                   vpiParent: Begin
                   vpiCondition BitSelect name:in[0] start:39:13 end:39:18:
                     vpiParent: IfStmt
@@ -2994,14 +2979,15 @@ Design name:unnamed:
                         vpiParent: Constant
                         vpiFullName: testbench.in[0]
                         vpiActual: IntTypespec
-                  vpiStmt Assignment start:40:13 end:40:47:
+                  vpiStmt Assignment start:40:13 end:40:40:
                     vpiParent: IfStmt
+                    vpiOpType: assignment (96)
                     vpiLhs RefObj name:patt_out start:40:13 end:40:21:
                       vpiParent: Assignment
                       vpiName: patt_out
                       vpiFullName: testbench.patt_out
                       vpiActual: Variable name:patt_out
-                    vpiRhs Operation start:40:26 end:40:47:
+                    vpiRhs Operation start:40:26 end:40:40:
                       vpiParent: Assignment
                       vpiOpType: bitwise or (29)
                       vpiOperand (2 items):
@@ -3010,48 +2996,44 @@ Design name:unnamed:
                           vpiName: patt_out
                           vpiFullName: testbench.patt_out
                           vpiActual: Variable name:patt_out
-                        Operation start:40:35 end:40:47:
+                        BitSelect name:in[1] start:40:35 end:40:40:
                           vpiParent: Operation
-                          vpiOpType: unary nand (6)
-                          vpiOperand (2 items):
-                            BitSelect name:in[1] start:40:35 end:40:40:
-                              vpiParent: Operation
-                              vpiName: in[1]
+                          vpiName: in[1]
+                          vpiFullName: testbench.in[1]
+                          vpiPrefix RefObj name:in start:40:35 end:40:37:
+                            vpiParent: BitSelect name:in[1]
+                            vpiName: in
+                            vpiFullName: testbench.in
+                            vpiActual: Variable name:in
+                          vpiIndex Constant start:40:38 end:40:39:
+                            vpiParent: BitSelect name:in[1]
+                            vpiConstType: int (7)
+                            vpiSize: 32
+                            vpiDecompile: "1"
+                            vpiValue: 1
+                            vpiTypespec RefTypespec:
+                              vpiParent: Constant
                               vpiFullName: testbench.in[1]
-                              vpiPrefix RefObj name:in start:40:35 end:40:37:
-                                vpiParent: BitSelect name:in[1]
-                                vpiName: in
-                                vpiFullName: testbench.in
-                                vpiActual: Variable name:in
-                              vpiIndex Constant start:40:38 end:40:39:
-                                vpiParent: BitSelect name:in[1]
-                                vpiConstType: int (7)
-                                vpiSize: 32
-                                vpiDecompile: "1"
-                                vpiValue: 1
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: testbench.in[1]
-                                  vpiActual: IntTypespec
-                            BitSelect name:in[2] start:40:42 end:40:47:
-                              vpiParent: Operation
-                              vpiName: in[2]
-                              vpiFullName: testbench.in[2]
-                              vpiPrefix RefObj name:in start:40:42 end:40:44:
-                                vpiParent: BitSelect name:in[2]
-                                vpiName: in
-                                vpiFullName: testbench.in
-                                vpiActual: Variable name:in
-                              vpiIndex Constant start:40:45 end:40:46:
-                                vpiParent: BitSelect name:in[2]
-                                vpiConstType: int (7)
-                                vpiSize: 32
-                                vpiDecompile: "2"
-                                vpiValue: 2
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: testbench.in[2]
-                                  vpiActual: IntTypespec
+                              vpiActual: IntTypespec
+                BitSelect name:in[2] start:40:42 end:40:47:
+                  vpiParent: Begin
+                  vpiName: in[2]
+                  vpiFullName: testbench.in[2]
+                  vpiPrefix RefObj name:in start:40:42 end:40:44:
+                    vpiParent: BitSelect name:in[2]
+                    vpiName: in
+                    vpiFullName: testbench.in
+                    vpiActual: Variable name:in
+                  vpiIndex Constant start:40:45 end:40:46:
+                    vpiParent: BitSelect name:in[2]
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "2"
+                    vpiValue: 2
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: testbench.in[2]
+                      vpiActual: IntTypespec
             vpiIsImplicitControl: true
           vpiAlwaysType: always (1)
         Always start:42:5 end:45:8:
@@ -3061,8 +3043,8 @@ Design name:unnamed:
             vpiStmt Begin start:42:17 end:45:8:
               vpiParent: EventControl
               vpiFullName: testbench
-              vpiStmt (1 items):
-                IfStmt start:43:9 end:44:61:
+              vpiStmt (2 items):
+                IfStmt start:43:9 end:44:55:
                   vpiParent: Begin
                   vpiCondition Operation start:43:13 end:43:19:
                     vpiParent: IfStmt
@@ -3087,64 +3069,61 @@ Design name:unnamed:
                             vpiParent: Constant
                             vpiFullName: testbench.in[0]
                             vpiActual: IntTypespec
-                  vpiStmt Assignment start:44:13 end:44:60:
+                  vpiStmt Assignment start:44:13 end:44:53:
                     vpiParent: IfStmt
+                    vpiOpType: assignment (96)
                     vpiLhs RefObj name:patt_carry_out start:44:13 end:44:27:
                       vpiParent: Assignment
                       vpiName: patt_carry_out
                       vpiFullName: testbench.patt_carry_out
                       vpiActual: Variable name:patt_carry_out
-                    vpiRhs Operation start:44:32 end:44:60:
+                    vpiRhs Operation start:44:32 end:44:53:
                       vpiParent: Assignment
-                      vpiOpType: unary nor (8)
+                      vpiOpType: bitwise and (28)
                       vpiOperand (2 items):
-                        Operation start:44:32 end:44:53:
+                        RefObj name:patt_carry_out1 start:44:32 end:44:47:
                           vpiParent: Operation
-                          vpiOpType: bitwise and (28)
-                          vpiOperand (2 items):
-                            RefObj name:patt_carry_out1 start:44:32 end:44:47:
-                              vpiParent: Operation
-                              vpiName: patt_carry_out1
-                              vpiFullName: testbench.patt_carry_out1
-                              vpiActual: Variable name:patt_carry_out1
-                            BitSelect name:in[2] start:44:48 end:44:53:
-                              vpiParent: Operation
-                              vpiName: in[2]
-                              vpiFullName: testbench.in[2]
-                              vpiPrefix RefObj name:in start:44:48 end:44:50:
-                                vpiParent: BitSelect name:in[2]
-                                vpiName: in
-                                vpiFullName: testbench.in
-                                vpiActual: Variable name:in
-                              vpiIndex Constant start:44:51 end:44:52:
-                                vpiParent: BitSelect name:in[2]
-                                vpiConstType: int (7)
-                                vpiSize: 32
-                                vpiDecompile: "2"
-                                vpiValue: 2
-                                vpiTypespec RefTypespec:
-                                  vpiParent: Constant
-                                  vpiFullName: testbench.in[2]
-                                  vpiActual: IntTypespec
-                        BitSelect name:in[1] start:44:55 end:44:60:
+                          vpiName: patt_carry_out1
+                          vpiFullName: testbench.patt_carry_out1
+                          vpiActual: Variable name:patt_carry_out1
+                        BitSelect name:in[2] start:44:48 end:44:53:
                           vpiParent: Operation
-                          vpiName: in[1]
-                          vpiFullName: testbench.in[1]
-                          vpiPrefix RefObj name:in start:44:55 end:44:57:
-                            vpiParent: BitSelect name:in[1]
+                          vpiName: in[2]
+                          vpiFullName: testbench.in[2]
+                          vpiPrefix RefObj name:in start:44:48 end:44:50:
+                            vpiParent: BitSelect name:in[2]
                             vpiName: in
                             vpiFullName: testbench.in
                             vpiActual: Variable name:in
-                          vpiIndex Constant start:44:58 end:44:59:
-                            vpiParent: BitSelect name:in[1]
+                          vpiIndex Constant start:44:51 end:44:52:
+                            vpiParent: BitSelect name:in[2]
                             vpiConstType: int (7)
                             vpiSize: 32
-                            vpiDecompile: "1"
-                            vpiValue: 1
+                            vpiDecompile: "2"
+                            vpiValue: 2
                             vpiTypespec RefTypespec:
                               vpiParent: Constant
-                              vpiFullName: testbench.in[1]
+                              vpiFullName: testbench.in[2]
                               vpiActual: IntTypespec
+                BitSelect name:in[1] start:44:55 end:44:60:
+                  vpiParent: Begin
+                  vpiName: in[1]
+                  vpiFullName: testbench.in[1]
+                  vpiPrefix RefObj name:in start:44:55 end:44:57:
+                    vpiParent: BitSelect name:in[1]
+                    vpiName: in
+                    vpiFullName: testbench.in
+                    vpiActual: Variable name:in
+                  vpiIndex Constant start:44:58 end:44:59:
+                    vpiParent: BitSelect name:in[1]
+                    vpiConstType: int (7)
+                    vpiSize: 32
+                    vpiDecompile: "1"
+                    vpiValue: 1
+                    vpiTypespec RefTypespec:
+                      vpiParent: Constant
+                      vpiFullName: testbench.in[1]
+                      vpiActual: IntTypespec
             vpiIsImplicitControl: true
           vpiAlwaysType: always (1)
       vpiSysTaskCall (1 items):
@@ -3337,7 +3316,7 @@ Design name:unnamed:
       vpiName: work
 ===================
 [  FATAL] : 0
-[ SYNTAX] : 0
+[ SYNTAX] : 4
 [  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 2
@@ -3354,16 +3333,16 @@ Environment:
 mounts-filepath: ${HLC_DIR}/regression/YosysTests/backends/write_firrtl_reduce/write_firrtl_reduce/mounts.json
 
 
-{'result': {'coverage': 100.0,
+{'result': {'coverage': 98.89,
             'error_count': 0,
             'file_count': 3,
             'files': {'$Output/lib/work/common.v': {'post_len': 0,
                                                     'pre_len': 832},
-                      '$Output/lib/work/write_firrtl_reduce/testbench.v': {'post_len': 0,
+                      '$Output/lib/work/write_firrtl_reduce/testbench.v': {'post_len': 2,
                                                                            'pre_len': 601},
-                      '$Output/lib/work/write_firrtl_reduce/top.v': {'post_len': 0,
+                      '$Output/lib/work/write_firrtl_reduce/top.v': {'post_len': 16,
                                                                      'pre_len': 188}},
-            'post_len': 0,
+            'post_len': 18,
             'pre_len': 1621,
             'test_name': 'YosysTests/backends/write_firrtl_reduce/write_firrtl_reduce'}}
 
@@ -3371,14 +3350,14 @@ mounts-filepath: ${HLC_DIR}/regression/YosysTests/backends/write_firrtl_reduce/w
 | INPUT                                            |   PRELEN |   POSTLEN |
 +==================================================+==========+===========+
 | $Output/lib/work/common.v                        |      832 |         0 |
-| $Output/lib/work/write_firrtl_reduce/top.v       |      188 |         0 |
-| $Output/lib/work/write_firrtl_reduce/testbench.v |      601 |         0 |
+| $Output/lib/work/write_firrtl_reduce/top.v       |      188 |        16 |
+| $Output/lib/work/write_firrtl_reduce/testbench.v |      601 |         2 |
 +==================================================+==========+===========+
-|                                                  |     1621 |         0 |
+|                                                  |     1621 |        18 |
 +--------------------------------------------------+----------+-----------+
 
 [   ERROR] : 0
-[COVERAGE] : 100.0
+[COVERAGE] : 98.89
 
 
 #**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**#**
@@ -3389,7 +3368,7 @@ COMMAND: ${HLC_DIR}/regression/YosysTests/backends/write_firrtl_reduce/write_fir
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 ----------------------------------------------------------------
-Others                             487     487       0         0
+Others                             477     477       0         0
 ----------------------------------------------------------------
-                                   487     487       0         0
+                                   477     477       0         0
 ===================== END REDUCTION RESULT =====================

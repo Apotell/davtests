@@ -601,6 +601,7 @@ Design name:unnamed:
               Assignment start:25:9 end:25:16:
                 vpiParent: Begin
                 vpiBlocking: true
+                vpiOpType: assignment (96)
                 vpiLhs RefObj name:sum start:25:9 end:25:12:
                   vpiParent: Assignment
                   vpiName: sum
@@ -635,6 +636,7 @@ Design name:unnamed:
                     vpiForInitStmt (1 items):
                       Assignment start:28:22 end:28:27:
                         vpiParent: ForStmt
+                        vpiOpType: assignment (96)
                         vpiLhs RefObj name:i start:28:22 end:28:23:
                           vpiParent: Assignment
                           vpiName: i
@@ -677,34 +679,26 @@ Design name:unnamed:
                     vpiStmt Assignment start:29:17 end:29:33:
                       vpiParent: ForStmt
                       vpiBlocking: true
+                      vpiOpType: add (24)
                       vpiLhs RefObj name:sum start:29:17 end:29:20:
                         vpiParent: Assignment
                         vpiName: sum
                         vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).sum.sum"
                         vpiActual: Function name:sum
-                      vpiRhs Operation:
+                      vpiRhs BitSelect name:values[i] start:29:24 end:29:33:
                         vpiParent: Assignment
-                        vpiOpType: add (24)
-                        vpiOperand (2 items):
-                          RefObj name:sum start:29:17 end:29:20:
-                            vpiParent: Operation
-                            vpiName: sum
-                            vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).sum.sum"
-                            vpiActual: Function name:sum
-                          BitSelect name:values[i] start:29:24 end:29:33:
-                            vpiParent: Operation
-                            vpiName: values[i]
-                            vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).sum.values[i]"
-                            vpiPrefix RefObj name:values start:29:24 end:29:30:
-                              vpiParent: BitSelect name:values[i]
-                              vpiName: values
-                              vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).sum.values"
-                              vpiActual: Variable name:values
-                            vpiIndex RefObj name:i start:29:31 end:29:32:
-                              vpiParent: BitSelect name:values[i]
-                              vpiName: i
-                              vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).sum.i"
-                              vpiActual: Variable name:i
+                        vpiName: values[i]
+                        vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).sum.values[i]"
+                        vpiPrefix RefObj name:values start:29:24 end:29:30:
+                          vpiParent: BitSelect name:values[i]
+                          vpiName: values
+                          vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).sum.values"
+                          vpiActual: Variable name:values
+                        vpiIndex RefObj name:i start:29:31 end:29:32:
+                          vpiParent: BitSelect name:values[i]
+                          vpiName: i
+                          vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).sum.i"
+                          vpiActual: Variable name:i
           vpiReturn RefTypespec start:21:14 end:21:21:
             vpiParent: Function name:sum
             vpiFullName: "test #(.size(4), .p(sum({32'h1, 32'h2, 32'h3, 32'h4}, size))).sum"
@@ -904,10 +898,10 @@ COMMAND: ${HLC_DIR}/regression/Verilator/t_param_func/design.hldb ${HLC_DIR}/reg
 Name                            Before   After   Added   Removed
 ----------------------------------------------------------------
 Constant                            16      12       1         5
-Operation                            8       6       0         2
+Operation                            7       5       0         2
 RefTypespec                         32      27       0         5
 ----------------------------------------------------------------
-Others                              72      72       0         0
+Others                              71      71       0         0
 ----------------------------------------------------------------
-                                   128     117       1        12
+                                   126     115       1        12
 ===================== END REDUCTION RESULT =====================
