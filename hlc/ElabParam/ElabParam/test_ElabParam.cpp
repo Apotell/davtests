@@ -218,15 +218,17 @@ TEST_F(ElabParamTest, LeftOperandIsSizeCastOfPmpCfgWReference) {
   const hldb::Operation *const castOp = any_cast<hldb::Operation>((*orOp->getOperands())[0]);
   ASSERT_NE(castOp, nullptr) << "\"4'(top_pkg::PMP_CFG_W)\" must be an Operation(vpiCastOp)";
   EXPECT_EQ(castOp->getOpType(), vpiCastOp);
+  ASSERT_NE(castOp->getOperands(), nullptr);
+  ASSERT_EQ(castOp->getOperands()->size(), 2u) << "a cast operator has exactly two operand: the expr being cast";
 
   // Sec 6.24.1: the leading "4" is a width specifier for the cast's target
-  // type, exactly like the "int" in "int'(expr)" -- it belongs on a
-  // synthesized target Typespec, not as a second operand.
-  ASSERT_NE(castOp->getTypespec(), nullptr) << "a size cast must synthesize a target typespec, same as a named-type cast";
-  ASSERT_NE(castOp->getOperands(), nullptr);
-  ASSERT_EQ(castOp->getOperands()->size(), 1u) << "a cast operator has exactly one operand: the expr being cast";
+  // type, exactly like the "int" in "int'(expr)".
+  const hldb::Constant *const width = any_cast<hldb::Constant>(castOp->getOperands()->at(0));
+  ASSERT_NE(width, nullptr) << "a size cast must synthesize a target typespec, same as a named-type cast";
+  EXPECT_EQ(width->getConstType(), vpiIntConst);
+  EXPECT_EQ(width->getValue(), std::string_view("4"));
 
-  const hldb::RefObj *const ref = any_cast<hldb::RefObj>((*castOp->getOperands())[0]);
+  const hldb::RefObj *const ref = any_cast<hldb::RefObj>(castOp->getOperands()->at(1));
   ASSERT_NE(ref, nullptr) << "'top_pkg::PMP_CFG_W': cast operand must be a RefObj";
   EXPECT_NE(ref->getActual(), nullptr) << "'top_pkg::PMP_CFG_W' must resolve to an actual";
   const hldb::Parameter *const actual = ref->getActual<hldb::Parameter>();
@@ -248,12 +250,15 @@ TEST_F(ElabParamTest, RightOperandIsSizeCastOfEqualityWithOpcodeLoad) {
   const hldb::Operation *const castOp = any_cast<hldb::Operation>((*orOp->getOperands())[1]);
   ASSERT_NE(castOp, nullptr) << "\"5'(a == top_pkg::OPCODE_LOAD)\" must be an Operation(vpiCastOp)";
   EXPECT_EQ(castOp->getOpType(), vpiCastOp);
-
-  ASSERT_NE(castOp->getTypespec(), nullptr) << "a size cast must synthesize a target typespec, same as a named-type cast";
   ASSERT_NE(castOp->getOperands(), nullptr);
-  ASSERT_EQ(castOp->getOperands()->size(), 1u) << "a cast operator has exactly one operand: the expr being cast";
+  ASSERT_EQ(castOp->getOperands()->size(), 2u) << "a cast operator has exactly one operand: the expr being cast";
 
-  const hldb::Operation *const eqOp = any_cast<hldb::Operation>((*castOp->getOperands())[0]);
+  const hldb::Constant *const width = any_cast<hldb::Constant>(castOp->getOperands()->at(0));
+  ASSERT_NE(width, nullptr) << "a size cast must synthesize a target typespec, same as a named-type cast";
+  EXPECT_EQ(width->getConstType(), vpiIntConst);
+  EXPECT_EQ(width->getValue(), std::string_view("5"));
+
+  const hldb::Operation *const eqOp = any_cast<hldb::Operation>(castOp->getOperands()->at(1));
   ASSERT_NE(eqOp, nullptr) << "'a == top_pkg::OPCODE_LOAD' must be an Operation(vpiEqOp)";
   EXPECT_EQ(eqOp->getOpType(), vpiEqOp);
   ASSERT_NE(eqOp->getOperands(), nullptr);

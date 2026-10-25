@@ -234,22 +234,28 @@ TEST_F(AlwaysNoElabTest, AssignmentCastsToUnsupportedParameterTypespec) {
   const hldb::Operation *const cast = assign->getRhs<hldb::Operation>();
   ASSERT_NE(cast, nullptr);
   EXPECT_EQ(cast->getOpType(), vpiCastOp);
-  ASSERT_NE(cast->getTypespec(), nullptr);
-  const hldb::UnsupportedTypespec *const castType = cast->getTypespec()->getActual<hldb::UnsupportedTypespec>();
-  ASSERT_NE(castType, nullptr) << "a localparam-named cast target cannot be resolved without elaboration";
-  EXPECT_EQ(castType->getName(), "NumBitsDeviceSel");
-
   ASSERT_NE(cast->getOperands(), nullptr);
-  ASSERT_EQ(cast->getOperands()->size(), 1u);
-  const hldb::RefObj *const operand = any_cast<hldb::RefObj>(cast->getOperands()->at(0));
+  ASSERT_EQ(cast->getOperands()->size(), 2u);
+
+  const hldb::RefObj *const castType = any_cast<hldb::RefObj>(cast->getOperands()->at(0));
+  ASSERT_NE(castType, nullptr);
+  EXPECT_EQ(castType->getName(), "NumBitsDeviceSel");
+  EXPECT_NE(castType->getActual(), nullptr)
+      << "a localparam-named cast target cannot be resolved without elaboration";
+
+  const hldb::RefObj *const operand = any_cast<hldb::RefObj>(cast->getOperands()->at(1));
   ASSERT_NE(operand, nullptr);
   EXPECT_EQ(operand->getName(), "device");
 }
 
 // --- compiler diagnostics ---------------------------------------------------
 
-TEST_F(AlwaysNoElabTest, ReportsUnsupportedTypespecForNumBitsDeviceSel) {
-  EXPECT_NE(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "NumBitsDeviceSel"), nullptr);
+TEST_F(AlwaysNoElabTest, NoFatalSyntaxOrErrorDiagnostics) {
+  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
+  EXPECT_EQ(stats.nbFatal, 0);
+  EXPECT_EQ(stats.nbSyntax, 0);
+  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc

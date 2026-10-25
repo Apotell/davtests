@@ -389,9 +389,14 @@ TEST_F(EnumConstElabTest, PrimSubregVariableAIsIntCastOfResval) {
   ASSERT_NE(castOp, nullptr) << "Sec 6.24.1: 'int'(RESVAL)' initial value must be a cast Operation";
   EXPECT_EQ(castOp->getOpType(), vpiCastOp);
   ASSERT_NE(castOp->getOperands(), nullptr);
-  ASSERT_EQ(castOp->getOperands()->size(), 1u);
+  ASSERT_EQ(castOp->getOperands()->size(), 2u);
 
-  const hldb::RefObj *const operand = any_cast<hldb::RefObj>(castOp->getOperands()->at(0));
+  const hldb::RefTypespec *const type = any_cast<hldb::RefTypespec>(castOp->getOperands()->at(0));
+  ASSERT_NE(type, nullptr);
+  ASSERT_NE(type->getActual(), nullptr);
+  EXPECT_EQ(type->getActual()->getAnyType(), hldb::AnyType::IntTypespec);
+
+  const hldb::RefObj *const operand = any_cast<hldb::RefObj>(castOp->getOperands()->at(1));
   ASSERT_NE(operand, nullptr) << "cast operand must be a RefObj to 'RESVAL'";
   EXPECT_EQ(operand->getName(), std::string_view("RESVAL"));
   EXPECT_NE(operand->getActual<hldb::Parameter>(), nullptr)

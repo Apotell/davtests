@@ -128,7 +128,9 @@ TEST_F(CastOpTest, CastTypespecIsInt) {
   ASSERT_NE(a, nullptr);
   const hldb::Operation *const castOp = a->getValue<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
-  const hldb::RefTypespec *const rts = castOp->getTypespec();
+  ASSERT_NE(castOp->getOperands(), nullptr);
+  ASSERT_EQ(castOp->getOperands()->size(), 2u);
+  const hldb::RefTypespec *const rts = any_cast<hldb::RefTypespec>(castOp->getOperands()->at(0));
   ASSERT_NE(rts, nullptr);
   EXPECT_NE(rts->getActual<hldb::IntTypespec>(), nullptr) << "int'(...) cast has IntTypespec as the cast target type";
 }
@@ -141,7 +143,7 @@ TEST_F(CastOpTest, CastHasOneOperand) {
   const hldb::Operation *const castOp = a->getValue<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
   ASSERT_NE(castOp->getOperands(), nullptr);
-  EXPECT_EQ(castOp->getOperands()->size(), 1u);
+  EXPECT_EQ(castOp->getOperands()->size(), 2u);
 }
 
 // ---------------------------------------------------------------------------
@@ -154,7 +156,7 @@ TEST_F(CastOpTest, CastOperandIsMultiplyOperation) {
   ASSERT_NE(a, nullptr);
   const hldb::Operation *const castOp = a->getValue<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
-  const hldb::Operation *const multOp = any_cast<hldb::Operation>(castOp->getOperands()->at(0));
+  const hldb::Operation *const multOp = any_cast<hldb::Operation>(castOp->getOperands()->at(1));
   ASSERT_NE(multOp, nullptr);
   EXPECT_EQ(multOp->getOpType(), vpiMultOp);
 }
@@ -166,7 +168,7 @@ TEST_F(CastOpTest, MultiplyOperandsAreRealConstants) {
   ASSERT_NE(a, nullptr);
   const hldb::Operation *const castOp = a->getValue<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
-  const hldb::Operation *const multOp = any_cast<hldb::Operation>(castOp->getOperands()->at(0));
+  const hldb::Operation *const multOp = any_cast<hldb::Operation>(castOp->getOperands()->at(1));
   ASSERT_NE(multOp, nullptr);
   ASSERT_NE(multOp->getOperands(), nullptr);
   ASSERT_EQ(multOp->getOperands()->size(), 2u);

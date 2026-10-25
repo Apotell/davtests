@@ -164,7 +164,7 @@ TEST_F(ArraysReplication, InitializerIsAssignPatternWithTwoOperands) {
 
   const hldb::Operation *const val = n->getValue<hldb::Operation>();
   ASSERT_NE(val, nullptr) << "variable 'n' value is not an Operation";
-  EXPECT_EQ(val->getOpType(), vpiAssignmentPatternOp);
+  EXPECT_EQ(val->getOpType(), vpiMultiAssignmentPatternOp);
   ASSERT_NE(val->getOperands(), nullptr);
   EXPECT_EQ(val->getOperands()->size(), 2u) << "outer '{2{...}} should have 2 operands: count + sub-pattern";
 }
@@ -196,7 +196,7 @@ TEST_F(ArraysReplication, InnerPatternIsAssignPatternWithThreeOperands) {
 
   const hldb::Operation *const inner = any_cast<hldb::Operation>((*val->getOperands())[1]);
   ASSERT_NE(inner, nullptr) << "outer operand[1] should be an Operation (inner pattern)";
-  EXPECT_EQ(inner->getOpType(), vpiAssignmentPatternOp);
+  EXPECT_EQ(inner->getOpType(), vpiMultiAssignmentPatternOp);
   ASSERT_NE(inner->getOperands(), nullptr);
   EXPECT_EQ(inner->getOperands()->size(), 3u) << "inner '{3{4, 5}} should have 3 operands: count + 2 values";
 }

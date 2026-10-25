@@ -104,8 +104,8 @@ class LogicCastTest : public Test {
 
   static const hldb::Operation *getGt() {
     const hldb::Operation *const cast = getOuterCast();
-    if (cast == nullptr || cast->getOperands() == nullptr || cast->getOperands()->size() != 1) return nullptr;
-    return any_cast<hldb::Operation>(cast->getOperands()->at(0));
+    if (cast == nullptr || cast->getOperands() == nullptr || cast->getOperands()->size() != 2) return nullptr;
+    return any_cast<hldb::Operation>(cast->getOperands()->at(1));
   }
 
   static const hldb::Operation *getGtOperand(size_t index) {
@@ -169,10 +169,13 @@ TEST_F(LogicCastTest, RhsIsLogicCast) {
   const hldb::Operation *const cast = getOuterCast();
   ASSERT_NE(cast, nullptr) << "RHS 'logic'(...)' should be an Operation";
   EXPECT_EQ(cast->getOpType(), vpiCastOp);
-  ASSERT_NE(cast->getTypespec(), nullptr) << "cast target type 'logic' missing";
-  ASSERT_NE(cast->getTypespec()->getActual(), nullptr);
-  ASSERT_EQ(cast->getTypespec()->getActual()->getAnyType(), hldb::AnyType::LogicTypespec);
-  const hldb::LogicTypespec *const lts = cast->getTypespec()->getActual<hldb::LogicTypespec>();
+  ASSERT_NE(cast->getOperands(), nullptr);
+  EXPECT_EQ(cast->getOperands()->size(), 2u);
+  const hldb::RefTypespec *const rt = any_cast<hldb::RefTypespec>(cast->getOperands()->at(0));
+  ASSERT_NE(rt, nullptr) << "cast target type 'logic' missing";
+  ASSERT_NE(rt->getActual(), nullptr);
+  ASSERT_EQ(rt->getActual()->getAnyType(), hldb::AnyType::LogicTypespec);
+  const hldb::LogicTypespec *const lts = rt->getActual<hldb::LogicTypespec>();
   EXPECT_TRUE(lts->getRanges() == nullptr || lts->getRanges()->empty()) << "'logic' is 1 bit";
   EXPECT_FALSE(lts->getSigned());
 }
@@ -181,7 +184,7 @@ TEST_F(LogicCastTest, LogicCastOperandIsGreaterThan) {
   const hldb::Operation *const cast = getOuterCast();
   ASSERT_NE(cast, nullptr);
   ASSERT_NE(cast->getOperands(), nullptr);
-  ASSERT_EQ(cast->getOperands()->size(), 1u);
+  ASSERT_EQ(cast->getOperands()->size(), 2u);
   const hldb::Operation *const gt = getGt();
   ASSERT_NE(gt, nullptr);
   EXPECT_EQ(gt->getOpType(), vpiGtOp);

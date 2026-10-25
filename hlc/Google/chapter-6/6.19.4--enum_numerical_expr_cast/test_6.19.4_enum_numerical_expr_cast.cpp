@@ -149,10 +149,10 @@ TEST_F(EnumNumericalExprCastTest, CastOpTypespecIsTypedefE) {
   ASSERT_NE(assign, nullptr);
   const hldb::Operation *const castOp = assign->getRhs<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
-  const hldb::RefTypespec *const rts = castOp->getTypespec();
-  ASSERT_NE(rts, nullptr) << "cast operation should carry the cast-target typespec";
-  EXPECT_EQ(rts->getName(), std::string_view("e"));
-  EXPECT_NE(rts->getActual<hldb::TypedefTypespec>(), nullptr);
+  const hldb::RefTypespec *const rt = any_cast<hldb::RefTypespec>(castOp->getOperands()->at(0));
+  ASSERT_NE(rt, nullptr);
+  EXPECT_EQ(rt->getName(), std::string_view("e"));
+  EXPECT_NE(rt->getActual<hldb::TypedefTypespec>(), nullptr);
 }
 
 TEST_F(EnumNumericalExprCastTest, CastOperandIsAddOp) {
@@ -167,8 +167,8 @@ TEST_F(EnumNumericalExprCastTest, CastOperandIsAddOp) {
   const hldb::Operation *const castOp = assign->getRhs<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
   ASSERT_NE(castOp->getOperands(), nullptr);
-  ASSERT_EQ(castOp->getOperands()->size(), 1u);
-  const hldb::Operation *const addOp = any_cast<hldb::Operation>(castOp->getOperands()->at(0));
+  ASSERT_EQ(castOp->getOperands()->size(), 2u);
+  const hldb::Operation *const addOp = any_cast<hldb::Operation>(castOp->getOperands()->at(1));
   ASSERT_NE(addOp, nullptr) << "cast operand should be an add Operation";
   EXPECT_EQ(addOp->getOpType(), vpiAddOp);
   ASSERT_NE(addOp->getOperands(), nullptr);
@@ -211,7 +211,8 @@ TEST_F(EnumNumericalExprCastTest, CastAddConstant1IsIntConst) {
   const hldb::Operation *const castOp = assign->getRhs<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
   ASSERT_NE(castOp->getOperands(), nullptr);
-  const hldb::Operation *const addOp = any_cast<hldb::Operation>(castOp->getOperands()->at(0));
+  EXPECT_EQ(castOp->getOperands()->size(), 2u);
+  const hldb::Operation *const addOp = any_cast<hldb::Operation>(castOp->getOperands()->at(1));
   ASSERT_NE(addOp, nullptr);
   ASSERT_NE(addOp->getOperands(), nullptr);
   ASSERT_EQ(addOp->getOperands()->size(), 2u);

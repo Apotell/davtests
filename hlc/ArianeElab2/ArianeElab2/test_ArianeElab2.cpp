@@ -193,12 +193,15 @@ TEST_F(ArianeElab2Test, FormatLoopIsASolitaryGenForCastingNumFormatsToInt) {
   const hldb::Operation *const cast = any_cast<hldb::Operation>(condition->getOperands()->at(1));
   ASSERT_NE(cast, nullptr) << "'int'(NUM_FORMATS)' should be a cast Operation";
   EXPECT_EQ(cast->getOpType(), vpiCastOp);
-  ASSERT_NE(cast->getTypespec(), nullptr);
-  EXPECT_NE(cast->getTypespec()->getActual<hldb::IntTypespec>(), nullptr)
-      << "casting to the builtin 'int' should resolve cleanly, unlike a parameter-named cast target";
   ASSERT_NE(cast->getOperands(), nullptr);
-  ASSERT_EQ(cast->getOperands()->size(), 1u);
-  const hldb::RefObj *const numFormats = any_cast<hldb::RefObj>(cast->getOperands()->at(0));
+  ASSERT_EQ(cast->getOperands()->size(), 2u);
+
+  const hldb::RefTypespec *const rt = any_cast<hldb::RefTypespec>(cast->getOperands()->at(0));
+  ASSERT_NE(rt, nullptr);
+  EXPECT_NE(rt->getActual<hldb::IntTypespec>(), nullptr)
+      << "casting to the builtin 'int' should resolve cleanly, unlike a parameter-named cast target";
+
+  const hldb::RefObj *const numFormats = any_cast<hldb::RefObj>(cast->getOperands()->at(1));
   ASSERT_NE(numFormats, nullptr);
   EXPECT_EQ(numFormats->getName(), "NUM_FORMATS");
   EXPECT_NE(numFormats->getActual<hldb::Parameter>(), nullptr);

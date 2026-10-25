@@ -147,7 +147,7 @@ TEST_F(StructureReplication, XYZInitializerIsAssignPattern) {
 
   const hldb::Operation *const init = xyz->getValue<hldb::Operation>();
   ASSERT_NE(init, nullptr) << "XYZ initializer is not an Operation";
-  EXPECT_EQ(init->getOpType(), vpiAssignmentPatternOp) << "XYZ initializer is not vpiAssignmentPatternOp";
+  EXPECT_EQ(init->getOpType(), vpiMultiAssignmentPatternOp) << "XYZ initializer is not vpiMultiAssignmentPatternOp";
 }
 
 TEST_F(StructureReplication, XYZInitializerHasReplicationCountAndValue) {
@@ -356,7 +356,7 @@ TEST_F(StructureReplication, AssignmentRhsIsOuterReplicationPattern) {
   // v1 = '{2{...}} -- outer replication: AssignPatternOp with [Const "2", nested pattern]
   const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "RHS is not an Operation";
-  EXPECT_EQ(rhs->getOpType(), vpiAssignmentPatternOp) << "RHS op is not vpiAssignmentPatternOp";
+  EXPECT_EQ(rhs->getOpType(), vpiMultiAssignmentPatternOp) << "RHS op is not vpiMultiAssignmentPatternOp";
   ASSERT_NE(rhs->getOperands(), nullptr);
   EXPECT_EQ(rhs->getOperands()->size(), 2u) << "outer '{2{...}} should have 2 operands: [count=2, nested pattern]";
 }
@@ -396,7 +396,7 @@ TEST_F(StructureReplication, NestedReplicationLevelsAreAssignPatterns) {
   // Level 1: '{3{...}}        -> [Const "3",  level2]
   const hldb::Operation *const l1 = any_cast<hldb::Operation>((*l0->getOperands())[1]);
   ASSERT_NE(l1, nullptr) << "level-1 operand is not an Operation (expected '{3{...}})";
-  EXPECT_EQ(l1->getOpType(), vpiAssignmentPatternOp);
+  EXPECT_EQ(l1->getOpType(), vpiMultiAssignmentPatternOp);
   ASSERT_EQ(l1->getOperands()->size(), 2u);
 
   // Level 2: '{a, '{2{b,c}}}  -> [RefObj "a", level3]
@@ -413,7 +413,7 @@ TEST_F(StructureReplication, NestedReplicationLevelsAreAssignPatterns) {
   // Level 3: '{2{b,c}}        -> [Const "2", RefObj "b", RefObj "c"]
   const hldb::Operation *const l3 = any_cast<hldb::Operation>((*l2->getOperands())[1]);
   ASSERT_NE(l3, nullptr) << "level-3 operand is not an Operation (expected '{2{b,c}})";
-  EXPECT_EQ(l3->getOpType(), vpiAssignmentPatternOp);
+  EXPECT_EQ(l3->getOpType(), vpiMultiAssignmentPatternOp);
   ASSERT_EQ(l3->getOperands()->size(), 3u) << "innermost '{2{b,c}} should have 3 operands: [count=2, 'b', 'c']";
 
   const hldb::RefObj *const refB = any_cast<hldb::RefObj>((*l3->getOperands())[1]);

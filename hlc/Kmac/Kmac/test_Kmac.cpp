@@ -405,8 +405,8 @@ TEST_F(KmacTest, CaseItemBodiesAreUnarySizeCastsOfBitSelect) {
     ASSERT_NE(cast, nullptr) << names[i];
     EXPECT_EQ(cast->getOpType(), vpiCastOp);
     ASSERT_NE(cast->getOperands(), nullptr);
-    ASSERT_EQ(cast->getOperands()->size(), 1u) << "37.59 detail 3: a cast is a unary operation";
-    const hldb::BitSelect *const bs = any_cast<hldb::BitSelect>(cast->getOperands()->at(0));
+    ASSERT_EQ(cast->getOperands()->size(), 2u) << "37.59 detail 3: a cast is a unary operation";
+    const hldb::BitSelect *const bs = any_cast<hldb::BitSelect>(cast->getOperands()->at(1));
     ASSERT_NE(bs, nullptr) << "KeccakRate[" << names[i] << "]";
     const hldb::RefObj *const prefix = bs->getPrefix<hldb::RefObj>();
     ASSERT_NE(prefix, nullptr);

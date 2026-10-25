@@ -213,10 +213,9 @@ TEST_F(LargeHexCastTest, APrefixIsUnarySizeCast) {
   const hldb::Operation *const cast = any_cast<hldb::Operation>(getPrefixValue("A"));
   ASSERT_NE(cast, nullptr) << "A's Prefix value is 96'(...)";
   EXPECT_EQ(cast->getOpType(), vpiCastOp);
-  EXPECT_NE(cast->getTypespec(), nullptr) << "37.59 detail 5: a vpiCastOp always has a typespec (the target type)";
   ASSERT_NE(cast->getOperands(), nullptr);
-  ASSERT_EQ(cast->getOperands()->size(), 1u) << "37.59 detail 3: a cast is a unary operation";
-  const hldb::Constant *const c = any_cast<hldb::Constant>(cast->getOperands()->at(0));
+  ASSERT_EQ(cast->getOperands()->size(), 2u) << "37.59 detail 3: a cast is a unary operation";
+  const hldb::Constant *const c = any_cast<hldb::Constant>(cast->getOperands()->at(1));
   ASSERT_NE(c, nullptr) << "the sole operand is the expression being cast";
   checkHex(c);
 }

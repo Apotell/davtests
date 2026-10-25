@@ -215,7 +215,7 @@ TEST_F(Arrays, SecondRowIsAssignPatternWithTwoOperands) {
   // '{3{4}} -> AssignPatternOp with count=3 and value=4 as separate operands
   const hldb::Operation *const row1 = any_cast<hldb::Operation>((*val->getOperands())[1]);
   ASSERT_NE(row1, nullptr) << "second row is not an Operation";
-  EXPECT_EQ(row1->getOpType(), vpiAssignmentPatternOp);
+  EXPECT_EQ(row1->getOpType(), vpiMultiAssignmentPatternOp);
   ASSERT_NE(row1->getOperands(), nullptr);
   EXPECT_EQ(row1->getOperands()->size(), 2u) << "'{3{4}} should have 2 operands (count + value)";
 }

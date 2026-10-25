@@ -188,7 +188,9 @@ TEST_F(BitstreamCastTest, CastTypespecIsIntegerTypespec) {
   ASSERT_NE(a, nullptr);
   const hldb::Operation *const castOp = a->getValue<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
-  const hldb::RefTypespec *const rts = castOp->getTypespec();
+  ASSERT_NE(castOp->getOperands(), nullptr);
+  ASSERT_EQ(castOp->getOperands()->size(), 2u);
+  const hldb::RefTypespec *const rts = any_cast<hldb::RefTypespec>(castOp->getOperands()->at(0));
   ASSERT_NE(rts, nullptr);
   EXPECT_NE(rts->getActual<hldb::IntegerTypespec>(), nullptr) << "integer'(...) cast target type is IntegerTypespec";
 }
@@ -201,8 +203,8 @@ TEST_F(BitstreamCastTest, CastOperandIsRefToVariableS) {
   const hldb::Operation *const castOp = a->getValue<hldb::Operation>();
   ASSERT_NE(castOp, nullptr);
   ASSERT_NE(castOp->getOperands(), nullptr);
-  ASSERT_EQ(castOp->getOperands()->size(), 1u);
-  const hldb::RefObj *const s = any_cast<hldb::RefObj>(castOp->getOperands()->at(0));
+  ASSERT_EQ(castOp->getOperands()->size(), 2u);
+  const hldb::RefObj *const s = any_cast<hldb::RefObj>(castOp->getOperands()->at(1));
   ASSERT_NE(s, nullptr);
   EXPECT_EQ(s->getName(), std::string_view("s"));
   EXPECT_NE(s->getActual<hldb::Variable>(), nullptr);

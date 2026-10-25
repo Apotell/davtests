@@ -310,11 +310,12 @@ TEST_F(PackedEnumVarTest, ContAssignCastsGetBAToInt) {
   const hldb::Operation *const cast = ca->getRhs<hldb::Operation>();
   ASSERT_NE(cast, nullptr) << "'int'(...)' is an Operation";
   EXPECT_EQ(cast->getOpType(), vpiCastOp) << "6.24.1: a cast";
-  ASSERT_NE(cast->getTypespec(), nullptr) << "the cast names its target type";
-  EXPECT_NE(cast->getTypespec()->getActual<hldb::IntTypespec>(), nullptr) << "6.24.1: the cast is to 'int'";
   ASSERT_NE(cast->getOperands(), nullptr);
-  ASSERT_EQ(cast->getOperands()->size(), 1u);
-  const hldb::TFCall *const call = any_cast<hldb::TFCall>(cast->getOperands()->at(0));
+  ASSERT_EQ(cast->getOperands()->size(), 2u);
+  const hldb::RefTypespec *const rt = any_cast<hldb::RefTypespec>(cast->getOperands()->at(0));
+  ASSERT_NE(rt, nullptr);
+  EXPECT_NE(rt->getActual<hldb::IntTypespec>(), nullptr) << "6.24.1: the cast is to 'int'";
+  const hldb::TFCall *const call = any_cast<hldb::TFCall>(cast->getOperands()->at(1));
   ASSERT_NE(call, nullptr) << "the cast operand is the call 'get_BA()'";
   EXPECT_EQ(call->getName(), "get_BA");
   ASSERT_NE(getGetBA(), nullptr);
