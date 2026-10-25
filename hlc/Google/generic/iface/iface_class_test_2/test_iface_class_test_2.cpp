@@ -393,12 +393,12 @@ TEST_F(IfaceClassTest2Test, BaseIcHasTwoParametersNThenT) {
   const hldb::AnyCollection *const parameters = baseIc->getParameters();
   ASSERT_EQ(sizeOf(parameters), 2u) << "8.25: the parameter port list declares N and T";
 
-  const hldb::Parameter *const n = ::any_cast<hldb::Parameter>(parameters->at(0));
+  const hldb::Parameter *const n = any_cast<hldb::Parameter>(parameters->at(0));
   ASSERT_NE(n, nullptr) << "the first parameter, N, is a value parameter";
   EXPECT_EQ(n->getName(), "N");
   EXPECT_FALSE(n->getLocalParam()) << "6.20.1: N is a parameter port, not a localparam";
 
-  const hldb::TypeParameter *const t = ::any_cast<hldb::TypeParameter>(parameters->at(1));
+  const hldb::TypeParameter *const t = any_cast<hldb::TypeParameter>(parameters->at(1));
   ASSERT_NE(t, nullptr) << "6.20.3: the second parameter, 'type T', is a type parameter";
   EXPECT_EQ(t->getName(), "T");
   EXPECT_FALSE(t->getLocalParam()) << "6.20.1: T is a parameter port, not a localparam";
