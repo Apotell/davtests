@@ -397,11 +397,12 @@ TEST_F(ParamArrayTest, InfoIsOverridablePartInfoTDefaultingToCastZero) {
   const hldb::Operation *const cast = pa->getRhs<hldb::Operation>();
   ASSERT_NE(cast, nullptr) << "the default 'part_info_t'(0)' is an Operation";
   EXPECT_EQ(cast->getOpType(), vpiCastOp) << "6.24.1: a cast";
-  EXPECT_TRUE(namesTypedef(cast->getTypespec(), getTypedef("otp_ctrl_pkg", "part_info_t")))
-      << "6.24.1: the cast is to part_info_t";
   ASSERT_NE(cast->getOperands(), nullptr);
-  ASSERT_EQ(cast->getOperands()->size(), 1u);
-  const hldb::Constant *const zero = any_cast<hldb::Constant>(cast->getOperands()->at(0));
+  ASSERT_EQ(cast->getOperands()->size(), 2u);
+  const hldb::RefTypespec *const rt = any_cast<hldb::RefTypespec>(cast->getOperands()->at(0));
+  ASSERT_NE(rt, nullptr);
+  EXPECT_TRUE(namesTypedef(rt, getTypedef("otp_ctrl_pkg", "part_info_t"))) << "6.24.1: the cast is to part_info_t";
+  const hldb::Constant *const zero = any_cast<hldb::Constant>(cast->getOperands()->at(1));
   ASSERT_NE(zero, nullptr);
   EXPECT_EQ(zero->getDecompile(), "0");
 }
