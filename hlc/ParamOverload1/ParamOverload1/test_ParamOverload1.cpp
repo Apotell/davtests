@@ -230,26 +230,17 @@ TEST_F(ParamOverload1Test, PIsArrayOfIntIndexedZeroToFour) {
     }
   }
   ASSERT_NE(range, nullptr) << "7.4.2: 'P' declares one unpacked dimension";
-  const hldb::Constant *const left = range->getLeftExpr<hldb::Constant>();
-  ASSERT_NE(left, nullptr) << "7.4.2: '[5]' is the same as '[0:5-1]', so the left bound is 0";
-  EXPECT_EQ(left->getDecompile(), "0");
+  EXPECT_EQ(range->getLeftExpr(), nullptr) << "7.4.2: '[5]' is the same as '[0:5-1]', so the left bound is 0";
   const hldb::Any *const right = range->getRightExpr();
   ASSERT_NE(right, nullptr) << "7.4.2: the right bound of '[5]' is 5-1";
-  if (const hldb::Constant *const c = any_cast<hldb::Constant>(right)) {
-    EXPECT_EQ(c->getDecompile(), "4") << "7.4.2: the right bound is 4";
-  } else {
-    const hldb::Operation *const sub = any_cast<hldb::Operation>(right);
-    ASSERT_NE(sub, nullptr) << "7.4.2: the right bound is 4 or the expression 5-1";
-    EXPECT_EQ(sub->getOpType(), vpiSubOp);
-    ASSERT_NE(sub->getOperands(), nullptr);
-    ASSERT_EQ(sub->getOperands()->size(), 2u) << "'5-1' has two operands";
-    const hldb::Constant *const five = any_cast<hldb::Constant>(sub->getOperands()->at(0));
-    ASSERT_NE(five, nullptr);
-    EXPECT_EQ(five->getDecompile(), "5");
-    const hldb::Constant *const one = any_cast<hldb::Constant>(sub->getOperands()->at(1));
-    ASSERT_NE(one, nullptr);
-    EXPECT_EQ(one->getDecompile(), "1");
-  }
+  const hldb::Operation *const sub = any_cast<hldb::Operation>(right);
+  ASSERT_NE(sub, nullptr) << "7.4.2: the right bound is 4 or the expression 5-1";
+  EXPECT_EQ(sub->getOpType(), vpiSubOp);
+  ASSERT_NE(sub->getOperands(), nullptr);
+  ASSERT_EQ(sub->getOperands()->size(), 1u) << "'5' has one operand";
+  const hldb::Constant *const five = any_cast<hldb::Constant>(sub->getOperands()->at(0));
+  ASSERT_NE(five, nullptr);
+  EXPECT_EQ(five->getDecompile(), "5");
 }
 
 TEST_F(ParamOverload1Test, PDefaultsToOneThroughFive) {

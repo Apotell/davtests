@@ -348,11 +348,11 @@ TEST_F(ParamOverloadingTest, PrimSubregAIsIntCastOfResval) {
       (a->getExpr() != nullptr) ? a->getExpr<hldb::Operation>() : any_cast<hldb::Operation>(a->getValue());
   ASSERT_NE(cast, nullptr) << "'a' is initialized with int'(RESVAL)";
   EXPECT_EQ(cast->getOpType(), vpiCastOp) << "6.24.1";
-  ASSERT_NE(cast->getTypespec(), nullptr);
-  EXPECT_NE(cast->getTypespec()->getActual<hldb::IntTypespec>(), nullptr) << "the casting type is int";
   ASSERT_NE(cast->getOperands(), nullptr);
-  ASSERT_EQ(cast->getOperands()->size(), 1u);
-  const hldb::RefObj *const resval = any_cast<hldb::RefObj>(cast->getOperands()->at(0));
+  ASSERT_EQ(cast->getOperands()->size(), 2u);
+  const hldb::RefTypespec *const rt = any_cast<hldb::RefTypespec>(cast->getOperands()->at(0));
+  EXPECT_NE(rt->getActual<hldb::IntTypespec>(), nullptr) << "the casting type is int";
+  const hldb::RefObj *const resval = any_cast<hldb::RefObj>(cast->getOperands()->at(1));
   ASSERT_NE(resval, nullptr);
   EXPECT_EQ(resval->getName(), "RESVAL");
   EXPECT_EQ(resval->getActual(), getParam("prim_subreg", "RESVAL")) << "prim_subreg's own parameter";
