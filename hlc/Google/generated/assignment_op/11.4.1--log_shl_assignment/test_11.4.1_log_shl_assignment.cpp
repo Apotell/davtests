@@ -121,10 +121,14 @@ class LogShlAssignmentTest : public Test {
 
 // --- module / declarations ----
 
-TEST_F(LogShlAssignmentTest, ModuleTopExistsWithNoPorts) {
+TEST_F(LogShlAssignmentTest, ModuleTopExistsWithNullPort) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  EXPECT_TRUE((top->getPorts() == nullptr) || top->getPorts()->empty()) << "'module top();' has no ports";
+  ASSERT_NE(top->getPorts(), nullptr);
+  ASSERT_EQ(top->getPorts()->size(), 1u) << "'module top();' has one null port";
+  const hldb::Port *const port = top->getPorts()->at(0);
+  EXPECT_EQ(port->getLowConn(), nullptr);
+  EXPECT_EQ(port->getHighConn(), nullptr);
 }
 
 TEST_F(LogShlAssignmentTest, ModuleHasExactlyTwoVariablesAndNoNets) {

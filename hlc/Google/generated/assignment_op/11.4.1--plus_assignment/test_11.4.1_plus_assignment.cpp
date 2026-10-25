@@ -121,10 +121,14 @@ class PlusAssignmentTest : public Test {
 
 // --- module / declarations ----
 
-TEST_F(PlusAssignmentTest, ModuleTopExistsWithNoPorts) {
+TEST_F(PlusAssignmentTest, ModuleTopExistsWithNullPort) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
-  EXPECT_TRUE((top->getPorts() == nullptr) || top->getPorts()->empty()) << "'module top();' has no ports";
+  ASSERT_NE(top->getPorts(), nullptr);
+  ASSERT_EQ(top->getPorts()->size(), 1u) << "'module top();' has one null port";
+  const hldb::Port *const port = top->getPorts()->at(0);
+  EXPECT_EQ(port->getLowConn(), nullptr);
+  EXPECT_EQ(port->getHighConn(), nullptr);
 }
 
 TEST_F(PlusAssignmentTest, ModuleHasExactlyTwoVariablesAndNoNets) {
@@ -200,7 +204,7 @@ TEST_F(PlusAssignmentTest, PlusAssignLhsIsVariableA) {
   ASSERT_NE(asgn, nullptr);
   const hldb::RefObj *const lhs = asgn->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "a");
+  EXPECT_EQ(lhs->getName(), std::string_view("a"));
   EXPECT_EQ(lhs->getActual(), getVar("a")) << "lhs 'a' should resolve to module variable 'a'";
 }
 
@@ -209,7 +213,7 @@ TEST_F(PlusAssignmentTest, PlusAssignRhsIsVariableB) {
   ASSERT_NE(asgn, nullptr);
   const hldb::RefObj *const rhs = asgn->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr) << "Sec 37: vpiRhs of 'a += b' is the written expression 'b', not 'a + b'";
-  EXPECT_EQ(rhs->getName(), "b");
+  EXPECT_EQ(rhs->getName(), std::string_view("b"));
   EXPECT_EQ(rhs->getActual(), getVar("b")) << "rhs 'b' should resolve to module variable 'b'";
 }
 
