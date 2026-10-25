@@ -185,15 +185,11 @@ TEST_F(ArithShiftAssignmentSignedTest, CompoundLeftShiftAssignIsFlatSelfReferent
   const hldb::Assignment *const bShl = any_cast<hldb::Assignment>(blk->getStmts()->at(3));
   ASSERT_NE(bShl, nullptr) << "'b <<<= 3;' should be a single flat Assignment, not nested";
   EXPECT_TRUE(bShl->getBlocking());
+  EXPECT_EQ(bShl->getOpType(), vpiArithLShiftOp);
+  ASSERT_NE(bShl->getLhs(), nullptr);
   EXPECT_EQ(bShl->getLhs<hldb::RefObj>()->getName(), "b");
-  const hldb::Operation *const shl = bShl->getRhs<hldb::Operation>();
-  ASSERT_NE(shl, nullptr);
-  EXPECT_EQ(shl->getOpType(), vpiArithLShiftOp);
-  ASSERT_NE(shl->getOperands(), nullptr);
-  ASSERT_EQ(shl->getOperands()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::RefObj>(shl->getOperands()->at(0))->getName(), "b")
-      << "'b' appears both as the Assignment's lhs and as the shift's first operand";
-  EXPECT_EQ(any_cast<hldb::Constant>(shl->getOperands()->at(1))->getDecompile(), "3");
+  ASSERT_NE(bShl->getRhs(), nullptr);
+  EXPECT_EQ(bShl->getRhs<hldb::Constant>()->getDecompile(), "3");
 }
 
 TEST_F(ArithShiftAssignmentSignedTest, CompoundRightShiftAssignIsFlatSelfReferentialAssignment) {
@@ -202,14 +198,11 @@ TEST_F(ArithShiftAssignmentSignedTest, CompoundRightShiftAssignIsFlatSelfReferen
   const hldb::Assignment *const cShr = any_cast<hldb::Assignment>(blk->getStmts()->at(4));
   ASSERT_NE(cShr, nullptr) << "'c >>>= 3;' should be a single flat Assignment, not nested";
   EXPECT_TRUE(cShr->getBlocking());
+  EXPECT_EQ(cShr->getOpType(), vpiArithRShiftOp);
+  ASSERT_NE(cShr->getLhs(), nullptr);
   EXPECT_EQ(cShr->getLhs<hldb::RefObj>()->getName(), "c");
-  const hldb::Operation *const shr = cShr->getRhs<hldb::Operation>();
-  ASSERT_NE(shr, nullptr);
-  EXPECT_EQ(shr->getOpType(), vpiArithRShiftOp);
-  ASSERT_NE(shr->getOperands(), nullptr);
-  ASSERT_EQ(shr->getOperands()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::RefObj>(shr->getOperands()->at(0))->getName(), "c");
-  EXPECT_EQ(any_cast<hldb::Constant>(shr->getOperands()->at(1))->getDecompile(), "3");
+  ASSERT_NE(cShr->getRhs(), nullptr);
+  EXPECT_EQ(cShr->getRhs<hldb::Constant>()->getDecompile(), "3");
 }
 
 TEST_F(ArithShiftAssignmentSignedTest, LastTwoStatementsAssertShiftResults) {

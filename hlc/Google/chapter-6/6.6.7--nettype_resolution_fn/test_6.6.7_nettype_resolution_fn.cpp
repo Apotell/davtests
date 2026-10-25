@@ -335,15 +335,11 @@ TEST_F(NettypeResolutionFnTest, ForeachAssignmentRhsIsAddOfRealSumAndDriverIndex
   ASSERT_NE(loop, nullptr);
   const hldb::Assignment *const assign = loop->getStmt<hldb::Assignment>();
   ASSERT_NE(assign, nullptr);
-  const hldb::Operation *const addOp = assign->getRhs<hldb::Operation>();
-  ASSERT_NE(addOp, nullptr) << "real_sum += driver[i] rhs should be an add Operation";
-  EXPECT_EQ(addOp->getOpType(), vpiAddOp);
-  ASSERT_NE(addOp->getOperands(), nullptr);
-  ASSERT_EQ(addOp->getOperands()->size(), 2u);
-  const hldb::RefObj *const lhsOp = any_cast<hldb::RefObj>(addOp->getOperands()->at(0));
+  EXPECT_EQ(assign->getOpType(), vpiAddOp);
+  const hldb::RefObj *const lhsOp = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhsOp, nullptr);
   EXPECT_EQ(lhsOp->getName(), std::string_view("real_sum"));
-  const hldb::BitSelect *const rhsOp = any_cast<hldb::BitSelect>(addOp->getOperands()->at(1));
+  const hldb::BitSelect *const rhsOp = assign->getRhs<hldb::BitSelect>();
   ASSERT_NE(rhsOp, nullptr);
   EXPECT_EQ(rhsOp->getName(), std::string_view("driver[i]"));
 }

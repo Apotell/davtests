@@ -467,12 +467,12 @@ TEST_F(ClassSuperTest, TestIncsFirstStmtIsSPlusEqualsTwo) {
   ASSERT_GT(body->getStmts()->size(), 0u);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(0));
   ASSERT_NE(assign, nullptr) << "stmt[0] should be an Assignment ('s += 2;')";
+  EXPECT_EQ(assign->getOpType(), vpiAddOp);
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getActual<hldb::Variable>(), getPropertyS());
-  const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
+  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getOpType(), vpiAddOp);
 }
 
 // THE CRUX of this file, and FIXED COMPILER BUG #8:

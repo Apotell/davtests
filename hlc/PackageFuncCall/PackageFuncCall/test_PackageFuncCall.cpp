@@ -944,15 +944,9 @@ TEST_F(PackageFuncCallTest, CompoundXorAssignmentsLowerToXorOperations) {
     const hldb::Assignment *const assign = getAlwaysAssign(i + 1);
     ASSERT_NE(assign, nullptr) << "statement " << (i + 1);
     EXPECT_TRUE(assign->getBlocking()) << "statement " << (i + 1);
+    EXPECT_EQ(assign->getOpType(), vpiBitXorOp);
     ExpectUnboundRef(assign->getLhs(), "data_o");
-    const hldb::Operation *const xorOp = assign->getRhs<hldb::Operation>();
-    ASSERT_NE(xorOp, nullptr) << "11.4.1: 'data_o ^= " << operands[i] << "' means 'data_o = data_o ^ " << operands[i]
-                              << "'";
-    EXPECT_EQ(xorOp->getOpType(), vpiBitXorOp);
-    ASSERT_NE(xorOp->getOperands(), nullptr);
-    ASSERT_EQ(xorOp->getOperands()->size(), 2u);
-    ExpectUnboundRef(xorOp->getOperands()->at(0), "data_o");
-    ExpectUnboundRef(xorOp->getOperands()->at(1), operands[i]);
+    ExpectUnboundRef(assign->getRhs(), operands[i]);
   }
 }
 

@@ -348,32 +348,22 @@ TEST_F(ClassAssignmentTest, SecondMethodStmtIsAPlusEqualsVal) {
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(1));
   ASSERT_NE(assign, nullptr) << "stmt[1] should be an Assignment ('a += val;')";
   EXPECT_TRUE(assign->getBlocking());
+  EXPECT_EQ(assign->getOpType(), vpiAddOp);
 
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "a");
   EXPECT_EQ(lhs->getActual<hldb::Variable>(), getPropertyA());
 
-  const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
-  ASSERT_NE(rhs, nullptr) << "'+=' should desugar to an explicit 'add' Operation on the rhs";
-  EXPECT_EQ(rhs->getOpType(), vpiAddOp);
-  ASSERT_NE(rhs->getOperands(), nullptr);
-  ASSERT_EQ(rhs->getOperands()->size(), 2u);
-
-  const hldb::RefObj *const aOperand = any_cast<hldb::RefObj>(rhs->getOperands()->at(0));
-  ASSERT_NE(aOperand, nullptr);
-  EXPECT_EQ(aOperand->getName(), "a");
-  EXPECT_EQ(aOperand->getActual<hldb::Variable>(), getPropertyA());
-
-  const hldb::RefObj *const valOperand = any_cast<hldb::RefObj>(rhs->getOperands()->at(1));
-  ASSERT_NE(valOperand, nullptr);
-  EXPECT_EQ(valOperand->getName(), "val");
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getName(), "val");
   ASSERT_NE(t->getIODecls(), nullptr);
   ASSERT_GT(t->getIODecls()->size(), 0u);
   const hldb::Variable *const valVar =
       hldb::findByName<hldb::Variable>(t->getIODecls()->at(0)->getName(), t->getVariables());
   ASSERT_NE(valVar, nullptr) << "the formal argument 'val' should have a Variable in the task's scope";
-  EXPECT_EQ(valOperand->getActual(), valVar)
+  EXPECT_EQ(rhs->getActual(), valVar)
       << "37.13/37.15: 'val' resolves to the formal's Variable, never to its IODecl";
 }
 

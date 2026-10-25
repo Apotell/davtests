@@ -187,16 +187,10 @@ TEST_F(TwoAssignInExprSimTest, ThirdStatementNestsAssignmentInsideOperationOpera
 
   const hldb::Assignment *const bAddEq = dEq->getRhs<hldb::Assignment>();
   ASSERT_NE(bAddEq, nullptr) << "'(b += ...)' should be a nested Assignment";
+  EXPECT_EQ(bAddEq->getOpType(), vpiAddOp);
   EXPECT_EQ(bAddEq->getLhs<hldb::RefObj>()->getName(), "b");
 
-  const hldb::Operation *const outerAdd = bAddEq->getRhs<hldb::Operation>();
-  ASSERT_NE(outerAdd, nullptr);
-  EXPECT_EQ(outerAdd->getOpType(), vpiAddOp);
-  ASSERT_NE(outerAdd->getOperands(), nullptr);
-  ASSERT_EQ(outerAdd->getOperands()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::RefObj>(outerAdd->getOperands()->at(0))->getName(), "b");
-
-  const hldb::Operation *const innerAdd = any_cast<hldb::Operation>(outerAdd->getOperands()->at(1));
+  const hldb::Operation *const innerAdd = bAddEq->getRhs<hldb::Operation>();
   ASSERT_NE(innerAdd, nullptr) << "'(a += 1) + 1' should be its own Operation node";
   EXPECT_EQ(innerAdd->getOpType(), vpiAddOp);
   ASSERT_NE(innerAdd->getOperands(), nullptr);
@@ -205,15 +199,11 @@ TEST_F(TwoAssignInExprSimTest, ThirdStatementNestsAssignmentInsideOperationOpera
   const hldb::Assignment *const aAddEq = any_cast<hldb::Assignment>(innerAdd->getOperands()->at(0));
   ASSERT_NE(aAddEq, nullptr) << "'(a += 1)' should surface as an Assignment used as an Operation operand";
   EXPECT_EQ(aAddEq->getLhs<hldb::RefObj>()->getName(), "a");
-  const hldb::Operation *const aAdd = aAddEq->getRhs<hldb::Operation>();
-  ASSERT_NE(aAdd, nullptr);
-  EXPECT_EQ(aAdd->getOpType(), vpiAddOp);
-  ASSERT_NE(aAdd->getOperands(), nullptr);
-  ASSERT_EQ(aAdd->getOperands()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::RefObj>(aAdd->getOperands()->at(0))->getName(), "a");
-  EXPECT_EQ(any_cast<hldb::Constant>(aAdd->getOperands()->at(1))->getDecompile(), "1");
+  EXPECT_EQ(aAddEq->getRhs<hldb::Constant>()->getDecompile(), "1");
 
-  EXPECT_EQ(any_cast<hldb::Constant>(innerAdd->getOperands()->at(1))->getDecompile(), "1");
+  const hldb::Constant *const aAdd = any_cast<hldb::Constant>(innerAdd->getOperands()->at(1));
+  ASSERT_NE(aAdd, nullptr);
+  EXPECT_EQ(aAdd->getDecompile(), "1");
 }
 
 // --- both $display assertions target "(e + c) + 2" identically ----

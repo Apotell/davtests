@@ -144,15 +144,9 @@ TEST_F(AssignInExpTest, OuterAssignmentToBNestsInnerCompoundAssignmentToA) {
   const hldb::Assignment *const inner = outer->getRhs<hldb::Assignment>();
   ASSERT_NE(inner, nullptr) << "'(a -= 1)' should be a nested Assignment, not collapsed away";
   EXPECT_TRUE(inner->getBlocking());
+  EXPECT_EQ(inner->getOpType(), vpiSubOp);
   EXPECT_EQ(inner->getLhs<hldb::RefObj>()->getName(), "a");
-
-  const hldb::Operation *const sub = inner->getRhs<hldb::Operation>();
-  ASSERT_NE(sub, nullptr);
-  EXPECT_EQ(sub->getOpType(), vpiSubOp);
-  ASSERT_NE(sub->getOperands(), nullptr);
-  ASSERT_EQ(sub->getOperands()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::RefObj>(sub->getOperands()->at(0))->getName(), "a");
-  EXPECT_EQ(any_cast<hldb::Constant>(sub->getOperands()->at(1))->getDecompile(), "1");
+  EXPECT_EQ(inner->getRhs<hldb::Constant>()->getDecompile(), "1");
 }
 
 // --- design-level typespecs / compiler diagnostics ----

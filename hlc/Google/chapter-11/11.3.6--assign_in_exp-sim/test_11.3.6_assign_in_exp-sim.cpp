@@ -154,14 +154,9 @@ TEST_F(AssignInExpSimTest, SecondStatementNestsSubAssignOfAIntoB) {
   EXPECT_EQ(bEq->getLhs<hldb::RefObj>()->getName(), "b");
   const hldb::Assignment *const aSubEq = bEq->getRhs<hldb::Assignment>();
   ASSERT_NE(aSubEq, nullptr) << "'(a -= 1)' should be a nested Assignment";
+  EXPECT_EQ(aSubEq->getOpType(), vpiSubOp);
   EXPECT_EQ(aSubEq->getLhs<hldb::RefObj>()->getName(), "a");
-  const hldb::Operation *const sub = aSubEq->getRhs<hldb::Operation>();
-  ASSERT_NE(sub, nullptr);
-  EXPECT_EQ(sub->getOpType(), vpiSubOp);
-  ASSERT_NE(sub->getOperands(), nullptr);
-  ASSERT_EQ(sub->getOperands()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::RefObj>(sub->getOperands()->at(0))->getName(), "a");
-  EXPECT_EQ(any_cast<hldb::Constant>(sub->getOperands()->at(1))->getDecompile(), "1");
+  EXPECT_EQ(aSubEq->getRhs<hldb::Constant>()->getDecompile(), "1");
 }
 
 TEST_F(AssignInExpSimTest, DisplayAssertsBEqualsCMinusOne) {

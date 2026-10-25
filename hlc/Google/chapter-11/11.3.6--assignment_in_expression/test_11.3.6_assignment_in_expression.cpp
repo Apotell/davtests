@@ -142,15 +142,9 @@ TEST_F(AssignmentInExpressionTest, OuterAssignmentToBNestsInnerAddAssignToA) {
   const hldb::Assignment *const inner = outer->getRhs<hldb::Assignment>();
   ASSERT_NE(inner, nullptr) << "'(a += 1)' should be a nested Assignment, not collapsed away";
   EXPECT_TRUE(inner->getBlocking());
+  EXPECT_EQ(inner->getOpType(), vpiAddOp) << "'+=' must decode to vpiAddOp, distinct from '-='s vpiSubOp";
   EXPECT_EQ(inner->getLhs<hldb::RefObj>()->getName(), "a");
-
-  const hldb::Operation *const add = inner->getRhs<hldb::Operation>();
-  ASSERT_NE(add, nullptr);
-  EXPECT_EQ(add->getOpType(), vpiAddOp) << "'+=' must decode to vpiAddOp, distinct from '-='s vpiSubOp";
-  ASSERT_NE(add->getOperands(), nullptr);
-  ASSERT_EQ(add->getOperands()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::RefObj>(add->getOperands()->at(0))->getName(), "a");
-  EXPECT_EQ(any_cast<hldb::Constant>(add->getOperands()->at(1))->getDecompile(), "1");
+  EXPECT_EQ(inner->getRhs<hldb::Constant>()->getDecompile(), "1");
 }
 
 // --- design-level typespecs / compiler diagnostics ----

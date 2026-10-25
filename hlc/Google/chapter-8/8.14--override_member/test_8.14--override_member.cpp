@@ -537,6 +537,7 @@ TEST_F(ClassOverrideMemberTest, TestIncsFirstStmtIsSPlusEqualsTwo) {
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(0));
   ASSERT_NE(assign, nullptr) << "stmt[0] should be an Assignment ('s += 2;')";
   EXPECT_TRUE(assign->getBlocking());
+  EXPECT_EQ(assign->getOpType(), vpiAddOp);
 
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
@@ -544,17 +545,9 @@ TEST_F(ClassOverrideMemberTest, TestIncsFirstStmtIsSPlusEqualsTwo) {
   EXPECT_EQ(lhs->getActual<hldb::Variable>(), getPropertyS())
       << "'s' inside the override should still resolve to super_cls's inherited property Variable";
 
-  const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
-  ASSERT_NE(rhs, nullptr) << "'+=' should desugar to an explicit 'add' Operation";
-  EXPECT_EQ(rhs->getOpType(), vpiAddOp);
-  ASSERT_NE(rhs->getOperands(), nullptr);
-  ASSERT_EQ(rhs->getOperands()->size(), 2u);
-  const hldb::RefObj *const sOperand = any_cast<hldb::RefObj>(rhs->getOperands()->at(0));
-  ASSERT_NE(sOperand, nullptr);
-  EXPECT_EQ(sOperand->getActual<hldb::Variable>(), getPropertyS());
-  const hldb::Constant *const twoOperand = any_cast<hldb::Constant>(rhs->getOperands()->at(1));
-  ASSERT_NE(twoOperand, nullptr);
-  EXPECT_EQ(twoOperand->getDecompile(), "2");
+  const hldb::Constant *const rhs = assign->getRhs<hldb::Constant>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getDecompile(), "2");
 }
 
 TEST_F(ClassOverrideMemberTest, TestIncsSecondStmtAssignsSToIncsReturnValue) {

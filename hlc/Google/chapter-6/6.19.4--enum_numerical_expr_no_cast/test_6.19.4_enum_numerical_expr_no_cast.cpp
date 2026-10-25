@@ -151,9 +151,7 @@ TEST_F(EnumNumericalExprNoCastTest, SecondAssignmentRhsIsAddOpNoCast) {
   ASSERT_EQ(blk->getStmts()->size(), 2u);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
-  const hldb::Operation *const addOp = assign->getRhs<hldb::Operation>();
-  ASSERT_NE(addOp, nullptr) << "val += 1 rhs should be an Operation";
-  EXPECT_EQ(addOp->getOpType(), vpiAddOp) << "without a cast, the top-level operation is add (not cast)";
+  EXPECT_EQ(assign->getOpType(), vpiAddOp) << "without a cast, the top-level operation is add (not cast)";
 }
 
 TEST_F(EnumNumericalExprNoCastTest, NoCastWrapperPresent) {
@@ -165,9 +163,7 @@ TEST_F(EnumNumericalExprNoCastTest, NoCastWrapperPresent) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
-  const hldb::Operation *const op = assign->getRhs<hldb::Operation>();
-  ASSERT_NE(op, nullptr);
-  EXPECT_NE(op->getOpType(), vpiCastOp) << "no cast present -- val+=1 without e'() cast has no vpiCastOp wrapper";
+  EXPECT_NE(assign->getOpType(), vpiCastOp) << "no cast present -- val+=1 without e'() cast has no vpiCastOp wrapper";
 }
 
 TEST_F(EnumNumericalExprNoCastTest, AddOperandsAreValAnd1) {
@@ -179,14 +175,10 @@ TEST_F(EnumNumericalExprNoCastTest, AddOperandsAreValAnd1) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
-  const hldb::Operation *const addOp = assign->getRhs<hldb::Operation>();
-  ASSERT_NE(addOp, nullptr);
-  ASSERT_NE(addOp->getOperands(), nullptr);
-  ASSERT_EQ(addOp->getOperands()->size(), 2u);
-  const hldb::RefObj *const lhsOp = any_cast<hldb::RefObj>(addOp->getOperands()->at(0));
+  const hldb::RefObj *const lhsOp = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhsOp, nullptr);
   EXPECT_EQ(lhsOp->getName(), std::string_view("val"));
-  const hldb::Constant *const rhsOp = any_cast<hldb::Constant>(addOp->getOperands()->at(1));
+  const hldb::Constant *const rhsOp = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhsOp, nullptr);
   EXPECT_EQ(rhsOp->getDecompile(), std::string_view("1"));
 }
@@ -218,11 +210,7 @@ TEST_F(EnumNumericalExprNoCastTest, AddConstant1IsIntConst) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
-  const hldb::Operation *const addOp = assign->getRhs<hldb::Operation>();
-  ASSERT_NE(addOp, nullptr);
-  ASSERT_NE(addOp->getOperands(), nullptr);
-  ASSERT_EQ(addOp->getOperands()->size(), 2u);
-  const hldb::Constant *const rhsOp = any_cast<hldb::Constant>(addOp->getOperands()->at(1));
+  const hldb::Constant *const rhsOp = assign->getRhs<hldb::Constant>();
   ASSERT_NE(rhsOp, nullptr);
   EXPECT_EQ(rhsOp->getConstType(), vpiIntConst)
       << "HLDB stores unsized integer literals as vpiIntConst";

@@ -330,18 +330,14 @@ TEST_F(ClassThisTest, SecondStmtIsThisADotPlusEqualsA) {
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(1));
   ASSERT_NE(assign, nullptr) << "stmt[1] should be an Assignment ('this.a += a;')";
   EXPECT_TRUE(assign->getBlocking());
+  EXPECT_EQ(assign->getOpType(), vpiAddOp);
 
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ExpectThisDotAPath(lhs);
 
-  const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
-  ASSERT_NE(rhs, nullptr) << "'+=' should desugar to an explicit 'add' Operation on the rhs";
-  EXPECT_EQ(rhs->getOpType(), vpiAddOp);
-  ASSERT_NE(rhs->getOperands(), nullptr);
-  ASSERT_EQ(rhs->getOperands()->size(), 2u);
-
-  const hldb::RefObj *const firstOperand = any_cast<hldb::RefObj>(rhs->getOperands()->at(0));
-  ExpectThisDotAPath(firstOperand);
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getName(), "a");
 }
 
 // The crux of this file: the bare "a" on the rhs of "this.a += a;" must
@@ -356,14 +352,10 @@ TEST_F(ClassThisTest, SecondStmtRhsSecondOperandIsShadowingArgumentA) {
   ASSERT_GT(body->getStmts()->size(), 1u);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(body->getStmts()->at(1));
   ASSERT_NE(assign, nullptr);
-  const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
-  ASSERT_NE(rhs, nullptr);
-  ASSERT_NE(rhs->getOperands(), nullptr);
-  ASSERT_EQ(rhs->getOperands()->size(), 2u);
 
-  const hldb::RefObj *const secondOperand = any_cast<hldb::RefObj>(rhs->getOperands()->at(1));
-  ASSERT_NE(secondOperand, nullptr);
-  EXPECT_EQ(secondOperand->getName(), "a");
+  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  ASSERT_NE(rhs, nullptr);
+  EXPECT_EQ(rhs->getName(), "a");
   const hldb::Task *const t = getTestMethodTask();
   ASSERT_NE(t, nullptr);
   ASSERT_NE(t->getIODecls(), nullptr);
@@ -373,7 +365,7 @@ TEST_F(ClassThisTest, SecondStmtRhsSecondOperandIsShadowingArgumentA) {
   ASSERT_NE(argVarA, nullptr) << "the formal argument 'a' should have a Variable in the task's scope";
   EXPECT_NE(argVarA, getPropertyA()) << "the task argument's Variable 'a' must be a different object than the "
                                         "class property Variable 'a'";
-  EXPECT_EQ(secondOperand->getActual(), argVarA)
+  EXPECT_EQ(rhs->getActual(), argVarA)
       << "37.13/37.15: bare 'a' should resolve to the task argument's Variable 'a' (never its IODecl), NOT the "
          "class property Variable";
 }

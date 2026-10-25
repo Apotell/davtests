@@ -149,14 +149,9 @@ TEST_F(AssignmentInExpressionSimTest, SecondStatementNestsAddAssignOfAIntoB) {
   EXPECT_EQ(bEq->getLhs<hldb::RefObj>()->getName(), "b");
   const hldb::Assignment *const aAddEq = bEq->getRhs<hldb::Assignment>();
   ASSERT_NE(aAddEq, nullptr) << "'(a += 1)' should be a nested Assignment";
+  EXPECT_EQ(aAddEq->getOpType(), vpiAddOp) << "'+=' must decode to vpiAddOp";
   EXPECT_EQ(aAddEq->getLhs<hldb::RefObj>()->getName(), "a");
-  const hldb::Operation *const add = aAddEq->getRhs<hldb::Operation>();
-  ASSERT_NE(add, nullptr);
-  EXPECT_EQ(add->getOpType(), vpiAddOp) << "'+=' must decode to vpiAddOp";
-  ASSERT_NE(add->getOperands(), nullptr);
-  ASSERT_EQ(add->getOperands()->size(), 2u);
-  EXPECT_EQ(any_cast<hldb::RefObj>(add->getOperands()->at(0))->getName(), "a");
-  EXPECT_EQ(any_cast<hldb::Constant>(add->getOperands()->at(1))->getDecompile(), "1");
+  EXPECT_EQ(aAddEq->getRhs<hldb::Constant>()->getDecompile(), "1");
 }
 
 TEST_F(AssignmentInExpressionSimTest, DisplayAssertsBEqualsCPlusOne) {
