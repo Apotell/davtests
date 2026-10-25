@@ -10,6 +10,7 @@ COMMAND: -wd ../../../tests/ParamArraySelect -d db -d ast dut.sv -mt 0 -d dbstat
 [INF:PP5223] Preprocessing source file "$Scratch/builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/dut.sv".
 [INF:PA5502] Parsing source file "$Scratch/builtin.sv".
+[INF:PA5519] Restored parser cache for $Scratch/builtin.sv.
 AST_DEBUG_BEGIN
 Count: 517
 LIB: work
@@ -541,7 +542,6 @@ AST_DEBUG_END
 [WRN:PA5506] $Source01/dut.sv:33:1: No timescale set for "otp_ctrl_lci #(.Info())".
 [WRN:PA5506] $Source01/dut.sv:51:1: No timescale set for "top".
 [ERR:DB2029] $Source01/dut.sv:45:6: Unsupported typespec "BAD".
-[ERR:DB2029] $Source01/dut.sv:65:60: Unsupported typespec "OtpByteAddrWidth".
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
@@ -893,12 +893,12 @@ Design name:unnamed:
           vpiRhs Operation start:37:32 end:37:47:
             vpiParent: ParamAssign
             vpiOpType: cast (81)
-            vpiTypespec RefTypespec name:part_info_t start:37:32 end:37:43:
-              vpiParent: Operation
-              vpiName: part_info_t
-              vpiFullName: otp_ctrl_lci #(.Info()).part_info_t
-              vpiActual: TypedefTypespec name:part_info_t
-            vpiOperand (1 items):
+            vpiOperand (2 items):
+              RefTypespec name:part_info_t start:37:32 end:37:43:
+                vpiParent: Operation
+                vpiName: part_info_t
+                vpiFullName: otp_ctrl_lci #(.Info()).part_info_t
+                vpiActual: TypedefTypespec name:part_info_t
               Constant start:37:45 end:37:46:
                 vpiParent: Operation
                 vpiConstType: int (7)
@@ -1385,12 +1385,12 @@ Design name:unnamed:
                 vpiRhs Operation start:65:60 end:66:80:
                   vpiParent: ParamAssign
                   vpiOpType: cast (81)
-                  vpiTypespec RefTypespec name:OtpByteAddrWidth start:65:60 end:65:76:
-                    vpiParent: Operation
-                    vpiName: OtpByteAddrWidth
-                    vpiFullName: top.gen_part_sel.OtpByteAddrWidth
-                    vpiActual: UnsupportedTypespec name:OtpByteAddrWidth
-                  vpiOperand (1 items):
+                  vpiOperand (2 items):
+                    RefObj name:OtpByteAddrWidth start:65:60 end:65:76:
+                      vpiParent: Operation
+                      vpiName: OtpByteAddrWidth
+                      vpiFullName: top.gen_part_sel.OtpByteAddrWidth
+                      vpiActual: Parameter name:OtpByteAddrWidth
                     Operation start:65:78 end:66:79:
                       vpiParent: Operation
                       vpiOpType: subtract (11)
@@ -1410,7 +1410,7 @@ Design name:unnamed:
                             vpiParent: Constant
                             vpiFullName: top.gen_part_sel
                             vpiActual: IntTypespec
-            vpiTypespec (3 items):
+            vpiTypespec (2 items):
               LogicTypespec:
                 vpiParent: GenBlock name:gen_part_sel
                 vpiRange (1 items):
@@ -1432,9 +1432,6 @@ Design name:unnamed:
                         vpiFullName: top.gen_part_sel
                         vpiActual: IntTypespec
                 vpiVector: true
-              UnsupportedTypespec name:OtpByteAddrWidth start:65:60 end:65:76:
-                vpiParent: GenBlock name:gen_part_sel
-                vpiName Identifier name:OtpByteAddrWidth:
               LogicTypespec:
                 vpiParent: GenBlock name:gen_part_sel
                 vpiRange (1 items):
@@ -1503,7 +1500,7 @@ Design name:unnamed:
 ===================
 [  FATAL] : 0
 [ SYNTAX] : 0
-[  ERROR] : 2
+[  ERROR] : 1
 [WARNING] : 4
 [   NOTE] : 0
 ********************************************************************************
@@ -1550,10 +1547,10 @@ Name                            Before   After   Added   Removed
 Constant                            40      41       4         3
 LongIntTypespec                      0       1       1         0
 Operation                           18      14       0         4
-RefObj                              57      53       0         4
-RefTypespec                        475     476       4         3
+RefObj                              58      54       0         4
+RefTypespec                        474     475       4         3
 ----------------------------------------------------------------
-Others                            1192    1192       0         0
+Others                            1190    1190       0         0
 ----------------------------------------------------------------
-                                  1782    1777       9        14
+                                  1780    1775       9        14
 ===================== END REDUCTION RESULT =====================

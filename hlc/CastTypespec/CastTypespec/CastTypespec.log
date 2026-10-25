@@ -10,6 +10,7 @@ COMMAND: -wd ../../../tests/CastTypespec -d db -d ast dut.sv -mt 0 -d dbstats -d
 [INF:PP5223] Preprocessing source file "$Scratch/builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/dut.sv".
 [INF:PA5502] Parsing source file "$Scratch/builtin.sv".
+[INF:PA5519] Restored parser cache for $Scratch/builtin.sv.
 AST_DEBUG_BEGIN
 Count: 455
 LIB: work
@@ -777,21 +778,21 @@ Design name:unnamed:
                 vpiPattern Operation start:18:18 end:18:44:
                   vpiParent: TaggedPattern
                   vpiOpType: cast (81)
-                  vpiTypespec RefTypespec name:top_pkg::TL_SZW start:18:18 end:18:33:
-                    vpiParent: Operation
-                    vpiName: top_pkg::TL_SZW
-                    vpiFullName: tlul_adapter_host.top_pkg::TL_SZW
-                    vpiPathElem (2 items):
-                      RefObj name:top_pkg start:18:18 end:18:25:
-                        vpiParent: RefTypespec name:top_pkg::TL_SZW
-                        vpiName: top_pkg
-                        vpiFullName: tlul_adapter_host.top_pkg
-                        vpiActual: Package name:top_pkg
-                      RefTypespec name:TL_SZW start:18:27 end:18:33:
-                        vpiParent: RefTypespec name:top_pkg::TL_SZW
-                        vpiName: TL_SZW
-                        vpiFullName: tlul_adapter_host.top_pkg::TL_SZW.TL_SZW
-                  vpiOperand (1 items):
+                  vpiOperand (2 items):
+                    RefTypespec name:top_pkg::TL_SZW start:18:18 end:18:33:
+                      vpiParent: Operation
+                      vpiName: top_pkg::TL_SZW
+                      vpiFullName: tlul_adapter_host.top_pkg::TL_SZW
+                      vpiPathElem (2 items):
+                        RefObj name:top_pkg start:18:18 end:18:25:
+                          vpiParent: RefTypespec name:top_pkg::TL_SZW
+                          vpiName: top_pkg
+                          vpiFullName: tlul_adapter_host.top_pkg
+                          vpiActual: Package name:top_pkg
+                        RefTypespec name:TL_SZW start:18:27 end:18:33:
+                          vpiParent: RefTypespec name:top_pkg::TL_SZW
+                          vpiName: TL_SZW
+                          vpiFullName: tlul_adapter_host.top_pkg::TL_SZW.TL_SZW
                     RefObj name:WordSize start:18:35 end:18:43:
                       vpiParent: Operation
                       vpiName: WordSize
@@ -858,7 +859,7 @@ Design name:unnamed:
           vpiFullName: top.XYZ
           vpiValue Operation start:26:31 end:26:38:
             vpiParent: Variable name:XYZ
-            vpiOpType: assign pattern (87)
+            vpiOpType: multi assign pattern (88)
             vpiOperand (2 items):
               Constant start:26:33 end:26:34:
                 vpiParent: Operation
@@ -1076,7 +1077,7 @@ Design name:unnamed:
                   vpiActual: Variable name:v1
                 vpiRhs Operation start:32:12 end:32:38:
                   vpiParent: Assignment
-                  vpiOpType: assign pattern (87)
+                  vpiOpType: multi assign pattern (88)
                   vpiOperand (2 items):
                     Constant start:32:14 end:32:15:
                       vpiParent: Operation
@@ -1090,7 +1091,7 @@ Design name:unnamed:
                         vpiActual: IntTypespec
                     Operation start:32:16 end:32:36:
                       vpiParent: Operation
-                      vpiOpType: assign pattern (87)
+                      vpiOpType: multi assign pattern (88)
                       vpiOperand (2 items):
                         Constant start:32:18 end:32:19:
                           vpiParent: Operation
@@ -1113,7 +1114,7 @@ Design name:unnamed:
                               vpiActual: Variable name:a
                             Operation start:32:24 end:32:33:
                               vpiParent: Operation
-                              vpiOpType: assign pattern (87)
+                              vpiOpType: multi assign pattern (88)
                               vpiOperand (3 items):
                                 Constant start:32:26 end:32:27:
                                   vpiParent: Operation
@@ -1155,34 +1156,26 @@ Design name:unnamed:
                     Operation start:37:25 end:37:49:
                       vpiParent: Operation
                       vpiOpType: cast (81)
-                      vpiTypespec RefTypespec:
-                        vpiParent: Operation
-                        vpiFullName: top.p_outmux
-                        vpiPathElem (1 items):
-                          Operation:
-                            vpiParent: RefTypespec
-                            vpiOpType: type (95)
-                            vpiOperand (1 items):
-                              Operation start:37:26 end:37:38:
-                                vpiParent: Operation
-                                vpiOpType: add (24)
-                                vpiOperand (2 items):
-                                  RefObj name:HartSelLen start:37:26 end:37:36:
-                                    vpiParent: Operation
-                                    vpiName: HartSelLen
-                                    vpiFullName: top.p_outmux.HartSelLen
-                                    vpiActual: Parameter name:HartSelLen
-                                  Constant start:37:37 end:37:38:
-                                    vpiParent: Operation
-                                    vpiConstType: int (7)
-                                    vpiSize: 32
-                                    vpiDecompile: "1"
-                                    vpiValue: 1
-                                    vpiTypespec RefTypespec:
-                                      vpiParent: Constant
-                                      vpiFullName: top.p_outmux
-                                      vpiActual: IntTypespec
-                      vpiOperand (1 items):
+                      vpiOperand (2 items):
+                        Operation start:37:26 end:37:38:
+                          vpiParent: Operation
+                          vpiOpType: add (24)
+                          vpiOperand (2 items):
+                            RefObj name:HartSelLen start:37:26 end:37:36:
+                              vpiParent: Operation
+                              vpiName: HartSelLen
+                              vpiFullName: top.p_outmux.HartSelLen
+                              vpiActual: Parameter name:HartSelLen
+                            Constant start:37:37 end:37:38:
+                              vpiParent: Operation
+                              vpiConstType: int (7)
+                              vpiSize: 32
+                              vpiDecompile: "1"
+                              vpiValue: 1
+                              vpiTypespec RefTypespec:
+                                vpiParent: Constant
+                                vpiFullName: top.p_outmux
+                                vpiActual: IntTypespec
                         RefObj name:NrHarts start:37:41 end:37:48:
                           vpiParent: Operation
                           vpiName: NrHarts
@@ -1293,12 +1286,12 @@ Constant                            34      34       4         4
 Identifier                         430     428       0         2
 LongIntTypespec                      0       1       1         0
 NamedArgument                        2       0       0         2
-Operation                           14      10       0         4
+Operation                           13       9       0         4
 RefObj                              42      39       0         3
-RefTypespec                        476     475       3         4
+RefTypespec                        475     474       3         4
 SysFuncCall                          2       0       0         2
 ----------------------------------------------------------------
 Others                             737     737       0         0
 ----------------------------------------------------------------
-                                  1737    1724       8        21
+                                  1735    1722       8        21
 ===================== END REDUCTION RESULT =====================
