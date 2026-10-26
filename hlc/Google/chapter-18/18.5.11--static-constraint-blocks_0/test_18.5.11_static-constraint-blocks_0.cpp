@@ -132,9 +132,6 @@ TEST_F(StaticConstraintBlocks0Test, ClassAHasRandIntB) {
 
 // Check 3: c1 is the only constraint and it is static (vpiAutomatic == 0).
 TEST_F(StaticConstraintBlocks0Test, C1IsStaticConstraint) {
-  GTEST_SKIP() << "HLC sets vpiAutomatic (getAutomatic()) to 1 for a constraint declared 'static'. "
-                  "IEEE 1800-2023 Sec 37.34 detail 1: vpiAutomatic == 0 implies the constraint was declared "
-                  "static (Sec 18.5.10). Fix pending.";
   const hldb::ClassDefn *const cls = getClassA();
   ASSERT_NE(cls, nullptr);
   ASSERT_NE(cls->getConstraints(), nullptr);

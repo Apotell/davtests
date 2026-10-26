@@ -233,9 +233,6 @@ TEST_F(SoftConstraintPriorities2Test, A2C2IsSoftBEqualsTwenty) {
 
 // Check 7: a2::c3 is extern, owned by a2, with the out-of-body item "soft b > 100".
 TEST_F(SoftConstraintPriorities2Test, A2C3IsExternWithOutOfBodySoftBGreaterThan100) {
-  GTEST_SKIP() << "HLC reports getIsConstraintEnabled() == false for c3, declared by prototype 'constraint c3;' "
-                  "with out-of-body block 'constraint a2::c3 {...}' (likely kept from the bodiless prototype). "
-                  "IEEE 1800-2023 Sec 18.9: all constraints are initially active. Fix pending.";
   const hldb::ClassDefn *const a1 = getClass("a1");
   const hldb::ClassDefn *const a2 = getClass("a2");
   ASSERT_NE(a1, nullptr);
