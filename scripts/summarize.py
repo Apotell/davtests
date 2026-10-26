@@ -6,6 +6,7 @@ Script to scan a directory looking for test logs and collect integration errors.
 
 import argparse
 from collections import defaultdict
+import io
 import multiprocessing
 import os
 import tarfile
@@ -47,22 +48,32 @@ def _scan_one(args):
   env = {}
   with zipfile.ZipFile(zip_filepath, 'r') as zipfile_strm:
     with zipfile_strm.open(f'{archive_name}.tar.gz') as tarfile_strm:
-      with tarfile.open(fileobj=tarfile_strm) as archive_strm:
-        for test_archive_path in archive_strm.getnames():
+      # Stream mode ('r|*') reads the outer archive strictly sequentially. Random access
+      # (getnames() + extractfile()) on a gzip stream nested inside a zip stream forces
+      # a re-decompression from the start on every backward seek, i.e. O(N^2).
+      with tarfile.open(fileobj=tarfile_strm, mode='r|*') as archive_strm:
+        for test_archive_info in archive_strm:
+          if not test_archive_info.isfile():
+            continue
+
+          test_archive_path = test_archive_info.name
           test_id = Path(test_archive_path).with_suffix('').with_suffix('').relative_to(archive_name).as_posix()
           test_archive_name = Path(test_id).name
 
-          with tarfile.open(fileobj=archive_strm.extractfile(test_archive_path)) as test_archive_strm:
+          test_archive_data = archive_strm.extractfile(test_archive_info).read() # pyright: ignore[reportOptionalMemberAccess]
+          with tarfile.open(fileobj=io.BytesIO(test_archive_data), mode='r:*') as test_archive_strm:
+            test_archive_names = set(test_archive_strm.getnames())
+
             for platform_id in _platform_ids:
               src_filepath = f'{test_archive_name}/{test_archive_name}{platform_id}.log'
-      
-              if src_filepath in test_archive_strm.getnames():
+
+              if src_filepath in test_archive_names:
                 try:
-                  src_strm = test_archive_strm.extractfile(src_filepath)
+                  src_data = test_archive_strm.extractfile(src_filepath).read() # pyright: ignore[reportOptionalMemberAccess]
 
                   reduction_scan_started = False
-                  for line in src_strm: # pyright: ignore[reportOptionalIterable]
-                    line = line.decode().rstrip()
+                  for line in src_data.decode().splitlines():
+                    line = line.rstrip()
 
                     if not line:
                       pass
@@ -90,7 +101,7 @@ def _scan_one(args):
       
                 except Exception:
                   print(f"Failed to parse {src_filepath}")
-                  traceback.print_last()
+                  traceback.print_exc()
 
     with zipfile_strm.open(f'regression.csv') as regression_strm:
       lines = [_.decode('utf-8').strip() for _ in regression_strm]
