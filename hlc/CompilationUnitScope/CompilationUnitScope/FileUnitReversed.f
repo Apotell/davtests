@@ -1,0 +1,1 @@
+-wd ../../../tests/CompilationUnitScope -nobuiltin b.h x.h ts_use.sv ts_set.sv -fileunit

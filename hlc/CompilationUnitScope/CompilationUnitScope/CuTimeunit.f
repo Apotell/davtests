@@ -1,0 +1,1 @@
+-wd ../../../tests/CompilationUnitScope -nobuiltin cu_tu.sv cu_use.sv
