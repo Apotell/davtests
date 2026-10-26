@@ -12,7 +12,6 @@ COMMAND: -wd ../../../tests/TypeParam2 dut.sv -writepp -d inst -fileunit -nobuil
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "rr_arb_tree".
 [INF:CP5804] $Source01/dut.sv:8:1: Compile module "top".
 [WRN:CP5851] $Source01/dut.sv:2:46: Failed to bind "DataWidth".
-[WRN:CP5851] $Source01/dut.sv:16:6: Failed to bind "DataType".
 [WRN:PA5506] $Source01/dut.sv:1:1: No timescale set for "rr_arb_tree #(.DataType(logic [DataWidth-1:0]))".
 [WRN:PA5506] $Source01/dut.sv:8:1: No timescale set for "top".
 ====== HLDB =======
@@ -191,15 +190,16 @@ Design name:unnamed:
               vpiParent: ModuleTypespec name:rr_arb_tree
               vpiConnByName: true
               vpiOverridden: true
-              vpiLhs RefObj name:DataType start:16:6 end:16:14:
+              vpiLhs RefTypespec name:DataType start:16:6 end:16:14:
                 vpiParent: ParamAssign
                 vpiName: DataType
                 vpiFullName: top.rr_arb_tree.DataType
-              vpiRhs RefObj name:output_t start:16:18 end:16:26:
+                vpiActual: TypeParameter name:DataType
+              vpiRhs RefTypespec name:output_t start:16:18 end:16:26:
                 vpiParent: ParamAssign
                 vpiName: output_t
                 vpiFullName: top.rr_arb_tree.output_t
-                vpiActual: Typedef name:output_t
+                vpiActual: TypedefTypespec name:output_t
           vpiModule: Module name:rr_arb_tree #(.DataType(logic [DataWidth-1:0]))
       vpiDefName: top
       vpiDefNetType: wire (1)
@@ -247,7 +247,7 @@ Design name:unnamed:
 [  FATAL] : 0
 [ SYNTAX] : 0
 [  ERROR] : 0
-[WARNING] : 4
+[WARNING] : 3
 [   NOTE] : 0
 ********************************************************************************
 *                    End HLC SystemVerilog Compiler/Linter                     *
