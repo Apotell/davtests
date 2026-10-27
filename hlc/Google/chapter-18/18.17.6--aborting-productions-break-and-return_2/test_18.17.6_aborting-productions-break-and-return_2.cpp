@@ -162,14 +162,10 @@ class AbortingProductionsBreakAndReturn2Test : public Test {
 
 // Check: production 'secondi' is used but never defined, so the file is illegal.
 TEST_F(AbortingProductionsBreakAndReturn2Test, CompilerRejectsUndefinedProductionSecondi) {
-  GTEST_SKIP() << "HLC reports no error for the undefined production 'secondi': the randsequence is dropped, so its "
-                  "production items are never resolved. IEEE 1800-2023 Sec 18.17 (Syntax 18-13): an "
-                  "rs_production_item shall name a production of the randsequence. Fix pending.";
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
-      << "main uses production 'secondi', but only 'second' is defined: an rs_production_item names a production of "
-         "the "
-         "randsequence (IEEE 1800-2023 Sec 18.17, Syntax 18-13)";
+      << "main uses production 'secondi', but only 'second' is defined: an rs_production_item names a "
+         "production of the randsequence (IEEE 1800-2023 Sec 18.17, Syntax 18-13)";
 }
 
 // Check: compilation-unit function 'F' -- int return, no arguments, locals x, return_on.
@@ -199,9 +195,6 @@ TEST_F(AbortingProductionsBreakAndReturn2Test, FunctionFSignatureAndLocalVariabl
 
 // Check: the function-local variables are not rand (37.17 details 15/22).
 TEST_F(AbortingProductionsBreakAndReturn2Test, LocalVariablesRandTypeIsNotRand) {
-  GTEST_SKIP() << "HLC reports vpiRandType == 0 for the function-local variables (0 is not a defined value). "
-                  "IEEE 1800-2023 Sec 37.17 details 15/22: vpiRandType is one of vpiRand, vpiRandC or vpiNotRand, "
-                  "so a plain local is vpiNotRand. Fix pending.";
   const hldb::Function *const f = getF();
   ASSERT_NE(f, nullptr);
   for (std::string_view name : {"x", "return_on"}) {
@@ -216,9 +209,6 @@ TEST_F(AbortingProductionsBreakAndReturn2Test, LocalVariablesRandTypeIsNotRand) 
 
 // Check: F's body is "randsequence ... ; return x;" -- two statements, in that order.
 TEST_F(AbortingProductionsBreakAndReturn2Test, FunctionFBodyIsRandsequenceThenReturn) {
-  GTEST_SKIP() << "HLC drops the randsequence statement: F's body only holds 'return x;' (1 statement, not 2). "
-                  "IEEE 1800-2023 Sec 18.17: randsequence is a statement_item (Syntax 18-13) and shall be kept in "
-                  "the subroutine body. Fix pending.";
   const hldb::Function *const f = getF();
   ASSERT_NE(f, nullptr);
   ASSERT_NE(f->getVariables(), nullptr);

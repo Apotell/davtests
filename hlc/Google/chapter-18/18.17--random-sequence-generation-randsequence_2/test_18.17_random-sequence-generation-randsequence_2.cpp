@@ -177,9 +177,6 @@ TEST_F(RandomSequenceGenerationRandsequence2Test, FunctionFSignatureAndLocalVari
 
 // Check: the function-local variables are not rand (37.17 details 15/22).
 TEST_F(RandomSequenceGenerationRandsequence2Test, LocalVariablesRandTypeIsNotRand) {
-  GTEST_SKIP() << "HLC reports vpiRandType == 0 for the function-local variables (0 is not a defined value). "
-                  "IEEE 1800-2023 Sec 37.17 details 15/22: vpiRandType is one of vpiRand, vpiRandC or vpiNotRand, "
-                  "so a plain local is vpiNotRand. Fix pending.";
   const hldb::Function *const f = getF();
   ASSERT_NE(f, nullptr);
   for (std::string_view name : {"x"}) {
@@ -194,9 +191,6 @@ TEST_F(RandomSequenceGenerationRandsequence2Test, LocalVariablesRandTypeIsNotRan
 
 // Check: F's body is "randsequence ... ; return x;" -- two statements, in that order.
 TEST_F(RandomSequenceGenerationRandsequence2Test, FunctionFBodyIsRandsequenceThenReturn) {
-  GTEST_SKIP() << "HLC drops the randsequence statement: F's body only holds 'return x;' (1 statement, not 2). "
-                  "IEEE 1800-2023 Sec 18.17: randsequence is a statement_item (Syntax 18-13) and shall be kept in "
-                  "the subroutine body. Fix pending.";
   const hldb::Function *const f = getF();
   ASSERT_NE(f, nullptr);
   ASSERT_NE(f->getVariables(), nullptr);
