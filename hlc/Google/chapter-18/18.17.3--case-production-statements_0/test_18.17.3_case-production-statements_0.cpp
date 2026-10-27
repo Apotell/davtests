@@ -173,9 +173,9 @@ class CaseProductionStatements0Test : public Test {
 
 // Check: undeclared 'switch' and undefined production 'zero' make the file illegal.
 TEST_F(CaseProductionStatements0Test, CompilerRejectsUndeclaredSwitchAndUndefinedProductionZero) {
-  // NOTE: today this passes because HLC reports SYNTAX errors on the (legal) case production, not
-  // because it detects the undeclared 'switch' or the undefined production 'zero'. The rule-specific
-  // check is UnresolvedIdentifierDiagnosticNamesSwitch below.
+  // NOTE: the case production itself is legal (Syntax 18-16); only 'switch' and 'zero' make the file
+  // illegal. HLC drops the randsequence, so neither is resolved and this fails until randsequence is
+  // supported. The rule-specific check is UnresolvedIdentifierDiagnosticNamesSwitch below.
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
       << "'switch' is not a keyword (Table B.1) and is never declared (IEEE 1800-2023 Sec 23.9), and "
@@ -184,9 +184,6 @@ TEST_F(CaseProductionStatements0Test, CompilerRejectsUndeclaredSwitchAndUndefine
 
 // Check: the diagnostic is about the identifier 'switch'.
 TEST_F(CaseProductionStatements0Test, UnresolvedIdentifierDiagnosticNamesSwitch) {
-  GTEST_SKIP() << "No undefined-variable / failed-to-bind diagnostic names 'switch': HLC does not model the "
-                  "randsequence (its case production does not even parse), so the reference is never resolved. "
-                  "IEEE 1800-2023 Sec 23.9: an undeclared identifier in a function is an error. Fix pending.";
   const bool reported = (findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "switch") != nullptr) ||
                         (findError(ErrorDefinition::COMP_FAILED_TO_BIND, "switch") != nullptr);
   EXPECT_TRUE(reported) << "expected an undefined-variable / failed-to-bind diagnostic for 'switch' "
@@ -209,9 +206,6 @@ TEST_F(CaseProductionStatements0Test, FunctionFSignatureAndLocalVariable) {
 
 // Check: the function-local variable is not rand (37.17 details 15/22).
 TEST_F(CaseProductionStatements0Test, LocalVariableRandTypeIsNotRand) {
-  GTEST_SKIP() << "HLC reports vpiRandType == 0 for the function-local variable 'x' (0 is not a defined value). "
-                  "IEEE 1800-2023 Sec 37.17 details 15/22: vpiRandType is one of vpiRand, vpiRandC or vpiNotRand, "
-                  "so a plain local is vpiNotRand. Fix pending.";
   const hldb::Function *const f = getF();
   ASSERT_NE(f, nullptr);
   const hldb::Variable *const local = hldb::findByName<hldb::Variable>("x", f->getVariables());
@@ -223,9 +217,6 @@ TEST_F(CaseProductionStatements0Test, LocalVariableRandTypeIsNotRand) {
 
 // Check: F's body is "randsequence ... ; return x;" -- two statements, in that order.
 TEST_F(CaseProductionStatements0Test, FunctionFBodyIsRandsequenceThenReturn) {
-  GTEST_SKIP() << "HLC fails to parse the case production 'main : case (switch) ... endcase;' and splits the "
-                  "randsequence into 12 bogus statements of F (expected 2: randsequence, return). "
-                  "IEEE 1800-2023 Sec 18.17.3 (Syntax 18-16, rs_case) makes this a legal production. Fix pending.";
   const hldb::Function *const f = getF();
   ASSERT_NE(f, nullptr);
   ASSERT_NE(f->getVariables(), nullptr);
