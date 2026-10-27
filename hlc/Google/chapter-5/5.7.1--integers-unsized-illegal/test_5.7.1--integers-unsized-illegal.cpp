@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,8 +40,8 @@
 // GTEST_SKIP()'d test below.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -166,9 +166,9 @@ TEST_F(IntegersUnsizedIllegal, Compiler_ShouldReportSyntaxErrorForIllegalToken) 
                   "IEEE 1800-2023 Annex A.8.7/A.9.3 requires a syntax error since '4af' has "
                   "no legal token interpretation.";
 
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR), nullptr)
+  EXPECT_NE(findEvent(EventType::PaSyntaxError), nullptr)
       << "IEEE 1800-2023 5.7.1: '4af' is not a legal number token because a hexadecimal "
-         "literal requires the 'h base specifier. PA_SYNTAX_ERROR carries no object name, so "
+         "literal requires the 'h base specifier. PaSyntaxError carries no object name, so "
          "this cannot be narrowed by symbol.";
 }
 

@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +15,8 @@
 */
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -87,8 +87,8 @@ TEST_F(TestMacrosTest, Add5MacroIfPresent) {
 // module_or_generate_item grammar has no production for a bare statement at
 // this scope). This must be reported as a syntax/parse error.
 TEST_F(TestMacrosTest, TopLevelUvmInfoInvocationIsIllegal) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::PP_SYNTAX_ERROR, 14, 7), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::PpSyntaxError, 14, 7), nullptr)
       << "expanding `uvm_info(...) into a begin/end block outside any module "
          "is illegal per IEEE 1800-2023 and must be diagnosed";
 }

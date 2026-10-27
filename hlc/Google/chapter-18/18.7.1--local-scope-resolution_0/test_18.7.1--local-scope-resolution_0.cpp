@@ -65,7 +65,7 @@
 //     - its right operand 'local::x' binds to the Variable holding F's
 //       formal 'x' (18.7.1, 37.15), not to class a's 'x'
 //   Diagnostics
-//     - no COMP_UNDEFINED_VARIABLE for 'obj' or 'x'
+//     - no CompUndefinedVariable for 'obj' or 'x'
 //     - no fatal, syntax or error diagnostic points into this file
 //     - the whole compilation is legal: zero fatal, syntax and error
 //       diagnostics
@@ -75,7 +75,7 @@
 // binding asserted is name resolution. No check is gated on getElaborated().
 //
 // KNOWN FAILURE (HLC cannot parse 'local::' in an inline constraint), not a
-// defect in this test: HLC reports PA_SYNTAX_ERROR (5508) three times on
+// defect in this test: HLC reports PaSyntaxError (5508) three times on
 // line 21 -- at column 42 (the 'x' after 'local::') and column 44 (the ';'
 // that ends the constraint item) -- although 'local::x' is legal in a
 // randomize() with block (18.7.1; A.8.3 primary ::= ... [ local:: ]
@@ -119,10 +119,8 @@
 
 #include <hlc/Common/FileSystem.h>
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -449,7 +447,7 @@ TEST_F(LocalScopeResolution0Test, LocalXBindsToFormalOfF) {
 
 TEST_F(LocalScopeResolution0Test, ReferencedNamesAreFound) {
   for (std::string_view name : {"obj", "x"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "'" << name << "' is declared in this file, so it is not undefined";
   }
 }
@@ -459,13 +457,12 @@ TEST_F(LocalScopeResolution0Test, ReferencedNamesAreFound) {
 // Expected to fail until HLC is fixed -- see KNOWN FAILURE (HLC cannot parse
 // 'local::' in an inline constraint) in the file header.
 TEST_F(LocalScopeResolution0Test, NoErrorIsReportedInThisFile) {
-  const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
   size_t count = 0;
-  for (const Error &error : m_session->getErrorContainer()->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator info = infos.find(error.getType());
-    if (info == infos.cend() || info->second.m_severity > ErrorDefinition::ERROR) continue;
-    for (const Location &loc : error.getLocations()) {
-      const std::string_view path = FileSystem::toPath(loc.m_fileId);
+  for (const Event &error : m_session->getEventListener()->getEvents()) {
+    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if (info == nullptr || info->m_severity > EventSeverity::Error) continue;
+    for (const EventArg &loc : error.getArguments()) {
+      const std::string_view path = loc.m_file;
       if (path.find("18.7.1--local-scope-resolution_0.sv") == std::string_view::npos) continue;
       ++count;
       ADD_FAILURE() << "error " << error.getType() << " reported at " << path << ":" << loc.m_line << ":"
@@ -478,10 +475,10 @@ TEST_F(LocalScopeResolution0Test, NoErrorIsReportedInThisFile) {
 // Expected to fail until HLC is fixed -- see KNOWN FAILURE (HLC cannot parse
 // 'local::' in an inline constraint) in the file header.
 TEST_F(LocalScopeResolution0Test, NoFatalSyntaxOrErrorDiagnostics) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the source is legal SystemVerilog and should compile without errors";
 }
 
 }  // namespace hlc

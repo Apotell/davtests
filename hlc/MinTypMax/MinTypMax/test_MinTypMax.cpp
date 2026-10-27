@@ -33,7 +33,7 @@
 //   - Sec 9.2.1 / 21.2.1: the initial procedure's statement is directly
 //     the system task call "$display" (SysTaskCall) with one argument, a
 //     RefObj "value" bound to the Parameter "value"
-//   - no COMP_FAILED_TO_BIND for "value"
+//   - no CompFailedToBind for "value"
 //
 // What is NOT checked and why:
 //   - Which of min/typ/max is selected as the parameter's value (typical
@@ -44,7 +44,7 @@
 //     of the final value): also an elaboration result.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -143,7 +143,7 @@ TEST_F(MinTypMaxTest, InitialIsDisplayOfValue) {
 }
 
 TEST_F(MinTypMaxTest, NoBindErrorForValue) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "value"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "value"), nullptr);
 }
 
 }  // namespace hlc

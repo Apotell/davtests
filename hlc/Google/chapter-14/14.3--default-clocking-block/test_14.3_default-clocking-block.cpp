@@ -74,7 +74,7 @@
 //     scope for this .sv file.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -178,12 +178,12 @@ TEST_F(DefaultClockingBlockTest, DefaultClockingInputSkewIsTenAndOutputSkewIsFiv
 
 TEST_F(DefaultClockingBlockTest, CompilerReportsZeroErrors) {
   // Sec 14.12: exactly one "default clocking" per module is legal.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
+  EXPECT_EQ(stats.m_warnings, 0);
 }
 
 }  // namespace hlc

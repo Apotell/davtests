@@ -33,7 +33,7 @@
 //
 // What is checked:
 //   - the illegal number_of_ticks (0) is diagnosed at 5:29
-//     (HLDB_NON_POSITIVE_VALUE), and the legal one (1) on line 11 is not
+//     (NonPositiveValue), and the legal one (1) on line 11 is not
 //   - 'clk' and 'req' are never declared; neither is in a context where an
 //     implicit net is created (6.10), so every reference must fail to bind
 //   - module 'top' has exactly two SequenceDecls, s_req_bad and s_req_ok
@@ -53,9 +53,8 @@
 //     standard-mandated).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -153,12 +152,12 @@ class LegalPastFuncTest : public Test {
 // ---------------------------------------------------------------------------
 
 TEST_F(LegalPastFuncTest, ZeroTicksIsDiagnosed) {
-  EXPECT_NE(findError(ErrorDefinition::HLDB_NON_POSITIVE_VALUE, 5, 29), nullptr)
+  EXPECT_NE(findEvent(EventType::NonPositiveValue, 5, 29), nullptr)
       << "16.9.3: '$past(!req,0)' -- number_of_ticks shall be 1 or greater";
 }
 
 TEST_F(LegalPastFuncTest, OneTickIsNotDiagnosed) {
-  EXPECT_EQ(findError(ErrorDefinition::HLDB_NON_POSITIVE_VALUE, 11), nullptr) << "16.9.3: '$past(!req,1)' is legal";
+  EXPECT_EQ(findEvent(EventType::NonPositiveValue, 11), nullptr) << "16.9.3: '$past(!req,1)' is legal";
 }
 
 // ---------------------------------------------------------------------------
@@ -166,16 +165,16 @@ TEST_F(LegalPastFuncTest, OneTickIsNotDiagnosed) {
 // ---------------------------------------------------------------------------
 
 TEST_F(LegalPastFuncTest, UndeclaredReqFailsToBind) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "req", 5, 9), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "req", 5, 25), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "req", 11, 9), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "req", 11, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "req", 5, 9), nullptr);
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "req", 5, 25), nullptr);
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "req", 11, 9), nullptr);
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "req", 11, 25), nullptr);
 }
 
 TEST_F(LegalPastFuncTest, UndeclaredClkFailsToBind) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "clk", 4, 14), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "clk", 4, 14), nullptr)
       << "6.10: 'clk' is never declared and a clocking event is not an implicit-net context";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "clk", 10, 14), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "clk", 10, 14), nullptr)
       << "6.10: 'clk' is never declared and a clocking event is not an implicit-net context";
 }
 

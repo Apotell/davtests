@@ -122,7 +122,7 @@
 //   - Comment nodes: grouping is a tool convention.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -270,11 +270,11 @@ class DefineAndResetallTest : public Test {
 TEST_F(DefineAndResetallTest, CompilerReportsZeroErrors) {
   // Sec 22.3: `resetall on line 17 is outside any design element. Sec 22.5:
   // it leaves SOMESTRING defined, so its usage on line 21 is not undefined.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 // --- `define survives `resetall ----

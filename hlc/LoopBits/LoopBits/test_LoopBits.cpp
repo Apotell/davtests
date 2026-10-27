@@ -73,7 +73,7 @@
 //     "Module #(1, 8)" assigns 1 to S and 8 to T (declaration order), so
 //     each override's LHS must name S and T respectively.
 //   - HLDB integrity: a legal design must not produce an
-//     HLDB_ILLEGAL_PROPERTY_VALUE diagnostic on blk (line 19).
+//     IllegalPropertyValue diagnostic on blk (line 19).
 //
 // What is NOT checked and why:
 //   - the elaborated widths of m1/m2/m3.x, y and blk.x (and the $display
@@ -81,9 +81,8 @@
 //     values are not available in the folded model.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -304,9 +303,9 @@ TEST_F(LoopBitsTest, DisplayHierarchicalRefModuleXBinds) {
 }
 
 TEST_F(LoopBitsTest, NoBindingFailuresForGenerateBlockPath) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "a", 13), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "b", 13), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "y", 13), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "a", 13), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "b", 13), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "y", 13), nullptr);
 }
 
 // ===========================================================================
@@ -452,7 +451,7 @@ TEST_F(LoopBitsTest, OrderedOverridesMapToSAndT) {
 }
 
 TEST_F(LoopBitsTest, NoIllegalHldbPropertyOnBlk) {
-  EXPECT_EQ(findError(ErrorDefinition::HLDB_ILLEGAL_PROPERTY_VALUE, 19), nullptr)
+  EXPECT_EQ(findEvent(EventType::IllegalPropertyValue, 19), nullptr)
       << "legal input must not produce an invalid HLDB model for generate block blk";
 }
 

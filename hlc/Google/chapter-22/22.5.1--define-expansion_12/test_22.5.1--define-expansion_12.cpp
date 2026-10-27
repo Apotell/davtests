@@ -65,7 +65,7 @@
 // What is checked
 //   - At least one error-class diagnostic (fatal, syntax or error) points at
 //     line 19.
-//   - HLC diagnoses it as the missing default: PP_MACRO_NO_DEFAULT_VALUE, the
+//   - HLC diagnoses it as the missing default: PpMacroNoDefaultValue, the
 //     HLC code for exactly this 22.5.1 rule, is reported on line 19 with an
 //     error-class severity.
 //   - Every error-class diagnostic points at line 19. For lines 1-18 this is
@@ -139,10 +139,8 @@
 //     elaborating run nothing legitimate to report off line 19.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -262,37 +260,35 @@ bool startsWithSeparatedWord(std::string_view text, std::string_view word) {
 }
 
 // True for the severities the LRM's "error" can map to.
-bool isErrorClass(ErrorDefinition::ErrorSeverity severity) {
-  return (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-         (severity == ErrorDefinition::ERROR);
+bool isErrorClass(EventSeverity severity) {
+  return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+         (severity == EventSeverity::Error);
 }
 
 // True when 'error' has an error-class severity in HLC's error table.
-bool isErrorClass(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  return (errorInfo != errorInfoMap.end()) && isErrorClass(errorInfo->second.m_severity);
+bool isErrorClass(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+  return (errorInfo != nullptr) && isErrorClass(errorInfo->m_severity);
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) { return error.getLocations().empty() ? 0 : error.getLocations().front().m_line; }
+uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
 
 // One diagnostic as " [<code> line <n>: <text>]", for failure messages, so a
 // red run shows what was reported and where. <text> is HLC's message
 // template, so its placeholders are not filled in.
-std::string describeError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
+std::string describeError(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
   std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
   description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != errorInfoMap.end()) description += ": " + std::string(errorInfo->second.m_errorText);
+  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
   return description + "]";
 }
 
 // Every diagnostic, described as by describeError(); for failure messages.
-std::string describeAllErrors(const ErrorContainer *errorContainer) {
+std::string describeAllErrors(const EventListener *eventListener) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) description += describeError(error);
+  for (const Event &error : eventListener->getEvents()) description += describeError(error);
   return description;
 }
 }  // namespace
@@ -335,31 +331,30 @@ class DefineExpansion12Test : public Test {
 // kind, so any error-class diagnostic on line 19 satisfies it.
 TEST_F(DefineExpansion12Test, ReportsAnErrorOnTheIllegalLine) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
   size_t errorsOnUsageLine = 0;
-  for (const Error &error : errorContainer->getErrors()) {
+  for (const Event &error : eventListener->getEvents()) {
     if (isErrorClass(error) && (lineOf(error) == kUsageLine)) ++errorsOnUsageLine;
   }
-  EXPECT_GE(errorsOnUsageLine, 1u) << "no error on line " << kUsageLine << ";" << describeAllErrors(errorContainer);
+  EXPECT_GE(errorsOnUsageLine, 1u) << "no error on line " << kUsageLine << ";" << describeAllErrors(eventListener);
 }
 
-// HLC has a dedicated code for this 22.5.1 rule, PP_MACRO_NO_DEFAULT_VALUE: an
+// HLC has a dedicated code for this 22.5.1 rule, PpMacroNoDefaultValue: an
 // omitted formal argument without a default. Reporting the usage under it
 // identifies the LRM condition that makes line 19 illegal.
 TEST_F(DefineExpansion12Test, DiagnosesTheMissingDefault) {
-  const Error *const error = findError(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE);
+  const Event *const error = findEvent(EventType::PpMacroNoDefaultValue);
   ASSERT_NE(error, nullptr) << "`MACRO1 ( 1 ) omits c, which has no default (22.5.1)";
   EXPECT_EQ(lineOf(*error), kUsageLine);
 
   // The LRM calls this an error, not a warning; it does not say which kind of
   // error, so any error-class severity is accepted.
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo =
-      errorInfoMap.find(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE);
-  ASSERT_NE(errorInfo, errorInfoMap.end());
-  EXPECT_TRUE(isErrorClass(errorInfo->second.m_severity)) << "severity " << errorInfo->second.m_severity;
+  const EventDefinition *const errorInfo =
+      hldb::findEventDefinition(hlc::getEventTable(), EventType::PpMacroNoDefaultValue);
+  ASSERT_NE(errorInfo, nullptr);
+  EXPECT_TRUE(isErrorClass(errorInfo->m_severity)) << "severity " << errorInfo->m_severity;
 }
 
 // Line 19 is the one illegal line (22.5.1); the LRM requires an error there
@@ -375,11 +370,11 @@ TEST_F(DefineExpansion12Test, DiagnosesTheMissingDefault) {
 //     conformance failure.
 TEST_F(DefineExpansion12Test, ErrorsOnlyOnTheIllegalLine) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
   std::string offLine;
-  for (const Error &error : errorContainer->getErrors()) {
+  for (const Event &error : eventListener->getEvents()) {
     if (isErrorClass(error) && (lineOf(error) != kUsageLine)) offLine += describeError(error);
   }
   EXPECT_EQ(offLine, "") << "error-class diagnostics off line " << kUsageLine;
@@ -388,37 +383,37 @@ TEST_F(DefineExpansion12Test, ErrorsOnlyOnTheIllegalLine) {
 // Each of these diagnostics would mean HLC misread the definition or the usage.
 TEST_F(DefineExpansion12Test, ReportsNoMisreadingDiagnostics) {
   // One actual argument for three formal arguments is too few, not too many.
-  EXPECT_EQ(findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
 
   // In the definition "(" follows MACRO1 with no white space; in the usage
   // white space before "(" is allowed (22.5.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
 
   // The usage has its parentheses (22.5.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_PARENTHESIS_NEEDED), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
 
   // a, b and c all appear in the macro text.
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNUSED_ARGUMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
 
   // MACRO1 is defined once, on line 17, before its use on line 19.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MULTIPLY_DEFINED_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
 
   // MACRO1 is not a compiler directive name (22.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NAME_RESERVED), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
 
   // The default "B" is closed on line 17 (5.9).
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNTERMINATED_STRING), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
 
   // The macro text of MACRO1 does not refer to any macro.
-  EXPECT_EQ(findError(ErrorDefinition::PP_RECURSIVE_MACRO_DEFINITION), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
 
   // `define is outside module top, and a macro usage may appear anywhere in
   // the compilation unit after its definition (22.5.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DefineExpansion12Test, SourceFileRecordedOnce) {

@@ -44,8 +44,8 @@
 //     (Sec 3.12).
 //
 // HLC's error catalog has an entry whose name is this rule,
-// PP_MACRO_NO_DEFAULT_VALUE (the opposite case, more actual than formal
-// arguments, is PP_TOO_MANY_ARGS_MACRO). The LRM requires only an error, so
+// PpMacroNoDefaultValue (the opposite case, more actual than formal
+// arguments, is PpTooManyArgsMacro). The LRM requires only an error, so
 // the LRM check identifies the diagnostic by severity and line; a separate
 // test checks that HLC files it under its own dedicated entry.
 //
@@ -61,7 +61,7 @@
 //     space removed)
 //
 // Checked -- HLC's catalog entry for the rule (NOT an LRM requirement):
-//   - exactly one PP_MACRO_NO_DEFAULT_VALUE, on line 19, and that entry has
+//   - exactly one PpMacroNoDefaultValue, on line 19, and that entry has
 //     an error-class severity
 //
 // Checked -- HLC error-recovery requirements (NOT defined by the LRM,
@@ -112,10 +112,8 @@
 //   - Comment nodes: grouping is a tool convention.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -175,35 +173,34 @@ class DefineExpansion6Test : public Test {
 
   // True if HLC's catalog files this diagnostic type under an error-class
   // severity (FATAL, SYNTAX or ERROR).
-  static bool isErrorClass(ErrorDefinition::ErrorType type) {
-    const ErrorDefinition::ErrorMap &infoMap = ErrorDefinition::getErrorInfoMap();
-    const ErrorDefinition::ErrorMap::const_iterator it = infoMap.find(type);
-    if (it == infoMap.end()) return false;
-    const ErrorDefinition::ErrorSeverity severity = it->second.m_severity;
-    return (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-           (severity == ErrorDefinition::ERROR);
+  static bool isErrorClass(uint32_t type) {
+    const EventDefinition *const it = hldb::findEventDefinition(hlc::getEventTable(), type);
+    if (it == nullptr) return false;
+    const EventSeverity severity = it->m_severity;
+    return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+           (severity == EventSeverity::Error);
   }
 
   // The line of a diagnostic's primary location, or 0 if it has none.
-  static uint32_t lineOf(const Error &error) {
-    return error.getLocations().empty() ? 0u : error.getLocations().front().m_line;
+  static uint32_t lineOf(const Event &error) {
+    return error.getArguments().empty() ? 0u : error.getArguments().front().m_line;
   }
 
   // Every error-class diagnostic, in report order.
-  static std::vector<const Error *> errorClassDiagnostics() {
-    std::vector<const Error *> result;
-    if (m_session->getErrorContainer() == nullptr) return result;
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+  static std::vector<const Event *> errorClassDiagnostics() {
+    std::vector<const Event *> result;
+    if (m_session->getEventListener() == nullptr) return result;
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
       if (isErrorClass(error.getType())) result.emplace_back(&error);
     }
     return result;
   }
 
   // Every reported diagnostic of the given type, in report order.
-  static std::vector<const Error *> errorsOfType(ErrorDefinition::ErrorType type) {
-    std::vector<const Error *> result;
-    if (m_session->getErrorContainer() == nullptr) return result;
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+  static std::vector<const Event *> errorsOfType(uint32_t type) {
+    std::vector<const Event *> result;
+    if (m_session->getEventListener() == nullptr) return result;
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
       if (error.getType() == type) result.emplace_back(&error);
     }
     return result;
@@ -213,10 +210,10 @@ class DefineExpansion6Test : public Test {
   // messages.
   static std::string describeErrorClassDiagnostics() {
     std::string text;
-    for (const Error *const error : errorClassDiagnostics()) {
+    for (const Event *const error : errorClassDiagnostics()) {
       text += " " + std::to_string(static_cast<int32_t>(error->getType()));
-      if (!error->getLocations().empty()) {
-        const Location &location = error->getLocations().front();
+      if (!error->getArguments().empty()) {
+        const EventArg &location = error->getArguments().front();
         text += "@" + std::to_string(location.m_line) + ":" + std::to_string(location.m_column);
       }
     }
@@ -291,11 +288,11 @@ class DefineExpansion6Test : public Test {
 TEST_F(DefineExpansion6Test, FewerActualArgumentsIsAnErrorOnLine19) {
   // Sec 22.5.1: `D("msg1") gives one actual argument for two formal
   // arguments, and y has no default: "It shall be an error".
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GE(stats.nbFatal + stats.nbSyntax + stats.nbError, 1) << "illegal source must draw an error";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GE(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 1) << "illegal source must draw an error";
   size_t onUsageLine = 0u;
-  for (const Error *const error : errorClassDiagnostics()) {
+  for (const Event *const error : errorClassDiagnostics()) {
     if (lineOf(*error) == kUsageLine) ++onUsageLine;
   }
   EXPECT_GE(onUsageLine, 1u) << "no error-class diagnostic for `D(\"msg1\") on line 19; error-class diagnostics:"
@@ -324,11 +321,11 @@ TEST_F(DefineExpansion6Test, MacroDDefinitionIsIntact) {
 TEST_F(DefineExpansion6Test, ReportedAsMacroNoDefaultValue) {
   // HLC catalog check, not an LRM rule: HLC has a dedicated entry for a
   // remaining formal argument without a default, and should use it here.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const std::vector<const Error *> errors = errorsOfType(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const std::vector<const Event *> errors = errorsOfType(EventType::PpMacroNoDefaultValue);
   ASSERT_EQ(errors.size(), 1u) << "error-class diagnostics:" << describeErrorClassDiagnostics();
   EXPECT_EQ(lineOf(*errors.front()), kUsageLine);
-  EXPECT_TRUE(isErrorClass(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE))
+  EXPECT_TRUE(isErrorClass(EventType::PpMacroNoDefaultValue))
       << "\"It shall be an error\" -- the entry must be FATAL, SYNTAX or ERROR";
 }
 
@@ -337,9 +334,9 @@ TEST_F(DefineExpansion6Test, ReportedAsMacroNoDefaultValue) {
 TEST_F(DefineExpansion6Test, ErrorsStayOnLine19) {
   // HLC recovery requirement, not an LRM rule: reporting the illegal usage
   // must not cascade into errors on other lines.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
   size_t elsewhere = 0u;
-  for (const Error *const error : errorClassDiagnostics()) {
+  for (const Event *const error : errorClassDiagnostics()) {
     if (lineOf(*error) != kUsageLine) ++elsewhere;
   }
   EXPECT_EQ(elsewhere, 0u) << "error-class diagnostics:" << describeErrorClassDiagnostics()

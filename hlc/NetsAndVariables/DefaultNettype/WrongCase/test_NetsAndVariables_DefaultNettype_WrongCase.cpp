@@ -25,8 +25,8 @@
 //     file (the illegal construct is rejected, not silently accepted)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -41,8 +41,8 @@ class WrongCaseTest : public Test {
 TEST_F(WrongCaseTest, WrongCaseIsRejected) {
   GTEST_SKIP() << "`default_nettype Wire is illegal: SystemVerilog keywords are case-sensitive, so 'Wire' is not "
                   "the keyword 'wire'.";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_VALUE), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveValue), nullptr)
       << "IEEE 1800-2023 22.8 with 5.2: SystemVerilog is case sensitive, so 'Wire' is not the "
          "keyword 'wire' and is not a legal default_nettype value.";
 }

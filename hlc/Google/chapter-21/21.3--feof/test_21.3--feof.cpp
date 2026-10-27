@@ -134,9 +134,8 @@
 //     is deliberately left unasserted rather than guessed.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -382,18 +381,18 @@ TEST_F(FeofTest, FcloseCallClosesTheSameDescriptor) {
 // --- compiler diagnostics ---------------------------------------------------
 
 TEST_F(FeofTest, CompilerReportsNoFatalOrSyntaxErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 // "fd" is referenced three times, and its declaration is block-scoped
 // rather than module-scoped -- the one construct here with real binding
 // risk.
 TEST_F(FeofTest, BlockLocalDescriptorReferenceBinds) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "fd"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "fd"), nullptr)
       << "'fd' must bind to the block-local 'int fd' declaration in the assignment, in $feof, and in $fclose";
 }
 

@@ -52,9 +52,8 @@
 //   - simulation values of 'b'. This flow does not elaborate/evaluate.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -197,11 +196,11 @@ TEST_F(MultiSelectTest, WholeArrayAssignBEqualsA) {
 
 // Name binding / 6.5
 TEST_F(MultiSelectTest, NoBindingOrMultiDriverErrors) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "a"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "b"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::HLDB_MULTIPLE_CONT_ASSIGN), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "a"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "b"), nullptr);
+  EXPECT_EQ(findEvent(EventType::MultipleContAssign), nullptr)
       << "6.5: each array element of 'a' is covered by a single continuous assignment";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLE_ASSIGNING_PROCESSES), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompMultipleAssigningProcesses), nullptr);
 }
 
 }  // namespace hlc

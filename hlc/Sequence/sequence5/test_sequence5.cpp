@@ -85,7 +85,7 @@
 //               propertyExpr: RefObj name:"seq5" -> SequenceDecl name:"seq5"
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -194,8 +194,8 @@ TEST_F(Sequence5Test, Seq5_MatchItems_OnlyModifyLocalVars) {
 }
 
 TEST_F(Sequence5Test, Compiler_NoSyntaxErrors) {
-  ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0) << "sequence5.sv is syntactically valid -- no syntax errors expected";
+  EventListener::Stats stats = m_compiler->getEventStats();
+  EXPECT_EQ(stats.m_syntaxes, 0) << "sequence5.sv is syntactically valid -- no syntax errors expected";
 }
 
 // ===========================================================================

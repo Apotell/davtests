@@ -27,17 +27,16 @@
 //   15--error_rules.sv   row 460
 //
 // Catalog row covered here:
-//   460 | 15.4.5 | COMP_ILLEGAL_ASSIGNMENT_LHS
+//   460 | 15.4.5 | CompIllegalAssignmentLhs
 //
 // Per project convention, no test below uses GTEST_SKIP(): the assertion
 // states the diagnostic IEEE 1800-2023 requires, even though
-// ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS currently has zero call
+// EventType::CompIllegalAssignmentLhs currently has zero call
 // sites anywhere in src/ (confirmed by grep) -- i.e. it is expected to be
 // red today. No test here asserts the absence of a diagnostic.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -58,7 +57,7 @@ TEST_F(Chapter15ErrorRulesTest, Row460_MailboxGetMessageArgumentMustBeAValidLhsE
   // shall be a valid left-hand expression; "mb.get(a + b);" binds an
   // arithmetic expression, which is not an lvalue. The error names the formal
   // it was bound to, so the symbol is "message", not the enclosing module.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "message"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "message"), nullptr)
       << "the ref message argument of mailbox get() must be a valid left-hand expression "
          "(IEEE 1800-2023 15.4.5)";
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,8 +43,8 @@
 //     is an unresolved RefObj "delete" (not a MethodFuncCall)
 //   - all 3 $display calls and their RefObj("map.size") arguments
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
-//   - compiler emits exactly 4 errors (nbFatal=0, nbSyntax=0, nbError=4,
-//     nbWarning=0), all COMP_FAILED_TO_BIND
+//   - compiler emits exactly 4 errors (m_fatals=0, m_syntaxes=0, m_errors=4,
+//     m_warnings=0), all CompFailedToBind
 //
 // Not checked (see Skipped below for canary coverage):
 //   - RefObj "size"/"delete" getActual() -- always null, a compiler limitation
@@ -54,7 +54,7 @@
 //   - SizeAndDeleteRefObjsShouldResolveOnceImplicitVariableBugIsFixed: GTEST_SKIP
 //     canary asserting the "size"/"delete" RefObjs SHOULD resolve to a
 //     declared object once the compiler stops raising
-//     COMP_FAILED_TO_BIND for the no-parens forms; re-enable when fixed
+//     CompFailedToBind for the no-parens forms; re-enable when fixed
 //   - DeleteRuntimeEffectOnMapSizeRequiresSimulation: GTEST_SKIP canary
 //     documenting that verifying delete()'s actual effect on map.size()
 //     requires a simulator this harness does not run
@@ -63,16 +63,14 @@
 //   IEEE 1800-2017 7.24.4 permits the built-in ".size" method to be called
 //   with or without parentheses, and 7.9.2 permits ".delete" (no arguments)
 //   with or without parentheses. This HLC build resolves neither construct
-//   and instead raises COMP_FAILED_TO_BIND for "size" (3 occurrences) and
+//   and instead raises CompFailedToBind for "size" (3 occurrences) and
 //   the no-parens "delete" (1 occurrence).
 //   delete.sv is valid SystemVerilog; the 4 errors below are a known
 //   compiler/API limitation, not a defect in the test source.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -369,7 +367,7 @@ TEST_F(AssociativeArrayDeleteTest, DesignHasSignedIntTypespec) {
   EXPECT_TRUE(it->getSigned());
 }
 
-// --- compiler diagnostics: known COMP_FAILED_TO_BIND limitation ----
+// --- compiler diagnostics: known CompFailedToBind limitation ----
 
 TEST_F(AssociativeArrayDeleteTest, ArrRefObjsShouldResolve) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -432,8 +430,8 @@ TEST_F(AssociativeArrayDeleteTest, DeleteRuntimeEffectOnMapSizeRequiresSimulatio
 }
 
 TEST_F(AssociativeArrayDeleteTest, NoBindErrorForSizeAndDelete) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "delete"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "delete"), nullptr);
 }
 
 }  // namespace hlc

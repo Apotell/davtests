@@ -67,7 +67,7 @@
 //     is legal SystemVerilog)
 //
 // KNOWN FAILURE: on HLC 577, 1 of the tests fails:
-//   - CompilerReportsZeroErrors: HLC reports 1 error, [ERR:DB2038] at
+//   - CompilerReportsZeroErrors: HLC reports 1 error, [ERR:DL2516] at
 //     line 24 ("constraint c { aObj.v < v; }"): "'vpiConstraintItem'
 //     property value has invalid objects" -- the HLDB checker rejects the
 //     plain expression "aObj.v < v" as a constraint item.
@@ -80,7 +80,7 @@
 //     in this source either.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -273,11 +273,11 @@ TEST_F(GlobalConstraints0Test, RhsIsBV) { expectRefTo(getOperand(1), "v", getVar
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(GlobalConstraints0Test, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 }  // namespace hlc

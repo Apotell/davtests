@@ -62,9 +62,8 @@
 //     standard's object model.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -173,21 +172,21 @@ TEST_F(LetExprTest, SubstitutionIsDisabled) {
 
 TEST_F(LetExprTest, A1NoInferredClockIsDiagnosed) {
   GTEST_SKIP() << "HLC doesn't report these in diagnosis";
-  const bool atUse = findError(ErrorDefinition::COMP_NO_INFERRED_CLOCK, 10) != nullptr;
-  const bool atBody = findError(ErrorDefinition::COMP_NO_INFERRED_CLOCK, 4) != nullptr;
+  const bool atUse = findEvent(EventType::CompNoInferredClock, 10) != nullptr;
+  const bool atBody = findEvent(EventType::CompNoInferredClock, 4) != nullptr;
   EXPECT_TRUE(atUse || atBody) << "11.12 example f): 'a1: assert(p1(a));' is illegal -- $past needs a clock and none "
                                   "can be inferred in always_comb";
 }
 
 TEST_F(LetExprTest, A2AndA3NeedNoInferredClock) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_NO_INFERRED_CLOCK, 11), nullptr) << "a2: clock given explicitly";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_NO_INFERRED_CLOCK, 6), nullptr) << "p2: clock given explicitly";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_NO_INFERRED_CLOCK, 12), nullptr) << "a3: $sampled uses no clock";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_NO_INFERRED_CLOCK, 7), nullptr) << "s: $sampled uses no clock";
+  EXPECT_EQ(findEvent(EventType::CompNoInferredClock, 11), nullptr) << "a2: clock given explicitly";
+  EXPECT_EQ(findEvent(EventType::CompNoInferredClock, 6), nullptr) << "p2: clock given explicitly";
+  EXPECT_EQ(findEvent(EventType::CompNoInferredClock, 12), nullptr) << "a3: $sampled uses no clock";
+  EXPECT_EQ(findEvent(EventType::CompNoInferredClock, 7), nullptr) << "s: $sampled uses no clock";
 }
 
 TEST_F(LetExprTest, UndeclaredClockFailsToBind) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "clock", 6, 33), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "clock", 6, 33), nullptr)
       << "'clock' is not declared (port commented out)";
 }
 

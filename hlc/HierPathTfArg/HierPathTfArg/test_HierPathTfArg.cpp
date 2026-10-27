@@ -46,7 +46,7 @@
 // 1800-2023 Sec 23.6 (hierarchical names) and Sec 13.4 (functions).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -225,11 +225,11 @@ TEST_F(HierPathTfArgTest, EighthDisplayArgIsHierPathTopDotIDotBlkDotF) {
 
 TEST_F(HierPathTfArgTest, CompilerReportsZeroErrors) {
   GTEST_SKIP() << "HLC does have a way to reliably check for null actuals";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 // IEEE 1800-2023 Sec 23.6/27.5: a named generate block is a scope, and a hierarchical name is
@@ -256,7 +256,7 @@ TEST_F(HierPathTfArgTest, HierarchicalCallsShouldResolveToTheirDeclaredFunction)
   }
 
   // $display(f(0)): no 'f' is visible in 'top', so the call stays unbound and is reported.
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "f", 27, 18), nullptr);
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "f", 27, 18), nullptr);
 }
 
 }  // namespace hlc

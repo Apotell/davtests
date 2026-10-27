@@ -52,7 +52,7 @@
 // model (operand vs. typespec), which the standard does not prescribe.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -225,17 +225,17 @@ TEST_F(LogicCastTest, GtRightIsNrHartsMinusOne) {
 // ---------------------------------------------------------------------------
 
 TEST_F(LogicCastTest, UndeclaredDmstatusIsReported) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "dmstatus", 3, 3), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "dmstatus", 3, 3), nullptr)
       << "'dmstatus' is not declared (Sec 6.10)";
 }
 
 TEST_F(LogicCastTest, UndeclaredHartselOIsReported) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "hartsel_o", 3, 40), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "hartsel_o", 3, 40), nullptr)
       << "'hartsel_o' is not declared (Sec 6.10)";
 }
 
 TEST_F(LogicCastTest, UndeclaredNrHartsIsReported) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "NrHarts", 3, 54), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "NrHarts", 3, 54), nullptr)
       << "'NrHarts' is not declared (Sec 6.10)";
 }
 

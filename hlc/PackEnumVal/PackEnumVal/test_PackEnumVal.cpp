@@ -66,7 +66,7 @@
 //   Diagnostics
 //     - passing the logic 'i' to the enum formal 'val' without a cast is
 //       illegal (6.19.3, 6.22.4), so at least one error is reported
-//     - the scoped call binds: no COMP_FAILED_TO_BIND for test_true
+//     - the scoped call binds: no CompFailedToBind for test_true
 //     - there is no syntax error: zero syntax and zero fatal diagnostics
 //
 // Reduction and elaboration: the RHS of a continuous assignment is not a
@@ -105,8 +105,8 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -359,21 +359,21 @@ TEST_F(PackEnumValTest, TopIsTheOnlyTopLevelInstance) {
 // argument to an enum formal not reported) in the file header.
 TEST_F(PackEnumValTest, UncastLogicArgumentToEnumFormalIsAnError) {
   GTEST_SKIP() << "HLC Gap: Compiler doesn't report his diagnostic error";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GE(stats.nbError, 1) << "6.19.3, 6.22.4: passing the logic 'i' to the enum formal 'val' requires a cast";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GE(stats.m_errors, 1) << "6.19.3, 6.22.4: passing the logic 'i' to the enum formal 'val' requires a cast";
 }
 
 TEST_F(PackEnumValTest, ScopedCallIsNotReported) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "test_true"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "test_true"), nullptr)
       << "26.3: test_true is declared in test_package";
 }
 
 TEST_F(PackEnumValTest, NoSyntaxOrFatalDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0) << "the file is syntactically well formed";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0) << "the file is syntactically well formed";
 }
 
 }  // namespace hlc

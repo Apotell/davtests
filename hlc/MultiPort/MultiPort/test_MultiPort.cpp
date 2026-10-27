@@ -34,7 +34,7 @@
 //   - 26.4 / 23.2.1: the package import in the module header
 //     ("module top import my_pkg::variable_type;") is recorded on 'top' and
 //     names the imported item 'variable_type', making it visible in the
-//     port list (no COMP_UNDEFINED_TYPE for 'variable_type').
+//     port list (no CompUndefinedType for 'variable_type').
 //   - 23.2.2.3: the port list is ANSI style (the first port has a direction
 //     and data type). Module 'top' has exactly two ports 'a' and 'b'.
 //     "For subsequent ports in an ANSI style port list: If the direction,
@@ -57,9 +57,8 @@
 //     either way.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -198,8 +197,8 @@ TEST_F(MultiPortTest, HeaderImportRecorded) {
 }
 
 TEST_F(MultiPortTest, ImportedTypeResolves) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_TYPE, "variable_type"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_PACKAGE, "my_pkg"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompUndefinedType, "variable_type"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompUndefinedPackage, "my_pkg"), nullptr);
 }
 
 // ===========================================================================

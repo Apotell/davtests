@@ -35,11 +35,10 @@
 // assignment directly as a covergroup_item -- HLC's grammar currently rejects
 // that shape with a syntax error rather than reaching semantic analysis at
 // all, so those rows are asserted (and skipped) against their own catalogued
-// COMP/LINT ErrorDefinition code, not against the parser gap.
+// COMP/LINT event code, not against the parser gap.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -61,7 +60,7 @@ TEST_F(Chapter19ErrorRulesTest, Row672_CovergroupNewMustSupplyEveryNonDefaultedA
   // "r672_cg ci = new(1);" on line 16 supplies only one actual.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.3 requires every non-defaulted "
                   "covergroup formal argument to be supplied to new()";
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_ARGUMENT, "b", 16, 3), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingArgument, "b", 16, 3), nullptr)
       << "a covergroup new() call must supply every non-defaulted formal argument (IEEE 1800-2023 19.3)";
 }
 
@@ -78,7 +77,7 @@ TEST_F(Chapter19ErrorRulesTest, Row680_CoverpointNameNotUsableForOptionAssignmen
                   "after ::. HLC's grammar also currently rejects this hierarchical-option-"
                   "assignment shape as a covergroup_item with a syntax error before reaching "
                   "semantic analysis";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r680_e", 29, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r680_e", 29, 5), nullptr)
       << "a coverpoint name has limited visibility and cannot be used this way (IEEE 1800-2023 19.5)";
 }
 
@@ -92,7 +91,7 @@ TEST_F(Chapter19ErrorRulesTest, Row682_CovergroupExpressionConstantMustBeEnclosi
   // enclosing class r682_C.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.5 requires a covergroup_expression "
                   "constant to be a member of the enclosing class";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "lim", 44, 35), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "lim", 44, 35), nullptr)
       << "a constant used in a covergroup_expression must be a member of the enclosing class (IEEE 1800-2023 19.5)";
 }
 
@@ -103,7 +102,7 @@ TEST_F(Chapter19ErrorRulesTest, Row684_CovergroupExpressionFunctionCannotHaveRef
   // Functions participating in a covergroup_expression shall not contain
   // output, inout, or ref arguments (const ref is allowed). r684_f takes
   // "ref int r" and is called from a bins expression on line 57.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r684_f", 57, 33), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r684_f", 57, 33), nullptr)
       << "a function used in a covergroup_expression cannot have a ref/output/inout argument (IEEE 1800-2023 19.5)";
 }
 
@@ -117,7 +116,7 @@ TEST_F(Chapter19ErrorRulesTest, Row685_CovergroupExpressionFunctionMustHaveNoSid
   // line 69.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.5 requires a covergroup_expression "
                   "function to have no side effects";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SIDE_EFFECT, "r685_f", 69, 33), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalSideEffect, "r685_f", 69, 33), nullptr)
       << "a function used in a covergroup_expression must have no side effects (IEEE 1800-2023 19.5)";
 }
 
@@ -128,7 +127,7 @@ TEST_F(Chapter19ErrorRulesTest, Row688_RealCoverpointWithoutExplicitBinsIsReject
   // Bins are not automatically created for coverpoints of real expressions, so
   // a real coverpoint shall specify at least one explicit bins construct.
   // cpr on line 81 covers the real r with no bins at all.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_BINS, "cpr", 81, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalBins, "cpr", 81, 5), nullptr)
       << "a real coverpoint needs an explicit bins construct (IEEE 1800-2023 19.5)";
 }
 
@@ -142,7 +141,7 @@ TEST_F(Chapter19ErrorRulesTest, Row694_OnlyEnclosingCoverpointNameAllowedAsRange
   // other coverpoint instead of the enclosing one (r694_b).
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.5.1.1 only permits the enclosing "
                   "coverpoint's own name to replace a covergroup_range_list";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r694_a", 94, 39), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r694_a", 94, 39), nullptr)
       << "only the enclosing coverpoint's own name may replace a covergroup_range_list (IEEE 1800-2023 19.5.1.1)";
 }
 
@@ -156,7 +155,7 @@ TEST_F(Chapter19ErrorRulesTest, Row696_CoverpointIdentifierNotVisibleInSetExpres
   // r696_a, the other coverpoint's own label.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.5.1.2 hides identifiers declared "
                   "within the covergroup from a set_covergroup_expression";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r696_a", 106, 39), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r696_a", 106, 39), nullptr)
       << "a coverpoint identifier is not visible in a set_covergroup_expression (IEEE 1800-2023 19.5.1.2)";
 }
 
@@ -172,7 +171,7 @@ TEST_F(Chapter19ErrorRulesTest, Row705_NegativeBinValueAgainstUnsignedCoverpoint
   // warning rather than an error, and the value is dropped, not rejected.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.5.7 requires a warning when a "
                   "signed negative bins value is given for an unsigned coverpoint expression";
-  EXPECT_NE(findError(ErrorDefinition::COMP_UNMATCHABLE_BIN_VALUE, "b2", 119, 27), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUnmatchableBinValue, "b2", 119, 27), nullptr)
       << "a negative bin value cannot match an unsigned coverpoint (IEEE 1800-2023 19.5.7)";
 }
 
@@ -186,7 +185,7 @@ TEST_F(Chapter19ErrorRulesTest, Row706_BinValueNotEqualUnderCoverpointTypeWarns)
   // (i.e., the bin value does not fit the coverpoint type). r706_g1's
   // coverpoint p1 is bit [2:0] (0..7); bin b1 on line 131 includes [6:10],
   // which does not fit.
-  EXPECT_NE(findError(ErrorDefinition::COMP_UNMATCHABLE_BIN_VALUE, "b1", 131, 45), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUnmatchableBinValue, "b1", 131, 45), nullptr)
       << "a bin value that does not fit the coverpoint's effective type must be warned about (IEEE 1800-2023 19.5.7)";
 }
 
@@ -198,7 +197,7 @@ TEST_F(Chapter19ErrorRulesTest, Row707_NonWildcardBinValueWithXZBitsWarns) {
   // value with any x or z bits (this rule does not apply to wildcard bins).
   // r707_g1's bin bx on line 142 is a plain (non-wildcard) bin set to
   // 4'b10x1.
-  EXPECT_NE(findError(ErrorDefinition::COMP_UNMATCHABLE_BIN_VALUE, "bx", 142, 31), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUnmatchableBinValue, "bx", 142, 31), nullptr)
       << "a non-wildcard bin value with x/z bits must be warned about (IEEE 1800-2023 19.5.7)";
 }
 
@@ -214,7 +213,7 @@ TEST_F(Chapter19ErrorRulesTest, Row711_CrossNameNotUsableForOptionAssignment) {
                   "covergroup-variable-prefixed hierarchical name or after ::. HLC's grammar also "
                   "currently rejects this hierarchical-option-assignment shape as a "
                   "covergroup_item with a syntax error before reaching semantic analysis";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r711_crs", 157, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r711_crs", 157, 5), nullptr)
       << "a cross name has limited visibility and cannot be used this way (IEEE 1800-2023 19.6)";
 }
 
@@ -228,7 +227,7 @@ TEST_F(Chapter19ErrorRulesTest, Row713_OnlyEnclosingCrossIdentifierAllowedAsSele
   // identifier.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.6.1.2 only permits the enclosing "
                   "cross's own identifier to be used as a select_expression";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r713_X", 172, 47), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r713_X", 172, 47), nullptr)
       << "only the enclosing cross's own identifier may be used as a select_expression (IEEE 1800-2023 19.6.1.2)";
 }
 
@@ -241,7 +240,7 @@ TEST_F(Chapter19ErrorRulesTest, Row719_OptionWeightMustBeNonNegative) {
   // "option.weight = -1;".
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.7 requires option.weight to be a "
                   "non-negative integral value";
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "r719_cg", 182, 14), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "r719_cg", 182, 14), nullptr)
       << "option.weight must be a non-negative integral value (IEEE 1800-2023 19.7)";
 }
 
@@ -256,14 +255,14 @@ TEST_F(Chapter19ErrorRulesTest, Row720_ProceduralPerInstanceAssignmentIsRejected
   // HLC currently reports two syntax errors on that line, but they are not the
   // required diagnostic: the same errors appear for ci.option.at_least = 2,
   // which 19.7 expressly allows procedurally. The parser cannot handle any
-  // procedural option assignment, so asserting PA_SYNTAX_ERROR here would lock
+  // procedural option assignment, so asserting PaSyntaxError here would lock
   // in a gap that rejects legal code. The rule needs a real check once the
   // grammar accepts the construct.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.7 allows per_instance and "
                   "get_inst_coverage to be set only in the covergroup definition. HLC cannot parse "
                   "any procedural option assignment today -- including the legal ones -- so the "
                   "syntax errors on this line are a parser gap, not this rule";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_OPTION, "per_instance", 199, 11), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalOption, "per_instance", 199, 11), nullptr)
       << "per_instance may only be set in the covergroup definition (IEEE 1800-2023 19.7)";
 }
 
@@ -279,7 +278,7 @@ TEST_F(Chapter19ErrorRulesTest, Row721_AutoBinMaxOnlySettableInDefinition) {
                   "only in the covergroup/coverpoint definition. HLC's grammar also currently "
                   "rejects this hierarchical-option-assignment shape as a syntax error before "
                   "reaching semantic analysis";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_OPTION, "auto_bin_max", 213, 28), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalOption, "auto_bin_max", 213, 28), nullptr)
       << "auto_bin_max can only be set in the covergroup/coverpoint definition, not procedurally (IEEE 1800-2023 19.7)";
 }
 
@@ -291,7 +290,7 @@ TEST_F(Chapter19ErrorRulesTest, Row722_NameOptionNotAllowedAtCoverpointLevel) {
   // levels permitted by Table 19-2; "name" is allowed only at the
   // covergroup level. r722_ca sets "option.name = "cp";" on line 224, at the
   // coverpoint level.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_OPTION, "name", 224, 29), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalOption, "name", 224, 29), nullptr)
       << "the name option is not permitted at the coverpoint syntactic level (IEEE 1800-2023 19.7, Table 19-2)";
 }
 
@@ -305,7 +304,7 @@ TEST_F(Chapter19ErrorRulesTest, Row723_OverlappingBinsAreWarnedWhenDetectOverlap
   // covers 5..20, so 5..10 is in both. The warning is conditional on the
   // option -- with detect_overlap left at its default the same two bins must
   // stay silent.
-  EXPECT_NE(findError(ErrorDefinition::COMP_OVERLAPPING_BINS, "b2", 240, 7), nullptr)
+  EXPECT_NE(findEvent(EventType::CompOverlappingBins, "b2", 240, 7), nullptr)
       << "overlapping bins must be warned when detect_overlap is set (IEEE 1800-2023 19.7)";
 }
 
@@ -320,7 +319,7 @@ TEST_F(Chapter19ErrorRulesTest, Row725_StrobeOnlySettableInCovergroupDefinition)
                   "in the covergroup definition. HLC's grammar also currently rejects this "
                   "type_option-assignment shape as a syntax error before reaching semantic "
                   "analysis";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_OPTION, "strobe", 254, 32), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalOption, "strobe", 254, 32), nullptr)
       << "strobe can only be set in the covergroup definition, not procedurally (IEEE 1800-2023 19.7.1)";
 }
 
@@ -332,7 +331,7 @@ TEST_F(Chapter19ErrorRulesTest, Row726_RealIntervalNotAllowedInCross) {
   // levels permitted by Table 19-4; real_interval is not allowed in a cross.
   // r726_x sets "type_option.real_interval = 0.5;" on line 266, at the cross
   // level.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_OPTION, "real_interval", 266, 38), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalOption, "real_interval", 266, 38), nullptr)
       << "real_interval is not a permitted type option at the cross syntactic level (IEEE 1800-2023 19.7.1, Table 19-4)";
 }
 
@@ -346,7 +345,7 @@ TEST_F(Chapter19ErrorRulesTest, Row728_SampleFormalUsableOnlyInCoverpointOrGuard
   // "option.per_instance = b;" on line 276, neither position.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 19.8.1 restricts an overridden "
                   "sample() formal argument to a coverpoint or a conditional guard expression";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "b", 276, 27), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "b", 276, 27), nullptr)
       << "an overridden sample() formal is usable only in a coverpoint or guard expression (IEEE 1800-2023 19.8.1)";
 }
 

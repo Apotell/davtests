@@ -38,7 +38,7 @@
 //   PA0207 x2 (input keyword): The parser rejects the 'input' direction
 //     keyword in sequence formal parameter lists with "extraneous input
 //     'input'". ss.16.8 permits 'input', 'inout', and 'output' directions.
-//     Reported as SYNTAX errors in the log but NOT counted in nbError. See
+//     Reported as SYNTAX errors in the log but NOT counted in m_errors. See
 //     Compiler_NoSyntaxErrors (GTEST_SKIP) below -- this bug is still
 //     present and pending a grammar fix.
 //
@@ -550,7 +550,7 @@ TEST_F(Sequence22Test, Compiler_NoSyntaxErrors) {
                   "(sequence_formal_type / data_type_or_implicit) and "
                   "ss.16.8 permit 'input', 'output', and 'inout' directions "
                   "on sequence formal arguments. Grammar fix pending.";
-  EXPECT_EQ(m_compiler->getErrorStats().nbSyntax, 0)
+  EXPECT_EQ(m_compiler->getEventStats().m_syntaxes, 0)
       << "'sequence my_seq(input bit x, input bit y)' is legal per ss.16.8 "
          "and must not produce any syntax error";
 }

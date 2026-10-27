@@ -66,7 +66,7 @@
 //   - 25.9 / 14.3: through a virtual interface, the members of the
 //     interface, including its clocking blocks and their clockvars, are
 //     accessible: "@_if.cb", "_if.cb.select" and "_if.cb.data" must resolve
-//     -- no COMP_FAILED_TO_BIND for "cb", "select" or "data" at lines
+//     -- no CompFailedToBind for "cb", "select" or "data" at lines
 //     32..34 of design.sv.
 //   - 8.6 / 13.3: my_monitor has methods "new" (function) and "run_phase"
 //     (task) whose body is a forever loop (12.7.2).
@@ -82,9 +82,8 @@
 //     the HLDB model for wildcard connections is not fixed by the standard.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -214,12 +213,12 @@ TEST_F(MonitorTest, IfPropertyIsVirtualInterface) {
 TEST_F(MonitorTest, ClockingBlockAccessThroughVirtualInterfaceBinds) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet";
   for (uint32_t line : {32u, 33u, 34u}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "cb", line), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, "cb", line), nullptr)
         << "25.9/14.3: '_if.cb' names the clocking block of my_interface (line " << line << ")";
   }
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "select", 33), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "select", 33), nullptr)
       << "14.3: 'select' is a clockvar of cb";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "data", 34), nullptr) << "14.3: 'data' is a clockvar of cb";
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "data", 34), nullptr) << "14.3: 'data' is a clockvar of cb";
 }
 
 TEST_F(MonitorTest, MyMonitorHasNewAndRunPhase) {

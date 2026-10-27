@@ -65,8 +65,7 @@
 // ---------------------------------------------------------------------------
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
@@ -197,10 +196,10 @@ class RandomWeightedCaseRandcase0Test : public Test {
 
 // Check: legal file.
 TEST_F(RandomWeightedCaseRandcase0Test, CompilerReportsNoErrors) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "randcase inside a function is legal (IEEE 1800-2023 Sec 18.16)";
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "randcase inside a function is legal (IEEE 1800-2023 Sec 18.16)";
 }
 
 // Check: compilation-unit function 'F' -- int return, no arguments, one local int 'a'.

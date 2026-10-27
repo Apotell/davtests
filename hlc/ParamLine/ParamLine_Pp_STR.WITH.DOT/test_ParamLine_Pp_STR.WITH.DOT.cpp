@@ -119,8 +119,8 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -182,8 +182,8 @@ class ParamLinePpStrWithDotTest : public Test {
   // Whether a diagnostic of error severity names 'symbol'. Which error
   // identifier HLC picks for it is a tool convention, so any is accepted.
   bool reportsErrorNaming(std::string_view symbol) {
-    for (const ErrorDefinition::ErrorMap::value_type &entry : ErrorDefinition::getErrorInfoMap()) {
-      if ((entry.second.m_severity == ErrorDefinition::ERROR) && (findError(entry.first, symbol) != nullptr)) {
+    for (const EventDefinition &entry : getEventTable()) {
+      if ((entry.m_severity == EventSeverity::Error) && (findEvent(entry.m_type, symbol) != nullptr)) {
         return true;
       }
     }
@@ -352,10 +352,10 @@ TEST_F(ParamLinePpStrWithDotTest, TopIsTheOnlyTopLevelInstance) {
 }
 
 TEST_F(ParamLinePpStrWithDotTest, NoFatalOrSyntaxDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0) << "the file and the option value are syntactically well formed";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0) << "the file and the option value are syntactically well formed";
 }
 
 }  // namespace hlc

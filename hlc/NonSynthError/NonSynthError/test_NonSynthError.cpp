@@ -44,12 +44,12 @@
 // What is NOT checked and why:
 //   - Whether -synth reports these constructs as non-synthesizable: the
 //     synthesizable subset is a tool policy, not defined by IEEE 1800-2023,
-//     so no assertion is made either way about HLDB_NON_SYNTHESIZABLE.
+//     so no assertion is made either way about NonSynthesizable.
 //   - The value of S ($size(int) == 32 per Sec 20.7/6.11.1): the .hlc does
 //     not request elaboration, so the parameter is not reduced.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -160,12 +160,12 @@ TEST_F(NonSynthErrorTest, ClassADeclaredInDut) {
 // ---------------------------------------------------------------------------
 
 TEST_F(NonSynthErrorTest, NoSyntaxOrBindingErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_SYSTEM_FUNCTION, "$size"), nullptr);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompUndefinedSystemFunction, "$size"), nullptr);
 }
 
 }  // namespace hlc

@@ -26,15 +26,14 @@
 // Fixture: 25--error_rules.sv (rows 906, 912), compiled in one run by
 // 25--error_rules.hlc.
 //
-// COMP_ILLEGAL_EXPRESSION_CONTEXT has no call site anywhere in src/ outside
-// its own ErrorDefinition.cpp registration, so both assertions below are
+// CompIllegalExpressionContext has no call site anywhere in src/ outside
+// its own events/*.yaml definition, so both assertions below are
 // expected to be red today -- that is the intended, documented state of this
 // exercise, not a bug for this file to work around. No test asserts the
 // absence of a diagnostic, which would lock the gap in.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -52,7 +51,7 @@ TEST_F(Chapter25ErrorRulesTest, Row906_ImplicitPortConnectionCannotReferenceGene
   // catalog row 906 | 25.3.3 | LINT
   // An implicit port connection (.name or .*) cannot be used to reference a
   // generic interface; a named port connection shall be used.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r906_top"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r906_top"), nullptr)
       << "a generic interface port cannot be connected via .* (IEEE 1800-2023 25.3.3)";
 }
 
@@ -64,7 +63,7 @@ TEST_F(Chapter25ErrorRulesTest, Row912_RefDirectionModportSignalCannotBeSpecifyT
   // A ref port cannot be used as a terminal in a specify block; when an
   // interface signal is accessed through a modport that gives it ref
   // direction it is not a legal specify terminal.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r912_dtype"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r912_dtype"), nullptr)
       << "a ref-direction modport signal cannot be a specify block terminal (IEEE 1800-2023 25.6)";
 }
 

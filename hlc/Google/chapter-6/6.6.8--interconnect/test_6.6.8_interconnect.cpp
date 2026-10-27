@@ -76,7 +76,7 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -214,9 +214,9 @@ TEST_F(InterconnectTest, TopHasNoContAssigns) {
 // interconnect net is legal per IEEE 1800-2023 6.6.8's own canonical example
 // ---------------------------------------------------------------------------
 TEST_F(InterconnectTest, CompilerShouldAcceptInterconnectPortConnectionsButReportsSpuriousErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const hlc::EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_errors, 0)
       << "IEEE 1800-2023 6.6.8's own worked example connects a plain 'output wire logic' port "
          "directly to an interconnect net -- exactly what mod_i(bus)/mod_o(bus) do here -- so this "
          "file should compile with zero errors. HLC currently reports 2 spurious EL0535 'Illegal "

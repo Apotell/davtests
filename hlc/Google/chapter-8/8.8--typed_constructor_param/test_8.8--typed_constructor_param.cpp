@@ -106,10 +106,8 @@
 // alone is not solid evidence of a defect.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -579,10 +577,10 @@ TEST_F(ClassTypedConstructorParamTest, DisplayArgIsSuperObjDotS) {
 // --- compiler diagnostics ---------------------------------------------------------
 
 TEST_F(ClassTypedConstructorParamTest, CompilerReportsNoErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "8.8: 'test_cls#(.t(23))::new(.def(41))' is legal syntax and should not raise "
-                                 "a COMP_FAILED_TO_BIND error (see FIXED COMPILER BUG #3 above)";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_errors, 0) << "8.8: 'test_cls#(.t(23))::new(.def(41))' is legal syntax and should not raise "
+                                 "a CompFailedToBind error (see FIXED COMPILER BUG #3 above)";
 }
 
 }  // namespace hlc

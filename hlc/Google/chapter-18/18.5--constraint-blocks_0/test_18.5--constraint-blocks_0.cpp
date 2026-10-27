@@ -48,7 +48,7 @@
 // KNOWN FAILURE: on HLC 577, 2 of the tests fail:
 //   - CIsPlainEnabledConstraint: c has vpiIsConstraintEnabled false,
 //     although Sec 18.9 says all constraints are initially active.
-//   - CompilerReportsZeroErrors: HLC reports 1 error, [ERR:DB2038] at
+//   - CompilerReportsZeroErrors: HLC reports 1 error, [ERR:DL2516] at
 //     line 18 ("constraint c { b == 0; }"): "'vpiConstraintItem' property
 //     value has invalid objects" -- the HLDB checker rejects the plain
 //     expression "b == 0" as a constraint item.
@@ -66,7 +66,7 @@
 //     execution ever happens for this test to check.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -194,11 +194,11 @@ TEST_F(ConstraintBlocks0Test, CIsBEquals0) {
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(ConstraintBlocks0Test, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 }  // namespace hlc

@@ -138,9 +138,9 @@
 // it is intentionally not skipped or relaxed.
 //
 // KNOWN COMPILER BUG (parameter size cast read as a type), not a defect in
-// this test: HLC reports [ERR:DB2029] Unsupported typespec "OtpByteAddrWidth"
+// this test: HLC reports [ERR:DL2510] Unsupported typespec "OtpByteAddrWidth"
 // for 'OtpByteAddrWidth'(PartEnd - 4)', treating the parameter as a type
-// name, and then two [ERR:DB2038] "'vpiStmt' property value has invalid
+// name, and then two [ERR:DL2516] "'vpiStmt' property value has invalid
 // objects" errors on the gen_part_sel block that holds the cast.
 // ParameterCastSizeIsNotReportedAsAType is expected to fail until HLC is
 // fixed; it is intentionally not skipped or relaxed.
@@ -167,8 +167,8 @@
 //   - The comments in the fixture are not design objects (5.4).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -544,16 +544,16 @@ TEST_F(ParamArraySelectTest, ElaboratedGenPartSelComputesPartEndAndDigestOffset)
 }
 
 TEST_F(ParamArraySelectTest, NoSyntaxOrFatalDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0) << "the file is syntactically well formed";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0) << "the file is syntactically well formed";
 }
 
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (parameter
 // size cast read as a type) in the file header.
 TEST_F(ParamArraySelectTest, ParameterCastSizeIsNotReportedAsAType) {
-  EXPECT_EQ(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "OtpByteAddrWidth"), nullptr)
+  EXPECT_EQ(findEvent(EventType::UnsupportedTypespec, "OtpByteAddrWidth"), nullptr)
       << "6.24.1: 'P'(x - 2)' is a size cast; OtpByteAddrWidth is a parameter, a constant_primary casting_type "
          "(A.2.2.1)";
 }

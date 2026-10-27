@@ -57,8 +57,8 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -202,8 +202,8 @@ TEST_F(EnumXxInvOrderTest, NoProcesses) {
 TEST_F(EnumXxInvOrderTest, CompilerShouldRejectUnassignedNameAfterXValueButDoesNot) {
   GTEST_SKIP() << "IEEE 1800-2023 6.19: 'an unassigned enumerated name that follows an enum name with x or "
                   "z assignments shall be a syntax error'";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ENUM_VALUE), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalEnumValue), nullptr)
       << "IEEE 1800-2023 6.19: 'c' is an unassigned enumerated name following an enumerator "
          "that carries an x value.";
 }

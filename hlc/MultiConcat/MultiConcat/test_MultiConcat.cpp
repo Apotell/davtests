@@ -62,10 +62,10 @@
 //     in which at least one of the operands ... has a positive size."
 //     `TEST_UNLOCKED(7) yields {(7-7){...}} (zero multiplier) inside the
 //     81-operand concatenation, which is legal -> no
-//     COMP_ILLEGAL_REPLICATION_COUNT.
+//     CompIllegalReplicationCount.
 //   - 6.3 / 23.9: NumLcStates is used in the packed dimensions of
 //     TransTokenIdxMatrix's type but is never declared in the package (or
-//     imported) -> it must fail to bind (COMP_FAILED_TO_BIND "NumLcStates").
+//     imported) -> it must fail to bind (CompFailedToBind "NumLcStates").
 //   - 7.4.1: "token_idx_e [..][..]" puts both dimensions before the
 //     identifier, so the parameter's type is a packed array.
 //
@@ -77,9 +77,8 @@
 //     width can be computed.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -255,7 +254,7 @@ TEST_F(MultiConcatTest, MacroExpandedOperandsAreReplications) {
 }
 
 TEST_F(MultiConcatTest, ZeroReplicationInsideConcatIsLegal) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_REPLICATION_COUNT), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompIllegalReplicationCount), nullptr)
       << "11.4.12.1: zero multiplier within a concatenation with positive-size operands is legal";
 }
 
@@ -264,7 +263,7 @@ TEST_F(MultiConcatTest, ZeroReplicationInsideConcatIsLegal) {
 // ===========================================================================
 
 TEST_F(MultiConcatTest, UndeclaredNumLcStatesFailsToBind) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "NumLcStates"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "NumLcStates"), nullptr)
       << "6.3: NumLcStates is never declared in lc_ctrl_pkg";
 }
 

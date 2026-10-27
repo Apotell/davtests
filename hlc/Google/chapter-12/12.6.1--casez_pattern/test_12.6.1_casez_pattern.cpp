@@ -67,7 +67,7 @@
 //   12.6.1--case_pattern.cpp and 12.6.1--casex_pattern.cpp): (1)
 //   getQualifier() comes back 0 instead of vpiMatchesQualifier; (2) the
 //   undeclared case_expression "v" produces zero diagnostics instead of
-//   COMP_UNDEFINED_VARIABLE; (3) the pattern-bound "v" referenced in case
+//   CompUndefinedVariable; (3) the pattern-bound "v" referenced in case
 //   items 1 and 4's $display never resolves via
 //   getActual<hldb::AnyPattern>(). All three kept as GTEST_SKIP() with
 //   the real assertions underneath, per the established gating rule
@@ -80,7 +80,7 @@
 //     confirmed-failing, skipped assertion (see note above)
 //   - the case_expression "v" is undeclared and SHOULD be diagnosed
 //     against the name and its own source location
-//     (findError(COMP_UNDEFINED_VARIABLE, "v", 31, 17)) per IEEE
+//     (findEvent(CompUndefinedVariable, "v", 31, 17)) per IEEE
 //     1800-2023 Sec 6.5, Sec 6.10's implicit-net positions not covering
 //     a case expression; but this is currently a confirmed-failing,
 //     skipped assertion (see note above)
@@ -106,8 +106,8 @@
 //     concept, not a static/structural property
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -199,7 +199,7 @@ TEST_F(CasezPatternTest, CaseExpressionVIsUndeclaredAndFailsToBind) {
   GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected): "
                   "'casez (v)' reads an identifier declared nowhere in this module, which IEEE 1800-2023 Sec 6.5 "
                   "requires to be diagnosed, but HLC reports zero diagnostics of any kind for this file. "
-                  "COMP_UNDEFINED_VARIABLE is registered in ErrorDefinition.h/.cpp but has no call site anywhere "
+                  "CompUndefinedVariable is registered in events/events.lst and its definitions but has no call site anywhere "
                   "in src/. Same underlying gap as 12.6.1--case_pattern.cpp/casex_pattern.cpp and "
                   "6.10--implicit_continuous_assignment.cpp. Tracked, not yet fixed by the compiler.";
   const hldb::CaseStmt *const cs = getCaseStmt();
@@ -208,7 +208,7 @@ TEST_F(CasezPatternTest, CaseExpressionVIsUndeclaredAndFailsToBind) {
   ASSERT_NE(cond, nullptr) << "case_expression is not a RefObj";
   EXPECT_EQ(cond->getName(), "v");
   // 12.6.1--casez_pattern.sv:31:17 -- the "v" inside "initial casez (v) matches".
-  ASSERT_NE(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "v", 31, 17), nullptr)
+  ASSERT_NE(findEvent(EventType::CompUndefinedVariable, "v", 31, 17), nullptr)
       << "'casez (v)' references an identifier that is declared nowhere in this module (only 'tmp' of a "
          "compatible type exists). IEEE 1800-2023 Sec 6.5: \"Data shall be declared before they are used, apart "
          "from implicit nets (see 6.10)\"; Sec 6.10 grants an implicit net only in a port expression declaration, "

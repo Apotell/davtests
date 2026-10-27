@@ -30,8 +30,7 @@
 // legal or not, so the syntax errors are asserted nowhere below.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -61,7 +60,7 @@ TEST_F(Chapter35ErrorRulesTest, Row1108_LinkageNameThatIsNotACIdentifierIsReject
                   "escaped name is rejected the same way -- so the syntax errors on this line are a "
                   "grammar gap, not this rule. IEEE 1800-2023 35.4 requires the stripped linkage "
                   "name to be a valid C identifier";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DPI_DECLARATION, "init[1]", 14, 18), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalDpiDeclaration, "init[1]", 14, 18), nullptr)
       << "a DPI linkage name must be a valid C identifier (IEEE 1800-2023 35.4)";
 }
 
@@ -73,7 +72,7 @@ TEST_F(Chapter35ErrorRulesTest, Row1109_SameCIdentifierMustUseSameDpiVersionStri
   // All declarations using the same c_identifier shall be declared with the
   // same DPI version string; r1109_m uses "DPI-C" and r1109_n uses "DPI"
   // for the same c_identifier 'r1109_f'.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DPI_DECLARATION, "r1109_n"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalDpiDeclaration, "r1109_n"), nullptr)
       << "mixing the deprecated 'DPI' and 'DPI-C' spec strings for one c_identifier is illegal (IEEE 1800-2023 35.4)";
 }
 
@@ -84,7 +83,7 @@ TEST_F(Chapter35ErrorRulesTest, Row1123_DeprecatedDpiSpecStringIsDiagnosed) {
   // Use of the deprecated dpi_spec_string "DPI" shall generate a
   // compile-time warning or error stating that "DPI" is deprecated and
   // should be replaced with "DPI-C".
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DPI_DECLARATION, "r1123_f"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalDpiDeclaration, "r1123_f"), nullptr)
       << "the deprecated 'DPI' spec string must be diagnosed (IEEE 1800-2023 35.5.4)";
 }
 

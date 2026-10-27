@@ -26,16 +26,15 @@
 // Fixture: 23--error_rules.sv (rows 862, 864, 881), compiled in one run by
 // 23--error_rules.hlc.
 //
-// None of the three ErrorDefinition codes exercised here (COMP_MISSING_ARGUMENT,
-// COMP_ILLEGAL_EXPRESSION_CONTEXT) have a call site anywhere in src/ outside
-// their own ErrorDefinition.cpp registration, so every assertion below is
+// None of the three event codes exercised here (CompMissingArgument,
+// CompIllegalExpressionContext) have a call site anywhere in src/ outside
+// their own events/*.yaml definition, so every assertion below is
 // expected to be red today -- that is the intended, documented state of this
 // exercise, not a bug for this file to work around. No test asserts the
 // absence of a diagnostic, which would lock the gap in.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -54,7 +53,7 @@ TEST_F(Chapter23ErrorRulesTest, Row862_RefPortCannotBeLeftUnconnected) {
   GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 23.3.3.2)";
   // A ref port shall be connected to an equivalent variable data type and
   // cannot be left unconnected.
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_ARGUMENT, "r862_sub"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingArgument, "r862_sub"), nullptr)
       << "a ref port cannot be left unconnected (IEEE 1800-2023 23.3.3.2)";
 }
 
@@ -65,7 +64,7 @@ TEST_F(Chapter23ErrorRulesTest, Row864_InterfacePortCannotBeLeftUnconnected) {
   GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 23.3.3.4)";
   // An interface port shall always be connected to an interface instance or
   // a higher level interface port; it cannot be left unconnected.
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_ARGUMENT, "r864_sub"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingArgument, "r864_sub"), nullptr)
       << "an interface port cannot be left unconnected (IEEE 1800-2023 23.3.3.4)";
 }
 
@@ -76,7 +75,7 @@ TEST_F(Chapter23ErrorRulesTest, Row881_DefparamRhsParameterMustBeLocalToDefparam
   // Parameters referenced on the right-hand side of a defparam shall be
   // declared in the same module as the defparam statement; 'o.q' is declared
   // in module r881_other, not in r881_top where the defparam statement lives.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r881_top"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r881_top"), nullptr)
       << "a defparam RHS parameter must be declared in the defparam's own module (IEEE 1800-2023 23.10.1)";
 }
 

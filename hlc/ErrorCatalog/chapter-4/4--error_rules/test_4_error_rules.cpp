@@ -28,8 +28,7 @@
 // unrelated diagnostic.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -58,7 +57,7 @@ TEST_F(Chapter4ErrorRulesTest, Row4_PrimitiveOutputTerminalMustBeOneBitNet) {
   // width against 1. Scoped to a plain net/variable reference only -- a
   // structural net expression (concatenation, part-select) is not
   // width-checked, to avoid a false positive rather than guess its width.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_PRIMITIVE_TERMINAL, "r4_y"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalPrimitiveTerminal, "r4_y"), nullptr)
       << "a primitive output terminal must be a 1-bit net (IEEE 1800-2023 4.9.6)";
 }
 

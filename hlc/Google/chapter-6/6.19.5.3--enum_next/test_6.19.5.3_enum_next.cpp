@@ -41,9 +41,8 @@
 //     resolved at simulation runtime)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -214,13 +213,13 @@ TEST_F(EnumNextTest, NextCallBindsToBuiltinEnumTypespec) {
 }
 
 TEST_F(EnumNextTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  // COMP_FAILED_TO_BIND does not fire for an unresolved enumerated-type method; the Linter
-  // reports LINT_NULL_ACTUAL instead, so check that (see Sec 6.19.5.3).
-  EXPECT_EQ(findError(ErrorDefinition::LINT_NULL_ACTUAL), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  // CompFailedToBind does not fire for an unresolved enumerated-type method; the Linter
+  // reports LintNullActual instead, so check that (see Sec 6.19.5.3).
+  EXPECT_EQ(findEvent(EventType::LintNullActual), nullptr)
       << "enum.next() must bind (IEEE 1800-2023 Sec 6.19.5.3)";
 }
 

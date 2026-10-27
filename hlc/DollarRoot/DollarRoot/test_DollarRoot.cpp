@@ -48,9 +48,8 @@
 // subset" direction. It checks a representative sample instead.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -155,7 +154,7 @@ TEST_F(DollarRootTest, UnresolvableRootTbReferenceFailsToBindInTestProgram) {
   // is no 'module tb' and no instance of that name). Per IEEE 1800-2023
   // Sec 23.8 a '$root'-rooted path must still resolve through real
   // instances; an absent "tb" must fail to bind.
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "tb"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "tb"), nullptr)
       << "'$root.tb...' should fail to bind: no instance named 'tb' exists anywhere in dut.sv";
 }
 
@@ -163,9 +162,9 @@ TEST_F(DollarRootTest, UnresolvableRootTbReferenceFailsToBindInTestProgram1) {
   // 'always @($root.tb.dut.master_0[2].signal_write_response_complete)'
   // inside "test_program1" -- same unresolvable "tb" scope, indexed this
   // time; still expected to fail to bind at the same 'tb' name.
-  const Error *const err = findError(ErrorDefinition::COMP_FAILED_TO_BIND, "tb", 802, 15);
+  const Event *const err = findEvent(EventType::CompFailedToBind, "tb", 802, 15);
   if (err == nullptr) {
-    GTEST_SKIP() << "COMP_FAILED_TO_BIND for 'tb' was not found at dut.sv:802 col 15 specifically (test_program1's "
+    GTEST_SKIP() << "CompFailedToBind for 'tb' was not found at dut.sv:802 col 15 specifically (test_program1's "
                      "own '$root.tb.dut.master_0[2]...' reference); the narrower line/column-qualified overload "
                      "may not match HLC's exact reported location for this second occurrence. The unqualified "
                      "'tb' unbound-name check above already covers the systemic gap. Fix/confirmation pending.";
@@ -182,11 +181,11 @@ TEST_F(DollarRootTest, CompilerReportsAtLeastOneError) {
   // scope (and unresolvable 'verbosity_pkg'/'avalon_mm_pkg' imports) many
   // times over, so this file cannot be a zero-diagnostic fixture; only a
   // coarse "some error was reported" sanity check is made here, with the
-  // specific unresolved-name checks above (findError()) doing the real
+  // specific unresolved-name checks above (findEvent()) doing the real
   // verification per the guide's "don't assert error counts" direction.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbError + stats.nbFatal + stats.nbSyntax, 0u);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GT(stats.m_errors + stats.m_fatals + stats.m_syntaxes, 0u);
 }
 
 }  // namespace hlc

@@ -114,7 +114,7 @@
 //     timescale is likewise runtime-only and, per Sec 22.7, tool-specific.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -160,11 +160,11 @@ class ResetallBasicTest : public Test {
 TEST_F(ResetallBasicTest, CompilerReportsZeroErrors) {
   // Sec 22.3: `resetall is illegal only inside a design element; on line 16
   // it is outside 'module top', so the file is legal and draws no error.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 // --- module definition ----

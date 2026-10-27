@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,8 +42,8 @@
 //     resolves to LogicTypespec (not IntTypespec, unlike the other 2 forms)
 //   - design-level typespecs (5): ModuleTypespec, IntTypespec, StringTypespec,
 //     IntTypespec, LogicTypespec
-//   - compiler emits exactly 4 errors (nbFatal=0, nbSyntax=0, nbError=4,
-//     nbWarning=0), all COMP_FAILED_TO_BIND for the no-parens
+//   - compiler emits exactly 4 errors (m_fatals=0, m_syntaxes=0, m_errors=4,
+//     m_warnings=0), all CompFailedToBind for the no-parens
 //     ".num" references
 //
 // Not checked:
@@ -54,16 +54,14 @@
 // Compiler limitation (NOT a code error in num.sv):
 //   IEEE 1800-2017 7.24.4 permits the built-in ".num" method (alias for
 //   ".size") to be called with or without parentheses. This HLC build never
-//   resolves the no-parens form and instead raises COMP_FAILED_TO_BIND
+//   resolves the no-parens form and instead raises CompFailedToBind
 //   for each of the 4 occurrences. num.sv is valid SystemVerilog; the errors
 //   below are a known compiler/API limitation, not a defect in the test
 //   source.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -323,7 +321,7 @@ TEST_F(AssociativeArrayNumTest, DesignHasLogicTypespec) {
 }
 
 TEST_F(AssociativeArrayNumTest, NoBindErrorForNum) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "num"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "num"), nullptr);
 }
 
 }  // namespace hlc

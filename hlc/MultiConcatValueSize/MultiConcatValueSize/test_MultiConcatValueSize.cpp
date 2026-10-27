@@ -84,7 +84,7 @@
 //     'sub_top' (member + select path rooted at parameter 'TargetCfg', index
 //     bound to genvar 'k') and '.TargetCfg(PinmuxTargetCfg)' in 'top'.
 //   - 27.4: 'sub_top' has a loop generate with condition 'k < NDioPads'.
-//   - no COMP_FAILED_TO_BIND for any of the names above.
+//   - no CompFailedToBind for any of the names above.
 //
 // What is NOT checked and why:
 //   - the evaluated value / width of the replication (3 bits for N=1), the
@@ -93,9 +93,8 @@
 //     hierarchy), so no evaluated values exist to assert against.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -544,7 +543,7 @@ TEST_F(MultiConcatValueSizeTest, TopOverridesTargetCfgByName) {
 TEST_F(MultiConcatValueSizeTest, NoBindingErrors) {
   for (std::string_view name : {"A", "B", "NDioPads", "dio_pad_type", "DefaultTargetCfg", "TargetCfg",
                                 "PinmuxTargetCfg", "PadType", "pad_type_e", "target_cfg_t", "k"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, name), nullptr) << name;
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr) << name;
   }
 }
 

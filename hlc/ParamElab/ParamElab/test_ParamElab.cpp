@@ -108,8 +108,8 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -141,9 +141,9 @@ namespace hlc {
 // The error types HLC uses for a name with no declaration. Which one reports
 // the loop index is a tool convention, so any of them, at error severity and
 // naming 'i', is accepted.
-constexpr ErrorDefinition::ErrorType kUndeclaredNameErrors[] = {ErrorDefinition::COMP_UNDEFINED_VARIABLE,
-                                                                ErrorDefinition::ELAB_UNDEF_VARIABLE,
-                                                                ErrorDefinition::COMP_FAILED_TO_BIND};
+constexpr uint32_t kUndeclaredNameErrors[] = {EventType::CompUndefinedVariable,
+                                                                EventType::ElabUndefVariable,
+                                                                EventType::CompFailedToBind};
 
 class ParamElabTest : public Test {
  public:
@@ -391,19 +391,19 @@ TEST_F(ParamElabTest, MaskWidthIsComputedFromTheOverrides) {
 }
 
 TEST_F(ParamElabTest, NoSyntaxOrFatalDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0) << "A.4.2: 'i = 0' matches genvar_initialization, where 'genvar' is optional";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0) << "A.4.2: 'i = 0' matches genvar_initialization, where 'genvar' is optional";
 }
 
 TEST_F(ParamElabTest, UndeclaredLoopIndexIsAnError) {
   GTEST_SKIP() << "HLC GAp: Undeclared variables aren't reported yet";
   bool reported = false;
-  for (ErrorDefinition::ErrorType type : kUndeclaredNameErrors) {
-    const ErrorDefinition::ErrorMap::const_iterator info = ErrorDefinition::getErrorInfoMap().find(type);
-    if ((info != ErrorDefinition::getErrorInfoMap().end()) && (info->second.m_severity == ErrorDefinition::ERROR) &&
-        (findError(type, "i") != nullptr)) {
+  for (uint32_t type : kUndeclaredNameErrors) {
+    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), type);
+    if ((info != nullptr) && (info->m_severity == EventSeverity::Error) &&
+        (findEvent(type, "i") != nullptr)) {
       reported = true;
     }
   }

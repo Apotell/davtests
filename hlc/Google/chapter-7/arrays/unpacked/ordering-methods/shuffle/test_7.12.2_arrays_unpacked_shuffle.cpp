@@ -59,9 +59,8 @@
 //     below, which documents this rather than asserting a specific order
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -240,7 +239,7 @@ TEST_F(UnpackedShuffleTest, DesignHasStringTypespec) {
 }
 
 TEST_F(UnpackedShuffleTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "shuffle"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "shuffle"), nullptr)
       << "arr.shuffle() must bind (IEEE 1800-2023 7.12.2)";
 }
 

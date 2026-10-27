@@ -41,7 +41,7 @@
 //     whose first operand is Operation(vpiAddOp) over a, b and whose second
 //     operand is RefObj "cin"
 //   - the references in the assignment bind to the port nets (no
-//     COMP_FAILED_TO_BIND for any of them)
+//     CompFailedToBind for any of them)
 //
 // What is NOT checked and why:
 //   - Bit-width of the addition result / carry extension (11.6): an
@@ -49,7 +49,7 @@
 //     stops before elaboration.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -221,7 +221,7 @@ TEST_F(MBadderTest, AssignmentReferencesBindToPortNets) {
     EXPECT_EQ(ref->getActual(), getNet(ref->getName())) << "'" << ref->getName() << "' must bind to its port net";
   }
   for (const char *const name : {"a", "b", "cin", "sum", "cout"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, name), nullptr) << name;
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr) << name;
   }
 }
 

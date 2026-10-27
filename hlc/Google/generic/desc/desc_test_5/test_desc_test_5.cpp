@@ -93,10 +93,8 @@
 //     exposed (see above).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -156,25 +154,24 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) {
-  if (error.getLocations().empty()) {
+uint32_t lineOf(const Event &error) {
+  if (error.getArguments().empty()) {
     return 0;
   }
-  return error.getLocations().front().m_line;
+  return error.getArguments().front().m_line;
 }
 
 // Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
 // messages, so a red run shows what was reported and where. <text> is HLC's
 // message template, so its placeholders are not filled in.
-std::string describeErrors(const ErrorContainer *errorContainer, ErrorDefinition::ErrorSeverity severity) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
+std::string describeErrors(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-    if ((errorInfo == errorInfoMap.end()) || (errorInfo->second.m_severity != severity)) continue;
+  for (const Event &error : eventListener->getEvents()) {
+    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if ((errorInfo == nullptr) || (errorInfo->m_severity != severity)) continue;
     description += " [" + std::to_string(static_cast<int32_t>(error.getType()));
     description += " line " + std::to_string(lineOf(error));
-    description += ": " + std::string(errorInfo->second.m_errorText) + "]";
+    description += ": " + std::string(errorInfo->m_lines[0].m_text) + "]";
   }
   return description;
 }
@@ -217,13 +214,13 @@ class DescTest5Test : public Test {
 // syntax error or an error.
 TEST_F(DescTest5Test, CompilesWithoutErrors) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorContainer::Stats stats = errorContainer->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0) << describeErrors(errorContainer, ErrorDefinition::FATAL);
-  EXPECT_EQ(stats.nbSyntax, 0) << describeErrors(errorContainer, ErrorDefinition::SYNTAX);
-  EXPECT_EQ(stats.nbError, 0) << describeErrors(errorContainer, ErrorDefinition::ERROR);
+  const EventListener::Stats stats = eventListener->getStats();
+  EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
+  EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
+  EXPECT_EQ(stats.m_errors, 0) << describeErrors(eventListener, EventSeverity::Error);
 }
 
 // Each of these diagnostics would mean HLC misread the conditional
@@ -231,20 +228,20 @@ TEST_F(DescTest5Test, CompilesWithoutErrors) {
 TEST_F(DescTest5Test, ReportsNoPreprocessorDiagnostics) {
   // Lines 16-20 match Syntax 22-5, including the two consecutive `elsif
   // groups ({ `elsif ... }) and the empty groups of lines.
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
 
   // Both `elsif directives follow the `ifdef of their own construct and
   // precede its `else (Syntax 22-5).
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_ELSEIF), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveElseif), nullptr);
 
   // `ifdef and `elsif test whether a name is defined (22.6); DEBUGGER, BORED
   // and MORE_BORED are not macro usages, so their being undefined is no
   // "unknown macro".
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 
   // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DescTest5Test, SourceFileRecordedOnce) {

@@ -32,7 +32,7 @@
 //
 //   A prior version of this test documented "HLC reports EL0535 ('Illegal
 //   implicit net c')" as expected, passing behavior (Compiler_ReportsOneError
-//   asserting nbError == 1), and treated 'c' having no Net node and no
+//   asserting m_errors == 1), and treated 'c' having no Net node and no
 //   vpiActual back-pointer as correct. Per 6.10's mandatory-implicit-net
 //   text quoted above, this is backwards: HLC should create a real
 //   implicit Net for 'c'. This version asserts the spec-correct outcome
@@ -46,7 +46,7 @@
 //   drops the mandatory implicit net instead of either creating it (per
 //   spec) or flagging it as an error -- a silent gap, not a spurious
 //   diagnostic. CompilerShouldAcceptLegalImplicitNetButReportsSpuriousError
-//   below happens to already pass (nbError == 0 is what the spec wants
+//   below happens to already pass (m_errors == 0 is what the spec wants
 //   too), but for the wrong reason: not because HLC implements 6.10
 //   correctly, but because it silently ignores the undeclared identifier
 //   entirely.
@@ -71,7 +71,7 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 

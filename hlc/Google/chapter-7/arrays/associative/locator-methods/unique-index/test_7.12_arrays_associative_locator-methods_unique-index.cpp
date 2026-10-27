@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,18 +52,16 @@
 //     (element type is int, so IntTypespec is created before the
 //     StringTypespec used for the $display format string constants --
 //     reversed order vs. the string-array locator-method tests)
-//   - compiler emits exactly 3 errors (nbFatal=0, nbSyntax=0, nbError=3,
-//     nbWarning=0), all COMP_FAILED_TO_BIND -- one more than unique.sv
+//   - compiler emits exactly 3 errors (m_fatals=0, m_syntaxes=0, m_errors=3,
+//     m_warnings=0), all CompFailedToBind -- one more than unique.sv
 //     because "unique_index" itself is unresolved too. unique-index.sv has
 //     no "with" clause anywhere, so the now-fixed with-clause "item"
 //     iterator resolution (see ObjectBinder::findInMethodFuncCall) does not
 //     apply to this file
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -434,9 +432,9 @@ TEST_F(ArrayLocatorUniqueIndexTest, NoContAssigns) {
 // --- compiler diagnostics: known parenthesis-less-builtin-call limitation ----
 
 TEST_F(ArrayLocatorUniqueIndexTest, UniqueIndexSortAndSizeMethodCallsResolve) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "unique_index"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "sort"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "unique_index"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "sort"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
 }
 
 }  // namespace hlc

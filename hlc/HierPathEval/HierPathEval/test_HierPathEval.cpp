@@ -62,7 +62,7 @@
 // parameter overrides are the ParamAssigns of its typespec's ModuleTypespec.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -197,11 +197,11 @@ TEST_F(HierPathEvalTest, CompilerReportsZeroErrors) {
   // A nonzero error count here would mean either the hier-path member-select
   // itself failed to bind, or HLC could not fold it to a constant for the
   // parameter override -- both are exactly what this test exists to guard.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 }  // namespace hlc

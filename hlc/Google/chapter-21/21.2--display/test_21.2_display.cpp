@@ -120,9 +120,8 @@
 //     the one the source wrote.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -322,17 +321,17 @@ TEST_F(DisplayTest, DisplayArgumentIsRefObjValBoundToTheBlockLocalDeclaration) {
 // The one construct here with real binding risk is "val" inside the
 // $display argument list resolving back to the block-local declaration.
 TEST_F(DisplayTest, ValReferenceIsNotAFailedBind) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
       << "'val' in the $display call must bind to the block-local 'int val = 1234' declaration";
 }
 
 TEST_F(DisplayTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0) << "21.2.1: $display is a standard system task, not an unknown one";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
+  EXPECT_EQ(stats.m_warnings, 0) << "21.2.1: $display is a standard system task, not an unknown one";
 }
 
 }  // namespace hlc

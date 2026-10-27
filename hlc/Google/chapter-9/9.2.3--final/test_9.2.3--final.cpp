@@ -49,8 +49,7 @@
 //     Variable "a"; rhs is Constant "1" (vpiIntConst)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -201,7 +200,7 @@ TEST_F(FinalTest, AssignmentRhsIsConstantOne) {
 // The construct with the most real risk of a binding failure is "a"
 // resolving back to its declaration.
 TEST_F(FinalTest, ReferenceToAIsNotAFailedBind) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
       << "'a' in 'a = 1' must bind to the 'reg a' declaration";
 }
 

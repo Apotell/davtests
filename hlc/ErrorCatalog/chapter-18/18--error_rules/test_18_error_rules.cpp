@@ -40,23 +40,22 @@
 // merged into this same fixture and verified independently (in isolation
 // from rows 608/663) with hlc.exe: every one of those top-level class/module
 // design elements compiles, and 5 of them (rows 613, 615, 630, 637, 652)
-// raise a generic PA_SYNTAX_ERROR -- HLC's grammar already rejects those five
+// raise a generic PaSyntaxError -- HLC's grammar already rejects those five
 // constructs outright (e.g. "solve x() before y;", a dist expression nested
 // inside another expression, "default :=" in a distribution, a function call
 // as a foreach array identifier, and an identifier_list after "with" on a
 // scope randomize), before the catalog's own designated semantic
-// ErrorDefinition code would ever have a chance to run. None of those five
+// event code would ever have a chance to run. None of those five
 // syntax errors swallows or corrupts any other scenario in the file (every
 // design element after each one still compiles).
 //
 // Per project convention, every assertion below targets the catalog's own
-// designated ErrorDefinition code (not the PA_SYNTAX_ERROR that happens to
+// designated event code (not the PaSyntaxError that happens to
 // fire today for those five rows), since that is the diagnostic IEEE
 // 1800-2023 actually requires for the rule being tested.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -78,7 +77,7 @@ TEST_F(Chapter18ErrorRulesTest, Row608_ConstrainingAssociativeArraySizeIsRejecte
   // string.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 18.4 makes the size and index values "
                   "of an associative array non-randomizable, so constraining aa.size is illegal";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "aa", 12, 18), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "aa", 12, 18), nullptr)
       << "the size of an associative array cannot be constrained (IEEE 1800-2023 18.4)";
 }
 
@@ -92,10 +91,10 @@ TEST_F(Chapter18ErrorRulesTest, Row613_ParenthesesOnConstraintPrimaryRequireArra
   // constraint_primary is an array built-in method such as size().
   // r613_c's "solve r613_x() before r613_y;" applies parentheses to a plain
   // variable, not an array method. HLC's grammar already rejects this input
-  // outright (a PA_SYNTAX_ERROR fires at compile time), so the catalog's own
+  // outright (a PaSyntaxError fires at compile time), so the catalog's own
   // designated code below never gets a chance to run; the assertion still
   // targets that code, per project convention.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "r613_c"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "r613_c"), nullptr)
       << "parentheses on a non-array-method constraint_primary must be diagnosed (IEEE 1800-2023 18.5)";
 }
 
@@ -105,7 +104,7 @@ TEST_F(Chapter18ErrorRulesTest, Row614_SideEffectOperatorNotAllowedInConstraint)
   // catalog row 614 | 18.5 | PARSE
   // Operators with side effects, such as ++ and --, are not allowed in
   // constraint expressions. r614_c uses "r614_y++" inside its expression.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SIDE_EFFECT, "r614_c"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalSideEffect, "r614_c"), nullptr)
       << "a side-effect operator inside a constraint expression must be diagnosed (IEEE 1800-2023 18.5)";
 }
 
@@ -117,10 +116,10 @@ TEST_F(Chapter18ErrorRulesTest, Row615_DistExpressionCannotNestInAnotherExpressi
   // dist expressions may not appear inside other expressions; a dist may
   // only form a complete constraint expression. r615_c nests "r615_x dist
   // {...}" inside a "&&" expression. HLC's grammar already rejects this
-  // input outright (a PA_SYNTAX_ERROR fires at compile time), so the
+  // input outright (a PaSyntaxError fires at compile time), so the
   // catalog's own designated code below never gets a chance to run; the
   // assertion still targets that code, per project convention.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r615_c"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r615_c"), nullptr)
       << "a dist expression nested inside another expression must be diagnosed (IEEE 1800-2023 18.5)";
 }
 
@@ -133,7 +132,7 @@ TEST_F(Chapter18ErrorRulesTest, Row616_ExternalConstraintBlockMustFollowItsClass
   // corresponding class declaration and shall appear after the class
   // declaration in that scope. "constraint r616_C::r616_proto1 { ... }"
   // appears before "class r616_C" is declared.
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISPLACED_EXTERN_DECLARATION, "r616_proto1"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMisplacedExternDeclaration, "r616_proto1"), nullptr)
       << "an external constraint block preceding its class declaration must be diagnosed "
          "(IEEE 1800-2023 18.5.1)";
 }
@@ -146,7 +145,7 @@ TEST_F(Chapter18ErrorRulesTest, Row629_RealDistRangeRequiresColonSlashWithWeight
   // A dist_item whose value_range is a range of real values shall use the
   // :/ operator and shall specify a weight. r629_c's "[0.5:1.5] := 3" uses
   // := on a real range instead of :/.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "r629_c"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "r629_c"), nullptr)
       << "a real-valued dist range not using :/ with a weight must be diagnosed (IEEE 1800-2023 18.5.3)";
 }
 
@@ -158,10 +157,10 @@ TEST_F(Chapter18ErrorRulesTest, Row630_DistDefaultSpecificationMustUseColonSlash
   // The default specification in a distribution shall always use the :/
   // operator; it shall be an error if the operator is omitted or if := is
   // used. r630_c's dist uses "default := 1". HLC's grammar already rejects
-  // this input outright (a PA_SYNTAX_ERROR fires at compile time), so the
+  // this input outright (a PaSyntaxError fires at compile time), so the
   // catalog's own designated code below never gets a chance to run; the
   // assertion still targets that code, per project convention.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "r630_c"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "r630_c"), nullptr)
       << "a dist default specification using := instead of :/ must be diagnosed (IEEE 1800-2023 18.5.3)";
 }
 
@@ -171,7 +170,7 @@ TEST_F(Chapter18ErrorRulesTest, Row632_DistCannotBeAppliedToRandcVariable) {
   // catalog row 632 | 18.5.3 | COMP
   // A dist operation shall not be applied to randc variables. r632_c applies
   // dist to r632_x, a randc variable.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "r632_c"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "r632_c"), nullptr)
       << "a dist operation applied to a randc variable must be diagnosed (IEEE 1800-2023 18.5.3)";
 }
 
@@ -182,7 +181,7 @@ TEST_F(Chapter18ErrorRulesTest, Row633_DistExpressionRequiresARandVariable) {
   GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 18.5.3)";
   // A dist expression requires that the expression contain at least one
   // rand variable. r633_c applies dist to r633_s, a plain (non-rand) int.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "r633_c"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "r633_c"), nullptr)
       << "a dist expression with no rand variable must be diagnosed (IEEE 1800-2023 18.5.3)";
 }
 
@@ -196,7 +195,7 @@ TEST_F(Chapter18ErrorRulesTest, Row634_UniqueRangeListItemsMustBeSingularVariabl
   // array variables (or slices) whose leaf element type is integral or
   // real. r634_u's "unique { r634_a + r634_b, r634_a }" includes an
   // expression, not a bare variable.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "r634_u"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "r634_u"), nullptr)
       << "a non-variable expression inside a unique{} range_list must be diagnosed (IEEE 1800-2023 18.5.4)";
 }
 
@@ -206,7 +205,7 @@ TEST_F(Chapter18ErrorRulesTest, Row636_NoRandcVariableInUniquenessConstraintGrou
   // catalog row 636 | 18.5.4 | COMP
   // No randc variable shall appear in the group of a uniqueness constraint.
   // r636_u's "unique { r636_a, r636_b }" includes r636_a, a randc variable.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "r636_u"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "r636_u"), nullptr)
       << "a randc variable inside a unique{} group must be diagnosed (IEEE 1800-2023 18.5.4)";
 }
 
@@ -219,10 +218,10 @@ TEST_F(Chapter18ErrorRulesTest, Row637_FunctionCallCannotBeForeachArrayIdentifie
   // declaration in the array identifier of a foreach iterative constraint.
   // r637_c's "foreach ( r637_A[r637_f()] )" calls r637_f() as the loop
   // variable declaration. HLC's grammar already rejects this input outright
-  // (a PA_SYNTAX_ERROR fires at compile time), so the catalog's own
+  // (a PaSyntaxError fires at compile time), so the catalog's own
   // designated code below never gets a chance to run; the assertion still
   // targets that code, per project convention.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r637_c"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r637_c"), nullptr)
       << "a function call as a foreach iterative constraint's array identifier must be diagnosed "
          "(IEEE 1800-2023 18.5.7.1)";
 }
@@ -234,7 +233,7 @@ TEST_F(Chapter18ErrorRulesTest, Row640_OnlyRandVariablesAllowedInSolveBefore) {
   // Only rand random variables are allowed in a solve...before ordering
   // constraint; nonrandom (state) variables are not allowed. r640_o's
   // "solve r640_x before r640_y;" names r640_y, a plain (non-rand) int.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "r640_o"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "r640_o"), nullptr)
       << "a non-random variable inside solve...before must be diagnosed (IEEE 1800-2023 18.5.9)";
 }
 
@@ -245,7 +244,7 @@ TEST_F(Chapter18ErrorRulesTest, Row641_RandcVariableNotAllowedInSolveBefore) {
   // randc variables are not allowed in a solve...before ordering constraint
   // (randc variables are always solved first). r641_o's "solve r641_x
   // before r641_y;" names r641_x, a randc variable.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "r641_o"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "r641_o"), nullptr)
       << "a randc variable inside solve...before must be diagnosed (IEEE 1800-2023 18.5.9)";
 }
 
@@ -257,7 +256,7 @@ TEST_F(Chapter18ErrorRulesTest, Row645_ConstraintFunctionCannotHaveOutputArgumen
   // Functions that appear in constraint expressions shall not have output,
   // inout, or ref arguments (const ref is allowed). r645_f has an output
   // argument and is called from constraint r645_c.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r645_f"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r645_f"), nullptr)
       << "a function with an output argument used in a constraint expression must be diagnosed "
          "(IEEE 1800-2023 18.5.11)";
 }
@@ -272,7 +271,7 @@ TEST_F(Chapter18ErrorRulesTest, Row646_ConstraintFunctionMustBeSideEffectFree) {
   // preserve no state information) and have no side effects. r646_f retains
   // state via a static local variable and is called from constraint
   // r646_c.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SIDE_EFFECT, "r646_f"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalSideEffect, "r646_f"), nullptr)
       << "a stateful/side-effecting function used in a constraint expression must be diagnosed "
          "(IEEE 1800-2023 18.5.11)";
 }
@@ -285,7 +284,7 @@ TEST_F(Chapter18ErrorRulesTest, Row647_ConstraintFunctionCannotModifyConstraints
   // Functions called from constraints cannot modify the constraints, e.g.,
   // by calling the rand_mode() or constraint_mode() methods. r647_f calls
   // "this.r647_d.constraint_mode(0)" and is invoked from constraint r647_c.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SIDE_EFFECT, "r647_f"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalSideEffect, "r647_f"), nullptr)
       << "a constraint-called function that modifies constraints must be diagnosed (IEEE 1800-2023 18.5.11)";
 }
 
@@ -296,7 +295,7 @@ TEST_F(Chapter18ErrorRulesTest, Row650_SoftConstraintIllegalOnRandcVariable) {
   // Soft constraints can only be specified on rand random variables; they
   // may not be specified for randc variables. r650_c's "soft r650_x == 3;"
   // applies soft to r650_x, a randc variable.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "r650_c"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "r650_c"), nullptr)
       << "a soft constraint on a randc variable must be diagnosed (IEEE 1800-2023 18.5.13.1)";
 }
 
@@ -312,12 +311,12 @@ TEST_F(Chapter18ErrorRulesTest, Row652_ScopeRandomizeCannotUseWithIdentifierList
   // argument shall be illegal. Two facets, both in r652_m: "std::randomize
   // (r652_a) with (r652_a) { ... }" carries an illegal identifier_list, and
   // "std::randomize(null)" passes null. The first facet's construct is
-  // rejected outright by HLC's grammar today (a PA_SYNTAX_ERROR fires), so
+  // rejected outright by HLC's grammar today (a PaSyntaxError fires), so
   // the catalog's own designated code below never gets a chance to run for
   // it; both assertions still target that code, per project convention.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r652_a"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r652_a"), nullptr)
       << "an identifier_list after with on a scope randomize must be diagnosed (IEEE 1800-2023 18.7)";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r652_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r652_m"), nullptr)
       << "null as an argument to a scope randomize must be diagnosed (IEEE 1800-2023 18.7)";
 }
 
@@ -329,7 +328,7 @@ TEST_F(Chapter18ErrorRulesTest, Row659_RandomizeArgumentMustBeAPropertyNameNotAn
   // Arguments to the randomize() method are limited to the names of
   // properties of the calling object; expressions are not allowed as
   // arguments. "r659_a.randomize(r659_x + r659_y)" passes an expression.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r659_a"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r659_a"), nullptr)
       << "an expression passed as a randomize() argument must be diagnosed (IEEE 1800-2023 18.11)";
 }
 
@@ -346,7 +345,7 @@ TEST_F(Chapter18ErrorRulesTest, Row663_NegativeProductionWeightIsRejected) {
   GTEST_SKIP() << "randsequence is not modelled (CP5849 'Feature not yet implemented'); "
                   "IEEE 1800-2023 18.17.1 requires an rs_weight_specification to evaluate to an "
                   "integral non-negative value";
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "add", 195, 21), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "add", 195, 21), nullptr)
       << "a production weight must be a non-negative integral value (IEEE 1800-2023 18.17.1)";
 }
 
@@ -358,7 +357,7 @@ TEST_F(Chapter18ErrorRulesTest, Row665_RandsequenceRepeatCountMustBeNonNegative)
   // The repeat expression of a repeat production statement shall evaluate
   // to a non-negative integral value. r665_P's "repeat (-1) r665_PUSH ;"
   // gives repeat a negative count.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "r665_P"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "r665_P"), nullptr)
       << "a negative randsequence repeat count must be diagnosed (IEEE 1800-2023 18.17.4)";
 }
 
@@ -371,7 +370,7 @@ TEST_F(Chapter18ErrorRulesTest, Row666_RandJoinWeightMustBeInZeroToOneRange) {
   // The optional expression following the rand join keywords shall be a
   // real number in the range 0.0 to 1.0. r666_TOP's "rand join (1.5) ..."
   // gives a weight of 1.5, outside that range.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "r666_TOP"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "r666_TOP"), nullptr)
       << "a rand join weight outside 0.0..1.0 must be diagnosed (IEEE 1800-2023 18.17.5)";
 }
 

@@ -69,9 +69,8 @@
 //     library/config mapping under test.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -280,7 +279,7 @@ TEST_F(LibraryInterconTest, LibrariesHoldTheirCells) {
 
 TEST_F(LibraryInterconTest, SameCellNameInDifferentLibrariesIsLegal) {
   GTEST_SKIP() << "HLC Gap. Need developer attention.";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_DESIGN_UNIT), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedDesignUnit), nullptr)
       << "33.2.1: 'cmp' and 'driver' each appear once in realLib and once in logicLib; cell names only need to be "
          "unique within a library";
 }
@@ -291,9 +290,9 @@ TEST_F(LibraryInterconTest, SameCellNameInDifferentLibrariesIsLegal) {
 
 TEST_F(LibraryInterconTest, HeaderImportedRealNetBinds) {
   GTEST_SKIP() << "HLC Gap. Need developer attention.";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "realNet"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "realNet"), nullptr)
       << "26.4: 'import NetsPkg::*;' in the module header makes 'realNet' visible in the port list";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "logic"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "logic"), nullptr)
       << "'logic' is a built-in data type keyword, not an identifier to bind";
 }
 

@@ -53,7 +53,7 @@
 //   - 6.8: "my_logic a;" and "logic b;" are variable declarations (no net
 //     type keyword), so a and b are Variables of top, not Nets; b is a
 //     1-bit scalar logic. a's type is the typedef, whose alias is logic.
-//   - no COMP_FAILED_TO_BIND for "my_logic" and no COMP_UNDEFINED_PACKAGE
+//   - no CompFailedToBind for "my_logic" and no CompUndefinedPackage
 //     for "wddr_pkg" (the package is compiled before the import).
 //
 // What is NOT checked and why:
@@ -61,9 +61,8 @@
 //     never referenced in the sources.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -180,9 +179,9 @@ TEST_F(LowMemPkgTest, VariableBIsScalarLogic) {
 }
 
 TEST_F(LowMemPkgTest, NoBindingOrPackageErrors) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "my_logic"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_PACKAGE, "wddr_pkg"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_UNDEFINED_PACKAGE, "wddr_pkg"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "my_logic"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompUndefinedPackage, "wddr_pkg"), nullptr);
+  EXPECT_EQ(findEvent(EventType::ElabUndefinedPackage, "wddr_pkg"), nullptr);
 }
 
 }  // namespace hlc

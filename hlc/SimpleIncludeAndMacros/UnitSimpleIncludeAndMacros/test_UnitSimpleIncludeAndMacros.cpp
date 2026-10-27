@@ -15,8 +15,8 @@
 */
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -40,14 +40,14 @@ class UnitSimpleIncludeAndMacrosTest : public Test {
 // must be diagnosed per IEEE 1800-2023 Sec 22.5.1, and mode.vh's illegal
 // top-level macro expansions produce bare statements outside any module.
 TEST_F(UnitSimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::PP_SYNTAX_ERROR, 13, 17), nullptr) << "illegal top-level macro expansions in mode.vh must produce syntax errors";
-  EXPECT_NE(findError(ErrorDefinition::PP_MACRO_PARENTHESIS_NEEDED, 62, 1), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE, 36, 0), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::PpSyntaxError, 13, 17), nullptr) << "illegal top-level macro expansions in mode.vh must produce syntax errors";
+  EXPECT_NE(findEvent(EventType::PpMacroParenthesisNeeded, 62, 1), nullptr);
+  EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, 36, 0), nullptr)
       << "illegal macro argument counts must be reported as errors";
-  EXPECT_NE(findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO, 40, 0), nullptr)
+  EXPECT_NE(findEvent(EventType::PpTooManyArgsMacro, 40, 0), nullptr)
       << "too many actual arguments for a macro must be reported as an error";
-  EXPECT_NE(findError(ErrorDefinition::PP_RECURSIVE_MACRO_DEFINITION, 47, 0), nullptr)
+  EXPECT_NE(findEvent(EventType::PpRecursiveMacroDefinition, 47, 0), nullptr)
       << "the recursive BOTTOM/TOP/BOTTOM1 macro chain must be reported as an error";
 }
 

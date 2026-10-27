@@ -39,20 +39,20 @@
 //     declared by the same interface as the modport itself ... a modport
 //     declaration shall not implicitly declare new ports." perfCounter is
 //     never declared in PerformanceCounterIF, so the modport is illegal and
-//     must be diagnosed: COMP_MODPORT_UNDEFINED_PORT for "perfCounter" at
+//     must be diagnosed: CompModportUndefinedPort for "perfCounter" at
 //     4:9.
 //   - 23.2.2 / 25.5: CSR_Unit's single ANSI port "PerformanceCounterIF.CSR
 //     perfCounter" is an interface port restricted to modport CSR
 //     (interface_port_header ::= interface_identifier [. modport_identifier]).
 //       * 37.14 detail 1: its vpiPortType is vpiModportPort.
-//       * the modport name "CSR" must resolve (no COMP_FAILED_TO_BIND), and
+//       * the modport name "CSR" must resolve (no CompFailedToBind), and
 //         the port's typespec resolves to an InterfaceTypespec whose
 //         interface is PerformanceCounterIF and whose modport is CSR.
 //       * 37.14 detail 5: the low conn of an interface port is a RefObj;
 //         it binds to the CSR modport (see hldb_model_gaps.md Sec 2).
 //       * interface_port_header carries no port_direction, so HLC must not
 //         warn that the port is "missing its direction"
-//         (COMP_PORT_MISSING_DIRECTION).
+//         (CompPortMissingDirection).
 //       * no net or variable named perfCounter is materialized in CSR_Unit
 //         (an interface port is neither a net nor a variable port).
 //   - 25.3 / 23.3.2.1: module Core instantiates PerformanceCounterIF as
@@ -70,9 +70,8 @@
 //     io decls), so no expectation is encoded.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -144,7 +143,7 @@ TEST_F(ModPortParamTest, ModportCsrHasInputPerfCounter) {
 }
 
 TEST_F(ModPortParamTest, ModportNameNotDeclaredInInterfaceIsDiagnosed) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_MODPORT_UNDEFINED_PORT, "perfCounter", 4, 9), nullptr)
+  EXPECT_NE(findEvent(EventType::CompModportUndefinedPort, "perfCounter", 4, 9), nullptr)
       << "25.5: modport names shall be declared by the same interface; 'perfCounter' is not";
 }
 
@@ -165,7 +164,7 @@ TEST_F(ModPortParamTest, CsrUnitHasSingleModportPort) {
 
 TEST_F(ModPortParamTest, ModportNameInPortHeaderBinds) {
   GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "CSR"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "CSR"), nullptr)
       << "25.5: 'CSR' in 'PerformanceCounterIF.CSR' names a modport of that interface";
 }
 
@@ -194,7 +193,7 @@ TEST_F(ModPortParamTest, PortLowConnBindsToModport) {
 
 TEST_F(ModPortParamTest, InterfacePortNotWarnedMissingDirection) {
   GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_PORT_MISSING_DIRECTION, "perfCounter"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompPortMissingDirection, "perfCounter"), nullptr)
       << "23.2.2: interface_port_header has no port_direction; none is missing";
 }
 

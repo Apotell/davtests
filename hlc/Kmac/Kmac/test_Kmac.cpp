@@ -91,9 +91,8 @@
 //     definitions are looked up by getDefName().
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -301,7 +300,7 @@ TEST_F(KmacTest, KmacCorePortsAreInputNets) {
 
 TEST_F(KmacTest, MultipleExplicitImportsFromSamePackageAreLegal) {
   GTEST_SKIP() << "HLC errornesouly reports this as an error.";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_TYPEDEF, "sha3_pkg"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef, "sha3_pkg"), nullptr)
       << "26.3: several 'import sha3_pkg::<item>;' declarations import distinct items and redefine nothing";
 }
 
@@ -381,7 +380,7 @@ TEST_F(KmacTest, CaseItemsMatchImportedEnumConstants) {
 TEST_F(KmacTest, SizeCastByImportedParameterIsSupported) {
   GTEST_SKIP() << "HLC fails to bind these variables correctly.";
   for (uint32_t line = 26; line <= 30; ++line) {
-    EXPECT_EQ(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "KeccakCountW", line, 32), nullptr)
+    EXPECT_EQ(findEvent(EventType::UnsupportedTypespec, "KeccakCountW", line, 32), nullptr)
         << "6.24.1: a constant_primary casting_type (KeccakCountW') is a legal size cast (line " << line << ")";
   }
 }

@@ -52,7 +52,7 @@
 //   - vpiFullName on any object.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -93,10 +93,10 @@ class SwervTest : public Test {
 // --- the file is a legal, empty compilation unit ----
 
 TEST_F(SwervTest, CompilerReportsZeroErrors) {
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0) << "Sec A.1.2: a source_text with only a comment is legal";
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  const hlc::EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0) << "Sec A.1.2: a source_text with only a comment is legal";
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 TEST_F(SwervTest, SwervSourceFileIsPartOfDesign) {

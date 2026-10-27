@@ -61,7 +61,7 @@
 //   - Timescale warnings: tool-specific.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -260,12 +260,12 @@ TEST_F(NonAnsiPortTest, AssignVar3Third) { checkContAssign(2, "var3", "third", "
 
 TEST_F(NonAnsiPortTest, NoBindingOrSyntaxErrors) {
   for (const char *const sym : {"var1", "var2", "var3", "first", "second", "third", "struct1", "struct2"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, sym), nullptr) << sym;
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, sym), nullptr) << sym;
   }
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbFatal, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_fatals, 0);
 }
 
 }  // namespace hlc

@@ -40,7 +40,7 @@
 //   test used hldb::Net/getNets() for "a" (the net/variable
 //   misclassification bug also found and fixed in 6.5, 6.9.1, 6.12--real,
 //   and 6.12--shortreal), and had a Compiler_NoErrorsReported test
-//   asserting nbError == 0, documented as "HLC does not reject 'a[2]'
+//   asserting m_errors == 0, documented as "HLC does not reject 'a[2]'
 //   bit-select on a real net at compile time" -- treating a confirmed
 //   spec violation as expected, passing behavior. This version targets
 //   hldb::Variable for "a", and asserts an error IS reported (real bug,
@@ -67,8 +67,8 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -226,12 +226,12 @@ TEST_F(RealBitSelectTest, CompilerShouldRejectBitSelectOnRealVariableButDoesNot)
                   "(fails as expected): IEEE 1800-2023 6.12 prohibits bit-select or part-select "
                   "references of real variables ('a[2]'), but HLC accepts it with zero "
                   "diagnostics. Tracked, not yet fixed by the compiler.";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_OPERAND_TYPE), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalOperandType), nullptr)
       << "IEEE 1800-2023 6.12: a bit-select may not be applied TO a real variable, as in "
          "'a[2]' where 'a' is real. This is a different rule from the sibling "
          "6.12--real_bit_select_idx, which covers a real used AS the index and has its own "
-         "code, COMP_ILLEGAL_REAL_SELECT_INDEX. No dedicated code exists for a real select "
+         "code, CompIllegalRealSelectIndex. No dedicated code exists for a real select "
          "OPERAND, so the generic operand-type code is the closest fit.";
 }
 

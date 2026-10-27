@@ -42,11 +42,11 @@
 //     pulled in via the "-y lib" library search
 //   - module "AND" is empty (no ports, no nets/variables, no processes),
 //     matching "module AND(); endmodule" in lib/AND.v
-//   - no COMP_FAILED_TO_BIND error is reported for "AND" (i.e. the library
+//   - no CompFailedToBind error is reported for "AND" (i.e. the library
 //     search actually resolved the reference)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -116,7 +116,7 @@ TEST_F(DashYTestTest, LibraryModuleAndHasNullPort) {
 // ---------------------------------------------------------------------------
 
 TEST_F(DashYTestTest, NoFailedToBindErrorForAnd) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "AND"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "AND"), nullptr)
       << "'-y lib' should have resolved 'AND' without a binding failure";
 }
 

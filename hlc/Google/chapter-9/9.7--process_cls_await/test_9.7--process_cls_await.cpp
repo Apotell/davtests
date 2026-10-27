@@ -138,7 +138,7 @@
 //   - module "process_tb" has exactly one process, an Initial, whose
 //     statement is a Begin wrapping exactly one TaskCall resolving to
 //     "test" with one Constant argument "8"
-//   - COMP_FAILED_TO_BIND is never raised: both "self" and "await" bind
+//   - CompFailedToBind is never raised: both "self" and "await" bind
 //     cleanly to the built-in "process" class's own methods
 //
 // NOT CHECKED (out of scope regardless of pass/fail; every assertion above
@@ -153,8 +153,7 @@
 // ============================================================================
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -670,7 +669,7 @@ TEST_F(ProcessClsAwaitTest, InitialCallsTestWithConstantEight) {
 // built-in 'process' ClassDefn (see the two tests above), so neither should
 // leave any reference unbound.
 TEST_F(ProcessClsAwaitTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
       << "'self' and 'await' should both bind to the built-in 'process' class's own methods";
 }
 

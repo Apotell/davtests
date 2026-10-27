@@ -61,8 +61,8 @@
 #include <hlc/Tests/Test.h>
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 
 #include <hldb/Utils.h>
 #include <hldb/any.h>
@@ -165,15 +165,15 @@ class MonitorTaskTest : public Test {
 // Everything in the fixture is legal IEEE 1800-2017 and all six task names are
 // standard, so the compile must be clean of hard diagnostics.
 TEST_F(MonitorTaskTest, CompilesWithoutErrors) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 
   // 21.2 / 21.2.3: none of the six spellings is an unknown system name.
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_SYSTEM_FUNCTION), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompUndefinedSystemFunction), nullptr);
   // 23.6: `a` is visible from the initial block, so no reference may fail to bind.
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 // 23.2 / 23.2.2: the file declares exactly one module, named `top`, and

@@ -35,8 +35,7 @@
 // void-cast half needs adding at the same time.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -59,10 +58,10 @@ TEST_F(Chapter13ErrorRulesTest, Row402_FunctionWithOutputArgIllegalOutsideProced
   // within a procedural statement. r402_m violates this twice: line 19's
   // "assign w = f(a);" (continuous assignment) and line 20's "always
   // @(f(a)) ;" (event expression).
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r402_m", 19, 14), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r402_m", 19, 14), nullptr)
       << "a function with an output argument cannot be called from a continuous assignment "
          "(IEEE 1800-2023 13.4)";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r402_m", 20, 12), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r402_m", 20, 12), nullptr)
       << "a function with an output argument cannot be called from an event expression "
          "(IEEE 1800-2023 13.4)";
 }
@@ -77,7 +76,7 @@ TEST_F(Chapter13ErrorRulesTest, Row404_DiscardedNonvoidReturnValueIsWarned) {
   // line 34 must stay silent, which is the negative half of the same rule.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 13.4.1 requires a warning when a "
                   "nonvoid function is called as a statement, suppressed by a void cast";
-  EXPECT_NE(findError(ErrorDefinition::COMP_UNUSED_RETURN_VALUE, "f", 33, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUnusedReturnValue, "f", 33, 5), nullptr)
       << "discarding a nonvoid function's return value must be warned (IEEE 1800-2023 13.4.1)";
 }
 
@@ -89,7 +88,7 @@ TEST_F(Chapter13ErrorRulesTest, Row408_ConstantFunctionWithOutputArgumentIsRejec
   // -- shall not have output, inout or ref arguments. cf declares an output on
   // line 41 and is called from a localparam initializer on line 46, which is
   // what makes it a constant function call.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTANT_FUNCTION, "cf", 46, 18), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstantFunction, "cf", 46, 18), nullptr)
       << "a constant function cannot have an output argument (IEEE 1800-2023 13.4.3)";
 }
 
@@ -104,7 +103,7 @@ TEST_F(Chapter13ErrorRulesTest, Row420_PostReturnEventSchedulingOutsideInitialAl
   // by an initial procedure, an always procedure, or a fork from one of
   // those. r420_m's line 62, "bit y = watch_for_zero(stack);", calls it from
   // a variable initializer, which is none of those.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r420_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r420_m"), nullptr)
       << "a function scheduling a post-return event may only be called from an "
          "initial/always/fork thread (IEEE 1800-2023 13.4.4)";
 }
@@ -119,7 +118,7 @@ TEST_F(Chapter13ErrorRulesTest, Row421_OutputFormalActualMustBeValidAssignmentLh
   // expression valid on the left-hand side of a procedural assignment.
   // r421_m's line 72, "t(1 + 2);", binds an arithmetic expression to an
   // output formal.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "o", 72, 13), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "o", 72, 13), nullptr)
       << "an output formal's actual argument must be a valid assignment LHS (IEEE 1800-2023 13.5)";
 }
 
@@ -132,9 +131,9 @@ TEST_F(Chapter13ErrorRulesTest, Row432_OmittedArgumentWithoutDefaultIsRejected) 
   // line 83 omits every argument and line 84 leaves k's position empty.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 13.5.3 requires an error when a formal "
                   "with no default value is left unspecified at the call site";
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_ARGUMENT, "k", 83, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingArgument, "k", 83, 5), nullptr)
       << "calling read() omits k, which has no default value (IEEE 1800-2023 13.5.3)";
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_ARGUMENT, "k", 84, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingArgument, "k", 84, 5), nullptr)
       << "an empty argument position for k, which has no default value, is illegal "
          "(IEEE 1800-2023 13.5.3)";
 }

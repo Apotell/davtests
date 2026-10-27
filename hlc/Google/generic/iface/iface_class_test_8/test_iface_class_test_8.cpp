@@ -57,12 +57,12 @@
 // M's value names two things declared nowhere: the file declares no
 // function f and no package bhg, and the .hlc compiles no other source.
 //   - bhg::arr: the package prefix bhg names no package (26.3), an error.
-//     HLC's diagnostic is "Undefined package" (COMP_UNDEFINED_PACKAGE, or
-//     ELAB_UNDEFINED_PACKAGE when found during elaboration).
+//     HLC's diagnostic is "Undefined package" (CompUndefinedPackage, or
+//     ElabUndefinedPackage when found during elaboration).
 //   - f(...): a function call shall name a declared function (13.4); f
 //     names none, an error. HLC's diagnostic is "Undefined user
-//     task/function" (COMP_UNDEFINED_USER_FUNCTION, or
-//     HLDB_UNDEFINED_USER_FUNCTION).
+//     task/function" (CompUndefinedUserFunction, or
+//     UndefinedUserFunction).
 // Both are on line 9. The syntax of every line is legal, so there is no
 // syntax error; lines 7 and 8 are fully legal.
 //
@@ -134,10 +134,8 @@
 //   - The warning count. The LRM neither requires nor forbids warnings here.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -235,25 +233,24 @@ std::string_view literalOf(const hldb::Constant *constant) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) {
-  if (error.getLocations().empty()) {
+uint32_t lineOf(const Event &error) {
+  if (error.getArguments().empty()) {
     return 0;
   }
-  return error.getLocations().front().m_line;
+  return error.getArguments().front().m_line;
 }
 
 // Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
 // messages, so a red run shows what was reported and where. <text> is HLC's
 // message template, so its placeholders are not filled in.
-std::string describeErrors(const ErrorContainer *errorContainer, ErrorDefinition::ErrorSeverity severity) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
+std::string describeErrors(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-    if ((errorInfo == errorInfoMap.end()) || (errorInfo->second.m_severity != severity)) continue;
+  for (const Event &error : eventListener->getEvents()) {
+    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if ((errorInfo == nullptr) || (errorInfo->m_severity != severity)) continue;
     description += " [" + std::to_string(static_cast<int32_t>(error.getType()));
     description += " line " + std::to_string(lineOf(error));
-    description += ": " + std::string(errorInfo->second.m_errorText) + "]";
+    description += ": " + std::string(errorInfo->m_lines[0].m_text) + "]";
   }
   return description;
 }
@@ -266,9 +263,9 @@ class IfaceClassTest8Test : public Test {
 
  protected:
   // True when one of 'types' is reported naming 'symbol' on 'line'.
-  bool reportsAnyOf(std::initializer_list<ErrorDefinition::ErrorType> types, std::string_view symbol, uint32_t line) {
-    for (ErrorDefinition::ErrorType type : types) {
-      if (findError(type, symbol, line) != nullptr) {
+  bool reportsAnyOf(std::initializer_list<uint32_t> types, std::string_view symbol, uint32_t line) {
+    for (uint32_t type : types) {
+      if (findEvent(type, symbol, line) != nullptr) {
         return true;
       }
     }
@@ -277,10 +274,10 @@ class IfaceClassTest8Test : public Test {
 
   // The ERROR-severity diagnostics, for failure messages.
   static std::string describeReportedErrors() {
-    if ((m_session == nullptr) || (m_session->getErrorContainer() == nullptr)) {
+    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) {
       return "";
     }
-    return describeErrors(m_session->getErrorContainer(), ErrorDefinition::ERROR);
+    return describeErrors(m_session->getEventListener(), EventSeverity::Error);
   }
 
   // All SourceFile nodes recorded for the file under test.
@@ -343,10 +340,10 @@ class IfaceClassTest8Test : public Test {
 TEST_F(IfaceClassTest8Test, PackageBhgIsReportedUndefined) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   ASSERT_NE(m_session, nullptr);
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_GE(m_session->getErrorContainer()->getErrorStats().nbError, 1) << "undeclared names are errors";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_GE(m_session->getEventListener()->getStats().m_errors, 1) << "undeclared names are errors";
   EXPECT_TRUE(
-      reportsAnyOf({ErrorDefinition::COMP_UNDEFINED_PACKAGE, ErrorDefinition::ELAB_UNDEFINED_PACKAGE}, "bhg", 9))
+      reportsAnyOf({EventType::CompUndefinedPackage, EventType::ElabUndefinedPackage}, "bhg", 9))
       << "26.3: bhg (line 9) names no package;" << describeReportedErrors();
 }
 
@@ -354,7 +351,7 @@ TEST_F(IfaceClassTest8Test, PackageBhgIsReportedUndefined) {
 TEST_F(IfaceClassTest8Test, FunctionFIsReportedUndefined) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   EXPECT_TRUE(reportsAnyOf(
-      {ErrorDefinition::COMP_UNDEFINED_USER_FUNCTION, ErrorDefinition::HLDB_UNDEFINED_USER_FUNCTION}, "f", 9))
+      {EventType::CompUndefinedUserFunction, EventType::UndefinedUserFunction}, "f", 9))
       << "13.4: f (line 9) names no function;" << describeReportedErrors();
 }
 
@@ -362,14 +359,14 @@ TEST_F(IfaceClassTest8Test, FunctionFIsReportedUndefined) {
 // semantic: nothing is fatal or a syntax error.
 TEST_F(IfaceClassTest8Test, ReportsNoFatalOrSyntaxDiagnostics) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorContainer::Stats stats = errorContainer->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0) << describeErrors(errorContainer, ErrorDefinition::FATAL);
-  EXPECT_EQ(stats.nbSyntax, 0) << describeErrors(errorContainer, ErrorDefinition::SYNTAX);
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_SYNTAX_ERROR), nullptr);
+  const EventListener::Stats stats = eventListener->getStats();
+  EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
+  EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
 }
 
 TEST_F(IfaceClassTest8Test, SourceFileRecordedOnce) {

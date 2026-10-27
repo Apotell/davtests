@@ -57,20 +57,19 @@
 // general-expression *read* reference such as an actual argument to a
 // function call or an operand of '=='. Sec 6.3/23.9: any other undeclared
 // identifier reference is simply unresolvable. So both 'PRES_STATE' and
-// 'fsm_coin' should fail to bind (COMP_FAILED_TO_BIND), while 'fsm' itself,
+// 'fsm_coin' should fail to bind (CompFailedToBind), while 'fsm' itself,
 // its own IODecl 'fsm_PRES_STATE', its local 'fsm_newspaper', and the
 // module-level 'newspaper'/'clock'/'s0' should all bind cleanly.
 //
 // No .log file was consulted; accessor names were confirmed against the
 // real hldb headers under
 // E:\Davenche\hlc\hlc_03\out\install\x64-Debug\include\hldb. Per the test
-// guide, error presence/absence is checked via Test::findError() rather
-// than counting nbError/nbWarning.
+// guide, error presence/absence is checked via Test::findEvent() rather
+// than counting m_errors/m_warnings.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -165,8 +164,8 @@ TEST_F(FuncBinding2Test, FsmFunctionDeclaredWithOneInputIODecl) {
 // inference to a general expression read), so it must fail to bind.
 TEST_F(FuncBinding2Test, UndeclaredFsmCoinFailsToBind) {
   ASSERT_NE(getTop(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view("fsm_coin")), nullptr)
-      << "'fsm_coin' is never declared in 'vend' and must produce COMP_FAILED_TO_BIND";
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, std::string_view("fsm_coin")), nullptr)
+      << "'fsm_coin' is never declared in 'vend' and must produce CompFailedToBind";
 }
 
 // 'assign newspaper = fsm(PRES_STATE);' -- the actual argument 'PRES_STATE'
@@ -178,8 +177,8 @@ TEST_F(FuncBinding2Test, CallSiteBindsToFsmButUndeclaredPresStateArgumentFailsTo
   const hldb::Function *const fn = getFsmFunction(top);
   ASSERT_NE(fn, nullptr);
 
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view("PRES_STATE")), nullptr)
-      << "'PRES_STATE' is never declared in 'vend' and must produce COMP_FAILED_TO_BIND";
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, std::string_view("PRES_STATE")), nullptr)
+      << "'PRES_STATE' is never declared in 'vend' and must produce CompFailedToBind";
 
   ASSERT_NE(top->getProcesses(), nullptr);
   const hldb::Always *always = nullptr;

@@ -50,13 +50,13 @@
 //   - 25.3 / 25.5 / 23.2.2: the module port 'PerformanceCounterIF.CSR
 //     perfCounter' is an interface port restricted to modport CSR: its type
 //     resolves to interface 'PerformanceCounterIF' with modport 'CSR' (no
-//     COMP_FAILED_TO_BIND for 'CSR'), its low connection binds to the
+//     CompFailedToBind for 'CSR'), its low connection binds to the
 //     modport, and -- since interface_port_header has no port_direction --
 //     no "missing direction" diagnostic is raised for it.
 //   - 25.5 / 23.6: the RHS hierarchical reference resolves step by step:
 //     'perfCounter' (1st) -> the interface port (modport CSR),
 //     'perfCounter' (2nd) -> the interface variable, 'numLoadMiss' ->
-//     the struct member. No COMP_FAILED_TO_BIND for any of these names.
+//     the struct member. No CompFailedToBind for any of these names.
 //   - 6.10: 'mshrID' is undeclared and is the LHS of a continuous
 //     assignment, so it is an implicit scalar 'wire' net and the LHS binds
 //     to it.
@@ -66,9 +66,8 @@
 //     (10.3 / 11.6 assignment semantics; no diagnostic is required).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -222,7 +221,7 @@ TEST_F(NameCollisionBindTest, PortTypeResolvesToInterfaceAndModport) {
   EXPECT_EQ(its->getInterface(), getIface());
   ASSERT_NE(its->getModport(), nullptr);
   EXPECT_EQ(its->getModport(), getModport());
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "CSR"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "CSR"), nullptr);
 }
 
 TEST_F(NameCollisionBindTest, PortLowConnBindsToModport) {
@@ -238,7 +237,7 @@ TEST_F(NameCollisionBindTest, PortLowConnBindsToModport) {
 
 TEST_F(NameCollisionBindTest, InterfacePortNotWarnedMissingDirection) {
   GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_PORT_MISSING_DIRECTION, "perfCounter"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompPortMissingDirection, "perfCounter"), nullptr)
       << "23.2.2: interface_port_header has no port_direction; none is missing";
 }
 
@@ -289,8 +288,8 @@ TEST_F(NameCollisionBindTest, NumLoadMissBindsToStructMember) {
 
 TEST_F(NameCollisionBindTest, NoFailedToBindOnRhsNames) {
   GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "perfCounter"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "numLoadMiss"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "perfCounter"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "numLoadMiss"), nullptr);
 }
 
 // ===========================================================================

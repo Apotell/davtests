@@ -72,10 +72,10 @@
 //   return val; (12.8, 13.4.1)
 //     - ReturnStmt whose expression is a RefObj bound to the local 'val'
 //   Diagnostics
-//     - every identifier binds: no COMP_UNDEFINED_VARIABLE or
-//       COMP_FAILED_TO_BIND for val, maxval or minval
+//     - every identifier binds: no CompUndefinedVariable or
+//       CompFailedToBind for val, maxval or minval
 //     - 'return val;' in a non-void function is legal: no
-//       COMP_ILLEGAL_RETURN_VALUE for do_urandom_range
+//       CompIllegalReturnValue for do_urandom_range
 //     - the file is legal: zero fatal, syntax and error diagnostics
 //
 // Reduction and elaboration: nothing in this file reduces or elaborates.
@@ -141,8 +141,8 @@
 //   - The license and metadata comments are comments, not design objects.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -496,24 +496,24 @@ TEST_F(UrandomRange0Test, ReturnYieldsVal) {
 
 TEST_F(UrandomRange0Test, EveryIdentifierBinds) {
   for (std::string_view name : {"val", "maxval", "minval"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "'" << name << "' is declared in the method, so it is not undefined";
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr)
         << "'" << name << "' is declared in the method, so it must bind";
   }
 }
 
 TEST_F(UrandomRange0Test, ReturnWithValueInNonVoidFunctionIsNotReported) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_RETURN_VALUE, "do_urandom_range"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompIllegalReturnValue, "do_urandom_range"), nullptr)
       << "12.8, 13.4.1: a function declared to return 'int' returns with an expression";
 }
 
 TEST_F(UrandomRange0Test, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc

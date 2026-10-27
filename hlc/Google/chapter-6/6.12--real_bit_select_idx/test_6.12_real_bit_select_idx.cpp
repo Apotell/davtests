@@ -43,7 +43,7 @@
 //   hldb::Net/getNets() for "a" (the same net/variable misclassification
 //   bug found and fixed in 6.5, 6.9.1, 6.12--real, 6.12--shortreal, and
 //   6.12--real_bit_select), and had a Compiler_NoErrorsReported test
-//   asserting nbError == 0, documented as "HLC does not reject 'b[a]' ...
+//   asserting m_errors == 0, documented as "HLC does not reject 'b[a]' ...
 //   at compile time" -- treating a confirmed spec violation as expected,
 //   passing behavior. This version targets hldb::Variable for "a", and
 //   asserts an error IS reported (real bug, currently failing).
@@ -61,9 +61,9 @@
 //   - THE POINT OF THIS FILE: the compiler must reject the illegal
 //     real-typed bit-select index "b[a]", per IEEE 1800-2023 6.12
 //     quoted above. HLC now does, reporting
-//     COMP_ILLEGAL_REAL_SELECT_INDEX against 'a' at line 22, col 13.
-//     Asserted via findError() with the code, symbol and location, not
-//     an nbFatal+nbSyntax+nbError sum: a bare count would also go green
+//     CompIllegalRealSelectIndex against 'a' at line 22, col 13.
+//     Asserted via findEvent() with the code, symbol and location, not
+//     an m_fatals+m_syntaxes+m_errors sum: a bare count would also go green
 //     on any unrelated diagnostic in this fixture.
 //
 // What is NOT checked and why:
@@ -71,8 +71,8 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -247,8 +247,8 @@ TEST_F(RealBitSelectIdxTest, NoProcesses) {
 // The actual point of the file: a real index into a vector bit-select is illegal
 // ---------------------------------------------------------------------------
 TEST_F(RealBitSelectIdxTest, CompilerRejectsRealTypedBitSelectIndex) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_REAL_SELECT_INDEX, "a", 22, 13), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalRealSelectIndex, "a", 22, 13), nullptr)
       << "IEEE 1800-2023 6.12: 'real index expressions of bit-selects or part-selects of "
          "vectors' are prohibited -- 'b[a]' on line 22 does exactly this, matching this file's "
          "own :should_fail_because: tag";

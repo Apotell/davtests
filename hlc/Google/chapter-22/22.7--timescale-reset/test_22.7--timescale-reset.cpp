@@ -69,10 +69,10 @@
 //   below leave HLC's elaboration-category diagnostics out.
 //
 // Every expected value comes from the LRM, so a red test means HLC deviates
-// from it. PA_TIMESCALE_INVALID_VALUE, PA_TIMESCALE_INVALID_UNIT and
-// PA_TIMESCALE_INVALID_SCALE are HLC's codes for the three 22.7 argument
+// from it. PaTimescaleInvalidValue, PaTimescaleInvalidUnit and
+// PaTimescaleInvalidScale are HLC's codes for the three 22.7 argument
 // rules (valid integer, valid unit, precision at least as precise as unit),
-// and PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT is its code for the 22.3 / 22.7
+// and PpIllegalDirectiveInDesignElement is its code for the 22.3 / 22.7
 // placement rule.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
@@ -130,10 +130,8 @@
 //     CompilesWithoutErrors and ReportsNoDirectiveMisreadingDiagnostics.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -185,45 +183,43 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) { return error.getLocations().empty() ? 0 : error.getLocations().front().m_line; }
+uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
 
 // True when HLC's error table gives 'error' a fatal, syntax or error
 // severity outside the elaboration category. Elaboration diagnostics are left
 // out because a design without a top-level module may draw one (23.3.1).
-bool isSourceError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  if (errorInfo == errorInfoMap.end()) return false;
-  const ErrorDefinition::ErrorSeverity severity = errorInfo->second.m_severity;
-  const bool isErrorClass = (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-                            (severity == ErrorDefinition::ERROR);
-  return isErrorClass && (errorInfo->second.m_category != ErrorDefinition::ELAB);
+bool isSourceError(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+  if (errorInfo == nullptr) return false;
+  const EventSeverity severity = errorInfo->m_severity;
+  const bool isErrorClass = (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+                            (severity == EventSeverity::Error);
+  return isErrorClass && (errorInfo->m_category->m_name != "Elab");
 }
 
 // One diagnostic as " [<code> line <n>: <message template>]", so that a red
 // run shows what was reported and where.
-std::string describeError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
+std::string describeError(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
   std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
   description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != errorInfoMap.end()) description += ": " + std::string(errorInfo->second.m_errorText);
+  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
   return description + "]";
 }
 
 // Every source error (see isSourceError), described; empty when there is none.
-std::string describeSourceErrors(const ErrorContainer *errorContainer) {
+std::string describeSourceErrors(const EventListener *eventListener) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) {
+  for (const Event &error : eventListener->getEvents()) {
     if (isSourceError(error)) description += describeError(error);
   }
   return description;
 }
 
 // Every source error that points at 'line', described; empty when there is none.
-std::string describeSourceErrorsOnLine(const ErrorContainer *errorContainer, uint32_t line) {
+std::string describeSourceErrorsOnLine(const EventListener *eventListener, uint32_t line) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) {
+  for (const Event &error : eventListener->getEvents()) {
     if (isSourceError(error) && (lineOf(error) == line)) description += describeError(error);
   }
   return description;
@@ -237,8 +233,8 @@ class TimescaleResetTest : public Test {
 
  protected:
   // The diagnostics of the run, or nullptr.
-  static const ErrorContainer *getErrorContainer() {
-    return (m_session == nullptr) ? nullptr : m_session->getErrorContainer();
+  static const EventListener *getEventListener() {
+    return (m_session == nullptr) ? nullptr : m_session->getEventListener();
   }
 
   // The SourceFile nodes of the file under test.
@@ -262,26 +258,26 @@ class TimescaleResetTest : public Test {
 // Every line of the file is legal, so nothing is fatal, a syntax error or an
 // error, apart from the 23.3.1 elaboration error left out above.
 TEST_F(TimescaleResetTest, CompilesWithoutErrors) {
-  const ErrorContainer *const errorContainer = getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
-  EXPECT_EQ(describeSourceErrors(errorContainer), "");
+  const EventListener *const eventListener = getEventListener();
+  ASSERT_NE(eventListener, nullptr);
+  EXPECT_EQ(describeSourceErrors(eventListener), "");
 }
 
 // Line 16: `timescale 1 ns / 1 ps. 1 is a valid integer, ns and ps are valid
 // units, 1 ps is at least as precise as 1 ns, and the line is outside any
 // design element (22.7).
 TEST_F(TimescaleResetTest, Line16TimescaleIsAccepted) {
-  const ErrorContainer *const errorContainer = getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
-  EXPECT_EQ(describeSourceErrorsOnLine(errorContainer, 16), "");
+  const EventListener *const eventListener = getEventListener();
+  ASSERT_NE(eventListener, nullptr);
+  EXPECT_EQ(describeSourceErrorsOnLine(eventListener, 16), "");
 }
 
 // Line 17: `resetall, outside any design element (22.3). It resets the
 // `timescale of line 16 to the tool's default (22.7).
 TEST_F(TimescaleResetTest, Line17ResetallIsAccepted) {
-  const ErrorContainer *const errorContainer = getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
-  EXPECT_EQ(describeSourceErrorsOnLine(errorContainer, 17), "");
+  const EventListener *const eventListener = getEventListener();
+  ASSERT_NE(eventListener, nullptr);
+  EXPECT_EQ(describeSourceErrorsOnLine(eventListener, 17), "");
 }
 
 // Line 18: `timescale 10 us / 100 ns. 10 and 100 are valid integers, us and
@@ -289,38 +285,38 @@ TEST_F(TimescaleResetTest, Line17ResetallIsAccepted) {
 // outside any design element (22.7). A `timescale after a `resetall, and a
 // second `timescale in one file, are both legal (22.2, 22.7).
 TEST_F(TimescaleResetTest, Line18TimescaleIsAccepted) {
-  const ErrorContainer *const errorContainer = getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
-  EXPECT_EQ(describeSourceErrorsOnLine(errorContainer, 18), "");
+  const EventListener *const eventListener = getEventListener();
+  ASSERT_NE(eventListener, nullptr);
+  EXPECT_EQ(describeSourceErrorsOnLine(eventListener, 18), "");
 }
 
 // Each of these diagnostics, at any severity and on any line, would mean HLC
 // misread one of lines 16-18.
 TEST_F(TimescaleResetTest, ReportsNoDirectiveMisreadingDiagnostics) {
   // Lines 16 and 18 have the form of Syntax 22-6.
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_VALUE), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalTimescale), nullptr);
 
   // 1 (line 16), 10 and 100 (line 18) are among the valid integers 1, 10 and
   // 100.
-  EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_VALUE), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
 
   // ns and ps (line 16), us and ns (line 18) are among the valid units s, ms,
   // us, ns, ps and fs.
-  EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_UNIT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidUnit), nullptr);
 
   // 1 ps is at least as precise as 1 ns (line 16), and 100 ns at least as
   // precise as 10 us (line 18).
-  EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_SCALE), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidScale), nullptr);
 
   // The file has no design element, so none of lines 16-18 is inside one
   // (22.3, 22.7).
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // `timescale and `resetall are compiler directives (22.1), not usages of
   // a text macro.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 }
 
 // ---------------------------------------------------------------------------

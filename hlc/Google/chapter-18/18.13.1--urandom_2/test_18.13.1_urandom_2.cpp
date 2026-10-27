@@ -65,7 +65,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
@@ -126,10 +126,10 @@ TEST_F(Urandom2Test, LocalVariableXIsUnsignedInt) {
 }
 
 TEST_F(Urandom2Test, CompilerReportsZeroErrors) {
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  const hlc::EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 }  // namespace hlc

@@ -415,7 +415,7 @@ TEST_F(Sequence20Test, Assert1_PropertyExpr_ResolvedToSeqDelayPlusDecl) {
 }
 
 TEST_F(Sequence20Test, Compiler_NoErrors) {
-  EXPECT_EQ(m_compiler->getErrorStats().nbError, 0)
+  EXPECT_EQ(m_compiler->getEventStats().m_errors, 0)
       << "Compiler must not emit any error for legal use of 'a ##[*] b' / "
          "'a ##[+] b'";
 }

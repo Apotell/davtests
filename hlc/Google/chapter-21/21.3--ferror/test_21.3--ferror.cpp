@@ -161,9 +161,8 @@
 //     deliberately left unasserted rather than guessed.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -497,22 +496,22 @@ TEST_F(FerrorTest, FcloseCallClosesTheSameDescriptor) {
 // --- compiler diagnostics ---------------------------------------------------
 
 TEST_F(FerrorTest, CompilerReportsNoFatalOrSyntaxErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 // All three names are block-scoped rather than module-scoped, and each is
 // referenced from more than one statement -- the constructs here with real
 // binding risk.
 TEST_F(FerrorTest, BlockLocalReferencesBind) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "fd"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "fd"), nullptr)
       << "'fd' must bind to the block-local 'int fd' in the assignment, in $ferror, and in $fclose";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "str"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "str"), nullptr)
       << "'str' must bind to the block-local 'string str' in $ferror and in $display";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "errno"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "errno"), nullptr)
       << "'errno' must bind to the block-local 'integer errno' in the assignment and in $display";
 }
 

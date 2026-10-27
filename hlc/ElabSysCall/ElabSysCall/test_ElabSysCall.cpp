@@ -45,7 +45,7 @@
 // system-task calls (name, single string argument). Whether HLC's
 // elaboration pass actually surfaces '$fatal'/'$error'/'$warning'/'$info'
 // as compiler diagnostics (vs. purely structural SysTaskCall nodes) is not
-// asserted here -- confirming the exact ErrorDefinition code(s), if any,
+// asserted here -- confirming the exact event code(s), if any,
 // would require guessing rather than reading the standard or the headers,
 // which the guide directs against.
 

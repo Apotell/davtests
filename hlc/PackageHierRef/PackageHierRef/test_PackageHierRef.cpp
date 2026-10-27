@@ -113,9 +113,9 @@
 //     - 'bug' is never compiled, but "The compilation of a package shall
 //       precede the compilation of scopes in which the package is imported"
 //       (26.3), so the import is reported at error severity, as
-//       COMP_UNDEFINED_PACKAGE or ELAB_UNDEFINED_PACKAGE
-//     - the imported names are not reported: no COMP_FAILED_TO_BIND or
-//       COMP_UNDEFINED_VARIABLE for package_param, s1, s2 or f
+//       CompUndefinedPackage or ElabUndefinedPackage
+//     - the imported names are not reported: no CompFailedToBind or
+//       CompUndefinedVariable for package_param, s1, s2 or f
 //     - there is no syntax error: zero syntax and zero fatal diagnostics
 //
 // Reduction and elaboration: the generate condition is the only expression
@@ -178,9 +178,8 @@
 //     object.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -339,17 +338,16 @@ class PackageHierRefTest : public Test {
 
   // Verifies one of 'types' was reported naming 'symbol', at error severity:
   // the standard makes the construct illegal.
-  void ExpectReportedAsError(std::initializer_list<ErrorDefinition::ErrorType> types, std::string_view symbol) {
-    const Error *found = nullptr;
-    for (const ErrorDefinition::ErrorType type : types) {
-      found = findError(type, symbol);
+  void ExpectReportedAsError(std::initializer_list<uint32_t> types, std::string_view symbol) {
+    const Event *found = nullptr;
+    for (const uint32_t type : types) {
+      found = findEvent(type, symbol);
       if (found != nullptr) break;
     }
     ASSERT_NE(found, nullptr) << "no diagnostic names '" << symbol << "'";
-    const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
-    const ErrorDefinition::ErrorMap::const_iterator info = infos.find(found->getType());
-    ASSERT_NE(info, infos.end());
-    EXPECT_EQ(info->second.m_severity, ErrorDefinition::ERROR)
+    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), found->getType());
+    ASSERT_NE(info, nullptr);
+    EXPECT_EQ(info->m_severity, EventSeverity::Error)
         << "'" << symbol << "' makes the source illegal, so it is an error, not a warning";
   }
 };
@@ -581,24 +579,24 @@ TEST_F(PackageHierRefTest, IfGenerateInstantiatesSB1) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (import of
 // an undeclared package not reported) in the file header.
 TEST_F(PackageHierRefTest, ImportFromUndeclaredPackageBugIsReportedAsError) {
-  GTEST_SKIP() << "Known HLC gap: Sec 26.3 \"The compilation of a package shall precede the compilation of scopes in which the package is imported\"; COMP_UNDEFINED_PACKAGE exists but is never raised for an import of an undeclared package.";
-  ExpectReportedAsError({ErrorDefinition::COMP_UNDEFINED_PACKAGE, ErrorDefinition::ELAB_UNDEFINED_PACKAGE}, "bug");
+  GTEST_SKIP() << "Known HLC gap: Sec 26.3 \"The compilation of a package shall precede the compilation of scopes in which the package is imported\"; CompUndefinedPackage exists but is never raised for an import of an undeclared package.";
+  ExpectReportedAsError({EventType::CompUndefinedPackage, EventType::ElabUndefinedPackage}, "bug");
 }
 
 TEST_F(PackageHierRefTest, ImportedNamesAreNotReported) {
   for (std::string_view name : {"package_param", "s1", "s2", "f"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr)
         << "26.3: '" << name << "' is declared in p, and p is imported";
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "26.3: '" << name << "' is declared in p, and p is imported";
   }
 }
 
 TEST_F(PackageHierRefTest, NoSyntaxOrFatalDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0) << "both files are syntactically well formed";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0) << "both files are syntactically well formed";
 }
 
 }  // namespace hlc

@@ -60,9 +60,8 @@
 // the body assertion fails; that is an HLDB model gap, not a test error.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -181,8 +180,8 @@ TEST_F(Implication0Test, C2IsImplicationWithConditionAndBody) {
 }
 
 TEST_F(Implication0Test, NoConstraintError) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c1"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c2"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c1"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c2"), nullptr);
 }
 TEST_F(Implication0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active

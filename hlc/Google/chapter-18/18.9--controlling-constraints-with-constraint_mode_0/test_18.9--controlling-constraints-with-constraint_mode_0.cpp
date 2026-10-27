@@ -180,7 +180,7 @@
 //       to env's constructor) and 'run_test();' (a TaskCall bound to
 //       uvm_pkg's run_test)
 //   Diagnostics
-//     - no COMP_UNDEFINED_VARIABLE for any variable or formal the file
+//     - no CompUndefinedVariable for any variable or formal the file
 //       references
 //     - no fatal, syntax or error diagnostic points into this file
 //     - the whole compilation is legal: zero fatal, syntax and error
@@ -219,7 +219,7 @@
 // NoErrorIsReportedInThisFile and NoFatalSyntaxOrErrorDiagnostics assert
 // that this legal file compiles cleanly and are expected to fail. HLC
 // reports:
-//   - HLDB_ILLEGAL_PROPERTY_VALUE (2038) at line 21, column 19 and line 22,
+//   - IllegalPropertyValue (2038) at line 21, column 19 and line 22,
 //     column 19 -- the '{' that opens constraint c1 and constraint c2, once
 //     per constraint expression -- although both blocks are legal (18.5).
 //   - LN7705 "Null Actual" at lines 35, 47 and 58 (raise_objection,
@@ -261,10 +261,8 @@
 
 #include <hlc/Common/FileSystem.h>
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -1238,7 +1236,7 @@ TEST_F(ControllingConstraintsWithConstraintMode0Test, InitialCallsRunTestFromUvm
 
 TEST_F(ControllingConstraintsWithConstraintMode0Test, EveryReferencedVariableAndFormalIsFound) {
   for (std::string_view name : {"obj", "x", "c1", "c2", "ret1", "ret2", "name", "parent", "phase", "environment"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "'" << name << "' is declared in this file, so it is not undefined";
   }
 }
@@ -1248,15 +1246,14 @@ TEST_F(ControllingConstraintsWithConstraintMode0Test, EveryReferencedVariableAnd
 // Expected to fail -- see KNOWN FAILURE (errors reported in this file) in the
 // file header.
 TEST_F(ControllingConstraintsWithConstraintMode0Test, NoErrorIsReportedInThisFile) {
-  const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
   size_t count = 0;
-  for (const Error &error : m_session->getErrorContainer()->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator info = infos.find(error.getType());
-    if (info == infos.cend() || info->second.m_severity > ErrorDefinition::ERROR) {
+  for (const Event &error : m_session->getEventListener()->getEvents()) {
+    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if (info == nullptr || info->m_severity > EventSeverity::Error) {
       continue;
     }
-    for (const Location &loc : error.getLocations()) {
-      const std::string_view path = FileSystem::toPath(loc.m_fileId);
+    for (const EventArg &loc : error.getArguments()) {
+      const std::string_view path = loc.m_file;
       if (path.find(kSourceName) == std::string_view::npos) {
         continue;
       }
@@ -1272,10 +1269,10 @@ TEST_F(ControllingConstraintsWithConstraintMode0Test, NoErrorIsReportedInThisFil
 // file header.
 TEST_F(ControllingConstraintsWithConstraintMode0Test, NoFatalSyntaxOrErrorDiagnostics) {
   GTEST_SKIP() << "HLC report a number of binding issues with UVM";
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the source is legal SystemVerilog and should compile without errors";
 }
 
 }  // namespace hlc

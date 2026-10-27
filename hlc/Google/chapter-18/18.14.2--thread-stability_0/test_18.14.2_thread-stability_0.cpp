@@ -112,10 +112,8 @@
 
 #include <hlc/Common/FileSystem.h>
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 #include <hldb/Utils.h>
 #include <hldb/array_typespec.h>
@@ -298,17 +296,16 @@ class ThreadStability0Test : public Test {
 // HLC reports errors inside the UVM 1800.2-2017 library itself (the same set as
 // BuildUVMPkg), and those are not about this source.
 TEST_F(ThreadStability0Test, CompilerReportsNoErrors) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
 
-  const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
   size_t count = 0;
-  for (const Error &error : m_session->getErrorContainer()->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator info = infos.find(error.getType());
-    if (info == infos.cend() || info->second.m_severity > ErrorDefinition::ERROR) continue;
-    for (const Location &loc : error.getLocations()) {
-      const std::string_view path = FileSystem::toPath(loc.m_fileId);
+  for (const Event &error : m_session->getEventListener()->getEvents()) {
+    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if (info == nullptr || info->m_severity > EventSeverity::Error) continue;
+    for (const EventArg &loc : error.getArguments()) {
+      const std::string_view path = loc.m_file;
       if (std::filesystem::path(path).filename() != "18.14.2--thread-stability_0.sv") continue;
       ++count;
       ADD_FAILURE() << "error " << error.getType() << " reported at " << path << ":" << loc.m_line << ":"

@@ -47,7 +47,7 @@
 //   is an error and no net 'v2' may be created.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -202,13 +202,13 @@ TEST_F(LocalScopeAssignTest, NoImplicitNetV2IsCreated) {
 }
 
 TEST_F(LocalScopeAssignTest, UndeclaredV2IsReported) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "v2", 7, 37), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "v2", 7, 37), nullptr)
       << "reference to undeclared 'v2' with '`default_nettype none' is an error (Sec 22.8, 6.10)";
 }
 
 TEST_F(LocalScopeAssignTest, UpwardReferenceIsNotReportedUnbound) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "module_scope_Example"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "o2"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "module_scope_Example"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "o2"), nullptr);
 }
 
 }  // namespace hlc

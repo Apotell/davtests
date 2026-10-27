@@ -54,7 +54,7 @@
 //     elaboration.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -268,9 +268,9 @@ TEST_F(NoParamSubsTest, PortAConnectedToO) {
 
 TEST_F(NoParamSubsTest, NoBindingErrors) {
   for (const char *const sym : {"P", "X", "a", "o", "dut"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, sym), nullptr) << sym;
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, sym), nullptr) << sym;
   }
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_UNKNOWN_PARAMETER_OVERRIDE, "P"), nullptr);
+  EXPECT_EQ(findEvent(EventType::ElabUnknownParameterOverride, "P"), nullptr);
 }
 
 }  // namespace hlc

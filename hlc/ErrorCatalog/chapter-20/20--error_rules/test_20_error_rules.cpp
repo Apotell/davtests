@@ -29,9 +29,9 @@
 // against the installed hlc.exe), so they all live in this one fixture --
 // there are no _inv* sibling files for this chapter.
 //
-// None of the ErrorDefinition codes this chapter's rows name
-// (COMP_VALUE_OUT_OF_RANGE, COMP_ILLEGAL_ASSIGNMENT_LHS,
-// COMP_ILLEGAL_EXPRESSION_CONTEXT) has a single call site anywhere in src/
+// None of the event codes this chapter's rows name
+// (CompValueOutOfRange, CompIllegalAssignmentLhs,
+// CompIllegalExpressionContext) has a single call site anywhere in src/
 // (confirmed by grep) -- every one of these 5 rows is unimplemented today.
 // Every TEST_F below therefore asserts the diagnostic the standard requires
 // and is expected to fail (red) until Clause 20 semantic checking is
@@ -39,8 +39,7 @@
 // assertion, never as an assertion that the diagnostic is absent.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -60,7 +59,7 @@ TEST_F(Chapter20ErrorRulesTest, Row731_FinishDiagnosticArgumentMustBe0Or1Or2) {
   // The optional argument to $stop and $finish shall be an expression whose
   // value is 0, 1, or 2 (Table 20-1); any other diagnostic-level value is
   // illegal. r731_m calls "$finish(3);".
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "r731_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "r731_m"), nullptr)
       << "$finish's optional diagnostic argument must be 0, 1, or 2 (IEEE 1800-2023 20.2, Table 20-1)";
 }
 
@@ -72,7 +71,7 @@ TEST_F(Chapter20ErrorRulesTest, Row732_TimeformatUnitsNumberMustBeInRange) {
   // The units_number and precision_number arguments of $timeformat shall be
   // integers in the range from 2 down to -15. r732_m calls
   // "$timeformat(-20, 5, " ns", 10);" with units_number -20.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "r732_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "r732_m"), nullptr)
       << "$timeformat's units_number/precision_number must be in [-15, 2] (IEEE 1800-2023 20.4.3)";
 }
 
@@ -84,7 +83,7 @@ TEST_F(Chapter20ErrorRulesTest, Row737_IsunboundedArgumentMustBeParameterName) {
   // ps_parameter_identifier or hierarchical_parameter_identifier); an
   // ordinary variable or expression is not allowed. r737_m calls
   // "$isunbounded(v);" where v is a plain int variable, not a parameter.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "v"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "v"), nullptr)
       << "$isunbounded's argument must be a parameter name, not a variable (IEEE 1800-2023 20.6.3)";
 }
 
@@ -96,7 +95,7 @@ TEST_F(Chapter20ErrorRulesTest, Row744_AssertcontrolControlTypeMustBeInTable20_5
   // The control_type argument of $assertcontrol shall be an integer
   // expression whose value is one of the values defined in Table 20-5 (1
   // through 11). r744_m calls "$assertcontrol(99);".
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "r744_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "r744_m"), nullptr)
       << "$assertcontrol's control_type must be one of Table 20-5's values 1..11 (IEEE 1800-2023 20.11)";
 }
 
@@ -108,7 +107,7 @@ TEST_F(Chapter20ErrorRulesTest, Row746_RandomSeedMustBeIntegralVariable) {
   // constant, expression, or non-integral object), because it is updated by
   // the call. r746_m calls "r = $random(3);" -- the constant 3 is passed as
   // the seed, not a variable.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "r746_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "r746_m"), nullptr)
       << "$random's seed argument must be an integral variable, not a constant (IEEE 1800-2023 20.14.1)";
 }
 

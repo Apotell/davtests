@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,8 +15,8 @@
 */
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -51,8 +51,8 @@ TEST_F(Sky130MacroSparecellFunctionalTest, ModuleCompiles) {
 // cells/cells/). Per IEEE 1800-2023 Sec 22.4 this must be reported as an
 // error for each unresolvable include.
 TEST_F(Sky130MacroSparecellFunctionalTest, UnresolvableIncludesAreReportedAsErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::PP_CANNOT_OPEN_INCLUDE_FILE, 35, 1), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::PpCannotOpenIncludeFile, 35, 1), nullptr)
       << "the 4 unresolvable `include directives (conb/nor2/inv/nand2) must each be reported as an error";
 }
 

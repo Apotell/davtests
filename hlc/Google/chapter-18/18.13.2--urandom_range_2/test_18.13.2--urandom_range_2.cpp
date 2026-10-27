@@ -191,10 +191,10 @@
 //     - 'run_test();' is a TaskCall bound by object identity to uvm_pkg's
 //       package-level task run_test, and writes no argument
 //   Diagnostics
-//     - no COMP_UNDEFINED_VARIABLE for any variable or formal the file
-//       declares, and no COMP_FAILED_TO_BIND for any name it calls or
+//     - no CompUndefinedVariable for any variable or formal the file
+//       declares, and no CompFailedToBind for any name it calls or
 //       extends
-//     - no COMP_ILLEGAL_RETURN_VALUE for do_urandom_range
+//     - no CompIllegalReturnValue for do_urandom_range
 //     - the file is legal: zero fatal, syntax and error diagnostics. See
 //       KNOWN COMPILER BUG (UVM library does not compile cleanly) below.
 //
@@ -244,7 +244,7 @@
 // this file. NoFatalSyntaxOrErrorDiagnostics asserts zero errors, as legal
 // source requires, and is expected to fail until HLC is fixed. The same
 // unresolved library references make the 'new' entry of
-// EveryCalledOrExtendedNameBinds fail: findError() searches the whole
+// EveryCalledOrExtendedNameBinds fail: findEvent() searches the whole
 // design, and every failed bind it finds for 'new' is in UVM's own source,
 // not in this file. Neither is skipped or relaxed.
 //
@@ -306,8 +306,8 @@
 //     are comments, not design objects.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -1246,7 +1246,7 @@ TEST_F(UrandomRange2Test, InitialCallsRunTestFromUvmPkg) {
 TEST_F(UrandomRange2Test, EveryDeclaredVariableAndFormalIsFound) {
   for (std::string_view name :
        {"val", "maxval", "minval", "obj", "max", "min", "ret", "name", "parent", "phase", "environment"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "'" << name << "' is declared in this file, so it is not undefined";
   }
 }
@@ -1257,13 +1257,13 @@ TEST_F(UrandomRange2Test, EveryDeclaredVariableAndFormalIsFound) {
 TEST_F(UrandomRange2Test, EveryCalledOrExtendedNameBinds) {
   for (std::string_view name : {"do_urandom_range", "raise_objection", "drop_objection", "run_test", "new", "uvm_env",
                                 "uvm_component", "uvm_phase", "a", "env"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr)
         << "'" << name << "' is declared in this file or in uvm_pkg, so it must bind";
   }
 }
 
 TEST_F(UrandomRange2Test, ReturnWithValueInNonVoidFunctionIsNotReported) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_RETURN_VALUE, "do_urandom_range"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompIllegalReturnValue, "do_urandom_range"), nullptr)
       << "12.8, 13.4.1: a function declared to return 'int unsigned' returns with an expression";
 }
 

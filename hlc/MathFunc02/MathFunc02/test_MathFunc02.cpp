@@ -34,7 +34,7 @@
 //   - module "tb" declares the module-level variable "res" of type "real"
 //     (Sec 6.12). Sec 6.21: at module level the "static" keyword is
 //     optional for an initialized variable ("int svar1 = 1; // static
-//     keyword optional"), so COMP_MISSING_LIFETIME_KEYWORD must NOT be
+//     keyword optional"), so CompMissingLifetimeKeyword must NOT be
 //     reported for "res".
 //   - "tb" has exactly one initial procedure whose body is a begin-end
 //     block with 8 statements (Sec 9.2.1)
@@ -50,7 +50,7 @@
 //     integer value" (vpiIntFunc)
 //   - Sec 20.2: the 8th statement "$finish;" is a system task call
 //     (SysTaskCall) with no arguments
-//   - no COMP_UNDEFINED_SYSTEM_FUNCTION for any standard name used
+//   - no CompUndefinedSystemFunction for any standard name used
 //
 // What is NOT checked and why:
 //   - Numeric results ($clog2(1) == 0, $floor(1.1) == 1.0, ...): runtime
@@ -59,7 +59,7 @@
 //     choice not mandated by the standard.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -147,7 +147,7 @@ TEST_F(MathFunc02Test, ModuleDeclaresRealRes) {
 }
 
 TEST_F(MathFunc02Test, ModuleLevelInitializerNeedsNoLifetimeKeyword) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MISSING_LIFETIME_KEYWORD, "res"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompMissingLifetimeKeyword, "res"), nullptr)
       << "Sec 6.21: the static keyword is optional for a module-level initialized variable";
 }
 
@@ -253,9 +253,9 @@ TEST_F(MathFunc02Test, LastStatementIsFinishTask) {
 
 TEST_F(MathFunc02Test, NoUndefinedSystemFunctionReported) {
   for (const std::string &name : expectedNames()) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_SYSTEM_FUNCTION, name), nullptr) << name;
+    EXPECT_EQ(findEvent(EventType::CompUndefinedSystemFunction, name), nullptr) << name;
   }
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_SYSTEM_FUNCTION, "$finish"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompUndefinedSystemFunction, "$finish"), nullptr);
 }
 
 }  // namespace hlc

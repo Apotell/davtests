@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,17 +48,15 @@
 //     (element type is int, so IntTypespec is created before the
 //     StringTypespec used for the $display format string constants --
 //     reversed order vs. the string-array locator-method tests)
-//   - compiler emits exactly 2 errors (nbFatal=0, nbSyntax=0, nbError=2,
-//     nbWarning=0), both COMP_FAILED_TO_BIND: "max" and "size" are both
+//   - compiler emits exactly 2 errors (m_fatals=0, m_syntaxes=0, m_errors=2,
+//     m_warnings=0), both CompFailedToBind: "max" and "size" are both
 //     parenthesis-less built-in method calls (max.sv has no "with" clause at
 //     all, so the now-fixed with-clause "item" iterator resolution --
 //     see ObjectBinder::findInMethodFuncCall -- does not apply to this file)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -398,8 +396,8 @@ TEST_F(ArrayLocatorMaxTest, NoContAssigns) {
 }
 
 TEST_F(ArrayLocatorMaxTest, NoBindErrorsForMaxAndSize) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "max"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "max"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
 }
 
 }  // namespace hlc

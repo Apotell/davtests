@@ -31,8 +31,7 @@
 // are marked GTEST_SKIP() accordingly -- see each test's own comment.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -54,9 +53,9 @@ TEST_F(Chapter17ErrorRulesTest, Row573_ModuleInstantiationInsideACheckerIsReject
   // HLC enforces this in the grammar: checker_or_generate_item has no
   // instantiation alternative, so the instance is a syntax error rather than a
   // semantic one. The rule is honoured either way, which is what this asserts;
-  // the catalog's COMP_ILLEGAL_INSTANTIATION code may therefore be
+  // the catalog's CompIllegalInstantiation code may therefore be
   // unnecessary for this row. Recorded here rather than acted on.
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 13, 2), nullptr)
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 13, 2), nullptr)
       << "a module cannot be instantiated inside a checker (IEEE 1800-2023 17.2)";
 }
 
@@ -73,7 +72,7 @@ TEST_F(Chapter17ErrorRulesTest, Row580_DollarActualRequiresUntypedFormalUsedAsDe
   // property, in a checker instance, or as a default argument to a nested
   // checker. r580_inst passes $ to "hi", a typed (logic) formal that is used
   // as a plain assertion operand, not a delay-range bound.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r580_inst"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r580_inst"), nullptr)
       << "$ passed to a typed formal used outside a delay-range bound must be diagnosed (IEEE 1800-2023 17.3)";
 }
 
@@ -85,7 +84,7 @@ TEST_F(Chapter17ErrorRulesTest, Row582_CheckerOutputArgumentMustBeLvalue) {
   // Each checker actual output argument shall be a variable_lvalue or a
   // net_lvalue. r582_inst's second actual, "r582_y & r582_z", is a plain
   // expression, not an lvalue.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "r582_inst"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "r582_inst"), nullptr)
       << "a checker actual output argument that is not an lvalue must be diagnosed (IEEE 1800-2023 17.3)";
 }
 
@@ -98,7 +97,7 @@ TEST_F(Chapter17ErrorRulesTest, Row596_FunctionInCheckerAssignmentCannotHaveOutp
   // variable assignments shall not contain output, inout, or ref arguments
   // (const ref is allowed). r596_f has an output argument and is called from
   // "z <= f(t)" inside checker r596_c.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r596_f"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r596_f"), nullptr)
       << "a function with an output argument used in a checker variable assignment must be diagnosed "
          "(IEEE 1800-2023 17.8)";
 }
@@ -114,7 +113,7 @@ TEST_F(Chapter17ErrorRulesTest, Row597_FunctionInCheckerAssignmentMustBeSideEffe
   // information) and have no side effects. r597_f retains state via a
   // static local variable and is called from "z <= f(a)" inside checker
   // r597_c.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SIDE_EFFECT, "r597_f"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalSideEffect, "r597_f"), nullptr)
       << "a stateful/side-effecting function used in a checker variable assignment must be diagnosed "
          "(IEEE 1800-2023 17.8)";
 }

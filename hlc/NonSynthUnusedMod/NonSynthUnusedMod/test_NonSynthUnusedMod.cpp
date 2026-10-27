@@ -52,7 +52,7 @@
 //   - getTopModules(): the .hlc does not request elaboration.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -127,8 +127,8 @@ TEST_F(NonSynthUnusedModTest, InstantiationRelationships) {
 }
 
 TEST_F(NonSynthUnusedModTest, NoUndefinedModuleDiagnostics) {
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_NO_MODULE_DEFINITION, "top"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "top"), nullptr);
+  EXPECT_EQ(findEvent(EventType::ElabNoModuleDefinition, "top"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "top"), nullptr);
 }
 
 TEST_F(NonSynthUnusedModTest, NoDiagnosticsFromUnusedLibraryModule) {
@@ -136,18 +136,18 @@ TEST_F(NonSynthUnusedModTest, NoDiagnosticsFromUnusedLibraryModule) {
   // reported.
   if (m_design->getElaborated()) {
     for (const char *const sym : {"a", "b"}) {
-      EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, sym), nullptr) << sym;
-      EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, sym), nullptr) << sym;
-      EXPECT_EQ(findError(ErrorDefinition::HLDB_UNDEFINED_VARIABLE, sym), nullptr) << sym;
+      EXPECT_EQ(findEvent(EventType::CompFailedToBind, sym), nullptr) << sym;
+      EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, sym), nullptr) << sym;
+      EXPECT_EQ(findEvent(EventType::UndefinedVariable, sym), nullptr) << sym;
     }
   }
 }
 
 TEST_F(NonSynthUnusedModTest, NoSyntaxOrFatalErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbFatal, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_fatals, 0);
 }
 
 }  // namespace hlc

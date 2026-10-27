@@ -25,8 +25,8 @@
 //
 // One fixture, 8--error_rules.sv, holds every scenario, so no test here may
 // assert an error count -- the container totals are meaningless per scenario.
-// Every assertion goes through the hlc::Test base class's findError()
-// overloads, which locate a diagnostic by ErrorDefinition type plus the object
+// Every assertion goes through the hlc::Test base class's findEvent()
+// overloads, which locate a diagnostic by event type plus the object
 // it names and/or its line:column.
 //
 // Two shapes of test appear below, per .claude/instructions/davtests.md:
@@ -38,7 +38,7 @@
 //
 // Behaviour observed while writing this file (hlc.exe -d db over the fixture),
 // recorded so the skip messages have context:
-//   - row 198 is diagnosed: COMP_ILLEGAL_TIMING_CONTROL_IN_FUNCTION fires at
+//   - row 198 is diagnosed: CompIllegalTimingControlInFunction fires at
 //     21:5 naming "new". This is the one Clause 8 row already wired.
 //   - row 207 is rejected by the GRAMMAR, not by a semantic check: HLC accepts
 //     super.new only as the first statement of a constructor, so the misplaced
@@ -51,8 +51,7 @@
 //     call itself, not the abstract-class rule, so it is not asserted here.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -72,7 +71,7 @@ TEST_F(Chapter8ErrorRulesTest, Row198_TimingControlInConstructorIsRejected) {
   // and, like any other function, it shall be nonblocking." 13.4(a) spells out
   // what that forbids: a function shall not contain any time-controlling
   // statement. The #10 is on line 21 of 8--error_rules.sv.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMING_CONTROL_IN_FUNCTION, "new", 21, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalTimingControlInFunction, "new", 21, 5), nullptr)
       << "a delay control inside a constructor is illegal (IEEE 1800-2023 8.7, 13.4)";
 }
 
@@ -87,9 +86,9 @@ TEST_F(Chapter8ErrorRulesTest, Row201_NonStaticAccessFromStaticMethodIsRejected)
   // Two violations in r201_c: the bare property on line 32, this on line 33.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 8.10 makes a reference to a non-static "
                   "class property, and any use of 'this', illegal inside a static method";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_NONSTATIC_ACCESS, "nonstat", 32, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalNonstaticAccess, "nonstat", 32, 5), nullptr)
       << "a static method cannot access a non-static property (IEEE 1800-2023 8.10)";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_NONSTATIC_ACCESS, "nonstat", 33, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalNonstaticAccess, "nonstat", 33, 5), nullptr)
       << "'this' is not available inside a static method (IEEE 1800-2023 8.10)";
 }
 
@@ -101,7 +100,7 @@ TEST_F(Chapter8ErrorRulesTest, Row203_ThisOutsideAClassIsRejected) {
   // class methods, constraints, inlined constraint methods, or covergroups
   // embedded within classes; otherwise an error shall be issued." The initial
   // block of r203_m on line 43 is module scope, none of those.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_THIS, "r203_m", 43, 15), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalThis, "r203_m", 43, 15), nullptr)
       << "'this' cannot be used outside a class context (IEEE 1800-2023 8.11)";
 }
 
@@ -117,9 +116,9 @@ TEST_F(Chapter8ErrorRulesTest, Row207_SuperNewMustBeTheFirstStatement) {
   // body, so the misplaced call is a syntax error. That was verified against a
   // control fixture in which super.new IS first -- it parses cleanly -- so the
   // rejection is positional, not a missing production. The rule is therefore
-  // already honoured, and the catalog's COMP_MISPLACED_SUPER_NEW code appears
+  // already honoured, and the catalog's CompMisplacedSuperNew code appears
   // to be unnecessary; recorded here rather than acted on.
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 57, 10), nullptr)
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 57, 10), nullptr)
       << "super.new must be the first statement of the constructor (IEEE 1800-2023 8.15)";
 }
 
@@ -139,7 +138,7 @@ TEST_F(Chapter8ErrorRulesTest, Row215_SuperNewWithArgumentsInExtendsIsRejected) 
   // with a bare "extends Packet", super.new is the legal and often required way
   // to pass the superclass arguments, so it must stay silent there. Reported at
   // the whole super.new(...) expression, i.e. at the `super` token.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SUPER_NEW, "r215_ether", 70, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalSuperNew, "r215_ether", 70, 5), nullptr)
       << "super.new is illegal when the extends specifier already supplies the arguments "
          "(IEEE 1800-2023 8.17)";
 }
@@ -157,7 +156,7 @@ TEST_F(Chapter8ErrorRulesTest, Row230_AbstractClassCannotBeConstructedDirectly) 
   // warning and a Linter null-actual error -- but both are about the unbound
   // new call, not about the class being abstract, and they fire for
   // non-abstract classes too. Neither is asserted here.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRUCTION, "r230_base", 82, 15), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstruction, "r230_base", 82, 15), nullptr)
       << "an object of an abstract class cannot be constructed (IEEE 1800-2023 8.21)";
 }
 
@@ -172,7 +171,7 @@ TEST_F(Chapter8ErrorRulesTest, Row236_NestedClassCannotImplicitlyAccessOuterNonS
   // available.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 8.23 makes an unqualified reference to a "
                   "non-static outer-class member from a nested class illegal";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_NONSTATIC_ACCESS, "outerProp", 45, 7), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalNonstaticAccess, "outerProp", 45, 7), nullptr)
       << "a nested class has no implicit access to a non-static outer-class member "
          "(IEEE 1800-2023 8.23)";
 }
@@ -194,7 +193,7 @@ TEST_F(Chapter8ErrorRulesTest, Row239_OutOfBlockDeclarationMustFollowTheClass) {
   // while the other half silently accepts illegal code, so nothing is wired.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 8.24 requires an out-of-block method "
                   "declaration to follow the class declaration in the same scope";
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISPLACED_EXTERN_DECLARATION, "r239_c", 105, 1), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMisplacedExternDeclaration, "r239_c", 105, 1), nullptr)
       << "an out-of-block declaration must follow its class (IEEE 1800-2023 8.24)";
 }
 

@@ -42,8 +42,8 @@
 // fail to bind/elaborate.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -81,7 +81,7 @@ TEST_F(HierBitSelectTest, ModuleHasThreeContinuousAssignments) {
 // so each must be reported as a binding failure.
 
 TEST_F(HierBitSelectTest, MidoBytesInFailsToBind) {
-  const Error *const err = findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view{"mido_bytes_in"});
+  const Event *const err = findEvent(EventType::CompFailedToBind, std::string_view{"mido_bytes_in"});
   if (err == nullptr) {
     GTEST_SKIP() << "HLC does not report a binding failure for the illegal chained bit-select "
                      "'mido_bytes_in[1][2][3]' on an undeclared identifier; per IEEE 1800-2023 Sec 6.10 an "
@@ -92,7 +92,7 @@ TEST_F(HierBitSelectTest, MidoBytesInFailsToBind) {
 }
 
 TEST_F(HierBitSelectTest, StateDFailsToBind) {
-  const Error *const err = findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view{"state_d"});
+  const Event *const err = findEvent(EventType::CompFailedToBind, std::string_view{"state_d"});
   if (err == nullptr) {
     GTEST_SKIP() << "HLC does not report a binding failure for the illegal chained bit-select/slice "
                      "'state_d[2][3][4][5:6]' on an undeclared identifier; per IEEE 1800-2023 Sec 6.10 an "
@@ -104,7 +104,7 @@ TEST_F(HierBitSelectTest, StateDFailsToBind) {
 }
 
 TEST_F(HierBitSelectTest, StateD1FailsToBind) {
-  const Error *const err = findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view{"state_d1"});
+  const Event *const err = findEvent(EventType::CompFailedToBind, std::string_view{"state_d1"});
   if (err == nullptr) {
     GTEST_SKIP() << "HLC does not report a binding failure for the illegal part-select 'state_d1[10:11]' "
                      "on an undeclared identifier; per IEEE 1800-2023 Sec 6.10 an implicit net inferred "

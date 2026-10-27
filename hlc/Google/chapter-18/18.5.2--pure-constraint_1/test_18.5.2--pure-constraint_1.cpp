@@ -78,7 +78,7 @@
 // Not checked:
 //   - Resolution of uvm_env to a class definition: the .hlc only passes
 //     -I for the UVM include files and never compiles uvm_pkg.sv, so
-//     uvm_env cannot bind in this setup (a COMP_FAILED_TO_BIND for it is
+//     uvm_env cannot bind in this setup (a CompFailedToBind for it is
 //     expected and correct). Only the extends clause text is checked.
 //   - The UVM reporting calls in run_phase (uvm_info / uvm_error): they
 //     need uvm_pkg, which the .hlc does not compile. Which branch runs
@@ -88,9 +88,8 @@
 //   - Exact vpiConstType of the literal '5'.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -267,12 +266,12 @@ TEST_F(PureConstraint1Test, TopModuleHoldsEnvHandle) {
 }
 
 TEST_F(PureConstraint1Test, LegalPureUsageRaisesNoError) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "a2"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_CONSTRAINT, "c"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_IMPLICIT_EMPTY_CONSTRAINT, "c"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "a2"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "env"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "a2"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedConstraint, "c"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompImplicitEmptyConstraint, "c"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "a2"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
 }
 
 TEST_F(PureConstraint1Test, RandomizedB2Is5) {

@@ -32,8 +32,7 @@
 // and pass.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -64,7 +63,7 @@ TEST_F(Chapter5ErrorRulesTest, Row5_UntypedAssignmentPatternWithNoContextIsRejec
   // pattern itself (Phase2ModelBuilder doesn't attach one) -- see the
   // function's own comment for the (currently undemonstrated) false-positive
   // risk that leaves open.
-  EXPECT_NE(findError(ErrorDefinition::COMP_UNTYPED_ASSIGNMENT_PATTERN, "r5_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUntypedAssignmentPattern, "r5_m"), nullptr)
       << "an untyped assignment pattern needs a type prefix or an assignment-like context "
          "(IEEE 1800-2023 5.10)";
 }
@@ -85,7 +84,7 @@ TEST_F(Chapter5ErrorRulesTest, Row6_FlattenedStructureLiteralShapeIsRejected) {
   // Scoped to that one canonical shape (array-of-struct with the wrong
   // top-level count); does not attempt a fully general recursive
   // nesting-shape check.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ASSIGNMENT_PATTERN_SHAPE_MISMATCH, "r6_abarr"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompAssignmentPatternShapeMismatch, "r6_abarr"), nullptr)
       << "a structure literal's braces must reflect the structure's shape (IEEE 1800-2023 5.10)";
 }
 
@@ -114,7 +113,7 @@ TEST_F(Chapter5ErrorRulesTest, Row7_RecursiveClassMethodCallRequiresCallParenthe
   // plain assignment -- the one sanctioned way to read/write the implicit
   // return-value variable (13.4.1); any other bare occurrence is presumed to
   // be an attempted recursive call missing its "()".
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_CALL_PARENTHESES, "r7_f"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingCallParentheses, "r7_f"), nullptr)
       << "a directly recursive nonvoid class method call requires call parentheses "
          "(IEEE 1800-2023 5.13, 13.5.5)";
 }

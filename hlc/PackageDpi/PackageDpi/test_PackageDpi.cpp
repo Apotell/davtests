@@ -75,11 +75,11 @@
 //       8.9 static properties), signed IntTypespec, initializer "1"
 //   Diagnostics
 //     - 'uvm_object_wrapper' is declared nowhere in the design, so using it
-//       as a data type is an error: COMP_UNDEFINED_TYPE naming it
+//       as a data type is an error: CompUndefinedType naming it
 //     - that is a semantic error, not a syntax error: zero syntax and zero
 //       fatal diagnostics
 //     - the names that ARE declared must not be reported: no
-//       COMP_UNDEFINED_TYPE for 'uvm_core_state', no COMP_FAILED_TO_BIND
+//       CompUndefinedType for 'uvm_core_state', no CompFailedToBind
 //       for 'UVM_CORE_UNINITIALIZED'
 //
 // What is NOT checked, and why:
@@ -101,7 +101,7 @@
 //     is gated on Design::getElaborated().
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -420,21 +420,21 @@ TEST_F(PackageDpiTest, TotoHasNoMethods) {
 
 TEST_F(PackageDpiTest, UndeclaredTypeUvmObjectWrapperIsReported) {
   GTEST_SKIP() << "Undeclared variables aren't resported as such.";
-  EXPECT_NE(findError(ErrorDefinition::COMP_UNDEFINED_TYPE, "uvm_object_wrapper"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedType, "uvm_object_wrapper"), nullptr)
       << "'uvm_object_wrapper' is declared nowhere in the design, so it cannot be used as a data type";
 }
 
 TEST_F(PackageDpiTest, NoSyntaxOrFatalErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0) << "every declaration in the file is syntactically well formed";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0) << "every declaration in the file is syntactically well formed";
 }
 
 TEST_F(PackageDpiTest, DeclaredNamesAreNotReported) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_TYPE, "uvm_core_state"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompUndefinedType, "uvm_core_state"), nullptr)
       << "'uvm_core_state' is declared by the typedef";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "UVM_CORE_UNINITIALIZED"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "UVM_CORE_UNINITIALIZED"), nullptr)
       << "'UVM_CORE_UNINITIALIZED' is a name of uvm_core_state";
 }
 

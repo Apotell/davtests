@@ -57,14 +57,14 @@
 //
 // NOT CHECKED (and why):
 //   - Exact error wording/location: not defined by the standard; if HLC
-//     reports this rule with a different ErrorDefinition id, the specific
+//     reports this rule with a different event type, the specific
 //     check is the one to review (the coarse check still applies).
 //   - Run-time behavior of randc cycling: simulation only.
 // ---------------------------------------------------------------------------
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 #include <hldb/Utils.h>
 #include <hldb/class_defn.h>
@@ -120,15 +120,15 @@ class SoftConstraints2Test : public Test {
 
 // Check 1 (coarse): soft constraints on a randc variable must produce a diagnostic.
 TEST_F(SoftConstraints2Test, CompilerRejectsSoftConstraintOnRandcVariable) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GT(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 0)
       << "'soft b > 4' with b declared randc is illegal: IEEE 1800-2023 Sec 18.5.13.1 says soft constraints "
          "may not be specified for randc variables";
 }
 
 // Check 1 (specific): the diagnostic is an illegal-constraint error on constraint c.
 TEST_F(SoftConstraints2Test, IllegalConstraintErrorOnConstraintC) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalConstraint, "c"), nullptr)
       << "expected an illegal-constraint error for constraint 'c' (soft on randc b, IEEE 1800-2023 Sec 18.5.13.1)";
 }
 

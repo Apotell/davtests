@@ -76,7 +76,7 @@
 //     request elaboration.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -352,9 +352,9 @@ TEST_F(NoReducTypespecTest, CheshireSocOverridesCfgByNameWithImportedParam) {
 
 TEST_F(NoReducTypespecTest, NoBindingErrors) {
   for (const char *const sym : {"Cfg", "NoSlvPorts", "NoMstPorts", "AxiXbarCfg", "xbar_cfg_t", "axi_pkg"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, sym), nullptr) << sym;
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, sym), nullptr) << sym;
   }
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_UNKNOWN_PARAMETER_OVERRIDE, "Cfg"), nullptr);
+  EXPECT_EQ(findEvent(EventType::ElabUnknownParameterOverride, "Cfg"), nullptr);
 }
 
 }  // namespace hlc

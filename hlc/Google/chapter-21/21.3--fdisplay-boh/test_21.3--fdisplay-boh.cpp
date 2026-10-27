@@ -132,7 +132,7 @@
 //     counted by scanning the collection rather than by index, because the
 //     order in which the design registers them is a tool-internal convention
 //     that the source text does not determine.
-//   - no COMP_FAILED_TO_BIND diagnostic is emitted, and the compiler reports
+//   - no CompFailedToBind diagnostic is emitted, and the compiler reports
 //     zero fatals, syntax errors, errors and warnings: $fopen, $fclose and
 //     the $fdisplay radix variants are all standard Sec 21.3 system
 //     tasks/functions.
@@ -162,9 +162,8 @@
 // ============================================================================
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -476,18 +475,18 @@ TEST_F(FdisplayBohTest, DesignHasThreeTypespecsModuleSignedIntAndString) {
 // block; "str" is read from a third scope. Those cross-process lookups are the
 // likeliest place for binding to fail.
 TEST_F(FdisplayBohTest, AllReferencesBindToTheirDeclarations) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
       << "'fd' and 'str' must bind to the module-level declarations from both processes";
 }
 
 TEST_F(FdisplayBohTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "$fopen, $fclose and the $fdisplay radix variants are all standard "
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "$fopen, $fclose and the $fdisplay radix variants are all standard "
                                  "IEEE 1800-2017 Sec 21.3 system tasks and functions";
-  EXPECT_EQ(stats.nbWarning, 0);
+  EXPECT_EQ(stats.m_warnings, 0);
 }
 
 }  // namespace hlc

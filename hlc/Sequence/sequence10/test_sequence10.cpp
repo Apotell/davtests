@@ -76,7 +76,7 @@
 //               propertyExpr: RefObj name:"seq10" -> SequenceDecl name:"seq10"
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -145,15 +145,15 @@ static const hldb::Operation *getInnerCycleDelayOp(const hldb::Module *m) {
 // 'seq10' to its SequenceDecl might misidentify it as an undeclared implicit
 // net instead, which would surface as a spurious error here.
 TEST_F(Sequence10Test, Compiler_NoErrors) {
-  ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "ss.16.14: assert property(@(posedge clk) seq10) must not produce "
+  EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_errors, 0) << "ss.16.14: assert property(@(posedge clk) seq10) must not produce "
                                  "errors -- 'seq10' must resolve to its SequenceDecl, not be treated "
                                  "as an implicit net";
 }
 
 TEST_F(Sequence10Test, Compiler_NoSyntaxErrors) {
-  ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0) << "sequence10.sv is syntactically valid -- no syntax errors expected";
+  EventListener::Stats stats = m_compiler->getEventStats();
+  EXPECT_EQ(stats.m_syntaxes, 0) << "sequence10.sv is syntactically valid -- no syntax errors expected";
 }
 
 // ===========================================================================

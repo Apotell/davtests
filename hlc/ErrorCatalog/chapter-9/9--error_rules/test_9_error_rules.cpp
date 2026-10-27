@@ -19,7 +19,7 @@
 //
 // Scope, fixture layout and test shapes follow the Clause 3 file in this same
 // suite; see hlc/ErrorCatalog/chapter-3 for the rationale. In short: one
-// TEST_F per catalog row, assertions only through findError(), never an error
+// TEST_F per catalog row, assertions only through findEvent(), never an error
 // count, and a GTEST_SKIP() as the first statement of any row HLC does not
 // diagnose yet -- with the standard-required assertion still written out below
 // it, so the gap is visible as pending work rather than locked in.
@@ -30,8 +30,7 @@
 // is checked anywhere in HLC today, so all four tests below are skipped.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -52,11 +51,11 @@ TEST_F(Chapter9ErrorRulesTest, Row269_BlockingStatementsInAlwaysCombAreRejected)
   // extends the same restriction to always_latch. Three separate violations in
   // r269_m: an event control on line 14, a delay control on line 15, and a
   // fork-join on line 16.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_STATEMENT_IN_PROCEDURE, "r269_m", 14, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalStatementInProcedure, "r269_m", 14, 5), nullptr)
       << "an event control cannot appear in always_comb (IEEE 1800-2023 9.2.2.2.2)";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_STATEMENT_IN_PROCEDURE, "r269_m", 15, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalStatementInProcedure, "r269_m", 15, 5), nullptr)
       << "a delay control cannot appear in always_comb (IEEE 1800-2023 9.2.2.2.2)";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_STATEMENT_IN_PROCEDURE, "r269_m", 16, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalStatementInProcedure, "r269_m", 16, 5), nullptr)
       << "a fork-join cannot appear in always_comb (IEEE 1800-2023 9.2.2.2.2)";
 }
 
@@ -80,7 +79,7 @@ TEST_F(Chapter9ErrorRulesTest, Row275_RefFormalInsideForkJoinNoneIsRejected) {
   // token, no model field, and no way to tell an exempt formal from a plain
   // one. Wiring the check would enforce the pre-2023 wording and would start
   // rejecting legal code the day `ref static` is supported.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_REF_IN_FORK, "r", 28, 7), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalRefInFork, "r", 28, 7), nullptr)
       << "a by-reference formal cannot be referenced inside fork-join_none (IEEE 1800-2023 9.3.2)";
 }
 
@@ -92,7 +91,7 @@ TEST_F(Chapter9ErrorRulesTest, Row281_AggregateEventExpressionIsRejected) {
   // used in an event expression only if the expression reduces to a singular
   // value." r281_m's sensitivity list on line 40 names a struct directly, and
   // the expression does not reduce.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EVENT_EXPRESSION, "s", 40, 12), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalEventExpression, "s", 40, 12), nullptr)
       << "an aggregate event expression that does not reduce to a singular value is illegal "
          "(IEEE 1800-2023 9.4.2)";
 }
@@ -104,7 +103,7 @@ TEST_F(Chapter9ErrorRulesTest, Row284_DisablingAFunctionIsRejected) {
   // "The disable statement can be used to disable named blocks within a
   // function, but cannot be used to disable functions themselves." Line 50
   // names the function f, not a named block inside it.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DISABLE_TARGET, "f", 50, 19), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalDisableTarget, "f", 50, 19), nullptr)
       << "a function cannot be the target of a disable statement (IEEE 1800-2023 9.6.2)";
 }
 

@@ -24,8 +24,8 @@
 //     file (the illegal construct is rejected, not silently accepted)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -38,8 +38,8 @@ class BadArgumentTypeTest : public Test {
 };
 
 TEST_F(BadArgumentTypeTest, BadArgumentTypeIsRejected) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 22, 17), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 22, 17), nullptr)
       << "`default_nettype logic is illegal: the directive requires a net type keyword or 'none', not a "
          "data type.";
 }

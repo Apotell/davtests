@@ -116,10 +116,8 @@
 //     elaborating run may report is excluded, not asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -198,32 +196,30 @@ std::string strippedMacroText(const hldb::PreprocMacroDefinition *definition) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) { return error.getLocations().empty() ? 0 : error.getLocations().front().m_line; }
+uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
 
 // One diagnostic as " [<code> line <n>: <text>]", for failure messages, so a
 // red run shows what was reported and where. <text> is HLC's message
 // template, so its placeholders are not filled in.
-std::string describeError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
+std::string describeError(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
   std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
   description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != errorInfoMap.end()) description += ": " + std::string(errorInfo->second.m_errorText);
+  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
   return description + "]";
 }
 
 // Every fatal, syntax or error diagnostic outside the elaboration category,
 // described as by describeError(); empty when there is none.
-std::string describeSourceErrors(const ErrorContainer *errorContainer) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
+std::string describeSourceErrors(const EventListener *eventListener) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-    if (errorInfo == errorInfoMap.end()) continue;
-    const ErrorDefinition::ErrorSeverity severity = errorInfo->second.m_severity;
-    const bool isErrorClass = (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-                              (severity == ErrorDefinition::ERROR);
-    if (isErrorClass && (errorInfo->second.m_category != ErrorDefinition::ELAB)) description += describeError(error);
+  for (const Event &error : eventListener->getEvents()) {
+    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if (errorInfo == nullptr) continue;
+    const EventSeverity severity = errorInfo->m_severity;
+    const bool isErrorClass = (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+                              (severity == EventSeverity::Error);
+    if (isErrorClass && (errorInfo->m_category->m_name != "Elab")) description += describeError(error);
   }
   return description;
 }
@@ -286,50 +282,50 @@ class UndefineAllAndRedefineTest : public Test {
 // so an elaborating run may legitimately report that.
 TEST_F(UndefineAllAndRedefineTest, CompilesWithoutErrors) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
-  EXPECT_EQ(describeSourceErrors(errorContainer), "");
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
+  EXPECT_EQ(describeSourceErrors(eventListener), "");
 }
 
 // Each of these diagnostics would mean HLC misread one of the lines.
 TEST_F(UndefineAllAndRedefineTest, ReportsNoMacroDiagnostics) {
   // Lines 16, 18 and 20 match Syntax 22-2; `undefineall takes no arguments.
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
 
   // Lines 17 and 19 undefine every macro (22.5.3), so each later `define of
   // FOO defines an undefined name: none of them redefines a defined macro.
-  EXPECT_EQ(findError(ErrorDefinition::PP_MULTIPLY_DEFINED_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
 
   // `undefineall names no macro, so no named macro can be unknown to it.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNDEF_UNKOWN_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUndefUnkownMacro), nullptr);
 
   // FOO is not a compiler directive name (22.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NAME_RESERVED), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
 
   // On line 20 "(" follows FOO immediately and x and y both appear in the
   // macro text; on lines 16 and 18 no "(" follows FOO at all.
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNUSED_ARGUMENT), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNDEFINED_ARGUMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
 
   // FOO is never used, so no usage can be unknown, lack its parentheses or
   // give the wrong number of arguments.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_PARENTHESIS_NEEDED), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
 
   // "foo" is closed on line 16 (5.9), and no macro text refers to a macro.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNTERMINATED_STRING), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_RECURSIVE_MACRO_DEFINITION), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
 
   // `define and `undefineall "may appear anywhere"; the file has no design
   // element anyway.
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(UndefineAllAndRedefineTest, SourceFileRecordedOnce) {

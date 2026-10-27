@@ -57,13 +57,13 @@
 //       * its element typespec resolves to an InterfaceTypespec for
 //         r5p_bus_if with modport "man"
 //   - Sec 23.2.2.2: interface_port_header has no port_direction, so no
-//     COMP_PORT_MISSING_DIRECTION is reported for "m"
+//     CompPortMissingDirection is reported for "m"
 //   - Sec 25.5: "man" (the modport) and "vld" (accessed through m[i]) are
-//     declared in r5p_bus_if, so no COMP_FAILED_TO_BIND for either
+//     declared in r5p_bus_if, so no CompFailedToBind for either
 //   - Sec 6.10: "s_dec" is never declared. It appears only on the RHS of a
 //     continuous assignment, which is not one of the implicit-net contexts
 //     (port expression, instance port connection, continuous-assignment
-//     LHS), so the reference must fail to bind: COMP_FAILED_TO_BIND
+//     LHS), so the reference must fail to bind: CompFailedToBind
 //     "s_dec"
 //   - Sec 27.4: the loop generate construct (inside the optional
 //     generate region, Sec 27.3) is a GenFor with init "i=0", condition
@@ -82,7 +82,7 @@
 //     standard; only its presence is checked.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -287,20 +287,20 @@ TEST_F(ModPortArrayBindTest, PortMElementIsInterfaceRestrictedToModportMan) {
 
 TEST_F(ModPortArrayBindTest, InterfacePortNeedsNoDirection) {
   GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_PORT_MISSING_DIRECTION, "m"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompPortMissingDirection, "m"), nullptr)
       << "Sec 23.2.2.2: interface_port_header has no port_direction";
 }
 
 TEST_F(ModPortArrayBindTest, ModportAndMemberBind) {
   GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "man"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "man"), nullptr)
       << "Sec 25.5: 'man' is a modport of r5p_bus_if";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "vld"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "vld"), nullptr)
       << "Sec 25.5: 'vld' is a member of r5p_bus_if listed in modport 'man'";
 }
 
 TEST_F(ModPortArrayBindTest, UndeclaredSDecFailsToBind) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "s_dec"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "s_dec"), nullptr)
       << "Sec 6.10: an undeclared identifier on a continuous-assignment RHS is not an implicit net";
 }
 

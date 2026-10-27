@@ -53,28 +53,28 @@
 //     (output ww_id).
 //   - 25.5: "All of the names used in a modport declaration shall be
 //     declared by the same interface as the modport itself." ww_id is never
-//     declared in AXI_BUS -> COMP_MODPORT_UNDEFINED_PORT "ww_id" at 23:12;
+//     declared in AXI_BUS -> CompModportUndefinedPort "ww_id" at 23:12;
 //     aw_id IS declared (even though its type is bad), so no such error is
 //     raised for aw_id.
 //   - 6.18 / 6.11: "typedef logic [AXI_ID_WIDTH-1:0] id_t;" -- "logic" is a
 //     built-in type keyword, not an identifier to bind; no
-//     COMP_FAILED_TO_BIND may be reported for "logic". rw_id is a variable of
+//     CompFailedToBind may be reported for "logic". rw_id is a variable of
 //     type id_t.
 //   - 6.18: "id_t1 aw_id;" -- id_t1 is not a declared type; an error is
-//     required (accepted as either COMP_UNDEFINED_TYPE or
-//     COMP_FAILED_TO_BIND for "id_t1"). Likewise for "DD t;" in
+//     required (accepted as either CompUndefinedType or
+//     CompFailedToBind for "id_t1"). Likewise for "DD t;" in
 //     memory_ctrl2.
 //   - 6.20.1: AXI_ID_WIDTH is a (non-local) parameter of AXI_BUS (declared
 //     in the parameter_port_list).
 //   - 25.5 / 23.2.2: memory_ctrl1's port "mem_if.system1 sif" names a
 //     modport that does not exist in mem_if (only system and memory) -> an
-//     unresolved-name error for "system1" (COMP_FAILED_TO_BIND).
+//     unresolved-name error for "system1" (CompFailedToBind).
 //     memory_ctrl2's "mem_if.system sif" names an existing modport, so no
-//     COMP_FAILED_TO_BIND for "system"; its port is a modport port
+//     CompFailedToBind for "system"; its port is a modport port
 //     (37.14 detail 1: vpiPortType vpiModportPort) whose typespec resolves
 //     to mem_if restricted to modport system.
 //   - 23.2.2: interface_port_header carries no direction -> no
-//     COMP_PORT_MISSING_DIRECTION for "sif".
+//     CompPortMissingDirection for "sif".
 //   - 6.19: each memory_ctrl module has its own enum typedef fsm_t with
 //     constants IDLE, WRITE, READ, DONE (implicit values 0..3) and a variable
 //     state of that type. The labels being repeated across two modules is
@@ -92,9 +92,8 @@
 //     not require a diagnostic for an unused parameterized typedef.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -203,9 +202,9 @@ TEST_F(ModPortTestTest, AxiBusHasMasterAndSlaveModports) {
 }
 
 TEST_F(ModPortTestTest, UndeclaredModportNameIsDiagnosed) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_MODPORT_UNDEFINED_PORT, "ww_id", 23, 12), nullptr)
+  EXPECT_NE(findEvent(EventType::CompModportUndefinedPort, "ww_id", 23, 12), nullptr)
       << "25.5: ww_id is not declared by AXI_BUS";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MODPORT_UNDEFINED_PORT, "aw_id"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompModportUndefinedPort, "aw_id"), nullptr)
       << "25.5: aw_id is declared by AXI_BUS";
 }
 
@@ -219,7 +218,7 @@ TEST_F(ModPortTestTest, AxiBusParameterIsNonLocal) {
 
 TEST_F(ModPortTestTest, LogicKeywordInTypedefIsNotBound) {
   GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "logic"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "logic"), nullptr)
       << "6.11: 'logic' is a built-in type keyword, not an identifier";
 }
 
@@ -238,8 +237,8 @@ TEST_F(ModPortTestTest, RwIdIsVariableOfTypeIdT) {
 
 TEST_F(ModPortTestTest, UndeclaredTypesAreDiagnosed) {
   for (std::string_view name : {"id_t1", "DD"}) {
-    const bool found = (findError(ErrorDefinition::COMP_UNDEFINED_TYPE, name) != nullptr) ||
-                       (findError(ErrorDefinition::COMP_FAILED_TO_BIND, name) != nullptr);
+    const bool found = (findEvent(EventType::CompUndefinedType, name) != nullptr) ||
+                       (findEvent(EventType::CompFailedToBind, name) != nullptr);
     EXPECT_TRUE(found) << "6.18: '" << name << "' is not a declared type";
   }
 }
@@ -266,13 +265,13 @@ TEST_F(ModPortTestTest, MemIfHasSystemAndMemoryModports) {
 }
 
 TEST_F(ModPortTestTest, NonexistentModportInPortHeaderIsDiagnosed) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "system1"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "system1"), nullptr)
       << "25.5: mem_if has no modport named system1";
 }
 
 TEST_F(ModPortTestTest, ExistingModportInPortHeaderBinds) {
   GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "system"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "system"), nullptr)
       << "25.5: system is a modport of mem_if";
 }
 
@@ -294,7 +293,7 @@ TEST_F(ModPortTestTest, MemoryCtrl2PortIsModportPortOfMemIfSystem) {
 
 TEST_F(ModPortTestTest, InterfacePortsNotWarnedMissingDirection) {
   GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_PORT_MISSING_DIRECTION, "sif"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompPortMissingDirection, "sif"), nullptr)
       << "23.2.2: interface_port_header has no port_direction";
 }
 

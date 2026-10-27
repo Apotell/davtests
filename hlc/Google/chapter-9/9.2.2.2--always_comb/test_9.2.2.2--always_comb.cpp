@@ -70,8 +70,7 @@
 //     RefObj resolving to Net "a"
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -321,7 +320,7 @@ TEST_F(AlwaysCombTest, BitNegOperandResolvesToNetA) {
 // The construct with the most real risk of a binding failure is "a"/"b"
 // resolving back to their declarations.
 TEST_F(AlwaysCombTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
       << "'a' and 'b' in 'b = ~a' must bind to their declarations";
 }
 

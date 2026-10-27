@@ -48,9 +48,8 @@
 // foo_t's illegal member.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -113,7 +112,7 @@ TEST_F(HierPathUnpackedInPackedTest, ModuleTopExists) { EXPECT_NE(getTop(), null
 // The illegal unpacked-in-packed member must be diagnosed at its
 // declaration (line 10, member 'pair'), per IEEE 1800-2023 Sec 7.2.1.
 TEST_F(HierPathUnpackedInPackedTest, IllegalUnpackedMemberInPackedStructIsReported) {
-  ASSERT_NE(findError(ErrorDefinition::COMP_UNPACKED_IN_PACKED, "pair"), nullptr)
+  ASSERT_NE(findEvent(EventType::CompUnpackedInPacked, "pair"), nullptr)
       << "expected an error for the unpacked dimension on 'pair' inside packed struct 'foo_t'";
 }
 
@@ -171,10 +170,10 @@ TEST_F(HierPathUnpackedInPackedTest, HwKeyReqTStructIsPacked) {
 // The overall diagnostic set is otherwise clean -- only the one expected
 // unpacked-in-packed error, nothing fatal or syntactic.
 TEST_F(HierPathUnpackedInPackedTest, NoFatalOrSyntaxErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
 }
 
 }  // namespace hlc

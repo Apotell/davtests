@@ -51,7 +51,7 @@
 //     line 3 is accepted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -170,9 +170,9 @@ TEST_F(NetLValueTest, TypedefSIsUnpackedStructWithIntMemberX) {
 
 TEST_F(NetLValueTest, PackedDimensionOnUnpackedStructIsDiagnosed) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet";
-  const bool found = (findError(ErrorDefinition::COMP_ILLEGAL_PACKED_ARRAY_TYPE, 3) != nullptr) ||
-                     (findError(ErrorDefinition::COMP_UNPACKED_IN_PACKED, 3) != nullptr) ||
-                     (findError(ErrorDefinition::HLDB_ILLEGAL_PACKED_DIMENSION, 3) != nullptr);
+  const bool found = (findEvent(EventType::CompIllegalPackedArrayType, 3) != nullptr) ||
+                     (findEvent(EventType::CompUnpackedInPacked, 3) != nullptr) ||
+                     (findEvent(EventType::IllegalPackedDimension, 3) != nullptr);
   EXPECT_TRUE(found) << "Sec 7.4.1: packed arrays can only be made of single-bit types, enums, packed arrays "
                         "and packed structures; 'S[1:0]' with unpacked S must be an error";
 }

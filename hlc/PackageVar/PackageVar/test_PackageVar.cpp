@@ -97,12 +97,12 @@
 //       declaration. For a reference other than a subroutine call "it shall
 //       be illegal if no identifier can be found that matches the reference"
 //       (26.3), so each is reported at error severity, as
-//       COMP_UNDEFINED_VARIABLE, ELAB_UNDEF_VARIABLE or COMP_FAILED_TO_BIND
+//       CompUndefinedVariable, ElabUndefVariable or CompFailedToBind
 //     - ovm_options_container is declared once; naming it as a type and as a
 //       class scope prefix (8.23) declares nothing, so there is no
-//       COMP_MULTIPLY_DEFINED_TYPEDEF or COMP_MULTIPLY_DEFINED_CLASS for it
-//     - the declared names are not reported: no COMP_UNDEFINED_VARIABLE or
-//       COMP_FAILED_TO_BIND for ovm_auto_options_object
+//       CompMultiplyDefinedTypedef or CompMultiplyDefinedClass for it
+//     - the declared names are not reported: no CompUndefinedVariable or
+//       CompFailedToBind for ovm_auto_options_object
 //     - there is no syntax error: zero syntax and zero fatal diagnostics
 //
 // Reduction and elaboration: there is no expression to reduce and no module
@@ -156,9 +156,8 @@
 //   - The '//' comments in the class body are not design objects (5.4).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -311,18 +310,17 @@ class PackageVarTest : public Test {
 
   // Verifies one of 'types' was reported naming 'symbol', at error severity:
   // the standard makes the reference illegal.
-  void ExpectReportedAsError(std::initializer_list<ErrorDefinition::ErrorType> types, std::string_view symbol) {
+  void ExpectReportedAsError(std::initializer_list<uint32_t> types, std::string_view symbol) {
     GTEST_SKIP() << "HLC Gap: Required diagnosis not generated";
-    const Error *found = nullptr;
-    for (const ErrorDefinition::ErrorType type : types) {
-      found = findError(type, symbol);
+    const Event *found = nullptr;
+    for (const uint32_t type : types) {
+      found = findEvent(type, symbol);
       if (found != nullptr) break;
     }
     ASSERT_NE(found, nullptr) << "no diagnostic names '" << symbol << "'";
-    const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
-    const ErrorDefinition::ErrorMap::const_iterator info = infos.find(found->getType());
-    ASSERT_NE(info, infos.end());
-    EXPECT_EQ(info->second.m_severity, ErrorDefinition::ERROR)
+    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), found->getType());
+    ASSERT_NE(info, nullptr);
+    EXPECT_EQ(info->m_severity, EventSeverity::Error)
         << "'" << symbol << "' makes the source illegal, so it is an error, not a warning";
   }
 };
@@ -576,8 +574,8 @@ TEST_F(PackageVarTest, ElseCallsUndeclaredDoPrintWithFormal) {
 // (undeclared identifier not reported as an error) in the file header.
 TEST_F(PackageVarTest, UndeclaredDataReferencesAreReportedAsErrors) {
   for (std::string_view name : {"ovm_default_printer", "OVM_PRINT"}) {
-    ExpectReportedAsError({ErrorDefinition::COMP_UNDEFINED_VARIABLE, ErrorDefinition::ELAB_UNDEF_VARIABLE,
-                           ErrorDefinition::COMP_FAILED_TO_BIND},
+    ExpectReportedAsError({EventType::CompUndefinedVariable, EventType::ElabUndefVariable,
+                           EventType::CompFailedToBind},
                           name);
   }
 }
@@ -586,25 +584,25 @@ TEST_F(PackageVarTest, UndeclaredDataReferencesAreReportedAsErrors) {
 // (class reported as a multiply defined typedef) in the file header.
 TEST_F(PackageVarTest, OptionsContainerIsNotReportedMultiplyDefined) {
   GTEST_SKIP() << "HLC Bug: forward declaration & actual declarations are both being counted";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_TYPEDEF, "ovm_options_container"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef, "ovm_options_container"), nullptr)
       << "class ovm_options_container is declared exactly once, and using it as a type and as a class scope "
          "prefix (8.23) declares nothing";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_CLASS, "ovm_options_container"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedClass, "ovm_options_container"), nullptr)
       << "class ovm_options_container is declared exactly once";
 }
 
 TEST_F(PackageVarTest, PackageVariableIsNotReported) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "ovm_auto_options_object"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, "ovm_auto_options_object"), nullptr)
       << "'ovm_auto_options_object' is declared in pack";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "ovm_auto_options_object"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "ovm_auto_options_object"), nullptr)
       << "'ovm_auto_options_object' is declared in pack";
 }
 
 TEST_F(PackageVarTest, NoSyntaxOrFatalDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0) << "the file is syntactically well formed";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0) << "the file is syntactically well formed";
 }
 
 }  // namespace hlc

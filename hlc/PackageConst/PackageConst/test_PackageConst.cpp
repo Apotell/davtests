@@ -58,7 +58,7 @@
 //       otherwise the unreduced RefObj bound to NumCmdInfo is asserted
 //   Diagnostics
 //     - the file is legal: zero fatal, syntax and error diagnostics, and no
-//       COMP_FAILED_TO_BIND for 'NumCmdInfo'
+//       CompFailedToBind for 'NumCmdInfo'
 //
 // What is NOT checked, and why:
 //   - The exact spelling HLC gives the scoped reference ("NumCmdInfo" versus
@@ -72,7 +72,7 @@
 //     not asserted; both user packages are looked up by name instead.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -336,12 +336,12 @@ TEST_F(PackageConstTest, EnumValueIsCrossPackageConstant) {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackageConstTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "NumCmdInfo"), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "NumCmdInfo"), nullptr)
       << "the package-scoped reference must bind (IEEE 1800-2023 26.3)";
 }
 

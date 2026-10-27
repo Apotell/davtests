@@ -59,7 +59,7 @@
 // ---------------------------------------------------------------------------
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 #include <hldb/Utils.h>
 #include <hldb/class_defn.h>
@@ -115,10 +115,10 @@ class SoftConstraints0Test : public Test {
 
 // Check 1: legal file.
 TEST_F(SoftConstraints0Test, CompilerReportsNoErrors) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "soft constraints on a rand variable are legal (IEEE 1800-2023 Sec 18.5.13)";
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "soft constraints on a rand variable are legal (IEEE 1800-2023 Sec 18.5.13)";
 }
 
 // Check 2: class 'a' with 'rand int b'.

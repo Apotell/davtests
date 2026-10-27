@@ -77,7 +77,7 @@
 //   - Timescale warnings: tool-specific, not mandated by the standard.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -244,8 +244,8 @@ TEST_F(NegParamTest, BpDefaultCfgIsLocalParamWithNamedType) {
 
 TEST_F(NegParamTest, UndeclaredTypeBpProcParamSIsDiagnosed) {
   // Sec 6.5: data shall be declared before they are used.
-  const bool found = (findError(ErrorDefinition::COMP_FAILED_TO_BIND, "bp_proc_param_s") != nullptr) ||
-                     (findError(ErrorDefinition::COMP_UNDEFINED_TYPE, "bp_proc_param_s") != nullptr);
+  const bool found = (findEvent(EventType::CompFailedToBind, "bp_proc_param_s") != nullptr) ||
+                     (findEvent(EventType::CompUndefinedType, "bp_proc_param_s") != nullptr);
   EXPECT_TRUE(found) << "use of undeclared type 'bp_proc_param_s' must be diagnosed";
 }
 
@@ -432,10 +432,10 @@ TEST_F(NegParamTest, NoDiagnosticForBadInUninstantiatedGenerateBlock) {
   // Sec 27.3/27.5: IdxW == 5 for the defaults, so the block is never
   // instantiated and 'BAD bad();' is never brought into existence.
   if (m_design->getElaborated()) {
-    EXPECT_EQ(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "BAD"), nullptr);
+    EXPECT_EQ(findEvent(EventType::UnsupportedTypespec, "BAD"), nullptr);
   }
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_NO_MODULE_DEFINITION, "BAD"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "BAD"), nullptr);
+  EXPECT_EQ(findEvent(EventType::ElabNoModuleDefinition, "BAD"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "BAD"), nullptr);
 }
 
 }  // namespace hlc

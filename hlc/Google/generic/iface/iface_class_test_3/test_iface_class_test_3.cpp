@@ -48,7 +48,7 @@
 // types, and a name that resolves to no declaration is no type at all. So
 // the 'extends basebase' reference cannot be resolved and the compiler shall
 // report an error. HLC's dedicated diagnostic for this is
-// COMP_UNDEFINED_BASE_CLASS ('Undefined base class "%s" extended by ...'),
+// CompUndefinedBaseClass ('Undefined base class "%s" extended by ...'),
 // so that code, naming basebase on line 6, is expected.
 //
 // The file declares no module, so there is no top-level instance (23.3.1),
@@ -60,7 +60,7 @@
 //
 // What is checked
 //   - The unresolved base is reported: at least one error, and a
-//     COMP_UNDEFINED_BASE_CLASS naming basebase on line 6.
+//     CompUndefinedBaseClass naming basebase on line 6.
 //   - No fatal and no syntax diagnostic: lines 6-7 match A.1.9.
 //   - Exactly one SourceFile for the .sv, with no includes, no generic
 //     directives, no macro definitions and no macro instances.
@@ -77,15 +77,15 @@
 // in this test: HLC 577 records base_ic's 'extends basebase' with a
 // reference that resolves to no class (BaseIcExtendsUnresolvedBasebase
 // passes), yet reports no error at all -- zero errors, no
-// COMP_UNDEFINED_BASE_CLASS -- although basebase is declared nowhere and
+// CompUndefinedBaseClass -- although basebase is declared nowhere and
 // 8.26.3 requires the names in an interface class's 'extends' list to be
 // interface class types. ReportsUndefinedBaseClassBasebase asserts the LRM
 // behavior and is expected to fail until HLC is fixed; it is intentionally
 // not skipped or relaxed.
 //
 // What is NOT checked, and why
-//   - Whether HLC also raises a generic COMP_UNDEFINED_TYPE or
-//     COMP_FAILED_TO_BIND for basebase. The LRM requires an error, not a
+//   - Whether HLC also raises a generic CompUndefinedType or
+//     CompFailedToBind for basebase. The LRM requires an error, not a
 //     particular count; the dedicated base-class code is asserted. Nearest
 //     assertion: ReportsUndefinedBaseClassBasebase.
 //   - ClassDefn::getVirtual() for base_ic: the 'virtual' keyword is not
@@ -99,10 +99,8 @@
 //   - The warning count. The LRM neither requires nor forbids warnings here.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -176,25 +174,24 @@ size_t countClassesNamed(const hldb::ClassDefnCollection *collection, std::strin
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) {
-  if (error.getLocations().empty()) {
+uint32_t lineOf(const Event &error) {
+  if (error.getArguments().empty()) {
     return 0;
   }
-  return error.getLocations().front().m_line;
+  return error.getArguments().front().m_line;
 }
 
 // Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
 // messages, so a red run shows what was reported and where. <text> is HLC's
 // message template, so its placeholders are not filled in.
-std::string describeErrors(const ErrorContainer *errorContainer, ErrorDefinition::ErrorSeverity severity) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
+std::string describeErrors(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-    if ((errorInfo == errorInfoMap.end()) || (errorInfo->second.m_severity != severity)) continue;
+  for (const Event &error : eventListener->getEvents()) {
+    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if ((errorInfo == nullptr) || (errorInfo->m_severity != severity)) continue;
     description += " [" + std::to_string(static_cast<int32_t>(error.getType()));
     description += " line " + std::to_string(lineOf(error));
-    description += ": " + std::string(errorInfo->second.m_errorText) + "]";
+    description += ": " + std::string(errorInfo->m_lines[0].m_text) + "]";
   }
   return description;
 }
@@ -251,31 +248,31 @@ class IfaceClassTest3Test : public Test {
 
 // basebase is declared nowhere, so 'extends basebase' (line 6) names no
 // interface class type (8.26.3) and an error is required. HLC's dedicated
-// diagnostic is COMP_UNDEFINED_BASE_CLASS.
+// diagnostic is CompUndefinedBaseClass.
 TEST_F(IfaceClassTest3Test, ReportsUndefinedBaseClassBasebase) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorContainer::Stats stats = errorContainer->getErrorStats();
-  EXPECT_GE(stats.nbError, 1) << "8.26.3: an undeclared base interface class is an error";
-  EXPECT_NE(findError(ErrorDefinition::COMP_UNDEFINED_BASE_CLASS, "basebase", 6), nullptr)
-      << "basebase (line 6) is extended but never declared;" << describeErrors(errorContainer, ErrorDefinition::ERROR);
+  const EventListener::Stats stats = eventListener->getStats();
+  EXPECT_GE(stats.m_errors, 1) << "8.26.3: an undeclared base interface class is an error";
+  EXPECT_NE(findEvent(EventType::CompUndefinedBaseClass, "basebase", 6), nullptr)
+      << "basebase (line 6) is extended but never declared;" << describeErrors(eventListener, EventSeverity::Error);
 }
 
 // Lines 6-7 match interface_class_declaration (A.1.9), so the error above is
 // semantic: nothing is fatal or a syntax error.
 TEST_F(IfaceClassTest3Test, ReportsNoFatalOrSyntaxDiagnostics) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorContainer::Stats stats = errorContainer->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0) << describeErrors(errorContainer, ErrorDefinition::FATAL);
-  EXPECT_EQ(stats.nbSyntax, 0) << describeErrors(errorContainer, ErrorDefinition::SYNTAX);
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_SYNTAX_ERROR), nullptr);
+  const EventListener::Stats stats = eventListener->getStats();
+  EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
+  EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
 }
 
 TEST_F(IfaceClassTest3Test, SourceFileRecordedOnce) {

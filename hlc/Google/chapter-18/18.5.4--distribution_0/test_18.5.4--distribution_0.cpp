@@ -51,9 +51,8 @@
 //   - Exact vpiConstType of the literals (tool-representation detail).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -165,8 +164,8 @@ TEST_F(Distribution0Test, DistItemsValuesWeightsAndKind) {
 }
 
 TEST_F(Distribution0Test, DistOnRandVariableIsLegal) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "b"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "b"), nullptr);
 }
 TEST_F(Distribution0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active

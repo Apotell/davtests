@@ -45,14 +45,14 @@
 //     a Constant string ":assert: (%d == 9)" (size 144) and a SysFuncCall
 //     "$bits"
 //   - "$bits" has exactly 1 argument: a RefObj named "mystruct"
-//   - compiler reports no COMP_FAILED_TO_BIND
+//   - compiler reports no CompFailedToBind
 //
 // SKIPPED (known HLC bug, fix pending):
 //   - the "mystruct" RefObj's actual should be the type the name denotes
 //     (the TypedefTypespec "mystruct"). HLC currently binds it to the
 //     Typedef declaration object itself, and HLC's own HLDB linter rejects
-//     that with HLDB_ILLEGAL_PROPERTY_VALUE (DB2038) at 25:39. The same
-//     DB2038 appears across many golden logs in this suite, so this is a
+//     that with IllegalPropertyValue (DL2516) at 25:39. The same
+//     DL2516 appears across many golden logs in this suite, so this is a
 //     systemic binding gap, not specific to $bits.
 //
 // NOT CHECKED: runtime effects (that $bits(mystruct) evaluates to 9 and
@@ -61,8 +61,7 @@
 // happens for this test to check.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -333,7 +332,7 @@ TEST_F(BitsTypeFunctionTest, BitsArgumentResolvesToTypedefTypespec) {
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(BitsTypeFunctionTest, CompilesWithNoBindErrors) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc

@@ -74,7 +74,7 @@
 //   - Body of Tsum beyond its signature: covered by 6.6.7 chapter tests.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -161,7 +161,7 @@ TEST_F(NetTypeTest, MyFunctionHasNoArgumentsSoIsIllegalResolutionFunction) {
   ASSERT_NE(fn, nullptr);
   const size_t nbArgs = (fn->getIODecls() == nullptr) ? 0u : fn->getIODecls()->size();
   EXPECT_EQ(nbArgs, 0u);
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_NETTYPE_RESOLUTION_FUNCTION, 6), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalNettypeResolutionFunction, 6), nullptr)
       << "Sec 6.6.7: resolution function must take a single input dynamic array of T";
 }
 
@@ -181,8 +181,8 @@ TEST_F(NetTypeTest, MyRealIsNettypeOfRealWithoutResolutionFunc) {
 
 TEST_F(NetTypeTest, MyRealRedeclarationIsDiagnosed) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis";
-  const bool found = (findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_TYPEDEF, "my_real") != nullptr) ||
-                     (findError(ErrorDefinition::COMP_DUPLICATE_DECLARATION, "my_real") != nullptr);
+  const bool found = (findEvent(EventType::CompMultiplyDefinedTypedef, "my_real") != nullptr) ||
+                     (findEvent(EventType::CompDuplicateDeclaration, "my_real") != nullptr);
   EXPECT_TRUE(found) << "Sec 3.13: 'my_real' is declared twice in the compilation-unit name space";
 }
 
@@ -199,8 +199,8 @@ TEST_F(NetTypeTest, MyAliasIsPlainTypedef) {
 }
 
 TEST_F(NetTypeTest, UndeclaredSomeOtherTypeIsDiagnosed) {
-  const bool found = (findError(ErrorDefinition::COMP_FAILED_TO_BIND, "some_other_type") != nullptr) ||
-                     (findError(ErrorDefinition::COMP_UNDEFINED_TYPE, "some_other_type") != nullptr);
+  const bool found = (findEvent(EventType::CompFailedToBind, "some_other_type") != nullptr) ||
+                     (findEvent(EventType::CompUndefinedType, "some_other_type") != nullptr);
   EXPECT_TRUE(found) << "Sec 6.5: 'some_other_type' is never declared";
 }
 
@@ -284,11 +284,11 @@ TEST_F(NetTypeTest, TsumSignatureMatchesResolutionFunctionRules) {
 }
 
 TEST_F(NetTypeTest, NoDiagnosticForLegalNettypesWTAndWTsum) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_NETTYPE_RESOLUTION_FUNCTION, 36), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompIllegalNettypeResolutionFunction, 36), nullptr)
       << "Sec 6.6.7: Tsum is a legal resolution function for T";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_NETTYPE_DATA_TYPE, 34), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompIllegalNettypeDataType, 34), nullptr)
       << "Sec 6.6.7 (d): unpacked struct of real/bit is a valid nettype data type";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_NETTYPE_DATA_TYPE, 36), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalNettypeDataType, 36), nullptr);
 }
 
 // ---------------------------------------------------------------------------
@@ -321,7 +321,7 @@ TEST_F(NetTypeTest, MyRealNetTypeResolvesToMyRealNettype) {
 
 TEST_F(NetTypeTest, MyRealInDutBindsWithoutError) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "my_real", 13), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "my_real", 13), nullptr)
       << "Sec 6.7.2: 'my_real' is a declared nettype and must bind";
 }
 

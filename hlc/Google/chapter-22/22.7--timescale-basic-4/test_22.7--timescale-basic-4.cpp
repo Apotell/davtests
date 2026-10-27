@@ -45,7 +45,7 @@
 //   - At least one error-class diagnostic (fatal, syntax or error) points at
 //     line 17.
 //   - HLC diagnoses it as a precision coarser than the unit:
-//     PA_TIMESCALE_INVALID_SCALE, HLC's code for exactly this 22.7 rule (its
+//     PaTimescaleInvalidScale, HLC's code for exactly this 22.7 rule (its
 //     message template reads "Timescale precision less precise than
 //     timeunit"), is reported on line 17 with an error-class severity.
 //   - Every error-class diagnostic outside the elaboration category points at
@@ -99,10 +99,8 @@
 //     elaborating run may report is excluded, not asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -157,44 +155,41 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
 }
 
 // True for the severities the LRM's "illegal" can map to.
-bool isErrorClass(ErrorDefinition::ErrorSeverity severity) {
-  return (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-         (severity == ErrorDefinition::ERROR);
+bool isErrorClass(EventSeverity severity) {
+  return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+         (severity == EventSeverity::Error);
 }
 
 // True when 'error' has an error-class severity in HLC's error table.
-bool isErrorClass(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  return (errorInfo != errorInfoMap.end()) && isErrorClass(errorInfo->second.m_severity);
+bool isErrorClass(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+  return (errorInfo != nullptr) && isErrorClass(errorInfo->m_severity);
 }
 
 // True when 'error' belongs to HLC's elaboration category.
-bool isElaborationError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  return (errorInfo != errorInfoMap.end()) && (errorInfo->second.m_category == ErrorDefinition::ELAB);
+bool isElaborationError(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+  return (errorInfo != nullptr) && (errorInfo->m_category->m_name == "Elab");
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) { return error.getLocations().empty() ? 0 : error.getLocations().front().m_line; }
+uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
 
 // One diagnostic as " [<code> line <n>: <text>]", for failure messages, so a
 // red run shows what was reported and where. <text> is HLC's message
 // template, so its placeholders are not filled in.
-std::string describeError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
+std::string describeError(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
   std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
   description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != errorInfoMap.end()) description += ": " + std::string(errorInfo->second.m_errorText);
+  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
   return description + "]";
 }
 
 // Every diagnostic, described as by describeError(); for failure messages.
-std::string describeAllErrors(const ErrorContainer *errorContainer) {
+std::string describeAllErrors(const EventListener *eventListener) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) description += describeError(error);
+  for (const Event &error : eventListener->getEvents()) description += describeError(error);
   return description;
 }
 }  // namespace
@@ -232,34 +227,33 @@ class TimescaleBasic4Test : public Test {
 TEST_F(TimescaleBasic4Test, ReportsAnErrorOnTheIllegalLine) {
   GTEST_SKIP() << "HLC Gap: Compiler doesn't report this diagnostics";
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
   size_t errorsOnIllegalLine = 0;
-  for (const Error &error : errorContainer->getErrors()) {
+  for (const Event &error : eventListener->getEvents()) {
     if (isErrorClass(error) && (lineOf(error) == kIllegalLine)) ++errorsOnIllegalLine;
   }
-  EXPECT_GE(errorsOnIllegalLine, 1u) << "no error on line " << kIllegalLine << ";" << describeAllErrors(errorContainer);
+  EXPECT_GE(errorsOnIllegalLine, 1u) << "no error on line " << kIllegalLine << ";" << describeAllErrors(eventListener);
 }
 
-// HLC has a dedicated code for this 22.7 rule, PA_TIMESCALE_INVALID_SCALE
+// HLC has a dedicated code for this 22.7 rule, PaTimescaleInvalidScale
 // (message template "Timescale precision less precise than timeunit").
 // Reporting line 17 under it identifies the LRM condition that makes the line
 // illegal.
 TEST_F(TimescaleBasic4Test, DiagnosesThePrecisionCoarserThanTheUnit) {
   GTEST_SKIP() << "HLC Gap: Compiler doesn't report this diagnostics";
-  const Error *const error = findError(ErrorDefinition::PA_TIMESCALE_INVALID_SCALE);
+  const Event *const error = findEvent(EventType::PaTimescaleInvalidScale);
   ASSERT_NE(error, nullptr) << "the precision 10 ns is a longer unit of time than the unit 1 ns (22.7)";
   EXPECT_EQ(lineOf(*error), kIllegalLine);
 
   // The LRM says the precision "shall" be at least as precise; it does not
   // say which kind of error breaking that is, so any error-class severity is
   // accepted.
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo =
-      errorInfoMap.find(ErrorDefinition::PA_TIMESCALE_INVALID_SCALE);
-  ASSERT_NE(errorInfo, errorInfoMap.end());
-  EXPECT_TRUE(isErrorClass(errorInfo->second.m_severity)) << "severity " << errorInfo->second.m_severity;
+  const EventDefinition *const errorInfo =
+      hldb::findEventDefinition(hlc::getEventTable(), EventType::PaTimescaleInvalidScale);
+  ASSERT_NE(errorInfo, nullptr);
+  EXPECT_TRUE(isErrorClass(errorInfo->m_severity)) << "severity " << errorInfo->m_severity;
 }
 
 // Line 17 is the one illegal line (22.7); the LRM requires an error there
@@ -277,11 +271,11 @@ TEST_F(TimescaleBasic4Test, DiagnosesThePrecisionCoarserThanTheUnit) {
 // elaborating run may legitimately report that.
 TEST_F(TimescaleBasic4Test, ErrorsOnlyOnTheIllegalLine) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
   std::string offLine;
-  for (const Error &error : errorContainer->getErrors()) {
+  for (const Event &error : eventListener->getEvents()) {
     if (isErrorClass(error) && !isElaborationError(error) && (lineOf(error) != kIllegalLine)) {
       offLine += describeError(error);
     }
@@ -293,19 +287,19 @@ TEST_F(TimescaleBasic4Test, ErrorsOnlyOnTheIllegalLine) {
 // relation between the two arguments is illegal, not either argument.
 TEST_F(TimescaleBasic4Test, ReportsNoMisreadingDiagnostics) {
   // 1 and 10 are valid integers (22.7).
-  EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_VALUE), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
 
   // ns is a valid unit (22.7).
-  EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_UNIT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidUnit), nullptr);
 
   // The file has no design element, so line 17 is not inside one (22.7).
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // `timescale is a compiler directive (22.1), not a text macro usage.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 
   // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(TimescaleBasic4Test, SourceFileRecordedOnce) {

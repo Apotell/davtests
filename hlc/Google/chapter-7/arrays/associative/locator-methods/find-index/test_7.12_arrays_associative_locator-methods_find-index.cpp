@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,17 +43,15 @@
 //   - both $display calls and their RefObj("qi.size")/BitSelect("qi[0]")
 //     arguments
 //   - design-level typespecs (3): ModuleTypespec, StringTypespec, IntTypespec
-//   - compiler emits exactly 1 error (nbFatal=0, nbSyntax=0, nbError=1,
-//     nbWarning=0): COMP_FAILED_TO_BIND for the still-unresolved bare
+//   - compiler emits exactly 1 error (m_fatals=0, m_syntaxes=0, m_errors=1,
+//     m_warnings=0): CompFailedToBind for the still-unresolved bare
 //     ".size" call. The with-clause "item" iterator now resolves to a
 //     synthesized implicit-iterator Variable (via
 //     ObjectBinder::findInMethodFuncCall) and no longer errors.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -404,7 +402,7 @@ TEST_F(ArrayLocatorFindIndexTest, NoContAssigns) {
 }
 
 TEST_F(ArrayLocatorFindIndexTest, NoBindErrorForSize) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
 }
 
 }  // namespace hlc

@@ -59,9 +59,8 @@
 // bare call, the receiver check fails and documents that HLDB API gap.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -220,12 +219,12 @@ TEST_F(ArrayReductionIterativeConstraints0Test, SumResultTypeShouldBeIntButIsMis
 }
 
 TEST_F(ArrayReductionIterativeConstraints0Test, NoConstraintOrBindError) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "B"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "B"), nullptr);
 }
 
 TEST_F(ArrayReductionIterativeConstraints0Test, SumShouldBindButReportsSpuriousError) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "sum"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "sum"), nullptr);
 }
 TEST_F(ArrayReductionIterativeConstraints0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active

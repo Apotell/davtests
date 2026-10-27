@@ -55,7 +55,7 @@
 //     GTEST_SKIP below) to avoid locking in the bug.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -202,7 +202,7 @@ TEST_F(EnumVarNoTypedefTest, NoProcesses) {
 
 TEST_F(EnumVarNoTypedefTest, CompilerRejectsSizeMismatch) {
   GTEST_SKIP() << "HLC doesn't implement this diagnosis yet.";
-  EXPECT_NE(findError(ErrorDefinition::HLDB_ENUM_CONST_SIZE_MISMATCH, "Global"), nullptr);
+  EXPECT_NE(findEvent(EventType::EnumConstSizeMismatch, "Global"), nullptr);
 }
 
 }  // namespace hlc

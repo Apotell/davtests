@@ -47,7 +47,7 @@
 //   - stmt[7] w[1], w[2] argument BitSelects (previously only w[0] checked)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -297,8 +297,8 @@ TEST_F(Assignment, NoContAssigns) {
 
 TEST_F(Assignment, CompilerHasNoErrors) {
   // w = words (whole-array copy) is legal SystemVerilog; HLC must accept it without diagnostics.
-  const hlc::ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "whole-array associative copy must not produce compile errors";
+  const hlc::EventListener::Stats stats = m_compiler->getEventStats();
+  EXPECT_EQ(stats.m_errors, 0) << "whole-array associative copy must not produce compile errors";
 }
 }  // namespace hlc
 

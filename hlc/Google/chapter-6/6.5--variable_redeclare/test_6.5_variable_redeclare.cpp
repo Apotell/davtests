@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -65,8 +65,8 @@
 //     unwritten.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -169,7 +169,7 @@ TEST_F(VariableRedeclareTest, CompilerShouldRejectRedeclarationOfVButDoesNot) {
   GTEST_SKIP() << "IEEE 1800-2023 6.5: a single identifier cannot be redeclared as two fundamentally "
                   "different kinds of thing (a variable via 'reg' and a net via 'wire') in the same "
                   "scope. Compiler needs to report this as an error.";
-  EXPECT_NE(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_VARIABLE, "v"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMultiplyDefinedVariable, "v"), nullptr)
       << "IEEE 1800-2023 6.5: 'v' is declared twice in one scope, first as a variable via "
          "'reg' and then as a net via 'wire'.";
 }

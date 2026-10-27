@@ -90,7 +90,7 @@
 // KNOWN COMPILER BUG ($bits of a package-scoped type), not a defect in this
 // test: HLC models the argument of '$bits(pkg::complex_t)' as a RefObj path
 // whose elements bind, through vpiActual, to the Typedef complex_t, and its
-// own model check then rejects both bindings with two [ERR:DB2038]
+// own model check then rejects both bindings with two [ERR:DL2516]
 // "'vpiActual' property value on object is invalid" errors on a legal file.
 // NoFatalSyntaxOrErrorDiagnostics is expected to fail until HLC is fixed; it
 // is intentionally not skipped or relaxed.
@@ -107,7 +107,7 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -465,11 +465,11 @@ TEST_F(ParamComplexTest, Asgn0ReceivesSizeFourAndInitSeven) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG ($bits of a
 // package-scoped type) in the file header.
 TEST_F(ParamComplexTest, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc

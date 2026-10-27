@@ -63,7 +63,7 @@
 //     (`a = 1;`, `y = 1;`, `clk = 1;`/`clk = 0;`), which is illegal per
 //     6.7 regardless of what the sequence/event-control machinery around
 //     it does. This repo's installed error headers define exactly this
-//     diagnostic (ErrorDefinition::HLDB_ILLEGAL_WIRE_LHS), so it is
+//     diagnostic (EventType::IllegalWireLhs), so it is
 //     asserted directly rather than skipped.
 //
 // Checked:
@@ -80,7 +80,7 @@
 //   - the first fork branch's "@seq" is an EventControl whose condition
 //     is a RefObj named "seq" that resolves (RefObj::getActual<
 //     SequenceDecl>()) to that same SequenceDecl.
-//   - HLC reports ErrorDefinition::HLDB_ILLEGAL_WIRE_LHS for each of the
+//   - HLC reports EventType::IllegalWireLhs for each of the
 //     three procedural assignments to wires "a", "y", and "clk" (IEEE
 //     1800-2023 6.7).
 //
@@ -96,7 +96,7 @@
 //     simulator (see .claude/hlc_overview.md), and this is additionally
 //     unreachable code once the illegal wire assignments above are
 //     properly rejected.
-//   - If HLC does NOT currently report HLDB_ILLEGAL_WIRE_LHS for these
+//   - If HLC does NOT currently report IllegalWireLhs for these
 //     three sites (e.g. because it silently accepts the illegal
 //     assignment instead), this test will fail and that failure is the
 //     intended, useful signal -- this file's legality assumption was
@@ -246,11 +246,11 @@ TEST_F(EventSequenceTest, AtSeqEventControlResolvesToTheSequenceDecl) {
 }
 
 TEST_F(EventSequenceTest, ProceduralAssignmentToWiresAYAndClkIsIllegal) {
-  EXPECT_NE(findError(ErrorDefinition::HLDB_ILLEGAL_WIRE_LHS, "a"), nullptr)
+  EXPECT_NE(findEvent(EventType::IllegalWireLhs, "a"), nullptr)
       << "'a = 1;' procedurally assigns the net 'a', illegal per IEEE 1800-2023 6.7";
-  EXPECT_NE(findError(ErrorDefinition::HLDB_ILLEGAL_WIRE_LHS, "y"), nullptr)
+  EXPECT_NE(findEvent(EventType::IllegalWireLhs, "y"), nullptr)
       << "'y = 1;' procedurally assigns the net 'y', illegal per IEEE 1800-2023 6.7";
-  EXPECT_NE(findError(ErrorDefinition::HLDB_ILLEGAL_WIRE_LHS, "clk"), nullptr)
+  EXPECT_NE(findEvent(EventType::IllegalWireLhs, "clk"), nullptr)
       << "'clk = 1;'/'clk = 0;' procedurally assign the net 'clk', illegal per IEEE 1800-2023 6.7";
 }
 }  // namespace hlc

@@ -36,7 +36,7 @@
 //     be resolved as a type, but without elaboration HLC cannot turn a
 //     local parameter into a cast target type: the cast's typespec binds
 //     to an UnsupportedTypespec named "NumBitsDeviceSel" and the compiler
-//     reports an HLDB_UNSUPPORTED_TYPESPEC error for it
+//     reports an UnsupportedTypespec error for it
 //
 // Checked:
 //   - module "dut" (matched by its bare vpiDefName, since its decorated
@@ -54,7 +54,7 @@
 //     "begin ... end") containing a single blocking Assignment
 //   - that Assignment's rhs is a cast operation (vpiCastOp) targeting an
 //     UnsupportedTypespec named "NumBitsDeviceSel", over operand "device"
-//   - compiler reports exactly the HLDB_UNSUPPORTED_TYPESPEC error for
+//   - compiler reports exactly the UnsupportedTypespec error for
 //     symbol "NumBitsDeviceSel"
 //
 // NOT CHECKED: runtime effects, and whether elaborating this module (e.g.
@@ -64,8 +64,7 @@
 // elaborated, so neither can be observed here.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -251,11 +250,11 @@ TEST_F(AlwaysNoElabTest, AssignmentCastsToUnsupportedParameterTypespec) {
 // --- compiler diagnostics ---------------------------------------------------
 
 TEST_F(AlwaysNoElabTest, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc

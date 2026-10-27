@@ -32,7 +32,7 @@
 // was never captured due to the parse failure on line 18.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -88,8 +88,8 @@ TEST_F(CompilerDirectivesPreprocessorMacro1, NoNetsInStubModules) {
 // `VAR_2) is illegal and must be reported as a compiler error/syntax error.
 // ----
 TEST_F(CompilerDirectivesPreprocessorMacro1, Compiler_ReportsErrorForUndefinedMacros) {
-  const ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_TRUE(stats.nbSyntax > 0 || stats.nbError > 0)
+  const EventListener::Stats stats = m_compiler->getEventStats();
+  EXPECT_TRUE(stats.m_syntaxes > 0 || stats.m_errors > 0)
       << "referencing undefined macros `VAR_1/`VAR_2 must produce a diagnostic";
 }
 

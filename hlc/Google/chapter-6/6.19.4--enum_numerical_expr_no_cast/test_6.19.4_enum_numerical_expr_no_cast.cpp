@@ -58,8 +58,8 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -223,8 +223,8 @@ TEST_F(EnumNumericalExprNoCastTest, CompilerShouldRejectUncastCompoundAssignment
   GTEST_SKIP() << "IEEE 1800-2023 6.19.4: 'a cast shall be required for an expression that is assigned to "
                   "an enum variable where the type of the expression is not equivalent to the enumeration "
                   "type'";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_INCOMPATIBLE_TYPES), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIncompatibleTypes), nullptr)
       << "IEEE 1800-2023 6.19.4: a compound numerical assignment on an enum variable with no "
          "cast back to the enum type violates the same strict type checking rule.";
 }

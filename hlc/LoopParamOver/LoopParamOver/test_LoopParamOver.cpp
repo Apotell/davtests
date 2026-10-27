@@ -41,12 +41,12 @@
 //     evaluated in the instantiating scope, so it binds to top.P2.
 //   - 6.5 "Data shall be declared before they are used" with 6.20
 //     "Constants are named data objects": "P1" on line 9 precedes top.P1's
-//     declaration on line 11 -- COMP_FAILED_TO_BIND for "P1" at line 9.
+//     declaration on line 11 -- CompFailedToBind for "P1" at line 9.
 //     Backward references (line 10 "P3", line 11 "P2", line 3 "P1") are
 //     legal and must bind to the parameter of the same module.
 //   - 6.20 / 23.10.4 (elaboration "computes parameter values"): a parameter
 //     whose value depends on itself has no value. Both cycles must be
-//     diagnosed with ELAB_EXPRESSION_LOOP, located at the parameter
+//     diagnosed with ElabExpressionLoop, located at the parameter
 //     assignments that close them (Foo line 3; top line 9).
 //
 // What is NOT checked and why:
@@ -54,12 +54,11 @@
 //     is illegal, so there is no standard-correct target to assert.
 //   - which binding the self-reference "P2" on line 3 should get: the
 //     reference sits inside P2's own declaration; the defect is the
-//     circular value dependency, checked via ELAB_EXPRESSION_LOOP.
+//     circular value dependency, checked via ElabExpressionLoop.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -224,21 +223,21 @@ TEST_F(LoopParamOverTest, SubOverridesFooP1WithTopP2) {
 // 6.5 + 6.20: "P1" on line 9 is used before top.P1 is declared on line 11.
 TEST_F(LoopParamOverTest, ForwardReferenceToP1IsDiagnosed) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet.";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "P1", 9), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "P1", 9), nullptr)
       << "6.5: data shall be declared before they are used; top.P1 is declared on line 11";
 }
 
 // 6.20 / 23.10.4: Foo.P2 = P1 + P2 has no computable value.
 TEST_F(LoopParamOverTest, FooSelfDependencyIsDiagnosed) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet.";
-  EXPECT_NE(findError(ErrorDefinition::ELAB_EXPRESSION_LOOP, 3), nullptr)
+  EXPECT_NE(findEvent(EventType::ElabExpressionLoop, 3), nullptr)
       << "Foo.P2 depends on itself; overriding Foo.P1 does not remove the loop";
 }
 
 // 6.20 / 23.10.4: top.P3 -> P1 -> P2 -> P3 has no computable value.
 TEST_F(LoopParamOverTest, TopCircularDependencyIsDiagnosed) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet.";
-  EXPECT_NE(findError(ErrorDefinition::ELAB_EXPRESSION_LOOP, 9), nullptr)
+  EXPECT_NE(findEvent(EventType::ElabExpressionLoop, 9), nullptr)
       << "top.P3 = P1, P2 = P3, P1 = P2 form a dependency loop";
 }
 

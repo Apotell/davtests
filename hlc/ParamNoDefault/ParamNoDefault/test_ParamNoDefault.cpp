@@ -98,8 +98,8 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -139,11 +139,11 @@ class ParamNoDefaultTest : public Test {
   // 'allowSyntax' is set, 'syntax') names 'symbol'. Which error identifier
   // HLC picks for it is a tool convention, so any is accepted.
   bool reportsErrorNaming(std::string_view symbol, bool allowSyntax) {
-    for (const ErrorDefinition::ErrorMap::value_type &entry : ErrorDefinition::getErrorInfoMap()) {
-      const ErrorDefinition::ErrorSeverity severity = entry.second.m_severity;
+    for (const EventDefinition &entry : getEventTable()) {
+      const EventSeverity severity = entry.m_severity;
       const bool accepted =
-          (severity == ErrorDefinition::ERROR) || (allowSyntax && (severity == ErrorDefinition::SYNTAX));
-      if (accepted && (findError(entry.first, symbol) != nullptr)) return true;
+          (severity == EventSeverity::Error) || (allowSyntax && (severity == EventSeverity::Syntax));
+      if (accepted && (findEvent(entry.m_type, symbol) != nullptr)) return true;
     }
     return false;
   }
@@ -353,8 +353,8 @@ TEST_F(ParamNoDefaultTest, UnknownMemberKeyBIsAnError) {
 }
 
 TEST_F(ParamNoDefaultTest, NoFatalDiagnostic) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_EQ(m_session->getErrorContainer()->getErrorStats().nbFatal, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_EQ(m_session->getEventListener()->getStats().m_fatals, 0);
 }
 
 }  // namespace hlc

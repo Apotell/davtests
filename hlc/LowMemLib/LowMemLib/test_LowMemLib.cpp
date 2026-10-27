@@ -40,7 +40,7 @@
 //     bound to instantiations during elaboration): mytop instantiates
 //     nothing, so no cell is needed from the library directory, and module
 //     "mylib" from mylib/mylib.sv must NOT be loaded into the design.
-//   - no COMP_FAILED_TO_BIND diagnostics (there are no references to bind).
+//   - no CompFailedToBind diagnostics (there are no references to bind).
 //
 // What is NOT checked and why:
 //   - the exact semantics of the "-y"/"+libext+" options themselves: these
@@ -49,9 +49,8 @@
 //     not part of the design) is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -119,8 +118,8 @@ TEST_F(LowMemLibTest, OnlyMytopIsInTheDesign) {
 }
 
 TEST_F(LowMemLibTest, NoBindingFailures) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "mylib"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "mytop"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "mylib"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "mytop"), nullptr);
 }
 
 }  // namespace hlc

@@ -46,9 +46,8 @@
 //     (confirmed directly below by NoImplicitVariableErrorsUnlikeNoParensSizeDeleteNum)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -264,9 +263,9 @@ TEST_F(AssociativeArrayExistsTest, DesignHasModuleTypespec) {
 }
 
 TEST_F(AssociativeArrayExistsTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "exists", 24, 40), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "exists", 24, 40), nullptr)
       << "map.exists() must bind (IEEE 1800-2023 7.9.3)";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "exists", 25, 40), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "exists", 25, 40), nullptr)
       << "map.exists() must bind (IEEE 1800-2023 7.9.3)";
 }
 

@@ -446,7 +446,7 @@ TEST_F(Sequence17Test, Assert_PropertyExpr_ResolvedToSeqNonconsecDecl) {
 }
 
 TEST_F(Sequence17Test, Compiler_NoErrors) {
-  EXPECT_EQ(m_compiler->getErrorStats().nbError, 0)
+  EXPECT_EQ(m_compiler->getEventStats().m_errors, 0)
       << "Compiler must not emit any error for legal use of 'seq_nonconsec' "
          "in assert property(@(posedge clk) seq_nonconsec)";
 }

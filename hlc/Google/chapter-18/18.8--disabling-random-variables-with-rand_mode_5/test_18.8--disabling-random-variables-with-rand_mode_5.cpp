@@ -76,7 +76,7 @@
 // 23-25), so the file is illegal. The rule is about a declaration, so a
 // tool can and must reject it while compiling, even though the suite tags
 // the file ':type: simulation'. HLC defines a dedicated diagnostic for
-// exactly this case, COMP_CANNOT_REDEFINE_BUILTIN_METHOD, and the test
+// exactly this case, CompCannotRedefineBuiltinMethod, and the test
 // expects it.
 //
 // Line 40 calls rand_mode() on the random variable 'obj.x', not on the
@@ -178,9 +178,9 @@
 //       to env's constructor) and 'run_test();' (a TaskCall bound to
 //       uvm_pkg's run_test)
 //   Diagnostics (18.8)
-//     - no COMP_UNDEFINED_VARIABLE for any variable or formal the file
+//     - no CompUndefinedVariable for any variable or formal the file
 //       references
-//     - COMP_CANNOT_REDEFINE_BUILTIN_METHOD is reported for 'rand_mode', in
+//     - CompCannotRedefineBuiltinMethod is reported for 'rand_mode', in
 //       this file, on line 23 (the declaration), and HLC classifies it as an
 //       error (not a warning or note)
 //     - the compilation therefore reports at least one error
@@ -208,7 +208,7 @@
 //
 // KNOWN FAILURE (illegal override of rand_mode() accepted), not a defect in
 // this test: RedefiningRandModeIsReportedOnItsDeclaration fails on HLC 577.
-// HLC never reports COMP_CANNOT_REDEFINE_BUILTIN_METHOD for 'rand_mode',
+// HLC never reports CompCannotRedefineBuiltinMethod for 'rand_mode',
 // although 18.8 forbids overriding it and HLC defines that diagnostic as an
 // error. CompilationReportsAtLeastOneError passes only because of the
 // unrelated errors listed below, not because the override was caught. It is
@@ -264,10 +264,8 @@
 
 #include <hlc/Common/FileSystem.h>
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -511,21 +509,20 @@ class DisablingRandomVariablesWithRandMode5Test : public Test {
   // --- diagnostics --------------------------------------------------------
 
   // True if 'type' has severity error or worse.
-  static bool isErrorSeverity(ErrorDefinition::ErrorType type) {
-    const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
-    const ErrorDefinition::ErrorMap::const_iterator info = infos.find(type);
-    if (info == infos.cend()) {
+  static bool isErrorSeverity(uint32_t type) {
+    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), type);
+    if (info == nullptr) {
       return false;
     }
-    return info->second.m_severity <= ErrorDefinition::ERROR;
+    return info->m_severity <= EventSeverity::Error;
   }
 
   // The source lines of this file that diagnostics of 'type' point to. When
   // 'errorsOnly' is set, 'type' is ignored and every diagnostic of severity
   // error or worse is collected instead.
-  static std::vector<uint32_t> getDiagnosticLines(ErrorDefinition::ErrorType type, bool errorsOnly) {
+  static std::vector<uint32_t> getDiagnosticLines(uint32_t type, bool errorsOnly) {
     std::vector<uint32_t> lines;
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
       if (errorsOnly) {
         if (!isErrorSeverity(error.getType())) {
           continue;
@@ -533,8 +530,8 @@ class DisablingRandomVariablesWithRandMode5Test : public Test {
       } else if (error.getType() != type) {
         continue;
       }
-      for (const Location &loc : error.getLocations()) {
-        const std::string_view path = FileSystem::toPath(loc.m_fileId);
+      for (const EventArg &loc : error.getArguments()) {
+        const std::string_view path = loc.m_file;
         if (path.find(kSourceName) == std::string_view::npos) {
           continue;
         }
@@ -1140,7 +1137,7 @@ TEST_F(DisablingRandomVariablesWithRandMode5Test, InitialCallsRunTestFromUvmPkg)
 
 TEST_F(DisablingRandomVariablesWithRandMode5Test, EveryReferencedVariableAndFormalIsFound) {
   for (std::string_view name : {"obj", "x", "ret", "name", "parent", "phase", "environment"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "'" << name << "' is declared in this file, so it is not undefined";
   }
 }
@@ -1149,9 +1146,9 @@ TEST_F(DisablingRandomVariablesWithRandMode5Test, EveryReferencedVariableAndForm
 // of rand_mode() accepted) in the file header.
 TEST_F(DisablingRandomVariablesWithRandMode5Test, RedefiningRandModeIsReportedOnItsDeclaration) {
   GTEST_SKIP() << "HLC Gap: Compiler doesn't report this diagnosis yet.";
-  EXPECT_NE(findError(ErrorDefinition::COMP_CANNOT_REDEFINE_BUILTIN_METHOD, "rand_mode"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompCannotRedefineBuiltinMethod, "rand_mode"), nullptr)
       << "18.8: 'The rand_mode() method is built-in and cannot be overridden.'";
-  const std::vector<uint32_t> lines = getDiagnosticLines(ErrorDefinition::COMP_CANNOT_REDEFINE_BUILTIN_METHOD, false);
+  const std::vector<uint32_t> lines = getDiagnosticLines(EventType::CompCannotRedefineBuiltinMethod, false);
   ASSERT_FALSE(lines.empty()) << "the redefinition must be reported in this file";
   size_t onDeclaration = 0;
   for (const uint32_t line : lines) {
@@ -1163,13 +1160,13 @@ TEST_F(DisablingRandomVariablesWithRandMode5Test, RedefiningRandModeIsReportedOn
 }
 
 TEST_F(DisablingRandomVariablesWithRandMode5Test, RedefinitionDiagnosticIsAnError) {
-  EXPECT_TRUE(isErrorSeverity(ErrorDefinition::COMP_CANNOT_REDEFINE_BUILTIN_METHOD))
+  EXPECT_TRUE(isErrorSeverity(EventType::CompCannotRedefineBuiltinMethod))
       << "18.8: overriding rand_mode() is illegal, so it is an error, not a warning";
 }
 
 TEST_F(DisablingRandomVariablesWithRandMode5Test, CompilationReportsAtLeastOneError) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GE(stats.nbFatal + stats.nbSyntax + stats.nbError, 1)
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GE(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 1)
       << "the source is illegal (18.8), so the compilation cannot be clean";
 }
 
@@ -1177,12 +1174,12 @@ TEST_F(DisablingRandomVariablesWithRandMode5Test, CompilationReportsAtLeastOneEr
 // file header.
 TEST_F(DisablingRandomVariablesWithRandMode5Test, EveryErrorInThisFileIsOnTheRandModeDeclaration) {
   GTEST_SKIP() << "HLC Gap: UVM reports a number of errors still.";
-  for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+  for (const Event &error : m_session->getEventListener()->getEvents()) {
     if (!isErrorSeverity(error.getType())) {
       continue;
     }
-    for (const Location &loc : error.getLocations()) {
-      if (FileSystem::toPath(loc.m_fileId).find(kSourceName) == std::string_view::npos) {
+    for (const EventArg &loc : error.getArguments()) {
+      if (loc.m_file.find(kSourceName) == std::string_view::npos) {
         continue;
       }
       EXPECT_TRUE(loc.m_line >= 23 && loc.m_line <= 25)

@@ -76,7 +76,7 @@
 //     shortcut.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -239,8 +239,8 @@ TEST_F(ArithShiftAssignmentSignedTest, DesignHasThreeTypespecs) {
 }
 
 TEST_F(ArithShiftAssignmentSignedTest, CompilerReportsErrors) {
-  ASSERT_NE(findError(ErrorDefinition::ErrorType::HLDB_SIGNED_UNSIGNED_PORT_CONN, "b", 27), nullptr);
-  ASSERT_NE(findError(ErrorDefinition::ErrorType::HLDB_SIGNED_UNSIGNED_PORT_CONN, "c", 28), nullptr);
+  ASSERT_NE(findEvent(EventType::SignedUnsignedPortConn, "b", 27), nullptr);
+  ASSERT_NE(findEvent(EventType::SignedUnsignedPortConn, "c", 28), nullptr);
 }
 
 // --- the actual point of the file: compound shift-assign runtime result --

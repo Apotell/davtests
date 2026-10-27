@@ -30,14 +30,13 @@
 // an illegal construct that was never rejected, not the required diagnostic,
 // so none of them is asserted here. Row 306's keyed assignment-pattern-as-LHS
 // statement ('{x:a, y:b} = s;) is rejected by HLC's own grammar with a
-// PA_SYNTAX_ERROR instead of the semantic diagnostic the rule calls for; that
+// PaSyntaxError instead of the semantic diagnostic the rule calls for; that
 // parse failure recovers locally -- every module declared after r306_m in the
 // fixture still compiles -- so it stays in this shared file rather than
 // moving to a sibling _inv*.sv.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -60,7 +59,7 @@ TEST_F(Chapter10ErrorRulesTest, Row290_NonConstantSelectOnContinuousAssignLhsIsR
   // which is none of them.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 10.2 Table 10-1 allows only a constant "
                   "bit-select or part-select on the left-hand side of a continuous assignment";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "w", 15, 10), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "w", 15, 10), nullptr)
       << "a non-constant bit-select is illegal on the LHS of a continuous assignment "
          "(IEEE 1800-2023 10.2)";
 }
@@ -75,7 +74,7 @@ TEST_F(Chapter10ErrorRulesTest, Row298_SelectIntoAtomicNetLhsIsRejected) {
   // nettype's data type on the LHS.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 10.2 Table 10-1 allows only a constant "
                   "bit-select or part-select on the left-hand side of a continuous assignment";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "r298_m", 27, 10), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "r298_m", 27, 10), nullptr)
       << "a continuous assignment to an atomic (user-defined nettype) net shall not "
          "select part of it (IEEE 1800-2023 10.3.2)";
 }
@@ -90,10 +89,10 @@ TEST_F(Chapter10ErrorRulesTest, Row302_SelectOnProceduralContinuousAssignLhsIsRe
   // part-select of a variable. r302_m has both forms: line 37's "assign
   // q[3] = ..." (bit-select) and line 38's "assign q[3:0] = ..."
   // (part-select).
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "r302_m", 37, 11), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "r302_m", 37, 11), nullptr)
       << "the LHS of a procedural continuous assign shall not be a bit-select or "
          "part-select of a variable (IEEE 1800-2023 10.6.1)";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "r302_m", 38, 11), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "r302_m", 38, 11), nullptr)
       << "the LHS of a procedural continuous assign shall not be a bit-select or "
          "part-select of a variable (IEEE 1800-2023 10.6.1)";
 }
@@ -109,10 +108,10 @@ TEST_F(Chapter10ErrorRulesTest, Row303_SelectOnForceReleaseLhsIsRejected) {
   // r303_m has both forms: line 52's "force v[0] = ..." (a bit-select of a
   // variable) and line 53's "force n[0] = ..." (a select of a user-defined
   // nettype net).
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "r303_m", 52, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "r303_m", 52, 5), nullptr)
       << "the LHS of force/release shall not be a select of a variable or of a "
          "user-defined nettype net (IEEE 1800-2023 10.6.2)";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "r303_m", 53, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "r303_m", 53, 5), nullptr)
       << "the LHS of force/release shall not be a select of a variable or of a "
          "user-defined nettype net (IEEE 1800-2023 10.6.2)";
 }
@@ -125,13 +124,13 @@ TEST_F(Chapter10ErrorRulesTest, Row306_KeyedNotationOnAssignmentPatternLhsIsReje
   // assignment-like context, positional notation shall be required;
   // keyed/named or default notation is illegal there. r306_m's line 66,
   // "'{x:a, y:b} = s;", uses keyed notation on the LHS. HLC's own grammar
-  // currently rejects this construct outright with a PA_SYNTAX_ERROR, rather
+  // currently rejects this construct outright with a PaSyntaxError, rather
   // than accepting it and diagnosing the illegal notation semantically as
   // the standard's own rule requires.
   GTEST_SKIP() << "HLC's grammar rejects this construct with a syntax error instead of the semantic "
                   "diagnostic IEEE 1800-2023 10.9 requires for keyed notation on an assignment "
                   "pattern LHS";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "x", 66, 13), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "x", 66, 13), nullptr)
       << "keyed/named notation is illegal on the LHS of an assignment pattern "
          "(IEEE 1800-2023 10.9)";
 }
@@ -160,7 +159,7 @@ TEST_F(Chapter10ErrorRulesTest, Row309_AssignmentPatternInPortExpressionIsReject
   // change before this rule is decidable after binding.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 10.9 forbids an assignment pattern "
                   "expression in a port expression of a module, interface or program declaration";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "p", 72, 18), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "p", 72, 18), nullptr)
       << "an assignment pattern cannot be a port expression (IEEE 1800-2023 10.9)";
 }
 
@@ -174,7 +173,7 @@ TEST_F(Chapter10ErrorRulesTest, Row316_UnpackedArrayConcatOutsideAssignmentLikeC
   // operand of "==", not as an assignment's source expression.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 10.10 forbids an unpacked array "
                   "concatenation from appearing outside an assignment-like context";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "a", 80, 21), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "a", 80, 21), nullptr)
       << "an unpacked array concatenation may appear only as the source expression "
          "of an assignment-like context (IEEE 1800-2023 10.10)";
 }
@@ -188,7 +187,7 @@ TEST_F(Chapter10ErrorRulesTest, Row317_AssociativeArrayTargetOfUnpackedArrayConc
   // dimension; a target of any other type, including an associative array,
   // shall be illegal. r317_m's line 91, "assoc = {a, b};", targets an
   // associative array.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "r317_m", 91, 11), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "r317_m", 91, 11), nullptr)
       << "an associative array shall not be the target of an unpacked array "
          "concatenation (IEEE 1800-2023 10.10)";
 }
@@ -203,7 +202,7 @@ TEST_F(Chapter10ErrorRulesTest, Row322_ReplicationInsideUnpackedArrayConcatIsRej
   // assigned to a fixed-size unpacked array.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 10.10.1 forbids replication syntax "
                   "inside an unpacked array concatenation";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "A9", 100, 11), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "A9", 100, 11), nullptr)
       << "replication syntax is illegal inside an unpacked array concatenation "
          "(IEEE 1800-2023 10.10.1)";
 }
@@ -219,7 +218,7 @@ TEST_F(Chapter10ErrorRulesTest, Row323_NestedUnpackedArrayConcatIsRejected) {
   // another.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 10.10.3 forbids an unpacked array "
                   "concatenation from appearing nested inside another one";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "SQ", 111, 11), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "SQ", 111, 11), nullptr)
       << "an unpacked array concatenation shall not appear as an item of another "
          "one (IEEE 1800-2023 10.10.3)";
 }

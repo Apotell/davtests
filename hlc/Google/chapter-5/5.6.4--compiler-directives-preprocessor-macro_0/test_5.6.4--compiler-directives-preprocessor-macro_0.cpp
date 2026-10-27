@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,8 +32,8 @@
 // The design contains only the SourceFile entry.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -72,7 +72,7 @@ TEST_F(CompilerDirectivesPreprocessorMacro0, DesignHasOneSourceFile) {
 // SystemVerilog and must be reported as a syntax error.
 // ----
 TEST_F(CompilerDirectivesPreprocessorMacro0, Compiler_ReportsSyntaxError) {
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 20, 16), nullptr) << "the `else branch's invalid text must produce a syntax error";
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 20, 16), nullptr) << "the `else branch's invalid text must produce a syntax error";
 }
 
 }  // namespace hlc

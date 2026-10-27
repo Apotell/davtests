@@ -92,9 +92,8 @@
 //     here would risk locking in a guess rather than the standard.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -264,7 +263,7 @@ TEST_F(ForElabTest, EachGenTreeIterationHasOrGateNamedGate) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ForElabTest, UndeclaredTypeTlH2dTFailsToBind) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "tl_h2d_t"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "tl_h2d_t"), nullptr)
       << "Sec 6.3: 'tlul_pkg::tl_h2d_t' is never declared anywhere in tlul_pkg";
 }
 

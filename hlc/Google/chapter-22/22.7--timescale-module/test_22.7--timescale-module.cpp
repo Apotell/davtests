@@ -82,8 +82,8 @@
 //
 // Some checks read an LRM fact through an HLDB code or class: vpiInitial,
 // vpiConstType, vpiRealConst, vpiDecConst and vpiIntConst are VPI codes
-// (Annex K); a LogicTypespec means "declared logic"; PA_NOTIMESCALE_INFO and
-// PA_MISSING_TIMEUNIT are HLC's diagnostics for a design element that has
+// (Annex K); a LogicTypespec means "declared logic"; PaNotimescaleInfo and
+// PaMissingTimeunit are HLC's diagnostics for a design element that has
 // no timescale. Every expected value comes from the LRM, so a red test means
 // HLC deviates from it.
 //
@@ -174,10 +174,8 @@
 #include <hlc/Common/FileSystem.h>
 #include <hlc/Common/PathId.h>
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/assignment.h>
@@ -297,31 +295,30 @@ double realValueOf(const hldb::Constant *constant) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) { return error.getLocations().empty() ? 0 : error.getLocations().front().m_line; }
+uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
 
 // Every diagnostic of 'severity' as " [<code> line <n>: <message template>]",
 // so that a red run shows what was reported and where.
-std::string describeErrors(const ErrorContainer *errorContainer, ErrorDefinition::ErrorSeverity severity) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
+std::string describeErrors(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-    if ((errorInfo == errorInfoMap.end()) || (errorInfo->second.m_severity != severity)) continue;
+  for (const Event &error : eventListener->getEvents()) {
+    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if ((errorInfo == nullptr) || (errorInfo->m_severity != severity)) continue;
     description += " [" + std::to_string(static_cast<int32_t>(error.getType()));
     description += " line " + std::to_string(lineOf(error));
-    description += ": " + std::string(errorInfo->second.m_errorText) + "]";
+    description += ": " + std::string(errorInfo->m_lines[0].m_text) + "]";
   }
   return description;
 }
 
 // Number of diagnostics of 'type' located in the file under test. Diagnostics
 // about other files, such as the tool's built-in sources, are not counted.
-size_t countInSourceFile(const ErrorContainer *errorContainer, ErrorDefinition::ErrorType type) {
+size_t countInSourceFile(const EventListener *eventListener, uint32_t type) {
   size_t count = 0;
-  for (const Error &error : errorContainer->getErrors()) {
+  for (const Event &error : eventListener->getEvents()) {
     if (error.getType() != type) continue;
-    for (const Location &location : error.getLocations()) {
-      if (endsWith(FileSystem::toPath(location.m_fileId), kSourceFileName)) {
+    for (const EventArg &location : error.getArguments()) {
+      if (endsWith(location.m_file, kSourceFileName)) {
         ++count;
         break;
       }
@@ -420,37 +417,37 @@ class TimescaleModuleTest : public Test {
 // error.
 TEST_F(TimescaleModuleTest, CompilesWithoutErrors) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorContainer::Stats stats = errorContainer->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0) << describeErrors(errorContainer, ErrorDefinition::FATAL);
-  EXPECT_EQ(stats.nbSyntax, 0) << describeErrors(errorContainer, ErrorDefinition::SYNTAX);
-  EXPECT_EQ(stats.nbError, 0) << describeErrors(errorContainer, ErrorDefinition::ERROR);
+  const EventListener::Stats stats = eventListener->getStats();
+  EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
+  EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
+  EXPECT_EQ(stats.m_errors, 0) << describeErrors(eventListener, EventSeverity::Error);
 }
 
 // Line 16 is a legal `timescale (22.7). Each of these diagnostics would mean
 // HLC rejected or misread it.
 TEST_F(TimescaleModuleTest, TimescaleDirectiveIsAccepted) {
   // "`timescale 10 ns / 1 ns" has the form of Syntax 22-6.
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_VALUE), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalTimescale), nullptr);
 
   // 10 and 1 are among the valid integers 1, 10 and 100.
-  EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_VALUE), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
 
   // ns is among the valid units s, ms, us, ns, ps and fs.
-  EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_UNIT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidUnit), nullptr);
 
   // The precision 1 ns is at least as precise as the unit 10 ns.
-  EXPECT_EQ(findError(ErrorDefinition::PA_TIMESCALE_INVALID_SCALE), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidScale), nullptr);
 
   // The directive comes before "module test;", not inside a design element.
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // `timescale is a compiler directive (22.1), not a text macro usage.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 }
 
 // 22.7 and 3.14.2.3 b): line 16 gives test a time unit and precision, so no
@@ -459,15 +456,15 @@ TEST_F(TimescaleModuleTest, TimescaleDirectiveIsAccepted) {
 // unit cannot apply either.
 TEST_F(TimescaleModuleTest, TestIsNotReportedWithoutATimescale) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  EXPECT_EQ(countInSourceFile(errorContainer, ErrorDefinition::PA_NOTIMESCALE_INFO), 0u)
-      << describeErrors(errorContainer, ErrorDefinition::INFO);
-  EXPECT_EQ(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "test"), nullptr);
+  EXPECT_EQ(countInSourceFile(eventListener, EventType::PaNotimescaleInfo), 0u)
+      << describeErrors(eventListener, EventSeverity::Info);
+  EXPECT_EQ(findEvent(EventType::PaNotimescaleInfo, "test"), nullptr);
 
-  EXPECT_EQ(countInSourceFile(errorContainer, ErrorDefinition::PA_MISSING_TIMEUNIT), 0u);
-  EXPECT_EQ(findError(ErrorDefinition::PA_MISSING_TIMEUNIT, "test"), nullptr);
+  EXPECT_EQ(countInSourceFile(eventListener, EventType::PaMissingTimeunit), 0u);
+  EXPECT_EQ(findEvent(EventType::PaMissingTimeunit, "test"), nullptr);
 }
 
 // ---------------------------------------------------------------------------

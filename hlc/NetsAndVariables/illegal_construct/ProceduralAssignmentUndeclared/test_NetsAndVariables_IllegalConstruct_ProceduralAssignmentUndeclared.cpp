@@ -26,8 +26,8 @@
 //     file (the illegal construct is rejected, not silently accepted)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -40,8 +40,8 @@ class ProceduralAssignmentUndeclaredTest : public Test {
 };
 
 TEST_F(ProceduralAssignmentUndeclaredTest, ProceduralAssignmentToUndeclaredIsRejected) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "undeclared_var"), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "undeclared_var"), nullptr)
       << "IEEE 1800-2023 6.10: the assigned identifier is never declared, and an implicit net "
          "is not created for a procedural assignment target.";
 }

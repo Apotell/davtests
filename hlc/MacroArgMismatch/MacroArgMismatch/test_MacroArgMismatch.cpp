@@ -18,7 +18,7 @@
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
@@ -107,11 +107,11 @@ TEST_F(MacroArgMismatchTest, DMacroNameColumn) {
 // actual-argument list to validate. `D (~d)` must therefore compile with no
 // preprocessor argument-count diagnostic at all.
 TEST_F(MacroArgMismatchTest, NoArgumentMismatchErrorForObjectLikeMacro) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "'`D (~d)' must not raise an argument-mismatch error; D is object-like";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "'`D (~d)' must not raise an argument-mismatch error; D is object-like";
 }
 
 }  // namespace hlc

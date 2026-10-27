@@ -30,8 +30,7 @@
 // together.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -59,7 +58,7 @@ TEST_F(Chapter26ErrorRulesTest, Row942_AmbiguousWildcardImportedNameIsRejected) 
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 26.3 makes a reference illegal when it "
                   "resolves to an identifier made potentially locally visible by more than one "
                   "wildcard import in the same scope";
-  EXPECT_NE(findError(ErrorDefinition::COMP_AMBIGUOUS_REFERENCE, "c", 22, 11), nullptr)
+  EXPECT_NE(findEvent(EventType::CompAmbiguousReference, "c", 22, 11), nullptr)
       << "a name made visible by two wildcard imports cannot be referenced (IEEE 1800-2023 26.3)";
 }
 

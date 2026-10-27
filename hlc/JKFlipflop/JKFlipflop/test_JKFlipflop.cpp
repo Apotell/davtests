@@ -63,9 +63,8 @@
 //     tool CLI behavior, not something IEEE 1800 specifies.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -370,7 +369,7 @@ TEST_F(JKFlipflopTest, AlwaysBodyIfElseBlockingAssignments) {
 
 TEST_F(JKFlipflopTest, AllIdentifiersBind) {
   for (std::string_view name : {"J", "K", "q", "w", "clk", "reset", "Din"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, name), nullptr) << "'" << name << "' is declared";
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr) << "'" << name << "' is declared";
   }
 }
 

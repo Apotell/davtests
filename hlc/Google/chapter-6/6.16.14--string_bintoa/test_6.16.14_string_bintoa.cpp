@@ -43,9 +43,8 @@
 //     are signed in HLC -- same as established in the itoa test)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -197,11 +196,11 @@ TEST_F(StringBintoaTest, BintoaArgumentIs12AsIntConst) {
       << "HLDB stores unsized integer literals as vpiIntConst";
 }
 TEST_F(StringBintoaTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(findError(ErrorDefinition::LINT_NULL_ACTUAL), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(findEvent(EventType::LintNullActual), nullptr)
       << "str.bintoa() must bind (IEEE 1800-2023 6.16.14)";
 }
 

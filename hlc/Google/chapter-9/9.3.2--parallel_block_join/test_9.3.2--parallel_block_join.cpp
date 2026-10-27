@@ -62,8 +62,7 @@
 //     rhs Constant "1"
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -250,7 +249,7 @@ TEST_F(ParallelBlockJoinTest, ThirdStmtIsBlockingAssignToC) {
 // --- compiler diagnostics ----------------------------------------------------
 
 TEST_F(ParallelBlockJoinTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
       << "'a', 'b', and 'c' must all bind to their declarations";
 }
 

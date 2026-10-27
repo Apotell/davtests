@@ -70,7 +70,7 @@
 //   instead of vpiMatchesQualifier -- same underlying gap as
 //   12.4.2--priority_if.cpp/unique_if.cpp/unique0_if.cpp, now also
 //   confirmed for case statements; (2) the undeclared case_expression
-//   "v" produces zero diagnostics instead of COMP_UNDEFINED_VARIABLE --
+//   "v" produces zero diagnostics instead of CompUndefinedVariable --
 //   the same "silently accepts an unresolved reference" pattern already
 //   confirmed in 6.10--implicit_continuous_assignment.cpp; (3) the
 //   pattern-bound "v" referenced in case items 1 and 4's $display never
@@ -89,7 +89,7 @@
 //     failing, skipped assertion (see note above)
 //   - the case_expression "v" is undeclared and SHOULD be diagnosed
 //     against the name and its own source location
-//     (findError(COMP_UNDEFINED_VARIABLE, "v", 31, 16)) per IEEE
+//     (findEvent(CompUndefinedVariable, "v", 31, 16)) per IEEE
 //     1800-2023 Sec 6.5 ("Data shall be declared before they are used,
 //     apart from implicit nets (see 6.10)"), Sec 6.10's implicit-net
 //     positions not covering a case expression; but this is currently a
@@ -117,8 +117,8 @@
 //     simulation-time concept, not a static/structural property
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -214,7 +214,7 @@ TEST_F(CasePatternTest, CaseExpressionVIsUndeclaredAndFailsToBind) {
   GTEST_SKIP() << "Confirmed HLC bug -- verified by running this test with the skip removed (fails as expected): "
                   "'case (v)' reads an identifier declared nowhere in this module, which IEEE 1800-2023 Sec 6.5 "
                   "requires to be diagnosed, but HLC reports zero diagnostics of any kind for this file. "
-                  "COMP_UNDEFINED_VARIABLE is registered in ErrorDefinition.h/.cpp (ERROR, COMP, "
+                  "CompUndefinedVariable is registered in events/events.lst and its definitions (ERROR, COMP, "
                   "'Undefined variable \"%s\"') but has no call site anywhere in src/ -- it is listed as pending "
                   "reference' gap already confirmed in 6.10--implicit_continuous_assignment.cpp. Tracked, not yet "
                   "fixed by the compiler.";
@@ -224,7 +224,7 @@ TEST_F(CasePatternTest, CaseExpressionVIsUndeclaredAndFailsToBind) {
   ASSERT_NE(cond, nullptr) << "case_expression is not a RefObj";
   EXPECT_EQ(cond->getName(), "v");
   // 12.6.1--case_pattern.sv:31:16 -- the "v" inside "initial case (v) matches".
-  ASSERT_NE(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "v", 31, 16), nullptr)
+  ASSERT_NE(findEvent(EventType::CompUndefinedVariable, "v", 31, 16), nullptr)
       << "'case (v)' references an identifier that is declared nowhere in this module (only 'tmp' of a compatible "
          "type exists). IEEE 1800-2023 Sec 6.5: \"Data shall be declared before they are used, apart from implicit "
          "nets (see 6.10)\"; Sec 6.10 grants an implicit net only in a port expression declaration, a primitive/"

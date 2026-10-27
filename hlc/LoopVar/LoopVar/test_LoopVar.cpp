@@ -43,7 +43,7 @@
 //     the auto-cast type is int." -- i's type is int.
 //   - 12.7.3: "It shall be an error for any loop variable to have the same
 //     identifier as the array" -- "i" differs from "array", so no
-//     COMP_ILLEGAL_LOOP_VARIABLE.
+//     CompIllegalLoopVariable.
 //   - the body "array[i] = i;" is a blocking Assignment (10.4.1) whose LHS
 //     is a bit-select of "array" indexed by "i" and whose RHS is "i"; both
 //     uses of "i" bind to the loop variable.
@@ -52,9 +52,8 @@
 //   - run-time iteration order/values (0..15): simulation semantics.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -261,9 +260,9 @@ TEST_F(LoopVarTest, BodyIsBlockingAssignmentUsingLoopVariable) {
 }
 
 TEST_F(LoopVarTest, NoLoopVariableDiagnostics) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_LOOP_VARIABLE), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompIllegalLoopVariable), nullptr)
       << "12.7.3: 'i' does not share the array's identifier";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "i"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "i"), nullptr);
 }
 
 }  // namespace hlc

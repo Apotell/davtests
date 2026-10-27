@@ -71,7 +71,7 @@
 //   +-- (initial block with case stmt and comparison expressions)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -114,15 +114,15 @@ static const hldb::ParamAssign *getParamAssign(const hldb::Design *d, std::strin
 // must produce no syntax errors.
 // NOTE: if this test fails, Surelog rejects valid ss.6.23 syntax.
 TEST_F(TypeOpCompareTest, Compiler_NoSyntaxErrors) {
-  ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0) << "ss.6.23: this SV file is valid -- 'case (type(T))', "
+  EventListener::Stats stats = m_compiler->getEventStats();
+  EXPECT_EQ(stats.m_syntaxes, 0) << "ss.6.23: this SV file is valid -- 'case (type(T))', "
                                   "'parameter type T = type(...)', and type comparison operators "
                                   "are all permitted by the spec; zero syntax errors expected";
 }
 
 TEST_F(TypeOpCompareTest, Compiler_NoErrors) {
-  ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "ss.6.23: valid type() file must produce no compilation errors";
+  EventListener::Stats stats = m_compiler->getEventStats();
+  EXPECT_EQ(stats.m_errors, 0) << "ss.6.23: valid type() file must produce no compilation errors";
 }
 
 // ----
@@ -142,8 +142,8 @@ TEST_F(TypeOpCompareTest, Compiler_NoErrors) {
 // collection reports 'vpiPathElem' property value has invalid objects.
 //
 TEST_F(TypeOpCompareTest, KnownGap_TypeOperatorPathElemReportedAsInvalid) {
-  ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0);
+  EventListener::Stats stats = m_compiler->getEventStats();
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 // ===========================================================================

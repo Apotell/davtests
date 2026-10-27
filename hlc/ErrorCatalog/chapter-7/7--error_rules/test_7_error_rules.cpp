@@ -46,8 +46,7 @@
 // this produces instead).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -70,7 +69,7 @@ TEST_F(Chapter7ErrorRulesTest, Row33_HardPackedUnionMemberSizeMismatchIsRejected
   // child of, its wrapping TypedefTypespec), so the name is recovered by
   // reverse-searching for the TypedefTypespec whose alias resolves back to
   // this union.
-  EXPECT_NE(findError(ErrorDefinition::COMP_PACKED_UNION_SIZE_MISMATCH, "r33_u_t"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompPackedUnionSizeMismatch, "r33_u_t"), nullptr)
       << "all members of a hard packed union must be the same size (IEEE 1800-2023 7.3.1)";
 }
 
@@ -82,7 +81,7 @@ TEST_F(Chapter7ErrorRulesTest, Row34_PackedArrayOfRealIsRejected) {
   // dimension, so the grammar rejects "real [3:0] v" outright, and the
   // parser's recovery leaves a malformed typespec behind (a follow-on
   // "invalid name" report on the orphaned RefTypespec node).
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 34, 7), nullptr)
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 34, 7), nullptr)
       << "a packed array cannot be made of a non-single-bit type such as real (IEEE 1800-2023 "
          "7.4.1), currently as a syntax error rather than a dedicated diagnostic";
 }
@@ -96,7 +95,7 @@ TEST_F(Chapter7ErrorRulesTest, Row35_MultiDimensionalArraySliceIsRejected) {
   // itself a PartSelect (confirmed via hldb-dump that 'r35_a[0:1][0:1]' is
   // modeled as two nested PartSelects) -- walks down to the base RefObj for
   // the reported symbol (r35_a).
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ARRAY_SLICE, "r35_a"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalArraySlice, "r35_a"), nullptr)
       << "an array slice cannot be applied to more than one dimension (IEEE 1800-2023 7.4.5)";
 }
 
@@ -108,7 +107,7 @@ TEST_F(Chapter7ErrorRulesTest, Row36_NewOnNonDynamicArrayIsRejected) {
   // an initializer in this multi-dimensional declaration shape at all, so
   // this reflects a parser limitation rather than a deliberate
   // implementation of the 7.5 rule.
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 56, 26), nullptr)
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 56, 26), nullptr)
       << "new[] cannot construct an array whose leftmost unpacked dimension is fixed-size "
          "(IEEE 1800-2023 7.5), currently as a syntax error rather than a dedicated diagnostic";
 }
@@ -125,7 +124,7 @@ TEST_F(Chapter7ErrorRulesTest, Row37_QueueAsUnsizedOutputDpiArgumentIsRejected) 
   // IODecl by position -- flagging a queue-typed argument against an output,
   // unsized-dimension ("int arr[]", modeled as a dynamic ArrayTypespec with no
   // range bounds) formal.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DPI_ARGUMENT, "r37_q"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalDpiArgument, "r37_q"), nullptr)
       << "a queue cannot be passed to an unsized output DPI open array formal (IEEE 1800-2023 7.7)";
 }
 
@@ -147,7 +146,7 @@ TEST_F(Chapter7ErrorRulesTest, Row38_NonIntegralIndexIntoWildcardArrayIsRejected
   // fixture. Row 15's real-select-index check explicitly excludes this same
   // BitSelect shape (non-static-array prefixes), so the two checks are
   // mutually exclusive by construction -- verified no double-report.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_INDEX_EXPRESSION, "r38_aa"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalIndexExpression, "r38_aa"), nullptr)
       << "a wildcard-index associative array cannot be indexed with a nonintegral value "
          "(IEEE 1800-2023 7.8.1)";
 }
@@ -161,7 +160,7 @@ TEST_F(Chapter7ErrorRulesTest, Row39_ForeachOverWildcardIndexArrayIsRejected) {
   // array (ForeachStmt::getVariable(), distinct from its per-dimension
   // getLoopVars() iterator variables) resolves to the same wildcard-index
   // associative array shape.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_WILDCARD_INDEX_USE, "r39_aa"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalWildcardIndexUse, "r39_aa"), nullptr)
       << "foreach cannot iterate a wildcard-index associative array (IEEE 1800-2023 7.8.1)";
 }
 
@@ -177,7 +176,7 @@ TEST_F(Chapter7ErrorRulesTest, Row40_WithClauseOnReverseIsRejected) {
   GTEST_SKIP() << "no diagnostic implemented; HLC does not model 'with' on reverse() at all, so "
                   "the call resolves to a MethodFuncCall with no actual and is instead reported "
                   "as a generic \"Null Actual\" (LN7705) rather than this row's own rule";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_WITH_CLAUSE, "reverse"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalWithClause, "reverse"), nullptr)
       << "reverse() cannot take a with clause (IEEE 1800-2023 7.12.2)";
 }
 

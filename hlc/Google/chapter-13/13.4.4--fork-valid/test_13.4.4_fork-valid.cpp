@@ -69,7 +69,7 @@
 //     static/structural compile-time property
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -206,9 +206,9 @@ TEST_F(ForkValidTest, InitialBodyCallsFunAndResolvesBackToFun) {
 // fork-join_none is legal inside a function: expect zero diagnostics
 // ---------------------------------------------------------------------------
 TEST_F(ForkValidTest, CompilerAcceptsForkJoinNoneInsideFunctionWithNoErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 0)
       << "IEEE 1800-2023 13.4.4 explicitly permits fork-join_none inside a function, so this file should compile "
          "with zero diagnostics";
 }

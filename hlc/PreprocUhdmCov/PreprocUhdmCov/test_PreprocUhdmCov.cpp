@@ -18,7 +18,7 @@
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
@@ -201,8 +201,8 @@ TEST_F(PreprocUhdmCovTest, AssertMacroHasTokens) {
 // ----
 
 TEST_F(PreprocUhdmCovTest, MismatchedEndLabelIsReportedAsError) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_UNMATCHED_LABEL, "top"), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompUnmatchedLabel, "top"), nullptr)
       << "'module top ... endmodule : toto' must be reported as exactly one error "
           "(mismatched end label)";
 }
@@ -214,14 +214,14 @@ TEST_F(PreprocUhdmCovTest, MismatchedEndLabelIsReportedAsError) {
 // also happens to contain a few other genuinely-diagnosable, but unrelated,
 // constructs: three repeated continuous assignments to the same net ("a"),
 // and an instantiation of an undefined module ("prim_subreg"). Those push
-// the real nbError well past 1, which is why the test above currently
+// the real m_errors well past 1, which is why the test above currently
 // fails -- but the actual thing this section cares about (the mismatched
 // end label being reported at all) is independently verifiable with
-// findError(), decoupled from that unrelated fixture noise, per this
-// project's own convention (davtests.md: prefer findError() over asserting
+// findEvent(), decoupled from that unrelated fixture noise, per this
+// project's own convention (davtests.md: prefer findEvent() over asserting
 // a total error count).
 TEST_F(PreprocUhdmCovTest, MismatchedEndLabelIsReportedAsError_ViaFindError) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_UNMATCHED_LABEL, "top"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUnmatchedLabel, "top"), nullptr)
       << "'module top ... endmodule : toto' must be reported as a mismatched end label error";
 }
 
@@ -232,10 +232,10 @@ TEST_F(PreprocUhdmCovTest, TopModuleEndLabelIsRecordedDespiteMismatch) {
 }
 
 // ----
-// 3. Other diagnostics contributing to the "nbError == 9" noise named in
+// 3. Other diagnostics contributing to the "m_errors == 9" noise named in
 // MismatchedEndLabelIsReportedAsError_ViaFindError's own comment above.
 // Each gets its own dedicated test here instead of being left as only a
-// prose mention, per the project's convention of one findError() check per
+// prose mention, per the project's convention of one findEvent() check per
 // diagnostic rather than one coarse count. These are NOT GTEST_SKIP()'d --
 // each asserts the diagnostic should be absent (the file is otherwise
 // legal SV, so the module's own "a"/"prim_subreg" usage should not itself
@@ -245,7 +245,7 @@ TEST_F(PreprocUhdmCovTest, TopModuleEndLabelIsRecordedDespiteMismatch) {
 
 // "assign a = b;" appears four times (lines 9, 15, 20, 26) driving the same
 // output port "a", declared "output logic b, a" -- i.e. a variable, not an
-// explicit net. HLC's HLDB_MULTIPLE_CONT_ASSIGN check fires for repeated
+// explicit net. HLC's MultipleContAssign check fires for repeated
 // continuous assignment to the same object here. Flagging this rather than
 // asserting it is definitely wrong: this project has an established,
 // separately-documented net-vs-variable misclassification bug (see e.g.
@@ -257,7 +257,7 @@ TEST_F(PreprocUhdmCovTest, TopModuleEndLabelIsRecordedDespiteMismatch) {
 // question visible and trackable, not to assert a settled verdict.
 TEST_F(PreprocUhdmCovTest, NoSpuriousMultipleContAssignOnA) {
   GTEST_SKIP() << "known gap: Multiple continuous assign statements shouldn't be flagged.";
-  EXPECT_EQ(findError(ErrorDefinition::HLDB_MULTIPLE_CONT_ASSIGN, "a"), nullptr)
+  EXPECT_EQ(findEvent(EventType::MultipleContAssign, "a"), nullptr)
       << "dut.sv's repeated 'assign a = b;' should not be flagged as multiple continuous assignments unless "
          "'a' is genuinely a variable (not a net) here -- possible net/variable misclassification, see this "
          "test's own comment";
@@ -270,7 +270,7 @@ TEST_F(PreprocUhdmCovTest, NoSpuriousMultipleContAssignOnA) {
 // diagnostic for it.
 TEST_F(PreprocUhdmCovTest, PrimSubregInstantiationDoesNotReportUnsupportedTypespec) {
   GTEST_SKIP() << "known gap: Not yet implemented error.";
-  EXPECT_EQ(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "prim_subreg"), nullptr)
+  EXPECT_EQ(findEvent(EventType::UnsupportedTypespec, "prim_subreg"), nullptr)
       << "an unresolved module instantiation ('prim_subreg' has no definition anywhere in this fixture) should "
          "not surface as an UnsupportedTypespec -- it should get its own dedicated unresolved-instance "
          "diagnostic instead";
@@ -284,7 +284,7 @@ TEST_F(PreprocUhdmCovTest, PrimSubregInstantiationDoesNotReportUnsupportedTypesp
 // "state" -- present in every single compile, entirely unrelated to this
 // file's own content.
 TEST_F(PreprocUhdmCovTest, BuiltinStateEnumDoesNotReportUnsupportedTypespec) {
-  EXPECT_EQ(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "state"), nullptr)
+  EXPECT_EQ(findEvent(EventType::UnsupportedTypespec, "state"), nullptr)
       << "hlc's own builtin.sv anonymous enum should resolve to its implicit int base typespec, not an "
          "UnsupportedTypespec named \"state\" -- see hldb_model_gaps.md item 6";
 }

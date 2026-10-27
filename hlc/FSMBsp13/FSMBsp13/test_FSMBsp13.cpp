@@ -83,8 +83,7 @@
 //   - Runtime simulation behavior -- HLC is an elaborator, not a simulator.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -625,7 +624,7 @@ TEST_F(FSMBsp13Test, DumpBlockCallsSystemTasks) {
 TEST_F(FSMBsp13Test, NoFailedBindsForTopSignals) {
   for (std::string_view name : {"fsm1clk", "fsm2clk", "fsm3clk", "fsm1rst", "fsm2rst", "SlowRam", "ctrl", "keys",
                                 "brake", "accelerate", "rd", "wr", "Fsm2Out", "speed"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, name), nullptr) << "'" << name << "' must bind";
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr) << "'" << name << "' must bind";
   }
 }
 

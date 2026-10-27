@@ -60,11 +60,11 @@
 //   - the interface's and the module's own "blk" generate block (from
 //     "if (1) begin : blk ... end", an unconditional generate-if) are each
 //     modeled as a named GenScopeArray
-//   - none of the 8 hierarchical function calls produce a COMP_FAILED_TO_BIND
+//   - none of the 8 hierarchical function calls produce a CompFailedToBind
 //     diagnostic for "f"
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -158,16 +158,16 @@ TEST_F(HierPathInterfBlockTest, NoneOfTheEightHierPathCallsFailToBind) {
   // Narrowed by symbol "f" (not just the bare type) per the guide -- exact
   // source columns for each of the 8 call sites are not known up front, so
   // this does not further narrow by line/column.
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "f"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "f"), nullptr)
       << "at least one hierarchical call to 'f' failed to bind";
 }
 
 TEST_F(HierPathInterfBlockTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 }  // namespace hlc

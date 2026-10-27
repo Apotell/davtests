@@ -47,7 +47,7 @@
 //     to it.
 //   - 6.10 / 23.9: 'i' is undeclared and is used in an expression that is
 //     NOT a continuous-assignment LHS or port connection, so no implicit net
-//     is created for it and it cannot be resolved: a COMP_FAILED_TO_BIND
+//     is created for it and it cannot be resolved: a CompFailedToBind
 //     error must be reported for 'i'.
 //
 // What is NOT checked and why:
@@ -56,9 +56,8 @@
 //     the prefix chain and index identity are checked.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -302,9 +301,9 @@ TEST_F(MultiIndexBindTest, LhsBindsToImplicitNet) {
 }
 
 TEST_F(MultiIndexBindTest, UndeclaredIndexIFailsToBind) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "i"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "i"), nullptr)
       << "6.10: implicit nets are only created for continuous-assignment LHS / port connections; 'i' is undeclared";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "microOps"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "microOps"), nullptr);
 }
 
 }  // namespace hlc

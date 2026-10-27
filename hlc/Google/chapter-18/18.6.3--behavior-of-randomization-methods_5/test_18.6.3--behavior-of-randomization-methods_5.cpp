@@ -172,7 +172,7 @@
 //     - the compilation as a whole reports at least one error
 //     - no fatal, syntax or error diagnostic points anywhere else in this
 //       file: every other line is legal
-//     - no COMP_UNDEFINED_VARIABLE for the names that ARE declared: obj,
+//     - no CompUndefinedVariable for the names that ARE declared: obj,
 //       name, parent, phase, environment
 //
 // Reduction and elaboration: nothing in this file reduces or elaborates.
@@ -203,7 +203,7 @@
 //
 // KNOWN FAILURE (errors on legal lines), not a defect in this test:
 // NoErrorOnTheLegalLinesOfThisFile is expected to fail. HLC reports:
-//   - HLDB_ILLEGAL_PROPERTY_VALUE (2038) at line 23, column 18 -- the '{' of
+//   - IllegalPropertyValue (2038) at line 23, column 18 -- the '{' of
 //     the legal 'constraint c { b > 5 && b < 12; }' (18.5). The model HLC
 //     builds for it is correct (ClassAHasOneConstraintBlockC and
 //     ConstraintCIsBGreaterThan5AndBLessThan12 pass). HLC bug; remains when
@@ -217,7 +217,7 @@
 // because either illegality was rejected.
 //
 // What is NOT checked, and why:
-//   - Which ErrorDefinition HLC uses for either illegality: the LRM says
+//   - Which event code HLC uses for either illegality: the LRM says
 //     both are illegal but names no diagnostic, so the checks accept any
 //     fatal/syntax/error diagnostic on the offending lines. The column is a
 //     tool convention; only lines are asserted.
@@ -250,10 +250,8 @@
 
 #include <hlc/Common/FileSystem.h>
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -503,12 +501,11 @@ class BehaviorOfRandomizationMethods5Test : public Test {
   // reported, one entry per diagnostic location.
   static std::vector<uint32_t> getErrorLinesInThisFile() {
     std::vector<uint32_t> lines;
-    const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
-      const ErrorDefinition::ErrorMap::const_iterator info = infos.find(error.getType());
-      if (info == infos.cend() || info->second.m_severity > ErrorDefinition::ERROR) continue;
-      for (const Location &loc : error.getLocations()) {
-        const std::string_view path = FileSystem::toPath(loc.m_fileId);
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
+      const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+      if (info == nullptr || info->m_severity > EventSeverity::Error) continue;
+      for (const EventArg &loc : error.getArguments()) {
+        const std::string_view path = loc.m_file;
         if (path.find("18.6.3--behavior-of-randomization-methods_5.sv") == std::string_view::npos) continue;
         lines.emplace_back(loc.m_line);
       }
@@ -1187,8 +1184,8 @@ TEST_F(BehaviorOfRandomizationMethods5Test, UndeclaredBOnLine43IsReportedAsError
 // Passes with HLC 577 only because of false errors on legal lines -- see the
 // NOTE in the file header.
 TEST_F(BehaviorOfRandomizationMethods5Test, CompilationReportsAtLeastOneError) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GE(stats.nbFatal + stats.nbSyntax + stats.nbError, 1)
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GE(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 1)
       << "the file overrides the built-in randomize() and uses an undeclared 'b', so the compilation must report an "
          "error";
 }
@@ -1204,7 +1201,7 @@ TEST_F(BehaviorOfRandomizationMethods5Test, NoErrorOnTheLegalLinesOfThisFile) {
 
 TEST_F(BehaviorOfRandomizationMethods5Test, EveryDeclaredVariableAndFormalIsFound) {
   for (std::string_view name : {"obj", "name", "parent", "phase", "environment"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "'" << name << "' is declared in this file, so it is not undefined";
   }
 }

@@ -57,15 +57,15 @@
 //   - 25.5: MyInterface has modport MyModPort with "output my_logic"; mem_if
 //     has modports "system" (input clk) and "memory" (output clk). The names
 //     used are declared by the same interface (my_logic as a variable, clk
-//     as an interface port), so no COMP_MODPORT_UNDEFINED_PORT is raised.
+//     as an interface port), so no CompModportUndefinedPort is raised.
 //   - 23.2.2 (ansi_port_declaration ::= [ interface_port_header ]
 //     port_identifier { unpacked_dimension }) and 37.14 detail 1:
 //       * "Intf.modport name" ports have vpiPortType vpiModportPort;
 //         "Intf name" ports have vpiPortType vpiInterfacePort.
 //       * the modport identifier ("MyModPort", "system") resolves -- no
-//         COMP_FAILED_TO_BIND for it.
+//         CompFailedToBind for it.
 //       * interface_port_header has no port_direction, so no
-//         COMP_PORT_MISSING_DIRECTION warning applies to these ports.
+//         CompPortMissingDirection warning applies to these ports.
 //       * an interface port with an unpacked dimension [1:0] is an array of
 //         interface ports: its typespec is an unpacked ArrayTypespec over the
 //         interface typespec (with the named modport where given).
@@ -85,9 +85,8 @@
 //   - vpiDirection of interface/modport ports: not defined by the standard.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -202,7 +201,7 @@ TEST_F(ModPortRangeTest, MyModPortHasOutputMyLogic) {
   ASSERT_EQ(mp->getIODecls()->size(), 1u);
   EXPECT_EQ(mp->getIODecls()->at(0)->getName(), "my_logic");
   EXPECT_EQ(mp->getIODecls()->at(0)->getDirection(), vpiOutput);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MODPORT_UNDEFINED_PORT, "my_logic"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompModportUndefinedPort, "my_logic"), nullptr)
       << "25.5: my_logic is declared by MyInterface";
 }
 
@@ -242,7 +241,7 @@ TEST_F(ModPortRangeTest, MemIfModportsSystemAndMemory) {
   EXPECT_EQ(mem->getIODecls()->at(0)->getName(), "clk");
   EXPECT_EQ(mem->getIODecls()->at(0)->getDirection(), vpiOutput);
 
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MODPORT_UNDEFINED_PORT, "clk"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompModportUndefinedPort, "clk"), nullptr)
       << "25.5: clk is declared by mem_if (as an interface port)";
 }
 
@@ -375,16 +374,16 @@ TEST_F(ModPortRangeTest, RangeItfPort2PortTypes) {
 
 TEST_F(ModPortRangeTest, ModportIdentifiersInPortHeadersBind) {
   GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "MyModPort"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "MyModPort"), nullptr)
       << "25.5: MyModPort is a modport of MyInterface";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "system"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "system"), nullptr)
       << "25.5: system is a modport of mem_if";
 }
 
 TEST_F(ModPortRangeTest, InterfacePortsNotWarnedMissingDirection) {
   GTEST_SKIP() << "HLC doesn't model interface modport yet";
   for (std::string_view name : {"my_port1", "sif1", "sif2", "conn1", "my_port3", "my_port4"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_PORT_MISSING_DIRECTION, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompPortMissingDirection, name), nullptr)
         << name << ": 23.2.2 interface_port_header has no port_direction";
   }
 }

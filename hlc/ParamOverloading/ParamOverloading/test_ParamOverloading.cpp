@@ -121,8 +121,8 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -480,16 +480,16 @@ TEST_F(ParamOverloadingTest, TopIsTheOnlyTopLevelInstance) {
 }
 
 TEST_F(ParamOverloadingTest, StructAbIsNotReportedAsRedefined) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_TYPEDEF), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef), nullptr)
       << "23.9: each struct_ab is declared once in its own module scope";
 }
 
 TEST_F(ParamOverloadingTest, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "6.22.3: all integral types are assignment compatible";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "6.22.3: all integral types are assignment compatible";
 }
 
 }  // namespace hlc

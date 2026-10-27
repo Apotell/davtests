@@ -74,8 +74,8 @@
 // (0-error) output -- this is the opposite, confirmed-correct case).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -94,12 +94,12 @@ class AssignInExprInvTest : public Test {
 // --- the point of the file: the parenthesization rule is enforced ---------
 
 TEST_F(AssignInExprInvTest, CompilerCorrectlyRejectsUnparenthesizedChainedAssignment) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 23, 7), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 23, 7), nullptr)
       << "IEEE 11.3.6 requires 'a = b = c = 5;' (no parens) to be rejected, matching this file's "
          ":should_fail_because: tag";
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbWarning, 0);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_warnings, 0);
 }
 
 // --- side effect of the failed parse: no well-formed module survives ------

@@ -68,8 +68,8 @@
 //     statement carrying an expression, and a void function call used
 //     as an expression), so the compiler should report at least one
 //     diagnostic; this is checked via the coarse
-//     nbFatal+nbSyntax+nbError sum (no specific ErrorDefinition entry
-//     for either violation has been confirmed, so a named findError()
+//     m_fatals+m_syntaxes+m_errors sum (no specific event definition
+//     for either violation has been confirmed, so a named findEvent()
 //     check is not yet available -- see the test-writing guide's
 //     allowance for a coarse sanity check when no specific error is
 //     known). CONFIRMED BY RUNNING THIS TEST WITH THE SKIP BELOW
@@ -83,8 +83,8 @@
 //     concept, not a static/structural compile-time property
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -202,8 +202,8 @@ TEST_F(FunctionVoidReturnTest, CompilerShouldRejectVoidFunctionReturningAValueBu
                   "actual: 0 vs 0): IEEE 1800-2023 13.4.1 prohibits both a void function's return statement from "
                   "carrying an expression and a void function call from being used as an expression, but HLC "
                   "accepts both with zero diagnostics. Tracked, not yet fixed by the compiler.";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_RETURN_VALUE, "add"), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalReturnValue, "add"), nullptr)
       << "IEEE 1800-2023 13.4.1: a return statement in a void function shall not carry an "
          "expression, but 'add' returns a sum.";
 }

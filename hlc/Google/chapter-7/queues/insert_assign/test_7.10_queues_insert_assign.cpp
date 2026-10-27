@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -65,7 +65,7 @@
 //   with or without parentheses. This HLC build never resolves the
 //   parenthesis-less form: instead of a MethodFuncCall, "size" in "q.size"
 //   is left as an unresolved RefObj, and a spurious
-//   COMP_FAILED_TO_BIND ("Failed to bind") is raised for it
+//   CompFailedToBind ("Failed to bind") is raised for it
 //   (same gap tracked for chapter-7/queues/bounded/bounded.sv,
 //   chapter-7/queues/delete/delete.sv and chapter-7/queues/
 //   delete_assign/delete_assign.sv). That the parenthesized form works is
@@ -75,10 +75,8 @@
 //   FAIL until the parser is fixed.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -432,8 +430,8 @@ TEST_F(QueuesInsertAssignTest, DesignHasStringTypespec) {
 }
 
 TEST_F(QueuesInsertAssignTest, NoBindErrorForSize) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr)
-      << "'q.size' without parens should not raise COMP_FAILED_TO_BIND (IEEE 1800-2017 7.24.4 permits "
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr)
+      << "'q.size' without parens should not raise CompFailedToBind (IEEE 1800-2017 7.24.4 permits "
          "omitting parens on a no-arg built-in method call)";
 }
 

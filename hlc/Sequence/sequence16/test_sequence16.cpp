@@ -433,7 +433,7 @@ TEST_F(Sequence16Test, Assert_PropertyExpr_ResolvedToSeqGotoDecl) {
 }
 
 TEST_F(Sequence16Test, Compiler_NoErrors) {
-  EXPECT_EQ(m_compiler->getErrorStats().nbError, 0)
+  EXPECT_EQ(m_compiler->getEventStats().m_errors, 0)
       << "Compiler must not emit any error for legal use of 'seq_goto' in "
          "assert property(@(posedge clk) seq_goto)";
 }

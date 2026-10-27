@@ -63,8 +63,7 @@
 // check.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -249,8 +248,8 @@ TEST_F(SigsSensListTest, ElseBranchAssignsZeroToUndeclaredYScaleAmountNext) {
 // --- compiler diagnostics ---------------------------------------------------
 
 TEST_F(SigsSensListTest, CompilesWithBindErrors) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "outputLine", 28), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "yScaleAmountNext", 32), nullptr);
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "outputLine", 28), nullptr);
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "yScaleAmountNext", 32), nullptr);
 }
 
 }  // namespace hlc

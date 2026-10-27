@@ -37,8 +37,8 @@
 //   - Class "a" and property "b" still exist and compile fine on their
 //     own (the illegal part is specifically the undefined "c").
 //   - This build's diagnostics were inspected directly and found
-//     identical to the "explicit" sibling's: nbFatal=0, nbSyntax=0,
-//     nbError=0, nbWarning=0, nbNote=0, and only nbInfo=4 (the same 4
+//     identical to the "explicit" sibling's: m_fatals=0, m_syntaxes=0,
+//     m_errors=0, m_warnings=0, m_notes=0, and only m_infos=4 (the same 4
 //     plain informational diagnostics, unrelated to the missing
 //     constraint body). No Constraint object named "c" exists anywhere
 //     in the design (neither ClassDefn::getConstraints() nor
@@ -53,7 +53,7 @@
 //
 // Not checked:
 //   - The exact error code the real fix should raise (not assumed to be
-//     ErrorDefinition::COMP_IMPLICIT_EMPTY_CONSTRAINT specifically, since
+//     EventType::CompImplicitEmptyConstraint specifically, since
 //     no such diagnostic was observed to fire here; only that *some*
 //     fatal/syntax/error diagnostic should exist).
 //   - vpiFullName on any object (never asserted per the test writing
@@ -62,7 +62,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
@@ -92,8 +92,8 @@ TEST_F(ImplicitExternalConstraint1Test, UndefinedConstraintPrototypeShouldBeIlle
   // illegal, whether or not "extern" is written. This build accepts the
   // file with zero fatal/syntax/error diagnostics -- confirmed
   // empirically -- identical to the "explicit" sibling's gap.
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  const hlc::EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GT(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 0)
       << "IEEE 1800-2023 Sec 18.5.1: 'constraint c;' with no out-of-class definition anywhere must be "
          "rejected as illegal; this build currently accepts it silently, same as the 'extern' spelling";
 }

@@ -18,7 +18,7 @@
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 
 #include <hldb/Utils.h>
 #include <hldb/constant.h>
@@ -108,11 +108,11 @@ TEST_F(ParamFileMacroTest, ParamFileMacroHasTokens) {
 // even with a different body and no intervening `undef -- is legal and
 // must not be reported as an error.
 TEST_F(ParamFileMacroTest, RedefinitionOfCommandLineMacroIsNotAnError) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "redefining a command-line -D macro from within the file is legal per "
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "redefining a command-line -D macro from within the file is legal per "
                                  "IEEE 1800-2023 Sec 22.5.1(c) -- it must not be reported as an error";
 }
 

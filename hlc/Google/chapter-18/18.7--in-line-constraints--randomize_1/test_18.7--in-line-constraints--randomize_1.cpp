@@ -78,7 +78,7 @@
 //     - both 'x' bind to class a1's 'x'; 'y' binds to class a2's 'y'; 'z'
 //       binds to the Variable holding the formal 'z' (18.7, 37.15)
 //   Diagnostics
-//     - no COMP_UNDEFINED_VARIABLE for any variable or formal the file
+//     - no CompUndefinedVariable for any variable or formal the file
 //       references
 //     - no fatal, syntax or error diagnostic points into this file
 //     - the whole compilation is legal: zero fatal, syntax and error
@@ -101,7 +101,7 @@
 // KNOWN FAILURE (errors reported in this file), not a defect in this test:
 // NoErrorIsReportedInThisFile and NoFatalSyntaxOrErrorDiagnostics assert
 // that this legal file compiles cleanly and are expected to fail. HLC
-// reports HLDB_ILLEGAL_PROPERTY_VALUE (2038) twice at line 25, column 39 --
+// reports IllegalPropertyValue (2038) twice at line 25, column 39 --
 // the '{' that opens the 'with' block, once per constraint expression --
 // although the inline constraint is legal (18.7). With this .hlc: 0 syntax
 // errors and 2 errors in total. Neither check is skipped or relaxed.
@@ -137,10 +137,8 @@
 
 #include <hlc/Common/FileSystem.h>
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -593,7 +591,7 @@ TEST_F(InLineConstraintsRandomize1Test, ZInWithBindsToFormalZ) {
 
 TEST_F(InLineConstraintsRandomize1Test, EveryReferencedVariableAndFormalIsFound) {
   for (std::string_view name : {"obj", "x", "y", "z", "result"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "'" << name << "' is declared in this file, so it is not undefined";
   }
 }
@@ -603,13 +601,12 @@ TEST_F(InLineConstraintsRandomize1Test, EveryReferencedVariableAndFormalIsFound)
 // Expected to fail -- see KNOWN FAILURE (errors reported in this file) in the
 // file header.
 TEST_F(InLineConstraintsRandomize1Test, NoErrorIsReportedInThisFile) {
-  const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
   size_t count = 0;
-  for (const Error &error : m_session->getErrorContainer()->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator info = infos.find(error.getType());
-    if (info == infos.cend() || info->second.m_severity > ErrorDefinition::ERROR) continue;
-    for (const Location &loc : error.getLocations()) {
-      const std::string_view path = FileSystem::toPath(loc.m_fileId);
+  for (const Event &error : m_session->getEventListener()->getEvents()) {
+    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if (info == nullptr || info->m_severity > EventSeverity::Error) continue;
+    for (const EventArg &loc : error.getArguments()) {
+      const std::string_view path = loc.m_file;
       if (path.find("18.7--in-line-constraints--randomize_1.sv") == std::string_view::npos) continue;
       ++count;
       ADD_FAILURE() << "error " << error.getType() << " reported at " << path << ":" << loc.m_line << ":"
@@ -622,10 +619,10 @@ TEST_F(InLineConstraintsRandomize1Test, NoErrorIsReportedInThisFile) {
 // Expected to fail -- see KNOWN FAILURE (errors reported in this file) in the
 // file header.
 TEST_F(InLineConstraintsRandomize1Test, NoFatalSyntaxOrErrorDiagnostics) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the source is legal SystemVerilog and should compile without errors";
 }
 
 }  // namespace hlc

@@ -151,7 +151,7 @@ TEST_F(FilePackageImportTest, ReturnStatementReferencesUnresolvedWe) {
 }
 
 TEST_F(FilePackageImportTest, UnresolvedWeIsReportedAsBindingError) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view{"we"}), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, std::string_view{"we"}), nullptr)
       << "'return we;' references an undeclared identifier and must be diagnosed as a failed bind";
 }
 

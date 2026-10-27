@@ -62,13 +62,13 @@
 //     declaration, with 1 argument, Constant "2"
 //   - THE POINT OF THIS FILE: per 13.4.4, a fork-join_any construct
 //     inside a function is illegal, so the compiler must reject it.
-//     HLC now does: it reports COMP_ILLEGAL_TIMING_CONTROL_IN_FUNCTION
+//     HLC now does: it reports CompIllegalTimingControlInFunction
 //     on the 'fork' keyword itself (line 20, col 2). That is the right
 //     construct at the right location -- a fork-join_any blocks, which
 //     is precisely what 13.4.4 forbids -- though the message is phrased
 //     as a timing-control violation rather than naming the fork rule.
-//     Asserted via findError() with the code, symbol and location, not
-//     an nbFatal+nbSyntax+nbError sum: a bare count would also go green
+//     Asserted via findEvent() with the code, symbol and location, not
+//     an m_fatals+m_syntaxes+m_errors sum: a bare count would also go green
 //     on any unrelated diagnostic in this fixture.
 //
 // What is NOT checked and why:
@@ -77,8 +77,8 @@
 //     structural compile-time property
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -216,13 +216,13 @@ TEST_F(ForkInvalidTest, InitialBodyCallsFunAndResolvesBackToFun) {
 // THE POINT OF THIS FILE: fork-join_any is illegal inside a function
 // ---------------------------------------------------------------------------
 TEST_F(ForkInvalidTest, CompilerRejectsForkJoinAnyInsideFunction) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  // NOTE: HLC diagnoses this as COMP_ILLEGAL_TIMING_CONTROL_IN_FUNCTION, reported on the
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  // NOTE: HLC diagnoses this as CompIllegalTimingControlInFunction, reported on the
   // 'fork' keyword itself (line 20). That is the right construct and the right location --
   // a fork-join_any blocks, which is what 13.4.4 forbids -- but the diagnostic is phrased as
   // a timing-control violation rather than naming the 13.4.4 fork rule. Asserted by code and
   // location so a regression to some *other* diagnostic cannot silently keep this green.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMING_CONTROL_IN_FUNCTION, "fun", 20, 2), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalTimingControlInFunction, "fun", 20, 2), nullptr)
       << "IEEE 1800-2023 13.4.4 only permits fork-join_none inside a function ('Statements that do not block "
          "shall be allowed inside a function; specifically... fork-join_none constructs'); this file's 'fun' "
          "uses 'join_any', matching the file's own :should_fail_because: tag";

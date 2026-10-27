@@ -57,7 +57,7 @@
 //     made to terminate, resulting in a legitimate model hierarchy." The
 //     unconditional "loop u1();" inside module loop can never terminate, so
 //     it cannot yield a legitimate model hierarchy and must be diagnosed
-//     (ELAB_INSTANTIATION_LOOP for "loop"); test's terminating recursion
+//     (ElabInstantiationLoop for "loop"); test's terminating recursion
 //     must not be.
 //
 // What is NOT checked and why:
@@ -68,9 +68,8 @@
 //   - per-level parameter values of the test recursion (elaboration only).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -255,14 +254,14 @@ TEST_F(LoopTest, SelfInstanceOverridesParameterWithDecrement) {
 // 27.5: the unconditional self-instantiation of 'loop' can never terminate.
 TEST_F(LoopTest, NonTerminatingRecursionOfLoopIsDiagnosed) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet";
-  EXPECT_NE(findError(ErrorDefinition::ELAB_INSTANTIATION_LOOP, "loop"), nullptr)
+  EXPECT_NE(findEvent(EventType::ElabInstantiationLoop, "loop"), nullptr)
       << "27.5: only a recursion that terminates yields a legitimate model hierarchy; 'loop u1();' inside "
          "module loop recurses forever";
 }
 
 // 27.5: the parameter-guarded recursion of 'test' terminates and is legal.
 TEST_F(LoopTest, TerminatingRecursionOfTestIsNotDiagnosed) {
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_INSTANTIATION_LOOP, "test"), nullptr);
+  EXPECT_EQ(findEvent(EventType::ElabInstantiationLoop, "test"), nullptr);
 }
 
 }  // namespace hlc

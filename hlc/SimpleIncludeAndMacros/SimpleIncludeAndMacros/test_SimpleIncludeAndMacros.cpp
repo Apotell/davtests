@@ -15,8 +15,8 @@
 */
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -27,7 +27,20 @@
 #include <hldb/preproc_macro_definition.h>
 #include <hldb/source_file.h>
 
+#include <set>
+#include <string>
+#include <string_view>
+#include <vector>
+
 namespace hlc {
+namespace {
+// The last component of a path such as "$Source01/top.v".
+std::string_view leafOf(std::string_view path) {
+  const std::string_view::size_type slash = path.find_last_of("/\\");
+  return (slash == std::string_view::npos) ? path : path.substr(slash + 1);
+}
+}  // namespace
+
 class SimpleIncludeAndMacrosTest : public Test {
  public:
   static void SetUpTestSuite() { Compile(__FILE__, {"-f", "SimpleIncludeAndMacros.hlc"}); }
@@ -46,14 +59,14 @@ class SimpleIncludeAndMacrosTest : public Test {
 // module. All of this must be reported as compile errors, not silently
 // accepted.
 TEST_F(SimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::PP_SYNTAX_ERROR, 13, 17), nullptr) << "illegal top-level macro expansions in mode.vh must produce syntax errors";
-  EXPECT_NE(findError(ErrorDefinition::PP_MACRO_PARENTHESIS_NEEDED, 62, 1), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE, 36, 0), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::PpSyntaxError, 13, 17), nullptr) << "illegal top-level macro expansions in mode.vh must produce syntax errors";
+  EXPECT_NE(findEvent(EventType::PpMacroParenthesisNeeded, 62, 1), nullptr);
+  EXPECT_NE(findEvent(EventType::PpMacroNoDefaultValue, 36, 0), nullptr)
       << "illegal macro argument counts must be reported as errors";
-  EXPECT_NE(findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO, 40, 0), nullptr)
+  EXPECT_NE(findEvent(EventType::PpTooManyArgsMacro, 40, 0), nullptr)
       << "too many actual arguments for a macro must be reported as an error";
-  EXPECT_NE(findError(ErrorDefinition::PP_RECURSIVE_MACRO_DEFINITION, 47, 0), nullptr)
+  EXPECT_NE(findEvent(EventType::PpRecursiveMacroDefinition, 47, 0), nullptr)
       << "the recursive BOTTOM/TOP/BOTTOM1 macro chain must be reported as an error";
 }
 
@@ -143,6 +156,63 @@ TEST_F(SimpleIncludeAndMacrosTest, NMacroHasOneToken) {
   ASSERT_NE(macro, nullptr);
   ASSERT_NE(macro->getTokens(), nullptr);
   EXPECT_FALSE(macro->getTokens()->empty()) << "N body must have at least one token (4)";
+}
+
+// Context notes (hlc's event design, not an IEEE requirement): an event lists, innermost first,
+// the macro expansions and inclusions that enclose its position.
+//
+// mode.vh is reached only through the body of macro INCLUSION_FILES (my_incl.vh line 12, which is
+// fake.sv:205 after my_incl.vh's `line 200 "fake.sv"), expanded by every top-level file. An event
+// in mode.vh names the macro whose body holds the `include, then the expansion it came through --
+// one copy per top-level file, each a separate event.
+TEST_F(SimpleIncludeAndMacrosTest, IncludeFromMacroBodyHasContextNotes) {
+  const std::vector<const Event *> events = findEvents(EventType::PpTooManyArgsMacro, 40);
+  ASSERT_EQ(events.size(), 5u) << "mode.vh:40 is reached once per top-level file";
+
+  std::set<std::string> expansions;
+  for (const Event *const event : events) {
+    const EventArg *const primary = event->getArgument(0);
+    ASSERT_NE(primary, nullptr);
+    EXPECT_EQ(leafOf(primary->m_file), "mode.vh");
+
+    const std::vector<EventNote> &notes = event->getNotes();
+    ASSERT_EQ(notes.size(), 2u);
+    EXPECT_EQ(notes[0].m_text, "In file included from the body of macro \"INCLUSION_FILES\" defined at");
+    EXPECT_EQ(leafOf(notes[0].m_file), "fake.sv");
+    EXPECT_EQ(notes[0].m_line, 205u);
+    EXPECT_EQ(notes[1].m_text, "In expansion of macro \"INCLUSION_FILES\" at");
+    EXPECT_EQ(notes[1].m_column, 1u);
+    expansions.emplace(std::string(leafOf(notes[1].m_file)) + ":" + std::to_string(notes[1].m_line));
+  }
+  EXPECT_EQ(expansions, (std::set<std::string>{"top.v:8", "top_1.v:8", "top_2.v:8", "top_3.v:11", "top_4.v:8"}));
+}
+
+// `BLOB (defined in mode.vh) expands to an illegal `timescale inside top.v, top_1.v and top_2.v at
+// line 22: the event raised in the expansion names it, at the event's own position.
+TEST_F(SimpleIncludeAndMacrosTest, MacroExpansionHasContextNote) {
+  const std::vector<const Event *> events = findEvents(EventType::PpIllegalDirectiveInDesignElement, 22, 1);
+  ASSERT_EQ(events.size(), 3u) << "top.v, top_1.v and top_2.v expand `BLOB at 22:1";
+
+  for (const Event *const event : events) {
+    const EventArg *const primary = event->getArgument(0);
+    ASSERT_NE(primary, nullptr);
+    const std::vector<EventNote> &notes = event->getNotes();
+    ASSERT_EQ(notes.size(), 1u) << primary->m_file;
+    EXPECT_EQ(notes[0].m_text, "In expansion of macro \"BLOB\" at");
+    EXPECT_EQ(notes[0].m_file, primary->m_file);
+    EXPECT_EQ(notes[0].m_line, 22u);
+    EXPECT_EQ(notes[0].m_column, 1u);
+  }
+}
+
+// An event outside any inclusion or macro expansion has no context notes: `undef multipl at 15:8 in
+// top.v, top_1.v, top_2.v and top_4.v.
+TEST_F(SimpleIncludeAndMacrosTest, TopLevelEventHasNoContextNotes) {
+  const std::vector<const Event *> events = findEvents(EventType::PpUndefUnkownMacro, 15, 8);
+  ASSERT_EQ(events.size(), 4u);
+  for (const Event *const event : events) {
+    EXPECT_TRUE(event->getNotes().empty()) << event->getArgument(0)->m_file;
+  }
 }
 
 }  // namespace hlc

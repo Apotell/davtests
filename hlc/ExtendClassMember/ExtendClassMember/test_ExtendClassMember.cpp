@@ -60,7 +60,7 @@
 //     class body. Per Sec 8.24 this out-of-block body has nothing to bind
 //     to. hlc/ErrorCatalog/chapter-8/8--error_rules/test_8_error_rules.cpp
 //     already documents that this exact category of diagnostic
-//     (COMP_MISPLACED_EXTERN_DECLARATION for an out-of-block method with
+//     (CompMisplacedExternDeclaration for an out-of-block method with
 //     no preceding extern prototype) is not wired up in this build, so
 //     the object-model shape produced for a case like this one is not
 //     independently established anywhere else in this suite either; this
@@ -90,9 +90,8 @@
 //     (GTEST_SKIP'd -- see note above)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -269,7 +268,7 @@ TEST_F(ExtendClassMemberTest, ParamBaseExtendsUnresolvedSequencerBase) {
 }
 
 TEST_F(ExtendClassMemberTest, CompilerReportsFailedToBindForSequencerBase) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "uvm_sequencer_base"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "uvm_sequencer_base"), nullptr)
       << "Sec 8.13/6.3: 'uvm_sequencer_base' is used as a base class but never declared";
 }
 
@@ -337,9 +336,9 @@ TEST_F(ExtendClassMemberTest, OutOfBlockNewMemberAccessResolution) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ExtendClassMemberTest, CompilerReportsAtLeastOneError) {
-  ASSERT_NE(findError(ErrorDefinition::ErrorType::COMP_FAILED_TO_BIND, "uvm_sequence_item", 9), nullptr);
-  ASSERT_NE(findError(ErrorDefinition::ErrorType::COMP_FAILED_TO_BIND, "uvm_sequence_item", 12), nullptr);
-  ASSERT_NE(findError(ErrorDefinition::ErrorType::COMP_FAILED_TO_BIND, "uvm_sequencer_base", 13), nullptr);
+  ASSERT_NE(findEvent(EventType::CompFailedToBind, "uvm_sequence_item", 9), nullptr);
+  ASSERT_NE(findEvent(EventType::CompFailedToBind, "uvm_sequence_item", 12), nullptr);
+  ASSERT_NE(findEvent(EventType::CompFailedToBind, "uvm_sequencer_base", 13), nullptr);
 }
 
 }  // namespace hlc

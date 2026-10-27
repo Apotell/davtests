@@ -51,7 +51,7 @@
 // `default_nettype, `celldefine and the others with a vpiDirectiveType code).
 //
 // What is checked
-//   - PP_TOO_MANY_ARGS_MACRO is reported on line 18 with an error-class
+//   - PpTooManyArgsMacro is reported on line 18 with an error-class
 //     severity (fatal, syntax or error), not as a warning.
 //   - Every fatal, syntax or error diagnostic outside the elaboration
 //     category points at line 18. For lines 1-17 (comments, blank lines and
@@ -74,7 +74,7 @@
 //     the text is compared with white space removed, plus a separate check
 //     that initial is not joined to $display. Nearest assertions: the macro
 //     text checks in DDefinition.
-//   - Which error-class severity PP_TOO_MANY_ARGS_MACRO has. The LRM only
+//   - Which error-class severity PpTooManyArgsMacro has. The LRM only
 //     says "error". Nearest assertion: the error-class check in
 //     ReportsTooManyActualArguments.
 //   - Whether HLDB records a PreprocMacroInstance for `D(,,), and with which
@@ -88,7 +88,7 @@
 //   - What the macro text would print. $display output only exists while
 //     simulation time advances, so it is permanently out of scope. Nearest
 //     assertion: DDefinition (the stored macro text).
-//   - The symbol text and column carried by the PP_TOO_MANY_ARGS_MACRO
+//   - The symbol text and column carried by the PpTooManyArgsMacro
 //     diagnostic. The LRM requires the error but not its message format.
 //     Nearest assertion: the line 18 check in ReportsTooManyActualArguments.
 //   - The seven one-line comments and the block comment (5.4). The LRM gives
@@ -106,7 +106,7 @@
 //     implementation-specific (3.14.2.3). Nearest assertion:
 //     SourceFileHasNoIncludesOrDirectives (zero directives).
 //   - How many diagnostics line 18 draws, and of which severity, including
-//     how often PP_TOO_MANY_ARGS_MACRO itself is reported. The LRM requires
+//     how often PpTooManyArgsMacro itself is reported. The LRM requires
 //     an error for the illegal usage but does not limit how many diagnostics
 //     it draws or of which kind, so for example an extra syntax diagnostic on
 //     line 18 is not checked either way. Nearest assertions:
@@ -127,10 +127,8 @@
 //     elaborating run may report is excluded, not asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -236,23 +234,22 @@ bool startsWithSeparatedWord(std::string_view text, std::string_view word) {
 }
 
 // True for the severities the LRM's "error" can map to.
-bool isErrorClass(ErrorDefinition::ErrorSeverity severity) {
-  return (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-         (severity == ErrorDefinition::ERROR);
+bool isErrorClass(EventSeverity severity) {
+  return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+         (severity == EventSeverity::Error);
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) { return error.getLocations().empty() ? 0 : error.getLocations().front().m_line; }
+uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
 
 // One diagnostic as " [<code> line <n>: <text>]", for failure messages, so a
 // red run shows what was reported and where. <text> is HLC's message
 // template, so its placeholders are not filled in.
-std::string describeError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
+std::string describeError(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
   std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
   description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != errorInfoMap.end()) description += ": " + std::string(errorInfo->second.m_errorText);
+  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
   return description + "]";
 }
 }  // namespace
@@ -287,18 +284,17 @@ class DefineExpansion8Test : public Test {
 // number of formal arguments." `D(,,) on line 18 passes three actual
 // arguments to D, which has two formal arguments.
 TEST_F(DefineExpansion8Test, ReportsTooManyActualArguments) {
-  const Error *const error = findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO);
+  const Event *const error = findEvent(EventType::PpTooManyArgsMacro);
   ASSERT_NE(error, nullptr) << "`D(,,) passes 3 actual arguments to a macro with 2 formal arguments";
-  ASSERT_FALSE(error->getLocations().empty());
-  EXPECT_EQ(error->getLocations().front().m_line, kUsageLine);
+  ASSERT_FALSE(error->getArguments().empty());
+  EXPECT_EQ(error->getArguments().front().m_line, kUsageLine);
 
   // The LRM calls this an error, not a warning; it does not say which kind of
   // error, so any error-class severity is accepted.
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo =
-      errorInfoMap.find(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO);
-  ASSERT_NE(errorInfo, errorInfoMap.end());
-  EXPECT_TRUE(isErrorClass(errorInfo->second.m_severity)) << "severity " << errorInfo->second.m_severity;
+  const EventDefinition *const errorInfo =
+      hldb::findEventDefinition(hlc::getEventTable(), EventType::PpTooManyArgsMacro);
+  ASSERT_NE(errorInfo, nullptr);
+  EXPECT_TRUE(isErrorClass(errorInfo->m_severity)) << "severity " << errorInfo->m_severity;
 }
 
 // Line 18 is the one illegal line (22.5.1); the LRM requires an error there
@@ -317,15 +313,14 @@ TEST_F(DefineExpansion8Test, ReportsTooManyActualArguments) {
 // elaborating run may legitimately report that.
 TEST_F(DefineExpansion8Test, ErrorsOnlyOnTheIllegalLine) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
   std::string offLine;
-  for (const Error &error : errorContainer->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-    if (errorInfo == errorInfoMap.end()) continue;
-    if (!isErrorClass(errorInfo->second.m_severity) || (errorInfo->second.m_category == ErrorDefinition::ELAB)) {
+  for (const Event &error : eventListener->getEvents()) {
+    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if (errorInfo == nullptr) continue;
+    if (!isErrorClass(errorInfo->m_severity) || (errorInfo->m_category->m_name == "Elab")) {
       continue;
     }
     if (lineOf(error) != kUsageLine) offLine += describeError(error);
@@ -336,42 +331,42 @@ TEST_F(DefineExpansion8Test, ErrorsOnlyOnTheIllegalLine) {
 // Each of these diagnostics would mean HLC misread one of the two lines.
 TEST_F(DefineExpansion8Test, ReportsNoOtherMacroDiagnostics) {
   // Both lines match Syntax 22-2 and Syntax 22-3.
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_SYNTAX_ERROR), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
 
   // "(" follows D with no white space on line 17, so (x,y) is the formal
   // argument list (22.5.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
 
   // Both formal arguments x and y appear in the macro text.
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNUSED_ARGUMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
 
   // D is defined on line 17, before its use on line 18, and only once.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MULTIPLY_DEFINED_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
 
   // The usage has its parentheses (22.5.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_PARENTHESIS_NEEDED), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
 
   // Too many arguments is not too few: the empty actual arguments that map to
   // x and y are legal and are substituted by nothing, as neither has a
   // default (22.5.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
 
   // D is not a compiler directive name (22.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NAME_RESERVED), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
 
   // "start" and "end" are each closed on line 17 (5.9).
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNTERMINATED_STRING), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
 
   // The macro text of D does not refer to D or to any other macro.
-  EXPECT_EQ(findError(ErrorDefinition::PP_RECURSIVE_MACRO_DEFINITION), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
 
   // Both directives are outside any design element.
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DefineExpansion8Test, SourceFileRecordedOnce) {

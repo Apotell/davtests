@@ -47,11 +47,10 @@
 // Rows 19 and 27 are blocked on genuine HLDB model gaps (documented as gaps
 // #7 and #8 in .claude/instructions/hldb_model_gaps.md) rather than being
 // simple post-pass omissions -- see each row's own comment. Row 20 remains
-// blocked on the separate, pre-existing COMP_MULTIPLY_DEFINED_TYPEDEF defect.
+// blocked on the separate, pre-existing CompMultiplyDefinedTypedef defect.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -72,7 +71,7 @@ TEST_F(Chapter6ErrorRulesTest, Row8_AssignmentToInputPortVariableIsRejected) {
   // to a Variable, checking the enclosing Module's own Ports for one whose
   // direction is input and whose low-connection resolves to that same
   // Variable object.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ASSIGNMENT_TO_INPUT_PORT, "r8_d"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompAssignmentToInputPort, "r8_d"), nullptr)
       << "an input port variable cannot be the target of an assignment (IEEE 1800-2023 6.5)";
 }
 
@@ -85,7 +84,7 @@ TEST_F(Chapter6ErrorRulesTest, Row9_NettypeDataTypeMustBeValid) {
   // deny-listing string/class/chandle/event and non-fixed-size array data
   // types. Does not recursively validate a struct/union data type's own
   // members, so those are always accepted here rather than guessed at.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_NETTYPE_DATA_TYPE, "r9_badnet"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalNettypeDataType, "r9_badnet"), nullptr)
       << "a string is not a valid nettype data type (IEEE 1800-2023 6.6.7)";
 }
 
@@ -99,7 +98,7 @@ TEST_F(Chapter6ErrorRulesTest, Row10_NettypeResolutionFunctionSignatureMustMatch
   // (ModelBuilder.cpp), a post-pass over every nettype-marked TypedefTypespec
   // with a resolution function, comparing the function's return typespec
   // against the nettype's own data typespec.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_NETTYPE_RESOLUTION_FUNCTION, "r10_wt"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalNettypeResolutionFunction, "r10_wt"), nullptr)
       << "a nettype resolution function must return the nettype's data type (IEEE 1800-2023 6.6.7)";
 }
 
@@ -112,7 +111,7 @@ TEST_F(Chapter6ErrorRulesTest, Row11_InterconnectNetCannotBeAssignedOrRead) {
   // interconnect-typed Net, walking its parent chain for an enclosing
   // ContAssign or Process (Initial/Always/Final/etc). Both 'assign r11_w1 = 1'
   // and '$display(r11_w1)' are now rejected.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_INTERCONNECT_USE, "r11_w1"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalInterconnectUse, "r11_w1"), nullptr)
       << "an interconnect net cannot be assigned or read directly (IEEE 1800-2023 6.6.8)";
 }
 
@@ -126,7 +125,7 @@ TEST_F(Chapter6ErrorRulesTest, Row12_NetWithTwoStateOrRealDataTypeIsRejected) {
   // deliberately excluded so user-defined nettype nets are never
   // false-positived here) to a 2-state integral or real/shortreal typespec.
   // Both 'wire bit r12_b' and 'wire real r12_r' are now rejected.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_NET_DATA_TYPE, "r12_r"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalNetDataType, "r12_r"), nullptr)
       << "real is not a valid data type for a built-in-nettype net (IEEE 1800-2023 6.7.1)";
 }
 
@@ -143,10 +142,10 @@ TEST_F(Chapter6ErrorRulesTest, Row13_BitSelectOfVectoredNetMayBeDisallowed) {
   // FIXED 2026-08-29: wired in ModelBuilder::reportIllegalVectoredSelect()
   // (ModelBuilder.cpp), a post-pass over every BitSelect whose prefix resolves
   // to a Net with getExplicitVectored() set. Registered as a WARNING (see
-  // ErrorDefinition.cpp), matching the permissive "may disallow" wording above
+  // events/*.yaml), matching the permissive "may disallow" wording above
   // -- not reporting would have been equally standard-conformant, but this
   // implementation chooses to exercise the optional check.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_VECTORED_SELECT, "r13_a"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalVectoredSelect, "r13_a"), nullptr)
       << "a bit-select of a vectored net (IEEE 1800-2023 6.9.2)";
 }
 
@@ -163,7 +162,7 @@ TEST_F(Chapter6ErrorRulesTest, Row14_EdgeEventControlOnRealVariableIsRejected) {
   // (ModelBuilder.cpp), a post-pass over every EventControl whose operand
   // resolves to a real-typed Variable and carries an explicit posedge/
   // negedge/edge qualifier.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EDGE_ON_REAL, "r14_r"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalEdgeOnReal, "r14_r"), nullptr)
       << "an edge control cannot be applied to a real variable (IEEE 1800-2023 6.12)";
 }
 
@@ -192,7 +191,7 @@ TEST_F(Chapter6ErrorRulesTest, Row15_RealIndexExpressionInSelectIsRejected) {
   // wildcard-index associative array's key lookup (row 38, 7.8.1) shares the
   // same BitSelect model shape but is a different rule -- verified this does
   // not false-positive on chapter-7's 'r38_aa[r38_r]'.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_REAL_SELECT_INDEX, "r15_idx"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalRealSelectIndex, "r15_idx"), nullptr)
       << "a real expression cannot index a bit-select (IEEE 1800-2023 6.12)";
 }
 
@@ -203,7 +202,7 @@ TEST_F(Chapter6ErrorRulesTest, Row16_ChandlePortIsRejected) {
   // FIXED 2026-08-28: wired in ModelBuilder::reportIllegalChandlePort()
   // (ModelBuilder.cpp), a post-pass over every Port whose low-connection
   // resolves to a chandle-typed Variable.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CHANDLE_USE, "r16_h"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalChandleUse, "r16_h"), nullptr)
       << "a port cannot have the chandle data type (IEEE 1800-2023 6.14)";
 }
 
@@ -213,7 +212,7 @@ TEST_F(Chapter6ErrorRulesTest, Row17_RelationalOperatorOnChandleIsRejected) {
   // (ModelBuilder.cpp), a post-pass over every relational Operation
   // (vpiLtOp/vpiGtOp/vpiLeOp/vpiGeOp) with a chandle-typed operand -- only
   // equality/inequality against another chandle or null is permitted.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_OPERAND_TYPE, "r17_h1"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalOperandType, "r17_h1"), nullptr)
       << "a relational operator cannot be applied to chandle operands (IEEE 1800-2023 6.14)";
 }
 
@@ -232,7 +231,7 @@ TEST_F(Chapter6ErrorRulesTest, Row19_ForwardTypedefMismatchIsRejected) {
   GTEST_SKIP() << "no diagnostic implemented; the forward declaration's own basic-type keyword "
                   "('enum') is never retained anywhere in the compiled model, so there is nothing "
                   "left to compare the actual type against (HLDB model gap #7)";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FORWARD_TYPEDEF_MISMATCH, "r19_e_t"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompForwardTypedefMismatch, "r19_e_t"), nullptr)
       << "the actual type must conform to its forward enum declaration (IEEE 1800-2023 6.18)";
 }
 
@@ -241,7 +240,7 @@ TEST_F(Chapter6ErrorRulesTest, Row19_ForwardTypedefMismatchIsRejected) {
 TEST_F(Chapter6ErrorRulesTest, Row20_ScopeResolutionOnIncompleteForwardTypeIsRejected) {
   // catalog row 20 | 6.18 | COMP
   // A separate, pre-existing defect blocks this row from being exercised as
-  // written: HLC reports COMP_MULTIPLY_DEFINED_TYPEDEF at "class r20_c ...
+  // written: HLC reports CompMultiplyDefinedTypedef at "class r20_c ...
   // endclass" (6--error_rules.sv), treating the completing class definition
   // as redeclaring the earlier "typedef r20_c;" forward declaration, even
   // though this two-step forward-then-complete pattern is exactly what a
@@ -250,9 +249,9 @@ TEST_F(Chapter6ErrorRulesTest, Row20_ScopeResolutionOnIncompleteForwardTypeIsRej
   // EXPECTED TO FAIL: no diagnostic implemented for the named rule, and the defect above blocks
   // even reaching it.
   GTEST_SKIP() << "no diagnostic implemented for this row's rule, and a pre-existing bug "
-                  "(HLC reports COMP_MULTIPLY_DEFINED_TYPEDEF at the completing 'class r20_c "
+                  "(HLC reports CompMultiplyDefinedTypedef at the completing 'class r20_c "
                   "... endclass' instead) blocks even reaching it";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SCOPE_RESOLUTION_PREFIX, "r20_c"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalScopeResolutionPrefix, "r20_c"), nullptr)
       << "'C::T' outside a typedef/type-operator context needs C to resolve to a class "
          "(IEEE 1800-2023 6.18)";
 }
@@ -262,7 +261,7 @@ TEST_F(Chapter6ErrorRulesTest, Row20_ScopeResolutionOnIncompleteForwardTypeIsRej
 TEST_F(Chapter6ErrorRulesTest, Row21_HierarchicalNameAndConstVarInEnumValueAreRejected) {
   // catalog row 21 | 6.19 | COMP
   // r21_m's hierarchical enum value 'u.P' also fails a generic name bind
-  // (COMP_FAILED_TO_BIND, line 128 column 19) -- a different, incidental
+  // (CompFailedToBind, line 128 column 19) -- a different, incidental
   // failure, not this row's rule.
   //
   // FIXED 2026-08-29 (const-variable half only): wired in
@@ -273,8 +272,8 @@ TEST_F(Chapter6ErrorRulesTest, Row21_HierarchicalNameAndConstVarInEnumValueAreRe
   // reverse-typespec-lookup shape reportPackedUnionSizeMismatch() already
   // uses for an anonymous EnumTypespec. The hierarchical-name half of this
   // row is not separately implemented -- it already surfaces as
-  // COMP_FAILED_TO_BIND, per the comment above.
-  EXPECT_NE(findError(ErrorDefinition::COMP_NOT_A_CONSTANT_EXPRESSION, "r21_e"), nullptr)
+  // CompFailedToBind, per the comment above.
+  EXPECT_NE(findEvent(EventType::CompNotAConstantExpression, "r21_e"), nullptr)
       << "an enum value cannot use a hierarchical name or a const variable (IEEE 1800-2023 6.19)";
 }
 
@@ -289,7 +288,7 @@ TEST_F(Chapter6ErrorRulesTest, Row22_SpecparamInParameterExpressionIsRejected) {
   // each ParamAssign, collect the enclosing instance's own specparam names
   // and search the rhs subtree (via a NamedRefObjFinder Visitor) for a
   // matching RefObj name.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SPECPARAM_USE, "r22_regsize"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalSpecparamUse, "r22_regsize"), nullptr)
       << "a specparam cannot appear in a parameter's constant expression (IEEE 1800-2023 6.20.5)";
 }
 
@@ -303,7 +302,7 @@ TEST_F(Chapter6ErrorRulesTest, Row23_WriteToConstVariableIsRejected) {
   // initializer (Variable::getValue()) is not modeled as an Assignment, so
   // it is naturally excluded -- only a genuine, separate Assignment
   // statement targeting the const variable is flagged.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ASSIGNMENT_TO_CONST, "r23_c"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompAssignmentToConst, "r23_c"), nullptr)
       << "a const variable cannot be assigned after initialization (IEEE 1800-2023 6.20.6)";
 }
 
@@ -319,7 +318,7 @@ TEST_F(Chapter6ErrorRulesTest, Row24_UnboundedLiteralMisuseIsRejected) {
   // catches 'int r24_q[$:r24_r2]', reported using the queue's own declaring
   // Variable name (r24_q) via the same reverse-typespec-lookup shape used
   // elsewhere in this file.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_UNBOUNDED_LITERAL, "r24_q"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalUnboundedLiteral, "r24_q"), nullptr)
       << "a $-valued parameter cannot be used as a queue bound (IEEE 1800-2023 6.20.7)";
 }
 
@@ -328,16 +327,16 @@ TEST_F(Chapter6ErrorRulesTest, Row24_UnboundedLiteralMisuseIsRejected) {
 TEST_F(Chapter6ErrorRulesTest, Row26_HierarchicalReferenceIntoUnnamedBlockIsRejected) {
   // catalog row 26 | 6.21 | COMP
   // r26_top's 'u.r26_v' separately fails a generic name bind
-  // (COMP_FAILED_TO_BIND, line 169 column 13) -- HLC cannot resolve the
+  // (CompFailedToBind, line 169 column 13) -- HLC cannot resolve the
   // reference at all, but not via this row's dedicated rule.
   //
   // FIXED 2026-08-29: wired in ModelBuilder::reportIllegalHierRefIntoUnnamedBlock()
   // (ModelBuilder.cpp). Since the RefObj's trailing path element is left
-  // permanently unbound (per the COMP_FAILED_TO_BIND above), this falls back
+  // permanently unbound (per the CompFailedToBind above), this falls back
   // to name matching: collect every Variable declared directly inside an
   // unnamed Begin block anywhere in the design, then match the unbound
   // trailing path element's name against that set.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_HIER_REFERENCE, "r26_v"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalHierReference, "r26_v"), nullptr)
       << "a variable in an unnamed block cannot be named hierarchically (IEEE 1800-2023 6.21)";
 }
 
@@ -357,7 +356,7 @@ TEST_F(Chapter6ErrorRulesTest, Row27_MissingLifetimeKeywordIsRejected) {
                   "resolved lifetime after defaults apply, never whether an explicit static/"
                   "automatic keyword was written, so 'implicit' vs. 'explicit' cannot be "
                   "distinguished (HLDB model gap #8)";
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_LIFETIME_KEYWORD, "r27_svar2"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingLifetimeKeyword, "r27_svar2"), nullptr)
       << "an initialized variable needs an explicit lifetime keyword here (IEEE 1800-2023 6.21)";
 }
 
@@ -376,7 +375,7 @@ TEST_F(Chapter6ErrorRulesTest, Row28_ContinuousOrNonblockingWriteToAutomaticTarg
   // variable's own getAutomatic() flag was not observed set for a plain
   // local inside an automatic task body), which this row's assertion does
   // not depend on since it only checks the r28_dyn symbol.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_TARGET, "r28_dyn"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentTarget, "r28_dyn"), nullptr)
       << "a dynamic array element cannot be the target of a continuous assignment (IEEE 1800-2023 "
          "6.21)";
 }
@@ -392,7 +391,7 @@ TEST_F(Chapter6ErrorRulesTest, Row29_DynamicVariableReferencedOutsideProceduralB
   // scoped to a net's continuous initializer specifically, the exact
   // non-procedural context 'wire r29_w = r29_dyn[0]' exercises, not a general
   // walk of every non-procedural expression in the design.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_REFERENCE_CONTEXT, "r29_dyn"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalReferenceContext, "r29_dyn"), nullptr)
       << "a dynamic array element cannot be referenced outside a procedural block (IEEE 1800-2023 "
          "6.21)";
 }
@@ -407,7 +406,7 @@ TEST_F(Chapter6ErrorRulesTest, Row30_NonIntegralOperandInSizeCastIsRejected) {
   // expression -- confirmed via hldb-dump this is how "8'(r30_r)" is
   // modeled), flagging a source operand that resolves to a real/shortreal
   // Variable.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_CAST_OPERAND, "r30_r"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalCastOperand, "r30_r"), nullptr)
       << "a size cast requires an integral operand (IEEE 1800-2023 6.24.1)";
 }
 
@@ -422,7 +421,7 @@ TEST_F(Chapter6ErrorRulesTest, Row31_AssociativeArrayAsBitstreamCastDestinationI
   // associative-array ArrayTypespec. Reports using the destination Variable's
   // own name (r31_d), matching this row's fixture shape ("r31_aa_t r31_d =
   // r31_aa_t'(r31_src);").
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_BITSTREAM_TYPE, "r31_d"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalBitstreamType, "r31_d"), nullptr)
       << "an associative array cannot be a bit-stream cast destination (IEEE 1800-2023 6.24.3)";
 }
 
@@ -436,7 +435,7 @@ TEST_F(Chapter6ErrorRulesTest, Row32_BitstreamCastSizeMismatchIsRejected) {
   // side is an unpacked struct/union (a new isUnpackedAggregate() helper) --
   // catches 'int r32_b = int'(r32_s)' (24-bit unpacked struct source vs.
   // 32-bit int destination).
-  EXPECT_NE(findError(ErrorDefinition::COMP_BITSTREAM_SIZE_MISMATCH, "r32_b"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompBitstreamSizeMismatch, "r32_b"), nullptr)
       << "a fixed-size bit-stream cast cannot change size when either side is unpacked "
          "(IEEE 1800-2023 6.24.3)";
 }
@@ -448,8 +447,8 @@ TEST_F(Chapter6ErrorRulesTest, Row18_HierarchicalTypeReferenceIsRejected) {
   // See 6--error_rules_inv3.sv: HLC's grammar does not accept an
   // instance-prefixed name in a data_type position at all, so the rule is
   // already enforced -- just as a syntax error rather than a semantic
-  // COMP_ILLEGAL_HIER_TYPE_REFERENCE.
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 134, 16), nullptr)
+  // CompIllegalHierTypeReference.
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 134, 16), nullptr)
       << "a hierarchical reference to a type identifier is rejected (IEEE 1800-2023 6.18), "
          "currently as a syntax error rather than a dedicated diagnostic";
 }
@@ -461,9 +460,9 @@ TEST_F(Chapter6ErrorRulesTest, Row25_StatementBeforeDeclarationIsRejected) {
   // See 6--error_rules_inv4.sv: HLC's grammar cannot parse a declaration
   // following an ordinary statement in the same procedural block, so the
   // rule is already enforced -- just as a syntax error rather than a
-  // semantic COMP_MISPLACED_DECLARATION.
+  // semantic CompMisplacedDeclaration.
   GTEST_SKIP() << "no diagnostic implemented";
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 216, 8), nullptr)
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 216, 8), nullptr)
       << "a variable declaration must precede any statement referencing it (IEEE 1800-2023 6.21), "
          "currently as a syntax error rather than a dedicated diagnostic";
 }

@@ -44,9 +44,8 @@
 // is what this file actually tests.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -186,8 +185,8 @@ TEST_F(ForeachClassTest, ForeachBodyExists) {
 // ===========================================================================
 
 TEST_F(ForeachClassTest, UndeclaredIdentifiersFailToBind) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "addrs"), nullptr) << "'addrs' is never declared";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "i"), nullptr) << "'i' is never declared";
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "addrs"), nullptr) << "'addrs' is never declared";
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "i"), nullptr) << "'i' is never declared";
 }
 
 // ===========================================================================
@@ -196,22 +195,22 @@ TEST_F(ForeachClassTest, UndeclaredIdentifiersFailToBind) {
 // ===========================================================================
 
 TEST_F(ForeachClassTest, RangeMinMaxFailToResolve) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "addrs", 12, 11), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "addrs", 12, 11), nullptr)
       << "'addrs' should not resolve";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "i", 12, 17), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "i", 12, 17), nullptr)
       << "'i' should not resolve";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "min", 12, 29), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "min", 12, 29), nullptr)
       << "'range.min' should not resolve: 'range' is a foreach iterator, not a class handle";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "addrs", 12, 36), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "addrs", 12, 36), nullptr)
       << "'addrs' should not resolve";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "i", 12, 42), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "i", 12, 42), nullptr)
       << "'i' should not resolve";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "max", 12, 54), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "max", 12, 54), nullptr)
       << "'range.max' should not resolve: 'range' is a foreach iterator, not a class handle";
   GTEST_SKIP() << "Error reporting needs work so search by name actually works";
-  EXPECT_NE(findError(ErrorDefinition::LINT_NULL_ACTUAL, "min", 12, 29), nullptr)
+  EXPECT_NE(findEvent(EventType::LintNullActual, "min", 12, 29), nullptr)
       << "'range.min' should not resolve: 'range' is a foreach iterator, not a class handle";
-  EXPECT_NE(findError(ErrorDefinition::LINT_NULL_ACTUAL, "max", 12, 54), nullptr)
+  EXPECT_NE(findEvent(EventType::LintNullActual, "max", 12, 54), nullptr)
       << "'range.max' should not resolve: 'range' is a foreach iterator, not a class handle";
 }
 

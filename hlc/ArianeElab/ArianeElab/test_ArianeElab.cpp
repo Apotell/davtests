@@ -52,8 +52,8 @@
 //     only checks that the override *parses* to the expected RefObj shape.
 //     Whether/how it's flagged as unbound was not asserted here, since
 //     without the compiled headers/log analysis needed to confirm the exact
-//     ErrorDefinition code HLC emits for an unresolved package-qualified
-//     name (as opposed to COMP_FAILED_TO_BIND on a plain identifier), that
+//     event code HLC emits for an unresolved package-qualified
+//     name (as opposed to CompFailedToBind on a plain identifier), that
 //     would risk asserting on a guessed diagnostic rather than the standard.
 //     Flagged here as worth a follow-up, targeted test once that's
 //     confirmed against the headers.

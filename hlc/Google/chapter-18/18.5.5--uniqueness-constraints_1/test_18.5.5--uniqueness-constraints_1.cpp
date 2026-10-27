@@ -81,15 +81,14 @@
 //     accepted. The items themselves and their order are still checked.
 //   - Resolution of uvm_env to a class definition: the .hlc only passes
 //     -I for the UVM include files and never compiles uvm_pkg.sv, so
-//     uvm_env cannot bind in this setup (a COMP_FAILED_TO_BIND for it is
+//     uvm_env cannot bind in this setup (a CompFailedToBind for it is
 //     expected and correct). Only the extends clause text is checked.
 //   - The body of run_phase (UVM reporting, not a constraint corner).
 //   - Exact vpiConstType of the literals.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -297,10 +296,10 @@ TEST_F(UniquenessConstraints1Test, TopModuleHoldsEnvHandle) {
 }
 
 TEST_F(UniquenessConstraints1Test, NoConstraintOrBindError) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c1"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c2"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c3"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "env"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c1"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c2"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c3"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
 }
 
 TEST_F(UniquenessConstraints1Test, RandomizedPairIs3And10) {

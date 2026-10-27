@@ -130,10 +130,10 @@
 //     - 6.5: data must be declared before use apart from implicit nets.
 //       Each of the 7 undeclared identifiers -- data_state_xor, data_o,
 //       data_state, NumRoundsHalf, DataWidth, k1, k0_prime -- must be
-//       reported as COMP_UNDEFINED_VARIABLE
+//       reported as CompUndefinedVariable
 //     - 'data_state_sbox' is a legal implicit net and must NOT be reported
 //     - the package-scoped names sbox4_64bit, PRESENT_SBOX4 and
-//       PRINCE_ROUND_CONST must bind: no COMP_FAILED_TO_BIND for them
+//       PRINCE_ROUND_CONST must bind: no CompFailedToBind for them
 //     - there is no syntax error in the file: zero syntax and zero fatal
 //       diagnostics
 //
@@ -159,7 +159,7 @@
 //     convention; the net's kind, net type and scalar-ness are asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -958,26 +958,26 @@ TEST_F(PackageFuncCallTest, EveryUndeclaredIdentifierIsReported) {
   GTEST_SKIP() << "Implicit nets aren't explicitly materialized by the compiler.";
   for (std::string_view name :
        {"data_state_xor", "data_o", "data_state", "NumRoundsHalf", "DataWidth", "k1", "k0_prime"}) {
-    EXPECT_NE(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, name), nullptr)
+    EXPECT_NE(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "6.5: '" << name << "' is used but declared nowhere, and its position does not create an implicit "
         << "net (6.10)";
   }
 }
 
 TEST_F(PackageFuncCallTest, ImplicitNetAndPackageNamesAreNotReported) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "data_state_sbox"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, "data_state_sbox"), nullptr)
       << "6.10: 'data_state_sbox' is a legal implicit net";
   for (std::string_view name : {"sbox4_64bit", "PRESENT_SBOX4", "PRINCE_ROUND_CONST"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr)
         << "26.3: '" << name << "' is declared in prim_cipher_pkg";
   }
 }
 
 TEST_F(PackageFuncCallTest, NoSyntaxOrFatalErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0) << "the undeclared identifiers are semantic errors, not syntax errors";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0) << "the undeclared identifiers are semantic errors, not syntax errors";
 }
 
 }  // namespace hlc

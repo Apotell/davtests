@@ -86,7 +86,7 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -342,18 +342,18 @@ TEST_F(ParamOverload1Test, UDut3OverridesPWithScalar) {
 
 TEST_F(ParamOverload1Test, IllegalOverridesAndDriversAreErrors) {
   if (m_design->getElaborated()) {
-    ASSERT_NE(m_session->getErrorContainer(), nullptr);
-    EXPECT_GE(m_session->getErrorContainer()->getErrorStats().nbError, 3)
+    ASSERT_NE(m_session->getEventListener(), nullptr);
+    EXPECT_GE(m_session->getEventListener()->getStats().m_errors, 3)
         << "10.9.1: u_dut1's pattern has 2 items for 5 elements; 6.20.2: 3000 is not assignment compatible "
            "with int [5]; 6.5, 23.3.3.2: o is driven by three output ports";
   }
 }
 
 TEST_F(ParamOverload1Test, NoFatalOrSyntaxDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0) << "the file is syntactically well formed";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0) << "the file is syntactically well formed";
 }
 
 }  // namespace hlc

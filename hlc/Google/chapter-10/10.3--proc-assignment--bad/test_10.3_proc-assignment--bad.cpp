@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,8 +48,8 @@
 // it needs to reject this statement and doesn't.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -193,8 +193,8 @@ TEST_F(ProcAssignmentBadTest, NoContAssigns) {
 TEST_F(ProcAssignmentBadTest, CompilerShouldRejectProceduralAssignmentToWireButDoesNot) {
   GTEST_SKIP() << "HLC does not enforce IEEE 1800-2023 Table 10-1: a net shall not be the target of a "
                   "procedural assignment. Fix pending.";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_TARGET, "w"), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentTarget, "w"), nullptr)
       << "IEEE 1800-2023 10.3 Table 10-1: 'w' is a wire, and a net may only be driven by a "
          "continuous assignment or a primitive, so the procedural 'w = #10 a & b;' is an "
          "illegal assignment target.";

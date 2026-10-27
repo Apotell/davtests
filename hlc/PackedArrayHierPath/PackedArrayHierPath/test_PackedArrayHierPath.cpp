@@ -75,7 +75,7 @@
 //     - 'fp_format_e' is declared nowhere. For a reference other than a
 //       subroutine call "it shall be illegal if no identifier can be found
 //       that matches the reference" (26.3), so it is reported at error
-//       severity, as COMP_UNDEFINED_TYPE or COMP_FAILED_TO_BIND
+//       severity, as CompUndefinedType or CompFailedToBind
 //     - an array assignment pattern's "expressions shall match element for
 //       element" (10.9.1). The pattern has 5 items for an array of 4
 //       elements, so an elaborated design, where NUM_FP_FORMATS is known,
@@ -113,9 +113,8 @@
 //   - The comments in the pattern are not design objects (5.4).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -253,18 +252,17 @@ class PackedArrayHierPathTest : public Test {
 
   // Verifies one of 'types' was reported naming 'symbol', at error severity:
   // the standard makes the reference illegal.
-  void ExpectReportedAsError(std::initializer_list<ErrorDefinition::ErrorType> types, std::string_view symbol) {
+  void ExpectReportedAsError(std::initializer_list<uint32_t> types, std::string_view symbol) {
     GTEST_SKIP() << "HLC Gap: Compiler doesn't report these as errors";
-    const Error *found = nullptr;
-    for (const ErrorDefinition::ErrorType type : types) {
-      found = findError(type, symbol);
+    const Event *found = nullptr;
+    for (const uint32_t type : types) {
+      found = findEvent(type, symbol);
       if (found != nullptr) break;
     }
     ASSERT_NE(found, nullptr) << "no diagnostic names '" << symbol << "'";
-    const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
-    const ErrorDefinition::ErrorMap::const_iterator info = infos.find(found->getType());
-    ASSERT_NE(info, infos.end());
-    EXPECT_EQ(info->second.m_severity, ErrorDefinition::ERROR)
+    const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), found->getType());
+    ASSERT_NE(info, nullptr);
+    EXPECT_EQ(info->m_severity, EventSeverity::Error)
         << "'" << symbol << "' makes the source illegal, so it is an error, not a warning";
   }
 };
@@ -437,23 +435,23 @@ TEST_F(PackedArrayHierPathTest, SecondTermSelectsManBitsOfElementFmt) {
 // Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (undeclared
 // type reported as a warning) in the file header.
 TEST_F(PackedArrayHierPathTest, UndeclaredTypeFpFormatEIsReportedAsError) {
-  ExpectReportedAsError({ErrorDefinition::COMP_UNDEFINED_TYPE, ErrorDefinition::COMP_FAILED_TO_BIND}, "fp_format_e");
+  ExpectReportedAsError({EventType::CompUndefinedType, EventType::CompFailedToBind}, "fp_format_e");
 }
 
 TEST_F(PackedArrayHierPathTest, PatternItemCountMismatchIsReportedAfterElaboration) {
   if (m_design->getElaborated()) {
-    ASSERT_NE(m_session->getErrorContainer(), nullptr);
-    const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-    EXPECT_GE(stats.nbError, 2) << "10.9.1: 5 items for the 4 elements of FP_ENCODINGS is an error, in addition to "
+    ASSERT_NE(m_session->getEventListener(), nullptr);
+    const EventListener::Stats stats = m_session->getEventListener()->getStats();
+    EXPECT_GE(stats.m_errors, 2) << "10.9.1: 5 items for the 4 elements of FP_ENCODINGS is an error, in addition to "
                                    "the undeclared type fp_format_e";
   }
 }
 
 TEST_F(PackedArrayHierPathTest, NoSyntaxOrFatalDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0) << "the file is syntactically well formed";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0) << "the file is syntactically well formed";
 }
 
 }  // namespace hlc

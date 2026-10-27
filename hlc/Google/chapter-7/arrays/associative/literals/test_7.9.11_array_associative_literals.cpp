@@ -42,7 +42,7 @@
 //   - format string in stmt[2] verified
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -280,8 +280,8 @@ TEST_F(Literals, NoContAssigns) {
 
 TEST_F(Literals, CompilerHasNoErrors) {
   // '{default: "hello"} is a legal assignment pattern; HLC must accept it without diagnostics.
-  const hlc::ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "default-value assignment pattern must not produce compile errors";
+  const hlc::EventListener::Stats stats = m_compiler->getEventStats();
+  EXPECT_EQ(stats.m_errors, 0) << "default-value assignment pattern must not produce compile errors";
 }
 }  // namespace hlc
 

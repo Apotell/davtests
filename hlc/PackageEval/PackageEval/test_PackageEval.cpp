@@ -61,7 +61,7 @@
 //       struct is the sum of its members' widths, 1 + 64 (20.6.2, 7.2.1)
 //   Diagnostics
 //     - the file is legal: zero fatal, syntax and error diagnostics, and no
-//       COMP_FAILED_TO_BIND for 'NStraps' or 't_test'
+//       CompFailedToBind for 'NStraps' or 't_test'
 //
 // What is NOT checked, and why:
 //   - The type HLC gives the implicitly typed TEST_SIZE. 6.20.2 says it
@@ -73,7 +73,7 @@
 //     is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -407,8 +407,8 @@ TEST_F(PackageEvalTest, TestSizeIsBitsOfTTest) {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackageEvalTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "NStraps"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "t_test"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "NStraps"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "t_test"), nullptr);
 }
 
 }  // namespace hlc

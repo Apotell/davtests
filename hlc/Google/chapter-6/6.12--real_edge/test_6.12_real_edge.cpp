@@ -38,7 +38,7 @@
 //   hldb::Net/getNets() for "a" (the same net/variable misclassification
 //   bug found and fixed in 6.5, 6.9.1, 6.12--real, 6.12--shortreal, and
 //   the sibling 6.12--real_bit_select* files), and had a
-//   Compiler_NoErrorsReported test asserting nbError == 0, documented as
+//   Compiler_NoErrorsReported test asserting m_errors == 0, documented as
 //   "HLC does not reject 'posedge a' on a real net at compile time" --
 //   treating a confirmed spec violation as expected, passing behavior.
 //   This version targets hldb::Variable for "a", and asserts an error IS
@@ -56,9 +56,9 @@
 //   - top has no continuous assignments
 //   - THE POINT OF THIS FILE: the compiler must reject the illegal
 //     "posedge a" on a real variable, per IEEE 1800-2023 6.12 quoted
-//     above. HLC now does, reporting COMP_ILLEGAL_EDGE_ON_REAL against
-//     'a' at line 19, col 11. Asserted via findError() with the code,
-//     symbol and location, not an nbFatal+nbSyntax+nbError sum: a bare
+//     above. HLC now does, reporting CompIllegalEdgeOnReal against
+//     'a' at line 19, col 11. Asserted via findEvent() with the code,
+//     symbol and location, not an m_fatals+m_syntaxes+m_errors sum: a bare
 //     count would also go green on any unrelated diagnostic here.
 //
 // What is NOT checked and why:
@@ -66,8 +66,8 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -242,8 +242,8 @@ TEST_F(RealEdgeTest, NoContAssigns) {
 // The actual point of the file: posedge on a real variable is illegal
 // ---------------------------------------------------------------------------
 TEST_F(RealEdgeTest, CompilerRejectsPosedgeOnRealVariable) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EDGE_ON_REAL, "a", 19, 11), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalEdgeOnReal, "a", 19, 11), nullptr)
       << "IEEE 1800-2023 6.12: 'edge event controls (posedge, negedge, edge) applied to real "
          "variables' are prohibited -- 'posedge a' on line 19 does exactly this, matching this "
          "file's own :should_fail_because: tag";

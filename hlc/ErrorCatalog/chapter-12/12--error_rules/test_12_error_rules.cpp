@@ -29,8 +29,7 @@
 // recovery, not a diagnostic for any of these rules, and is not asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -49,7 +48,7 @@ TEST_F(Chapter12ErrorRulesTest, Row378_MultipleDefaultCaseItemsAreRejected) {
   // "The default statement shall be optional. Use of multiple default
   // statements in one case statement shall be illegal." r378_m has two, on
   // lines 16 and 17; line 17 is the offending repeat.
-  EXPECT_NE(findError(ErrorDefinition::COMP_DUPLICATE_DECLARATION, "r378_m", 17, 7), nullptr)
+  EXPECT_NE(findEvent(EventType::CompDuplicateDeclaration, "r378_m", 17, 7), nullptr)
       << "a case statement may have at most one default item (IEEE 1800-2023 12.5)";
 }
 
@@ -60,7 +59,7 @@ TEST_F(Chapter12ErrorRulesTest, Row380_NonIntegralConstantLeafPatternIsRejected)
   // "A constant expression used as a leaf pattern shall be of integral type."
   // The pattern on line 28 matches the real member R against the real literal
   // 1.5.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_PATTERN, "R", 28, 16), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalPattern, "R", 28, 16), nullptr)
       << "a real constant is not a legal leaf pattern (IEEE 1800-2023 12.6)";
 }
 
@@ -76,7 +75,7 @@ TEST_F(Chapter12ErrorRulesTest, Row384_MixedLocalAndNonLocalLoopVariablesAreReje
   // either a list of variable_assignments or a list of local declarations, not
   // a mixture, so the local declaration after the assignment is a syntax
   // error. The parser recovers locally and r392_m is still compiled.
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 40, 20), nullptr)
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 40, 20), nullptr)
       << "for-loop control variables must be all local or none (IEEE 1800-2023 12.7.1)";
 }
 
@@ -88,7 +87,7 @@ TEST_F(Chapter12ErrorRulesTest, Row385_ForeachArrayIdentifierCannotBeAFunctionCa
   // declaration in the foreach-loop array identifier." Line 50's
   // "foreach (get_arr()[i])" uses a function call where the loop's array
   // identifier must be a variable/array reference.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r385_m", 50, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r385_m", 50, 5), nullptr)
       << "a function call cannot serve as the foreach-loop array identifier (IEEE 1800-2023 12.7.3)";
 }
 
@@ -99,7 +98,7 @@ TEST_F(Chapter12ErrorRulesTest, Row392_NonvoidFunctionReturnWithoutExpressionIsR
   // "In a function, the return statement shall specify an expression of the
   // correct type" -- only a void function, a task or a block may return
   // bare. f is declared to return int, and line 58 returns nothing.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_RETURN_VALUE, "f", 58, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalReturnValue, "f", 58, 5), nullptr)
       << "a nonvoid function cannot return without an expression (IEEE 1800-2023 12.8)";
 }
 

@@ -15,8 +15,8 @@
 */
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -54,8 +54,8 @@ TEST_F(PreprocIncNotfoundBadTest, MissingFileRecorded) {
 // LRM 22.4: an `include directive naming a file that cannot be located must
 // be reported as a compile error.
 TEST_F(PreprocIncNotfoundBadTest, MissingIncludeIsReportedAsError) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::PP_CANNOT_OPEN_INCLUDE_FILE, 6, 1), nullptr) << "the unresolvable `include of this_file_is_not_found.vh must be an error";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::PpCannotOpenIncludeFile, 6, 1), nullptr) << "the unresolvable `include of this_file_is_not_found.vh must be an error";
 }
 
 }  // namespace hlc

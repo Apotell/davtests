@@ -72,8 +72,8 @@
 // silently-passing or perpetually-failing test.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -179,8 +179,8 @@ TEST_F(UnpackStreamInvTest, CompilerShouldRejectOversizedStreamUnpackButDoesNot)
                   "error shall be generated when the stream's resulting size (96 bits from a+b+c) "
                   "exceeds a fixed-size destination's width (32 bits, 'int d'), matching this "
                   "file's own :should_fail_because: tag. Not implemented yet.";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_BITSTREAM_SIZE_MISMATCH), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompBitstreamSizeMismatch), nullptr)
       << "IEEE 1800-2023 11.4.14.3: the stream is 96 bits wide and the target 'd' is a 32-bit "
          "int, and unpacking shall be an error when the source is wider than the target.";
 }

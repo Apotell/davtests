@@ -71,7 +71,7 @@
 //               propertyExpr: RefObj name:"seq4" -> SequenceDecl name:"seq4"
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -130,15 +130,15 @@ static const hldb::Assert *getFirstAssert(const hldb::Module *m) {
 // SequenceDecl might misidentify them as undeclared implicit nets instead,
 // which would surface as a spurious error here.
 TEST_F(Sequence4Test, Compiler_NoErrors) {
-  ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "ss.16.8: sequence instance references must not produce errors -- "
+  EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_errors, 0) << "ss.16.8: sequence instance references must not produce errors -- "
                                  "sequence names must resolve to SequenceDecl nodes, not be treated "
                                  "as implicit nets";
 }
 
 TEST_F(Sequence4Test, Compiler_NoSyntaxErrors) {
-  ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 0) << "sequence4.sv is syntactically valid -- no syntax errors expected";
+  EventListener::Stats stats = m_compiler->getEventStats();
+  EXPECT_EQ(stats.m_syntaxes, 0) << "sequence4.sv is syntactically valid -- no syntax errors expected";
 }
 
 // ===========================================================================

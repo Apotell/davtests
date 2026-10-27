@@ -96,8 +96,7 @@
 // not part of this design.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -460,8 +459,8 @@ TEST_F(ApbSlaveTest, WriteTaskHasFiveIODeclsWithThreeDefaults) {
 // --- compiler diagnostics ---------------------------------------------------
 
 TEST_F(ApbSlaveTest, DesignAndTestbenchBindCleanlyDespiteThirdPartySvunitRedefinitions) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_TYPEDEF), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef), nullptr);
 }
 
 }  // namespace hlc

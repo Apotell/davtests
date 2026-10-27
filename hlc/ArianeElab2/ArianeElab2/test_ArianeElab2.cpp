@@ -44,8 +44,8 @@
 // "generate-for" body rather than a plain parameter override, and HLC's
 // handling of that combination is exactly what this file exists to pin
 // down: the unresolved reference does not just produce one isolated
-// DB2029 "unsupported typespec" error -- it also makes HLC report a
-// DB2038 "'vpiStmt' property value has invalid objects" error at every
+// DL2510 "unsupported typespec" error -- it also makes HLC report a
+// DL2516 "'vpiStmt' property value has invalid objects" error at every
 // enclosing generate construct's own source location: fpnew_opgroup_block's
 // "for" loop (1974:55), fpnew_top's "for" loop (2019:64), and fpu_wrap's
 // "if (FP_PRESENT) begin : fpu_gen" (2043:19) -- i.e. exactly the chain of
@@ -65,9 +65,9 @@
 //     a nested GenIf ("active_format"), whose body contains a RefInstance
 //     "i_fmt_slice" of "fpnew_opgroup_fmt_slice" -- resolved to an
 //     UnsupportedTypespec, since that module is never defined
-//   - compiling dut.sv reports both the expected HLDB_UNSUPPORTED_TYPESPEC
+//   - compiling dut.sv reports both the expected UnsupportedTypespec
 //     for "fpnew_opgroup_fmt_slice" (at its own instantiation site) and
-//     the 3 cascading HLDB_ILLEGAL_PROPERTY_VALUE errors at the 3 nested
+//     the 3 cascading IllegalPropertyValue errors at the 3 nested
 //     generate constructs listed above
 //
 // NOT CHECKED: whether HLC's handling here is "correct" per any IEEE
@@ -79,8 +79,7 @@
 // it was not pursued further here).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -231,19 +230,19 @@ TEST_F(ArianeElab2Test, GeneratedBlockInstantiatesUnresolvedFmtSlice) {
 // --- compiler diagnostics: the unresolved reference cascades upward ---------
 
 TEST_F(ArianeElab2Test, UnresolvedFmtSliceReportsUnsupportedTypespec) {
-  EXPECT_NE(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "fpnew_opgroup_fmt_slice"), nullptr);
+  EXPECT_NE(findEvent(EventType::UnsupportedTypespec, "fpnew_opgroup_fmt_slice"), nullptr);
 }
 
 TEST_F(ArianeElab2Test, UnresolvedReferenceCascadesToEveryEnclosingGenerateConstruct) {
   GTEST_SKIP() << "HLC isn't reporting these diagnostic errors";
   // fpnew_opgroup_block's "for (genvar fmt ...)":
-  EXPECT_NE(findError(ErrorDefinition::HLDB_ILLEGAL_PROPERTY_VALUE, 1974, 55), nullptr)
+  EXPECT_NE(findEvent(EventType::IllegalPropertyValue, 1974, 55), nullptr)
       << "fpnew_opgroup_block's generate-for should report the cascading 'vpiStmt' error";
   // fpnew_top's "for (genvar opgrp ...)", which instantiates fpnew_opgroup_block:
-  EXPECT_NE(findError(ErrorDefinition::HLDB_ILLEGAL_PROPERTY_VALUE, 2019, 64), nullptr)
+  EXPECT_NE(findEvent(EventType::IllegalPropertyValue, 2019, 64), nullptr)
       << "fpnew_top's generate-for should also report it, one level further up the instance chain";
   // fpu_wrap's "if (FP_PRESENT) begin : fpu_gen", which instantiates fpnew_top:
-  EXPECT_NE(findError(ErrorDefinition::HLDB_ILLEGAL_PROPERTY_VALUE, 2043, 19), nullptr)
+  EXPECT_NE(findEvent(EventType::IllegalPropertyValue, 2043, 19), nullptr)
       << "fpu_wrap's generate-if should also report it, at the top of the instance chain";
 }
 

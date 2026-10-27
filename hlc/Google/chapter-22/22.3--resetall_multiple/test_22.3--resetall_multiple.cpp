@@ -46,7 +46,7 @@
 // grammar ambiguity this settles).
 //
 // Checked:
-//   - no PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT for any of the three
+//   - no PpIllegalDirectiveInDesignElement for any of the three
 //     directives, and 0 error-class (fatal / syntax / error) diagnostics
 //   - exactly one module definition, defName "top", spanning lines 20-21:
 //     consuming three directive lines and a blank line does not shift line
@@ -90,9 +90,8 @@
 //     strength, is asserted by ModuleTopDirectiveStateIsDefault.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -123,10 +122,10 @@ class ResetallMultipleTest : public Test {
   }
 
   // Every reported diagnostic of the given type, in report order.
-  static std::vector<const Error *> errorsOfType(ErrorDefinition::ErrorType type) {
-    std::vector<const Error *> result;
-    if (m_session->getErrorContainer() == nullptr) return result;
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+  static std::vector<const Event *> errorsOfType(uint32_t type) {
+    std::vector<const Event *> result;
+    if (m_session->getEventListener() == nullptr) return result;
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
       if (error.getType() == type) result.emplace_back(&error);
     }
     return result;
@@ -143,17 +142,17 @@ class ResetallMultipleTest : public Test {
 
 TEST_F(ResetallMultipleTest, NoResetallIsReportedAsMisplaced) {
   // Sec 22.3: lines 16, 17 and 18 are all outside any design element.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_EQ(errorsOfType(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT).size(), 0u)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_EQ(errorsOfType(EventType::PpIllegalDirectiveInDesignElement).size(), 0u)
       << "repeating `resetall outside a design element is legal";
 }
 
 TEST_F(ResetallMultipleTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 // --- module definition ----

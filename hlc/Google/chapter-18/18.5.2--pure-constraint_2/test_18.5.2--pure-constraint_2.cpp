@@ -44,16 +44,15 @@
 //
 // Not checked:
 //   - The exact error code. HLC has no error dedicated to "unimplemented
-//     pure constraint"; COMP_ILLEGAL_CONSTRAINT is the closest existing
+//     pure constraint"; CompIllegalConstraint is the closest existing
 //     code and is ASSUMED here. If HLC adds a dedicated code, update the
 //     last test.
 //   - The exact line/column of the diagnostic (IEEE does not mandate where
 //     it is reported).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -116,8 +115,8 @@ TEST_F(PureConstraint2Test, MissingPureConstraintImplementationIsError) {
   GTEST_SKIP() << "HLC reports no error when non-abstract 'a2' leaves pure 'c' unimplemented. "
                   "Per IEEE 1800-2023 Sec 18.5.2 this shall be an error. Fix pending.";
   // Sec 18.5.2: non-abstract a2 inherits pure 'c' without implementing it.
-  const Error *err = findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "a2");
-  if (err == nullptr) err = findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c");
+  const Event *err = findEvent(EventType::CompIllegalConstraint, "a2");
+  if (err == nullptr) err = findEvent(EventType::CompIllegalConstraint, "c");
   EXPECT_NE(err, nullptr) << "non-abstract class 'a2' must implement inherited pure constraint 'c' "
                              "(IEEE 1800-2023 Sec 18.5.2)";
 }

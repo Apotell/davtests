@@ -27,15 +27,14 @@
 // Fixture: 31--error_rules.sv (all thirteen rows), compiled in one run by
 // 31--error_rules.hlc.
 //
-// COMP_VALUE_OUT_OF_RANGE has no call site anywhere in src/ outside its own
-// ErrorDefinition.cpp registration, so every assertion below is expected to
+// CompValueOutOfRange has no call site anywhere in src/ outside its own
+// events/*.yaml definition, so every assertion below is expected to
 // be red today -- that is the intended, documented state of this exercise,
 // not a bug for this file to work around. No test asserts the absence of a
 // diagnostic, which would lock the gap in.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -54,7 +53,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1032_SetupLimitMustBeNonNegative) {
   // The $setup timing check limit shall be a non-negative constant
   // expression; negative values are only permitted for $setuphold and
   // $recrem.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "$setup limit must be non-negative"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "$setup limit must be non-negative"), nullptr)
       << "a $setup limit must be non-negative (IEEE 1800-2023 31.3.1)";
 }
 
@@ -64,7 +63,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1033_HoldLimitMustBeNonNegative) {
   // catalog row 1033 | 31.3.2 | ELAB
   // The $hold timing check limit shall be a non-negative constant
   // expression.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "$hold limit must be non-negative"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "$hold limit must be non-negative"), nullptr)
       << "a $hold limit must be non-negative (IEEE 1800-2023 31.3.2)";
 }
 
@@ -76,7 +75,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1034_SetupholdNegativeLimitPairMustExceedPrec
   // When either the setup limit or the hold limit of a $setuphold check is
   // negative, setup_limit + hold_limit shall exceed the simulation unit of
   // precision; here -10ns + 5ns = -5ns, not > 1ns.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "r1034_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "r1034_m"), nullptr)
       << "a negative $setuphold limit pair must sum to more than the time precision (IEEE 1800-2023 31.3.3)";
 }
 
@@ -86,7 +85,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1035_RemovalLimitMustBeNonNegative) {
   // catalog row 1035 | 31.3.4 | ELAB
   // The $removal timing check limit shall be a non-negative constant
   // expression.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "$removal limit must be non-negative"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "$removal limit must be non-negative"), nullptr)
       << "a $removal limit must be non-negative (IEEE 1800-2023 31.3.4)";
 }
 
@@ -96,7 +95,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1036_RecoveryLimitMustBeNonNegative) {
   // catalog row 1036 | 31.3.5 | ELAB
   // The $recovery timing check limit shall be a non-negative constant
   // expression.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "$recovery limit must be non-negative"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "$recovery limit must be non-negative"), nullptr)
       << "a $recovery limit must be non-negative (IEEE 1800-2023 31.3.5)";
 }
 
@@ -108,7 +107,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1037_RecremNegativeLimitPairMustExceedPrecisi
   // When either the removal limit or the recovery limit of a $recrem check
   // is negative, removal_limit + recovery_limit shall exceed the
   // simulation unit of precision; here -8ns + 4ns = -4ns, not > 1ns.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "r1037_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "r1037_m"), nullptr)
       << "a negative $recrem limit pair must sum to more than the time precision (IEEE 1800-2023 31.3.6)";
 }
 
@@ -118,7 +117,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1038_SkewLimitMustBeNonNegative) {
   // catalog row 1038 | 31.4.1 | ELAB
   // The $skew timing check limit shall be a non-negative constant
   // expression.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "$skew limit must be non-negative"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "$skew limit must be non-negative"), nullptr)
       << "a $skew limit must be non-negative (IEEE 1800-2023 31.4.1)";
 }
 
@@ -128,7 +127,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1039_TimeskewLimitMustBeNonNegative) {
   // catalog row 1039 | 31.4.2 | ELAB
   // The $timeskew timing check limit shall be a non-negative constant
   // expression.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "$timeskew limit must be non-negative"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "$timeskew limit must be non-negative"), nullptr)
       << "a $timeskew limit must be non-negative (IEEE 1800-2023 31.4.2)";
 }
 
@@ -138,7 +137,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1040_FullskewLimit2MustBeNonNegative) {
   // catalog row 1040 | 31.4.3 | ELAB
   // Both $fullskew timing check limits (limit1 and limit2) shall be
   // non-negative constant expressions; limit2 here is -70.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "$fullskew limit must be non-negative"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "$fullskew limit must be non-negative"), nullptr)
       << "both $fullskew limits must be non-negative (IEEE 1800-2023 31.4.3)";
 }
 
@@ -151,7 +150,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1044_WidthThresholdMustBeNonNegative) {
   // The implementation does not distinguish $width's "threshold" argument
   // position from its "limit" position -- both are timing-check terms and
   // get the same generic payload.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "$width limit must be non-negative"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "$width limit must be non-negative"), nullptr)
       << "a $width threshold must be non-negative (IEEE 1800-2023 31.4.4)";
 }
 
@@ -161,7 +160,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1043_WidthLimitMustBeNonNegative) {
   // catalog row 1043 | 31.4.4 | ELAB
   // The $width timing check limit shall be a non-negative constant
   // expression.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "$width limit must be non-negative"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "$width limit must be non-negative"), nullptr)
       << "a $width limit must be non-negative (IEEE 1800-2023 31.4.4)";
 }
 
@@ -171,7 +170,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1046_PeriodLimitMustBeNonNegative) {
   // catalog row 1046 | 31.4.5 | ELAB
   // The $period timing check limit shall be a non-negative constant
   // expression.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "$period limit must be non-negative"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "$period limit must be non-negative"), nullptr)
       << "a $period limit must be non-negative (IEEE 1800-2023 31.4.5)";
 }
 
@@ -183,7 +182,7 @@ TEST_F(Chapter31ErrorRulesTest, Row1052_AdjustedDelayedSignalLimitBelowZeroIsCla
   // When delayed signals are used for negative timing checks and the
   // adjusted limit becomes less than or equal to 0, the limit shall be set
   // to 0 and the simulator shall issue a warning.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "r1052_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "r1052_m"), nullptr)
       << "an adjusted delayed-signal timing check limit <= 0 must be clamped to 0 and warned about (IEEE 1800-2023 31.9.1)";
 }
 

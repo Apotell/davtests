@@ -38,9 +38,8 @@
 //   - an element of a queue of strings is a KNOWN GAP (skipped, see that test)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -167,14 +166,14 @@ TEST_F(StringMethodReceiversTest, QueueElementReceiverBindsToStringTypespec) {
                   "Sec 6.16, the element being of type string). Needs the element-type "
                   "resolution the queue and associative-array methods also require.";
   EXPECT_EQ(ownerOfCall("q[1].len"), "StringTypespec");
-  EXPECT_EQ(findError(ErrorDefinition::LINT_NULL_ACTUAL), nullptr);
+  EXPECT_EQ(findEvent(EventType::LintNullActual), nullptr);
 }
 
 TEST_F(StringMethodReceiversTest, CompilerReportsNoFatalOrSyntaxErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
 }
 
 }  // namespace hlc

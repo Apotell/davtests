@@ -18,7 +18,7 @@
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
@@ -153,15 +153,15 @@ TEST_F(PreprocTestTest, BpFeIcacheGuardHasNoTokens) {
 // Neither file defines anything illegal; the whole compilation (both
 // top-level files plus their include trees) must produce no errors.
 TEST_F(PreprocTestTest, NoErrorsReported) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 // ----
-// Known gaps behind NoErrorsReported's current failure (nbError == 2, not
+// Known gaps behind NoErrorsReported's current failure (m_errors == 2, not
 // the 0 it asserts). Neither is related to preprocessing (what this file
 // is actually about) -- both are HLC enum base-typespec resolution bugs:
 //
@@ -174,15 +174,15 @@ TEST_F(PreprocTestTest, NoErrorsReported) {
 //      int base typespec -- see hldb_model_gaps.md item 6.
 //
 TEST_F(PreprocTestTest, KnownGap_EnumBaseTypespecResolution) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 // ----
 // KnownGap_EnumBaseTypespecResolution above bundles both underlying HLDB
-// diagnostics into one aggregate nbError check. Each gets its own
-// findError()-based test here as well, per the project's convention of one
+// diagnostics into one aggregate m_errors check. Each gets its own
+// findEvent()-based test here as well, per the project's convention of one
 // check per diagnostic. Neither is GTEST_SKIP()'d -- both assert the
 // diagnostic should be absent and are left failing red, since HLC
 // currently reports each of them.
@@ -192,7 +192,7 @@ TEST_F(PreprocTestTest, KnownGap_EnumBaseTypespecResolution) {
 // -- an explicit vector enum base type -- resolves to an UnsupportedTypespec
 // named "bit" instead of the real base type.
 TEST_F(PreprocTestTest, ExplicitVectorEnumBaseTypeDoesNotReportUnsupportedTypespec) {
-  EXPECT_EQ(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "bit"), nullptr)
+  EXPECT_EQ(findEvent(EventType::UnsupportedTypespec, "bit"), nullptr)
       << "IEEE 1800-2023 Sec 6.19 (enum_base_type): 'typedef enum bit [2:0] {...}' should resolve its base "
          "type normally, not as an UnsupportedTypespec named \"bit\" (bp_common_me_if.vh:5)";
 }
@@ -202,7 +202,7 @@ TEST_F(PreprocTestTest, ExplicitVectorEnumBaseTypeDoesNotReportUnsupportedTypesp
 // hldb_model_gaps.md item 6. Present in every compile, unrelated to this
 // file's own content.
 TEST_F(PreprocTestTest, BuiltinStateEnumDoesNotReportUnsupportedTypespec) {
-  EXPECT_EQ(findError(ErrorDefinition::HLDB_UNSUPPORTED_TYPESPEC, "state"), nullptr)
+  EXPECT_EQ(findEvent(EventType::UnsupportedTypespec, "state"), nullptr)
       << "hlc's own builtin.sv anonymous enum should resolve to its implicit int base typespec, not an "
          "UnsupportedTypespec named \"state\" -- see hldb_model_gaps.md item 6";
 }

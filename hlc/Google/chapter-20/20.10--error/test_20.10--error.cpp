@@ -42,8 +42,7 @@
 // the .hlc file's own note that this is a parsing, not simulation, test.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -139,7 +138,7 @@ TEST_F(ErrorTaskTest, ErrorCallHasOneStringArgument) {
 // $error is itself a diagnostic-reporting construct (20.10: "shall generate
 // a run-time error"), not one that should trigger any compile-time
 // diagnostic on its own when used correctly with a bare string literal.
-TEST_F(ErrorTaskTest, CompilesWithNoErrors) { EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr); }
+TEST_F(ErrorTaskTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
 
 }  // namespace hlc
 

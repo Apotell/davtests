@@ -61,14 +61,14 @@
 // no class some_class, and the .hlc compiles no other source. Each such
 // name resolves to no data type, which is an error:
 //   - line 7, member type bool: HLC's diagnostic for a type name that
-//     resolves to no type is COMP_UNDEFINED_TYPE ("Undefined type").
+//     resolves to no type is CompUndefinedType ("Undefined type").
 //   - line 9, 'virtual blah_if': a virtual interface shall name an
 //     interface (25.9); HLC's dedicated diagnostic is
-//     COMP_UNDEFINED_INTERFACE ("Undefined interface"); COMP_UNDEFINED_TYPE
+//     CompUndefinedInterface ("Undefined interface"); CompUndefinedType
 //     is also accepted.
 //   - line 10, 'some_class#(3, 2, 1)': a specialization shall name a
 //     parameterized class (8.25); HLC's dedicated diagnostic is
-//     COMP_UNDEFINED_CLASS ("Undefined class"); COMP_UNDEFINED_TYPE is also
+//     CompUndefinedClass ("Undefined class"); CompUndefinedType is also
 //     accepted.
 // The syntax of every line is legal, so there is no syntax error. The enum
 // typedef of line 8 is fully legal.
@@ -107,7 +107,7 @@
 // KNOWN FAILURE (undefined type names misreported), not a defect in this
 // test: HLC 577 models the four typedefs (names, order, struct members,
 // enum constants) and leaves bool, blah_if and some_class unresolved, but
-// reports only one diagnostic, an HLDB_UNSUPPORTED_TYPESPEC (2029,
+// reports only one diagnostic, an UnsupportedTypespec (2029,
 // "Unsupported typespec") on line 10 for car_type. It reports nothing for
 // bool (line 7) or blah_if (line 9), and nothing names some_class as
 // undefined; the construct on line 10 is supported, the class is merely
@@ -156,10 +156,8 @@
 //   - The warning count. The LRM neither requires nor forbids warnings here.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -261,25 +259,24 @@ std::string_view literalOf(const hldb::Constant *constant) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) {
-  if (error.getLocations().empty()) {
+uint32_t lineOf(const Event &error) {
+  if (error.getArguments().empty()) {
     return 0;
   }
-  return error.getLocations().front().m_line;
+  return error.getArguments().front().m_line;
 }
 
 // Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
 // messages, so a red run shows what was reported and where. <text> is HLC's
 // message template, so its placeholders are not filled in.
-std::string describeErrors(const ErrorContainer *errorContainer, ErrorDefinition::ErrorSeverity severity) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
+std::string describeErrors(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-    if ((errorInfo == errorInfoMap.end()) || (errorInfo->second.m_severity != severity)) continue;
+  for (const Event &error : eventListener->getEvents()) {
+    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if ((errorInfo == nullptr) || (errorInfo->m_severity != severity)) continue;
     description += " [" + std::to_string(static_cast<int32_t>(error.getType()));
     description += " line " + std::to_string(lineOf(error));
-    description += ": " + std::string(errorInfo->second.m_errorText) + "]";
+    description += ": " + std::string(errorInfo->m_lines[0].m_text) + "]";
   }
   return description;
 }
@@ -292,9 +289,9 @@ class IfaceClassTest7Test : public Test {
 
  protected:
   // True when one of 'types' is reported naming 'symbol' on 'line'.
-  bool reportsAnyOf(std::initializer_list<ErrorDefinition::ErrorType> types, std::string_view symbol, uint32_t line) {
-    for (ErrorDefinition::ErrorType type : types) {
-      if (findError(type, symbol, line) != nullptr) {
+  bool reportsAnyOf(std::initializer_list<uint32_t> types, std::string_view symbol, uint32_t line) {
+    for (uint32_t type : types) {
+      if (findEvent(type, symbol, line) != nullptr) {
         return true;
       }
     }
@@ -303,10 +300,10 @@ class IfaceClassTest7Test : public Test {
 
   // The ERROR-severity diagnostics, for failure messages.
   static std::string describeReportedErrors() {
-    if ((m_session == nullptr) || (m_session->getErrorContainer() == nullptr)) {
+    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) {
       return "";
     }
-    return describeErrors(m_session->getErrorContainer(), ErrorDefinition::ERROR);
+    return describeErrors(m_session->getEventListener(), EventSeverity::Error);
   }
 
   // All SourceFile nodes recorded for the file under test.
@@ -376,9 +373,9 @@ class IfaceClassTest7Test : public Test {
 TEST_F(IfaceClassTest7Test, BoolIsReportedUndefined) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   ASSERT_NE(m_session, nullptr);
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_GE(m_session->getErrorContainer()->getErrorStats().nbError, 1) << "undeclared type names are errors";
-  EXPECT_TRUE(reportsAnyOf({ErrorDefinition::COMP_UNDEFINED_TYPE}, "bool", 7))
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_GE(m_session->getEventListener()->getStats().m_errors, 1) << "undeclared type names are errors";
+  EXPECT_TRUE(reportsAnyOf({EventType::CompUndefinedType}, "bool", 7))
       << "bool (line 7) resolves to no data type;" << describeReportedErrors();
 }
 
@@ -387,7 +384,7 @@ TEST_F(IfaceClassTest7Test, BoolIsReportedUndefined) {
 TEST_F(IfaceClassTest7Test, BlahIfIsReportedUndefined) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   EXPECT_TRUE(
-      reportsAnyOf({ErrorDefinition::COMP_UNDEFINED_INTERFACE, ErrorDefinition::COMP_UNDEFINED_TYPE}, "blah_if", 9))
+      reportsAnyOf({EventType::CompUndefinedInterface, EventType::CompUndefinedType}, "blah_if", 9))
       << "blah_if (line 9) names no interface;" << describeReportedErrors();
 }
 
@@ -396,7 +393,7 @@ TEST_F(IfaceClassTest7Test, BlahIfIsReportedUndefined) {
 TEST_F(IfaceClassTest7Test, SomeClassIsReportedUndefined) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   EXPECT_TRUE(
-      reportsAnyOf({ErrorDefinition::COMP_UNDEFINED_CLASS, ErrorDefinition::COMP_UNDEFINED_TYPE}, "some_class", 10))
+      reportsAnyOf({EventType::CompUndefinedClass, EventType::CompUndefinedType}, "some_class", 10))
       << "some_class (line 10) names no class;" << describeReportedErrors();
 }
 
@@ -404,14 +401,14 @@ TEST_F(IfaceClassTest7Test, SomeClassIsReportedUndefined) {
 // above are semantic: nothing is fatal or a syntax error.
 TEST_F(IfaceClassTest7Test, ReportsNoFatalOrSyntaxDiagnostics) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorContainer::Stats stats = errorContainer->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0) << describeErrors(errorContainer, ErrorDefinition::FATAL);
-  EXPECT_EQ(stats.nbSyntax, 0) << describeErrors(errorContainer, ErrorDefinition::SYNTAX);
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_SYNTAX_ERROR), nullptr);
+  const EventListener::Stats stats = eventListener->getStats();
+  EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
+  EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
 }
 
 TEST_F(IfaceClassTest7Test, SourceFileRecordedOnce) {

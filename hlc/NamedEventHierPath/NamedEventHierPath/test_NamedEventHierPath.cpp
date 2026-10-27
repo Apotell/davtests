@@ -35,7 +35,7 @@
 //     'rhs' (13.5: default direction input).
 //   - 'uvm_object' is never declared (this file is compiled with
 //     -nobuiltin and no UVM package), so the argument type cannot be
-//     resolved: a COMP_FAILED_TO_BIND diagnostic naming 'uvm_object' is
+//     resolved: a CompFailedToBind diagnostic naming 'uvm_object' is
 //     expected.
 //   - A.2.6 / 13.4: the function body has one block_item_declaration
 //     ('uvm_event_base e;', a local variable of class type) followed by a
@@ -58,9 +58,8 @@
 //   - runtime event aliasing semantics of the assignment (15.5.5.1).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -170,7 +169,7 @@ TEST_F(NamedEventHierPathTest, DoCopyHasOneInputArgRhs) {
 }
 
 TEST_F(NamedEventHierPathTest, UndeclaredUvmObjectIsDiagnosed) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "uvm_object"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "uvm_object"), nullptr)
       << "'uvm_object' is never declared; the argument type cannot be resolved";
 }
 
@@ -236,9 +235,9 @@ TEST_F(NamedEventHierPathTest, RhsPathEThenMEvent) {
 }
 
 TEST_F(NamedEventHierPathTest, ProtectedAccessWithinClassIsLegal) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "m_event"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "m_event"), nullptr)
       << "8.18: protected members are visible within the class's own methods";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "e"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "e"), nullptr);
 }
 
 }  // namespace hlc

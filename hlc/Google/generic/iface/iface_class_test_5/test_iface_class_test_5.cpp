@@ -54,11 +54,11 @@
 //   - pkg1::base1: the package prefix pkg1 names no package (26.3: a
 //     package must be declared before a name in it can be referenced), so
 //     the reference cannot be resolved. HLC's dedicated diagnostic is
-//     "Undefined package" (COMP_UNDEFINED_PACKAGE, or
-//     ELAB_UNDEFINED_PACKAGE when found during elaboration).
+//     "Undefined package" (CompUndefinedPackage, or
+//     ElabUndefinedPackage when found during elaboration).
 //   - base2#(N): base2 names no class, so the specialization names no
 //     interface class type (8.26.3). HLC's dedicated diagnostic is
-//     COMP_UNDEFINED_BASE_CLASS ('Undefined base class "%s" extended by
+//     CompUndefinedBaseClass ('Undefined base class "%s" extended by
 //     ...').
 // So the compiler shall report an error for each, on line 6.
 //
@@ -72,7 +72,7 @@
 //
 // What is checked
 //   - Both unresolved bases are reported: at least one error; an
-//     "Undefined package" naming pkg1 on line 6; a COMP_UNDEFINED_BASE_CLASS
+//     "Undefined package" naming pkg1 on line 6; a CompUndefinedBaseClass
 //     naming base2 on line 6.
 //   - No fatal and no syntax diagnostic: lines 6-7 match A.1.9.
 //   - Exactly one SourceFile for the .sv, with no includes, no generic
@@ -93,10 +93,10 @@
 // KNOWN FAILURE (undefined package / base class misreported), not a defect
 // in this test: HLC 577 records both 'extends' references unresolved
 // (BaseIcExtendsUnresolvedPkg1Base1AndBase2 passes) but reports neither an
-// "Undefined package" for pkg1 nor a COMP_UNDEFINED_BASE_CLASS for base2.
-// Its only diagnostic is one HLDB_UNSUPPORTED_TYPESPEC (2029, "Unsupported
+// "Undefined package" for pkg1 nor a CompUndefinedBaseClass for base2.
+// Its only diagnostic is one UnsupportedTypespec (2029, "Unsupported
 // typespec") on line 6, which misdescribes the problem: the construct is
-// supported, the names are undeclared. (So the nbError >= 1 check passes;
+// supported, the names are undeclared. (So the m_errors >= 1 check passes;
 // the two dedicated-code checks fail.) ReportsUndefinedPackageAndBaseClass
 // asserts the LRM behavior and is expected to fail until HLC is fixed; it
 // is intentionally not skipped or relaxed.
@@ -111,8 +111,8 @@
 //     The LRM fixes it (8.25), but base2 is undeclared, so there is no
 //     specialization whose parameter could receive it; how HLDB keeps the
 //     argument of an unresolved specialization is a tool convention.
-//   - Whether HLC also raises COMP_UNDEFINED_BASE_CLASS for base1, or a
-//     generic COMP_UNDEFINED_TYPE / COMP_FAILED_TO_BIND, and the exact error
+//   - Whether HLC also raises CompUndefinedBaseClass for base1, or a
+//     generic CompUndefinedType / CompFailedToBind, and the exact error
 //     count. The LRM requires an error per unresolved reference, not a
 //     particular code or count; for pkg1::base1 the missing package is the
 //     cause. Nearest assertion: ReportsUndefinedPackageAndBaseClass.
@@ -129,10 +129,8 @@
 //   - The warning count. The LRM neither requires nor forbids warnings here.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -229,25 +227,24 @@ std::string_view literalOf(const hldb::Constant *constant) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) {
-  if (error.getLocations().empty()) {
+uint32_t lineOf(const Event &error) {
+  if (error.getArguments().empty()) {
     return 0;
   }
-  return error.getLocations().front().m_line;
+  return error.getArguments().front().m_line;
 }
 
 // Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
 // messages, so a red run shows what was reported and where. <text> is HLC's
 // message template, so its placeholders are not filled in.
-std::string describeErrors(const ErrorContainer *errorContainer, ErrorDefinition::ErrorSeverity severity) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
+std::string describeErrors(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-    if ((errorInfo == errorInfoMap.end()) || (errorInfo->second.m_severity != severity)) continue;
+  for (const Event &error : eventListener->getEvents()) {
+    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if ((errorInfo == nullptr) || (errorInfo->m_severity != severity)) continue;
     description += " [" + std::to_string(static_cast<int32_t>(error.getType()));
     description += " line " + std::to_string(lineOf(error));
-    description += ": " + std::string(errorInfo->second.m_errorText) + "]";
+    description += ": " + std::string(errorInfo->m_lines[0].m_text) + "]";
   }
   return description;
 }
@@ -333,33 +330,33 @@ class IfaceClassTest5Test : public Test {
 TEST_F(IfaceClassTest5Test, ReportsUndefinedPackageAndBaseClass) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorContainer::Stats stats = errorContainer->getErrorStats();
-  EXPECT_GE(stats.nbError, 1) << "undeclared base interface classes are an error";
+  const EventListener::Stats stats = eventListener->getStats();
+  EXPECT_GE(stats.m_errors, 1) << "undeclared base interface classes are an error";
 
-  const bool packageReported = (findError(ErrorDefinition::COMP_UNDEFINED_PACKAGE, "pkg1", 6) != nullptr) ||
-                               (findError(ErrorDefinition::ELAB_UNDEFINED_PACKAGE, "pkg1", 6) != nullptr);
+  const bool packageReported = (findEvent(EventType::CompUndefinedPackage, "pkg1", 6) != nullptr) ||
+                               (findEvent(EventType::ElabUndefinedPackage, "pkg1", 6) != nullptr);
   EXPECT_TRUE(packageReported) << "26.3: pkg1 (line 6) names no package;"
-                               << describeErrors(errorContainer, ErrorDefinition::ERROR);
-  EXPECT_NE(findError(ErrorDefinition::COMP_UNDEFINED_BASE_CLASS, "base2", 6), nullptr)
+                               << describeErrors(eventListener, EventSeverity::Error);
+  EXPECT_NE(findEvent(EventType::CompUndefinedBaseClass, "base2", 6), nullptr)
       << "8.26.3: base2 (line 6) is extended but never declared;"
-      << describeErrors(errorContainer, ErrorDefinition::ERROR);
+      << describeErrors(eventListener, EventSeverity::Error);
 }
 
 // Lines 6-7 match interface_class_declaration (A.1.9), so the errors above
 // are semantic: nothing is fatal or a syntax error.
 TEST_F(IfaceClassTest5Test, ReportsNoFatalOrSyntaxDiagnostics) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorContainer::Stats stats = errorContainer->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0) << describeErrors(errorContainer, ErrorDefinition::FATAL);
-  EXPECT_EQ(stats.nbSyntax, 0) << describeErrors(errorContainer, ErrorDefinition::SYNTAX);
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_SYNTAX_ERROR), nullptr);
+  const EventListener::Stats stats = eventListener->getStats();
+  EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
+  EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
 }
 
 TEST_F(IfaceClassTest5Test, SourceFileRecordedOnce) {

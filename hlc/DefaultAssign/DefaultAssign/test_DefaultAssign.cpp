@@ -54,7 +54,7 @@
 //     structurally-provable-but-currently-unflagged illegal constructs)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -167,9 +167,9 @@ TEST_F(DefaultAssignTest, FInstanceArgumentsDataIsConnected) {
 
 TEST_F(DefaultAssignTest, DuplicateDataDeclarationShouldBeRejected) {
   GTEST_SKIP() << "Linting errors aren't reported yet!";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GT(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 0)
       << "IEEE 1800-2023 Sec 3.13/6.3: an identifier shall not be redeclared within the same scope. "
          "'dut' declares both a variable and a parameter named 'data' in the same module scope; the "
          "compiler should reject this. If this test starts failing because the compiler now emits zero "

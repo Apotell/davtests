@@ -1,4 +1,4 @@
-﻿
+
 /*
  Copyright 2020 Apotell
 
@@ -33,7 +33,7 @@
 //   the quoted sentence forbids.
 //
 //   A prior version of this test used hldb::Net/getNets() for "v"
-//   throughout, and ended with a test asserting nbError == 0 as
+//   throughout, and ended with a test asserting m_errors == 0 as
 //   "Compiler_NoErrorsReported" -- treating this spec violation as
 //   correct, passing behavior. This version fixes "v" to Variable (real
 //   bug if it's still a Net) and replaces the old "no errors" test with
@@ -60,8 +60,8 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -182,7 +182,7 @@ TEST_F(VariableMultipleAssignmentsTest, NoProcesses) {
 TEST_F(VariableMultipleAssignmentsTest, CompilerShouldRejectTwoContinuousAssignmentsToOneVariableButDoesNot) {
   GTEST_SKIP() << "IEEE 1800-2023 10.3.2: 'Variables can only be driven by one continuous assignment.'"
                   "Compiler needs to report this as an error.";
-  EXPECT_NE(findError(ErrorDefinition::COMP_MULTIPLE_ASSIGNING_PROCESSES, "v"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMultipleAssigningProcesses, "v"), nullptr)
       << "IEEE 1800-2023 10.3.2: 'v' has two continuous assignments, and a variable may be "
          "driven by only one.";
 }

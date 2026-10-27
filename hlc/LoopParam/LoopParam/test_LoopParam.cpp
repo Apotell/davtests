@@ -31,23 +31,22 @@
 //   - 6.5 "Data shall be declared before they are used, apart from implicit
 //     nets" together with 6.20 "Constants are named data objects": the
 //     reference to P2 on line 4 precedes P2's declaration on line 5 and so
-//     cannot bind -- COMP_FAILED_TO_BIND for "P2" at line 4.
+//     cannot bind -- CompFailedToBind for "P2" at line 4.
 //   - 6.20 / 23.10.4: parameters are elaboration-time constants whose values
 //     are computed during elaboration ("computes parameter values"). P1 and
 //     P2 depend on each other circularly, so no value can be computed and
-//     the loop must be diagnosed (ELAB_EXPRESSION_LOOP; this is the only
+//     the loop must be diagnosed (ElabExpressionLoop; this is the only
 //     expression loop in the file, so the type-only lookup is unambiguous).
 //   - P1 on line 5 refers to an already declared parameter and must bind
-//     (no COMP_FAILED_TO_BIND for "P1" at line 5).
+//     (no CompFailedToBind for "P1" at line 5).
 //
 // What is NOT checked and why:
 //   - the RefObj::getActual() of "P2" on line 4: per 6.5 the reference is
 //     illegal, so there is no standard-correct binding target to assert.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -121,20 +120,20 @@ TEST_F(LoopParamTest, BackwardReferenceToP1Binds) {
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getActual(), nullptr);
   EXPECT_EQ(rhs->getActual(), hldb::findByName<hldb::Parameter>("P1", foo->getParameters()));
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "P1", 5), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "P1", 5), nullptr);
 }
 
 // 6.5 + 6.20: "P2" on line 4 is used before its declaration on line 5.
 TEST_F(LoopParamTest, ForwardReferenceToP2IsDiagnosed) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet.";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "P2", 4), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "P2", 4), nullptr)
       << "6.5: data shall be declared before they are used; P2 is declared on line 5";
 }
 
 // 6.20 / 23.10.4: P1 <-> P2 have no computable value.
 TEST_F(LoopParamTest, CircularParameterDependencyIsDiagnosed) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet.";
-  EXPECT_NE(findError(ErrorDefinition::ELAB_EXPRESSION_LOOP), nullptr)
+  EXPECT_NE(findEvent(EventType::ElabExpressionLoop), nullptr)
       << "P1 = P2 and P2 = P1 form a dependency loop; neither parameter has a value";
 }
 

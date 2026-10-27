@@ -46,7 +46,7 @@
 //     but without an explicit "static"/"automatic" keyword -- "an explicit
 //     static keyword shall be required when an initialization value is
 //     specified as part of a static variable's declaration". The
-//     corresponding diagnostic COMP_MISSING_LIFETIME_KEYWORD is expected for
+//     corresponding diagnostic CompMissingLifetimeKeyword is expected for
 //     "res".
 //   - Sec 20.8.2 / Table 20-4: the 15 statements are blocking assignments
 //     (Sec 10.4.1) whose RHS is a system function call (SysFuncCall, not
@@ -60,7 +60,7 @@
 //   - Table 20-4: "shall accept real value arguments and return a real
 //     result type" -> each call's function type is vpiRealFunc
 //   - Sec 20.8.2: all 15 names are standard system functions, so no
-//     COMP_UNDEFINED_SYSTEM_FUNCTION is reported for any of them
+//     CompUndefinedSystemFunction is reported for any of them
 //
 // What is NOT checked and why:
 //   - The numeric results (e.g. $asin(2.0) is outside the domain of asin
@@ -71,7 +71,7 @@
 //     the lifetime diagnostic above covers what the standard requires.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -187,7 +187,7 @@ TEST_F(MathFunc01Test, BlockDeclaresRealRes) {
 
 TEST_F(MathFunc01Test, InitializedStaticVariableRequiresLifetimeKeyword) {
   GTEST_SKIP() << "HLC isn't reporting this diagnosis yet!";
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_LIFETIME_KEYWORD, "res"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingLifetimeKeyword, "res"), nullptr)
       << "Sec 6.21: 'real res = 0.0;' in an initial block needs an explicit 'static' or 'automatic'";
 }
 
@@ -273,7 +273,7 @@ TEST_F(MathFunc01Test, CallsReturnReal) {
 
 TEST_F(MathFunc01Test, NoUndefinedSystemFunctionReported) {
   for (const std::string &name : expectedNames()) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_SYSTEM_FUNCTION, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompUndefinedSystemFunction, name), nullptr)
         << name << " is a standard system function (Sec 20.8.2)";
   }
 }

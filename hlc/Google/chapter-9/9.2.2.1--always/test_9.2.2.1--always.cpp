@@ -62,8 +62,7 @@
 //     RefObj also resolving to Variable "a"
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -269,7 +268,7 @@ TEST_F(AlwaysTest, BitNegOperandResolvesToVariableA) {
 // The construct with the most real risk of a binding failure is "a"
 // resolving back to its declaration on either side of the assignment.
 TEST_F(AlwaysTest, ReferenceToAIsNotAFailedBind) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
       << "'a' in 'a = ~a' must bind to the 'logic a' declaration on both sides";
 }
 

@@ -172,7 +172,7 @@ TEST_F(FilePackUnionTest, UndeclaredCBecomesImplicitNet) {
 }
 
 TEST_F(FilePackUnionTest, UndeclaredCIsNotABindingError) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, std::string_view{"c"}), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, std::string_view{"c"}), nullptr)
       << "6.10: an undeclared net-context identifier is implicitly declared, not a binding error";
 }
 

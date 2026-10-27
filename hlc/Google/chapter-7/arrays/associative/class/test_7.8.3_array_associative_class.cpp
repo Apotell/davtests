@@ -52,7 +52,7 @@
 //     true of the current buggy misparse, which is silent)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -204,8 +204,8 @@ TEST_F(ArrayAssociativeClassTest, CompilerHasNoErrors) {
   // diagnostics. (Verified true today, though for the wrong reason -- see
   // header comment: the compiler silently misparses the construct instead
   // of rejecting or correctly elaborating it.)
-  const hlc::ErrorContainer::Stats stats = m_compiler->getErrorStats();
-  EXPECT_EQ(stats.nbError, 0) << "class-indexed associative array declaration must not produce compile errors";
+  const hlc::EventListener::Stats stats = m_compiler->getEventStats();
+  EXPECT_EQ(stats.m_errors, 0) << "class-indexed associative array declaration must not produce compile errors";
 }
 }  // namespace hlc
 

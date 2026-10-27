@@ -49,8 +49,8 @@
 // What is checked:
 //   - package 'toto' exists with exactly 1 TaskFunc: Function "print"
 //   - the illegal "wait" inside a function is diagnosed:
-//     COMP_ILLEGAL_TIMING_CONTROL_IN_FUNCTION at 7:5 (13.4(a))
-//   - the undeclared identifiers fail to bind: COMP_FAILED_TO_BIND for
+//     CompIllegalTimingControlInFunction at 7:5 (13.4(a))
+//   - the undeclared identifiers fail to bind: CompFailedToBind for
 //     "m_state", "qs", "m_type_names", "key" (6.3)
 //   - Function "print"'s body (its single function_statement_or_null) is
 //     directly a DoWhile (AnyType::DoWhile) -- no enclosing Begin needed,
@@ -83,9 +83,8 @@
 //     flagged in this comment rather than asserted on with GTEST_SKIP.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -145,7 +144,7 @@ TEST_F(DoWhileTest, PackageTotoHasExactlyOneTaskFuncPrint) {
 // ===========================================================================
 
 TEST_F(DoWhileTest, WaitInsideFunctionIsIllegalTimingControl) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMING_CONTROL_IN_FUNCTION, "print", 7, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalTimingControlInFunction, "print", 7, 5), nullptr)
       << "13.4(a): a function shall not contain a timing-control statement such as 'wait'";
 }
 
@@ -154,12 +153,12 @@ TEST_F(DoWhileTest, WaitInsideFunctionIsIllegalTimingControl) {
 // ===========================================================================
 
 TEST_F(DoWhileTest, UndeclaredIdentifiersFailToBind) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "m_state"), nullptr) << "'m_state' is never declared";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "qs"), nullptr) << "'qs' is never declared";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "push_back"), nullptr) << "'push_back' is never declared";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "m_type_names"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "m_state"), nullptr) << "'m_state' is never declared";
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "qs"), nullptr) << "'qs' is never declared";
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "push_back"), nullptr) << "'push_back' is never declared";
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "m_type_names"), nullptr)
       << "'m_type_names' is never declared";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "key"), nullptr) << "'key' is never declared";
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "key"), nullptr) << "'key' is never declared";
 }
 
 // ===========================================================================

@@ -142,9 +142,8 @@
 //     objects -- is asserted instead.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -422,19 +421,19 @@ TEST_F(FgetcTest, FinalStmtIsDirectlyAnFcloseSysTaskCall) {
 // --- compiler diagnostics ---------------------------------------------------
 
 TEST_F(FgetcTest, CompilerReportsNoFatalOrSyntaxErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 // "fd" is referenced from three places, one of them in a different
 // process -- the construct here with the most real binding risk.
 TEST_F(FgetcTest, DescriptorAndResultReferencesBind) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "fd"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "fd"), nullptr)
       << "'fd' must bind to the 'int fd' declaration in the assignment, in $fgetc, and in $fclose";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "c"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "c"), nullptr)
       << "'c' must bind to the 'int c' declaration in the $fgetc assignment";
 }
 

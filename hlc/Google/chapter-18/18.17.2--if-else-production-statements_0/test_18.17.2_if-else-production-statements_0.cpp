@@ -74,8 +74,8 @@
 // ---------------------------------------------------------------------------
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/Tests/Test.h>
 #include <hldb/Utils.h>
 #include <hldb/assignment.h>
@@ -164,8 +164,8 @@ TEST_F(IfElseProductionStatements0Test, CompilerRejectsUndeclaredIdentifierSwitc
   GTEST_SKIP() << "HLC reports no error for the undeclared 'switch': the randsequence holding it is dropped, so the "
                   "reference is never resolved. IEEE 1800-2023 Sec 23.9 (and Table B.1: 'switch' is no keyword) "
                   "require an error for an undeclared identifier. Fix pending.";
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GT(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 0)
       << "'switch' is not a keyword (Table B.1) and is not declared anywhere: IEEE 1800-2023 Sec 23.9 requires an "
          "identifier referenced in a function to be declared locally or in an enclosing scope";
 }
@@ -175,8 +175,8 @@ TEST_F(IfElseProductionStatements0Test, UnresolvedIdentifierDiagnosticNamesSwitc
   GTEST_SKIP() << "No undefined-variable / failed-to-bind diagnostic names 'switch': the randsequence holding it is "
                   "dropped by HLC, so the reference is never resolved. "
                   "IEEE 1800-2023 Sec 23.9: an undeclared identifier in a function is an error. Fix pending.";
-  const bool reported = (findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "switch") != nullptr) ||
-                        (findError(ErrorDefinition::COMP_FAILED_TO_BIND, "switch") != nullptr);
+  const bool reported = (findEvent(EventType::CompUndefinedVariable, "switch") != nullptr) ||
+                        (findEvent(EventType::CompFailedToBind, "switch") != nullptr);
   EXPECT_TRUE(reported) << "expected an undefined-variable / failed-to-bind diagnostic for 'switch' "
                            "(IEEE 1800-2023 Sec 23.9)";
 }

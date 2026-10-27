@@ -23,8 +23,8 @@
 //     file (the illegal construct is rejected, not silently accepted)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -37,8 +37,8 @@ class MissingArgumentTest : public Test {
 };
 
 TEST_F(MissingArgumentTest, MissingArgumentIsRejected) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::PP_SYNTAX_ERROR, 20, 16), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::PpSyntaxError, 20, 16), nullptr)
       << "`default_nettype with no argument is illegal: the directive requires exactly one net type "
          "keyword or 'none'.";
 }

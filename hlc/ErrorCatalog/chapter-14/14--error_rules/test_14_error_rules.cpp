@@ -29,8 +29,7 @@
 // which point the real rule would be silently unchecked.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -49,7 +48,7 @@ TEST_F(Chapter14ErrorRulesTest, Row439_ReadingAnOutputClockvarIsRejected) {
   // "It shall be illegal to read the value of any clockvar whose
   // clocking_direction is output." cb declares b as output on line 13; line 15
   // reads cb.b.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_READ, "b", 15, 15), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalRead, "b", 15, 15), nullptr)
       << "an output clockvar cannot be read (IEEE 1800-2023 14.3)";
 }
 
@@ -62,7 +61,7 @@ TEST_F(Chapter14ErrorRulesTest, Row441_ClockingSignalInitializerMustMatchPortDir
   // legal as a port connection of the corresponding direction; line 27's
   // "output w = 8'hFF;" binds a constant to an output clocking signal, which
   // is not a legal output-port-connection expression.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "w", 27, 12), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "w", 27, 12), nullptr)
       << "an output clocking signal's initializer must be legal for an output port connection "
          "(IEEE 1800-2023 14.5)";
 }
@@ -77,7 +76,7 @@ TEST_F(Chapter14ErrorRulesTest, Row444_CycleDelayWithoutDefaultClockingIsRejecte
   // it the default, and uses ##5 on line 41.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 14.11 requires an error when a ## "
                   "cycle delay is used with no default clocking in scope";
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_DEFAULT_CLOCKING, "r444_m", 41, 5), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingDefaultClocking, "r444_m", 41, 5), nullptr)
       << "a ## cycle delay needs a default clocking in scope (IEEE 1800-2023 14.11)";
 }
 
@@ -94,7 +93,7 @@ TEST_F(Chapter14ErrorRulesTest, Row450_GlobalClockWithNoEffectiveGlobalClockingI
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 14.14 requires an error when "
                   "$global_clock has no effective global clocking declaration in its instance's "
                   "ancestry";
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_DEFAULT_CLOCKING, "s", 50, 12), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingDefaultClocking, "s", 50, 12), nullptr)
       << "$global_clock requires an effective global clocking declaration somewhere in the "
          "instance's ancestry (IEEE 1800-2023 14.14)";
 }
@@ -108,7 +107,7 @@ TEST_F(Chapter14ErrorRulesTest, Row453_ClockvarExpressionCannotBeAConcatenation)
   // "{cb.a, cb.b} <= 2'b10;" uses a concatenation, which is not allowed.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 14.16 forbids a concatenation as a "
                   "clockvar_expression on the left-hand side of a synchronous drive";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_LHS, "cb", 66, 12), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentLhs, "cb", 66, 12), nullptr)
       << "a synchronous drive's clockvar_expression cannot be a concatenation "
          "(IEEE 1800-2023 14.16)";
 }

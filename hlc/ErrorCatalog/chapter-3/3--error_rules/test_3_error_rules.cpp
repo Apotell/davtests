@@ -45,8 +45,8 @@
 //
 // Two shapes of test appear below, per .claude/instructions/davtests.md:
 //   (a) HLC already diagnoses the violation -- assert it with the hlc::Test
-//       base class's findError() overloads, which locate a diagnostic by
-//       ErrorDefinition type plus the object it names (Location::m_object,
+//       base class's findEvent() overloads, which locate a diagnostic by
+//       event type plus the object it names (Location::m_object,
 //       resolved through the SymbolTable) and/or its line:column. Never assert
 //       a bare error count: this compilation carries many scenarios at once,
 //       so the container totals are meaningless per scenario, and several
@@ -73,8 +73,7 @@
 //     (IEEE 1800-2023 22.3), noted in row 12's skip message.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -94,9 +93,9 @@ TEST_F(Chapter3ErrorRulesTest, Row2_ProgramCannotContainModuleInstanceOrAlways) 
   // subroutine definitions, object instances and initial/final procedures.
   // Both offending items sit in 3--error_rules.sv: the module instance on line
   // 103, the always procedure on line 104.
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 103, 2), nullptr)
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 103, 2), nullptr)
       << "a module instance inside a program block is illegal (IEEE 1800-2023 3.4)";
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 104, 2), nullptr)
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 104, 2), nullptr)
       << "an always procedure inside a program block is illegal (IEEE 1800-2023 3.4)";
 }
 
@@ -106,7 +105,7 @@ TEST_F(Chapter3ErrorRulesTest, Row3_PrimitiveCannotInstantiateAnotherBuildingBlo
   // catalog row 3 | 3.11 | PARSE
   // Primitives are leaves in the hierarchy tree. The illegal instantiation is
   // on line 24 of 3--error_rules_inv2.sv.
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 24, 2), nullptr)
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 24, 2), nullptr)
       << "a primitive cannot instantiate another building block (IEEE 1800-2023 3.11)";
 }
 
@@ -120,9 +119,9 @@ TEST_F(Chapter3ErrorRulesTest, Row4_ForwardReferenceInCompilationUnitIsRejected)
   // add the ability to refer to later compilation-unit items."
   // Both offending references are in 3--error_rules.sv: the plain one on line
   // 23, the $unit::-prefixed one on line 24. 'r4_b' is declared on line 26.
-  EXPECT_NE(findError(ErrorDefinition::COMP_FORWARD_REFERENCE_IN_COMPILATION_UNIT, "r4_b", 23, 11), nullptr)
+  EXPECT_NE(findEvent(EventType::CompForwardReferenceInCompilationUnit, "r4_b", 23, 11), nullptr)
       << "a forward reference to a compilation-unit variable must be diagnosed";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FORWARD_REFERENCE_IN_COMPILATION_UNIT, "r4_b", 24, 18), nullptr)
+  EXPECT_NE(findEvent(EventType::CompForwardReferenceInCompilationUnit, "r4_b", 24, 18), nullptr)
       << "the $unit:: prefix does not license a forward reference (IEEE 1800-2023 3.12.1)";
 }
 
@@ -137,21 +136,21 @@ TEST_F(Chapter3ErrorRulesTest, Row5_DefinitionsNameSpaceReuseIsRejected) {
   // file's design elements because Phase 2 walks all files before it fires --
   // the same place row 6's package-name-space check already lives, which is
   // why the recorded category moved from LINT to COMP. Note the same severity
-  // gap row 6 documents: COMP_MULTIPLY_DEFINED_DESIGN_UNIT is registered at
+  // gap row 6 documents: CompMultiplyDefinedDesignUnit is registered at
   // WARNING while 3.13 says "shall not"; this asserts the violation is
   // reported at all.
-  EXPECT_NE(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_DESIGN_UNIT, "r5_dup"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMultiplyDefinedDesignUnit, "r5_dup"), nullptr)
       << "a name in the definitions name space cannot be reused (IEEE 1800-2023 3.13)";
 }
 
 TEST_F(Chapter3ErrorRulesTest, Row6_PackageNameSpaceReuseIsDiagnosed) {
   // catalog row 6 | 3.13 | COMP
   // This is the one name-space rule of the four that HLC does catch. Note the
-  // severity gap: ErrorDefinition registers COMP_MULTIPLY_DEFINED_PACKAGE at
+  // severity gap: the event definitions register CompMultiplyDefinedPackage at
   // WARNING level, while 3.13 states the redeclaration is illegal. The
   // assertion here is that the violation is reported at all; the severity is
   // tracked separately in the catalog.
-  EXPECT_NE(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_PACKAGE, "r6_p"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMultiplyDefinedPackage, "r6_p"), nullptr)
       << "a package name cannot be reused in the package name space (IEEE 1800-2023 3.13)";
 }
 
@@ -171,7 +170,7 @@ TEST_F(Chapter3ErrorRulesTest, Row7_AttributeNameIsNotVisibleOutsideAttributeNam
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 3.13(h) is already honoured, but the "
                   "undeclared reference it leaves behind is unreported -- see catalog rows 53 and "
                   "941 for the 6.10/26.3 rule that would cover it";
-  EXPECT_NE(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "r7_fsm_state"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompUndefinedVariable, "r7_fsm_state"), nullptr)
       << "an attribute name is not visible as an ordinary identifier (IEEE 1800-2023 3.13)";
 }
 
@@ -181,7 +180,7 @@ TEST_F(Chapter3ErrorRulesTest, Row8_RedeclarationInSameNameSpaceIsRejected) {
   // one, which is correct only for 3.13(g)'s port reintroduction; any other
   // redeclaration is now reported. Note the severity gap: the error code is
   // registered at WARNING while 3.13 says "shall be illegal".
-  EXPECT_NE(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_VARIABLE, "a", 57, 7), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMultiplyDefinedVariable, "a", 57, 7), nullptr)
       << "'a' is declared twice in the same name space (IEEE 1800-2023 3.13)";
 }
 
@@ -193,7 +192,7 @@ TEST_F(Chapter3ErrorRulesTest, Row9_PrecisionCoarserThanUnitIsRejected) {
   // precise" means precision <= unit; r9_m's 'timeunit 1ns / 1us' is -9 / -6.
   // Checked in Phase2's setDeclarationTimeInfo, which sees both values of the
   // declaration that states them.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "r9_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "r9_m"), nullptr)
       << "time precision cannot be coarser than the time unit (IEEE 1800-2023 3.14)";
 }
 
@@ -202,7 +201,7 @@ TEST_F(Chapter3ErrorRulesTest, Row10_MismatchedRepeatedTimeunitIsRejected) {
   // A repeat is allowed only if it matches, so Phase2 compares against the value
   // already on the instance before overwriting it. An inherited `timescale value
   // is not on the instance at that point, so overriding a directive stays legal.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "r10_m", 73, 3), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "r10_m", 73, 3), nullptr)
       << "a repeated timeunit must match the first declaration (IEEE 1800-2023 3.14.2.2)";
 }
 
@@ -212,7 +211,7 @@ TEST_F(Chapter3ErrorRulesTest, Row11_TimeunitAfterOtherItemsIsRejected) {
   // a direct child of the module, a later one is wrapped as an ordinary module
   // item, so Phase2 tests the owner's node type rather than tracking what it has
   // already walked.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "r11_m", 80, 3), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "r11_m", 80, 3), nullptr)
       << "timeunit must precede all other items in the time scope (IEEE 1800-2023 3.14.2.2)";
 }
 
@@ -223,9 +222,9 @@ TEST_F(Chapter3ErrorRulesTest, Row12_MixedTimescaleAndNoTimescaleElementsAreReje
                   "defects stack here: no such whole-design check exists, and r12_b -- declared "
                   "after a `resetall -- still inherits its timescale from the preceding "
                   "`timescale, contrary to IEEE 1800-2023 22.3, so the mixed condition is not even "
-                  "represented in the model. There is no dedicated ErrorDefinition code for this "
+                  "represented in the model. There is no dedicated event code for this "
                   "rule yet, so the assertion below names the nearest existing one";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "r12_b"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "r12_b"), nullptr)
       << "either all design elements carry a timescale or none do (IEEE 1800-2023 3.14.2.3)";
 }
 
@@ -237,7 +236,7 @@ TEST_F(Chapter3ErrorRulesTest, Row13_StepCannotSetTheTimeUnit) {
   // unit, so 1step, 1ns and 1foo are indistinguishable to it. The unit table is
   // semantic, so this is checked in Phase2 and the row's category is COMP, not
   // PARSE. ('#1step' as a delay stays legal; it is a separate token.)
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "r13_m", 87, 3), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "r13_m", 87, 3), nullptr)
       << "'step' cannot set the time unit or precision (IEEE 1800-2023 3.14.3)";
 }
 

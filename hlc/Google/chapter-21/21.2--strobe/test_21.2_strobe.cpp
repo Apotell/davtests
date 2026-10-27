@@ -379,8 +379,8 @@ TEST_F(StrobeTaskTest, FourStrobeVariantsCalledInSourceOrder) {
 TEST_F(StrobeTaskTest, ClkAndAResolveWithoutBindingErrors) {
   // 'clk' and 'a' are both declared in 'top' and both referenced from the
   // always procedure, so neither reference may be reported as undefined.
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "clk"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "a"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, "clk"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, "a"), nullptr);
 }
 
 TEST_F(StrobeTaskTest, StrobeVariantsAreRecognizedStrobedMonitoringTasks) {

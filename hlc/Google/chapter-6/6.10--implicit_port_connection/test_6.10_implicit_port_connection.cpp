@@ -42,16 +42,16 @@
 //   non-elaborated model.
 //
 //   Separately, a prior version of this file's comment claimed "HLC
-//   reports EL0535 (ELAB_ILLEGAL_IMPLICIT_NET) twice" for this
+//   reports EL0535 (ElabIllegalImplicitNet) twice" for this
 //   construct. That was a real bug (an elaboration-only error being
 //   reported by a non-elaborating compiler pass) but it predates this
 //   revision: the offending call site has since been fixed to report
-//   the correctly-scoped COMP_FAILED_TO_BIND instead, and
+//   the correctly-scoped CompFailedToBind instead, and
 //   ObjectBinder::reportErrors() explicitly skips a plain (non-
 //   hierarchical, non-package-scoped) unresolved RefObj like "c" is
 //   here -- so no error or warning should be reported for it at all.
 //   This file asserts that directly instead of repeating the old,
-//   now-stale ELAB_ILLEGAL_IMPLICIT_NET claim.
+//   now-stale ElabIllegalImplicitNet claim.
 //
 // What is checked:
 //   - design has exactly 2 modules (top, test)
@@ -79,10 +79,8 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -369,11 +367,11 @@ TEST_F(ImplicitPortConnectionTest, TestBitOrOperandsAreAAndB) {
 TEST_F(ImplicitPortConnectionTest, NoFailedToBindErrorReportedForImplicitNetC) {
   GTEST_SKIP() << "HLC gap: a legal net should have been instantiated to "
                   "represent the implicit net but none exist";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "c"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "c"), nullptr)
       << "IEEE 1800-2023 6.10: 'c' used only in the port connection list of "
          "'test mod(a, b, c)' is a legal implicit-net circumstance, not a binding failure. "
          "ObjectBinder::reportErrors() should skip a plain (non-hierarchical, non-package-scoped) "
-         "unresolved RefObj like this one without reporting COMP_FAILED_TO_BIND.";
+         "unresolved RefObj like this one without reporting CompFailedToBind.";
 }
 
 }  // namespace hlc

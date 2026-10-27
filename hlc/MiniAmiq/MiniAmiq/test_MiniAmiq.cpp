@@ -72,7 +72,7 @@
 //   - Sec 6.18: "It shall be legal to have multiple forward type
 //     declarations for the same type identifier in the same scope" and
 //     "either before or after the final type definition", so no
-//     COMP_MULTIPLY_DEFINED_TYPEDEF for "uvm_object", "uvm_phase", or
+//     CompMultiplyDefinedTypedef for "uvm_object", "uvm_phase", or
 //     "svaunit_test"
 //   - Sec 6.16 / 6.11: the interface declares "string test_name" and
 //     "bit eots_flag"
@@ -83,7 +83,7 @@
 //   - Sec 7.12: in "find_index() with (item.get_sva_name() ...)" the
 //     iterator argument defaults to "item" (an element of the
 //     svaunit_concurrent_assertion_info array), so its methods
-//     get_sva_name / get_sva_path must bind: no COMP_FAILED_TO_BIND
+//     get_sva_name / get_sva_path must bind: no CompFailedToBind
 //
 // What is NOT checked and why:
 //   - The tests/MiniAmiq/*.sv testbench files: the second "-wd" makes
@@ -94,7 +94,7 @@
 //   - Exhaustive coverage of UVM: out of scope for a focused test.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -282,11 +282,11 @@ TEST_F(MiniAmiqTest, SvaunitSequenceTestHasTypeParameter) {
 
 TEST_F(MiniAmiqTest, RepeatedForwardTypedefsAreLegal) {
   GTEST_SKIP() << "HLC gap: Need Typespec caching to void creating duplicates";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_TYPEDEF, "uvm_object"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef, "uvm_object"), nullptr)
       << "Sec 6.18: multiple 'typedef class uvm_object;' are legal";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_TYPEDEF, "uvm_phase"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef, "uvm_phase"), nullptr)
       << "Sec 6.18: multiple 'typedef class uvm_phase;' are legal";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_TYPEDEF, "svaunit_test"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef, "svaunit_test"), nullptr)
       << "Sec 6.18: a forward typedef plus the class definition is legal";
 }
 
@@ -327,9 +327,9 @@ TEST_F(MiniAmiqTest, DpiImportsInInterface) {
 
 TEST_F(MiniAmiqTest, FindIndexIteratorItemMethodsBind) {
   GTEST_SKIP() << "HLC gap: Binding is not ready for prime time checks yet.";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "get_sva_name"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "get_sva_name"), nullptr)
       << "Sec 7.12: 'item' is the default iterator; its class methods must resolve";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "get_sva_path"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "get_sva_path"), nullptr)
       << "Sec 7.12: 'item' is the default iterator; its class methods must resolve";
 }
 

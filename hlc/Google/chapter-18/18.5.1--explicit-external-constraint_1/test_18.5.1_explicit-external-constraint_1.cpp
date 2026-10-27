@@ -35,10 +35,10 @@
 //   - Class "a" and property "b" still exist and compile fine on their
 //     own (the illegal part is specifically the undefined "c").
 //   - The whole file's diagnostics were inspected directly: this build
-//     reports nbFatal=0, nbSyntax=0, nbError=0, nbWarning=0, nbNote=0,
-//     and only nbInfo=4 (4 plain informational diagnostics, unrelated to
+//     reports m_fatals=0, m_syntaxes=0, m_errors=0, m_warnings=0, m_notes=0,
+//     and only m_infos=4 (4 plain informational diagnostics, unrelated to
 //     the missing constraint body -- none is
-//     ErrorDefinition::COMP_IMPLICIT_EMPTY_CONSTRAINT, and no Constraint
+//     EventType::CompImplicitEmptyConstraint, and no Constraint
 //     object named "c" exists anywhere in the design: neither
 //     ClassDefn::getConstraints() nor Design::getConstraints() contain
 //     one). This is a genuine, currently-failing gap: per the corpus's
@@ -52,7 +52,7 @@
 //
 // Not checked:
 //   - The exact error code the real fix should raise (this file does not
-//     assume ErrorDefinition::COMP_IMPLICIT_EMPTY_CONSTRAINT specifically,
+//     assume EventType::CompImplicitEmptyConstraint specifically,
 //     since that code was never observed to fire here; only that *some*
 //     fatal/syntax/error diagnostic should exist).
 //   - vpiFullName on any object (never asserted per the test writing
@@ -61,7 +61,7 @@
 #include <hlc/Tests/Test.h>
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 
 #include <hldb/Utils.h>
 #include <hldb/design.h>
@@ -92,8 +92,8 @@ TEST_F(ExplicitExternalConstraint1Test, UndefinedExternConstraintPrototypeShould
   // This build accepts the file with zero fatal/syntax/error diagnostics
   // -- confirmed empirically, not assumed -- which contradicts both the
   // spec and this file's own ":should_fail_because:" tag.
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  const hlc::EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GT(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 0)
       << "IEEE 1800-2023 Sec 18.5.1: 'extern constraint c;' with no out-of-class definition anywhere "
          "must be rejected as illegal; this build currently accepts it silently";
 }

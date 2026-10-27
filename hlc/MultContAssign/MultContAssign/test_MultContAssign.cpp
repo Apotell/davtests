@@ -54,20 +54,20 @@
 //     "it shall be an error to have multiple continuous assignments ...
 //     writing to any term in the expansion of the longest static prefix of
 //     a variable". 'int v' is a variable written by two continuous
-//     assignments -> HLDB_MULTIPLE_CONT_ASSIGN for "v".
+//     assignments -> MultipleContAssign for "v".
 //   - 6.5: "A net can be written by one or more continuous assignments".
 //     inout_i1, inout_i2, out and pull_up_1 are implicit nets (6.10: an
 //     undeclared identifier on the LHS of a continuous assignment is an
 //     implicit scalar net of the default net type), and X is a declared wor
-//     net -- none of them may be flagged HLDB_MULTIPLE_CONT_ASSIGN.
+//     net -- none of them may be flagged MultipleContAssign.
 //   - 6.10: those implicit-net LHS identifiers (and inout_i3, fill_way inside
 //     generate blocks) are legal and must not fail to bind.
 //   - 6.10 / 6.3: the RHS identifiers pu, pd, sel, v0, v1, driver_1_en and
 //     driver_1 are not in any position where an implicit net is assumed, and
-//     are never declared -> each must fail to bind (COMP_FAILED_TO_BIND).
+//     are never declared -> each must fail to bind (CompFailedToBind).
 //   - 6.6.2: "It shall be an error to connect any bit of a uwire net to more
 //     than one driver." 'two' has two continuous assignments ->
-//     HLDB_MULTIPLE_DRIVERS_ON_UWIRE for "two".
+//     MultipleDriversOnUwire for "two".
 //   - 10.3.2 / 10.3.4 / 37.46 (vpiStrength0/vpiStrength1 on cont assign):
 //     drive strengths are recorded per assignment, regardless of the order
 //     they are written in -- (highz0, weak1), (weak0, highz1),
@@ -94,9 +94,8 @@
 //   - the $display string in top2: unrelated to continuous assignments.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -176,21 +175,21 @@ TEST_F(MultContAssignTest, VIsAVariable) {
 }
 
 TEST_F(MultContAssignTest, MultipleContAssignsToVariableIsError) {
-  EXPECT_NE(findError(ErrorDefinition::HLDB_MULTIPLE_CONT_ASSIGN, "v"), nullptr)
+  EXPECT_NE(findEvent(EventType::MultipleContAssign, "v"), nullptr)
       << "6.5: variable 'v' is written by two continuous assignments";
 }
 
 TEST_F(MultContAssignTest, MultipleContAssignsToNetsAreLegal) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet";
   for (std::string_view name : {"inout_i1", "inout_i2", "out", "pull_up_1", "X"}) {
-    EXPECT_EQ(findError(ErrorDefinition::HLDB_MULTIPLE_CONT_ASSIGN, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::MultipleContAssign, name), nullptr)
         << "6.5: '" << name << "' is a net; nets can be written by multiple continuous assignments";
   }
 }
 
 TEST_F(MultContAssignTest, MultipleDriversOnUwireIsError) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet";
-  EXPECT_NE(findError(ErrorDefinition::HLDB_MULTIPLE_DRIVERS_ON_UWIRE, "two"), nullptr)
+  EXPECT_NE(findEvent(EventType::MultipleDriversOnUwire, "two"), nullptr)
       << "6.6.2: uwire 'two' is connected to two drivers";
 }
 
@@ -200,14 +199,14 @@ TEST_F(MultContAssignTest, MultipleDriversOnUwireIsError) {
 
 TEST_F(MultContAssignTest, ImplicitNetsOnLhsBind) {
   for (std::string_view name : {"inout_i1", "inout_i2", "inout_i3", "out", "pull_up_1", "fill_way"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr)
         << "6.10: '" << name << "' on a continuous assignment LHS is an implicit net";
   }
 }
 
 TEST_F(MultContAssignTest, UndeclaredRhsIdentifiersFailToBind) {
   for (std::string_view name : {"pu", "pd", "sel", "v0", "v1", "driver_1_en", "driver_1"}) {
-    EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, name), nullptr)
+    EXPECT_NE(findEvent(EventType::CompFailedToBind, name), nullptr)
         << "6.10: '" << name << "' is used on a RHS without being declared";
   }
 }

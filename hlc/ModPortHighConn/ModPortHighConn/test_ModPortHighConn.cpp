@@ -56,9 +56,9 @@
 //     nets) ... but cannot be connected to a variable." The "||" expressions
 //     connected to the inout ports of instanceC/instanceD are neither nets
 //     nor concatenations of nets, so those two connections are illegal.
-//     There is no dedicated ErrorDefinition entry for "non-net expression
-//     connected to an inout port" (COMP_ILLEGAL_VARIABLE_ON_INOUT_PORT is
-//     specifically about variables), so no findError() assertion is made;
+//     There is no dedicated event definition for "non-net expression
+//     connected to an inout port" (CompIllegalVariableOnInoutPort is
+//     specifically about variables), so no findEvent() assertion is made;
 //     this is flagged here instead of guessed at.
 //   - 23.3.2.1: the ordered connections reuse topA[1] for port0 of three
 //     instances; multiple connections of the same net to inout ports is

@@ -61,7 +61,7 @@
 //     simulator to check.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -179,7 +179,7 @@ TEST_F(SignedFuncSimTest, DesignHasFourTypespecs) {
 }
 
 TEST_F(SignedFuncSimTest, CompilerReportsErrors) {
-  ASSERT_NE(findError(ErrorDefinition::ErrorType::HLDB_SIGNED_UNSIGNED_PORT_CONN, "a", 22), nullptr);
+  ASSERT_NE(findEvent(EventType::SignedUnsignedPortConn, "a", 22), nullptr);
 }
 
 // --- the actual point of the file: runtime value ----------------------------

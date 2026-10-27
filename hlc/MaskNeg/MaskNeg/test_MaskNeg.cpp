@@ -58,12 +58,12 @@
 //     constant_param_expression from a param_assignment ... only within a
 //     parameter_port_list." "parameter logic [1:0] RESVAL;" omits the
 //     default in a module-body declaration, so it is strictly illegal.
-//     ErrorDefinition.h has no diagnostic for this rule
-//     (COMP_LOCALPARAM_NO_VALUE covers localparam only), so there is no
-//     ErrorType to pass to findError(); this is noted here instead.
+//     events/events.lst has no diagnostic for this rule
+//     (CompLocalparamNoValue covers localparam only), so there is no
+//     ErrorType to pass to findEvent(); this is noted here instead.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -223,9 +223,9 @@ TEST_F(MaskNegTest, OverrideValueIsBitwiseNegationOfTwoBitHexZero) {
 }
 
 TEST_F(MaskNegTest, NoMissingOverrideOrBindErrorForResval) {
-  EXPECT_EQ(findError(ErrorDefinition::ELAB_MISSING_PARAMETER_OVERRIDE, "RESVAL"), nullptr)
+  EXPECT_EQ(findEvent(EventType::ElabMissingParameterOverride, "RESVAL"), nullptr)
       << "Sec 23.10: the only instantiation of 'dut' does override RESVAL";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "RESVAL"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "RESVAL"), nullptr)
       << "'.RESVAL' names a parameter declared in 'dut'";
 }
 

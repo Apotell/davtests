@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,18 +51,16 @@
 //     (element type is int, so IntTypespec is created before the
 //     StringTypespec used for the $display format string constants --
 //     reversed order vs. the string-array locator-method tests)
-//   - compiler emits exactly 2 errors (nbFatal=0, nbSyntax=0, nbError=2,
-//     nbWarning=0), both COMP_FAILED_TO_BIND: ".sort" and ".size" are both
+//   - compiler emits exactly 2 errors (m_fatals=0, m_syntaxes=0, m_errors=2,
+//     m_warnings=0), both CompFailedToBind: ".sort" and ".size" are both
 //     parenthesis-less built-in method calls (unique.sv has no "with" clause
 //     anywhere, so the now-fixed with-clause "item" iterator resolution --
 //     see ObjectBinder::findInMethodFuncCall -- does not apply to this file;
 //     ".unique" itself resolves fine as a MethodFuncCall name)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -437,8 +435,8 @@ TEST_F(ArrayLocatorUniqueTest, NoContAssigns) {
 // --- compiler diagnostics: known parenthesis-less-builtin-call limitation ----
 
 TEST_F(ArrayLocatorUniqueTest, SortAndSizeMethodCallsResolve) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "sort"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "sort"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
 }
 
 }  // namespace hlc

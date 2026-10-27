@@ -481,7 +481,7 @@ TEST_F(Sequence18Test, Assert_PropertyExpr_ResolvedToSeqPlusDecl) {
 }
 
 TEST_F(Sequence18Test, Compiler_NoErrors) {
-  EXPECT_EQ(m_compiler->getErrorStats().nbError, 0)
+  EXPECT_EQ(m_compiler->getEventStats().m_errors, 0)
       << "Compiler must not emit any error for legal use of 'seq_plus' in "
          "assert property(@(posedge clk) seq_plus)";
 }

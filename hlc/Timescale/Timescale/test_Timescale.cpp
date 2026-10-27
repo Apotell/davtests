@@ -16,10 +16,8 @@
 
 #include <hlc/Common/FileSystem.h>
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -117,18 +115,17 @@ class TimescaleTest : public Test {
   // 'line' of the file named 'fileName'. The standard says which constructs are errors,
   // not which diagnostic reports them.
   static bool hasErrorAt(std::string_view fileName, uint32_t line) {
-    const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
-      const ErrorDefinition::ErrorMap::const_iterator it = infos.find(error.getType());
-      if (it == infos.cend()) continue;
-      const ErrorDefinition::ErrorSeverity severity = it->second.m_severity;
-      if ((severity != ErrorDefinition::ERROR) && (severity != ErrorDefinition::SYNTAX) &&
-          (severity != ErrorDefinition::FATAL)) {
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
+      const EventDefinition *const it = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+      if (it == nullptr) continue;
+      const EventSeverity severity = it->m_severity;
+      if ((severity != EventSeverity::Error) && (severity != EventSeverity::Syntax) &&
+          (severity != EventSeverity::Fatal)) {
         continue;
       }
-      for (const Location &loc : error.getLocations()) {
+      for (const EventArg &loc : error.getArguments()) {
         if (loc.m_line != line) continue;
-        const std::string_view path = FileSystem::toPath(loc.m_fileId);
+        const std::string_view path = loc.m_file;
         if ((path.size() > fileName.size()) && (path.substr(path.size() - fileName.size()) == fileName) &&
             (path[path.size() - fileName.size() - 1] == '/')) {
           return true;
@@ -234,7 +231,7 @@ TEST_F(TimescaleTest, OwnDeclarationsOnEveryElementKind) {
 TEST_F(TimescaleTest, RepeatedMatchingDeclarationIsLegal) {
   // Sec 3.14.2.2: the declarations "can be repeated as later items, but shall match
   // the previous declaration within the current time scope."
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "d_repeat_match"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalTimescale, "d_repeat_match"), nullptr);
 }
 
 TEST_F(TimescaleTest, TimescaleDoesNotCrossCompilationUnits) {
@@ -431,10 +428,10 @@ TEST_F(TimescaleTest, OneSecondIsDistinguishableFromUnset) {
   GTEST_SKIP() << "Known HLC gap: 1s encodes as 10^0 = 0, the same value used for \"not set\", so "
                   "u_unit_1s and u_prec_1s are reported as having no time unit / precision although "
                   "they declare one (Sec 3.14 Table 3-1 lists s as a legal unit).";
-  EXPECT_EQ(findError(ErrorDefinition::PA_MISSING_TIMEUNIT, "u_unit_1s"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "u_unit_1s"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_MISSING_TIMEUNIT, "u_prec_1s"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "u_prec_1s"), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaMissingTimeunit, "u_unit_1s"), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaNotimescaleInfo, "u_unit_1s"), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaMissingTimeunit, "u_prec_1s"), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaNotimescaleInfo, "u_prec_1s"), nullptr);
 }
 
 // ----
@@ -444,19 +441,19 @@ TEST_F(TimescaleTest, PrecisionLongerThanUnitInDeclarationIsAnError) {
   // Sec 3.14: "The time precision of a design element shall be at least as precise as
   // the time unit; it cannot be a longer unit of time than the time unit."
   // timeunit 1ns / 1us;
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "e_coarse_decl"), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "e_coarse_decl"), nullptr);
 }
 
 TEST_F(TimescaleTest, MismatchedRepeatIsAnError) {
   // Sec 3.14.2.2: a repeat "shall match the previous declaration".
   // timeunit 1ns; logic x; timeunit 10ns;
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "e_repeat_mismatch"), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "e_repeat_mismatch"), nullptr);
 }
 
 TEST_F(TimescaleTest, DeclarationAfterAnotherItemIsAnError) {
   // Sec 3.14.2.2: "the timeunit and timeprecision declarations shall precede any other
   // items in the current time scope." logic x; timeunit 1ns;
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_TIMESCALE, "e_not_first"), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalTimescale, "e_not_first"), nullptr);
 }
 
 TEST_F(TimescaleTest, StepAsTimeUnitIsAnError) {
@@ -500,38 +497,37 @@ TEST_F(TimescaleTest, CompilationUnitTimeunitAfterAnItemIsAnError) {
 TEST_F(TimescaleTest, TimescaleInsideDesignElementIsAnError) {
   // Sec 22.7: "It shall be illegal for the `timescale directive to be specified within
   // a design element."
-  EXPECT_NE(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT, "`timescale"), nullptr);
+  EXPECT_NE(findEvent(EventType::PpIllegalDirectiveInDesignElement, "`timescale"), nullptr);
 }
 
 TEST_F(TimescaleTest, TimescalePrecisionLongerThanUnitIsAnError) {
   GTEST_SKIP() << "Known HLC gap: `timescale 1ns / 1us is accepted without a diagnostic. Sec 22.7: \"The "
                   "time_precision argument shall be at least as precise as the time_unit argument\" "
-                  "(PA_TIMESCALE_INVALID_SCALE is defined but never reported).";
-  EXPECT_NE(findError(ErrorDefinition::PA_TIMESCALE_INVALID_SCALE), nullptr);
+                  "(PaTimescaleInvalidScale is defined but never reported).";
+  EXPECT_NE(findEvent(EventType::PaTimescaleInvalidScale), nullptr);
 }
 
 TEST_F(TimescaleTest, TimescaleInvalidMagnitudeIsAnError) {
   GTEST_SKIP() << "Known HLC gap: `timescale 3ns / 1ps is accepted without a diagnostic. Sec 22.7: \"the "
-                  "valid integers are 1, 10, and 100\" (PA_TIMESCALE_INVALID_VALUE is defined but never "
+                  "valid integers are 1, 10, and 100\" (PaTimescaleInvalidValue is defined but never "
                   "reported).";
-  EXPECT_NE(findError(ErrorDefinition::PA_TIMESCALE_INVALID_VALUE), nullptr);
+  EXPECT_NE(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
 }
 
 TEST_F(TimescaleTest, ElementWithoutTimeInfoIsReported) {
   // Sec 3.14.2.3: "It shall be an error if some design elements have a time unit and
   // precision specified and others do not." d_none has neither, while most elements
   // in this design do, so d_none is reported.
-  EXPECT_NE(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "d_none"), nullptr);
+  EXPECT_NE(findEvent(EventType::PaNotimescaleInfo, "d_none"), nullptr);
 }
 
 TEST_F(TimescaleTest, ElementWithoutTimeInfoIsAnError) {
   GTEST_SKIP() << "Known HLC gap: Sec 3.14.2.3 \"It shall be an error if some design elements have a time "
-                  "unit and precision specified and others do not\", but PA_NOTIMESCALE_INFO is a WARNING.";
-  ASSERT_NE(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "d_none"), nullptr);
-  const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator it = infos.find(ErrorDefinition::PA_NOTIMESCALE_INFO);
-  ASSERT_NE(it, infos.cend());
-  EXPECT_EQ(it->second.m_severity, ErrorDefinition::ERROR);
+                  "unit and precision specified and others do not\", but PaNotimescaleInfo is a WARNING.";
+  ASSERT_NE(findEvent(EventType::PaNotimescaleInfo, "d_none"), nullptr);
+  const EventDefinition *const it = hldb::findEventDefinition(hlc::getEventTable(), EventType::PaNotimescaleInfo);
+  ASSERT_NE(it, nullptr);
+  EXPECT_EQ(it->m_severity, EventSeverity::Error);
 }
 }  // namespace hlc
 

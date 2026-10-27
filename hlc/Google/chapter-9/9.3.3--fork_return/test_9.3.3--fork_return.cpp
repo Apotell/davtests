@@ -62,10 +62,10 @@
 //     DelayControl ("#20;", getStmt() == null) and a ReturnStmt (bare
 //     "return;", getCondition() == null -- no return value, matching a
 //     task's void return type).
-//   - hlc's own ErrorReporting/ErrorDefinition.h (an API, not a log file)
+//   - hlc's own events/events.lst (an API, not a log file)
 //     was inspected for a dedicated diagnostic covering "return statement
 //     inside fork...join_none"; no such ErrorType constant exists in this
-//     build, so no findError() check is made here -- inventing an
+//     build, so no findEvent() check is made here -- inventing an
 //     ErrorType to search for would not be standard-derived.
 //
 // NOT CHECKED (out of scope; every assertion below states only what IEEE

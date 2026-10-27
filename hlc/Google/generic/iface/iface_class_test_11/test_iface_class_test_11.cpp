@@ -53,15 +53,15 @@
 //   - Line 8: some_class is declared nowhere (the file declares no other
 //     class, and the .hlc compiles no other source), so the specialization
 //     names no class (8.25). HLC's dedicated diagnostic is
-//     COMP_UNDEFINED_CLASS ("Undefined class"); COMP_UNDEFINED_TYPE is also
+//     CompUndefinedClass ("Undefined class"); CompUndefinedType is also
 //     accepted.
 //   - Lines 9-10: the name pure_task1 is declared twice in the scope of
 //     base_ic, once as a task and once as a function. Within a class,
 //     methods share one name space with the class's other members, and an
 //     identifier shall be declared only once in a scope (3.13), so the
 //     second declaration is an error. HLC's diagnostics for this are
-//     COMP_MULTIPLY_DEFINED_TASK, COMP_MULTIPLY_DEFINED_FUNCTION and
-//     COMP_DUPLICATE_DECLARATION; any of them naming pure_task1 on line 9
+//     CompMultiplyDefinedTask, CompMultiplyDefinedFunction and
+//     CompDuplicateDeclaration; any of them naming pure_task1 on line 9
 //     or 10 is accepted (the LRM does not say which declaration is
 //     reported).
 // The syntax of every line is legal, so there is no syntax error.
@@ -79,7 +79,7 @@
 //
 // KNOWN FAILURE (undefined class misreported, duplicate method accepted),
 // not a defect in this test: HLC 577 models N, car_type and the prototypes,
-// but its only diagnostic is one HLDB_UNSUPPORTED_TYPESPEC (2029,
+// but its only diagnostic is one UnsupportedTypespec (2029,
 // "Unsupported typespec") on line 8, which names no undefined class (the
 // same as for car_type in iface_class_test_7). It reports nothing for the
 // second declaration of pure_task1: both prototypes are kept side by side,
@@ -142,10 +142,8 @@
 //   - The warning count. The LRM neither requires nor forbids warnings here.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -241,25 +239,24 @@ std::string_view literalOf(const hldb::Constant *constant) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) {
-  if (error.getLocations().empty()) {
+uint32_t lineOf(const Event &error) {
+  if (error.getArguments().empty()) {
     return 0;
   }
-  return error.getLocations().front().m_line;
+  return error.getArguments().front().m_line;
 }
 
 // Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
 // messages, so a red run shows what was reported and where. <text> is HLC's
 // message template, so its placeholders are not filled in.
-std::string describeErrors(const ErrorContainer *errorContainer, ErrorDefinition::ErrorSeverity severity) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
+std::string describeErrors(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-    if ((errorInfo == errorInfoMap.end()) || (errorInfo->second.m_severity != severity)) continue;
+  for (const Event &error : eventListener->getEvents()) {
+    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if ((errorInfo == nullptr) || (errorInfo->m_severity != severity)) continue;
     description += " [" + std::to_string(static_cast<int32_t>(error.getType()));
     description += " line " + std::to_string(lineOf(error));
-    description += ": " + std::string(errorInfo->second.m_errorText) + "]";
+    description += ": " + std::string(errorInfo->m_lines[0].m_text) + "]";
   }
   return description;
 }
@@ -272,11 +269,11 @@ class IfaceClassTest11Test : public Test {
 
  protected:
   // True when one of 'types' is reported naming 'symbol' on one of 'lines'.
-  bool reportsAnyOf(std::initializer_list<ErrorDefinition::ErrorType> types, std::string_view symbol,
+  bool reportsAnyOf(std::initializer_list<uint32_t> types, std::string_view symbol,
                     std::initializer_list<uint32_t> lines) {
-    for (ErrorDefinition::ErrorType type : types) {
+    for (uint32_t type : types) {
       for (uint32_t line : lines) {
-        if (findError(type, symbol, line) != nullptr) {
+        if (findEvent(type, symbol, line) != nullptr) {
           return true;
         }
       }
@@ -286,10 +283,10 @@ class IfaceClassTest11Test : public Test {
 
   // The ERROR-severity diagnostics, for failure messages.
   static std::string describeReportedErrors() {
-    if ((m_session == nullptr) || (m_session->getErrorContainer() == nullptr)) {
+    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) {
       return "";
     }
-    return describeErrors(m_session->getErrorContainer(), ErrorDefinition::ERROR);
+    return describeErrors(m_session->getEventListener(), EventSeverity::Error);
   }
 
   // All SourceFile nodes recorded for the file under test.
@@ -359,10 +356,10 @@ class IfaceClassTest11Test : public Test {
 TEST_F(IfaceClassTest11Test, SomeClassIsReportedUndefined) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   ASSERT_NE(m_session, nullptr);
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_GE(m_session->getErrorContainer()->getErrorStats().nbError, 1) << "lines 8 and 10 hold errors";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_GE(m_session->getEventListener()->getStats().m_errors, 1) << "lines 8 and 10 hold errors";
   EXPECT_TRUE(
-      reportsAnyOf({ErrorDefinition::COMP_UNDEFINED_CLASS, ErrorDefinition::COMP_UNDEFINED_TYPE}, "some_class", {8}))
+      reportsAnyOf({EventType::CompUndefinedClass, EventType::CompUndefinedType}, "some_class", {8}))
       << "8.25: some_class (line 8) names no class;" << describeReportedErrors();
 }
 
@@ -372,8 +369,8 @@ TEST_F(IfaceClassTest11Test, SomeClassIsReportedUndefined) {
 TEST_F(IfaceClassTest11Test, PureTask1IsReportedMultiplyDefined) {
   GTEST_SKIP() << "HLC Gap: Need to account for virtual, pure, declarations and actual definitions";
   EXPECT_TRUE(
-      reportsAnyOf({ErrorDefinition::COMP_MULTIPLY_DEFINED_TASK, ErrorDefinition::COMP_MULTIPLY_DEFINED_FUNCTION,
-                    ErrorDefinition::COMP_DUPLICATE_DECLARATION},
+      reportsAnyOf({EventType::CompMultiplyDefinedTask, EventType::CompMultiplyDefinedFunction,
+                    EventType::CompDuplicateDeclaration},
                    "pure_task1", {9, 10}))
       << "3.13: pure_task1 is declared twice in base_ic (lines 9 and 10);" << describeReportedErrors();
 }
@@ -382,14 +379,14 @@ TEST_F(IfaceClassTest11Test, PureTask1IsReportedMultiplyDefined) {
 // nothing is fatal or a syntax error.
 TEST_F(IfaceClassTest11Test, ReportsNoFatalOrSyntaxDiagnostics) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorContainer::Stats stats = errorContainer->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0) << describeErrors(errorContainer, ErrorDefinition::FATAL);
-  EXPECT_EQ(stats.nbSyntax, 0) << describeErrors(errorContainer, ErrorDefinition::SYNTAX);
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_SYNTAX_ERROR), nullptr);
+  const EventListener::Stats stats = eventListener->getStats();
+  EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
+  EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
 }
 
 TEST_F(IfaceClassTest11Test, SourceFileRecordedOnce) {

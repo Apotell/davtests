@@ -30,7 +30,7 @@
 //     design element 'top' -> illegal, one error
 // "Shall be illegal" means an error, not a warning (Sec 3.12: a compile-time
 // error may be reported at any time prior to simulation). HLC's catalog entry
-// for this rule is PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT.
+// for this rule is PpIllegalDirectiveInDesignElement.
 //
 // The LRM gives illegal source no semantics, so everything beyond that error
 // is an HLC error-recovery expectation, not an LRM requirement. If HLC
@@ -50,7 +50,7 @@
 //     object of its own in the design element
 //
 // Checked -- required by IEEE 1800-2023 Sec 22.3:
-//   - exactly one PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT, at line 19
+//   - exactly one PpIllegalDirectiveInDesignElement, at line 19
 //     column 1 (the backtick of the second `resetall), none for line 17
 //   - that catalog entry has an error-class severity (FATAL, SYNTAX or
 //     ERROR), never WARNING, INFO or NOTE
@@ -112,10 +112,8 @@
 //     ModuleTopDirectiveStateIsDefault.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -146,10 +144,10 @@ class ResetallIllegalTest : public Test {
   }
 
   // Every reported diagnostic of the given type, in report order.
-  static std::vector<const Error *> errorsOfType(ErrorDefinition::ErrorType type) {
-    std::vector<const Error *> result;
-    if (m_session->getErrorContainer() == nullptr) return result;
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+  static std::vector<const Event *> errorsOfType(uint32_t type) {
+    std::vector<const Event *> result;
+    if (m_session->getEventListener() == nullptr) return result;
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
       if (error.getType() == type) result.emplace_back(&error);
     }
     return result;
@@ -167,11 +165,11 @@ class ResetallIllegalTest : public Test {
 TEST_F(ResetallIllegalTest, IllegalResetallReportedOnceAtLine19) {
   // Sec 22.3: only the `resetall inside 'module top' (line 19) is illegal;
   // the one on line 17 precedes the module and must not be reported.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const std::vector<const Error *> errors = errorsOfType(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const std::vector<const Event *> errors = errorsOfType(EventType::PpIllegalDirectiveInDesignElement);
   ASSERT_EQ(errors.size(), 1u) << "exactly one `resetall (line 19) is inside a design element";
-  ASSERT_FALSE(errors.front()->getLocations().empty());
-  const Location &location = errors.front()->getLocations().front();
+  ASSERT_FALSE(errors.front()->getArguments().empty());
+  const EventArg &location = errors.front()->getArguments().front();
   EXPECT_EQ(location.m_line, 19u) << "the illegal `resetall is on line 19, not the legal one on line 17";
   EXPECT_EQ(location.m_column, 1u) << "the directive's backtick is in column 1";
 }
@@ -179,23 +177,22 @@ TEST_F(ResetallIllegalTest, IllegalResetallReportedOnceAtLine19) {
 TEST_F(ResetallIllegalTest, IllegalDirectiveSeverityIsErrorClass) {
   // "It shall be illegal" -> an error, never a warning, info or note. Which
   // error-class severity HLC files it under is HLC's own taxonomy.
-  const ErrorDefinition::ErrorMap &infoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator it =
-      infoMap.find(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT);
-  ASSERT_TRUE(it != infoMap.end()) << "PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT has no catalog entry";
-  const ErrorDefinition::ErrorSeverity severity = it->second.m_severity;
-  EXPECT_TRUE((severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-              (severity == ErrorDefinition::ERROR))
+  const EventDefinition *const it =
+      hldb::findEventDefinition(hlc::getEventTable(), EventType::PpIllegalDirectiveInDesignElement);
+  ASSERT_TRUE(it != nullptr) << "PpIllegalDirectiveInDesignElement has no catalog entry";
+  const EventSeverity severity = it->m_severity;
+  EXPECT_TRUE((severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+              (severity == EventSeverity::Error))
       << "severity " << severity << " is not an error (FATAL, SYNTAX or ERROR)";
 }
 
 TEST_F(ResetallIllegalTest, CompilerReportsExactlyOneError) {
   // HLC recovery requirement, not an LRM rule: reporting the misplaced
   // directive must not cascade into syntax errors.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal + stats.nbSyntax + stats.nbError, 1)
-      << "fatal=" << stats.nbFatal << " syntax=" << stats.nbSyntax << " error=" << stats.nbError
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 1)
+      << "fatal=" << stats.m_fatals << " syntax=" << stats.m_syntaxes << " error=" << stats.m_errors
       << " -- extra diagnostics are a recovery cascade from the illegal `resetall";
 }
 

@@ -59,9 +59,8 @@
 //   - Exact vpiConstType of the literal '5' (tool-representation detail).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -174,11 +173,11 @@ TEST_F(PureConstraint0Test, DerivedConstraintOverridesPureAndIsNotPure) {
 TEST_F(PureConstraint0Test, LegalPureConstraintUsageRaisesNoError) {
   // Pure constraint in an abstract class: legal.
   // Same-named constraint in a non-abstract subclass: legal override.
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "a2"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_CONSTRAINT, "c"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "a2"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedConstraint, "c"), nullptr);
   // 'pure constraint c;' is not the implicit prototype form of Sec 18.5.1.
-  EXPECT_EQ(findError(ErrorDefinition::COMP_IMPLICIT_EMPTY_CONSTRAINT, "c"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompImplicitEmptyConstraint, "c"), nullptr);
 }
 TEST_F(PureConstraint0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active

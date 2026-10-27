@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +39,7 @@
 //
 //   A prior version of this test used hldb::Net/getNets() for BOTH "clk"
 //   and "v" (asserting "2 nets"), and ended with a test asserting
-//   nbError == 0 as "Compiler_NoErrorsReported" -- treating this spec
+//   m_errors == 0 as "Compiler_NoErrorsReported" -- treating this spec
 //   violation as correct, passing behavior. This version fixes "v" to
 //   Variable (real bug if it's still a Net) and replaces the old
 //   "no errors" test with one that documents the actual bug: the
@@ -71,8 +71,8 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -337,7 +337,7 @@ TEST_F(VariableMixedAssignmentsTest, CompilerShouldRejectMixedContinuousAndProce
   GTEST_SKIP() << "IEEE 1800-2023 10.3.2: 'Variables can only be driven by one continuous assignment or "
                   "by one or more procedural drivers; they cannot be driven by both a continuous "
                   "assignment and a procedural driver at the same time.' Compiler needs to report this as an error.";
-  EXPECT_NE(findError(ErrorDefinition::COMP_MULTIPLE_ASSIGNING_PROCESSES, "v"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMultipleAssigningProcesses, "v"), nullptr)
       << "IEEE 1800-2023 10.3.2: 'v' is driven by a continuous assignment and by an always "
          "block at the same time, which the standard forbids.";
 }

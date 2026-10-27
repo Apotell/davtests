@@ -57,8 +57,8 @@
 //   below leave HLC's elaboration-category diagnostics out.
 //
 // Every expected value comes from the LRM, so a red test means HLC deviates
-// from it. PP_ILLEGAL_DIRECTIVE_VALUE is HLC's code for a directive argument
-// it does not accept, and PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT its code for
+// from it. PpIllegalDirectiveValue is HLC's code for a directive argument
+// it does not accept, and PpIllegalDirectiveInDesignElement its code for
 // the 22.9 placement rule.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
@@ -104,10 +104,8 @@
 //     CompilesWithoutErrors and ReportsNoDirectiveMisreadingDiagnostics.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -159,29 +157,27 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) { return error.getLocations().empty() ? 0 : error.getLocations().front().m_line; }
+uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
 
 // True when HLC's error table gives 'error' a fatal, syntax or error
 // severity outside the elaboration category. Elaboration diagnostics are left
 // out because a design without a top-level module may draw one (23.3.1).
-bool isSourceError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  if (errorInfo == errorInfoMap.end()) return false;
-  const ErrorDefinition::ErrorSeverity severity = errorInfo->second.m_severity;
-  const bool isErrorClass = (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-                            (severity == ErrorDefinition::ERROR);
-  return isErrorClass && (errorInfo->second.m_category != ErrorDefinition::ELAB);
+bool isSourceError(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+  if (errorInfo == nullptr) return false;
+  const EventSeverity severity = errorInfo->m_severity;
+  const bool isErrorClass = (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+                            (severity == EventSeverity::Error);
+  return isErrorClass && (errorInfo->m_category->m_name != "Elab");
 }
 
 // One diagnostic as " [<code> line <n>: <message template>]", so that a red
 // run shows what was reported and where.
-std::string describeError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
+std::string describeError(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
   std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
   description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != errorInfoMap.end()) description += ": " + std::string(errorInfo->second.m_errorText);
+  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
   return description + "]";
 }
 }  // namespace
@@ -195,9 +191,9 @@ class UnconnectedDriveBasicTest : public Test {
   // Every source error (see isSourceError), described; empty when there is
   // none. A run without an error container is reported, not passed.
   static std::string sourceErrors() {
-    if ((m_session == nullptr) || (m_session->getErrorContainer() == nullptr)) return "no error container";
+    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
     std::string description;
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
       if (isSourceError(error)) description += describeError(error);
     }
     return description;
@@ -205,9 +201,9 @@ class UnconnectedDriveBasicTest : public Test {
 
   // The same, for the source errors that point at 'line' only.
   static std::string sourceErrorsOnLine(uint32_t line) {
-    if ((m_session == nullptr) || (m_session->getErrorContainer() == nullptr)) return "no error container";
+    if ((m_session == nullptr) || (m_session->getEventListener() == nullptr)) return "no error container";
     std::string description;
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
       if (isSourceError(error) && (lineOf(error) == line)) description += describeError(error);
     }
     return description;
@@ -253,17 +249,17 @@ TEST_F(UnconnectedDriveBasicTest, Line17NounconnectedDriveIsAccepted) {
 // misread line 16 or 17.
 TEST_F(UnconnectedDriveBasicTest, ReportsNoDirectiveMisreadingDiagnostics) {
   // Both lines are well-formed directives.
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
 
   // pull1 is one of the two arguments of `unconnected_drive (22.9).
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_VALUE), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
 
   // The file has no design element, so neither line is inside one (22.9).
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // `unconnected_drive and `nounconnected_drive are compiler directives
   // (22.1), not usages of a text macro.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 }
 
 // ---------------------------------------------------------------------------

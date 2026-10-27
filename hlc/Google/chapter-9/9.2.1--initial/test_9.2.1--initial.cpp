@@ -55,8 +55,7 @@
 //   - compiler reports zero errors
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -208,7 +207,7 @@ TEST_F(InitialTest, AssignmentRhsIsConstantOne) {
 // "a = 1" resolving back to the "reg a" declaration -- check that specific
 // error type directly, rather than asserting a blanket error count.
 TEST_F(InitialTest, ReferenceToAIsNotAFailedBind) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
       << "'a' in 'a = 1' must bind to the 'reg a' declaration";
 }
 

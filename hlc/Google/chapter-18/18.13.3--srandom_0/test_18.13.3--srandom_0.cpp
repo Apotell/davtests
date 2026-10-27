@@ -205,8 +205,8 @@
 //     - 'run_test();' is a TaskCall bound by object identity to uvm_pkg's
 //       package-level task run_test, and writes no argument
 //   Diagnostics
-//     - no COMP_UNDEFINED_VARIABLE for any variable or formal the file
-//       declares, and no COMP_FAILED_TO_BIND for any name it calls,
+//     - no CompUndefinedVariable for any variable or formal the file
+//       declares, and no CompFailedToBind for any name it calls,
 //       references or extends -- including the built-ins srandom and
 //       randomize
 //     - the file is legal: zero fatal, syntax and error diagnostics. See
@@ -263,7 +263,7 @@
 // NoFatalSyntaxOrErrorDiagnostics asserts zero errors, as legal source
 // requires, and is expected to fail until HLC is fixed. The same unresolved
 // library references make the 'randomize' and 'new' entries of
-// EveryCalledOrExtendedNameBinds fail: findError() searches the whole
+// EveryCalledOrExtendedNameBinds fail: findEvent() searches the whole
 // design, and every failed bind it finds for those two names is in UVM's own
 // source, not in this file. Neither is skipped or relaxed.
 //
@@ -333,8 +333,8 @@
 //   - The license and metadata comments are comments, not design objects.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -1273,7 +1273,7 @@ TEST_F(Srandom0Test, InitialCallsRunTestFromUvmPkg) {
 TEST_F(Srandom0Test, EveryDeclaredVariableAndFormalIsFound) {
   for (std::string_view name :
        {"x", "obj", "ret1", "ret2", "prev_x", "seed", "name", "parent", "phase", "environment"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "'" << name << "' is declared in this file, so it is not undefined";
   }
 }
@@ -1287,7 +1287,7 @@ TEST_F(Srandom0Test, EveryCalledOrExtendedNameBinds) {
                   "still failing and there's no way to distinguish one from other.";
   for (std::string_view name : {"srandom", "randomize", "x", "raise_objection", "drop_objection", "run_test", "new",
                                 "uvm_env", "uvm_component", "uvm_phase", "a", "env"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr)
         << "'" << name << "' is declared in this file, in uvm_pkg, or built in to every class, so it must bind";
   }
 }

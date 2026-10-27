@@ -26,8 +26,7 @@
 // 1013's r1013_m also compiles with no diagnostic naming the rule.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -52,7 +51,7 @@ TEST_F(Chapter30ErrorRulesTest, Row1010_InternalNetAsModulePathSourceIsRejected)
   // declared, so the check has to look at the port list rather than at the
   // specify block alone; the legal form of this design would name a directly
   // in the path.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SPECIFY_PATH, "internal", 15, 6), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalSpecifyPath, "internal", 15, 6), nullptr)
       << "a module path source must be an input or inout port net (IEEE 1800-2023 30.4.1)";
 }
 
@@ -64,7 +63,7 @@ TEST_F(Chapter30ErrorRulesTest, Row1013_OutputPortIsNotALegalStateDependentPathC
   // only module input/inout ports (or their selects), locally defined
   // variables/nets (or their selects), and compile-time constants; 'ctrl' on
   // line 27 is an output port and is not a legal operand here.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r1013_m", 27, 15), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r1013_m", 27, 15), nullptr)
       << "an output port cannot be a state-dependent path condition operand (IEEE 1800-2023 30.4.4.1)";
 }
 

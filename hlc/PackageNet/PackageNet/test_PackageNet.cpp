@@ -65,7 +65,7 @@
 //       RefObj 'p2', each bound to the package's Parameter of that name
 //   Diagnostics
 //     - the file is legal: zero fatal, syntax and error diagnostics, and no
-//       COMP_UNDEFINED_VARIABLE or COMP_FAILED_TO_BIND for v, p1 or p2
+//       CompUndefinedVariable or CompFailedToBind for v, p1 or p2
 //
 // Reduction and elaboration: nothing here is required to reduce. The
 // parameter values are already literals, and the RHS of a procedural
@@ -97,8 +97,8 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -359,19 +359,19 @@ TEST_F(PackageNetTest, AssignmentRhsAddsPackageParameters) {
 
 TEST_F(PackageNetTest, PackageNamesAreNotReported) {
   for (std::string_view name : {"v", "p1", "p2"}) {
-    EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
         << "26.3: '" << name << "' is declared in my_package1 and imported by 'test'";
-    EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, name), nullptr)
+    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr)
         << "26.3: '" << name << "' is declared in my_package1 and imported by 'test'";
   }
 }
 
 TEST_F(PackageNetTest, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc

@@ -59,7 +59,7 @@
 // What is checked
 //   - At least one error-class diagnostic (fatal, syntax or error) points at
 //     line 17 or line 19.
-//   - HLC diagnoses an unterminated string, PP_UNTERMINATED_STRING, on line
+//   - HLC diagnoses an unterminated string, PpUnterminatedString, on line
 //     17 or line 19, with an error-class severity: the string opened on
 //     either line is not closed before the newline (5.9).
 //   - Every error-class diagnostic points at line 17 or line 19. For lines
@@ -120,10 +120,8 @@
 //     elaborating run nothing legitimate to report off lines 17 and 19.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -192,20 +190,19 @@ const T *firstFromSourceFile(const std::vector<T *> *collection) {
 }
 
 // True for the severities the LRM's "illegal" can map to.
-bool isErrorClass(ErrorDefinition::ErrorSeverity severity) {
-  return (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-         (severity == ErrorDefinition::ERROR);
+bool isErrorClass(EventSeverity severity) {
+  return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+         (severity == EventSeverity::Error);
 }
 
 // True when 'error' has an error-class severity in HLC's error table.
-bool isErrorClass(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  return (errorInfo != errorInfoMap.end()) && isErrorClass(errorInfo->second.m_severity);
+bool isErrorClass(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+  return (errorInfo != nullptr) && isErrorClass(errorInfo->m_severity);
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) { return error.getLocations().empty() ? 0 : error.getLocations().front().m_line; }
+uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
 
 // True when 'line' is one of the two lines of the illegal construct.
 bool isIllegalLine(uint32_t line) { return (line == kDefinitionLine) || (line == kUsageLine); }
@@ -213,19 +210,18 @@ bool isIllegalLine(uint32_t line) { return (line == kDefinitionLine) || (line ==
 // One diagnostic as " [<code> line <n>: <text>]", for failure messages, so a
 // red run shows what was reported and where. <text> is HLC's message
 // template, so its placeholders are not filled in.
-std::string describeError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
+std::string describeError(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
   std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
   description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != errorInfoMap.end()) description += ": " + std::string(errorInfo->second.m_errorText);
+  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
   return description + "]";
 }
 
 // Every diagnostic, described as by describeError(); for failure messages.
-std::string describeAllErrors(const ErrorContainer *errorContainer) {
+std::string describeAllErrors(const EventListener *eventListener) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) description += describeError(error);
+  for (const Event &error : eventListener->getEvents()) description += describeError(error);
   return description;
 }
 }  // namespace
@@ -269,42 +265,41 @@ class DefineExpansion21Test : public Test {
 // 17 or 19 satisfies it.
 TEST_F(DefineExpansion21Test, ReportsAnErrorOnTheIllegalLines) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
   size_t errorsOnIllegalLines = 0;
-  for (const Error &error : errorContainer->getErrors()) {
+  for (const Event &error : eventListener->getEvents()) {
     if (isErrorClass(error) && isIllegalLine(lineOf(error))) ++errorsOnIllegalLines;
   }
   EXPECT_GE(errorsOnIllegalLines, 1u) << "no error on line " << kDefinitionLine << " or " << kUsageLine << ";"
-                                      << describeAllErrors(errorContainer);
+                                      << describeAllErrors(eventListener);
 }
 
 // 5.9: a quoted string cannot contain a newline (quoted_string_item excludes
 // it), so the string opened on line 17, and the one opened on line 19, each
 // end unterminated at their newline. HLC's code for exactly that lexical
-// condition is PP_UNTERMINATED_STRING.
+// condition is PpUnterminatedString.
 TEST_F(DefineExpansion21Test, DiagnosesAnUnterminatedString) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
   size_t unterminatedOnIllegalLines = 0;
-  for (const Error &error : errorContainer->getErrors()) {
-    if ((error.getType() == ErrorDefinition::PP_UNTERMINATED_STRING) && isIllegalLine(lineOf(error))) {
+  for (const Event &error : eventListener->getEvents()) {
+    if ((error.getType() == EventType::PpUnterminatedString) && isIllegalLine(lineOf(error))) {
       ++unterminatedOnIllegalLines;
     }
   }
-  EXPECT_GE(unterminatedOnIllegalLines, 1u) << "no PP_UNTERMINATED_STRING on line " << kDefinitionLine << " or "
-                                            << kUsageLine << ";" << describeAllErrors(errorContainer);
+  EXPECT_GE(unterminatedOnIllegalLines, 1u) << "no PpUnterminatedString on line " << kDefinitionLine << " or "
+                                            << kUsageLine << ";" << describeAllErrors(eventListener);
 
   // The LRM calls this illegal; it does not say which kind of error, so any
   // error-class severity is accepted.
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo =
-      errorInfoMap.find(ErrorDefinition::PP_UNTERMINATED_STRING);
-  ASSERT_NE(errorInfo, errorInfoMap.end());
-  EXPECT_TRUE(isErrorClass(errorInfo->second.m_severity)) << "severity " << errorInfo->second.m_severity;
+  const EventDefinition *const errorInfo =
+      hldb::findEventDefinition(hlc::getEventTable(), EventType::PpUnterminatedString);
+  ASSERT_NE(errorInfo, nullptr);
+  EXPECT_TRUE(isErrorClass(errorInfo->m_severity)) << "severity " << errorInfo->m_severity;
 }
 
 // Lines 17 and 19 are the illegal pair (22.5.1); the LRM requires an error for
@@ -320,11 +315,11 @@ TEST_F(DefineExpansion21Test, DiagnosesAnUnterminatedString) {
 //     conformance failure.
 TEST_F(DefineExpansion21Test, ErrorsOnlyOnTheIllegalLines) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
   std::string offLines;
-  for (const Error &error : errorContainer->getErrors()) {
+  for (const Event &error : eventListener->getEvents()) {
     if (isErrorClass(error) && !isIllegalLine(lineOf(error))) offLines += describeError(error);
   }
   EXPECT_EQ(offLines, "") << "error-class diagnostics off lines " << kDefinitionLine << " and " << kUsageLine;
@@ -335,28 +330,28 @@ TEST_F(DefineExpansion21Test, ReportsNoMisreadingDiagnostics) {
   // first_half has no formal arguments: no "(" follows its name on line 17,
   // and its usage takes no parentheses. So no argument can be one too many,
   // lack a default, or be unused or undefined.
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_HAS_SPACE_BEFORE_ARGS), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_PARENTHESIS_NEEDED), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_TOO_MANY_ARGS_MACRO), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NO_DEFAULT_VALUE), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNUSED_ARGUMENT), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_UNDEFINED_ARGUMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
 
   // first_half is defined once.
-  EXPECT_EQ(findError(ErrorDefinition::PP_MULTIPLY_DEFINED_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
 
   // first_half is not a compiler directive name (22.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_MACRO_NAME_RESERVED), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
 
   // The macro text does not refer to any macro.
-  EXPECT_EQ(findError(ErrorDefinition::PP_RECURSIVE_MACRO_DEFINITION), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
 
   // `define is outside module top, and a macro usage may appear anywhere in
   // the compilation unit after its definition (22.5.1).
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // The file is plain ASCII.
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DefineExpansion21Test, SourceFileRecordedOnce) {

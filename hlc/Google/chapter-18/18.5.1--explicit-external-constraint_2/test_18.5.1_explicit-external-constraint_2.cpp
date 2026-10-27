@@ -81,8 +81,8 @@
 //   - The exact cause of this build's 1 reported error / ~26 warnings on
 //     this file -- not diagnosed here, since none of them are specific
 //     to the rand/constraint construct this chapter is actually about
-//     (spot-checked their codes: PP_MACRO_UNUSED_ARGUMENT,
-//     COMP_FAILED_TO_BIND, LINT_NULL_ACTUAL, and similar -- all inside
+//     (spot-checked their codes: PpMacroUnusedArgument,
+//     CompFailedToBind, LintNullActual, and similar -- all inside
 //     UVM library plumbing pulled in by "import uvm_pkg::*", not inside
 //     class "a" or "env" as written in this file).
 //   - Any actual randomize()/run_phase()/run_test() runtime behavior --

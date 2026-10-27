@@ -73,7 +73,7 @@
 //     failing (for the right reason) the moment such checking is added.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -196,12 +196,12 @@ TEST_F(TaggedUnionMemberAccessInvTest, DesignHasTwoTypespecs) {
 }
 
 TEST_F(TaggedUnionMemberAccessInvTest, CompilerReportsZeroErrorsBecauseTheInvalidityIsRuntimeOnly) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
+  EXPECT_EQ(stats.m_warnings, 0);
 }
 
 // --- the actual point of the file: the "should_fail_because" runtime error -
@@ -220,14 +220,14 @@ TEST_F(TaggedUnionMemberAccessInvTest, ReadingInactiveTagShouldRaiseARuntimeErro
                   "least one runtime error; the assertion below documents "
                   "that expectation and fails now because no such checking "
                   "exists yet.";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
   // NOTE: deliberately still a coarse error-count assertion, unlike the sibling gap tests
-  // which were narrowed to findError(). IEEE 1800-2023 11.9 makes this a RUN-TIME error,
-  // not a compile-time one, so no ErrorDefinition entry could correctly describe it -- a
+  // which were narrowed to findEvent(). IEEE 1800-2023 11.9 makes this a RUN-TIME error,
+  // not a compile-time one, so no event definition could correctly describe it -- a
   // static compiler has no point at which to raise it. This assertion documents the
   // expectation only; it is not a diagnostic gap HLC can close as a compile-time check.
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbError, 0) << "once runtime tag-checking exists, reading 'a.Valid' should be reported as an error";
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GT(stats.m_errors, 0) << "once runtime tag-checking exists, reading 'a.Valid' should be reported as an error";
 }
 
 }  // namespace hlc

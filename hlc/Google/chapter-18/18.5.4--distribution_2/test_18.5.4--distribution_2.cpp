@@ -42,14 +42,13 @@
 //
 // Not checked:
 //   - The exact error code. HLC has no error dedicated to "dist on randc";
-//     COMP_ILLEGAL_CONSTRAINT is the closest existing code and is ASSUMED
+//     CompIllegalConstraint is the closest existing code and is ASSUMED
 //     here. If HLC adds a dedicated code, update the last test.
 //   - The exact line/column of the diagnostic (not mandated by IEEE).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -126,8 +125,8 @@ TEST_F(Distribution2Test, DistributionIsStillModelled) {
 
 TEST_F(Distribution2Test, DistOnRandcVariableIsError) {
   // Sec 18.5.3: "A dist operation shall not be applied to randc variables."
-  const Error *err = findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "b");
-  if (err == nullptr) err = findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c");
+  const Event *err = findEvent(EventType::CompIllegalConstraint, "b");
+  if (err == nullptr) err = findEvent(EventType::CompIllegalConstraint, "c");
   EXPECT_NE(err, nullptr) << "dist must not be applied to randc variable 'b' (IEEE 1800-2023 Sec 18.5.3)";
 }
 }  // namespace hlc

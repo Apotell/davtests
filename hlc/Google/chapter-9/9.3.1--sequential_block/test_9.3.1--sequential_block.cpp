@@ -59,8 +59,7 @@
 //     rhs RefObj -> Variable "b"
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -278,7 +277,7 @@ TEST_F(SequentialBlockTest, ThirdStmtRhsResolvesToVariableB) {
 // --- compiler diagnostics ----------------------------------------------------
 
 TEST_F(SequentialBlockTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
       << "'a', 'b', and 'c' must all bind to their declarations";
 }
 

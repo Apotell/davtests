@@ -28,8 +28,7 @@
 // nothing to do with any of these rules; it is not asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -50,7 +49,7 @@ TEST_F(Chapter16ErrorRulesTest, Row468_BeginEndActionBlockOnDeferredAssertionIsR
   // subroutine call, so the else branch starting on line 13 is illegal. Note
   // this restriction is specific to the deferred form (assert #0); the same
   // block on a plain immediate assertion would be legal.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ACTION_BLOCK, "r468_a1", 13, 38), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalActionBlock, "r468_a1", 13, 38), nullptr)
       << "a deferred assertion action block must be a single subroutine call "
          "(IEEE 1800-2023 16.4)";
 }
@@ -64,7 +63,7 @@ TEST_F(Chapter16ErrorRulesTest, Row474_NonStaticClassPropertyInAssertionIsReject
   // Expressions in concurrent assertions shall not reference non-static
   // class properties or methods; "obj.p" is a non-static property of
   // r474_c.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_NONSTATIC_ACCESS, "r474_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalNonstaticAccess, "r474_m"), nullptr)
       << "a concurrent assertion cannot reference a non-static class property (IEEE 1800-2023 16.6)";
 }
 
@@ -81,7 +80,7 @@ TEST_F(Chapter16ErrorRulesTest, Row476_SideEffectInAssertionExpressionIsRejected
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 16.6 forbids side effects in a "
                   "concurrent assertion expression, exempting only sequence match items whose "
                   "lvalue is a local variable";
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SIDE_EFFECT, "cnt", 38, 44), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalSideEffect, "cnt", 38, 44), nullptr)
       << "an increment operator is a side effect and is illegal in an assertion expression "
          "(IEEE 1800-2023 16.6)";
 }
@@ -94,7 +93,7 @@ TEST_F(Chapter16ErrorRulesTest, Row477_FunctionWithOutputArgInAssertionIsRejecte
   // Functions that appear in concurrent assertion expressions shall not
   // contain output, inout, or ref arguments (const ref is allowed); "f(o)"
   // calls a function whose formal 'o' is declared output.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r477_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r477_m"), nullptr)
       << "a function with an output argument cannot be called from a concurrent assertion "
          "expression (IEEE 1800-2023 16.6)";
 }
@@ -108,7 +107,7 @@ TEST_F(Chapter16ErrorRulesTest, Row478_FunctionWithStateOrSideEffectsInAssertion
   // Functions appearing in concurrent assertion expressions shall be
   // automatic (or preserve no state information) and have no side effects;
   // 'f' preserves state in its static 'calls' variable.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_SIDE_EFFECT, "f"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalSideEffect, "f"), nullptr)
       << "a function called from a concurrent assertion must be side-effect free "
          "(IEEE 1800-2023 16.6)";
 }
@@ -122,7 +121,7 @@ TEST_F(Chapter16ErrorRulesTest, Row483_NamedSequenceInstanceMissingActualForForm
   // An instance of a named sequence shall provide an actual argument for
   // each formal argument that does not have a default actual argument
   // declared; "r483_s(a)" omits the actual for formal 'y'.
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_ARGUMENT, "y"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingArgument, "y"), nullptr)
       << "a named sequence instance must supply an actual for every formal without a default "
          "(IEEE 1800-2023 16.8)";
 }
@@ -138,7 +137,7 @@ TEST_F(Chapter16ErrorRulesTest, Row484_DollarActualBoundToFormalUsedAsOrdinaryOp
   // cycle_delay_const_range_expression upper bound or itself an actual of
   // a named sequence instance; 'r484_s(a, $)' binds $ to 'y', which is used
   // as an ordinary operand of ##1.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r484_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r484_m"), nullptr)
       << "$ can only be bound to a formal whose every reference is a range upper bound or a "
          "named-sequence actual (IEEE 1800-2023 16.8)";
 }
@@ -153,7 +152,7 @@ TEST_F(Chapter16ErrorRulesTest, Row489_SequenceTypedFormalUsedAsGotoRepetitionOp
   // be in a place where a sequence_expr is legal or as an operand of the
   // sequence methods triggered or matched; "q[->2]" uses the sequence
   // formal 'q' as the operand of a goto repetition, which is neither.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r489_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r489_m"), nullptr)
       << "a sequence-typed formal cannot be used as a goto-repetition operand "
          "(IEEE 1800-2023 16.8.1)";
 }
@@ -167,7 +166,7 @@ TEST_F(Chapter16ErrorRulesTest, Row490_EventTypedFormalActualNotAnEventExpressio
   // If a formal argument is of type event, the actual argument shall be an
   // event_expression; "r490_s(clk)" binds plain 'clk' rather than an
   // event_expression such as "posedge clk".
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r490_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r490_m"), nullptr)
       << "an event-typed formal's actual argument must be an event_expression "
          "(IEEE 1800-2023 16.8.1)";
 }
@@ -180,7 +179,7 @@ TEST_F(Chapter16ErrorRulesTest, Row511_GlobalClockingSampledValueFunctionWithNoG
   // The global clocking past and future sampled value functions may be
   // used only if global clocking is defined by a global clocking
   // declaration; r511_m never declares one.
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_DEFAULT_CLOCKING, "$rose_gclk"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingDefaultClocking, "$rose_gclk"), nullptr)
       << "a global clocking sampled value function requires a global clocking declaration "
          "(IEEE 1800-2023 16.9.4)";
 }
@@ -193,7 +192,7 @@ TEST_F(Chapter16ErrorRulesTest, Row512_FutureSampledValueFunctionInActionBlockIs
   // The global clocking future sampled value functions may be invoked only
   // in a property_expr or a sequence_expr; "$future_gclk(sig)" appears in
   // the else clause's action block.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r512_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r512_m"), nullptr)
       << "a future sampled value function cannot appear in an assertion action block "
          "(IEEE 1800-2023 16.9.4)";
 }
@@ -205,7 +204,7 @@ TEST_F(Chapter16ErrorRulesTest, Row513_NestedFutureSampledValueFunctionsAreRejec
   // The global clocking future sampled value functions shall not be
   // nested; "$future_gclk(a || $rising_gclk(b))" nests $rising_gclk inside
   // $future_gclk.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r513_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r513_m"), nullptr)
       << "global clocking future sampled value functions cannot be nested (IEEE 1800-2023 16.9.4)";
 }
 
@@ -218,7 +217,7 @@ TEST_F(Chapter16ErrorRulesTest, Row514_FutureSampledValueFunctionWithMatchItemsI
   // The global clocking future sampled value functions shall not be used
   // in assertions containing sequence match items; sequence 'r514_s' has
   // the match item "v = a".
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r514_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r514_m"), nullptr)
       << "a future sampled value function cannot be used in an assertion containing a sequence "
          "match item (IEEE 1800-2023 16.9.4)";
 }
@@ -231,7 +230,7 @@ TEST_F(Chapter16ErrorRulesTest, Row515_IllegalAssertionVariableTypeIsRejected) {
   // explicitly and shall be one of the types allowed within assertions as
   // defined in 16.6." 16.6 admits the integral types and their arrays; chandle
   // is not among them, so the local declaration on line 143 is illegal.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DECLARED_TYPE, "h", 143, 13), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalDeclaredType, "h", 143, 13), nullptr)
       << "chandle is not a legal assertion variable type (IEEE 1800-2023 16.10)";
 }
 
@@ -241,7 +240,7 @@ TEST_F(Chapter16ErrorRulesTest, Row554_MatchedMethodUsedOutsideSequenceExpressio
   // catalog row 554 | 16.13.6 | LINT
   // The matched method can only be used in sequence expressions;
   // "wait (r554_e1.matched);" uses it inside a procedural wait statement.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r554_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r554_m"), nullptr)
       << "the matched method can only be used in a sequence expression (IEEE 1800-2023 16.13.6)";
 }
 
@@ -255,7 +254,7 @@ TEST_F(Chapter16ErrorRulesTest, Row560_InferredClockNotUsedAsEntireFormalDefault
   // expression for a formal argument to a property, sequence, or checker
   // declaration; here "@($inferred_clock)" is used as a clocking event,
   // not as a formal's default value.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r560_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r560_m"), nullptr)
       << "$inferred_clock may only be used as the entire default value expression of a "
          "property/sequence/checker formal (IEEE 1800-2023 16.14.7)";
 }
@@ -268,7 +267,7 @@ TEST_F(Chapter16ErrorRulesTest, Row563_ExplicitClockingEventInsideClockingBlockD
   // No explicit clocking event is allowed in any property or sequence
   // declaration within a clocking block; sequence 'r563_s1' writes its own
   // "@(posedge clk)" even though it is declared inside 'r563_posedge_clk'.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r563_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r563_m"), nullptr)
       << "a sequence declared inside a clocking block cannot carry its own explicit clocking "
          "event (IEEE 1800-2023 16.16)";
 }

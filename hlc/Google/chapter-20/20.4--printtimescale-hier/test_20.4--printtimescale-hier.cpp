@@ -80,7 +80,7 @@
 //     encoding, not something Sec 20.4 dictates.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -304,10 +304,10 @@ TEST_F(PrintTimescaleHierTaskTest, Mod1DisplayCallHasOneStringConstantArgument) 
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(PrintTimescaleHierTaskTest, CompilesWithNoErrors) {
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0) << "each 'module ... endmodule' should parse as one complete module";
-  EXPECT_EQ(stats.nbError, 0) << "the source is legal SystemVerilog and should compile without errors";
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0) << "each 'module ... endmodule' should parse as one complete module";
+  EXPECT_EQ(stats.m_errors, 0) << "the source is legal SystemVerilog and should compile without errors";
 }
 
 }  // namespace hlc

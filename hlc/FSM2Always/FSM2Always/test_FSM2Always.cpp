@@ -74,8 +74,7 @@
 //     simulator.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -397,7 +396,7 @@ TEST_F(FSM2AlwaysTest, OutputLogicProcessExists) {
 // --- compiler diagnostics -------------------------------------------------
 
 TEST_F(FSM2AlwaysTest, NoFailedBinds) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
       << "all references to state/next_state/req_0/req_1/clock/reset/parameters must bind";
 }
 

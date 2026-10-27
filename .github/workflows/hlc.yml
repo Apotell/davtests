@@ -262,6 +262,7 @@ jobs:
     env:
       regression-artifact-pattern: 'Regression_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.run_number }}_*'
       summary-artifact-name: Summary_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.run_number }}
+      build-artifact-name: hlc_${{ matrix.config.tag }}_${{ matrix.config.build-type }}_${{ github.event.inputs.run_number }}
 
     strategy:
       fail-fast: false
@@ -271,7 +272,7 @@ jobs:
         # - { os: windows-2022, tag: windows, build-type: release }
 
     steps:
-    # The .hlc and test_*.cpp files are for the error coverage report; the golden logs under
+    # The .hlc and test_*.cpp files are for the event coverage report; the golden logs under
     # hlc/ (~3 GB) are not needed, the report reads this run's regression logs instead.
     - name: Git Pull
       uses: actions/checkout@v6
@@ -292,16 +293,23 @@ jobs:
         echo "hlc commit: $sha"
         echo "sha=$sha" >> $GITHUB_OUTPUT
 
-    - name: Checkout hlc (error definitions only)
-      uses: actions/checkout@v6
+    - name: Download artifact (build)
+      uses: actions/download-artifact@v7
       with:
+        name: ${{ env.build-artifact-name }}
+        run-id: ${{ github.event.inputs.run_id }}
         repository: Apotell/hlc
-        ref: ${{ steps.hlc-commit.outputs.sha }}
-        token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
-        path: hlc_repo
-        sparse-checkout: |
-          include/hlc/ErrorReporting
-          src/ErrorReporting
+        github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+
+    # The installed event tables (share/hldb and share/hlc events.json) are all the coverage report
+    # needs from it.
+    - name: Extract event table
+      shell: bash
+      run: |
+        tar xzfp ${{ env.build-artifact-name }}.tar.gz                    \
+          ${{ env.build-artifact-name }}/share/hldb/events.json           \
+          ${{ env.build-artifact-name }}/share/hlc/events.json
+        rm ${{ env.build-artifact-name }}.tar.gz
 
     - name: Setup Python
       uses: actions/setup-python@v6
@@ -337,17 +345,19 @@ jobs:
           Regression_ubuntu_release_${{ github.run_number }}_{index}  \
           --jobs $(nproc)
 
-    # Joins the diagnostics in this run's regression logs with the findError() checks in
+    # Joins the diagnostics in this run's regression logs with the findEvent() checks in
     # hlc/**/test_*.cpp; writes report.xlsx and appends summary.md to the job summary.
-    - name: Error coverage
+    - name: Events coverage
       if: ${{ !cancelled() }}
       timeout-minutes: 15
       env:
         HLC_BUILD_NUMBER: ${{ github.event.inputs.run_number }}
+        HLC_SHA: ${{ steps.hlc-commit.outputs.sha }}
         DAVTESTS_BRANCH: ${{ github.ref_name }}
       run: |
-        python3 scripts/error_coverage.py                                         \
-          --hlc-repo hlc_repo                                                     \
+        python3 scripts/event_coverage.py                                         \
+          --events-json ${{ env.build-artifact-name }}/share/hldb/events.json     \
+                        ${{ env.build-artifact-name }}/share/hlc/events.json      \
           --test-dirpath hlc                                                      \
           --regression-archives "Regression_ubuntu_release_${{ github.run_number }}_*.zip" \
           --jobs $(nproc)

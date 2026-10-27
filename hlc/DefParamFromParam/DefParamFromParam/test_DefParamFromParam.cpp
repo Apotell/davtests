@@ -48,8 +48,7 @@
 //   endmodule
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -222,7 +221,7 @@ TEST_F(DefParamFromParamTest, DefParam0_Rhs_IsRefObjToWidthA) {
   // sec. 23.10.1: the RHS parameter reference must be local to the module
   // containing the defparam statement -- 'width_a' is declared in 'top'
   // itself, so this must bind cleanly (unlike the cross-module case that
-  // triggers COMP_ILLEGAL_EXPRESSION_CONTEXT, see ErrorCatalog chapter-23
+  // triggers CompIllegalExpressionContext, see ErrorCatalog chapter-23
   // row 881).
   const hldb::DefParam *const dp = getDefParam(m_design, 0);
   ASSERT_NE(dp, nullptr);
@@ -247,7 +246,7 @@ TEST_F(DefParamFromParamTest, DefParam0_NoIllegalExpressionContextError) {
   // module), no "RHS parameter not local" diagnostic is expected here --
   // contrast with ErrorCatalog chapter-23 row 881, which triggers exactly
   // this diagnostic for a non-local RHS parameter.
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "top"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompIllegalExpressionContext, "top"), nullptr)
       << "sec. 23.10.1: 'width_a' is local to 'top' -- no illegal-expression-context diagnostic is expected";
 }
 

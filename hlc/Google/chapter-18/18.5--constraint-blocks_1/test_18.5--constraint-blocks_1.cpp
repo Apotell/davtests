@@ -121,7 +121,7 @@
 //     "obj.randomize()" are not found as method calls.
 //   - TopCallsRunTest: "run_test()" is not a TaskCall (the .hlc does not
 //     compile 1800.2-2017-1.0/src/uvm_pkg.sv).
-//   - CompilerReportsZeroErrors: HLC reports 1 error, [ERR:DB2038] at
+//   - CompilerReportsZeroErrors: HLC reports 1 error, [ERR:DL2516] at
 //     line 21 ("constraint c { b == 5; }"): "'vpiConstraintItem' property
 //     value has invalid objects" -- the HLDB checker rejects the plain
 //     expression "b == 5" as a constraint item.
@@ -145,7 +145,7 @@
 //     check.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -573,11 +573,11 @@ TEST_F(ConstraintBlocks1Test, TopCallsRunTest) {
 
 TEST_F(ConstraintBlocks1Test, CompilerReportsZeroErrors) {
   GTEST_SKIP() << "HLC report a number of binding issues with UVM";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 }  // namespace hlc

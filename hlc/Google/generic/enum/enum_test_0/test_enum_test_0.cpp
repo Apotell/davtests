@@ -39,7 +39,7 @@
 // myenum_fwd;' or any other definition of myenum_fwd follows. So
 // myenum_fwd never resolves to a data type, and the compiler shall report
 // an error for it. HLC's diagnostic for a type name that resolves to no
-// data type is COMP_UNDEFINED_TYPE ("Undefined type"), so that code, naming
+// data type is CompUndefinedType ("Undefined type"), so that code, naming
 // myenum_fwd on line 6, is expected.
 //
 // Since no enumeration type body exists, no enumeration constant (6.19) is
@@ -54,7 +54,7 @@
 //
 // What is checked
 //   - The unresolved forward typedef is reported: at least one error, and a
-//     COMP_UNDEFINED_TYPE naming myenum_fwd on line 6 (6.18).
+//     CompUndefinedType naming myenum_fwd on line 6 (6.18).
 //   - No fatal and no syntax diagnostic: line 6 matches A.2.1.3.
 //   - No "multiply defined typedef" (myenum_fwd is declared once) and no
 //     "forward typedef mismatch" (there is no actual definition to compare
@@ -69,7 +69,7 @@
 // KNOWN FAILURE (unresolved forward typedef not reported), not a defect in
 // this test: HLC 577 accepts 'typedef enum myenum_fwd;' with no definition
 // of myenum_fwd anywhere and reports no error at all (zero errors, no
-// COMP_UNDEFINED_TYPE), although 6.18 says "It shall be an error if the
+// CompUndefinedType), although 6.18 says "It shall be an error if the
 // type_identifier does not resolve to a data type."
 // ReportsUndefinedTypeForUnresolvedForwardTypedef asserts the LRM behavior
 // and is expected to fail until HLC is fixed; it is intentionally not
@@ -95,10 +95,8 @@
 //   - The warning count. The LRM neither requires nor forbids warnings here.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -169,25 +167,24 @@ size_t enumConstCount(const hldb::Enum *enumeration) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) {
-  if (error.getLocations().empty()) {
+uint32_t lineOf(const Event &error) {
+  if (error.getArguments().empty()) {
     return 0;
   }
-  return error.getLocations().front().m_line;
+  return error.getArguments().front().m_line;
 }
 
 // Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
 // messages, so a red run shows what was reported and where. <text> is HLC's
 // message template, so its placeholders are not filled in.
-std::string describeErrors(const ErrorContainer *errorContainer, ErrorDefinition::ErrorSeverity severity) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
+std::string describeErrors(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-    if ((errorInfo == errorInfoMap.end()) || (errorInfo->second.m_severity != severity)) continue;
+  for (const Event &error : eventListener->getEvents()) {
+    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if ((errorInfo == nullptr) || (errorInfo->m_severity != severity)) continue;
     description += " [" + std::to_string(static_cast<int32_t>(error.getType()));
     description += " line " + std::to_string(lineOf(error));
-    description += ": " + std::string(errorInfo->second.m_errorText) + "]";
+    description += ": " + std::string(errorInfo->m_lines[0].m_text) + "]";
   }
   return description;
 }
@@ -228,17 +225,17 @@ class EnumTest0Test : public Test {
 // 6.18: "It shall be an error if the type_identifier does not resolve to a
 // data type." Nothing in the compilation unit defines myenum_fwd, so the
 // forward typedef of line 6 never resolves and an error is required. HLC
-// reports a type name that resolves to no data type as COMP_UNDEFINED_TYPE.
+// reports a type name that resolves to no data type as CompUndefinedType.
 TEST_F(EnumTest0Test, ReportsUndefinedTypeForUnresolvedForwardTypedef) {
   GTEST_SKIP() << "HLC Gap: No diagnosis for missing types";
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorContainer::Stats stats = errorContainer->getErrorStats();
-  EXPECT_GE(stats.nbError, 1) << "6.18: an unresolved forward typedef is an error";
-  EXPECT_NE(findError(ErrorDefinition::COMP_UNDEFINED_TYPE, "myenum_fwd", 6), nullptr)
-      << "myenum_fwd (line 6) never resolves to a data type;" << describeErrors(errorContainer, ErrorDefinition::ERROR);
+  const EventListener::Stats stats = eventListener->getStats();
+  EXPECT_GE(stats.m_errors, 1) << "6.18: an unresolved forward typedef is an error";
+  EXPECT_NE(findEvent(EventType::CompUndefinedType, "myenum_fwd", 6), nullptr)
+      << "myenum_fwd (line 6) never resolves to a data type;" << describeErrors(eventListener, EventSeverity::Error);
 }
 
 // Line 6 matches type_declaration ::= typedef enum type_identifier ;
@@ -246,23 +243,23 @@ TEST_F(EnumTest0Test, ReportsUndefinedTypeForUnresolvedForwardTypedef) {
 // error.
 TEST_F(EnumTest0Test, ReportsNoFatalOrSyntaxDiagnostics) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorContainer::Stats stats = errorContainer->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0) << describeErrors(errorContainer, ErrorDefinition::FATAL);
-  EXPECT_EQ(stats.nbSyntax, 0) << describeErrors(errorContainer, ErrorDefinition::SYNTAX);
-  EXPECT_EQ(findError(ErrorDefinition::PP_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PA_SYNTAX_ERROR), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::PP_NON_ASCII_CONTENT), nullptr);
+  const EventListener::Stats stats = eventListener->getStats();
+  EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
+  EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
+  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 // myenum_fwd is declared once, and no actual definition exists whose basic
 // type could fail to match the forward 'enum' (6.18), so neither of these
 // typedef diagnostics applies.
 TEST_F(EnumTest0Test, ReportsNoTypedefRedefinitionOrMismatch) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_TYPEDEF), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FORWARD_TYPEDEF_MISMATCH), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompForwardTypedefMismatch), nullptr);
 }
 
 TEST_F(EnumTest0Test, SourceFileRecordedOnce) {

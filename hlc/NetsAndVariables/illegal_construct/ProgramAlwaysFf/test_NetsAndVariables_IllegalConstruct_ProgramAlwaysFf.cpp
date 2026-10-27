@@ -24,8 +24,8 @@
 //     file (the illegal construct is rejected, not silently accepted)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -38,8 +38,8 @@ class ProgramAlwaysFfTest : public Test {
 };
 
 TEST_F(ProgramAlwaysFfTest, AlwaysFfInProgramIsRejected) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 24, 2), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 24, 2), nullptr)
       << "an 'always_ff' procedure inside a program is illegal: a program can only contain initial or "
          "final procedures (IEEE 1800 clause 24.3).";
 }

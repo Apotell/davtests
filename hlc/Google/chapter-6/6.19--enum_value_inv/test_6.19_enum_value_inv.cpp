@@ -64,7 +64,7 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -207,16 +207,16 @@ TEST_F(EnumValueInvTest, NoProcesses) {
 TEST_F(EnumValueInvTest, CompilerShouldRejectSizeMismatchButDoesNot) {
   GTEST_SKIP() << "IEEE 1800-2023 6.19: 'if the integer value expression is a sized literal constant, it "
                   "shall be an error if the size is different from the enum base type'";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
   // NOTE: deliberately still a coarse error-count assertion, unlike the sibling gap tests
-  // in this suite which were narrowed to findError(). No ErrorDefinition entry expresses
-  // this rule: COMP_ILLEGAL_ENUM_VALUE covers x/z values only, and
-  // ELAB_ENUM_VALUE_OUT_OF_RANGE covers a VALUE exceeding the base type -- here the values
+  // in this suite which were narrowed to findEvent(). No event definition expresses
+  // this rule: CompIllegalEnumValue covers x/z values only, and
+  // ElabEnumValueOutOfRange covers a VALUE exceeding the base type -- here the values
   // (2 and 3) fit the 3-bit base perfectly and only the literals' declared SIZE (4) differs.
   // Naming either code would assert the wrong rule, so this stays coarse until a code for
   // the size rule exists.
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GT(stats.nbFatal + stats.nbSyntax + stats.nbError, 0)
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GT(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 0)
       << "IEEE 1800-2023 6.19: 'if the integer value expression is a sized literal constant, it "
          "shall be an error if the size is different from the enum base type' -- Global=4'h2 and "
          "Local=4'h3 are 4-bit literals on a 3-bit (logic[2:0]) base, matching this file's own "

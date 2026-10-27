@@ -52,8 +52,8 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -164,8 +164,8 @@ TEST_F(EnumTypeCheckingInvTest, AssignmentRhsIsIntegerConstant) {
 TEST_F(EnumTypeCheckingInvTest, CompilerShouldRejectUncastIntAssignmentButDoesNot) {
   GTEST_SKIP() << "IEEE 1800-2023 6.19.3: 'a variable of type enum cannot be directly assigned a value "
                   "that lies outside the enumeration set unless an explicit cast is used'";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_INCOMPATIBLE_TYPES), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIncompatibleTypes), nullptr)
       << "IEEE 1800-2023 6.19.3: assigning a plain int to an enum variable without a cast "
          "violates the strict type checking the standard requires for enumerations.";
 }

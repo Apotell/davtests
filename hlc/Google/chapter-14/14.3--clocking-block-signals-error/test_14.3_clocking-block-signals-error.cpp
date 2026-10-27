@@ -46,7 +46,7 @@
 // hldb object model used (same accessors as the -signals.sv sibling, from
 // headers read in full, not any .log file): Module::getNets()/getVariables()
 // for the port classification, hldb::Always/EventControl/Begin/Assignment
-// for the always_ff body, ErrorContainer::Stats for the diagnostic count.
+// for the always_ff body, EventListener::Stats for the diagnostic count.
 //
 // What is checked:
 //   - module ports: ALL FOUR of "clk", "a", "b", "c" are Nets (none has an
@@ -71,8 +71,8 @@
 //     Nets driven by procedural assignments as expected.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -177,7 +177,7 @@ TEST_F(ClockingBlockSignalsErrorTest, CompilerReportsAtLeastOneErrorForProcedura
   // context" tag.
   //
   // CONFIRMED HLC BUG (user-verified real build/run): the compiler reports
-  // zero errors for this file (nbFatal + nbSyntax + nbError == 0), even
+  // zero errors for this file (m_fatals + m_syntaxes + m_errors == 0), even
   // though "b"/"c" are plain untyped output ports (confirmed Nets by the
   // AllFourPortsAreNetsNoVariables test above, which passes) and are driven
   // by non-blocking procedural assignments inside always_ff (confirmed by
@@ -188,8 +188,8 @@ TEST_F(ClockingBlockSignalsErrorTest, CompilerReportsAtLeastOneErrorForProcedura
                   "targeting untyped output ports 'b'/'c', confirmed Nets) is illegal and should "
                   "be rejected. Confirmed compiler bug, matches this source file's own "
                   "':should_fail_because: assigning to net from procedural context' tag.";
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_ASSIGNMENT_TARGET, "b"), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentTarget, "b"), nullptr)
       << "IEEE 1800-2023 14.3 with 10.3 Table 10-1: output ports 'b' and 'c' are nets, so the "
          "always_ff procedural assignments to them are illegal assignment targets.";
 }

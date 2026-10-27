@@ -60,7 +60,7 @@
 //   unwanted errors leave HLC's elaboration-category diagnostics out.
 //
 // Every assertion follows from the LRM, except NoCascadeErrors, which is
-// labelled as HLC error recovery. PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT is
+// labelled as HLC error recovery. PpIllegalDirectiveInDesignElement is
 // HLC's code for a directive placed inside a design element.
 //
 // WHAT IS CHECKED (one fact per test)
@@ -112,10 +112,8 @@
 //     forbids them. Nearest assertion: ReportsAnErrorForTheStrayFoo.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/checker_decl.h>
@@ -175,36 +173,33 @@ size_t countFromSourceFile(const std::vector<T *> *collection) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) { return error.getLocations().empty() ? 0 : error.getLocations().front().m_line; }
+uint32_t lineOf(const Event &error) { return error.getArguments().empty() ? 0 : error.getArguments().front().m_line; }
 
 // True when HLC's error table gives 'error' a fatal, syntax or error severity,
 // the severities the LRM's "illegal" can map to.
-bool isErrorClass(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  if (errorInfo == errorInfoMap.end()) return false;
-  const ErrorDefinition::ErrorSeverity severity = errorInfo->second.m_severity;
-  return (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-         (severity == ErrorDefinition::ERROR);
+bool isErrorClass(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+  if (errorInfo == nullptr) return false;
+  const EventSeverity severity = errorInfo->m_severity;
+  return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+         (severity == EventSeverity::Error);
 }
 
 // True when 'error' is an error-class diagnostic outside HLC's elaboration
 // category. Elaboration diagnostics are left out because a design without a
 // top-level module may draw one (23.3.1).
-bool isSourceError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-  return isErrorClass(error) && (errorInfo->second.m_category != ErrorDefinition::ELAB);
+bool isSourceError(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+  return isErrorClass(error) && (errorInfo->m_category->m_name != "Elab");
 }
 
 // One diagnostic as " [<code> line <n>: <message template>]", so that a red
 // run shows what was reported and where.
-std::string describeError(const Error &error) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
-  const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
+std::string describeError(const Event &error) {
+  const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
   std::string description = " [" + std::to_string(static_cast<int32_t>(error.getType()));
   description += " line " + std::to_string(lineOf(error));
-  if (errorInfo != errorInfoMap.end()) description += ": " + std::string(errorInfo->second.m_errorText);
+  if (errorInfo != nullptr) description += ": " + std::string(errorInfo->m_lines[0].m_text);
   return description + "]";
 }
 }  // namespace
@@ -216,23 +211,23 @@ class CelldefineInvalidTest : public Test {
 
  protected:
   // The diagnostics of the run, or nullptr.
-  static const ErrorContainer *getErrorContainer() {
-    return (m_session == nullptr) ? nullptr : m_session->getErrorContainer();
+  static const EventListener *getEventListener() {
+    return (m_session == nullptr) ? nullptr : m_session->getEventListener();
   }
 
   // Every diagnostic of the run, described; for failure messages.
   static std::string describeAllErrors() {
-    if (getErrorContainer() == nullptr) return "no error container";
+    if (getEventListener() == nullptr) return "no error container";
     std::string description;
-    for (const Error &error : getErrorContainer()->getErrors()) description += describeError(error);
+    for (const Event &error : getEventListener()->getEvents()) description += describeError(error);
     return description;
   }
 
   // Number of error-class diagnostics, of any category, that point at 'line'.
   static size_t countErrorsOnLine(uint32_t line) {
-    if (getErrorContainer() == nullptr) return 0;
+    if (getEventListener() == nullptr) return 0;
     size_t count = 0;
-    for (const Error &error : getErrorContainer()->getErrors()) {
+    for (const Event &error : getEventListener()->getEvents()) {
       if (isErrorClass(error) && (lineOf(error) == line)) ++count;
     }
     return count;
@@ -242,9 +237,9 @@ class CelldefineInvalidTest : public Test {
   // 'lastLine', described; empty when there is none. A run without an error
   // container is reported, not passed.
   static std::string describeSourceErrorsOnLines(uint32_t firstLine, uint32_t lastLine) {
-    if (getErrorContainer() == nullptr) return "no error container";
+    if (getEventListener() == nullptr) return "no error container";
     std::string description;
-    for (const Error &error : getErrorContainer()->getErrors()) {
+    for (const Event &error : getEventListener()->getEvents()) {
       const uint32_t line = lineOf(error);
       if (isSourceError(error) && (line >= firstLine) && (line <= lastLine)) description += describeError(error);
     }
@@ -253,10 +248,10 @@ class CelldefineInvalidTest : public Test {
 
   // Every source error without a location, described; empty when there is none.
   static std::string describeUnlocatedSourceErrors() {
-    if (getErrorContainer() == nullptr) return "no error container";
+    if (getEventListener() == nullptr) return "no error container";
     std::string description;
-    for (const Error &error : getErrorContainer()->getErrors()) {
-      if (isSourceError(error) && error.getLocations().empty()) description += describeError(error);
+    for (const Event &error : getEventListener()->getEvents()) {
+      if (isSourceError(error) && error.getArguments().empty()) description += describeError(error);
     }
     return description;
   }
@@ -309,11 +304,11 @@ TEST_F(CelldefineInvalidTest, NoCascadeErrors) {
 TEST_F(CelldefineInvalidTest, ReportsNoMisreadingDiagnostics) {
   // The file has no design element, and 22.10 allows `celldefine anywhere
   // anyway.
-  EXPECT_EQ(findError(ErrorDefinition::PP_ILLEGAL_DIRECTIVE_IN_DESIGN_ELEMENT), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // `celldefine is a compiler directive (22.1), not a usage of a text macro,
   // and foo has no grave accent, so it is no macro usage either.
-  EXPECT_EQ(findError(ErrorDefinition::PP_UNKOWN_MACRO), nullptr);
+  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 }
 
 // ---------------------------------------------------------------------------

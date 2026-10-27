@@ -40,7 +40,7 @@
 //     select on 'a'); the outer-most select is a PartSelect whose prefix is a
 //     BitSelect with index 1 on member 'a'.
 //   - name binding: 'xx' binds to the variable and 'a' binds to the struct
-//     member (no COMP_FAILED_TO_BIND).
+//     member (no CompFailedToBind).
 //   - 6.5: the two assignments write disjoint bits of a packed aggregate
 //     ("Each bit in a packed type is also an independent element"), so no
 //     multiple-continuous-assignment diagnostic must be raised for 'xx'.
@@ -54,9 +54,8 @@
 //     literals is a tool convention.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -226,15 +225,15 @@ TEST_F(MultiPartSelectTest, RhsValuesAre2And3) {
 // ===========================================================================
 
 TEST_F(MultiPartSelectTest, NoBindingErrors) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "xx"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "a"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_TYPE, "tier1"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "xx"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "a"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompUndefinedType, "tier1"), nullptr);
 }
 
 TEST_F(MultiPartSelectTest, DisjointBitAssignmentsAreLegal) {
-  EXPECT_EQ(findError(ErrorDefinition::HLDB_MULTIPLE_CONT_ASSIGN), nullptr)
+  EXPECT_EQ(findEvent(EventType::MultipleContAssign), nullptr)
       << "6.5: each bit of a packed aggregate is an independent element; [3:2] and [1:0] do not overlap";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLE_ASSIGNING_PROCESSES), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompMultipleAssigningProcesses), nullptr);
 }
 
 }  // namespace hlc

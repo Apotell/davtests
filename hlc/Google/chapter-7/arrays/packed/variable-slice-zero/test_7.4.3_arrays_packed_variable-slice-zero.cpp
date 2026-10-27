@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -76,8 +76,8 @@
 //   require a simulator, which is out of scope for this harness.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventDefinition.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -248,12 +248,12 @@ TEST_F(PackedVariableSliceZeroTest, CompilerReportsZeroErrorsAtParseElaborateSta
   // Documents the compiler-limitation note above: this compile/elaborate-only
   // pass does not perform the "part width must be > 0" semantic check, so it
   // reports zero errors even though the file is annotated should_fail_because.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
-  EXPECT_EQ(stats.nbWarning, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
+  EXPECT_EQ(stats.m_warnings, 0);
 }
 
 TEST_F(PackedVariableSliceZeroTest, NoContAssigns) {
@@ -273,8 +273,8 @@ TEST_F(PackedVariableSliceZeroTest, CompilerShouldRejectZeroWidthIndexedPartSele
                   "so it currently reports zero errors for arr_b[4+:c] with c==0. Re-enable this "
                   "test once the compiler enforces the >0 width rule.";
 
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::LINT_INVALID_SELECT_WIDTH_EXPR), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::LintInvalidSelectWidthExpr), nullptr)
       << "IEEE 1800-2023 7.4.3 with 11.5.1: the indexed part-select uses a width parameter of "
          "zero, and the width of an indexed part-select shall be a positive constant.";
 }

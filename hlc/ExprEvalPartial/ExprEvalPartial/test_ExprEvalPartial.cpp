@@ -25,7 +25,7 @@
 // every identifier used in an expression must resolve to a declaration
 // visible in scope; "A" cannot bind to anything, so the RefObj built for
 // it must have a null "actual" and the compiler must report a
-// COMP_FAILED_TO_BIND diagnostic naming "A". This is the "partial
+// CompFailedToBind diagnostic naming "A". This is the "partial
 // evaluation" case: unlike tests/ExprEvalBits (where every identifier
 // resolves and the whole expression is well-formed), here elaboration can
 // build the expression tree and evaluate the fully-constant sub-terms
@@ -59,13 +59,12 @@
 //     operand is a bare RefObj named "A"
 //   - RefObj "A" has a null getActual(): Sec 6.3, it never resolves to any
 //     declaration
-//   - the compiler reports COMP_FAILED_TO_BIND naming "A" (Sec 6.3); no
+//   - the compiler reports CompFailedToBind naming "A" (Sec 6.3); no
 //     such diagnostic is reported for "s1c", which IS declared
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -224,12 +223,12 @@ TEST_F(ExprEvalPartialTest, ARefObjDoesNotResolveToAnyDeclaration) {
 // ---------------------------------------------------------------------------
 
 TEST_F(ExprEvalPartialTest, CompilerReportsFailedToBindForA) {
-  ASSERT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "A"), nullptr)
+  ASSERT_NE(findEvent(EventType::CompFailedToBind, "A"), nullptr)
       << "Sec 6.3: 'A' is used without ever being declared and must fail to bind";
 }
 
 TEST_F(ExprEvalPartialTest, CompilerDoesNotReportFailedToBindForS1c) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "s1c"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "s1c"), nullptr)
       << "'s1c' IS declared ('logic [63:0] s1c;') and must resolve without a binding error";
 }
 

@@ -443,8 +443,8 @@ TEST_F(Sequence15Test, Seq15_InsideOp_ValueSetContainsTwo) {
 // SequenceDecl and there is no legitimate error condition here.
 // ----
 TEST_F(Sequence15Test, Compiler_NoErrors) {
-  EXPECT_EQ(m_compiler->getErrorStats().nbError, 0)
-      << "Compiler emitted " << m_compiler->getErrorStats().nbError
+  EXPECT_EQ(m_compiler->getEventStats().m_errors, 0)
+      << "Compiler emitted " << m_compiler->getEventStats().m_errors
       << " error(s) -- expected 0 for legal use of 'seq15' in "
          "assert property(@(posedge clk) seq15)";
 }

@@ -71,7 +71,7 @@
 // the final value, which needs elaboration).
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -382,16 +382,16 @@ TEST_F(LogicArrayParamTest, ConditionalGenerateInstantiatesM) {
 // ---------------------------------------------------------------------------
 
 TEST_F(LogicArrayParamTest, NoIllegalPropertyValueOnGenerateBlock) {
-  EXPECT_EQ(findError(ErrorDefinition::HLDB_ILLEGAL_PROPERTY_VALUE, 25, 42), nullptr)
+  EXPECT_EQ(findEvent(EventType::IllegalPropertyValue, 25, 42), nullptr)
       << "a legal loop generate block must not produce an invalid model";
 }
 
 TEST_F(LogicArrayParamTest, CompilerReportsZeroErrors) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0);
 }
 
 }  // namespace hlc

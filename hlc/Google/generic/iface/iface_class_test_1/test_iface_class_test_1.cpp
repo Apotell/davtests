@@ -73,7 +73,7 @@
 //   - Exactly one class named base_ic: user-defined, an interface class.
 //   - base_ic has no parameters, no base classes and no implemented
 //     classes.
-//   - base_ic's end label is 'base_ic', and no COMP_UNMATCHED_LABEL is
+//   - base_ic's end label is 'base_ic', and no CompUnmatchedLabel is
 //     reported.
 //   - base_ic has no members: no methods, no method prototypes, no
 //     properties, no constraints, no typedefs and no nested classes.
@@ -103,10 +103,8 @@
 //   - The warning count. The LRM neither requires nor forbids warnings here.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/Tests/Test.h>
 
 #include <hldb/Utils.h>
@@ -179,25 +177,24 @@ size_t countNamed(const std::vector<T *> *collection, std::string_view name) {
 }
 
 // The line a diagnostic points at, or 0 when it carries no location.
-uint32_t lineOf(const Error &error) {
-  if (error.getLocations().empty()) {
+uint32_t lineOf(const Event &error) {
+  if (error.getArguments().empty()) {
     return 0;
   }
-  return error.getLocations().front().m_line;
+  return error.getArguments().front().m_line;
 }
 
 // Every diagnostic of 'severity' as " [<code> line <n>: <text>]", for failure
 // messages, so a red run shows what was reported and where. <text> is HLC's
 // message template, so its placeholders are not filled in.
-std::string describeErrors(const ErrorContainer *errorContainer, ErrorDefinition::ErrorSeverity severity) {
-  const ErrorDefinition::ErrorMap &errorInfoMap = ErrorDefinition::getErrorInfoMap();
+std::string describeErrors(const EventListener *eventListener, EventSeverity severity) {
   std::string description;
-  for (const Error &error : errorContainer->getErrors()) {
-    const ErrorDefinition::ErrorMap::const_iterator errorInfo = errorInfoMap.find(error.getType());
-    if ((errorInfo == errorInfoMap.end()) || (errorInfo->second.m_severity != severity)) continue;
+  for (const Event &error : eventListener->getEvents()) {
+    const EventDefinition *const errorInfo = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+    if ((errorInfo == nullptr) || (errorInfo->m_severity != severity)) continue;
     description += " [" + std::to_string(static_cast<int32_t>(error.getType()));
     description += " line " + std::to_string(lineOf(error));
-    description += ": " + std::string(errorInfo->second.m_errorText) + "]";
+    description += ": " + std::string(errorInfo->m_lines[0].m_text) + "]";
   }
   return description;
 }
@@ -256,13 +253,13 @@ class IfaceClassTest1Test : public Test {
 // error.
 TEST_F(IfaceClassTest1Test, CompilesWithoutErrors) {
   ASSERT_NE(m_session, nullptr);
-  const ErrorContainer *const errorContainer = m_session->getErrorContainer();
-  ASSERT_NE(errorContainer, nullptr);
+  const EventListener *const eventListener = m_session->getEventListener();
+  ASSERT_NE(eventListener, nullptr);
 
-  const ErrorContainer::Stats stats = errorContainer->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0) << describeErrors(errorContainer, ErrorDefinition::FATAL);
-  EXPECT_EQ(stats.nbSyntax, 0) << describeErrors(errorContainer, ErrorDefinition::SYNTAX);
-  EXPECT_EQ(stats.nbError, 0) << describeErrors(errorContainer, ErrorDefinition::ERROR);
+  const EventListener::Stats stats = eventListener->getStats();
+  EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
+  EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
+  EXPECT_EQ(stats.m_errors, 0) << describeErrors(eventListener, EventSeverity::Error);
 }
 
 TEST_F(IfaceClassTest1Test, SourceFileRecordedOnce) {
@@ -315,7 +312,7 @@ TEST_F(IfaceClassTest1Test, BaseIcEndLabelMatchesClassName) {
 
   EXPECT_NE(baseIc->getEndLabelObj(), nullptr) << "'endclass' is written with ': base_ic'";
   EXPECT_EQ(baseIc->getEndLabel(), "base_ic") << "the end label names the class it closes";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNMATCHED_LABEL), nullptr) << "': base_ic' matches the class name";
+  EXPECT_EQ(findEvent(EventType::CompUnmatchedLabel), nullptr) << "': base_ic' matches the class name";
 }
 
 // Lines 15-16 hold no interface_class_item (8.26), so base_ic has no

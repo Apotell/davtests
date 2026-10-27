@@ -63,7 +63,7 @@
 //       this file (anything outside lines 22-24): rejecting the override
 //       must not come with false errors on the legal class, property or
 //       constraint
-//     - no COMP_UNDEFINED_VARIABLE for 'b'
+//     - no CompUndefinedVariable for 'b'
 //
 // Reduction and elaboration: nothing in this file reduces or elaborates.
 // There is no parameter, no instance and no class specialization. No check
@@ -86,7 +86,7 @@
 //
 // KNOWN FAILURE (error on a legal constraint block), not a defect in this
 // test: as in the other 18.6.x fixtures, HLC reports
-// HLDB_ILLEGAL_PROPERTY_VALUE (2038) at line 20, column 18 -- the '{' of
+// IllegalPropertyValue (2038) at line 20, column 18 -- the '{' of
 // the legal 'constraint c { b > 5 && b < 12; }' (18.5). The model HLC builds
 // for it is correct (ClassAHasOneConstraintBlockC and
 // ConstraintCIsBGreaterThan5AndBLessThan12 pass).
@@ -94,7 +94,7 @@
 // it is intentionally not skipped or relaxed.
 //
 // What is NOT checked, and why:
-//   - Which ErrorDefinition HLC uses for the override: 18.6.3 says the
+//   - Which event code HLC uses for the override: 18.6.3 says the
 //     construct is illegal but does not name a diagnostic, and no specific
 //     entry for it is known in this suite. The check is therefore any
 //     fatal/syntax/error diagnostic located on the offending declaration.
@@ -113,10 +113,8 @@
 
 #include <hlc/Common/FileSystem.h>
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -200,12 +198,11 @@ class BehaviorOfRandomizationMethods4Test : public Test {
   // reported, one entry per diagnostic location.
   static std::vector<uint32_t> getErrorLinesInThisFile() {
     std::vector<uint32_t> lines;
-    const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
-      const ErrorDefinition::ErrorMap::const_iterator info = infos.find(error.getType());
-      if (info == infos.cend() || info->second.m_severity > ErrorDefinition::ERROR) continue;
-      for (const Location &loc : error.getLocations()) {
-        const std::string_view path = FileSystem::toPath(loc.m_fileId);
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
+      const EventDefinition *const info = hldb::findEventDefinition(hlc::getEventTable(), error.getType());
+      if (info == nullptr || info->m_severity > EventSeverity::Error) continue;
+      for (const EventArg &loc : error.getArguments()) {
+        const std::string_view path = loc.m_file;
         if (path.find("18.6.3--behavior-of-randomization-methods_4.sv") == std::string_view::npos) continue;
         lines.emplace_back(loc.m_line);
       }
@@ -375,8 +372,8 @@ TEST_F(BehaviorOfRandomizationMethods4Test, RandomizeOverrideIsReportedAsError) 
 // NOTE in the file header.
 TEST_F(BehaviorOfRandomizationMethods4Test, CompilationReportsAtLeastOneError) {
   GTEST_SKIP() << "HLC doesn't generate the required diagnostic";
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GE(stats.nbFatal + stats.nbSyntax + stats.nbError, 1)
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GE(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 1)
       << "18.6.3: overriding the built-in randomize() is illegal, so the compilation must report an error";
 }
 
@@ -391,7 +388,7 @@ TEST_F(BehaviorOfRandomizationMethods4Test, NoErrorOnTheLegalLinesOfThisFile) {
 }
 
 TEST_F(BehaviorOfRandomizationMethods4Test, ReferencedPropertyIsFound) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_VARIABLE, "b"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, "b"), nullptr)
       << "'b' is declared in class a, so it is not undefined";
 }
 

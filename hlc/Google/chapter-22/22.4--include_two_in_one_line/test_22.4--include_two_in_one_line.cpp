@@ -46,7 +46,7 @@
 //
 // HLC's error catalog has no code dedicated to this rule, so the required
 // diagnostic is identified by what the LRM fixes: an error-class severity
-// (FATAL, SYNTAX or ERROR) on line 8, other than PP_CANNOT_OPEN_INCLUDE_FILE.
+// (FATAL, SYNTAX or ERROR) on line 8, other than PpCannotOpenIncludeFile.
 //
 // The LRM gives illegal source no semantics, so everything beyond that error
 // is an HLC error-recovery expectation, not an LRM requirement. If HLC
@@ -58,7 +58,7 @@
 //
 // Checked -- required by IEEE 1800-2023:
 //   - at least one error-class diagnostic on line 8 that is not
-//     PP_CANNOT_OPEN_INCLUDE_FILE (Sec 22.4 same-line rule), and an
+//     PpCannotOpenIncludeFile (Sec 22.4 same-line rule), and an
 //     error-class total of at least 1
 //   - neither `include is recorded as a text macro usage, and there are no
 //     macro definitions (Sec 22.5.1: directive names are not macro names;
@@ -90,7 +90,7 @@
 //   - The column of that diagnostic. The violation starts at column 29, but
 //     the LRM does not say where a diagnostic must point.
 //   - Whether either <dummy_include.sv> resolves, and so the main file's
-//     include list and any PP_CANNOT_OPEN_INCLUDE_FILE. The angle-bracket
+//     include list and any PpCannotOpenIncludeFile. The angle-bracket
 //     search location is implementation-dependent (Sec 22.4).
 //   - The exact number of error-class diagnostics. It depends on whether the
 //     angle-bracket includes resolve, which the LRM leaves open.
@@ -112,10 +112,8 @@
 //   - Runtime behavior: the fixture has none. 'top' is empty.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
-#include <hlc/ErrorReporting/Location.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -156,25 +154,24 @@ class IncludeTwoInOneLineTest : public Test {
 
   // True if HLC's catalog files this diagnostic type under an error-class
   // severity (FATAL, SYNTAX or ERROR).
-  static bool isErrorClass(ErrorDefinition::ErrorType type) {
-    const ErrorDefinition::ErrorMap &infoMap = ErrorDefinition::getErrorInfoMap();
-    const ErrorDefinition::ErrorMap::const_iterator it = infoMap.find(type);
-    if (it == infoMap.end()) return false;
-    const ErrorDefinition::ErrorSeverity severity = it->second.m_severity;
-    return (severity == ErrorDefinition::FATAL) || (severity == ErrorDefinition::SYNTAX) ||
-           (severity == ErrorDefinition::ERROR);
+  static bool isErrorClass(uint32_t type) {
+    const EventDefinition *const it = hldb::findEventDefinition(hlc::getEventTable(), type);
+    if (it == nullptr) return false;
+    const EventSeverity severity = it->m_severity;
+    return (severity == EventSeverity::Fatal) || (severity == EventSeverity::Syntax) ||
+           (severity == EventSeverity::Error);
   }
 
   // The line of a diagnostic's primary location, or 0 if it has none.
-  static uint32_t lineOf(const Error &error) {
-    return error.getLocations().empty() ? 0u : error.getLocations().front().m_line;
+  static uint32_t lineOf(const Event &error) {
+    return error.getArguments().empty() ? 0u : error.getArguments().front().m_line;
   }
 
   // Every error-class diagnostic, in report order.
-  static std::vector<const Error *> errorClassDiagnostics() {
-    std::vector<const Error *> result;
-    if (m_session->getErrorContainer() == nullptr) return result;
-    for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+  static std::vector<const Event *> errorClassDiagnostics() {
+    std::vector<const Event *> result;
+    if (m_session->getEventListener() == nullptr) return result;
+    for (const Event &error : m_session->getEventListener()->getEvents()) {
       if (isErrorClass(error.getType())) result.emplace_back(&error);
     }
     return result;
@@ -184,10 +181,10 @@ class IncludeTwoInOneLineTest : public Test {
   // messages.
   static std::string describeErrorClassDiagnostics() {
     std::string text;
-    for (const Error *const error : errorClassDiagnostics()) {
+    for (const Event *const error : errorClassDiagnostics()) {
       text += " " + std::to_string(static_cast<int32_t>(error->getType()));
-      if (!error->getLocations().empty()) {
-        const Location &location = error->getLocations().front();
+      if (!error->getArguments().empty()) {
+        const EventArg &location = error->getArguments().front();
         text += "@" + std::to_string(location.m_line) + ":" + std::to_string(location.m_column);
       }
     }
@@ -225,12 +222,12 @@ TEST_F(IncludeTwoInOneLineTest, SameLineIncludeIsAnErrorOnLine8) {
   // the `include compiler directive." Line 8 holds a second `include, so an
   // error is required there. A file-not-found diagnostic for the
   // angle-bracket filename is implementation-dependent and does not count.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_GE(stats.nbFatal + stats.nbSyntax + stats.nbError, 1) << "illegal source must draw an error";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_GE(stats.m_fatals + stats.m_syntaxes + stats.m_errors, 1) << "illegal source must draw an error";
   size_t onLine8 = 0u;
-  for (const Error *const error : errorClassDiagnostics()) {
-    if ((lineOf(*error) == kIncludeLine) && (error->getType() != ErrorDefinition::PP_CANNOT_OPEN_INCLUDE_FILE)) {
+  for (const Event *const error : errorClassDiagnostics()) {
+    if ((lineOf(*error) == kIncludeLine) && (error->getType() != EventType::PpCannotOpenIncludeFile)) {
       ++onLine8;
     }
   }
@@ -256,9 +253,9 @@ TEST_F(IncludeTwoInOneLineTest, NeitherIncludeIsAMacroUsage) {
 TEST_F(IncludeTwoInOneLineTest, ErrorsStayOnLine8) {
   // HLC recovery requirement, not an LRM rule: reporting the violation must
   // not cascade into errors on the lines that follow.
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
+  ASSERT_NE(m_session->getEventListener(), nullptr);
   size_t elsewhere = 0u;
-  for (const Error *const error : errorClassDiagnostics()) {
+  for (const Event *const error : errorClassDiagnostics()) {
     if (lineOf(*error) != kIncludeLine) ++elsewhere;
   }
   EXPECT_EQ(elsewhere, 0u) << "error-class diagnostics:" << describeErrorClassDiagnostics()

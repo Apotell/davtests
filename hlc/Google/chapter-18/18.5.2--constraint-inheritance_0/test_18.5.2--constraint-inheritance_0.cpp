@@ -60,9 +60,8 @@
 //     the IEEE VPI model does not fix this, so it is not asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -231,11 +230,11 @@ TEST_F(ConstraintInheritance0Test, DerivedConstraintUsesInheritedMember) {
 TEST_F(ConstraintInheritance0Test, AdditionalConstraintIsNotAnOverride) {
   // c2 has a different name from c, so per Sec 18.5.2 it is additional:
   // no redefinition / multiply-defined diagnostic is allowed.
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_CONSTRAINT, "c"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_MULTIPLY_DEFINED_CONSTRAINT, "c2"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_ILLEGAL_CONSTRAINT, "c2"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "b"), nullptr) << "inherited 'b' must bind in c2";
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedConstraint, "c"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedConstraint, "c2"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c2"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "b"), nullptr) << "inherited 'b' must bind in c2";
 }
 TEST_F(ConstraintInheritance0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active

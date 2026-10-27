@@ -38,15 +38,15 @@
 //   - top has no continuous assignments
 //
 // Also checked:
-//   - HLC emits COMP_FAILED_TO_BIND for arr.size, while still placing the
+//   - HLC emits CompFailedToBind for arr.size, while still placing the
 //     RefObj "arr.size" in UHDM (see SecondStmtIsDisplayWithArrSize)
 //   - reading a nonexistent key (arr[9]) itself raises no additional compile
-//     error beyond the arr.size COMP_FAILED_TO_BIND -- exactly 1 error total
+//     error beyond the arr.size CompFailedToBind -- exactly 1 error total
 //     (the actual "returns default value 0" semantics is runtime-only, out
 //     of scope here)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -249,7 +249,7 @@ TEST_F(Nonexistent, NoContAssigns) {
 }
 
 TEST_F(Nonexistent, NoBinErrorForSize) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "size"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
 }
 }  // namespace hlc
 

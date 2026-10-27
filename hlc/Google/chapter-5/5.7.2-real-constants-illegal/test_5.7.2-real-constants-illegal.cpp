@@ -1,4 +1,4 @@
-﻿/*
+/*
  Copyright 2020 Apotell
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,8 +37,8 @@
 //     forms prevented any of the assignments from reaching UHDM
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -113,8 +113,8 @@ TEST_F(RealConstantsIllegal, NoNetsInStubModules) {
 // as syntax errors.
 // ----
 TEST_F(RealConstantsIllegal, Compiler_ReportsSyntaxErrors) {
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 19, 2), nullptr) << "illegal real literals (IEEE 1800-2023 Sec 5.7.2) must be syntax errors";
-  EXPECT_NE(findError(ErrorDefinition::PA_SYNTAX_ERROR, 20, 8), nullptr);
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 19, 2), nullptr) << "illegal real literals (IEEE 1800-2023 Sec 5.7.2) must be syntax errors";
+  EXPECT_NE(findEvent(EventType::PaSyntaxError, 20, 8), nullptr);
 }
 
 }  // namespace hlc

@@ -25,8 +25,8 @@
 //     file (the illegal construct is rejected, not silently accepted)
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -39,8 +39,8 @@ class NoneInstancePortTest : public Test {
 };
 
 TEST_F(NoneInstancePortTest, UndeclaredInstancePortNetIsRejected) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "undeclared_net"), nullptr)
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "undeclared_net"), nullptr)
       << "IEEE 1800-2023 22.8 with 6.10: under default_nettype none no implicit net is "
          "created, so the instance port connection never resolves.";
 }

@@ -64,7 +64,7 @@
 //     simulation.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -129,8 +129,8 @@ TEST_F(VectorVectoredInvTest, NoProcessesInAnyModule) {
 // --- compiler diagnostics ----------------------------------------------
 
 TEST_F(VectorVectoredInvTest, ExactlyFourSyntaxErrorsReported) {
-  const hlc::ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbSyntax, 4) << "expected 4 PA0207 syntax errors from the malformed 'logic vectored' declaration";
+  const hlc::EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_syntaxes, 4) << "expected 4 PA0207 syntax errors from the malformed 'logic vectored' declaration";
 }
 
 }  // namespace hlc

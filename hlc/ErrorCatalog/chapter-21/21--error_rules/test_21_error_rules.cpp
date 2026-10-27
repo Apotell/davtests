@@ -37,8 +37,7 @@
 // comment.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/Error.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -62,7 +61,7 @@ TEST_F(Chapter21ErrorRulesTest, Row754_FormatSpecifierWithoutAnArgumentIsRejecte
   // percent-count.
   GTEST_SKIP() << "no diagnostic implemented; IEEE 1800-2023 21.2.1 requires one expression "
                   "argument per format specifier, excluding %m, %l and %%";
-  EXPECT_NE(findError(ErrorDefinition::COMP_FORMAT_ARGUMENT_MISMATCH, "r754_m", 13, 11), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFormatArgumentMismatch, "r754_m", 13, 11), nullptr)
       << "each format specifier needs a corresponding argument (IEEE 1800-2023 21.2.1)";
 }
 
@@ -73,7 +72,7 @@ TEST_F(Chapter21ErrorRulesTest, Row755_UndefinedFormatSpecifierIsRejected) {
   // "It shall be an error if an undefined format specifier appears in a string
   // literal argument." Table 21-1 defines the set; %q is not in it. The
   // literal is on line 21.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_FORMAT_SPECIFIER, "r755_m", 21, 11), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalFormatSpecifier, "r755_m", 21, 11), nullptr)
       << "%q is not a defined format specifier (IEEE 1800-2023 21.2.1.1, Table 21-1)";
 }
 
@@ -85,7 +84,7 @@ TEST_F(Chapter21ErrorRulesTest, Row762_FopenTypeMustBeATable21_6Form) {
   // The type argument of $fopen shall contain a character string of one of
   // the forms listed in Table 21-6 (r, rb, w, wb, a, ab, r+, ...). r762_m
   // calls "fd = $fopen("f.txt", "q");" -- "q" is not one of those forms.
-  EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "r762_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompValueOutOfRange, "r762_m"), nullptr)
       << "$fopen's type argument must be one of Table 21-6's forms (IEEE 1800-2023 21.3.1)";
 }
 
@@ -99,7 +98,7 @@ TEST_F(Chapter21ErrorRulesTest, Row765_SformatArgumentCountMustMatchFormatSpecif
   // issued (an implementation may instead issue a compile-time error).
   // r765_m calls "$sformat(s, "%d %d", 1);" -- one argument for two %d
   // specifiers.
-  EXPECT_NE(findError(ErrorDefinition::COMP_FORMAT_ARGUMENT_MISMATCH, "r765_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFormatArgumentMismatch, "r765_m"), nullptr)
       << "$sformat's argument count must match its format string's specifiers (IEEE 1800-2023 21.3.3)";
 }
 
@@ -111,7 +110,7 @@ TEST_F(Chapter21ErrorRulesTest, Row779_DumpvarsCannotDumpPartSelectOrExpression)
   // an expression; only whole variables and module scopes may be named as
   // $dumpvars arguments. r779_m calls "$dumpvars(0, v[8:15]);", a
   // part-select of v.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "v"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "v"), nullptr)
       << "$dumpvars can only be given whole variables or module scopes, not a part-select (IEEE 1800-2023 21.7.2)";
 }
 
@@ -122,7 +121,7 @@ TEST_F(Chapter21ErrorRulesTest, Row780_DumpportsScopeListMustContainOnlyModuleId
   // The scope_list argument of $dumpports shall consist only of
   // module_identifiers; variables are not allowed. r780_m calls
   // "$dumpports(v, "ports.vcd");" where v is a plain logic variable.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "v"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "v"), nullptr)
       << "$dumpports's scope_list must contain only module_identifiers, not variables (IEEE 1800-2023 21.7.3.1)";
 }
 
@@ -134,7 +133,7 @@ TEST_F(Chapter21ErrorRulesTest, Row781_DumpportsScopeListEntryCannotBeStringLite
   // $dumpports scope_list. r781_m calls
   // "$dumpports("testbench.DUT", "ports.vcd");", naming the module scope as
   // a string literal.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r781_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r781_m"), nullptr)
       << "a $dumpports scope_list entry cannot be written as a string literal (IEEE 1800-2023 21.7.3.1)";
 }
 
@@ -149,7 +148,7 @@ TEST_F(Chapter21ErrorRulesTest, Row782_OmittedDumpportsScopeListRequiresLeadingC
   // argument is not a module scope, since the intended filename argument
   // requires the omitted first (scope_list) position to be written with its
   // leading comma.
-  EXPECT_NE(findError(ErrorDefinition::COMP_ILLEGAL_EXPRESSION_CONTEXT, "r782_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompIllegalExpressionContext, "r782_m"), nullptr)
       << "$dumpports's sole argument here is not a legal module scope (IEEE 1800-2023 21.7.3.1)";
 }
 
@@ -161,7 +160,7 @@ TEST_F(Chapter21ErrorRulesTest, Row786_DumpportslimitFilesizeArgumentIsRequired)
   // The filesize integer argument of $dumpportslimit is required; it may not
   // be omitted. r786_m calls "$dumpportslimit(, "ports.vcd");" with an
   // empty first argument.
-  EXPECT_NE(findError(ErrorDefinition::COMP_MISSING_ARGUMENT, "r786_m"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompMissingArgument, "r786_m"), nullptr)
       << "$dumpportslimit's filesize argument is required and may not be omitted (IEEE 1800-2023 21.7.3.4)";
 }
 

@@ -68,8 +68,8 @@
 //       structures (7.4.1), and a packed union member must be integral
 //       (7.3.1)
 //   Diagnostics
-//     - the scoped type name resolves: no COMP_UNDEFINED_TYPE for
-//       common_flags_t and no COMP_UNDEFINED_PACKAGE for foo_flags
+//     - the scoped type name resolves: no CompUndefinedType for
+//       common_flags_t and no CompUndefinedPackage for foo_flags
 //     - the file is legal: zero fatal, syntax and error diagnostics
 //
 // Reduction and elaboration: the only expressions are the literal range
@@ -105,8 +105,8 @@
 //     change whenever the fixture is reformatted, so none is asserted.
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
-#include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/Events/EventListener.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -358,20 +358,20 @@ TEST_F(PackageMemberTypespecTest, AtypeTElementTypeIsFooFlagsCommonFlagsT) {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackageMemberTypespecTest, ScopedTypeNameIsNotReported) {
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_TYPE, "common_flags_t"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompUndefinedType, "common_flags_t"), nullptr)
       << "26.3: common_flags_t is declared in foo_flags";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_TYPE, "foo_flags::common_flags_t"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompUndefinedType, "foo_flags::common_flags_t"), nullptr)
       << "26.3: common_flags_t is declared in foo_flags";
-  EXPECT_EQ(findError(ErrorDefinition::COMP_UNDEFINED_PACKAGE, "foo_flags"), nullptr)
+  EXPECT_EQ(findEvent(EventType::CompUndefinedPackage, "foo_flags"), nullptr)
       << "26.3: foo_flags is compiled before goog references it";
 }
 
 TEST_F(PackageMemberTypespecTest, NoFatalSyntaxOrErrorDiagnostics) {
-  ASSERT_NE(m_session->getErrorContainer(), nullptr);
-  const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
-  EXPECT_EQ(stats.nbFatal, 0);
-  EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0) << "the file is legal SystemVerilog";
+  ASSERT_NE(m_session->getEventListener(), nullptr);
+  const EventListener::Stats stats = m_session->getEventListener()->getStats();
+  EXPECT_EQ(stats.m_fatals, 0);
+  EXPECT_EQ(stats.m_syntaxes, 0);
+  EXPECT_EQ(stats.m_errors, 0) << "the file is legal SystemVerilog";
 }
 
 }  // namespace hlc

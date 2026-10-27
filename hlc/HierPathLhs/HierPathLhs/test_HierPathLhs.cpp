@@ -44,7 +44,7 @@
 //     generate-for loop) is modeled as a GenScopeArray of size 1
 
 #include <hlc/Common/Session.h>
-#include <hlc/ErrorReporting/ErrorContainer.h>
+#include <hlc/Events/EventListener.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -103,7 +103,7 @@ TEST_F(HierPathLhsTest, GenAlertCauseIsAGenScopeArrayOfSizeOne) {
 }
 
 TEST_F(HierPathLhsTest, UndeclaredHw2regFailsToBind) {
-  EXPECT_NE(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "hw2reg"), nullptr)
+  EXPECT_NE(findEvent(EventType::CompFailedToBind, "hw2reg"), nullptr)
       << "'hw2reg' is never declared and must fail to bind";
 }
 
@@ -163,8 +163,8 @@ TEST_F(HierPathLhsTest, StructMemberBitSelectHierPathLhsResolvesToMemberX) {
 TEST_F(HierPathLhsTest, TopModuleReportsNoBindingErrors) {
   // "top" is a self-contained module (unlike "alert_handler_reg_wrap") --
   // its single continuous assignment must bind cleanly.
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "a"), nullptr);
-  EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "x"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "a"), nullptr);
+  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "x"), nullptr);
 }
 
 }  // namespace hlc
