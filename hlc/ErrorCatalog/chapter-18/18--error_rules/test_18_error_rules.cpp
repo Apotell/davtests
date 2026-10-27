@@ -340,12 +340,9 @@ TEST_F(Chapter18ErrorRulesTest, Row663_NegativeProductionWeightIsRejected) {
   // "The rs_weight_specification shall evaluate to an integral non-negative
   // value." The weight on line 195 is -3.
   //
-  // HLC does not model randsequence at all yet -- it emits CP5849 "Feature not
-  // yet implemented" for the whole construct -- so this row is blocked behind
-  // that, not merely unchecked.
-  GTEST_SKIP() << "randsequence is not modelled (CP5849 'Feature not yet implemented'); "
-                  "IEEE 1800-2023 18.17.1 requires an rs_weight_specification to evaluate to an "
-                  "integral non-negative value";
+  // Expected to FAIL until HLC implements randsequence: today it emits CP5849
+  // "Feature not yet implemented" for the whole construct, so the weight is
+  // never modeled or checked.
   EXPECT_NE(findError(ErrorDefinition::COMP_VALUE_OUT_OF_RANGE, "add", 195, 21), nullptr)
       << "a production weight must be a non-negative integral value (IEEE 1800-2023 18.17.1)";
 }
@@ -354,7 +351,8 @@ TEST_F(Chapter18ErrorRulesTest, Row663_NegativeProductionWeightIsRejected) {
 
 TEST_F(Chapter18ErrorRulesTest, Row665_RandsequenceRepeatCountMustBeNonNegative) {
   // catalog row 665 | 18.17.4 | COMP
-  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 18.17.4)";
+  // Expected to FAIL until HLC implements randsequence (today: CP5849, the
+  // repeat production is never modeled or checked).
   // The repeat expression of a repeat production statement shall evaluate
   // to a non-negative integral value. r665_P's "repeat (-1) r665_PUSH ;"
   // gives repeat a negative count.
@@ -367,7 +365,8 @@ TEST_F(Chapter18ErrorRulesTest, Row665_RandsequenceRepeatCountMustBeNonNegative)
 
 TEST_F(Chapter18ErrorRulesTest, Row666_RandJoinWeightMustBeInZeroToOneRange) {
   // catalog row 666 | 18.17.5 | COMP
-  GTEST_SKIP() << "not yet implemented in HLC's Linter (IEEE 1800-2023 18.17.5)";
+  // Expected to FAIL until HLC implements randsequence (today: CP5849, the
+  // rand join weight is never modeled or checked).
   // The optional expression following the rand join keywords shall be a
   // real number in the range 0.0 to 1.0. r666_TOP's "rand join (1.5) ..."
   // gives a weight of 1.5, outside that range.

@@ -101,9 +101,12 @@
 //     plumbing, not part of 18.5.13.1.
 // ---------------------------------------------------------------------------
 
+#include <hlc/Common/FileSystem.h>
 #include <hlc/Common/Session.h>
+#include <hlc/ErrorReporting/Error.h>
 #include <hlc/ErrorReporting/ErrorContainer.h>
 #include <hlc/ErrorReporting/ErrorDefinition.h>
+#include <hlc/ErrorReporting/Location.h>
 #include <hlc/Tests/Test.h>
 #include <hldb/Utils.h>
 #include <hldb/begin.h>
@@ -127,6 +130,7 @@
 #include <hldb/vpi_user.h>
 
 #include <algorithm>
+#include <filesystem>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -217,16 +221,29 @@ class SoftConstraintPriorities3Test : public Test {
   }
 };
 
-// Check 1: legal file.
+// Check 1: legal file. Fatal and syntax diagnostics are checked for the whole
+// compile. Error diagnostics are checked only where they point into this file:
+// HLC reports errors inside the UVM 1800.2-2017 library itself (the same set as
+// BuildUVMPkg), and those are not about this source.
 TEST_F(SoftConstraintPriorities3Test, CompilerReportsNoErrors) {
-  GTEST_SKIP() << "uvm_pkg.sv is listed in the .hlc, yet HLC still reports 7 LN7705 Null Actual errors for calls "
-                  "into UVM: run_test, phase.raise_objection/drop_objection, and the uvm_report_enabled/"
-                  "uvm_report_info/uvm_report_error calls expanded from `uvm_info/`uvm_error. This SV file is "
-                  "legal per IEEE 1800-2023 (uvm_pkg is compiled and imported). Fix pending in HLC.";
   const ErrorContainer::Stats stats = m_session->getErrorContainer()->getErrorStats();
   EXPECT_EQ(stats.nbFatal, 0);
   EXPECT_EQ(stats.nbSyntax, 0);
-  EXPECT_EQ(stats.nbError, 0);
+
+  const ErrorDefinition::ErrorMap &infos = ErrorDefinition::getErrorInfoMap();
+  size_t count = 0;
+  for (const Error &error : m_session->getErrorContainer()->getErrors()) {
+    const ErrorDefinition::ErrorMap::const_iterator info = infos.find(error.getType());
+    if (info == infos.cend() || info->second.m_severity > ErrorDefinition::ERROR) continue;
+    for (const Location &loc : error.getLocations()) {
+      const std::string_view path = FileSystem::toPath(loc.m_fileId);
+      if (std::filesystem::path(path).filename() != "18.5.14.1--soft-constraint-priorities_3.sv") continue;
+      ++count;
+      ADD_FAILURE() << "error " << error.getType() << " reported at " << path << ":" << loc.m_line << ":"
+                    << loc.m_column;
+    }
+  }
+  EXPECT_EQ(count, 0u) << "the source is legal SystemVerilog";
 }
 
 // Check 1 (specific): prototype + out-of-body block is not a redefinition and is not empty.
@@ -360,6 +377,11 @@ TEST_F(SoftConstraintPriorities3Test, RunPhaseRandomizesObj) {
 TEST_F(SoftConstraintPriorities3Test, TopDeclaresEnvironmentHandle) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr) << "module 'top' not found";
+  if (m_design->getElaborated()) {
+    // IEEE 1800-2023 Sec 23.3.1: a top-level module is implicitly instantiated once, under its own name.
+    EXPECT_NE(hldb::findByName<hldb::Module>("top", m_design->getTopModules()), nullptr)
+        << "top-level instance 'top' not found";
+  }
   const hldb::Variable *const environment = hldb::findByName<hldb::Variable>("environment", top->getVariables());
   ASSERT_NE(environment, nullptr);
   EXPECT_EQ(classOf(environment), getClass("env"));
