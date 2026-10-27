@@ -178,9 +178,6 @@ TEST_F(RandomProductionWeights0Test, FunctionFSignatureAndLocalVariable) {
 
 // Check: the function-local variable is not rand (37.17 details 15/22).
 TEST_F(RandomProductionWeights0Test, LocalVariableRandTypeIsNotRand) {
-  GTEST_SKIP() << "HLC reports vpiRandType == 0 for the function-local variable 'x' (0 is not a defined value). "
-                  "IEEE 1800-2023 Sec 37.17 details 15/22: vpiRandType is one of vpiRand, vpiRandC or vpiNotRand, "
-                  "so a plain local is vpiNotRand. Fix pending.";
   const hldb::Function *const f = getF();
   ASSERT_NE(f, nullptr);
   const hldb::Variable *const local = hldb::findByName<hldb::Variable>("x", f->getVariables());
