@@ -48,6 +48,15 @@
 //   ts_inst.sv  module m_parent; timeunit 100us; m_none u_none(); not inherited
 //   ts_1s.sv    module m_1s; timeunit 1s / 1ms;                   1s encodes as 0
 //
+// `line (Sec 22.12) "specifies the line number of the next line" and the file name
+// of the following text; it is a directive, not an include:
+//
+//   line.sv   `define BEFORE 1
+//             `line 50 "gen.sv" 1
+//             `define AFTER 2          -> reported as gen.sv line 50
+//             module m_line;           -> reported as gen.sv line 51
+//             endmodule
+//
 // The ts_*.sv files are compiled with -fileunit, so no `timescale or
 // compilation-unit timeunit crosses from one file into another (Sec 3.12.1).
 //
@@ -56,6 +65,7 @@
 //   CmdTimescaleTest      CmdTimescale.f        1ns/1ps
 //   NoCmdTimescaleTest    NoCmdTimescale.f      (none)
 //   BadCmdTimescaleTest   BadCmdTimescale.f     3ns/1ps (illegal magnitude)
+//   LineTest              Line.f                (none)
 //
 // Time units are base-10 exponents of one second: 1s == 0, 1ms == -3, 100us == -4, 10us == -5,
 // 1us == -6, 10ns == -8, 1ns == -9, 100ps == -10, 10ps == -11, 1ps == -12.
@@ -72,6 +82,7 @@
 #include <hldb/hldb_vpi_user.h>
 #include <hldb/module.h>
 #include <hldb/pragma_directive.h>
+#include <hldb/preproc_macro_definition.h>
 #include <hldb/source_file.h>
 
 #include <string_view>
@@ -273,6 +284,68 @@ TEST_F(BadCmdTimescaleTest, IllegalValueIsReportedAndNotApplied) {
   expectTime("m_none", 0, 0);
   EXPECT_NE(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "m_none"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::CMD_USING_GLOBAL_TIMESCALE), nullptr);
+}
+
+// ----
+// Line.f -- line.sv.
+
+class LineTest : public DirectiveScopeTest {
+ public:
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "Line.f"}); }
+  static void TearDownTestSuite() { Shutdown(); }
+
+ protected:
+  static bool endsWith(std::string_view text, std::string_view suffix) {
+    return (text.size() >= suffix.size()) && (text.substr(text.size() - suffix.size()) == suffix);
+  }
+};
+
+TEST_F(LineTest, LineFileNameIsNotAnInclude) {
+  // Sec 22.12: the file name is "the new name of the file", nothing is read.
+  const hldb::SourceFile *const sf = findSourceFile("line.sv");
+  ASSERT_NE(sf, nullptr);
+  EXPECT_EQ(sf->getIncludes(), nullptr);
+}
+
+TEST_F(LineTest, LineIsADirectiveOnItsSourceFile) {
+  const hldb::SourceFile *const sf = findSourceFile("line.sv");
+  ASSERT_NE(sf, nullptr);
+  ASSERT_NE(sf->getDirectives(), nullptr);
+  ASSERT_EQ(sf->getDirectives()->size(), 1u);
+  expectGeneric(sf, 0, vpiDirectiveTypeLine);
+  const hldb::GenericDirective *const gd = any_cast<hldb::GenericDirective>(sf->getDirectives()->at(0));
+  ASSERT_NE(gd, nullptr);
+  EXPECT_TRUE(endsWith(gd->getFile(), "line.sv")) << gd->getFile();
+  EXPECT_EQ(gd->getStartLine(), 2u);
+  ASSERT_NE(gd->getValue(), nullptr);
+  const hldb::Constant *const c = any_cast<hldb::Constant>(gd->getValue());
+  ASSERT_NE(c, nullptr);
+  EXPECT_EQ(c->getValue(), "50 \"gen.sv\" 1");
+}
+
+TEST_F(LineTest, MacrosStayOnTheirSourceFile) {
+  // Both macros are defined in line.sv; the one after the `line is reported at the
+  // file and line the `line gave its line (Sec 22.12), but still belongs to line.sv.
+  const hldb::SourceFile *const sf = findSourceFile("line.sv");
+  ASSERT_NE(sf, nullptr);
+  const hldb::PreprocMacroDefinition *const before =
+      hldb::findByName<hldb::PreprocMacroDefinition>("BEFORE", sf->getPreprocMacroDefinitions());
+  const hldb::PreprocMacroDefinition *const after =
+      hldb::findByName<hldb::PreprocMacroDefinition>("AFTER", sf->getPreprocMacroDefinitions());
+  ASSERT_NE(before, nullptr);
+  ASSERT_NE(after, nullptr);
+  EXPECT_EQ(before->getStartLine(), 1u);
+  EXPECT_TRUE(endsWith(after->getFile(), "gen.sv")) << after->getFile();
+  EXPECT_EQ(after->getStartLine(), 50u);
+}
+
+TEST_F(LineTest, LineNumberIsThatOfTheNextLine) {
+  // "The number shall be a positive integer that specifies the line number of the next
+  // line": `define AFTER is line 50, so module m_line is line 51 of gen.sv.
+  const hldb::Module *const m = findModule("m_line");
+  ASSERT_NE(m, nullptr);
+  EXPECT_TRUE(endsWith(m->getFile(), "gen.sv")) << m->getFile();
+  EXPECT_EQ(m->getStartLine(), 51u);
 }
 
 }  // namespace hlc
