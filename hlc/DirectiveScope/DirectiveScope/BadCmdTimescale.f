@@ -1,0 +1,1 @@
+-wd ../../../tests/DirectiveScope -nobuiltin -timescale=3ns/1ps ts_none.sv

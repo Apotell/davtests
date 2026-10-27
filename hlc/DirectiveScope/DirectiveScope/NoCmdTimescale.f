@@ -1,0 +1,1 @@
+-wd ../../../tests/DirectiveScope -nobuiltin ts_none.sv ts_unit.sv ts_prec.sv ts_dir.sv ts_cu.sv ts_nest.sv ts_inst.sv -fileunit

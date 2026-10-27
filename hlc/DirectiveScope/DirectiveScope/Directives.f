@@ -1,0 +1,1 @@
+-wd ../../../tests/DirectiveScope -nobuiltin dirs.sv
