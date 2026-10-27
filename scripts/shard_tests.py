@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import hashlib
 import sys
 from pathlib import Path
 from re import Pattern
@@ -12,8 +13,12 @@ _workspace_dirpath = _this_filepath.parent.parent
 _default_test_dirpath = _workspace_dirpath / 'hlc'
 
 
-def _dumb_hash(name: str) -> int:
-    return sum(ord(c) for c in name)
+def _shard_hash(name: str) -> int:
+    # A real hash, not a character sum: sibling test directories differ by only a character or
+    # two, so a character sum puts them in the same shard far more often than chance (443/781
+    # for two shards). md5 still depends only on the path, so a test always lands in the same
+    # shard, and unlike hash() it is the same in every Python process.
+    return int.from_bytes(hashlib.md5(name.encode('utf-8')).digest()[:4], 'little')
 
 
 def _is_filtered(key: str, filters: list[str | Pattern]) -> bool:
@@ -32,7 +37,7 @@ def _scan(test_dirpath: Path, filters: list[str | Pattern], shard: int, num_shar
     all_sources = sorted(test_dirpath.rglob('test_*.cpp'), key=lambda p: p.as_posix().lower())
     selected = [
         src for src in all_sources
-        if (_dumb_hash(src.parent.relative_to(test_dirpath).as_posix()) % num_shards) == shard
+        if (_shard_hash(src.parent.relative_to(test_dirpath).as_posix()) % num_shards) == shard
         and _is_filtered(src.parent.relative_to(test_dirpath).as_posix(), filters)
     ]
     return selected, len(all_sources)

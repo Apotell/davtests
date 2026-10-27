@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import hashlib
 import multiprocessing
 import pprint
 import psutil
@@ -104,11 +105,15 @@ def _get_hlc_log_filepaths(test_id: str, golden_dirpath: Path, output_dirpath: P
 
 
 def _scan(dirpath: Path, filters: list[str|Pattern], shard: int, num_shards: int):
-  def _dumb_hash(name):
-    return sum(ord(c) for c in name)
+  def _shard_hash(name):
+    # A real hash, not a character sum: sibling test directories differ by only a character or
+    # two, so a character sum clusters them into the same shard. md5 still depends only on the
+    # test id, so a test always lands in the same shard, and unlike hash() it is the same in
+    # every Python process. scripts/shard_tests.py uses the same hash.
+    return int.from_bytes(hashlib.md5(name.encode('utf-8')).digest()[:4], 'little')
 
   def _is_filtered(test_id, name):
-    if (_dumb_hash(test_id) % num_shards) != shard:
+    if (_shard_hash(test_id) % num_shards) != shard:
       return False
     if not filters:
       return True

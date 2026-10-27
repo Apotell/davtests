@@ -41,24 +41,79 @@ target_compile_definitions(gmock_main INTERFACE GTEST_LINKED_AS_SHARED_LIBRARY=1
 target_compile_definitions(gtest INTERFACE GTEST_LINKED_AS_SHARED_LIBRARY=1)
 target_compile_definitions(gtest_main INTERFACE GTEST_LINKED_AS_SHARED_LIBRARY=1)
 
+# davtests/config.h is generated from include/davtests/config.h.in, the same way hlc and hldb
+# generate their own config.h.
+set(DAVTESTS_GENDIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
+configure_file(
+  "${CMAKE_SOURCE_DIR}/include/davtests/config.h.in"
+  "${DAVTESTS_GENDIR}/include/davtests/config.h")
+
+option(DAVTESTS_USE_PCH "Precompile davtests/davtests.h once and reuse it for every test" ON)
+option(DAVTESTS_TIME_TRACE "clang: write a -ftime-trace .json next to every object file" OFF)
+
+# Settings every test executable shares. The PCH can only be reused by targets compiled with the
+# same definitions, include paths and options, so they all come from this one place.
+add_library(davtests_common INTERFACE)
+target_compile_definitions(davtests_common INTERFACE
+  GTEST_LINKED_AS_SHARED_LIBRARY=1
+  HLDB_IMPORTS=1
+  HLC_IMPORTS=1
+)
+target_include_directories(davtests_common INTERFACE
+  "${DAVTESTS_GENDIR}/include"
+  "${CMAKE_SOURCE_DIR}/include"
+  "${CMAKE_SOURCE_DIR}/third_party/googletest/googletest/include"
+  "${CMAKE_SOURCE_DIR}/third_party/googletest/googlemock/include"
+)
+target_link_libraries(davtests_common INTERFACE hlc::hlc_test)
+
+# clang on Windows writes CodeView debug info and links with lld-link. Global type hashes
+# (ghash) let lld-link merge type records into each test's PDB without re-hashing them on every
+# link, which is most of the cost of linking 1000+ small debug executables.
+if(DAVTESTS_TIME_TRACE AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  # Each compile writes <object>.json (open in chrome://tracing or https://ui.perfetto.dev).
+  # Only for investigating build time; it doesn't change the generated code.
+  target_compile_options(davtests_common INTERFACE -ftime-trace)
+endif()
+
+if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  target_compile_options(davtests_common INTERFACE "$<$<CONFIG:Debug,RelWithDebInfo>:-gcodeview-ghash>")
+  target_link_options(davtests_common INTERFACE "$<$<CONFIG:Debug,RelWithDebInfo>:LINKER:/DEBUG:GHASH>")
+endif()
+
+if(DAVTESTS_USE_PCH)
+  # Build the PCH once, in a target of its own, and let every test reuse it. Calling
+  # target_precompile_headers() with the header on each test instead would rebuild the PCH once
+  # per executable, which costs more than it saves. The PCH is force-included into every source
+  # that uses it, so no separate /FI is needed.
+  set(DAVTESTS_PCH_SOURCE "${DAVTESTS_GENDIR}/davtests_pch.cpp")
+  file(CONFIGURE OUTPUT "${DAVTESTS_PCH_SOURCE}" CONTENT "// Generated: anchors the shared davtests PCH.\n")
+  add_library(davtests_pch OBJECT "${DAVTESTS_PCH_SOURCE}")
+  target_link_libraries(davtests_pch PRIVATE davtests_common)
+  target_precompile_headers(davtests_pch PRIVATE "${CMAKE_SOURCE_DIR}/include/davtests/davtests.h")
+  # By default clang only parses templates into the PCH and every test instantiates them again.
+  # This instantiates them once, when the PCH is built. CMake adds the flag on its own for clang
+  # on Linux, but not for clang targeting the MSVC ABI.
+  # -fno-pch-timestamp keeps clang from stamping the PCH with its build time, which would make it
+  # differ on every rebuild and stop ccache from ever reusing a test compiled against it.
+  if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(davtests_pch PRIVATE -fpch-instantiate-templates "SHELL:-Xclang -fno-pch-timestamp")
+  endif()
+endif()
+
 foreach(TEST_SRC IN LISTS TEST_SOURCES)
   get_filename_component(TEST_NAME "${TEST_SRC}" NAME_WLE)
   get_filename_component(TEST_DIR  "${TEST_SRC}" DIRECTORY)
 
   add_executable(${TEST_NAME} ${TEST_SRC})
-  target_compile_definitions(${TEST_NAME} PRIVATE
-    GTEST_LINKED_AS_SHARED_LIBRARY=1
-    HLDB_IMPORTS=1
-    HLC_IMPORTS=1
-  )
-  target_include_directories(${TEST_NAME} PRIVATE
-    third_party/googletest/googletest/include
-    third_party/googletest/googlemock/include
-  )
-  target_compile_options(${TEST_NAME} PRIVATE
-    "SHELL:$<IF:$<CXX_COMPILER_ID:MSVC>,/FI hlc/config.h,-include hlc/config.h>"
-  )
-  target_link_libraries(${TEST_NAME} PRIVATE hlc::hlc_test)
+  target_link_libraries(${TEST_NAME} PRIVATE davtests_common)
+  if(DAVTESTS_USE_PCH)
+    target_precompile_headers(${TEST_NAME} REUSE_FROM davtests_pch)
+  else()
+    target_compile_options(${TEST_NAME} PRIVATE
+      "SHELL:$<IF:$<CXX_COMPILER_ID:MSVC>,/FI davtests/davtests.h,-include davtests/davtests.h>"
+    )
+  endif()
   add_test(NAME ${TEST_NAME}
     COMMAND ${TEST_NAME}
     WORKING_DIRECTORY "${TEST_DIR}")

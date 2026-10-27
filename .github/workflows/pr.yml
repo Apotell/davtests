@@ -261,6 +261,10 @@ jobs:
 
     - name: Build
       shell: bash
+      env:
+        # Every test compiles against the shared davtests PCH. ccache refuses to cache those
+        # compiles unless it is told to accept PCH use.
+        CCACHE_SLOPPINESS: pch_defines,time_macros
       run: cmake --build build -j $(nproc 2>/dev/null || echo $NUMBER_OF_PROCESSORS)
 
     - name: Test

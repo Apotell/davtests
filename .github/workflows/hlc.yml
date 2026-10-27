@@ -56,8 +56,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        num_shards: [8]
-        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+        num_shards: [6]
+        shard: [0, 1, 2, 3, 4, 5]
         config:
         - { os: ubuntu-26.04, tag: ubuntu, build-type: release }
         # - { os: windows-2022, tag: windows, build-type: release }
@@ -232,6 +232,10 @@ jobs:
           -S . -B build
 
     - name: Build
+      env:
+        # Every test compiles against the shared davtests PCH. ccache refuses to cache those
+        # compiles unless it is told to accept PCH use.
+        CCACHE_SLOPPINESS: pch_defines,time_macros
       run: cmake --build build -j $(nproc)
 
     - name: Test
