@@ -428,9 +428,6 @@ TEST_F(TimescaleTest, EveryLegalTimePrecision) {
 // is the one that tells the two apart: both elements declare a time unit and a
 // precision, so neither may be reported as missing time information.
 TEST_F(TimescaleTest, OneSecondIsDistinguishableFromUnset) {
-  GTEST_SKIP() << "Known HLC gap: 1s encodes as 10^0 = 0, the same value used for \"not set\", so "
-                  "u_unit_1s and u_prec_1s are reported as having no time unit / precision although "
-                  "they declare one (Sec 3.14 Table 3-1 lists s as a legal unit).";
   EXPECT_EQ(findError(ErrorDefinition::PA_MISSING_TIMEUNIT, "u_unit_1s"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "u_unit_1s"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PA_MISSING_TIMEUNIT, "u_prec_1s"), nullptr);

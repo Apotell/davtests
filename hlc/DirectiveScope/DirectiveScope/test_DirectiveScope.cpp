@@ -46,6 +46,7 @@
 //   ts_cu.sv    timeunit 100ps / 10ps;  module m_cu;              rule (d)
 //   ts_nest.sv  module m_outer; timeunit 10us; module m_inner;    rule (b)
 //   ts_inst.sv  module m_parent; timeunit 100us; m_none u_none(); not inherited
+//   ts_1s.sv    module m_1s; timeunit 1s / 1ms;                   1s encodes as 0
 //
 // The ts_*.sv files are compiled with -fileunit, so no `timescale or
 // compilation-unit timeunit crosses from one file into another (Sec 3.12.1).
@@ -56,7 +57,7 @@
 //   NoCmdTimescaleTest    NoCmdTimescale.f      (none)
 //   BadCmdTimescaleTest   BadCmdTimescale.f     3ns/1ps (illegal magnitude)
 //
-// Time units are base-10 exponents of one second: 100us == -4, 10us == -5,
+// Time units are base-10 exponents of one second: 1s == 0, 1ms == -3, 100us == -4, 10us == -5,
 // 1us == -6, 10ns == -8, 1ns == -9, 100ps == -10, 10ps == -11, 1ps == -12.
 
 #include <hlc/Common/Session.h>
@@ -210,6 +211,12 @@ TEST_F(CmdTimescaleTest, InstanceDoesNotInheritFromItsInstantiator) {
   expectTime("m_none", -9, -12);
 }
 
+TEST_F(CmdTimescaleTest, OwnOneSecondUnitIsNotReplacedByTheDefault) {
+  // 1s is a legal time unit (Sec 3.14 Table 3-1) and encodes as 0; it is m_1s's own
+  // declaration, so the default must not replace it.
+  expectTime("m_1s", 0, -3);
+}
+
 TEST_F(CmdTimescaleTest, DefaultUseIsReportedAndNothingIsLeftUnset) {
   EXPECT_NE(findError(ErrorDefinition::CMD_USING_GLOBAL_TIMESCALE, "1ns/1ps"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PA_NOTIMESCALE_INFO), nullptr);
@@ -243,8 +250,12 @@ TEST_F(NoCmdTimescaleTest, ElementWithoutUnitIsReported) {
 TEST_F(NoCmdTimescaleTest, ResolvedElementsAreNotReported) {
   expectTime("m_after_ts", -6, -9);
   expectTime("m_cu", -10, -11);
+  expectTime("m_1s", 0, -3);
   EXPECT_EQ(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "m_after_ts"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "m_cu"), nullptr);
+  // m_1s declares a 1s unit, which is not "missing" although it encodes as 0.
+  EXPECT_EQ(findError(ErrorDefinition::PA_MISSING_TIMEUNIT, "m_1s"), nullptr);
+  EXPECT_EQ(findError(ErrorDefinition::PA_NOTIMESCALE_INFO, "m_1s"), nullptr);
   EXPECT_EQ(findError(ErrorDefinition::CMD_USING_GLOBAL_TIMESCALE), nullptr);
 }
 

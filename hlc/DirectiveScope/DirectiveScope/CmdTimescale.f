@@ -1,1 +1,1 @@
--wd ../../../tests/DirectiveScope -nobuiltin -timescale=1ns/1ps ts_none.sv ts_unit.sv ts_prec.sv ts_dir.sv ts_cu.sv ts_nest.sv ts_inst.sv -fileunit
+-wd ../../../tests/DirectiveScope -nobuiltin -timescale=1ns/1ps ts_none.sv ts_unit.sv ts_prec.sv ts_dir.sv ts_cu.sv ts_nest.sv ts_inst.sv ts_1s.sv -fileunit
