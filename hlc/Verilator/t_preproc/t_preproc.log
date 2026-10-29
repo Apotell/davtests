@@ -8,22 +8,24 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:PP5223] Preprocessing source file "$Source01/t_preproc.v".
 [SNT:PP5207] $Source01/t_preproc.v:187:10: Syntax error: mismatched input 'NOT_DEFINED_INC' expecting {ANGLE_STRING, MACRO_IDENTIFIER, MACRO_ESCAPED_IDENTIFIER, QUOTED_STRING},
- `include NOT_DEFINED_INC
-          ^-- $Source01/t_preproc.v:187:10:.
+              `include NOT_DEFINED_INC
+                       ^-- $Source01/t_preproc.v:187:10:.
 [SNT:PP5207] $Source01/t_preproc.v:245:14: Syntax error: no viable alternative at input '`define\n',
-Not a \`define
-              ^-- $Source01/t_preproc.v:245:14:.
+             Not a \`define
+                           ^-- $Source01/t_preproc.v:245:14:.
 [SNT:PP5207] $Source01/t_preproc.v:284:8: Syntax error: no viable alternative at input '`define /* multi\t\\n\t line1*/',
-`define /* multi	\
-        ^-- $Source01/t_preproc.v:284:8:.
+             `define /* multi	\
+                     ^-- $Source01/t_preproc.v:284:8:.
 [SNT:PP5207] $Source01/t_preproc.v:475:18: Syntax error: no viable alternative at input '`define ESC(name) \',
-`define ESC(name) \`CAT(name,suffix)
-                  ^-- $Source01/t_preproc.v:475:18:.
-[ERR:PP5202] $Source01/t_preproc_inc2.vh:6:10: Cannot open include file "<t_preproc_inc3.vh>".
+             `define ESC(name) \`CAT(name,suffix)
+                               ^-- $Source01/t_preproc.v:475:18:.
+[ERR:PP5202] $Source01/t_preproc_inc2.vh:6:10: Cannot open include file "<t_preproc_inc3.vh>",
+             In expansion of macro "INCFILE" at $Source01/t_preproc_inc2.vh:6:10,
+             In file included from $Source01/t_preproc.v:7.
 [NTE:PP5206] $Source01/t_preproc.v:99:9: Multiply defined macro "msg",
              $Source01/t_preproc.v:77:9: previous definition.
 [ERR:PP5217] $Source01/t_preproc.v:158:18: Illegal unterminated string: >>"E@QZB\T)eU\pC#C|7=\$J$##A[@-@{Qk]
-<<.
+             <<.
 [WRN:PP5214] $Source01/t_preproc.v:251:9: Unused macro argument "l".
 [ERR:PP5203] $Source01/t_preproc.v:263: Unknown macro "error".
 [ERR:PP5203] $Source01/t_preproc.v:266: Unknown macro "error".
@@ -32,15 +34,24 @@ Not a \`define
 [ERR:PP5203] $Source01/t_preproc.v:365: Unknown macro "error".
 [WRN:PP5214] $Source01/t_preproc.v:372:9: Unused macro argument "d".
 [ERR:PP5211] $Source01/t_preproc.v:378:22: Macro instantiation omits parenthesis for "REPEAT_3",
-             $Source01/t_preproc.v:375:9: macro definition has arguments.
+             $Source01/t_preproc.v:375:9: macro definition has arguments,
+             In expansion of macro "CONCAT" at $Source01/t_preproc.v:379:23,
+             In expansion of macro "REPEATC" at $Source01/t_preproc.v:382:1.
 [ERR:PP5210] $Source01/t_preproc.v:382: Macro instantiation omits argument 1 (d) for "REPEAT_3",
-             $Source01/t_preproc.v:375:9: No default value for argument 1 (d) in macro definition.
+             $Source01/t_preproc.v:375:9: No default value for argument 1 (d) in macro definition,
+             In expansion of macro "CONCAT" at $Source01/t_preproc.v:379:23,
+             In expansion of macro "REPEATC" at $Source01/t_preproc.v:382:1.
 [WRN:PP5204] $Source01/t_preproc.v:386:8: Undefining an unknown macro "T_PREPROC_INC4".
-[WRN:PP5204] $Scratch/84_macro_body_DEFIF_NZ:1:8: Undefining an unknown macro "TEMP".
+[WRN:PP5204] $Scratch/84_macro_body_DEFIF_NZ:1:8: Undefining an unknown macro "TEMP",
+             In expansion of macro "DEFIF_NZ" at $Source01/t_preproc.v:397:1.
 [WRN:PP5215] $Source01/t_preproc.v:418:9: Undefined macro argument "b".
-[ERR:PP5203] $Source01/t_preproc.v:419: Unknown macro "Ab".
-[ERR:PP5203] $Source01/t_preproc.v:428: Unknown macro "XTYPE_frame".
-[ERR:PP5203] $Source01/t_preproc.v:438: Unknown macro "XTYPE_frame".
+[ERR:PP5203] $Source01/t_preproc.v:419: Unknown macro "Ab",
+             In expansion of macro "C5" at $Source01/t_preproc.v:419:1.
+[ERR:PP5203] $Source01/t_preproc.v:428: Unknown macro "XTYPE_frame",
+             In expansion of macro "XJOIN" at $Source01/t_preproc.v:426:17,
+             In expansion of macro "XACTION" at $Source01/t_preproc.v:428:1.
+[ERR:PP5203] $Source01/t_preproc.v:438: Unknown macro "XTYPE_frame",
+             In expansion of macro "XACTION3" at $Source01/t_preproc.v:438:1.
 [WRN:PP5214] $Source01/t_preproc.v:462:9: Unused macro argument "name".
 [WRN:PP5214] $Source01/t_preproc.v:469:9: Unused macro argument "name".
 [WRN:PP5214] $Source01/t_preproc.v:469:9: Unused macro argument "name2".
@@ -58,7 +69,8 @@ Not a \`define
 [WRN:PP5215] $Source01/t_preproc.v:554:9: Undefined macro argument "XYE_".
 [WRN:PP5215] $Source01/t_preproc.v:561:9: Undefined macro argument "XXS_".
 [WRN:PP5215] $Source01/t_preproc.v:568:9: Undefined macro argument "XYS_".
-[ERR:PP5203] $Source01/t_preproc.v:618: Unknown macro "dbg_hdl".
+[ERR:PP5203] $Source01/t_preproc.v:618: Unknown macro "dbg_hdl",
+             In expansion of macro "hack" at $Source01/t_preproc.v:618:1.
 [WRN:PP5214] $Source01/t_preproc.v:620:9: Unused macro argument "LVL".
 [ERR:PP5203] $Source01/t_preproc.v:637: Unknown macro "SV_COV_START".
 [ERR:PP5203] $Source01/t_preproc.v:638: Unknown macro "SV_COV_STOP".
@@ -77,14 +89,16 @@ Not a \`define
 [ERR:PP5203] $Source01/t_preproc.v:651: Unknown macro "SV_COV_PARTIAL".
 [INF:PA5502] Parsing source file "$Source01/t_preproc.v".
 [SNT:PA5508] $Source01/t_preproc_inc2.vh:4:8: Syntax error: no viable alternative at input 'At file "$Source01/t_preproc_inc2.vh"',
-At file "$Source01/t_preproc_inc2.vh"  line 4
-        ^-- $Source01/t_preproc_inc2.vh:4:8:.
+             At file "$Source01/t_preproc_inc2.vh"  line 4
+                     ^-- $Source01/t_preproc_inc2.vh:4:8:,
+             In file included from $Source01/t_preproc.v:7.
 [SNT:PA5508] $Source01/t_preproc.v:29:4: Syntax error: no viable alternative at input 'text.',
-text.
-    ^-- $Source01/t_preproc.v:29:4:.
+             text.
+                 ^-- $Source01/t_preproc.v:29:4:.
 [SNT:PA5508] $Source01/t_preproc.v:84:1: Syntax error: mismatched input '$' expecting <EOF>,
-	$c("Zap(\"","bug2","\");");;
- ^-- $Source01/t_preproc.v:84:1:.
+             	$c("Zap(\"","bug2","\");");;
+              ^-- $Source01/t_preproc.v:84:1:,
+             In expansion of macro "zap" at $Source01/t_preproc.v:86:1.
 AST_DEBUG_BEGIN
 Count: 452
 LIB: work

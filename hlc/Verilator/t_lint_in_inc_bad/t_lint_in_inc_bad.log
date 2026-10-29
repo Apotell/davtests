@@ -9,14 +9,20 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d
 [INF:PP5223] Preprocessing source file "$Source01/t_lint_in_inc_bad.v".
 [INF:PA5502] Parsing source file "$Source01/t_lint_in_inc_bad.v".
 [SNT:PA5508] $Source01/t_lint_in_inc_bad_2.vh:8:6: Syntax error: mismatched input 'if' expecting '(',
-   if if if;
-      ^-- $Source01/t_lint_in_inc_bad_2.vh:8:6:.
+                if if if;
+                   ^-- $Source01/t_lint_in_inc_bad_2.vh:8:6:,
+             In file included from $Source01/t_lint_in_inc_bad_1.vh:6,
+             In file included from $Source01/t_lint_in_inc_bad.v:6.
 [SNT:PA5508] $Source01/t_lint_in_inc_bad_2.vh:8:9: Syntax error: mismatched input 'if' expecting '(',
-   if if if;
-         ^-- $Source01/t_lint_in_inc_bad_2.vh:8:9:.
+                if if if;
+                      ^-- $Source01/t_lint_in_inc_bad_2.vh:8:9:,
+             In file included from $Source01/t_lint_in_inc_bad_1.vh:6,
+             In file included from $Source01/t_lint_in_inc_bad.v:6.
 [SNT:PA5508] $Source01/t_lint_in_inc_bad_2.vh:8:11: Syntax error: mismatched input ';' expecting '(',
-   if if if;
-           ^-- $Source01/t_lint_in_inc_bad_2.vh:8:11:.
+                if if if;
+                        ^-- $Source01/t_lint_in_inc_bad_2.vh:8:11:,
+             In file included from $Source01/t_lint_in_inc_bad_1.vh:6,
+             In file included from $Source01/t_lint_in_inc_bad.v:6.
 AST_DEBUG_BEGIN
 Count: 47
 LIB: work
@@ -70,7 +76,9 @@ n<$Source01/t_lint_in_inc_bad.v> u<46> t<Top_level_rule> c<1> f<2> l<6:1> el<7:1
                 n<> u<37> t<Package_or_generate_item_declaration> p<38> f<2> l<8:12> el<8:13>
         n<> u<42> t<ENDMODULE> p<43> f<2> l<9:1> el<9:10>
 AST_DEBUG_END
-[INF:CP5804] $Source01/t_lint_in_inc_bad_2.vh:6:1: Compile module "x".
+[INF:CP5804] $Source01/t_lint_in_inc_bad_2.vh:6:1: Compile module "x",
+             In file included from $Source01/t_lint_in_inc_bad_1.vh:6,
+             In file included from $Source01/t_lint_in_inc_bad.v:6.
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:

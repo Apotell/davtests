@@ -9,11 +9,12 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d
 [INF:PP5223] Preprocessing source file "$Source01/t_func_named.v".
 [INF:PA5502] Parsing source file "$Source01/t_func_named.v".
 [SNT:PA5508] $Source01/t_func_named.v:15:9: Syntax error: no viable alternative at input 'module t (/*AUTOARG*/);\n\n   function int f( int j = 1, int s = 0 );\n      return (j<<16) | s;\n   endfunction\n\n\n\n   initial begin\n      do if',
-      do if ((f(.j(2), .s(1))) !== (32'h2_0001)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_func_named.v",15, (f(.j(2), .s(1))), (32'h2_0001)); $stop; end while(0);;
-         ^-- $Source01/t_func_named.v:15:9:.
+                   do if ((f(.j(2), .s(1))) !== (32'h2_0001)) begin $write("%%Error: %s:%0d:  got='h%x exp='h%x\n", "$Source01/t_func_named.v",15, (f(.j(2), .s(1))), (32'h2_0001)); $stop; end while(0);;
+                      ^-- $Source01/t_func_named.v:15:9:,
+             In expansion of macro "checkh" at $Source01/t_func_named.v:15:7.
 [SNT:PA5508] $Source01/t_func_named.v:14:3: Syntax error: mismatched input 'initial' expecting <EOF>,
-   initial begin
-   ^-- $Source01/t_func_named.v:14:3:.
+                initial begin
+                ^-- $Source01/t_func_named.v:14:3:.
 AST_DEBUG_BEGIN
 Count: 74
 LIB: work

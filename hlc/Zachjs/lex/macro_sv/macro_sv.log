@@ -9,20 +9,25 @@ COMMAND: -wd ../../../../tests/Zachjs +incdir+lex+basic+lib+relong+resolve -nobu
 [INF:PP5223] Preprocessing source file "$Source01/lex/macro.sv".
 [INF:PA5502] Parsing source file "$Source01/lex/macro.sv".
 [SNT:PA5508] $Source01/lex/macro.sv:137:5: Syntax error: no viable alternative at input '$"display"',
-    $"display"("display");;
-     ^-- $Source01/lex/macro.sv:137:5:.
+                 $"display"("display");;
+                  ^-- $Source01/lex/macro.sv:137:5:,
+             In expansion of macro "MACRO_D" at $Source01/lex/macro.sv:137:5.
 [SNT:PA5508] $Source01/lex/macro.sv:139:25: Syntax error: no viable alternative at input '$display("s", "foo", `',
-    $display("s", "foo", `"ss");;
-                         ^-- $Source01/lex/macro.sv:139:25:.
+                 $display("s", "foo", `"ss");;
+                                      ^-- $Source01/lex/macro.sv:139:25:,
+             In expansion of macro "MACRO_E" at $Source01/lex/macro.sv:139:5.
 [SNT:PA5508] $Source01/lex/macro.sv:139:25: Syntax error: mismatched input '`' expecting ')',
-    $display("s", "foo", `"ss");;
-                         ^-- $Source01/lex/macro.sv:139:25:.
+                 $display("s", "foo", `"ss");;
+                                      ^-- $Source01/lex/macro.sv:139:25:,
+             In expansion of macro "MACRO_E" at $Source01/lex/macro.sv:139:5.
 [SNT:PA5508] $Source01/lex/macro.sv:139:26: Syntax error: mismatched input '"ss"' expecting SIMPLE_IDENTIFIER,
-    $display("s", "foo", `"ss");;
-                          ^-- $Source01/lex/macro.sv:139:26:.
+                 $display("s", "foo", `"ss");;
+                                       ^-- $Source01/lex/macro.sv:139:26:,
+             In expansion of macro "MACRO_E" at $Source01/lex/macro.sv:139:5.
 [SNT:PA5508] $Source01/lex/macro.sv:140:4: Syntax error: mismatched input '$' expecting <EOF>,
-    $display("s", "display", `"ss");;
-    ^-- $Source01/lex/macro.sv:140:4:.
+                 $display("s", "display", `"ss");;
+                 ^-- $Source01/lex/macro.sv:140:4:,
+             In expansion of macro "MACRO_E" at $Source01/lex/macro.sv:140:5.
 [WRN:PA5516] Invalid VObject location.
 AST_DEBUG_BEGIN
 Count: 1920
@@ -1949,9 +1954,11 @@ n<$Source01/lex/macro.sv> u<1919> t<Top_level_rule> c<1> l<104:1> el<146:10>
         n<> u<1915> t<Package_or_generate_item_declaration> p<1916> l<139:18> el<139:19>
 AST_DEBUG_END
 [INF:CP5804] $Source01/lex/macro.sv:104:1: Compile module "top".
-[WRN:CP5851] $Source01/lex/macro.sv:100:21: Failed to bind "display".
+[WRN:CP5851] $Source01/lex/macro.sv:100:21: Failed to bind "display",
+             In expansion of macro "MACRO_E" at $Source01/lex/macro.sv:139:5.
 [INF:CM5028] Using global timescale: "1ns/1ns".
-[ERR:LN7705] $Source01/lex/macro.sv:100:21: Null Actual: id:2105, type:SubroutineCall, name:display, relation:vpiStmt.
+[ERR:LN7705] $Source01/lex/macro.sv:100:21: Null Actual: id:2105, type:SubroutineCall, name:display, relation:vpiStmt,
+             In expansion of macro "MACRO_E" at $Source01/lex/macro.sv:139:5.
 ====== HLDB =======
 Design name:unnamed:
   vpiName: unnamed
