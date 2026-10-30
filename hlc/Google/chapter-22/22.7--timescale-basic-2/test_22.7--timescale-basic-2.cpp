@@ -223,7 +223,6 @@ TEST_F(TimescaleBasic2Test, ReportsNoTimescaleDiagnostics) {
   // 10 and 100 are valid integers, us and ns are valid units, and 100 ns is
   // at least as precise as 10 us (22.7).
   EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidUnit), nullptr);
   EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidScale), nullptr);
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
   EXPECT_EQ(findEvent(EventType::CompIllegalTimescale), nullptr);
@@ -234,9 +233,6 @@ TEST_F(TimescaleBasic2Test, ReportsNoTimescaleDiagnostics) {
 
   // `timescale is a compiler directive (22.1), not a text macro usage.
   EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(TimescaleBasic2Test, SourceFileRecordedOnce) {

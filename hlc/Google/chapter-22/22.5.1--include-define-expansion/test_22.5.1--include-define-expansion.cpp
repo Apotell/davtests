@@ -286,14 +286,8 @@ TEST_F(IncludeDefineExpansionTest, CompilesWithoutErrors) {
 TEST_F(IncludeDefineExpansionTest, ReportsNoMacroOrIncludeDiagnostics) {
   // Line 16 matches Syntax 22-2 and line 17 Syntax 22-3 and 22-1.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
 
-  // `foo(dummy_include.sv) expands to the quoted name "dummy_include.sv"
-  // (22.5.1), a valid file name for `include (22.4), and the file exists in
-  // the working directory; it includes nothing back.
-  EXPECT_EQ(findEvent(EventType::PpInvalidIncludeFilename), nullptr);
   EXPECT_EQ(findEvent(EventType::PpCannotOpenIncludeFile), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpRecursiveIncludeDirective), nullptr);
 
   // `" overrides the usual meaning of " (22.5.1), so the macro text holds no
   // ordinary string literal that could be left unterminated, and the text
@@ -301,10 +295,6 @@ TEST_F(IncludeDefineExpansionTest, ReportsNoMacroOrIncludeDiagnostics) {
   EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
 
-  // "(" follows foo with no white space in the definition and in the usage,
-  // and the usage gives one actual argument for the one formal argument,
-  // with its parentheses.
-  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
   EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
@@ -322,9 +312,6 @@ TEST_F(IncludeDefineExpansionTest, ReportsNoMacroOrIncludeDiagnostics) {
 
   // The file has no design element, so neither directive is inside one.
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // Both files are plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(IncludeDefineExpansionTest, SourceFileRecordedOnce) {

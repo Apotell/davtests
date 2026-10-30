@@ -177,10 +177,11 @@ TEST_F(MultContAssignTest, VIsAVariable) {
 TEST_F(MultContAssignTest, MultipleContAssignsToVariableIsError) {
   EXPECT_NE(findEvent(EventType::MultipleContAssign, "v"), nullptr)
       << "6.5: variable 'v' is written by two continuous assignments";
+  EXPECT_NE(findEvent(EventType::MultipleContAssign, "two"), nullptr)
+      << "6.5: variable 'two' is written by two continuous assignments";
 }
 
 TEST_F(MultContAssignTest, MultipleContAssignsToNetsAreLegal) {
-  GTEST_SKIP() << "HLC doesn't report this diagnosis yet";
   for (std::string_view name : {"inout_i1", "inout_i2", "out", "pull_up_1", "X"}) {
     EXPECT_EQ(findEvent(EventType::MultipleContAssign, name), nullptr)
         << "6.5: '" << name << "' is a net; nets can be written by multiple continuous assignments";
@@ -262,27 +263,22 @@ TEST_F(MultContAssignTest, OutRhsIsConditionalOperator) {
 // ===========================================================================
 
 TEST_F(MultContAssignTest, StrengthHighz0Weak1) {
-  GTEST_SKIP() << "HLC isn't populating this property";
   expectStrengths(6, vpiHiZ, vpiWeakDrive);
 }
 
 TEST_F(MultContAssignTest, StrengthWeak0Highz1) {
-  GTEST_SKIP() << "HLC isn't populating this property";
   expectStrengths(7, vpiWeakDrive, vpiHiZ);
 }
 
 TEST_F(MultContAssignTest, StrengthWeak0Weak1) {
-  GTEST_SKIP() << "HLC isn't populating this property";
   expectStrengths(13, vpiWeakDrive, vpiWeakDrive);
 }
 
 TEST_F(MultContAssignTest, StrengthWeak1Weak0ReversedOrder) {
-  GTEST_SKIP() << "HLC isn't populating this property";
   expectStrengths(14, vpiWeakDrive, vpiWeakDrive);
 }
 
 TEST_F(MultContAssignTest, StrengthPull1Pull0ReversedOrder) {
-  GTEST_SKIP() << "HLC isn't populating this property";
   expectStrengths(24, vpiPullDrive, vpiPullDrive);
 }
 

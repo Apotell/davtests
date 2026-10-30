@@ -415,11 +415,6 @@ TEST_F(DefineExpansion20Test, CompilesWithoutErrors) {
 TEST_F(DefineExpansion20Test, ReportsNoMacroDiagnostics) {
   // Line 16 matches Syntax 22-2 and lines 18 and 19 match Syntax 22-3.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
-
-  // "(" follows var_nand with no white space, in the definition and in both
-  // usages (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
 
   // Each usage gives one actual argument for the one formal argument, with
   // its parentheses.
@@ -445,9 +440,6 @@ TEST_F(DefineExpansion20Test, ReportsNoMacroDiagnostics) {
   // `define is outside module top, and a macro usage may appear anywhere in
   // the compilation unit after its definition (22.5.1).
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DefineExpansion20Test, SourceFileRecordedOnce) {

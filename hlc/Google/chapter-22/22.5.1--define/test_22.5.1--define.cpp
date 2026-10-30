@@ -271,11 +271,6 @@ TEST_F(DefineTest, CompilesWithoutErrors) {
 TEST_F(DefineTest, ReportsNoMacroDiagnostics) {
   // Both lines match Syntax 22-2.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
-
-  // No "(" follows FOUR or SOMESTRING, so the text after the space is macro
-  // text, not a formal argument list (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
 
   // Neither macro has formal arguments, so no argument can be unused or
   // undefined.
@@ -297,9 +292,6 @@ TEST_F(DefineTest, ReportsNoMacroDiagnostics) {
 
   // `define is legal both inside and outside design elements (22.5.1); here it is outside.
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DefineTest, SourceFileRecordedOnce) {

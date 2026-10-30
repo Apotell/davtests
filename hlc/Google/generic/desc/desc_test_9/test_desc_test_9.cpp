@@ -67,8 +67,8 @@
 //   - No fatal, syntax or error diagnostic, and none of the preprocessor
 //     diagnostics a misreading of the nested conditional directives would
 //     produce: a syntax error (e.g. the `endif of line 21 left unmatched
-//     because the inner `endif was taken to close the outer construct), an
-//     "unknown macro" for FPGA or DEBUGGER, or non-ASCII content.
+//     because the inner `endif was taken to close the outer construct), or an
+//     "unknown macro" for FPGA or DEBUGGER.
 //   - Exactly one SourceFile for the .sv, with no includes and no generic
 //     directives (`timescale, `default_nettype, ...).
 //   - No macro definition and no macro instance in the source file; in
@@ -256,7 +256,6 @@ TEST_F(DescTest9Test, ReportsNoPreprocessorDiagnostics) {
   // inner construct (22.6), so the `endif of line 21 matches the outer
   // `ifdef FPGA and neither is left unmatched.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
 
   // `ifdef tests whether FPGA / DEBUGGER is defined (22.6); neither is a
   // macro usage, so their being undefined is no "unknown macro".
@@ -265,9 +264,6 @@ TEST_F(DescTest9Test, ReportsNoPreprocessorDiagnostics) {
   // The directives are outside any design element (22.6 allows them
   // anywhere in the source description anyway).
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DescTest9Test, SourceFileRecordedOnce) {

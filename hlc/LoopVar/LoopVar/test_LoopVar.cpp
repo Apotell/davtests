@@ -41,9 +41,6 @@
 //     indices to the designated array, they are auto-cast into a type
 //     consistent with the type of index. For fixed-size and dynamic arrays,
 //     the auto-cast type is int." -- i's type is int.
-//   - 12.7.3: "It shall be an error for any loop variable to have the same
-//     identifier as the array" -- "i" differs from "array", so no
-//     CompIllegalLoopVariable.
 //   - the body "array[i] = i;" is a blocking Assignment (10.4.1) whose LHS
 //     is a bit-select of "array" indexed by "i" and whose RHS is "i"; both
 //     uses of "i" bind to the loop variable.
@@ -260,8 +257,6 @@ TEST_F(LoopVarTest, BodyIsBlockingAssignmentUsingLoopVariable) {
 }
 
 TEST_F(LoopVarTest, NoLoopVariableDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalLoopVariable), nullptr)
-      << "12.7.3: 'i' does not share the array's identifier";
   EXPECT_EQ(findEvent(EventType::CompFailedToBind, "i"), nullptr);
 }
 

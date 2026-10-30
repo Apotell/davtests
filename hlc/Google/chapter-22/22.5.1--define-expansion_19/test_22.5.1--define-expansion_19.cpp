@@ -337,7 +337,6 @@ TEST_F(DefineExpansion19Test, CompilesWithoutErrors) {
 TEST_F(DefineExpansion19Test, ReportsNoMacroDiagnostics) {
   // Line 16 matches Syntax 22-2 and the usage on line 18 matches Syntax 22-3.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
 
   // wordsize has no formal arguments, so its usage takes no parentheses
   // (22.5.1), and no argument can be one too many, lack a default, or be
@@ -347,10 +346,6 @@ TEST_F(DefineExpansion19Test, ReportsNoMacroDiagnostics) {
   EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
-
-  // No "(" follows wordsize on line 16, so the text after the space is macro
-  // text, not a formal argument list (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
 
   // wordsize is defined once, on line 16, before its use on line 18.
   EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
@@ -365,9 +360,6 @@ TEST_F(DefineExpansion19Test, ReportsNoMacroDiagnostics) {
   // `define is outside module top, and a macro usage may appear anywhere in
   // the compilation unit after its definition (22.5.1).
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DefineExpansion19Test, SourceFileRecordedOnce) {

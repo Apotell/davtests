@@ -69,11 +69,10 @@
 //   below leave HLC's elaboration-category diagnostics out.
 //
 // Every expected value comes from the LRM, so a red test means HLC deviates
-// from it. PaTimescaleInvalidValue, PaTimescaleInvalidUnit and
-// PaTimescaleInvalidScale are HLC's codes for the three 22.7 argument
-// rules (valid integer, valid unit, precision at least as precise as unit),
-// and PpIllegalDirectiveInDesignElement is its code for the 22.3 / 22.7
-// placement rule.
+// from it. PaTimescaleInvalidValue and PaTimescaleInvalidScale are HLC's
+// codes for two of the 22.7 argument rules (valid integer, precision at
+// least as precise as unit), and PpIllegalDirectiveInDesignElement is its
+// code for the 22.3 / 22.7 placement rule.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -301,10 +300,6 @@ TEST_F(TimescaleResetTest, ReportsNoDirectiveMisreadingDiagnostics) {
   // 1 (line 16), 10 and 100 (line 18) are among the valid integers 1, 10 and
   // 100.
   EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
-
-  // ns and ps (line 16), us and ns (line 18) are among the valid units s, ms,
-  // us, ns, ps and fs.
-  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidUnit), nullptr);
 
   // 1 ps is at least as precise as 1 ns (line 16), and 100 ns at least as
   // precise as 10 us (line 18).

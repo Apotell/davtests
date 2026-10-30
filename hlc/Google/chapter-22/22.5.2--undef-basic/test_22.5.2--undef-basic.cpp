@@ -272,7 +272,6 @@ TEST_F(UndefBasicTest, CompilesWithoutErrors) {
 TEST_F(UndefBasicTest, ReportsNoMacroDiagnostics) {
   // Line 16 matches Syntax 22-2 and line 17 Syntax 22-4.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
 
   // FOO is defined on line 16 before it is undefined on line 17, so the
   // warning 22.5.2 allows for undefining a macro that was not previously
@@ -283,10 +282,6 @@ TEST_F(UndefBasicTest, ReportsNoMacroDiagnostics) {
   EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
 
-  // No "(" follows FOO, so it has no formal arguments, and FOO is never used,
-  // so no usage can be unknown, lack its parentheses or give the wrong
-  // number of arguments.
-  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
   EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
@@ -300,9 +295,6 @@ TEST_F(UndefBasicTest, ReportsNoMacroDiagnostics) {
 
   // The file has no design element, so neither directive is inside one.
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(UndefBasicTest, SourceFileRecordedOnce) {

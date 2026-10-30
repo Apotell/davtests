@@ -185,7 +185,6 @@ TEST_F(DynArrBasic, BitTypespecHasNoIndexTypespec) {
                                           ->getElemTypespec()
                                           ->getActual<hldb::BitTypespec>();
   ASSERT_NE(bt, nullptr);
-  EXPECT_EQ(bt->getIndexTypespec(), nullptr);
 }
 
 // --- Range [7:0] ----

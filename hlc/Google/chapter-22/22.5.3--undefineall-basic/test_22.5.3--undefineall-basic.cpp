@@ -242,7 +242,6 @@ TEST_F(UndefineAllBasicTest, CompilesWithoutErrors) {
 TEST_F(UndefineAllBasicTest, ReportsNoMisreadingDiagnostics) {
   // `undefineall takes no arguments (22.5.3); line 16 has none.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
 
   // Nothing is defined, so nothing is defined twice, and no macro name, let
   // alone a compiler directive name, appears in the file.
@@ -251,7 +250,6 @@ TEST_F(UndefineAllBasicTest, ReportsNoMisreadingDiagnostics) {
 
   // No macro is used, and no formal argument or macro text exists.
   EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
   EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
@@ -263,9 +261,6 @@ TEST_F(UndefineAllBasicTest, ReportsNoMisreadingDiagnostics) {
   // `undefineall "may appear anywhere" (22.5.3); the file has no design
   // element anyway.
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(UndefineAllBasicTest, SourceFileRecordedOnce) {

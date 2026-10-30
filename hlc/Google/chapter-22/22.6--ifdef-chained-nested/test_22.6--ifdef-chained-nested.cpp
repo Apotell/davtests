@@ -338,7 +338,6 @@ TEST_F(IfdefChainedNestedTest, ReportsNoPreprocessorDiagnostics) {
   // follows an `ifdef or `ifndef of its own construct and precedes its `else,
   // and is spelled `elsif.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveElseif), nullptr);
 
   // `ifdef, `ifndef and `elsif test whether a name is defined (22.6); the
@@ -353,11 +352,7 @@ TEST_F(IfdefChainedNestedTest, ReportsNoPreprocessorDiagnostics) {
   // Every string literal, in the processed and in the ignored blocks, is
   // closed on its line and holds no escape sequence (5.9).
   EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpUnescapedCharacterInString), nullptr);
   EXPECT_EQ(findEvent(EventType::PpUnrecognizedEscapedSequence), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(IfdefChainedNestedTest, SourceFileRecordedOnce) {

@@ -277,10 +277,6 @@ TEST_F(DefineExpansion23Test, ErrorsOnlyOnTheIllegalLine) {
 
 // Each of these diagnostics would mean HLC misread line 17.
 TEST_F(DefineExpansion23Test, ReportsNoMisreadingDiagnostics) {
-  // No "(" follows the name define, so line 17 has no formal argument list:
-  // no argument can be unused or undefined, and the text after the space is
-  // macro text, not arguments.
-  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
 
@@ -297,9 +293,6 @@ TEST_F(DefineExpansion23Test, ReportsNoMisreadingDiagnostics) {
 
   // The file has no design element, so line 17 is not inside one.
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DefineExpansion23Test, SourceFileRecordedOnce) {

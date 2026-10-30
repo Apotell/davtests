@@ -74,7 +74,7 @@
 //     parser diagnostics a misreading of the comments would produce: a
 //     preprocessor or parser syntax error (e.g. comment text taken as
 //     tokens, or the block comment left unterminated), an "unknown macro",
-//     an unterminated string, or non-ASCII content.
+//     or an unterminated string.
 //   - Exactly one SourceFile for the .sv, with no includes and no generic
 //     directives (`timescale, `default_nettype, ...).
 //   - No macro definition and no macro instance in the source file.
@@ -246,9 +246,6 @@ TEST_F(EmptyTest4Test, ReportsNoLexicalOrSyntaxDiagnostics) {
 
   // No double quote occurs anywhere, so there is no string literal (5.9).
   EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(EmptyTest4Test, SourceFileRecordedOnce) {

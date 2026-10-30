@@ -385,10 +385,6 @@ TEST_F(DefineExpansion12Test, ReportsNoMisreadingDiagnostics) {
   // One actual argument for three formal arguments is too few, not too many.
   EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
 
-  // In the definition "(" follows MACRO1 with no white space; in the usage
-  // white space before "(" is allowed (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
-
   // The usage has its parentheses (22.5.1).
   EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
 
@@ -411,9 +407,6 @@ TEST_F(DefineExpansion12Test, ReportsNoMisreadingDiagnostics) {
   // `define is outside module top, and a macro usage may appear anywhere in
   // the compilation unit after its definition (22.5.1).
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DefineExpansion12Test, SourceFileRecordedOnce) {

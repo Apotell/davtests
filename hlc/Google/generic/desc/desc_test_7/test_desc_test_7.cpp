@@ -60,7 +60,7 @@
 // What is checked
 //   - No fatal, syntax or error diagnostic, and none of the preprocessor
 //     diagnostics a misreading of the conditional directive would produce
-//     (syntax errors, an "unknown macro" for DEBUGGER, non-ASCII content).
+//     (syntax errors, an "unknown macro" for DEBUGGER).
 //   - Exactly one SourceFile for the .sv, with no includes and no generic
 //     directives (`timescale, `default_nettype, ...).
 //   - No macro definition and no macro instance in the source file; in
@@ -251,7 +251,6 @@ TEST_F(DescTest7Test, CompilesWithoutErrors) {
 TEST_F(DescTest7Test, ReportsNoPreprocessorDiagnostics) {
   // Lines 16-21 match Syntax 22-5: `ifdef, a group of lines, `endif.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
 
   // `ifdef tests whether DEBUGGER is defined (22.6); DEBUGGER is not a
   // macro usage, so its being undefined is no "unknown macro".
@@ -260,9 +259,6 @@ TEST_F(DescTest7Test, ReportsNoPreprocessorDiagnostics) {
   // The directives are outside any design element (22.6 allows them
   // anywhere in the source description anyway).
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DescTest7Test, SourceFileRecordedOnce) {

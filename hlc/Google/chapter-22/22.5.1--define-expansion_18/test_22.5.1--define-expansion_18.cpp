@@ -387,9 +387,6 @@ TEST_F(DefineExpansion18Test, ReportsNoMisreadingDiagnostics) {
   // Every formal argument of MACRO3 has a default, so no argument lacks one.
   EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
 
-  // In the definition "(" follows MACRO3 with no white space (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
-
   // a, b and c all appear in the macro text.
   EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
 
@@ -409,9 +406,6 @@ TEST_F(DefineExpansion18Test, ReportsNoMisreadingDiagnostics) {
   // `define is outside module top, and a macro usage may appear anywhere in
   // the compilation unit after its definition (22.5.1).
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DefineExpansion18Test, SourceFileRecordedOnce) {

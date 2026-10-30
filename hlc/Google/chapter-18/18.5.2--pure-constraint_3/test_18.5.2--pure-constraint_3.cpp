@@ -114,8 +114,6 @@ TEST_F(PureConstraint3Test, AbstractSubclassWithoutImplementationRaisesNoError) 
   EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "a2"), nullptr)
       << "abstract 'a2' has no obligation to implement pure 'c' (Sec 18.5.2)";
   EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompImplicitEmptyConstraint, "c"), nullptr)
-      << "'pure constraint c;' is not the implicit prototype form of Sec 18.5.1";
 }
 }  // namespace hlc
 

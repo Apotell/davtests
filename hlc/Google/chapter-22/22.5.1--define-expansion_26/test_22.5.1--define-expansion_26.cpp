@@ -333,12 +333,7 @@ TEST_F(DefineExpansion26Test, PreprocessesAndParsesWithoutErrors) {
 TEST_F(DefineExpansion26Test, ReportsNoMacroDiagnostics) {
   // Line 16 matches Syntax 22-2 and line 18 matches Syntax 22-3.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
 
-  // "(" follows append with no white space in the definition and in the
-  // usage, and the usage gives one actual argument for the one formal
-  // argument, with its parentheses.
-  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
   EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
@@ -362,9 +357,6 @@ TEST_F(DefineExpansion26Test, ReportsNoMacroDiagnostics) {
   // `define is outside module top, and a macro usage may appear anywhere in
   // the compilation unit after its definition (22.5.1).
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DefineExpansion26Test, SourceFileRecordedOnce) {

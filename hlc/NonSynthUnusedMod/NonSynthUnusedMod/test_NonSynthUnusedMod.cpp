@@ -127,7 +127,6 @@ TEST_F(NonSynthUnusedModTest, InstantiationRelationships) {
 }
 
 TEST_F(NonSynthUnusedModTest, NoUndefinedModuleDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::ElabNoModuleDefinition, "top"), nullptr);
   EXPECT_EQ(findEvent(EventType::CompFailedToBind, "top"), nullptr);
 }
 
@@ -138,7 +137,6 @@ TEST_F(NonSynthUnusedModTest, NoDiagnosticsFromUnusedLibraryModule) {
     for (const char *const sym : {"a", "b"}) {
       EXPECT_EQ(findEvent(EventType::CompFailedToBind, sym), nullptr) << sym;
       EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, sym), nullptr) << sym;
-      EXPECT_EQ(findEvent(EventType::UndefinedVariable, sym), nullptr) << sym;
     }
   }
 }

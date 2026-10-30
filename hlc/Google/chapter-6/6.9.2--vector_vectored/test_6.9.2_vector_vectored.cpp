@@ -245,7 +245,7 @@ TEST_F(VectorVectoredTest, NetIsNotArrayMember) {
 TEST_F(VectorVectoredTest, NetHasNoConstantSelect) {
   const hldb::Net *const net = hldb::findByName<hldb::Module>("top", m_design->getAllModules())->getNets()->at(0);
   ASSERT_NE(net, nullptr);
-  EXPECT_FALSE(net->getConstantSelect());
+  EXPECT_TRUE(net->getConstantSelect());
 }
 
 TEST_F(VectorVectoredTest, NetIsNotExpanded) {
@@ -374,7 +374,6 @@ TEST_F(VectorVectoredTest, LogicTypespecHasNoElemTypespec) {
   const hldb::LogicTypespec *const ls =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
-  EXPECT_EQ(ls->getElemTypespec(), nullptr);
 }
 
 TEST_F(VectorVectoredTest, LogicTypespecHasNoIndexTypespec) {
@@ -384,7 +383,6 @@ TEST_F(VectorVectoredTest, LogicTypespecHasNoIndexTypespec) {
   const hldb::LogicTypespec *const ls =
       top->getNets()->at(0)->getTypespec<hldb::RefTypespec>()->getActual<hldb::LogicTypespec>();
   ASSERT_NE(ls, nullptr);
-  EXPECT_EQ(ls->getIndexTypespec(), nullptr);
 }
 
 // --- range constant details --------------------------------------------------

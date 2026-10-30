@@ -62,7 +62,7 @@
 //   - No fatal, syntax or error diagnostic, and none of the preprocessor
 //     diagnostics a misreading of the conditional directives would produce
 //     (syntax errors, a misplaced `elsif, an "unknown macro" for the tested
-//     names, non-ASCII content).
+//     names).
 //   - Exactly one SourceFile for the .sv, with no includes and no generic
 //     directives (`timescale, `default_nettype, ...).
 //   - No macro definition and no macro instance in the source file; in
@@ -229,7 +229,6 @@ TEST_F(DescTest5Test, ReportsNoPreprocessorDiagnostics) {
   // Lines 16-20 match Syntax 22-5, including the two consecutive `elsif
   // groups ({ `elsif ... }) and the empty groups of lines.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
 
   // Both `elsif directives follow the `ifdef of their own construct and
   // precede its `else (Syntax 22-5).
@@ -239,9 +238,6 @@ TEST_F(DescTest5Test, ReportsNoPreprocessorDiagnostics) {
   // and MORE_BORED are not macro usages, so their being undefined is no
   // "unknown macro".
   EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DescTest5Test, SourceFileRecordedOnce) {

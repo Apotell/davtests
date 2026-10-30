@@ -474,7 +474,6 @@ TEST_F(IfdefNestedTest, ReportsNoPreprocessorDiagnostics) {
   // Lines 18-21 match Syntax 22-2, and lines 22-41 with their nested
   // constructs match Syntax 22-5.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveElseif), nullptr);
 
   // `define "can be used both inside and outside design elements" (22.5.1),
@@ -493,11 +492,7 @@ TEST_F(IfdefNestedTest, ReportsNoPreprocessorDiagnostics) {
   // Every string literal, in the processed and in the ignored blocks, is
   // closed on its line and holds no escape sequence (5.9).
   EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpUnescapedCharacterInString), nullptr);
   EXPECT_EQ(findEvent(EventType::PpUnrecognizedEscapedSequence), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(IfdefNestedTest, SourceFileRecordedOnce) {

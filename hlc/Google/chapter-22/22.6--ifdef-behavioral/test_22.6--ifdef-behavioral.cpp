@@ -317,7 +317,6 @@ TEST_F(IfdefBehavioralTest, CompilesWithoutErrors) {
 TEST_F(IfdefBehavioralTest, ReportsNoPreprocessorDiagnostics) {
   // Lines 19-23 match Syntax 22-5.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveElseif), nullptr);
 
   // `ifdef tests whether behavioral is defined (22.6); the name is not a
@@ -327,9 +326,6 @@ TEST_F(IfdefBehavioralTest, ReportsNoPreprocessorDiagnostics) {
   // The conditional directives "may appear anywhere in the source
   // description" (22.6), here inside a module.
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(IfdefBehavioralTest, SourceFileRecordedOnce) {

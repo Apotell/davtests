@@ -327,10 +327,6 @@ TEST_F(DefineExpansion21Test, ErrorsOnlyOnTheIllegalLines) {
 
 // Each of these diagnostics would mean HLC misread the definition or the usage.
 TEST_F(DefineExpansion21Test, ReportsNoMisreadingDiagnostics) {
-  // first_half has no formal arguments: no "(" follows its name on line 17,
-  // and its usage takes no parentheses. So no argument can be one too many,
-  // lack a default, or be unused or undefined.
-  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
   EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
@@ -349,9 +345,6 @@ TEST_F(DefineExpansion21Test, ReportsNoMisreadingDiagnostics) {
   // `define is outside module top, and a macro usage may appear anywhere in
   // the compilation unit after its definition (22.5.1).
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DefineExpansion21Test, SourceFileRecordedOnce) {

@@ -251,7 +251,6 @@ TEST_F(EnumTest0Test, ReportsNoFatalOrSyntaxDiagnostics) {
   EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
   EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 // myenum_fwd is declared once, and no actual definition exists whose basic

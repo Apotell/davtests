@@ -82,10 +82,10 @@
 //
 // Some checks read an LRM fact through an HLDB code or class: vpiInitial,
 // vpiConstType, vpiRealConst, vpiDecConst and vpiIntConst are VPI codes
-// (Annex K); a LogicTypespec means "declared logic"; PaNotimescaleInfo and
-// PaMissingTimeunit are HLC's diagnostics for a design element that has
-// no timescale. Every expected value comes from the LRM, so a red test means
-// HLC deviates from it.
+// (Annex K); a LogicTypespec means "declared logic"; PaNotimescaleInfo is
+// HLC's diagnostic for a design element that has no timescale. Every
+// expected value comes from the LRM, so a red test means HLC deviates from
+// it.
 //
 // WHAT IS CHECKED (one fact per test, in source order)
 //
@@ -437,9 +437,6 @@ TEST_F(TimescaleModuleTest, TimescaleDirectiveIsAccepted) {
   // 10 and 1 are among the valid integers 1, 10 and 100.
   EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
 
-  // ns is among the valid units s, ms, us, ns, ps and fs.
-  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidUnit), nullptr);
-
   // The precision 1 ns is at least as precise as the unit 10 ns.
   EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidScale), nullptr);
 
@@ -462,9 +459,6 @@ TEST_F(TimescaleModuleTest, TestIsNotReportedWithoutATimescale) {
   EXPECT_EQ(countInSourceFile(eventListener, EventType::PaNotimescaleInfo), 0u)
       << describeErrors(eventListener, EventSeverity::Info);
   EXPECT_EQ(findEvent(EventType::PaNotimescaleInfo, "test"), nullptr);
-
-  EXPECT_EQ(countInSourceFile(eventListener, EventType::PaMissingTimeunit), 0u);
-  EXPECT_EQ(findEvent(EventType::PaMissingTimeunit, "test"), nullptr);
 }
 
 // ---------------------------------------------------------------------------

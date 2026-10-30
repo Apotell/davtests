@@ -434,7 +434,6 @@ TEST_F(NegParamTest, NoDiagnosticForBadInUninstantiatedGenerateBlock) {
   if (m_design->getElaborated()) {
     EXPECT_EQ(findEvent(EventType::UnsupportedTypespec, "BAD"), nullptr);
   }
-  EXPECT_EQ(findEvent(EventType::ElabNoModuleDefinition, "BAD"), nullptr);
   EXPECT_EQ(findEvent(EventType::CompFailedToBind, "BAD"), nullptr);
 }
 

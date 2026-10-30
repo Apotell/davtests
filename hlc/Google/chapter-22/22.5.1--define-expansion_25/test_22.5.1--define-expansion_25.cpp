@@ -355,7 +355,6 @@ TEST_F(DefineExpansion25Test, CompilesWithoutErrors) {
 TEST_F(DefineExpansion25Test, ReportsNoMacroDiagnostics) {
   // Line 16 matches Syntax 22-2 and line 18 matches Syntax 22-3.
   EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroSyntaxError), nullptr);
 
   // `" and `\`" override the usual meaning of " (22.5.1), so the macro text
   // holds no ordinary string literal that could be left unterminated.
@@ -365,10 +364,6 @@ TEST_F(DefineExpansion25Test, ReportsNoMacroDiagnostics) {
   // both formal arguments x and y are used.
   EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
 
-  // "(" follows msg with no white space in the definition and in the usage,
-  // and the usage gives two actual arguments for the two formal arguments,
-  // with its parentheses.
-  EXPECT_EQ(findEvent(EventType::PpMacroHasSpaceBeforeArgs), nullptr);
   EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
   EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
@@ -387,9 +382,6 @@ TEST_F(DefineExpansion25Test, ReportsNoMacroDiagnostics) {
   // `define is outside module top, and a macro usage may appear anywhere in
   // the compilation unit after its definition (22.5.1).
   EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // The file is plain ASCII.
-  EXPECT_EQ(findEvent(EventType::PpNonAsciiContent), nullptr);
 }
 
 TEST_F(DefineExpansion25Test, SourceFileRecordedOnce) {
