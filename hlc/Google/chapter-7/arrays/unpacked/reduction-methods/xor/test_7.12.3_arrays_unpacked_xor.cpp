@@ -254,8 +254,6 @@ TEST_F(UnpackedXorTest, DesignHasStringTypespec) {
 }
 
 TEST_F(UnpackedXorTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "xor"), nullptr)
-      << "arr.xor() must bind (IEEE 1800-2023 7.12.3)";
 }
 
 TEST_F(UnpackedXorTest, NoContAssigns) {

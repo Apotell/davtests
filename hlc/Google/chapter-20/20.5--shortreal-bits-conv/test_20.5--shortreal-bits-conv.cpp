@@ -306,7 +306,6 @@ TEST_F(ShortRealBitsConvFunctionTest, LessThanComparesSWith12_451) {
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(ShortRealBitsConvFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc

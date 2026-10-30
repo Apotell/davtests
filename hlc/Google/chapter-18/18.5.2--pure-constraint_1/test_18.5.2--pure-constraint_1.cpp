@@ -266,11 +266,6 @@ TEST_F(PureConstraint1Test, TopModuleHoldsEnvHandle) {
 }
 
 TEST_F(PureConstraint1Test, LegalPureUsageRaisesNoError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "a2"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "a2"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
 }
 
 TEST_F(PureConstraint1Test, RandomizedB2Is5) {

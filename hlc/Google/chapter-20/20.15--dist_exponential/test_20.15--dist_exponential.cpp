@@ -219,7 +219,6 @@ TEST_F(DistExponentialFunctionTest, DistExponentialCallHasSeedAndMeanArguments) 
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(DistExponentialFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc

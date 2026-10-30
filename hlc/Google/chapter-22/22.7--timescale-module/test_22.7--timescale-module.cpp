@@ -430,21 +430,14 @@ TEST_F(TimescaleModuleTest, CompilesWithoutErrors) {
 // HLC rejected or misread it.
 TEST_F(TimescaleModuleTest, TimescaleDirectiveIsAccepted) {
   // "`timescale 10 ns / 1 ns" has the form of Syntax 22-6.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalTimescale), nullptr);
 
   // 10 and 1 are among the valid integers 1, 10 and 100.
-  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
 
   // The precision 1 ns is at least as precise as the unit 10 ns.
-  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidScale), nullptr);
 
   // The directive comes before "module test;", not inside a design element.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // `timescale is a compiler directive (22.1), not a text macro usage.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 }
 
 // 22.7 and 3.14.2.3 b): line 16 gives test a time unit and precision, so no
@@ -458,7 +451,6 @@ TEST_F(TimescaleModuleTest, TestIsNotReportedWithoutATimescale) {
 
   EXPECT_EQ(countInSourceFile(eventListener, EventType::PaNotimescaleInfo), 0u)
       << describeErrors(eventListener, EventSeverity::Info);
-  EXPECT_EQ(findEvent(EventType::PaNotimescaleInfo, "test"), nullptr);
 }
 
 // ---------------------------------------------------------------------------

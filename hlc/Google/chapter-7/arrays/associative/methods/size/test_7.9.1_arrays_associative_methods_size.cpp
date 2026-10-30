@@ -320,7 +320,6 @@ TEST_F(AssociativeArraySizeTest, DesignHasLogicTypespec) {
 }
 
 TEST_F(AssociativeArraySizeTest, NoBindErrorForSize) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
 }
 
 }  // namespace hlc

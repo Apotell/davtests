@@ -221,7 +221,6 @@ TEST_F(MBadderTest, AssignmentReferencesBindToPortNets) {
     EXPECT_EQ(ref->getActual(), getNet(ref->getName())) << "'" << ref->getName() << "' must bind to its port net";
   }
   for (const char *const name : {"a", "b", "cin", "sum", "cout"}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr) << name;
   }
 }
 

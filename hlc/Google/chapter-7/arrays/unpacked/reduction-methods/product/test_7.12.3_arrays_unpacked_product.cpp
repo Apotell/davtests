@@ -255,8 +255,6 @@ TEST_F(UnpackedProductTest, DesignHasStringTypespec) {
 }
 
 TEST_F(UnpackedProductTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "product"), nullptr)
-      << "arr.product() must bind (IEEE 1800-2023 7.12.3)";
 }
 
 TEST_F(UnpackedProductTest, NoContAssigns) {

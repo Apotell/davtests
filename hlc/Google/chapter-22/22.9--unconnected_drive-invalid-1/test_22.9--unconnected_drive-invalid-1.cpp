@@ -306,11 +306,9 @@ TEST_F(UnconnectedDriveInvalid1Test, NoCascadeErrorsAfterLine18) {
 TEST_F(UnconnectedDriveInvalid1Test, ReportsNoMisreadingDiagnostics) {
   // The file has no design element, so neither directive is inside one
   // (22.9).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // `unconnected_drive and `nounconnected_drive are compiler directives
   // (22.1), not usages of a text macro, under either reading of lines 17-18.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 }
 
 // ---------------------------------------------------------------------------

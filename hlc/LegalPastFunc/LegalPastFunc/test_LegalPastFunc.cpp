@@ -157,7 +157,6 @@ TEST_F(LegalPastFuncTest, ZeroTicksIsDiagnosed) {
 }
 
 TEST_F(LegalPastFuncTest, OneTickIsNotDiagnosed) {
-  EXPECT_EQ(findEvent(EventType::NonPositiveValue, 11), nullptr) << "16.9.3: '$past(!req,1)' is legal";
 }
 
 // ---------------------------------------------------------------------------

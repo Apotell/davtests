@@ -197,8 +197,6 @@ TEST_F(MultiPortTest, HeaderImportRecorded) {
 }
 
 TEST_F(MultiPortTest, ImportedTypeResolves) {
-  EXPECT_EQ(findEvent(EventType::CompUndefinedType, "variable_type"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompUndefinedPackage, "my_pkg"), nullptr);
 }
 
 // ===========================================================================

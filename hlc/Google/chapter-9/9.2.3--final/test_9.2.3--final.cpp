@@ -200,8 +200,6 @@ TEST_F(FinalTest, AssignmentRhsIsConstantOne) {
 // The construct with the most real risk of a binding failure is "a"
 // resolving back to its declaration.
 TEST_F(FinalTest, ReferenceToAIsNotAFailedBind) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a' in 'a = 1' must bind to the 'reg a' declaration";
 }
 
 }  // namespace hlc

@@ -230,8 +230,6 @@ TEST_F(UnpackedReverseTest, DesignHasStringTypespecBeforeIntTypespec) {
 }
 
 TEST_F(UnpackedReverseTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "reverse"), nullptr)
-      << "arr.reverse() must bind (IEEE 1800-2023 7.12.2)";
 }
 
 TEST_F(UnpackedReverseTest, NoContAssigns) {

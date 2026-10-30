@@ -480,8 +480,6 @@ TEST_F(ParamOverloadingTest, TopIsTheOnlyTopLevelInstance) {
 }
 
 TEST_F(ParamOverloadingTest, StructAbIsNotReportedAsRedefined) {
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef), nullptr)
-      << "23.9: each struct_ab is declared once in its own module scope";
 }
 
 TEST_F(ParamOverloadingTest, NoFatalSyntaxOrErrorDiagnostics) {

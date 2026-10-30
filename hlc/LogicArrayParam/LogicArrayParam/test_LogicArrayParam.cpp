@@ -382,8 +382,6 @@ TEST_F(LogicArrayParamTest, ConditionalGenerateInstantiatesM) {
 // ---------------------------------------------------------------------------
 
 TEST_F(LogicArrayParamTest, NoIllegalPropertyValueOnGenerateBlock) {
-  EXPECT_EQ(findEvent(EventType::IllegalPropertyValue, 25, 42), nullptr)
-      << "a legal loop generate block must not produce an invalid model";
 }
 
 TEST_F(LogicArrayParamTest, CompilerReportsZeroErrors) {

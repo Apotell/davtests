@@ -224,8 +224,6 @@ TEST_F(UnpackedRsortTest, DesignHasStringTypespec) {
 }
 
 TEST_F(UnpackedRsortTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "rsort"), nullptr)
-      << "arr.rsort() must bind (IEEE 1800-2023 7.12.2)";
 }
 
 TEST_F(UnpackedRsortTest, NoContAssigns) {

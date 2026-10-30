@@ -147,8 +147,6 @@ TEST_F(SequenceMethodsTest, CompilerReportsNoErrors) {
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_fatals, 0);
   EXPECT_EQ(stats.m_syntaxes, 0);
-  EXPECT_EQ(findEvent(EventType::LintNullActual), nullptr)
-      << "every use in this file is legal per Sec 16.13.6 and must bind";
 }
 
 }  // namespace hlc

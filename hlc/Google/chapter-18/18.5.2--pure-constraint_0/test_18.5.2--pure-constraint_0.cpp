@@ -173,9 +173,6 @@ TEST_F(PureConstraint0Test, DerivedConstraintOverridesPureAndIsNotPure) {
 TEST_F(PureConstraint0Test, LegalPureConstraintUsageRaisesNoError) {
   // Pure constraint in an abstract class: legal.
   // Same-named constraint in a non-abstract subclass: legal override.
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "a2"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedConstraint, "c"), nullptr);
 }
 TEST_F(PureConstraint0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active

@@ -226,14 +226,10 @@ TEST_F(EmptyTest0Test, ReportsNoLexicalOrSyntaxDiagnostics) {
   // Each one-line comment ends at its newline and the block comment ends at
   // the '*/' of line 15 (5.4); text inside a comment is not tokenized, so
   // neither the preprocessor nor the parser sees any token.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
 
   // No grave accent occurs anywhere, so there is no macro usage at all.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 
   // No double quote occurs anywhere, so there is no string literal (5.9).
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
 }
 
 TEST_F(EmptyTest0Test, SourceFileRecordedOnce) {

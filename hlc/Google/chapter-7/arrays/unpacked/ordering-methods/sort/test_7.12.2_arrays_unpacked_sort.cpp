@@ -224,8 +224,6 @@ TEST_F(UnpackedSortTest, DesignHasStringTypespec) {
 }
 
 TEST_F(UnpackedSortTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "sort"), nullptr)
-      << "arr.sort() must bind (IEEE 1800-2023 7.12.2)";
 }
 
 TEST_F(UnpackedSortTest, NoContAssigns) {

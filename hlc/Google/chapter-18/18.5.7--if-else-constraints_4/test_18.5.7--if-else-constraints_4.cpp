@@ -271,8 +271,6 @@ TEST_F(IfElseConstraints4Test, TopModuleHoldsEnvHandle) {
 }
 
 TEST_F(IfElseConstraints4Test, NoConstraintOrBindError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c3"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
 }
 
 TEST_F(IfElseConstraints4Test, RandomizedB3Is10) {

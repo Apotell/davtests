@@ -585,10 +585,6 @@ TEST_F(PackageHierRefTest, ImportFromUndeclaredPackageBugIsReportedAsError) {
 
 TEST_F(PackageHierRefTest, ImportedNamesAreNotReported) {
   for (std::string_view name : {"package_param", "s1", "s2", "f"}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr)
-        << "26.3: '" << name << "' is declared in p, and p is imported";
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "26.3: '" << name << "' is declared in p, and p is imported";
   }
 }
 

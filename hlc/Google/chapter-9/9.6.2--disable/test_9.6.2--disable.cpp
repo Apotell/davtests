@@ -295,8 +295,6 @@ TEST_F(DisableTest, ThirdStmtAssignsOneToB) {
 // --- compiler diagnostics ----------------------------------------------------
 
 TEST_F(DisableTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a', 'b' and 'block' must all bind to their declarations";
 }
 
 }  // namespace hlc

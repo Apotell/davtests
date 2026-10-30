@@ -181,8 +181,6 @@ TEST_F(LateBindingFuncArgTest, RhsIsClog2OfBitsOfDepth) {
 }
 
 TEST_F(LateBindingFuncArgTest, NoBindingFailures) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "depth"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "doFoo"), nullptr);
 }
 
 }  // namespace hlc

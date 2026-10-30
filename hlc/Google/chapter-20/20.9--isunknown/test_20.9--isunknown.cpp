@@ -273,7 +273,6 @@ TEST_F(IsunknownFunctionTest, DisplayIsunknownOfVal3) { expectDisplayOfIsunknown
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(IsunknownFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc

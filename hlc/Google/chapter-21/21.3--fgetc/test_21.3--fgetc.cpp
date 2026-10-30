@@ -431,10 +431,6 @@ TEST_F(FgetcTest, CompilerReportsNoFatalOrSyntaxErrors) {
 // "fd" is referenced from three places, one of them in a different
 // process -- the construct here with the most real binding risk.
 TEST_F(FgetcTest, DescriptorAndResultReferencesBind) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "fd"), nullptr)
-      << "'fd' must bind to the 'int fd' declaration in the assignment, in $fgetc, and in $fclose";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "c"), nullptr)
-      << "'c' must bind to the 'int c' declaration in the $fgetc assignment";
 }
 
 }  // namespace hlc

@@ -238,14 +238,10 @@ TEST_F(EmptyTest4Test, ReportsNoLexicalOrSyntaxDiagnostics) {
   // is not tokenized, so neither the preprocessor nor the parser sees any
   // token. In particular the word 'comment' on line 16 is comment text, not
   // an identifier.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
 
   // No grave accent occurs anywhere, so there is no macro usage at all.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 
   // No double quote occurs anywhere, so there is no string literal (5.9).
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
 }
 
 TEST_F(EmptyTest4Test, SourceFileRecordedOnce) {

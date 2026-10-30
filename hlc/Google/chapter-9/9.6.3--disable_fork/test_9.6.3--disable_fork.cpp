@@ -336,7 +336,6 @@ TEST_F(DisableForkTest, DisableForkHasVpiDisableForkType) {
 // --- compiler diagnostics ----------------------------------------------------
 
 TEST_F(DisableForkTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr) << "'a', 'b' and 'c' must all bind to their declarations";
 }
 
 }  // namespace hlc

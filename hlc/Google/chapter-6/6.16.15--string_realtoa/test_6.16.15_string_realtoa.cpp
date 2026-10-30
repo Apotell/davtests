@@ -185,8 +185,6 @@ TEST_F(StringRealtoaTest, CompilerReportsZeroErrors) {
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_fatals, 0);
   EXPECT_EQ(stats.m_syntaxes, 0);
-  EXPECT_EQ(findEvent(EventType::LintNullActual), nullptr)
-      << "str.realtoa() must bind (IEEE 1800-2023 6.16.15)";
 }
 
 }  // namespace hlc

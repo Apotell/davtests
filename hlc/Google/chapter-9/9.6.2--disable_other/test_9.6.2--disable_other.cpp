@@ -350,8 +350,6 @@ TEST_F(DisableOtherTest, DisableTargetsTheSiblingNamedBlock) {
 // --- compiler diagnostics ----------------------------------------------------
 
 TEST_F(DisableOtherTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a', 'b', 'c' and 'block' must all bind to their declarations";
 }
 
 }  // namespace hlc

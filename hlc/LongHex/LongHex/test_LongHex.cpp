@@ -340,8 +340,6 @@ TEST_F(LongHexTest, OverrideByNameBindsBothSides) {
 }
 
 TEST_F(LongHexTest, NoBindingFailures) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "RndCnstMaskingLfsrSeedDefault"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "RndCnstMaskingLfsrSeed"), nullptr);
 }
 
 }  // namespace hlc

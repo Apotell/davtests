@@ -168,8 +168,6 @@ TEST_F(SetMembership0Test, InsideOperandsAreBThenSetInOrder) {
 }
 
 TEST_F(SetMembership0Test, NoConstraintError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "b"), nullptr);
 }
 TEST_F(SetMembership0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active

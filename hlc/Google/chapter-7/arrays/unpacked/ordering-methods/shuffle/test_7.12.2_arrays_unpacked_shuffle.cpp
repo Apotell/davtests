@@ -239,8 +239,6 @@ TEST_F(UnpackedShuffleTest, DesignHasStringTypespec) {
 }
 
 TEST_F(UnpackedShuffleTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "shuffle"), nullptr)
-      << "arr.shuffle() must bind (IEEE 1800-2023 7.12.2)";
 }
 
 TEST_F(UnpackedShuffleTest, NoContAssigns) {

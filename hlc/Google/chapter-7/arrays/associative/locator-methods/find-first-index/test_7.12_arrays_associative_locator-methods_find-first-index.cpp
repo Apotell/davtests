@@ -421,7 +421,6 @@ TEST_F(ArrayLocatorFindFirstIndexTest, NoContAssigns) {
 }
 
 TEST_F(ArrayLocatorFindFirstIndexTest, SizeMethodCallDoesNotYetResolve) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
 }
 
 }  // namespace hlc

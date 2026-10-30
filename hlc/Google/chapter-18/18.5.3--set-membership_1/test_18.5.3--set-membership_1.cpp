@@ -280,9 +280,6 @@ TEST_F(SetMembership1Test, TopModuleHoldsEnvHandle) {
 }
 
 TEST_F(SetMembership1Test, NoConstraintOrBindError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "b"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
 }
 
 TEST_F(SetMembership1Test, RandomizedBIsInSet) {

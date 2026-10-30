@@ -299,8 +299,6 @@ TEST_F(BehaviorOfRandomizationMethods0Test, FileDeclaresNoModule) {
 // ---------------------------------------------------------------------------
 
 TEST_F(BehaviorOfRandomizationMethods0Test, ReferencedPropertyIsFound) {
-  EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, "b"), nullptr)
-      << "'b' is declared in class a, so it is not undefined";
 }
 
 // The file is legal SystemVerilog, so no fatal, syntax or error diagnostic

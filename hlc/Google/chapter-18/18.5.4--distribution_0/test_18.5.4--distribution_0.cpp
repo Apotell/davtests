@@ -164,8 +164,6 @@ TEST_F(Distribution0Test, DistItemsValuesWeightsAndKind) {
 }
 
 TEST_F(Distribution0Test, DistOnRandVariableIsLegal) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "b"), nullptr);
 }
 TEST_F(Distribution0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active

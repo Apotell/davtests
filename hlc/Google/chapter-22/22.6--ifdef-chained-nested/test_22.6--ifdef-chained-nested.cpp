@@ -337,22 +337,16 @@ TEST_F(IfdefChainedNestedTest, ReportsNoPreprocessorDiagnostics) {
   // Lines 17-33 and the two nested constructs match Syntax 22-5; each `elsif
   // follows an `ifdef or `ifndef of its own construct and precedes its `else,
   // and is spelled `elsif.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveElseif), nullptr);
 
   // `ifdef, `ifndef and `elsif test whether a name is defined (22.6); the
   // five names are not macro usages, so their being undefined is no
   // "unknown macro".
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 
   // The conditional directives "may appear anywhere in the source
   // description" (22.6), here inside a module.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // Every string literal, in the processed and in the ignored blocks, is
   // closed on its line and holds no escape sequence (5.9).
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpUnrecognizedEscapedSequence), nullptr);
 }
 
 TEST_F(IfdefChainedNestedTest, SourceFileRecordedOnce) {

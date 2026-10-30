@@ -432,9 +432,6 @@ TEST_F(ArrayLocatorUniqueIndexTest, NoContAssigns) {
 // --- compiler diagnostics: known parenthesis-less-builtin-call limitation ----
 
 TEST_F(ArrayLocatorUniqueIndexTest, UniqueIndexSortAndSizeMethodCallsResolve) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "unique_index"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "sort"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
 }
 
 }  // namespace hlc

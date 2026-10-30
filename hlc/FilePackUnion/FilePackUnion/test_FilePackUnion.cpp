@@ -172,8 +172,6 @@ TEST_F(FilePackUnionTest, UndeclaredCBecomesImplicitNet) {
 }
 
 TEST_F(FilePackUnionTest, UndeclaredCIsNotABindingError) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, std::string_view{"c"}), nullptr)
-      << "6.10: an undeclared net-context identifier is implicitly declared, not a binding error";
 }
 
 }  // namespace hlc

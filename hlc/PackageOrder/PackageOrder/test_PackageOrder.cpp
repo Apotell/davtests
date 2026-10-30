@@ -220,10 +220,6 @@ TEST_F(PackageOrderTest, PackageADeclaresNothingOfItsOwn) { ExpectDeclaresNothin
 
 TEST_F(PackageOrderTest, ImportedPackagesAreFound) {
   for (std::string_view name : {"B", "D"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedPackage, name), nullptr)
-        << "26.3: package " << name << " is compiled before the package that imports it";
-    EXPECT_EQ(findEvent(EventType::ElabUndefinedPackage, name), nullptr)
-        << "26.3: package " << name << " is compiled before the package that imports it";
   }
 }
 

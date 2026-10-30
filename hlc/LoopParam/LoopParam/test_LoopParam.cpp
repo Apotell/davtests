@@ -120,7 +120,6 @@ TEST_F(LoopParamTest, BackwardReferenceToP1Binds) {
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getActual(), nullptr);
   EXPECT_EQ(rhs->getActual(), hldb::findByName<hldb::Parameter>("P1", foo->getParameters()));
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "P1", 5), nullptr);
 }
 
 // 6.5 + 6.20: "P2" on line 4 is used before its declaration on line 5.

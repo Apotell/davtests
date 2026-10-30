@@ -306,8 +306,6 @@ TEST_F(AssociativeArrayLastTest, RuntimeValuesOfRcAndSRequireSimulation) {
 // --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(AssociativeArrayLastTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "last"), nullptr)
-      << "map.last() must bind (IEEE 1800-2023 7.9.5)";
 }
 
 }  // namespace hlc

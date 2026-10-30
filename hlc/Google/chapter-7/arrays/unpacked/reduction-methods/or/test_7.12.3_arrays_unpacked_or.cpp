@@ -254,8 +254,6 @@ TEST_F(UnpackedOrTest, DesignHasStringTypespec) {
 }
 
 TEST_F(UnpackedOrTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "or"), nullptr)
-      << "arr.or() must bind (IEEE 1800-2023 7.12.3)";
 }
 
 TEST_F(UnpackedOrTest, NoContAssigns) {

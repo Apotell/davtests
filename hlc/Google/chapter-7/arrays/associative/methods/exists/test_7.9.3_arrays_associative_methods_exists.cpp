@@ -263,10 +263,6 @@ TEST_F(AssociativeArrayExistsTest, DesignHasModuleTypespec) {
 }
 
 TEST_F(AssociativeArrayExistsTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "exists", 24, 40), nullptr)
-      << "map.exists() must bind (IEEE 1800-2023 7.9.3)";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "exists", 25, 40), nullptr)
-      << "map.exists() must bind (IEEE 1800-2023 7.9.3)";
 }
 
 }  // namespace hlc

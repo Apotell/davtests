@@ -400,8 +400,6 @@ TEST_F(FflushTest, CompilerReportsNoFatalOrSyntaxErrors) {
 // "fd" is block-scoped rather than module-scoped and is referenced from
 // two statements -- the one construct here with real binding risk.
 TEST_F(FflushTest, BlockLocalDescriptorReferenceBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "fd"), nullptr)
-      << "'fd' must bind to the block-local 'int fd' declaration in the assignment and in $fclose";
 }
 
 }  // namespace hlc

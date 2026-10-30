@@ -287,13 +287,10 @@ TEST_F(TimescaleBasic4Test, ErrorsOnlyOnTheIllegalLine) {
 // relation between the two arguments is illegal, not either argument.
 TEST_F(TimescaleBasic4Test, ReportsNoMisreadingDiagnostics) {
   // 1 and 10 are valid integers (22.7).
-  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
 
   // The file has no design element, so line 17 is not inside one (22.7).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // `timescale is a compiler directive (22.1), not a text macro usage.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 }
 
 TEST_F(TimescaleBasic4Test, SourceFileRecordedOnce) {

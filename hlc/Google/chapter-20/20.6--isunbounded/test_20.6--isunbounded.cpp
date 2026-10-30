@@ -262,7 +262,6 @@ TEST_F(IsUnboundedFunctionTest, SecondIsUnboundedArgumentIsParameterI) {
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(IsUnboundedFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc

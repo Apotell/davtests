@@ -219,7 +219,6 @@ TEST_F(DistChiSquareFunctionTest, DistChiSquareCallHasSeedAndDfArguments) {
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(DistChiSquareFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc

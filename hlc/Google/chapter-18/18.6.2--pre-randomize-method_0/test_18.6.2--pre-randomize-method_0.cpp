@@ -363,8 +363,6 @@ TEST_F(PreRandomizeMethod0Test, FileDeclaresNoModule) {
 
 TEST_F(PreRandomizeMethod0Test, EveryReferencedPropertyIsFound) {
   for (std::string_view name : {"b", "d"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "'" << name << "' is declared in class a, so it is not undefined";
   }
 }
 

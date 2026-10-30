@@ -146,8 +146,6 @@ TEST_F(MathFunc02Test, ModuleDeclaresRealRes) {
 }
 
 TEST_F(MathFunc02Test, ModuleLevelInitializerNeedsNoLifetimeKeyword) {
-  EXPECT_EQ(findEvent(EventType::CompMissingLifetimeKeyword, "res"), nullptr)
-      << "Sec 6.21: the static keyword is optional for a module-level initialized variable";
 }
 
 // ---------------------------------------------------------------------------

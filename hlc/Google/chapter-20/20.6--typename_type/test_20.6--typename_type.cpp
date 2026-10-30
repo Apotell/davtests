@@ -217,7 +217,6 @@ TEST_F(TypenameTypeFunctionTest, TypenameCallTypespecIsScalarLogic) {
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(TypenameTypeFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc

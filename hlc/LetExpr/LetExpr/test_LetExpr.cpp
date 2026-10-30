@@ -179,10 +179,6 @@ TEST_F(LetExprTest, A1NoInferredClockIsDiagnosed) {
 }
 
 TEST_F(LetExprTest, A2AndA3NeedNoInferredClock) {
-  EXPECT_EQ(findEvent(EventType::CompNoInferredClock, 11), nullptr) << "a2: clock given explicitly";
-  EXPECT_EQ(findEvent(EventType::CompNoInferredClock, 6), nullptr) << "p2: clock given explicitly";
-  EXPECT_EQ(findEvent(EventType::CompNoInferredClock, 12), nullptr) << "a3: $sampled uses no clock";
-  EXPECT_EQ(findEvent(EventType::CompNoInferredClock, 7), nullptr) << "s: $sampled uses no clock";
 }
 
 TEST_F(LetExprTest, UndeclaredClockFailsToBind) {

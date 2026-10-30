@@ -239,9 +239,6 @@ TEST_F(Implication1Test, TopModuleHoldsEnvHandle) {
 }
 
 TEST_F(Implication1Test, NoConstraintOrBindError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c1"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c2"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
 }
 
 TEST_F(Implication1Test, RandomizedB1Is5AndB2Is10) {

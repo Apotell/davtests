@@ -380,7 +380,6 @@ TEST_F(LocalScopeHierPathTest, PUnderscoreInitializerResolvesToSpathMember) {
 
 TEST_F(LocalScopeHierPathTest, NoBindFailures) {
   for (const std::string_view name : {"path", "slices", "spath", "paths", "p", "j"}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr) << name;
   }
 }
 

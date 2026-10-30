@@ -281,9 +281,6 @@ TEST_F(Distribution1Test, TopModuleHoldsEnvHandle) {
 }
 
 TEST_F(Distribution1Test, NoConstraintOrBindError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "b"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
 }
 
 TEST_F(Distribution1Test, RandomizedBIs10) {

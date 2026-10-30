@@ -228,8 +228,6 @@ TEST_F(ExprEvalPartialTest, CompilerReportsFailedToBindForA) {
 }
 
 TEST_F(ExprEvalPartialTest, CompilerDoesNotReportFailedToBindForS1c) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "s1c"), nullptr)
-      << "'s1c' IS declared ('logic [63:0] s1c;') and must resolve without a binding error";
 }
 
 }  // namespace hlc

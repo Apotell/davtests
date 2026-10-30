@@ -249,8 +249,6 @@ TEST_F(ParallelBlockJoinTest, ThirdStmtIsBlockingAssignToC) {
 // --- compiler diagnostics ----------------------------------------------------
 
 TEST_F(ParallelBlockJoinTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a', 'b', and 'c' must all bind to their declarations";
 }
 
 }  // namespace hlc

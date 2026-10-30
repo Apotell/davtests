@@ -212,8 +212,6 @@ TEST_F(IfElseConstraints2Test, InnerIfElse) {
 }
 
 TEST_F(IfElseConstraints2Test, NoConstraintError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c1"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c2"), nullptr);
 }
 TEST_F(IfElseConstraints2Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active

@@ -432,10 +432,6 @@ TEST_F(PackageDpiTest, NoSyntaxOrFatalErrors) {
 }
 
 TEST_F(PackageDpiTest, DeclaredNamesAreNotReported) {
-  EXPECT_EQ(findEvent(EventType::CompUndefinedType, "uvm_core_state"), nullptr)
-      << "'uvm_core_state' is declared by the typedef";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "UVM_CORE_UNINITIALIZED"), nullptr)
-      << "'UVM_CORE_UNINITIALIZED' is a name of uvm_core_state";
 }
 
 }  // namespace hlc

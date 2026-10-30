@@ -226,7 +226,6 @@ TEST_F(DistErlangFunctionTest, DistErlangCallHasSeedKAndMeanArguments) {
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(DistErlangFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc

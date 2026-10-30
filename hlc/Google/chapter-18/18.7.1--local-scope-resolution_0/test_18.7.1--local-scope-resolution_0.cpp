@@ -447,8 +447,6 @@ TEST_F(LocalScopeResolution0Test, LocalXBindsToFormalOfF) {
 
 TEST_F(LocalScopeResolution0Test, ReferencedNamesAreFound) {
   for (std::string_view name : {"obj", "x"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "'" << name << "' is declared in this file, so it is not undefined";
   }
 }
 

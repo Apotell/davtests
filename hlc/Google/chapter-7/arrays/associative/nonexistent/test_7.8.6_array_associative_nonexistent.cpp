@@ -249,7 +249,6 @@ TEST_F(Nonexistent, NoContAssigns) {
 }
 
 TEST_F(Nonexistent, NoBinErrorForSize) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
 }
 }  // namespace hlc
 

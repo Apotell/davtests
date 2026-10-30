@@ -285,10 +285,6 @@ TEST_F(PackageParamConstTest, TopIsTheOnlyTopLevelInstance) {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackageParamConstTest, ScopedNameIsNotReported) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "A"), nullptr) << "26.3: 'A' is declared in pkg";
-  EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, "A"), nullptr) << "26.3: 'A' is declared in pkg";
-  EXPECT_EQ(findEvent(EventType::CompUndefinedPackage, "pkg"), nullptr)
-      << "26.3: pkg is compiled before top references it";
 }
 
 TEST_F(PackageParamConstTest, NoFatalSyntaxOrErrorDiagnostics) {

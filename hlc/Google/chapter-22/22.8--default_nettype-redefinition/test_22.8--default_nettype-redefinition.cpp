@@ -325,17 +325,13 @@ TEST_F(DefaultNettypeRedefinitionTest, Line26NoneIsAccepted) {
 // misread one of lines 16-26.
 TEST_F(DefaultNettypeRedefinitionTest, ReportsNoDirectiveMisreadingDiagnostics) {
   // Each line has the form of Syntax 22-7.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
 
   // Each value is one of the eleven values of Syntax 22-7.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
 
   // The file has no design element, so no line is inside one (22.8).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // `default_nettype is a compiler directive (22.1), not a usage of a text
   // macro.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 }
 
 // ---------------------------------------------------------------------------

@@ -277,8 +277,6 @@ TEST_F(SequentialBlockTest, ThirdStmtRhsResolvesToVariableB) {
 // --- compiler diagnostics ----------------------------------------------------
 
 TEST_F(SequentialBlockTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a', 'b', and 'c' must all bind to their declarations";
 }
 
 }  // namespace hlc

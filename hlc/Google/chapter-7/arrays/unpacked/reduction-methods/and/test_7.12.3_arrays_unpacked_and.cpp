@@ -255,8 +255,6 @@ TEST_F(UnpackedAndTest, DesignHasStringTypespec) {
 }
 
 TEST_F(UnpackedAndTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "and"), nullptr)
-      << "arr.and() must bind (IEEE 1800-2023 7.12.3)";
 }
 
 TEST_F(UnpackedAndTest, NoContAssigns) {

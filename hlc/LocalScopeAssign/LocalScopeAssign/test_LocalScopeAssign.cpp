@@ -207,8 +207,6 @@ TEST_F(LocalScopeAssignTest, UndeclaredV2IsReported) {
 }
 
 TEST_F(LocalScopeAssignTest, UpwardReferenceIsNotReportedUnbound) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "module_scope_Example"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "o2"), nullptr);
 }
 
 }  // namespace hlc

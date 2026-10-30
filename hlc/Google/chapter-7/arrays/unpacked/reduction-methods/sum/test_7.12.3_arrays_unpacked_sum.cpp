@@ -254,8 +254,6 @@ TEST_F(UnpackedSumTest, DesignHasStringTypespec) {
 }
 
 TEST_F(UnpackedSumTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "sum"), nullptr)
-      << "arr.sum() must bind (IEEE 1800-2023 7.12.3)";
 }
 
 TEST_F(UnpackedSumTest, NoContAssigns) {

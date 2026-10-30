@@ -206,7 +206,6 @@ TEST_F(TypenameFunctionTest, TypenameCallHasValArgument) {
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(TypenameFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc

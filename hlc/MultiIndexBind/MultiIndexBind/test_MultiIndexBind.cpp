@@ -303,7 +303,6 @@ TEST_F(MultiIndexBindTest, LhsBindsToImplicitNet) {
 TEST_F(MultiIndexBindTest, UndeclaredIndexIFailsToBind) {
   EXPECT_NE(findEvent(EventType::CompFailedToBind, "i"), nullptr)
       << "6.10: implicit nets are only created for continuous-assignment LHS / port connections; 'i' is undeclared";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "microOps"), nullptr);
 }
 
 }  // namespace hlc

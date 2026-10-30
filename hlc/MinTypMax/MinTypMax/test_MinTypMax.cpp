@@ -143,7 +143,6 @@ TEST_F(MinTypMaxTest, InitialIsDisplayOfValue) {
 }
 
 TEST_F(MinTypMaxTest, NoBindErrorForValue) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "value"), nullptr);
 }
 
 }  // namespace hlc

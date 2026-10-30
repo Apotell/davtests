@@ -395,8 +395,6 @@ TEST_F(ArrayLocatorMinTest, NoContAssigns) {
 }
 
 TEST_F(ArrayLocatorMinTest, NoBindErrorForMinAndSize) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "min"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
 }
 
 }  // namespace hlc

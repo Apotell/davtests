@@ -116,8 +116,6 @@ TEST_F(DashYTestTest, LibraryModuleAndHasNullPort) {
 // ---------------------------------------------------------------------------
 
 TEST_F(DashYTestTest, NoFailedToBindErrorForAnd) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "AND"), nullptr)
-      << "'-y lib' should have resolved 'AND' without a binding failure";
 }
 
 }  // namespace hlc

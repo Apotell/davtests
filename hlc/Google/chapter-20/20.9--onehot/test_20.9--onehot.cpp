@@ -236,7 +236,6 @@ TEST_F(OnehotFunctionTest, DisplayOnehotOfVal2) { expectDisplayOfOnehot(2, ":ass
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(OnehotFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc

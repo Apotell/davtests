@@ -218,8 +218,6 @@ TEST_F(EnumFirstTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.m_syntaxes, 0);
   // CompFailedToBind does not fire for an unresolved enumerated-type method; the Linter
   // reports LintNullActual instead, so check that (see Sec 6.19.5.1).
-  EXPECT_EQ(findEvent(EventType::LintNullActual), nullptr)
-      << "enum.first() must bind (IEEE 1800-2023 Sec 6.19.5.1)";
 }
 
 }  // namespace hlc

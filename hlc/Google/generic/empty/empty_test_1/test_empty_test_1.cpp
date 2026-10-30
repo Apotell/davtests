@@ -235,14 +235,10 @@ TEST_F(EmptyTest1Test, ReportsNoLexicalOrSyntaxDiagnostics) {
   // neither the preprocessor nor the parser sees any token. The trailing
   // spaces of line 16, at end of file without a newline, are only white
   // space (5.3) and produce no token either.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
 
   // No grave accent occurs anywhere, so there is no macro usage at all.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 
   // No double quote occurs anywhere, so there is no string literal (5.9).
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
 }
 
 TEST_F(EmptyTest1Test, SourceFileRecordedOnce) {

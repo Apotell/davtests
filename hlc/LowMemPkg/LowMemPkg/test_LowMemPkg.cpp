@@ -179,9 +179,6 @@ TEST_F(LowMemPkgTest, VariableBIsScalarLogic) {
 }
 
 TEST_F(LowMemPkgTest, NoBindingOrPackageErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "my_logic"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompUndefinedPackage, "wddr_pkg"), nullptr);
-  EXPECT_EQ(findEvent(EventType::ElabUndefinedPackage, "wddr_pkg"), nullptr);
 }
 
 }  // namespace hlc

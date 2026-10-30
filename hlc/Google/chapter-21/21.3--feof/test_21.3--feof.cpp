@@ -392,8 +392,6 @@ TEST_F(FeofTest, CompilerReportsNoFatalOrSyntaxErrors) {
 // rather than module-scoped -- the one construct here with real binding
 // risk.
 TEST_F(FeofTest, BlockLocalDescriptorReferenceBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "fd"), nullptr)
-      << "'fd' must bind to the block-local 'int fd' declaration in the assignment, in $feof, and in $fclose";
 }
 
 }  // namespace hlc

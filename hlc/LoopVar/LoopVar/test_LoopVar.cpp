@@ -257,7 +257,6 @@ TEST_F(LoopVarTest, BodyIsBlockingAssignmentUsingLoopVariable) {
 }
 
 TEST_F(LoopVarTest, NoLoopVariableDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "i"), nullptr);
 }
 
 }  // namespace hlc

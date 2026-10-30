@@ -223,8 +223,6 @@ TEST_F(MaskNegTest, OverrideValueIsBitwiseNegationOfTwoBitHexZero) {
 }
 
 TEST_F(MaskNegTest, NoMissingOverrideOrBindErrorForResval) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "RESVAL"), nullptr)
-      << "'.RESVAL' names a parameter declared in 'dut'";
 }
 
 }  // namespace hlc

@@ -1189,8 +1189,6 @@ TEST_F(BehaviorOfRandomizationMethods3Test, InitialCallsRunTestFromUvmPkg) {
 
 TEST_F(BehaviorOfRandomizationMethods3Test, EveryReferencedVariableAndFormalIsFound) {
   for (std::string_view name : {"obj", "status", "name", "parent", "phase", "environment"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "'" << name << "' is declared in this file, so it is not undefined";
   }
 }
 

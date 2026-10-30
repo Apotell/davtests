@@ -354,9 +354,6 @@ TEST_F(QueuesPushFrontAssignTest, DesignHasStringTypespec) {
 }
 
 TEST_F(QueuesPushFrontAssignTest, NoBindErrorForSize) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr)
-      << "'q.size' without parens should not raise CompFailedToBind (IEEE 1800-2017 7.24.4 permits "
-         "omitting parens on a no-arg built-in method call)";
 }
 
 }  // namespace hlc

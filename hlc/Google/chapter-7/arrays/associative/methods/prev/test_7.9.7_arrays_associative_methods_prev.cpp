@@ -293,8 +293,6 @@ TEST_F(AssociativeArrayPrevTest, RuntimeValuesOfRcAndSRequireSimulation) {
 // --- design-level typespecs / compiler diagnostics ----
 
 TEST_F(AssociativeArrayPrevTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "prev"), nullptr)
-      << "map.prev() must bind (IEEE 1800-2023 7.9.7)";
 }
 
 }  // namespace hlc

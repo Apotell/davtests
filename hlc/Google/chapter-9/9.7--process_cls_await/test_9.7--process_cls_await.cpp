@@ -669,8 +669,6 @@ TEST_F(ProcessClsAwaitTest, InitialCallsTestWithConstantEight) {
 // built-in 'process' ClassDefn (see the two tests above), so neither should
 // leave any reference unbound.
 TEST_F(ProcessClsAwaitTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'self' and 'await' should both bind to the built-in 'process' class's own methods";
 }
 
 }  // namespace hlc

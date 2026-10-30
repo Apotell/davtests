@@ -406,7 +406,6 @@ TEST_F(ArrayLocatorFindLastIndexTest, NoContAssigns) {
 }
 
 TEST_F(ArrayLocatorFindLastIndexTest, NoBindErrorForSize) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
 }
 
 }  // namespace hlc

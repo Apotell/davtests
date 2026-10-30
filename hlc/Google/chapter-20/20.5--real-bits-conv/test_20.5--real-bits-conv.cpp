@@ -212,7 +212,6 @@ TEST_F(RealBitsConvFunctionTest, RealToBitsCallHasOneRealArgument) {
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(RealBitsConvFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc

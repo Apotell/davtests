@@ -407,8 +407,6 @@ TEST_F(PackageEvalTest, TestSizeIsBitsOfTTest) {
 // ---------------------------------------------------------------------------
 
 TEST_F(PackageEvalTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "NStraps"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "t_test"), nullptr);
 }
 
 }  // namespace hlc

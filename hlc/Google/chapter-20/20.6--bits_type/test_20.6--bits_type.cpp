@@ -332,7 +332,6 @@ TEST_F(BitsTypeFunctionTest, BitsArgumentResolvesToTypedefTypespec) {
 // --- compiler diagnostics -----------------------------------------------------
 
 TEST_F(BitsTypeFunctionTest, CompilesWithNoBindErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc

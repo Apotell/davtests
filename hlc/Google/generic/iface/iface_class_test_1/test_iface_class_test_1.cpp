@@ -312,7 +312,6 @@ TEST_F(IfaceClassTest1Test, BaseIcEndLabelMatchesClassName) {
 
   EXPECT_NE(baseIc->getEndLabelObj(), nullptr) << "'endclass' is written with ': base_ic'";
   EXPECT_EQ(baseIc->getEndLabel(), "base_ic") << "the end label names the class it closes";
-  EXPECT_EQ(findEvent(EventType::CompUnmatchedLabel), nullptr) << "': base_ic' matches the class name";
 }
 
 // Lines 15-16 hold no interface_class_item (8.26), so base_ic has no

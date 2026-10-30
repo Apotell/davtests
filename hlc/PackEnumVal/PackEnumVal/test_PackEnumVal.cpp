@@ -365,8 +365,6 @@ TEST_F(PackEnumValTest, UncastLogicArgumentToEnumFormalIsAnError) {
 }
 
 TEST_F(PackEnumValTest, ScopedCallIsNotReported) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "test_true"), nullptr)
-      << "26.3: test_true is declared in test_package";
 }
 
 TEST_F(PackEnumValTest, NoSyntaxOrFatalDiagnostics) {

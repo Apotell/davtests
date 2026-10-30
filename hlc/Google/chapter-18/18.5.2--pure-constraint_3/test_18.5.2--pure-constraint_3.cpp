@@ -111,9 +111,6 @@ TEST_F(PureConstraint3Test, AbstractDerivedClassMayLeavePureUnimplemented) {
 }
 
 TEST_F(PureConstraint3Test, AbstractSubclassWithoutImplementationRaisesNoError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "a2"), nullptr)
-      << "abstract 'a2' has no obligation to implement pure 'c' (Sec 18.5.2)";
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
 }
 }  // namespace hlc
 

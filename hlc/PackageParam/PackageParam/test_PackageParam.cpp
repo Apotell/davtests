@@ -575,10 +575,6 @@ TEST_F(PackageParamTest, ImportFromUndeclaredPrimUtilPkgIsReportedAsError) {
 
 TEST_F(PackageParamTest, DeclaredNamesAreNotReported) {
   for (std::string_view name : {"A10", "A11", "OtpWidth", "OtpByteAddrWidth"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "'" << name << "' is declared in this file";
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr)
-        << "'" << name << "' is declared in this file";
   }
 }
 

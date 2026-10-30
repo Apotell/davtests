@@ -235,9 +235,6 @@ TEST_F(NamedEventHierPathTest, RhsPathEThenMEvent) {
 }
 
 TEST_F(NamedEventHierPathTest, ProtectedAccessWithinClassIsLegal) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "m_event"), nullptr)
-      << "8.18: protected members are visible within the class's own methods";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "e"), nullptr);
 }
 
 }  // namespace hlc

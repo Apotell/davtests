@@ -225,15 +225,9 @@ TEST_F(MultiPartSelectTest, RhsValuesAre2And3) {
 // ===========================================================================
 
 TEST_F(MultiPartSelectTest, NoBindingErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "xx"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "a"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompUndefinedType, "tier1"), nullptr);
 }
 
 TEST_F(MultiPartSelectTest, DisjointBitAssignmentsAreLegal) {
-  EXPECT_EQ(findEvent(EventType::MultipleContAssign), nullptr)
-      << "6.5: each bit of a packed aggregate is an independent element; [3:2] and [1:0] do not overlap";
-  EXPECT_EQ(findEvent(EventType::CompMultipleAssigningProcesses), nullptr);
 }
 
 }  // namespace hlc

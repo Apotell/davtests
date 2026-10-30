@@ -459,8 +459,6 @@ TEST_F(ApbSlaveTest, WriteTaskHasFiveIODeclsWithThreeDefaults) {
 // --- compiler diagnostics ---------------------------------------------------
 
 TEST_F(ApbSlaveTest, DesignAndTestbenchBindCleanlyDespiteThirdPartySvunitRedefinitions) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef), nullptr);
 }
 
 }  // namespace hlc

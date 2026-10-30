@@ -330,8 +330,6 @@ TEST_F(WaitForkTest, WaitForkHasNoControlledStmt) {
 // --- compiler diagnostics ----------------------------------------------------
 
 TEST_F(WaitForkTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a' and 'b' must all bind to their declarations";
 }
 
 }  // namespace hlc

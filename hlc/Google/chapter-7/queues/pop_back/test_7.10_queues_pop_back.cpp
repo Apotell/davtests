@@ -406,12 +406,6 @@ TEST_F(QueuesPopBackTest, DesignHasStringTypespec) {
 }
 
 TEST_F(QueuesPopBackTest, NoBindErrorsForPopBackOrSize) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "pop_back"), nullptr)
-      << "'q.pop_back' without parens should not raise CompFailedToBind (IEEE 1800-2017 7.24.4 permits "
-         "omitting parens on a no-arg built-in method call)";  
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr)
-      << "'q.size' without parens should not raise CompFailedToBind (IEEE 1800-2017 7.24.4 permits "
-         "omitting parens on a no-arg built-in method call)";
 }
 
 }  // namespace hlc

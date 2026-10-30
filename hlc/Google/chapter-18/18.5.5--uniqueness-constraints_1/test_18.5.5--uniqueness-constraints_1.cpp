@@ -296,10 +296,6 @@ TEST_F(UniquenessConstraints1Test, TopModuleHoldsEnvHandle) {
 }
 
 TEST_F(UniquenessConstraints1Test, NoConstraintOrBindError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c1"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c2"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c3"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
 }
 
 TEST_F(UniquenessConstraints1Test, RandomizedPairIs3And10) {

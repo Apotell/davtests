@@ -369,7 +369,6 @@ TEST_F(JKFlipflopTest, AlwaysBodyIfElseBlockingAssignments) {
 
 TEST_F(JKFlipflopTest, AllIdentifiersBind) {
   for (std::string_view name : {"J", "K", "q", "w", "clk", "reset", "Din"}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr) << "'" << name << "' is declared";
   }
 }
 

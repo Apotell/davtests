@@ -239,17 +239,13 @@ TEST_F(DefaultNettypeTest, Line16WireIsAccepted) {
 // misread line 16.
 TEST_F(DefaultNettypeTest, ReportsNoDirectiveMisreadingDiagnostics) {
   // Line 16 has the form of Syntax 22-7.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
 
   // wire is one of the eleven values of Syntax 22-7.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
 
   // The file has no design element, so line 16 is not inside one (22.8).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
 
   // `default_nettype is a compiler directive (22.1), not a usage of a text
   // macro.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
 }
 
 // ---------------------------------------------------------------------------

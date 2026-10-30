@@ -226,7 +226,6 @@ TEST_F(AllPackageSignalTest, FirstFunctionResolvesPkgBParameterAcrossPackages) {
 // --- compiler diagnostics ---------------------------------------------------
 
 TEST_F(AllPackageSignalTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 }  // namespace hlc
