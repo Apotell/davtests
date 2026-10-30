@@ -12,12 +12,9 @@ COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -nobuiltin -tim
 [INF:PA5502] Parsing source file "$Source01/common.v".
 [INF:PA5502] Parsing source file "$Source01/issue_00095/top.v".
 [INF:PA5502] Parsing source file "$Source01/issue_00095/testbench.v".
-[SNT:PA5508] $Source01/issue_00095/top.v:1:21: Syntax error: missing ';' at '=',
+[SNT:PA5508] $Source01/issue_00095/top.v:1:21: Syntax error: mismatched input '=' expecting ';',
              module top(b);inout b=0==c;assign c=^K;assign c=9^k;integer c#0;endmodule
                                   ^-- $Source01/issue_00095/top.v:1:21:.
-[SNT:PA5508] $Source01/issue_00095/top.v:1:22: Syntax error: mismatched input '0' expecting {POUND_POUND_DELAY, POUND_ONESTEP, POUND_DELAY, 'type', 'local', 'super', '{', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', DOLLAR_UNIT, '#', ''', 'this', DOLLAR_ROOT, 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
-             module top(b);inout b=0==c;assign c=^K;assign c=9^k;integer c#0;endmodule
-                                   ^-- $Source01/issue_00095/top.v:1:22:.
 [SNT:PA5508] $Source01/issue_00095/top.v:1:61: Syntax error: extraneous input '#0' expecting ';',
              module top(b);inout b=0==c;assign c=^K;assign c=9^k;integer c#0;endmodule
                                                                           ^-- $Source01/issue_00095/top.v:1:61:.
@@ -720,15 +717,15 @@ n<$Source01/issue_00095/testbench.v> u<146> t<Top_level_rule> c<1> l<1:1> el<23:
         n<> u<142> t<ENDMODULE> p<143> l<22:1> el<22:10>
 AST_DEBUG_END
 AST_DEBUG_BEGIN
-Count: 91
+Count: 86
 LIB: work
 FILE<0>:$Source01/issue_00095/top.v
-n<$Source01/issue_00095/top.v> u<90> t<Top_level_rule> c<1> l<1:1> el<2:1>
-  n<> u<1> t<Null_rule> p<90> s<89> l<1:1>
-  n<> u<89> t<Source_text> p<90> c<88> l<1:1> el<1:74>
-    n<> u<88> t<Description> p<89> c<87> l<1:1> el<1:74>
-      n<> u<87> t<Module_declaration> p<88> c<12> l<1:1> el<1:74>
-        n<> u<12> t<Module_nonansi_header> p<87> c<2> s<19> l<1:1> el<1:15>
+n<$Source01/issue_00095/top.v> u<85> t<Top_level_rule> c<1> l<1:1> el<2:1>
+  n<> u<1> t<Null_rule> p<85> s<84> l<1:1>
+  n<> u<84> t<Source_text> p<85> c<83> l<1:1> el<1:74>
+    n<> u<83> t<Description> p<84> c<82> l<1:1> el<1:74>
+      n<> u<82> t<Module_declaration> p<83> c<12> l<1:1> el<1:74>
+        n<> u<12> t<Module_nonansi_header> p<82> c<2> s<19> l<1:1> el<1:15>
           n<module> u<2> t<MODULE> p<12> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<12> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<12> s<11> l<1:11> el<1:11>
@@ -739,80 +736,75 @@ n<$Source01/issue_00095/top.v> u<90> t<Top_level_rule> c<1> l<1:1> el<2:1>
                   n<b> u<5> t<SIMPLE_IDENTIFIER> p<8> s<7> l<1:12> el<1:13>
                   n<> u<7> t<Constant_select> p<8> c<6> l<1:13> el<1:13>
                     n<> u<6> t<Constant_bit_select> p<7> l<1:13> el<1:13>
-        n<> u<19> t<Module_item> p<87> c<18> s<24> l<1:15> el<1:22>
+        n<> u<19> t<Module_item> p<82> c<18> s<20> l<1:15> el<1:26>
           n<> u<18> t<Port_declaration> p<19> c<17> l<1:15> el<1:22>
             n<> u<17> t<Inout_declaration> p<18> c<14> l<1:15> el<1:22>
               n<> u<14> t<Net_port_type> p<17> c<13> s<16> l<1:21> el<1:21>
                 n<> u<13> t<Data_type_or_implicit> p<14> l<1:21> el<1:21>
               n<> u<16> t<Port_identifier_list> p<17> c<15> l<1:21> el<1:22>
                 n<b> u<15> t<SIMPLE_IDENTIFIER> p<16> l<1:21> el<1:22>
-        n<> u<24> t<Module_item> p<87> c<23> s<25> l<1:22> el<1:26>
-          n<> u<23> t<Non_port_module_item> p<24> c<22> l<1:22> el<1:26>
-            n<> u<22> t<Module_or_generate_item> p<23> c<21> l<1:22> el<1:26>
-              n<> u<21> t<Module_common_item> p<22> c<20> l<1:22> el<1:26>
-                n<> u<20> t<Continuous_assign> p<21> l<1:22> el<1:26>
-        n<> u<25> t<Module_item> p<87> s<26> l<1:26> el<1:26>
-        n<> u<26> t<Module_item> p<87> s<32> l<1:26> el<1:27>
-        n<> u<32> t<Module_item> p<87> c<31> s<50> l<1:27> el<1:28>
-          n<> u<31> t<Non_port_module_item> p<32> c<30> l<1:27> el<1:28>
-            n<> u<30> t<Module_or_generate_item> p<31> c<29> l<1:27> el<1:28>
-              n<> u<29> t<Module_common_item> p<30> c<28> l<1:27> el<1:28>
-                n<> u<28> t<Module_or_generate_item_declaration> p<29> c<27> l<1:27> el<1:28>
-                  n<> u<27> t<Package_or_generate_item_declaration> p<28> l<1:27> el<1:28>
-        n<> u<50> t<Module_item> p<87> c<49> s<72> l<1:28> el<1:40>
-          n<> u<49> t<Non_port_module_item> p<50> c<48> l<1:28> el<1:40>
-            n<> u<48> t<Module_or_generate_item> p<49> c<47> l<1:28> el<1:40>
-              n<> u<47> t<Module_common_item> p<48> c<46> l<1:28> el<1:40>
-                n<> u<46> t<Continuous_assign> p<47> c<45> l<1:28> el<1:40>
-                  n<> u<45> t<Net_assignment_list> p<46> c<44> l<1:35> el<1:39>
-                    n<> u<44> t<Net_assignment> p<45> c<37> l<1:35> el<1:39>
-                      n<> u<37> t<Net_lvalue> p<44> c<34> s<43> l<1:35> el<1:36>
-                        n<> u<34> t<Ps_or_hierarchical_identifier> p<37> c<33> s<36> l<1:35> el<1:36>
-                          n<c> u<33> t<SIMPLE_IDENTIFIER> p<34> l<1:35> el<1:36>
-                        n<> u<36> t<Constant_select> p<37> c<35> l<1:36> el<1:36>
-                          n<> u<35> t<Constant_bit_select> p<36> l<1:36> el<1:36>
-                      n<> u<43> t<Expression> p<44> c<42> l<1:37> el<1:39>
-                        n<> u<42> t<UnaryOp_BitwXor> p<43> s<41> l<1:37> el<1:38>
-                        n<> u<41> t<Expression> p<43> c<40> l<1:38> el<1:39>
-                          n<> u<40> t<Primary> p<41> c<39> l<1:38> el<1:39>
-                            n<> u<39> t<Primary_literal> p<40> c<38> l<1:38> el<1:39>
-                              n<K> u<38> t<SIMPLE_IDENTIFIER> p<39> l<1:38> el<1:39>
-        n<> u<72> t<Module_item> p<87> c<71> s<85> l<1:40> el<1:53>
-          n<> u<71> t<Non_port_module_item> p<72> c<70> l<1:40> el<1:53>
-            n<> u<70> t<Module_or_generate_item> p<71> c<69> l<1:40> el<1:53>
-              n<> u<69> t<Module_common_item> p<70> c<68> l<1:40> el<1:53>
-                n<> u<68> t<Continuous_assign> p<69> c<67> l<1:40> el<1:53>
-                  n<> u<67> t<Net_assignment_list> p<68> c<66> l<1:47> el<1:52>
-                    n<> u<66> t<Net_assignment> p<67> c<55> l<1:47> el<1:52>
-                      n<> u<55> t<Net_lvalue> p<66> c<52> s<65> l<1:47> el<1:48>
-                        n<> u<52> t<Ps_or_hierarchical_identifier> p<55> c<51> s<54> l<1:47> el<1:48>
-                          n<c> u<51> t<SIMPLE_IDENTIFIER> p<52> l<1:47> el<1:48>
-                        n<> u<54> t<Constant_select> p<55> c<53> l<1:48> el<1:48>
-                          n<> u<53> t<Constant_bit_select> p<54> l<1:48> el<1:48>
-                      n<> u<65> t<Expression> p<66> c<59> l<1:49> el<1:52>
-                        n<> u<59> t<Expression> p<65> c<58> s<64> l<1:49> el<1:50>
-                          n<> u<58> t<Primary> p<59> c<57> l<1:49> el<1:50>
-                            n<> u<57> t<Primary_literal> p<58> c<56> l<1:49> el<1:50>
-                              n<9> u<56> t<INTEGRAL_NUMBER> p<57> l<1:49> el<1:50>
-                        n<> u<64> t<BinaryOp_BitwXor> p<65> s<63> l<1:50> el<1:51>
-                        n<> u<63> t<Expression> p<65> c<62> l<1:51> el<1:52>
-                          n<> u<62> t<Primary> p<63> c<61> l<1:51> el<1:52>
-                            n<> u<61> t<Primary_literal> p<62> c<60> l<1:51> el<1:52>
-                              n<k> u<60> t<SIMPLE_IDENTIFIER> p<61> l<1:51> el<1:52>
-        n<> u<85> t<Module_item> p<87> c<84> s<86> l<1:53> el<1:65>
-          n<> u<84> t<Non_port_module_item> p<85> c<83> l<1:53> el<1:65>
-            n<> u<83> t<Module_or_generate_item> p<84> c<82> l<1:53> el<1:65>
-              n<> u<82> t<Module_common_item> p<83> c<81> l<1:53> el<1:65>
-                n<> u<81> t<Module_or_generate_item_declaration> p<82> c<80> l<1:53> el<1:65>
-                  n<> u<80> t<Package_or_generate_item_declaration> p<81> c<79> l<1:53> el<1:65>
-                    n<> u<79> t<Data_declaration> p<80> c<78> l<1:53> el<1:65>
-                      n<> u<78> t<Variable_declaration> p<79> c<74> l<1:53> el<1:65>
-                        n<> u<74> t<Data_type> p<78> c<73> s<77> l<1:53> el<1:60>
-                          n<> u<73> t<INTEGER> p<74> l<1:53> el<1:60>
-                        n<> u<77> t<Variable_decl_assignment_list> p<78> c<76> l<1:61> el<1:62>
-                          n<> u<76> t<Variable_decl_assignment> p<77> c<75> l<1:61> el<1:62>
-                            n<c> u<75> t<SIMPLE_IDENTIFIER> p<76> l<1:61> el<1:62>
-        n<> u<86> t<ENDMODULE> p<87> l<1:65> el<1:74>
+        n<> u<20> t<Module_item> p<82> s<21> l<1:26> el<1:26>
+        n<> u<21> t<Module_item> p<82> s<27> l<1:26> el<1:27>
+        n<> u<27> t<Module_item> p<82> c<26> s<45> l<1:27> el<1:28>
+          n<> u<26> t<Non_port_module_item> p<27> c<25> l<1:27> el<1:28>
+            n<> u<25> t<Module_or_generate_item> p<26> c<24> l<1:27> el<1:28>
+              n<> u<24> t<Module_common_item> p<25> c<23> l<1:27> el<1:28>
+                n<> u<23> t<Module_or_generate_item_declaration> p<24> c<22> l<1:27> el<1:28>
+                  n<> u<22> t<Package_or_generate_item_declaration> p<23> l<1:27> el<1:28>
+        n<> u<45> t<Module_item> p<82> c<44> s<67> l<1:28> el<1:40>
+          n<> u<44> t<Non_port_module_item> p<45> c<43> l<1:28> el<1:40>
+            n<> u<43> t<Module_or_generate_item> p<44> c<42> l<1:28> el<1:40>
+              n<> u<42> t<Module_common_item> p<43> c<41> l<1:28> el<1:40>
+                n<> u<41> t<Continuous_assign> p<42> c<40> l<1:28> el<1:40>
+                  n<> u<40> t<Net_assignment_list> p<41> c<39> l<1:35> el<1:39>
+                    n<> u<39> t<Net_assignment> p<40> c<32> l<1:35> el<1:39>
+                      n<> u<32> t<Net_lvalue> p<39> c<29> s<38> l<1:35> el<1:36>
+                        n<> u<29> t<Ps_or_hierarchical_identifier> p<32> c<28> s<31> l<1:35> el<1:36>
+                          n<c> u<28> t<SIMPLE_IDENTIFIER> p<29> l<1:35> el<1:36>
+                        n<> u<31> t<Constant_select> p<32> c<30> l<1:36> el<1:36>
+                          n<> u<30> t<Constant_bit_select> p<31> l<1:36> el<1:36>
+                      n<> u<38> t<Expression> p<39> c<37> l<1:37> el<1:39>
+                        n<> u<37> t<UnaryOp_BitwXor> p<38> s<36> l<1:37> el<1:38>
+                        n<> u<36> t<Expression> p<38> c<35> l<1:38> el<1:39>
+                          n<> u<35> t<Primary> p<36> c<34> l<1:38> el<1:39>
+                            n<> u<34> t<Primary_literal> p<35> c<33> l<1:38> el<1:39>
+                              n<K> u<33> t<SIMPLE_IDENTIFIER> p<34> l<1:38> el<1:39>
+        n<> u<67> t<Module_item> p<82> c<66> s<80> l<1:40> el<1:53>
+          n<> u<66> t<Non_port_module_item> p<67> c<65> l<1:40> el<1:53>
+            n<> u<65> t<Module_or_generate_item> p<66> c<64> l<1:40> el<1:53>
+              n<> u<64> t<Module_common_item> p<65> c<63> l<1:40> el<1:53>
+                n<> u<63> t<Continuous_assign> p<64> c<62> l<1:40> el<1:53>
+                  n<> u<62> t<Net_assignment_list> p<63> c<61> l<1:47> el<1:52>
+                    n<> u<61> t<Net_assignment> p<62> c<50> l<1:47> el<1:52>
+                      n<> u<50> t<Net_lvalue> p<61> c<47> s<60> l<1:47> el<1:48>
+                        n<> u<47> t<Ps_or_hierarchical_identifier> p<50> c<46> s<49> l<1:47> el<1:48>
+                          n<c> u<46> t<SIMPLE_IDENTIFIER> p<47> l<1:47> el<1:48>
+                        n<> u<49> t<Constant_select> p<50> c<48> l<1:48> el<1:48>
+                          n<> u<48> t<Constant_bit_select> p<49> l<1:48> el<1:48>
+                      n<> u<60> t<Expression> p<61> c<54> l<1:49> el<1:52>
+                        n<> u<54> t<Expression> p<60> c<53> s<59> l<1:49> el<1:50>
+                          n<> u<53> t<Primary> p<54> c<52> l<1:49> el<1:50>
+                            n<> u<52> t<Primary_literal> p<53> c<51> l<1:49> el<1:50>
+                              n<9> u<51> t<INTEGRAL_NUMBER> p<52> l<1:49> el<1:50>
+                        n<> u<59> t<BinaryOp_BitwXor> p<60> s<58> l<1:50> el<1:51>
+                        n<> u<58> t<Expression> p<60> c<57> l<1:51> el<1:52>
+                          n<> u<57> t<Primary> p<58> c<56> l<1:51> el<1:52>
+                            n<> u<56> t<Primary_literal> p<57> c<55> l<1:51> el<1:52>
+                              n<k> u<55> t<SIMPLE_IDENTIFIER> p<56> l<1:51> el<1:52>
+        n<> u<80> t<Module_item> p<82> c<79> s<81> l<1:53> el<1:65>
+          n<> u<79> t<Non_port_module_item> p<80> c<78> l<1:53> el<1:65>
+            n<> u<78> t<Module_or_generate_item> p<79> c<77> l<1:53> el<1:65>
+              n<> u<77> t<Module_common_item> p<78> c<76> l<1:53> el<1:65>
+                n<> u<76> t<Module_or_generate_item_declaration> p<77> c<75> l<1:53> el<1:65>
+                  n<> u<75> t<Package_or_generate_item_declaration> p<76> c<74> l<1:53> el<1:65>
+                    n<> u<74> t<Data_declaration> p<75> c<73> l<1:53> el<1:65>
+                      n<> u<73> t<Variable_declaration> p<74> c<69> l<1:53> el<1:65>
+                        n<> u<69> t<Data_type> p<73> c<68> s<72> l<1:53> el<1:60>
+                          n<> u<68> t<INTEGER> p<69> l<1:53> el<1:60>
+                        n<> u<72> t<Variable_decl_assignment_list> p<73> c<71> l<1:61> el<1:62>
+                          n<> u<71> t<Variable_decl_assignment> p<72> c<70> l<1:61> el<1:62>
+                            n<c> u<70> t<SIMPLE_IDENTIFIER> p<71> l<1:61> el<1:62>
+        n<> u<81> t<ENDMODULE> p<82> l<1:65> el<1:74>
 AST_DEBUG_END
 [INF:CP5804] $Source01/common.v:1:1: Compile module "assert_dff".
 [INF:CP5804] $Source01/common.v:13:1: Compile module "assert_tri".
@@ -852,6 +844,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: assert_dff
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/common.v"
+      vpiDefLineNo: 1
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:18:
@@ -865,6 +859,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: clk
           vpiFullName: assert_dff.clk
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
@@ -874,6 +869,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: test
           vpiFullName: assert_dff.test
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:test
@@ -883,6 +879,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: pat
           vpiFullName: assert_dff.pat
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:pat
@@ -1024,6 +1021,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: assert_tri
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/common.v"
+      vpiDefLineNo: 13
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:13:8 end:13:18:
@@ -1037,6 +1036,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: en
           vpiFullName: assert_tri.en
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:en
@@ -1046,6 +1046,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: A
           vpiFullName: assert_tri.A
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:A
@@ -1055,6 +1056,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: B
           vpiFullName: assert_tri.B
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:B
@@ -1221,6 +1223,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: assert_Z
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/common.v"
+      vpiDefLineNo: 25
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:25:8 end:25:16:
@@ -1234,6 +1238,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_Z
           vpiName: clk
           vpiFullName: assert_Z.clk
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
@@ -1243,6 +1248,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_Z
           vpiName: A
           vpiFullName: assert_Z.A
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:A
@@ -1380,6 +1386,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: assert_X
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/common.v"
+      vpiDefLineNo: 37
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:37:8 end:37:16:
@@ -1393,6 +1401,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_X
           vpiName: clk
           vpiFullName: assert_X.clk
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
@@ -1402,6 +1411,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_X
           vpiName: A
           vpiFullName: assert_X.A
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:A
@@ -1542,6 +1552,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: assert_comb
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/common.v"
+      vpiDefLineNo: 49
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:49:8 end:49:19:
@@ -1555,6 +1567,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_comb
           vpiName: A
           vpiFullName: assert_comb.A
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:A
@@ -1564,6 +1577,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_comb
           vpiName: B
           vpiFullName: assert_comb.B
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:B
@@ -1722,6 +1736,7 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: top.c
           vpiRandType: (1)
+          vpiVisibility: public (1)
           vpiTypespec RefTypespec start:1:53 end:1:60:
             vpiParent: Variable name:c
             vpiFullName: top.c
@@ -1735,6 +1750,8 @@ Design name:unnamed:
           vpiSigned: true
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/issue_00095/top.v"
+      vpiDefLineNo: 1
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:11:
@@ -1748,6 +1765,7 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: b
           vpiFullName: top.b
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:b
@@ -1771,6 +1789,8 @@ Design name:unnamed:
       vpiContAssign (2 items):
         ContAssign start:1:35 end:1:39:
           vpiParent: Module name:top
+          vpiStrength0: strong (64)
+          vpiStrength1: strong (64)
           vpiLhs RefObj name:c start:1:35 end:1:36:
             vpiParent: ContAssign
             vpiName: c
@@ -1786,6 +1806,8 @@ Design name:unnamed:
                 vpiFullName: top.K
         ContAssign start:1:47 end:1:52:
           vpiParent: Module name:top
+          vpiStrength0: strong (64)
+          vpiStrength1: strong (64)
           vpiLhs RefObj name:c start:1:47 end:1:48:
             vpiParent: ContAssign
             vpiName: c
@@ -1819,6 +1841,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: testbench.clk
           vpiRandType: (1)
+          vpiVisibility: public (1)
           vpiTypespec RefTypespec start:2:5 end:2:8:
             vpiParent: Variable name:clk
             vpiFullName: testbench.clk
@@ -1829,6 +1852,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: testbench
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/issue_00095/testbench.v"
+      vpiDefLineNo: 1
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:17:
@@ -2046,7 +2071,7 @@ Design name:unnamed:
       vpiName: work
 ===================
 [  FATAL] : 0
-[ SYNTAX] : 3
+[ SYNTAX] : 2
 [  ERROR] : 1
 [WARNING] : 2
 [   NOTE] : 0

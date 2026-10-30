@@ -12,12 +12,9 @@ COMMAND: -wd ../../../../../tests/YosysTests/regression -writepp -nobuiltin -tim
 [INF:PA5502] Parsing source file "$Source01/common.v".
 [INF:PA5502] Parsing source file "$Source01/issue_00093/top.v".
 [INF:PA5502] Parsing source file "$Source01/issue_00093/testbench.v".
-[SNT:PA5508] $Source01/issue_00093/top.v:1:34: Syntax error: mismatched input '+' expecting {POUND_POUND_DELAY, POUND_ONESTEP, POUND_DELAY, '(', 'type', 'local', '{', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', DOLLAR_UNIT, '#', ''', 'this', DOLLAR_ROOT, 'randomize', 'sample', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER},
+[SNT:PA5508] $Source01/issue_00093/top.v:1:34: Syntax error: no viable alternative at input 'assign+',
              module top(b);inout b;reg c;assign+0-c=b;endmodule
                                                ^-- $Source01/issue_00093/top.v:1:34:.
-[SNT:PA5508] $Source01/issue_00093/top.v:1:40: Syntax error: mismatched input ';' expecting '=',
-             module top(b);inout b;reg c;assign+0-c=b;endmodule
-                                                     ^-- $Source01/issue_00093/top.v:1:40:.
 AST_DEBUG_BEGIN
 Count: 543
 LIB: work
@@ -717,15 +714,15 @@ n<$Source01/issue_00093/testbench.v> u<146> t<Top_level_rule> c<1> l<1:1> el<23:
         n<> u<142> t<ENDMODULE> p<143> l<22:1> el<22:10>
 AST_DEBUG_END
 AST_DEBUG_BEGIN
-Count: 57
+Count: 58
 LIB: work
 FILE<0>:$Source01/issue_00093/top.v
-n<$Source01/issue_00093/top.v> u<56> t<Top_level_rule> c<1> l<1:1> el<3:1>
-  n<> u<1> t<Null_rule> p<56> s<55> l<1:1>
-  n<> u<55> t<Source_text> p<56> c<54> l<1:1> el<1:51>
-    n<> u<54> t<Description> p<55> c<53> l<1:1> el<1:51>
-      n<> u<53> t<Module_declaration> p<54> c<12> l<1:1> el<1:51>
-        n<> u<12> t<Module_nonansi_header> p<53> c<2> s<19> l<1:1> el<1:15>
+n<$Source01/issue_00093/top.v> u<57> t<Top_level_rule> c<1> l<1:1> el<3:1>
+  n<> u<1> t<Null_rule> p<57> s<56> l<1:1>
+  n<> u<56> t<Source_text> p<57> c<55> l<1:1> el<1:51>
+    n<> u<55> t<Description> p<56> c<54> l<1:1> el<1:51>
+      n<> u<54> t<Module_declaration> p<55> c<12> l<1:1> el<1:51>
+        n<> u<12> t<Module_nonansi_header> p<54> c<2> s<19> l<1:1> el<1:15>
           n<module> u<2> t<MODULE> p<12> s<3> l<1:1> el<1:7>
           n<top> u<3> t<SIMPLE_IDENTIFIER> p<12> s<4> l<1:8> el<1:11>
           n<> u<4> t<Package_import_declaration_list> p<12> s<11> l<1:11> el<1:11>
@@ -736,14 +733,14 @@ n<$Source01/issue_00093/top.v> u<56> t<Top_level_rule> c<1> l<1:1> el<3:1>
                   n<b> u<5> t<SIMPLE_IDENTIFIER> p<8> s<7> l<1:12> el<1:13>
                   n<> u<7> t<Constant_select> p<8> c<6> l<1:13> el<1:13>
                     n<> u<6> t<Constant_bit_select> p<7> l<1:13> el<1:13>
-        n<> u<19> t<Module_item> p<53> c<18> s<32> l<1:15> el<1:23>
+        n<> u<19> t<Module_item> p<54> c<18> s<32> l<1:15> el<1:23>
           n<> u<18> t<Port_declaration> p<19> c<17> l<1:15> el<1:22>
             n<> u<17> t<Inout_declaration> p<18> c<14> l<1:15> el<1:22>
               n<> u<14> t<Net_port_type> p<17> c<13> s<16> l<1:21> el<1:21>
                 n<> u<13> t<Data_type_or_implicit> p<14> l<1:21> el<1:21>
               n<> u<16> t<Port_identifier_list> p<17> c<15> l<1:21> el<1:22>
                 n<b> u<15> t<SIMPLE_IDENTIFIER> p<16> l<1:21> el<1:22>
-        n<> u<32> t<Module_item> p<53> c<31> s<37> l<1:23> el<1:29>
+        n<> u<32> t<Module_item> p<54> c<31> s<37> l<1:23> el<1:29>
           n<> u<31> t<Non_port_module_item> p<32> c<30> l<1:23> el<1:29>
             n<> u<30> t<Module_or_generate_item> p<31> c<29> l<1:23> el<1:29>
               n<> u<29> t<Module_common_item> p<30> c<28> l<1:23> el<1:29>
@@ -756,26 +753,27 @@ n<$Source01/issue_00093/top.v> u<56> t<Top_level_rule> c<1> l<1:1> el<3:1>
                         n<> u<24> t<Variable_decl_assignment_list> p<25> c<23> l<1:27> el<1:28>
                           n<> u<23> t<Variable_decl_assignment> p<24> c<22> l<1:27> el<1:28>
                             n<c> u<22> t<SIMPLE_IDENTIFIER> p<23> l<1:27> el<1:28>
-        n<> u<37> t<Module_item> p<53> c<36> s<38> l<1:29> el<1:38>
-          n<> u<36> t<Non_port_module_item> p<37> c<35> l<1:29> el<1:38>
-            n<> u<35> t<Module_or_generate_item> p<36> c<34> l<1:29> el<1:38>
-              n<> u<34> t<Module_common_item> p<35> c<33> l<1:29> el<1:38>
-                n<> u<33> t<Continuous_assign> p<34> l<1:29> el<1:38>
-        n<> u<38> t<Module_item> p<53> s<39> l<1:38> el<1:38>
-        n<> u<39> t<Module_item> p<53> s<51> l<1:38> el<1:39>
-        n<> u<51> t<Module_item> p<53> c<50> s<52> l<1:39> el<1:42>
-          n<> u<50> t<Non_port_module_item> p<51> c<49> l<1:39> el<1:42>
-            n<> u<49> t<Module_or_generate_item> p<50> c<48> l<1:39> el<1:42>
-              n<> u<48> t<Module_common_item> p<49> c<47> l<1:39> el<1:42>
-                n<> u<47> t<Continuous_assign> p<48> c<46> l<1:39> el<1:42>
-                  n<> u<46> t<Variable_assignment_list> p<47> c<45> l<1:40> el<1:41>
-                    n<> u<45> t<Variable_assignment> p<46> c<44> l<1:40> el<1:41>
-                      n<> u<44> t<Variable_lvalue> p<45> c<41> l<1:40> el<1:41>
-                        n<> u<41> t<Ps_or_hierarchical_identifier> p<44> c<40> s<43> l<1:40> el<1:41>
-                          n<b> u<40> t<SIMPLE_IDENTIFIER> p<41> l<1:40> el<1:41>
-                        n<> u<43> t<Select> p<44> c<42> l<1:41> el<1:41>
-                          n<> u<42> t<Bit_select> p<43> l<1:41> el<1:41>
-        n<> u<52> t<ENDMODULE> p<53> l<1:42> el<1:51>
+        n<> u<37> t<Module_item> p<54> c<36> s<42> l<1:29> el<1:29>
+          n<> u<36> t<Non_port_module_item> p<37> c<35> l<1:29> el<1:29>
+            n<> u<35> t<Module_or_generate_item> p<36> c<34> l<1:29> el<1:29>
+              n<> u<34> t<Module_common_item> p<35> c<33> l<1:29> el<1:29>
+                n<> u<33> t<Continuous_assign> p<34> l<1:29> el<1:29>
+        n<> u<42> t<Module_item> p<54> c<41> s<43> l<1:29> el<1:38>
+          n<> u<41> t<Non_port_module_item> p<42> c<40> l<1:29> el<1:38>
+            n<> u<40> t<Module_or_generate_item> p<41> c<39> l<1:29> el<1:38>
+              n<> u<39> t<Module_common_item> p<40> c<38> l<1:29> el<1:38>
+                n<> u<38> t<Continuous_assign> p<39> l<1:29> el<1:38>
+        n<> u<43> t<Module_item> p<54> s<44> l<1:38> el<1:38>
+        n<> u<44> t<Module_item> p<54> s<45> l<1:38> el<1:40>
+        n<> u<45> t<Module_item> p<54> s<46> l<1:40> el<1:40>
+        n<> u<46> t<Module_item> p<54> s<52> l<1:40> el<1:41>
+        n<> u<52> t<Module_item> p<54> c<51> s<53> l<1:41> el<1:42>
+          n<> u<51> t<Non_port_module_item> p<52> c<50> l<1:41> el<1:42>
+            n<> u<50> t<Module_or_generate_item> p<51> c<49> l<1:41> el<1:42>
+              n<> u<49> t<Module_common_item> p<50> c<48> l<1:41> el<1:42>
+                n<> u<48> t<Module_or_generate_item_declaration> p<49> c<47> l<1:41> el<1:42>
+                  n<> u<47> t<Package_or_generate_item_declaration> p<48> l<1:41> el<1:42>
+        n<> u<53> t<ENDMODULE> p<54> l<1:42> el<1:51>
 AST_DEBUG_END
 [INF:CP5804] $Source01/common.v:1:1: Compile module "assert_dff".
 [INF:CP5804] $Source01/common.v:13:1: Compile module "assert_tri".
@@ -783,9 +781,7 @@ AST_DEBUG_END
 [INF:CP5804] $Source01/common.v:37:1: Compile module "assert_X".
 [INF:CP5804] $Source01/common.v:49:1: Compile module "assert_comb".
 [INF:CP5804] $Source01/issue_00093/top.v:1:1: Compile module "top".
-[ERR:LN7713] $Source01/issue_00093/top.v:1:1: Found 1 orphan node(s).
 [INF:CP5804] $Source01/issue_00093/testbench.v:1:1: Compile module "testbench".
-[ERR:LN7714] Found 1 weak node(s).
 [INF:CM5028] Using global timescale: "1ns/1ns".
 ====== HLDB =======
 Design name:unnamed:
@@ -814,6 +810,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: assert_dff
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/common.v"
+      vpiDefLineNo: 1
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:18:
@@ -827,6 +825,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: clk
           vpiFullName: assert_dff.clk
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
@@ -836,6 +835,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: test
           vpiFullName: assert_dff.test
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:test
@@ -845,6 +845,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_dff
           vpiName: pat
           vpiFullName: assert_dff.pat
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:pat
@@ -986,6 +987,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: assert_tri
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/common.v"
+      vpiDefLineNo: 13
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:13:8 end:13:18:
@@ -999,6 +1002,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: en
           vpiFullName: assert_tri.en
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:en
@@ -1008,6 +1012,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: A
           vpiFullName: assert_tri.A
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:A
@@ -1017,6 +1022,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_tri
           vpiName: B
           vpiFullName: assert_tri.B
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:B
@@ -1183,6 +1189,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: assert_Z
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/common.v"
+      vpiDefLineNo: 25
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:25:8 end:25:16:
@@ -1196,6 +1204,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_Z
           vpiName: clk
           vpiFullName: assert_Z.clk
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
@@ -1205,6 +1214,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_Z
           vpiName: A
           vpiFullName: assert_Z.A
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:A
@@ -1342,6 +1352,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: assert_X
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/common.v"
+      vpiDefLineNo: 37
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:37:8 end:37:16:
@@ -1355,6 +1367,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_X
           vpiName: clk
           vpiFullName: assert_X.clk
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:clk
@@ -1364,6 +1377,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_X
           vpiName: A
           vpiFullName: assert_X.A
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:A
@@ -1504,6 +1518,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: assert_comb
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/common.v"
+      vpiDefLineNo: 49
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:49:8 end:49:19:
@@ -1517,6 +1533,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_comb
           vpiName: A
           vpiFullName: assert_comb.A
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:A
@@ -1526,6 +1543,7 @@ Design name:unnamed:
           vpiParent: Module name:assert_comb
           vpiName: B
           vpiFullName: assert_comb.B
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:B
@@ -1684,6 +1702,7 @@ Design name:unnamed:
           vpiName: c
           vpiFullName: top.c
           vpiRandType: (1)
+          vpiVisibility: public (1)
           vpiTypespec RefTypespec start:1:23 end:1:26:
             vpiParent: Variable name:c
             vpiFullName: top.c
@@ -1694,6 +1713,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: top
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/issue_00093/top.v"
+      vpiDefLineNo: 1
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:11:
@@ -1707,6 +1728,7 @@ Design name:unnamed:
           vpiParent: Module name:top
           vpiName: b
           vpiFullName: top.b
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:b
@@ -1737,6 +1759,7 @@ Design name:unnamed:
           vpiName: clk
           vpiFullName: testbench.clk
           vpiRandType: (1)
+          vpiVisibility: public (1)
           vpiTypespec RefTypespec start:2:5 end:2:8:
             vpiParent: Variable name:clk
             vpiFullName: testbench.clk
@@ -1747,6 +1770,8 @@ Design name:unnamed:
           vpiScalar: true
       vpiDefName: testbench
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/issue_00093/testbench.v"
+      vpiDefLineNo: 1
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:1:8 end:1:17:
@@ -1964,8 +1989,8 @@ Design name:unnamed:
       vpiName: work
 ===================
 [  FATAL] : 0
-[ SYNTAX] : 2
-[  ERROR] : 2
+[ SYNTAX] : 1
+[  ERROR] : 0
 [WARNING] : 0
 [   NOTE] : 0
 ********************************************************************************

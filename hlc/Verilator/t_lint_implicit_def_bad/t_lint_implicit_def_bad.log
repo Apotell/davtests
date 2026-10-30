@@ -9,7 +9,7 @@ COMMAND: -wd ../../../tests/Verilator +incdir+. -nobuiltin -timescale=1ns/1ns -d
 [INF:PP5223] Preprocessing source file "$Source01/t_lint_implicit_def_bad.v".
 [ERR:PP5221] $Source01/t_lint_implicit_def_bad.v:21:1: Illegal directive in design element "`resetall".
 [INF:PA5502] Parsing source file "$Source01/t_lint_implicit_def_bad.v".
-[SNT:PA5508] $Source01/t_lint_implicit_def_bad.v:14: Syntax error: extraneous input '`default_nettype' expecting {';', 'default', 'module', 'endmodule', 'extern', 'macromodule', 'interface', 'program', 'virtual', 'class', 'timeunit', 'timeprecision', 'checker', 'type', 'input', 'output', 'inout', 'ref', 'clocking', 'defparam', 'bind', 'const', 'function', 'static', 'constraint', 'if', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'genvar', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', '$', 'export', DOLLAR_UNIT, '(*', 'assert', 'property', 'assume', 'cover', 'not', 'or', 'and', 'sequence', 'covergroup', 'pulldown', 'pullup', 'cmos', 'rcmos', 'bufif0', 'bufif1', 'notif0', 'notif1', 'nmos', 'pmos', 'rnmos', 'rpmos', 'nand', 'nor', 'xor', 'xnor', 'buf', 'tranif0', 'tranif1', 'rtranif1', 'rtranif0', 'tran', 'rtran', 'generate', 'case', 'for', 'global', 'initial', 'assign', 'alias', 'always', 'always_comb', 'always_latch', 'always_ff', 'restrict', 'let', 'this', DOLLAR_ROOT, 'randomize', 'final', 'task', 'specify', 'sample', '=', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, '`pragma', HLC_MACRO_NOT_DEFINED},
+[SNT:PA5508] $Source01/t_lint_implicit_def_bad.v:14: Syntax error: extraneous input '`default_nettype' expecting {';', 'default', 'module', 'endmodule', 'extern', 'macromodule', 'interface', 'program', 'virtual', 'class', 'timeunit', 'timeprecision', 'checker', 'type', 'input', 'output', 'inout', 'ref', 'clocking', 'defparam', 'bind', 'const', 'function', 'static', 'constraint', 'if', 'automatic', 'localparam', 'parameter', 'specparam', 'import', 'genvar', 'typedef', 'enum', 'struct', 'union', 'string', 'chandle', 'event', '[', 'byte', 'shortint', 'int', 'longint', 'integer', 'time', 'bit', 'logic', 'reg', 'shortreal', 'real', 'realtime', 'none', 'supply0', 'supply1', 'tri', 'triand', 'trior', 'tri0', 'tri1', 'wire', 'uwire', 'wand', 'wor', 'trireg', 'signed', 'unsigned', 'interconnect', 'var', '$', 'export', DOLLAR_UNIT, '(*', 'assert', 'property', 'assume', 'cover', 'not', 'or', 'and', 'sequence', 'covergroup', 'pulldown', 'pullup', 'cmos', 'rcmos', 'bufif0', 'bufif1', 'notif0', 'notif1', 'nmos', 'pmos', 'rnmos', 'rpmos', 'nand', 'nor', 'xor', 'xnor', 'buf', 'tranif0', 'tranif1', 'rtranif1', 'rtranif0', 'tran', 'rtran', 'generate', 'case', 'for', 'global', 'initial', 'assign', 'alias', 'always', 'always_comb', 'always_latch', 'always_ff', 'restrict', 'let', 'this', DOLLAR_ROOT, 'randomize', 'final', 'task', 'specify', 'sample', 'nettype', ESCAPED_IDENTIFIER, SIMPLE_IDENTIFIER, '`pragma', HLC_MACRO_NOT_DEFINED},
              `default_nettype none
              ^-- $Source01/t_lint_implicit_def_bad.v:14:0:.
 [SNT:PA5508] $Source01/t_lint_implicit_def_bad.v:15:3: Syntax error: mismatched input 'assign' expecting <EOF>,
@@ -131,6 +131,8 @@ Design name:unnamed:
           vpiParent: Module name:t
       vpiDefName: t
       vpiDefNetType: wire (1)
+      vpiDefFile: "$Source01/t_lint_implicit_def_bad.v"
+      vpiDefLineNo: 6
       vpiDefDelayMode: none (1)
       vpiUnconnDrive: highz (1)
       vpiLibrary RefObj name:work start:6:8 end:6:9:
@@ -144,6 +146,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: a
           vpiFullName: t.a
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:a
@@ -153,6 +156,7 @@ Design name:unnamed:
           vpiParent: Module name:t
           vpiName: z
           vpiFullName: t.z
+          vpiConstantSelect: true
           vpiNetType: wire (1)
           vpiTypespec RefTypespec:
             vpiParent: Net name:z
@@ -191,6 +195,8 @@ Design name:unnamed:
       vpiContAssign (2 items):
         ContAssign start:10:11 end:10:26:
           vpiParent: Module name:t
+          vpiStrength0: strong (64)
+          vpiStrength1: strong (64)
           vpiLhs RefObj name:imp_warn start:10:11 end:10:19:
             vpiParent: ContAssign
             vpiName: imp_warn
@@ -207,6 +213,8 @@ Design name:unnamed:
               vpiActual: BitTypespec
         ContAssign start:12:11 end:12:24:
           vpiParent: Module name:t
+          vpiStrength0: strong (64)
+          vpiStrength1: strong (64)
           vpiLhs RefObj name:imp_ok start:12:11 end:12:17:
             vpiParent: ContAssign
             vpiName: imp_ok
