@@ -66,15 +66,16 @@
 //
 // HLDB tree (HLC current output -- reflects the known gap above, not spec):
 //   * The HLDB represents the entire parenthesized form as an Operation with
-//     opType vpiListOp (37), with all items packed as operands:
-//       operand[0]: Constant decompile:"1"       -- seq expr
-//       operand[1]: Assignment (blocking=true)   -- x=0 (should be rejected)
-//                     getLhs<RefObj>() -> name:"x" -> Variable name:"x"
-//                     getRhs<Constant>() -> decompile:"0"
-//       operand[2]: Operation opType:post_inc (vpiPostIncOp=64)  -- x++ (should be rejected)
-//                     operand[0]: RefObj name:"x" -> Variable name:"x"
-//       operand[3]: FuncCall name:"inc"           -- inc() (legal)
-//                     getTaskFunc<Function>() must link to Function name:"inc"
+//     opType vpiListOp (37). The sequence expression is its only operand; the
+//     match items are reached through vpiMatchItem (ss.37.54), not vpiOperand:
+//       operand[0]:    Constant decompile:"1"       -- seq expr
+//       matchItem[0]:  Assignment (blocking=true)   -- x=0 (should be rejected)
+//                        getLhs<RefObj>() -> name:"x" -> Variable name:"x"
+//                        getRhs<Constant>() -> decompile:"0"
+//       matchItem[1]:  Operation opType:post_inc (vpiPostIncOp=64)  -- x++ (should be rejected)
+//                        operand[0]: RefObj name:"x" -> Variable name:"x"
+//       matchItem[2]:  FuncCall name:"inc"           -- inc() (legal)
+//                        getTaskFunc<Function>() must link to Function name:"inc"
 //   * RefObj name bindings (x -> Variable) happen at compile time.
 //   * FuncCall->Function name binding also happens at compile time.
 //
@@ -90,12 +91,12 @@
 //   |   +-- SequenceDecl name:"seq14"
 //   |         vpiExpr: Operation opType:list (vpiListOp = 37)
 //   |           operand[0]: Constant decompile:"1"
-//   |           operand[1]: Assignment (blocking=true)
+//   |           vpiMatchItem[0]: Assignment (blocking=true)
 //   |             getLhs<RefObj>() name:"x" -> Variable name:"x"
 //   |             getRhs<Constant>() decompile:"0"
-//   |           operand[2]: Operation opType:post_inc (vpiPostIncOp = 64)
+//   |           vpiMatchItem[1]: Operation opType:post_inc (vpiPostIncOp = 64)
 //   |             operand[0]: RefObj name:"x" -> Variable name:"x"
-//   |           operand[3]: FuncCall name:"inc"
+//   |           vpiMatchItem[2]: FuncCall name:"inc"
 //   |             getTaskFunc<Function>() -> Function name:"inc"
 //   +-- getConcurrentAssertions() (1 item)
 //       +-- Assert
@@ -164,25 +165,27 @@ static const hldb::Operation *getListOp(const hldb::Module *m) {
   return s14->getExpr<hldb::Operation>();
 }
 
-// Returns operand[1] of the list as an Assignment node, or nullptr.
+// ss.37.54: the match items are reached through vpiMatchItem, in source order.
+
+// Returns match item [0] ('x=0') as an Assignment node, or nullptr.
 static const hldb::Assignment *getAssignment(const hldb::Module *m) {
   const hldb::Operation *op = getListOp(m);
-  if (!op || !op->getOperands() || op->getOperands()->size() < 2) return nullptr;
-  return any_cast<hldb::Assignment>((*op->getOperands())[1]);
+  if (!op || !op->getMatchItems() || op->getMatchItems()->size() < 1) return nullptr;
+  return any_cast<hldb::Assignment>((*op->getMatchItems())[0]);
 }
 
-// Returns operand[2] of the list as a post-increment Operation, or nullptr.
+// Returns match item [1] ('x++') as a post-increment Operation, or nullptr.
 static const hldb::Operation *getPostIncOp(const hldb::Module *m) {
   const hldb::Operation *op = getListOp(m);
-  if (!op || !op->getOperands() || op->getOperands()->size() < 3) return nullptr;
-  return any_cast<hldb::Operation>((*op->getOperands())[2]);
+  if (!op || !op->getMatchItems() || op->getMatchItems()->size() < 2) return nullptr;
+  return any_cast<hldb::Operation>((*op->getMatchItems())[1]);
 }
 
-// Returns operand[3] of the list as a FuncCall node, or nullptr.
+// Returns match item [2] ('inc()') as a FuncCall node, or nullptr.
 static const hldb::MethodFuncCall *getMethodFuncCall(const hldb::Module *m) {
   const hldb::Operation *op = getListOp(m);
-  if (!op || !op->getOperands() || op->getOperands()->size() < 4) return nullptr;
-  return any_cast<hldb::MethodFuncCall>((*op->getOperands())[3]);
+  if (!op || !op->getMatchItems() || op->getMatchItems()->size() < 3) return nullptr;
+  return any_cast<hldb::MethodFuncCall>((*op->getMatchItems())[2]);
 }
 
 // ===========================================================================
@@ -217,15 +220,15 @@ TEST_F(Sequence14Test, Seq14_MatchItems_OnlyModifyLocalVars) {
   bool hasLocalVars = (s14->getVariables() != nullptr && !s14->getVariables()->empty());
 
   const hldb::Operation *op = getListOp(m);
-  if (!op || !op->getOperands()) return;
+  if (!op || !op->getMatchItems()) return;
 
-  for (uint32_t i = 0; i < op->getOperands()->size(); ++i) {
-    const hldb::Any *operand = (*op->getOperands())[i];
+  for (uint32_t i = 0; i < op->getMatchItems()->size(); ++i) {
+    const hldb::Any *operand = (*op->getMatchItems())[i];
 
     // Assignment match item (e.g. 'x=0')
     if (const hldb::Assignment *asgn = any_cast<hldb::Assignment>(operand)) {
       if (!hasLocalVars) {
-        ADD_FAILURE() << "ss.16.10: operand[" << i
+        ADD_FAILURE() << "ss.16.10: match item[" << i
                       << "]: Assignment found in the "
                          "match item list but seq14 has no local sequence variables -- "
                          "HLC accepted 'x=0' silently; only 'var'-declared local "
@@ -234,7 +237,7 @@ TEST_F(Sequence14Test, Seq14_MatchItems_OnlyModifyLocalVars) {
         const hldb::RefObj *lhs = asgn->getLhs<hldb::RefObj>();
         if (lhs) {
           EXPECT_EQ(lhs->getActual<hldb::Variable>(), nullptr)
-              << "ss.16.10: operand[" << i << "]: assignment to '" << lhs->getName()
+              << "ss.16.10: match item[" << i << "]: assignment to '" << lhs->getName()
               << "' targets a module-level variable -- "
                  "only local sequence variables may be assigned";
         }
@@ -246,7 +249,7 @@ TEST_F(Sequence14Test, Seq14_MatchItems_OnlyModifyLocalVars) {
       int32_t opType = inner->getOpType();
       if (opType == vpiPostIncOp || opType == vpiPreIncOp || opType == vpiPostDecOp || opType == vpiPreDecOp) {
         if (!hasLocalVars) {
-          ADD_FAILURE() << "ss.16.10: operand[" << i
+          ADD_FAILURE() << "ss.16.10: match item[" << i
                         << "]: inc/dec expression found "
                            "in the match item list but seq14 has no local sequence "
                            "variables -- HLC accepted 'x++' silently; only "
@@ -256,7 +259,7 @@ TEST_F(Sequence14Test, Seq14_MatchItems_OnlyModifyLocalVars) {
             const hldb::RefObj *ref = any_cast<hldb::RefObj>((*inner->getOperands())[0]);
             if (ref) {
               EXPECT_EQ(ref->getActual<hldb::Variable>(), nullptr)
-                  << "ss.16.10: operand[" << i << "]: inc/dec on '" << ref->getName()
+                  << "ss.16.10: match item[" << i << "]: inc/dec on '" << ref->getName()
                   << "' targets a module-level variable -- "
                      "only local sequence variables may be modified";
             }
@@ -317,15 +320,25 @@ TEST_F(Sequence14Test, Seq14_Expr_IsListOperation) {
   EXPECT_EQ(op->getOpType(), vpiListOp) << "ss.16.10: '(1, x=0, x++, inc())' must have opType vpiListOp (37)";
 }
 
-// ss.16.10: one sequence expression plus three match items = four operands.
-TEST_F(Sequence14Test, Seq14_List_HasFourOperands) {
+// ss.16.10 / ss.37.54: one sequence expression (the only operand) plus three
+// match items (reached through vpiMatchItem).
+TEST_F(Sequence14Test, Seq14_List_HasOneOperand) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::Operation *op = getListOp(m);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 4u) << "ss.16.10: '(1, x=0, x++, inc())' must produce 4 operands: "
-                                              "seq_expr + 3 match items";
+  EXPECT_EQ(op->getOperands()->size(), 1u) << "ss.37.54: '(1, x=0, x++, inc())' must have one operand: "
+                                              "the seq_expr";
+}
+
+TEST_F(Sequence14Test, Seq14_List_HasThreeMatchItems) {
+  const hldb::Module *m = getTb(m_design);
+  ASSERT_NE(m, nullptr);
+  const hldb::Operation *op = getListOp(m);
+  ASSERT_NE(op, nullptr);
+  ASSERT_NE(op->getMatchItems(), nullptr) << "ss.37.54: match items must be reached through vpiMatchItem";
+  EXPECT_EQ(op->getMatchItems()->size(), 3u) << "ss.16.10: '(1, x=0, x++, inc())' has 3 match items";
 }
 
 // ===========================================================================
@@ -359,16 +372,16 @@ TEST_F(Sequence14Test, Seq14_List_Operand0_ValueIsOne) {
 }
 
 // ===========================================================================
-// operand[1]: match item 'x=0' (blocking Assignment)
+// vpiMatchItem[0]: match item 'x=0' (blocking Assignment)
 // ===========================================================================
 
-// ss.16.10: operand[1] is the first match item -- a blocking operator
+// ss.16.10: match item [0] is the first match item -- a blocking operator
 // assignment 'x=0', represented as an Assignment node.
-TEST_F(Sequence14Test, Seq14_List_Operand1_IsBlockingAssignment) {
+TEST_F(Sequence14Test, Seq14_MatchItem0_IsBlockingAssignment) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::Assignment *asgn = getAssignment(m);
-  EXPECT_NE(asgn, nullptr) << "ss.16.10: operand[1] must be an Assignment node (match item 'x=0')";
+  EXPECT_NE(asgn, nullptr) << "ss.16.10: match item [0] must be an Assignment node (match item 'x=0')";
 }
 
 TEST_F(Sequence14Test, Seq14_Assignment_IsBlocking) {
@@ -423,16 +436,16 @@ TEST_F(Sequence14Test, Seq14_Assignment_Rhs_ValueIsZero) {
 }
 
 // ===========================================================================
-// operand[2]: match item 'x++' (post-increment Operation)
+// vpiMatchItem[1]: match item 'x++' (post-increment Operation)
 // ===========================================================================
 
-// ss.16.10: operand[2] is the second match item -- post-increment 'x++',
+// ss.16.10: match item [1] is the second match item -- post-increment 'x++',
 // represented as an Operation with opType vpiPostIncOp (64).
-TEST_F(Sequence14Test, Seq14_List_Operand2_IsPostIncrementOperation) {
+TEST_F(Sequence14Test, Seq14_MatchItem1_IsPostIncrementOperation) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::Operation *postInc = getPostIncOp(m);
-  ASSERT_NE(postInc, nullptr) << "ss.16.10: operand[2] must be an Operation (match item 'x++')";
+  ASSERT_NE(postInc, nullptr) << "ss.16.10: match item [1] must be an Operation (match item 'x++')";
   EXPECT_EQ(postInc->getOpType(), vpiPostIncOp) << "ss.16.10: 'x++' must have opType vpiPostIncOp (64)";
 }
 
@@ -474,16 +487,16 @@ TEST_F(Sequence14Test, Seq14_PostIncrement_Operand_ResolvesToNet) {
 }
 
 // ===========================================================================
-// operand[3]: match item 'inc()' (FuncCall)
+// vpiMatchItem[2]: match item 'inc()' (FuncCall)
 // ===========================================================================
 
-// ss.16.10: operand[3] is the third match item -- subroutine call 'inc()',
+// ss.16.10: match item [2] is the third match item -- subroutine call 'inc()',
 // represented as a FuncCall node.
-TEST_F(Sequence14Test, Seq14_List_Operand3_IsMethodFuncCall) {
+TEST_F(Sequence14Test, Seq14_MatchItem2_IsMethodFuncCall) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::MethodFuncCall *mfc = getMethodFuncCall(m);
-  EXPECT_NE(mfc, nullptr) << "ss.16.10: operand[3] must be a FuncCall node (match item 'inc()')";
+  EXPECT_NE(mfc, nullptr) << "ss.16.10: match item [2] must be a FuncCall node (match item 'inc()')";
 }
 
 TEST_F(Sequence14Test, Seq14_FuncCall_NameIsInc) {

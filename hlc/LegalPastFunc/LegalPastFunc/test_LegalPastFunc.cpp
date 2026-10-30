@@ -111,7 +111,8 @@ class LegalPastFuncTest : public Test {
     ASSERT_NE(delay, nullptr);
     EXPECT_EQ(delay->getOpType(), vpiCycleDelayOp) << "16.9.2: 'a ##1 b' is a binary cycle delay";
     ASSERT_NE(delay->getOperands(), nullptr);
-    ASSERT_EQ(delay->getOperands()->size(), 3u) << "lhs sequence, delay amount, rhs sequence";
+    // 37.54 detail 3: vpiCycleDelayOp operands are lhs sequence, rhs sequence, then the delay.
+    ASSERT_EQ(delay->getOperands()->size(), 3u) << "lhs sequence, rhs sequence, delay amount";
 
     const hldb::SysFuncCall *const rose = any_cast<hldb::SysFuncCall>(delay->getOperands()->at(0));
     ASSERT_NE(rose, nullptr) << "'$rose(req)' must be a system function call";
@@ -123,11 +124,11 @@ class LegalPastFuncTest : public Test {
     ASSERT_NE(roseArg, nullptr);
     EXPECT_EQ(roseArg->getName(), "req");
 
-    const hldb::Constant *const amount = any_cast<hldb::Constant>(delay->getOperands()->at(1));
+    const hldb::Constant *const amount = any_cast<hldb::Constant>(delay->getOperands()->at(2));
     ASSERT_NE(amount, nullptr) << "'##1' delay amount must be a Constant";
     EXPECT_EQ(amount->getValue(), "1");
 
-    const hldb::SysFuncCall *const past = any_cast<hldb::SysFuncCall>(delay->getOperands()->at(2));
+    const hldb::SysFuncCall *const past = any_cast<hldb::SysFuncCall>(delay->getOperands()->at(1));
     ASSERT_NE(past, nullptr) << "'$past(...)' must be a system function call";
     EXPECT_EQ(past->getName(), "$past");
     ASSERT_NE(past->getArguments(), nullptr);

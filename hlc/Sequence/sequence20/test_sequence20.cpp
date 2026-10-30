@@ -24,15 +24,19 @@
 //
 // ss.16.7 rules:
 //   'a ##[*] b' is shorthand for 'a ##[0:$] b' -- b occurs after zero or
-//   more clock cycles following a. Operator is vpiCycleDelayOp (71) with
-//   3 operands: [RefObj(a), Range(lo=0, hi=$), RefObj(b)].
+//   more clock cycles following a. Operator is vpiCycleDelayOp (71).
 //
 //   'a ##[+] b' is shorthand for 'a ##[1:$] b' -- b occurs after one or
-//   more clock cycles following a. Same structure with Range(lo=1, hi=$).
+//   more clock cycles following a.
 //
-// Compile-stage: both 'a ##[*] b' and 'a ##[+] b' correctly desugar to
-// vpiCycleDelayOp with a Range(lo,$) delay operand, and both sequence names
-// in 'assert property' resolve correctly to their SequenceDecl nodes.
+// ss.37.54 detail 3: vpiCycleDelayOp operands are the lhs sequence, the rhs
+// sequence, the left range, then the right range (given because it differs
+// from the left). So both forms have 4 operands:
+//   a ##[*] b  ->  [RefObj(a), RefObj(b), Const(0), Const($)]
+//   a ##[+] b  ->  [RefObj(a), RefObj(b), Const(1), Const($)]
+//
+// Compile-stage: both sequence names in 'assert property' resolve correctly
+// to their SequenceDecl nodes.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -171,15 +175,15 @@ TEST_F(Sequence20Test, SeqDelayStar_ExprIsCycleDelayOp) {
       << "ss.16.7: 'a ##[*] b' must use vpiCycleDelayOp (71)";
 }
 
-TEST_F(Sequence20Test, SeqDelayStar_Op_HasThreeOperands) {
+TEST_F(Sequence20Test, SeqDelayStar_Op_HasFourOperands) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::Operation *const op = getCycleDelayOp(tb, "seq_delay_star");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "ss.16.7: 'a ##[*] b' must have 3 operands: "
-         "[RefObj(a), Range(0,$), RefObj(b)]";
+  EXPECT_EQ(op->getOperands()->size(), 4u)
+      << "ss.37.54: 'a ##[*] b' must have 4 operands: "
+         "[RefObj(a), RefObj(b), Const(0), Const($)]";
 }
 
 TEST_F(Sequence20Test, SeqDelayStar_Op_Operand0_IsRefObjA) {
@@ -196,65 +200,48 @@ TEST_F(Sequence20Test, SeqDelayStar_Op_Operand0_IsRefObjA) {
       << "ss.16.7: 'a ##[*] b' left operand must reference signal 'a'";
 }
 
-TEST_F(Sequence20Test, SeqDelayStar_Op_DelayOperand_IsRange) {
-  // ss.16.7: '##[*]' desugars to '##[0:$]'; the delay operand must be a
-  // Range node.
+TEST_F(Sequence20Test, SeqDelayStar_Op_Operand1_IsRefObjB) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::Operation *const op = getCycleDelayOp(tb, "seq_delay_star");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  EXPECT_NE(any_cast<const hldb::Range *>((*op->getOperands())[1]), nullptr)
-      << "ss.16.7: 'a ##[*] b' delay slot must be a Range(0,$)";
+  const hldb::RefObj *const ref =
+      any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
+  ASSERT_NE(ref, nullptr);
+  EXPECT_EQ(ref->getName(), "b")
+      << "ss.37.54: 'a ##[*] b' rhs sequence (operands[1]) must reference signal 'b'";
 }
 
-TEST_F(Sequence20Test, SeqDelayStar_Op_DelayRange_LowerBound_IsZero) {
-  // ss.16.7: '##[*]' = '##[0:$]' -- lower bound must be 0.
-  const hldb::Module *const tb = getTb(m_design);
-  ASSERT_NE(tb, nullptr);
-  const hldb::Operation *const op = getCycleDelayOp(tb, "seq_delay_star");
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr) << "delay operand must be a Range";
-  const hldb::Constant *const lo = range->getLeftExpr<hldb::Constant>();
-  ASSERT_NE(lo, nullptr);
-  EXPECT_EQ(std::string(lo->getDecompile()), "0")
-      << "ss.16.7: '##[*]' lower bound must be 0 (zero or more cycles)";
-}
-
-TEST_F(Sequence20Test, SeqDelayStar_Op_DelayRange_UpperBound_IsUnbounded) {
-  // ss.16.7: '##[*]' upper bound must be '$' (unbounded).
-  const hldb::Module *const tb = getTb(m_design);
-  ASSERT_NE(tb, nullptr);
-  const hldb::Operation *const op = getCycleDelayOp(tb, "seq_delay_star");
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr) << "delay operand must be a Range";
-  const hldb::Constant *const hi = range->getRightExpr<hldb::Constant>();
-  ASSERT_NE(hi, nullptr);
-  EXPECT_EQ(hi->getConstType(), vpiUnboundedConst)
-      << "ss.16.7: '##[*]' upper bound must be '$' (vpiUnboundedConst=11)";
-}
-
-TEST_F(Sequence20Test, SeqDelayStar_Op_Operand2_IsRefObjB) {
+TEST_F(Sequence20Test, SeqDelayStar_Op_LeftRange_IsZero) {
+  // ss.16.7: '##[*]' = '##[0:$]' -- left range (operands[2]) must be 0.
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::Operation *const op = getCycleDelayOp(tb, "seq_delay_star");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 3u);
-  const hldb::RefObj *const ref =
-      any_cast<const hldb::RefObj *>((*op->getOperands())[2]);
-  ASSERT_NE(ref, nullptr);
-  EXPECT_EQ(ref->getName(), "b")
-      << "ss.16.7: 'a ##[*] b' right operand must reference signal 'b'";
+  const hldb::Constant *const lo =
+      any_cast<const hldb::Constant *>((*op->getOperands())[2]);
+  ASSERT_NE(lo, nullptr) << "left range must be a Constant";
+  EXPECT_EQ(std::string(lo->getDecompile()), "0")
+      << "ss.16.7: '##[*]' lower bound must be 0 (zero or more cycles)";
+}
+
+TEST_F(Sequence20Test, SeqDelayStar_Op_RightRange_IsUnbounded) {
+  // ss.16.7: '##[*]' right range (operands[3]) must be '$' (unbounded).
+  const hldb::Module *const tb = getTb(m_design);
+  ASSERT_NE(tb, nullptr);
+  const hldb::Operation *const op = getCycleDelayOp(tb, "seq_delay_star");
+  ASSERT_NE(op, nullptr);
+  ASSERT_NE(op->getOperands(), nullptr);
+  ASSERT_GE(op->getOperands()->size(), 4u);
+  const hldb::Constant *const hi =
+      any_cast<const hldb::Constant *>((*op->getOperands())[3]);
+  ASSERT_NE(hi, nullptr) << "right range must be a Constant";
+  EXPECT_EQ(hi->getConstType(), vpiUnboundedConst)
+      << "ss.16.7: '##[*]' upper bound must be '$' (vpiUnboundedConst=11)";
 }
 
 // ===========================================================================
@@ -270,16 +257,15 @@ TEST_F(Sequence20Test, SeqDelayPlus_ExprIsCycleDelayOp) {
       << "ss.16.7: 'a ##[+] b' must use vpiCycleDelayOp (71)";
 }
 
-TEST_F(Sequence20Test, SeqDelayPlus_Op_HasThreeOperands) {
-  // ss.16.7: 'a ##[+] b' must have 3 operands: [RefObj(a), Range(1,$), RefObj(b)].
+TEST_F(Sequence20Test, SeqDelayPlus_Op_HasFourOperands) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::Operation *const op = getCycleDelayOp(tb, "seq_delay_plus");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "ss.16.7: 'a ##[+] b' must have 3 operands: "
-         "[RefObj(a), Range(1,$), RefObj(b)]";
+  EXPECT_EQ(op->getOperands()->size(), 4u)
+      << "ss.37.54: 'a ##[+] b' must have 4 operands: "
+         "[RefObj(a), RefObj(b), Const(1), Const($)]";
 }
 
 TEST_F(Sequence20Test, SeqDelayPlus_Op_Operand0_IsRefObjA) {
@@ -296,50 +282,46 @@ TEST_F(Sequence20Test, SeqDelayPlus_Op_Operand0_IsRefObjA) {
       << "ss.16.7: 'a ##[+] b' left operand must reference signal 'a'";
 }
 
-TEST_F(Sequence20Test, SeqDelayPlus_Op_DelayOperand_IsRange) {
-  // ss.16.7: '##[+]' desugars to '##[1:$]'; operands[1] must be a Range.
-  const hldb::Module *const tb = getTb(m_design);
-  ASSERT_NE(tb, nullptr);
-  const hldb::Operation *const op = getCycleDelayOp(tb, "seq_delay_plus");
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u)
-      << "delay operand missing: only "
-      << op->getOperands()->size() << " operands present";
-  EXPECT_NE(any_cast<const hldb::Range *>((*op->getOperands())[1]), nullptr)
-      << "ss.16.7: 'a ##[+] b' delay slot (operands[1]) must be a Range(1,$)";
-}
-
-TEST_F(Sequence20Test, SeqDelayPlus_Op_DelayRange_LowerBound_IsOne) {
-  // ss.16.7: '##[+]' = '##[1:$]' -- lower bound must be 1, not 0.
-  // If the compiler stored 0, it would conflate '##[+]' with '##[*]'.
+TEST_F(Sequence20Test, SeqDelayPlus_Op_Operand1_IsRefObjB) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::Operation *const op = getCycleDelayOp(tb, "seq_delay_plus");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr) << "delay operand must be a Range";
-  const hldb::Constant *const lo = range->getLeftExpr<hldb::Constant>();
-  ASSERT_NE(lo, nullptr);
+  const hldb::RefObj *const ref =
+      any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
+  ASSERT_NE(ref, nullptr);
+  EXPECT_EQ(ref->getName(), "b")
+      << "ss.37.54: 'a ##[+] b' rhs sequence (operands[1]) must reference signal 'b'";
+}
+
+TEST_F(Sequence20Test, SeqDelayPlus_Op_LeftRange_IsOne) {
+  // ss.16.7: '##[+]' = '##[1:$]' -- left range (operands[2]) must be 1.
+  const hldb::Module *const tb = getTb(m_design);
+  ASSERT_NE(tb, nullptr);
+  const hldb::Operation *const op = getCycleDelayOp(tb, "seq_delay_plus");
+  ASSERT_NE(op, nullptr);
+  ASSERT_NE(op->getOperands(), nullptr);
+  ASSERT_GE(op->getOperands()->size(), 3u);
+  const hldb::Constant *const lo =
+      any_cast<const hldb::Constant *>((*op->getOperands())[2]);
+  ASSERT_NE(lo, nullptr) << "left range must be a Constant";
   EXPECT_EQ(std::string(lo->getDecompile()), "1")
       << "ss.16.7: '##[+]' lower bound must be 1 (one or more cycles)";
 }
 
-TEST_F(Sequence20Test, SeqDelayPlus_Op_DelayRange_UpperBound_IsUnbounded) {
+TEST_F(Sequence20Test, SeqDelayPlus_Op_RightRange_IsUnbounded) {
+  // ss.16.7: '##[+]' right range (operands[3]) must be '$' (unbounded).
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::Operation *const op = getCycleDelayOp(tb, "seq_delay_plus");
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr) << "delay operand must be a Range";
-  const hldb::Constant *const hi = range->getRightExpr<hldb::Constant>();
-  ASSERT_NE(hi, nullptr);
+  ASSERT_GE(op->getOperands()->size(), 4u);
+  const hldb::Constant *const hi =
+      any_cast<const hldb::Constant *>((*op->getOperands())[3]);
+  ASSERT_NE(hi, nullptr) << "right range must be a Constant";
   EXPECT_EQ(hi->getConstType(), vpiUnboundedConst)
       << "ss.16.7: '##[+]' upper bound must be '$' (vpiUnboundedConst=11)";
 }

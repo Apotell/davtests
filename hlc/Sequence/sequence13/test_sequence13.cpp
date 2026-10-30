@@ -137,10 +137,11 @@ static const hldb::Operation *getCycleDelayOp(const hldb::Module *m) {
 }
 
 // Returns the Range node at operand[1] of the cycle-delay Operation, or nullptr.
-static const hldb::Range *getRange(const hldb::Module *m) {
+// ss.37.54 detail 3: the left / right range of '##[1:3]' are operands [2] and [3].
+static const hldb::Constant *getRangeBound(const hldb::Module *m, size_t index) {
   const hldb::Operation *cd = getCycleDelayOp(m);
-  if (!cd || !cd->getOperands() || cd->getOperands()->size() < 2) return nullptr;
-  return any_cast<hldb::Range>((*cd->getOperands())[1]);
+  if (!cd || !cd->getOperands() || cd->getOperands()->size() <= index) return nullptr;
+  return any_cast<hldb::Constant>((*cd->getOperands())[index]);
 }
 
 // ===========================================================================
@@ -211,57 +212,22 @@ TEST_F(Sequence13Test, Seq13_Expr_IsCycleDelayOperation) {
 
 // ss.16.9.2: the range form '##[m:n]' between two signals has three operands:
 // start-expression, Range, end-expression.
-TEST_F(Sequence13Test, Seq13_CycleDelay_HasThreeOperands) {
+TEST_F(Sequence13Test, Seq13_CycleDelay_HasFourOperands) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::Operation *op = getCycleDelayOp(m);
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 3u) << "ss.16.9.2: 'a ##[1:3] b' must produce 3 operands: "
-                                              "start-expr, Range, end-expr";
+  EXPECT_EQ(op->getOperands()->size(), 4u) << "ss.37.54 detail 3: 'a ##[1:3] b' must produce 4 operands: "
+                                              "lhs sequence, rhs sequence, left range, right range";
 }
 
 // ===========================================================================
-// operand[0]: start expression 'a'
+// operand[1]: rhs sequence 'b'
 // ===========================================================================
 
-// ss.16.9.2: operand[0] is the start expression 'a' -- a RefObj named "a".
-TEST_F(Sequence13Test, Seq13_CycleDelay_Operand0_IsRefToA) {
-  const hldb::Module *m = getTb(m_design);
-  ASSERT_NE(m, nullptr);
-  const hldb::Operation *op = getCycleDelayOp(m);
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 1u);
-
-  const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*op->getOperands())[0]);
-  ASSERT_NE(op0, nullptr) << "operand[0] must be a RefObj";
-  EXPECT_EQ(op0->getName(), "a") << "ss.16.9.2: start operand of 'a ##[1:3] b' must reference signal 'a'";
-}
-
-// ss.16.9.2: RefObj for 'a' must resolve to Variable name:'a' at compile time.
-TEST_F(Sequence13Test, Seq13_CycleDelay_Operand0_ResolvesToNet) {
-  const hldb::Module *m = getTb(m_design);
-  ASSERT_NE(m, nullptr);
-  const hldb::Operation *op = getCycleDelayOp(m);
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 1u);
-
-  const hldb::RefObj *op0 = any_cast<hldb::RefObj>((*op->getOperands())[0]);
-  ASSERT_NE(op0, nullptr);
-  EXPECT_NE(op0->getActual<hldb::Variable>(), nullptr) << "ss.16.9.2: RefObj for 'a' must resolve to Variable name:'a' at "
-                                                     "compile time";
-}
-
-// ===========================================================================
-// operand[1]: Range [1:3]
-// ===========================================================================
-
-// ss.16.9.2: operand[1] of '##[1:3]' must be a Range node.  This is what
-// distinguishes the range form '##[m:n]' from the fixed form '##N', which
-// uses a Constant node as operand[1].
-TEST_F(Sequence13Test, Seq13_CycleDelay_Operand1_IsRange) {
+// ss.37.54 detail 3: operand[1] is the rhs sequence 'b' -- a RefObj named "b".
+TEST_F(Sequence13Test, Seq13_CycleDelay_Operand1_IsRefToB) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::Operation *op = getCycleDelayOp(m);
@@ -269,64 +235,47 @@ TEST_F(Sequence13Test, Seq13_CycleDelay_Operand1_IsRange) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
 
-  const hldb::Range *r = any_cast<hldb::Range>((*op->getOperands())[1]);
-  EXPECT_NE(r, nullptr) << "ss.16.9.2: operand[1] of '##[1:3]' must be a Range node, "
-                           "not a Constant (which is used for fixed ##N delays)";
+  const hldb::RefObj *op1 = any_cast<hldb::RefObj>((*op->getOperands())[1]);
+  ASSERT_NE(op1, nullptr) << "operand[1] must be a RefObj";
+  EXPECT_EQ(op1->getName(), "b") << "ss.37.54: rhs sequence of 'a ##[1:3] b' must reference signal 'b'";
 }
 
-// ss.16.9.2: the left bound of [1:3] is 1.
-TEST_F(Sequence13Test, Seq13_CycleDelay_Range_LeftBound_IsOne) {
+// ss.16.9.2: RefObj for 'b' must resolve to Variable name:'b' at compile time.
+TEST_F(Sequence13Test, Seq13_CycleDelay_Operand1_ResolvesToNet) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  const hldb::Range *r = getRange(m);
-  ASSERT_NE(r, nullptr) << "Range node not found at operand[1]";
-  const hldb::Constant *lc = r->getLeftExpr<hldb::Constant>();
-  ASSERT_NE(lc, nullptr) << "left bound of Range must be a Constant";
+  const hldb::Operation *op = getCycleDelayOp(m);
+  ASSERT_NE(op, nullptr);
+  ASSERT_NE(op->getOperands(), nullptr);
+  ASSERT_GE(op->getOperands()->size(), 2u);
+
+  const hldb::RefObj *op1 = any_cast<hldb::RefObj>((*op->getOperands())[1]);
+  ASSERT_NE(op1, nullptr);
+  EXPECT_NE(op1->getActual<hldb::Variable>(), nullptr) << "ss.16.9.2: RefObj for 'b' must resolve to Variable name:'b' at "
+                                                     "compile time";
+}
+
+// ===========================================================================
+// operands[2], [3]: left and right range of '##[1:3]'
+// ===========================================================================
+
+// ss.37.54 detail 3: a range delay gives its left and right range as separate
+// operands (not a Range node). The left bound of [1:3] is 1.
+TEST_F(Sequence13Test, Seq13_CycleDelay_LeftRange_IsOne) {
+  const hldb::Module *m = getTb(m_design);
+  ASSERT_NE(m, nullptr);
+  const hldb::Constant *lc = getRangeBound(m, 2);
+  ASSERT_NE(lc, nullptr) << "operand[2] (left range) must be a Constant";
   EXPECT_EQ(lc->getDecompile(), "1") << "ss.16.9.2: left bound of '##[1:3]' must be 1";
 }
 
 // ss.16.9.2: the right bound of [1:3] is 3.
-TEST_F(Sequence13Test, Seq13_CycleDelay_Range_RightBound_IsThree) {
+TEST_F(Sequence13Test, Seq13_CycleDelay_RightRange_IsThree) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
-  const hldb::Range *r = getRange(m);
-  ASSERT_NE(r, nullptr) << "Range node not found at operand[1]";
-  const hldb::Constant *rc = r->getRightExpr<hldb::Constant>();
-  ASSERT_NE(rc, nullptr) << "right bound of Range must be a Constant";
+  const hldb::Constant *rc = getRangeBound(m, 3);
+  ASSERT_NE(rc, nullptr) << "operand[3] (right range) must be a Constant";
   EXPECT_EQ(rc->getDecompile(), "3") << "ss.16.9.2: right bound of '##[1:3]' must be 3";
-}
-
-// ===========================================================================
-// operand[2]: end expression 'b'
-// ===========================================================================
-
-// ss.16.9.2: operand[2] is the end expression 'b' -- a RefObj named "b".
-TEST_F(Sequence13Test, Seq13_CycleDelay_Operand2_IsRefToB) {
-  const hldb::Module *m = getTb(m_design);
-  ASSERT_NE(m, nullptr);
-  const hldb::Operation *op = getCycleDelayOp(m);
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 3u);
-
-  const hldb::RefObj *op2 = any_cast<hldb::RefObj>((*op->getOperands())[2]);
-  ASSERT_NE(op2, nullptr) << "operand[2] must be a RefObj";
-  EXPECT_EQ(op2->getName(), "b") << "ss.16.9.2: end operand of 'a ##[1:3] b' must reference signal 'b'";
-}
-
-// ss.16.9.2: RefObj for 'b' must resolve to Variable name:'b' at compile time.
-TEST_F(Sequence13Test, Seq13_CycleDelay_Operand2_ResolvesToNet) {
-  const hldb::Module *m = getTb(m_design);
-  ASSERT_NE(m, nullptr);
-  const hldb::Operation *op = getCycleDelayOp(m);
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 3u);
-
-  const hldb::RefObj *op2 = any_cast<hldb::RefObj>((*op->getOperands())[2]);
-  ASSERT_NE(op2, nullptr);
-  EXPECT_NE(op2->getActual<hldb::Variable>(), nullptr) << "ss.16.9.2: RefObj for 'b' must resolve to Variable name:'b' at "
-                                                     "compile time";
 }
 
 // ===========================================================================

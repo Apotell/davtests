@@ -44,10 +44,11 @@
 //   * The expression '1' is the sequence body (always matches at any clock tick).
 //   * 'x=0' is a variable_assignment match item -- a blocking assignment.
 //   * 'f()' is a subroutine_call match item -- calls the void function f.
-//   * The compiler must represent this as a list Operation
-//     (vpiOpType = vpiListOp = 37) with three operands:
-//     [0] Constant "1", [1] Assignment (x=0), [2] FuncCall (f).
-//
+//   * The compiler represents this as a list Operation (vpiOpType =
+//     vpiListOp = 37) whose only operand is the sequence expression and whose
+//     match items are reached through vpiMatchItem (ss.37.54):
+//     operand [0] Constant "1"; match items [0] Assignment (x=0), [1] f().
+
 // LRM RESTRICTION (ss.16.10):
 //   "It shall be illegal to use a variable other than a local variable of
 //    the sequence on the left-hand side of an assignment in a sequence match
@@ -74,10 +75,10 @@
 //   |   +-- SequenceDecl name:"seq5"
 //   |         vpiExpr: Operation opType:list (vpiListOp = 37)
 //   |           operand[0]: Constant { decompile:"1" }
-//   |           operand[1]: Assignment (blocking)
+//   |           vpiMatchItem[0]: Assignment (blocking)
 //   |             vpiLhs: RefObj name:"x" -> Variable name:"x"
 //   |             vpiRhs: Constant { decompile:"0" }
-//   |           operand[2]: FuncCall name:"f"
+//   |           vpiMatchItem[1]: FuncCall name:"f"
 //   +-- getConcurrentAssertions() (1 item)
 //       +-- Assert
 //             PropertySpec
@@ -103,6 +104,7 @@
 #include <hldb/property_spec.h>
 #include <hldb/ref_obj.h>
 #include <hldb/sequence_decl.h>
+#include <hldb/sv_vpi_user.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -168,14 +170,15 @@ TEST_F(Sequence5Test, Seq5_MatchItems_OnlyModifyLocalVars) {
   bool hasLocalVars = (s5->getVariables() != nullptr && !s5->getVariables()->empty());
 
   const hldb::Operation *op = s5->getExpr<hldb::Operation>();
-  if (!op || !op->getOperands()) return;
+  if (!op || !op->getMatchItems()) return;
 
-  for (uint32_t i = 0; i < op->getOperands()->size(); ++i) {
-    const hldb::Any *operand = (*op->getOperands())[i];
+  // ss.37.54: the match items are reached through vpiMatchItem.
+  for (uint32_t i = 0; i < op->getMatchItems()->size(); ++i) {
+    const hldb::Any *item = (*op->getMatchItems())[i];
 
-    if (const hldb::Assignment *asgn = any_cast<hldb::Assignment>(operand)) {
+    if (const hldb::Assignment *asgn = any_cast<hldb::Assignment>(item)) {
       if (!hasLocalVars) {
-        ADD_FAILURE() << "ss.16.10: operand[" << i
+        ADD_FAILURE() << "ss.16.10: match item[" << i
                       << "]: Assignment found in the "
                          "match item list but seq5 has no local sequence variables -- "
                          "HLC accepted 'x=0' silently; only 'var'-declared local "
@@ -184,7 +187,7 @@ TEST_F(Sequence5Test, Seq5_MatchItems_OnlyModifyLocalVars) {
         const hldb::RefObj *lhs = asgn->getLhs<hldb::RefObj>();
         if (lhs) {
           EXPECT_EQ(lhs->getActual<hldb::Variable>(), nullptr)
-              << "ss.16.10: operand[" << i << "]: assignment to '" << lhs->getName()
+              << "ss.16.10: match item[" << i << "]: assignment to '" << lhs->getName()
               << "' targets a module-level variable -- "
                  "only local sequence variables may be assigned";
         }
@@ -248,10 +251,11 @@ TEST_F(Sequence5Test, Seq5_Expr_IsMatchItemList) {
   EXPECT_EQ(op->getOpType(), vpiListOp) << "ss.16.9.4: match item form must have opType list (vpiListOp = 37)";
 }
 
-// ss.16.9.4: '(1, x=0, f())' has one sequence expression and two match items,
-// giving three operands total:
-//   [0] Constant(1), [1] Assignment(x=0), [2] FuncCall(f).
-TEST_F(Sequence5Test, Seq5_Expr_HasThreeOperands) {
+// ss.16.9.4 / ss.37.54: '(1, x=0, f())' has one sequence expression and two
+// match items. The sequence expression is the only operand; the match items
+// are reached through vpiMatchItem, not vpiOperand:
+//   operand [0] Constant(1); match items [0] Assignment(x=0), [1] f().
+TEST_F(Sequence5Test, Seq5_Expr_HasOneOperand) {
   const hldb::Module *m = getTb(m_design);
   ASSERT_NE(m, nullptr);
   const hldb::SequenceDecl *s5 = getSeqDecl(m, "seq5");
@@ -259,8 +263,19 @@ TEST_F(Sequence5Test, Seq5_Expr_HasThreeOperands) {
   const hldb::Operation *op = s5->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 3u) << "ss.16.9.4: (1, x=0, f()) must produce 3 operands: "
-                                              "sequence_expr + 2 match items";
+  EXPECT_EQ(op->getOperands()->size(), 1u) << "ss.37.54: (1, x=0, f()) must have exactly one operand, "
+                                              "the sequence expression";
+}
+
+TEST_F(Sequence5Test, Seq5_Expr_HasTwoMatchItems) {
+  const hldb::Module *m = getTb(m_design);
+  ASSERT_NE(m, nullptr);
+  const hldb::SequenceDecl *s5 = getSeqDecl(m, "seq5");
+  ASSERT_NE(s5, nullptr);
+  const hldb::Operation *op = s5->getExpr<hldb::Operation>();
+  ASSERT_NE(op, nullptr);
+  ASSERT_NE(op->getMatchItems(), nullptr) << "ss.37.54: match items must be reached through vpiMatchItem";
+  EXPECT_EQ(op->getMatchItems()->size(), 2u) << "ss.16.9.4: (1, x=0, f()) has 2 match items";
 }
 
 // ss.16.9.4: operand[0] is the sequence expression '1'.  It must be a
@@ -280,7 +295,24 @@ TEST_F(Sequence5Test, Seq5_MatchExpr_IsConstantOne) {
   EXPECT_EQ(std::string(c0->getDecompile()), "1") << "ss.16.9.4: sequence expression '1' must be Constant with value 1";
 }
 
-// ss.16.9.4: operand[2] is the subroutine call match item 'f()'.  It must be
+// ss.16.9.4: match item[0] is the variable_assignment 'x=0' -- an Assignment
+// whose vpiOpType is vpiAssignmentOp (ss.37.64 detail 1: a plain '=').
+TEST_F(Sequence5Test, Seq5_MatchItem_Assignment_Exists) {
+  const hldb::Module *m = getTb(m_design);
+  ASSERT_NE(m, nullptr);
+  const hldb::SequenceDecl *s5 = getSeqDecl(m, "seq5");
+  ASSERT_NE(s5, nullptr);
+  const hldb::Operation *op = s5->getExpr<hldb::Operation>();
+  ASSERT_NE(op, nullptr);
+  ASSERT_NE(op->getMatchItems(), nullptr);
+  ASSERT_GE(op->getMatchItems()->size(), 1u);
+
+  const hldb::Assignment *asgn = any_cast<hldb::Assignment>((*op->getMatchItems())[0]);
+  ASSERT_NE(asgn, nullptr) << "ss.16.9.4: match item 'x=0' must be an Assignment";
+  EXPECT_EQ(asgn->getOpType(), vpiAssignmentOp);
+}
+
+// ss.16.9.4: match item[1] is the subroutine call match item 'f()'.  It must be
 // a FuncCall node (ss.16.9.4: subroutine_call).
 TEST_F(Sequence5Test, Seq5_MatchItem_MethodFuncCall_Exists) {
   const hldb::Module *m = getTb(m_design);
@@ -289,10 +321,10 @@ TEST_F(Sequence5Test, Seq5_MatchItem_MethodFuncCall_Exists) {
   ASSERT_NE(s5, nullptr);
   const hldb::Operation *op = s5->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 3u);
+  ASSERT_NE(op->getMatchItems(), nullptr);
+  ASSERT_GE(op->getMatchItems()->size(), 2u);
 
-  EXPECT_NE(any_cast<hldb::MethodFuncCall>((*op->getOperands())[2]), nullptr)
+  EXPECT_NE(any_cast<hldb::MethodFuncCall>((*op->getMatchItems())[1]), nullptr)
       << "ss.16.9.4: subroutine call match item 'f()' must be a FuncCall";
 }
 
@@ -304,10 +336,10 @@ TEST_F(Sequence5Test, Seq5_MatchItem_MethodFuncCall_NameIsF) {
   ASSERT_NE(s5, nullptr);
   const hldb::Operation *op = s5->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 3u);
+  ASSERT_NE(op->getMatchItems(), nullptr);
+  ASSERT_GE(op->getMatchItems()->size(), 2u);
 
-  const hldb::MethodFuncCall *mfc = any_cast<hldb::MethodFuncCall>((*op->getOperands())[2]);
+  const hldb::MethodFuncCall *mfc = any_cast<hldb::MethodFuncCall>((*op->getMatchItems())[1]);
   ASSERT_NE(mfc, nullptr);
   EXPECT_EQ(mfc->getName(), "f") << "ss.16.9.4: subroutine call match item must name function 'f'";
 }
@@ -323,10 +355,10 @@ TEST_F(Sequence5Test, Seq5_MatchItem_MethodFuncCall_ResolvesToFunction) {
   ASSERT_NE(s5, nullptr);
   const hldb::Operation *op = s5->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 3u);
+  ASSERT_NE(op->getMatchItems(), nullptr);
+  ASSERT_GE(op->getMatchItems()->size(), 2u);
 
-  const hldb::MethodFuncCall *mfc = any_cast<hldb::MethodFuncCall>((*op->getOperands())[2]);
+  const hldb::MethodFuncCall *mfc = any_cast<hldb::MethodFuncCall>((*op->getMatchItems())[1]);
   ASSERT_NE(mfc, nullptr);
   EXPECT_NE(mfc->getTaskFunc<hldb::Function>(), nullptr)
       << "ss.16.9.4: FuncCall for 'f()' in the match item must resolve to "

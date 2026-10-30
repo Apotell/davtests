@@ -25,9 +25,11 @@
 // ss.16.7 rules:
 //   'a ##[m:$] b' denotes a cycle delay of at least m cycles between a and b.
 //   The HLDB must represent this as an Operation with opType vpiCycleDelayOp
-//   (71) and three operands: RefObj(a), Range(2,$), RefObj(b). The lower
-//   bound must be a finite vpiIntConst (7) constant and the upper bound must
-//   be a vpiUnboundedConst (11) constant that decompiles as "$".
+//   (71). Per ss.37.54 detail 3 its operands are the lhs sequence, the rhs
+//   sequence, the left range and the right range -- four operands:
+//   RefObj(a), RefObj(b), Const(2), Const($). The left range must be a finite
+//   vpiIntConst (7) constant and the right range must be a vpiUnboundedConst
+//   (11) constant that decompiles as "$".
 //
 // Compile-stage: 'seq_open' in 'assert property(...)' resolves correctly
 // to SequenceDecl seq_open.
@@ -163,7 +165,7 @@ TEST_F(Sequence24Test, SeqOpen_ExprIsCycleDelayOp) {
       << "ss.16.7: 'a ##[2:$] b' must use vpiCycleDelayOp (71)";
 }
 
-TEST_F(Sequence24Test, SeqOpen_Op_HasThreeOperands) {
+TEST_F(Sequence24Test, SeqOpen_Op_HasFourOperands) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");
@@ -171,9 +173,9 @@ TEST_F(Sequence24Test, SeqOpen_Op_HasThreeOperands) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  EXPECT_EQ(op->getOperands()->size(), 3u)
-      << "ss.16.7: 'a ##[2:$] b' must have 3 operands: "
-         "[RefObj(a), Range(2,$), RefObj(b)]";
+  EXPECT_EQ(op->getOperands()->size(), 4u)
+      << "ss.37.54: 'a ##[2:$] b' must have 4 operands: "
+         "[RefObj(a), RefObj(b), Const(2), Const($)]";
 }
 
 TEST_F(Sequence24Test, SeqOpen_Op_Operand0_IsRefObjA) {
@@ -208,7 +210,7 @@ TEST_F(Sequence24Test, SeqOpen_Op_Operand0_ResolvesToNetA) {
       << "ss.16.7: 'a' in 'a ##[2:$] b' must resolve to Variable 'a'";
 }
 
-TEST_F(Sequence24Test, SeqOpen_Op_Operand1_IsRange) {
+TEST_F(Sequence24Test, SeqOpen_Op_Operand1_IsRefObjB) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");
@@ -217,13 +219,14 @@ TEST_F(Sequence24Test, SeqOpen_Op_Operand1_IsRange) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  EXPECT_NE(range, nullptr)
-      << "ss.16.7: operands[1] of 'a ##[2:$] b' must be a Range(2,$)";
+  const hldb::RefObj *const ref =
+      any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
+  ASSERT_NE(ref, nullptr);
+  EXPECT_EQ(ref->getName(), "b")
+      << "ss.37.54: operands[1] (rhs sequence) of 'a ##[2:$] b' must be a RefObj named 'b'";
 }
 
-TEST_F(Sequence24Test, SeqOpen_Op_Range_LowerBound_IsConstant) {
+TEST_F(Sequence24Test, SeqOpen_Op_Operand1_ResolvesToNetB) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");
@@ -232,14 +235,14 @@ TEST_F(Sequence24Test, SeqOpen_Op_Range_LowerBound_IsConstant) {
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr);
-  EXPECT_NE(range->getLeftExpr<hldb::Constant>(), nullptr)
-      << "ss.16.7: lower bound of Range must be a Constant";
+  const hldb::RefObj *const ref =
+      any_cast<const hldb::RefObj *>((*op->getOperands())[1]);
+  ASSERT_NE(ref, nullptr);
+  EXPECT_NE(ref->getActual<hldb::Variable>(), nullptr)
+      << "ss.16.7: 'b' in 'a ##[2:$] b' must resolve to Variable 'b'";
 }
 
-TEST_F(Sequence24Test, SeqOpen_Op_Range_LowerBound_ValueIsTwo) {
+TEST_F(Sequence24Test, SeqOpen_Op_LeftRange_IsConstant) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");
@@ -247,17 +250,27 @@ TEST_F(Sequence24Test, SeqOpen_Op_Range_LowerBound_ValueIsTwo) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const lb = range->getLeftExpr<hldb::Constant>();
+  ASSERT_GE(op->getOperands()->size(), 3u);
+  EXPECT_NE(any_cast<const hldb::Constant *>((*op->getOperands())[2]), nullptr)
+      << "ss.37.54: operands[2] (left range) of 'a ##[2:$] b' must be a Constant";
+}
+
+TEST_F(Sequence24Test, SeqOpen_Op_LeftRange_ValueIsTwo) {
+  const hldb::Module *const tb = getTb(m_design);
+  ASSERT_NE(tb, nullptr);
+  const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");
+  ASSERT_NE(seq, nullptr);
+  const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
+  ASSERT_NE(op, nullptr);
+  ASSERT_NE(op->getOperands(), nullptr);
+  ASSERT_GE(op->getOperands()->size(), 3u);
+  const hldb::Constant *const lb = any_cast<const hldb::Constant *>((*op->getOperands())[2]);
   ASSERT_NE(lb, nullptr);
   EXPECT_EQ(std::string(lb->getDecompile()), "2")
       << "ss.16.7: lower bound of '##[2:$]' must decompile to \"2\"";
 }
 
-TEST_F(Sequence24Test, SeqOpen_Op_Range_LowerBound_ConstType_IsInt) {
+TEST_F(Sequence24Test, SeqOpen_Op_LeftRange_ConstType_IsInt) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");
@@ -265,17 +278,14 @@ TEST_F(Sequence24Test, SeqOpen_Op_Range_LowerBound_ConstType_IsInt) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const lb = range->getLeftExpr<hldb::Constant>();
+  ASSERT_GE(op->getOperands()->size(), 3u);
+  const hldb::Constant *const lb = any_cast<const hldb::Constant *>((*op->getOperands())[2]);
   ASSERT_NE(lb, nullptr);
   EXPECT_EQ(lb->getConstType(), vpiIntConst)
       << "ss.16.7: finite lower bound must be vpiIntConst";
 }
 
-TEST_F(Sequence24Test, SeqOpen_Op_Range_UpperBound_IsConstant) {
+TEST_F(Sequence24Test, SeqOpen_Op_RightRange_IsConstant) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");
@@ -283,15 +293,12 @@ TEST_F(Sequence24Test, SeqOpen_Op_Range_UpperBound_IsConstant) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr);
-  EXPECT_NE(range->getRightExpr<hldb::Constant>(), nullptr)
-      << "ss.16.7: upper bound of Range must be a Constant";
+  ASSERT_GE(op->getOperands()->size(), 4u);
+  EXPECT_NE(any_cast<const hldb::Constant *>((*op->getOperands())[3]), nullptr)
+      << "ss.37.54: operands[3] (right range) of 'a ##[2:$] b' must be a Constant";
 }
 
-TEST_F(Sequence24Test, SeqOpen_Op_Range_UpperBound_DecompilesAsDollar) {
+TEST_F(Sequence24Test, SeqOpen_Op_RightRange_DecompilesAsDollar) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");
@@ -299,17 +306,14 @@ TEST_F(Sequence24Test, SeqOpen_Op_Range_UpperBound_DecompilesAsDollar) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const ub = range->getRightExpr<hldb::Constant>();
+  ASSERT_GE(op->getOperands()->size(), 4u);
+  const hldb::Constant *const ub = any_cast<const hldb::Constant *>((*op->getOperands())[3]);
   ASSERT_NE(ub, nullptr);
   EXPECT_EQ(std::string(ub->getDecompile()), "$")
       << "ss.16.7: upper bound of '##[2:$]' must decompile to \"$\"";
 }
 
-TEST_F(Sequence24Test, SeqOpen_Op_Range_UpperBound_ConstType_IsUnbounded) {
+TEST_F(Sequence24Test, SeqOpen_Op_RightRange_ConstType_IsUnbounded) {
   const hldb::Module *const tb = getTb(m_design);
   ASSERT_NE(tb, nullptr);
   const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");
@@ -317,46 +321,11 @@ TEST_F(Sequence24Test, SeqOpen_Op_Range_UpperBound_ConstType_IsUnbounded) {
   const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
   ASSERT_NE(op, nullptr);
   ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 2u);
-  const hldb::Range *const range =
-      any_cast<const hldb::Range *>((*op->getOperands())[1]);
-  ASSERT_NE(range, nullptr);
-  const hldb::Constant *const ub = range->getRightExpr<hldb::Constant>();
+  ASSERT_GE(op->getOperands()->size(), 4u);
+  const hldb::Constant *const ub = any_cast<const hldb::Constant *>((*op->getOperands())[3]);
   ASSERT_NE(ub, nullptr);
   EXPECT_EQ(ub->getConstType(), vpiUnboundedConst)
       << "ss.16.7: '$' upper bound must be vpiUnboundedConst (11)";
-}
-
-TEST_F(Sequence24Test, SeqOpen_Op_Operand2_IsRefObjB) {
-  const hldb::Module *const tb = getTb(m_design);
-  ASSERT_NE(tb, nullptr);
-  const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");
-  ASSERT_NE(seq, nullptr);
-  const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 3u);
-  const hldb::RefObj *const ref =
-      any_cast<const hldb::RefObj *>((*op->getOperands())[2]);
-  ASSERT_NE(ref, nullptr);
-  EXPECT_EQ(ref->getName(), "b")
-      << "ss.16.7: operands[2] of 'a ##[2:$] b' must be a RefObj named 'b'";
-}
-
-TEST_F(Sequence24Test, SeqOpen_Op_Operand2_ResolvesToNetB) {
-  const hldb::Module *const tb = getTb(m_design);
-  ASSERT_NE(tb, nullptr);
-  const hldb::SequenceDecl *const seq = getSeqDecl(tb, "seq_open");
-  ASSERT_NE(seq, nullptr);
-  const hldb::Operation *const op = seq->getExpr<hldb::Operation>();
-  ASSERT_NE(op, nullptr);
-  ASSERT_NE(op->getOperands(), nullptr);
-  ASSERT_GE(op->getOperands()->size(), 3u);
-  const hldb::RefObj *const ref =
-      any_cast<const hldb::RefObj *>((*op->getOperands())[2]);
-  ASSERT_NE(ref, nullptr);
-  EXPECT_NE(ref->getActual<hldb::Variable>(), nullptr)
-      << "ss.16.7: 'b' in 'a ##[2:$] b' must resolve to Variable 'b'";
 }
 
 // ===========================================================================
