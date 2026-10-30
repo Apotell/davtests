@@ -1,0 +1,1 @@
+-wd ../../../tests/DirectiveScope -nobuiltin u_a.sv u_b.sv u_c.sv -fileunit

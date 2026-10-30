@@ -57,6 +57,17 @@
 //             module m_line;           -> reported as gen.sv line 51
 //             endmodule
 //
+// Across files (Sec 3.12.1): "Within a separately compiled unit, compiler directives
+// once seen by a tool apply to all subsequent source text. However, compiler directives
+// from one separately compiled unit shall not affect other compilation units." The
+// Unit references every one of its directives in compilation order (each still owned by
+// its SourceFile), and a design element's directive defaults follow that order:
+//
+//   u_a.sv     `default_nettype none  `include "u_inc.svh"  module u_ma
+//   u_inc.svh  `celldefine
+//   u_b.sv     `pragma u_tool  module u_mb  `resetall
+//   u_c.sv     module u_mc
+//
 // The ts_*.sv files are compiled with -fileunit, so no `timescale or
 // compilation-unit timeunit crosses from one file into another (Sec 3.12.1).
 //
@@ -66,6 +77,8 @@
 //   NoCmdTimescaleTest    NoCmdTimescale.f      (none)
 //   BadCmdTimescaleTest   BadCmdTimescale.f     3ns/1ps (illegal magnitude)
 //   LineTest              Line.f                (none)
+//   UnitDirectivesTest    UnitDirectives.f      (none), u_a u_b u_c in one unit
+//   UnitDirectivesFile..  UnitDirectivesFileUnit.f  (none), the same with -fileunit
 //
 // Time units are base-10 exponents of one second: 1s == 0, 1ms == -3, 100us == -4, 10us == -5,
 // 1us == -6, 10ns == -8, 1ns == -9, 100ps == -10, 10ps == -11, 1ps == -12.
@@ -84,6 +97,8 @@
 #include <hldb/pragma_directive.h>
 #include <hldb/preproc_macro_definition.h>
 #include <hldb/source_file.h>
+#include <hldb/unit.h>
+#include <hldb/vpi_user.h>
 
 #include <string_view>
 
@@ -346,6 +361,137 @@ TEST_F(LineTest, LineNumberIsThatOfTheNextLine) {
   ASSERT_NE(m, nullptr);
   EXPECT_TRUE(endsWith(m->getFile(), "gen.sv")) << m->getFile();
   EXPECT_EQ(m->getStartLine(), 51u);
+}
+
+// ----
+// UnitDirectives.f / UnitDirectivesFileUnit.f -- u_a.sv u_b.sv u_c.sv.
+
+class UnitDirectivesBase : public DirectiveScopeTest {
+ protected:
+  // The unit that lists 'fileName' among its source files.
+  static const hldb::Unit *findUnitOf(std::string_view fileName) {
+    if (m_design->getUnits() == nullptr) return nullptr;
+    for (const hldb::Unit *const unit : *m_design->getUnits()) {
+      if (hldb::findByName<hldb::SourceFile>(fileName, unit->getSourceFiles()) != nullptr) return unit;
+    }
+    return nullptr;
+  }
+
+  // The directive at 'index' of the unit is the same object as the one at
+  // 'sourceIndex' of the SourceFile that owns it.
+  static void expectUnitDirective(const hldb::Unit *unit, size_t index, const hldb::SourceFile *owner,
+                                  size_t sourceIndex, int32_t type) {
+    ASSERT_NE(unit, nullptr);
+    ASSERT_NE(owner, nullptr);
+    ASSERT_NE(unit->getDirectives(), nullptr);
+    ASSERT_LT(index, unit->getDirectives()->size());
+    ASSERT_NE(owner->getDirectives(), nullptr);
+    ASSERT_LT(sourceIndex, owner->getDirectives()->size());
+    const hldb::Directive *const directive = unit->getDirectives()->at(index);
+    EXPECT_EQ(directive, owner->getDirectives()->at(sourceIndex)) << "unit directive #" << index;
+    EXPECT_EQ(directive->getParent(), owner) << "unit directive #" << index;
+    if (type != 0) {
+      const hldb::GenericDirective *const gd = any_cast<hldb::GenericDirective>(directive);
+      ASSERT_NE(gd, nullptr) << "unit directive #" << index;
+      EXPECT_EQ(gd->getDirectiveType(), type) << "unit directive #" << index;
+    } else {
+      EXPECT_NE(any_cast<hldb::PragmaDirective>(directive), nullptr) << "unit directive #" << index;
+    }
+  }
+
+  static const hldb::SourceFile *findInclude(const hldb::SourceFile *sf, std::string_view name) {
+    return (sf == nullptr) ? nullptr : hldb::findByName<hldb::SourceFile>(name, sf->getIncludes());
+  }
+};
+
+class UnitDirectivesTest : public UnitDirectivesBase {
+ public:
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "UnitDirectives.f"}); }
+  static void TearDownTestSuite() { Shutdown(); }
+};
+
+TEST_F(UnitDirectivesTest, UnitListsItsDirectivesInCompilationOrder) {
+  // One compilation unit: its directives are those of u_a.sv (with u_inc.svh where it is
+  // included), then u_b.sv, each the same object its SourceFile owns.
+  const hldb::SourceFile *const a = findSourceFile("u_a.sv");
+  const hldb::SourceFile *const b = findSourceFile("u_b.sv");
+  const hldb::SourceFile *const inc = findInclude(a, "u_inc.svh");
+  ASSERT_NE(inc, nullptr);
+  const hldb::Unit *const unit = findUnitOf("u_a.sv");
+  ASSERT_NE(unit, nullptr);
+  EXPECT_EQ(findUnitOf("u_c.sv"), unit);
+  ASSERT_NE(unit->getDirectives(), nullptr);
+  ASSERT_EQ(unit->getDirectives()->size(), 4u);
+  expectUnitDirective(unit, 0, a, 0, vpiDirectiveTypeDefaultNetType);
+  expectUnitDirective(unit, 1, inc, 0, vpiDirectiveTypeCellDefine);
+  expectUnitDirective(unit, 2, b, 0, 0);  // `pragma u_tool
+  expectUnitDirective(unit, 3, b, 1, vpiDirectiveTypeResetAll);
+}
+
+TEST_F(UnitDirectivesTest, DirectivesCarryIntoLaterFiles) {
+  // u_mb is in u_b.sv, after u_a.sv's `default_nettype none and u_inc.svh's `celldefine.
+  const hldb::Module *const ma = findModule("u_ma");
+  const hldb::Module *const mb = findModule("u_mb");
+  ASSERT_NE(ma, nullptr);
+  ASSERT_NE(mb, nullptr);
+  EXPECT_EQ(ma->getDefNetType(), vpiNone);
+  EXPECT_TRUE(ma->getCellInstance());
+  EXPECT_EQ(mb->getDefNetType(), vpiNone);
+  EXPECT_TRUE(mb->getCellInstance());
+}
+
+TEST_F(UnitDirectivesTest, ResetallEndsThemForLaterFiles) {
+  // Sec 22.3: `resetall at the end of u_b.sv sets every directive back to its default
+  // for u_c.sv.
+  const hldb::Module *const mc = findModule("u_mc");
+  ASSERT_NE(mc, nullptr);
+  EXPECT_EQ(mc->getDefNetType(), vpiWire);
+  EXPECT_FALSE(mc->getCellInstance());
+}
+
+class UnitDirectivesFileUnitTest : public UnitDirectivesBase {
+ public:
+  static void SetUpTestSuite() { Compile(__FILE__, {"-f", "UnitDirectivesFileUnit.f"}); }
+  static void TearDownTestSuite() { Shutdown(); }
+};
+
+TEST_F(UnitDirectivesFileUnitTest, EachUnitListsOnlyItsOwnDirectives) {
+  const hldb::SourceFile *const a = findSourceFile("u_a.sv");
+  const hldb::SourceFile *const b = findSourceFile("u_b.sv");
+  const hldb::SourceFile *const inc = findInclude(a, "u_inc.svh");
+  ASSERT_NE(inc, nullptr);
+
+  const hldb::Unit *const unitA = findUnitOf("u_a.sv");
+  ASSERT_NE(unitA, nullptr);
+  ASSERT_NE(unitA->getDirectives(), nullptr);
+  ASSERT_EQ(unitA->getDirectives()->size(), 2u);
+  expectUnitDirective(unitA, 0, a, 0, vpiDirectiveTypeDefaultNetType);
+  expectUnitDirective(unitA, 1, inc, 0, vpiDirectiveTypeCellDefine);
+
+  const hldb::Unit *const unitB = findUnitOf("u_b.sv");
+  ASSERT_NE(unitB, nullptr);
+  EXPECT_NE(unitB, unitA);
+  ASSERT_NE(unitB->getDirectives(), nullptr);
+  ASSERT_EQ(unitB->getDirectives()->size(), 2u);
+  expectUnitDirective(unitB, 0, b, 0, 0);  // `pragma u_tool
+  expectUnitDirective(unitB, 1, b, 1, vpiDirectiveTypeResetAll);
+
+  const hldb::Unit *const unitC = findUnitOf("u_c.sv");
+  ASSERT_NE(unitC, nullptr);
+  EXPECT_EQ(unitC->getDirectives(), nullptr);
+}
+
+TEST_F(UnitDirectivesFileUnitTest, DirectivesDoNotCrossUnits) {
+  // "compiler directives from one separately compiled unit shall not affect other
+  // compilation units": only u_ma, in u_a.sv's own unit, sees them.
+  const hldb::Module *const ma = findModule("u_ma");
+  const hldb::Module *const mb = findModule("u_mb");
+  ASSERT_NE(ma, nullptr);
+  ASSERT_NE(mb, nullptr);
+  EXPECT_EQ(ma->getDefNetType(), vpiNone);
+  EXPECT_TRUE(ma->getCellInstance());
+  EXPECT_EQ(mb->getDefNetType(), vpiWire);
+  EXPECT_FALSE(mb->getCellInstance());
 }
 
 }  // namespace hlc
