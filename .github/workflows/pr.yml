@@ -34,12 +34,14 @@ jobs:
           --jq '.[].filename')
         echo "Changed files:"
         echo "$changed"
-        if echo "$changed" | grep -qE '(\.hlc$|^tests/)'; then
+        # A test_*.cpp change needs the regression too: the event check matches the cpp's
+        # findEvent() checks against the logs that run produces.
+        if echo "$changed" | grep -qE '(\.hlc$|^tests/|^hlc/.*/test_[^/]*\.cpp$)'; then
           echo "run_regression=true"  >> $GITHUB_OUTPUT
-          echo "Regression triggered: .hlc or tests/ files changed."
+          echo "Regression triggered: .hlc, tests/ or test_*.cpp files changed."
         else
           echo "run_regression=false" >> $GITHUB_OUTPUT
-          echo "Regression skipped: no .hlc or tests/ files changed."
+          echo "Regression skipped: no .hlc, tests/ or test_*.cpp files changed."
         fi
 
     - name: Find most recent build artifact
@@ -136,6 +138,18 @@ jobs:
           --jobs $(nproc)                                       \
           --filters @scripts/filter.lst
 
+    # Matches every event the filtered tests logged against the findEvent() checks in their
+    # test_*.cpp; writes event_check.md (also appended to the job summary) and event_check.csv.
+    - name: Event check
+      if: ${{ !cancelled() }}
+      timeout-minutes: 10
+      run: |
+        python3 scripts/pr_event_check.py ${{ github.workspace }}/regression  \
+          --events-json build/share/hldb/events.json                          \
+                        build/share/hlc/events.json                           \
+          --test-dirpath hlc                                                  \
+          --jobs $(nproc)
+
     - name: Prepare regression artifacts
       if: ${{ !cancelled() }}
       env:
@@ -155,6 +169,8 @@ jobs:
           ${{ env.regression-artifact-name }}.tar.gz
           env.json
           regression.csv
+          event_check.md
+          event_check.csv
 
 # C++ Tests ###########################################################################################################
 

@@ -224,11 +224,47 @@ def _find_log(log_dirpath: Path, test: TestCase):
 _platform_ids = ('.linux', '.osx', '.msys', '.win', '')
 
 
+def _extract_test_tarball(data: bytes, test_id: str, out_dirpath) -> bool:
+  """Copies the diagnostic lines of one test's regression tarball (<test_id>.tar.gz, holding
+  <name>/<name>.log, name being the last part of test_id) to <out>/<test_id>/<name>.log.
+  Only diagnostics, their continuation lines and the coverage line are kept, so the HLDB dumps
+  never hit the disk. Returns False when the tarball holds no log."""
+  import io
+  import tarfile
+
+  name = Path(test_id).name
+  with tarfile.open(fileobj=io.BytesIO(data)) as test_strm:
+    names = set(test_strm.getnames())
+    for platform_id in _platform_ids:
+      log_name = f'{name}/{name}{platform_id}.log'
+      if log_name in names:
+        break
+    else:
+      return False
+    kept = []
+    in_diag = False
+    for raw in test_strm.extractfile(log_name):
+      line = raw.decode('utf-8', errors='replace')
+      if _re_coverage.match(line):
+        kept.append(line)
+        in_diag = False
+      elif line.startswith('['):
+        in_diag = _re_diag.match(line.rstrip('\r\n')) is not None
+        if in_diag:
+          kept.append(line)
+      elif in_diag and line[:1] in (' ', '\t'):
+        kept.append(line)
+      else:
+        in_diag = False
+  dirpath = Path(out_dirpath) / test_id
+  dirpath.mkdir(parents=True, exist_ok=True)
+  (dirpath / f'{name}.log').write_text(''.join(kept), encoding='utf-8')
+  return True
+
+
 def _extract_regression_archive(args):
   """Copies the diagnostic lines of every test log in one regression shard artifact
-  (Regression_*.zip, as uploaded by the regression job) to <out>/<test_id>/<name>.log.
-  Only diagnostics and their continuation lines are kept, so the HLDB dumps never hit the disk."""
-  import io
+  (Regression_*.zip, as uploaded by the regression job) to <out>/<test_id>/<name>.log."""
   import tarfile
   import zipfile
 
@@ -241,37 +277,9 @@ def _extract_regression_archive(args):
         for member in archive_strm:
           if not member.isfile() or not member.name.endswith('.tar.gz'):
             continue
-          # <archive>/<test_id>.tar.gz holds <name>/<name>.log, name being the last part of test_id.
           test_id = Path(member.name[:-len('.tar.gz')]).relative_to(archive_name).as_posix()
-          name = Path(test_id).name
-          data = archive_strm.extractfile(member).read()
-          with tarfile.open(fileobj=io.BytesIO(data)) as test_strm:
-            names = set(test_strm.getnames())
-            for platform_id in _platform_ids:
-              log_name = f'{name}/{name}{platform_id}.log'
-              if log_name in names:
-                break
-            else:
-              continue
-            kept = []
-            in_diag = False
-            for raw in test_strm.extractfile(log_name):
-              line = raw.decode('utf-8', errors='replace')
-              if _re_coverage.match(line):
-                kept.append(line)
-                in_diag = False
-              elif line.startswith('['):
-                in_diag = _re_diag.match(line.rstrip('\r\n')) is not None
-                if in_diag:
-                  kept.append(line)
-              elif in_diag and line[:1] in (' ', '\t'):
-                kept.append(line)
-              else:
-                in_diag = False
-          dirpath = Path(out_dirpath) / test_id
-          dirpath.mkdir(parents=True, exist_ok=True)
-          (dirpath / f'{name}.log').write_text(''.join(kept), encoding='utf-8')
-          count += 1
+          if _extract_test_tarball(archive_strm.extractfile(member).read(), test_id, out_dirpath):
+            count += 1
   return zip_filepath, count
 
 
