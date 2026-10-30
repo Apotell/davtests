@@ -18,21 +18,29 @@ so the gap is visible as pending work rather than silently passing against wrong
 
 **Never call `getFullName()` / assert on `vpiFullName`.** It's a computed property that is currently wrong in HLC. Use `getName()` only.
 
-**Don't assert on the number of errors/warnings reported -- use `Test::findError()` to check for a specific error instead.** `EXPECT_EQ(stats.nbError, 0)`/`EXPECT_EQ(stats.nbWarning, 0)` (via `ErrorContainer::getErrorStats()`) is too broad and brittle -- it breaks the moment error/warning reporting improves elsewhere (e.g. a previously-silent case starts correctly flagging something unrelated to what this file is testing), turning a genuine improvement into an apparent regression in an unrelated test. The `Test` fixture (`hlc/Tests/Test.h`) provides `findError()` for this, with four overloads:
+**Assert diagnostics that are expected, with `Test::findEvent()`.** When the standard requires HLC to report something (an illegal construct, an unresolvable name), check for that specific event. The `Test` fixture (`hlc/Tests/Test.h`) provides four overloads:
 ```cpp
-const Error *findError(ErrorDefinition::ErrorType type);
-const Error *findError(ErrorDefinition::ErrorType type, std::string_view symbol);
-const Error *findError(ErrorDefinition::ErrorType type, uint32_t line, uint16_t column);
-const Error *findError(ErrorDefinition::ErrorType type, std::string_view symbol, uint32_t line, uint16_t column);
+const Event *findEvent(uint32_t type);
+const Event *findEvent(uint32_t type, std::string_view symbol);
+const Event *findEvent(uint32_t type, uint32_t line, uint16_t column);
+const Event *findEvent(uint32_t type, std::string_view symbol, uint32_t line, uint16_t column);
 ```
-Prefer the overloads that narrow by `symbol` and/or `line`/`column` over the bare `type`-only one -- confirming an error is about the *specific* named object/location under test is what actually verifies the right thing failed, not just that some error of that type exists anywhere in the file. `findError()` returns `nullptr` when nothing matches, so the idiomatic patterns are:
+Prefer the overloads that narrow by `symbol` and/or `line`/`column` over the bare `type`-only one -- confirming the event is about the *specific* named object/location under test is what verifies the right thing was reported, not just that some event of that type exists anywhere in the file. `findEvent()` returns `nullptr` when nothing matches:
 ```cpp
-ASSERT_NE(findError(ErrorDefinition::COMP_ILLEGAL_DEFAULT_PORT_VALUE, "port_name"), nullptr);  // error IS expected
-EXPECT_EQ(findError(ErrorDefinition::COMP_FAILED_TO_BIND, "some_name"), nullptr);               // error is NOT expected
+ASSERT_NE(findEvent(EventType::CompIllegalDefaultPortValue, "port_name"), nullptr);
 ```
-`EXPECT_EQ(stats.nbError, 0)` etc. is still acceptable as a coarse top-level sanity check when a file genuinely expects zero diagnostics of any kind, but wherever a *specific* error is (or must not be) present, use `findError()` instead of counting.
+To check every event at one position -- e.g. the copies of one message reached through different inclusions, which differ only in their context notes (`event->getNotes()`) -- use `findEvents(type, line[, column])`. A file that only passes `EventType::X` codes needs `<hlc/Events/EventType.h>`; include `<hlc/Events/EventDefinition.h>` only when it names `Event`, `EventSeverity`, etc.
 
-**`ObjectBinder`'s error-reporting logic and `ErrorDefinition` entries are a teammate's area -- don't add, extend, or "fix" the underlying diagnostics themselves unprompted.** Writing a `findError()`-based test assertion against existing diagnostics is fine (that is exactly what this API is for); changing when/whether HLC itself raises a given error is not your call to make unprompted, including the still-outstanding sweep of ~34 `Google/chapter-7` files that check the now-dead `ErrorDefinition::ELAB_ILLEGAL_IMPLICIT_NET` instead of its replacement `COMP_FAILED_TO_BIND`. If you find a problem in the diagnostics themselves, flag it (as a finding/doc note) rather than fixing it; wait for explicit go-ahead to implement, and check whether it's already being handled first.
+**Don't write checks that only assert a diagnostic is absent.** `EXPECT_EQ(findEvent(EventType::X), nullptr)` -- "HLC does not report X here" -- is not helpful, so don't add it, one code at a time or as a list of every diagnostic the file could conceivably trigger. Such a check passes when HLC never raises X at all, so it proves nothing about the construct under test, and it inflates the event coverage report with codes no test actually exercises. 107 such checks for 16 codes were removed from this suite (2026-10) for this reason; don't reintroduce them. Show that a legal construct is handled correctly through the model it builds (Steps 1-5 below). If a file must compile without errors, one coarse check covers it:
+```cpp
+const EventListener::Stats stats = m_session->getEventListener()->getStats();
+EXPECT_EQ(stats.m_errors, 0);
+```
+Beyond that coarse check, don't count errors/warnings: a count breaks the moment reporting improves elsewhere (a previously silent case starts correctly flagging something unrelated to this file), turning a genuine improvement into an apparent regression.
+
+**HLC's diagnostics themselves (`ObjectBinder`'s error reporting, the event definitions in `events/*.yaml`) are a teammate's area -- don't add, extend, or "fix" them unprompted.** Writing a `findEvent()` assertion against an existing event is fine; changing when/whether HLC raises a given event is not your call to make unprompted. If you find a problem in the diagnostics themselves, flag it (as a finding/doc note) rather than fixing it; wait for explicit go-ahead, and check whether it's already being handled first.
+
+**Compare strings as `std::string_view`, never as a bare C-string literal.** Write `EXPECT_EQ(object->getName(), std::string_view("blahblah"))`, not `EXPECT_EQ(object->getName(), "blahblah")`. With a bare literal, a failing expectation can print the literal as a pointer value instead of its text; wrapped in `std::string_view`, gtest prints both strings, so the failure shows what was expected and what came back. The same applies to `ASSERT_EQ`/`EXPECT_NE` and to any other accessor returning text (`getDefName()`, `getValue()`, `getDecompile()`, ...).
 
 **Use named `vpiXXX` constants from the `*vpi_user.h` headers, never magic numbers.** These enumerants are defined in `vpi_user.h` (IEEE-standard constants), `sv_vpi_user.h` (SV extensions), and `hldb_vpi_user.h` (HLDB-specific extensions) -- include whichever one declares the constant you need instead of hardcoding its integer value. Write `EXPECT_EQ(net->getNetType(), vpiWire)`, not `EXPECT_EQ(net->getNetType(), 1)`; write `EXPECT_EQ(op->getOpType(), vpiMinusOp)`, not a raw opcode number -- applies to op types, const types, net types, directions, array types, and every other VPI enumerant. See `hlc/Google/chapter-11/11.7--unsigned_func/test_11.7_unsigned_func.cpp` for a file that consistently does this throughout.
 
@@ -148,7 +156,7 @@ Typical progression per feature:
 1. **Existence** -- the module/decl/assertion is present and non-null.
 2. **Content** -- the key field (expression, clocking event, property expr) is non-null.
 3. **Shape** -- opType, operand count, or referenced name matches what the grammar dictates.
-4. **Absence** -- confirm that something is NOT present (e.g., no `PropertyDecl` when the assert is inline).
+4. **Absence** -- confirm that the model has no object the standard rules out (e.g., no `PropertyDecl` when the assert is inline). This is about model shape, not diagnostics: don't assert that a diagnostic is absent (see the core principles above).
 
 Pattern for finding a named decl:
 ```cpp
