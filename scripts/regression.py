@@ -761,30 +761,43 @@ def _run(args, tests):
   if not tests:
     return 0  # No selected tests
 
-  params = [(
-    test_id,
-    filepath,
-    args.hlc_filepath,
-    args.reducer_filepath,
-    args.mt,
-    args.tool,
-    args.output_dirpath / test_id
-  ) for test_id, filepath in tests.items()]
+  # A test whose folder is nested under another test's folder writes its output inside that
+  # test's output folder. Run tests in waves by nesting depth so a parent test has finished
+  # (tarballed and removed its output folder) before any nested test starts; otherwise the
+  # parent can delete the nested test's output or swallow it into its own tarball.
+  def _nesting_depth(test_id):
+    parts = test_id.split('/')
+    return sum(1 for i in range(1, len(parts)) if '/'.join(parts[:i]) in tests)
 
-  if args.jobs <= 1:
-    results = [_run_one(param) for param in params]
-  else:
-    with multiprocessing.Pool(processes=args.jobs) as pool:
-      # chunksize=1 is deliberate, not the default: Pool.map()'s default chunksize batches many
-      # tasks into one non-preemptible unit of work per queue entry (divmod(len(params),
-      # len(pool)*4) -- e.g. ~235 tests/batch for 5613 tests over 6 workers). Once all batches are
-      # claimed, an idle worker has nothing left to pull even if another worker's own batch still
-      # has many tests left to run -- exactly the "5 idle workers, 1 busy on a large job, pending
-      # tests not picked up" symptom seen near the end of a sweep, when a late batch happens to
-      # cluster several large/slow tests together. chunksize=1 makes every dispatch unit a single
-      # test, so any idle worker can always claim the next pending one regardless of cost
-      # clustering.
-      results = pool.map(_run_one, params, chunksize=1)
+  waves: dict[int, list] = {}
+  for test_id, filepath in tests.items():
+    waves.setdefault(_nesting_depth(test_id), []).append((
+      test_id,
+      filepath,
+      args.hlc_filepath,
+      args.reducer_filepath,
+      args.mt,
+      args.tool,
+      args.output_dirpath / test_id
+    ))
+
+  results = []
+  for depth in sorted(waves.keys()):
+    params = waves[depth]
+    if args.jobs <= 1:
+      results.extend(_run_one(param) for param in params)
+    else:
+      with multiprocessing.Pool(processes=min(args.jobs, len(params))) as pool:
+        # chunksize=1 is deliberate, not the default: Pool.map()'s default chunksize batches many
+        # tasks into one non-preemptible unit of work per queue entry (divmod(len(params),
+        # len(pool)*4) -- e.g. ~235 tests/batch for 5613 tests over 6 workers). Once all batches are
+        # claimed, an idle worker has nothing left to pull even if another worker's own batch still
+        # has many tests left to run -- exactly the "5 idle workers, 1 busy on a large job, pending
+        # tests not picked up" symptom seen near the end of a sweep, when a late batch happens to
+        # cluster several large/slow tests together. chunksize=1 makes every dispatch unit a single
+        # test, so any idle worker can always claim the next pending one regardless of cost
+        # clustering.
+        results.extend(pool.map(_run_one, params, chunksize=1))
 
   print('')
   _print_report(args.output_dirpath, results)
