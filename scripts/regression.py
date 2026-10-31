@@ -59,37 +59,6 @@ _default_reducer_filepath = Path('bin') / _default_reducer_filename
 _re_status_1 = re.compile(r'^\s*\[\s*(?P<status>\w+)\]\s*:\s*(?P<count>\d+|\d+\.\d+)$')
 _re_status_2 = re.compile(r'^\s*\|\s*(?P<status>\w+)\s*\|\s*(?P<count1>\d+|\s+)\s*\|\s*(?P<count2>\d+|\s+)\s*\|\s*$')
 
-_blacklisted_dump_hldb_tests = {
-  'AmiqEth',
-  'AmiqSimpleTestSuite',
-  'BuildUVMPkg',
-  'CoresSweRV',
-  'CoresSweRVMP',
-  'Driver',
-  'Earlgrey',
-  'Earlgrey_0_1',
-  'Earlgrey_Verilator_0_1',
-  'Earlgrey_Verilator_01_05_21',
-  'Ibex',
-  'IbexGoogle',
-  'IncompTitan',
-  'MiniAmiq',
-  'Monitor',
-  'Opentitan',
-  'Scoreboard',
-  'SeqDriver',
-  'SimpleClass1',
-  'SimpleInterface',
-  'SimpleUVM',
-  'UnitAmiqEth',
-  'UVMNestedSeq',
-  'UVMSwitch',
-  'Xgate',
-  'YosysOpenSparc',
-  'YosysSmallBoom',
-}
-
-
 def _get_hlc_log_filepaths(test_id: str, golden_dirpath: Path, output_dirpath: Path):
   platform_id = get_platform_id()
   name = Path(test_id).name
@@ -316,8 +285,6 @@ def _get_run_args(
     parts += ['-d', 'dbstats'] # Force print hldb stats
     parts += ['-d', 'cache']
     parts += ['-writepp']
-    if Path(test_id).name not in _blacklisted_dump_hldb_tests:
-      parts += ['-d', 'db']
     parts += ['-nostdout']  # Keep this at end so it overrides any '-verbose' flag in the hlc file
     parts += ['-o', output_dirpath.as_posix()]  # as_posix(): identical on Linux, avoids backslashes on Windows
 
