@@ -38,14 +38,11 @@
 //     assignments on lines 25 and 35 -> MultipleContAssign for "l_reg".
 //   - 6.5 / 10.4: nets cannot be written by procedural assignments. The port
 //     o_reg is declared without a data type, so it is a wire net (23.2.2.3);
-//     the procedural assignment on line 26 -> IllegalWireLhs for "o_reg".
+//     the blocking assignment on line 26 and the nonblocking assignment on
+//     line 29 -> IllegalWireLhs for "o_reg" at each.
 //   - 6.5 / 10.4: the same rule applies to the unpacked wire arrays mw2/mw3
 //     written procedurally on lines 62 and 69 (skipped: not reported yet).
 //   - 6.5 / 23.2.2.3: o_reg is a Net of type wire; l_reg is a Variable.
-//
-// What is NOT checked and why:
-//   - the nonblocking assignment to o_reg on line 29 (also IllegalWireLhs):
-//     left out on purpose for now, to be added next.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
@@ -109,7 +106,9 @@ TEST_F(RegWireErrorTest, MultipleContAssignsToVariableIsError) {
 
 TEST_F(RegWireErrorTest, ProceduralAssignToOutputNetIsError) {
   EXPECT_NE(findEvent(EventType::IllegalWireLhs, "o_reg", 26, 9), nullptr)
-      << "10.4: net 'o_reg' is the target of the procedural assignment on line 26";
+      << "10.4: net 'o_reg' is the target of the blocking assignment on line 26";
+  EXPECT_NE(findEvent(EventType::IllegalWireLhs, "o_reg", 29, 3), nullptr)
+      << "10.4: net 'o_reg' is the target of the nonblocking assignment on line 29";
 }
 
 TEST_F(RegWireErrorTest, ProceduralAssignToWireArrayIsError) {
