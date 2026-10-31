@@ -44,7 +44,7 @@ import os
 import re
 import shlex
 import sys
-from collections import defaultdict
+from collections import Counter as _Counter, defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -62,7 +62,7 @@ _severity_tags = {
 # Paths (relative to a -wd root, or resolved) that belong to a third-party library
 # rather than to the test itself.
 _default_external_pattern = (
-  r'(^|/)(third_party/|(ovm|uvm|uvmc)-[0-9][^/]*/|1800\.2-[0-9][^/]*/)'
+  r'(^|/)(third_party/|(ovm|uvm|uvmc|vmm)-[0-9][^/]*/|1800\.2-[0-9][^/]*/|svaunit/)'
 )
 
 _re_diag = re.compile(r'^\[(?P<sev>[A-Z]{3}):(?P<prefix>[A-Z]{2})(?P<num>\d+)\] (?P<rest>.*)$')
@@ -1305,6 +1305,70 @@ def _build_info(hlc_repo):
   return parts
 
 
+def _short_path(path: str) -> str:
+  return re.sub(r'^\$Source\d+/', '', path.replace('\\', '/'))
+
+
+def _location(report) -> str:
+  if not report.path:
+    return ''
+  text = _short_path(report.path)
+  if report.line:
+    text += f':{report.line}'
+    if report.col:
+      text += f':{report.col}'
+  return text
+
+
+def _md_escape(text: str, limit: int = 0) -> str:
+  if limit and len(text) > limit:
+    text = text[:limit - 3] + '...'
+  return text.replace('|', '\\|').replace('\n', ' ')
+
+
+def _cpp_names(test) -> str:
+  return ', '.join(p.name for p in test.cpp_filepaths)
+
+
+def _build_unchecked_worklist(tests, reports_by_test):
+  """Per test with a cpp, every event of its own files that the cpp does not check yet."""
+  out = []
+  for test_id in sorted(tests, key=str.lower):
+    test = tests[test_id]
+    if not test.cpp_filepaths:
+      continue
+    unchecked = [r for r in reports_by_test.get(test_id, []) if r.scope == 'local' and r.severity in _main_severities and r.status == 'Not checked']
+    if not unchecked:
+      continue
+    out.append(f'<details><summary><code>{_md_escape(_cpp_names(test))}</code> ({test_id}) -- '
+               f'{len(unchecked)} not checked</summary>')
+    out += ['', '| | Code | Location | Symbol |', '|---|---|---|---|']
+    for r in unchecked:
+      out.append(f'| {r.severity} | `{r.code}` [{r.prefix}{r.number}] | {_md_escape(_location(r))} | '
+                 f'{_md_escape(r.symbol or "", 60)} |')
+    out += ['', '</details>', '']
+  if out:
+    out = ['### Not checked, per cpp', '',
+           'Events of each test\'s own files that its test_*.cpp has no `findEvent()` check for.', ''] + out
+  return out
+
+
+def _build_cpp_split(tests, reports_by_test):
+  """Events of the tests' own files, split by whether the test has a cpp: what the cpps would have
+  to check against their logs, and how much of it they do."""
+  rows = []
+  for label, has_cpp in (('With a test_*.cpp', True), ('Without a test_*.cpp', False)):
+    test_ids = [t for t in tests if bool(tests[t].cpp_filepaths) == has_cpp]
+    local = [r for t in test_ids for r in reports_by_test.get(t, []) if r.scope == 'local' and r.severity in _main_severities]
+    severities = _Counter(r.severity for r in local)
+    checked = sum(1 for r in local if r.status == 'Checked')
+    rows.append(f'| {label} | {len(test_ids)} | {len(local)} | '
+                + ' | '.join(str(severities.get(s, 0)) for s in ('FTL', 'SNT', 'ERR', 'WRN'))
+                + f' | {checked if has_cpp else "-"} | {len(local) - checked} |')
+  return ['| | Tests | Events in logs | FTL | SNT | ERR | WRN | \u2705 Checked | \U0001F7E1 Not checked |',
+          '|---|---:|---:|---:|---:|---:|---:|---:|---:|'] + rows + ['']
+
+
 def _pct(n, d):
   return f'{(100.0 * n / d):.1f}%' if d else '-'
 
@@ -1424,6 +1488,7 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     f'| Tests whose every logged event is confirmed by their CPP test | {num(statuses["All checked"])} / '
     f'{num(reporting)} | {_pct(statuses["All checked"], reporting)} |',
     '',
+  ] + _build_cpp_split(tests, reports_by_test) + [
     '<details><summary><b>Event codes by compiler stage</b></summary>', '',
     f'| Stage | Codes | {ok} Logged and confirmed | {warn} Logged, not confirmed | {todo} Expected by CPP, not logged '
     f'| {dead} Not seen anywhere |',
@@ -1467,6 +1532,9 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
       f'| Tests measured | {num(len(coverages))} |',
       '',
     ]
+  worklist = _build_unchecked_worklist(tests, reports_by_test)
+  if worklist:
+    lines += ['<details><summary><b>Not checked, per cpp</b></summary>', ''] + worklist[2:] + ['</details>', '']
 
   lines += [f'Full per-test and per-code detail: `report.xlsx` in the run\'s Summary artifact.', '']
   return summary, '\n'.join(lines)

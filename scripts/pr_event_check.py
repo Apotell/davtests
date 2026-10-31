@@ -45,6 +45,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 import event_coverage as ec
+from event_coverage import _build_cpp_split, _build_unchecked_worklist, _cpp_names, _location, _md_escape
 
 _this_dirpath = Path(__file__).parent.resolve()
 _workspace_dirpath = _this_dirpath.parent
@@ -138,21 +139,6 @@ def _collect_logs(source: Path, out_dirpath: Path) -> list[str]:
   return sorted(test_ids, key=str.lower)
 
 
-def _short_path(path: str) -> str:
-  return re.sub(r'^\$Source\d+/', '', path.replace('\\', '/'))
-
-
-def _location(report) -> str:
-  if not report.path:
-    return ''
-  text = _short_path(report.path)
-  if report.line:
-    text += f':{report.line}'
-    if report.col:
-      text += f':{report.col}'
-  return text
-
-
 def _check_ref(assertion) -> str:
   text = f'{Path(assertion.cpp_filepath).name}:{assertion.cpp_line}'
   if assertion.polarity == 'absent':
@@ -169,12 +155,6 @@ def _check_target(assertion) -> str:
   if assertion.line > 0:
     parts.append(f'line {assertion.line}' + (f':{assertion.col}' if assertion.col > 0 else ''))
   return ' '.join(parts)
-
-
-def _md_escape(text: str, limit: int = 0) -> str:
-  if limit and len(text) > limit:
-    text = text[:limit - 3] + '...'
-  return text.replace('|', '\\|').replace('\n', ' ')
 
 
 def _test_icon(test, reports, problems) -> str:
@@ -213,49 +193,6 @@ def _build_compact_tests(tests, reports_by_test, problems_by_test, icons):
   out += [row for _, _, row in sorted(rows)]
   out.append('')
   return out
-
-
-def _cpp_names(test) -> str:
-  return ', '.join(p.name for p in test.cpp_filepaths)
-
-
-def _build_unchecked_worklist(tests, reports_by_test):
-  """Per test with a cpp, every event of its own files that the cpp does not check yet."""
-  out = []
-  for test_id in sorted(tests, key=str.lower):
-    test = tests[test_id]
-    if not test.cpp_filepaths:
-      continue
-    unchecked = [r for r in reports_by_test.get(test_id, []) if r.scope == 'local' and r.status == 'Not checked']
-    if not unchecked:
-      continue
-    out.append(f'<details><summary><code>{_md_escape(_cpp_names(test))}</code> ({test_id}) -- '
-               f'{len(unchecked)} not checked</summary>')
-    out += ['', '| | Code | Location | Symbol |', '|---|---|---|---|']
-    for r in unchecked:
-      out.append(f'| {r.severity} | `{r.code}` [{r.prefix}{r.number}] | {_md_escape(_location(r))} | '
-                 f'{_md_escape(r.symbol or "", 60)} |')
-    out += ['', '</details>', '']
-  if out:
-    out = ['### Not checked, per cpp', '',
-           'Events of each test\'s own files that its test_*.cpp has no `findEvent()` check for.', ''] + out
-  return out
-
-
-def _build_cpp_split(tests, reports_by_test):
-  """Events of the tests' own files, split by whether the test has a cpp: what the cpps would have
-  to check against their logs, and how much of it they do."""
-  rows = []
-  for label, has_cpp in (('With a test_*.cpp', True), ('Without a test_*.cpp', False)):
-    test_ids = [t for t in tests if bool(tests[t].cpp_filepaths) == has_cpp]
-    local = [r for t in test_ids for r in reports_by_test.get(t, []) if r.scope == 'local']
-    severities = Counter(r.severity for r in local)
-    checked = sum(1 for r in local if r.status == 'Checked')
-    rows.append(f'| {label} | {len(test_ids)} | {len(local)} | '
-                + ' | '.join(str(severities.get(s, 0)) for s in ('FTL', 'SNT', 'ERR', 'WRN'))
-                + f' | {checked if has_cpp else "-"} | {len(local) - checked} |')
-  return ['| | Tests | Events in logs | FTL | SNT | ERR | WRN | \u2705 Checked | \U0001F7E1 Not checked |',
-          '|---|---:|---:|---:|---:|---:|---:|---:|---:|'] + rows + ['']
 
 
 def _build_markdown(tests, reports_by_test, assertions_by_test, unparsed, missing_logs, ignored):
