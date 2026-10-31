@@ -1,0 +1,191 @@
+name: 'unskip'
+run-name: "unskip ${{ github.ref }}"
+
+concurrency:
+  group: ${{ github.repository }}-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on: [workflow_dispatch]
+
+
+env:
+  PYTHON3_VERSION: '3.14'
+
+jobs:
+# Preflight ###########################################################################################################
+
+  preflight:
+    name: "Preflight | ubuntu"
+    runs-on: ubuntu-latest
+    outputs:
+      run_regression: ${{ steps.changes.outputs.run_regression }}
+      build_run_id: ${{ steps.find-artifact.outputs.build_run_id }}
+      build_run_number: ${{ steps.find-artifact.outputs.build_run_number }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v6
+
+    - name: Detect changed files
+      id: changes
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        changed=$(gh api /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/files \
+          --jq '.[].filename')
+        echo "Changed files:"
+        echo "$changed"
+        if echo "$changed" | grep -qE '(\.hlc$|^tests/)'; then
+          echo "run_regression=true"  >> $GITHUB_OUTPUT
+          echo "Regression triggered: .hlc or tests/ files changed."
+        else
+          echo "run_regression=false" >> $GITHUB_OUTPUT
+          echo "Regression skipped: no .hlc or tests/ files changed."
+        fi
+
+    - name: Find most recent build artifact
+      id: find-artifact
+      env:
+        GH_TOKEN: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+      run: |
+        # .id            -> Apotell/artifacts run id, required by download-artifact
+        # display_title  -> "hlc | #<run_number> | <run_id>"; parse run_number for artifact names
+        read -r build_run_id build_run_number < <(gh api "/repos/Apotell/artifacts/actions/runs?status=completed&per_page=20" \
+          --jq '[.workflow_runs[] | select(.conclusion == "success")] | first
+                | "\(.id) \(.display_title | split(" | ")[1] | ltrimstr("#"))"')
+        echo "build_run_id=$build_run_id"         >> $GITHUB_OUTPUT
+        echo "build_run_number=$build_run_number" >> $GITHUB_OUTPUT
+        echo "Run ID    : $build_run_id"
+        echo "Run number: $build_run_number"
+
+# C++ Tests ###########################################################################################################
+
+  cpp_tests:
+    name: "C++ Tests | ubuntu | release | shard ${{ matrix.shard }}/${{ matrix.num_shards }}"
+    needs: preflight
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { platform: ubuntu, os: ubuntu-26.04, shard: 0, num_shards: 2 }
+          - { platform: ubuntu, os: ubuntu-26.04, shard: 1, num_shards: 2 }
+
+    env:
+      build-artifact-name: hlc_${{ matrix.platform }}_release_${{ github.event.inputs.run_number }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v6
+      with:
+        submodules: recursive
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -y cmake ninja-build
+
+    - name: Setup Clang
+      uses: egor-tensin/setup-clang@v2
+
+    - name: Setup compiler cache
+      uses: hendrikmuhs/ccache-action@v1.2.24
+      with:
+        variant: 'ccache'
+        key: "${{ matrix.platform }}-${{ github.ref_name }}/${{ matrix.shard }}"
+        restore-keys: |
+          ${{ matrix.platform }}-master/${{ matrix.shard }}
+          ${{ matrix.platform }}-master
+        evict-old-files: 'job'
+
+    - name: Download artifact (build)
+      uses: actions/download-artifact@v7
+      with:
+        name: ${{ env.build-artifact-name }}
+        run-id: ${{ github.event.inputs.run_id }}
+        repository: Apotell/hlc
+        github-token: ${{ secrets.GHA_DAVENCHE_CI_TOKEN }}
+
+    - name: Extract build artifact
+      shell: bash
+      run: |
+        tar xzfp ${{ env.build-artifact-name }}.tar.gz
+        mv ${{ env.build-artifact-name }} build
+
+    - name: Generate shard list
+      shell: bash
+      run: |
+        python3 scripts/shard_tests.py          \
+          --test-dirpath hlc                    \
+          --output scripts/shard.lst            \
+          --shard ${{ matrix.shard }}           \
+          --num_shards ${{ matrix.num_shards }}
+
+    # The binary dir is the extracted hlc install itself (build/), so the test executables land in
+    # build/bin next to hlc and its hlc.conf -- the same layout as other platforms. hlc loads
+    # hlc.conf (and through it the precompiled UVM/OVM cache under share/hlc/pkg) from the running
+    # executable's own directory, so a test binary built anywhere else silently runs uncached.
+    - name: Configure
+      env:
+        CC: clang
+        CXX: clang++
+        SCCACHE_GHA_ENABLED: "true"
+      run: |
+        cmake                                                         \
+          -G Ninja                                                    \
+          -DCMAKE_BUILD_TYPE=RelWithDebInfo                           \
+          -DCMAKE_C_COMPILER_LAUNCHER=ccache                          \
+          -DCMAKE_CXX_COMPILER_LAUNCHER=ccache                        \
+          -DHLC_BUILD_DIR=${{ github.workspace }}/build               \
+          -DTEST_LIST_FILE=${{ github.workspace }}/scripts/shard.lst  \
+          -S . -B build
+
+    - name: Build
+      env:
+        # Every test compiles against the shared davtests PCH. ccache refuses to cache those
+        # compiles unless it is told to accept PCH use.
+        CCACHE_SLOPPINESS: pch_defines,time_macros
+      run: cmake --build build -j $(nproc)
+
+    - name: Test
+      timeout-minutes: 15
+      run: ctest --test-dir build --output-on-failure -j $(nproc)
+
+    # ctest writes every test's full output -- passing tests included -- to LastTest.log, unlike
+    # --output-on-failure, which only echoes failing tests to the console.
+    - name: Archive test log
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v7
+      with:
+        name: cpp_tests_${{ matrix.platform }}_${{ matrix.shard }}_${{ github.run_number }}
+        path: build/Testing/Temporary/LastTest.log
+
+# Cache Cleanup #######################################################################################################
+
+  # Cache entries are immutable, so every run saves a new timestamp-suffixed
+  # entry. Keep only the newest entry per key prefix on this ref so frequently
+  # run branches don't push other branches' caches out of the repo-wide quota.
+  CacheCleanup:
+    needs: [cpp_tests]
+    if: always()
+    runs-on: ubuntu-26.04
+    permissions:
+      actions: write
+
+    steps:
+    - name: Delete older caches on this ref
+      env:
+        GH_TOKEN: ${{ github.token }}
+        GH_REPO: ${{ github.repository }}
+      run: |
+        # Strip ccache-action's trailing ISO timestamp ("-YYYY-MM-DDT...") to
+        # group entries by prefix.
+        gh cache list --ref "${{ github.ref }}" --limit 1000         \
+          --json id,key,createdAt                                    \
+          --jq 'group_by(.key | sub("-[0-9]{4}-[0-9]{2}-[0-9]{2}[T-].*$"; ""))
+                | .[] | sort_by(.createdAt) | .[:-1][] | .id'        |
+        while read -r id; do
+          echo "Deleting cache ${id}"
+          gh cache delete "${id}"
+        done
