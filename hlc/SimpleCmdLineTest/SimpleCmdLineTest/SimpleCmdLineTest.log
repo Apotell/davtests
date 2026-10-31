@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/SimpleCmdLineTest top.v -f flist.f -y . +libverbose -d 0 -mt 4 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/SimpleCmdLineTest/SimpleCmdLineTest
+COMMAND: -wd ../../../tests/SimpleCmdLineTest -d ast -d db top.v -f flist.f -y . +libverbose -d 0 -mt 4 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/SimpleCmdLineTest/SimpleCmdLineTest
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [WRN:CM5010] Command line argument "-bad" ignored.
 [NTE:CM5009] Command line argument "+libreorder" ignored.
@@ -15,6 +15,38 @@ COMMAND: -wd ../../../tests/SimpleCmdLineTest top.v -f flist.f -y . +libverbose 
 [INF:PA5502] Parsing source file "$Scratch/builtin.sv".
 [INF:PA5502] Parsing source file "$Source01/cell.v".
 [INF:PA5519] Restored parser cache for $Scratch/builtin.sv.
+AST_DEBUG_BEGIN
+Count: 12
+LIB: work
+FILE<0>:$Source01/cell.v
+n<$Source01/cell.v> u<11> t<Top_level_rule> c<1> l<1:1> el<3:1>
+  n<> u<1> t<Null_rule> p<11> s<10> l<1:1>
+  n<> u<10> t<Source_text> p<11> c<9> l<1:1> el<2:10>
+    n<> u<9> t<Description> p<10> c<8> l<1:1> el<2:10>
+      n<> u<8> t<Module_declaration> p<9> c<6> l<1:1> el<2:10>
+        n<> u<6> t<Module_nonansi_header> p<8> c<2> s<7> l<1:1> el<1:15>
+          n<module> u<2> t<MODULE> p<6> s<3> l<1:1> el<1:7>
+          n<out> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<1:8> el<1:11>
+          n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<1:12> el<1:12>
+          n<> u<5> t<Port_list> p<6> l<1:12> el<1:14>
+        n<> u<7> t<ENDMODULE> p<8> l<2:1> el<2:10>
+AST_DEBUG_END
+AST_DEBUG_BEGIN
+Count: 12
+LIB: work
+FILE<0>:$Source01/top.v
+n<$Source01/top.v> u<11> t<Top_level_rule> c<1> l<1:1> el<5:1>
+  n<> u<1> t<Null_rule> p<11> s<10> l<1:1>
+  n<> u<10> t<Source_text> p<11> c<9> l<1:1> el<3:10>
+    n<> u<9> t<Description> p<10> c<8> l<1:1> el<3:10>
+      n<> u<8> t<Module_declaration> p<9> c<6> l<1:1> el<3:10>
+        n<> u<6> t<Module_nonansi_header> p<8> c<2> s<7> l<1:1> el<1:15>
+          n<module> u<2> t<MODULE> p<6> s<3> l<1:1> el<1:7>
+          n<top> u<3> t<SIMPLE_IDENTIFIER> p<6> s<4> l<1:8> el<1:11>
+          n<> u<4> t<Package_import_declaration_list> p<6> s<5> l<1:12> el<1:12>
+          n<> u<5> t<Port_list> p<6> l<1:12> el<1:14>
+        n<> u<7> t<ENDMODULE> p<8> l<3:1> el<3:10>
+AST_DEBUG_END
 [INF:CP5804] $Source01/top.v:1:1: Compile module "top".
 [INF:CP5804] $Source01/cell.v:1:1: Compile module "out".
 [WRN:PA5506] $Source01/top.v:1:1: No timescale set for "top".

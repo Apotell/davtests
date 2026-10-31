@@ -4,7 +4,7 @@
 Copyright (c) 2020 Apotell,
 http://www.apache.org/licenses/LICENSE-2.0
 VERSION: 1.84
-COMMAND: -wd ../../../tests/Timescale dut.sv timescale.sv decl.sv nested.sv cu_timeunit.sv units.sv errors.sv errors_timescale_inside.sv errors_cu_late.sv -fileunit -nobuiltin -mt 0 -d dbstats -d cache -writepp -d db -nostdout -o ${HLC_DIR}/regression/Timescale/Timescale
+COMMAND: -wd ../../../tests/Timescale -d ast -d db dut.sv timescale.sv decl.sv nested.sv cu_timeunit.sv units.sv errors.sv errors_timescale_inside.sv errors_cu_late.sv -fileunit -nobuiltin -mt 0 -d dbstats -d cache -writepp -nostdout -o ${HLC_DIR}/regression/Timescale/Timescale
 [INF:CM5022] Creating log file "$Output/hlc.log".
 [INF:CM5019] Separate compilation-unit mode is on.
 [INF:PP5223] Preprocessing source file "$Source01/dut.sv".
@@ -32,6 +32,1565 @@ COMMAND: -wd ../../../tests/Timescale dut.sv timescale.sv decl.sv nested.sv cu_t
 [SNT:PA5508] $Source01/errors_timescale_inside.sv:7: Syntax error: extraneous input 'endmodule' expecting <EOF>,
              endmodule
              ^-- $Source01/errors_timescale_inside.sv:7:0:.
+AST_DEBUG_BEGIN
+Count: 122
+LIB: work
+FILE<0>:$Source01/cu_timeunit.sv
+n<$Source01/cu_timeunit.sv> u<121> t<Top_level_rule> c<1> l<7:1> el<45:1>
+  n<> u<1> t<Null_rule> p<121> s<2> l<7:1> el<7:1>
+  n<// Compilation-unit timeunit / timeprecision (IEEE 1800-2023 Sec 3.14.2.3 rule c).> u<2> t<LINE_COMMENT> p<121> s<3> l<1:1> el<1:83>
+  n<// "The time unit of the compilation-unit scope can only be set by a timeunit> u<3> t<LINE_COMMENT> p<121> s<4> l<2:1> el<2:78>
+  n<// declaration, not a `timescale directive." This file is its own compilation unit> u<4> t<LINE_COMMENT> p<121> s<5> l<3:1> el<3:83>
+  n<// (-fileunit), so the declarations below are its compilation-unit scope.> u<5> t<LINE_COMMENT> p<121> s<6> l<4:1> el<4:74>
+  n<// Expected (unit / precision):> u<6> t<LINE_COMMENT> p<121> s<120> l<5:1> el<5:32>
+  n<> u<120> t<Source_text> p<121> c<14> l<7:1> el<44:10>
+    n<> u<14> t<TimeUnitsDecl_TimeUnitTimePrecision> p<120> c<9> s<22> l<7:1> el<8:19>
+      n<1us> u<9> t<Time_literal> p<14> c<7> s<10> l<7:10> el<7:13>
+        n<1> u<7> t<INTEGRAL_NUMBER> p<9> s<8> l<7:10> el<7:11>
+        n<us> u<8> t<SIMPLE_IDENTIFIER> p<9> l<7:11> el<7:13>
+      n<// SourceFile: -6 / -9> u<10> t<LINE_COMMENT> p<14> s<13> l<7:41> el<7:63>
+      n<1ns> u<13> t<Time_literal> p<14> c<11> l<8:15> el<8:18>
+        n<1> u<11> t<INTEGRAL_NUMBER> p<13> s<12> l<8:15> el<8:16>
+        n<ns> u<12> t<SIMPLE_IDENTIFIER> p<13> l<8:16> el<8:18>
+    n<> u<22> t<Description> p<120> c<21> s<34> l<10:1> el<11:10>
+      n<> u<21> t<Module_declaration> p<22> c<18> l<10:1> el<11:10>
+        n<> u<18> t<Module_ansi_header> p<21> c<15> s<19> l<10:1> el<10:15>
+          n<module> u<15> t<MODULE> p<18> s<16> l<10:1> el<10:7>
+          n<c_none> u<16> t<SIMPLE_IDENTIFIER> p<18> s<17> l<10:8> el<10:14>
+          n<> u<17> t<Package_import_declaration_list> p<18> l<10:14> el<10:14>
+        n<// -6 / -9     (rule c)> u<19> t<LINE_COMMENT> p<21> s<20> l<10:41> el<10:64>
+        n<> u<20> t<ENDMODULE> p<21> l<11:1> el<11:10>
+    n<> u<34> t<Description> p<120> c<33> s<46> l<13:1> el<15:10>
+      n<> u<33> t<Module_declaration> p<34> c<26> l<13:1> el<15:10>
+        n<> u<26> t<Module_ansi_header> p<33> c<23> s<27> l<13:1> el<13:20>
+          n<module> u<23> t<MODULE> p<26> s<24> l<13:1> el<13:7>
+          n<c_unit_only> u<24> t<SIMPLE_IDENTIFIER> p<26> s<25> l<13:8> el<13:19>
+          n<> u<25> t<Package_import_declaration_list> p<26> l<13:19> el<13:19>
+        n<// -8 / -9     (precision from rule c)> u<27> t<LINE_COMMENT> p<33> s<31> l<13:41> el<13:79>
+        n<> u<31> t<TimeUnitsDecl_TimeUnit> p<33> c<30> s<32> l<14:3> el<14:17>
+          n<10ns> u<30> t<Time_literal> p<31> c<28> l<14:12> el<14:16>
+            n<10> u<28> t<INTEGRAL_NUMBER> p<30> s<29> l<14:12> el<14:14>
+            n<ns> u<29> t<SIMPLE_IDENTIFIER> p<30> l<14:14> el<14:16>
+        n<> u<32> t<ENDMODULE> p<33> l<15:1> el<15:10>
+    n<> u<46> t<Description> p<120> c<45> s<69> l<17:1> el<19:10>
+      n<> u<45> t<Module_declaration> p<46> c<38> l<17:1> el<19:10>
+        n<> u<38> t<Module_ansi_header> p<45> c<35> s<39> l<17:1> el<17:20>
+          n<module> u<35> t<MODULE> p<38> s<36> l<17:1> el<17:7>
+          n<c_prec_only> u<36> t<SIMPLE_IDENTIFIER> p<38> s<37> l<17:8> el<17:19>
+          n<> u<37> t<Package_import_declaration_list> p<38> l<17:19> el<17:19>
+        n<// -6 / -12    (unit from rule c)> u<39> t<LINE_COMMENT> p<45> s<43> l<17:41> el<17:74>
+        n<> u<43> t<TimeUnitsDecl_TimePrecision> p<45> c<42> s<44> l<18:3> el<18:21>
+          n<1ps> u<42> t<Time_literal> p<43> c<40> l<18:17> el<18:20>
+            n<1> u<40> t<INTEGRAL_NUMBER> p<42> s<41> l<18:17> el<18:18>
+            n<ps> u<41> t<SIMPLE_IDENTIFIER> p<42> l<18:18> el<18:20>
+        n<> u<44> t<ENDMODULE> p<45> l<19:1> el<19:10>
+    n<> u<69> t<Description> p<120> c<68> s<77> l<21:1> el<25:10>
+      n<> u<68> t<Module_declaration> p<69> c<50> l<21:1> el<25:10>
+        n<> u<50> t<Module_ansi_header> p<68> c<47> s<51> l<21:1> el<21:16>
+          n<module> u<47> t<MODULE> p<50> s<48> l<21:1> el<21:7>
+          n<c_outer> u<48> t<SIMPLE_IDENTIFIER> p<50> s<49> l<21:8> el<21:15>
+          n<> u<49> t<Package_import_declaration_list> p<50> l<21:15> el<21:15>
+        n<// -7 / -8> u<51> t<LINE_COMMENT> p<68> s<58> l<21:41> el<21:51>
+        n<> u<58> t<TimeUnitsDecl_TimeUnitDiv> p<68> c<54> s<66> l<22:3> el<22:25>
+          n<100ns> u<54> t<Time_literal> p<58> c<52> s<57> l<22:12> el<22:17>
+            n<100> u<52> t<INTEGRAL_NUMBER> p<54> s<53> l<22:12> el<22:15>
+            n<ns> u<53> t<SIMPLE_IDENTIFIER> p<54> l<22:15> el<22:17>
+          n<10ns> u<57> t<Time_literal> p<58> c<55> l<22:20> el<22:24>
+            n<10> u<55> t<INTEGRAL_NUMBER> p<57> s<56> l<22:20> el<22:22>
+            n<ns> u<56> t<SIMPLE_IDENTIFIER> p<57> l<22:22> el<22:24>
+        n<> u<66> t<Non_port_module_item> p<68> c<65> s<67> l<23:3> el<24:12>
+          n<> u<65> t<Module_declaration> p<66> c<62> l<23:3> el<24:12>
+            n<> u<62> t<Module_ansi_header> p<65> c<59> s<63> l<23:3> el<23:18>
+              n<module> u<59> t<MODULE> p<62> s<60> l<23:3> el<23:9>
+              n<c_inner> u<60> t<SIMPLE_IDENTIFIER> p<62> s<61> l<23:10> el<23:17>
+              n<> u<61> t<Package_import_declaration_list> p<62> l<23:17> el<23:17>
+            n<// -7 / -8     (rule a beats rule c)> u<63> t<LINE_COMMENT> p<65> s<64> l<23:41> el<23:77>
+            n<> u<64> t<ENDMODULE> p<65> l<24:3> el<24:12>
+        n<> u<67> t<ENDMODULE> p<68> l<25:1> el<25:10>
+    n<> u<77> t<Description> p<120> c<76> s<85> l<27:1> el<28:13>
+      n<> u<76> t<Interface_declaration> p<77> c<73> l<27:1> el<28:13>
+        n<> u<73> t<Interface_ansi_header> p<76> c<70> s<74> l<27:1> el<27:16>
+          n<> u<70> t<INTERFACE> p<73> s<71> l<27:1> el<27:10>
+          n<c_if> u<71> t<SIMPLE_IDENTIFIER> p<73> s<72> l<27:11> el<27:15>
+          n<> u<72> t<Package_import_declaration_list> p<73> l<27:15> el<27:15>
+        n<// -6 / -9> u<74> t<LINE_COMMENT> p<76> s<75> l<27:41> el<27:51>
+        n<> u<75> t<ENDINTERFACE> p<76> l<28:1> el<28:13>
+    n<> u<85> t<Description> p<120> c<84> s<91> l<30:1> el<31:11>
+      n<> u<84> t<Program_declaration> p<85> c<81> l<30:1> el<31:11>
+        n<> u<81> t<Program_ansi_header> p<84> c<78> s<82> l<30:1> el<30:16>
+          n<> u<78> t<PROGRAM> p<81> s<79> l<30:1> el<30:8>
+          n<c_prog> u<79> t<SIMPLE_IDENTIFIER> p<81> s<80> l<30:9> el<30:15>
+          n<> u<80> t<Package_import_declaration_list> p<81> l<30:15> el<30:15>
+        n<// -6 / -9> u<82> t<LINE_COMMENT> p<84> s<83> l<30:41> el<30:51>
+        n<> u<83> t<ENDPROGRAM> p<84> l<31:1> el<31:11>
+    n<> u<91> t<Description> p<120> c<90> s<100> l<33:1> el<34:11>
+      n<> u<90> t<Package_declaration> p<91> c<86> l<33:1> el<34:11>
+        n<> u<86> t<PACKAGE> p<90> s<87> l<33:1> el<33:8>
+        n<c_pkg> u<87> t<SIMPLE_IDENTIFIER> p<90> s<88> l<33:9> el<33:14>
+        n<// -6 / -9> u<88> t<LINE_COMMENT> p<90> s<89> l<33:41> el<33:51>
+        n<> u<89> t<ENDPACKAGE> p<90> l<34:1> el<34:11>
+    n<> u<100> t<Description> p<120> c<99> s<108> l<36:1> el<36:21>
+      n<> u<99> t<Top_directives> p<100> c<98> l<36:1> el<36:21>
+        n<> u<98> t<Timescale_directive> p<99> c<94> l<36:1> el<36:21>
+          n<1ps> u<94> t<Time_literal> p<98> c<92> s<97> l<36:12> el<36:15>
+            n<1> u<92> t<INTEGRAL_NUMBER> p<94> s<93> l<36:12> el<36:13>
+            n<ps> u<93> t<SIMPLE_IDENTIFIER> p<94> l<36:13> el<36:15>
+          n<1fs> u<97> t<Time_literal> p<98> c<95> l<36:18> el<36:21>
+            n<1> u<95> t<INTEGRAL_NUMBER> p<97> s<96> l<36:18> el<36:19>
+            n<fs> u<96> t<SIMPLE_IDENTIFIER> p<97> l<36:19> el<36:21>
+    n<> u<108> t<Description> p<120> c<107> s<111> l<38:1> el<39:10>
+      n<> u<107> t<Module_declaration> p<108> c<104> l<38:1> el<39:10>
+        n<> u<104> t<Module_ansi_header> p<107> c<101> s<105> l<38:1> el<38:26>
+          n<module> u<101> t<MODULE> p<104> s<102> l<38:1> el<38:7>
+          n<c_after_timescale> u<102> t<SIMPLE_IDENTIFIER> p<104> s<103> l<38:8> el<38:25>
+          n<> u<103> t<Package_import_declaration_list> p<104> l<38:25> el<38:25>
+        n<// -12 / -15   (rule b beats rule c)> u<105> t<LINE_COMMENT> p<107> s<106> l<38:41> el<38:77>
+        n<> u<106> t<ENDMODULE> p<107> l<39:1> el<39:10>
+    n<> u<111> t<Description> p<120> c<110> s<119> l<41:1> el<41:10>
+      n<> u<110> t<Top_directives> p<111> c<109> l<41:1> el<41:10>
+        n<> u<109> t<Resetall_directive> p<110> l<41:1> el<41:10>
+    n<> u<119> t<Description> p<120> c<118> l<43:1> el<44:10>
+      n<> u<118> t<Module_declaration> p<119> c<115> l<43:1> el<44:10>
+        n<> u<115> t<Module_ansi_header> p<118> c<112> s<116> l<43:1> el<43:25>
+          n<module> u<112> t<MODULE> p<115> s<113> l<43:1> el<43:7>
+          n<c_after_resetall> u<113> t<SIMPLE_IDENTIFIER> p<115> s<114> l<43:8> el<43:24>
+          n<> u<114> t<Package_import_declaration_list> p<115> l<43:24> el<43:24>
+        n<// -6 / -9     (`resetall resets directives only, rule c again)> u<116> t<LINE_COMMENT> p<118> s<117> l<43:41> el<43:104>
+        n<> u<117> t<ENDMODULE> p<118> l<44:1> el<44:10>
+AST_DEBUG_END
+AST_DEBUG_BEGIN
+Count: 178
+LIB: work
+FILE<0>:$Source01/decl.sv
+n<$Source01/decl.sv> u<177> t<Top_level_rule> c<1> l<6:1> el<54:1>
+  n<> u<1> t<Null_rule> p<177> s<2> l<6:1> el<6:1>
+  n<// Own timeunit / timeprecision declarations (IEEE 1800-2023 Sec 3.14.2.2).> u<2> t<LINE_COMMENT> p<177> s<3> l<1:1> el<1:76>
+  n<// This file has no `timescale and no compilation-unit timeunit, so whatever a design> u<3> t<LINE_COMMENT> p<177> s<4> l<2:1> el<2:86>
+  n<// element does not declare itself falls to Sec 3.14.2.3 rule (d), the default.> u<4> t<LINE_COMMENT> p<177> s<5> l<3:1> el<3:80>
+  n<// Expected (unit / precision, 0 = default):> u<5> t<LINE_COMMENT> p<177> s<176> l<4:1> el<4:45>
+  n<> u<176> t<Source_text> p<177> c<17> l<6:1> el<53:11>
+    n<> u<17> t<Description> p<176> c<16> s<32> l<6:1> el<8:10>
+      n<> u<16> t<Module_declaration> p<17> c<9> l<6:1> el<8:10>
+        n<> u<9> t<Module_ansi_header> p<16> c<6> s<10> l<6:1> el<6:20>
+          n<module> u<6> t<MODULE> p<9> s<7> l<6:1> el<6:7>
+          n<d_unit_only> u<7> t<SIMPLE_IDENTIFIER> p<9> s<8> l<6:8> el<6:19>
+          n<> u<8> t<Package_import_declaration_list> p<9> l<6:19> el<6:19>
+        n<// -10 / 0> u<10> t<LINE_COMMENT> p<16> s<14> l<6:41> el<6:51>
+        n<> u<14> t<TimeUnitsDecl_TimeUnit> p<16> c<13> s<15> l<7:3> el<7:18>
+          n<100ps> u<13> t<Time_literal> p<14> c<11> l<7:12> el<7:17>
+            n<100> u<11> t<INTEGRAL_NUMBER> p<13> s<12> l<7:12> el<7:15>
+            n<ps> u<12> t<SIMPLE_IDENTIFIER> p<13> l<7:15> el<7:17>
+        n<> u<15> t<ENDMODULE> p<16> l<8:1> el<8:10>
+    n<> u<32> t<Description> p<176> c<31> s<47> l<10:1> el<12:10>
+      n<> u<31> t<Module_declaration> p<32> c<21> l<10:1> el<12:10>
+        n<> u<21> t<Module_ansi_header> p<31> c<18> s<22> l<10:1> el<10:21>
+          n<module> u<18> t<MODULE> p<21> s<19> l<10:1> el<10:7>
+          n<d_unit_slash> u<19> t<SIMPLE_IDENTIFIER> p<21> s<20> l<10:8> el<10:20>
+          n<> u<20> t<Package_import_declaration_list> p<21> l<10:20> el<10:20>
+        n<// -10 / -14   (Sec 3.14.2.2 example E)> u<22> t<LINE_COMMENT> p<31> s<29> l<10:41> el<10:80>
+        n<> u<29> t<TimeUnitsDecl_TimeUnitDiv> p<31> c<25> s<30> l<11:3> el<11:25>
+          n<100ps> u<25> t<Time_literal> p<29> c<23> s<28> l<11:12> el<11:17>
+            n<100> u<23> t<INTEGRAL_NUMBER> p<25> s<24> l<11:12> el<11:15>
+            n<ps> u<24> t<SIMPLE_IDENTIFIER> p<25> l<11:15> el<11:17>
+          n<10fs> u<28> t<Time_literal> p<29> c<26> l<11:20> el<11:24>
+            n<10> u<26> t<INTEGRAL_NUMBER> p<28> s<27> l<11:20> el<11:22>
+            n<fs> u<27> t<SIMPLE_IDENTIFIER> p<28> l<11:22> el<11:24>
+        n<> u<30> t<ENDMODULE> p<31> l<12:1> el<12:10>
+    n<> u<47> t<Description> p<176> c<46> s<62> l<14:1> el<17:10>
+      n<> u<46> t<Module_declaration> p<47> c<36> l<14:1> el<17:10>
+        n<> u<36> t<Module_ansi_header> p<46> c<33> s<37> l<14:1> el<14:25>
+          n<module> u<33> t<MODULE> p<36> s<34> l<14:1> el<14:7>
+          n<d_unit_then_prec> u<34> t<SIMPLE_IDENTIFIER> p<36> s<35> l<14:8> el<14:24>
+          n<> u<35> t<Package_import_declaration_list> p<36> l<14:24> el<14:24>
+        n<// -10 / -14   (Sec 3.14.2.2 example D)> u<37> t<LINE_COMMENT> p<46> s<44> l<14:41> el<14:80>
+        n<> u<44> t<TimeUnitsDecl_TimeUnitTimePrecision> p<46> c<40> s<45> l<15:3> el<16:22>
+          n<100ps> u<40> t<Time_literal> p<44> c<38> s<43> l<15:12> el<15:17>
+            n<100> u<38> t<INTEGRAL_NUMBER> p<40> s<39> l<15:12> el<15:15>
+            n<ps> u<39> t<SIMPLE_IDENTIFIER> p<40> l<15:15> el<15:17>
+          n<10fs> u<43> t<Time_literal> p<44> c<41> l<16:17> el<16:21>
+            n<10> u<41> t<INTEGRAL_NUMBER> p<43> s<42> l<16:17> el<16:19>
+            n<fs> u<42> t<SIMPLE_IDENTIFIER> p<43> l<16:19> el<16:21>
+        n<> u<45> t<ENDMODULE> p<46> l<17:1> el<17:10>
+    n<> u<62> t<Description> p<176> c<61> s<74> l<19:1> el<22:10>
+      n<> u<61> t<Module_declaration> p<62> c<51> l<19:1> el<22:10>
+        n<> u<51> t<Module_ansi_header> p<61> c<48> s<52> l<19:1> el<19:25>
+          n<module> u<48> t<MODULE> p<51> s<49> l<19:1> el<19:7>
+          n<d_prec_then_unit> u<49> t<SIMPLE_IDENTIFIER> p<51> s<50> l<19:8> el<19:24>
+          n<> u<50> t<Package_import_declaration_list> p<51> l<19:24> el<19:24>
+        n<// -10 / -14   (either order is legal)> u<52> t<LINE_COMMENT> p<61> s<59> l<19:41> el<19:79>
+        n<> u<59> t<TimeUnitsDecl_TimePrecisionTimeUnit> p<61> c<55> s<60> l<20:3> el<21:18>
+          n<10fs> u<55> t<Time_literal> p<59> c<53> s<58> l<20:17> el<20:21>
+            n<10> u<53> t<INTEGRAL_NUMBER> p<55> s<54> l<20:17> el<20:19>
+            n<fs> u<54> t<SIMPLE_IDENTIFIER> p<55> l<20:19> el<20:21>
+          n<100ps> u<58> t<Time_literal> p<59> c<56> l<21:12> el<21:17>
+            n<100> u<56> t<INTEGRAL_NUMBER> p<58> s<57> l<21:12> el<21:15>
+            n<ps> u<57> t<SIMPLE_IDENTIFIER> p<58> l<21:15> el<21:17>
+        n<> u<60> t<ENDMODULE> p<61> l<22:1> el<22:10>
+    n<> u<74> t<Description> p<176> c<73> s<89> l<24:1> el<26:10>
+      n<> u<73> t<Module_declaration> p<74> c<66> l<24:1> el<26:10>
+        n<> u<66> t<Module_ansi_header> p<73> c<63> s<67> l<24:1> el<24:20>
+          n<module> u<63> t<MODULE> p<66> s<64> l<24:1> el<24:7>
+          n<d_prec_only> u<64> t<SIMPLE_IDENTIFIER> p<66> s<65> l<24:8> el<24:19>
+          n<> u<65> t<Package_import_declaration_list> p<66> l<24:19> el<24:19>
+        n<// 0 / -12> u<67> t<LINE_COMMENT> p<73> s<71> l<24:41> el<24:51>
+        n<> u<71> t<TimeUnitsDecl_TimePrecision> p<73> c<70> s<72> l<25:3> el<25:21>
+          n<1ps> u<70> t<Time_literal> p<71> c<68> l<25:17> el<25:20>
+            n<1> u<68> t<INTEGRAL_NUMBER> p<70> s<69> l<25:17> el<25:18>
+            n<ps> u<69> t<SIMPLE_IDENTIFIER> p<70> l<25:18> el<25:20>
+        n<> u<72> t<ENDMODULE> p<73> l<26:1> el<26:10>
+    n<> u<89> t<Description> p<176> c<88> s<124> l<28:1> el<30:10>
+      n<> u<88> t<Module_declaration> p<89> c<78> l<28:1> el<30:10>
+        n<> u<78> t<Module_ansi_header> p<88> c<75> s<79> l<28:1> el<28:27>
+          n<module> u<75> t<MODULE> p<78> s<76> l<28:1> el<28:7>
+          n<d_unit_equals_prec> u<76> t<SIMPLE_IDENTIFIER> p<78> s<77> l<28:8> el<28:26>
+          n<> u<77> t<Package_import_declaration_list> p<78> l<28:26> el<28:26>
+        n<// -9 / -9     (precision may equal the unit)> u<79> t<LINE_COMMENT> p<88> s<86> l<28:41> el<28:86>
+        n<> u<86> t<TimeUnitsDecl_TimeUnitDiv> p<88> c<82> s<87> l<29:3> el<29:22>
+          n<1ns> u<82> t<Time_literal> p<86> c<80> s<85> l<29:12> el<29:15>
+            n<1> u<80> t<INTEGRAL_NUMBER> p<82> s<81> l<29:12> el<29:13>
+            n<ns> u<81> t<SIMPLE_IDENTIFIER> p<82> l<29:13> el<29:15>
+          n<1ns> u<85> t<Time_literal> p<86> c<83> l<29:18> el<29:21>
+            n<1> u<83> t<INTEGRAL_NUMBER> p<85> s<84> l<29:18> el<29:19>
+            n<ns> u<84> t<SIMPLE_IDENTIFIER> p<85> l<29:19> el<29:21>
+        n<> u<87> t<ENDMODULE> p<88> l<30:1> el<30:10>
+    n<> u<124> t<Description> p<176> c<123> s<132> l<32:1> el<38:10>
+      n<> u<123> t<Module_declaration> p<124> c<93> l<32:1> el<38:10>
+        n<> u<93> t<Module_ansi_header> p<123> c<90> s<94> l<32:1> el<32:23>
+          n<module> u<90> t<MODULE> p<93> s<91> l<32:1> el<32:7>
+          n<d_repeat_match> u<91> t<SIMPLE_IDENTIFIER> p<93> s<92> l<32:8> el<32:22>
+          n<> u<92> t<Package_import_declaration_list> p<93> l<32:22> el<32:22>
+        n<// -9 / -12    (a matching repeat is legal)> u<94> t<LINE_COMMENT> p<123> s<101> l<32:41> el<32:84>
+        n<> u<101> t<TimeUnitsDecl_TimeUnitTimePrecision> p<123> c<97> s<113> l<33:3> el<34:21>
+          n<1ns> u<97> t<Time_literal> p<101> c<95> s<100> l<33:12> el<33:15>
+            n<1> u<95> t<INTEGRAL_NUMBER> p<97> s<96> l<33:12> el<33:13>
+            n<ns> u<96> t<SIMPLE_IDENTIFIER> p<97> l<33:13> el<33:15>
+          n<1ps> u<100> t<Time_literal> p<101> c<98> l<34:17> el<34:20>
+            n<1> u<98> t<INTEGRAL_NUMBER> p<100> s<99> l<34:17> el<34:18>
+            n<ps> u<99> t<SIMPLE_IDENTIFIER> p<100> l<34:18> el<34:20>
+        n<> u<113> t<Non_port_module_item> p<123> c<112> s<121> l<35:3> el<35:11>
+          n<> u<112> t<Module_or_generate_item> p<113> c<111> l<35:3> el<35:11>
+            n<> u<111> t<Module_common_item> p<112> c<110> l<35:3> el<35:11>
+              n<> u<110> t<Module_or_generate_item_declaration> p<111> c<109> l<35:3> el<35:11>
+                n<> u<109> t<Package_or_generate_item_declaration> p<110> c<108> l<35:3> el<35:11>
+                  n<> u<108> t<Data_declaration> p<109> c<107> l<35:3> el<35:11>
+                    n<> u<107> t<Variable_declaration> p<108> c<103> l<35:3> el<35:11>
+                      n<> u<103> t<Data_type> p<107> c<102> s<106> l<35:3> el<35:8>
+                        n<> u<102> t<LOGIC> p<103> l<35:3> el<35:8>
+                      n<> u<106> t<Variable_decl_assignment_list> p<107> c<105> l<35:9> el<35:10>
+                        n<> u<105> t<Variable_decl_assignment> p<106> c<104> l<35:9> el<35:10>
+                          n<x> u<104> t<SIMPLE_IDENTIFIER> p<105> l<35:9> el<35:10>
+        n<> u<121> t<Non_port_module_item> p<123> c<120> s<122> l<36:3> el<37:21>
+          n<> u<120> t<TimeUnitsDecl_TimeUnitTimePrecision> p<121> c<116> l<36:3> el<37:21>
+            n<1ns> u<116> t<Time_literal> p<120> c<114> s<119> l<36:12> el<36:15>
+              n<1> u<114> t<INTEGRAL_NUMBER> p<116> s<115> l<36:12> el<36:13>
+              n<ns> u<115> t<SIMPLE_IDENTIFIER> p<116> l<36:13> el<36:15>
+            n<1ps> u<119> t<Time_literal> p<120> c<117> l<37:17> el<37:20>
+              n<1> u<117> t<INTEGRAL_NUMBER> p<119> s<118> l<37:17> el<37:18>
+              n<ps> u<118> t<SIMPLE_IDENTIFIER> p<119> l<37:18> el<37:20>
+        n<> u<122> t<ENDMODULE> p<123> l<38:1> el<38:10>
+    n<> u<132> t<Description> p<176> c<131> s<147> l<40:1> el<41:10>
+      n<> u<131> t<Module_declaration> p<132> c<128> l<40:1> el<41:10>
+        n<> u<128> t<Module_ansi_header> p<131> c<125> s<129> l<40:1> el<40:15>
+          n<module> u<125> t<MODULE> p<128> s<126> l<40:1> el<40:7>
+          n<d_none> u<126> t<SIMPLE_IDENTIFIER> p<128> s<127> l<40:8> el<40:14>
+          n<> u<127> t<Package_import_declaration_list> p<128> l<40:14> el<40:14>
+        n<// 0 / 0       (rule d)> u<129> t<LINE_COMMENT> p<131> s<130> l<40:41> el<40:64>
+        n<> u<130> t<ENDMODULE> p<131> l<41:1> el<41:10>
+    n<> u<147> t<Description> p<176> c<146> s<162> l<43:1> el<45:13>
+      n<> u<146> t<Interface_declaration> p<147> c<136> l<43:1> el<45:13>
+        n<> u<136> t<Interface_ansi_header> p<146> c<133> s<137> l<43:1> el<43:16>
+          n<> u<133> t<INTERFACE> p<136> s<134> l<43:1> el<43:10>
+          n<d_if> u<134> t<SIMPLE_IDENTIFIER> p<136> s<135> l<43:11> el<43:15>
+          n<> u<135> t<Package_import_declaration_list> p<136> l<43:15> el<43:15>
+        n<// -6 / -9> u<137> t<LINE_COMMENT> p<146> s<144> l<43:41> el<43:51>
+        n<> u<144> t<TimeUnitsDecl_TimeUnitDiv> p<146> c<140> s<145> l<44:3> el<44:22>
+          n<1us> u<140> t<Time_literal> p<144> c<138> s<143> l<44:12> el<44:15>
+            n<1> u<138> t<INTEGRAL_NUMBER> p<140> s<139> l<44:12> el<44:13>
+            n<us> u<139> t<SIMPLE_IDENTIFIER> p<140> l<44:13> el<44:15>
+          n<1ns> u<143> t<Time_literal> p<144> c<141> l<44:18> el<44:21>
+            n<1> u<141> t<INTEGRAL_NUMBER> p<143> s<142> l<44:18> el<44:19>
+            n<ns> u<142> t<SIMPLE_IDENTIFIER> p<143> l<44:19> el<44:21>
+        n<> u<145> t<ENDINTERFACE> p<146> l<45:1> el<45:13>
+    n<> u<162> t<Description> p<176> c<161> s<175> l<47:1> el<49:11>
+      n<> u<161> t<Program_declaration> p<162> c<151> l<47:1> el<49:11>
+        n<> u<151> t<Program_ansi_header> p<161> c<148> s<152> l<47:1> el<47:16>
+          n<> u<148> t<PROGRAM> p<151> s<149> l<47:1> el<47:8>
+          n<d_prog> u<149> t<SIMPLE_IDENTIFIER> p<151> s<150> l<47:9> el<47:15>
+          n<> u<150> t<Package_import_declaration_list> p<151> l<47:15> el<47:15>
+        n<// -5 / -7> u<152> t<LINE_COMMENT> p<161> s<159> l<47:41> el<47:51>
+        n<> u<159> t<TimeUnitsDecl_TimeUnitDiv> p<161> c<155> s<160> l<48:3> el<48:25>
+          n<10us> u<155> t<Time_literal> p<159> c<153> s<158> l<48:12> el<48:16>
+            n<10> u<153> t<INTEGRAL_NUMBER> p<155> s<154> l<48:12> el<48:14>
+            n<us> u<154> t<SIMPLE_IDENTIFIER> p<155> l<48:14> el<48:16>
+          n<100ns> u<158> t<Time_literal> p<159> c<156> l<48:19> el<48:24>
+            n<100> u<156> t<INTEGRAL_NUMBER> p<158> s<157> l<48:19> el<48:22>
+            n<ns> u<157> t<SIMPLE_IDENTIFIER> p<158> l<48:22> el<48:24>
+        n<> u<160> t<ENDPROGRAM> p<161> l<49:1> el<49:11>
+    n<> u<175> t<Description> p<176> c<174> l<51:1> el<53:11>
+      n<> u<174> t<Package_declaration> p<175> c<163> l<51:1> el<53:11>
+        n<> u<163> t<PACKAGE> p<174> s<164> l<51:1> el<51:8>
+        n<d_pkg> u<164> t<SIMPLE_IDENTIFIER> p<174> s<165> l<51:9> el<51:14>
+        n<// -4 / -6> u<165> t<LINE_COMMENT> p<174> s<172> l<51:41> el<51:51>
+        n<> u<172> t<TimeUnitsDecl_TimeUnitDiv> p<174> c<168> s<173> l<52:3> el<52:24>
+          n<100us> u<168> t<Time_literal> p<172> c<166> s<171> l<52:12> el<52:17>
+            n<100> u<166> t<INTEGRAL_NUMBER> p<168> s<167> l<52:12> el<52:15>
+            n<us> u<167> t<SIMPLE_IDENTIFIER> p<168> l<52:15> el<52:17>
+          n<1us> u<171> t<Time_literal> p<172> c<169> l<52:20> el<52:23>
+            n<1> u<169> t<INTEGRAL_NUMBER> p<171> s<170> l<52:20> el<52:21>
+            n<us> u<170> t<SIMPLE_IDENTIFIER> p<171> l<52:21> el<52:23>
+        n<> u<173> t<ENDPACKAGE> p<174> l<53:1> el<53:11>
+AST_DEBUG_END
+AST_DEBUG_BEGIN
+Count: 95
+LIB: work
+FILE<0>:$Source01/dut.sv
+n<$Source01/dut.sv> u<94> t<Top_level_rule> c<1> l<1:1> el<17:1>
+  n<> u<1> t<Null_rule> p<94> s<93> l<1:1>
+  n<> u<93> t<Source_text> p<94> c<67> l<1:1> el<16:10>
+    n<> u<67> t<Description> p<93> c<66> s<76> l<1:1> el<11:10>
+      n<> u<66> t<Module_declaration> p<67> c<14> l<1:1> el<11:10>
+        n<> u<14> t<Module_ansi_header> p<66> c<2> s<21> l<1:1> el<1:27>
+          n<module> u<2> t<MODULE> p<14> s<3> l<1:1> el<1:7>
+          n<m1> u<3> t<SIMPLE_IDENTIFIER> p<14> s<4> l<1:9> el<1:11>
+          n<> u<4> t<Package_import_declaration_list> p<14> s<13> l<1:11> el<1:11>
+          n<> u<13> t<Port_declaration_list> p<14> c<12> l<1:11> el<1:26>
+            n<> u<12> t<Ansi_port_declaration> p<13> c<10> l<1:12> el<1:25>
+              n<> u<10> t<Net_port_header> p<12> c<5> s<11> l<1:12> el<1:23>
+                n<> u<5> t<INPUT> p<10> s<9> l<1:12> el<1:17>
+                n<> u<9> t<Net_port_type> p<10> c<8> l<1:18> el<1:23>
+                  n<> u<8> t<Data_type_or_implicit> p<9> c<7> l<1:18> el<1:23>
+                    n<> u<7> t<Data_type> p<8> c<6> l<1:18> el<1:23>
+                      n<> u<6> t<LOGIC> p<7> l<1:18> el<1:23>
+              n<a> u<11> t<SIMPLE_IDENTIFIER> p<12> l<1:24> el<1:25>
+        n<> u<21> t<TimeUnitsDecl_TimeUnitDiv> p<66> c<17> s<44> l<2:3> el<2:21>
+          n<10ns> u<17> t<Time_literal> p<21> c<15> s<20> l<2:12> el<2:16>
+            n<10> u<15> t<INTEGRAL_NUMBER> p<17> s<16> l<2:12> el<2:14>
+            n<ns> u<16> t<SIMPLE_IDENTIFIER> p<17> l<2:14> el<2:16>
+          n<1ps> u<20> t<Time_literal> p<21> c<18> l<2:17> el<2:20>
+            n<1> u<18> t<INTEGRAL_NUMBER> p<20> s<19> l<2:17> el<2:18>
+            n<ps> u<19> t<SIMPLE_IDENTIFIER> p<20> l<2:18> el<2:20>
+        n<> u<44> t<Non_port_module_item> p<66> c<43> s<64> l<4:3> el<6:12>
+          n<> u<43> t<Module_declaration> p<44> c<34> l<4:3> el<6:12>
+            n<> u<34> t<Module_ansi_header> p<43> c<22> s<41> l<4:3> el<4:29>
+              n<module> u<22> t<MODULE> p<34> s<23> l<4:3> el<4:9>
+              n<m11> u<23> t<SIMPLE_IDENTIFIER> p<34> s<24> l<4:10> el<4:13>
+              n<> u<24> t<Package_import_declaration_list> p<34> s<33> l<4:13> el<4:13>
+              n<> u<33> t<Port_declaration_list> p<34> c<32> l<4:13> el<4:28>
+                n<> u<32> t<Ansi_port_declaration> p<33> c<30> l<4:14> el<4:27>
+                  n<> u<30> t<Net_port_header> p<32> c<25> s<31> l<4:14> el<4:25>
+                    n<> u<25> t<INPUT> p<30> s<29> l<4:14> el<4:19>
+                    n<> u<29> t<Net_port_type> p<30> c<28> l<4:20> el<4:25>
+                      n<> u<28> t<Data_type_or_implicit> p<29> c<27> l<4:20> el<4:25>
+                        n<> u<27> t<Data_type> p<28> c<26> l<4:20> el<4:25>
+                          n<> u<26> t<LOGIC> p<27> l<4:20> el<4:25>
+                  n<a> u<31> t<SIMPLE_IDENTIFIER> p<32> l<4:26> el<4:27>
+            n<> u<41> t<TimeUnitsDecl_TimeUnitDiv> p<43> c<37> s<42> l<5:5> el<5:24>
+              n<10ns> u<37> t<Time_literal> p<41> c<35> s<40> l<5:14> el<5:18>
+                n<10> u<35> t<INTEGRAL_NUMBER> p<37> s<36> l<5:14> el<5:16>
+                n<ns> u<36> t<SIMPLE_IDENTIFIER> p<37> l<5:16> el<5:18>
+              n<10ps> u<40> t<Time_literal> p<41> c<38> l<5:19> el<5:23>
+                n<10> u<38> t<INTEGRAL_NUMBER> p<40> s<39> l<5:19> el<5:21>
+                n<ps> u<39> t<SIMPLE_IDENTIFIER> p<40> l<5:21> el<5:23>
+            n<> u<42> t<ENDMODULE> p<43> l<6:3> el<6:12>
+        n<> u<64> t<Non_port_module_item> p<66> c<63> s<65> l<8:3> el<10:12>
+          n<> u<63> t<Module_declaration> p<64> c<57> l<8:3> el<10:12>
+            n<> u<57> t<Module_ansi_header> p<63> c<45> s<61> l<8:3> el<8:30>
+              n<module> u<45> t<MODULE> p<57> s<46> l<8:3> el<8:9>
+              n<m12> u<46> t<SIMPLE_IDENTIFIER> p<57> s<47> l<8:11> el<8:14>
+              n<> u<47> t<Package_import_declaration_list> p<57> s<56> l<8:14> el<8:14>
+              n<> u<56> t<Port_declaration_list> p<57> c<55> l<8:14> el<8:29>
+                n<> u<55> t<Ansi_port_declaration> p<56> c<53> l<8:15> el<8:28>
+                  n<> u<53> t<Net_port_header> p<55> c<48> s<54> l<8:15> el<8:26>
+                    n<> u<48> t<INPUT> p<53> s<52> l<8:15> el<8:20>
+                    n<> u<52> t<Net_port_type> p<53> c<51> l<8:21> el<8:26>
+                      n<> u<51> t<Data_type_or_implicit> p<52> c<50> l<8:21> el<8:26>
+                        n<> u<50> t<Data_type> p<51> c<49> l<8:21> el<8:26>
+                          n<> u<49> t<LOGIC> p<50> l<8:21> el<8:26>
+                  n<a> u<54> t<SIMPLE_IDENTIFIER> p<55> l<8:27> el<8:28>
+            n<> u<61> t<TimeUnitsDecl_TimePrecision> p<63> c<60> s<62> l<9:5> el<9:23>
+              n<1ps> u<60> t<Time_literal> p<61> c<58> l<9:19> el<9:22>
+                n<1> u<58> t<INTEGRAL_NUMBER> p<60> s<59> l<9:19> el<9:20>
+                n<ps> u<59> t<SIMPLE_IDENTIFIER> p<60> l<9:20> el<9:22>
+            n<> u<62> t<ENDMODULE> p<63> l<10:3> el<10:12>
+        n<> u<65> t<ENDMODULE> p<66> l<11:1> el<11:10>
+    n<> u<76> t<Description> p<93> c<75> s<92> l<13:1> el<13:21>
+      n<> u<75> t<Top_directives> p<76> c<74> l<13:1> el<13:21>
+        n<> u<74> t<Timescale_directive> p<75> c<70> l<13:1> el<13:21>
+          n<1ns> u<70> t<Time_literal> p<74> c<68> s<73> l<13:12> el<13:16>
+            n<1> u<68> t<INTEGRAL_NUMBER> p<70> s<69> l<13:12> el<13:13>
+            n<ns> u<69> t<SIMPLE_IDENTIFIER> p<70> l<13:14> el<13:16>
+          n<1ps> u<73> t<Time_literal> p<74> c<71> l<13:17> el<13:21>
+            n<1> u<71> t<INTEGRAL_NUMBER> p<73> s<72> l<13:17> el<13:18>
+            n<ps> u<72> t<SIMPLE_IDENTIFIER> p<73> l<13:19> el<13:21>
+    n<> u<92> t<Description> p<93> c<91> l<15:1> el<16:10>
+      n<> u<91> t<Module_declaration> p<92> c<89> l<15:1> el<16:10>
+        n<> u<89> t<Module_ansi_header> p<91> c<77> s<90> l<15:1> el<15:26>
+          n<module> u<77> t<MODULE> p<89> s<78> l<15:1> el<15:7>
+          n<m2> u<78> t<SIMPLE_IDENTIFIER> p<89> s<79> l<15:8> el<15:10>
+          n<> u<79> t<Package_import_declaration_list> p<89> s<88> l<15:10> el<15:10>
+          n<> u<88> t<Port_declaration_list> p<89> c<87> l<15:10> el<15:25>
+            n<> u<87> t<Ansi_port_declaration> p<88> c<85> l<15:11> el<15:24>
+              n<> u<85> t<Net_port_header> p<87> c<80> s<86> l<15:11> el<15:22>
+                n<> u<80> t<INPUT> p<85> s<84> l<15:11> el<15:16>
+                n<> u<84> t<Net_port_type> p<85> c<83> l<15:17> el<15:22>
+                  n<> u<83> t<Data_type_or_implicit> p<84> c<82> l<15:17> el<15:22>
+                    n<> u<82> t<Data_type> p<83> c<81> l<15:17> el<15:22>
+                      n<> u<81> t<LOGIC> p<82> l<15:17> el<15:22>
+              n<a> u<86> t<SIMPLE_IDENTIFIER> p<87> l<15:23> el<15:24>
+        n<> u<90> t<ENDMODULE> p<91> l<16:1> el<16:10>
+AST_DEBUG_END
+AST_DEBUG_BEGIN
+Count: 193
+LIB: work
+FILE<0>:$Source01/errors.sv
+n<$Source01/errors.sv> u<192> t<Top_level_rule> c<1> l<4:1> el<55:1>
+  n<> u<1> t<Null_rule> p<192> s<2> l<4:1> el<4:1>
+  n<// Illegal timeunit / timeprecision / `timescale usage. Each design element breaks> u<2> t<LINE_COMMENT> p<192> s<3> l<1:1> el<1:83>
+  n<// exactly one rule. No compilation-unit timeunit in this file.> u<3> t<LINE_COMMENT> p<192> s<191> l<2:1> el<2:64>
+  n<> u<191> t<Source_text> p<192> c<18> l<4:1> el<54:10>
+    n<> u<18> t<Description> p<191> c<17> s<47> l<4:1> el<6:10>
+      n<> u<17> t<Module_declaration> p<18> c<7> l<4:1> el<6:10>
+        n<> u<7> t<Module_ansi_header> p<17> c<4> s<8> l<4:1> el<4:22>
+          n<module> u<4> t<MODULE> p<7> s<5> l<4:1> el<4:7>
+          n<e_coarse_decl> u<5> t<SIMPLE_IDENTIFIER> p<7> s<6> l<4:8> el<4:21>
+          n<> u<6> t<Package_import_declaration_list> p<7> l<4:21> el<4:21>
+        n<// Sec 3.14: precision may not be longer than the unit> u<8> t<LINE_COMMENT> p<17> s<15> l<4:41> el<4:95>
+        n<> u<15> t<TimeUnitsDecl_TimeUnitDiv> p<17> c<11> s<16> l<5:3> el<5:22>
+          n<1ns> u<11> t<Time_literal> p<15> c<9> s<14> l<5:12> el<5:15>
+            n<1> u<9> t<INTEGRAL_NUMBER> p<11> s<10> l<5:12> el<5:13>
+            n<ns> u<10> t<SIMPLE_IDENTIFIER> p<11> l<5:13> el<5:15>
+          n<1us> u<14> t<Time_literal> p<15> c<12> l<5:18> el<5:21>
+            n<1> u<12> t<INTEGRAL_NUMBER> p<14> s<13> l<5:18> el<5:19>
+            n<us> u<13> t<SIMPLE_IDENTIFIER> p<14> l<5:19> el<5:21>
+        n<> u<16> t<ENDMODULE> p<17> l<6:1> el<6:10>
+    n<> u<47> t<Description> p<191> c<46> s<72> l<8:1> el<12:10>
+      n<> u<46> t<Module_declaration> p<47> c<22> l<8:1> el<12:10>
+        n<> u<22> t<Module_ansi_header> p<46> c<19> s<23> l<8:1> el<8:26>
+          n<module> u<19> t<MODULE> p<22> s<20> l<8:1> el<8:7>
+          n<e_repeat_mismatch> u<20> t<SIMPLE_IDENTIFIER> p<22> s<21> l<8:8> el<8:25>
+          n<> u<21> t<Package_import_declaration_list> p<22> l<8:25> el<8:25>
+        n<// Sec 3.14.2.2: a repeat shall match the previous declaration> u<23> t<LINE_COMMENT> p<46> s<27> l<8:41> el<8:103>
+        n<> u<27> t<TimeUnitsDecl_TimeUnit> p<46> c<26> s<39> l<9:3> el<9:16>
+          n<1ns> u<26> t<Time_literal> p<27> c<24> l<9:12> el<9:15>
+            n<1> u<24> t<INTEGRAL_NUMBER> p<26> s<25> l<9:12> el<9:13>
+            n<ns> u<25> t<SIMPLE_IDENTIFIER> p<26> l<9:13> el<9:15>
+        n<> u<39> t<Non_port_module_item> p<46> c<38> s<44> l<10:3> el<10:11>
+          n<> u<38> t<Module_or_generate_item> p<39> c<37> l<10:3> el<10:11>
+            n<> u<37> t<Module_common_item> p<38> c<36> l<10:3> el<10:11>
+              n<> u<36> t<Module_or_generate_item_declaration> p<37> c<35> l<10:3> el<10:11>
+                n<> u<35> t<Package_or_generate_item_declaration> p<36> c<34> l<10:3> el<10:11>
+                  n<> u<34> t<Data_declaration> p<35> c<33> l<10:3> el<10:11>
+                    n<> u<33> t<Variable_declaration> p<34> c<29> l<10:3> el<10:11>
+                      n<> u<29> t<Data_type> p<33> c<28> s<32> l<10:3> el<10:8>
+                        n<> u<28> t<LOGIC> p<29> l<10:3> el<10:8>
+                      n<> u<32> t<Variable_decl_assignment_list> p<33> c<31> l<10:9> el<10:10>
+                        n<> u<31> t<Variable_decl_assignment> p<32> c<30> l<10:9> el<10:10>
+                          n<x> u<30> t<SIMPLE_IDENTIFIER> p<31> l<10:9> el<10:10>
+        n<> u<44> t<Non_port_module_item> p<46> c<43> s<45> l<11:3> el<11:17>
+          n<> u<43> t<TimeUnitsDecl_TimeUnit> p<44> c<42> l<11:3> el<11:17>
+            n<10ns> u<42> t<Time_literal> p<43> c<40> l<11:12> el<11:16>
+              n<10> u<40> t<INTEGRAL_NUMBER> p<42> s<41> l<11:12> el<11:14>
+              n<ns> u<41> t<SIMPLE_IDENTIFIER> p<42> l<11:14> el<11:16>
+        n<> u<45> t<ENDMODULE> p<46> l<12:1> el<12:10>
+    n<> u<72> t<Description> p<191> c<71> s<84> l<14:1> el<17:10>
+      n<> u<71> t<Module_declaration> p<72> c<51> l<14:1> el<17:10>
+        n<> u<51> t<Module_ansi_header> p<71> c<48> s<52> l<14:1> el<14:20>
+          n<module> u<48> t<MODULE> p<51> s<49> l<14:1> el<14:7>
+          n<e_not_first> u<49> t<SIMPLE_IDENTIFIER> p<51> s<50> l<14:8> el<14:19>
+          n<> u<50> t<Package_import_declaration_list> p<51> l<14:19> el<14:19>
+        n<// Sec 3.14.2.2: the declarations shall precede any other item> u<52> t<LINE_COMMENT> p<71> s<64> l<14:41> el<14:103>
+        n<> u<64> t<Non_port_module_item> p<71> c<63> s<69> l<15:3> el<15:11>
+          n<> u<63> t<Module_or_generate_item> p<64> c<62> l<15:3> el<15:11>
+            n<> u<62> t<Module_common_item> p<63> c<61> l<15:3> el<15:11>
+              n<> u<61> t<Module_or_generate_item_declaration> p<62> c<60> l<15:3> el<15:11>
+                n<> u<60> t<Package_or_generate_item_declaration> p<61> c<59> l<15:3> el<15:11>
+                  n<> u<59> t<Data_declaration> p<60> c<58> l<15:3> el<15:11>
+                    n<> u<58> t<Variable_declaration> p<59> c<54> l<15:3> el<15:11>
+                      n<> u<54> t<Data_type> p<58> c<53> s<57> l<15:3> el<15:8>
+                        n<> u<53> t<LOGIC> p<54> l<15:3> el<15:8>
+                      n<> u<57> t<Variable_decl_assignment_list> p<58> c<56> l<15:9> el<15:10>
+                        n<> u<56> t<Variable_decl_assignment> p<57> c<55> l<15:9> el<15:10>
+                          n<x> u<55> t<SIMPLE_IDENTIFIER> p<56> l<15:9> el<15:10>
+        n<> u<69> t<Non_port_module_item> p<71> c<68> s<70> l<16:3> el<16:16>
+          n<> u<68> t<TimeUnitsDecl_TimeUnit> p<69> c<67> l<16:3> el<16:16>
+            n<1ns> u<67> t<Time_literal> p<68> c<65> l<16:12> el<16:15>
+              n<1> u<65> t<INTEGRAL_NUMBER> p<67> s<66> l<16:12> el<16:13>
+              n<ns> u<66> t<SIMPLE_IDENTIFIER> p<67> l<16:13> el<16:15>
+        n<> u<70> t<ENDMODULE> p<71> l<17:1> el<17:10>
+    n<> u<84> t<Description> p<191> c<83> s<96> l<19:1> el<21:10>
+      n<> u<83> t<Module_declaration> p<84> c<76> l<19:1> el<21:10>
+        n<> u<76> t<Module_ansi_header> p<83> c<73> s<77> l<19:1> el<19:15>
+          n<module> u<73> t<MODULE> p<76> s<74> l<19:1> el<19:7>
+          n<e_step> u<74> t<SIMPLE_IDENTIFIER> p<76> s<75> l<19:8> el<19:14>
+          n<> u<75> t<Package_import_declaration_list> p<76> l<19:14> el<19:14>
+        n<// Annex A time_unit has no step; Sec 3.14.3: step cannot set the time unit> u<77> t<LINE_COMMENT> p<83> s<81> l<19:41> el<19:116>
+        n<> u<81> t<TimeUnitsDecl_TimeUnit> p<83> c<80> s<82> l<20:3> el<20:18>
+          n<1step> u<80> t<Time_literal> p<81> c<78> l<20:12> el<20:17>
+            n<1> u<78> t<INTEGRAL_NUMBER> p<80> s<79> l<20:12> el<20:13>
+            n<step> u<79> t<SIMPLE_IDENTIFIER> p<80> l<20:13> el<20:17>
+        n<> u<82> t<ENDMODULE> p<83> l<21:1> el<21:10>
+    n<> u<96> t<Description> p<191> c<95> s<108> l<23:1> el<25:10>
+      n<> u<95> t<Module_declaration> p<96> c<88> l<23:1> el<25:10>
+        n<> u<88> t<Module_ansi_header> p<95> c<85> s<89> l<23:1> el<23:24>
+          n<module> u<85> t<MODULE> p<88> s<86> l<23:1> el<23:7>
+          n<e_bad_magnitude> u<86> t<SIMPLE_IDENTIFIER> p<88> s<87> l<23:8> el<23:23>
+          n<> u<87> t<Package_import_declaration_list> p<88> l<23:23> el<23:23>
+        n<// Sec 3.14: the magnitude is 1, 10 or 100> u<89> t<LINE_COMMENT> p<95> s<93> l<23:41> el<23:83>
+        n<> u<93> t<TimeUnitsDecl_TimeUnit> p<95> c<92> s<94> l<24:3> el<24:16>
+          n<3ns> u<92> t<Time_literal> p<93> c<90> l<24:12> el<24:15>
+            n<3> u<90> t<INTEGRAL_NUMBER> p<92> s<91> l<24:12> el<24:13>
+            n<ns> u<91> t<SIMPLE_IDENTIFIER> p<92> l<24:13> el<24:15>
+        n<> u<94> t<ENDMODULE> p<95> l<25:1> el<25:10>
+    n<> u<108> t<Description> p<191> c<107> s<120> l<27:1> el<29:10>
+      n<> u<107> t<Module_declaration> p<108> c<100> l<27:1> el<29:10>
+        n<> u<100> t<Module_ansi_header> p<107> c<97> s<101> l<27:1> el<27:22>
+          n<module> u<97> t<MODULE> p<100> s<98> l<27:1> el<27:7>
+          n<e_fixed_point> u<98> t<SIMPLE_IDENTIFIER> p<100> s<99> l<27:8> el<27:21>
+          n<> u<99> t<Package_import_declaration_list> p<100> l<27:21> el<27:21>
+        n<// Sec 3.14: the magnitude is 1, 10 or 100> u<101> t<LINE_COMMENT> p<107> s<105> l<27:41> el<27:83>
+        n<> u<105> t<TimeUnitsDecl_TimeUnit> p<107> c<104> s<106> l<28:3> el<28:18>
+          n<1.5ns> u<104> t<Time_literal> p<105> c<102> l<28:12> el<28:17>
+            n<1.5> u<102> t<REAL_NUMBER> p<104> s<103> l<28:12> el<28:15>
+            n<ns> u<103> t<SIMPLE_IDENTIFIER> p<104> l<28:15> el<28:17>
+        n<> u<106> t<ENDMODULE> p<107> l<29:1> el<29:10>
+    n<> u<120> t<Description> p<191> c<119> s<132> l<31:1> el<33:10>
+      n<> u<119> t<Module_declaration> p<120> c<112> l<31:1> el<33:10>
+        n<> u<112> t<Module_ansi_header> p<119> c<109> s<113> l<31:1> el<31:21>
+          n<module> u<109> t<MODULE> p<112> s<110> l<31:1> el<31:7>
+          n<e_space_unit> u<110> t<SIMPLE_IDENTIFIER> p<112> s<111> l<31:8> el<31:20>
+          n<> u<111> t<Package_import_declaration_list> p<112> l<31:20> el<31:20>
+        n<// Annex A footnote 49: no white_space inside a time_literal> u<113> t<LINE_COMMENT> p<119> s<117> l<31:41> el<31:101>
+        n<> u<117> t<TimeUnitsDecl_TimeUnit> p<119> c<116> s<118> l<32:3> el<32:18>
+          n<10ns> u<116> t<Time_literal> p<117> c<114> l<32:12> el<32:17>
+            n<10> u<114> t<INTEGRAL_NUMBER> p<116> s<115> l<32:12> el<32:14>
+            n<ns> u<115> t<SIMPLE_IDENTIFIER> p<116> l<32:15> el<32:17>
+        n<> u<118> t<ENDMODULE> p<119> l<33:1> el<33:10>
+    n<> u<132> t<Description> p<191> c<131> s<156> l<35:1> el<37:10>
+      n<> u<131> t<Module_declaration> p<132> c<124> l<35:1> el<37:10>
+        n<> u<124> t<Module_ansi_header> p<131> c<121> s<125> l<35:1> el<35:26>
+          n<module> u<121> t<MODULE> p<124> s<122> l<35:1> el<35:7>
+          n<e_space_precision> u<122> t<SIMPLE_IDENTIFIER> p<124> s<123> l<35:8> el<35:25>
+          n<> u<123> t<Package_import_declaration_list> p<124> l<35:25> el<35:25>
+        n<// Annex A footnote 49: no white_space inside a time_literal> u<125> t<LINE_COMMENT> p<131> s<129> l<35:41> el<35:101>
+        n<> u<129> t<TimeUnitsDecl_TimePrecision> p<131> c<128> s<130> l<36:3> el<36:22>
+          n<1ps> u<128> t<Time_literal> p<129> c<126> l<36:17> el<36:21>
+            n<1> u<126> t<INTEGRAL_NUMBER> p<128> s<127> l<36:17> el<36:18>
+            n<ps> u<127> t<SIMPLE_IDENTIFIER> p<128> l<36:19> el<36:21>
+        n<> u<130> t<ENDMODULE> p<131> l<37:1> el<37:10>
+    n<> u<156> t<Description> p<191> c<155> s<165> l<39:1> el<44:10>
+      n<> u<155> t<Module_declaration> p<156> c<136> l<39:1> el<44:10>
+        n<> u<136> t<Module_ansi_header> p<155> c<133> s<137> l<39:1> el<39:17>
+          n<module> u<133> t<MODULE> p<136> s<134> l<39:1> el<39:7>
+          n<e_parent> u<134> t<SIMPLE_IDENTIFIER> p<136> s<135> l<39:8> el<39:16>
+          n<> u<135> t<Package_import_declaration_list> p<136> l<39:16> el<39:16>
+        n<// 1ns / default> u<137> t<LINE_COMMENT> p<155> s<141> l<39:41> el<39:57>
+        n<> u<141> t<TimeUnitsDecl_TimeUnit> p<155> c<140> s<153> l<40:3> el<40:16>
+          n<1ns> u<140> t<Time_literal> p<141> c<138> l<40:12> el<40:15>
+            n<1> u<138> t<INTEGRAL_NUMBER> p<140> s<139> l<40:12> el<40:13>
+            n<ns> u<139> t<SIMPLE_IDENTIFIER> p<140> l<40:13> el<40:15>
+        n<> u<153> t<Non_port_module_item> p<155> c<152> s<154> l<41:3> el<43:12>
+          n<> u<152> t<Module_declaration> p<153> c<145> l<41:3> el<43:12>
+            n<> u<145> t<Module_ansi_header> p<152> c<142> s<146> l<41:3> el<41:25>
+              n<module> u<142> t<MODULE> p<145> s<143> l<41:3> el<41:9>
+              n<e_child_coarse> u<143> t<SIMPLE_IDENTIFIER> p<145> s<144> l<41:10> el<41:24>
+              n<> u<144> t<Package_import_declaration_list> p<145> l<41:24> el<41:24>
+            n<// Sec 3.14: precision 1us is longer than the inherited 1ns unit> u<146> t<LINE_COMMENT> p<152> s<150> l<41:41> el<41:105>
+            n<> u<150> t<TimeUnitsDecl_TimePrecision> p<152> c<149> s<151> l<42:5> el<42:23>
+              n<1us> u<149> t<Time_literal> p<150> c<147> l<42:19> el<42:22>
+                n<1> u<147> t<INTEGRAL_NUMBER> p<149> s<148> l<42:19> el<42:20>
+                n<us> u<148> t<SIMPLE_IDENTIFIER> p<149> l<42:20> el<42:22>
+            n<> u<151> t<ENDMODULE> p<152> l<43:3> el<43:12>
+        n<> u<154> t<ENDMODULE> p<155> l<44:1> el<44:10>
+    n<> u<165> t<Description> p<191> c<164> s<173> l<46:1> el<46:21>
+      n<> u<164> t<Top_directives> p<165> c<163> l<46:1> el<46:21>
+        n<> u<163> t<Timescale_directive> p<164> c<159> l<46:1> el<46:21>
+          n<1ns> u<159> t<Time_literal> p<163> c<157> s<162> l<46:12> el<46:15>
+            n<1> u<157> t<INTEGRAL_NUMBER> p<159> s<158> l<46:12> el<46:13>
+            n<ns> u<158> t<SIMPLE_IDENTIFIER> p<159> l<46:13> el<46:15>
+          n<1us> u<162> t<Time_literal> p<163> c<160> l<46:18> el<46:21>
+            n<1> u<160> t<INTEGRAL_NUMBER> p<162> s<161> l<46:18> el<46:19>
+            n<us> u<161> t<SIMPLE_IDENTIFIER> p<162> l<46:19> el<46:21>
+    n<> u<173> t<Description> p<191> c<172> s<182> l<48:1> el<49:10>
+      n<> u<172> t<Module_declaration> p<173> c<169> l<48:1> el<49:10>
+        n<> u<169> t<Module_ansi_header> p<172> c<166> s<170> l<48:1> el<48:33>
+          n<module> u<166> t<MODULE> p<169> s<167> l<48:1> el<48:7>
+          n<e_after_coarse_timescale> u<167> t<SIMPLE_IDENTIFIER> p<169> s<168> l<48:8> el<48:32>
+          n<> u<168> t<Package_import_declaration_list> p<169> l<48:32> el<48:32>
+        n<// Sec 22.7: precision longer than the unit> u<170> t<LINE_COMMENT> p<172> s<171> l<48:41> el<48:84>
+        n<> u<171> t<ENDMODULE> p<172> l<49:1> el<49:10>
+    n<> u<182> t<Description> p<191> c<181> s<190> l<51:1> el<51:21>
+      n<> u<181> t<Top_directives> p<182> c<180> l<51:1> el<51:21>
+        n<> u<180> t<Timescale_directive> p<181> c<176> l<51:1> el<51:21>
+          n<3ns> u<176> t<Time_literal> p<180> c<174> s<179> l<51:12> el<51:15>
+            n<3> u<174> t<INTEGRAL_NUMBER> p<176> s<175> l<51:12> el<51:13>
+            n<ns> u<175> t<SIMPLE_IDENTIFIER> p<176> l<51:13> el<51:15>
+          n<1ps> u<179> t<Time_literal> p<180> c<177> l<51:18> el<51:21>
+            n<1> u<177> t<INTEGRAL_NUMBER> p<179> s<178> l<51:18> el<51:19>
+            n<ps> u<178> t<SIMPLE_IDENTIFIER> p<179> l<51:19> el<51:21>
+    n<> u<190> t<Description> p<191> c<189> l<53:1> el<54:10>
+      n<> u<189> t<Module_declaration> p<190> c<186> l<53:1> el<54:10>
+        n<> u<186> t<Module_ansi_header> p<189> c<183> s<187> l<53:1> el<53:30>
+          n<module> u<183> t<MODULE> p<186> s<184> l<53:1> el<53:7>
+          n<e_after_bad_magnitude> u<184> t<SIMPLE_IDENTIFIER> p<186> s<185> l<53:8> el<53:29>
+          n<> u<185> t<Package_import_declaration_list> p<186> l<53:29> el<53:29>
+        n<// Sec 22.7: valid integers are 1, 10 and 100> u<187> t<LINE_COMMENT> p<189> s<188> l<53:41> el<53:86>
+        n<> u<188> t<ENDMODULE> p<189> l<54:1> el<54:10>
+AST_DEBUG_END
+AST_DEBUG_BEGIN
+Count: 28
+LIB: work
+FILE<0>:$Source01/errors_cu_late.sv
+n<$Source01/errors_cu_late.sv> u<27> t<Top_level_rule> c<1> l<6:1> el<13:1>
+  n<> u<1> t<Null_rule> p<27> s<2> l<6:1> el<6:1>
+  n<// IEEE 1800-2023 Sec 3.14.2.2: "There shall be at most one time unit and one time> u<2> t<LINE_COMMENT> p<27> s<3> l<1:1> el<1:83>
+  n<// precision for any ... compilation-unit scope ... If specified, the timeunit and> u<3> t<LINE_COMMENT> p<27> s<4> l<2:1> el<2:83>
+  n<// timeprecision declarations shall precede any other items in the current time scope."> u<4> t<LINE_COMMENT> p<27> s<5> l<3:1> el<3:88>
+  n<// Here the compilation-unit timeunit comes after a module.> u<5> t<LINE_COMMENT> p<27> s<26> l<4:1> el<4:60>
+  n<> u<26> t<Source_text> p<27> c<12> l<6:1> el<12:10>
+    n<> u<12> t<Description> p<26> c<11> s<18> l<6:1> el<7:10>
+      n<> u<11> t<Module_declaration> p<12> c<9> l<6:1> el<7:10>
+        n<> u<9> t<Module_ansi_header> p<11> c<6> s<10> l<6:1> el<6:20>
+          n<module> u<6> t<MODULE> p<9> s<7> l<6:1> el<6:7>
+          n<e_cu_before> u<7> t<SIMPLE_IDENTIFIER> p<9> s<8> l<6:8> el<6:19>
+          n<> u<8> t<Package_import_declaration_list> p<9> l<6:19> el<6:19>
+        n<> u<10> t<ENDMODULE> p<11> l<7:1> el<7:10>
+    n<> u<18> t<Description> p<26> c<17> s<25> l<9:1> el<9:14>
+      n<> u<17> t<Package_item> p<18> c<16> l<9:1> el<9:14>
+        n<> u<16> t<TimeUnitsDecl_TimeUnit> p<17> c<15> l<9:1> el<9:14>
+          n<1ns> u<15> t<Time_literal> p<16> c<13> l<9:10> el<9:13>
+            n<1> u<13> t<INTEGRAL_NUMBER> p<15> s<14> l<9:10> el<9:11>
+            n<ns> u<14> t<SIMPLE_IDENTIFIER> p<15> l<9:11> el<9:13>
+    n<> u<25> t<Description> p<26> c<24> l<11:1> el<12:10>
+      n<> u<24> t<Module_declaration> p<25> c<22> l<11:1> el<12:10>
+        n<> u<22> t<Module_ansi_header> p<24> c<19> s<23> l<11:1> el<11:19>
+          n<module> u<19> t<MODULE> p<22> s<20> l<11:1> el<11:7>
+          n<e_cu_after> u<20> t<SIMPLE_IDENTIFIER> p<22> s<21> l<11:8> el<11:18>
+          n<> u<21> t<Package_import_declaration_list> p<22> l<11:18> el<11:18>
+        n<> u<23> t<ENDMODULE> p<24> l<12:1> el<12:10>
+AST_DEBUG_END
+AST_DEBUG_BEGIN
+Count: 22
+LIB: work
+FILE<0>:$Source01/errors_timescale_inside.sv
+n<$Source01/errors_timescale_inside.sv> u<21> t<Top_level_rule> c<1> l<5:1> el<7:10>
+  n<> u<1> t<Null_rule> p<21> s<2> l<5:1> el<5:1>
+  n<// IEEE 1800-2023 Sec 22.7: "It shall be illegal for the `timescale directive to be> u<2> t<LINE_COMMENT> p<21> s<3> l<1:1> el<1:84>
+  n<// specified within a design element." Kept in its own file: the parser rejects the> u<3> t<LINE_COMMENT> p<21> s<4> l<2:1> el<2:84>
+  n<// directive inside the module, which would hide any test that followed it.> u<4> t<LINE_COMMENT> p<21> s<20> l<3:1> el<3:76>
+  n<> u<20> t<Source_text> p<21> c<10> l<5:1> el<6:21>
+    n<> u<10> t<Description> p<20> c<9> s<19> l<5:1> el<5:27>
+      n<> u<9> t<Module_declaration> p<10> c<8> l<5:1> el<5:27>
+        n<> u<8> t<Module_ansi_header> p<9> c<5> l<5:1> el<5:27>
+          n<module> u<5> t<MODULE> p<8> s<6> l<5:1> el<5:7>
+          n<e_timescale_inside> u<6> t<SIMPLE_IDENTIFIER> p<8> s<7> l<5:8> el<5:26>
+          n<> u<7> t<Package_import_declaration_list> p<8> l<5:26> el<5:26>
+    n<> u<19> t<Description> p<20> c<18> l<6:1> el<6:21>
+      n<> u<18> t<Top_directives> p<19> c<17> l<6:1> el<6:21>
+        n<> u<17> t<Timescale_directive> p<18> c<13> l<6:1> el<6:21>
+          n<1ns> u<13> t<Time_literal> p<17> c<11> s<16> l<6:12> el<6:15>
+            n<1> u<11> t<INTEGRAL_NUMBER> p<13> s<12> l<6:12> el<6:13>
+            n<ns> u<12> t<SIMPLE_IDENTIFIER> p<13> l<6:13> el<6:15>
+          n<1ps> u<16> t<Time_literal> p<17> c<14> l<6:18> el<6:21>
+            n<1> u<14> t<INTEGRAL_NUMBER> p<16> s<15> l<6:18> el<6:19>
+            n<ps> u<15> t<SIMPLE_IDENTIFIER> p<16> l<6:19> el<6:21>
+AST_DEBUG_END
+AST_DEBUG_BEGIN
+Count: 141
+LIB: work
+FILE<0>:$Source01/nested.sv
+n<$Source01/nested.sv> u<140> t<Top_level_rule> c<1> l<6:1> el<46:1>
+  n<> u<1> t<Null_rule> p<140> s<2> l<6:1> el<6:1>
+  n<// Nested design elements (IEEE 1800-2023 Sec 3.14.2.3 rule a): a nested module or> u<2> t<LINE_COMMENT> p<140> s<3> l<1:1> el<1:83>
+  n<// interface with no timeunit of its own inherits from the enclosing module or> u<3> t<LINE_COMMENT> p<140> s<4> l<2:1> el<2:79>
+  n<// interface. No `timescale and no compilation-unit timeunit in this file.> u<4> t<LINE_COMMENT> p<140> s<5> l<3:1> el<3:75>
+  n<// Expected (unit / precision, 0 = default):> u<5> t<LINE_COMMENT> p<140> s<139> l<4:1> el<4:45>
+  n<> u<139> t<Source_text> p<140> c<99> l<6:1> el<45:10>
+    n<> u<99> t<Description> p<139> c<98> s<122> l<6:1> el<33:10>
+      n<> u<98> t<Module_declaration> p<99> c<9> l<6:1> el<33:10>
+        n<> u<9> t<Module_ansi_header> p<98> c<6> s<10> l<6:1> el<6:16>
+          n<module> u<6> t<MODULE> p<9> s<7> l<6:1> el<6:7>
+          n<n_outer> u<7> t<SIMPLE_IDENTIFIER> p<9> s<8> l<6:8> el<6:15>
+          n<> u<8> t<Package_import_declaration_list> p<9> l<6:15> el<6:15>
+        n<// -8 / -12> u<10> t<LINE_COMMENT> p<98> s<17> l<6:41> el<6:52>
+        n<> u<17> t<TimeUnitsDecl_TimeUnitDiv> p<98> c<13> s<25> l<7:3> el<7:23>
+          n<10ns> u<13> t<Time_literal> p<17> c<11> s<16> l<7:12> el<7:16>
+            n<10> u<11> t<INTEGRAL_NUMBER> p<13> s<12> l<7:12> el<7:14>
+            n<ns> u<12> t<SIMPLE_IDENTIFIER> p<13> l<7:14> el<7:16>
+          n<1ps> u<16> t<Time_literal> p<17> c<14> l<7:19> el<7:22>
+            n<1> u<14> t<INTEGRAL_NUMBER> p<16> s<15> l<7:19> el<7:20>
+            n<ps> u<15> t<SIMPLE_IDENTIFIER> p<16> l<7:20> el<7:22>
+        n<> u<25> t<Non_port_module_item> p<98> c<24> s<37> l<9:3> el<10:12>
+          n<> u<24> t<Module_declaration> p<25> c<21> l<9:3> el<10:12>
+            n<> u<21> t<Module_ansi_header> p<24> c<18> s<22> l<9:3> el<9:23>
+              n<module> u<18> t<MODULE> p<21> s<19> l<9:3> el<9:9>
+              n<n_inner_none> u<19> t<SIMPLE_IDENTIFIER> p<21> s<20> l<9:10> el<9:22>
+              n<> u<20> t<Package_import_declaration_list> p<21> l<9:22> el<9:22>
+            n<// -8 / -12    (both inherited)> u<22> t<LINE_COMMENT> p<24> s<23> l<9:41> el<9:72>
+            n<> u<23> t<ENDMODULE> p<24> l<10:3> el<10:12>
+        n<> u<37> t<Non_port_module_item> p<98> c<36> s<49> l<12:3> el<14:12>
+          n<> u<36> t<Module_declaration> p<37> c<29> l<12:3> el<14:12>
+            n<> u<29> t<Module_ansi_header> p<36> c<26> s<30> l<12:3> el<12:23>
+              n<module> u<26> t<MODULE> p<29> s<27> l<12:3> el<12:9>
+              n<n_inner_prec> u<27> t<SIMPLE_IDENTIFIER> p<29> s<28> l<12:10> el<12:22>
+              n<> u<28> t<Package_import_declaration_list> p<29> l<12:22> el<12:22>
+            n<// -8 / -13    (unit inherited)> u<30> t<LINE_COMMENT> p<36> s<34> l<12:41> el<12:72>
+            n<> u<34> t<TimeUnitsDecl_TimePrecision> p<36> c<33> s<35> l<13:5> el<13:25>
+              n<100fs> u<33> t<Time_literal> p<34> c<31> l<13:19> el<13:24>
+                n<100> u<31> t<INTEGRAL_NUMBER> p<33> s<32> l<13:19> el<13:22>
+                n<fs> u<32> t<SIMPLE_IDENTIFIER> p<33> l<13:22> el<13:24>
+            n<> u<35> t<ENDMODULE> p<36> l<14:3> el<14:12>
+        n<> u<49> t<Non_port_module_item> p<98> c<48> s<65> l<16:3> el<18:12>
+          n<> u<48> t<Module_declaration> p<49> c<41> l<16:3> el<18:12>
+            n<> u<41> t<Module_ansi_header> p<48> c<38> s<42> l<16:3> el<16:23>
+              n<module> u<38> t<MODULE> p<41> s<39> l<16:3> el<16:9>
+              n<n_inner_unit> u<39> t<SIMPLE_IDENTIFIER> p<41> s<40> l<16:10> el<16:22>
+              n<> u<40> t<Package_import_declaration_list> p<41> l<16:22> el<16:22>
+            n<// -6 / -12    (precision inherited)> u<42> t<LINE_COMMENT> p<48> s<46> l<16:41> el<16:77>
+            n<> u<46> t<TimeUnitsDecl_TimeUnit> p<48> c<45> s<47> l<17:5> el<17:18>
+              n<1us> u<45> t<Time_literal> p<46> c<43> l<17:14> el<17:17>
+                n<1> u<43> t<INTEGRAL_NUMBER> p<45> s<44> l<17:14> el<17:15>
+                n<us> u<44> t<SIMPLE_IDENTIFIER> p<45> l<17:15> el<17:17>
+            n<> u<47> t<ENDMODULE> p<48> l<18:3> el<18:12>
+        n<> u<65> t<Non_port_module_item> p<98> c<64> s<88> l<20:3> el<23:12>
+          n<> u<64> t<Module_declaration> p<65> c<53> l<20:3> el<23:12>
+            n<> u<53> t<Module_ansi_header> p<64> c<50> s<54> l<20:3> el<20:16>
+              n<module> u<50> t<MODULE> p<53> s<51> l<20:3> el<20:9>
+              n<n_mid> u<51> t<SIMPLE_IDENTIFIER> p<53> s<52> l<20:10> el<20:15>
+              n<> u<52> t<Package_import_declaration_list> p<53> l<20:15> el<20:15>
+            n<// -8 / -12> u<54> t<LINE_COMMENT> p<64> s<62> l<20:41> el<20:52>
+            n<> u<62> t<Non_port_module_item> p<64> c<61> s<63> l<21:5> el<22:14>
+              n<> u<61> t<Module_declaration> p<62> c<58> l<21:5> el<22:14>
+                n<> u<58> t<Module_ansi_header> p<61> c<55> s<59> l<21:5> el<21:19>
+                  n<module> u<55> t<MODULE> p<58> s<56> l<21:5> el<21:11>
+                  n<n_deep> u<56> t<SIMPLE_IDENTIFIER> p<58> s<57> l<21:12> el<21:18>
+                  n<> u<57> t<Package_import_declaration_list> p<58> l<21:18> el<21:18>
+                n<// -8 / -12    (two levels down)> u<59> t<LINE_COMMENT> p<61> s<60> l<21:41> el<21:73>
+                n<> u<60> t<ENDMODULE> p<61> l<22:5> el<22:14>
+            n<> u<63> t<ENDMODULE> p<64> l<23:3> el<23:12>
+        n<> u<88> t<Non_port_module_item> p<98> c<87> s<96> l<25:3> el<29:12>
+          n<> u<87> t<Module_declaration> p<88> c<69> l<25:3> el<29:12>
+            n<> u<69> t<Module_ansi_header> p<87> c<66> s<70> l<25:3> el<25:20>
+              n<module> u<66> t<MODULE> p<69> s<67> l<25:3> el<25:9>
+              n<n_mid_own> u<67> t<SIMPLE_IDENTIFIER> p<69> s<68> l<25:10> el<25:19>
+              n<> u<68> t<Package_import_declaration_list> p<69> l<25:19> el<25:19>
+            n<// -7 / -8> u<70> t<LINE_COMMENT> p<87> s<77> l<25:41> el<25:51>
+            n<> u<77> t<TimeUnitsDecl_TimeUnitDiv> p<87> c<73> s<85> l<26:5> el<26:27>
+              n<100ns> u<73> t<Time_literal> p<77> c<71> s<76> l<26:14> el<26:19>
+                n<100> u<71> t<INTEGRAL_NUMBER> p<73> s<72> l<26:14> el<26:17>
+                n<ns> u<72> t<SIMPLE_IDENTIFIER> p<73> l<26:17> el<26:19>
+              n<10ns> u<76> t<Time_literal> p<77> c<74> l<26:22> el<26:26>
+                n<10> u<74> t<INTEGRAL_NUMBER> p<76> s<75> l<26:22> el<26:24>
+                n<ns> u<75> t<SIMPLE_IDENTIFIER> p<76> l<26:24> el<26:26>
+            n<> u<85> t<Non_port_module_item> p<87> c<84> s<86> l<27:5> el<28:14>
+              n<> u<84> t<Module_declaration> p<85> c<81> l<27:5> el<28:14>
+                n<> u<81> t<Module_ansi_header> p<84> c<78> s<82> l<27:5> el<27:23>
+                  n<module> u<78> t<MODULE> p<81> s<79> l<27:5> el<27:11>
+                  n<n_deep_own> u<79> t<SIMPLE_IDENTIFIER> p<81> s<80> l<27:12> el<27:22>
+                  n<> u<80> t<Package_import_declaration_list> p<81> l<27:22> el<27:22>
+                n<// -7 / -8     (nearest enclosing wins)> u<82> t<LINE_COMMENT> p<84> s<83> l<27:41> el<27:80>
+                n<> u<83> t<ENDMODULE> p<84> l<28:5> el<28:14>
+            n<> u<86> t<ENDMODULE> p<87> l<29:3> el<29:12>
+        n<> u<96> t<Non_port_module_item> p<98> c<95> s<97> l<31:3> el<32:15>
+          n<> u<95> t<Interface_declaration> p<96> c<92> l<31:3> el<32:15>
+            n<> u<92> t<Interface_ansi_header> p<95> c<89> s<93> l<31:3> el<31:24>
+              n<> u<89> t<INTERFACE> p<92> s<90> l<31:3> el<31:12>
+              n<n_inner_if> u<90> t<SIMPLE_IDENTIFIER> p<92> s<91> l<31:13> el<31:23>
+              n<> u<91> t<Package_import_declaration_list> p<92> l<31:23> el<31:23>
+            n<// -8 / -12    (interface nested in a module)> u<93> t<LINE_COMMENT> p<95> s<94> l<31:41> el<31:86>
+            n<> u<94> t<ENDINTERFACE> p<95> l<32:3> el<32:15>
+        n<> u<97> t<ENDMODULE> p<98> l<33:1> el<33:10>
+    n<> u<122> t<Description> p<139> c<121> s<138> l<35:1> el<40:13>
+      n<> u<121> t<Interface_declaration> p<122> c<103> l<35:1> el<40:13>
+        n<> u<103> t<Interface_ansi_header> p<121> c<100> s<104> l<35:1> el<35:22>
+          n<> u<100> t<INTERFACE> p<103> s<101> l<35:1> el<35:10>
+          n<n_outer_if> u<101> t<SIMPLE_IDENTIFIER> p<103> s<102> l<35:11> el<35:21>
+          n<> u<102> t<Package_import_declaration_list> p<103> l<35:21> el<35:21>
+        n<// -7 / -8> u<104> t<LINE_COMMENT> p<121> s<111> l<35:41> el<35:51>
+        n<> u<111> t<TimeUnitsDecl_TimeUnitDiv> p<121> c<107> s<119> l<36:3> el<36:25>
+          n<100ns> u<107> t<Time_literal> p<111> c<105> s<110> l<36:12> el<36:17>
+            n<100> u<105> t<INTEGRAL_NUMBER> p<107> s<106> l<36:12> el<36:15>
+            n<ns> u<106> t<SIMPLE_IDENTIFIER> p<107> l<36:15> el<36:17>
+          n<10ns> u<110> t<Time_literal> p<111> c<108> l<36:20> el<36:24>
+            n<10> u<108> t<INTEGRAL_NUMBER> p<110> s<109> l<36:20> el<36:22>
+            n<ns> u<109> t<SIMPLE_IDENTIFIER> p<110> l<36:22> el<36:24>
+        n<> u<119> t<Non_port_interface_item> p<121> c<118> s<120> l<38:3> el<39:15>
+          n<> u<118> t<Interface_declaration> p<119> c<115> l<38:3> el<39:15>
+            n<> u<115> t<Interface_ansi_header> p<118> c<112> s<116> l<38:3> el<38:25>
+              n<> u<112> t<INTERFACE> p<115> s<113> l<38:3> el<38:12>
+              n<n_nested_if> u<113> t<SIMPLE_IDENTIFIER> p<115> s<114> l<38:13> el<38:24>
+              n<> u<114> t<Package_import_declaration_list> p<115> l<38:24> el<38:24>
+            n<// -7 / -8     (interface nested in an interface)> u<116> t<LINE_COMMENT> p<118> s<117> l<38:41> el<38:90>
+            n<> u<117> t<ENDINTERFACE> p<118> l<39:3> el<39:15>
+        n<> u<120> t<ENDINTERFACE> p<121> l<40:1> el<40:13>
+    n<> u<138> t<Description> p<139> c<137> l<42:1> el<45:10>
+      n<> u<137> t<Module_declaration> p<138> c<126> l<42:1> el<45:10>
+        n<> u<126> t<Module_ansi_header> p<137> c<123> s<127> l<42:1> el<42:21>
+          n<module> u<123> t<MODULE> p<126> s<124> l<42:1> el<42:7>
+          n<n_outer_none> u<124> t<SIMPLE_IDENTIFIER> p<126> s<125> l<42:8> el<42:20>
+          n<> u<125> t<Package_import_declaration_list> p<126> l<42:20> el<42:20>
+        n<// 0 / 0       (rule d)> u<127> t<LINE_COMMENT> p<137> s<135> l<42:41> el<42:64>
+        n<> u<135> t<Non_port_module_item> p<137> c<134> s<136> l<43:3> el<44:12>
+          n<> u<134> t<Module_declaration> p<135> c<131> l<43:3> el<44:12>
+            n<> u<131> t<Module_ansi_header> p<134> c<128> s<132> l<43:3> el<43:26>
+              n<module> u<128> t<MODULE> p<131> s<129> l<43:3> el<43:9>
+              n<n_inner_of_none> u<129> t<SIMPLE_IDENTIFIER> p<131> s<130> l<43:10> el<43:25>
+              n<> u<130> t<Package_import_declaration_list> p<131> l<43:25> el<43:25>
+            n<// 0 / 0       (inherits the enclosing default)> u<132> t<LINE_COMMENT> p<134> s<133> l<43:41> el<43:88>
+            n<> u<133> t<ENDMODULE> p<134> l<44:3> el<44:12>
+        n<> u<136> t<ENDMODULE> p<137> l<45:1> el<45:10>
+AST_DEBUG_END
+AST_DEBUG_BEGIN
+Count: 194
+LIB: work
+FILE<0>:$Source01/timescale.sv
+n<$Source01/timescale.sv> u<193> t<Top_level_rule> c<1> l<5:1> el<64:1>
+  n<> u<1> t<Null_rule> p<193> s<2> l<5:1> el<5:1>
+  n<// `timescale (IEEE 1800-2023 Sec 3.14.2.1, Sec 22.7) and its place in the Sec 3.14.2.3> u<2> t<LINE_COMMENT> p<193> s<3> l<1:1> el<1:88>
+  n<// precedence (rule b). No compilation-unit timeunit in this file.> u<3> t<LINE_COMMENT> p<193> s<4> l<2:1> el<2:67>
+  n<// Expected (unit / precision, 0 = default):> u<4> t<LINE_COMMENT> p<193> s<192> l<3:1> el<3:45>
+  n<> u<192> t<Source_text> p<193> c<13> l<5:1> el<63:10>
+    n<> u<13> t<Description> p<192> c<12> s<21> l<5:1> el<5:22>
+      n<> u<12> t<Top_directives> p<13> c<11> l<5:1> el<5:22>
+        n<> u<11> t<Timescale_directive> p<12> c<7> l<5:1> el<5:22>
+          n<1ns> u<7> t<Time_literal> p<11> c<5> s<10> l<5:12> el<5:15>
+            n<1> u<5> t<INTEGRAL_NUMBER> p<7> s<6> l<5:12> el<5:13>
+            n<ns> u<6> t<SIMPLE_IDENTIFIER> p<7> l<5:13> el<5:15>
+          n<10ps> u<10> t<Time_literal> p<11> c<8> l<5:18> el<5:22>
+            n<10> u<8> t<INTEGRAL_NUMBER> p<10> s<9> l<5:18> el<5:20>
+            n<ps> u<9> t<SIMPLE_IDENTIFIER> p<10> l<5:20> el<5:22>
+    n<> u<21> t<Description> p<192> c<20> s<29> l<7:1> el<8:10>
+      n<> u<20> t<Module_declaration> p<21> c<17> l<7:1> el<8:10>
+        n<> u<17> t<Module_ansi_header> p<20> c<14> s<18> l<7:1> el<7:12>
+          n<module> u<14> t<MODULE> p<17> s<15> l<7:1> el<7:7>
+          n<t_a> u<15> t<SIMPLE_IDENTIFIER> p<17> s<16> l<7:8> el<7:11>
+          n<> u<16> t<Package_import_declaration_list> p<17> l<7:11> el<7:11>
+        n<// -9 / -11    (Sec 3.14.2.1 example, module A)> u<18> t<LINE_COMMENT> p<20> s<19> l<7:41> el<7:88>
+        n<> u<19> t<ENDMODULE> p<20> l<8:1> el<8:10>
+    n<> u<29> t<Description> p<192> c<28> s<44> l<10:1> el<11:10>
+      n<> u<28> t<Module_declaration> p<29> c<25> l<10:1> el<11:10>
+        n<> u<25> t<Module_ansi_header> p<28> c<22> s<26> l<10:1> el<10:12>
+          n<module> u<22> t<MODULE> p<25> s<23> l<10:1> el<10:7>
+          n<t_b> u<23> t<SIMPLE_IDENTIFIER> p<25> s<24> l<10:8> el<10:11>
+          n<> u<24> t<Package_import_declaration_list> p<25> l<10:11> el<10:11>
+        n<// -9 / -11    (module B, same directive)> u<26> t<LINE_COMMENT> p<28> s<27> l<10:41> el<10:82>
+        n<> u<27> t<ENDMODULE> p<28> l<11:1> el<11:10>
+    n<> u<44> t<Description> p<192> c<43> s<56> l<13:1> el<15:10>
+      n<> u<43> t<Module_declaration> p<44> c<33> l<13:1> el<15:10>
+        n<> u<33> t<Module_ansi_header> p<43> c<30> s<34> l<13:1> el<13:14>
+          n<module> u<30> t<MODULE> p<33> s<31> l<13:1> el<13:7>
+          n<t_own> u<31> t<SIMPLE_IDENTIFIER> p<33> s<32> l<13:8> el<13:13>
+          n<> u<32> t<Package_import_declaration_list> p<33> l<13:13> el<13:13>
+        n<// -10 / -15   (own declaration beats `timescale)> u<34> t<LINE_COMMENT> p<43> s<41> l<13:41> el<13:90>
+        n<> u<41> t<TimeUnitsDecl_TimeUnitDiv> p<43> c<37> s<42> l<14:3> el<14:24>
+          n<100ps> u<37> t<Time_literal> p<41> c<35> s<40> l<14:12> el<14:17>
+            n<100> u<35> t<INTEGRAL_NUMBER> p<37> s<36> l<14:12> el<14:15>
+            n<ps> u<36> t<SIMPLE_IDENTIFIER> p<37> l<14:15> el<14:17>
+          n<1fs> u<40> t<Time_literal> p<41> c<38> l<14:20> el<14:23>
+            n<1> u<38> t<INTEGRAL_NUMBER> p<40> s<39> l<14:20> el<14:21>
+            n<fs> u<39> t<SIMPLE_IDENTIFIER> p<40> l<14:21> el<14:23>
+        n<> u<42> t<ENDMODULE> p<43> l<15:1> el<15:10>
+    n<> u<56> t<Description> p<192> c<55> s<68> l<17:1> el<19:10>
+      n<> u<55> t<Module_declaration> p<56> c<48> l<17:1> el<19:10>
+        n<> u<48> t<Module_ansi_header> p<55> c<45> s<49> l<17:1> el<17:20>
+          n<module> u<45> t<MODULE> p<48> s<46> l<17:1> el<17:7>
+          n<t_prec_only> u<46> t<SIMPLE_IDENTIFIER> p<48> s<47> l<17:8> el<17:19>
+          n<> u<47> t<Package_import_declaration_list> p<48> l<17:19> el<17:19>
+        n<// -9 / -12    (unit from `timescale)> u<49> t<LINE_COMMENT> p<55> s<53> l<17:41> el<17:78>
+        n<> u<53> t<TimeUnitsDecl_TimePrecision> p<55> c<52> s<54> l<18:3> el<18:21>
+          n<1ps> u<52> t<Time_literal> p<53> c<50> l<18:17> el<18:20>
+            n<1> u<50> t<INTEGRAL_NUMBER> p<52> s<51> l<18:17> el<18:18>
+            n<ps> u<51> t<SIMPLE_IDENTIFIER> p<52> l<18:18> el<18:20>
+        n<> u<54> t<ENDMODULE> p<55> l<19:1> el<19:10>
+    n<> u<68> t<Description> p<192> c<67> s<91> l<21:1> el<23:10>
+      n<> u<67> t<Module_declaration> p<68> c<60> l<21:1> el<23:10>
+        n<> u<60> t<Module_ansi_header> p<67> c<57> s<61> l<21:1> el<21:20>
+          n<module> u<57> t<MODULE> p<60> s<58> l<21:1> el<21:7>
+          n<t_unit_only> u<58> t<SIMPLE_IDENTIFIER> p<60> s<59> l<21:8> el<21:19>
+          n<> u<59> t<Package_import_declaration_list> p<60> l<21:19> el<21:19>
+        n<// -8 / -11    (precision from `timescale)> u<61> t<LINE_COMMENT> p<67> s<65> l<21:41> el<21:83>
+        n<> u<65> t<TimeUnitsDecl_TimeUnit> p<67> c<64> s<66> l<22:3> el<22:17>
+          n<10ns> u<64> t<Time_literal> p<65> c<62> l<22:12> el<22:16>
+            n<10> u<62> t<INTEGRAL_NUMBER> p<64> s<63> l<22:12> el<22:14>
+            n<ns> u<63> t<SIMPLE_IDENTIFIER> p<64> l<22:14> el<22:16>
+        n<> u<66> t<ENDMODULE> p<67> l<23:1> el<23:10>
+    n<> u<91> t<Description> p<192> c<90> s<107> l<25:1> el<29:10>
+      n<> u<90> t<Module_declaration> p<91> c<72> l<25:1> el<29:10>
+        n<> u<72> t<Module_ansi_header> p<90> c<69> s<73> l<25:1> el<25:16>
+          n<module> u<69> t<MODULE> p<72> s<70> l<25:1> el<25:7>
+          n<t_outer> u<70> t<SIMPLE_IDENTIFIER> p<72> s<71> l<25:8> el<25:15>
+          n<> u<71> t<Package_import_declaration_list> p<72> l<25:15> el<25:15>
+        n<// -6 / -9> u<73> t<LINE_COMMENT> p<90> s<80> l<25:41> el<25:51>
+        n<> u<80> t<TimeUnitsDecl_TimeUnitDiv> p<90> c<76> s<88> l<26:3> el<26:22>
+          n<1us> u<76> t<Time_literal> p<80> c<74> s<79> l<26:12> el<26:15>
+            n<1> u<74> t<INTEGRAL_NUMBER> p<76> s<75> l<26:12> el<26:13>
+            n<us> u<75> t<SIMPLE_IDENTIFIER> p<76> l<26:13> el<26:15>
+          n<1ns> u<79> t<Time_literal> p<80> c<77> l<26:18> el<26:21>
+            n<1> u<77> t<INTEGRAL_NUMBER> p<79> s<78> l<26:18> el<26:19>
+            n<ns> u<78> t<SIMPLE_IDENTIFIER> p<79> l<26:19> el<26:21>
+        n<> u<88> t<Non_port_module_item> p<90> c<87> s<89> l<27:3> el<28:12>
+          n<> u<87> t<Module_declaration> p<88> c<84> l<27:3> el<28:12>
+            n<> u<84> t<Module_ansi_header> p<87> c<81> s<85> l<27:3> el<27:18>
+              n<module> u<81> t<MODULE> p<84> s<82> l<27:3> el<27:9>
+              n<t_inner> u<82> t<SIMPLE_IDENTIFIER> p<84> s<83> l<27:10> el<27:17>
+              n<> u<83> t<Package_import_declaration_list> p<84> l<27:17> el<27:17>
+            n<// -6 / -9     (rule a beats rule b)> u<85> t<LINE_COMMENT> p<87> s<86> l<27:41> el<27:77>
+            n<> u<86> t<ENDMODULE> p<87> l<28:3> el<28:12>
+        n<> u<89> t<ENDMODULE> p<90> l<29:1> el<29:10>
+    n<> u<107> t<Description> p<192> c<106> s<115> l<31:1> el<34:10>
+      n<> u<106> t<Module_declaration> p<107> c<95> l<31:1> el<34:10>
+        n<> u<95> t<Module_ansi_header> p<106> c<92> s<96> l<31:1> el<31:21>
+          n<module> u<92> t<MODULE> p<95> s<93> l<31:1> el<31:7>
+          n<t_outer_none> u<93> t<SIMPLE_IDENTIFIER> p<95> s<94> l<31:8> el<31:20>
+          n<> u<94> t<Package_import_declaration_list> p<95> l<31:20> el<31:20>
+        n<// -9 / -11> u<96> t<LINE_COMMENT> p<106> s<104> l<31:41> el<31:52>
+        n<> u<104> t<Non_port_module_item> p<106> c<103> s<105> l<32:3> el<33:12>
+          n<> u<103> t<Module_declaration> p<104> c<100> l<32:3> el<33:12>
+            n<> u<100> t<Module_ansi_header> p<103> c<97> s<101> l<32:3> el<32:26>
+              n<module> u<97> t<MODULE> p<100> s<98> l<32:3> el<32:9>
+              n<t_inner_of_none> u<98> t<SIMPLE_IDENTIFIER> p<100> s<99> l<32:10> el<32:25>
+              n<> u<99> t<Package_import_declaration_list> p<100> l<32:25> el<32:25>
+            n<// -9 / -11    (rule a, enclosing got it from b)> u<101> t<LINE_COMMENT> p<103> s<102> l<32:41> el<32:89>
+            n<> u<102> t<ENDMODULE> p<103> l<33:3> el<33:12>
+        n<> u<105> t<ENDMODULE> p<106> l<34:1> el<34:10>
+    n<> u<115> t<Description> p<192> c<114> s<123> l<36:1> el<37:13>
+      n<> u<114> t<Interface_declaration> p<115> c<111> l<36:1> el<37:13>
+        n<> u<111> t<Interface_ansi_header> p<114> c<108> s<112> l<36:1> el<36:16>
+          n<> u<108> t<INTERFACE> p<111> s<109> l<36:1> el<36:10>
+          n<t_if> u<109> t<SIMPLE_IDENTIFIER> p<111> s<110> l<36:11> el<36:15>
+          n<> u<110> t<Package_import_declaration_list> p<111> l<36:15> el<36:15>
+        n<// -9 / -11> u<112> t<LINE_COMMENT> p<114> s<113> l<36:41> el<36:52>
+        n<> u<113> t<ENDINTERFACE> p<114> l<37:1> el<37:13>
+    n<> u<123> t<Description> p<192> c<122> s<129> l<39:1> el<40:11>
+      n<> u<122> t<Program_declaration> p<123> c<119> l<39:1> el<40:11>
+        n<> u<119> t<Program_ansi_header> p<122> c<116> s<120> l<39:1> el<39:16>
+          n<> u<116> t<PROGRAM> p<119> s<117> l<39:1> el<39:8>
+          n<t_prog> u<117> t<SIMPLE_IDENTIFIER> p<119> s<118> l<39:9> el<39:15>
+          n<> u<118> t<Package_import_declaration_list> p<119> l<39:15> el<39:15>
+        n<// -9 / -11> u<120> t<LINE_COMMENT> p<122> s<121> l<39:41> el<39:52>
+        n<> u<121> t<ENDPROGRAM> p<122> l<40:1> el<40:11>
+    n<> u<129> t<Description> p<192> c<128> s<138> l<42:1> el<43:11>
+      n<> u<128> t<Package_declaration> p<129> c<124> l<42:1> el<43:11>
+        n<> u<124> t<PACKAGE> p<128> s<125> l<42:1> el<42:8>
+        n<t_pkg> u<125> t<SIMPLE_IDENTIFIER> p<128> s<126> l<42:9> el<42:14>
+        n<// -9 / -11> u<126> t<LINE_COMMENT> p<128> s<127> l<42:41> el<42:52>
+        n<> u<127> t<ENDPACKAGE> p<128> l<43:1> el<43:11>
+    n<> u<138> t<Description> p<192> c<137> s<146> l<45:1> el<45:21>
+      n<> u<137> t<Top_directives> p<138> c<136> l<45:1> el<45:21>
+        n<> u<136> t<Timescale_directive> p<137> c<132> l<45:1> el<45:21>
+          n<1ps> u<132> t<Time_literal> p<136> c<130> s<135> l<45:12> el<45:15>
+            n<1> u<130> t<INTEGRAL_NUMBER> p<132> s<131> l<45:12> el<45:13>
+            n<ps> u<131> t<SIMPLE_IDENTIFIER> p<132> l<45:13> el<45:15>
+          n<1ps> u<135> t<Time_literal> p<136> c<133> l<45:18> el<45:21>
+            n<1> u<133> t<INTEGRAL_NUMBER> p<135> s<134> l<45:18> el<45:19>
+            n<ps> u<134> t<SIMPLE_IDENTIFIER> p<135> l<45:19> el<45:21>
+    n<> u<146> t<Description> p<192> c<145> s<155> l<47:1> el<48:10>
+      n<> u<145> t<Module_declaration> p<146> c<142> l<47:1> el<48:10>
+        n<> u<142> t<Module_ansi_header> p<145> c<139> s<143> l<47:1> el<47:12>
+          n<module> u<139> t<MODULE> p<142> s<140> l<47:1> el<47:7>
+          n<t_c> u<140> t<SIMPLE_IDENTIFIER> p<142> s<141> l<47:8> el<47:11>
+          n<> u<141> t<Package_import_declaration_list> p<142> l<47:11> el<47:11>
+        n<// -12 / -12   (module C: the second directive replaces the first)> u<143> t<LINE_COMMENT> p<145> s<144> l<47:41> el<47:107>
+        n<> u<144> t<ENDMODULE> p<145> l<48:1> el<48:10>
+    n<> u<155> t<Description> p<192> c<154> s<163> l<50:1> el<50:26>
+      n<> u<154> t<Top_directives> p<155> c<153> l<50:1> el<50:26>
+        n<> u<153> t<Timescale_directive> p<154> c<149> l<50:1> el<50:26>
+          n<10us> u<149> t<Time_literal> p<153> c<147> s<152> l<50:12> el<50:17>
+            n<10> u<147> t<INTEGRAL_NUMBER> p<149> s<148> l<50:12> el<50:14>
+            n<us> u<148> t<SIMPLE_IDENTIFIER> p<149> l<50:15> el<50:17>
+          n<100ns> u<152> t<Time_literal> p<153> c<150> l<50:20> el<50:26>
+            n<100> u<150> t<INTEGRAL_NUMBER> p<152> s<151> l<50:20> el<50:23>
+            n<ns> u<151> t<SIMPLE_IDENTIFIER> p<152> l<50:24> el<50:26>
+    n<> u<163> t<Description> p<192> c<162> s<166> l<52:1> el<53:10>
+      n<> u<162> t<Module_declaration> p<163> c<159> l<52:1> el<53:10>
+        n<> u<159> t<Module_ansi_header> p<162> c<156> s<160> l<52:1> el<52:17>
+          n<module> u<156> t<MODULE> p<159> s<157> l<52:1> el<52:7>
+          n<t_spaced> u<157> t<SIMPLE_IDENTIFIER> p<159> s<158> l<52:8> el<52:16>
+          n<> u<158> t<Package_import_declaration_list> p<159> l<52:16> el<52:16>
+        n<// -5 / -7     (Sec 22.7 example, spaces around the units)> u<160> t<LINE_COMMENT> p<162> s<161> l<52:41> el<52:99>
+        n<> u<161> t<ENDMODULE> p<162> l<53:1> el<53:10>
+    n<> u<166> t<Description> p<192> c<165> s<174> l<55:1> el<55:10>
+      n<> u<165> t<Top_directives> p<166> c<164> l<55:1> el<55:10>
+        n<> u<164> t<Resetall_directive> p<165> l<55:1> el<55:10>
+    n<> u<174> t<Description> p<192> c<173> s<183> l<57:1> el<58:10>
+      n<> u<173> t<Module_declaration> p<174> c<170> l<57:1> el<58:10>
+        n<> u<170> t<Module_ansi_header> p<173> c<167> s<171> l<57:1> el<57:25>
+          n<module> u<167> t<MODULE> p<170> s<168> l<57:1> el<57:7>
+          n<t_after_resetall> u<168> t<SIMPLE_IDENTIFIER> p<170> s<169> l<57:8> el<57:24>
+          n<> u<169> t<Package_import_declaration_list> p<170> l<57:24> el<57:24>
+        n<// 0 / 0       (Sec 22.7: reset by `resetall -> default)> u<171> t<LINE_COMMENT> p<173> s<172> l<57:41> el<57:97>
+        n<> u<172> t<ENDMODULE> p<173> l<58:1> el<58:10>
+    n<> u<183> t<Description> p<192> c<182> s<191> l<60:1> el<60:24>
+      n<> u<182> t<Top_directives> p<183> c<181> l<60:1> el<60:24>
+        n<> u<181> t<Timescale_directive> p<182> c<177> l<60:1> el<60:24>
+          n<10ns> u<177> t<Time_literal> p<181> c<175> s<180> l<60:12> el<60:17>
+            n<10> u<175> t<INTEGRAL_NUMBER> p<177> s<176> l<60:12> el<60:14>
+            n<ns> u<176> t<SIMPLE_IDENTIFIER> p<177> l<60:15> el<60:17>
+          n<1ns> u<180> t<Time_literal> p<181> c<178> l<60:20> el<60:24>
+            n<1> u<178> t<INTEGRAL_NUMBER> p<180> s<179> l<60:20> el<60:21>
+            n<ns> u<179> t<SIMPLE_IDENTIFIER> p<180> l<60:22> el<60:24>
+    n<> u<191> t<Description> p<192> c<190> l<62:1> el<63:10>
+      n<> u<190> t<Module_declaration> p<191> c<187> l<62:1> el<63:10>
+        n<> u<187> t<Module_ansi_header> p<190> c<184> s<188> l<62:1> el<62:15>
+          n<module> u<184> t<MODULE> p<187> s<185> l<62:1> el<62:7>
+          n<t_test> u<185> t<SIMPLE_IDENTIFIER> p<187> s<186> l<62:8> el<62:14>
+          n<> u<186> t<Package_import_declaration_list> p<187> l<62:14> el<62:14>
+        n<// -8 / -9     (Sec 22.7 example, module test)> u<188> t<LINE_COMMENT> p<190> s<189> l<62:41> el<62:87>
+        n<> u<189> t<ENDMODULE> p<190> l<63:1> el<63:10>
+AST_DEBUG_END
+AST_DEBUG_BEGIN
+Count: 550
+LIB: work
+FILE<0>:$Source01/units.sv
+n<$Source01/units.sv> u<549> t<Top_level_rule> c<1> l<7:1> el<117:1>
+  n<> u<1> t<Null_rule> p<549> s<2> l<7:1> el<7:1>
+  n<// Every legal time value (IEEE 1800-2023 Sec 3.14 Table 3-1, Sec 22.7): magnitude> u<2> t<LINE_COMMENT> p<549> s<3> l<1:1> el<1:83>
+  n<// 1, 10 or 100 with unit s, ms, us, ns, ps or fs, as a time unit and as a time> u<3> t<LINE_COMMENT> p<549> s<4> l<2:1> el<2:80>
+  n<// precision. The model stores each as a power of ten of one second (1ns = -9).> u<4> t<LINE_COMMENT> p<549> s<5> l<3:1> el<3:80>
+  n<// No `timescale and no compilation-unit timeunit in this file.> u<5> t<LINE_COMMENT> p<549> s<6> l<4:1> el<4:64>
+  n<// Time unit: "timeunit <value> / 1fs" -> unit = <value>, precision = -15.> u<6> t<LINE_COMMENT> p<549> s<548> l<6:1> el<6:75>
+  n<> u<548> t<Source_text> p<549> c<21> l<7:1> el<116:10>
+    n<> u<21> t<Description> p<548> c<20> s<36> l<7:1> el<9:10>
+      n<> u<20> t<Module_declaration> p<21> c<10> l<7:1> el<9:10>
+        n<> u<10> t<Module_ansi_header> p<20> c<7> s<11> l<7:1> el<7:18>
+          n<module> u<7> t<MODULE> p<10> s<8> l<7:1> el<7:7>
+          n<u_unit_1s> u<8> t<SIMPLE_IDENTIFIER> p<10> s<9> l<7:8> el<7:17>
+          n<> u<9> t<Package_import_declaration_list> p<10> l<7:17> el<7:17>
+        n<// 0 / -15> u<11> t<LINE_COMMENT> p<20> s<18> l<7:25> el<7:35>
+        n<> u<18> t<TimeUnitsDecl_TimeUnitDiv> p<20> c<14> s<19> l<8:3> el<8:21>
+          n<1s> u<14> t<Time_literal> p<18> c<12> s<17> l<8:12> el<8:14>
+            n<1> u<12> t<INTEGRAL_NUMBER> p<14> s<13> l<8:12> el<8:13>
+            n<s> u<13> t<SIMPLE_IDENTIFIER> p<14> l<8:13> el<8:14>
+          n<1fs> u<17> t<Time_literal> p<18> c<15> l<8:17> el<8:20>
+            n<1> u<15> t<INTEGRAL_NUMBER> p<17> s<16> l<8:17> el<8:18>
+            n<fs> u<16> t<SIMPLE_IDENTIFIER> p<17> l<8:18> el<8:20>
+        n<> u<19> t<ENDMODULE> p<20> l<9:1> el<9:10>
+    n<> u<36> t<Description> p<548> c<35> s<51> l<10:1> el<12:10>
+      n<> u<35> t<Module_declaration> p<36> c<25> l<10:1> el<12:10>
+        n<> u<25> t<Module_ansi_header> p<35> c<22> s<26> l<10:1> el<10:19>
+          n<module> u<22> t<MODULE> p<25> s<23> l<10:1> el<10:7>
+          n<u_unit_10s> u<23> t<SIMPLE_IDENTIFIER> p<25> s<24> l<10:8> el<10:18>
+          n<> u<24> t<Package_import_declaration_list> p<25> l<10:18> el<10:18>
+        n<// 1 / -15> u<26> t<LINE_COMMENT> p<35> s<33> l<10:25> el<10:35>
+        n<> u<33> t<TimeUnitsDecl_TimeUnitDiv> p<35> c<29> s<34> l<11:3> el<11:22>
+          n<10s> u<29> t<Time_literal> p<33> c<27> s<32> l<11:12> el<11:15>
+            n<10> u<27> t<INTEGRAL_NUMBER> p<29> s<28> l<11:12> el<11:14>
+            n<s> u<28> t<SIMPLE_IDENTIFIER> p<29> l<11:14> el<11:15>
+          n<1fs> u<32> t<Time_literal> p<33> c<30> l<11:18> el<11:21>
+            n<1> u<30> t<INTEGRAL_NUMBER> p<32> s<31> l<11:18> el<11:19>
+            n<fs> u<31> t<SIMPLE_IDENTIFIER> p<32> l<11:19> el<11:21>
+        n<> u<34> t<ENDMODULE> p<35> l<12:1> el<12:10>
+    n<> u<51> t<Description> p<548> c<50> s<66> l<13:1> el<15:10>
+      n<> u<50> t<Module_declaration> p<51> c<40> l<13:1> el<15:10>
+        n<> u<40> t<Module_ansi_header> p<50> c<37> s<41> l<13:1> el<13:20>
+          n<module> u<37> t<MODULE> p<40> s<38> l<13:1> el<13:7>
+          n<u_unit_100s> u<38> t<SIMPLE_IDENTIFIER> p<40> s<39> l<13:8> el<13:19>
+          n<> u<39> t<Package_import_declaration_list> p<40> l<13:19> el<13:19>
+        n<// 2 / -15> u<41> t<LINE_COMMENT> p<50> s<48> l<13:25> el<13:35>
+        n<> u<48> t<TimeUnitsDecl_TimeUnitDiv> p<50> c<44> s<49> l<14:3> el<14:23>
+          n<100s> u<44> t<Time_literal> p<48> c<42> s<47> l<14:12> el<14:16>
+            n<100> u<42> t<INTEGRAL_NUMBER> p<44> s<43> l<14:12> el<14:15>
+            n<s> u<43> t<SIMPLE_IDENTIFIER> p<44> l<14:15> el<14:16>
+          n<1fs> u<47> t<Time_literal> p<48> c<45> l<14:19> el<14:22>
+            n<1> u<45> t<INTEGRAL_NUMBER> p<47> s<46> l<14:19> el<14:20>
+            n<fs> u<46> t<SIMPLE_IDENTIFIER> p<47> l<14:20> el<14:22>
+        n<> u<49> t<ENDMODULE> p<50> l<15:1> el<15:10>
+    n<> u<66> t<Description> p<548> c<65> s<81> l<16:1> el<18:10>
+      n<> u<65> t<Module_declaration> p<66> c<55> l<16:1> el<18:10>
+        n<> u<55> t<Module_ansi_header> p<65> c<52> s<56> l<16:1> el<16:19>
+          n<module> u<52> t<MODULE> p<55> s<53> l<16:1> el<16:7>
+          n<u_unit_1ms> u<53> t<SIMPLE_IDENTIFIER> p<55> s<54> l<16:8> el<16:18>
+          n<> u<54> t<Package_import_declaration_list> p<55> l<16:18> el<16:18>
+        n<// -3 / -15> u<56> t<LINE_COMMENT> p<65> s<63> l<16:25> el<16:36>
+        n<> u<63> t<TimeUnitsDecl_TimeUnitDiv> p<65> c<59> s<64> l<17:3> el<17:22>
+          n<1ms> u<59> t<Time_literal> p<63> c<57> s<62> l<17:12> el<17:15>
+            n<1> u<57> t<INTEGRAL_NUMBER> p<59> s<58> l<17:12> el<17:13>
+            n<ms> u<58> t<SIMPLE_IDENTIFIER> p<59> l<17:13> el<17:15>
+          n<1fs> u<62> t<Time_literal> p<63> c<60> l<17:18> el<17:21>
+            n<1> u<60> t<INTEGRAL_NUMBER> p<62> s<61> l<17:18> el<17:19>
+            n<fs> u<61> t<SIMPLE_IDENTIFIER> p<62> l<17:19> el<17:21>
+        n<> u<64> t<ENDMODULE> p<65> l<18:1> el<18:10>
+    n<> u<81> t<Description> p<548> c<80> s<96> l<19:1> el<21:10>
+      n<> u<80> t<Module_declaration> p<81> c<70> l<19:1> el<21:10>
+        n<> u<70> t<Module_ansi_header> p<80> c<67> s<71> l<19:1> el<19:20>
+          n<module> u<67> t<MODULE> p<70> s<68> l<19:1> el<19:7>
+          n<u_unit_10ms> u<68> t<SIMPLE_IDENTIFIER> p<70> s<69> l<19:8> el<19:19>
+          n<> u<69> t<Package_import_declaration_list> p<70> l<19:19> el<19:19>
+        n<// -2 / -15> u<71> t<LINE_COMMENT> p<80> s<78> l<19:25> el<19:36>
+        n<> u<78> t<TimeUnitsDecl_TimeUnitDiv> p<80> c<74> s<79> l<20:3> el<20:23>
+          n<10ms> u<74> t<Time_literal> p<78> c<72> s<77> l<20:12> el<20:16>
+            n<10> u<72> t<INTEGRAL_NUMBER> p<74> s<73> l<20:12> el<20:14>
+            n<ms> u<73> t<SIMPLE_IDENTIFIER> p<74> l<20:14> el<20:16>
+          n<1fs> u<77> t<Time_literal> p<78> c<75> l<20:19> el<20:22>
+            n<1> u<75> t<INTEGRAL_NUMBER> p<77> s<76> l<20:19> el<20:20>
+            n<fs> u<76> t<SIMPLE_IDENTIFIER> p<77> l<20:20> el<20:22>
+        n<> u<79> t<ENDMODULE> p<80> l<21:1> el<21:10>
+    n<> u<96> t<Description> p<548> c<95> s<111> l<22:1> el<24:10>
+      n<> u<95> t<Module_declaration> p<96> c<85> l<22:1> el<24:10>
+        n<> u<85> t<Module_ansi_header> p<95> c<82> s<86> l<22:1> el<22:21>
+          n<module> u<82> t<MODULE> p<85> s<83> l<22:1> el<22:7>
+          n<u_unit_100ms> u<83> t<SIMPLE_IDENTIFIER> p<85> s<84> l<22:8> el<22:20>
+          n<> u<84> t<Package_import_declaration_list> p<85> l<22:20> el<22:20>
+        n<// -1 / -15> u<86> t<LINE_COMMENT> p<95> s<93> l<22:25> el<22:36>
+        n<> u<93> t<TimeUnitsDecl_TimeUnitDiv> p<95> c<89> s<94> l<23:3> el<23:24>
+          n<100ms> u<89> t<Time_literal> p<93> c<87> s<92> l<23:12> el<23:17>
+            n<100> u<87> t<INTEGRAL_NUMBER> p<89> s<88> l<23:12> el<23:15>
+            n<ms> u<88> t<SIMPLE_IDENTIFIER> p<89> l<23:15> el<23:17>
+          n<1fs> u<92> t<Time_literal> p<93> c<90> l<23:20> el<23:23>
+            n<1> u<90> t<INTEGRAL_NUMBER> p<92> s<91> l<23:20> el<23:21>
+            n<fs> u<91> t<SIMPLE_IDENTIFIER> p<92> l<23:21> el<23:23>
+        n<> u<94> t<ENDMODULE> p<95> l<24:1> el<24:10>
+    n<> u<111> t<Description> p<548> c<110> s<126> l<25:1> el<27:10>
+      n<> u<110> t<Module_declaration> p<111> c<100> l<25:1> el<27:10>
+        n<> u<100> t<Module_ansi_header> p<110> c<97> s<101> l<25:1> el<25:19>
+          n<module> u<97> t<MODULE> p<100> s<98> l<25:1> el<25:7>
+          n<u_unit_1us> u<98> t<SIMPLE_IDENTIFIER> p<100> s<99> l<25:8> el<25:18>
+          n<> u<99> t<Package_import_declaration_list> p<100> l<25:18> el<25:18>
+        n<// -6 / -15> u<101> t<LINE_COMMENT> p<110> s<108> l<25:25> el<25:36>
+        n<> u<108> t<TimeUnitsDecl_TimeUnitDiv> p<110> c<104> s<109> l<26:3> el<26:22>
+          n<1us> u<104> t<Time_literal> p<108> c<102> s<107> l<26:12> el<26:15>
+            n<1> u<102> t<INTEGRAL_NUMBER> p<104> s<103> l<26:12> el<26:13>
+            n<us> u<103> t<SIMPLE_IDENTIFIER> p<104> l<26:13> el<26:15>
+          n<1fs> u<107> t<Time_literal> p<108> c<105> l<26:18> el<26:21>
+            n<1> u<105> t<INTEGRAL_NUMBER> p<107> s<106> l<26:18> el<26:19>
+            n<fs> u<106> t<SIMPLE_IDENTIFIER> p<107> l<26:19> el<26:21>
+        n<> u<109> t<ENDMODULE> p<110> l<27:1> el<27:10>
+    n<> u<126> t<Description> p<548> c<125> s<141> l<28:1> el<30:10>
+      n<> u<125> t<Module_declaration> p<126> c<115> l<28:1> el<30:10>
+        n<> u<115> t<Module_ansi_header> p<125> c<112> s<116> l<28:1> el<28:20>
+          n<module> u<112> t<MODULE> p<115> s<113> l<28:1> el<28:7>
+          n<u_unit_10us> u<113> t<SIMPLE_IDENTIFIER> p<115> s<114> l<28:8> el<28:19>
+          n<> u<114> t<Package_import_declaration_list> p<115> l<28:19> el<28:19>
+        n<// -5 / -15> u<116> t<LINE_COMMENT> p<125> s<123> l<28:25> el<28:36>
+        n<> u<123> t<TimeUnitsDecl_TimeUnitDiv> p<125> c<119> s<124> l<29:3> el<29:23>
+          n<10us> u<119> t<Time_literal> p<123> c<117> s<122> l<29:12> el<29:16>
+            n<10> u<117> t<INTEGRAL_NUMBER> p<119> s<118> l<29:12> el<29:14>
+            n<us> u<118> t<SIMPLE_IDENTIFIER> p<119> l<29:14> el<29:16>
+          n<1fs> u<122> t<Time_literal> p<123> c<120> l<29:19> el<29:22>
+            n<1> u<120> t<INTEGRAL_NUMBER> p<122> s<121> l<29:19> el<29:20>
+            n<fs> u<121> t<SIMPLE_IDENTIFIER> p<122> l<29:20> el<29:22>
+        n<> u<124> t<ENDMODULE> p<125> l<30:1> el<30:10>
+    n<> u<141> t<Description> p<548> c<140> s<156> l<31:1> el<33:10>
+      n<> u<140> t<Module_declaration> p<141> c<130> l<31:1> el<33:10>
+        n<> u<130> t<Module_ansi_header> p<140> c<127> s<131> l<31:1> el<31:21>
+          n<module> u<127> t<MODULE> p<130> s<128> l<31:1> el<31:7>
+          n<u_unit_100us> u<128> t<SIMPLE_IDENTIFIER> p<130> s<129> l<31:8> el<31:20>
+          n<> u<129> t<Package_import_declaration_list> p<130> l<31:20> el<31:20>
+        n<// -4 / -15> u<131> t<LINE_COMMENT> p<140> s<138> l<31:25> el<31:36>
+        n<> u<138> t<TimeUnitsDecl_TimeUnitDiv> p<140> c<134> s<139> l<32:3> el<32:24>
+          n<100us> u<134> t<Time_literal> p<138> c<132> s<137> l<32:12> el<32:17>
+            n<100> u<132> t<INTEGRAL_NUMBER> p<134> s<133> l<32:12> el<32:15>
+            n<us> u<133> t<SIMPLE_IDENTIFIER> p<134> l<32:15> el<32:17>
+          n<1fs> u<137> t<Time_literal> p<138> c<135> l<32:20> el<32:23>
+            n<1> u<135> t<INTEGRAL_NUMBER> p<137> s<136> l<32:20> el<32:21>
+            n<fs> u<136> t<SIMPLE_IDENTIFIER> p<137> l<32:21> el<32:23>
+        n<> u<139> t<ENDMODULE> p<140> l<33:1> el<33:10>
+    n<> u<156> t<Description> p<548> c<155> s<171> l<34:1> el<36:10>
+      n<> u<155> t<Module_declaration> p<156> c<145> l<34:1> el<36:10>
+        n<> u<145> t<Module_ansi_header> p<155> c<142> s<146> l<34:1> el<34:19>
+          n<module> u<142> t<MODULE> p<145> s<143> l<34:1> el<34:7>
+          n<u_unit_1ns> u<143> t<SIMPLE_IDENTIFIER> p<145> s<144> l<34:8> el<34:18>
+          n<> u<144> t<Package_import_declaration_list> p<145> l<34:18> el<34:18>
+        n<// -9 / -15> u<146> t<LINE_COMMENT> p<155> s<153> l<34:25> el<34:36>
+        n<> u<153> t<TimeUnitsDecl_TimeUnitDiv> p<155> c<149> s<154> l<35:3> el<35:22>
+          n<1ns> u<149> t<Time_literal> p<153> c<147> s<152> l<35:12> el<35:15>
+            n<1> u<147> t<INTEGRAL_NUMBER> p<149> s<148> l<35:12> el<35:13>
+            n<ns> u<148> t<SIMPLE_IDENTIFIER> p<149> l<35:13> el<35:15>
+          n<1fs> u<152> t<Time_literal> p<153> c<150> l<35:18> el<35:21>
+            n<1> u<150> t<INTEGRAL_NUMBER> p<152> s<151> l<35:18> el<35:19>
+            n<fs> u<151> t<SIMPLE_IDENTIFIER> p<152> l<35:19> el<35:21>
+        n<> u<154> t<ENDMODULE> p<155> l<36:1> el<36:10>
+    n<> u<171> t<Description> p<548> c<170> s<186> l<37:1> el<39:10>
+      n<> u<170> t<Module_declaration> p<171> c<160> l<37:1> el<39:10>
+        n<> u<160> t<Module_ansi_header> p<170> c<157> s<161> l<37:1> el<37:20>
+          n<module> u<157> t<MODULE> p<160> s<158> l<37:1> el<37:7>
+          n<u_unit_10ns> u<158> t<SIMPLE_IDENTIFIER> p<160> s<159> l<37:8> el<37:19>
+          n<> u<159> t<Package_import_declaration_list> p<160> l<37:19> el<37:19>
+        n<// -8 / -15> u<161> t<LINE_COMMENT> p<170> s<168> l<37:25> el<37:36>
+        n<> u<168> t<TimeUnitsDecl_TimeUnitDiv> p<170> c<164> s<169> l<38:3> el<38:23>
+          n<10ns> u<164> t<Time_literal> p<168> c<162> s<167> l<38:12> el<38:16>
+            n<10> u<162> t<INTEGRAL_NUMBER> p<164> s<163> l<38:12> el<38:14>
+            n<ns> u<163> t<SIMPLE_IDENTIFIER> p<164> l<38:14> el<38:16>
+          n<1fs> u<167> t<Time_literal> p<168> c<165> l<38:19> el<38:22>
+            n<1> u<165> t<INTEGRAL_NUMBER> p<167> s<166> l<38:19> el<38:20>
+            n<fs> u<166> t<SIMPLE_IDENTIFIER> p<167> l<38:20> el<38:22>
+        n<> u<169> t<ENDMODULE> p<170> l<39:1> el<39:10>
+    n<> u<186> t<Description> p<548> c<185> s<201> l<40:1> el<42:10>
+      n<> u<185> t<Module_declaration> p<186> c<175> l<40:1> el<42:10>
+        n<> u<175> t<Module_ansi_header> p<185> c<172> s<176> l<40:1> el<40:21>
+          n<module> u<172> t<MODULE> p<175> s<173> l<40:1> el<40:7>
+          n<u_unit_100ns> u<173> t<SIMPLE_IDENTIFIER> p<175> s<174> l<40:8> el<40:20>
+          n<> u<174> t<Package_import_declaration_list> p<175> l<40:20> el<40:20>
+        n<// -7 / -15> u<176> t<LINE_COMMENT> p<185> s<183> l<40:25> el<40:36>
+        n<> u<183> t<TimeUnitsDecl_TimeUnitDiv> p<185> c<179> s<184> l<41:3> el<41:24>
+          n<100ns> u<179> t<Time_literal> p<183> c<177> s<182> l<41:12> el<41:17>
+            n<100> u<177> t<INTEGRAL_NUMBER> p<179> s<178> l<41:12> el<41:15>
+            n<ns> u<178> t<SIMPLE_IDENTIFIER> p<179> l<41:15> el<41:17>
+          n<1fs> u<182> t<Time_literal> p<183> c<180> l<41:20> el<41:23>
+            n<1> u<180> t<INTEGRAL_NUMBER> p<182> s<181> l<41:20> el<41:21>
+            n<fs> u<181> t<SIMPLE_IDENTIFIER> p<182> l<41:21> el<41:23>
+        n<> u<184> t<ENDMODULE> p<185> l<42:1> el<42:10>
+    n<> u<201> t<Description> p<548> c<200> s<216> l<43:1> el<45:10>
+      n<> u<200> t<Module_declaration> p<201> c<190> l<43:1> el<45:10>
+        n<> u<190> t<Module_ansi_header> p<200> c<187> s<191> l<43:1> el<43:19>
+          n<module> u<187> t<MODULE> p<190> s<188> l<43:1> el<43:7>
+          n<u_unit_1ps> u<188> t<SIMPLE_IDENTIFIER> p<190> s<189> l<43:8> el<43:18>
+          n<> u<189> t<Package_import_declaration_list> p<190> l<43:18> el<43:18>
+        n<// -12 / -15> u<191> t<LINE_COMMENT> p<200> s<198> l<43:25> el<43:37>
+        n<> u<198> t<TimeUnitsDecl_TimeUnitDiv> p<200> c<194> s<199> l<44:3> el<44:22>
+          n<1ps> u<194> t<Time_literal> p<198> c<192> s<197> l<44:12> el<44:15>
+            n<1> u<192> t<INTEGRAL_NUMBER> p<194> s<193> l<44:12> el<44:13>
+            n<ps> u<193> t<SIMPLE_IDENTIFIER> p<194> l<44:13> el<44:15>
+          n<1fs> u<197> t<Time_literal> p<198> c<195> l<44:18> el<44:21>
+            n<1> u<195> t<INTEGRAL_NUMBER> p<197> s<196> l<44:18> el<44:19>
+            n<fs> u<196> t<SIMPLE_IDENTIFIER> p<197> l<44:19> el<44:21>
+        n<> u<199> t<ENDMODULE> p<200> l<45:1> el<45:10>
+    n<> u<216> t<Description> p<548> c<215> s<231> l<46:1> el<48:10>
+      n<> u<215> t<Module_declaration> p<216> c<205> l<46:1> el<48:10>
+        n<> u<205> t<Module_ansi_header> p<215> c<202> s<206> l<46:1> el<46:20>
+          n<module> u<202> t<MODULE> p<205> s<203> l<46:1> el<46:7>
+          n<u_unit_10ps> u<203> t<SIMPLE_IDENTIFIER> p<205> s<204> l<46:8> el<46:19>
+          n<> u<204> t<Package_import_declaration_list> p<205> l<46:19> el<46:19>
+        n<// -11 / -15> u<206> t<LINE_COMMENT> p<215> s<213> l<46:25> el<46:37>
+        n<> u<213> t<TimeUnitsDecl_TimeUnitDiv> p<215> c<209> s<214> l<47:3> el<47:23>
+          n<10ps> u<209> t<Time_literal> p<213> c<207> s<212> l<47:12> el<47:16>
+            n<10> u<207> t<INTEGRAL_NUMBER> p<209> s<208> l<47:12> el<47:14>
+            n<ps> u<208> t<SIMPLE_IDENTIFIER> p<209> l<47:14> el<47:16>
+          n<1fs> u<212> t<Time_literal> p<213> c<210> l<47:19> el<47:22>
+            n<1> u<210> t<INTEGRAL_NUMBER> p<212> s<211> l<47:19> el<47:20>
+            n<fs> u<211> t<SIMPLE_IDENTIFIER> p<212> l<47:20> el<47:22>
+        n<> u<214> t<ENDMODULE> p<215> l<48:1> el<48:10>
+    n<> u<231> t<Description> p<548> c<230> s<246> l<49:1> el<51:10>
+      n<> u<230> t<Module_declaration> p<231> c<220> l<49:1> el<51:10>
+        n<> u<220> t<Module_ansi_header> p<230> c<217> s<221> l<49:1> el<49:21>
+          n<module> u<217> t<MODULE> p<220> s<218> l<49:1> el<49:7>
+          n<u_unit_100ps> u<218> t<SIMPLE_IDENTIFIER> p<220> s<219> l<49:8> el<49:20>
+          n<> u<219> t<Package_import_declaration_list> p<220> l<49:20> el<49:20>
+        n<// -10 / -15> u<221> t<LINE_COMMENT> p<230> s<228> l<49:25> el<49:37>
+        n<> u<228> t<TimeUnitsDecl_TimeUnitDiv> p<230> c<224> s<229> l<50:3> el<50:24>
+          n<100ps> u<224> t<Time_literal> p<228> c<222> s<227> l<50:12> el<50:17>
+            n<100> u<222> t<INTEGRAL_NUMBER> p<224> s<223> l<50:12> el<50:15>
+            n<ps> u<223> t<SIMPLE_IDENTIFIER> p<224> l<50:15> el<50:17>
+          n<1fs> u<227> t<Time_literal> p<228> c<225> l<50:20> el<50:23>
+            n<1> u<225> t<INTEGRAL_NUMBER> p<227> s<226> l<50:20> el<50:21>
+            n<fs> u<226> t<SIMPLE_IDENTIFIER> p<227> l<50:21> el<50:23>
+        n<> u<229> t<ENDMODULE> p<230> l<51:1> el<51:10>
+    n<> u<246> t<Description> p<548> c<245> s<261> l<52:1> el<54:10>
+      n<> u<245> t<Module_declaration> p<246> c<235> l<52:1> el<54:10>
+        n<> u<235> t<Module_ansi_header> p<245> c<232> s<236> l<52:1> el<52:19>
+          n<module> u<232> t<MODULE> p<235> s<233> l<52:1> el<52:7>
+          n<u_unit_1fs> u<233> t<SIMPLE_IDENTIFIER> p<235> s<234> l<52:8> el<52:18>
+          n<> u<234> t<Package_import_declaration_list> p<235> l<52:18> el<52:18>
+        n<// -15 / -15> u<236> t<LINE_COMMENT> p<245> s<243> l<52:25> el<52:37>
+        n<> u<243> t<TimeUnitsDecl_TimeUnitDiv> p<245> c<239> s<244> l<53:3> el<53:22>
+          n<1fs> u<239> t<Time_literal> p<243> c<237> s<242> l<53:12> el<53:15>
+            n<1> u<237> t<INTEGRAL_NUMBER> p<239> s<238> l<53:12> el<53:13>
+            n<fs> u<238> t<SIMPLE_IDENTIFIER> p<239> l<53:13> el<53:15>
+          n<1fs> u<242> t<Time_literal> p<243> c<240> l<53:18> el<53:21>
+            n<1> u<240> t<INTEGRAL_NUMBER> p<242> s<241> l<53:18> el<53:19>
+            n<fs> u<241> t<SIMPLE_IDENTIFIER> p<242> l<53:19> el<53:21>
+        n<> u<244> t<ENDMODULE> p<245> l<54:1> el<54:10>
+    n<> u<261> t<Description> p<548> c<260> s<276> l<55:1> el<57:10>
+      n<> u<260> t<Module_declaration> p<261> c<250> l<55:1> el<57:10>
+        n<> u<250> t<Module_ansi_header> p<260> c<247> s<251> l<55:1> el<55:20>
+          n<module> u<247> t<MODULE> p<250> s<248> l<55:1> el<55:7>
+          n<u_unit_10fs> u<248> t<SIMPLE_IDENTIFIER> p<250> s<249> l<55:8> el<55:19>
+          n<> u<249> t<Package_import_declaration_list> p<250> l<55:19> el<55:19>
+        n<// -14 / -15> u<251> t<LINE_COMMENT> p<260> s<258> l<55:25> el<55:37>
+        n<> u<258> t<TimeUnitsDecl_TimeUnitDiv> p<260> c<254> s<259> l<56:3> el<56:23>
+          n<10fs> u<254> t<Time_literal> p<258> c<252> s<257> l<56:12> el<56:16>
+            n<10> u<252> t<INTEGRAL_NUMBER> p<254> s<253> l<56:12> el<56:14>
+            n<fs> u<253> t<SIMPLE_IDENTIFIER> p<254> l<56:14> el<56:16>
+          n<1fs> u<257> t<Time_literal> p<258> c<255> l<56:19> el<56:22>
+            n<1> u<255> t<INTEGRAL_NUMBER> p<257> s<256> l<56:19> el<56:20>
+            n<fs> u<256> t<SIMPLE_IDENTIFIER> p<257> l<56:20> el<56:22>
+        n<> u<259> t<ENDMODULE> p<260> l<57:1> el<57:10>
+    n<> u<276> t<Description> p<548> c<275> s<277> l<58:1> el<60:10>
+      n<> u<275> t<Module_declaration> p<276> c<265> l<58:1> el<60:10>
+        n<> u<265> t<Module_ansi_header> p<275> c<262> s<266> l<58:1> el<58:21>
+          n<module> u<262> t<MODULE> p<265> s<263> l<58:1> el<58:7>
+          n<u_unit_100fs> u<263> t<SIMPLE_IDENTIFIER> p<265> s<264> l<58:8> el<58:20>
+          n<> u<264> t<Package_import_declaration_list> p<265> l<58:20> el<58:20>
+        n<// -13 / -15> u<266> t<LINE_COMMENT> p<275> s<273> l<58:25> el<58:37>
+        n<> u<273> t<TimeUnitsDecl_TimeUnitDiv> p<275> c<269> s<274> l<59:3> el<59:24>
+          n<100fs> u<269> t<Time_literal> p<273> c<267> s<272> l<59:12> el<59:17>
+            n<100> u<267> t<INTEGRAL_NUMBER> p<269> s<268> l<59:12> el<59:15>
+            n<fs> u<268> t<SIMPLE_IDENTIFIER> p<269> l<59:15> el<59:17>
+          n<1fs> u<272> t<Time_literal> p<273> c<270> l<59:20> el<59:23>
+            n<1> u<270> t<INTEGRAL_NUMBER> p<272> s<271> l<59:20> el<59:21>
+            n<fs> u<271> t<SIMPLE_IDENTIFIER> p<272> l<59:21> el<59:23>
+        n<> u<274> t<ENDMODULE> p<275> l<60:1> el<60:10>
+    n<// Time precision: "timeunit 100s / <value>" -> unit = 2, precision = <value>.> u<277> t<LINE_COMMENT> p<548> s<292> l<62:1> el<62:79>
+    n<> u<292> t<Description> p<548> c<291> s<307> l<63:1> el<65:10>
+      n<> u<291> t<Module_declaration> p<292> c<281> l<63:1> el<65:10>
+        n<> u<281> t<Module_ansi_header> p<291> c<278> s<282> l<63:1> el<63:18>
+          n<module> u<278> t<MODULE> p<281> s<279> l<63:1> el<63:7>
+          n<u_prec_1s> u<279> t<SIMPLE_IDENTIFIER> p<281> s<280> l<63:8> el<63:17>
+          n<> u<280> t<Package_import_declaration_list> p<281> l<63:17> el<63:17>
+        n<// 2 / 0> u<282> t<LINE_COMMENT> p<291> s<289> l<63:25> el<63:33>
+        n<> u<289> t<TimeUnitsDecl_TimeUnitDiv> p<291> c<285> s<290> l<64:3> el<64:22>
+          n<100s> u<285> t<Time_literal> p<289> c<283> s<288> l<64:12> el<64:16>
+            n<100> u<283> t<INTEGRAL_NUMBER> p<285> s<284> l<64:12> el<64:15>
+            n<s> u<284> t<SIMPLE_IDENTIFIER> p<285> l<64:15> el<64:16>
+          n<1s> u<288> t<Time_literal> p<289> c<286> l<64:19> el<64:21>
+            n<1> u<286> t<INTEGRAL_NUMBER> p<288> s<287> l<64:19> el<64:20>
+            n<s> u<287> t<SIMPLE_IDENTIFIER> p<288> l<64:20> el<64:21>
+        n<> u<290> t<ENDMODULE> p<291> l<65:1> el<65:10>
+    n<> u<307> t<Description> p<548> c<306> s<322> l<66:1> el<68:10>
+      n<> u<306> t<Module_declaration> p<307> c<296> l<66:1> el<68:10>
+        n<> u<296> t<Module_ansi_header> p<306> c<293> s<297> l<66:1> el<66:19>
+          n<module> u<293> t<MODULE> p<296> s<294> l<66:1> el<66:7>
+          n<u_prec_10s> u<294> t<SIMPLE_IDENTIFIER> p<296> s<295> l<66:8> el<66:18>
+          n<> u<295> t<Package_import_declaration_list> p<296> l<66:18> el<66:18>
+        n<// 2 / 1> u<297> t<LINE_COMMENT> p<306> s<304> l<66:25> el<66:33>
+        n<> u<304> t<TimeUnitsDecl_TimeUnitDiv> p<306> c<300> s<305> l<67:3> el<67:23>
+          n<100s> u<300> t<Time_literal> p<304> c<298> s<303> l<67:12> el<67:16>
+            n<100> u<298> t<INTEGRAL_NUMBER> p<300> s<299> l<67:12> el<67:15>
+            n<s> u<299> t<SIMPLE_IDENTIFIER> p<300> l<67:15> el<67:16>
+          n<10s> u<303> t<Time_literal> p<304> c<301> l<67:19> el<67:22>
+            n<10> u<301> t<INTEGRAL_NUMBER> p<303> s<302> l<67:19> el<67:21>
+            n<s> u<302> t<SIMPLE_IDENTIFIER> p<303> l<67:21> el<67:22>
+        n<> u<305> t<ENDMODULE> p<306> l<68:1> el<68:10>
+    n<> u<322> t<Description> p<548> c<321> s<337> l<69:1> el<71:10>
+      n<> u<321> t<Module_declaration> p<322> c<311> l<69:1> el<71:10>
+        n<> u<311> t<Module_ansi_header> p<321> c<308> s<312> l<69:1> el<69:20>
+          n<module> u<308> t<MODULE> p<311> s<309> l<69:1> el<69:7>
+          n<u_prec_100s> u<309> t<SIMPLE_IDENTIFIER> p<311> s<310> l<69:8> el<69:19>
+          n<> u<310> t<Package_import_declaration_list> p<311> l<69:19> el<69:19>
+        n<// 2 / 2> u<312> t<LINE_COMMENT> p<321> s<319> l<69:25> el<69:33>
+        n<> u<319> t<TimeUnitsDecl_TimeUnitDiv> p<321> c<315> s<320> l<70:3> el<70:24>
+          n<100s> u<315> t<Time_literal> p<319> c<313> s<318> l<70:12> el<70:16>
+            n<100> u<313> t<INTEGRAL_NUMBER> p<315> s<314> l<70:12> el<70:15>
+            n<s> u<314> t<SIMPLE_IDENTIFIER> p<315> l<70:15> el<70:16>
+          n<100s> u<318> t<Time_literal> p<319> c<316> l<70:19> el<70:23>
+            n<100> u<316> t<INTEGRAL_NUMBER> p<318> s<317> l<70:19> el<70:22>
+            n<s> u<317> t<SIMPLE_IDENTIFIER> p<318> l<70:22> el<70:23>
+        n<> u<320> t<ENDMODULE> p<321> l<71:1> el<71:10>
+    n<> u<337> t<Description> p<548> c<336> s<352> l<72:1> el<74:10>
+      n<> u<336> t<Module_declaration> p<337> c<326> l<72:1> el<74:10>
+        n<> u<326> t<Module_ansi_header> p<336> c<323> s<327> l<72:1> el<72:19>
+          n<module> u<323> t<MODULE> p<326> s<324> l<72:1> el<72:7>
+          n<u_prec_1ms> u<324> t<SIMPLE_IDENTIFIER> p<326> s<325> l<72:8> el<72:18>
+          n<> u<325> t<Package_import_declaration_list> p<326> l<72:18> el<72:18>
+        n<// 2 / -3> u<327> t<LINE_COMMENT> p<336> s<334> l<72:25> el<72:34>
+        n<> u<334> t<TimeUnitsDecl_TimeUnitDiv> p<336> c<330> s<335> l<73:3> el<73:23>
+          n<100s> u<330> t<Time_literal> p<334> c<328> s<333> l<73:12> el<73:16>
+            n<100> u<328> t<INTEGRAL_NUMBER> p<330> s<329> l<73:12> el<73:15>
+            n<s> u<329> t<SIMPLE_IDENTIFIER> p<330> l<73:15> el<73:16>
+          n<1ms> u<333> t<Time_literal> p<334> c<331> l<73:19> el<73:22>
+            n<1> u<331> t<INTEGRAL_NUMBER> p<333> s<332> l<73:19> el<73:20>
+            n<ms> u<332> t<SIMPLE_IDENTIFIER> p<333> l<73:20> el<73:22>
+        n<> u<335> t<ENDMODULE> p<336> l<74:1> el<74:10>
+    n<> u<352> t<Description> p<548> c<351> s<367> l<75:1> el<77:10>
+      n<> u<351> t<Module_declaration> p<352> c<341> l<75:1> el<77:10>
+        n<> u<341> t<Module_ansi_header> p<351> c<338> s<342> l<75:1> el<75:20>
+          n<module> u<338> t<MODULE> p<341> s<339> l<75:1> el<75:7>
+          n<u_prec_10ms> u<339> t<SIMPLE_IDENTIFIER> p<341> s<340> l<75:8> el<75:19>
+          n<> u<340> t<Package_import_declaration_list> p<341> l<75:19> el<75:19>
+        n<// 2 / -2> u<342> t<LINE_COMMENT> p<351> s<349> l<75:25> el<75:34>
+        n<> u<349> t<TimeUnitsDecl_TimeUnitDiv> p<351> c<345> s<350> l<76:3> el<76:24>
+          n<100s> u<345> t<Time_literal> p<349> c<343> s<348> l<76:12> el<76:16>
+            n<100> u<343> t<INTEGRAL_NUMBER> p<345> s<344> l<76:12> el<76:15>
+            n<s> u<344> t<SIMPLE_IDENTIFIER> p<345> l<76:15> el<76:16>
+          n<10ms> u<348> t<Time_literal> p<349> c<346> l<76:19> el<76:23>
+            n<10> u<346> t<INTEGRAL_NUMBER> p<348> s<347> l<76:19> el<76:21>
+            n<ms> u<347> t<SIMPLE_IDENTIFIER> p<348> l<76:21> el<76:23>
+        n<> u<350> t<ENDMODULE> p<351> l<77:1> el<77:10>
+    n<> u<367> t<Description> p<548> c<366> s<382> l<78:1> el<80:10>
+      n<> u<366> t<Module_declaration> p<367> c<356> l<78:1> el<80:10>
+        n<> u<356> t<Module_ansi_header> p<366> c<353> s<357> l<78:1> el<78:21>
+          n<module> u<353> t<MODULE> p<356> s<354> l<78:1> el<78:7>
+          n<u_prec_100ms> u<354> t<SIMPLE_IDENTIFIER> p<356> s<355> l<78:8> el<78:20>
+          n<> u<355> t<Package_import_declaration_list> p<356> l<78:20> el<78:20>
+        n<// 2 / -1> u<357> t<LINE_COMMENT> p<366> s<364> l<78:25> el<78:34>
+        n<> u<364> t<TimeUnitsDecl_TimeUnitDiv> p<366> c<360> s<365> l<79:3> el<79:25>
+          n<100s> u<360> t<Time_literal> p<364> c<358> s<363> l<79:12> el<79:16>
+            n<100> u<358> t<INTEGRAL_NUMBER> p<360> s<359> l<79:12> el<79:15>
+            n<s> u<359> t<SIMPLE_IDENTIFIER> p<360> l<79:15> el<79:16>
+          n<100ms> u<363> t<Time_literal> p<364> c<361> l<79:19> el<79:24>
+            n<100> u<361> t<INTEGRAL_NUMBER> p<363> s<362> l<79:19> el<79:22>
+            n<ms> u<362> t<SIMPLE_IDENTIFIER> p<363> l<79:22> el<79:24>
+        n<> u<365> t<ENDMODULE> p<366> l<80:1> el<80:10>
+    n<> u<382> t<Description> p<548> c<381> s<397> l<81:1> el<83:10>
+      n<> u<381> t<Module_declaration> p<382> c<371> l<81:1> el<83:10>
+        n<> u<371> t<Module_ansi_header> p<381> c<368> s<372> l<81:1> el<81:19>
+          n<module> u<368> t<MODULE> p<371> s<369> l<81:1> el<81:7>
+          n<u_prec_1us> u<369> t<SIMPLE_IDENTIFIER> p<371> s<370> l<81:8> el<81:18>
+          n<> u<370> t<Package_import_declaration_list> p<371> l<81:18> el<81:18>
+        n<// 2 / -6> u<372> t<LINE_COMMENT> p<381> s<379> l<81:25> el<81:34>
+        n<> u<379> t<TimeUnitsDecl_TimeUnitDiv> p<381> c<375> s<380> l<82:3> el<82:23>
+          n<100s> u<375> t<Time_literal> p<379> c<373> s<378> l<82:12> el<82:16>
+            n<100> u<373> t<INTEGRAL_NUMBER> p<375> s<374> l<82:12> el<82:15>
+            n<s> u<374> t<SIMPLE_IDENTIFIER> p<375> l<82:15> el<82:16>
+          n<1us> u<378> t<Time_literal> p<379> c<376> l<82:19> el<82:22>
+            n<1> u<376> t<INTEGRAL_NUMBER> p<378> s<377> l<82:19> el<82:20>
+            n<us> u<377> t<SIMPLE_IDENTIFIER> p<378> l<82:20> el<82:22>
+        n<> u<380> t<ENDMODULE> p<381> l<83:1> el<83:10>
+    n<> u<397> t<Description> p<548> c<396> s<412> l<84:1> el<86:10>
+      n<> u<396> t<Module_declaration> p<397> c<386> l<84:1> el<86:10>
+        n<> u<386> t<Module_ansi_header> p<396> c<383> s<387> l<84:1> el<84:20>
+          n<module> u<383> t<MODULE> p<386> s<384> l<84:1> el<84:7>
+          n<u_prec_10us> u<384> t<SIMPLE_IDENTIFIER> p<386> s<385> l<84:8> el<84:19>
+          n<> u<385> t<Package_import_declaration_list> p<386> l<84:19> el<84:19>
+        n<// 2 / -5> u<387> t<LINE_COMMENT> p<396> s<394> l<84:25> el<84:34>
+        n<> u<394> t<TimeUnitsDecl_TimeUnitDiv> p<396> c<390> s<395> l<85:3> el<85:24>
+          n<100s> u<390> t<Time_literal> p<394> c<388> s<393> l<85:12> el<85:16>
+            n<100> u<388> t<INTEGRAL_NUMBER> p<390> s<389> l<85:12> el<85:15>
+            n<s> u<389> t<SIMPLE_IDENTIFIER> p<390> l<85:15> el<85:16>
+          n<10us> u<393> t<Time_literal> p<394> c<391> l<85:19> el<85:23>
+            n<10> u<391> t<INTEGRAL_NUMBER> p<393> s<392> l<85:19> el<85:21>
+            n<us> u<392> t<SIMPLE_IDENTIFIER> p<393> l<85:21> el<85:23>
+        n<> u<395> t<ENDMODULE> p<396> l<86:1> el<86:10>
+    n<> u<412> t<Description> p<548> c<411> s<427> l<87:1> el<89:10>
+      n<> u<411> t<Module_declaration> p<412> c<401> l<87:1> el<89:10>
+        n<> u<401> t<Module_ansi_header> p<411> c<398> s<402> l<87:1> el<87:21>
+          n<module> u<398> t<MODULE> p<401> s<399> l<87:1> el<87:7>
+          n<u_prec_100us> u<399> t<SIMPLE_IDENTIFIER> p<401> s<400> l<87:8> el<87:20>
+          n<> u<400> t<Package_import_declaration_list> p<401> l<87:20> el<87:20>
+        n<// 2 / -4> u<402> t<LINE_COMMENT> p<411> s<409> l<87:25> el<87:34>
+        n<> u<409> t<TimeUnitsDecl_TimeUnitDiv> p<411> c<405> s<410> l<88:3> el<88:25>
+          n<100s> u<405> t<Time_literal> p<409> c<403> s<408> l<88:12> el<88:16>
+            n<100> u<403> t<INTEGRAL_NUMBER> p<405> s<404> l<88:12> el<88:15>
+            n<s> u<404> t<SIMPLE_IDENTIFIER> p<405> l<88:15> el<88:16>
+          n<100us> u<408> t<Time_literal> p<409> c<406> l<88:19> el<88:24>
+            n<100> u<406> t<INTEGRAL_NUMBER> p<408> s<407> l<88:19> el<88:22>
+            n<us> u<407> t<SIMPLE_IDENTIFIER> p<408> l<88:22> el<88:24>
+        n<> u<410> t<ENDMODULE> p<411> l<89:1> el<89:10>
+    n<> u<427> t<Description> p<548> c<426> s<442> l<90:1> el<92:10>
+      n<> u<426> t<Module_declaration> p<427> c<416> l<90:1> el<92:10>
+        n<> u<416> t<Module_ansi_header> p<426> c<413> s<417> l<90:1> el<90:19>
+          n<module> u<413> t<MODULE> p<416> s<414> l<90:1> el<90:7>
+          n<u_prec_1ns> u<414> t<SIMPLE_IDENTIFIER> p<416> s<415> l<90:8> el<90:18>
+          n<> u<415> t<Package_import_declaration_list> p<416> l<90:18> el<90:18>
+        n<// 2 / -9> u<417> t<LINE_COMMENT> p<426> s<424> l<90:25> el<90:34>
+        n<> u<424> t<TimeUnitsDecl_TimeUnitDiv> p<426> c<420> s<425> l<91:3> el<91:23>
+          n<100s> u<420> t<Time_literal> p<424> c<418> s<423> l<91:12> el<91:16>
+            n<100> u<418> t<INTEGRAL_NUMBER> p<420> s<419> l<91:12> el<91:15>
+            n<s> u<419> t<SIMPLE_IDENTIFIER> p<420> l<91:15> el<91:16>
+          n<1ns> u<423> t<Time_literal> p<424> c<421> l<91:19> el<91:22>
+            n<1> u<421> t<INTEGRAL_NUMBER> p<423> s<422> l<91:19> el<91:20>
+            n<ns> u<422> t<SIMPLE_IDENTIFIER> p<423> l<91:20> el<91:22>
+        n<> u<425> t<ENDMODULE> p<426> l<92:1> el<92:10>
+    n<> u<442> t<Description> p<548> c<441> s<457> l<93:1> el<95:10>
+      n<> u<441> t<Module_declaration> p<442> c<431> l<93:1> el<95:10>
+        n<> u<431> t<Module_ansi_header> p<441> c<428> s<432> l<93:1> el<93:20>
+          n<module> u<428> t<MODULE> p<431> s<429> l<93:1> el<93:7>
+          n<u_prec_10ns> u<429> t<SIMPLE_IDENTIFIER> p<431> s<430> l<93:8> el<93:19>
+          n<> u<430> t<Package_import_declaration_list> p<431> l<93:19> el<93:19>
+        n<// 2 / -8> u<432> t<LINE_COMMENT> p<441> s<439> l<93:25> el<93:34>
+        n<> u<439> t<TimeUnitsDecl_TimeUnitDiv> p<441> c<435> s<440> l<94:3> el<94:24>
+          n<100s> u<435> t<Time_literal> p<439> c<433> s<438> l<94:12> el<94:16>
+            n<100> u<433> t<INTEGRAL_NUMBER> p<435> s<434> l<94:12> el<94:15>
+            n<s> u<434> t<SIMPLE_IDENTIFIER> p<435> l<94:15> el<94:16>
+          n<10ns> u<438> t<Time_literal> p<439> c<436> l<94:19> el<94:23>
+            n<10> u<436> t<INTEGRAL_NUMBER> p<438> s<437> l<94:19> el<94:21>
+            n<ns> u<437> t<SIMPLE_IDENTIFIER> p<438> l<94:21> el<94:23>
+        n<> u<440> t<ENDMODULE> p<441> l<95:1> el<95:10>
+    n<> u<457> t<Description> p<548> c<456> s<472> l<96:1> el<98:10>
+      n<> u<456> t<Module_declaration> p<457> c<446> l<96:1> el<98:10>
+        n<> u<446> t<Module_ansi_header> p<456> c<443> s<447> l<96:1> el<96:21>
+          n<module> u<443> t<MODULE> p<446> s<444> l<96:1> el<96:7>
+          n<u_prec_100ns> u<444> t<SIMPLE_IDENTIFIER> p<446> s<445> l<96:8> el<96:20>
+          n<> u<445> t<Package_import_declaration_list> p<446> l<96:20> el<96:20>
+        n<// 2 / -7> u<447> t<LINE_COMMENT> p<456> s<454> l<96:25> el<96:34>
+        n<> u<454> t<TimeUnitsDecl_TimeUnitDiv> p<456> c<450> s<455> l<97:3> el<97:25>
+          n<100s> u<450> t<Time_literal> p<454> c<448> s<453> l<97:12> el<97:16>
+            n<100> u<448> t<INTEGRAL_NUMBER> p<450> s<449> l<97:12> el<97:15>
+            n<s> u<449> t<SIMPLE_IDENTIFIER> p<450> l<97:15> el<97:16>
+          n<100ns> u<453> t<Time_literal> p<454> c<451> l<97:19> el<97:24>
+            n<100> u<451> t<INTEGRAL_NUMBER> p<453> s<452> l<97:19> el<97:22>
+            n<ns> u<452> t<SIMPLE_IDENTIFIER> p<453> l<97:22> el<97:24>
+        n<> u<455> t<ENDMODULE> p<456> l<98:1> el<98:10>
+    n<> u<472> t<Description> p<548> c<471> s<487> l<99:1> el<101:10>
+      n<> u<471> t<Module_declaration> p<472> c<461> l<99:1> el<101:10>
+        n<> u<461> t<Module_ansi_header> p<471> c<458> s<462> l<99:1> el<99:19>
+          n<module> u<458> t<MODULE> p<461> s<459> l<99:1> el<99:7>
+          n<u_prec_1ps> u<459> t<SIMPLE_IDENTIFIER> p<461> s<460> l<99:8> el<99:18>
+          n<> u<460> t<Package_import_declaration_list> p<461> l<99:18> el<99:18>
+        n<// 2 / -12> u<462> t<LINE_COMMENT> p<471> s<469> l<99:25> el<99:35>
+        n<> u<469> t<TimeUnitsDecl_TimeUnitDiv> p<471> c<465> s<470> l<100:3> el<100:23>
+          n<100s> u<465> t<Time_literal> p<469> c<463> s<468> l<100:12> el<100:16>
+            n<100> u<463> t<INTEGRAL_NUMBER> p<465> s<464> l<100:12> el<100:15>
+            n<s> u<464> t<SIMPLE_IDENTIFIER> p<465> l<100:15> el<100:16>
+          n<1ps> u<468> t<Time_literal> p<469> c<466> l<100:19> el<100:22>
+            n<1> u<466> t<INTEGRAL_NUMBER> p<468> s<467> l<100:19> el<100:20>
+            n<ps> u<467> t<SIMPLE_IDENTIFIER> p<468> l<100:20> el<100:22>
+        n<> u<470> t<ENDMODULE> p<471> l<101:1> el<101:10>
+    n<> u<487> t<Description> p<548> c<486> s<502> l<102:1> el<104:10>
+      n<> u<486> t<Module_declaration> p<487> c<476> l<102:1> el<104:10>
+        n<> u<476> t<Module_ansi_header> p<486> c<473> s<477> l<102:1> el<102:20>
+          n<module> u<473> t<MODULE> p<476> s<474> l<102:1> el<102:7>
+          n<u_prec_10ps> u<474> t<SIMPLE_IDENTIFIER> p<476> s<475> l<102:8> el<102:19>
+          n<> u<475> t<Package_import_declaration_list> p<476> l<102:19> el<102:19>
+        n<// 2 / -11> u<477> t<LINE_COMMENT> p<486> s<484> l<102:25> el<102:35>
+        n<> u<484> t<TimeUnitsDecl_TimeUnitDiv> p<486> c<480> s<485> l<103:3> el<103:24>
+          n<100s> u<480> t<Time_literal> p<484> c<478> s<483> l<103:12> el<103:16>
+            n<100> u<478> t<INTEGRAL_NUMBER> p<480> s<479> l<103:12> el<103:15>
+            n<s> u<479> t<SIMPLE_IDENTIFIER> p<480> l<103:15> el<103:16>
+          n<10ps> u<483> t<Time_literal> p<484> c<481> l<103:19> el<103:23>
+            n<10> u<481> t<INTEGRAL_NUMBER> p<483> s<482> l<103:19> el<103:21>
+            n<ps> u<482> t<SIMPLE_IDENTIFIER> p<483> l<103:21> el<103:23>
+        n<> u<485> t<ENDMODULE> p<486> l<104:1> el<104:10>
+    n<> u<502> t<Description> p<548> c<501> s<517> l<105:1> el<107:10>
+      n<> u<501> t<Module_declaration> p<502> c<491> l<105:1> el<107:10>
+        n<> u<491> t<Module_ansi_header> p<501> c<488> s<492> l<105:1> el<105:21>
+          n<module> u<488> t<MODULE> p<491> s<489> l<105:1> el<105:7>
+          n<u_prec_100ps> u<489> t<SIMPLE_IDENTIFIER> p<491> s<490> l<105:8> el<105:20>
+          n<> u<490> t<Package_import_declaration_list> p<491> l<105:20> el<105:20>
+        n<// 2 / -10> u<492> t<LINE_COMMENT> p<501> s<499> l<105:25> el<105:35>
+        n<> u<499> t<TimeUnitsDecl_TimeUnitDiv> p<501> c<495> s<500> l<106:3> el<106:25>
+          n<100s> u<495> t<Time_literal> p<499> c<493> s<498> l<106:12> el<106:16>
+            n<100> u<493> t<INTEGRAL_NUMBER> p<495> s<494> l<106:12> el<106:15>
+            n<s> u<494> t<SIMPLE_IDENTIFIER> p<495> l<106:15> el<106:16>
+          n<100ps> u<498> t<Time_literal> p<499> c<496> l<106:19> el<106:24>
+            n<100> u<496> t<INTEGRAL_NUMBER> p<498> s<497> l<106:19> el<106:22>
+            n<ps> u<497> t<SIMPLE_IDENTIFIER> p<498> l<106:22> el<106:24>
+        n<> u<500> t<ENDMODULE> p<501> l<107:1> el<107:10>
+    n<> u<517> t<Description> p<548> c<516> s<532> l<108:1> el<110:10>
+      n<> u<516> t<Module_declaration> p<517> c<506> l<108:1> el<110:10>
+        n<> u<506> t<Module_ansi_header> p<516> c<503> s<507> l<108:1> el<108:19>
+          n<module> u<503> t<MODULE> p<506> s<504> l<108:1> el<108:7>
+          n<u_prec_1fs> u<504> t<SIMPLE_IDENTIFIER> p<506> s<505> l<108:8> el<108:18>
+          n<> u<505> t<Package_import_declaration_list> p<506> l<108:18> el<108:18>
+        n<// 2 / -15> u<507> t<LINE_COMMENT> p<516> s<514> l<108:25> el<108:35>
+        n<> u<514> t<TimeUnitsDecl_TimeUnitDiv> p<516> c<510> s<515> l<109:3> el<109:23>
+          n<100s> u<510> t<Time_literal> p<514> c<508> s<513> l<109:12> el<109:16>
+            n<100> u<508> t<INTEGRAL_NUMBER> p<510> s<509> l<109:12> el<109:15>
+            n<s> u<509> t<SIMPLE_IDENTIFIER> p<510> l<109:15> el<109:16>
+          n<1fs> u<513> t<Time_literal> p<514> c<511> l<109:19> el<109:22>
+            n<1> u<511> t<INTEGRAL_NUMBER> p<513> s<512> l<109:19> el<109:20>
+            n<fs> u<512> t<SIMPLE_IDENTIFIER> p<513> l<109:20> el<109:22>
+        n<> u<515> t<ENDMODULE> p<516> l<110:1> el<110:10>
+    n<> u<532> t<Description> p<548> c<531> s<547> l<111:1> el<113:10>
+      n<> u<531> t<Module_declaration> p<532> c<521> l<111:1> el<113:10>
+        n<> u<521> t<Module_ansi_header> p<531> c<518> s<522> l<111:1> el<111:20>
+          n<module> u<518> t<MODULE> p<521> s<519> l<111:1> el<111:7>
+          n<u_prec_10fs> u<519> t<SIMPLE_IDENTIFIER> p<521> s<520> l<111:8> el<111:19>
+          n<> u<520> t<Package_import_declaration_list> p<521> l<111:19> el<111:19>
+        n<// 2 / -14> u<522> t<LINE_COMMENT> p<531> s<529> l<111:25> el<111:35>
+        n<> u<529> t<TimeUnitsDecl_TimeUnitDiv> p<531> c<525> s<530> l<112:3> el<112:24>
+          n<100s> u<525> t<Time_literal> p<529> c<523> s<528> l<112:12> el<112:16>
+            n<100> u<523> t<INTEGRAL_NUMBER> p<525> s<524> l<112:12> el<112:15>
+            n<s> u<524> t<SIMPLE_IDENTIFIER> p<525> l<112:15> el<112:16>
+          n<10fs> u<528> t<Time_literal> p<529> c<526> l<112:19> el<112:23>
+            n<10> u<526> t<INTEGRAL_NUMBER> p<528> s<527> l<112:19> el<112:21>
+            n<fs> u<527> t<SIMPLE_IDENTIFIER> p<528> l<112:21> el<112:23>
+        n<> u<530> t<ENDMODULE> p<531> l<113:1> el<113:10>
+    n<> u<547> t<Description> p<548> c<546> l<114:1> el<116:10>
+      n<> u<546> t<Module_declaration> p<547> c<536> l<114:1> el<116:10>
+        n<> u<536> t<Module_ansi_header> p<546> c<533> s<537> l<114:1> el<114:21>
+          n<module> u<533> t<MODULE> p<536> s<534> l<114:1> el<114:7>
+          n<u_prec_100fs> u<534> t<SIMPLE_IDENTIFIER> p<536> s<535> l<114:8> el<114:20>
+          n<> u<535> t<Package_import_declaration_list> p<536> l<114:20> el<114:20>
+        n<// 2 / -13> u<537> t<LINE_COMMENT> p<546> s<544> l<114:25> el<114:35>
+        n<> u<544> t<TimeUnitsDecl_TimeUnitDiv> p<546> c<540> s<545> l<115:3> el<115:25>
+          n<100s> u<540> t<Time_literal> p<544> c<538> s<543> l<115:12> el<115:16>
+            n<100> u<538> t<INTEGRAL_NUMBER> p<540> s<539> l<115:12> el<115:15>
+            n<s> u<539> t<SIMPLE_IDENTIFIER> p<540> l<115:15> el<115:16>
+          n<100fs> u<543> t<Time_literal> p<544> c<541> l<115:19> el<115:24>
+            n<100> u<541> t<INTEGRAL_NUMBER> p<543> s<542> l<115:19> el<115:22>
+            n<fs> u<542> t<SIMPLE_IDENTIFIER> p<543> l<115:22> el<115:24>
+        n<> u<545> t<ENDMODULE> p<546> l<116:1> el<116:10>
+AST_DEBUG_END
 [INF:CP5804] $Source01/dut.sv:1:1: Compile module "m1".
 [INF:CP5804] $Source01/dut.sv:4:3: Compile module "m11".
 [INF:CP5804] $Source01/dut.sv:8:3: Compile module "m12".
