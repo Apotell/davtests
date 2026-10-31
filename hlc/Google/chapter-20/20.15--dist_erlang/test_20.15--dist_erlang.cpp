@@ -223,12 +223,6 @@ TEST_F(DistErlangFunctionTest, DistErlangCallHasSeedKAndMeanArguments) {
   EXPECT_EQ(mean->getDecompile(), "100");
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(DistErlangFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

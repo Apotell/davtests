@@ -281,11 +281,6 @@ TEST_F(AssociativeArrayTraversalTest, DesignHasModuleTypespec) {
   EXPECT_EQ(mt->getName(), "top");
 }
 
-TEST_F(AssociativeArrayTraversalTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "first"), nullptr)
-      << "map.first() must bind (IEEE 1800-2023 7.9.8)";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

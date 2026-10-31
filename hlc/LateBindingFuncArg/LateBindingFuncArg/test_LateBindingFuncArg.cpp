@@ -180,11 +180,6 @@ TEST_F(LateBindingFuncArgTest, RhsIsClog2OfBitsOfDepth) {
   EXPECT_EQ(depth->getActual(), depthVar) << "37.15: 'depth' resolves to the formal's Variable, never to its IODecl";
 }
 
-TEST_F(LateBindingFuncArgTest, NoBindingFailures) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "depth"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "doFoo"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

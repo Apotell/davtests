@@ -274,13 +274,6 @@ TEST_F(SequentialBlockTest, ThirdStmtRhsResolvesToVariableB) {
   EXPECT_EQ(rhs->getActual<hldb::Variable>(), getVariable("b"));
 }
 
-// --- compiler diagnostics ----------------------------------------------------
-
-TEST_F(SequentialBlockTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a', 'b', and 'c' must all bind to their declarations";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

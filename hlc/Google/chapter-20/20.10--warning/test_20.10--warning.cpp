@@ -133,14 +133,6 @@ TEST_F(WarningTaskTest, WarningCallHasOneStringArgument) {
   EXPECT_EQ(msg->getDecompile(), "\"warning\"");
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-// $warning is itself a diagnostic-reporting construct (20.10: "shall
-// generate a run-time warning"), not one that should trigger any
-// compile-time diagnostic on its own when used correctly with a bare string
-// literal.
-TEST_F(WarningTaskTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

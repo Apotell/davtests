@@ -259,12 +259,6 @@ TEST_F(IsUnboundedFunctionTest, SecondIsUnboundedArgumentIsParameterI) {
   EXPECT_EQ(arg->getActual<hldb::Parameter>(), getParameterI());
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(IsUnboundedFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

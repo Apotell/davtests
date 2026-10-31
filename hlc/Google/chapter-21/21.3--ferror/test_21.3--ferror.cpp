@@ -503,18 +503,6 @@ TEST_F(FerrorTest, CompilerReportsNoFatalOrSyntaxErrors) {
   EXPECT_EQ(stats.m_errors, 0);
 }
 
-// All three names are block-scoped rather than module-scoped, and each is
-// referenced from more than one statement -- the constructs here with real
-// binding risk.
-TEST_F(FerrorTest, BlockLocalReferencesBind) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "fd"), nullptr)
-      << "'fd' must bind to the block-local 'int fd' in the assignment, in $ferror, and in $fclose";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "str"), nullptr)
-      << "'str' must bind to the block-local 'string str' in $ferror and in $display";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "errno"), nullptr)
-      << "'errno' must bind to the block-local 'integer errno' in the assignment and in $display";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

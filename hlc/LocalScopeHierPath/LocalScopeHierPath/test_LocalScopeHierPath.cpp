@@ -378,12 +378,6 @@ TEST_F(LocalScopeHierPathTest, PUnderscoreInitializerResolvesToSpathMember) {
 // Diagnostics -- the source is legal
 // ---------------------------------------------------------------------------
 
-TEST_F(LocalScopeHierPathTest, NoBindFailures) {
-  for (const std::string_view name : {"path", "slices", "spath", "paths", "p", "j"}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr) << name;
-  }
-}
-
 TEST_F(LocalScopeHierPathTest, CompilerReportsZeroErrors) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();

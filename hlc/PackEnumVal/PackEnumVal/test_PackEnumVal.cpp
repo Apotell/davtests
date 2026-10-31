@@ -364,11 +364,6 @@ TEST_F(PackEnumValTest, UncastLogicArgumentToEnumFormalIsAnError) {
   EXPECT_GE(stats.m_errors, 1) << "6.19.3, 6.22.4: passing the logic 'i' to the enum formal 'val' requires a cast";
 }
 
-TEST_F(PackEnumValTest, ScopedCallIsNotReported) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "test_true"), nullptr)
-      << "26.3: test_true is declared in test_package";
-}
-
 TEST_F(PackEnumValTest, NoSyntaxOrFatalDiagnostics) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();

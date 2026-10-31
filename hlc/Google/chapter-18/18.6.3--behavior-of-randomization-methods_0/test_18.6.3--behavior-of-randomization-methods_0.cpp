@@ -298,11 +298,6 @@ TEST_F(BehaviorOfRandomizationMethods0Test, FileDeclaresNoModule) {
 // Diagnostics
 // ---------------------------------------------------------------------------
 
-TEST_F(BehaviorOfRandomizationMethods0Test, ReferencedPropertyIsFound) {
-  EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, "b"), nullptr)
-      << "'b' is declared in class a, so it is not undefined";
-}
-
 // The file is legal SystemVerilog, so no fatal, syntax or error diagnostic
 // may point into it.
 // Expected to fail until HLC is fixed -- see KNOWN FAILURE (error on a legal

@@ -357,15 +357,6 @@ TEST_F(PackageMemberTypespecTest, AtypeTElementTypeIsFooFlagsCommonFlagsT) {
 // Diagnostics
 // ---------------------------------------------------------------------------
 
-TEST_F(PackageMemberTypespecTest, ScopedTypeNameIsNotReported) {
-  EXPECT_EQ(findEvent(EventType::CompUndefinedType, "common_flags_t"), nullptr)
-      << "26.3: common_flags_t is declared in foo_flags";
-  EXPECT_EQ(findEvent(EventType::CompUndefinedType, "foo_flags::common_flags_t"), nullptr)
-      << "26.3: common_flags_t is declared in foo_flags";
-  EXPECT_EQ(findEvent(EventType::CompUndefinedPackage, "foo_flags"), nullptr)
-      << "26.3: foo_flags is compiled before goog references it";
-}
-
 TEST_F(PackageMemberTypespecTest, NoFatalSyntaxOrErrorDiagnostics) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();

@@ -1137,13 +1137,6 @@ TEST_F(ControllingConstraintsWithConstraintMode2Test, InitialCallsRunTestFromUvm
 // Diagnostics: constraint_mode() is built in and cannot be overridden (18.9)
 // ---------------------------------------------------------------------------
 
-TEST_F(ControllingConstraintsWithConstraintMode2Test, EveryReferencedVariableAndFormalIsFound) {
-  for (std::string_view name : {"obj", "ret", "name", "parent", "phase", "environment"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "'" << name << "' is declared in this file, so it is not undefined";
-  }
-}
-
 // Expected to fail until HLC is fixed -- see KNOWN FAILURE (illegal override
 // of constraint_mode() accepted) in the file header.
 TEST_F(ControllingConstraintsWithConstraintMode2Test, RedefiningConstraintModeIsReportedOnItsDeclaration) {

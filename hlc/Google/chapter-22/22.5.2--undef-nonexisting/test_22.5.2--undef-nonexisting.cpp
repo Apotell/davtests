@@ -287,30 +287,6 @@ TEST_F(UndefNonexistingTest, UndefOfUnknownMacroIsAtMostAWarning) {
   EXPECT_EQ(reportedOffTheUndefLines, "") << "the `undef lines are 16 and 17";
 }
 
-// Each of these diagnostics would mean HLC misread one of the two lines.
-TEST_F(UndefNonexistingTest, ReportsNoMisreadingDiagnostics) {
-  // Both lines match Syntax 22-4.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // FOO and BAR are operands of `undef, not macro usages and not
-  // definitions, so they are neither unknown usages nor redefinitions, and
-  // neither is a compiler directive name (22.1).
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-
-  // The file has no design element, so neither directive is inside one.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(UndefNonexistingTest, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

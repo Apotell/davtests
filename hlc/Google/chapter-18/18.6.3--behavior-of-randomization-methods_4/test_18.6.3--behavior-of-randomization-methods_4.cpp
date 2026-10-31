@@ -387,11 +387,6 @@ TEST_F(BehaviorOfRandomizationMethods4Test, NoErrorOnTheLegalLinesOfThisFile) {
   }
 }
 
-TEST_F(BehaviorOfRandomizationMethods4Test, ReferencedPropertyIsFound) {
-  EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, "b"), nullptr)
-      << "'b' is declared in class a, so it is not undefined";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

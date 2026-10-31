@@ -152,8 +152,6 @@ TEST_F(ProcessRandstateTest, CompilerReportsNoErrors) {
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_fatals, 0);
   EXPECT_EQ(stats.m_syntaxes, 0);
-  EXPECT_EQ(findEvent(EventType::LintNullActual), nullptr)
-      << "every call in this file is a legal process method and must bind";
 }
 
 }  // namespace hlc

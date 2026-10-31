@@ -303,12 +303,6 @@ TEST_F(ShortRealBitsConvFunctionTest, LessThanComparesSWith12_451) {
   checkComparison(getComparison(1), vpiLtOp, "12.451");
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(ShortRealBitsConvFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

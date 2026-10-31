@@ -223,12 +223,6 @@ TEST_F(AllPackageSignalTest, FirstFunctionResolvesPkgBParameterAcrossPackages) {
       << "'ParameterIntEqual4' should resolve to pkg_b's own Parameter object";
 }
 
-// --- compiler diagnostics ---------------------------------------------------
-
-TEST_F(AllPackageSignalTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

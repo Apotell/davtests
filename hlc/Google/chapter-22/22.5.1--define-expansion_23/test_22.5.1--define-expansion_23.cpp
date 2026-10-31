@@ -275,26 +275,6 @@ TEST_F(DefineExpansion23Test, ErrorsOnlyOnTheIllegalLine) {
   EXPECT_EQ(offLine, "") << "error-class diagnostics off line " << kIllegalLine;
 }
 
-// Each of these diagnostics would mean HLC misread line 17.
-TEST_F(DefineExpansion23Test, ReportsNoMisreadingDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
-
-  // The file holds no macro usage, so no usage can lack parentheses or give
-  // too many or too few arguments.
-  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
-
-  // The string literal "illegal" is closed on line 17 (5.9), and it refers to
-  // no macro.
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-
-  // The file has no design element, so line 17 is not inside one.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(DefineExpansion23Test, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

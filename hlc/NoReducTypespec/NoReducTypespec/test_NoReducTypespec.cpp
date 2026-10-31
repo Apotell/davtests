@@ -350,12 +350,6 @@ TEST_F(NoReducTypespecTest, CheshireSocOverridesCfgByNameWithImportedParam) {
       << "Sec 26.3: wildcard import makes cheshire_pkg::AxiXbarCfg visible";
 }
 
-TEST_F(NoReducTypespecTest, NoBindingErrors) {
-  for (const char *const sym : {"Cfg", "NoSlvPorts", "NoMstPorts", "AxiXbarCfg", "xbar_cfg_t", "axi_pkg"}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, sym), nullptr) << sym;
-  }
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

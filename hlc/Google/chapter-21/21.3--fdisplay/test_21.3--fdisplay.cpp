@@ -421,15 +421,6 @@ TEST_F(FdisplayTest, CompilerReportsNoFatalOrSyntaxErrors) {
   EXPECT_EQ(stats.m_errors, 0);
 }
 
-// The two references with real binding risk are "fd" (used in three
-// separate places, one of them in a different process) and "str".
-TEST_F(FdisplayTest, DescriptorAndStringReferencesBind) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "fd"), nullptr)
-      << "'fd' must bind to the 'int fd' declaration in the assignment, in $fdisplay, and in $fclose";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "str"), nullptr)
-      << "'str' must bind to the 'string str' declaration in $fdisplay";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

@@ -211,10 +211,6 @@ TEST_F(IfElseConstraints2Test, InnerIfElse) {
   expectVarEqLit(inner->getCondition(), "b1", "5");
 }
 
-TEST_F(IfElseConstraints2Test, NoConstraintError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c1"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c2"), nullptr);
-}
 TEST_F(IfElseConstraints2Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active

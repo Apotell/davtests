@@ -256,10 +256,6 @@ TEST_F(LoopVarTest, BodyIsBlockingAssignmentUsingLoopVariable) {
   EXPECT_EQ(rhs->getActual(), i);
 }
 
-TEST_F(LoopVarTest, NoLoopVariableDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "i"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

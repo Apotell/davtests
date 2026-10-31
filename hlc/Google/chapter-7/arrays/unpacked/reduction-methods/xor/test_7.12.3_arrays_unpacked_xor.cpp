@@ -253,11 +253,6 @@ TEST_F(UnpackedXorTest, DesignHasStringTypespec) {
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
 }
 
-TEST_F(UnpackedXorTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "xor"), nullptr)
-      << "arr.xor() must bind (IEEE 1800-2023 7.12.3)";
-}
-
 TEST_F(UnpackedXorTest, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

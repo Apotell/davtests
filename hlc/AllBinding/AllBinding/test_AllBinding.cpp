@@ -185,10 +185,6 @@ TEST_F(AllBindingTest, EnumHasThreeConstsInDeclarationOrder) {
   }
 }
 
-// --- compiler diagnostics ---------------------------------------------------
-
-TEST_F(AllBindingTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

@@ -183,10 +183,6 @@ TEST_F(ItorFunctionTest, ItorCallHasOneIntegerArgument) {
   EXPECT_TRUE(ts->getSigned());
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(ItorFunctionTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

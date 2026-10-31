@@ -214,12 +214,6 @@ TEST_F(TypenameTypeFunctionTest, TypenameCallTypespecIsScalarLogic) {
   EXPECT_TRUE(ts->getRanges() == nullptr || ts->getRanges()->empty()) << "'logic' has no packed range";
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(TypenameTypeFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

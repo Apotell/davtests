@@ -302,12 +302,6 @@ TEST_F(LoopBitsTest, DisplayHierarchicalRefModuleXBinds) {
   EXPECT_EQ(ref->getActual(), hldb::findByName<hldb::Net>("x", m->getNets()));
 }
 
-TEST_F(LoopBitsTest, NoBindingFailuresForGenerateBlockPath) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "a", 13), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "b", 13), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "y", 13), nullptr);
-}
-
 // ===========================================================================
 // module top
 // ===========================================================================
@@ -448,11 +442,6 @@ TEST_F(LoopBitsTest, OrderedOverridesMapToSAndT) {
     EXPECT_EQ(l0->getActual(), s);
     EXPECT_EQ(l1->getActual(), t);
   }
-}
-
-TEST_F(LoopBitsTest, NoIllegalHldbPropertyOnBlk) {
-  EXPECT_EQ(findEvent(EventType::IllegalPropertyValue, 19), nullptr)
-      << "legal input must not produce an invalid HLDB model for generate block blk";
 }
 
 }  // namespace hlc

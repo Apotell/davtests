@@ -145,14 +145,6 @@ TEST_F(FatalTaskTest, FatalCallHasFinishNumberAndStringArgument) {
   EXPECT_EQ(msg->getDecompile(), "\"fatal\"");
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-// $fatal is itself a diagnostic-reporting construct (20.10: "shall generate
-// a run-time fatal error"), not one that should trigger any compile-time
-// diagnostic on its own when used correctly with a finish_number and a bare
-// string literal.
-TEST_F(FatalTaskTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

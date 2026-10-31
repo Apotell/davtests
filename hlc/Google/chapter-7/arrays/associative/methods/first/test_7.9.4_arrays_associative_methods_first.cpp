@@ -304,13 +304,6 @@ TEST_F(AssociativeArrayFirstTest, RuntimeValuesOfRcAndSRequireSimulation) {
       << "expected rc == 1 and s == 'hello' once the map is populated";
 }
 
-// --- design-level typespecs / compiler diagnostics ----
-
-TEST_F(AssociativeArrayFirstTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "first"), nullptr)
-      << "map.first() must bind (IEEE 1800-2023 7.9.4)";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

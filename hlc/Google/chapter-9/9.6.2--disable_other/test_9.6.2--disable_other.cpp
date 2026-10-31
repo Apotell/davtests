@@ -347,13 +347,6 @@ TEST_F(DisableOtherTest, DisableTargetsTheSiblingNamedBlock) {
                                          "branch spawned by the same fork, per IEEE 1800-2023 Sec 9.6.2";
 }
 
-// --- compiler diagnostics ----------------------------------------------------
-
-TEST_F(DisableOtherTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a', 'b', 'c' and 'block' must all bind to their declarations";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

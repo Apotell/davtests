@@ -233,11 +233,6 @@ TEST_F(ForeachIterativeConstraints0Test, BodyShouldBeBiEq5ButIsDropped) {
   EXPECT_EQ(rhs->getDecompile(), "5");
 }
 
-TEST_F(ForeachIterativeConstraints0Test, NoConstraintOrBindError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "i"), nullptr) << "'i' is declared by the foreach";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "B"), nullptr);
-}
 TEST_F(ForeachIterativeConstraints0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active

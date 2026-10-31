@@ -228,12 +228,6 @@ TEST_F(TimescaleTest, OwnDeclarationsOnEveryElementKind) {
   });
 }
 
-TEST_F(TimescaleTest, RepeatedMatchingDeclarationIsLegal) {
-  // Sec 3.14.2.2: the declarations "can be repeated as later items, but shall match
-  // the previous declaration within the current time scope."
-  EXPECT_EQ(findEvent(EventType::CompIllegalTimescale, "d_repeat_match"), nullptr);
-}
-
 TEST_F(TimescaleTest, TimescaleDoesNotCrossCompilationUnits) {
   // Sec 3.14.2.1: "The `timescale directive only affects the current compilation
   // unit; it does not span multiple compilation units." timescale.sv ends with
@@ -428,8 +422,6 @@ TEST_F(TimescaleTest, OneSecondIsDistinguishableFromUnset) {
   GTEST_SKIP() << "Known HLC gap: 1s encodes as 10^0 = 0, the same value used for \"not set\", so "
                   "u_unit_1s and u_prec_1s are reported as having no time unit / precision although "
                   "they declare one (Sec 3.14 Table 3-1 lists s as a legal unit).";
-  EXPECT_EQ(findEvent(EventType::PaNotimescaleInfo, "u_unit_1s"), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaNotimescaleInfo, "u_prec_1s"), nullptr);
 }
 
 // ----

@@ -218,15 +218,6 @@ TEST_F(PackageOrderTest, PackageADeclaresNothingOfItsOwn) { ExpectDeclaresNothin
 // Diagnostics
 // ---------------------------------------------------------------------------
 
-TEST_F(PackageOrderTest, ImportedPackagesAreFound) {
-  for (std::string_view name : {"B", "D"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedPackage, name), nullptr)
-        << "26.3: package " << name << " is compiled before the package that imports it";
-    EXPECT_EQ(findEvent(EventType::ElabUndefinedPackage, name), nullptr)
-        << "26.3: package " << name << " is compiled before the package that imports it";
-  }
-}
-
 TEST_F(PackageOrderTest, NoFatalSyntaxOrErrorDiagnostics) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();

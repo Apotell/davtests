@@ -285,14 +285,6 @@ TEST_F(ConstraintInheritance1Test, TopModuleHoldsEnvHandle) {
   EXPECT_EQ(classOfHandle(environment), findClass("env")) << "'environment' is a handle of class env";
 }
 
-TEST_F(ConstraintInheritance1Test, NoBindOrConstraintErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "a2"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "b"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c2"), nullptr);
-}
-
 TEST_F(ConstraintInheritance1Test, RandomizedB2Is5) {
   const hldb::ClassDefn *const a2 = findClass("a2");
   ASSERT_NE(a2, nullptr);

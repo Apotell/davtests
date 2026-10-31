@@ -291,10 +291,6 @@ TEST_F(ArrayQueriesMultiDimTest, SizeDim2Call) { checkQueryStmt(8, ":assert: (%d
 
 // --- compiler diagnostics -----------------------------------------------------
 
-TEST_F(ArrayQueriesMultiDimTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

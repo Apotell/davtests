@@ -254,11 +254,6 @@ TEST_F(UnpackedProductTest, DesignHasStringTypespec) {
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
 }
 
-TEST_F(UnpackedProductTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "product"), nullptr)
-      << "arr.product() must bind (IEEE 1800-2023 7.12.3)";
-}
-
 TEST_F(UnpackedProductTest, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

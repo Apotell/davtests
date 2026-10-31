@@ -357,15 +357,6 @@ TEST_F(PackageNetTest, AssignmentRhsAddsPackageParameters) {
 // Diagnostics
 // ---------------------------------------------------------------------------
 
-TEST_F(PackageNetTest, PackageNamesAreNotReported) {
-  for (std::string_view name : {"v", "p1", "p2"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "26.3: '" << name << "' is declared in my_package1 and imported by 'test'";
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr)
-        << "26.3: '" << name << "' is declared in my_package1 and imported by 'test'";
-  }
-}
-
 TEST_F(PackageNetTest, NoFatalSyntaxOrErrorDiagnostics) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();

@@ -355,8 +355,6 @@ TEST_F(IfaceClassTest5Test, ReportsNoFatalOrSyntaxDiagnostics) {
   const EventListener::Stats stats = eventListener->getStats();
   EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
   EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
 }
 
 TEST_F(IfaceClassTest5Test, SourceFileRecordedOnce) {

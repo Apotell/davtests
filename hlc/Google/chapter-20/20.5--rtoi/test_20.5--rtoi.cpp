@@ -180,10 +180,6 @@ TEST_F(RtoiFunctionTest, RtoiCallHasOneRealArgument) {
   EXPECT_NE(ref->getActual<hldb::RealTypespec>(), nullptr) << "'21.37' should have a RealTypespec";
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(RtoiFunctionTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

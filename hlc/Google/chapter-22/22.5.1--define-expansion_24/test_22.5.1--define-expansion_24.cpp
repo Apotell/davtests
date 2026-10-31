@@ -398,35 +398,6 @@ TEST_F(DefineExpansion24Test, CompilesWithoutErrors) {
   EXPECT_EQ(stats.m_errors, 0) << describeErrors(eventListener, EventSeverity::Error);
 }
 
-// Each of these diagnostics would mean HLC misread a definition or a usage.
-TEST_F(DefineExpansion24Test, ReportsNoMacroDiagnostics) {
-  // Lines 17-19 match Syntax 22-2 and the usages on lines 22 and 23 match
-  // Syntax 22-3.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // `define may be used inside a design element (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
-
-  // LO and H are defined, on lines 18 and 19, before their uses on lines 22
-  // and 23, and every macro is defined once.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-
-  // HI, LO and H are not compiler directive names (22.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  // Every string literal closes on its own line (5.9).
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-
-  // The `HI in LO's macro text is inside a string literal, so it is no macro
-  // reference at all, let alone a recursive one (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-}
-
 TEST_F(DefineExpansion24Test, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

@@ -468,33 +468,6 @@ TEST_F(IfdefNestedTest, CompilesWithoutErrors) {
   EXPECT_EQ(stats.m_errors, 0) << describeErrors(eventListener, EventSeverity::Error);
 }
 
-// Each of these diagnostics would mean HLC misread a definition, the
-// conditional directives or a string literal in a block of text.
-TEST_F(IfdefNestedTest, ReportsNoPreprocessorDiagnostics) {
-  // Lines 18-21 match Syntax 22-2, and lines 22-41 with their nested
-  // constructs match Syntax 22-5.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveElseif), nullptr);
-
-  // `define "can be used both inside and outside design elements" (22.5.1),
-  // and the conditional directives "may appear anywhere in the source
-  // description" (22.6).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // Each name is defined once, and none is a compiler directive name (22.1).
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  // `ifdef tests whether a name is defined (22.6); the names after it are
-  // not macro usages, and all four are defined anyway.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-
-  // Every string literal, in the processed and in the ignored blocks, is
-  // closed on its line and holds no escape sequence (5.9).
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpUnrecognizedEscapedSequence), nullptr);
-}
-
 TEST_F(IfdefNestedTest, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

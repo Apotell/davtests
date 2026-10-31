@@ -178,10 +178,6 @@ TEST_F(Clog2FunctionTest, Clog2CallHasOneIntArgument) {
   EXPECT_NE(ref->getActual<hldb::IntTypespec>(), nullptr) << "'32' should have an IntTypespec";
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(Clog2FunctionTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

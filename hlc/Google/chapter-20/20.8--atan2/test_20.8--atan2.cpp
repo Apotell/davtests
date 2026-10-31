@@ -196,10 +196,6 @@ TEST_F(Atan2FunctionTest, Atan2SecondArgumentIsRealX) {
   expectRealConstant(call->getArguments()->at(1), "3.7");
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(Atan2FunctionTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

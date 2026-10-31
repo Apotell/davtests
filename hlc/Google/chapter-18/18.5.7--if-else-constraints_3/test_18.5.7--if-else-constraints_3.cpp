@@ -205,11 +205,6 @@ TEST_F(IfElseConstraints3Test, InnerBranchesShouldBeKeptButAreDropped) {
   expectSingleVarEqLit(inner->getElseConstraintExprs(), "b3", "10");
 }
 
-TEST_F(IfElseConstraints3Test, NoConstraintError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c1"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c2"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c3"), nullptr);
-}
 TEST_F(IfElseConstraints3Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active

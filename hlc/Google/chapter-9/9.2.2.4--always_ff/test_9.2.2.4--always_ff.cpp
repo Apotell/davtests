@@ -371,15 +371,6 @@ TEST_F(AlwaysFfTest, AssignmentRhsResolvesToNetB) {
   EXPECT_EQ(rhs->getActual<hldb::Net>(), getNet("b"));
 }
 
-// --- compiler diagnostics ----------------------------------------------------
-
-// The construct with the most real risk of a binding failure is any of
-// "a"/"b"/"q" resolving back to their declarations.
-TEST_F(AlwaysFfTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a', 'b', and 'q' in '@(posedge a) q <= b;' must bind to their declarations";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

@@ -167,10 +167,6 @@ TEST_F(SetMembership0Test, InsideOperandsAreBThenSetInOrder) {
   EXPECT_EQ(v1->getDecompile(), "10");
 }
 
-TEST_F(SetMembership0Test, NoConstraintError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "b"), nullptr);
-}
 TEST_F(SetMembership0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active

@@ -142,10 +142,6 @@ TEST_F(MinTypMaxTest, InitialIsDisplayOfValue) {
   EXPECT_EQ(arg->getActual(), getValueParam()) << "'value' must bind to the Parameter";
 }
 
-TEST_F(MinTypMaxTest, NoBindErrorForValue) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "value"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

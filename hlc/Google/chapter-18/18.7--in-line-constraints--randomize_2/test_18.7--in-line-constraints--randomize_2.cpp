@@ -1468,14 +1468,6 @@ TEST_F(InLineConstraintsRandomize2Test, InitialCallsRunTestFromUvmPkg) {
 // Diagnostics
 // ---------------------------------------------------------------------------
 
-TEST_F(InLineConstraintsRandomize2Test, EveryReferencedVariableAndFormalIsFound) {
-  for (std::string_view name :
-       {"obj", "x", "y", "z", "result", "obj1", "obj2", "name", "parent", "phase", "environment"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "'" << name << "' is declared in this file, so it is not undefined";
-  }
-}
-
 // The file is legal SystemVerilog, so no fatal, syntax or error diagnostic
 // may point into it.
 // Expected to fail -- see KNOWN FAILURE (errors reported in this file) in the

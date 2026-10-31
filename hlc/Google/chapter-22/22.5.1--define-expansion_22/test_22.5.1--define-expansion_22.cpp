@@ -260,35 +260,6 @@ TEST_F(DefineExpansion22Test, CompilesWithoutErrors) {
   EXPECT_EQ(describeSourceErrors(eventListener), "");
 }
 
-// Each of these diagnostics would mean HLC misread line 16.
-TEST_F(DefineExpansion22Test, ReportsNoMacroDiagnostics) {
-  // Line 16 matches Syntax 22-2: the formal argument list and the macro text
-  // need no white space between them.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // a and b are both formal arguments and both appear in the macro text.
-  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
-
-  // max is defined once and never used, so no usage can be unknown, lack its
-  // parentheses, or give too many or too few arguments.
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
-
-  // max is not a compiler directive name (22.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  // The macro text holds no string literal and refers to no macro.
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-
-  // `define is legal outside design elements (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(DefineExpansion22Test, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

@@ -210,17 +210,6 @@ TEST_F(MonitorTest, IfPropertyIsVirtualInterface) {
   EXPECT_EQ(its->getInterface(), getIface());
 }
 
-TEST_F(MonitorTest, ClockingBlockAccessThroughVirtualInterfaceBinds) {
-  GTEST_SKIP() << "HLC doesn't report this diagnosis yet";
-  for (uint32_t line : {32u, 33u, 34u}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, "cb", line), nullptr)
-        << "25.9/14.3: '_if.cb' names the clocking block of my_interface (line " << line << ")";
-  }
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "select", 33), nullptr)
-      << "14.3: 'select' is a clockvar of cb";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "data", 34), nullptr) << "14.3: 'data' is a clockvar of cb";
-}
-
 TEST_F(MonitorTest, MyMonitorHasNewAndRunPhase) {
   const hldb::ClassDefn *const c = getClass("my_monitor");
   ASSERT_NE(c, nullptr);

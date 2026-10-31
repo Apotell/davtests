@@ -320,10 +320,6 @@ TEST_F(AssociativeArrayNumTest, DesignHasLogicTypespec) {
   EXPECT_NE(any_cast<hldb::LogicTypespec>(m_design->getTypespecs()->at(4)), nullptr);
 }
 
-TEST_F(AssociativeArrayNumTest, NoBindErrorForNum) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "num"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

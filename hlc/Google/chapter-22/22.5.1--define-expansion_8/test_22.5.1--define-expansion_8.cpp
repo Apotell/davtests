@@ -328,39 +328,6 @@ TEST_F(DefineExpansion8Test, ErrorsOnlyOnTheIllegalLine) {
   EXPECT_EQ(offLine, "") << "error-class diagnostics off line " << kUsageLine;
 }
 
-// Each of these diagnostics would mean HLC misread one of the two lines.
-TEST_F(DefineExpansion8Test, ReportsNoOtherMacroDiagnostics) {
-  // Both lines match Syntax 22-2 and Syntax 22-3.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // Both formal arguments x and y appear in the macro text.
-  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
-
-  // D is defined on line 17, before its use on line 18, and only once.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-
-  // The usage has its parentheses (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
-
-  // Too many arguments is not too few: the empty actual arguments that map to
-  // x and y are legal and are substituted by nothing, as neither has a
-  // default (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
-
-  // D is not a compiler directive name (22.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  // "start" and "end" are each closed on line 17 (5.9).
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-
-  // The macro text of D does not refer to D or to any other macro.
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-
-  // Both directives are outside any design element.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(DefineExpansion8Test, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

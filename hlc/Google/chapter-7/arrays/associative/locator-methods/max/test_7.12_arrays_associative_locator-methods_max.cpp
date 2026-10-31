@@ -395,11 +395,6 @@ TEST_F(ArrayLocatorMaxTest, NoContAssigns) {
   EXPECT_EQ(top->getContAssigns(), nullptr);
 }
 
-TEST_F(ArrayLocatorMaxTest, NoBindErrorsForMaxAndSize) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "max"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

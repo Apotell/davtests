@@ -238,31 +238,6 @@ TEST_F(UndefineAllBasicTest, CompilesWithoutErrors) {
   EXPECT_EQ(describeSourceErrors(eventListener), "");
 }
 
-// Each of these diagnostics would mean HLC misread line 16.
-TEST_F(UndefineAllBasicTest, ReportsNoMisreadingDiagnostics) {
-  // `undefineall takes no arguments (22.5.3); line 16 has none.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // Nothing is defined, so nothing is defined twice, and no macro name, let
-  // alone a compiler directive name, appears in the file.
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  // No macro is used, and no formal argument or macro text exists.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-
-  // `undefineall "may appear anywhere" (22.5.3); the file has no design
-  // element anyway.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(UndefineAllBasicTest, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

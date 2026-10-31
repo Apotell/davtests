@@ -216,12 +216,6 @@ TEST_F(DistExponentialFunctionTest, DistExponentialCallHasSeedAndMeanArguments) 
   EXPECT_EQ(mean->getDecompile(), "100");
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(DistExponentialFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

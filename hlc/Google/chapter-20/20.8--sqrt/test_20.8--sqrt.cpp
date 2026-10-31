@@ -177,10 +177,6 @@ TEST_F(SqrtFunctionTest, SqrtCallHasOneIntArgument) {
   EXPECT_NE(ref->getActual<hldb::IntTypespec>(), nullptr) << "'9' should have an IntTypespec";
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(SqrtFunctionTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

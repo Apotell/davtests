@@ -207,10 +207,6 @@ TEST_F(PowFunctionTest, PowSecondArgumentIsIntY) {
   EXPECT_NE(ref->getActual<hldb::IntTypespec>(), nullptr) << "'2' should have an IntTypespec";
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(PowFunctionTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

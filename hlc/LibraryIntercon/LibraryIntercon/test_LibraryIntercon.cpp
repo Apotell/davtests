@@ -277,25 +277,6 @@ TEST_F(LibraryInterconTest, LibrariesHoldTheirCells) {
   EXPECT_TRUE(libraryHasCell("work", hldb::findByName<hldb::Package>("NetsPkg", m_design->getAllPackages())));
 }
 
-TEST_F(LibraryInterconTest, SameCellNameInDifferentLibrariesIsLegal) {
-  GTEST_SKIP() << "HLC Gap. Need developer attention.";
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedDesignUnit), nullptr)
-      << "33.2.1: 'cmp' and 'driver' each appear once in realLib and once in logicLib; cell names only need to be "
-         "unique within a library";
-}
-
-// ---------------------------------------------------------------------------
-// Module-header package import -- 26.4
-// ---------------------------------------------------------------------------
-
-TEST_F(LibraryInterconTest, HeaderImportedRealNetBinds) {
-  GTEST_SKIP() << "HLC Gap. Need developer attention.";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "realNet"), nullptr)
-      << "26.4: 'import NetsPkg::*;' in the module header makes 'realNet' visible in the port list";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "logic"), nullptr)
-      << "'logic' is a built-in data type keyword, not an identifier to bind";
-}
-
 // ---------------------------------------------------------------------------
 // Configurations -- 33.4.1
 // ---------------------------------------------------------------------------

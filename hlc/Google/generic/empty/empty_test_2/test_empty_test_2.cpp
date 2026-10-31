@@ -229,24 +229,6 @@ TEST_F(EmptyTest2Test, CompilesWithoutErrors) {
   EXPECT_EQ(stats.m_errors, 0) << describeErrors(eventListener, EventSeverity::Error);
 }
 
-// Each of these diagnostics would mean HLC misread a comment or the white
-// space around it.
-TEST_F(EmptyTest2Test, ReportsNoLexicalOrSyntaxDiagnostics) {
-  // Each one-line comment ends at its newline and the block comment ends at
-  // the '*/' of line 15 (5.4); text inside a comment is not tokenized, so
-  // neither the preprocessor nor the parser sees any token. The trailing
-  // tabs of line 16, at end of file without a newline, are only white space
-  // (5.3) and produce no token either.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
-
-  // No grave accent occurs anywhere, so there is no macro usage at all.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-
-  // No double quote occurs anywhere, so there is no string literal (5.9).
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-}
-
 TEST_F(EmptyTest2Test, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

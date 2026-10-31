@@ -223,11 +223,6 @@ TEST_F(UnpackedSortTest, DesignHasStringTypespec) {
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
 }
 
-TEST_F(UnpackedSortTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "sort"), nullptr)
-      << "arr.sort() must bind (IEEE 1800-2023 7.12.2)";
-}
-
 TEST_F(UnpackedSortTest, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

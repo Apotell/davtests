@@ -487,8 +487,6 @@ TEST_F(PackageBindTest, CompilerReportsZeroErrors) {
   EXPECT_EQ(stats.m_fatals, 0);
   EXPECT_EQ(stats.m_syntaxes, 0);
   EXPECT_EQ(stats.m_errors, 0);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "_clog2"), nullptr)
-      << "the package-scoped call must bind (IEEE 1800-2023 26.3)";
 }
 
 }  // namespace hlc

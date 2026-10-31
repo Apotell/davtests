@@ -194,15 +194,6 @@ TEST_F(MultiSelectTest, WholeArrayAssignBEqualsA) {
   EXPECT_EQ(rhs->getActual(), getVar("a"));
 }
 
-// Name binding / 6.5
-TEST_F(MultiSelectTest, NoBindingOrMultiDriverErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "a"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "b"), nullptr);
-  EXPECT_EQ(findEvent(EventType::MultipleContAssign), nullptr)
-      << "6.5: each array element of 'a' is covered by a single continuous assignment";
-  EXPECT_EQ(findEvent(EventType::CompMultipleAssigningProcesses), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

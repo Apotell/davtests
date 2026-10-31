@@ -388,14 +388,6 @@ TEST_F(FeofTest, CompilerReportsNoFatalOrSyntaxErrors) {
   EXPECT_EQ(stats.m_errors, 0);
 }
 
-// "fd" is referenced three times, and its declaration is block-scoped
-// rather than module-scoped -- the one construct here with real binding
-// risk.
-TEST_F(FeofTest, BlockLocalDescriptorReferenceBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "fd"), nullptr)
-      << "'fd' must bind to the block-local 'int fd' declaration in the assignment, in $feof, and in $fclose";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

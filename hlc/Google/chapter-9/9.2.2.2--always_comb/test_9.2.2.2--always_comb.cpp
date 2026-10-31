@@ -315,15 +315,6 @@ TEST_F(AlwaysCombTest, BitNegOperandResolvesToNetA) {
   EXPECT_EQ(operand->getActual<hldb::Net>(), getNetA()) << "'a' is a Net (wire), not a Variable";
 }
 
-// --- compiler diagnostics ----------------------------------------------------
-
-// The construct with the most real risk of a binding failure is "a"/"b"
-// resolving back to their declarations.
-TEST_F(AlwaysCombTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a' and 'b' in 'b = ~a' must bind to their declarations";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

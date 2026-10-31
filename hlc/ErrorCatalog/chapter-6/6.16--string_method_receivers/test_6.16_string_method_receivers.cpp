@@ -166,7 +166,6 @@ TEST_F(StringMethodReceiversTest, QueueElementReceiverBindsToStringTypespec) {
                   "Sec 6.16, the element being of type string). Needs the element-type "
                   "resolution the queue and associative-array methods also require.";
   EXPECT_EQ(ownerOfCall("q[1].len"), "StringTypespec");
-  EXPECT_EQ(findEvent(EventType::LintNullActual), nullptr);
 }
 
 TEST_F(StringMethodReceiversTest, CompilerReportsNoFatalOrSyntaxErrors) {

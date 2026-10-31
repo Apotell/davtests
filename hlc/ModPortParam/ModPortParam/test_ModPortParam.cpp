@@ -162,12 +162,6 @@ TEST_F(ModPortParamTest, CsrUnitHasSingleModportPort) {
   EXPECT_EQ(p->getPortType(), vpiModportPort) << "37.14: port declared as interface.modport is a modport port";
 }
 
-TEST_F(ModPortParamTest, ModportNameInPortHeaderBinds) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "CSR"), nullptr)
-      << "25.5: 'CSR' in 'PerformanceCounterIF.CSR' names a modport of that interface";
-}
-
 TEST_F(ModPortParamTest, PortTypespecResolvesToInterfaceAndModport) {
   GTEST_SKIP() << "HLC doesn't model interface modport yet";
   const hldb::Port *const p = getCsrUnitPort();
@@ -189,12 +183,6 @@ TEST_F(ModPortParamTest, PortLowConnBindsToModport) {
   EXPECT_EQ(lc->getName(), "perfCounter");
   ASSERT_NE(lc->getActual(), nullptr);
   EXPECT_EQ(lc->getActual(), getCsrModport());
-}
-
-TEST_F(ModPortParamTest, InterfacePortNotWarnedMissingDirection) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findEvent(EventType::CompPortMissingDirection, "perfCounter"), nullptr)
-      << "23.2.2: interface_port_header has no port_direction; none is missing";
 }
 
 TEST_F(ModPortParamTest, InterfacePortIsNotANetOrVariable) {

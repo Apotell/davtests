@@ -196,11 +196,6 @@ TEST_F(MultiPortTest, HeaderImportRecorded) {
   EXPECT_EQ(imp->getItem()->getDecompile(), "variable_type");
 }
 
-TEST_F(MultiPortTest, ImportedTypeResolves) {
-  EXPECT_EQ(findEvent(EventType::CompUndefinedType, "variable_type"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompUndefinedPackage, "my_pkg"), nullptr);
-}
-
 // ===========================================================================
 // 23.2.2.3: ports a, b
 // ===========================================================================

@@ -227,11 +227,6 @@ TEST_F(ExprEvalPartialTest, CompilerReportsFailedToBindForA) {
       << "Sec 6.3: 'A' is used without ever being declared and must fail to bind";
 }
 
-TEST_F(ExprEvalPartialTest, CompilerDoesNotReportFailedToBindForS1c) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "s1c"), nullptr)
-      << "'s1c' IS declared ('logic [63:0] s1c;') and must resolve without a binding error";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

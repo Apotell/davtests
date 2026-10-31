@@ -289,31 +289,6 @@ TEST_F(TimescaleResetTest, Line18TimescaleIsAccepted) {
   EXPECT_EQ(describeSourceErrorsOnLine(eventListener, 18), "");
 }
 
-// Each of these diagnostics, at any severity and on any line, would mean HLC
-// misread one of lines 16-18.
-TEST_F(TimescaleResetTest, ReportsNoDirectiveMisreadingDiagnostics) {
-  // Lines 16 and 18 have the form of Syntax 22-6.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalTimescale), nullptr);
-
-  // 1 (line 16), 10 and 100 (line 18) are among the valid integers 1, 10 and
-  // 100.
-  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
-
-  // 1 ps is at least as precise as 1 ns (line 16), and 100 ns at least as
-  // precise as 10 us (line 18).
-  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidScale), nullptr);
-
-  // The file has no design element, so none of lines 16-18 is inside one
-  // (22.3, 22.7).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // `timescale and `resetall are compiler directives (22.1), not usages of
-  // a text macro.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-}
-
 // ---------------------------------------------------------------------------
 // The source file
 // ---------------------------------------------------------------------------

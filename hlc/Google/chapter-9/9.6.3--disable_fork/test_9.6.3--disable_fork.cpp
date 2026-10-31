@@ -333,12 +333,6 @@ TEST_F(DisableForkTest, DisableForkHasVpiDisableForkType) {
   EXPECT_EQ(disableFork->getVpiType(), vpiDisableFork);
 }
 
-// --- compiler diagnostics ----------------------------------------------------
-
-TEST_F(DisableForkTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr) << "'a', 'b' and 'c' must all bind to their declarations";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

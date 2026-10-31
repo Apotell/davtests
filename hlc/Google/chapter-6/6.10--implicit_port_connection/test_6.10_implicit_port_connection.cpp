@@ -359,21 +359,6 @@ TEST_F(ImplicitPortConnectionTest, TestBitOrOperandsAreAAndB) {
   EXPECT_EQ(op1->getName(), "b");
 }
 
-// ---------------------------------------------------------------------------
-// The actual point of the file: an identifier used only in a port connection
-// list is a legal implicit-net circumstance per IEEE 1800-2023 6.10 -- it
-// must not be reported as a binding failure.
-// ---------------------------------------------------------------------------
-TEST_F(ImplicitPortConnectionTest, NoFailedToBindErrorReportedForImplicitNetC) {
-  GTEST_SKIP() << "HLC gap: a legal net should have been instantiated to "
-                  "represent the implicit net but none exist";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "c"), nullptr)
-      << "IEEE 1800-2023 6.10: 'c' used only in the port connection list of "
-         "'test mod(a, b, c)' is a legal implicit-net circumstance, not a binding failure. "
-         "ObjectBinder::reportErrors() should skip a plain (non-hierarchical, non-package-scoped) "
-         "unresolved RefObj like this one without reporting CompFailedToBind.";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

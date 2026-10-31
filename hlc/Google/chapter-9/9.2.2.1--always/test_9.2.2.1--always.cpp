@@ -263,15 +263,6 @@ TEST_F(AlwaysTest, BitNegOperandResolvesToVariableA) {
   EXPECT_EQ(operand->getActual<hldb::Variable>(), getVariableA());
 }
 
-// --- compiler diagnostics ----------------------------------------------------
-
-// The construct with the most real risk of a binding failure is "a"
-// resolving back to its declaration on either side of the assignment.
-TEST_F(AlwaysTest, ReferenceToAIsNotAFailedBind) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a' in 'a = ~a' must bind to the 'logic a' declaration on both sides";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

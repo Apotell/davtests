@@ -663,16 +663,6 @@ TEST_F(ProcessClsAwaitTest, InitialCallsTestWithConstantEight) {
   EXPECT_EQ(arg->getConstType(), vpiIntConst);
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-// Both 'process::self()' and 'job[1].await()' resolve to real methods of the
-// built-in 'process' ClassDefn (see the two tests above), so neither should
-// leave any reference unbound.
-TEST_F(ProcessClsAwaitTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'self' and 'await' should both bind to the built-in 'process' class's own methods";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

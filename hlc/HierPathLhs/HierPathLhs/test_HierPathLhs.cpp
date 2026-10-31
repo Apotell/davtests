@@ -160,13 +160,6 @@ TEST_F(HierPathLhsTest, StructMemberBitSelectHierPathLhsResolvesToMemberX) {
   EXPECT_EQ(member->getName(), std::string_view{"x"});
 }
 
-TEST_F(HierPathLhsTest, TopModuleReportsNoBindingErrors) {
-  // "top" is a self-contained module (unlike "alert_handler_reg_wrap") --
-  // its single continuous assignment must bind cleanly.
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "a"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "x"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

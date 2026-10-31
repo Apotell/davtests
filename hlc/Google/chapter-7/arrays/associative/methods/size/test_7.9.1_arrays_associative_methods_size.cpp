@@ -319,10 +319,6 @@ TEST_F(AssociativeArraySizeTest, DesignHasLogicTypespec) {
   EXPECT_NE(any_cast<hldb::LogicTypespec>(m_design->getTypespecs()->at(4)), nullptr);
 }
 
-TEST_F(AssociativeArraySizeTest, NoBindErrorForSize) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

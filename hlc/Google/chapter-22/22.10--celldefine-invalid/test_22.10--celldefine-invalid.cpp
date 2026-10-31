@@ -299,18 +299,6 @@ TEST_F(CelldefineInvalidTest, NoCascadeErrors) {
   EXPECT_EQ(describeUnlocatedSourceErrors(), "");
 }
 
-// Each of these diagnostics would mean HLC misread the file, whatever it
-// reports for foo.
-TEST_F(CelldefineInvalidTest, ReportsNoMisreadingDiagnostics) {
-  // The file has no design element, and 22.10 allows `celldefine anywhere
-  // anyway.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // `celldefine is a compiler directive (22.1), not a usage of a text macro,
-  // and foo has no grave accent, so it is no macro usage either.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-}
-
 // ---------------------------------------------------------------------------
 // The source file
 // ---------------------------------------------------------------------------

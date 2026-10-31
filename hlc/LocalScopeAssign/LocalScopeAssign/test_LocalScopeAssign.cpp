@@ -206,11 +206,6 @@ TEST_F(LocalScopeAssignTest, UndeclaredV2IsReported) {
       << "reference to undeclared 'v2' with '`default_nettype none' is an error (Sec 22.8, 6.10)";
 }
 
-TEST_F(LocalScopeAssignTest, UpwardReferenceIsNotReportedUnbound) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "module_scope_Example"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "o2"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

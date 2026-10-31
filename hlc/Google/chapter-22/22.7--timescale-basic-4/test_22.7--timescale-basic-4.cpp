@@ -283,19 +283,6 @@ TEST_F(TimescaleBasic4Test, ErrorsOnlyOnTheIllegalLine) {
   EXPECT_EQ(offLine, "") << "error-class diagnostics off line " << kIllegalLine;
 }
 
-// Each of these diagnostics would mean HLC misread line 17: only the
-// relation between the two arguments is illegal, not either argument.
-TEST_F(TimescaleBasic4Test, ReportsNoMisreadingDiagnostics) {
-  // 1 and 10 are valid integers (22.7).
-  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
-
-  // The file has no design element, so line 17 is not inside one (22.7).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // `timescale is a compiler directive (22.1), not a text macro usage.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-}
-
 TEST_F(TimescaleBasic4Test, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

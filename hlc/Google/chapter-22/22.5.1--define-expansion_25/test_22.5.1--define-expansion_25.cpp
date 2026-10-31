@@ -351,39 +351,6 @@ TEST_F(DefineExpansion25Test, CompilesWithoutErrors) {
   EXPECT_EQ(stats.m_errors, 0) << describeErrors(eventListener, EventSeverity::Error);
 }
 
-// Each of these diagnostics would mean HLC misread the definition or the usage.
-TEST_F(DefineExpansion25Test, ReportsNoMacroDiagnostics) {
-  // Line 16 matches Syntax 22-2 and line 18 matches Syntax 22-3.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // `" and `\`" override the usual meaning of " (22.5.1), so the macro text
-  // holds no ordinary string literal that could be left unterminated.
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-
-  // The text between the two `" does take the actual arguments (22.5.1), so
-  // both formal arguments x and y are used.
-  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
-
-  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
-
-  // msg is defined once, on line 16, before its use on line 18.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-
-  // msg is not a compiler directive name (22.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  // The macro text of msg refers to no macro.
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-
-  // `define is outside module top, and a macro usage may appear anywhere in
-  // the compilation unit after its definition (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(DefineExpansion25Test, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

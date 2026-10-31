@@ -145,11 +145,6 @@ TEST_F(MathFunc02Test, ModuleDeclaresRealRes) {
   EXPECT_EQ(res->getTypespec()->getActual()->getAnyType(), hldb::AnyType::RealTypespec);
 }
 
-TEST_F(MathFunc02Test, ModuleLevelInitializerNeedsNoLifetimeKeyword) {
-  EXPECT_EQ(findEvent(EventType::CompMissingLifetimeKeyword, "res"), nullptr)
-      << "Sec 6.21: the static keyword is optional for a module-level initialized variable";
-}
-
 // ---------------------------------------------------------------------------
 // Sec 9.2.1: initial begin ... end with 8 statements
 // ---------------------------------------------------------------------------

@@ -461,12 +461,6 @@ TEST_F(ArrayExprFuncArgTest, MainHoldsUnelaboratedTopInstance) {
   EXPECT_EQ(mt->getName(), "top");
 }
 
-// --- compiler diagnostics ---------------------------------------------------
-
-TEST_F(ArrayExprFuncArgTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

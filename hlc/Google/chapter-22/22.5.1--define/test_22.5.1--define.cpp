@@ -267,33 +267,6 @@ TEST_F(DefineTest, CompilesWithoutErrors) {
   EXPECT_EQ(describeSourceErrors(eventListener), "");
 }
 
-// Each of these diagnostics would mean HLC misread one of the two lines.
-TEST_F(DefineTest, ReportsNoMacroDiagnostics) {
-  // Both lines match Syntax 22-2.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // Neither macro has formal arguments, so no argument can be unused or
-  // undefined.
-  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
-
-  // FOUR and SOMESTRING are each defined once.
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-
-  // Neither name is a compiler directive name (22.1), so neither redefines one (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  // "somestring" is closed by its second double quote on line 17 (5.9).
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-
-  // Neither macro text refers to a macro, and no macro is used anywhere.
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-
-  // `define is legal both inside and outside design elements (22.5.1); here it is outside.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(DefineTest, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

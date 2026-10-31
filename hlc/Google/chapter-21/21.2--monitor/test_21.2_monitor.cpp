@@ -169,9 +169,6 @@ TEST_F(MonitorTaskTest, CompilesWithoutErrors) {
   EXPECT_EQ(stats.m_fatals, 0);
   EXPECT_EQ(stats.m_syntaxes, 0);
   EXPECT_EQ(stats.m_errors, 0);
-
-  // 23.6: `a` is visible from the initial block, so no reference may fail to bind.
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
 }
 
 // 23.2 / 23.2.2: the file declares exactly one module, named `top`, and

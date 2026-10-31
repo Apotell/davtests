@@ -298,12 +298,6 @@ TEST_F(KmacTest, KmacCorePortsAreInputNets) {
   checkPorts(m);
 }
 
-TEST_F(KmacTest, MultipleExplicitImportsFromSamePackageAreLegal) {
-  GTEST_SKIP() << "HLC errornesouly reports this as an error.";
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef, "sha3_pkg"), nullptr)
-      << "26.3: several 'import sha3_pkg::<item>;' declarations import distinct items and redefine nothing";
-}
-
 TEST_F(KmacTest, BlockAddrLimitRangeUsesPackageScopedParameter) {
   const hldb::Module *const m = getModuleDef("kmac_core");
   const hldb::Package *const pkg = getPkg();
@@ -375,14 +369,6 @@ TEST_F(KmacTest, CaseItemsMatchImportedEnumConstants) {
   const hldb::Constant *const zero = a->getRhs<hldb::Constant>();
   ASSERT_NE(zero, nullptr);
   EXPECT_EQ(zero->getDecompile(), "'0");
-}
-
-TEST_F(KmacTest, SizeCastByImportedParameterIsSupported) {
-  GTEST_SKIP() << "HLC fails to bind these variables correctly.";
-  for (uint32_t line = 26; line <= 30; ++line) {
-    EXPECT_EQ(findEvent(EventType::UnsupportedTypespec, "KeccakCountW", line, 32), nullptr)
-        << "6.24.1: a constant_primary casting_type (KeccakCountW') is a legal size cast (line " << line << ")";
-  }
 }
 
 TEST_F(KmacTest, CaseItemBodiesAreUnarySizeCastsOfBitSelect) {

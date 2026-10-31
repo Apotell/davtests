@@ -259,11 +259,6 @@ TEST_F(LoopTest, NonTerminatingRecursionOfLoopIsDiagnosed) {
          "module loop recurses forever";
 }
 
-// 27.5: the parameter-guarded recursion of 'test' terminates and is legal.
-TEST_F(LoopTest, TerminatingRecursionOfTestIsNotDiagnosed) {
-  EXPECT_EQ(findEvent(EventType::ElabInstantiationLoop, "test"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

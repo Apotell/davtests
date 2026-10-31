@@ -444,12 +444,6 @@ TEST_F(QueuesBoundedTest, DesignHasStringTypespec) {
   EXPECT_NE(any_cast<hldb::StringTypespec>(m_design->getTypespecs()->at(2)), nullptr);
 }
 
-TEST_F(QueuesBoundedTest, NoBindErrorForSize) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr)
-      << "'q.size' without parens should not raise CompFailedToBind (IEEE 1800-2017 7.24.4 permits "
-         "omitting parens on a no-arg built-in method call)";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

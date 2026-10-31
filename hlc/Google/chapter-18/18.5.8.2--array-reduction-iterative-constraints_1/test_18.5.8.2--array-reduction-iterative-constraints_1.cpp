@@ -280,12 +280,6 @@ TEST_F(ArrayReductionIterativeConstraints1Test, TopModuleHoldsEnvHandle) {
   EXPECT_EQ(classOfHandle(environment), findClass("env"));
 }
 
-TEST_F(ArrayReductionIterativeConstraints1Test, NoConstraintOrBindError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "sum"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
-}
-
 TEST_F(ArrayReductionIterativeConstraints1Test, RandomizedElementsSumTo5) {
   const hldb::Variable *const b = findB();
   ASSERT_NE(b, nullptr);

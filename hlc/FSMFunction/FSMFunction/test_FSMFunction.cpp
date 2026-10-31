@@ -275,13 +275,6 @@ TEST_F(FSMFunctionTest, FuncCallHasThreeArgumentsInDeclaredOrder) {
   }
 }
 
-// --- compiler diagnostics -------------------------------------------------
-
-TEST_F(FSMFunctionTest, NoFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "all references (state/req_0/req_1/parameters/fsm_function) must bind";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

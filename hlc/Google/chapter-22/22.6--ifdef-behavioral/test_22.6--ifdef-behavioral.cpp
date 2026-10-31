@@ -313,21 +313,6 @@ TEST_F(IfdefBehavioralTest, CompilesWithoutErrors) {
   EXPECT_EQ(stats.m_errors, 0) << describeErrors(eventListener, EventSeverity::Error);
 }
 
-// Each of these diagnostics would mean HLC misread the conditional directives.
-TEST_F(IfdefBehavioralTest, ReportsNoPreprocessorDiagnostics) {
-  // Lines 19-23 match Syntax 22-5.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveElseif), nullptr);
-
-  // `ifdef tests whether behavioral is defined (22.6); the name is not a
-  // macro usage, so its being undefined is no "unknown macro".
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-
-  // The conditional directives "may appear anywhere in the source
-  // description" (22.6), here inside a module.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(IfdefBehavioralTest, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

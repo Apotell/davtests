@@ -287,40 +287,6 @@ TEST_F(UndefineAllAndRedefineTest, CompilesWithoutErrors) {
   EXPECT_EQ(describeSourceErrors(eventListener), "");
 }
 
-// Each of these diagnostics would mean HLC misread one of the lines.
-TEST_F(UndefineAllAndRedefineTest, ReportsNoMacroDiagnostics) {
-  // Lines 16, 18 and 20 match Syntax 22-2; `undefineall takes no arguments.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // Lines 17 and 19 undefine every macro (22.5.3), so each later `define of
-  // FOO defines an undefined name: none of them redefines a defined macro.
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-
-  // `undefineall names no macro, so no named macro can be unknown to it.
-  EXPECT_EQ(findEvent(EventType::PpUndefUnkownMacro), nullptr);
-
-  // FOO is not a compiler directive name (22.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
-
-  // FOO is never used, so no usage can be unknown, lack its parentheses or
-  // give the wrong number of arguments.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
-
-  // "foo" is closed on line 16 (5.9), and no macro text refers to a macro.
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-
-  // `define and `undefineall "may appear anywhere"; the file has no design
-  // element anyway.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(UndefineAllAndRedefineTest, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

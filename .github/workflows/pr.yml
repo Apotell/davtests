@@ -136,6 +136,17 @@ jobs:
           --jobs $(nproc)                                       \
           --filters @scripts/filter.lst
 
+    # Per test: the cpp's findEvent() checks, the log's events, and how many are in both.
+    - name: Event check
+      if: ${{ !cancelled() }}
+      timeout-minutes: 10
+      run: |
+        python3 scripts/pr_event_check.py ${{ github.workspace }}/regression  \
+          --events-json build/share/hldb/events.json                          \
+                        build/share/hlc/events.json                           \
+          --test-dirpath hlc                                                  \
+          --jobs $(nproc)
+
     - name: Prepare regression artifacts
       if: ${{ !cancelled() }}
       env:

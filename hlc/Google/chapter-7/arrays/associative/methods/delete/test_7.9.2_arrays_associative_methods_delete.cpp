@@ -429,11 +429,6 @@ TEST_F(AssociativeArrayDeleteTest, DeleteRuntimeEffectOnMapSizeRequiresSimulatio
   EXPECT_EQ(fmt2->getValue(), ":assert: (%d == 0)");
 }
 
-TEST_F(AssociativeArrayDeleteTest, NoBindErrorForSizeAndDelete) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "delete"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

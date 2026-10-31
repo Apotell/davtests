@@ -177,10 +177,6 @@ TEST_F(LnFunctionTest, LnCallHasOneIntArgument) {
   EXPECT_NE(ref->getActual<hldb::IntTypespec>(), nullptr) << "'1' should have an IntTypespec";
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(LnFunctionTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

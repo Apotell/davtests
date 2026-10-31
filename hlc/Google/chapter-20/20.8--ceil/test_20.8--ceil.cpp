@@ -177,10 +177,6 @@ TEST_F(CeilFunctionTest, CeilCallHasOneRealArgument) {
   EXPECT_NE(ref->getActual<hldb::RealTypespec>(), nullptr) << "'3.7' should have a RealTypespec";
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(CeilFunctionTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

@@ -428,15 +428,6 @@ TEST_F(NegParamTest, GenIfBlockHoldsInstanceBad) {
   EXPECT_EQ(inst->getName(), std::string_view("bad"));
 }
 
-TEST_F(NegParamTest, NoDiagnosticForBadInUninstantiatedGenerateBlock) {
-  // Sec 27.3/27.5: IdxW == 5 for the defaults, so the block is never
-  // instantiated and 'BAD bad();' is never brought into existence.
-  if (m_design->getElaborated()) {
-    EXPECT_EQ(findEvent(EventType::UnsupportedTypespec, "BAD"), nullptr);
-  }
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "BAD"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

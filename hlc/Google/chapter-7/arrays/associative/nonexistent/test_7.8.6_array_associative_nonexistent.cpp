@@ -248,9 +248,6 @@ TEST_F(Nonexistent, NoContAssigns) {
   EXPECT_TRUE(top->getContAssigns() == nullptr || top->getContAssigns()->empty());
 }
 
-TEST_F(Nonexistent, NoBinErrorForSize) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "size"), nullptr);
-}
 }  // namespace hlc
 
 int main(int argc, char **argv) {

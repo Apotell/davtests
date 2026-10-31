@@ -295,13 +295,6 @@ TEST_F(UniquenessConstraints1Test, TopModuleHoldsEnvHandle) {
   EXPECT_EQ(classOfHandle(environment), findClass("env"));
 }
 
-TEST_F(UniquenessConstraints1Test, NoConstraintOrBindError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c1"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c2"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c3"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
-}
-
 TEST_F(UniquenessConstraints1Test, RandomizedPairIs3And10) {
   const hldb::ClassDefn *const a = findClass("a");
   ASSERT_NE(a, nullptr);

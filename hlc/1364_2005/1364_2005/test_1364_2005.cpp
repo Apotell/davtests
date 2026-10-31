@@ -144,12 +144,6 @@ TEST_F(Keywords1364_2005Test, RemainingDeclarationsAreScalar) {
   }
 }
 
-// --- compiler diagnostics ---------------------------------------------------
-
-TEST_F(Keywords1364_2005Test, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

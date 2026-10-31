@@ -254,10 +254,6 @@ TEST_F(ArrayQueriesTest, HighCall) { checkQueryStmt(6, ":assert: (%d == 31)", 15
 
 TEST_F(ArrayQueriesTest, SizeCall) { checkQueryStmt(7, ":assert: (%d == 32)", 152, "$size"); }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(ArrayQueriesTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

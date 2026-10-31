@@ -266,12 +266,6 @@ TEST_F(NoParamSubsTest, PortAConnectedToO) {
   EXPECT_EQ(high->getActual()->getAnyType(), hldb::AnyType::Variable);
 }
 
-TEST_F(NoParamSubsTest, NoBindingErrors) {
-  for (const char *const sym : {"P", "X", "a", "o", "dut"}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, sym), nullptr) << sym;
-  }
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

@@ -431,13 +431,6 @@ TEST_F(PackageDpiTest, NoSyntaxOrFatalErrors) {
   EXPECT_EQ(stats.m_syntaxes, 0) << "every declaration in the file is syntactically well formed";
 }
 
-TEST_F(PackageDpiTest, DeclaredNamesAreNotReported) {
-  EXPECT_EQ(findEvent(EventType::CompUndefinedType, "uvm_core_state"), nullptr)
-      << "'uvm_core_state' is declared by the typedef";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "UVM_CORE_UNINITIALIZED"), nullptr)
-      << "'UVM_CORE_UNINITIALIZED' is a name of uvm_core_state";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

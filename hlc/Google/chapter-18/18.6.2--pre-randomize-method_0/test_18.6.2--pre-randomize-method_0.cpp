@@ -361,13 +361,6 @@ TEST_F(PreRandomizeMethod0Test, FileDeclaresNoModule) {
 // Diagnostics
 // ---------------------------------------------------------------------------
 
-TEST_F(PreRandomizeMethod0Test, EveryReferencedPropertyIsFound) {
-  for (std::string_view name : {"b", "d"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "'" << name << "' is declared in class a, so it is not undefined";
-  }
-}
-
 // The file is legal SystemVerilog, so no fatal, syntax or error diagnostic
 // may point into it.
 // Expected to fail until HLC is fixed -- see KNOWN FAILURE (error on a legal

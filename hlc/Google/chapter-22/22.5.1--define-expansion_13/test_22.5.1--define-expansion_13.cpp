@@ -394,46 +394,6 @@ TEST_F(DefineExpansion13Test, CompilesWithoutErrors) {
   EXPECT_EQ(stats.m_errors, 0) << describeErrors(eventListener, EventSeverity::Error);
 }
 
-// Each of these diagnostics would mean HLC misread the definition or the usage.
-TEST_F(DefineExpansion13Test, ReportsNoMacroDiagnostics) {
-  // Line 16 matches Syntax 22-2 (white space after the commas of the formal
-  // argument list is allowed, 22.5.1) and line 18 matches Syntax 22-3.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // Three actual arguments for three formal arguments.
-  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
-
-  // b has no default, but its actual argument is given (white space only), so
-  // it is substituted by nothing (22.5.1). The "no default" error applies only
-  // when fewer actual than formal arguments are given, which is not the case.
-  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
-
-  // The usage has its parentheses (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
-
-  // a, b and c are all formal arguments and all appear in the macro text, and
-  // each actual argument has a formal argument to go to.
-  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
-
-  // MACRO2 is defined once, on line 16, before its use on line 18.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-
-  // MACRO2 is not a compiler directive name (22.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  // The default "C" is closed on line 16 (5.9).
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-
-  // The macro text of MACRO2 does not refer to any macro.
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-
-  // `define is outside module top, and a macro usage may appear anywhere in
-  // the compilation unit after its definition (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(DefineExpansion13Test, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

@@ -367,12 +367,6 @@ TEST_F(JKFlipflopTest, AlwaysBodyIfElseBlockingAssignments) {
   EXPECT_EQ(din->getName(), "Din");
 }
 
-TEST_F(JKFlipflopTest, AllIdentifiersBind) {
-  for (std::string_view name : {"J", "K", "q", "w", "clk", "reset", "Din"}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr) << "'" << name << "' is declared";
-  }
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

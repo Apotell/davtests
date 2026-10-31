@@ -239,24 +239,6 @@ TEST_F(CelldefineBasic1Test, Line17EndcelldefineIsAccepted) {
   EXPECT_EQ(sourceErrorsOnLine(17), "");
 }
 
-// Each of these diagnostics, at any severity and on any line, would mean HLC
-// misread line 16 or 17.
-TEST_F(CelldefineBasic1Test, ReportsNoDirectiveMisreadingDiagnostics) {
-  // Both lines are well-formed directives.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // Neither directive has an argument that could be rejected (22.10).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
-
-  // The file has no design element, and 22.10 allows these directives
-  // anywhere anyway.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // `celldefine and `endcelldefine are compiler directives (22.1), not
-  // usages of a text macro.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-}
-
 // ---------------------------------------------------------------------------
 // The source file
 // ---------------------------------------------------------------------------

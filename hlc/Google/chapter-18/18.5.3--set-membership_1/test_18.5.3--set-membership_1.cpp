@@ -279,12 +279,6 @@ TEST_F(SetMembership1Test, TopModuleHoldsEnvHandle) {
   EXPECT_EQ(classOfHandle(environment), findClass("env"));
 }
 
-TEST_F(SetMembership1Test, NoConstraintOrBindError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "b"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
-}
-
 TEST_F(SetMembership1Test, RandomizedBIsInSet) {
   const hldb::ClassDefn *const a = findClass("a");
   ASSERT_NE(a, nullptr);

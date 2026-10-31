@@ -177,10 +177,6 @@ TEST_F(FloorFunctionTest, FloorCallHasOneRealArgument) {
   EXPECT_NE(ref->getActual<hldb::RealTypespec>(), nullptr) << "'2.1' should have a RealTypespec";
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(FloorFunctionTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

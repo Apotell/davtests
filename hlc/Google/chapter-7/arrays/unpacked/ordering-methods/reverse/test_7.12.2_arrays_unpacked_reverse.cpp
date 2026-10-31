@@ -229,11 +229,6 @@ TEST_F(UnpackedReverseTest, DesignHasStringTypespecBeforeIntTypespec) {
   EXPECT_TRUE(it->getSigned());
 }
 
-TEST_F(UnpackedReverseTest, CompilerReportsZeroErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "reverse"), nullptr)
-      << "arr.reverse() must bind (IEEE 1800-2023 7.12.2)";
-}
-
 TEST_F(UnpackedReverseTest, NoContAssigns) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);

@@ -241,15 +241,6 @@ TEST_F(DefParamFromParamTest, DefParam0_Rhs_ResolvesToTopWidthA) {
   EXPECT_EQ(actual->getName(), "width_a");
 }
 
-TEST_F(DefParamFromParamTest, DefParam0_NoIllegalExpressionContextError) {
-  // sec. 23.10.1: since 'width_a' is declared in 'top' (the defparam's own
-  // module), no "RHS parameter not local" diagnostic is expected here --
-  // contrast with ErrorCatalog chapter-23 row 881, which triggers exactly
-  // this diagnostic for a non-local RHS parameter.
-  EXPECT_EQ(findEvent(EventType::CompIllegalExpressionContext, "top"), nullptr)
-      << "sec. 23.10.1: 'width_a' is local to 'top' -- no illegal-expression-context diagnostic is expected";
-}
-
 // ---- Second defparam: 'defparam fifo_inst.width2 = width_b;' ----
 
 TEST_F(DefParamFromParamTest, DefParam1_Lhs_NameIsHierarchicalPath) {

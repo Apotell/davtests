@@ -44,7 +44,7 @@ import os
 import re
 import shlex
 import sys
-from collections import defaultdict
+from collections import Counter as _Counter, defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -62,7 +62,7 @@ _severity_tags = {
 # Paths (relative to a -wd root, or resolved) that belong to a third-party library
 # rather than to the test itself.
 _default_external_pattern = (
-  r'(^|/)(third_party/|(ovm|uvm|uvmc)-[0-9][^/]*/|1800\.2-[0-9][^/]*/)'
+  r'(^|/)(third_party/|(ovm|uvm|uvmc|vmm)-[0-9][^/]*/|1800\.2-[0-9][^/]*/|svaunit/)'
 )
 
 _re_diag = re.compile(r'^\[(?P<sev>[A-Z]{3}):(?P<prefix>[A-Z]{2})(?P<num>\d+)\] (?P<rest>.*)$')
@@ -224,11 +224,47 @@ def _find_log(log_dirpath: Path, test: TestCase):
 _platform_ids = ('.linux', '.osx', '.msys', '.win', '')
 
 
+def _extract_test_tarball(data: bytes, test_id: str, out_dirpath) -> bool:
+  """Copies the diagnostic lines of one test's regression tarball (<test_id>.tar.gz, holding
+  <name>/<name>.log, name being the last part of test_id) to <out>/<test_id>/<name>.log.
+  Only diagnostics, their continuation lines and the coverage line are kept, so the HLDB dumps
+  never hit the disk. Returns False when the tarball holds no log."""
+  import io
+  import tarfile
+
+  name = Path(test_id).name
+  with tarfile.open(fileobj=io.BytesIO(data)) as test_strm:
+    names = set(test_strm.getnames())
+    for platform_id in _platform_ids:
+      log_name = f'{name}/{name}{platform_id}.log'
+      if log_name in names:
+        break
+    else:
+      return False
+    kept = []
+    in_diag = False
+    for raw in test_strm.extractfile(log_name):
+      line = raw.decode('utf-8', errors='replace')
+      if _re_coverage.match(line):
+        kept.append(line)
+        in_diag = False
+      elif line.startswith('['):
+        in_diag = _re_diag.match(line.rstrip('\r\n')) is not None
+        if in_diag:
+          kept.append(line)
+      elif in_diag and line[:1] in (' ', '\t'):
+        kept.append(line)
+      else:
+        in_diag = False
+  dirpath = Path(out_dirpath) / test_id
+  dirpath.mkdir(parents=True, exist_ok=True)
+  (dirpath / f'{name}.log').write_text(''.join(kept), encoding='utf-8')
+  return True
+
+
 def _extract_regression_archive(args):
   """Copies the diagnostic lines of every test log in one regression shard artifact
-  (Regression_*.zip, as uploaded by the regression job) to <out>/<test_id>/<name>.log.
-  Only diagnostics and their continuation lines are kept, so the HLDB dumps never hit the disk."""
-  import io
+  (Regression_*.zip, as uploaded by the regression job) to <out>/<test_id>/<name>.log."""
   import tarfile
   import zipfile
 
@@ -241,37 +277,9 @@ def _extract_regression_archive(args):
         for member in archive_strm:
           if not member.isfile() or not member.name.endswith('.tar.gz'):
             continue
-          # <archive>/<test_id>.tar.gz holds <name>/<name>.log, name being the last part of test_id.
           test_id = Path(member.name[:-len('.tar.gz')]).relative_to(archive_name).as_posix()
-          name = Path(test_id).name
-          data = archive_strm.extractfile(member).read()
-          with tarfile.open(fileobj=io.BytesIO(data)) as test_strm:
-            names = set(test_strm.getnames())
-            for platform_id in _platform_ids:
-              log_name = f'{name}/{name}{platform_id}.log'
-              if log_name in names:
-                break
-            else:
-              continue
-            kept = []
-            in_diag = False
-            for raw in test_strm.extractfile(log_name):
-              line = raw.decode('utf-8', errors='replace')
-              if _re_coverage.match(line):
-                kept.append(line)
-                in_diag = False
-              elif line.startswith('['):
-                in_diag = _re_diag.match(line.rstrip('\r\n')) is not None
-                if in_diag:
-                  kept.append(line)
-              elif in_diag and line[:1] in (' ', '\t'):
-                kept.append(line)
-              else:
-                in_diag = False
-          dirpath = Path(out_dirpath) / test_id
-          dirpath.mkdir(parents=True, exist_ok=True)
-          (dirpath / f'{name}.log').write_text(''.join(kept), encoding='utf-8')
-          count += 1
+          if _extract_test_tarball(archive_strm.extractfile(member).read(), test_id, out_dirpath):
+            count += 1
   return zip_filepath, count
 
 
@@ -1245,7 +1253,7 @@ def _test_status(test, reports_by_test, assertions_by_test, missing_logs):
   elif problem:
     status = 'Problem'
   elif not main:
-    status = 'No errors reported'
+    status = 'No events reported'
   elif not test.cpp_filepaths:
     status = 'No cpp'
   elif not not_checked:
@@ -1297,6 +1305,79 @@ def _build_info(hlc_repo):
   return parts
 
 
+def _short_path(path: str) -> str:
+  return re.sub(r'^\$Source\d+/', '', path.replace('\\', '/'))
+
+
+def _location(report) -> str:
+  if not report.path:
+    return ''
+  text = _short_path(report.path)
+  if report.line:
+    text += f':{report.line}'
+    if report.col:
+      text += f':{report.col}'
+  return text
+
+
+def _md_escape(text: str, limit: int = 0) -> str:
+  if limit and len(text) > limit:
+    text = text[:limit - 3] + '...'
+  return text.replace('|', '\\|').replace('\n', ' ')
+
+
+def _cpp_names(test) -> str:
+  return ', '.join(p.name for p in test.cpp_filepaths)
+
+
+def _build_unchecked_worklist(tests, reports_by_test):
+  """Per test with a cpp, every event of its own files that the cpp does not check yet."""
+  out = []
+  for test_id in sorted(tests, key=str.lower):
+    test = tests[test_id]
+    if not test.cpp_filepaths:
+      continue
+    unchecked = [r for r in reports_by_test.get(test_id, []) if r.scope == 'local' and r.severity in _main_severities and r.status == 'Not checked']
+    if not unchecked:
+      continue
+    out.append(f'<details><summary><code>{_md_escape(_cpp_names(test))}</code> ({test_id}) -- '
+               f'{len(unchecked)} not checked</summary>')
+    out += ['', '| | Code | Location | Symbol |', '|---|---|---|---|']
+    for r in unchecked:
+      out.append(f'| {r.severity} | `{r.code}` [{r.prefix}{r.number}] | {_md_escape(_location(r))} | '
+                 f'{_md_escape(r.symbol or "", 60)} |')
+    out += ['', '</details>', '']
+  if out:
+    out = ['### Not checked, per cpp', '',
+           'Events of each test\'s own files that its test_*.cpp has no `findEvent()` check for.', ''] + out
+  return out
+
+
+def _shown_severities(codes, ignored=()):
+  """The counted severities that still have a code left once 'ignored' is taken out; a severity whose
+  codes are all ignored (SNT) is not shown."""
+  return [s for s in _main_severities
+          if any(code.severity == s for name, code in codes.items() if name not in ignored)]
+
+
+def _build_cpp_split(tests, reports_by_test, severities=_main_severities):
+  """Events of the tests' own files, split by whether the test has a cpp: what the cpps would have
+  to check against their logs, and how much of it they do."""
+  shown = list(severities)
+  rows = []
+  for label, has_cpp in (('With a test_*.cpp', True), ('Without a test_*.cpp', False)):
+    test_ids = [t for t in tests if bool(tests[t].cpp_filepaths) == has_cpp]
+    local = [r for t in test_ids for r in reports_by_test.get(t, []) if r.scope == 'local' and r.severity in _main_severities]
+    severities = _Counter(r.severity for r in local)
+    checked = sum(1 for r in local if r.status == 'Checked')
+    rows.append(f'| {label} | {len(test_ids)} | {len(local)} | '
+                + ''.join(f'{severities.get(s, 0)} | ' for s in shown)
+                + f'{checked if has_cpp else "-"} | {len(local) - checked} |')
+  return ['| | Tests | Events in logs | ' + ''.join(f'{s} | ' for s in shown)
+          + '\u2705 Checked | \U0001F7E1 Not checked |',
+          '|---|---:|---:|' + '---:|' * len(shown) + '---:|---:|'] + rows + ['']
+
+
 def _pct(n, d):
   return f'{(100.0 * n / d):.1f}%' if d else '-'
 
@@ -1330,7 +1411,7 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
   summary = [
     ('Mode', mode),
     ('Logs', str(log_dirpath)),
-    ('Severities (main)', ', '.join(_main_severities) + '  (NTE counted separately, INF excluded)'),
+    ('Severities (main)', ', '.join(_shown_severities(codes)) + '  (NTE counted separately, INF excluded)'),
     ('Ignored codes', ', '.join(ignored_codes) or '-'),
     ('Event codes (events.json)', len(codes)),
     ('  Checked', buckets['Checked']),
@@ -1394,7 +1475,7 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
   if build_info:
     lines += [' \u00b7 '.join(build_info), '']
   lines += [
-    f'Only events from each test\'s own source files are counted ({", ".join(_main_severities)}). Library files '
+    f'Only events from each test\'s own source files are counted ({", ".join(_shown_severities(codes))}). Library files '
     '(UVM/OVM), INF/NTE messages'
     + (f' and ignored codes ({", ".join(f"`{c}`" for c in sorted(ignored_codes))})' if ignored_codes else '')
     + ' are left out.', '',
@@ -1416,6 +1497,7 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     f'| Tests whose every logged event is confirmed by their CPP test | {num(statuses["All checked"])} / '
     f'{num(reporting)} | {_pct(statuses["All checked"], reporting)} |',
     '',
+  ] + _build_cpp_split(tests, reports_by_test, _shown_severities(codes)) + [
     '<details><summary><b>Event codes by compiler stage</b></summary>', '',
     f'| Stage | Codes | {ok} Logged and confirmed | {warn} Logged, not confirmed | {todo} Expected by CPP, not logged '
     f'| {dead} Not seen anywhere |',
@@ -1444,7 +1526,7 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     f'| {orange} Has a CPP file, but it confirms no logged event | {num(statuses["Not checked"])} |',
     f'| {white} No CPP file, but events in its log | {num(statuses["No cpp"])} |',
     f'| {fail} CPP file and log disagree | {num(statuses["Problem"])} |',
-    f'| No events in its log | {num(statuses["No events reported"])} |',
+    f'| No counted events (clean log, or only library / ignored events) | {num(statuses["No events reported"])} |',
     f'| {fail} No log file | {num(statuses["No log"])} |',
     f'| **Total** | **{num(len(tests))}** |',
     '',
@@ -1459,6 +1541,9 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
       f'| Tests measured | {num(len(coverages))} |',
       '',
     ]
+  worklist = _build_unchecked_worklist(tests, reports_by_test)
+  if worklist:
+    lines += ['<details><summary><b>Not checked, per cpp</b></summary>', ''] + worklist[2:] + ['</details>', '']
 
   lines += [f'Full per-test and per-code detail: `report.xlsx` in the run\'s Summary artifact.', '']
   return summary, '\n'.join(lines)
@@ -1528,6 +1613,7 @@ def _main():
   for name in sorted(ignored - all_code_names):
     print(f'Warning: ignored code {name} is not in events.json', flush=True)
   codes = {name: code for name, code in codes.items() if name not in ignored}
+  shown_severities = _shown_severities(codes)
   print(f'Codes: {len(codes)} ({len(ignored & all_code_names)} ignored)', flush=True)
 
   tests = _scan_tests(test_dirpath, filter_re)
@@ -1553,7 +1639,10 @@ def _main():
   unparsed = []
   with multiprocessing.Pool(max(1, args.jobs)) as pool:
     for test_id, reports, coverage in pool.imap_unordered(_parse_log, log_jobs, chunksize=16):
-      reports_by_test[test_id] = [r for r in reports if r.code not in ignored]
+      # A severity whose codes are all ignored (SNT) is dropped too, so an unknown code of that
+      # severity (an old-format log) does not slip through.
+      reports_by_test[test_id] = [r for r in reports if r.code not in ignored
+                                  and (r.severity in shown_severities or r.severity in _note_severities)]
       if coverage is not None:
         coverage_by_test[test_id] = coverage
     print(f'Logs parsed: {len(reports_by_test)}', flush=True)
@@ -1561,9 +1650,7 @@ def _main():
     aid = 0
     for targets, cpp, items, bad in pool.imap_unordered(_scan_cpp, cpp_jobs, chunksize=8):
       unparsed.extend(bad)
-      for item in items:
-        if item['code'] in ignored:
-          continue
+      for item in _drop_ignored(items, ignored):
         for test_id in targets:
           aid += 1
           assertions_by_test[test_id].append(Assertion(
@@ -1595,6 +1682,13 @@ def _main():
   print(summary_md)
   print(f'Wrote {output_dirpath / "report.xlsx"}')
   return 0
+
+
+def _drop_ignored(items, ignored):
+  # A check on an ignored code is dropped. So is every other member of its any-of group: the
+  # ignored member may be the one the log satisfies, and the rest alone would look broken.
+  dropped_groups = {item['group'] for item in items if item['group'] and item['code'] in ignored}
+  return [item for item in items if item['code'] not in ignored and item['group'] not in dropped_groups]
 
 
 def _regroup(assertions_by_test):

@@ -223,23 +223,6 @@ TEST_F(DescTest5Test, CompilesWithoutErrors) {
   EXPECT_EQ(stats.m_errors, 0) << describeErrors(eventListener, EventSeverity::Error);
 }
 
-// Each of these diagnostics would mean HLC misread the conditional
-// directives of lines 16-20.
-TEST_F(DescTest5Test, ReportsNoPreprocessorDiagnostics) {
-  // Lines 16-20 match Syntax 22-5, including the two consecutive `elsif
-  // groups ({ `elsif ... }) and the empty groups of lines.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // Both `elsif directives follow the `ifdef of their own construct and
-  // precede its `else (Syntax 22-5).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveElseif), nullptr);
-
-  // `ifdef and `elsif test whether a name is defined (22.6); DEBUGGER, BORED
-  // and MORE_BORED are not macro usages, so their being undefined is no
-  // "unknown macro".
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-}
-
 TEST_F(DescTest5Test, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

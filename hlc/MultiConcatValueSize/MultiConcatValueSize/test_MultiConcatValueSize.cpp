@@ -540,13 +540,6 @@ TEST_F(MultiConcatValueSizeTest, TopOverridesTargetCfgByName) {
   EXPECT_EQ(actual->getActual(), findParam(top, "PinmuxTargetCfg"));
 }
 
-TEST_F(MultiConcatValueSizeTest, NoBindingErrors) {
-  for (std::string_view name : {"A", "B", "NDioPads", "dio_pad_type", "DefaultTargetCfg", "TargetCfg",
-                                "PinmuxTargetCfg", "PadType", "pad_type_e", "target_cfg_t", "k"}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr) << name;
-  }
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

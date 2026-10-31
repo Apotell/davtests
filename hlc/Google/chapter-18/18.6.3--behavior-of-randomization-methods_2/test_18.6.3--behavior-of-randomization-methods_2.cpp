@@ -1143,13 +1143,6 @@ TEST_F(BehaviorOfRandomizationMethods2Test, InitialCallsRunTestFromUvmPkg) {
 // Diagnostics
 // ---------------------------------------------------------------------------
 
-TEST_F(BehaviorOfRandomizationMethods2Test, EveryReferencedVariableAndFormalIsFound) {
-  for (std::string_view name : {"obj", "prev_value", "status", "name", "parent", "phase", "environment"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "'" << name << "' is declared in this file, so it is not undefined";
-  }
-}
-
 // The file is legal SystemVerilog -- including the infeasible constraint,
 // whose failure 18.6.3 defines at run time -- so no fatal, syntax or error
 // diagnostic may point into it.

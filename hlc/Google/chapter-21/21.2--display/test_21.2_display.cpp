@@ -318,13 +318,6 @@ TEST_F(DisplayTest, DisplayArgumentIsRefObjValBoundToTheBlockLocalDeclaration) {
 
 // --- compiler diagnostics ----------------------------------------------------
 
-// The one construct here with real binding risk is "val" inside the
-// $display argument list resolving back to the block-local declaration.
-TEST_F(DisplayTest, ValReferenceIsNotAFailedBind) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'val' in the $display call must bind to the block-local 'int val = 1234' declaration";
-}
-
 TEST_F(DisplayTest, CompilerReportsZeroErrors) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();

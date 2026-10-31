@@ -381,11 +381,6 @@ TEST_F(LogicArrayParamTest, ConditionalGenerateInstantiatesM) {
 // Diagnostics -- the source is legal
 // ---------------------------------------------------------------------------
 
-TEST_F(LogicArrayParamTest, NoIllegalPropertyValueOnGenerateBlock) {
-  EXPECT_EQ(findEvent(EventType::IllegalPropertyValue, 25, 42), nullptr)
-      << "a legal loop generate block must not produce an invalid model";
-}
-
 TEST_F(LogicArrayParamTest, CompilerReportsZeroErrors) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();

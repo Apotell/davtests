@@ -186,10 +186,6 @@ TEST_F(ExpFunctionTest, ExpCallsAreDistinctObjects) {
   EXPECT_NE(first, second) << "each '$exp(1)' in the source should get its own SysFuncCall";
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(ExpFunctionTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

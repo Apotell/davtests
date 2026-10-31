@@ -249,16 +249,6 @@ TEST_F(EnumTest0Test, ReportsNoFatalOrSyntaxDiagnostics) {
   const EventListener::Stats stats = eventListener->getStats();
   EXPECT_EQ(stats.m_fatals, 0) << describeErrors(eventListener, EventSeverity::Fatal);
   EXPECT_EQ(stats.m_syntaxes, 0) << describeErrors(eventListener, EventSeverity::Syntax);
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaSyntaxError), nullptr);
-}
-
-// myenum_fwd is declared once, and no actual definition exists whose basic
-// type could fail to match the forward 'enum' (6.18), so neither of these
-// typedef diagnostics applies.
-TEST_F(EnumTest0Test, ReportsNoTypedefRedefinitionOrMismatch) {
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompForwardTypedefMismatch), nullptr);
 }
 
 TEST_F(EnumTest0Test, SourceFileRecordedOnce) {

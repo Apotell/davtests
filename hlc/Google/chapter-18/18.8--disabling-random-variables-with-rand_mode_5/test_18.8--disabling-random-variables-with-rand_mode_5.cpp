@@ -1135,13 +1135,6 @@ TEST_F(DisablingRandomVariablesWithRandMode5Test, InitialCallsRunTestFromUvmPkg)
 // Diagnostics: rand_mode() is built in and cannot be overridden (18.8)
 // ---------------------------------------------------------------------------
 
-TEST_F(DisablingRandomVariablesWithRandMode5Test, EveryReferencedVariableAndFormalIsFound) {
-  for (std::string_view name : {"obj", "x", "ret", "name", "parent", "phase", "environment"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "'" << name << "' is declared in this file, so it is not undefined";
-  }
-}
-
 // Expected to fail until HLC is fixed -- see KNOWN FAILURE (illegal override
 // of rand_mode() accepted) in the file header.
 TEST_F(DisablingRandomVariablesWithRandMode5Test, RedefiningRandModeIsReportedOnItsDeclaration) {

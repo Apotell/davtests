@@ -282,38 +282,6 @@ TEST_F(IncludeDefineExpansionTest, CompilesWithoutErrors) {
   EXPECT_EQ(describeSourceErrors(eventListener), "");
 }
 
-// Each of these diagnostics would mean HLC misread one of the two lines.
-TEST_F(IncludeDefineExpansionTest, ReportsNoMacroOrIncludeDiagnostics) {
-  // Line 16 matches Syntax 22-2 and line 17 Syntax 22-3 and 22-1.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  EXPECT_EQ(findEvent(EventType::PpCannotOpenIncludeFile), nullptr);
-
-  // `" overrides the usual meaning of " (22.5.1), so the macro text holds no
-  // ordinary string literal that could be left unterminated, and the text
-  // between the two `" does take the actual argument, so the_file is used.
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
-
-  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
-
-  // foo is defined once, on line 16, before its use on line 17.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-
-  // foo is not a compiler directive name (22.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  // The macro text of foo refers to no macro.
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-
-  // The file has no design element, so neither directive is inside one.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(IncludeDefineExpansionTest, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

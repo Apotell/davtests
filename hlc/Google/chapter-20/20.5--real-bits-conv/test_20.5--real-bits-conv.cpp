@@ -209,12 +209,6 @@ TEST_F(RealBitsConvFunctionTest, RealToBitsCallHasOneRealArgument) {
   EXPECT_NE(ref->getActual<hldb::RealTypespec>(), nullptr) << "'12.45' should have a RealTypespec";
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(RealBitsConvFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

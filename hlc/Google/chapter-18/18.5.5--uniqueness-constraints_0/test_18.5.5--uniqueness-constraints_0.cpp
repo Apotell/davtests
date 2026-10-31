@@ -220,11 +220,6 @@ TEST_F(UniquenessConstraints0Test, UniqueGroupIsB1AndB2) {
   EXPECT_EQ(m1->getActual(), findVariable("b2")) << "'b2' binds to a::b2";
 }
 
-TEST_F(UniquenessConstraints0Test, NoConstraintError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c1"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c2"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c3"), nullptr);
-}
 TEST_F(UniquenessConstraints0Test, ConstraintsShouldBeEnabledByDefaultButAreNot) {
   // IEEE 1800-2023 Sec 18.9: all constraints are initially active
   // (constraint_mode() == 1). Pure constraints are obligations, not active

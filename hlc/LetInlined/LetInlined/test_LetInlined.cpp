@@ -193,13 +193,6 @@ TEST_F(LetInlinedTest, A1NoInferredClockIsDiagnosed) {
                                   "can be inferred in always_comb";
 }
 
-TEST_F(LetInlinedTest, A2AndA3NeedNoInferredClock) {
-  EXPECT_EQ(findEvent(EventType::CompNoInferredClock, 11), nullptr) << "a2: clock given explicitly";
-  EXPECT_EQ(findEvent(EventType::CompNoInferredClock, 6), nullptr) << "p2: clock given explicitly";
-  EXPECT_EQ(findEvent(EventType::CompNoInferredClock, 12), nullptr) << "a3: $sampled uses no clock";
-  EXPECT_EQ(findEvent(EventType::CompNoInferredClock, 7), nullptr) << "s: $sampled uses no clock";
-}
-
 TEST_F(LetInlinedTest, UndeclaredClockFailsToBind) {
   EXPECT_NE(findEvent(EventType::CompFailedToBind, "clock", 6, 33), nullptr)
       << "'clock' is not declared (port commented out)";

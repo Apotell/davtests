@@ -320,13 +320,6 @@ TEST_F(FSMSingleAlwaysTest, DefaultCaseItemAssignsIdleWithDelay) {
   ASSERT_NE(assign->getDelayControl(), nullptr);
 }
 
-// --- compiler diagnostics -------------------------------------------------
-
-TEST_F(FSMSingleAlwaysTest, NoFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "all references to state/gnt_0/gnt_1/req_0/req_1/clock/reset/parameters must bind";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

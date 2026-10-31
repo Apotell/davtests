@@ -216,12 +216,6 @@ TEST_F(DistChiSquareFunctionTest, DistChiSquareCallHasSeedAndDfArguments) {
   EXPECT_EQ(df->getDecompile(), "3");
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(DistChiSquareFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

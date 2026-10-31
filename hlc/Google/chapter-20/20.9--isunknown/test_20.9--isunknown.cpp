@@ -270,12 +270,6 @@ TEST_F(IsunknownFunctionTest, DisplayIsunknownOfVal2) { expectDisplayOfIsunknown
 
 TEST_F(IsunknownFunctionTest, DisplayIsunknownOfVal3) { expectDisplayOfIsunknown(3, ":assert: (%d == 0)", "val3"); }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(IsunknownFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

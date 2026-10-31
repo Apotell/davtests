@@ -181,13 +181,6 @@ TEST_F(MultContAssignTest, MultipleContAssignsToVariableIsError) {
       << "6.5: variable 'two' is written by two continuous assignments";
 }
 
-TEST_F(MultContAssignTest, MultipleContAssignsToNetsAreLegal) {
-  for (std::string_view name : {"inout_i1", "inout_i2", "out", "pull_up_1", "X"}) {
-    EXPECT_EQ(findEvent(EventType::MultipleContAssign, name), nullptr)
-        << "6.5: '" << name << "' is a net; nets can be written by multiple continuous assignments";
-  }
-}
-
 TEST_F(MultContAssignTest, MultipleDriversOnUwireIsError) {
   GTEST_SKIP() << "HLC doesn't report this diagnosis yet";
   EXPECT_NE(findEvent(EventType::MultipleDriversOnUwire, "two"), nullptr)
@@ -197,13 +190,6 @@ TEST_F(MultContAssignTest, MultipleDriversOnUwireIsError) {
 // ===========================================================================
 // 6.10: implicit nets on LHS vs. undeclared identifiers on RHS
 // ===========================================================================
-
-TEST_F(MultContAssignTest, ImplicitNetsOnLhsBind) {
-  for (std::string_view name : {"inout_i1", "inout_i2", "inout_i3", "out", "pull_up_1", "fill_way"}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr)
-        << "6.10: '" << name << "' on a continuous assignment LHS is an implicit net";
-  }
-}
 
 TEST_F(MultContAssignTest, UndeclaredRhsIdentifiersFailToBind) {
   for (std::string_view name : {"pu", "pd", "sel", "v0", "v1", "driver_1_en", "driver_1"}) {

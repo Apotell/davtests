@@ -285,20 +285,6 @@ TEST_F(ModPortArrayBindTest, PortMElementIsInterfaceRestrictedToModportMan) {
   EXPECT_EQ(it->getModport(), getMan()) << "element type is restricted to modport 'man'";
 }
 
-TEST_F(ModPortArrayBindTest, InterfacePortNeedsNoDirection) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findEvent(EventType::CompPortMissingDirection, "m"), nullptr)
-      << "Sec 23.2.2.2: interface_port_header has no port_direction";
-}
-
-TEST_F(ModPortArrayBindTest, ModportAndMemberBind) {
-  GTEST_SKIP() << "HLC doesn't model interface modport yet";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "man"), nullptr)
-      << "Sec 25.5: 'man' is a modport of r5p_bus_if";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "vld"), nullptr)
-      << "Sec 25.5: 'vld' is a member of r5p_bus_if listed in modport 'man'";
-}
-
 TEST_F(ModPortArrayBindTest, UndeclaredSDecFailsToBind) {
   EXPECT_NE(findEvent(EventType::CompFailedToBind, "s_dec"), nullptr)
       << "Sec 6.10: an undeclared identifier on a continuous-assignment RHS is not an implicit net";

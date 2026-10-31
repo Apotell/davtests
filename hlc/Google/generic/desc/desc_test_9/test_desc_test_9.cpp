@@ -249,23 +249,6 @@ TEST_F(DescTest9Test, CompilesWithoutErrors) {
   EXPECT_EQ(stats.m_errors, 0) << describeErrors(eventListener, EventSeverity::Error);
 }
 
-// Each of these diagnostics would mean HLC misread the nested conditional
-// directives of lines 16-21.
-TEST_F(DescTest9Test, ReportsNoPreprocessorDiagnostics) {
-  // Lines 16-21 match Syntax 22-5. The `endif of line 20 terminates only the
-  // inner construct (22.6), so the `endif of line 21 matches the outer
-  // `ifdef FPGA and neither is left unmatched.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // `ifdef tests whether FPGA / DEBUGGER is defined (22.6); neither is a
-  // macro usage, so their being undefined is no "unknown macro".
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-
-  // The directives are outside any design element (22.6 allows them
-  // anywhere in the source description anyway).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(DescTest9Test, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

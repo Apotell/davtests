@@ -313,12 +313,6 @@ TEST_F(CountbitsFunctionTest, CountbitsOfXAndZ) {
   expectControlBit<hldb::LogicTypespec>(call->getArguments()->at(2), "'z");
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(CountbitsFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

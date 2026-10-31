@@ -280,16 +280,6 @@ TEST_F(MiniAmiqTest, SvaunitSequenceTestHasTypeParameter) {
 // Sec 6.18: repeated forward typedefs are legal
 // ---------------------------------------------------------------------------
 
-TEST_F(MiniAmiqTest, RepeatedForwardTypedefsAreLegal) {
-  GTEST_SKIP() << "HLC gap: Need Typespec caching to void creating duplicates";
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef, "uvm_object"), nullptr)
-      << "Sec 6.18: multiple 'typedef class uvm_object;' are legal";
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef, "uvm_phase"), nullptr)
-      << "Sec 6.18: multiple 'typedef class uvm_phase;' are legal";
-  EXPECT_EQ(findEvent(EventType::CompMultiplyDefinedTypedef, "svaunit_test"), nullptr)
-      << "Sec 6.18: a forward typedef plus the class definition is legal";
-}
-
 // ---------------------------------------------------------------------------
 // svaunit_vpi_interface contents
 // ---------------------------------------------------------------------------
@@ -323,14 +313,6 @@ TEST_F(MiniAmiqTest, DpiImportsInInterface) {
   ASSERT_TRUE(chk.m_found) << "imported DPI function 'dpi_check_flag' not found";
   EXPECT_EQ(chk.m_accessType, vpiDPIImportAcc);
   EXPECT_FALSE(chk.m_context) << "declared without 'context'";
-}
-
-TEST_F(MiniAmiqTest, FindIndexIteratorItemMethodsBind) {
-  GTEST_SKIP() << "HLC gap: Binding is not ready for prime time checks yet.";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "get_sva_name"), nullptr)
-      << "Sec 7.12: 'item' is the default iterator; its class methods must resolve";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "get_sva_path"), nullptr)
-      << "Sec 7.12: 'item' is the default iterator; its class methods must resolve";
 }
 
 }  // namespace hlc

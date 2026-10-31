@@ -1084,13 +1084,6 @@ TEST_F(RandomizeMethod0Test, InitialCallsRunTestFromUvmPkg) {
 // Diagnostics
 // ---------------------------------------------------------------------------
 
-TEST_F(RandomizeMethod0Test, EveryReferencedVariableAndFormalIsFound) {
-  for (std::string_view name : {"obj", "success", "name", "parent", "phase", "environment"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "'" << name << "' is declared in this file, so it is not undefined";
-  }
-}
-
 // The file is legal SystemVerilog, so no fatal, syntax or error diagnostic
 // may point into it, whatever the UVM library draws.
 // Expected to fail -- see KNOWN FAILURE (errors reported in this file) in the

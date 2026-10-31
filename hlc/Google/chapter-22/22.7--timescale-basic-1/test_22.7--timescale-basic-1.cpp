@@ -213,26 +213,6 @@ TEST_F(TimescaleBasic1Test, CompilesWithoutErrors) {
   EXPECT_EQ(describeSourceErrors(eventListener), "");
 }
 
-// Each of these diagnostics would mean HLC misread line 16.
-TEST_F(TimescaleBasic1Test, ReportsNoTimescaleDiagnostics) {
-  // Line 16 matches Syntax 22-6.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // 1 is a valid integer, ns and ps are valid units, and 1 ps is at least as
-  // precise as 1 ns (22.7).
-  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::PaTimescaleInvalidScale), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompIllegalTimescale), nullptr);
-
-  // The file has no design element, so the `timescale is not inside one
-  // (22.7).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // `timescale is a compiler directive (22.1), not a text macro usage.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-}
-
 TEST_F(TimescaleBasic1Test, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

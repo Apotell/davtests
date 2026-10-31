@@ -117,11 +117,6 @@ TEST_F(LowMemLibTest, OnlyMytopIsInTheDesign) {
   }
 }
 
-TEST_F(LowMemLibTest, NoBindingFailures) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "mylib"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "mytop"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

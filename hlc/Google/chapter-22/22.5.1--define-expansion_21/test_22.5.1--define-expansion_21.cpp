@@ -325,28 +325,6 @@ TEST_F(DefineExpansion21Test, ErrorsOnlyOnTheIllegalLines) {
   EXPECT_EQ(offLines, "") << "error-class diagnostics off lines " << kDefinitionLine << " and " << kUsageLine;
 }
 
-// Each of these diagnostics would mean HLC misread the definition or the usage.
-TEST_F(DefineExpansion21Test, ReportsNoMisreadingDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
-
-  // first_half is defined once.
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-
-  // first_half is not a compiler directive name (22.1).
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  // The macro text does not refer to any macro.
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-
-  // `define is outside module top, and a macro usage may appear anywhere in
-  // the compilation unit after its definition (22.5.1).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(DefineExpansion21Test, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

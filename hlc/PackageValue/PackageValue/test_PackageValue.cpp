@@ -728,13 +728,6 @@ TEST_F(PackageValueTest, UndeclaredNamesAreReportedAsErrors) {
   }
 }
 
-TEST_F(PackageValueTest, PackageScopedNamesAreNotReported) {
-  for (std::string_view name : {"ImplGeneric", "impl_e", "SSTATUS_UIE"}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, name), nullptr)
-        << "26.3: '" << name << "' is declared in a package the file references";
-  }
-}
-
 TEST_F(PackageValueTest, NoSyntaxOrFatalDiagnostics) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();

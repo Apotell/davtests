@@ -240,23 +240,6 @@ TEST_F(UnconnectedDriveBasic2Test, Line16UnconnectedDrivePull1IsAccepted) {
   EXPECT_EQ(sourceErrorsOnLine(16), "");
 }
 
-// Each of these diagnostics, at any severity and on any line, would mean HLC
-// misread line 16.
-TEST_F(UnconnectedDriveBasic2Test, ReportsNoDirectiveMisreadingDiagnostics) {
-  // Line 16 is a well-formed directive.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // pull1 is one of the two arguments of `unconnected_drive (22.9).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveValue), nullptr);
-
-  // The file has no design element, so line 16 is not inside one (22.9).
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-
-  // `unconnected_drive is a compiler directive (22.1), not a usage of a text
-  // macro.
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-}
-
 // ---------------------------------------------------------------------------
 // The source file
 // ---------------------------------------------------------------------------

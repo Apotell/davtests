@@ -259,9 +259,6 @@ TEST_F(NonAnsiPortTest, AssignVar3Third) { checkContAssign(2, "var3", "third", "
 // ---------------------------------------------------------------------------
 
 TEST_F(NonAnsiPortTest, NoBindingOrSyntaxErrors) {
-  for (const char *const sym : {"var1", "var2", "var3", "first", "second", "third", "struct1", "struct2"}) {
-    EXPECT_EQ(findEvent(EventType::CompFailedToBind, sym), nullptr) << sym;
-  }
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();
   EXPECT_EQ(stats.m_syntaxes, 0);

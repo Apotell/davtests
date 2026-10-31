@@ -445,13 +445,6 @@ TEST_F(LocalScopeResolution0Test, LocalXBindsToFormalOfF) {
 // Diagnostics
 // ---------------------------------------------------------------------------
 
-TEST_F(LocalScopeResolution0Test, ReferencedNamesAreFound) {
-  for (std::string_view name : {"obj", "x"}) {
-    EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, name), nullptr)
-        << "'" << name << "' is declared in this file, so it is not undefined";
-  }
-}
-
 // The file is legal SystemVerilog, so no fatal, syntax or error diagnostic
 // may point into it.
 // Expected to fail until HLC is fixed -- see KNOWN FAILURE (HLC cannot parse

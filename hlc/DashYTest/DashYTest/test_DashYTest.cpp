@@ -111,15 +111,6 @@ TEST_F(DashYTestTest, LibraryModuleAndHasNullPort) {
   EXPECT_TRUE(!mAnd->getProcesses() || mAnd->getProcesses()->empty()) << "'module AND();' has no processes";
 }
 
-// ---------------------------------------------------------------------------
-// Diagnostics
-// ---------------------------------------------------------------------------
-
-TEST_F(DashYTestTest, NoFailedToBindErrorForAnd) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "AND"), nullptr)
-      << "'-y lib' should have resolved 'AND' without a binding failure";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

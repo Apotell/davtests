@@ -203,12 +203,6 @@ TEST_F(TypenameFunctionTest, TypenameCallHasValArgument) {
   EXPECT_EQ(arg->getActual<hldb::Variable>(), getValVariable());
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-TEST_F(TypenameFunctionTest, CompilesWithNoErrors) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

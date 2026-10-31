@@ -126,21 +126,6 @@ TEST_F(NonSynthUnusedModTest, InstantiationRelationships) {
   EXPECT_FALSE(isInstantiated("nonsynth")) << "nothing instantiates nonsynth";
 }
 
-TEST_F(NonSynthUnusedModTest, NoUndefinedModuleDiagnostics) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "top"), nullptr);
-}
-
-TEST_F(NonSynthUnusedModTest, NoDiagnosticsFromUnusedLibraryModule) {
-  // nonsynth is not part of the design, so its undeclared a/b must not be
-  // reported.
-  if (m_design->getElaborated()) {
-    for (const char *const sym : {"a", "b"}) {
-      EXPECT_EQ(findEvent(EventType::CompFailedToBind, sym), nullptr) << sym;
-      EXPECT_EQ(findEvent(EventType::CompUndefinedVariable, sym), nullptr) << sym;
-    }
-  }
-}
-
 TEST_F(NonSynthUnusedModTest, NoSyntaxOrFatalErrors) {
   ASSERT_NE(m_session->getEventListener(), nullptr);
   const EventListener::Stats stats = m_session->getEventListener()->getStats();

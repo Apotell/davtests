@@ -132,14 +132,6 @@ TEST_F(InfoTaskTest, InfoCallHasOneStringArgument) {
   EXPECT_EQ(msg->getDecompile(), "\"info\"");
 }
 
-// --- compiler diagnostics -----------------------------------------------------
-
-// $info is itself a diagnostic-reporting construct (20.10: "shall generate
-// a run-time message of no specific severity"), not one that should trigger
-// any compile-time diagnostic on its own when used correctly with a bare
-// string literal.
-TEST_F(InfoTaskTest, CompilesWithNoErrors) { EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr); }
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

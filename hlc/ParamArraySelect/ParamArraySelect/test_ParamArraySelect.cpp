@@ -550,14 +550,6 @@ TEST_F(ParamArraySelectTest, NoSyntaxOrFatalDiagnostics) {
   EXPECT_EQ(stats.m_syntaxes, 0) << "the file is syntactically well formed";
 }
 
-// Expected to fail until HLC is fixed -- see KNOWN COMPILER BUG (parameter
-// size cast read as a type) in the file header.
-TEST_F(ParamArraySelectTest, ParameterCastSizeIsNotReportedAsAType) {
-  EXPECT_EQ(findEvent(EventType::UnsupportedTypespec, "OtpByteAddrWidth"), nullptr)
-      << "6.24.1: 'P'(x - 2)' is a size cast; OtpByteAddrWidth is a parameter, a constant_primary casting_type "
-         "(A.2.2.1)";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

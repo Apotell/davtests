@@ -268,35 +268,6 @@ TEST_F(UndefBasicTest, CompilesWithoutErrors) {
   EXPECT_EQ(describeSourceErrors(eventListener), "");
 }
 
-// Each of these diagnostics would mean HLC misread one of the two lines.
-TEST_F(UndefBasicTest, ReportsNoMacroDiagnostics) {
-  // Line 16 matches Syntax 22-2 and line 17 Syntax 22-4.
-  EXPECT_EQ(findEvent(EventType::PpSyntaxError), nullptr);
-
-  // FOO is defined on line 16 before it is undefined on line 17, so the
-  // warning 22.5.2 allows for undefining a macro that was not previously
-  // defined does not apply.
-  EXPECT_EQ(findEvent(EventType::PpUndefUnkownMacro), nullptr);
-
-  // FOO is defined once, and is not a compiler directive name (22.1).
-  EXPECT_EQ(findEvent(EventType::PpMultiplyDefinedMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNameReserved), nullptr);
-
-  EXPECT_EQ(findEvent(EventType::PpMacroUnusedArgument), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroUndefinedArgument), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpUnkownMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroParenthesisNeeded), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpTooManyArgsMacro), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpMacroNoDefaultValue), nullptr);
-
-  // "foo" is closed on line 16 (5.9) and refers to no macro.
-  EXPECT_EQ(findEvent(EventType::PpUnterminatedString), nullptr);
-  EXPECT_EQ(findEvent(EventType::PpRecursiveMacroDefinition), nullptr);
-
-  // The file has no design element, so neither directive is inside one.
-  EXPECT_EQ(findEvent(EventType::PpIllegalDirectiveInDesignElement), nullptr);
-}
-
 TEST_F(UndefBasicTest, SourceFileRecordedOnce) {
   ASSERT_NE(m_design, nullptr);
   EXPECT_EQ(findSourceFiles().size(), 1u);

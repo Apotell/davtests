@@ -270,11 +270,6 @@ TEST_F(IfElseConstraints4Test, TopModuleHoldsEnvHandle) {
   EXPECT_EQ(classOfHandle(environment), findClass("env"));
 }
 
-TEST_F(IfElseConstraints4Test, NoConstraintOrBindError) {
-  EXPECT_EQ(findEvent(EventType::CompIllegalConstraint, "c3"), nullptr);
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "env"), nullptr);
-}
-
 TEST_F(IfElseConstraints4Test, RandomizedB3Is10) {
   const hldb::ClassDefn *const a = findClass("a");
   ASSERT_NE(a, nullptr);

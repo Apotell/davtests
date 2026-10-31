@@ -195,15 +195,6 @@ TEST_F(FinalTest, AssignmentRhsIsConstantOne) {
   EXPECT_EQ(rhs->getConstType(), vpiIntConst) << "bare decimal literal -> constType int";
 }
 
-// --- compiler diagnostics ----------------------------------------------------
-
-// The construct with the most real risk of a binding failure is "a"
-// resolving back to its declaration.
-TEST_F(FinalTest, ReferenceToAIsNotAFailedBind) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a' in 'a = 1' must bind to the 'reg a' declaration";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

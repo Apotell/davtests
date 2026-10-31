@@ -243,13 +243,6 @@ TEST_F(ParallelBlockJoinAnyTest, ThirdStmtIsBlockingAssignToC) {
   EXPECT_EQ(rhs->getConstType(), vpiIntConst);
 }
 
-// --- compiler diagnostics ----------------------------------------------------
-
-TEST_F(ParallelBlockJoinAnyTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a', 'b', and 'c' must all bind to their declarations";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

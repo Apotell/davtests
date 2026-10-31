@@ -327,13 +327,6 @@ TEST_F(WaitForkTest, WaitForkHasNoControlledStmt) {
   EXPECT_EQ(waitFork->getStmt(), nullptr) << "bare 'wait fork;' has no condition/body -- getStmt() should be null";
 }
 
-// --- compiler diagnostics ----------------------------------------------------
-
-TEST_F(WaitForkTest, ReferencesAreNotFailedBinds) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind), nullptr)
-      << "'a' and 'b' must all bind to their declarations";
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {

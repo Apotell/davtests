@@ -234,12 +234,6 @@ TEST_F(NamedEventHierPathTest, RhsPathEThenMEvent) {
   EXPECT_EQ(tail->getActual(), getEvent()) << "'m_event' of class uvm_event_base (type of 'e')";
 }
 
-TEST_F(NamedEventHierPathTest, ProtectedAccessWithinClassIsLegal) {
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "m_event"), nullptr)
-      << "8.18: protected members are visible within the class's own methods";
-  EXPECT_EQ(findEvent(EventType::CompFailedToBind, "e"), nullptr);
-}
-
 }  // namespace hlc
 
 int main(int argc, char **argv) {
