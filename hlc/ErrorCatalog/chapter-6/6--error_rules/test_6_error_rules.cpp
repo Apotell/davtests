@@ -315,6 +315,11 @@ TEST_F(Chapter6ErrorRulesTest, Row24_UnboundedLiteralMisuseIsRejected) {
   // elsewhere in this file.
   EXPECT_NE(findEvent(EventType::CompIllegalUnboundedLiteral, "r24_q"), nullptr)
       << "a $-valued parameter cannot be used as a queue bound (IEEE 1800-2023 6.20.7)";
+  // 6.20.7: "$ may be assigned to a value parameter of a simple bit vector
+  // type (see 6.11.1)." Line 201, "parameter real r24_rp = $;": real is not a
+  // simple bit vector type.
+  EXPECT_NE(findEvent(EventType::CompIllegalUnboundedLiteral, "r24_rp", 201, 18), nullptr)
+      << "$ cannot be assigned to a real parameter (IEEE 1800-2023 6.20.7)";
 }
 
 // --- row 26: hierarchical reference into an unnamed block (6.21) -----------
