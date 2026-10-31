@@ -281,14 +281,9 @@ TEST_F(Chapter6ErrorRulesTest, Row21_HierarchicalNameAndConstVarInEnumValueAreRe
 
 TEST_F(Chapter6ErrorRulesTest, Row22_SpecparamInParameterExpressionIsRejected) {
   // catalog row 22 | 6.20.5 | COMP
-  // FIXED 2026-08-28: wired in ModelBuilder::reportIllegalSpecparamUse()
-  // (ModelBuilder.cpp). A specparam name used inside a parameter's value
-  // expression does not resolve through ObjectBinder (its RefObj is left
-  // permanently unbound), so this falls back to name matching instead: for
-  // each ParamAssign, collect the enclosing instance's own specparam names
-  // and search the rhs subtree (via a NamedRefObjFinder Visitor) for a
-  // matching RefObj name.
-  EXPECT_NE(findEvent(EventType::CompIllegalSpecparamUse, "r22_regsize"), nullptr)
+  // Line 181: "parameter r22_regsize = r22_dhold + 1.0;". The event names the
+  // specparam that is used (r22_dhold), at the position of that use.
+  EXPECT_NE(findEvent(EventType::CompIllegalSpecparamUse, "r22_dhold", 181, 27), nullptr)
       << "a specparam cannot appear in a parameter's constant expression (IEEE 1800-2023 6.20.5)";
 }
 
