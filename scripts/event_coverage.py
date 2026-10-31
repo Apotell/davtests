@@ -1253,7 +1253,7 @@ def _test_status(test, reports_by_test, assertions_by_test, missing_logs):
   elif problem:
     status = 'Problem'
   elif not main:
-    status = 'No errors reported'
+    status = 'No events reported'
   elif not test.cpp_filepaths:
     status = 'No cpp'
   elif not not_checked:
@@ -1517,7 +1517,7 @@ def _build_summary(mode, log_dirpath, codes, tests, stats, reports_by_test, asse
     f'| {orange} Has a CPP file, but it confirms no logged event | {num(statuses["Not checked"])} |',
     f'| {white} No CPP file, but events in its log | {num(statuses["No cpp"])} |',
     f'| {fail} CPP file and log disagree | {num(statuses["Problem"])} |',
-    f'| No events in its log | {num(statuses["No events reported"])} |',
+    f'| No counted events (clean log, or only library / ignored events) | {num(statuses["No events reported"])} |',
     f'| {fail} No log file | {num(statuses["No log"])} |',
     f'| **Total** | **{num(len(tests))}** |',
     '',
