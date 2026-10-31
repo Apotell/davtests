@@ -51,6 +51,13 @@ TEST_F(UnitSimpleIncludeAndMacrosTest, CompilationHasExpectedMacroAndSyntaxError
       << "the recursive BOTTOM/TOP/BOTTOM1 macro chain must be reported as an error";
 }
 
+// The .hlc passes "-y blah", and no directory "blah" exists next to the sources. -y is a tool
+// option, not part of IEEE 1800, so the warning is checked against the command line only.
+TEST_F(UnitSimpleIncludeAndMacrosTest, MissingLibraryPathIsReported) {
+  ASSERT_NE(findEvent(EventType::CmdLibraryPathDoesNotExist, std::string_view("$Source01/blah")), nullptr)
+      << "the -y library directory 'blah' does not exist";
+}
+
 // LRM 22.5.1: all FAKELIB_* modules from lib.v must compile (same sources
 // as SimpleIncludeAndMacros, different .hlc driver).
 TEST_F(UnitSimpleIncludeAndMacrosTest, FakelibNand2Compiles) {
