@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
 
 """
-Per-event check of a PR's regression run against the tests' test_*.cpp files.
+Per-event check of a regression run against the tests' test_*.cpp files.
 
-For every test the PR's filtered regression ran, every event (FTL/SNT/ERR/WRN/NTE) in its log
-is matched against the Test::findEvent() checks in the test's test_*.cpp, and the result is
-reported one event per row. The checks a cpp makes that no event matches are reported too.
+For every test a regression ran, every event (FTL/SNT/ERR/WRN/NTE) in its log is matched against
+the Test::findEvent() checks in the test's test_*.cpp, and the result is reported one event per
+row. The checks a cpp makes that no event matches are reported too.
+
+Input is one of:
+  - regression.py's output directory, as in PR Verification (one <test_id>.tar.gz per test)
+  - the Regression_*_PR_<n>.tar.gz of a PR run's artifact
+  - a full hlc run's Summary artifact directory (errors.log + regression.csv), to check every
+    test at once. errors.log has no NTE lines and no continuation lines, so a check naming an
+    event's secondary location shows as unmatched.
 
 The parsing and matching are event_coverage.py's, so the statuses agree with the full run's
 Event Coverage report:
@@ -44,6 +51,18 @@ _workspace_dirpath = _this_dirpath.parent
 
 # Rows per test in the markdown; the CSV always has every row. GitHub caps a job summary at 1 MiB.
 _max_md_rows_per_test = 100
+# Above this many tests the markdown lists one row per test instead of every event.
+_max_detailed_tests = 50
+
+# Ordered worst first.
+_test_labels = {
+  '\u274C': 'A cpp check is broken, or contradicts the log',
+  '\U0001F7E0': 'Has a cpp, but it checks none of its events',
+  '\U0001F7E1': 'Has a cpp, some events checked',
+  '\u2705': 'Has a cpp, every event checked',
+  '\u26AA': 'No cpp, but events in its log',
+  '\u2796': 'No events of its own',
+}
 
 _event_icons = {
   'Checked': '\u2705',
@@ -62,10 +81,44 @@ _problem_labels = {
 }
 
 
+_re_errors_log_line = re.compile(r'^(?P<test_id>\S+): (?P<diag>\[(?:FTL|SNT|ERR|WRN):.*)$')
+
+
+def _collect_summary_logs(summary_dirpath: Path, out_dirpath: Path) -> list[str]:
+  """Splits a full run's Summary artifact (errors.log + regression.csv, see summarize.py) into
+  <out>/<test_id>/<name>.log. regression.csv names every test the run ran; errors.log holds
+  only the FTL/SNT/ERR/WRN lines, without their continuation lines."""
+  test_ids = []
+  with open(summary_dirpath / 'regression.csv', encoding='utf-8') as strm:
+    for line in strm:
+      cells = [cell.strip() for cell in line.split('|')]
+      if (len(cells) > 2) and cells[2] and (cells[2] != 'TESTNAME'):
+        test_ids.append(cells[2])
+
+  lines_by_test = defaultdict(list)
+  with open(summary_dirpath / 'errors.log', encoding='utf-8', errors='replace') as strm:
+    for line in strm:
+      if line.startswith('='):
+        break   # The per-test and per-category counts follow the first separator.
+      m = _re_errors_log_line.match(line.rstrip('\r\n'))
+      if m:
+        lines_by_test[m.group('test_id')].append(m.group('diag') + '\n')
+
+  for test_id in set(test_ids) | set(lines_by_test):
+    dirpath = out_dirpath / test_id
+    dirpath.mkdir(parents=True, exist_ok=True)
+    (dirpath / f'{Path(test_id).name}.log').write_text(''.join(lines_by_test.get(test_id, [])), encoding='utf-8')
+  return sorted(set(test_ids) | set(lines_by_test), key=str.lower)
+
+
 def _collect_logs(source: Path, out_dirpath: Path) -> list[str]:
   """Extracts the logs of a regression run into <out>/<test_id>/<name>.log and returns the test
-  ids. source is either regression.py's output directory (one <test_id>.tar.gz per test) or the
-  PR artifact's tarball of that directory (<top>/<test_id>.tar.gz)."""
+  ids. source is regression.py's output directory (one <test_id>.tar.gz per test), the PR
+  artifact's tarball of that directory (<top>/<test_id>.tar.gz), or a full run's Summary
+  artifact directory (errors.log + regression.csv)."""
+  if source.is_dir() and (source / 'errors.log').is_file() and (source / 'regression.csv').is_file():
+    return _collect_summary_logs(source, out_dirpath)
+
   test_ids = []
   if source.is_dir():
     for filepath in sorted(source.rglob('*.tar.gz')):
@@ -138,6 +191,73 @@ def _test_icon(test, reports, problems) -> str:
   return '\U0001F7E1' if checked else '\U0001F7E0'
 
 
+def _build_compact_tests(tests, reports_by_test, problems_by_test, icons):
+  """One row per test that has a cpp or a check problem, worst first. Used for a run too large to
+  list event by event (a full run); event_check.csv still has every event."""
+  rows = []
+  for test_id in tests:
+    if not tests[test_id].cpp_filepaths and not problems_by_test[test_id]:
+      continue
+    local = [r for r in reports_by_test.get(test_id, []) if r.scope == 'local']
+    statuses = Counter(r.status for r in local)
+    problems = Counter(a.status for a in problems_by_test[test_id])
+    problem_text = ', '.join(f'{_problem_labels[s].split(" ", 1)[0]} {problems[s]}'
+                             for s in _problem_statuses if problems.get(s))
+    rows.append((list(_test_labels).index(icons[test_id]), test_id.lower(),
+                 f'| {icons[test_id]} | `{test_id}` | {len(local)} | {statuses.get("Checked", 0)} | '
+                 f'{statuses.get("Not checked", 0)} | {statuses.get("Contradiction", 0)} | {problem_text} |'))
+  out = ['### Tests with a cpp', '',
+         'Tests without a cpp are left out here; their events are in event_check.csv.', '',
+         '| | Test | Events | \u2705 Checked | \U0001F7E1 Not checked | \u274C Contradiction | Check problems |',
+         '|---|---|---:|---:|---:|---:|---|']
+  out += [row for _, _, row in sorted(rows)]
+  out.append('')
+  return out
+
+
+def _cpp_names(test) -> str:
+  return ', '.join(p.name for p in test.cpp_filepaths)
+
+
+def _build_unchecked_worklist(tests, reports_by_test):
+  """Per test with a cpp, every event of its own files that the cpp does not check yet."""
+  out = []
+  for test_id in sorted(tests, key=str.lower):
+    test = tests[test_id]
+    if not test.cpp_filepaths:
+      continue
+    unchecked = [r for r in reports_by_test.get(test_id, []) if r.scope == 'local' and r.status == 'Not checked']
+    if not unchecked:
+      continue
+    out.append(f'<details><summary><code>{_md_escape(_cpp_names(test))}</code> ({test_id}) -- '
+               f'{len(unchecked)} not checked</summary>')
+    out += ['', '| | Code | Location | Symbol |', '|---|---|---|---|']
+    for r in unchecked:
+      out.append(f'| {r.severity} | `{r.code}` [{r.prefix}{r.number}] | {_md_escape(_location(r))} | '
+                 f'{_md_escape(r.symbol or "", 60)} |')
+    out += ['', '</details>', '']
+  if out:
+    out = ['### Not checked, per cpp', '',
+           'Events of each test\'s own files that its test_*.cpp has no `findEvent()` check for.', ''] + out
+  return out
+
+
+def _build_cpp_split(tests, reports_by_test):
+  """Events of the tests' own files, split by whether the test has a cpp: what the cpps would have
+  to check against their logs, and how much of it they do."""
+  rows = []
+  for label, has_cpp in (('With a test_*.cpp', True), ('Without a test_*.cpp', False)):
+    test_ids = [t for t in tests if bool(tests[t].cpp_filepaths) == has_cpp]
+    local = [r for t in test_ids for r in reports_by_test.get(t, []) if r.scope == 'local']
+    severities = Counter(r.severity for r in local)
+    checked = sum(1 for r in local if r.status == 'Checked')
+    rows.append(f'| {label} | {len(test_ids)} | {len(local)} | '
+                + ' | '.join(str(severities.get(s, 0)) for s in ('FTL', 'SNT', 'ERR', 'WRN'))
+                + f' | {checked if has_cpp else "-"} | {len(local) - checked} |')
+  return ['| | Tests | Events in logs | FTL | SNT | ERR | WRN | \u2705 Checked | \U0001F7E1 Not checked |',
+          '|---|---:|---:|---:|---:|---:|---:|---:|---:|'] + rows + ['']
+
+
 def _build_markdown(tests, reports_by_test, assertions_by_test, unparsed, missing_logs, ignored):
   all_reports = [r for test_id in tests for r in reports_by_test.get(test_id, [])]
   local_reports = [r for r in all_reports if r.scope == 'local']
@@ -147,8 +267,8 @@ def _build_markdown(tests, reports_by_test, assertions_by_test, unparsed, missin
   }
   all_problems = [a for ps in problems_by_test.values() for a in ps]
 
-  out = ['## PR Event Check', '']
-  out.append(f'Every event in the logs of the **{len(tests)}** test(s) this PR ran, matched against the '
+  out = ['## Event Check', '']
+  out.append(f'Every event in the logs of the **{len(tests)}** test(s) the regression ran, matched against the '
              '`findEvent()` checks in their `test_*.cpp`.')
   if ignored:
     out.append(f'Ignored codes: {", ".join(f"`{name}`" for name in ignored)}.')
@@ -179,6 +299,21 @@ def _build_markdown(tests, reports_by_test, assertions_by_test, unparsed, missin
   if unparsed:
     out.append(f'**{len(unparsed)}** `findEvent()` call(s) could not be read statically; see event_check.csv.')
     out.append('')
+
+  icons = {test_id: _test_icon(tests[test_id], reports_by_test.get(test_id, []), problems_by_test[test_id])
+           for test_id in tests}
+  icon_counts = Counter(icons.values())
+  out += ['| Tests | Count |', '|---|---:|']
+  for icon, label in _test_labels.items():
+    if icon_counts.get(icon):
+      out.append(f'| {icon} {label} | {icon_counts[icon]} |')
+  out.append('')
+
+  out += _build_cpp_split(tests, reports_by_test)
+
+  if len(tests) > _max_detailed_tests:
+    return '\n'.join(out + _build_compact_tests(tests, reports_by_test, problems_by_test, icons)
+                     + _build_unchecked_worklist(tests, reports_by_test))
 
   # A test with no cpp and no events of its own has nothing to cross-check; list them in one line.
   quiet = [test_id for test_id in tests
@@ -230,19 +365,20 @@ def _build_markdown(tests, reports_by_test, assertions_by_test, unparsed, missin
 def _write_csv(filepath, tests, reports_by_test, assertions_by_test, unparsed):
   with open(filepath, 'w', newline='', encoding='utf-8') as strm:
     writer = csv.writer(strm)
-    writer.writerow(['Kind', 'Test', 'Severity', 'Code', 'Number', 'Scope', 'Location', 'Symbol', 'Message',
+    writer.writerow(['Kind', 'Test', 'Cpp', 'Severity', 'Code', 'Number', 'Scope', 'Location', 'Symbol', 'Message',
                      'Status', 'Cpp check'])
     for test_id in tests:
+      cpp = _cpp_names(tests[test_id]) or '-'
       for r in reports_by_test.get(test_id, []):
-        writer.writerow(['event', test_id, r.severity, r.code, f'{r.prefix}{r.number}', r.scope, _location(r),
+        writer.writerow(['event', test_id, cpp, r.severity, r.code, f'{r.prefix}{r.number}', r.scope, _location(r),
                          r.symbol or '', r.message, r.status, '; '.join(_check_ref(a) for a in r.matched_by)])
       for a in assertions_by_test.get(test_id, []):
         if a.status in _problem_statuses:
-          writer.writerow(['check', test_id, '', a.code, '', '', '', a.symbol or '', _check_target(a), a.status,
+          writer.writerow(['check', test_id, cpp, '', a.code, '', '', '', a.symbol or '', _check_target(a), a.status,
                            _check_ref(a)])
     for u in unparsed:
       if u.test_id in tests:
-        writer.writerow(['unparsed', u.test_id, '', '', '', '', '', '', u.context, u.reason,
+        writer.writerow(['unparsed', u.test_id, _cpp_names(tests[u.test_id]) or '-', '', '', '', '', '', '', u.context, u.reason,
                          f'{Path(u.cpp_filepath).name}:{u.cpp_line}'])
 
 
@@ -308,9 +444,7 @@ def _main():
     aid = 0
     for targets, cpp, items, bad in pool.imap_unordered(ec._scan_cpp, cpp_jobs):
       unparsed.extend(bad)
-      for item in items:
-        if item['code'] in ignored:
-          continue
+      for item in ec._drop_ignored(items, ignored):
         for test_id in targets:
           aid += 1
           assertions_by_test[test_id].append(ec.Assertion(

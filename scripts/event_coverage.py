@@ -1569,9 +1569,7 @@ def _main():
     aid = 0
     for targets, cpp, items, bad in pool.imap_unordered(_scan_cpp, cpp_jobs, chunksize=8):
       unparsed.extend(bad)
-      for item in items:
-        if item['code'] in ignored:
-          continue
+      for item in _drop_ignored(items, ignored):
         for test_id in targets:
           aid += 1
           assertions_by_test[test_id].append(Assertion(
@@ -1603,6 +1601,13 @@ def _main():
   print(summary_md)
   print(f'Wrote {output_dirpath / "report.xlsx"}')
   return 0
+
+
+def _drop_ignored(items, ignored):
+  # A check on an ignored code is dropped. So is every other member of its any-of group: the
+  # ignored member may be the one the log satisfies, and the rest alone would look broken.
+  dropped_groups = {item['group'] for item in items if item['group'] and item['code'] in ignored}
+  return [item for item in items if item['code'] not in ignored and item['group'] not in dropped_groups]
 
 
 def _regroup(assertions_by_test):
