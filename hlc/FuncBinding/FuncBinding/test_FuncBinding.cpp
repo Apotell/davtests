@@ -57,6 +57,7 @@
 // E:\Davenche\hlc\hlc_03\out\install\x64-Debug\include\hldb.
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -207,6 +208,17 @@ TEST_F(FuncBindingTest, FunBlockCallsFsmFunctionBoundToItsDeclaration) {
 
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 4u) << "curr_state, req_0, req_1, next_state";
+}
+
+// Sec 13.4: "It shall be illegal to call a function with output, inout, or ref
+// arguments ... in an expression within a procedural continuous assignment".
+// fsm_function has 'output logic [1:0] future_state', and dut.sv:17:22 calls it
+// on the rhs of the procedural 'assign next_state = ...'. The event names the
+// enclosing module.
+TEST_F(FuncBindingTest, FunctionWithOutputArgInProceduralAssignIsReported) {
+  ASSERT_NE(findEvent(EventType::CompIllegalExpressionContext, std::string_view("fsm_using_function"), 17, 22),
+            nullptr)
+      << "a function with an output argument cannot be called in a procedural continuous assignment";
 }
 
 }  // namespace hlc
