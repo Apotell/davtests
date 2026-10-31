@@ -364,19 +364,17 @@ TEST_F(Chapter6ErrorRulesTest, Row27_MissingLifetimeKeywordIsRejected) {
 
 TEST_F(Chapter6ErrorRulesTest, Row28_ContinuousOrNonblockingWriteToAutomaticTargetIsRejected) {
   // catalog row 28 | 6.21 | COMP
-  // FIXED 2026-08-29 (continuous-assignment half): wired in
-  // ModelBuilder::reportIllegalAssignmentToAutomaticOrDynamicTarget()
-  // (ModelBuilder.cpp), which checks (a) every ContAssign whose LHS is a
-  // Select into a Variable with a non-static-array typespec -- catches
-  // 'assign r28_dyn[0] = 1' -- and (b) every nonblocking Assignment whose LHS
-  // resolves to a Variable with getAutomatic() set. Confirmed via direct
-  // hlc.exe verification that (a) fires on r28_dyn; (b) does not additionally
-  // fire on r28_a inside 'task automatic r28_t()' in this fixture (the
-  // variable's own getAutomatic() flag was not observed set for a plain
-  // local inside an automatic task body), which this row's assertion does
-  // not depend on since it only checks the r28_dyn symbol.
+  // IEEE 1800-2023 6.21: "Automatic variables and elements of dynamically
+  // sized array variables shall not be written with nonblocking, continuous,
+  // or procedural continuous assignments." Variables declared in an automatic
+  // task are automatic (same subclause). The fixture breaks the rule twice:
+  //   251: assign r28_dyn[0] = 1;   continuous write to a dynamic array element
+  //   252: r28_a <= 1;              nonblocking write to a local of 'task automatic'
   EXPECT_NE(findEvent(EventType::CompIllegalAssignmentTarget, "r28_dyn"), nullptr)
       << "a dynamic array element cannot be the target of a continuous assignment (IEEE 1800-2023 "
+         "6.21)";
+  EXPECT_NE(findEvent(EventType::CompIllegalAssignmentTarget, "r28_a", 252, 38), nullptr)
+      << "an automatic variable cannot be written with a nonblocking assignment (IEEE 1800-2023 "
          "6.21)";
 }
 
