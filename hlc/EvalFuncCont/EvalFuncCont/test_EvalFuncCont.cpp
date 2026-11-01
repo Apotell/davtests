@@ -119,8 +119,10 @@ TEST_F(EvalFuncContTest, LocalparamNumOutCallsNumOut) {
   ASSERT_NE(pa, nullptr) << "'localparam NUM_OUT = num_out(WIDTH);' should produce a ParamAssign binding";
   const hldb::Any *const rhs = pa->getRhs();
   ASSERT_NE(rhs, nullptr);
-  if (const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs)) {
-    EXPECT_EQ(call->getName(), "num_out");
+  // A module-level function is not a method (IEEE 1800-2023 8.2), so the call is a FuncCall.
+  if (const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(rhs)) {
+    EXPECT_EQ(call->getName(), std::string_view("num_out"));
+    EXPECT_EQ(call->getTaskFunc(), getFunc());
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);
   } else if (const hldb::Constant *const folded = any_cast<hldb::Constant>(rhs)) {

@@ -232,7 +232,8 @@ TEST_F(FuncArgsTest, PowARecursesWithPositionalArguments) {
   ASSERT_NE(baseRef, nullptr);
   EXPECT_EQ(baseRef->getName(), std::string_view("base"));
 
-  const hldb::MethodFuncCall *const recCall = any_cast<hldb::MethodFuncCall>(mul->getOperands()->at(1));
+  // pow_a is a module-level function, not a method (IEEE 1800-2023 8.2): FuncCall.
+  const hldb::FuncCall *const recCall = any_cast<hldb::FuncCall>(mul->getOperands()->at(1));
   ASSERT_NE(recCall, nullptr) << "second operand should be the recursive call 'pow_a(base, exp - 1)'";
   EXPECT_EQ(recCall->getName(), std::string_view("pow_a"));
   EXPECT_EQ(recCall->getTaskFunc<hldb::Function>(), fn) << "the recursive call should resolve back to pow_a itself";
@@ -266,7 +267,7 @@ TEST_F(FuncArgsTest, ContinuousAssignsCallPowFunctionsPositionally) {
   bool foundPowA = false, foundPowB = false;
   for (const hldb::ContAssign *const ca : *top->getContAssigns()) {
     ASSERT_NE(ca, nullptr);
-    const hldb::MethodFuncCall *const call = ca->getRhs<hldb::MethodFuncCall>();
+    const hldb::FuncCall *const call = ca->getRhs<hldb::FuncCall>();
     ASSERT_NE(ca->getRhs(), nullptr);
     ASSERT_NE(call, nullptr) << "continuous assign RHS should be a FuncCall";
     ASSERT_NE(call->getArguments(), nullptr);

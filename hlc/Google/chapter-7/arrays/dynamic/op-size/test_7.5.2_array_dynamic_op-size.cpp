@@ -47,15 +47,14 @@
 //   - Stmt[0]: arr = new [16] -- blocking Assignment, RHS=ArrayExpr with 1
 //     Constant "16" (vpiIntConst)
 //   - Stmt[1]: SysTaskCall "$display" with 2 arguments; 2nd argument is a
-//     RefObj "arr.size" -- COMPILER BEHAVIOR: arr.size is stored as a
-//     RefObj, not as a recognized built-in method call (same behavior
-//     documented for op-delete.sv), with 2 path elements: RefObj "arr" and
-//     RefObj "size"
+//     MethodFuncCall "size" (IEEE 1800-2023 37.42 detail 2) with vpiPrefix
+//     RefObj "arr", vpiIsProperty set (no parentheses, 13.5.5), bound to
+//     the built-in size() method
 //   - Stmt[2]: arr = new [8] -- a SECOND, independent blocking Assignment,
 //     RHS=ArrayExpr with 1 Constant "8" (vpiIntConst); per Sec 7.5.1 this
 //     destructively resizes arr from 16 elements down to 8
 //   - Stmt[3]: SysTaskCall "$display" with 2 arguments; 2nd argument is a
-//     RefObj "arr.size" (same COMPILER BEHAVIOR as Stmt[1])
+//     MethodFuncCall "size" with vpiPrefix RefObj "arr" (same as Stmt[1])
 //   - design has 3 typespecs: ModuleTypespec "top", IntTypespec,
 //     StringTypespec (StringTypespec present because $display uses string
 //     literal arguments; a single shared StringTypespec instance is reused
@@ -72,9 +71,7 @@
 //     as basic.sv/op-delete.sv)
 //   - actual runtime value returned by arr.size() -- this harness only
 //     compiles/elaborates op-size.sv; it does not run a simulator, so the
-//     size() method's return value cannot be observed here (nor can it be
-//     observed at all given the RefObj COMPILER BEHAVIOR above, since
-//     arr.size is never modeled as an actual MethodFuncCall to begin with).
+//     size() method's return value cannot be observed here.
 //     op-size.sv's own $display format strings document the expected sizes.
 
 #include <hlc/Common/Session.h>
@@ -91,6 +88,7 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/variable.h>
@@ -352,8 +350,9 @@ TEST_F(DynamicArrayOpSizeTest, FirstDisplayNameAndFormatString) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 16)");
 }
 
-TEST_F(DynamicArrayOpSizeTest, FirstDisplaySecondArgIsArrSizeRefObj) {
-  // COMPILER BEHAVIOR: arr.size is stored as RefObj, not as a method call
+TEST_F(DynamicArrayOpSizeTest, FirstDisplaySecondArgIsArrSizeCall) {
+  // arr.size (no parentheses, 13.5.5) is a MethodFuncCall "size" with
+  // vpiPrefix RefObj "arr" (IEEE 1800-2023 37.42 detail 2)
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
@@ -362,14 +361,15 @@ TEST_F(DynamicArrayOpSizeTest, FirstDisplaySecondArgIsArrSizeRefObj) {
   ASSERT_NE(call->getArguments(), nullptr);
   const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), "arr.size");
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::RefObj *const first = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const size = arg1->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(size, nullptr);
+  EXPECT_EQ(size->getName(), std::string_view("size"));
+  EXPECT_TRUE(size->getIsProperty());
+  EXPECT_NE(size->getTaskFunc(), nullptr);
+  const hldb::RefObj *const first = size->getPrefix<hldb::RefObj>();
   ASSERT_NE(first, nullptr);
-  EXPECT_EQ(first->getName(), "arr");
+  EXPECT_EQ(first->getName(), std::string_view("arr"));
+  EXPECT_NE(first->getActual<hldb::Variable>(), nullptr);
 }
 
 // --- Stmt[2]: arr = new [8] (destructive resize) ----
@@ -435,8 +435,8 @@ TEST_F(DynamicArrayOpSizeTest, SecondDisplayNameAndFormatString) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 8)");
 }
 
-TEST_F(DynamicArrayOpSizeTest, SecondDisplaySecondArgIsArrSizeRefObj) {
-  // COMPILER BEHAVIOR: arr.size is stored as RefObj, not as a method call
+TEST_F(DynamicArrayOpSizeTest, SecondDisplaySecondArgIsArrSizeCall) {
+  // same shape as Stmt[1]: MethodFuncCall "size" with vpiPrefix RefObj "arr"
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
@@ -445,9 +445,12 @@ TEST_F(DynamicArrayOpSizeTest, SecondDisplaySecondArgIsArrSizeRefObj) {
   ASSERT_NE(call->getArguments(), nullptr);
   const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), "arr.size");
+  const hldb::MethodFuncCall *const size = arg1->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(size, nullptr);
+  EXPECT_EQ(size->getName(), std::string_view("size"));
+  const hldb::RefObj *const arrRef = size->getPrefix<hldb::RefObj>();
+  ASSERT_NE(arrRef, nullptr);
+  EXPECT_EQ(arrRef->getName(), std::string_view("arr"));
 }
 
 // --- design-level typespecs ----

@@ -33,31 +33,16 @@
 //   - variable "arr": ArrayTypespec vpiArrayType=associative(3), index typespec ->
 //     IntTypespec, elem typespec -> IntTypespec
 //   - Initial process: 1 Begin with 7 stmts (4 SysFuncCall + 3 Assignment)
-//   - all 4 $display calls: format string plus RefObj("arr.num") whose 2nd
-//     path elem is an unresolved RefObj "num" (no parens form, same
-//     limitation as ".size"/".delete" without parens)
+//   - all 4 $display calls: format string plus a MethodFuncCall "num"
+//     (IEEE 1800-2023 37.42 detail 2) with vpiPrefix RefObj "arr" and
+//     vpiIsProperty set (written without parentheses, 13.5.5)
 //   - the 3 index assignments use decimal (arr[3]), hex (arr[16'hffff]), and
 //     binary (arr[4'b1000]) literal index constants with their respective
 //     vpiConstType/vpiDecompile/vpiValue, and the binary literal's typespec
 //     resolves to LogicTypespec (not IntTypespec, unlike the other 2 forms)
 //   - design-level typespecs (5): ModuleTypespec, IntTypespec, StringTypespec,
 //     IntTypespec, LogicTypespec
-//   - compiler emits exactly 4 errors (m_fatals=0, m_syntaxes=0, m_errors=4,
-//     m_warnings=0), all CompFailedToBind for the no-parens
-//     ".num" references
-//
-// Not checked:
-//   - RefObj "num" getActual() -- always null, this IS the compiler
-//     limitation being documented, not a gap in test coverage (see the
-//     skipped canary NumRefObjShouldResolveOnceImplicitVariableBugIsFixed below)
-//
-// Compiler limitation (NOT a code error in num.sv):
-//   IEEE 1800-2017 7.24.4 permits the built-in ".num" method (alias for
-//   ".size") to be called with or without parentheses. This HLC build never
-//   resolves the no-parens form and instead raises CompFailedToBind
-//   for each of the 4 occurrences. num.sv is valid SystemVerilog; the errors
-//   below are a known compiler/API limitation, not a defect in the test
-//   source.
+//   - every "arr.num" call binds to the built-in num() method (getTaskFunc)
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -75,6 +60,7 @@
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/logic_typespec.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/variable.h>
@@ -151,18 +137,15 @@ TEST_F(AssociativeArrayNumTest, FirstDisplayAssertsNumEqualsZero) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 0)");
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), "arr.num");
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::RefObj *const arrRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
-  ASSERT_NE(arrRef, nullptr);
-  EXPECT_EQ(arrRef->getName(), "arr");
-  EXPECT_NE(arrRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const numCall = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const numCall = arg1->getHighConn<hldb::MethodFuncCall>();
   ASSERT_NE(numCall, nullptr);
-  EXPECT_EQ(numCall->getName(), "num");
+  EXPECT_EQ(numCall->getName(), std::string_view("num"));
+  // "arr.num" is written without parentheses (13.5.5, 7.9.1).
+  EXPECT_TRUE(numCall->getIsProperty());
+  const hldb::RefObj *const arrRef = numCall->getPrefix<hldb::RefObj>();
+  ASSERT_NE(arrRef, nullptr);
+  EXPECT_EQ(arrRef->getName(), std::string_view("arr"));
+  EXPECT_NE(arrRef->getActual<hldb::Variable>(), nullptr);
   EXPECT_NE(numCall->getTaskFunc(), nullptr);
 }
 
@@ -202,7 +185,12 @@ TEST_F(AssociativeArrayNumTest, SecondDisplayAssertsNumEqualsOne) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 1)");
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  EXPECT_EQ(arg1->getHighConn<hldb::RefObj>()->getName(), "arr.num");
+  const hldb::MethodFuncCall *const call = arg1->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr);
+  EXPECT_EQ(call->getName(), std::string_view("num"));
+  const hldb::RefObj *const arrRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(arrRef, nullptr);
+  EXPECT_EQ(arrRef->getName(), std::string_view("arr"));
 }
 
 TEST_F(AssociativeArrayNumTest, SecondAssignmentSetsArrHexFfffToTwo) {
@@ -291,16 +279,14 @@ TEST_F(AssociativeArrayNumTest, ArrRefObjShouldResolve) {
     ASSERT_NE(disp, nullptr);
     const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
     ASSERT_NE(arg1, nullptr);
-    const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-    ASSERT_NE(hp, nullptr);
-    const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+    const hldb::MethodFuncCall *const numMfc = arg1->getHighConn<hldb::MethodFuncCall>();
+    ASSERT_NE(numMfc, nullptr);
+    const hldb::RefObj *const varRef = numMfc->getPrefix<hldb::RefObj>();
     ASSERT_NE(varRef, nullptr);
-    EXPECT_EQ(varRef->getName(), "arr");
+    EXPECT_EQ(varRef->getName(), std::string_view("arr"));
     const hldb::Variable *const var = varRef->getActual<hldb::Variable>();
     ASSERT_NE(var, nullptr);
-    EXPECT_EQ(var->getName(), "arr");
-    const hldb::MethodFuncCall *const numMfc = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-    ASSERT_NE(numMfc, nullptr);
+    EXPECT_EQ(var->getName(), std::string_view("arr"));
     EXPECT_EQ(numMfc->getName(), "num");
     EXPECT_NE(numMfc->getTaskFunc(), nullptr) << "arr.num should bind";
   }

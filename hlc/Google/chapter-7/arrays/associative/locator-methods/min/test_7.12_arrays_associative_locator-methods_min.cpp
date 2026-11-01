@@ -35,23 +35,16 @@
 //     a queue ("int qi[$]") as a queue array with an unbounded
 //     left-range ("$"); ElemTypespec -> IntTypespec
 //   - Initial process: 1 Begin with 3 stmts (Assignment + 2 SysFuncCall)
-//   - Assignment: qi = s.min is a RefObj "s.min" with 2 RefObj path
-//     elems -- "s" (resolved to Variable "s") and "min" (unresolved). Unlike
-//     find/find_index/.../unique, ".min" (no "with" clause, no parens in
-//     source) is NOT modeled as a MethodFuncCall; it is a plain RefObj, so
-//     "min" itself -- not just an implicit iterator -- is the identifier the
-//     compiler cannot resolve
-//   - both $display calls and their RefObj("qi.size")/BitSelect("qi[0]")
+//   - Assignment: qi = s.min rhs is a MethodFuncCall "min" (IEEE 1800-2023
+//     37.42 detail 2) whose vpiPrefix is RefObj "s" (bound to the
+//     Variable); written without parentheses, so vpiIsProperty is set
+//     (13.5.5); any with clause stays on the call (vpiWith)
+//   - both $display calls and their MethodFuncCall("size", prefix "qi")/BitSelect("qi[0]")
 //     arguments
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
 //     (element type is int, so IntTypespec is created before the
 //     StringTypespec used for the $display format string constants --
 //     reversed order vs. the string-array locator-method tests)
-//   - compiler emits exactly 2 errors (m_fatals=0, m_syntaxes=0, m_errors=2,
-//     m_warnings=0), both CompFailedToBind: "min" and "size" are both
-//     parenthesis-less built-in method calls (min.sv has no "with" clause at
-//     all, so the now-fixed with-clause "item" iterator resolution --
-//     see ObjectBinder::findInMethodFuncCall -- does not apply to this file)
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -246,7 +239,7 @@ TEST_F(ArrayLocatorMinTest, AssignmentIsBlockingToQi) {
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(ArrayLocatorMinTest, AssignmentRhsIsRefObjSDotMin) {
+TEST_F(ArrayLocatorMinTest, AssignmentRhsIsMethodFuncCallMinOnS) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -255,28 +248,22 @@ TEST_F(ArrayLocatorMinTest, AssignmentRhsIsRefObjSDotMin) {
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  const hldb::MethodFuncCall *const rhs = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(rhs, nullptr);
-  // Note: no "()" -- ".min" (no "with" clause, no source parens) is not
-  // modeled as a MethodFuncCall, unlike find()/find_index()/unique().
-  EXPECT_EQ(rhs->getName(), std::string_view("s.min"));
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
+  EXPECT_EQ(rhs->getName(), std::string_view("min"));
+  const hldb::RefObj *const sRef = rhs->getPrefix<hldb::RefObj>();
   ASSERT_NE(sRef, nullptr);
-  EXPECT_EQ(sRef->getName(), "s");
+  EXPECT_EQ(sRef->getName(), std::string_view("s"));
   EXPECT_NE(sRef->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(ArrayLocatorMinTest, RhsSecondPathElemIsUnresolvedRefObjMin) {
+TEST_F(ArrayLocatorMinTest, RhsCallIsMin) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const rhs =
-      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  const hldb::MethodFuncCall *const minRef = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const minRef =
+      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(minRef, nullptr);
   EXPECT_EQ(minRef->getName(), "min");
   EXPECT_NE(minRef->getTaskFunc(), nullptr);
@@ -310,19 +297,16 @@ TEST_F(ArrayLocatorMinTest, FirstDisplaySecondArgIsQiDotSize) {
   ASSERT_NE(disp, nullptr);
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
+  const hldb::MethodFuncCall *const size = arg1->getHighConn<hldb::MethodFuncCall>();
   ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "qi.size");
-  ASSERT_NE(size->getPathElems(), nullptr);
-  ASSERT_EQ(size->getPathElems()->size(), 2u);
-  const hldb::RefObj *const qiRef = any_cast<hldb::RefObj>(size->getPathElems()->at(0));
+  EXPECT_EQ(size->getName(), std::string_view("size"));
+  // Written without parentheses (13.5.5, 7.10.2).
+  EXPECT_TRUE(size->getIsProperty());
+  EXPECT_NE(size->getTaskFunc(), nullptr);
+  const hldb::RefObj *const qiRef = size->getPrefix<hldb::RefObj>();
   ASSERT_NE(qiRef, nullptr);
-  EXPECT_EQ(qiRef->getName(), "qi");
+  EXPECT_EQ(qiRef->getName(), std::string_view("qi"));
   EXPECT_NE(qiRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
-  ASSERT_NE(sizeRef, nullptr);
-  EXPECT_EQ(sizeRef->getName(), "size");
-  EXPECT_NE(sizeRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: (%d == 2)", qi[0]) ----

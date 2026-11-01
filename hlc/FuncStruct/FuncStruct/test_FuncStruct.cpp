@@ -198,18 +198,33 @@ TEST_F(FuncStructTest, CompressBodyAssignsSigmaZeroThenElementZeroOfItsOwnReturn
   ASSERT_NE(compress, nullptr);
   // IEEE 1800-2023 37.12, Note 5: 'automatic sha_word_t sigma_0;' is a
   // declaration of the function's own scope, not a statement.
-  // Each formal argument is also held by a Variable in this scope (37.13); 'sigma_0' is the only local.
+  // Each formal argument is also held by a Variable in this scope (37.13), as is the implicit
+  // return variable (13.4.1); 'sigma_0' is the only local.
   ASSERT_NE(compress->getVariables(), nullptr);
   ASSERT_NE(compress->getIODecls(), nullptr);
   for (const hldb::IODecl *const ioDecl : *compress->getIODecls()) {
     EXPECT_NE(hldb::findByName<hldb::Variable>(ioDecl->getName(), compress->getVariables()), nullptr)
         << "37.13: the formal argument '" << ioDecl->getName() << "' should have a Variable in the function's scope";
   }
+  // 13.4.1: a nonvoid function implicitly declares a variable with its own name and its
+  // return type ('sha_word_t [7:0]'); automatic like the function.
+  const hldb::Variable *const retVar = hldb::findByName<hldb::Variable>("compress", compress->getVariables());
+  ASSERT_NE(retVar, nullptr) << "implicit return variable 'compress' (13.4.1)";
+  EXPECT_EQ(retVar->getParent(), compress);
+  EXPECT_TRUE(retVar->getAutomatic());
+  ASSERT_NE(retVar->getTypespec(), nullptr);
+  const hldb::ArrayTypespec *const retVarTs = retVar->getTypespec()->getActual<hldb::ArrayTypespec>();
+  ASSERT_NE(retVarTs, nullptr) << "the return variable has the return type 'sha_word_t [7:0]'";
+  EXPECT_TRUE(retVarTs->getPacked());
+
   uint32_t localCount = 0;
   for (const hldb::Variable *const var : *compress->getVariables()) {
-    if (hldb::findByName<hldb::IODecl>(var->getName(), compress->getIODecls()) == nullptr) ++localCount;
+    if ((hldb::findByName<hldb::IODecl>(var->getName(), compress->getIODecls()) == nullptr) && (var != retVar)) {
+      ++localCount;
+    }
   }
-  ASSERT_EQ(localCount, 1u) << "the body declares exactly one local ('sigma_0'), excluding the formals' Variables";
+  ASSERT_EQ(localCount, 1u)
+      << "the body declares exactly one local ('sigma_0'), excluding the formals' Variables and the return variable";
   const hldb::Variable *const sigma0 = hldb::findByName<hldb::Variable>("sigma_0", compress->getVariables());
   ASSERT_NE(sigma0, nullptr);
   EXPECT_TRUE(sigma0->getAutomatic()) << "'automatic sha_word_t sigma_0;' is explicitly automatic";

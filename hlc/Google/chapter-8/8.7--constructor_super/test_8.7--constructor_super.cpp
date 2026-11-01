@@ -64,9 +64,9 @@
 //     class's constructor still returns its own type, not the base's
 //   - the derived constructor's body is a 2-statement Begin:
 //     "super.new(def + 3);" and "a = def;"
-//   - "super.new(def + 3)" is a RefObj with 2 path elems: RefObj "super"
-//     resolving DIRECTLY to the SAME ClassDefn as "super_cls" (not to some
-//     intermediate wrapper object), and a MethodFuncCall (the "super.new"
+//   - "super.new(def + 3)" is a MethodFuncCall statement whose vpiPrefix
+//     (37.42) is a RefObj "super" resolving DIRECTLY to the SAME ClassDefn
+//     as "super_cls" (not to some intermediate wrapper object); the call (the "super.new"
 //     production -- Phase2ModelBuilder::leavePA_Super_dot_new -- lowers to
 //     the same node type as an ordinary object-construction "new" call)
 //     named "new" taking 1 argument (an add Operation, "def + 3") -- and
@@ -428,21 +428,18 @@ TEST_F(ClassConstructorSuperTest, TestConstructorFirstStmtIsSuperNewCall) {
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_GT(body->getStmts()->size(), 0u);
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(body->getStmts()->at(0));
-  ASSERT_NE(path, nullptr) << "'super.new(def + 3)' should be a bare RefObj statement";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(body->getStmts()->at(0));
+  ASSERT_NE(call, nullptr) << "'super.new(def + 3)' should be a MethodFuncCall statement, same node type as an "
+                              "ordinary object-construction 'new(...)' call";
+  EXPECT_EQ(call->getName(), std::string_view("new"));
 
-  const hldb::RefObj *const superRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(superRef, nullptr) << "'super' should be a RefObj";
-  EXPECT_EQ(superRef->getName(), "super");
+  // 37.42 detail 2: 'super' is the call's vpiPrefix.
+  const hldb::RefObj *const superRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(superRef, nullptr) << "'super' should be the call's prefix RefObj";
+  EXPECT_EQ(superRef->getName(), std::string_view("super"));
   EXPECT_EQ(superRef->getActual<hldb::ClassDefn>(), getSuperClsDefn())
       << "'super' must resolve directly to the SAME ClassDefn as 'super_cls'";
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'super.new(...)' should resolve to a MethodFuncCall, same as an ordinary "
-                              "object-construction 'new(...)' call";
-  EXPECT_EQ(call->getName(), "new");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getSuperConstructor())
       << "'super.new(...)' resolves back to the base class's constructor, same as an ordinary 'new(...)' call "
          "now does too (see FIXED COMPILER BUG #3 above)";

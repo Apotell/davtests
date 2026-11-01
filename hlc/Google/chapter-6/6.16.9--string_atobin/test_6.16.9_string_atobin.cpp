@@ -36,11 +36,11 @@
 //   - variable 'a' typespec resolves to StringTypespec; initial value is "10101" (vpiStringConst)
 //   - variable 'b' typespec resolves to IntTypespec
 //   - variable 'b' has a non-null initial value (vpiValue is set)
-//   - variable 'b' initial value is a RefObj named "a.atobin()"
-//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - RefObj element[1] is FuncCall "atobin" with no arguments
+//   - variable 'b' initial value is a MethodFuncCall named "atobin" (IEEE 1800-2023 37.42)
+//   - the call's vpiPrefix is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - the call is MethodFuncCall "atobin" with no arguments
 //   - 'b' does NOT get a pre-evaluated constant value (e.g. 21) -- HLDB stores
-//     the unevaluated RefObj expression only
+//     the unevaluated call expression only
 //   - the actual numeric result of a.atobin() (21) -- kept as a real assertion
 //     for when HLC adds compile-time evaluation of string methods
 
@@ -55,6 +55,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
+#include <hldb/method_func_call.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/task_func.h>
@@ -114,7 +115,7 @@ TEST_F(StringAtobinTest, BVariableTypespecIsInt) {
 }
 
 // ---------------------------------------------------------------------------
-// RefObj -- b's initial value is the method call a.atobin()
+// Method call -- b's initial value is the method call a.atobin()
 // ---------------------------------------------------------------------------
 TEST_F(StringAtobinTest, BVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -130,46 +131,41 @@ TEST_F(StringAtobinTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr)
-      << "HLC does not pre-evaluate a.atobin() to a constant; b holds only the RefObj expression";
+      << "HLC does not pre-evaluate a.atobin() to a constant; b holds only the call expression";
 }
 
-TEST_F(StringAtobinTest, BVariableValueIsRefObj) {
+TEST_F(StringAtobinTest, BVariableValueIsCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a RefObj";
-  EXPECT_EQ(hp->getName(), std::string_view("a.atobin()"));
+  const hldb::MethodFuncCall *const call = b->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "variable 'b' initial value is not a MethodFuncCall (IEEE 1800-2023 37.42)";
+  EXPECT_EQ(call->getName(), std::string_view("atobin"));
 }
 
-TEST_F(StringAtobinTest, RefObjReceiverIsA) {
+TEST_F(StringAtobinTest, CallReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_GE(hp->getPathElems()->size(), 1u);
+  const hldb::MethodFuncCall *const call = b->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr);
 
-  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "a");
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringAtobinTest, RefObjMethodIsAtobin) {
+TEST_F(StringAtobinTest, CallMethodIsAtobin) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_GE(hp->getPathElems()->size(), 2u);
-
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = b->getValue<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
+
   EXPECT_EQ(call->getName(), "atobin");
 
   // IEEE 1800-2023 Sec 6.16: "atobin" is a string method. It is declared in no user scope,
@@ -187,9 +183,7 @@ TEST_F(StringAtobinTest, AtobinHasNoArguments) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = b->getValue<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "atobin() takes no arguments";
 }

@@ -172,10 +172,13 @@
 #include <hldb/if_else.h>
 #include <hldb/if_stmt.h>
 #include <hldb/io_decl.h>
+#include <hldb/method_func_call.h>
+#include <hldb/method_task_call.h>
 #include <hldb/operation.h>
 #include <hldb/package.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/subroutine_call.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/tf_call.h>
 #include <hldb/variable.h>
@@ -294,18 +297,26 @@ class PackageVarTest : public Test {
     *call = found;
   }
 
-  // Verifies 'expr' is 'printer.<method>(...)': a RefObj path whose prefix
-  // is bound to the formal and whose call binds to nothing. Stores the call
-  // in 'call'.
+  // The receiver of a call (its vpiPrefix, 37.42 detail 2), or nullptr.
+  static const hldb::Expr *getCallPrefix(const hldb::TFCall *call) {
+    if (const hldb::MethodFuncCall *const mfc = any_cast<hldb::MethodFuncCall>(call)) return mfc->getPrefix();
+    if (const hldb::MethodTaskCall *const mtc = any_cast<hldb::MethodTaskCall>(call)) return mtc->getPrefix();
+    if (const hldb::SubroutineCall *const sc = any_cast<hldb::SubroutineCall>(call)) return sc->getPrefix();
+    return nullptr;
+  }
+
+  // Verifies 'expr' is 'printer.<method>(...)': a call that binds to nothing,
+  // whose receiver (prefix) is bound to the formal. Stores the call in 'call'.
   static void ExpectUnboundMethodCallOnFormal(const hldb::Any *expr, std::string_view method,
                                               const hldb::TFCall **call) {
     *call = nullptr;
-    const hldb::RefObj *const path = any_cast<hldb::RefObj>(expr);
-    ASSERT_NE(path, nullptr) << "'printer." << method << "(...)' should be a RefObj path";
-    ASSERT_NE(path->getPathElems(), nullptr);
-    ASSERT_EQ(path->getPathElems()->size(), 2u);
-    ExpectFormalRef(path->getPathElems()->at(0));
-    ExpectUnboundCall(path->getPathElems()->at(1), method, call);
+    const hldb::TFCall *found = nullptr;
+    ExpectUnboundCall(expr, method, &found);
+    ASSERT_NE(found, nullptr) << "'printer." << method << "(...)' should be a call";
+    const hldb::Expr *const prefix = getCallPrefix(found);
+    ASSERT_NE(prefix, nullptr) << "37.42: the receiver 'printer' should be the call's prefix";
+    ExpectFormalRef(prefix);
+    *call = found;
   }
 
   // Verifies one of 'types' was reported naming 'symbol', at error severity:

@@ -35,12 +35,12 @@
 //     elem -> IntTypespec; initial value stored directly on the Variable as
 //     an Operation (vpiOpType=concatenation(33)) with 4 unsigned Constant
 //     operands 4, 5, 3, 1
-//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + RefObj +
+//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + MethodFuncCall +
 //     SysFuncCall)
 //   - Stmt[0]: $display with 5 args (format + BitSelect ia[0..3])
-//   - Stmt[1]: ia.sort (no parens) -- RefObj "ia.sort()" with 2 path
-//     elems: RefObj "ia" (resolving Variable "ia") and MethodFuncCall "sort"
-//     with no arguments -- correctly resolves, zero errors
+//   - Stmt[1]: ia.sort (no parens) -- MethodFuncCall "sort" (vpiIsProperty,
+//     no arguments, vpiTaskFunc a Function) whose vpiPrefix is RefObj "ia"
+//     resolving Variable "ia" (37.42 detail 2, 13.5.5) -- zero errors
 //   - Stmt[2]: $display with 5 args (format + BitSelect ia[0..3],
 //     documenting the post-sort ascending order)
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
@@ -172,20 +172,23 @@ TEST_F(UnpackedSortTest, FirstStmtDisplaysFourFiveThreeOne) {
   }
 }
 
-TEST_F(UnpackedSortTest, SecondStmtIsSortRefObjWithNoParens) {
+TEST_F(UnpackedSortTest, SecondStmtIsSortMethodCallWithNoParens) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(1));
-  ASSERT_NE(hp, nullptr) << "'ia.sort' should be a RefObj";
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(hp->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "sort");
+  // 37.42 detail 2 / 13.5.5: 'ia.sort' (no parens) is a method call on 'ia'; the receiver is vpiPrefix.
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(1));
+  ASSERT_NE(call, nullptr) << "'ia.sort' should be a MethodFuncCall";
+  EXPECT_EQ(call->getName(), std::string_view("sort"));
+  EXPECT_TRUE(call->getIsProperty()) << "'ia.sort' is written without parentheses";
   EXPECT_EQ(call->getArguments(), nullptr);
+  ASSERT_NE(call->getTaskFunc(), nullptr);
+  EXPECT_EQ(call->getTaskFunc()->getAnyType(), hldb::AnyType::Function);
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(receiver, nullptr) << "the receiver 'ia' should be the call's vpiPrefix";
+  EXPECT_EQ(receiver->getName(), std::string_view("ia"));
+  EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(UnpackedSortTest, ThirdStmtDisplaysOneThreeFourFive) {

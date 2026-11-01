@@ -193,9 +193,12 @@ TEST_F(FunctionRecursiveTest, RecursiveStepMultipliesSelfCallByVal) {
   ASSERT_NE(mult->getOperands(), nullptr);
   ASSERT_EQ(mult->getOperands()->size(), 2u);
 
-  const hldb::MethodFuncCall *const selfCall = any_cast<hldb::MethodFuncCall>(mult->getOperands()->at(0));
+  // 'factorial' is a module-level function, not a method (8.2): a plain
+  // FuncCall. With parentheses it binds to the Function, not to the implicit
+  // return variable (13.4.1).
+  const hldb::FuncCall *const selfCall = any_cast<hldb::FuncCall>(mult->getOperands()->at(0));
   ASSERT_NE(selfCall, nullptr) << "first operand should be the recursive FuncCall 'factorial(val-1)'";
-  EXPECT_EQ(selfCall->getName(), "factorial");
+  EXPECT_EQ(selfCall->getName(), std::string_view("factorial"));
   EXPECT_EQ(selfCall->getTaskFunc<hldb::Function>(), factorial)
       << "the recursive call should resolve back to this very same Function declaration";
   ASSERT_NE(selfCall->getArguments(), nullptr);
@@ -242,9 +245,9 @@ TEST_F(FunctionRecursiveTest, InitialBodyCallsFactorialWithFiveDifferentArgument
     ASSERT_EQ(display->getArguments()->size(), 2u);
     const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
     ASSERT_NE(arg1, nullptr);
-    const hldb::MethodFuncCall *const call = arg1->getHighConn<hldb::MethodFuncCall>();
+    const hldb::FuncCall *const call = arg1->getHighConn<hldb::FuncCall>();
     ASSERT_NE(call, nullptr);
-    EXPECT_EQ(call->getName(), "factorial");
+    EXPECT_EQ(call->getName(), std::string_view("factorial"));
     EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getFactorial());
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);

@@ -47,7 +47,7 @@
 //   - Initial process: Begin declaring 1 local Variable "b" (typespec ->
 //     ArrayTypespec static(1) range [2:0], elem -> IntTypespec signed) and
 //     containing 5 stmts (3 BitSelect Assignment + 1 SysFuncCall + 1
-//     FuncCall)
+//     TaskCall)
 //   - Stmt[0..2]: blocking Assignment, lhs BitSelect "b[N]" (prefix RefObj
 //     "b" resolving the local Variable "b", Constant index N), rhs
 //     Constant N, for N in 0..2
@@ -67,7 +67,7 @@
 //     expected runtime values, but nothing here can observe them.
 //
 // Checked as a known compile-time gap (see FuncCallResolvesToDeclaredTask
-// below): whether the FuncCall "fun" resolves (via getTaskFunc<Task>()) back
+// below): whether the TaskCall "fun" resolves (via getTaskFunc<Task>()) back
 // to the declared Task "fun". Unlike runtime $display output, this IS
 // something the compiler could resolve without simulating anything -- it is
 // pure compile-time name binding from a call site to its declaration. There
@@ -100,6 +100,7 @@
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
 #include <hldb/task.h>
+#include <hldb/task_call.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -282,9 +283,11 @@ TEST_F(UnpackedSubroutinesTest, FourthStmtDisplaysBIndices) {
 TEST_F(UnpackedSubroutinesTest, FifthStmtIsFunCallWithBArgument) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::MethodTaskCall *const mtc = any_cast<hldb::MethodTaskCall>(begin->getStmts()->at(4));
+  // 'fun' is a module-level task, not a method (8.2: only class subroutines are methods), so the call
+  // is a plain TaskCall with no receiver.
+  const hldb::TaskCall *const mtc = any_cast<hldb::TaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(mtc, nullptr) << "'fun(b)' should be a TaskCall";
-  EXPECT_EQ(mtc->getName(), "fun");
+  EXPECT_EQ(mtc->getName(), std::string_view("fun"));
   ASSERT_NE(mtc->getArguments(), nullptr);
   ASSERT_EQ(mtc->getArguments()->size(), 1u);
   const hldb::NamedArgument *const arg0 = mtc->getArguments()->at(0);
@@ -326,7 +329,7 @@ TEST_F(UnpackedSubroutinesTest, NoContAssigns) {
 
 // --- known gap: call-site to declaration binding for task invocations ----
 
-// 'fun(b)' is parsed as a FuncCall (see FifthStmtIsFunCallWithBArgument
+// 'fun(b)' is a TaskCall (see FifthStmtIsFunCallWithBArgument
 // above). A compiler that performs full compile-time name binding must also
 // link that call site back to the Task it invokes, via getTaskFunc<Task>().
 // This is NOT a simulation question -- no execution is required to know that
@@ -334,7 +337,7 @@ TEST_F(UnpackedSubroutinesTest, NoContAssigns) {
 TEST_F(UnpackedSubroutinesTest, TaskCallResolvesToDeclaredTask) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::MethodTaskCall *const mtc = any_cast<hldb::MethodTaskCall>(begin->getStmts()->at(4));
+  const hldb::TaskCall *const mtc = any_cast<hldb::TaskCall>(begin->getStmts()->at(4));
   ASSERT_NE(mtc, nullptr) << "'fun(b)' should be a TaskCall";
   const hldb::Task *const declaredTask = getTaskFun();
   ASSERT_NE(declaredTask, nullptr);

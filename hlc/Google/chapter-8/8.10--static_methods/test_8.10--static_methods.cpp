@@ -63,16 +63,17 @@
 //     "++id;" -- an Operation (vpiOpType vpiPreIncOp) with 1 operand, a
 //     RefObj "id" resolving to the property Variable "id"
 //     "next_id = id;" -- a blocking Assignment whose lhs RefObj "next_id"
-//     resolves via getActual<Function>() to the enclosing Function ITSELF
-//     (the SystemVerilog idiom of assigning to the function's own name to
-//     set its return value), and whose rhs RefObj "id" resolves to the
-//     same property Variable "id"
+//     resolves to the function's implicit return Variable "next_id"
+//     (13.4.1: a nonvoid function declares a variable of its return type
+//     named after itself, found in the Function's getVariables()), and
+//     whose rhs RefObj "id" resolves to the same property Variable "id"
 //   - the initial process' Begin block has exactly 4 statements:
 //     "test_obj0 = new", "test_obj1 = new",
 //     "$display(test_obj0.next_id())", "$display(test_obj1.next_id())"
-//   - both "test_obj0.next_id()" and "test_obj1.next_id()" are RefObjs
-//     whose second path element is a MethodFuncCall "next_id" that
-//     resolves getTaskFunc() to the SAME "next_id" Function -- unlike
+//   - both "test_obj0.next_id()" and "test_obj1.next_id()" are
+//     MethodFuncCalls "next_id" whose vpiPrefix is the RefObj of the
+//     handle (37.42 detail 2) and that resolve getTaskFunc() to the SAME
+//     "next_id" Function -- unlike
 //     KNOWN COMPILER BUG #6 below (ordinary "new()" never resolves
 //     getTaskFunc()), these ordinary (non-constructor) method calls DO
 //     resolve correctly, confirming that bug is specific to construction,
@@ -209,10 +210,10 @@ class ClassStaticMethodsTest : public Test {
     EXPECT_EQ(newCall->getArguments(), nullptr);
   }
 
-  // Verifies stmt[index] is "$display(<varName>.next_id())": a SysFuncCall
-  // whose sole argument is a RefObj resolving "next_id" to a
-  // MethodFuncCall whose getTaskFunc() resolves to the class's "next_id"
-  // Function.
+  // Verifies stmt[index] is "$display(<varName>.next_id())": a SysTaskCall
+  // whose sole argument is a MethodFuncCall "next_id" with vpiPrefix
+  // RefObj <varName> and whose getTaskFunc() resolves to the class's
+  // "next_id" Function.
   static void ExpectNextIdDisplay(size_t index, std::string_view varName, const hldb::Variable *var) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
@@ -225,18 +226,17 @@ class ClassStaticMethodsTest : public Test {
 
     const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
     ASSERT_NE(arg0, nullptr);
-    const hldb::RefObj *const path = arg0->getHighConn<hldb::RefObj>();
-    ASSERT_NE(path, nullptr) << "'" << varName << ".next_id()' should be a RefObj";
-    ASSERT_NE(path->getPathElems(), nullptr);
-    ASSERT_EQ(path->getPathElems()->size(), 2u);
-    const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-    ASSERT_NE(varRef, nullptr);
+    // 37.42 detail 2: a method called through an object handle is a MethodFuncCall whose vpiPrefix is
+    // that handle (8.10 allows calling a static method through an object handle).
+    const hldb::MethodFuncCall *const call = arg0->getHighConn<hldb::MethodFuncCall>();
+    ASSERT_NE(call, nullptr) << "'" << varName << ".next_id()' should be a MethodFuncCall";
+    EXPECT_EQ(call->getName(), std::string_view("next_id"));
+    EXPECT_FALSE(call->getIsProperty()) << "'next_id()' is written with parentheses";
+    const hldb::RefObj *const varRef = call->getPrefix<hldb::RefObj>();
+    ASSERT_NE(varRef, nullptr) << "the receiver '" << varName << "' should be the call's vpiPrefix";
     EXPECT_EQ(varRef->getName(), varName);
     EXPECT_EQ(varRef->getActual<hldb::Variable>(), var);
 
-    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-    ASSERT_NE(call, nullptr) << "'" << varName << ".next_id()' second path elem should be a MethodFuncCall";
-    EXPECT_EQ(call->getName(), "next_id");
     EXPECT_EQ(call->getTaskFunc(), getNextIdFunction())
         << "'" << varName << ".next_id()' should resolve getTaskFunc() to the class's 'next_id' Function "
         << "(contrast with KNOWN COMPILER BUG #6, where ordinary 'new()' never resolves getTaskFunc())";
@@ -351,6 +351,23 @@ TEST_F(ClassStaticMethodsTest, NextIdFunctionReturnTypeIsPlainInt) {
   EXPECT_TRUE(ret->getSigned());
 }
 
+// 13.4.1: a nonvoid function implicitly declares a variable, of the function's return type and with the
+// function's own name, that holds the return value.
+TEST_F(ClassStaticMethodsTest, NextIdFunctionDeclaresImplicitReturnVariable) {
+  const hldb::Function *const fn = getNextIdFunction();
+  ASSERT_NE(fn, nullptr);
+  ASSERT_NE(fn->getVariables(), nullptr);
+  EXPECT_EQ(fn->getVariables()->size(), 1u) << "'next_id' declares no locals besides its implicit return variable";
+  const hldb::Variable *const retVar = hldb::findByName<hldb::Variable>("next_id", fn->getVariables());
+  ASSERT_NE(retVar, nullptr);
+  EXPECT_EQ(retVar->getAutomatic(), fn->getAutomatic()) << "the return variable has the function's lifetime";
+  EXPECT_EQ(retVar->getVisibility(), vpiPublicVis);
+  ASSERT_NE(retVar->getTypespec(), nullptr);
+  const hldb::IntTypespec *const ts = retVar->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>();
+  ASSERT_NE(ts, nullptr) << "the return variable is typed by the function's return type ('int')";
+  EXPECT_TRUE(ts->getSigned());
+}
+
 // --- "next_id" body: "++id; next_id = id;" --------------------------------------
 
 TEST_F(ClassStaticMethodsTest, NextIdBodyHasTwoStmts) {
@@ -392,8 +409,13 @@ TEST_F(ClassStaticMethodsTest, SecondStmtAssignsIdToNextIdReturnValue) {
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "'next_id' (return-value write target) should be a RefObj";
   EXPECT_EQ(lhs->getName(), "next_id");
-  EXPECT_EQ(lhs->getActual<hldb::Function>(), fn)
-      << "assigning to a function's own name should resolve back to the enclosing Function itself";
+  // 13.4.1: inside the function, its own name is the implicit return-value variable.
+  const hldb::Variable *const retVar = hldb::findByName<hldb::Variable>("next_id", fn->getVariables());
+  ASSERT_NE(retVar, nullptr) << "13.4.1: nonvoid 'next_id' should declare its implicit return variable";
+  ASSERT_NE(lhs->getActual(), nullptr);
+  EXPECT_EQ(lhs->getActual(), retVar)
+      << "assigning to a function's own name should resolve to the function's implicit return variable";
+  EXPECT_EQ(retVar->getParent(), fn) << "the implicit return variable belongs to the Function itself";
 
   const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);

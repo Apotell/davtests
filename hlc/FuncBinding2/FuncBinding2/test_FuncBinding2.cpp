@@ -195,7 +195,7 @@ TEST_F(FuncBinding2Test, CallSiteBindsToFsmButUndeclaredPresStateArgumentFailsTo
   const hldb::AssignStmt *const asg = any_cast<hldb::AssignStmt>(blk->getStmts()->at(0));
   ASSERT_NE(asg, nullptr) << "'assign newspaper = fsm(PRES_STATE);' should be a procedural AssignStmt";
 
-  const hldb::MethodFuncCall *const call = asg->getRhs<hldb::MethodFuncCall>();
+  const hldb::FuncCall *const call = asg->getRhs<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "RHS should still be a FuncCall to 'fsm', despite its argument failing to bind";
   EXPECT_EQ(call->getName(), std::string_view("fsm"));
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), fn)

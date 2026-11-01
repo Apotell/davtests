@@ -42,44 +42,38 @@
 //     -> IntTypespec (signed); range left bound Constant "$"
 //     (vpiConstType=unbounded)
 //   - net "r": typespec resolves directly to a signed IntTypespec
-//   - the 3 "q.push_back(N)" calls are each parsed as a RefObj with a
-//     RefObj "q" (resolved to Net "q") and a MethodFuncCall "push_back"
-//     carrying 1 Constant argument (2, 3, 4)
+//   - the 3 "q.push_back(N)" calls are each a MethodFuncCall with vpiPrefix
+//     RefObj "q" (resolved to Variable "q"), named "push_back" carrying 1
+//     Constant argument (2, 3, 4)
 //   - "q = q[1:$]": Assignment (blocking) whose lhs is RefObj "q" (resolved)
 //     and whose rhs is a PartSelect "q[1:$]" with prefix RefObj "q"
 //     (resolved) and a Range with left bound Constant "1" (IntTypespec,
 //     unsigned int) and right bound Constant "$" (vpiConstType=unbounded)
 //   - "q = {}": Assignment (blocking) whose lhs is RefObj "q" (resolved);
 //     see the KNOWN BUG note below for its rhs
-//   - the 3 "q.size" (no parens) accesses must each resolve like
-//     "q.size()" would: RefObj "q" (resolved) and a MethodFuncCall named
-//     "size" taking no arguments -- see the KNOWN BUG note below
+//   - the 3 "q.size" (no parens) accesses are each a MethodFuncCall "size"
+//     (vpiIsProperty, no arguments) whose vpiPrefix is RefObj "q" (resolved)
 //   - the initial process' Begin block has exactly 8 statements in source
 //     order
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
 //
-// KNOWN COMPILER BUGS (not code errors in delete_assign.sv):
-//   - IEEE 1800-2017 7.24.4 permits the built-in ".size" method to be
-//     called with or without parentheses. This HLC build never resolves
-//     the parenthesis-less form: instead of a MethodFuncCall, "size" in
-//     each "q.size" is left as an unresolved RefObj, and a spurious
-//     CompFailedToBind ("Failed to bind") is raised for it
-//     (same gap tracked for chapter-7/arrays/associative/
-//     locator-methods/find/find.sv and chapter-7/queues/bounded/
-//     bounded.sv). That the parenthesized form works is independently
-//     verified by chapter-5/5.13-builtin-methods-arrays.sv
-//     ("array.size()") and chapter-7/queues/persistence/persistence.sv
-//     ("q.delete()"). The size-check helper and the two error-count tests
-//     below assert the IEEE-mandated behavior and will FAIL until fixed.
+// Parenthesis-less built-in method calls (IEEE 1800-2023 13.5.5, 7.12,
+// 7.10.2): a no-argument method such as "q.size" may be called without
+// parentheses. Such a call is modeled like the parenthesized form -- a
+// MethodFuncCall named after the method, with vpiIsProperty set, no
+// arguments, and the receiver (RefObj "q") as its vpiPrefix (37.42
+// detail 2) -- and must not raise CompFailedToBind.
+//
+// KNOWN COMPILER BUG (not a defect in delete_assign.sv):
 //   - IEEE 1800-2017 5.11 defines "{}" as an empty unpacked array/queue
 //     literal, and 7.10.4 permits "q = {};" to delete all queue elements
 //     -- so the Assignment's rhs must capture SOME representation of that
 //     empty value. This HLC build attaches no value at all to the rhs
-//     (getRhs() == nullptr). Unlike the ".size" gap, there is no working
-//     precedent elsewhere in this repo for how an empty literal should be
-//     elaborated, so DeleteAllAssignmentRhsMustBeResolved below only
-//     asserts the minimal correctness bar (rhs is non-null) rather than a
-//     specific shape; it will FAIL until the compiler attaches a value.
+//     (getRhs() == nullptr). There is no working precedent elsewhere in
+//     this repo for how an empty literal should be elaborated, so
+//     DeleteAllAssignmentRhsMustBeResolved below only asserts the minimal
+//     correctness bar (rhs is non-null) rather than a specific shape; it
+//     will FAIL until the compiler attaches a value.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -143,26 +137,21 @@ class QueuesDeleteAssignTest : public Test {
     return init->getStmt<hldb::Begin>();
   }
 
-  // Verifies stmt[index] is "q.push_back(value)": RefObj -> RefObj "q"
-  // (resolved to Net) + MethodFuncCall "push_back" with 1 Constant arg.
+  // Verifies stmt[index] is "q.push_back(value)": MethodFuncCall "push_back" whose
+  // vpiPrefix is RefObj "q" (resolved to the Variable), with 1 Constant arg.
   static void ExpectPushBack(size_t index, std::string_view value) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
     ASSERT_NE(begin->getStmts(), nullptr);
     ASSERT_GT(begin->getStmts()->size(), index);
-    const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(index));
-    ASSERT_NE(hp, nullptr) << "stmt[" << index << "] should be a RefObj (q.push_back(...))";
-    ASSERT_NE(hp->getPathElems(), nullptr);
-    ASSERT_EQ(hp->getPathElems()->size(), 2u);
-
-    const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(index));
+    ASSERT_NE(call, nullptr) << "stmt[" << index << "] should be a MethodFuncCall (q.push_back(...))";
+    const hldb::RefObj *const qRef = call->getPrefix<hldb::RefObj>();
     ASSERT_NE(qRef, nullptr);
     EXPECT_EQ(qRef->getName(), "q");
     EXPECT_NE(qRef->getActual<hldb::Variable>(), nullptr);
 
-    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-    ASSERT_NE(call, nullptr);
-    EXPECT_EQ(call->getName(), "push_back");
+    EXPECT_EQ(call->getName(), std::string_view("push_back"));
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);
     const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
@@ -173,7 +162,7 @@ class QueuesDeleteAssignTest : public Test {
   }
 
   // Verifies stmt[index] is "$display(fmt, q.size)": SysFuncCall with a
-  // Constant format-string arg and a "q.size" RefObj arg.
+  // Constant format-string arg and a "q.size" MethodFuncCall arg (vpiPrefix "q").
   static void ExpectDisplayWithQSize(size_t index, std::string_view fmt) {
     const hldb::Begin *const begin = getInitialBegin();
     ASSERT_NE(begin, nullptr);
@@ -192,20 +181,15 @@ class QueuesDeleteAssignTest : public Test {
 
     const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
     ASSERT_NE(arg1, nullptr);
-    const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
-    ASSERT_NE(size, nullptr);
-    EXPECT_EQ(size->getName(), "q.size");
-    ASSERT_NE(size->getPathElems(), nullptr);
-    ASSERT_EQ(size->getPathElems()->size(), 2u);
-
-    const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(size->getPathElems()->at(0));
+    const hldb::MethodFuncCall *const sizeCall = arg1->getHighConn<hldb::MethodFuncCall>();
+    ASSERT_NE(sizeCall, nullptr) << "'size' without parens should resolve to a MethodFuncCall, not a plain RefObj";
+    const hldb::RefObj *const qRef = sizeCall->getPrefix<hldb::RefObj>();
     ASSERT_NE(qRef, nullptr);
     EXPECT_EQ(qRef->getName(), "q");
     EXPECT_NE(qRef->getActual<hldb::Variable>(), nullptr);
 
-    const hldb::MethodFuncCall *const sizeCall = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
-    ASSERT_NE(sizeCall, nullptr) << "'size' without parens should resolve to a MethodFuncCall, not a plain RefObj";
-    EXPECT_EQ(sizeCall->getName(), "size");
+    EXPECT_EQ(sizeCall->getName(), std::string_view("size"));
+    EXPECT_TRUE(sizeCall->getIsProperty()) << "'size' is written without parentheses (13.5.5)";
     EXPECT_EQ(sizeCall->getArguments(), nullptr) << "size() takes no arguments";
   }
 

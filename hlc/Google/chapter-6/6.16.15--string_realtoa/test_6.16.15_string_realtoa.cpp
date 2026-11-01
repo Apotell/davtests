@@ -36,9 +36,9 @@
 //   - design has module top with 1 variable (a: string, uninitialized)
 //   - variable 'a' has no compile-time initial value (realtoa writes at runtime)
 //   - top has 1 Initial process
-//   - Initial stmt is a RefObj named "a.realtoa(4.76)"
-//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - RefObj element[1] is FuncCall "realtoa" with 1 argument (Constant "4.76")
+//   - Initial stmt is a MethodFuncCall named "realtoa" (IEEE 1800-2023 37.42)
+//   - the call's vpiPrefix is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - the call is MethodFuncCall "realtoa" with 1 argument (Constant "4.76")
 //   - argument to realtoa is stored as vpiRealConst (real literal, unlike the
 //     integer *toa variants which use vpiIntConst)
 
@@ -53,6 +53,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
+#include <hldb/method_func_call.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/task_func.h>
@@ -110,43 +111,38 @@ TEST_F(StringRealtoaTest, InitialProcessExists) {
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
-TEST_F(StringRealtoaTest, InitialStmtIsRefObj) {
+TEST_F(StringRealtoaTest, InitialStmtIsCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr) << "Initial stmt is not a RefObj";
-  EXPECT_EQ(hp->getName(), "a.realtoa(4.76)");
+  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "Initial stmt is not a MethodFuncCall (IEEE 1800-2023 37.42)";
+  EXPECT_EQ(call->getName(), std::string_view("realtoa"));
 }
 
 // ---------------------------------------------------------------------------
-// RefObj -- receiver 'a' and FuncCall 'realtoa' with 1 real argument
+// Method call -- receiver 'a' and FuncCall 'realtoa' with 1 real argument
 // ---------------------------------------------------------------------------
-TEST_F(StringRealtoaTest, RefObjReceiverIsA) {
+TEST_F(StringRealtoaTest, CallReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_GE(hp->getPathElems()->size(), 1u);
-  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr);
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "a");
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringRealtoaTest, RefObjMethodIsRealtoa) {
+TEST_F(StringRealtoaTest, CallMethodIsRealtoa) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_GE(hp->getPathElems()->size(), 2u);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "realtoa");
 
@@ -165,9 +161,7 @@ TEST_F(StringRealtoaTest, RealtoaArgumentIs4dot76) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);

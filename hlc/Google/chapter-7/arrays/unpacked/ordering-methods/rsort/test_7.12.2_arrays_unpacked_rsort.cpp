@@ -35,12 +35,12 @@
 //     elem -> IntTypespec; initial value stored directly on the Variable as
 //     an Operation (vpiOpType=concatenation(33)) with 4 unsigned Constant
 //     operands 4, 5, 3, 1
-//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + RefObj +
+//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + MethodFuncCall +
 //     SysFuncCall)
 //   - Stmt[0]: $display with 5 args (format + BitSelect ia[0..3])
-//   - Stmt[1]: ia.rsort (no parens) -- RefObj "ia.rsort()" with 2 path
-//     elems: RefObj "ia" (resolving Variable "ia") and MethodFuncCall
-//     "rsort" with no arguments -- correctly resolves, zero errors
+//   - Stmt[1]: ia.rsort (no parens) -- a MethodFuncCall statement "rsort"
+//     (IEEE 1800-2023 37.42 detail 2) with vpiPrefix RefObj "ia" (resolving
+//     Variable "ia"), no arguments, vpiIsProperty set (13.5.5)
 //   - Stmt[2]: $display with 5 args (format + BitSelect ia[0..3],
 //     documenting the post-rsort descending order)
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
@@ -172,20 +172,22 @@ TEST_F(UnpackedRsortTest, FirstStmtDisplaysFourFiveThreeOne) {
   }
 }
 
-TEST_F(UnpackedRsortTest, SecondStmtIsRsortRefObjWithNoParens) {
+TEST_F(UnpackedRsortTest, SecondStmtIsRsortCallWithNoParens) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(1));
-  ASSERT_NE(hp, nullptr) << "'ia.rsort' should be a RefObj";
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(hp->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "rsort");
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(1));
+  ASSERT_NE(call, nullptr) << "'ia.rsort' without parens is a call of the void function method rsort() "
+                              "(13.5.5, 7.12.2)";
+  EXPECT_EQ(call->getName(), std::string_view("rsort"));
+  EXPECT_TRUE(call->getIsProperty());
+  EXPECT_NE(call->getTaskFunc(), nullptr);
   EXPECT_EQ(call->getArguments(), nullptr);
+  const hldb::RefObj *const iaRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(iaRef, nullptr);
+  EXPECT_EQ(iaRef->getName(), std::string_view("ia"));
+  EXPECT_NE(iaRef->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(UnpackedRsortTest, ThirdStmtDisplaysFiveFourThreeOne) {

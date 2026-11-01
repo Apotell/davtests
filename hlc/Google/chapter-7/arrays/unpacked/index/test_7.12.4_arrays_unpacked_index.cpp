@@ -39,9 +39,9 @@
 //     Constant "$"
 //   - Initial process: 1 Begin with 2 stmts
 //   - Stmt[0]: q = arr.find with (item == item.index) -- blocking
-//     Assignment, lhs RefObj "q" resolving Net "q", rhs RefObj
-//     "arr.find()" with 2 path elems: RefObj "arr" (resolving Net "arr")
-//     and MethodFuncCall "find" whose vpiWith is an Operation
+//     Assignment, lhs RefObj "q" resolving Variable "q", rhs
+//     MethodFuncCall "find" (IEEE 1800-2023 37.42 detail 2) with vpiPrefix
+//     RefObj "arr" (resolving Variable "arr") whose vpiWith is an Operation
 //     (vpiOpType=equal(14)) with 2 operands: RefObj "item" and RefObj
 //     "item.index" (path elems RefObj "item" + RefObj "index")
 //   - COMPILER BEHAVIOR: "item" (used twice) resolves to a compiler-
@@ -51,9 +51,9 @@
 //     with no real declaration to point at, but ObjectBinder recognizes its
 //     prefix is the iterator variable and does not report a binding error
 //     for it
-//   - Stmt[1]: $display with 5 args -- format string + RefObj "q.size()"
-//     (2 path elems: RefObj "q" resolving Net "q", MethodFuncCall "size"
-//     with no arguments) + BitSelect q[0], q[1], q[2] (each prefix RefObj
+//   - Stmt[1]: $display with 5 args -- format string + MethodFuncCall
+//     "size" (vpiPrefix RefObj "q", no arguments, vpiIsProperty set since
+//     written without parentheses) + BitSelect q[0], q[1], q[2] (each prefix RefObj
 //     "q" resolving Net "q")
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
 //     StringTypespec
@@ -207,18 +207,15 @@ TEST_F(UnpackedIndexTest, FirstStmtAssignsQFromArrFindWithClause) {
   EXPECT_EQ(lhs->getName(), "q");
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
 
-  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::RefObj *const arrRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const find = assign->getRhs<hldb::MethodFuncCall>();
+  ASSERT_NE(find, nullptr);
+  EXPECT_EQ(find->getName(), std::string_view("find"));
+  EXPECT_NE(find->getTaskFunc(), nullptr);
+  const hldb::RefObj *const arrRef = find->getPrefix<hldb::RefObj>();
   ASSERT_NE(arrRef, nullptr);
-  EXPECT_EQ(arrRef->getName(), "arr");
+  EXPECT_EQ(arrRef->getName(), std::string_view("arr"));
   EXPECT_NE(arrRef->getActual<hldb::Variable>(), nullptr);
 
-  const hldb::MethodFuncCall *const find = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(find, nullptr);
-  EXPECT_EQ(find->getName(), "find");
   EXPECT_EQ(find->getArguments(), nullptr)
       << "'arr.find with (...)' uses no parenthesized index_value_range argument";
   const hldb::Operation *const with = find->getWith<hldb::Operation>();
@@ -235,9 +232,7 @@ TEST_F(UnpackedIndexTest, WithClauseFirstOperandIsItemRefObj) {
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const find = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const find = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(find, nullptr);
   const hldb::Operation *const with = find->getWith<hldb::Operation>();
   ASSERT_NE(with, nullptr);
@@ -253,9 +248,7 @@ TEST_F(UnpackedIndexTest, WithClauseSecondOperandIsItemDotIndexRefObj) {
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const outer = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(outer, nullptr);
-  const hldb::MethodFuncCall *const find = any_cast<hldb::MethodFuncCall>(outer->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const find = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(find, nullptr);
   const hldb::Operation *const with = find->getWith<hldb::Operation>();
   ASSERT_NE(with, nullptr);
@@ -286,16 +279,16 @@ TEST_F(UnpackedIndexTest, SecondStmtDisplaysSizeAndThreeElements) {
 
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "q.size");
-  ASSERT_NE(size->getPathElems(), nullptr);
-  ASSERT_EQ(size->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(size->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const sizeCall = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const sizeCall = arg1->getHighConn<hldb::MethodFuncCall>();
   ASSERT_NE(sizeCall, nullptr);
-  EXPECT_EQ(sizeCall->getName(), "size");
+  EXPECT_EQ(sizeCall->getName(), std::string_view("size"));
+  EXPECT_TRUE(sizeCall->getIsProperty());
+  EXPECT_NE(sizeCall->getTaskFunc(), nullptr);
   EXPECT_EQ(sizeCall->getArguments(), nullptr);
+  const hldb::RefObj *const qRef = sizeCall->getPrefix<hldb::RefObj>();
+  ASSERT_NE(qRef, nullptr);
+  EXPECT_EQ(qRef->getName(), std::string_view("q"));
+  EXPECT_NE(qRef->getActual<hldb::Variable>(), nullptr);
 
   for (uint32_t i = 0; i < 3u; ++i) {
     const hldb::NamedArgument *const selArg = disp->getArguments()->at(i + 2);
@@ -341,9 +334,7 @@ TEST_F(UnpackedIndexTest, ItemAndIndexShouldResolve) {
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const find = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const find = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(find, nullptr);
   const hldb::Operation *const with = find->getWith<hldb::Operation>();
   ASSERT_NE(with, nullptr);

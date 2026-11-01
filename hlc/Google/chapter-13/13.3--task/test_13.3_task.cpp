@@ -33,23 +33,22 @@
 //   ($display), so no begin-end wrapping is needed and the task's own
 //   getStmt() is the SysTaskCall directly.
 //
-//   IMPORTANT object-model note, confirmed structurally in this exact
-//   file (not guessed): the bare task-enable statement "mytask;" (no
-//   parentheses, no arguments) is modeled as a plain RefObj resolving
-//   to the Task -- NOT as a TaskCall. This differs from
-//   13.3.1--task-static.cpp's "mytask(0);", which uses explicit
-//   parentheses/arguments and IS modeled as a TaskCall. This is a
-//   tool-specific object-model shape, not something the standard
-//   itself dictates, so it is confirmed via this file's own structure
-//   rather than assumed from another file's shape.
+//   The bare task-enable statement "mytask;" (no parentheses, no
+//   arguments) is a task call all the same (13.5: the parentheses may be
+//   omitted when there are no arguments), so it is modeled as a TaskCall
+//   resolving to the Task, with getIsProperty() true (no parentheses) --
+//   the same class as 13.3.1--task-static.cpp's "mytask(0);". A
+//   module-level task is not a method (8.2), so it is a TaskCall, not a
+//   MethodTaskCall.
 //
 // What is checked:
 //   - module top has exactly 1 TaskFunc, a Task named "mytask", with
 //     no IODecls (no formal arguments in the source)
 //   - mytask's body is a plain SysTaskCall "$display" with 1 argument,
 //     Constant "\":assert: True\"" (no Begin wrapper, single statement)
-//   - the initial process's single statement is a plain RefObj
-//     "mytask" resolving (getActual<hldb::Task>()) to the task itself
+//   - the initial process's single statement is a TaskCall "mytask"
+//     (getIsProperty() true, no arguments) resolving
+//     (getTaskFunc<hldb::Task>()) to the task itself
 //   - no continuous assignments, nets, or variables exist in the module
 //
 // What is NOT checked and why:
@@ -69,6 +68,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/task.h>
+#include <hldb/task_call.h>
 #include <hldb/vpi_user.h>
 
 namespace hlc {
@@ -125,19 +125,21 @@ TEST_F(TaskTest, MytaskBodyIsDisplayStatement) {
 }
 
 // ---------------------------------------------------------------------------
-// initial mytask;  -- bare task-enable, modeled as a plain RefObj
+// initial mytask;  -- bare task-enable, a TaskCall without parentheses
 // ---------------------------------------------------------------------------
-TEST_F(TaskTest, InitialBodyIsRefObjResolvingToMytask) {
+TEST_F(TaskTest, InitialBodyIsTaskCallResolvingToMytask) {
   const hldb::Module *const top = getTop();
   ASSERT_NE(top, nullptr);
   ASSERT_NE(top->getProcesses(), nullptr);
   ASSERT_EQ(top->getProcesses()->size(), 1u);
   const hldb::Initial *const initial = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(initial, nullptr);
-  const hldb::RefObj *const ref = initial->getStmt<hldb::RefObj>();
-  ASSERT_NE(ref, nullptr) << "bare 'mytask;' (no parens) should be a plain RefObj, not a TaskCall";
-  EXPECT_EQ(ref->getName(), "mytask");
-  EXPECT_NE(ref->getActual<hldb::Task>(), nullptr) << "'mytask' should resolve to the Task itself";
+  const hldb::TaskCall *const call = initial->getStmt<hldb::TaskCall>();
+  ASSERT_NE(call, nullptr) << "bare 'mytask;' (no parens) is a task enable (13.5): a TaskCall";
+  EXPECT_EQ(call->getName(), std::string_view("mytask"));
+  EXPECT_TRUE(call->getIsProperty()) << "'mytask;' is written without parentheses";
+  EXPECT_EQ(call->getTaskFunc<hldb::Task>(), getMytask()) << "'mytask' should resolve to the Task itself";
+  EXPECT_TRUE((call->getArguments() == nullptr) || call->getArguments()->empty());
 }
 
 TEST_F(TaskTest, NoContinuousAssigns) {

@@ -35,16 +35,13 @@
 //     elem -> StringTypespec; initial value stored directly on the
 //     Variable as an Operation (vpiOpType=concatenation(33)) with 3 string
 //     Constant operands "hello", "sad", "world"
-//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + RefObj +
+//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + MethodFuncCall +
 //     SysFuncCall)
 //   - Stmt[0]: $display with 4 args (format + BitSelect s[0], s[1], s[2])
-//   - Stmt[1]: s.reverse (no parens) -- RefObj "s.reverse()" with 2 path
-//     elems: RefObj "s" (resolving Variable "s") and MethodFuncCall
-//     "reverse" with no arguments -- COMPILER BEHAVIOR: unlike the
-//     parenthesis-less ".size"/".index" gap documented elsewhere in this
-//     repo, "reverse"
-//     (no parens, no arguments) correctly resolves to a MethodFuncCall
-//     with zero errors
+//   - Stmt[1]: s.reverse (no parens) -- a MethodFuncCall statement
+//     "reverse" (IEEE 1800-2023 37.42 detail 2) with vpiPrefix RefObj "s"
+//     (resolving Variable "s"), no arguments, vpiIsProperty set (13.5.5),
+//     bound to the built-in reverse() method
 //   - Stmt[2]: $display with 4 args (format + BitSelect s[0], s[1], s[2],
 //     documenting the post-reverse order)
 //   - design-level typespecs (3): ModuleTypespec, StringTypespec,
@@ -179,22 +176,22 @@ TEST_F(UnpackedReverseTest, FirstStmtDisplaysHelloSadWorld) {
   }
 }
 
-TEST_F(UnpackedReverseTest, SecondStmtIsReverseRefObjWithNoErrorDespiteNoParens) {
+TEST_F(UnpackedReverseTest, SecondStmtIsReverseCallWithNoParens) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(1));
-  ASSERT_NE(hp, nullptr) << "'s.reverse' should be a RefObj";
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
-  ASSERT_NE(sRef, nullptr);
-  EXPECT_NE(sRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'reverse' without parens should still resolve to a MethodFuncCall";
-  EXPECT_EQ(call->getName(), "reverse");
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(1));
+  ASSERT_NE(call, nullptr) << "'s.reverse' without parens is a call of the void function method reverse() "
+                              "(13.5.5, 7.12.2)";
+  EXPECT_EQ(call->getName(), std::string_view("reverse"));
+  EXPECT_TRUE(call->getIsProperty());
+  EXPECT_NE(call->getTaskFunc(), nullptr);
   EXPECT_EQ(call->getArguments(), nullptr);
+  const hldb::RefObj *const sRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(sRef, nullptr);
+  EXPECT_EQ(sRef->getName(), std::string_view("s"));
+  EXPECT_NE(sRef->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(UnpackedReverseTest, ThirdStmtDisplaysWorldSadHello) {

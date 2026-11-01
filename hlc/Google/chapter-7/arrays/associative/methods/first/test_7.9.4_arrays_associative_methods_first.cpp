@@ -39,7 +39,7 @@
 //   - Initial process: 1 Begin with 7 stmts (2 Assignment "rc=map.first(s)" +
 //     2 SysFuncCall + 3 Assignment for map["hello"/"sad"/"world"])
 //   - both rc=map.first(s) assignments: lhs RefObj "rc" resolves to Variable rc,
-//     rhs RefObj "map.first(s)" whose 2nd path elem is a MethodFuncCall
+//     rhs MethodFuncCall (37.42: vpiPrefix RefObj "map")
 //     "first" with 1 argument RefObj "s" resolving to Variable s (passed by
 //     reference, unlike the string-literal arguments of exists()/delete())
 //   - both $display calls and their RefObj("rc")/RefObj("s") arguments
@@ -157,18 +157,15 @@ TEST_F(AssociativeArrayFirstTest, FirstCallAssignsRcFromMapFirstS) {
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "rc");
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
-  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), std::string_view("map.first(s)"));
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::RefObj *const mapRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
-  ASSERT_NE(mapRef, nullptr);
-  EXPECT_EQ(mapRef->getName(), "map");
-  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "first");
+  EXPECT_EQ(call->getName(), std::string_view("first"));
+  EXPECT_FALSE(call->getIsProperty());
+  EXPECT_NE(call->getTaskFunc(), nullptr);
+  const hldb::RefObj *const mapRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(mapRef, nullptr);
+  EXPECT_EQ(mapRef->getName(), std::string_view("map"));
+  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
@@ -239,12 +236,12 @@ TEST_F(AssociativeArrayFirstTest, SecondCallAssignsRcFromMapFirstS) {
       any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(5));
   ASSERT_NE(assign, nullptr);
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), "rc");
-  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), std::string_view("map.first(s)"));
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "first");
+  EXPECT_EQ(call->getName(), std::string_view("first"));
+  const hldb::RefObj *const mapPrefix = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(mapPrefix, nullptr);
+  EXPECT_EQ(mapPrefix->getName(), std::string_view("map"));
 }
 
 TEST_F(AssociativeArrayFirstTest, SecondDisplayAssertsRcOneAndSHello) {

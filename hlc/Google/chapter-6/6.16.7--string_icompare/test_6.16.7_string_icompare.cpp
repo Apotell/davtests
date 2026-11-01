@@ -37,11 +37,11 @@
 //   - variable 'a' initial value is "Test" (vpiStringConst); variable 'b' is "TEST"
 //   - variable 'c' typespec resolves to IntTypespec
 //   - variable 'c' has a non-null initial value (vpiValue is set)
-//   - variable 'c' initial value is a RefObj named "a.icompare(b)"
-//   - RefObj element[1] is FuncCall "icompare" (case-insensitive, not "compare")
+//   - variable 'c' initial value is a MethodFuncCall named "icompare" (IEEE 1800-2023 37.42)
+//   - the call is MethodFuncCall "icompare" (case-insensitive, not "compare")
 //   - icompare() argument is RefObj "b" resolving to Variable 'b'
 //   - 'c' does NOT get a pre-evaluated constant value -- HLDB stores the
-//     unevaluated RefObj expression only
+//     unevaluated call expression only
 //   - icompare returns 0 for equal (case-insensitive "Test"=="TEST") but this
 //     is a runtime result invisible to UHDM -- kept as a real assertion for
 //     when HLC adds compile-time evaluation of string methods
@@ -57,6 +57,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
+#include <hldb/method_func_call.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
 #include <hldb/task_func.h>
@@ -118,7 +119,7 @@ TEST_F(StringIcompareTest, CVariableTypespecIsInt) {
 }
 
 // ---------------------------------------------------------------------------
-// RefObj -- c's initial value is the method call a.icompare(b)
+// Method call -- c's initial value is the method call a.icompare(b)
 // ---------------------------------------------------------------------------
 TEST_F(StringIcompareTest, CVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -134,30 +135,27 @@ TEST_F(StringIcompareTest, CVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
   EXPECT_EQ(c->getValue<hldb::Constant>(), nullptr)
-      << "HLC does not pre-evaluate a.icompare(b) to a constant; c holds only the RefObj expression";
+      << "HLC does not pre-evaluate a.icompare(b) to a constant; c holds only the call expression";
 }
 
-TEST_F(StringIcompareTest, CVariableValueIsRefObj) {
+TEST_F(StringIcompareTest, CVariableValueIsCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
-  const hldb::RefObj *const hp = c->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr) << "variable 'c' initial value is not a RefObj";
-  EXPECT_EQ(hp->getName(), "a.icompare(b)");
+  const hldb::MethodFuncCall *const call = c->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "variable 'c' initial value is not a MethodFuncCall (IEEE 1800-2023 37.42)";
+  EXPECT_EQ(call->getName(), std::string_view("icompare"));
 }
 
-TEST_F(StringIcompareTest, RefObjMethodIsIcompare) {
+TEST_F(StringIcompareTest, CallMethodIsIcompare) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
-  const hldb::RefObj *const hp = c->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_GE(hp->getPathElems()->size(), 2u);
-
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = c->getValue<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
+
   EXPECT_EQ(call->getName(), "icompare");
 
   // IEEE 1800-2023 Sec 6.16: "icompare" is a string method. It is declared in no user scope,
@@ -175,9 +173,7 @@ TEST_F(StringIcompareTest, IcompareArgumentIsRefObjB) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const c = hldb::findByName<hldb::Variable>("c", top->getVariables());
   ASSERT_NE(c, nullptr);
-  const hldb::RefObj *const hp = c->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = c->getValue<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);

@@ -160,7 +160,8 @@ TEST_F(EvalFuncTest, LocalparamRatioIs30) {
 static void ExpectConstantFunctionCallOrFoldedFive(const hldb::Any *rhs, std::string_view expectedCalleeName) {
   ASSERT_NE(rhs, nullptr) << "'localparam log2RATIOx = " << expectedCalleeName << "(RATIO);' must have a non-null "
                            << "initializer expression";
-  if (const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs)) {
+  // A module-level function is not a method (IEEE 1800-2023 8.2), so the call is a FuncCall.
+  if (const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(rhs)) {
     EXPECT_EQ(call->getName(), expectedCalleeName);
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);

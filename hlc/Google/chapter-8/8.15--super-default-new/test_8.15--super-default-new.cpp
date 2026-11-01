@@ -118,10 +118,9 @@
 //     a Function whose return type resolves to a ClassTypespec matching
 //     uvm_report_object itself (confirming it IS a constructor), no
 //     IODecls (empty argument list), single-statement body (not wrapped
-//     in Begin) "super.new();" -- a bare RefObj whose first path elem
-//     "super" resolves to uvm_object's ClassDefn (unambiguous, since
-//     uvm_object is uvm_report_object's direct and only base) and whose
-//     second path elem is a MethodFuncCall "new" -- per KNOWN COMPILER BUG #8
+//     in Begin) "super.new();" -- a MethodFuncCall "new" whose vpiPrefix
+//     (37.42) "super" resolves to uvm_object's ClassDefn (unambiguous, since
+//     uvm_object is uvm_report_object's direct and only base) -- per KNOWN COMPILER BUG #8
 //     above, its getTaskFunc() resolves to uvm_report_object's OWN
 //     constructor instead (a self-reference); end label
 //     "uvm_report_object"
@@ -138,8 +137,8 @@
 //     Variable "u0" (not a Net) and whose rhs is a no-argument
 //     MethodFuncCall "new" -- see the note below for why this is NOT
 //     filed under KNOWN COMPILER BUG #6 the usual way
-//     "u0.print();" -- a bare RefObj whose second path elem is a
-//     MethodFuncCall "print" resolving getTaskFunc() to uvm_object's OWN
+//     "u0.print();" -- a MethodFuncCall "print" statement with prefix
+//     RefObj "u0", resolving getTaskFunc() to uvm_object's OWN
 //     "print" Function (an ordinary, non-inherited method call here,
 //     since u0 is statically typed uvm_object itself, the same class
 //     "print" is declared in)
@@ -448,21 +447,18 @@ TEST_F(ClassSuperDefaultNewTest, NewHasNoIODecls) {
 TEST_F(ClassSuperDefaultNewTest, NewBodyIsSuperNewCall) {
   const hldb::Function *const ctor = getReportObjectNewFunction();
   ASSERT_NE(ctor, nullptr);
-  const hldb::RefObj *const path = ctor->getStmt<hldb::RefObj>();
-  ASSERT_NE(path, nullptr) << "'super.new();' is uvm_report_object::new's only statement, so it is NOT wrapped "
-                              "in a Begin";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
+  const hldb::MethodFuncCall *const call = ctor->getStmt<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "'super.new();' is uvm_report_object::new's only statement, so it is NOT wrapped "
+                              "in a Begin; it is a MethodFuncCall";
+  EXPECT_EQ(call->getName(), std::string_view("new"));
 
-  const hldb::RefObj *const superRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(superRef, nullptr);
-  EXPECT_EQ(superRef->getName(), "super");
+  // 37.42 detail 2: 'super' is the call's vpiPrefix.
+  const hldb::RefObj *const superRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(superRef, nullptr) << "'super.new()' should have 'super' as its prefix";
+  EXPECT_EQ(superRef->getName(), std::string_view("super"));
   EXPECT_EQ(superRef->getActual<hldb::ClassDefn>(), getUvmObjectDefn())
       << "'super' should resolve to uvm_object, uvm_report_object's one and only base class";
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'super.new()' second path elem should be a MethodFuncCall";
-  EXPECT_EQ(call->getName(), "new");
   EXPECT_NE(call->getTaskFunc(), getReportObjectNewFunction())
       << "'super.new()' must NOT resolve to uvm_report_object's own constructor -- a self-reference would be "
          "unambiguously wrong regardless of what the correct target is (see the OPEN QUESTION note above, and "
@@ -590,18 +586,15 @@ TEST_F(ClassSuperDefaultNewTest, FourthStmtCallsU0Print) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_GT(begin->getStmts()->size(), 3u);
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(begin->getStmts()->at(3));
-  ASSERT_NE(path, nullptr) << "stmt[3] should be a bare RefObj ('u0.print();')";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(3));
+  ASSERT_NE(call, nullptr) << "stmt[3] should be a MethodFuncCall ('u0.print();')";
+  EXPECT_EQ(call->getName(), std::string_view("print"));
 
-  const hldb::RefObj *const u0Ref = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(u0Ref, nullptr);
+  const hldb::RefObj *const u0Ref = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(u0Ref, nullptr) << "37.42: the receiver 'u0' should be the call's prefix";
+  EXPECT_EQ(u0Ref->getName(), std::string_view("u0"));
   EXPECT_EQ(u0Ref->getActual<hldb::Variable>(), getVariableU0());
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'u0.print()' second path elem should be a MethodFuncCall";
-  EXPECT_EQ(call->getName(), "print");
   EXPECT_EQ(call->getTaskFunc(), getPrintFunction())
       << "'u0.print()' should resolve getTaskFunc() to uvm_object's OWN 'print' Function";
 }

@@ -64,22 +64,52 @@ class StringMethodReceiversTest : public Test {
   // The call sites under test sit in four different scopes (a module initial block, a
   // module function, and two class methods), so navigating to each one individually
   // would say more about those scopes than about the receiver resolution being tested.
-  // Each one is the trailing element of a RefObj whose own name is the source text of
-  // the call, so looking the RefObj up by that name addresses them all uniformly.
-  const hldb::RefObj *findPath(std::string_view name) const {
-    for (const hldb::Any *const any : m_session->getDatabase().getObjects()) {
-      const hldb::RefObj *const ro = any_cast<hldb::RefObj>(any);
-      if ((ro == nullptr) || (ro->getName() != name)) continue;
-      if ((ro->getPathElems() != nullptr) && !ro->getPathElems()->empty()) return ro;
+  // Each one is written "<receiver>.<method>[(...)]" and is its own MethodFuncCall named
+  // after the bare method, with the receiver expression as its vpiPrefix (IEEE 1800-2023
+  // 37.42 detail 2) -- a RefObj (path) or select named after the receiver text, or, for a
+  // chained call, the previous MethodFuncCall. Matching on that shape addresses them all
+  // uniformly.
+  //
+  // Splits "<receiver>.<method>[(...)]" into its receiver and method text.
+  static bool splitCall(std::string_view text, std::string_view &receiver, std::string_view &method) {
+    std::string_view rest = text;
+    if (!rest.empty() && (rest.back() == ')')) {
+      int32_t depth = 0;
+      size_t i = rest.size();
+      while (i > 0) {
+        --i;
+        if (rest[i] == ')') ++depth;
+        if ((rest[i] == '(') && (--depth == 0)) break;
+      }
+      rest = rest.substr(0, i);
     }
-    return nullptr;
+    const size_t dot = rest.rfind('.');
+    if (dot == std::string_view::npos) return false;
+    receiver = rest.substr(0, dot);
+    method = rest.substr(dot + 1);
+    return true;
   }
 
-  // The method call a path ends in -- "a.b.len" ends in len.
+  // Whether `call` is the call written as `text`, receiver included.
+  static bool callMatches(const hldb::MethodFuncCall *call, std::string_view text) {
+    std::string_view receiver;
+    std::string_view method;
+    if ((call == nullptr) || !splitCall(text, receiver, method) || (call->getName() != method)) return false;
+    const hldb::Expr *const prefix = call->getPrefix();
+    if (prefix == nullptr) return false;
+    if (!receiver.empty() && (receiver.back() == ')')) {
+      return callMatches(any_cast<hldb::MethodFuncCall>(prefix), receiver);
+    }
+    return prefix->getName() == receiver;
+  }
+
+  // The method call written as `name` -- "a.b.len()" is len, applied to "a.b".
   const hldb::MethodFuncCall *trailingCall(std::string_view name) const {
-    const hldb::RefObj *const ro = findPath(name);
-    if (ro == nullptr) return nullptr;
-    return any_cast<hldb::MethodFuncCall>(ro->getPathElems()->back());
+    for (const hldb::Any *const any : m_session->getDatabase().getObjects()) {
+      const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(any);
+      if (callMatches(call, name)) return call;
+    }
+    return nullptr;
   }
 
   // The class a resolved call's method is declared in. The sentinels are returned rather
@@ -102,32 +132,32 @@ TEST_F(StringMethodReceiversTest, ModuleExists) {
 // Receiver shapes that must all reach the same builtin
 // ---------------------------------------------------------------------------
 TEST_F(StringMethodReceiversTest, TypedefReceiverBindsToStringTypespec) {
-  EXPECT_EQ(ownerOfCall("via_typedef.len()"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("via_typedef.len()"), std::string_view("StringTypespec"))
       << "a 'typedef string' receiver must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
 TEST_F(StringMethodReceiversTest, StructMemberReceiverBindsToStringTypespec) {
-  EXPECT_EQ(ownerOfCall("rec.name.len()"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("rec.name.len()"), std::string_view("StringTypespec"))
       << "a string struct member receiver must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
 TEST_F(StringMethodReceiversTest, ClassPropertyViaHandleBindsToStringTypespec) {
-  EXPECT_EQ(ownerOfCall("h.prop.len()"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("h.prop.len()"), std::string_view("StringTypespec"))
       << "a string class property reached through a handle must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
 TEST_F(StringMethodReceiversTest, ClassPropertyWithoutHandleBindsToStringTypespec) {
-  EXPECT_EQ(ownerOfCall("prop.len()"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("prop.len()"), std::string_view("StringTypespec"))
       << "a string class property named from inside its own class must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
 TEST_F(StringMethodReceiversTest, SubroutineFormalReceiverBindsToStringTypespec) {
-  EXPECT_EQ(ownerOfCall("formal.len()"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("formal.len()"), std::string_view("StringTypespec"))
       << "a string subroutine formal receiver must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
 TEST_F(StringMethodReceiversTest, SubroutineLocalReceiverBindsToStringTypespec) {
-  EXPECT_EQ(ownerOfCall("local_str.len()"), "StringTypespec")
+  EXPECT_EQ(ownerOfCall("local_str.len()"), std::string_view("StringTypespec"))
       << "a string subroutine local receiver must bind (IEEE 1800-2023 Sec 6.16)";
 }
 
@@ -135,14 +165,18 @@ TEST_F(StringMethodReceiversTest, SubroutineLocalReceiverBindsToStringTypespec) 
 // Chained: substr() returns a string per Sec 6.16.8, so its result is itself a receiver
 // ---------------------------------------------------------------------------
 TEST_F(StringMethodReceiversTest, ChainedCallBindsBothMethods) {
-  const hldb::RefObj *const ro = findPath("plain.substr(1, 2).len()");
-  ASSERT_NE(ro, nullptr);
-  ASSERT_EQ(ro->getPathElems()->size(), 3u) << "expected receiver, substr, len";
+  const hldb::MethodFuncCall *const len = trailingCall("plain.substr(1, 2).len()");
+  ASSERT_NE(len, nullptr);
+  EXPECT_EQ(len->getName(), std::string_view("len"));
 
-  const hldb::MethodFuncCall *const substr = any_cast<hldb::MethodFuncCall>(ro->getPathElems()->at(1));
-  ASSERT_NE(substr, nullptr);
-  EXPECT_EQ(substr->getName(), "substr");
+  // Chained call: len's receiver is the substr() call, whose own receiver is 'plain'.
+  const hldb::MethodFuncCall *const substr = len->getPrefix<hldb::MethodFuncCall>();
+  ASSERT_NE(substr, nullptr) << "len()'s vpiPrefix should be the substr() call (IEEE 1800-2023 37.42)";
+  EXPECT_EQ(substr->getName(), std::string_view("substr"));
   EXPECT_NE(substr->getTaskFunc(), nullptr) << "substr() must bind (IEEE 1800-2023 Sec 6.16.8)";
+  const hldb::RefObj *const plain = substr->getPrefix<hldb::RefObj>();
+  ASSERT_NE(plain, nullptr);
+  EXPECT_EQ(plain->getName(), std::string_view("plain"));
 
   EXPECT_EQ(ownerOfCall("plain.substr(1, 2).len()"), std::string_view("StringTypespec"))
       << "a substr() result is a string per Sec 6.16.8, so len() on it must bind";
@@ -152,7 +186,7 @@ TEST_F(StringMethodReceiversTest, ChainedCallBindsBothMethods) {
 // The builtin must not displace a user method that shares its name
 // ---------------------------------------------------------------------------
 TEST_F(StringMethodReceiversTest, UserMethodWithStringMethodNameIsNotDisplaced) {
-  EXPECT_EQ(ownerOfCall("sh.len()"), "shadow")
+  EXPECT_EQ(ownerOfCall("sh.len()"), std::string_view("shadow"))
       << "len() on a class handle is that class's own method, not the Sec 6.16 string method";
 }
 
@@ -165,7 +199,7 @@ TEST_F(StringMethodReceiversTest, QueueElementReceiverBindsToStringTypespec) {
                   "(illegal) cannot be told apart from q[1].len() (legal per IEEE 1800-2023 "
                   "Sec 6.16, the element being of type string). Needs the element-type "
                   "resolution the queue and associative-array methods also require.";
-  EXPECT_EQ(ownerOfCall("q[1].len"), "StringTypespec");
+  EXPECT_EQ(ownerOfCall("q[1].len"), std::string_view("StringTypespec"));
 }
 
 TEST_F(StringMethodReceiversTest, CompilerReportsNoFatalOrSyntaxErrors) {

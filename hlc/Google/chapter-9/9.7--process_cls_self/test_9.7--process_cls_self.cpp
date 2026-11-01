@@ -223,9 +223,12 @@ TEST_F(ProcessClsSelfTest, InitialCallsTestWithArgumentEight) {
   const std::vector<const hldb::Any *> stmts = TopLevelStatements(init->getStmt());
   ASSERT_EQ(stmts.size(), 1u) << "'initial begin test(8); end' has exactly one statement";
 
-  const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(stmts.front());
+  // 'test' is a module task, not a class method (8.2), so the call is a plain TaskCall.
+  const hldb::TaskCall *const call = any_cast<hldb::TaskCall>(stmts.front());
   ASSERT_NE(call, nullptr) << "'test(8);' must produce a TaskCall";
-  EXPECT_EQ(call->getName(), "test");
+  EXPECT_EQ(call->getName(), std::string_view("test"));
+  ASSERT_NE(call->getTaskFunc(), nullptr);
+  EXPECT_EQ(call->getTaskFunc(), hldb::findByName<hldb::Task>("test", top->getTaskFuncs()));
 
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);

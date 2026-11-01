@@ -66,8 +66,10 @@
 //   - function ASSIGN_VADDR returns ASSIGN_VADDR_RET_T and its body is a
 //     single ForStmt (init i=0, condition i<CNT, increment i++) whose
 //     body assigns V[i] into ASSIGN_VADDR[i] (the function's own name
-//     used as the return-value accumulator, per IEEE 1800-2023 13.4.1)
-//   - VADDR's ParamAssign calls ASSIGN_VADDR() with zero arguments
+//     used as the return-value accumulator, per IEEE 1800-2023 13.4.1 --
+//     it binds to the function's implicit return Variable)
+//   - VADDR's ParamAssign calls ASSIGN_VADDR() (a FuncCall: module-level
+//     functions are not methods) with zero arguments
 //   - function MAX_VADDR_CNT takes 2 IODecls: SRC (the same unpacked
 //     array shape as V) and ICNT (plain int)
 //   - MAX_VADDR's ParamAssign calls MAX_VADDR_CNT(VADDR, CNT): VADDR (an
@@ -109,7 +111,7 @@
 #include <hldb/if_stmt.h>
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
-#include <hldb/method_func_call.h>
+#include <hldb/func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/operation.h>
@@ -304,8 +306,15 @@ TEST_F(ArrayExprFuncArgTest, AssignVaddrForLoopCopiesVIntoReturnValue) {
   ASSERT_NE(lhs->getPrefix(), nullptr);
   const hldb::RefObj *const lhsPrefix = any_cast<hldb::RefObj>(lhs->getPrefix());
   ASSERT_NE(lhsPrefix, nullptr);
-  EXPECT_EQ(lhsPrefix->getActual<hldb::Function>(), func)
-      << "'ASSIGN_VADDR[i]' on the lhs names the function's own return-value accumulator";
+  // IEEE 1800-2023 13.4.1: inside the function, its own name is the implicit
+  // return-value variable, declared in the function's scope.
+  ASSERT_NE(func->getVariables(), nullptr);
+  const hldb::Variable *const retVar = hldb::findByName<hldb::Variable>("ASSIGN_VADDR", func->getVariables());
+  ASSERT_NE(retVar, nullptr) << "nonvoid function should declare its implicit return variable (13.4.1)";
+  EXPECT_EQ(retVar->getParent(), func);
+  ASSERT_NE(lhsPrefix->getActual(), nullptr);
+  EXPECT_EQ(lhsPrefix->getActual(), retVar)
+      << "'ASSIGN_VADDR[i]' on the lhs names the function's own return-value variable";
 
   const hldb::BitSelect *const rhs = copy->getRhs<hldb::BitSelect>();
   ASSERT_NE(rhs, nullptr) << "'V[i]' rhs should be a BitSelect";
@@ -322,7 +331,8 @@ TEST_F(ArrayExprFuncArgTest, VaddrCallsAssignVaddrWithNoArguments) {
 
   const hldb::ParamAssign *const assign = getTopParamAssign("VADDR");
   ASSERT_NE(assign, nullptr);
-  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
+  // A module-level function is not a method (IEEE 1800-2023 8.2): FuncCall.
+  const hldb::FuncCall *const call = assign->getRhs<hldb::FuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "ASSIGN_VADDR");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), func);
@@ -363,8 +373,8 @@ TEST_F(ArrayExprFuncArgTest, MaxVaddrPassesArrayParameterVaddrAsPlainArgument) {
 
   const hldb::ParamAssign *const assign = getTopParamAssign("MAX_VADDR");
   ASSERT_NE(assign, nullptr);
-  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
-  ASSERT_NE(call, nullptr);
+  const hldb::FuncCall *const call = assign->getRhs<hldb::FuncCall>();
+  ASSERT_NE(call, nullptr) << "a module-level function call is a FuncCall (IEEE 1800-2023 8.2)";
   EXPECT_EQ(call->getName(), "MAX_VADDR_CNT");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), func);
   ASSERT_NE(call->getArguments(), nullptr);

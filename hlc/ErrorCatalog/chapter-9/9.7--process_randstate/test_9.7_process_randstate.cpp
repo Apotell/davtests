@@ -68,14 +68,40 @@ class ProcessRandstateTest : public Test {
     return nullptr;
   }
 
-  // The class a resolved call's method is declared in. Sentinels are returned rather than
-  // asserted so a failure reports which stage broke instead of just "not equal".
-  std::string_view ownerOfCall(std::string_view name) const {
-    const hldb::RefObj *const ro = findPath(name);
-    if (ro == nullptr) return "<no path>";
+  // A call applied to an object, "<receiver>.<method>(...)", is its own MethodFuncCall
+  // named after the bare method, with the receiver as its vpiPrefix (IEEE 1800-2023 37.42
+  // detail 2). Found by method name plus receiver name.
+  const hldb::MethodFuncCall *findMethodCall(std::string_view text) const {
+    const std::string_view head = text.substr(0, text.find('('));
+    const size_t dot = head.rfind('.');
+    if (dot == std::string_view::npos) return nullptr;
+    const std::string_view receiver = head.substr(0, dot);
+    const std::string_view method = head.substr(dot + 1);
+    for (const hldb::Any *const any : m_session->getDatabase().getObjects()) {
+      const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(any);
+      if ((call == nullptr) || (call->getName() != method)) continue;
+      const hldb::RefObj *const prefix = call->getPrefix<hldb::RefObj>();
+      if ((prefix != nullptr) && (prefix->getName() == receiver)) return call;
+    }
+    return nullptr;
+  }
 
-    const hldb::TFCall *const call = any_cast<hldb::TFCall>(ro->getPathElems()->back());
-    if (call == nullptr) return "<trailing element is not a call>";
+  // The class a resolved call's method is declared in. A method call on an object is
+  // looked up as a call with a receiver; a call through a class scope ("process::self()")
+  // is not applied to an object, so it stays the trailing element of its RefObj path.
+  // Sentinels are returned rather than asserted so a failure reports which stage broke
+  // instead of just "not equal".
+  std::string_view ownerOfCall(std::string_view name) const {
+    const hldb::TFCall *call = nullptr;
+    if (name.find("::") == std::string_view::npos) {
+      call = findMethodCall(name);
+      if (call == nullptr) return "<no call>";
+    } else {
+      const hldb::RefObj *const ro = findPath(name);
+      if (ro == nullptr) return "<no path>";
+      call = any_cast<hldb::TFCall>(ro->getPathElems()->back());
+      if (call == nullptr) return "<trailing element is not a call>";
+    }
     if (call->getTaskFunc() == nullptr) return "<unresolved>";
 
     const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(call->getTaskFunc()->getParent());
@@ -95,7 +121,7 @@ TEST_F(ProcessRandstateTest, ModuleExists) {
 // The static self() call the rest hangs off
 // ---------------------------------------------------------------------------
 TEST_F(ProcessRandstateTest, ProcessSelfBindsToProcess) {
-  EXPECT_EQ(ownerOfCall("process::self()"), "process")
+  EXPECT_EQ(ownerOfCall("process::self()"), std::string_view("process"))
       << "process::self() must bind (IEEE 1800-2023 Sec 9.7)";
 }
 
@@ -103,17 +129,17 @@ TEST_F(ProcessRandstateTest, ProcessSelfBindsToProcess) {
 // The three random-state methods
 // ---------------------------------------------------------------------------
 TEST_F(ProcessRandstateTest, SrandomBindsToProcess) {
-  EXPECT_EQ(ownerOfCall("p.srandom(1)"), "process")
+  EXPECT_EQ(ownerOfCall("p.srandom(1)"), std::string_view("process"))
       << "process.srandom() must bind (IEEE 1800-2023 Sec 9.7)";
 }
 
 TEST_F(ProcessRandstateTest, GetRandstateBindsToProcess) {
-  EXPECT_EQ(ownerOfCall("p.get_randstate()"), "process")
+  EXPECT_EQ(ownerOfCall("p.get_randstate()"), std::string_view("process"))
       << "process.get_randstate() must bind (IEEE 1800-2023 Sec 9.7)";
 }
 
 TEST_F(ProcessRandstateTest, SetRandstateBindsToProcess) {
-  EXPECT_EQ(ownerOfCall("p.set_randstate(st)"), "process")
+  EXPECT_EQ(ownerOfCall("p.set_randstate(st)"), std::string_view("process"))
       << "process.set_randstate() must bind (IEEE 1800-2023 Sec 9.7)";
 }
 

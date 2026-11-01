@@ -48,7 +48,8 @@
 //   2. Apart from that, the model is still built as written: function 'F' at
 //      compilation-unit scope, not a class method, returns int, no argument,
 //      exactly one local 'int x' ('switch' must NOT be invented as a local
-//      variable).
+//      variable), plus the implicit return variable 'F' of type int
+//      (13.4.1).
 //   3. F's body is exactly two statements: the randsequence statement, then
 //      'return x;' bound to x. The code block '{ if (switch) x = 10; else
 //      x = 5; }' belongs to production 'first' and must NOT appear as a plain
@@ -189,10 +190,16 @@ TEST_F(IfElseProductionStatements0Test, FunctionFSignatureAndLocalVariable) {
   EXPECT_EQ(typespecKind(f->getReturn()), hldb::AnyType::IntTypespec) << "F returns int";
   EXPECT_TRUE((f->getIODecls() == nullptr) || f->getIODecls()->empty()) << "F() takes no argument";
   ASSERT_NE(f->getVariables(), nullptr);
-  ASSERT_EQ(f->getVariables()->size(), 1u) << "F declares exactly one local variable, 'x'";
-  const hldb::Variable *const local = f->getVariables()->at(0);
-  EXPECT_EQ(local->getName(), "x");
+  ASSERT_EQ(f->getVariables()->size(), 2u)
+      << "F declares one local variable, 'x', plus its implicit return variable 'F' (IEEE 1800-2023 Sec 13.4.1)";
+  const hldb::Variable *const local = hldb::findByName<hldb::Variable>("x", f->getVariables());
+  ASSERT_NE(local, nullptr) << "local variable 'x' not found";
   EXPECT_EQ(typespecKind(local->getTypespec()), hldb::AnyType::IntTypespec) << "x is 'int'";
+  // Sec 13.4.1: a nonvoid function implicitly declares a variable named like the function, of its return type.
+  const hldb::Variable *const result = hldb::findByName<hldb::Variable>("F", f->getVariables());
+  ASSERT_NE(result, nullptr) << "implicit return variable 'F' not found";
+  EXPECT_EQ(typespecKind(result->getTypespec()), hldb::AnyType::IntTypespec) << "the return variable has F's type, int";
+  EXPECT_EQ(result->getAutomatic(), f->getAutomatic()) << "the return variable has F's lifetime";
 }
 
 // Check: the function-local variable is not rand (37.17 details 15/22).

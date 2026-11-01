@@ -101,12 +101,12 @@
 //   - "$display(test_obj0.a)": a SysTaskCall (not SysFuncCall, as this is
 //     a bare statement, not an expression argument) whose argument is a
 //     RefObj resolving "a" the same way
-//   - "test_obj0.test_method(9)": appears directly as a bare RefObj
-//     statement (no enclosing Assignment/SysTaskCall), whose second path
-//     element is a MethodTaskCall "test_method" -- the task-call
-//     counterpart of MethodFuncCall, used because "test_method" is a Task
-//     -- resolving getTaskFunc() to the class's "test_method" Task, with
-//     exactly 1 argument, Constant "9"
+//   - "test_obj0.test_method(9)": the statement itself is a
+//     MethodTaskCall "test_method" (no enclosing Assignment/SysTaskCall)
+//     -- the task-call counterpart of MethodFuncCall, used because
+//     "test_method" is a Task -- whose vpiPrefix is RefObj "test_obj0"
+//     (37.42 detail 2), resolving getTaskFunc() to the class's
+//     "test_method" Task, with exactly 1 argument, Constant "9"
 //   - "$display(test_obj1.a)": a SysTaskCall whose RefObj's FIRST path
 //     elem resolves to the OTHER variable (test_obj1, not test_obj0) but whose
 //     SECOND path elem ("a") resolves to the exact SAME Variable object as
@@ -509,27 +509,24 @@ TEST_F(ClassAssignmentTest, FourthStmtDisplaysTestObj0A) {
 
 // --- test_obj0.test_method(9); (stmt[4]) ------------------------------------------
 
-// This call appears directly as a bare RefObj statement (no enclosing
-// Assignment or SysTaskCall), whose second path elem is a MethodTaskCall
-// -- the task-call counterpart of MethodFuncCall, used because
-// "test_method" is a Task rather than a Function/constructor.
+// This call is the statement itself (no enclosing Assignment or
+// SysTaskCall): a MethodTaskCall -- the task-call counterpart of
+// MethodFuncCall, used because "test_method" is a Task rather than a
+// Function/constructor -- whose vpiPrefix is the receiver handle
+// "test_obj0" (37.42 detail 2).
 TEST_F(ClassAssignmentTest, FifthStmtCallsTestObj0TestMethodWithNine) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_GT(begin->getStmts()->size(), 4u);
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(begin->getStmts()->at(4));
-  ASSERT_NE(path, nullptr) << "stmt[4] should be a bare RefObj (test_obj0.test_method(9))";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
+  const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(begin->getStmts()->at(4));
+  ASSERT_NE(call, nullptr) << "stmt[4] should be a MethodTaskCall (test_obj0.test_method(9))";
+  EXPECT_EQ(call->getName(), std::string_view("test_method"));
 
-  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(varRef, nullptr);
+  const hldb::RefObj *const varRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(varRef, nullptr) << "the receiver 'test_obj0' should be the call's vpiPrefix";
   EXPECT_EQ(varRef->getName(), "test_obj0");
   EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableTestObj0());
 
-  const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'test_obj0.test_method(9)' second path elem should be a MethodTaskCall";
-  EXPECT_EQ(call->getName(), "test_method");
   EXPECT_EQ(call->getTaskFunc(), getTestMethodTask());
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);

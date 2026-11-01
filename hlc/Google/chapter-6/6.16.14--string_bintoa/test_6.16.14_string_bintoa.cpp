@@ -36,9 +36,9 @@
 //   - design has module top with 1 variable (a: string, uninitialized)
 //   - variable 'a' has no compile-time initial value (bintoa writes at runtime)
 //   - top has 1 Initial process
-//   - Initial stmt is a RefObj named "a.bintoa(12)"
-//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - RefObj element[1] is FuncCall "bintoa" with 1 argument (Constant "12")
+//   - Initial stmt is a MethodFuncCall named "bintoa" (IEEE 1800-2023 37.42)
+//   - the call's vpiPrefix is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - the call is MethodFuncCall "bintoa" with 1 argument (Constant "12")
 //   - argument to bintoa is stored as vpiIntConst (unsized integer literals
 //     are signed in HLC -- same as established in the itoa test)
 
@@ -53,6 +53,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
+#include <hldb/method_func_call.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/task_func.h>
@@ -110,43 +111,38 @@ TEST_F(StringBintoaTest, InitialProcessExists) {
   EXPECT_EQ(top->getProcesses()->size(), 1u);
 }
 
-TEST_F(StringBintoaTest, InitialStmtIsRefObj) {
+TEST_F(StringBintoaTest, InitialStmtIsCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr) << "Initial stmt is not a RefObj";
-  EXPECT_EQ(hp->getName(), "a.bintoa(12)");
+  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "Initial stmt is not a MethodFuncCall (IEEE 1800-2023 37.42)";
+  EXPECT_EQ(call->getName(), std::string_view("bintoa"));
 }
 
 // ---------------------------------------------------------------------------
-// RefObj -- receiver 'a' and FuncCall 'bintoa' with 1 argument
+// Method call -- receiver 'a' and FuncCall 'bintoa' with 1 argument
 // ---------------------------------------------------------------------------
-TEST_F(StringBintoaTest, RefObjReceiverIsA) {
+TEST_F(StringBintoaTest, CallReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_GE(hp->getPathElems()->size(), 1u);
-  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr);
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "a");
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringBintoaTest, RefObjMethodIsBintoa) {
+TEST_F(StringBintoaTest, CallMethodIsBintoa) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_GE(hp->getPathElems()->size(), 2u);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "bintoa");
 
@@ -165,9 +161,7 @@ TEST_F(StringBintoaTest, BintoaArgumentIs12) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
@@ -183,9 +177,7 @@ TEST_F(StringBintoaTest, BintoaArgumentIs12AsIntConst) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const hp = init->getStmt<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);

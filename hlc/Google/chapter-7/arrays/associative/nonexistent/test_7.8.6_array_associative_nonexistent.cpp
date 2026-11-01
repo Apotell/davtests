@@ -31,19 +31,17 @@
 //   - module has exactly 2 variables: 'arr' (assoc ArrayTypespec, idx=int, elem=int) and 'r' (IntTypespec)
 //   - 1 Initial process; Begin with 5 stmts
 //   - stmt[0]: blocking Assignment arr[10]=10 (BitSelect lhs, Constant rhs)
-//   - stmt[1]: $display(2 args) ? RefObj "arr.size" as second arg
+//   - stmt[1]: $display(2 args) ? MethodFuncCall "size" (prefix RefObj "arr") as second arg
 //   - stmt[2]: $display(1 arg) ? Constant ":re: BEGIN:ARRAY_NONEXISTENT"
 //   - stmt[3]: blocking Assignment r=arr[9] (RefObj lhs, BitSelect rhs)
 //   - stmt[4]: $display(1 arg) ? Constant ":re: END"
 //   - top has no continuous assignments
 //
 // Also checked:
-//   - HLC emits CompFailedToBind for arr.size, while still placing the
-//     RefObj "arr.size" in UHDM (see SecondStmtIsDisplayWithArrSize)
-//   - reading a nonexistent key (arr[9]) itself raises no additional compile
-//     error beyond the arr.size CompFailedToBind -- exactly 1 error total
-//     (the actual "returns default value 0" semantics is runtime-only, out
-//     of scope here)
+//   - arr.size binds to the built-in size() method (see
+//     SecondStmtIsDisplayWithArrSize)
+//   - the actual "returns default value 0" semantics of reading a
+//     nonexistent key (arr[9]) is runtime-only, out of scope here
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
@@ -59,6 +57,7 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/variable.h>
 #include <hldb/ref_obj.h>
@@ -169,8 +168,8 @@ TEST_F(Nonexistent, FirstStmtAssignsArr10To10) {
 
 TEST_F(Nonexistent, SecondStmtIsDisplayWithArrSize) {
   // $display(":assert: (%d == 1)", arr.size)
-  // HLC emits EL0535 for "size" (treated as implicit variable) but the
-  // method call still appears as RefObj "arr.size" in UHDM.
+  // "arr.size" (no parentheses, 13.5.5) is a MethodFuncCall "size" whose
+  // vpiPrefix is the receiver RefObj "arr" (IEEE 1800-2023 37.42 detail 2).
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const body = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
@@ -182,9 +181,15 @@ TEST_F(Nonexistent, SecondStmtIsDisplayWithArrSize) {
   EXPECT_EQ(disp->getArguments()->size(), 2u);
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), "arr.size");
+  const hldb::MethodFuncCall *const call = arg1->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr);
+  EXPECT_EQ(call->getName(), std::string_view("size"));
+  EXPECT_TRUE(call->getIsProperty());
+  EXPECT_NE(call->getTaskFunc(), nullptr);
+  const hldb::RefObj *const arrRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(arrRef, nullptr);
+  EXPECT_EQ(arrRef->getName(), std::string_view("arr"));
+  EXPECT_NE(arrRef->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(Nonexistent, ThirdStmtIsDisplayBeginMarker) {

@@ -24,12 +24,12 @@
 //   Initial -> Begin
 //     SysTaskCall "$display"
 //       Arguments[0]: Constant (vpiStringConst=6) -- format string
-//       Arguments[1]: RefObj "a.len()"
-//         PathElems[0]: RefObj "a"
-//         PathElems[1]: FuncCall "len"
+//       Arguments[1]: MethodFuncCall "len" (IEEE 1800-2023 37.42 detail 2)
+//         vpiPrefix: RefObj "a" -> Variable a (the object the method is applied to)
+//         vpiTaskFunc: Function "len" of the builtin string class (6.16.1)
 //
-// Contrast with builtin-methods-arrays: same RefObj/FuncCall pattern
-// but the receiver is a StringTypespec variable instead of an ArrayTypespec.
+// Contrast with builtin-methods-arrays: same method-call pattern but the
+// receiver is a StringTypespec variable instead of an ArrayTypespec.
 
 #include <hlc/Common/Session.h>
 #include <hlc/SourceCompile/Compiler.h>
@@ -37,16 +37,19 @@
 
 #include <hldb/Utils.h>
 #include <hldb/begin.h>
+#include <hldb/class_defn.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
 #include <hldb/initial.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/string_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/task_func.h>
 #include <hldb/variable.h>
 
 namespace hlc {
@@ -166,58 +169,43 @@ TEST_F(BuiltinMethodsStrings, FirstArgumentIsStringConstant) {
 }
 
 // ----
-// a.len() -- RefObj with RefObj + FuncCall
+// a.len() -- MethodFuncCall "len" applied to 'a' (37.42 detail 2)
 // ----
-TEST_F(BuiltinMethodsStrings, SecondArgumentIsRefObj) {
-  const hldb::SysTaskCall *const c = getDisplay(m_design);
-  ASSERT_NE(c, nullptr);
-  ASSERT_NE(c->getArguments(), nullptr);
-  ASSERT_EQ(c->getArguments()->size(), 2u);
-
+static const hldb::MethodFuncCall *getLenCall(const hldb::Design *d) {
+  const hldb::SysTaskCall *const c = getDisplay(d);
+  if ((c == nullptr) || (c->getArguments() == nullptr) || (c->getArguments()->size() != 2)) return nullptr;
   const hldb::NamedArgument *const arg1 = c->getArguments()->at(1);
-  ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr) << "second argument should be a RefObj";
-  EXPECT_EQ(hp->getName(), std::string_view("a.len()"));
+  return (arg1 == nullptr) ? nullptr : arg1->getHighConn<hldb::MethodFuncCall>();
 }
 
-TEST_F(BuiltinMethodsStrings, RefObjHasTwoPathElems) {
-  const hldb::SysTaskCall *const c = getDisplay(m_design);
-  ASSERT_NE(c, nullptr);
-  const hldb::NamedArgument *const arg1 = c->getArguments()->at(1);
-  ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  EXPECT_EQ(hp->getPathElems()->size(), 2u);
+TEST_F(BuiltinMethodsStrings, SecondArgumentIsLenMethodCall) {
+  const hldb::MethodFuncCall *const fn = getLenCall(m_design);
+  ASSERT_NE(fn, nullptr) << "second argument should be the method call a.len()";
+  EXPECT_EQ(fn->getName(), std::string_view("len"));
+  EXPECT_FALSE(fn->getIsProperty()) << "len() is written with parentheses";
+  EXPECT_TRUE((fn->getArguments() == nullptr) || fn->getArguments()->empty()) << "len() takes no arguments";
 }
 
-TEST_F(BuiltinMethodsStrings, FirstPathElemIsStringRefA) {
-  const hldb::SysTaskCall *const c = getDisplay(m_design);
-  ASSERT_NE(c, nullptr);
-  const hldb::NamedArgument *const arg1 = c->getArguments()->at(1);
-  ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-
-  const hldb::RefObj *const ref = any_cast<hldb::RefObj>((*hp->getPathElems())[0]);
-  ASSERT_NE(ref, nullptr) << "pathElems[0] should be a RefObj";
-  EXPECT_EQ(ref->getName(), "a");
+TEST_F(BuiltinMethodsStrings, LenCallReceiverIsStringVariableA) {
+  const hldb::MethodFuncCall *const fn = getLenCall(m_design);
+  ASSERT_NE(fn, nullptr);
+  const hldb::RefObj *const ref = fn->getPrefix<hldb::RefObj>();
+  ASSERT_NE(ref, nullptr) << "vpiPrefix should be the receiver 'a'";
+  EXPECT_EQ(ref->getName(), std::string_view("a"));
+  ASSERT_NE(ref->getActual(), nullptr);
+  EXPECT_EQ(ref->getActual(), getVariableA(m_design)) << "receiver 'a' binds to the string variable a";
 }
 
-TEST_F(BuiltinMethodsStrings, SecondPathElemIsLenFuncCall) {
-  const hldb::SysTaskCall *const c = getDisplay(m_design);
-  ASSERT_NE(c, nullptr);
-  const hldb::NamedArgument *const arg1 = c->getArguments()->at(1);
-  ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-
-  const hldb::MethodFuncCall *const fn = any_cast<hldb::MethodFuncCall>((*hp->getPathElems())[1]);
-  ASSERT_NE(fn, nullptr) << "pathElems[1] should be a MethodFuncCall";
-  EXPECT_EQ(fn->getName(), "len");
+// IEEE 1800-2023 6.16.1: len() is a method of the builtin string type.
+TEST_F(BuiltinMethodsStrings, LenCallBindsToStringMethod) {
+  const hldb::MethodFuncCall *const fn = getLenCall(m_design);
+  ASSERT_NE(fn, nullptr);
+  const hldb::TaskFunc *const tf = fn->getTaskFunc();
+  ASSERT_NE(tf, nullptr) << "a.len() must bind";
+  EXPECT_EQ(tf->getName(), std::string_view("len"));
+  const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(tf->getParent());
+  ASSERT_NE(owner, nullptr);
+  EXPECT_EQ(owner->getName(), std::string_view("StringTypespec"));
 }
 
 }  // namespace hlc

@@ -49,7 +49,7 @@
 #include <hldb/design.h>
 #include <hldb/interface.h>
 #include <hldb/io_decl.h>
-#include <hldb/method_func_call.h>
+#include <hldb/func_call.h>
 #include <hldb/modport.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
@@ -341,7 +341,9 @@ TEST_F(Attributes2, ArrayManipulationCall) {
   expectAttributeParentedTo<hldb::NamedArgument>("a_array_manipulation_call");
 }
 
-TEST_F(Attributes2, SubroutineCall) { expectAttributeParentedTo<hldb::MethodFuncCall>("a_subroutine_call"); }
+// Attributes2_func is a module-level function, not a method (IEEE 1800-2023 8.2), so the call is
+// a FuncCall.
+TEST_F(Attributes2, SubroutineCall) { expectAttributeParentedTo<hldb::FuncCall>("a_subroutine_call"); }
 
 }  // namespace hlc
 

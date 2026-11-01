@@ -53,10 +53,10 @@
 //   1800-2023 37.13 the formal "test" has both an IODecl and a Variable
 //   (the io decl's vpiExpr) in the task's scope.
 //
-//   IMPORTANT call-site note: unlike 13.3--task.cpp's bare "mytask;"
-//   (no parens), this file's calls use explicit parentheses and an
-//   argument ("mytask(0);"), which per this file's own confirmed
-//   structure IS modeled as a TaskCall (not a plain RefObj).
+//   Call-site note: unlike 13.3--task.cpp's bare "mytask;" (no parens,
+//   getIsProperty() true), this file's calls use explicit parentheses and
+//   an argument ("mytask(0);"); both are TaskCalls (a module-level task is
+//   not a method, 8.2).
 //
 // What is checked:
 //   - module top has exactly 1 TaskFunc, a Task named "mytask", with
@@ -256,9 +256,11 @@ TEST_F(TaskStaticTest, InitialBodyCallsMytaskFourTimesWithArguments) {
 
   const std::string_view expectedArgs[4] = {"0", "1", "1", "1"};
   for (uint32_t idx = 0; idx < 4u; ++idx) {
-    const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(body->getStmts()->at(idx));
-    ASSERT_NE(call, nullptr) << "'mytask(...)' with parens+argument should be a TaskCall, not a plain RefObj";
-    EXPECT_EQ(call->getName(), "mytask");
+    // A module-level task is not a method (8.2): a plain TaskCall.
+    const hldb::TaskCall *const call = any_cast<hldb::TaskCall>(body->getStmts()->at(idx));
+    ASSERT_NE(call, nullptr) << "'mytask(...)' should be a TaskCall";
+    EXPECT_EQ(call->getName(), std::string_view("mytask"));
+    EXPECT_FALSE(call->getIsProperty()) << "'mytask(...)' is written with parentheses";
     EXPECT_EQ(call->getTaskFunc<hldb::Task>(), getMytask());
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);

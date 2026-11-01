@@ -182,9 +182,21 @@ TEST_F(FuncParamTest, ComputeBodyDeclaresNextStateWithSameParameterizedWidthAndR
   const hldb::Function *const compute = getCompute();
   ASSERT_NE(compute, nullptr);
   ASSERT_NE(compute->getVariables(), nullptr) << "'next_state' is declared in the function's own scope";
-  ASSERT_EQ(compute->getVariables()->size(), 1u);
+  // 'next_state' plus the implicit return variable 'compute' (IEEE 1800-2023 13.4.1).
+  ASSERT_EQ(compute->getVariables()->size(), 2u);
   const hldb::Variable *const nextState = hldb::findByName<hldb::Variable>("next_state", compute->getVariables());
   ASSERT_NE(nextState, nullptr);
+
+  // 13.4.1: a nonvoid function implicitly declares a variable with its own name, of the
+  // return type, in the function's scope; automatic like the function.
+  const hldb::Variable *const retVar = hldb::findByName<hldb::Variable>("compute", compute->getVariables());
+  ASSERT_NE(retVar, nullptr) << "implicit return variable 'compute' (13.4.1)";
+  EXPECT_EQ(retVar->getParent(), compute);
+  EXPECT_TRUE(retVar->getAutomatic());
+  ASSERT_NE(retVar->getTypespec(), nullptr);
+  const hldb::LogicTypespec *const retVarTs = retVar->getTypespec()->getActual<hldb::LogicTypespec>();
+  ASSERT_NE(retVarTs, nullptr) << "the implicit return variable has the return type 'logic [LfsrDw-1:0]'";
+  CheckRangeIsLfsrDwMinusOne(retVarTs->getRanges());
 
   const hldb::RefTypespec *const rts = nextState->getTypespec();
   ASSERT_NE(rts, nullptr);

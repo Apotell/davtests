@@ -38,6 +38,8 @@
 #include <hldb/ref_obj.h>
 #include <hldb/task.h>
 
+#include <string_view>
+
 namespace hlc {
 
 class InterfaceIdentifiers : public Test {
@@ -178,17 +180,15 @@ TEST_F(InterfaceIdentifiers, VirtualIfModuleExists) {
 // Grammar site 5: task_body_declaration -- out-of-block task impl
 // (e.g. "task BusIf.drive; ... endtask").
 //
-// IEEE 1800-2023 Sec 25.7 ("Tasks and functions in interfaces") allows a
-// task/function declared "extern" inside an interface to be defined
-// out-of-block using the interface name as a scope prefix, exactly as
-// Sec 8.24 allows an out-of-block class method using "ClassName::method".
-// Phase2ModelBuilder::leavePA_Function_body_declaration /
-// leavePA_Task_body_declaration record that prefix (paInterface_scope) as
-// the TaskFunc's vpiPrefix, but -- unlike the paClass_scope branch, which
-// reparents the method into its ClassDefn -- there is no matching branch
-// that reparents the out-of-block body into the Interface. The body is
-// therefore still discoverable, but at $unit/Design scope rather than as a
-// member of BusIf.
+// HLC EXTENSION, not standard behavior. IEEE 1800-2023 Sec 25.7 only defines
+// an out-of-block interface task/function inside a module, where the scope
+// names one of that module's interface ports (Sec 25.7.3, "task a.Read;" in
+// memMod(interface a)) and the body stays in the module. These definitions
+// are written at compilation-unit level, where there are no ports, so "BusIf"
+// can only name the interface definition; the standard gives this form no
+// meaning. HLC moves such a body into the named interface (as Sec 8.24 does for
+// "ClassName::method") and keeps the scope as the TaskFunc's vpiPrefix, a RefObj
+// bound to the interface. The tests below check that extension.
 // ----
 
 TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionPrefixIsBusIf) {
@@ -197,7 +197,9 @@ TEST_F(InterfaceIdentifiers, OutOfBodyCaptureFunctionPrefixIsBusIf) {
   const hldb::Function *const fn = hldb::findByName<hldb::Function>("capture", busif->getTaskFuncs());
   ASSERT_NE(fn, nullptr);
   const hldb::RefObj *const prefix = fn->getPrefix<hldb::RefObj>();
-  EXPECT_EQ(prefix, nullptr) << "'BusIf.capture' interface_scope prefix should be null";
+  ASSERT_NE(prefix, nullptr) << "'BusIf.capture' should keep its interface_scope as vpiPrefix";
+  EXPECT_EQ(prefix->getName(), std::string_view("BusIf"));
+  EXPECT_EQ(prefix->getActual(), busif) << "the prefix should be bound to interface BusIf";
 }
 
 TEST_F(InterfaceIdentifiers, OutOfBodyDummyFunctionBelongToInterface) {
@@ -220,7 +222,9 @@ TEST_F(InterfaceIdentifiers, OutOfBodyDriveTaskPrefixIsBusIf) {
   const hldb::Task *const t = hldb::findByName<hldb::Task>("drive", busif->getTaskFuncs());
   ASSERT_NE(t, nullptr);
   const hldb::RefObj *const prefix = t->getPrefix<hldb::RefObj>();
-  EXPECT_EQ(prefix, nullptr) << "'BusIf.drive' interface_scope prefix should be null";
+  ASSERT_NE(prefix, nullptr) << "'BusIf.drive' should keep its interface_scope as vpiPrefix";
+  EXPECT_EQ(prefix->getName(), std::string_view("BusIf"));
+  EXPECT_EQ(prefix->getActual(), busif) << "the prefix should be bound to interface BusIf";
 }
 
 TEST_F(InterfaceIdentifiers, OutOfBodyNoopTaskBelongToInterface) {

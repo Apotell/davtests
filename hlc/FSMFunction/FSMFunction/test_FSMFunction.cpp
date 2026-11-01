@@ -251,8 +251,9 @@ TEST_F(FSMFunctionTest, ContAssignRhsIsFuncCallResolvingToFsmFunction) {
   const hldb::ContAssign *const ca = getNextStateContAssign();
   ASSERT_NE(ca, nullptr);
   ASSERT_NE(ca->getRhs(), nullptr);
-  const hldb::MethodFuncCall *const call = ca->getRhs<hldb::MethodFuncCall>();
-  ASSERT_NE(call, nullptr) << "'fsm_function(state, req_0, req_1)' must be a MethodFuncCall";
+  const hldb::FuncCall *const call = ca->getRhs<hldb::FuncCall>();
+  ASSERT_NE(call, nullptr) << "'fsm_function(state, req_0, req_1)' must be a FuncCall (a module-level function "
+                              "is not a method, IEEE 1800-2023 8.2)";
   EXPECT_EQ(call->getName(), std::string_view{"fsm_function"});
   EXPECT_EQ(call->getTaskFunc(), getFunction());
 }
@@ -260,7 +261,7 @@ TEST_F(FSMFunctionTest, ContAssignRhsIsFuncCallResolvingToFsmFunction) {
 TEST_F(FSMFunctionTest, FuncCallHasThreeArgumentsInDeclaredOrder) {
   const hldb::ContAssign *const ca = getNextStateContAssign();
   ASSERT_NE(ca, nullptr);
-  const hldb::MethodFuncCall *const call = ca->getRhs<hldb::MethodFuncCall>();
+  const hldb::FuncCall *const call = ca->getRhs<hldb::FuncCall>();
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 3u);

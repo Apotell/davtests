@@ -95,9 +95,9 @@
 //     rhs is a MethodFuncCall "new" with getIsShallowCopy() == true and
 //     exactly 1 argument, a RefObj resolving to Variable "test_obj0" (the
 //     source handle being copied)
-//   - "test_obj0.test_method(9)": a bare RefObj statement (as in the
-//     sibling file), second path elem a MethodTaskCall resolving
-//     getTaskFunc() to the "test_method" Task, 1 argument Constant "9"
+//   - "test_obj0.test_method(9)": a MethodTaskCall statement "test_method"
+//     whose vpiPrefix is the receiver RefObj "test_obj0" (37.42 detail 2),
+//     resolving getTaskFunc() to the "test_method" Task, 1 argument Constant "9"
 //   - "$display(test_obj1.a)": a SysTaskCall whose RefObj resolves "a"
 //     to the SAME declared property Variable as every other "a" access in
 //     this file (HLC has only one Variable per property declaration
@@ -515,19 +515,16 @@ TEST_F(ClassShallowCopyTest, FifthStmtCallsTestObj0TestMethodWithNine) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_GT(begin->getStmts()->size(), 4u);
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(begin->getStmts()->at(4));
-  ASSERT_NE(path, nullptr) << "stmt[4] should be a bare RefObj (test_obj0.test_method(9))";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
+  const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(begin->getStmts()->at(4));
+  ASSERT_NE(call, nullptr) << "stmt[4] should be a MethodTaskCall (test_obj0.test_method(9))";
+  EXPECT_EQ(call->getName(), std::string_view("test_method"));
 
-  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(varRef, nullptr);
-  EXPECT_EQ(varRef->getName(), "test_obj0");
+  // 37.42 detail 2: the receiver 'test_obj0' is the call's vpiPrefix.
+  const hldb::RefObj *const varRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(varRef, nullptr) << "'test_method' should have the receiver 'test_obj0' as its prefix";
+  EXPECT_EQ(varRef->getName(), std::string_view("test_obj0"));
   EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableTestObj0());
 
-  const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'test_obj0.test_method(9)' second path elem should be a MethodTaskCall";
-  EXPECT_EQ(call->getName(), "test_method");
   EXPECT_EQ(call->getTaskFunc(), getTestMethodTask());
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);

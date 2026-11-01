@@ -198,7 +198,7 @@ TEST_F(FuncBindingTest, FunBlockCallsFsmFunctionBoundToItsDeclaration) {
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), std::string_view("next_state"));
 
-  const hldb::MethodFuncCall *const call = asg->getRhs<hldb::MethodFuncCall>();
+  const hldb::FuncCall *const call = asg->getRhs<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "RHS should be a FuncCall to 'fsm_function'";
   EXPECT_EQ(call->getName(), std::string_view("fsm_function"));
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), fn)

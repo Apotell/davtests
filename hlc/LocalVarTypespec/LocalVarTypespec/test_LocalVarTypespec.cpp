@@ -32,7 +32,9 @@
 //   expression '1-1', a binary subtraction per Sec 11.4.3, and right
 //   bound 0). The block item declarations inside it are local variables
 //   of the function (Sec 13.4, function_body_declaration's
-//   tf_item_declaration / block_item_declaration).
+//   tf_item_declaration / block_item_declaration). Sec 13.4.1: the
+//   function also implicitly declares a variable 'fshr_u' of its return
+//   type, within the function's scope.
 // IEEE 1800-2023 Sec 13.4.2: "Functions defined within a module ...
 //   default to being static, with all declared items being statically
 //   allocated" -- 'fshr_u' and its three local variables are static, not
@@ -175,7 +177,30 @@ TEST_F(LocalVarTypespecTest, ReturnTypeIsUnsignedLogicOneMinusOneToZero) {
 // Local variables -- Sec 6.11.2, 6.11.3, 7.4.1, 13.4.2
 // ---------------------------------------------------------------------------
 
-TEST_F(LocalVarTypespecTest, FunctionDeclaresExactlyThreeLocals) { EXPECT_EQ(countLocals(), 3u); }
+// The three declared locals plus the implicit return-value variable 'fshr_u' (Sec 13.4.1).
+TEST_F(LocalVarTypespecTest, FunctionDeclaresThreeLocalsPlusReturnVariable) {
+  EXPECT_EQ(countLocals(), 4u) << "3 declared locals + the implicit return variable 'fshr_u' (Sec 13.4.1)";
+}
+
+// IEEE 1800-2023 Sec 13.4.1: a nonvoid function implicitly declares a variable with the function's own
+// name, of the function's return type, inside the function's scope.
+TEST_F(LocalVarTypespecTest, ImplicitReturnVariableIsUnsignedLogicOneMinusOneToZero) {
+  const hldb::Function *const f = getFunc();
+  ASSERT_NE(f, nullptr);
+  const hldb::Variable *const v = findLocal("fshr_u");
+  ASSERT_NE(v, nullptr) << "implicit return variable 'fshr_u' not found (Sec 13.4.1)";
+  EXPECT_EQ(v->getParent(), f);
+  EXPECT_FALSE(v->getAutomatic()) << "a static function's return variable is static (Sec 13.4.2)";
+  ASSERT_NE(v->getTypespec(), nullptr);
+  ASSERT_NE(v->getTypespec()->getActual(), nullptr);
+  ASSERT_EQ(v->getTypespec()->getActual()->getAnyType(), hldb::AnyType::LogicTypespec)
+      << "typed by the return type 'logic [1-1:0]'";
+  const hldb::LogicTypespec *const lts = v->getTypespec()->getActual<hldb::LogicTypespec>();
+  EXPECT_FALSE(lts->getSigned());
+  ASSERT_NE(lts->getRanges(), nullptr);
+  ASSERT_EQ(lts->getRanges()->size(), 1u);
+  expectNMinus1To0(lts->getRanges()->at(0), "1");
+}
 
 TEST_F(LocalVarTypespecTest, SignedResultIsSignedLogicTwoMinusOneToZero) { expectLocal("signed_result", true, "2"); }
 

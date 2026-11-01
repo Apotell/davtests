@@ -487,8 +487,9 @@ TEST_F(DoublePresTest, IncrDBodyAssignsRealConstantThenIncrementsThenReturns) {
 TEST_F(DoublePresTest, A15CallsIncrDWithNoArguments) {
   const hldb::ParamAssign *const pa = getDutParamAssign("A15");
   ASSERT_NE(pa, nullptr);
-  const hldb::MethodFuncCall *const call = pa->getRhs<hldb::MethodFuncCall>();
-  ASSERT_NE(call, nullptr) << "'incr_d()' should be a MethodFuncCall";
+  const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
+  ASSERT_NE(call, nullptr) << "'incr_d()' should be a FuncCall (a module-level function is not a method, "
+                              "IEEE 1800-2023 8.2)";
   EXPECT_EQ(call->getName(), "incr_d");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getIncrD());
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())

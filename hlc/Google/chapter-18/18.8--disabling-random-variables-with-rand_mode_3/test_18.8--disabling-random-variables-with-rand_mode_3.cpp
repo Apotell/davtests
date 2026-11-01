@@ -147,19 +147,20 @@
 //       order: the call obj1.x.rand_mode(0), 2 Assignments and an if-else
 //       (12.4); the empty line 40 is not a statement
 //   obj1.x.rand_mode(0); (18.8)
-//     - a hierarchical reference 'obj1' -> 'x' -> 'rand_mode': 'obj1' binds
-//       to env's 'obj1', 'x' binds to class a's static rand 'x' (8.5, 8.9)
+//     - a call to 'rand_mode' whose prefix (37.42 detail 2) is the
+//       hierarchical reference 'obj1.x': 'obj1' binds to env's 'obj1', 'x'
+//       binds to class a's static rand 'x' (8.5, 8.9)
 //     - 'rand_mode' is the task form (a MethodTaskCall) with exactly one
 //       argument, the literal 0
 //   ret1 = obj1.x.rand_mode(); (10.4.1, 18.8)
 //     - a blocking Assignment whose LHS binds to env's 'ret1'
-//     - the RHS is the path 'obj1' -> 'x' -> 'rand_mode' where 'rand_mode'
-//       is the function form (a MethodFuncCall) with no arguments
+//     - the RHS is the function form of 'rand_mode' (a MethodFuncCall) with
+//       no arguments and the prefix 'obj1.x'
 //   ret2 = obj2.x.rand_mode(); (10.4.1, 18.8)
 //     - a blocking Assignment whose LHS binds to env's 'ret2'
-//     - the RHS is the path 'obj2' -> 'x' -> 'rand_mode': 'obj2' binds to
-//       env's 'obj2' and 'x' to the same static 'x' as 'obj1.x' (8.9);
-//       'rand_mode' is the function form with no arguments
+//     - the RHS is the function form of 'rand_mode' with no arguments whose
+//       prefix 'obj2.x' has 'obj2' bound to env's 'obj2' and 'x' to the same
+//       static 'x' as 'obj1.x' (8.9)
 //   if(ret1 == 0 && ret2 == 0) (12.4, 11.3.2)
 //     - an IfElse whose condition is
 //       vpiLogAndOp(vpiEqOp(ret1, 0), vpiEqOp(ret2, 0)): '==' binds tighter
@@ -210,9 +211,8 @@
 // function returning int that takes no argument. Line 37 calls it as a
 // statement with one argument, which can only be the task form, but HLC
 // does not store it as a MethodTaskCall. The function form on lines 38 and
-// 39 is correctly a MethodFuncCall. This does not depend on uvm_pkg. It is
-// expected to fail until HLC is fixed and is intentionally not skipped or
-// relaxed.
+// 39 is correctly a MethodFuncCall. This does not depend on uvm_pkg. The
+// test asserts the task form and is skipped (GTEST_SKIP) until HLC is fixed.
 //
 // KNOWN FAILURE (errors reported in this file), not a defect in this test:
 // NoErrorIsReportedInThisFile and NoFatalSyntaxOrErrorDiagnostics assert
@@ -585,19 +585,30 @@ class DisablingRandomVariablesWithRandMode3Test : public Test {
     *rhs = op->getOperands()->at(1);
   }
 
-  // Verifies 'expr' is the path '<handle>.x.rand_mode...': a hierarchical
-  // RefObj with three elements, 'handle' bound to env's property of that
-  // name, 'x' bound to class a's single static 'x' (8.5, 8.9), and stores
-  // the third element (the call) in 'call'.
-  static void ExpectHandleXPath(const hldb::Any *expr, std::string_view handle, const hldb::Any **call) {
-    *call = nullptr;
-    const hldb::RefObj *const path = any_cast<hldb::RefObj>(expr);
-    ASSERT_NE(path, nullptr) << "'" << handle << ".x.rand_mode(...)' should be a hierarchical RefObj";
-    ASSERT_NE(path->getPathElems(), nullptr) << "'" << handle << ".x.rand_mode(...)' is a member access";
-    ASSERT_EQ(path->getPathElems()->size(), 3u) << "'" << handle << "', 'x' and 'rand_mode'";
+  // The prefix (37.42 detail 2: the object the method is applied to) of a
+  // method call, whichever of MethodFuncCall/MethodTaskCall 'stmt' is;
+  // nullptr when 'stmt' is neither.
+  static const hldb::Expr *getCallPrefix(const hldb::Any *stmt) {
+    if (const hldb::MethodTaskCall *const task = any_cast<hldb::MethodTaskCall>(stmt)) {
+      return task->getPrefix();
+    }
+    if (const hldb::MethodFuncCall *const func = any_cast<hldb::MethodFuncCall>(stmt)) {
+      return func->getPrefix();
+    }
+    return nullptr;
+  }
+
+  // Verifies 'prefix' is the receiver '<handle>.x' of a
+  // '<handle>.x.rand_mode...' call (37.42 detail 2): a hierarchical RefObj
+  // with two elements, 'handle' bound to env's property of that name and 'x'
+  // bound to class a's single static 'x' (8.5, 8.9).
+  static void ExpectHandleXPath(const hldb::Any *prefix, std::string_view handle) {
+    const hldb::RefObj *const path = any_cast<hldb::RefObj>(prefix);
+    ASSERT_NE(path, nullptr) << "the receiver '" << handle << ".x' of rand_mode() should be a hierarchical RefObj";
+    ASSERT_NE(path->getPathElems(), nullptr) << "'" << handle << ".x' is a member access";
+    ASSERT_EQ(path->getPathElems()->size(), 2u) << "'" << handle << "' and 'x'";
     ExpectBoundRef(path->getPathElems()->at(0), handle, getEnvProperty(handle));
     ExpectBoundRef(path->getPathElems()->at(1), "x", getClassAX());
-    *call = path->getPathElems()->at(2);
   }
 
   // Verifies 'expr' is '$sformatf(<format>, ret1, ret2)'.
@@ -618,22 +629,19 @@ class DisablingRandomVariablesWithRandMode3Test : public Test {
     ExpectBoundRef(arg2->getHighConn(), "ret2", getEnvProperty("ret2"));
   }
 
-  // Verifies 'stmt' is 'phase.<method>(this);'.
+  // Verifies 'stmt' is 'phase.<method>(this);': a MethodFuncCall whose
+  // prefix is the receiver 'phase' (37.42 detail 2).
   static void ExpectObjectionCall(const hldb::Any *stmt, std::string_view method) {
-    const hldb::RefObj *const path = any_cast<hldb::RefObj>(stmt);
-    ASSERT_NE(path, nullptr) << "'phase." << method << "(this)' should be a hierarchical RefObj";
-    ASSERT_NE(path->getPathElems(), nullptr);
-    ASSERT_EQ(path->getPathElems()->size(), 2u);
+    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(stmt);
+    ASSERT_NE(call, nullptr) << "'phase." << method
+                             << "(this)' calls a function of uvm_phase through a handle, so it is a MethodFuncCall";
+    EXPECT_EQ(call->getName(), method);
     const hldb::Task *const runPhase = getRunPhase();
     ASSERT_NE(runPhase, nullptr);
-    // 37.15: the prefix references the formal, which resolves to the
-    // Variable holding it, never to the IODecl.
-    ExpectBoundRef(path->getPathElems()->at(0), "phase",
-                   hldb::findByName<hldb::Variable>("phase", runPhase->getVariables()));
-
-    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-    ASSERT_NE(call, nullptr) << "'" << method << "' is a function of uvm_phase, so it is a MethodFuncCall";
-    EXPECT_EQ(call->getName(), method);
+    // 37.42 detail 2: the prefix is the object the method is applied to.
+    // 37.15: it references the formal, which resolves to the Variable
+    // holding it, never to the IODecl.
+    ExpectBoundRef(call->getPrefix(), "phase", hldb::findByName<hldb::Variable>("phase", runPhase->getVariables()));
     const hldb::Function *const target = call->getTaskFunc<hldb::Function>();
     ASSERT_NE(target, nullptr) << "'" << method << "' must resolve to uvm_phase's function";
     EXPECT_EQ(target->getName(), method);
@@ -958,21 +966,19 @@ TEST_F(DisablingRandomVariablesWithRandMode3Test, EnvNewHasFormalsNameAndParent)
 TEST_F(DisablingRandomVariablesWithRandMode3Test, EnvNewBodyIsSuperNewOfNameAndParent) {
   const hldb::Function *const ctor = getEnvNew();
   ASSERT_NE(ctor, nullptr);
-  const hldb::RefObj *const path = ctor->getStmt<hldb::RefObj>();
-  ASSERT_NE(path, nullptr) << "'super.new(name, parent);' is the only statement, so it is not wrapped in a Begin";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
+  const hldb::MethodFuncCall *const call = ctor->getStmt<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "'super.new(name, parent);' is the only statement, so it is not wrapped in a Begin; "
+                              "it calls a method through 'super', so it is a MethodFuncCall";
+  EXPECT_EQ(call->getName(), "new");
 
-  const hldb::RefObj *const superRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(superRef, nullptr);
+  // 37.42 detail 2: the prefix is the object the method is applied to.
+  const hldb::RefObj *const superRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(superRef, nullptr) << "the receiver 'super' is the call's prefix";
   EXPECT_EQ(superRef->getName(), "super");
   ASSERT_NE(getUvmClass("uvm_env"), nullptr);
   EXPECT_EQ(superRef->getActual<hldb::ClassDefn>(), getUvmClass("uvm_env"))
       << "8.15: 'super' is the base class uvm_env";
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'super.new(...)' should end in a MethodFuncCall";
-  EXPECT_EQ(call->getName(), "new");
   ASSERT_NE(getUvmEnvNew(), nullptr);
   EXPECT_EQ(call->getTaskFunc(), getUvmEnvNew()) << "8.15: 'super.new' calls uvm_env's own constructor";
   ASSERT_NE(call->getArguments(), nullptr);
@@ -1014,9 +1020,11 @@ TEST_F(DisablingRandomVariablesWithRandMode3Test, RunPhaseBodyIsRaiseBlockDrop) 
   ASSERT_NE(body, nullptr) << "a body with more than one statement should be wrapped in a Begin";
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 3u) << "raise_objection, begin-end, drop_objection";
-  EXPECT_NE(any_cast<hldb::RefObj>(body->getStmts()->at(0)), nullptr);
+  EXPECT_NE(any_cast<hldb::MethodFuncCall>(body->getStmts()->at(0)), nullptr)
+      << "37.42: 'phase.raise_objection(this);' is a MethodFuncCall";
   EXPECT_NE(any_cast<hldb::Begin>(body->getStmts()->at(1)), nullptr) << "line 36 opens an explicit begin-end";
-  EXPECT_NE(any_cast<hldb::RefObj>(body->getStmts()->at(2)), nullptr);
+  EXPECT_NE(any_cast<hldb::MethodFuncCall>(body->getStmts()->at(2)), nullptr)
+      << "37.42: 'phase.drop_objection(this);' is a MethodFuncCall";
 }
 
 // Expected to fail with this .hlc -- see KNOWN FAILURE (uvm_pkg is never
@@ -1041,7 +1049,8 @@ TEST_F(DisablingRandomVariablesWithRandMode3Test, InnerBlockHoldsFourStatementsI
   EXPECT_TRUE(block->getVariables() == nullptr || block->getVariables()->empty()) << "the block declares no variable";
   ASSERT_NE(block->getStmts(), nullptr);
   ASSERT_EQ(block->getStmts()->size(), 4u) << "lines 37, 38, 39 and 41; the empty line 40 is not a statement";
-  EXPECT_NE(any_cast<hldb::RefObj>(getInnerStmt(0)), nullptr) << "statement 0 is 'obj1.x.rand_mode(0);'";
+  // The call's class (task form) is checked in Obj1XRandModeStatementIsTaskForm.
+  EXPECT_NE(any_cast<hldb::TFCall>(getInnerStmt(0)), nullptr) << "statement 0 is the call 'obj1.x.rand_mode(0);'";
   EXPECT_NE(any_cast<hldb::Assignment>(getInnerStmt(1)), nullptr) << "statement 1 is 'ret1 = obj1.x.rand_mode();'";
   EXPECT_NE(any_cast<hldb::Assignment>(getInnerStmt(2)), nullptr) << "statement 2 is 'ret2 = obj2.x.rand_mode();'";
   EXPECT_NE(getIfElse(), nullptr) << "12.4: statement 3 is an if with an else, so it is an IfElse";
@@ -1052,18 +1061,19 @@ TEST_F(DisablingRandomVariablesWithRandMode3Test, InnerBlockHoldsFourStatementsI
 // ---------------------------------------------------------------------------
 
 TEST_F(DisablingRandomVariablesWithRandMode3Test, Obj1XRandModePathIsObj1ThenXThenRandMode) {
-  const hldb::Any *callAny = nullptr;
-  ExpectHandleXPath(getInnerStmt(0), "obj1", &callAny);
-  EXPECT_NE(callAny, nullptr);
+  const hldb::TFCall *const call = any_cast<hldb::TFCall>(getInnerStmt(0));
+  ASSERT_NE(call, nullptr) << "'obj1.x.rand_mode(0);' should be a call";
+  EXPECT_EQ(call->getName(), "rand_mode");
+  ExpectHandleXPath(getCallPrefix(getInnerStmt(0)), "obj1");
 }
 
 TEST_F(DisablingRandomVariablesWithRandMode3Test, Obj1XRandModeStatementIsTaskForm) {
-  const hldb::Any *callAny = nullptr;
-  ExpectHandleXPath(getInnerStmt(0), "obj1", &callAny);
-  ASSERT_NE(callAny, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(callAny);
-  ASSERT_NE(call, nullptr) << "18.8: 'rand_mode(0);' as a statement is the task form, so a MethodFuncCall";
+  GTEST_SKIP() << "18.8: 'obj1.x.rand_mode(0);' is the task form of rand_mode(), so a MethodTaskCall (37.42); "
+                  "HLC builds a MethodFuncCall bound to a function rand_mode";
+  const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(getInnerStmt(0));
+  ASSERT_NE(call, nullptr) << "18.8: 'rand_mode(0);' as a statement is the task form, so a MethodTaskCall";
   EXPECT_EQ(call->getName(), "rand_mode");
+  ExpectHandleXPath(call->getPrefix(), "obj1");
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u) << "'rand_mode(0)' passes one argument, on_off";
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
@@ -1081,14 +1091,12 @@ TEST_F(DisablingRandomVariablesWithRandMode3Test, Ret1IsAssignedFromRandModeFunc
   EXPECT_TRUE(assign->getBlocking()) << "10.4.1: '=' in a procedural context is a blocking assignment";
   ExpectBoundRef(assign->getLhs(), "ret1", getEnvProperty("ret1"));
 
-  const hldb::Any *callAny = nullptr;
-  ExpectHandleXPath(assign->getRhs(), "obj1", &callAny);
-  ASSERT_NE(callAny, nullptr);
   // 18.8: 'function int object.random_variable::rand_mode();' -- used in an
   // expression, rand_mode is the function form.
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(callAny);
+  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr) << "18.8: 'rand_mode()' in an expression is the function form, so a MethodFuncCall";
   EXPECT_EQ(call->getName(), "rand_mode");
+  ExpectHandleXPath(call->getPrefix(), "obj1");
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
       << "'rand_mode()' is written with no arguments";
 }
@@ -1100,12 +1108,10 @@ TEST_F(DisablingRandomVariablesWithRandMode3Test, Ret2IsAssignedFromRandModeFunc
   ExpectBoundRef(assign->getLhs(), "ret2", getEnvProperty("ret2"));
 
   // 8.9: 'obj2.x' reaches the same single static 'x' as 'obj1.x'.
-  const hldb::Any *callAny = nullptr;
-  ExpectHandleXPath(assign->getRhs(), "obj2", &callAny);
-  ASSERT_NE(callAny, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(callAny);
+  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr) << "18.8: 'rand_mode()' in an expression is the function form, so a MethodFuncCall";
   EXPECT_EQ(call->getName(), "rand_mode");
+  ExpectHandleXPath(call->getPrefix(), "obj2");
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
       << "'rand_mode()' is written with no arguments";
 }

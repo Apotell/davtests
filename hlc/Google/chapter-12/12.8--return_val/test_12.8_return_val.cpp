@@ -225,9 +225,10 @@ TEST_F(ReturnValTest, LoopBodyDisplaysFunCallResultAndResolvesBackToFun) {
 
   const hldb::NamedArgument *const arg0 = display->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
-  const hldb::MethodFuncCall *const call = arg0->getHighConn<hldb::MethodFuncCall>();
-  ASSERT_NE(call, nullptr) << "$display's argument should be a MethodFuncCall 'fun(i)', used as an expression here";
-  EXPECT_EQ(call->getName(), "fun");
+  // 'fun' is a module-level function, not a method (8.2): a plain FuncCall.
+  const hldb::FuncCall *const call = arg0->getHighConn<hldb::FuncCall>();
+  ASSERT_NE(call, nullptr) << "$display's argument should be a FuncCall 'fun(i)', used as an expression here";
+  EXPECT_EQ(call->getName(), std::string_view("fun"));
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getFun()) << "call should resolve back to the 'fun' declaration";
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);

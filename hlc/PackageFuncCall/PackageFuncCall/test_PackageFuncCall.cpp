@@ -74,6 +74,7 @@
 //     - return type LogicTypespec with 1 packed range [63:0]
 //     - exactly 2 formals, in order: 'state_in' (input, logic [63:0]) and
 //       'sbox4' (input, logic [15:0][3:0]); direction defaults to input
+//     - the implicit return variable 'sbox4_64bit', logic [63:0] (13.4.1)
 //     - exactly 1 function-local variable 'state_out', logic [63:0]; the
 //       loop variable 'k' belongs to the for loop, not to the function
 //     - executable statements, in order: a ForStmt and a ReturnStmt
@@ -605,9 +606,22 @@ TEST_F(PackageFuncCallTest, SboxHasOneLocalVariableStateOut) {
     EXPECT_NE(getFormal(ioDecl->getName()), nullptr)
         << "37.13: the formal argument '" << ioDecl->getName() << "' should have a Variable";
   }
+  // 13.4.1: the implicit return-value variable 'sbox4_64bit' is also in the function's scope, typed by the
+  // return type 'logic [63:0]'; it is not a declared local.
+  const hldb::Variable *const retVar = hldb::findByName<hldb::Variable>("sbox4_64bit", fn->getVariables());
+  ASSERT_NE(retVar, nullptr) << "13.4.1: nonvoid 'sbox4_64bit' should declare an implicit return variable";
+  EXPECT_EQ(retVar->getParent(), fn);
+  EXPECT_TRUE(retVar->getAutomatic()) << "the return variable of an automatic function is automatic";
+  ASSERT_NE(retVar->getTypespec(), nullptr);
+  const hldb::LogicTypespec *const retTs = retVar->getTypespec()->getActual<hldb::LogicTypespec>();
+  ASSERT_NE(retTs, nullptr) << "the implicit return variable is typed by the return type 'logic [63:0]'";
+  ASSERT_NE(retTs->getRanges(), nullptr);
+  ASSERT_EQ(retTs->getRanges()->size(), 1u);
+  ExpectConstRange(retTs->getRanges()->at(0), "63", "0");
   size_t count = 0;
   if (fn->getVariables() != nullptr) {
     for (const hldb::Variable *const var : *fn->getVariables()) {
+      if (var == retVar) continue;
       if (hldb::findByName<hldb::IODecl>(var->getName(), fn->getIODecls()) == nullptr) ++count;
     }
   }

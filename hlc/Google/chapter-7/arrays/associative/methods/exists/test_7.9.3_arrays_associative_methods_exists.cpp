@@ -32,9 +32,9 @@
 //     StringTypespec, elem typespec -> IntTypespec
 //   - Initial process: 1 Begin with 5 stmts (3 Assignment + 2 SysFuncCall)
 //   - the 3 index assignments (map["hello"]=1, map["sad"]=2, map["world"]=3)
-//   - both $display calls: format string plus RefObj("map.exists(...)")
-//     whose 2nd path elem is a MethodFuncCall "exists" with 1 string Constant
-//     argument ("sad" / "happy")
+//   - both $display calls: format string plus a MethodFuncCall "exists"
+//     (IEEE 1800-2023 37.42 detail 2) with vpiPrefix RefObj "map" and 1
+//     string Constant argument ("sad" / "happy")
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
 //   - compiler emits zero errors (map.exists(...) with parens/argument
 //     resolves cleanly, unlike the no-parens ".delete"/".size" forms seen in
@@ -193,18 +193,15 @@ TEST_F(AssociativeArrayExistsTest, FirstDisplaySecondArgIsMapExistsSad) {
   ASSERT_NE(disp, nullptr);
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), std::string_view("map.exists(\"sad\")"));
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::RefObj *const mapRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
-  ASSERT_NE(mapRef, nullptr);
-  EXPECT_EQ(mapRef->getName(), "map");
-  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = arg1->getHighConn<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "exists");
+  EXPECT_EQ(call->getName(), std::string_view("exists"));
+  EXPECT_FALSE(call->getIsProperty());
+  EXPECT_NE(call->getTaskFunc(), nullptr);
+  const hldb::RefObj *const mapRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(mapRef, nullptr);
+  EXPECT_EQ(mapRef->getName(), std::string_view("map"));
+  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
@@ -240,12 +237,13 @@ TEST_F(AssociativeArrayExistsTest, SecondDisplaySecondArgIsMapExistsHappy) {
   ASSERT_NE(disp, nullptr);
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), std::string_view("map.exists(\"happy\")"));
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = arg1->getHighConn<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "exists");
+  EXPECT_EQ(call->getName(), std::string_view("exists"));
+  const hldb::RefObj *const mapRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(mapRef, nullptr);
+  EXPECT_EQ(mapRef->getName(), std::string_view("map"));
+  ASSERT_NE(call->getArguments(), nullptr);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
   const hldb::Constant *const arg = arg0->getHighConn<hldb::Constant>();

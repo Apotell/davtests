@@ -187,9 +187,10 @@ TEST_F(FuncArgDirectionTest, SecondContAssignCallsFunctionWithSingleActualArgume
   ASSERT_NE(top->getContAssigns(), nullptr);
   ASSERT_EQ(top->getContAssigns()->size(), 2u);
 
-  const hldb::MethodFuncCall *call = nullptr;
+  // A module-level function is not a method (IEEE 1800-2023 8.2), so the call is a FuncCall.
+  const hldb::FuncCall *call = nullptr;
   for (const hldb::ContAssign *const ca : *top->getContAssigns()) {
-    if (const hldb::MethodFuncCall *const fc = ca->getRhs<hldb::MethodFuncCall>()) {
+    if (const hldb::FuncCall *const fc = ca->getRhs<hldb::FuncCall>()) {
       call = fc;
       break;
     }

@@ -36,11 +36,11 @@
 //   - variable 'a' typespec resolves to StringTypespec; initial value is "Test" (vpiStringConst)
 //   - variable 'b' typespec resolves to StringTypespec (same type as receiver)
 //   - variable 'b' has a non-null initial value (vpiValue is set)
-//   - variable 'b' initial value is a RefObj named "a.toupper()"
-//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - RefObj element[1] is FuncCall "toupper" with no arguments
+//   - variable 'b' initial value is a MethodFuncCall named "toupper" (IEEE 1800-2023 37.42)
+//   - the call's vpiPrefix is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - the call is MethodFuncCall "toupper" with no arguments
 //   - 'b' does NOT get a pre-evaluated constant value (e.g. "TEST") -- HLC
-//     stores the unevaluated RefObj expression only
+//     stores the unevaluated call expression only
 //   - the actual string result of a.toupper() ("TEST") -- kept as a real
 //     assertion for when HLC adds compile-time evaluation of string methods
 
@@ -55,6 +55,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/func_call.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/task_func.h>
 #include <hldb/variable.h>
@@ -118,7 +119,7 @@ TEST_F(StringToupperTest, BVariableTypespecIsString) {
 }
 
 // ---------------------------------------------------------------------------
-// RefObj -- b's initial value is the method call a.toupper()
+// Method call -- b's initial value is the method call a.toupper()
 // ---------------------------------------------------------------------------
 TEST_F(StringToupperTest, BVariableHasValue) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -134,46 +135,41 @@ TEST_F(StringToupperTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr)
-      << "HLC does not pre-evaluate a.toupper() to a constant; b holds only the RefObj expression";
+      << "HLC does not pre-evaluate a.toupper() to a constant; b holds only the call expression";
 }
 
-TEST_F(StringToupperTest, BVariableValueIsRefObj) {
+TEST_F(StringToupperTest, BVariableValueIsCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a RefObj";
-  EXPECT_EQ(hp->getName(), std::string_view("a.toupper()"));
+  const hldb::MethodFuncCall *const call = b->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "variable 'b' initial value is not a MethodFuncCall (IEEE 1800-2023 37.42)";
+  EXPECT_EQ(call->getName(), std::string_view("toupper"));
 }
 
-TEST_F(StringToupperTest, RefObjReceiverIsA) {
+TEST_F(StringToupperTest, CallReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_GE(hp->getPathElems()->size(), 1u);
+  const hldb::MethodFuncCall *const call = b->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr);
 
-  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "a");
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(StringToupperTest, RefObjMethodIsToupper) {
+TEST_F(StringToupperTest, CallMethodIsToupper) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_GE(hp->getPathElems()->size(), 2u);
-
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = b->getValue<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
+
   EXPECT_EQ(call->getName(), "toupper");
 
   // IEEE 1800-2023 Sec 6.16: "toupper" is a string method. It is declared in no user scope,
@@ -191,9 +187,7 @@ TEST_F(StringToupperTest, ToupperHasNoArguments) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = b->getValue<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "toupper() takes no arguments";
 }

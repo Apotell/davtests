@@ -50,10 +50,12 @@
 //   LogicTypespec/range shape as the function's own return type.
 //
 //   Sec 13.4.1: "func1 = ~s;" assigns the function's return value by name
-//   -- an Assignment whose LHS is RefObj "func1" (resolving back to the
-//   Function itself, since there is no separate return-value Variable
-//   object distinct from the function's own name) and whose RHS is
-//   Operation(vpiBitNegOp) over RefObj "s" (resolving to the IODecl).
+//   -- an Assignment whose LHS is RefObj "func1" (the function's implicit
+//   return-value variable, which 13.4.1 declares with the function's own
+//   name) and whose RHS is Operation(vpiBitNegOp) over RefObj "s".
+//
+//   "assign xn = func1(inp);" calls a module-level function, which is not
+//   a method (Sec 8.2), so the call is a FuncCall.
 //
 //   Sec 6.20.4 (net/variable declaration dimensions) + Sec 13.4.3
 //   "Constant functions": "wire [func1(0)-1:0] xc;" uses a FuncCall as
@@ -240,7 +242,7 @@ TEST_F(FuncReturnRangeTest, XnIsDrivenByFunc1CallOnInpAndFeedsOut1) {
     }
   }
   ASSERT_NE(xnAssign, nullptr) << "'assign xn = func1(inp);' not found";
-  const hldb::MethodFuncCall *const call = xnAssign->getRhs<hldb::MethodFuncCall>();
+  const hldb::FuncCall *const call = xnAssign->getRhs<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "'func1(inp)' RHS should be a FuncCall";
   EXPECT_EQ(call->getName(), "func1");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getFunc1());

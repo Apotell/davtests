@@ -38,7 +38,8 @@
 //   1. The file is legal -> no fatal/syntax/error.
 //   2. Function 'F' is declared at compilation-unit scope: not a class
 //      method, returns int, takes no argument, declares exactly one local
-//      variable 'int a' (not rand).
+//      variable 'int a' (not rand), plus the implicit return variable 'F'
+//      of type int (13.4.1).
 //   3. F's body is exactly two statements in order: the randcase, then
 //      'return a;' whose expression binds to the local variable a.
 //   4. The randcase (Syntax 18-12): no case expression, exactly two items in
@@ -210,10 +211,16 @@ TEST_F(RandomWeightedCaseRandcase0Test, FunctionFSignatureAndLocalVariable) {
   EXPECT_EQ(typespecKind(f->getReturn()), hldb::AnyType::IntTypespec) << "F returns int";
   EXPECT_TRUE((f->getIODecls() == nullptr) || f->getIODecls()->empty()) << "F() takes no argument";
   ASSERT_NE(f->getVariables(), nullptr);
-  ASSERT_EQ(f->getVariables()->size(), 1u) << "F declares exactly one local variable, 'a'";
-  const hldb::Variable *const local = f->getVariables()->at(0);
-  EXPECT_EQ(local->getName(), "a");
+  ASSERT_EQ(f->getVariables()->size(), 2u)
+      << "F declares one local variable, 'a', plus its implicit return variable 'F' (IEEE 1800-2023 Sec 13.4.1)";
+  const hldb::Variable *const local = hldb::findByName<hldb::Variable>("a", f->getVariables());
+  ASSERT_NE(local, nullptr) << "local variable 'a' not found";
   EXPECT_EQ(typespecKind(local->getTypespec()), hldb::AnyType::IntTypespec) << "a is 'int'";
+  // Sec 13.4.1: a nonvoid function implicitly declares a variable named like the function, of its return type.
+  const hldb::Variable *const result = hldb::findByName<hldb::Variable>("F", f->getVariables());
+  ASSERT_NE(result, nullptr) << "implicit return variable 'F' not found";
+  EXPECT_EQ(typespecKind(result->getTypespec()), hldb::AnyType::IntTypespec) << "the return variable has F's type, int";
+  EXPECT_EQ(result->getAutomatic(), f->getAutomatic()) << "the return variable has F's lifetime";
 }
 
 // Check: the function-local variable is not rand (37.17 details 15/22).

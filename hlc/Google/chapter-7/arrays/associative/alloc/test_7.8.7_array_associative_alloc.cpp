@@ -28,13 +28,13 @@
 //   - design has module top
 //   - module has exactly 1 variable: 'arr' (associative ArrayTypespec, idx=IntTypespec, elem=IntTypespec)
 //   - 1 Initial process; body is a Begin with 3 stmts
-//   - stmt[0]: $display(":assert: (%d == 0)", arr.size) ? RefObj with 2 RefObj elems
+//   - stmt[0]: $display(":assert: (%d == 0)", arr.size) -- arr.size is a MethodFuncCall "size"
+//     (no parentheses, vpiIsProperty) with vpiPrefix RefObj "arr" (13.5.5, 37.42 detail 2)
 //   - stmt[1]: blocking Assignment arr[10]=10 (BitSelect lhs, Constant rhs)
 //   - stmt[2]: $display(":assert: (%d == 1)", arr.size)
 //   - top has no continuous assignments
 //
 // Not checked:
-//   - arr.size produces EL0535 errors (illegal implicit variable "size") but appears in UHDM as RefObj
 //   - 'arr' variable has no initial value
 //   - runtime behavior (arr.size returns 0 then 1 after allocation)
 
@@ -51,7 +51,9 @@
 #include <hldb/design.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
+#include <hldb/task_func.h>
 #include <hldb/variable.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -173,7 +175,7 @@ TEST_F(Alloc, FirstStmtIsDisplayWithAssertZero) {
   EXPECT_EQ(fmt->getDecompile(), "\":assert: (%d == 0)\"");
 }
 
-TEST_F(Alloc, FirstDisplaySecondArgIsArrSizeRefObj) {
+TEST_F(Alloc, FirstDisplaySecondArgIsArrSizeCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -185,12 +187,15 @@ TEST_F(Alloc, FirstDisplaySecondArgIsArrSizeRefObj) {
   ASSERT_NE(sc->getArguments(), nullptr);
   const hldb::NamedArgument *const arg1 = sc->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), "arr.size");
+  // IEEE 1800-2023 13.5.5 / 37.42 detail 2: arr.size (no parentheses) is a call of the
+  // associative-array method size() (7.9.1), with the receiver 'arr' as its prefix.
+  const hldb::MethodFuncCall *const call = arg1->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "arr.size should be a MethodFuncCall";
+  EXPECT_EQ(call->getName(), std::string_view("size"));
+  EXPECT_TRUE(call->getIsProperty()) << "arr.size is written without parentheses";
 }
 
-TEST_F(Alloc, ArrSizeRefObjHasTwoElems) {
+TEST_F(Alloc, ArrSizeCallPrefixIsArr) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -201,16 +206,15 @@ TEST_F(Alloc, ArrSizeRefObjHasTwoElems) {
   ASSERT_NE(sc, nullptr);
   const hldb::NamedArgument *const arg1 = sc->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  EXPECT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::RefObj *const ro0 = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
-  ASSERT_NE(ro0, nullptr);
-  EXPECT_EQ(ro0->getName(), "arr");
-  const hldb::MethodFuncCall *const ro1 = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(ro1, nullptr);
-  EXPECT_EQ(ro1->getName(), "size");
+  const hldb::MethodFuncCall *const call = arg1->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr);
+  ASSERT_NE(call->getPrefix(), nullptr) << "arr.size must have receiver 'arr' as vpiPrefix";
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(receiver, nullptr);
+  EXPECT_EQ(receiver->getName(), std::string_view("arr"));
+  EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr) << "receiver 'arr' should resolve to Variable arr";
+  ASSERT_NE(call->getTaskFunc(), nullptr) << "arr.size must bind to the builtin size() method (7.9.1)";
+  EXPECT_EQ(call->getTaskFunc()->getName(), std::string_view("size"));
 }
 
 // --- arr[10] = 10 ----

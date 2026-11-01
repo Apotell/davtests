@@ -45,37 +45,23 @@
 //     (vpiConstType=unbounded), right bound is Constant "2"
 //     (vpiConstType=unsigned int) -- i.e. the parser keeps the "$:2" bound
 //     on the queue's Range rather than discarding it
-//   - the 4 "q.push_back(N)" calls are each parsed as a RefObj with 2
-//     path elements: RefObj "q" (resolved to Variable "q") and a
-//     MethodFuncCall named "push_back" carrying 1 Constant argument (1, 2,
-//     3, 4 respectively)
+//   - the 4 "q.push_back(N)" calls are each a MethodFuncCall with vpiPrefix
+//     RefObj "q" (resolved to Variable "q"), named "push_back" carrying 1
+//     Constant argument (1, 2, 3, 4 respectively)
 //   - "q[0]"/"q[1]"/"q[2]" are BitSelects with prefix RefObj "q" (resolved
 //     to Variable "q") and Constant indices 0, 1, 2
-//   - "q.size" (no parens) must be parsed as a RefObj with 2 path
-//     elements: RefObj "q" (resolved) and a MethodFuncCall named "size"
-//     taking no arguments -- see the KNOWN BUG note below
+//   - "q.size" (no parens) is a MethodFuncCall named "size" (vpiIsProperty, no
+//     arguments) whose vpiPrefix is RefObj "q" (resolved)
 //   - the initial process' Begin block has exactly 8 statements in source
 //     order
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
 //
-// KNOWN COMPILER BUG (not a defect in bounded.sv):
-//   IEEE 1800-2017 7.24.4 explicitly permits the built-in ".size" method to
-//   be called with or without parentheses when it takes no arguments. This
-//   HLC build never resolves the parenthesis-less form: instead of a
-//   MethodFuncCall, "size" in "q.size" is left as an unresolved RefObj, and
-//   the compiler raises a spurious CompFailedToBind ("Failed
-//   to bind") error for it. That the parenthesized form works
-//   correctly is independently verified by
-//   chapter-5/5.13-builtin-methods-arrays.sv ("array.size()") and
-//   chapter-7/queues/persistence/persistence.sv ("q.delete()"): both
-//   resolve to a MethodFuncCall with getArguments() == nullptr, which is
-//   exactly the shape the tests below require for the parenthesis-less
-//   form. The FourthDisplaySecondArgIsQDotSize test and the two error-count
-//   tests below assert this IEEE-mandated behavior and will FAIL until the
-//   parser is fixed to recognize parenthesis-less no-arg built-in method
-//   calls; they are intentionally red, not intentionally tolerant, of this
-//   bug (same underlying gap tracked for chapter-7/arrays/associative/
-//   locator-methods/find/find.sv).
+// Parenthesis-less built-in method calls (IEEE 1800-2023 13.5.5, 7.12,
+// 7.10.2): a no-argument method such as "q.size" may be called without
+// parentheses. Such a call is modeled like the parenthesized form -- a
+// MethodFuncCall named after the method, with vpiIsProperty set, no
+// arguments, and the receiver (RefObj "q") as its vpiPrefix (37.42
+// detail 2) -- and must not raise CompFailedToBind.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -228,24 +214,19 @@ TEST_F(QueuesBoundedTest, InitialBeginHasEightStmts) {
   EXPECT_EQ(begin->getStmts()->size(), 8u);
 }
 
-// --- q.push_back(1/2/3/4) parsed as RefObj + MethodFuncCall ----
+// --- q.push_back(1/2/3/4): MethodFuncCall with vpiPrefix "q" ----
 
 TEST_F(QueuesBoundedTest, FirstPushBackCallsPushBackWithArgOne) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(0));
-  ASSERT_NE(hp, nullptr) << "'q.push_back(1)' should be a RefObj";
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-
-  const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(0));
+  ASSERT_NE(call, nullptr) << "'q.push_back(1)' should be a MethodFuncCall";
+  const hldb::RefObj *const qRef = call->getPrefix<hldb::RefObj>();
   ASSERT_NE(qRef, nullptr);
   EXPECT_EQ(qRef->getName(), "q");
   EXPECT_NE(qRef->getActual<hldb::Variable>(), nullptr) << "'q' should resolve to the declared Variable";
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'push_back' should be a MethodFuncCall";
-  EXPECT_EQ(call->getName(), "push_back");
+  EXPECT_EQ(call->getName(), std::string_view("push_back"));
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
@@ -258,12 +239,9 @@ TEST_F(QueuesBoundedTest, FirstPushBackCallsPushBackWithArgOne) {
 TEST_F(QueuesBoundedTest, SecondPushBackCallsPushBackWithArgTwo) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(1));
-  ASSERT_NE(hp, nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(1));
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "push_back");
+  EXPECT_EQ(call->getName(), std::string_view("push_back"));
   ASSERT_EQ(call->getArguments()->size(), 1u);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
@@ -275,12 +253,9 @@ TEST_F(QueuesBoundedTest, SecondPushBackCallsPushBackWithArgTwo) {
 TEST_F(QueuesBoundedTest, ThirdPushBackCallsPushBackWithArgThree) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(2));
-  ASSERT_NE(hp, nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(2));
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "push_back");
+  EXPECT_EQ(call->getName(), std::string_view("push_back"));
   ASSERT_EQ(call->getArguments()->size(), 1u);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
@@ -348,12 +323,9 @@ TEST_F(QueuesBoundedTest, SecondDisplayIsQueueFullMarker) {
 TEST_F(QueuesBoundedTest, FourthPushBackCallsPushBackWithArgFour) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(5));
-  ASSERT_NE(hp, nullptr) << "'q.push_back(4)' should be a RefObj even though the queue is already full";
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "push_back");
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(5));
+  ASSERT_NE(call, nullptr) << "'q.push_back(4)' should be a MethodFuncCall even though the queue is already full";
+  EXPECT_EQ(call->getName(), std::string_view("push_back"));
   ASSERT_EQ(call->getArguments()->size(), 1u);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
@@ -399,20 +371,15 @@ TEST_F(QueuesBoundedTest, FourthDisplaySecondArgIsQDotSize) {
   ASSERT_NE(disp, nullptr);
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "q.size");
-  ASSERT_NE(size->getPathElems(), nullptr);
-  ASSERT_EQ(size->getPathElems()->size(), 2u);
-
-  const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(size->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const sizeCall = arg1->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(sizeCall, nullptr) << "'size' without parens should resolve to a MethodFuncCall, not a plain RefObj";
+  const hldb::RefObj *const qRef = sizeCall->getPrefix<hldb::RefObj>();
   ASSERT_NE(qRef, nullptr);
   EXPECT_EQ(qRef->getName(), "q");
   EXPECT_NE(qRef->getActual<hldb::Variable>(), nullptr);
 
-  const hldb::MethodFuncCall *const sizeCall = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
-  ASSERT_NE(sizeCall, nullptr) << "'size' without parens should resolve to a MethodFuncCall, not a plain RefObj";
-  EXPECT_EQ(sizeCall->getName(), "size");
+  EXPECT_EQ(sizeCall->getName(), std::string_view("size"));
+  EXPECT_TRUE(sizeCall->getIsProperty()) << "'size' is written without parentheses (13.5.5)";
   EXPECT_EQ(sizeCall->getArguments(), nullptr) << "size() takes no arguments";
 }
 

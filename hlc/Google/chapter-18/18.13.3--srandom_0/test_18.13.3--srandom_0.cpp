@@ -141,8 +141,8 @@
 //     - formals, in order: 'name' (input, string, 6.16) and 'parent'
 //       (input, a handle to uvm_pkg's uvm_component)
 //     - the body is the single statement 'super.new(name, parent);' (8.15):
-//       a hierarchical RefObj whose prefix 'super' binds to uvm_env, and
-//       whose MethodFuncCall 'new' binds to uvm_env's own constructor. Its
+//       a MethodFuncCall 'new' bound to uvm_env's own constructor, whose
+//       vpiPrefix (37.42) is the RefObj 'super' bound to uvm_env. Its
 //       2 arguments, name then parent, bind to the Variables holding THIS
 //       constructor's formals (37.13/37.15).
 //   task run_phase(uvm_phase phase); ... endtask: run_phase (13.3)
@@ -150,8 +150,9 @@
 //       end label 'run_phase'
 //     - the body executes 3 statements, in order: phase.raise_objection
 //       (this), a begin-end, and phase.drop_objection(this)
-//     - each objection call is a hierarchical RefObj: prefix 'phase' bound
-//       to the Variable holding the formal (37.13/37.15), then a MethodFuncCall of that name that resolves to
+//     - each objection call is a MethodFuncCall of that name whose vpiPrefix
+//       (37.42) is 'phase', bound to the Variable holding the formal
+//       (37.13/37.15); the call resolves to
 //       a Function of the same name, with exactly one argument, 'this',
 //       bound to class env (8.11)
 //   begin ... end (lines 35-47)
@@ -159,13 +160,13 @@
 //       assignment, the prev_x assignment, srandom, the ret2 assignment and
 //       the if. The blank line 46 is not a statement.
 //   obj.srandom(seed); (lines 36 and 39, 18.13.3)
-//     - a bare hierarchical RefObj statement: prefix 'obj' bound to env's
-//       property, then a MethodFuncCall "srandom" with exactly one
-//       argument, a RefObj bound to env's property 'seed'
+//     - a MethodFuncCall "srandom" statement whose vpiPrefix (37.42) is
+//       'obj' bound to env's property, with exactly one argument, a RefObj
+//       bound to env's property 'seed'
 //   ret1 = obj.randomize(); and ret2 = obj.randomize(); (18.6.1)
 //     - blocking Assignments to env's 'ret1' / 'ret2' whose RHS is the
-//       hierarchical RefObj obj.randomize(): a MethodFuncCall "randomize"
-//       with no arguments and no 'with' inline constraint (18.7)
+//       MethodFuncCall "randomize" with vpiPrefix 'obj', no arguments and
+//       no 'with' inline constraint (18.7)
 //   prev_x = obj.x;
 //     - blocking Assignment to env's 'prev_x' whose RHS is the hierarchical
 //       RefObj obj.x: prefix bound to env's 'obj', member bound to class
@@ -624,19 +625,16 @@ class Srandom0Test : public Test {
     ExpectBoundRef(path->getPathElems()->at(1), "x", getX());
   }
 
-  // Verifies 'expr' is 'obj.<method>(...)': a hierarchical RefObj whose
-  // prefix binds to env's 'obj' and whose last element is a MethodFuncCall
-  // named 'method'. Stores that call in 'call'.
+  // Verifies 'expr' is 'obj.<method>(...)': a MethodFuncCall named 'method'
+  // whose vpiPrefix (37.42 detail 2) is a RefObj bound to env's 'obj'.
+  // Stores that call in 'call'.
   static void ExpectObjMethodCall(const hldb::Any *expr, std::string_view method, const hldb::MethodFuncCall **call) {
     *call = nullptr;
-    const hldb::RefObj *const path = any_cast<hldb::RefObj>(expr);
-    ASSERT_NE(path, nullptr) << "'obj." << method << "(...)' should be a hierarchical RefObj";
-    ASSERT_NE(path->getPathElems(), nullptr);
-    ASSERT_EQ(path->getPathElems()->size(), 2u);
-    ExpectBoundRef(path->getPathElems()->at(0), "obj", getProperty("obj"));
-    const hldb::MethodFuncCall *const found = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-    ASSERT_NE(found, nullptr) << "'" << method << "' is a function called through a handle, so a MethodFuncCall";
+    const hldb::MethodFuncCall *const found = any_cast<hldb::MethodFuncCall>(expr);
+    ASSERT_NE(found, nullptr) << "'obj." << method << "(...)' calls a function through a handle, so it is a "
+                              << "MethodFuncCall";
     EXPECT_EQ(found->getName(), method);
+    ExpectBoundRef(found->getPrefix(), "obj", getProperty("obj"));
     *call = found;
   }
 
@@ -668,20 +666,16 @@ class Srandom0Test : public Test {
 
   // Verifies 'stmt' is 'phase.<method>(this);'.
   static void ExpectObjectionCall(const hldb::Any *stmt, std::string_view method) {
-    const hldb::RefObj *const path = any_cast<hldb::RefObj>(stmt);
-    ASSERT_NE(path, nullptr) << "'phase." << method << "(this)' should be a hierarchical RefObj";
-    ASSERT_NE(path->getPathElems(), nullptr);
-    ASSERT_EQ(path->getPathElems()->size(), 2u);
+    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(stmt);
+    ASSERT_NE(call, nullptr) << "'phase." << method << "(this)' calls a function of uvm_phase, so it is a "
+                             << "MethodFuncCall";
+    EXPECT_EQ(call->getName(), method);
     const hldb::Task *const runPhase = getRunPhase();
     ASSERT_NE(runPhase, nullptr);
-    // 37.15: the prefix references the formal, which resolves to the
-    // Variable holding it, never to the IODecl.
-    ExpectBoundRef(path->getPathElems()->at(0), "phase",
-                   hldb::findByName<hldb::Variable>("phase", runPhase->getVariables()));
-
-    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-    ASSERT_NE(call, nullptr) << "'" << method << "' is a function of uvm_phase, so it is a MethodFuncCall";
-    EXPECT_EQ(call->getName(), method);
+    // 37.42 detail 2: vpiPrefix is the object the method is applied to.
+    // 37.15: it references the formal, which resolves to the Variable
+    // holding it, never to the IODecl.
+    ExpectBoundRef(call->getPrefix(), "phase", hldb::findByName<hldb::Variable>("phase", runPhase->getVariables()));
     const hldb::Function *const target = call->getTaskFunc<hldb::Function>();
     ASSERT_NE(target, nullptr) << "'" << method << "' must resolve to uvm_phase's function";
     EXPECT_EQ(target->getName(), method);
@@ -1041,21 +1035,18 @@ TEST_F(Srandom0Test, EnvNewHasFormalsNameAndParent) {
 TEST_F(Srandom0Test, EnvNewBodyIsSuperNewOfNameAndParent) {
   const hldb::Function *const ctor = getEnvNew();
   ASSERT_NE(ctor, nullptr);
-  const hldb::RefObj *const path = ctor->getStmt<hldb::RefObj>();
-  ASSERT_NE(path, nullptr) << "'super.new(name, parent);' is the only statement, so it is not wrapped in a Begin";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
+  const hldb::MethodFuncCall *const call = ctor->getStmt<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "'super.new(name, parent);' is the only statement, so it is not wrapped in a Begin; "
+                              "it is a MethodFuncCall";
+  EXPECT_EQ(call->getName(), std::string_view("new"));
 
-  const hldb::RefObj *const superRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(superRef, nullptr);
-  EXPECT_EQ(superRef->getName(), "super");
+  // 37.42 detail 2: vpiPrefix is the object the method is applied to.
+  const hldb::RefObj *const superRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(superRef, nullptr) << "the receiver of 'super.new(...)' should be the RefObj 'super'";
+  EXPECT_EQ(superRef->getName(), std::string_view("super"));
   ASSERT_NE(getUvmClass("uvm_env"), nullptr);
   EXPECT_EQ(superRef->getActual<hldb::ClassDefn>(), getUvmClass("uvm_env"))
       << "8.15: 'super' is the base class uvm_env";
-
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'super.new(...)' should end in a MethodFuncCall";
-  EXPECT_EQ(call->getName(), "new");
   ASSERT_NE(getUvmEnvNew(), nullptr);
   EXPECT_EQ(call->getTaskFunc(), getUvmEnvNew()) << "8.15: 'super.new' calls uvm_env's own constructor";
   ASSERT_NE(call->getArguments(), nullptr);
@@ -1095,9 +1086,9 @@ TEST_F(Srandom0Test, RunPhaseBodyIsRaiseBlockDrop) {
   ASSERT_NE(body, nullptr) << "a body with more than one statement should be wrapped in a Begin";
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 3u) << "raise_objection, begin-end, drop_objection";
-  EXPECT_NE(any_cast<hldb::RefObj>(body->getStmts()->at(0)), nullptr);
+  EXPECT_NE(any_cast<hldb::MethodFuncCall>(body->getStmts()->at(0)), nullptr) << "phase.raise_objection(this)";
   EXPECT_NE(any_cast<hldb::Begin>(body->getStmts()->at(1)), nullptr) << "line 35 opens an explicit begin-end";
-  EXPECT_NE(any_cast<hldb::RefObj>(body->getStmts()->at(2)), nullptr);
+  EXPECT_NE(any_cast<hldb::MethodFuncCall>(body->getStmts()->at(2)), nullptr) << "phase.drop_objection(this)";
 }
 
 TEST_F(Srandom0Test, RunPhaseRaisesObjectionOnThis) { ExpectObjectionCall(getRunPhaseStmt(0), "raise_objection"); }
@@ -1109,10 +1100,10 @@ TEST_F(Srandom0Test, InnerBlockHoldsSixStatementsInOrder) {
   ASSERT_NE(block, nullptr);
   ASSERT_NE(block->getStmts(), nullptr);
   ASSERT_EQ(block->getStmts()->size(), 6u) << "lines 36-41; the blank line 46 is not a statement";
-  EXPECT_NE(any_cast<hldb::RefObj>(getInnerStmt(0)), nullptr) << "statement 0 is 'obj.srandom(seed);'";
+  EXPECT_NE(any_cast<hldb::MethodFuncCall>(getInnerStmt(0)), nullptr) << "statement 0 is 'obj.srandom(seed);'";
   EXPECT_NE(any_cast<hldb::Assignment>(getInnerStmt(1)), nullptr) << "statement 1 is 'ret1 = obj.randomize();'";
   EXPECT_NE(any_cast<hldb::Assignment>(getInnerStmt(2)), nullptr) << "statement 2 is 'prev_x = obj.x;'";
-  EXPECT_NE(any_cast<hldb::RefObj>(getInnerStmt(3)), nullptr) << "statement 3 is 'obj.srandom(seed);'";
+  EXPECT_NE(any_cast<hldb::MethodFuncCall>(getInnerStmt(3)), nullptr) << "statement 3 is 'obj.srandom(seed);'";
   EXPECT_NE(any_cast<hldb::Assignment>(getInnerStmt(4)), nullptr) << "statement 4 is 'ret2 = obj.randomize();'";
   EXPECT_NE(getIfElse(), nullptr) << "12.4: statement 5 is an if with an else, so it is an IfElse";
 }

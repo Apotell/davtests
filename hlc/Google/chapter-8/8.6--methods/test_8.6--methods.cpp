@@ -72,10 +72,10 @@
 //   - the initial process' Begin block has exactly 5 statements:
 //     "test_obj = new", "test_obj.a = 12", "$display(test_obj.a)",
 //     "test_obj.test_method(9)", "$display(test_obj.a)"
-//   - "test_obj.test_method(9)" is itself a bare RefObj statement (not
-//     wrapped in a SysFuncCall or Assignment): 2 path elems (RefObj
-//     "test_obj" resolved to the Variable; MethodFuncCall "test_method" taking
-//     1 Constant argument "9") -- and crucially, that MethodFuncCall's
+//   - "test_obj.test_method(9)" is itself a MethodTaskCall statement (not
+//     wrapped in a SysFuncCall or Assignment) named "test_method", whose
+//     vpiPrefix (37.42 detail 2) is the RefObj "test_obj" resolved to the
+//     Variable, taking 1 Constant argument "9" -- and crucially, that call's
 //     getTaskFunc() resolves back to the SAME Task object declared as
 //     "test_cls"'s method, confirming the call is tied to its declaration
 //   - design-level: exactly 1 class (test_cls)
@@ -515,19 +515,16 @@ TEST_F(ClassMethodsTest, FourthStmtIsTestMethodCallRefObj) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
   ASSERT_GT(begin->getStmts()->size(), 3u);
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(begin->getStmts()->at(3));
-  ASSERT_NE(path, nullptr) << "'test_obj.test_method(9)' should itself be a bare RefObj statement";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
+  const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(begin->getStmts()->at(3));
+  ASSERT_NE(call, nullptr) << "'test_obj.test_method(9)' (a task, not a function) should itself be a "
+                              "MethodTaskCall statement";
+  EXPECT_EQ(call->getName(), std::string_view("test_method"));
 
-  const hldb::RefObj *const testObjRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(testObjRef, nullptr);
-  EXPECT_EQ(testObjRef->getName(), "test_obj");
+  const hldb::RefObj *const testObjRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(testObjRef, nullptr) << "37.42: the receiver 'test_obj' should be the call's prefix";
+  EXPECT_EQ(testObjRef->getName(), std::string_view("test_obj"));
   EXPECT_EQ(testObjRef->getActual<hldb::Variable>(), getVariableTestObj());
 
-  const hldb::MethodTaskCall *const call = any_cast<hldb::MethodTaskCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'test_method(9)' (a task, not a function) should resolve to a MethodTaskCall";
-  EXPECT_EQ(call->getName(), "test_method");
   const hldb::Task *const t = getTestMethodTask();
   EXPECT_EQ(call->getTaskFunc<hldb::Task>(), t) << "the call must resolve back to the SAME Task declared as "
                                                    "test_cls's method";

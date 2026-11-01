@@ -35,33 +35,13 @@
 //     a queue ("int qi[$]") as vpiQueueArray.
 //     -> IntTypespec (anonymous RefTypespec, no vpiName, unlike "string")
 //   - Initial process: 1 Begin with 3 stmts (Assignment + 2 SysFuncCall)
-//   - Assignment: qi = s.find_first_index with (item == "hello") is a
-//     RefObj "s.find_first_index" whose 2nd path elem is a MethodFuncCall
-//     "find_first_index" with a vpiWith Operation (equal) comparing RefObj
-//     "item" to Constant "hello"
-//   - both $display calls and their RefObj("qi.size")/BitSelect("qi[0]")
+//   - Assignment: qi = s.find_first_index rhs is a MethodFuncCall "find_first_index" (IEEE 1800-2023
+//     37.42 detail 2) whose vpiPrefix is RefObj "s" (bound to the
+//     Variable); written without parentheses, so vpiIsProperty is set
+//     (13.5.5); any with clause stays on the call (vpiWith)
+//   - both $display calls and their MethodFuncCall("size", prefix "qi")/BitSelect("qi[0]")
 //     arguments
 //   - design-level typespecs (3): ModuleTypespec, StringTypespec, IntTypespec
-//   - compiler emits exactly 1 error (m_fatals=0, m_syntaxes=0, m_errors=1,
-//     m_warnings=0): CompFailedToBind for the still-unresolved bare
-//     ".size" call. The with-clause "item" iterator now resolves to a
-//     synthesized implicit-iterator Variable (via
-//     ObjectBinder::findInMethodFuncCall) and no longer errors.
-//
-// Not checked:
-//   - MethodFuncCall "size" getTaskFunc() -- always null because the
-//     compiler does not yet resolve a parenthesis-less built-in method call
-//     (this IS the bug being documented, not a gap in test coverage)
-//
-// Compiler limitation (NOT a code error in find-first-index.sv):
-//   IEEE 1800-2017 7.12.1 defines "item" as an implicit iterator variable
-//   inside an array locator method's "with" clause -- HLC now resolves this
-//   to a synthesized iterator Variable. Separately, 7.12/7.24.4 permit the
-//   built-in ".size" method to be called with or without parentheses; HLC
-//   does not yet resolve this parenthesis-less form and raises
-//   CompFailedToBind for "size". find-first-index.sv is valid
-//   SystemVerilog; the 1 error below is a known compiler/API limitation,
-//   not a defect in the test source.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -256,7 +236,7 @@ TEST_F(ArrayLocatorFindFirstIndexTest, AssignmentIsBlockingToQi) {
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(ArrayLocatorFindFirstIndexTest, AssignmentRhsIsRefObjSDotFindFirstIndex) {
+TEST_F(ArrayLocatorFindFirstIndexTest, AssignmentRhsIsMethodFuncCallFindFirstIndexOnS) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -265,14 +245,12 @@ TEST_F(ArrayLocatorFindFirstIndexTest, AssignmentRhsIsRefObjSDotFindFirstIndex) 
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  const hldb::MethodFuncCall *const rhs = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), std::string_view("s.find_first_index"));
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
+  EXPECT_EQ(rhs->getName(), std::string_view("find_first_index"));
+  const hldb::RefObj *const sRef = rhs->getPrefix<hldb::RefObj>();
   ASSERT_NE(sRef, nullptr);
-  EXPECT_EQ(sRef->getName(), "s");
+  EXPECT_EQ(sRef->getName(), std::string_view("s"));
   EXPECT_NE(sRef->getActual<hldb::Variable>(), nullptr);
 }
 
@@ -281,10 +259,8 @@ TEST_F(ArrayLocatorFindFirstIndexTest, MethodFuncCallIsNamedFindFirstIndex) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const rhs =
-      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call =
+      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "find_first_index");
 }
@@ -294,10 +270,8 @@ TEST_F(ArrayLocatorFindFirstIndexTest, MethodFuncCallWithClauseComparesItemToHel
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const rhs =
-      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call =
+      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   const hldb::Operation *const with = call->getWith<hldb::Operation>();
   ASSERT_NE(with, nullptr);
@@ -345,18 +319,16 @@ TEST_F(ArrayLocatorFindFirstIndexTest, FirstDisplaySecondArgIsQiDotSize) {
   ASSERT_NE(disp, nullptr);
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
+  const hldb::MethodFuncCall *const size = arg1->getHighConn<hldb::MethodFuncCall>();
   ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "qi.size");
-  ASSERT_NE(size->getPathElems(), nullptr);
-  ASSERT_EQ(size->getPathElems()->size(), 2u);
-  const hldb::RefObj *const qiRef = any_cast<hldb::RefObj>(size->getPathElems()->at(0));
+  EXPECT_EQ(size->getName(), std::string_view("size"));
+  // Written without parentheses (13.5.5, 7.10.2).
+  EXPECT_TRUE(size->getIsProperty());
+  EXPECT_NE(size->getTaskFunc(), nullptr);
+  const hldb::RefObj *const qiRef = size->getPrefix<hldb::RefObj>();
   ASSERT_NE(qiRef, nullptr);
-  EXPECT_EQ(qiRef->getName(), "qi");
+  EXPECT_EQ(qiRef->getName(), std::string_view("qi"));
   EXPECT_NE(qiRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
-  ASSERT_NE(sizeRef, nullptr);
-  EXPECT_EQ(sizeRef->getName(), "size");
 }
 
 // --- $display(":assert: (%d == 0)", qi[0]) ----

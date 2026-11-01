@@ -201,9 +201,10 @@ TEST_F(ConstFunctionTest, ParamAExprIsPresentAndDescribesTheConstantFunctionCall
   const hldb::Any *const rhs = paramAssign->getRhs();
   ASSERT_NE(rhs, nullptr) << "'localparam a = fun(3);' must have a non-null initializer expression";
 
-  if (const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs)) {
+  // 'fun' is a module-level function, not a method (8.2): a plain FuncCall.
+  if (const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(rhs)) {
     // HLC preserved the call as-is; verify its shape per 13.4.3.
-    EXPECT_EQ(call->getName(), "fun");
+    EXPECT_EQ(call->getName(), std::string_view("fun"));
     EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getFun()) << "call should resolve back to the 'fun' declaration";
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);

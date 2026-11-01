@@ -138,12 +138,14 @@
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
 #include <hldb/method_func_call.h>
+#include <hldb/method_task_call.h>
 #include <hldb/module.h>
 #include <hldb/named_argument.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/subroutine_call.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_func_call.h>
 #include <hldb/task.h>
@@ -162,15 +164,24 @@
 namespace {
 struct CallSite {
   const hldb::TFCall *m_call = nullptr;
-  // Hierarchical reference "x.y.method(...)" that holds the call, if any.
+  // The object the method is applied to ("x.y" in "x.y.method(...)"): the
+  // call's vpiPrefix (37.42 detail 2), if it is a RefObj.
   const hldb::RefObj *m_owner = nullptr;
 };
+
+// The receiver (vpiPrefix) of a method call, or nullptr for a call with none.
+const hldb::Any *callReceiver(const hldb::TFCall *call) {
+  if (const hldb::MethodFuncCall *const mfc = any_cast<hldb::MethodFuncCall>(call)) return mfc->getPrefix();
+  if (const hldb::MethodTaskCall *const mtc = any_cast<hldb::MethodTaskCall>(call)) return mtc->getPrefix();
+  if (const hldb::SubroutineCall *const sc = any_cast<hldb::SubroutineCall>(call)) return sc->getPrefix();
+  return nullptr;
+}
 
 // Collects, in source order, every task/function call reachable from a statement.
 void collectCalls(const hldb::Any *node, const hldb::RefObj *owner, std::vector<CallSite> *out) {
   if (node == nullptr) return;
   if (const hldb::TFCall *const call = any_cast<hldb::TFCall>(node)) {
-    out->emplace_back(CallSite{call, owner});
+    out->emplace_back(CallSite{call, any_cast<hldb::RefObj>(callReceiver(call))});
   } else if (const hldb::RefObj *const ref = any_cast<hldb::RefObj>(node)) {
     if (const hldb::AnyCollection *const elems = ref->getPathElems()) {
       for (const hldb::Any *const elem : *elems) collectCalls(elem, ref, out);
@@ -214,9 +225,12 @@ std::vector<CallSite> filterCalls(const std::vector<CallSite> &calls, std::initi
   return kept;
 }
 
-// Name of the i-th element of a hierarchical reference, or "" when absent.
+// Name of the i-th element of a reference, or "" when absent. A simple
+// (non-hierarchical) reference is its own single element.
 std::string_view pathElemName(const hldb::RefObj *owner, size_t index) {
-  if ((owner == nullptr) || (owner->getPathElems() == nullptr) || (owner->getPathElems()->size() <= index)) return "";
+  if (owner == nullptr) return "";
+  if (owner->getPathElems() == nullptr) return (index == 0) ? owner->getName() : std::string_view("");
+  if (owner->getPathElems()->size() <= index) return "";
   return owner->getPathElems()->at(index)->getName();
 }
 

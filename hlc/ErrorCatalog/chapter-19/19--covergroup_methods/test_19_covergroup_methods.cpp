@@ -47,6 +47,7 @@
 #include <hldb/design.h>
 #include <hldb/function.h>
 #include <hldb/method_func_call.h>
+#include <hldb/method_task_call.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
@@ -64,11 +65,29 @@ class CovergroupMethodsTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  const hldb::RefObj *findPath(std::string_view name) const {
-    for (const hldb::Any *const any : m_session->getDatabase().getObjects<hldb::RefObj>()) {
-      if (any->getName() != name) continue;
-      const hldb::RefObj *const ro = hier_cast<hldb::RefObj>(any);
-      if (ro != nullptr) return ro;
+  // Every call under test is written "<receiver>.<method>(...)". A method call is its own
+  // MethodFuncCall/MethodTaskCall named after the bare method, with the receiver expression
+  // as its vpiPrefix (IEEE 1800-2023 37.42 detail 2) -- a RefObj named after the receiver
+  // text (a RefObj path for a dotted receiver such as "inst.cp_a"). The call is found by
+  // method name plus receiver name.
+  const hldb::TFCall *findCall(std::string_view text) const {
+    const std::string_view head = text.substr(0, text.find('('));
+    const size_t dot = head.rfind('.');
+    if (dot == std::string_view::npos) return nullptr;
+    const std::string_view receiver = head.substr(0, dot);
+    const std::string_view method = head.substr(dot + 1);
+    for (const hldb::Any *const any : m_session->getDatabase().getObjects()) {
+      const hldb::RefObj *prefix = nullptr;
+      if (const hldb::MethodFuncCall *const mfc = any_cast<hldb::MethodFuncCall>(any)) {
+        prefix = mfc->getPrefix<hldb::RefObj>();
+      } else if (const hldb::MethodTaskCall *const mtc = any_cast<hldb::MethodTaskCall>(any)) {
+        prefix = mtc->getPrefix<hldb::RefObj>();
+      } else {
+        continue;
+      }
+      if ((any->getName() == method) && (prefix != nullptr) && (prefix->getName() == receiver)) {
+        return any_cast<hldb::TFCall>(any);
+      }
     }
     return nullptr;
   }
@@ -76,11 +95,8 @@ class CovergroupMethodsTest : public Test {
   // The class the resolved method is declared in. Sentinels are returned rather than
   // asserted so a failure names the stage that broke instead of just "not equal".
   std::string_view ownerOfCall(std::string_view name) const {
-    const hldb::RefObj *const ro = findPath(name);
-    if (ro == nullptr) return "<no path>";
-
-    const hldb::TFCall *const call = any_cast<hldb::TFCall>(ro->getPathElems()->back());
-    if (call == nullptr) return "<trailing element is not a call>";
+    const hldb::TFCall *const call = findCall(name);
+    if (call == nullptr) return "<no call>";
     if (call->getTaskFunc() == nullptr) return "<unresolved>";
 
     const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(call->getTaskFunc()->getParent());
@@ -103,42 +119,41 @@ TEST_F(CovergroupMethodsTest, CovergroupIsDeclared) {
 // Table 19-5 -- all six, on the covergroup itself
 // ---------------------------------------------------------------------------
 TEST_F(CovergroupMethodsTest, SampleBindsToCoverGroup) {
-  EXPECT_EQ(ownerOfCall("inst.sample()"), "CoverGroup")
+  EXPECT_EQ(ownerOfCall("inst.sample()"), std::string_view("CoverGroup"))
       << "void sample() must bind (IEEE 1800-2023 Table 19-5)";
 }
 
 TEST_F(CovergroupMethodsTest, StartBindsToCoverGroup) {
-  EXPECT_EQ(ownerOfCall("inst.start()"), "CoverGroup")
+  EXPECT_EQ(ownerOfCall("inst.start()"), std::string_view("CoverGroup"))
       << "void start() must bind (IEEE 1800-2023 Table 19-5)";
 }
 
 TEST_F(CovergroupMethodsTest, StopBindsToCoverGroup) {
-  EXPECT_EQ(ownerOfCall("inst.stop()"), "CoverGroup")
+  EXPECT_EQ(ownerOfCall("inst.stop()"), std::string_view("CoverGroup"))
       << "void stop() must bind (IEEE 1800-2023 Table 19-5)";
 }
 
 TEST_F(CovergroupMethodsTest, GetCoverageBindsToCoverGroup) {
-  EXPECT_EQ(ownerOfCall("inst.get_coverage()"), "CoverGroup")
+  EXPECT_EQ(ownerOfCall("inst.get_coverage()"), std::string_view("CoverGroup"))
       << "real get_coverage() must bind (IEEE 1800-2023 Table 19-5)";
 }
 
 TEST_F(CovergroupMethodsTest, GetInstCoverageBindsToCoverGroup) {
-  EXPECT_EQ(ownerOfCall("inst.get_inst_coverage()"), "CoverGroup")
+  EXPECT_EQ(ownerOfCall("inst.get_inst_coverage()"), std::string_view("CoverGroup"))
       << "real get_inst_coverage() must bind (IEEE 1800-2023 Table 19-5)";
 }
 
 TEST_F(CovergroupMethodsTest, SetInstNameBindsToCoverGroup) {
-  EXPECT_EQ(ownerOfCall("inst.set_inst_name(\"top.inst\")"), "CoverGroup")
+  EXPECT_EQ(ownerOfCall("inst.set_inst_name(\"top.inst\")"), std::string_view("CoverGroup"))
       << "void set_inst_name(string) must bind (IEEE 1800-2023 Table 19-5)";
 }
 
 // Table 19-5 gives the two coverage queries a real return and the other four void, so a
 // call used for its value and one used as a statement are distinguishable.
 TEST_F(CovergroupMethodsTest, ReturnKindsMatchTable195) {
-  const hldb::RefObj *const ro = findPath("inst.get_coverage()");
-  ASSERT_NE(ro, nullptr);
-  const hldb::TFCall *const call = any_cast<hldb::TFCall>(ro->getPathElems()->back());
+  const hldb::TFCall *const call = findCall("inst.get_coverage()");
   ASSERT_NE(call, nullptr);
+  EXPECT_EQ(call->getAnyType(), hldb::AnyType::MethodFuncCall) << "a covergroup method is a method (Table 19-5)";
   const hldb::Function *const fn = call->getTaskFunc<hldb::Function>();
   ASSERT_NE(fn, nullptr) << "get_coverage is a function, not a task";
   ASSERT_NE(fn->getReturn(), nullptr) << "get_coverage returns real, so it has a return type";
@@ -148,13 +163,12 @@ TEST_F(CovergroupMethodsTest, ReturnKindsMatchTable195) {
 // The receiver
 // ---------------------------------------------------------------------------
 TEST_F(CovergroupMethodsTest, ReceiverIsTheCovergroupInstance) {
-  const hldb::RefObj *const ro = findPath("inst.sample()");
-  ASSERT_NE(ro, nullptr);
-  ASSERT_GE(ro->getPathElems()->size(), 2u);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(findCall("inst.sample()"));
+  ASSERT_NE(call, nullptr);
 
-  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(ro->getPathElems()->at(0));
-  ASSERT_NE(receiver, nullptr);
-  EXPECT_EQ(receiver->getName(), "inst");
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(receiver, nullptr) << "the receiver should be the call's vpiPrefix (IEEE 1800-2023 37.42)";
+  EXPECT_EQ(receiver->getName(), std::string_view("inst"));
 
   const hldb::Variable *const var = receiver->getActual<hldb::Variable>();
   ASSERT_NE(var, nullptr) << "receiver 'inst' should resolve to the declared variable";
@@ -176,7 +190,7 @@ TEST_F(CovergroupMethodsTest, CoverageQueriesBindOnACoverpointReceiver) {
                   "fails to bind first. A CoverGroup is neither a typespec nor a scope in the "
                   "model, so the instance has no resolvable type through which to reach its "
                   "coverpoints. Needs a model change, not a binder one.";
-  EXPECT_EQ(ownerOfCall("inst.cp_a.get_coverage()"), "CoverGroup");
+  EXPECT_EQ(ownerOfCall("inst.cp_a.get_coverage()"), std::string_view("CoverGroup"));
 }
 
 TEST_F(CovergroupMethodsTest, CompilerReportsNoErrors) {

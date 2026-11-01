@@ -37,26 +37,19 @@
 //     a queue ("int qi[$]") as a queue array with an unbounded
 //     left-range ("$"); ElemTypespec -> IntTypespec
 //   - Initial process: 1 Begin with 4 stmts (Assignment + SysFuncCall +
-//     RefObj("qi.sort") + SysFuncCall)
-//   - Assignment: qi = s.unique is a RefObj "s.unique()" whose 2nd path
-//     elem IS a MethodFuncCall "unique" (unlike max/min, ".unique" with
-//     source parens-less call is still modeled as a method call) with no
-//     vpiWith clause (unique.sv has no "with" clause)
-//   - "qi.sort;" on its own line is parsed as a bare RefObj statement (not
-//     a SysFuncCall/MethodFuncCall) with 2 RefObj path elems: "qi" (resolved)
-//     and "sort" (unresolved)
-//   - both $display calls; first has RefObj("qi.size") argument, second
+//     MethodFuncCall("sort") + SysFuncCall)
+//   - Assignment: qi = s.unique rhs is a MethodFuncCall "unique" (IEEE 1800-2023
+//     37.42 detail 2) whose vpiPrefix is RefObj "s" (bound to the
+//     Variable); written without parentheses, so vpiIsProperty is set
+//     (13.5.5); any with clause stays on the call (vpiWith)
+//   - "qi.sort;" is a MethodFuncCall statement "sort" (prefix RefObj
+//     "qi", vpiIsProperty set: no parentheses, 13.5.5)
+//   - both $display calls; first has MethodFuncCall("size", prefix "qi") argument, second
 //     has 3 BitSelect("qi[0]"/"qi[1]"/"qi[2]") arguments
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
 //     (element type is int, so IntTypespec is created before the
 //     StringTypespec used for the $display format string constants --
 //     reversed order vs. the string-array locator-method tests)
-//   - compiler emits exactly 2 errors (m_fatals=0, m_syntaxes=0, m_errors=2,
-//     m_warnings=0), both CompFailedToBind: ".sort" and ".size" are both
-//     parenthesis-less built-in method calls (unique.sv has no "with" clause
-//     anywhere, so the now-fixed with-clause "item" iterator resolution --
-//     see ObjectBinder::findInMethodFuncCall -- does not apply to this file;
-//     ".unique" itself resolves fine as a MethodFuncCall name)
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -257,7 +250,7 @@ TEST_F(ArrayLocatorUniqueTest, AssignmentIsBlockingToQi) {
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(ArrayLocatorUniqueTest, AssignmentRhsIsRefObjSDotUnique) {
+TEST_F(ArrayLocatorUniqueTest, AssignmentRhsIsMethodFuncCallUniqueOnS) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -266,14 +259,12 @@ TEST_F(ArrayLocatorUniqueTest, AssignmentRhsIsRefObjSDotUnique) {
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  const hldb::MethodFuncCall *const rhs = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), std::string_view("s.unique"));
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
+  EXPECT_EQ(rhs->getName(), std::string_view("unique"));
+  const hldb::RefObj *const sRef = rhs->getPrefix<hldb::RefObj>();
   ASSERT_NE(sRef, nullptr);
-  EXPECT_EQ(sRef->getName(), "s");
+  EXPECT_EQ(sRef->getName(), std::string_view("s"));
   EXPECT_NE(sRef->getActual<hldb::Variable>(), nullptr);
 }
 
@@ -282,10 +273,8 @@ TEST_F(ArrayLocatorUniqueTest, MethodFuncCallIsNamedUniqueWithNoWithClause) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const rhs =
-      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call =
+      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "unique");
   // unique.sv has no "with" clause, unlike find/find_index/find_last/etc.
@@ -294,24 +283,21 @@ TEST_F(ArrayLocatorUniqueTest, MethodFuncCallIsNamedUniqueWithNoWithClause) {
 
 // --- qi.sort; ----
 
-TEST_F(ArrayLocatorUniqueTest, ThirdStmtIsRefObjQiDotSort) {
+TEST_F(ArrayLocatorUniqueTest, ThirdStmtIsMethodFuncCallSortOnQi) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const sort = any_cast<hldb::RefObj>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
+  const hldb::MethodFuncCall *const sort = any_cast<hldb::MethodFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(2));
   ASSERT_NE(sort, nullptr);
-  EXPECT_EQ(sort->getName(), "qi.sort");
-  ASSERT_NE(sort->getPathElems(), nullptr);
-  ASSERT_EQ(sort->getPathElems()->size(), 2u);
-  const hldb::RefObj *const qiRef = any_cast<hldb::RefObj>(sort->getPathElems()->at(0));
+  EXPECT_EQ(sort->getName(), std::string_view("sort"));
+  // Void function method called as a statement without parentheses (13.5.5, 7.12.2).
+  EXPECT_TRUE(sort->getIsProperty());
+  EXPECT_NE(sort->getTaskFunc(), nullptr);
+  const hldb::RefObj *const qiRef = sort->getPrefix<hldb::RefObj>();
   ASSERT_NE(qiRef, nullptr);
-  EXPECT_EQ(qiRef->getName(), "qi");
+  EXPECT_EQ(qiRef->getName(), std::string_view("qi"));
   EXPECT_NE(qiRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const sortRef = any_cast<hldb::MethodFuncCall>(sort->getPathElems()->at(1));
-  ASSERT_NE(sortRef, nullptr);
-  EXPECT_EQ(sortRef->getName(), "sort");
-  EXPECT_NE(sortRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: (%d == 3)", qi.size) ----
@@ -342,19 +328,16 @@ TEST_F(ArrayLocatorUniqueTest, FirstDisplaySecondArgIsQiDotSize) {
   ASSERT_NE(disp, nullptr);
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
+  const hldb::MethodFuncCall *const size = arg1->getHighConn<hldb::MethodFuncCall>();
   ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "qi.size");
-  ASSERT_NE(size->getPathElems(), nullptr);
-  ASSERT_EQ(size->getPathElems()->size(), 2u);
-  const hldb::RefObj *const qiRef = any_cast<hldb::RefObj>(size->getPathElems()->at(0));
+  EXPECT_EQ(size->getName(), std::string_view("size"));
+  // Written without parentheses (13.5.5, 7.10.2).
+  EXPECT_TRUE(size->getIsProperty());
+  EXPECT_NE(size->getTaskFunc(), nullptr);
+  const hldb::RefObj *const qiRef = size->getPrefix<hldb::RefObj>();
   ASSERT_NE(qiRef, nullptr);
-  EXPECT_EQ(qiRef->getName(), "qi");
+  EXPECT_EQ(qiRef->getName(), std::string_view("qi"));
   EXPECT_NE(qiRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
-  ASSERT_NE(sizeRef, nullptr);
-  EXPECT_EQ(sizeRef->getName(), "size");
-  EXPECT_NE(sizeRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: ((%d == 3) and (%d == 10) and (%d == 20))", ...) ----

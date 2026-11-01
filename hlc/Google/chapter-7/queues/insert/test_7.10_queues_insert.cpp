@@ -36,34 +36,24 @@
 //   - net "q": ArrayTypespec vpiArrayType=queue(4), unpacked, ElemTypespec
 //     -> IntTypespec (signed); range left bound Constant "$"
 //     (vpiConstType=unbounded)
-//   - "q.insert(0, 1)" is correctly parsed as a RefObj with a RefObj "q"
-//     (resolved to Net "q") and a MethodFuncCall named "insert" carrying 2
-//     Constant arguments, in order: "0" (the index) and "1" (the item) --
-//     confirming both the index and the inserted value are captured, and
-//     in the right positions
-//   - "q.size" (no parens) must resolve like "q.size()" would: a RefObj
-//     with RefObj "q" (resolved) and a MethodFuncCall named "size" taking
-//     no arguments -- see the KNOWN BUG note below
+//   - "q.insert(0, 1)" is a MethodFuncCall with vpiPrefix RefObj "q" (resolved
+//     to Variable "q"), named "insert" carrying 2 Constant arguments, in order:
+//     "0" (the index) and "1" (the item) -- confirming both the index and the
+//     inserted value are captured, and in the right positions
+//   - "q.size" (no parens) is a MethodFuncCall "size" (vpiIsProperty, no
+//     arguments) whose vpiPrefix is RefObj "q" (resolved)
 //   - "q[0]" is a BitSelect with prefix RefObj "q" (resolved) and index
 //     Constant "0"
 //   - the initial process' Begin block has exactly 3 statements in source
 //     order
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
 //
-// KNOWN COMPILER BUG (not a defect in insert.sv):
-//   IEEE 1800-2017 7.24.4 permits the built-in ".size" method to be called
-//   with or without parentheses. This HLC build never resolves the
-//   parenthesis-less form: instead of a MethodFuncCall, "size" in "q.size"
-//   is left as an unresolved RefObj, and a spurious
-//   CompFailedToBind ("Failed to bind") is raised for it
-//   (same gap tracked for chapter-7/queues/bounded/bounded.sv,
-//   chapter-7/queues/delete/delete.sv, chapter-7/queues/
-//   delete_assign/delete_assign.sv and chapter-7/queues/
-//   insert_assign/insert_assign.sv). That the parenthesized form works is
-//   independently verified by chapter-5/5.13-builtin-methods-arrays.sv
-//   ("array.size()"). The FirstDisplayAssertsSizeOne test and the two
-//   error-count tests below assert the IEEE-mandated behavior and will
-//   FAIL until the parser is fixed.
+// Parenthesis-less built-in method calls (IEEE 1800-2023 13.5.5, 7.12,
+// 7.10.2): a no-argument method such as "q.size" may be called without
+// parentheses. Such a call is modeled like the parenthesized form -- a
+// MethodFuncCall named after the method, with vpiIsProperty set, no
+// arguments, and the receiver (RefObj "q") as its vpiPrefix (37.42
+// detail 2) -- and must not raise CompFailedToBind.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -203,31 +193,23 @@ TEST_F(QueuesInsertTest, InitialBeginHasThreeStmts) {
 
 // --- q.insert(0, 1) ----
 
-TEST_F(QueuesInsertTest, InsertCallIsRefObjWithMethodFuncCall) {
+TEST_F(QueuesInsertTest, InsertCallIsMethodFuncCall) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(0));
-  ASSERT_NE(hp, nullptr) << "'q.insert(0, 1)' should be a RefObj";
-  EXPECT_EQ(hp->getName(), "q.insert(0, 1)");
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-
-  const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(0));
+  ASSERT_NE(call, nullptr) << "'q.insert(0, 1)' should be a MethodFuncCall";
+  const hldb::RefObj *const qRef = call->getPrefix<hldb::RefObj>();
   ASSERT_NE(qRef, nullptr);
   EXPECT_EQ(qRef->getName(), "q");
   EXPECT_NE(qRef->getActual<hldb::Variable>(), nullptr);
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "7.10.2.2: 'insert(0, 1)' should be a MethodFuncCall";
-  EXPECT_EQ(call->getName(), "insert");
+  EXPECT_EQ(call->getName(), std::string_view("insert"));
 }
 
 TEST_F(QueuesInsertTest, InsertCallHasIndexAndItemArguments) {
   const hldb::Begin *const begin = getInitialBegin();
   ASSERT_NE(begin, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(0));
-  ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(0));
   ASSERT_NE(call, nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u) << "'insert(index, item)' should carry exactly 2 arguments";
@@ -267,19 +249,15 @@ TEST_F(QueuesInsertTest, FirstDisplayAssertsSizeOne) {
 
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "q.size");
-  ASSERT_NE(size->getPathElems(), nullptr);
-  ASSERT_EQ(size->getPathElems()->size(), 2u);
-  const hldb::RefObj *const qRef = any_cast<hldb::RefObj>(size->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const sizeCall = arg1->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(sizeCall, nullptr) << "'size' without parens should resolve to a MethodFuncCall, not a plain RefObj";
+  const hldb::RefObj *const qRef = sizeCall->getPrefix<hldb::RefObj>();
   ASSERT_NE(qRef, nullptr);
   EXPECT_EQ(qRef->getName(), "q");
   EXPECT_NE(qRef->getActual<hldb::Variable>(), nullptr);
 
-  const hldb::MethodFuncCall *const sizeCall = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
-  ASSERT_NE(sizeCall, nullptr) << "'size' without parens should resolve to a MethodFuncCall, not a plain RefObj";
-  EXPECT_EQ(sizeCall->getName(), "size");
+  EXPECT_EQ(sizeCall->getName(), std::string_view("size"));
+  EXPECT_TRUE(sizeCall->getIsProperty()) << "'size' is written without parentheses (13.5.5)";
   EXPECT_EQ(sizeCall->getArguments(), nullptr) << "size() takes no arguments";
 }
 

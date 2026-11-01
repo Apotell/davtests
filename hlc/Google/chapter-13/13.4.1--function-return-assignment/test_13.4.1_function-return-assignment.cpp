@@ -34,14 +34,13 @@
 //   13.4.1--function-return.cpp's "return a + b;", there is no
 //   ReturnStmt at all here; the function's body is a plain Assignment.
 //
-//   IMPORTANT object-model note, confirmed structurally in this exact
-//   file (not guessed): the LHS "add" of "add = a + b;" is a RefObj
-//   that resolves (getActual<hldb::Function>()) directly to the
-//   Function object itself -- not to some separate "implicit return
-//   variable" object. HLC models the spec's "implicitly declared
-//   variable with the same name as the function" by simply letting the
-//   function's own name resolve back to the Function when used as an
-//   assignment target inside its own body.
+//   Object-model note: per 13.4.1 the nonvoid function "add" implicitly
+//   declares a variable named "add" of the return type. HLC models it as
+//   a Variable "add" in the Function's own getVariables() (parent = the
+//   Function, typespec = the return type), and the LHS "add" of
+//   "add = a + b;" is a RefObj resolving (getActual()) to that Variable --
+//   not to the Function. The call "add(30, 60)" (with parentheses) still
+//   resolves to the Function.
 //
 // What is checked:
 //   - module top has exactly 1 TaskFunc, a Function named "add", whose
@@ -49,8 +48,8 @@
 //     "a"/"b" (same declaration shape as 13.4.1--function-return.cpp)
 //   - add's body is a plain Assignment directly (no Begin wrapper,
 //     single statement, no begin-end in source; and specifically NOT
-//     a ReturnStmt) whose LHS is RefObj "add" resolving
-//     (getActual<hldb::Function>()) to the function itself, and whose
+//     a ReturnStmt) whose LHS is RefObj "add" resolving (getActual())
+//     to the implicit return Variable "add" of the function, and whose
 //     RHS is Operation(vpiAddOp) comparing RefObj "a" against RefObj
 //     "b" (both resolving to the formals' Variables in add's scope,
 //     never to their IODecls -- IEEE 1800-2023 37.13/37.15)
@@ -131,9 +130,15 @@ TEST_F(FunctionReturnAssignmentTest, BodyIsAssignmentToFunctionNameNotReturnStmt
 
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "Assignment LHS is not a RefObj";
-  EXPECT_EQ(lhs->getName(), "add");
-  EXPECT_NE(lhs->getActual<hldb::Function>(), nullptr)
-      << "'add' on the LHS should resolve to the Function itself (the implicit return variable), per 13.4.1";
+  EXPECT_EQ(lhs->getName(), std::string_view("add"));
+  const hldb::Variable *const retVar = hldb::findByName<hldb::Variable>("add", add->getVariables());
+  ASSERT_NE(retVar, nullptr) << "13.4.1: the nonvoid function implicitly declares a variable named 'add'";
+  EXPECT_EQ(retVar->getParent(), add) << "the implicit return variable belongs to the function itself";
+  ASSERT_NE(retVar->getTypespec<hldb::RefTypespec>(), nullptr);
+  EXPECT_NE(retVar->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr)
+      << "the implicit return variable has the function's return type (int)";
+  EXPECT_EQ(lhs->getActual(), retVar)
+      << "'add' on the LHS should resolve to the implicit return variable, per 13.4.1";
 
   const hldb::Operation *const rhs = assign->getRhs<hldb::Operation>();
   ASSERT_NE(rhs, nullptr) << "Assignment RHS is not an Operation";
@@ -171,9 +176,10 @@ TEST_F(FunctionReturnAssignmentTest, InitialBodyDisplaysAddCallResultAndResolves
 
   const hldb::NamedArgument *const callArg = display->getArguments()->at(1);
   ASSERT_NE(callArg, nullptr);
-  const hldb::MethodFuncCall *const call = callArg->getHighConn<hldb::MethodFuncCall>();
+  // 'add' is a module-level function, not a method (8.2): a plain FuncCall.
+  const hldb::FuncCall *const call = callArg->getHighConn<hldb::FuncCall>();
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "add");
+  EXPECT_EQ(call->getName(), std::string_view("add"));
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getAdd());
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);

@@ -38,8 +38,7 @@
 //     IntTypespec, decompile/value "1000") and string Constant rhs
 //     (typespec StringTypespec, value "a") -- exercises an out-of-byte-range
 //     literal (1000 > 255) used as a byte-indexed associative array key
-//   - rc = map.first(ix): rhs RefObj "map.first(ix)" whose 2nd path elem is
-//     a MethodFuncCall "first" with 1 argument RefObj "ix" resolving to Variable
+//   - rc = map.first(ix): rhs MethodFuncCall (37.42: vpiPrefix RefObj "map") "first" with 1 argument RefObj "ix" resolving to Variable
 //     ix
 //   - $display call and its RefObj("rc")/RefObj("ix") arguments
 //   - design-level typespecs (3): ModuleTypespec, StringTypespec, IntTypespec
@@ -198,18 +197,15 @@ TEST_F(AssociativeArrayTraversalTest, SecondAssignmentAssignsRcFromMapFirstIx) {
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "rc");
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
-  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), std::string_view("map.first(ix)"));
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::RefObj *const mapRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
-  ASSERT_NE(mapRef, nullptr);
-  EXPECT_EQ(mapRef->getName(), "map");
-  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "first");
+  EXPECT_EQ(call->getName(), std::string_view("first"));
+  EXPECT_FALSE(call->getIsProperty());
+  EXPECT_NE(call->getTaskFunc(), nullptr);
+  const hldb::RefObj *const mapRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(mapRef, nullptr);
+  EXPECT_EQ(mapRef->getName(), std::string_view("map"));
+  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);

@@ -36,12 +36,12 @@
 //   - Initial body is a Begin block with 4 statements
 //   - Stmt[0]: blocking Assignment, RHS=ArrayExpr with 1 Constant "16" (vpiIntConst)
 //   - Stmt[1]: SysTaskCall "$display" with 2 arguments
-//   - Stmt[2]: RefObj "arr.delete" -- COMPILER BEHAVIOR: arr.delete stored as RefObj
-//       not as a method call; HLC emits EL0535 "Illegal implicit variable"
-//   - RefObj getName()="arr.delete"
-//   - RefObj has 2 path elements: RefObj "arr" and RefObj "delete"
+//   - Stmt[2]: arr.delete is a MethodFuncCall "delete" statement (IEEE
+//       1800-2023 37.42 detail 2): vpiPrefix RefObj "arr", no arguments,
+//       vpiIsProperty set (no parentheses, 13.5.5), bound to delete()
 //   - Stmt[3]: SysTaskCall "$display" with 2 arguments
-//   - arr.size inside $display args is also a RefObj (same compiler behavior)
+//   - arr.size inside $display args is a MethodFuncCall "size" with
+//     vpiPrefix RefObj "arr"
 //   - design has 3 typespecs: ModuleTypespec "top", IntTypespec, StringTypespec
 //   - StringTypespec present because $display uses string literal arguments
 //   - no continuous assignments
@@ -63,8 +63,10 @@
 #include <hldb/bit_typespec.h>
 #include <hldb/constant.h>
 #include <hldb/design.h>
+#include <hldb/function.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
 #include <hldb/variable.h>
@@ -362,8 +364,9 @@ TEST_F(OpDeleteTest, FirstDisplayHasTwoArguments) {
   EXPECT_EQ(call->getArguments()->size(), 2u);
 }
 
-TEST_F(OpDeleteTest, FirstDisplaySecondArgIsArrSizeRefObj) {
-  // COMPILER BEHAVIOR: arr.size is stored as RefObj, not a method call
+TEST_F(OpDeleteTest, FirstDisplaySecondArgIsArrSizeCall) {
+  // arr.size (no parentheses, 13.5.5) is a MethodFuncCall "size" with
+  // vpiPrefix RefObj "arr" (IEEE 1800-2023 37.42 detail 2)
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
@@ -372,67 +375,69 @@ TEST_F(OpDeleteTest, FirstDisplaySecondArgIsArrSizeRefObj) {
   ASSERT_NE(call->getArguments(), nullptr);
   const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), "arr.size");
+  const hldb::MethodFuncCall *const size = arg1->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(size, nullptr);
+  EXPECT_EQ(size->getName(), std::string_view("size"));
+  EXPECT_TRUE(size->getIsProperty());
+  EXPECT_NE(size->getTaskFunc(), nullptr);
+  const hldb::RefObj *const arrRef = size->getPrefix<hldb::RefObj>();
+  ASSERT_NE(arrRef, nullptr);
+  EXPECT_EQ(arrRef->getName(), std::string_view("arr"));
+  EXPECT_NE(arrRef->getActual<hldb::Variable>(), nullptr);
 }
 
-// --- Stmt[2]: arr.delete (COMPILER BEHAVIOR) ----
+// --- Stmt[2]: arr.delete ----
 
-TEST_F(OpDeleteTest, ThirdStmtIsRefObj) {
-  // COMPILER BEHAVIOR: arr.delete is not recognized as a built-in method;
-  // HLC emits EL0535 and stores it as a RefObj statement
+TEST_F(OpDeleteTest, ThirdStmtIsMethodFuncCall) {
+  // arr.delete is a call of the built-in void function delete() (7.5.3)
+  // written without parentheses (13.5.5), used as a statement
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
   ASSERT_NE(begin->getStmts(), nullptr);
-  EXPECT_NE(any_cast<hldb::RefObj>(begin->getStmts()->at(2)), nullptr);
+  EXPECT_NE(any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(2)), nullptr);
 }
 
-TEST_F(OpDeleteTest, DeleteRefObjNameIsArrDelete) {
+TEST_F(OpDeleteTest, DeleteCallNameIsDelete) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(
+  const hldb::MethodFuncCall *const del = any_cast<hldb::MethodFuncCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
-  ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), "arr.delete");
+  ASSERT_NE(del, nullptr);
+  EXPECT_EQ(del->getName(), std::string_view("delete"));
+  EXPECT_TRUE(del->getIsProperty());
 }
 
-TEST_F(OpDeleteTest, DeleteRefObjHasTwoPathElems) {
+TEST_F(OpDeleteTest, DeleteCallHasNoArguments) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(
+  const hldb::MethodFuncCall *const del = any_cast<hldb::MethodFuncCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  EXPECT_EQ(hp->getPathElems()->size(), 2u);
+  ASSERT_NE(del, nullptr);
+  EXPECT_EQ(del->getArguments(), nullptr);
 }
 
-TEST_F(OpDeleteTest, DeleteRefObjFirstElemIsArr) {
+TEST_F(OpDeleteTest, DeleteCallPrefixIsArr) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(
+  const hldb::MethodFuncCall *const del = any_cast<hldb::MethodFuncCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  const hldb::RefObj *const elem = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  ASSERT_NE(del, nullptr);
+  const hldb::RefObj *const elem = del->getPrefix<hldb::RefObj>();
   ASSERT_NE(elem, nullptr);
-  EXPECT_EQ(elem->getName(), "arr");
+  EXPECT_EQ(elem->getName(), std::string_view("arr"));
+  EXPECT_NE(elem->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(OpDeleteTest, DeleteRefObjSecondElemIsDelete) {
-  // The second path element has name "delete" -- proof that arr.delete is
-  // treated as two-segment RefObj, not a recognized built-in method call
+TEST_F(OpDeleteTest, DeleteCallBindsToBuiltinDelete) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(
+  const hldb::MethodFuncCall *const del = any_cast<hldb::MethodFuncCall>(
       any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>()->getStmts()->at(2));
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  const hldb::MethodFuncCall *const elem = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(elem, nullptr);
-  EXPECT_EQ(elem->getName(), "delete");
+  ASSERT_NE(del, nullptr);
+  ASSERT_NE(del->getTaskFunc(), nullptr);
+  EXPECT_EQ(del->getTaskFunc()->getAnyType(), hldb::AnyType::Function);
 }
 
 // --- Stmt[3]: second $display ----
@@ -465,8 +470,8 @@ TEST_F(OpDeleteTest, SecondDisplayHasTwoArguments) {
   EXPECT_EQ(call->getArguments()->size(), 2u);
 }
 
-TEST_F(OpDeleteTest, SecondDisplaySecondArgIsArrSizeRefObj) {
-  // COMPILER BEHAVIOR: second $display also gets arr.size as RefObj
+TEST_F(OpDeleteTest, SecondDisplaySecondArgIsArrSizeCall) {
+  // second $display also gets arr.size as a MethodFuncCall with prefix "arr"
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::SysTaskCall *const call = any_cast<hldb::SysTaskCall>(
@@ -475,9 +480,12 @@ TEST_F(OpDeleteTest, SecondDisplaySecondArgIsArrSizeRefObj) {
   ASSERT_NE(call->getArguments(), nullptr);
   const hldb::NamedArgument *const arg1 = call->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), "arr.size");
+  const hldb::MethodFuncCall *const size = arg1->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(size, nullptr);
+  EXPECT_EQ(size->getName(), std::string_view("size"));
+  const hldb::RefObj *const arrRef = size->getPrefix<hldb::RefObj>();
+  ASSERT_NE(arrRef, nullptr);
+  EXPECT_EQ(arrRef->getName(), std::string_view("arr"));
 }
 
 // --- design-level typespecs ----

@@ -29,8 +29,9 @@
 // and HLC correctly rejects it, so the fixture does not do that.
 //
 // Both are written without parentheses, which is the syntax Sec 16.13.6 shows
-// ("sequence_instance.sequence_method"), so each arrives as a plain RefObj rather than
-// a call node and binds through its actual.
+// ("sequence_instance.sequence_method"). Per Sec 13.5.5 a method named without
+// parentheses is still a call: each is a MethodFuncCall with getIsProperty() set, and the
+// receiver is its vpiPrefix (Sec 37.42 detail 2).
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
@@ -41,6 +42,7 @@
 #include <hldb/Utils.h>
 #include <hldb/class_defn.h>
 #include <hldb/design.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
 #include <hldb/sequence_decl.h>
@@ -57,28 +59,30 @@ class SequenceMethodsTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Both call sites are the trailing element of a RefObj whose own name is the source
-  // text of the call, so they are addressed by that name regardless of the scope they
-  // sit in -- one is inside a sequence, one in an always block, one in an initial.
-  std::vector<const hldb::RefObj *> findPaths(std::string_view name) const {
-    std::vector<const hldb::RefObj *> found;
+  // Every call site is written "<receiver>.<method>" (no parentheses, 13.5.5), so each is a
+  // MethodFuncCall named after the bare method with getIsProperty() set. A call applied to
+  // an object carries the receiver as its vpiPrefix (IEEE 1800-2023 37.42 detail 2); this
+  // finds those by method and receiver name, regardless of the scope they sit in -- one is
+  // inside a sequence, one in an always block, one in an initial. Inside a sequence
+  // expression the receiver is written as a sequence instance, elsewhere as a plain name;
+  // either way it is the same object, so both methods carry the same receiver shape.
+  std::vector<const hldb::MethodFuncCall *> findCalls(std::string_view receiver, std::string_view method) const {
+    std::vector<const hldb::MethodFuncCall *> found;
     for (const hldb::Any *const any : m_session->getDatabase().getObjects()) {
-      const hldb::RefObj *const ro = any_cast<hldb::RefObj>(any);
-      if ((ro == nullptr) || (ro->getName() != name)) continue;
-      if ((ro->getPathElems() != nullptr) && !ro->getPathElems()->empty()) found.emplace_back(ro);
+      const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(any);
+      if ((call == nullptr) || (call->getName() != method) || (call->getParent() == nullptr)) continue;
+      const hldb::RefObj *const prefix = call->getPrefix<hldb::RefObj>();
+      if ((prefix != nullptr) && (prefix->getName() == receiver)) found.emplace_back(call);
     }
     return found;
   }
 
   // The class the resolved method is declared in. Sentinels are returned rather than
   // asserted so a failure names the stage that broke instead of just "not equal".
-  std::string_view ownerOf(const hldb::RefObj *path) const {
-    if (path == nullptr) return "<no path>";
+  std::string_view ownerOf(const hldb::MethodFuncCall *call) const {
+    if (call == nullptr) return "<no call>";
 
-    const hldb::MethodFuncCall *const leaf = any_cast<hldb::MethodFuncCall>(path->getPathElems()->back());
-    if (leaf == nullptr) return "<trailing element is not a MethodFuncCall>";
-
-    const hldb::TaskFunc *const tf = leaf->getTaskFunc();
+    const hldb::TaskFunc *const tf = call->getTaskFunc();
     if (tf == nullptr) return "<unresolved>";
 
     const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(tf->getParent());
@@ -101,20 +105,36 @@ TEST_F(SequenceMethodsTest, BothSequencesExist) {
 // matched -- only legal inside a sequence expression
 // ---------------------------------------------------------------------------
 TEST_F(SequenceMethodsTest, MatchedBindsToSequenceDecl) {
-  const std::vector<const hldb::RefObj *> paths = findPaths("s1.matched");
-  ASSERT_EQ(paths.size(), 1u) << "the fixture uses matched exactly once";
-  EXPECT_EQ(ownerOf(paths.front()), std::string_view("SequenceDecl"))
+  const std::vector<const hldb::MethodFuncCall *> calls = findCalls("s1", "matched");
+  ASSERT_EQ(calls.size(), 1u) << "the fixture uses matched exactly once";
+  EXPECT_TRUE(calls.front()->getIsProperty()) << "'s1.matched' is written without parentheses";
+  EXPECT_EQ(ownerOf(calls.front()), std::string_view("SequenceDecl"))
       << "sequence.matched must bind (IEEE 1800-2023 Sec 16.13.6)";
+}
+
+// The same receiver shape as triggered: the sequence is the call's vpiPrefix (37.42 detail 2),
+// not the head of a path the call still sits in.
+TEST_F(SequenceMethodsTest, MatchedReceiverIsTheSequenceDecl) {
+  const std::vector<const hldb::MethodFuncCall *> calls = findCalls("s1", "matched");
+  ASSERT_EQ(calls.size(), 1u);
+
+  const hldb::RefObj *const receiver = calls.front()->getPrefix<hldb::RefObj>();
+  ASSERT_NE(receiver, nullptr) << "the receiver should be the call's vpiPrefix (IEEE 1800-2023 37.42)";
+  EXPECT_EQ(receiver->getName(), std::string_view("s1"));
+  EXPECT_NE(receiver->getActual<hldb::SequenceDecl>(), nullptr)
+      << "receiver 's1' should resolve to the SequenceDecl";
+  EXPECT_EQ(calls.front()->getParent<hldb::RefObj>(), nullptr) << "'s1.matched' should not remain a path";
 }
 
 // ---------------------------------------------------------------------------
 // triggered -- legal in Boolean and wait contexts outside a sequence
 // ---------------------------------------------------------------------------
 TEST_F(SequenceMethodsTest, TriggeredBindsToSequenceDeclAtEverySite) {
-  const std::vector<const hldb::RefObj *> paths = findPaths("s1.triggered");
-  ASSERT_EQ(paths.size(), 2u) << "the fixture uses triggered in a Boolean and in a wait";
-  for (const hldb::RefObj *const path : paths) {
-    EXPECT_EQ(ownerOf(path), std::string_view("SequenceDecl"))
+  const std::vector<const hldb::MethodFuncCall *> calls = findCalls("s1", "triggered");
+  ASSERT_EQ(calls.size(), 2u) << "the fixture uses triggered in a Boolean and in a wait";
+  for (const hldb::MethodFuncCall *const call : calls) {
+    EXPECT_TRUE(call->getIsProperty()) << "'s1.triggered' is written without parentheses";
+    EXPECT_EQ(ownerOf(call), std::string_view("SequenceDecl"))
         << "sequence.triggered must bind (IEEE 1800-2023 Sec 16.13.6)";
   }
 }
@@ -122,12 +142,12 @@ TEST_F(SequenceMethodsTest, TriggeredBindsToSequenceDeclAtEverySite) {
 // The receiver is the sequence declaration itself, not a variable with a typespec, so
 // this is the check that the binder recognizes that shape.
 TEST_F(SequenceMethodsTest, ReceiverIsTheSequenceDecl) {
-  const std::vector<const hldb::RefObj *> paths = findPaths("s1.triggered");
-  ASSERT_FALSE(paths.empty());
+  const std::vector<const hldb::MethodFuncCall *> calls = findCalls("s1", "triggered");
+  ASSERT_FALSE(calls.empty());
 
-  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(paths.front()->getPathElems()->at(0));
-  ASSERT_NE(receiver, nullptr);
-  EXPECT_EQ(receiver->getName(), "s1");
+  const hldb::RefObj *const receiver = calls.front()->getPrefix<hldb::RefObj>();
+  ASSERT_NE(receiver, nullptr) << "the receiver should be the call's vpiPrefix (IEEE 1800-2023 37.42)";
+  EXPECT_EQ(receiver->getName(), std::string_view("s1"));
   EXPECT_NE(receiver->getActual<hldb::SequenceDecl>(), nullptr)
       << "receiver 's1' should resolve to the SequenceDecl";
 }
@@ -136,9 +156,9 @@ TEST_F(SequenceMethodsTest, ReceiverIsTheSequenceDecl) {
 // apart only by the receiver, so this pins down that a sequence receiver reaches the
 // sequence host rather than the event one.
 TEST_F(SequenceMethodsTest, TriggeredOnASequenceIsNotTheNamedEventMethod) {
-  const std::vector<const hldb::RefObj *> paths = findPaths("s1.triggered");
-  ASSERT_FALSE(paths.empty());
-  EXPECT_NE(ownerOf(paths.front()), "EventTypespec")
+  const std::vector<const hldb::MethodFuncCall *> calls = findCalls("s1", "triggered");
+  ASSERT_FALSE(calls.empty());
+  EXPECT_NE(ownerOf(calls.front()), std::string_view("EventTypespec"))
       << "a sequence receiver must not reach the Sec 15.5.3 named-event method";
 }
 

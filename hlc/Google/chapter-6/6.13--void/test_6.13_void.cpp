@@ -136,9 +136,13 @@ TEST_F(VoidTest, InitialProcessBodyIsFuncCallToFun) {
   ASSERT_NE(top->getProcesses(), nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr) << "process is not an Initial";
-  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
+  // A module-level function is not a method (IEEE 1800-2023 8.2), so the call is a plain FuncCall.
+  const hldb::FuncCall *const call = init->getStmt<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "Initial body is not a FuncCall";
-  EXPECT_EQ(call->getName(), "fun");
+  EXPECT_EQ(call->getName(), std::string_view("fun"));
+  const hldb::Function *const fun = any_cast<hldb::Function>(top->getTaskFuncs()->at(0));
+  ASSERT_NE(fun, nullptr);
+  EXPECT_EQ(call->getTaskFunc(), fun) << "fun() binds to the module's function fun";
 }
 
 TEST_F(VoidTest, FuncCallHasNoArguments) {
@@ -146,7 +150,7 @@ TEST_F(VoidTest, FuncCallHasNoArguments) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::MethodFuncCall *const call = init->getStmt<hldb::MethodFuncCall>();
+  const hldb::FuncCall *const call = init->getStmt<hldb::FuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
       << "fun() is called with no arguments";

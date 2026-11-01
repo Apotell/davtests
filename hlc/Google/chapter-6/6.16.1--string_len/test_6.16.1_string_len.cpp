@@ -36,11 +36,12 @@
 //   - variable 'a' typespec resolves to StringTypespec; initial value is "Test" (vpiStringConst)
 //   - variable 'b' typespec resolves to IntTypespec
 //   - variable 'b' has a non-null initial value (vpiValue is set)
-//   - variable 'b' initial value is a RefObj named "a.len()"
-//   - RefObj element[0] is RefObj "a" with vpiActual resolving to Variable 'a'
-//   - RefObj element[1] is FuncCall "len" with no arguments
+//   - variable 'b' initial value is a MethodFuncCall named "len" (IEEE 1800-2023
+//     37.42 detail 2: the method is the call, the receiver is its vpiPrefix)
+//   - the call's prefix is RefObj "a" with vpiActual resolving to Variable 'a'
+//   - the call binds to the builtin string method "len" and has no arguments
 //   - 'b' does NOT get a pre-evaluated constant value (e.g. 4) -- HLDB stores
-//     the unevaluated RefObj expression only; compile-time evaluation of
+//     the unevaluated call expression only; compile-time evaluation of
 //     string method return values is not performed
 
 #include <hlc/Common/Session.h>
@@ -55,6 +56,7 @@
 #include <hldb/design.h>
 #include <hldb/func_call.h>
 #include <hldb/int_typespec.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/task_func.h>
 #include <hldb/variable.h>
@@ -133,48 +135,42 @@ TEST_F(StringLenTest, BVariableValueIsNotPreEvaluatedConstant) {
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
   EXPECT_EQ(b->getValue<hldb::Constant>(), nullptr)
-      << "HLC does not pre-evaluate a.len() to a constant; b holds only the RefObj expression";
+      << "HLC does not pre-evaluate a.len() to a constant; b holds only the call expression";
 }
 
-TEST_F(StringLenTest, BVariableValueIsRefObj) {
+TEST_F(StringLenTest, BVariableValueIsLenCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr) << "variable 'b' initial value is not a RefObj";
-  EXPECT_EQ(hp->getName(), std::string_view("a.len()"));
+  const hldb::MethodFuncCall *const call = b->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "variable 'b' initial value is not a MethodFuncCall (IEEE 1800-2023 37.42)";
+  EXPECT_EQ(call->getName(), std::string_view("len"));
 }
 
-TEST_F(StringLenTest, RefObjReceiverIsA) {
+TEST_F(StringLenTest, CallReceiverIsA) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_GE(hp->getPathElems()->size(), 1u);
+  const hldb::MethodFuncCall *const call = b->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr);
+  ASSERT_NE(call->getPrefix(), nullptr) << "a.len() must have receiver 'a' as vpiPrefix (IEEE 1800-2023 37.42 detail 2)";
 
-  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
-  ASSERT_NE(receiver, nullptr) << "RefObj actual[0] is not a RefObj";
-  EXPECT_EQ(receiver->getName(), "a");
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(receiver, nullptr) << "call prefix is not a RefObj";
+  EXPECT_EQ(receiver->getName(), std::string_view("a"));
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr) << "receiver 'a' should resolve to Variable a";
 }
 
-TEST_F(StringLenTest, RefObjMethodIsLen) {
+TEST_F(StringLenTest, CallMethodIsLen) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_GE(hp->getPathElems()->size(), 2u);
-
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "RefObj actual[1] is not a FuncCall";
-  EXPECT_EQ(call->getName(), "len");
+  const hldb::MethodFuncCall *const call = b->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "variable 'b' initial value is not a MethodFuncCall";
+  EXPECT_EQ(call->getName(), std::string_view("len"));
 
   // IEEE 1800-2023 Sec 6.16: "len" is a string method. It is declared in no user scope,
   // so it can only resolve to the builtin "StringTypespec" class.
@@ -191,9 +187,7 @@ TEST_F(StringLenTest, LenCallHasNoArguments) {
   ASSERT_NE(top, nullptr);
   const hldb::Variable *const b = hldb::findByName<hldb::Variable>("b", top->getVariables());
   ASSERT_NE(b, nullptr);
-  const hldb::RefObj *const hp = b->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = b->getValue<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "len() takes no arguments";
 }

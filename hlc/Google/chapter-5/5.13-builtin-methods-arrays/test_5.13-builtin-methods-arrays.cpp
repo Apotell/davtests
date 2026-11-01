@@ -25,16 +25,19 @@
 //   Initial -> Begin
 //     SysTaskCall "$display"
 //       Arguments[0]: Constant (vpiStringConst=6) -- format string
-//       Arguments[1]: RefObj "array.size()"
-//         PathElems[0]: RefObj "array"
-//         PathElems[1]: FuncCall "size"
+//       Arguments[1]: MethodFuncCall "size" (IEEE 1800-2023 37.42 detail 2)
+//         vpiPrefix: RefObj "array" -> Variable array (the object the method is applied to)
+//         vpiTaskFunc: none -- size() is not a method of a fixed-size array (7.5.2, 7.9.1,
+//                      7.10.2.1, 7.12); the call is reported as CompFailedToBind
 //
 // Key API:
 //   SysTaskCall inherits TFCall::getArguments() -> AnyCollection*
-//   RefObj::getPathElems()                      -> AnyCollection*
-//   FuncCall inherits TFCall::getName()         -> std::string_view
+//   MethodFuncCall::getPrefix()                 -> Expr* (the receiver)
+//   MethodFuncCall inherits TFCall::getName()   -> std::string_view
 
 #include <hlc/Common/Session.h>
+#include <hlc/Events/EventDefinition.h>
+#include <hlc/Events/EventType.h>
 #include <hlc/SourceCompile/Compiler.h>
 #include <hlc/Tests/Test.h>
 
@@ -46,6 +49,7 @@
 #include <hldb/func_call.h>
 #include <hldb/initial.h>
 #include <hldb/logic_typespec.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/net.h>
 #include <hldb/operation.h>
@@ -53,6 +57,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
 #include <hldb/sys_func_call.h>
+#include <hldb/task_func.h>
 #include <hldb/variable.h>
 
 namespace hlc {
@@ -192,58 +197,48 @@ TEST_F(BuiltinMethodsArrays, FirstArgumentIsStringConstant) {
 }
 
 // ----
-// array.size() -- RefObj with RefObj + FuncCall
+// array.size() -- MethodFuncCall "size" applied to 'array' (37.42 detail 2)
 // ----
-TEST_F(BuiltinMethodsArrays, SecondArgumentIsRefObj) {
-  const hldb::SysTaskCall *const c = getDisplay(m_design);
-  ASSERT_NE(c, nullptr);
-  ASSERT_NE(c->getArguments(), nullptr);
-  ASSERT_EQ(c->getArguments()->size(), 2u);
-
+static const hldb::MethodFuncCall *getSizeCall(const hldb::Design *d) {
+  const hldb::SysTaskCall *const c = getDisplay(d);
+  if ((c == nullptr) || (c->getArguments() == nullptr) || (c->getArguments()->size() != 2)) return nullptr;
   const hldb::NamedArgument *const arg1 = c->getArguments()->at(1);
-  ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr) << "second argument should be a RefObj";
-  EXPECT_EQ(hp->getName(), std::string_view("array.size()"));
+  return (arg1 == nullptr) ? nullptr : arg1->getHighConn<hldb::MethodFuncCall>();
 }
 
-TEST_F(BuiltinMethodsArrays, RefObjHasTwoPathElems) {
-  const hldb::SysTaskCall *const c = getDisplay(m_design);
-  ASSERT_NE(c, nullptr);
-  const hldb::NamedArgument *const arg1 = c->getArguments()->at(1);
-  ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  EXPECT_EQ(hp->getPathElems()->size(), 2u);
+TEST_F(BuiltinMethodsArrays, SecondArgumentIsSizeMethodCall) {
+  const hldb::MethodFuncCall *const fn = getSizeCall(m_design);
+  ASSERT_NE(fn, nullptr) << "second argument should be the method call array.size()";
+  EXPECT_EQ(fn->getName(), std::string_view("size"));
+  EXPECT_FALSE(fn->getIsProperty()) << "size() is written with parentheses";
+  EXPECT_TRUE((fn->getArguments() == nullptr) || fn->getArguments()->empty()) << "size() takes no arguments";
 }
 
-TEST_F(BuiltinMethodsArrays, FirstPathElemIsArrayRef) {
-  const hldb::SysTaskCall *const c = getDisplay(m_design);
-  ASSERT_NE(c, nullptr);
-  const hldb::NamedArgument *const arg1 = c->getArguments()->at(1);
-  ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-
-  const hldb::RefObj *const ref = any_cast<hldb::RefObj>((*hp->getPathElems())[0]);
-  ASSERT_NE(ref, nullptr) << "pathElems[0] should be a RefObj";
-  EXPECT_EQ(ref->getName(), "array");
+TEST_F(BuiltinMethodsArrays, SizeCallReceiverIsVariableArray) {
+  const hldb::MethodFuncCall *const fn = getSizeCall(m_design);
+  ASSERT_NE(fn, nullptr);
+  const hldb::RefObj *const ref = fn->getPrefix<hldb::RefObj>();
+  ASSERT_NE(ref, nullptr) << "vpiPrefix should be the receiver 'array'";
+  EXPECT_EQ(ref->getName(), std::string_view("array"));
+  ASSERT_NE(ref->getActual(), nullptr);
+  EXPECT_EQ(ref->getActual(), getVariableArray(m_design)) << "receiver binds to the array variable";
 }
 
-TEST_F(BuiltinMethodsArrays, SecondPathElemIsSizeMethodFuncCall) {
-  const hldb::SysTaskCall *const c = getDisplay(m_design);
-  ASSERT_NE(c, nullptr);
-  const hldb::NamedArgument *const arg1 = c->getArguments()->at(1);
-  ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
+// size() is not a method of a fixed-size unpacked array. IEEE 1800-2023 defines it only for
+// dynamic arrays (Sec 7.5.2), associative arrays (Sec 7.9.1) and queues (Sec 7.10.2.1); the
+// methods every unpacked array has are the array manipulation methods of Sec 7.12, and size()
+// is not one of them. The size of 'array' is $size(array) (Sec 20.7). So array.size() has no
+// callee and is reported as unbound.
+TEST_F(BuiltinMethodsArrays, SizeCallIsNotLegalOnFixedArray) {
+  const hldb::MethodFuncCall *const fn = getSizeCall(m_design);
+  ASSERT_NE(fn, nullptr);
+  EXPECT_EQ(fn->getTaskFunc(), nullptr)
+      << "a fixed-size array has no size() method (IEEE 1800-2023 Sec 7.5.2, 7.9.1, 7.10.2.1, 7.12)";
 
-  const hldb::MethodFuncCall *const fn = any_cast<hldb::MethodFuncCall>((*hp->getPathElems())[1]);
-  ASSERT_NE(fn, nullptr) << "pathElems[1] should be a MethodFuncCall";
-  EXPECT_EQ(fn->getName(), "size");
+  const Event *const event = findEvent(EventType::CompFailedToBind, "size");
+  ASSERT_NE(event, nullptr) << "array.size() on a fixed-size array must be reported as unbound";
+  ASSERT_FALSE(event->getArguments().empty());
+  EXPECT_EQ(event->getArguments().front().m_line, 10u) << "reported at the call on line 10";
 }
 
 }  // namespace hlc

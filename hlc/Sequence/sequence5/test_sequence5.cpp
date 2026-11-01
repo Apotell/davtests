@@ -292,7 +292,8 @@ TEST_F(Sequence5Test, Seq5_MatchItem_MethodFuncCall_Exists) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 3u);
 
-  EXPECT_NE(any_cast<hldb::MethodFuncCall>((*op->getOperands())[2]), nullptr)
+  // 'f' is a module-level function, not a class method (8.2), so the call is a FuncCall.
+  EXPECT_NE(any_cast<hldb::FuncCall>((*op->getOperands())[2]), nullptr)
       << "ss.16.9.4: subroutine call match item 'f()' must be a FuncCall";
 }
 
@@ -307,9 +308,9 @@ TEST_F(Sequence5Test, Seq5_MatchItem_MethodFuncCall_NameIsF) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 3u);
 
-  const hldb::MethodFuncCall *mfc = any_cast<hldb::MethodFuncCall>((*op->getOperands())[2]);
+  const hldb::FuncCall *mfc = any_cast<hldb::FuncCall>((*op->getOperands())[2]);
   ASSERT_NE(mfc, nullptr);
-  EXPECT_EQ(mfc->getName(), "f") << "ss.16.9.4: subroutine call match item must name function 'f'";
+  EXPECT_EQ(mfc->getName(), std::string_view("f")) << "ss.16.9.4: subroutine call match item must name function 'f'";
 }
 
 // ss.16.9.4: the FuncCall for 'f()' must resolve (getTaskFunc) to the
@@ -326,7 +327,7 @@ TEST_F(Sequence5Test, Seq5_MatchItem_MethodFuncCall_ResolvesToFunction) {
   ASSERT_NE(op->getOperands(), nullptr);
   ASSERT_GE(op->getOperands()->size(), 3u);
 
-  const hldb::MethodFuncCall *mfc = any_cast<hldb::MethodFuncCall>((*op->getOperands())[2]);
+  const hldb::FuncCall *mfc = any_cast<hldb::FuncCall>((*op->getOperands())[2]);
   ASSERT_NE(mfc, nullptr);
   EXPECT_NE(mfc->getTaskFunc<hldb::Function>(), nullptr)
       << "ss.16.9.4: FuncCall for 'f()' in the match item must resolve to "

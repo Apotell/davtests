@@ -78,12 +78,14 @@
 #include <hldb/int_typespec.h>
 #include <hldb/io_decl.h>
 #include <hldb/method_func_call.h>
+#include <hldb/method_task_call.h>
 #include <hldb/module.h>
 #include <hldb/named_argument.h>
 #include <hldb/operation.h>
 #include <hldb/range.h>
 #include <hldb/ref_obj.h>
 #include <hldb/ref_typespec.h>
+#include <hldb/subroutine_call.h>
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_func_call.h>
 #include <hldb/task.h>
@@ -101,46 +103,58 @@
 namespace {
 struct CallSite {
   const hldb::TFCall *m_call = nullptr;
-  // Hierarchical reference "x.y.method(...)" that holds the call, if any.
+  // Receiver of a method call -- its vpiPrefix (IEEE 1800-2023 37.42 detail 2) -- when that is a RefObj
+  // ("x" or the path "x.y" in "x.y.method(...)"), else nullptr.
   const hldb::RefObj *m_owner = nullptr;
 };
 
-// Collects, in source order, every task/function call reachable from a statement.
-void collectCalls(const hldb::Any *node, const hldb::RefObj *owner, std::vector<CallSite> *out) {
+// The object a method call is applied to -- its vpiPrefix (IEEE 1800-2023 37.42 detail 2) -- or nullptr.
+const hldb::Expr *callPrefix(const hldb::TFCall *call) {
+  if (const hldb::MethodFuncCall *const mfc = any_cast<hldb::MethodFuncCall>(call)) return mfc->getPrefix();
+  if (const hldb::MethodTaskCall *const mtc = any_cast<hldb::MethodTaskCall>(call)) return mtc->getPrefix();
+  if (const hldb::SubroutineCall *const sc = any_cast<hldb::SubroutineCall>(call)) return sc->getPrefix();
+  return nullptr;
+}
+
+// Collects, in source order, every task/function call reachable from a statement. A call applied to an
+// object holds its receiver as vpiPrefix; calls inside that receiver ("a.f().g()") come first.
+void collectCalls(const hldb::Any *node, std::vector<CallSite> *out) {
   if (node == nullptr) return;
   if (const hldb::TFCall *const call = any_cast<hldb::TFCall>(node)) {
-    out->emplace_back(CallSite{call, owner});
+    const hldb::Expr *const prefix = callPrefix(call);
+    collectCalls(prefix, out);
+    out->emplace_back(CallSite{call, any_cast<hldb::RefObj>(prefix)});
   } else if (const hldb::RefObj *const ref = any_cast<hldb::RefObj>(node)) {
     if (const hldb::AnyCollection *const elems = ref->getPathElems()) {
-      for (const hldb::Any *const elem : *elems) collectCalls(elem, ref, out);
+      for (const hldb::Any *const elem : *elems) collectCalls(elem, out);
     }
   } else if (const hldb::Assignment *const assign = any_cast<hldb::Assignment>(node)) {
-    collectCalls(assign->getRhs(), nullptr, out);
+    collectCalls(assign->getRhs(), out);
   } else if (const hldb::Begin *const begin = any_cast<hldb::Begin>(node)) {
     if (const hldb::AnyCollection *const stmts = begin->getStmts()) {
-      for (const hldb::Any *const stmt : *stmts) collectCalls(stmt, nullptr, out);
+      for (const hldb::Any *const stmt : *stmts) collectCalls(stmt, out);
     }
   } else if (const hldb::ForkStmt *const fork = any_cast<hldb::ForkStmt>(node)) {
     if (const hldb::AnyCollection *const stmts = fork->getStmts()) {
-      for (const hldb::Any *const stmt : *stmts) collectCalls(stmt, nullptr, out);
+      for (const hldb::Any *const stmt : *stmts) collectCalls(stmt, out);
     }
   } else if (const hldb::ForStmt *const loop = any_cast<hldb::ForStmt>(node)) {
-    collectCalls(loop->getStmt(), nullptr, out);
+    collectCalls(loop->getStmt(), out);
   } else if (const hldb::CaseStmt *const cs = any_cast<hldb::CaseStmt>(node)) {
     if (const hldb::CaseItemCollection *const items = cs->getCaseItems()) {
-      for (const hldb::CaseItem *const item : *items) collectCalls(item->getStmt(), nullptr, out);
+      for (const hldb::CaseItem *const item : *items) collectCalls(item->getStmt(), out);
     }
   } else if (const hldb::IfElse *const ifElse = any_cast<hldb::IfElse>(node)) {
-    collectCalls(ifElse->getStmt(), nullptr, out);
-    collectCalls(ifElse->getElseStmt(), nullptr, out);
+    collectCalls(ifElse->getStmt(), out);
+    collectCalls(ifElse->getElseStmt(), out);
   } else if (const hldb::IfStmt *const ifStmt = any_cast<hldb::IfStmt>(node)) {
-    collectCalls(ifStmt->getStmt(), nullptr, out);
+    collectCalls(ifStmt->getStmt(), out);
   }
 }
 
 std::vector<CallSite> collectCalls(const hldb::Any *node) {
   std::vector<CallSite> calls;
-  collectCalls(node, nullptr, &calls);
+  collectCalls(node, &calls);
   return calls;
 }
 
@@ -153,9 +167,12 @@ std::vector<CallSite> filterCalls(const std::vector<CallSite> &calls, std::initi
   return kept;
 }
 
-// Name of the i-th element of a hierarchical reference, or "" when absent.
+// Name of the i-th element of a call receiver, or "" when absent: a plain RefObj receiver ("obj") is its
+// own single element, a path receiver ("a.b") gives the name of each of its elements.
 std::string_view pathElemName(const hldb::RefObj *owner, size_t index) {
-  if ((owner == nullptr) || (owner->getPathElems() == nullptr) || (owner->getPathElems()->size() <= index)) return "";
+  if (owner == nullptr) return "";
+  if (owner->getPathElems() == nullptr) return (index == 0) ? owner->getName() : std::string_view();
+  if (owner->getPathElems()->size() <= index) return "";
   return owner->getPathElems()->at(index)->getName();
 }
 

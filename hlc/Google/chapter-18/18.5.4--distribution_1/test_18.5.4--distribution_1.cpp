@@ -190,25 +190,18 @@ class Distribution1Test : public Test {
     }
   }
 
-  // The method call named 'name' in 'expr' (bare call, or last path element
-  // of a RefObj), or nullptr.
+  // 'expr' itself when it is the method call named 'name' (a call applied to an object sits in the
+  // statement slot directly, its receiver in vpiPrefix -- IEEE 1800-2023 37.42 detail 2), or nullptr.
   static const hldb::MethodFuncCall *findCallNamed(const hldb::Any *expr, std::string_view name) {
-    const hldb::MethodFuncCall *call = any_cast<hldb::MethodFuncCall>(expr);
-    if (call == nullptr) {
-      const hldb::RefObj *const ref = any_cast<hldb::RefObj>(expr);
-      if (ref == nullptr || ref->getPathElems() == nullptr || ref->getPathElems()->empty()) return nullptr;
-      call = any_cast<hldb::MethodFuncCall>(ref->getPathElems()->back());
-    }
+    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(expr);
     return (call != nullptr && call->getName() == name) ? call : nullptr;
   }
 
-  // The RefObj naming the receiver 'obj' of the call in 'expr', or nullptr.
+  // The RefObj naming the receiver of the method call 'expr' (its vpiPrefix), or nullptr.
   static const hldb::RefObj *receiverOf(const hldb::Any *expr) {
-    const hldb::RefObj *const ref = any_cast<hldb::RefObj>(expr);
-    if (ref == nullptr) return nullptr;
-    if (ref->getName() == "obj") return ref;
-    if (ref->getPathElems() == nullptr || ref->getPathElems()->empty()) return nullptr;
-    return any_cast<hldb::RefObj>(ref->getPathElems()->front());
+    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(expr);
+    if (call == nullptr || call->getPrefix() == nullptr) return nullptr;
+    return any_cast<hldb::RefObj>(call->getPrefix());
   }
 };
 

@@ -34,32 +34,21 @@
 //   - variable "qs": ArrayTypespec vpiArrayType=static(1) -- the compiler models
 //     a queue ("string qs[$]") as vpiQueueArray
 //   - Initial process: 1 Begin with 3 stmts (Assignment + 2 SysFuncCall)
-//   - Assignment: qs = s.find with (item == "sad") is a RefObj "s.find"
-//     whose 2nd path elem is a MethodFuncCall "find" with a vpiWith
-//     Operation (equal) comparing RefObj "item" to Constant "sad"
-//   - both $display calls and their RefObj("qs.size")/BitSelect("qs[0]")
-//     arguments
+//   - Assignment: qs = s.find rhs is a MethodFuncCall "find" (IEEE 1800-2023
+//     37.42 detail 2) whose vpiPrefix is RefObj "s" (bound to the
+//     Variable); written without parentheses, so vpiIsProperty is set
+//     (13.5.5); any with clause stays on the call (vpiWith)
+//   - both $display calls and their MethodFuncCall "size" (prefix RefObj
+//     "qs", no parentheses) / BitSelect("qs[0]") arguments
 //   - design-level typespecs (3): ModuleTypespec, StringTypespec, IntTypespec
-//   - compiler emits exactly 1 error (m_fatals=0, m_syntaxes=0, m_errors=1,
-//     m_warnings=0): CompFailedToBind for the still-unresolved bare
-//     ".size" call. The with-clause "item" iterator now resolves to a
-//     synthesized implicit-iterator Variable (via
-//     ObjectBinder::findInMethodFuncCall) and no longer errors.
 //
-// Not checked:
-//   - MethodFuncCall "size" getTaskFunc() -- always null because the
-//     compiler does not yet resolve a parenthesis-less built-in method call
-//     (this IS the bug being documented, not a gap in test coverage)
-//
-// Compiler limitation (NOT a code error in find.sv):
+// Notes:
 //   IEEE 1800-2017 7.12.1 defines "item" as an implicit iterator variable
-//   inside an array locator method's "with" clause -- HLC now resolves this
-//   to a synthesized iterator Variable. Separately, 7.12/7.24.4 permit the
-//   built-in ".size" method to be called with or without parentheses; HLC
-//   does not yet resolve this parenthesis-less form and raises
-//   CompFailedToBind for "size". find.sv is valid SystemVerilog; the 1
-//   error below is a known compiler/API limitation, not a defect in the
-//   test source.
+//   inside an array locator method's "with" clause -- HLC resolves this
+//   to a synthesized iterator Variable. 7.12/7.24.4 permit the built-in
+//   ".size" method to be called with or without parentheses; the
+//   parenthesis-less form is a MethodFuncCall with vpiIsProperty set
+//   (13.5.5) and its getTaskFunc() is checked.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -249,7 +238,7 @@ TEST_F(ArrayLocatorFindTest, AssignmentIsBlockingToQs) {
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
 }
 
-TEST_F(ArrayLocatorFindTest, AssignmentRhsIsRefObjSDotFind) {
+TEST_F(ArrayLocatorFindTest, AssignmentRhsIsMethodFuncCallFindOnS) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
@@ -258,14 +247,12 @@ TEST_F(ArrayLocatorFindTest, AssignmentRhsIsRefObjSDotFind) {
   ASSERT_NE(begin, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(begin->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
+  const hldb::MethodFuncCall *const rhs = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(rhs, nullptr);
-  EXPECT_EQ(rhs->getName(), std::string_view("s.find"));
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::RefObj *const sRef = any_cast<hldb::RefObj>(rhs->getPathElems()->at(0));
+  EXPECT_EQ(rhs->getName(), std::string_view("find"));
+  const hldb::RefObj *const sRef = rhs->getPrefix<hldb::RefObj>();
   ASSERT_NE(sRef, nullptr);
-  EXPECT_EQ(sRef->getName(), "s");
+  EXPECT_EQ(sRef->getName(), std::string_view("s"));
   EXPECT_NE(sRef->getActual<hldb::Variable>(), nullptr);
 }
 
@@ -274,12 +261,13 @@ TEST_F(ArrayLocatorFindTest, MethodFuncCallIsNamedFind) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const rhs =
-      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call =
+      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "find");
+  EXPECT_EQ(call->getName(), std::string_view("find"));
+  // Written without parentheses before the with clause (7.12).
+  EXPECT_TRUE(call->getIsProperty());
+  EXPECT_NE(call->getTaskFunc(), nullptr);
 }
 
 TEST_F(ArrayLocatorFindTest, MethodFuncCallWithClauseComparesItemToSad) {
@@ -287,10 +275,8 @@ TEST_F(ArrayLocatorFindTest, MethodFuncCallWithClauseComparesItemToSad) {
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const rhs =
-      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call =
+      any_cast<hldb::Assignment>(init->getStmt<hldb::Begin>()->getStmts()->at(0))->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   const hldb::Operation *const with = call->getWith<hldb::Operation>();
   ASSERT_NE(with, nullptr);
@@ -338,18 +324,16 @@ TEST_F(ArrayLocatorFindTest, FirstDisplaySecondArgIsQsDotSize) {
   ASSERT_NE(disp, nullptr);
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
+  const hldb::MethodFuncCall *const size = arg1->getHighConn<hldb::MethodFuncCall>();
   ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "qs.size");
-  ASSERT_NE(size->getPathElems(), nullptr);
-  ASSERT_EQ(size->getPathElems()->size(), 2u);
-  const hldb::RefObj *const qsRef = any_cast<hldb::RefObj>(size->getPathElems()->at(0));
+  EXPECT_EQ(size->getName(), std::string_view("size"));
+  // "qs.size" is written without parentheses (13.5.5, 7.10.2).
+  EXPECT_TRUE(size->getIsProperty());
+  EXPECT_NE(size->getTaskFunc(), nullptr);
+  const hldb::RefObj *const qsRef = size->getPrefix<hldb::RefObj>();
   ASSERT_NE(qsRef, nullptr);
-  EXPECT_EQ(qsRef->getName(), "qs");
+  EXPECT_EQ(qsRef->getName(), std::string_view("qs"));
   EXPECT_NE(qsRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
-  ASSERT_NE(sizeRef, nullptr);
-  EXPECT_EQ(sizeRef->getName(), "size");
 }
 
 // --- $display(":assert: ('%s' == 'sad')", qs[0]) ----

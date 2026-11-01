@@ -33,15 +33,15 @@
 //     elem -> IntTypespec; initial value stored directly on the Variable as
 //     an Operation (vpiOpType=concatenation(33)) with 5 unsigned Constant
 //     operands 1, 2, 3, 4, 5
-//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + RefObj +
+//   - Initial process: 1 Begin with 3 stmts (SysFuncCall + MethodFuncCall +
 //     SysFuncCall)
 //   - Stmt[0]: $display with 6 args (":info:" format + BitSelect ia[0..4])
 //     -- NOTE: unlike sibling ordering-methods files, this uses ":info:"
 //     rather than ":assert:", since a shuffled order has no single
 //     deterministic expected result
-//   - Stmt[1]: ia.shuffle (no parens) -- RefObj "ia.shuffle()" with 2
-//     path elems: RefObj "ia" (resolving Variable "ia") and MethodFuncCall
-//     "shuffle" with no arguments -- correctly resolves, zero errors
+//   - Stmt[1]: ia.shuffle (no parens) -- a MethodFuncCall statement
+//     "shuffle" (IEEE 1800-2023 37.42 detail 2) with vpiPrefix RefObj "ia"
+//     (resolving Variable "ia"), no arguments, vpiIsProperty set (13.5.5)
 //   - Stmt[2]: $display with 6 args (":info:" format + BitSelect ia[0..4],
 //     printing the post-shuffle order)
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
@@ -178,20 +178,22 @@ TEST_F(UnpackedShuffleTest, FirstStmtDisplaysInfoFormatWithFiveElements) {
   }
 }
 
-TEST_F(UnpackedShuffleTest, SecondStmtIsShuffleRefObjWithNoParens) {
+TEST_F(UnpackedShuffleTest, SecondStmtIsShuffleCallWithNoParens) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Begin *const begin = any_cast<hldb::Initial>(top->getProcesses()->at(0))->getStmt<hldb::Begin>();
   ASSERT_NE(begin, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(begin->getStmts()->at(1));
-  ASSERT_NE(hp, nullptr) << "'ia.shuffle' should be a RefObj";
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(hp->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "shuffle");
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(1));
+  ASSERT_NE(call, nullptr) << "'ia.shuffle' without parens is a call of the void function method shuffle() "
+                              "(13.5.5, 7.12.2)";
+  EXPECT_EQ(call->getName(), std::string_view("shuffle"));
+  EXPECT_TRUE(call->getIsProperty());
+  EXPECT_NE(call->getTaskFunc(), nullptr);
   EXPECT_EQ(call->getArguments(), nullptr);
+  const hldb::RefObj *const iaRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(iaRef, nullptr);
+  EXPECT_EQ(iaRef->getName(), std::string_view("ia"));
+  EXPECT_NE(iaRef->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(UnpackedShuffleTest, ThirdStmtDisplaysInfoFormatAgain) {

@@ -87,7 +87,8 @@
 // "test_cls#(.t(23))::new(.def(41))" -- the class-scope qualifier
 // "test_cls#(.t(23))" now resolves (via its RefTypespec -> ClassTypespec)
 // with the "t" ParamAssign's RefObj correctly bound to test_cls's own type
-// parameter, and the call's own MethodFuncCall::getTaskFunc() resolves to
+// parameter, and the call (a FuncCall in the RefObj path -- a class scope is
+// not a receiver object, so it is not a MethodFuncCall) has getTaskFunc() resolve to
 // test_cls's constructor (consistent with the fix in
 // hlc/Google/chapter-8/8.7--constructor/test_8.7--constructor.cpp for
 // ordinary "new" calls). AssignmentRhsScopeParamTResolvesToClassParameter
@@ -119,6 +120,7 @@
 #include <hldb/constant.h>
 #include <hldb/design.h>
 #include <hldb/extends.h>
+#include <hldb/func_call.h>
 #include <hldb/function.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
@@ -371,18 +373,16 @@ TEST_F(ClassTypedConstructorParamTest, TestConstructorFirstStmtIsSuperNewCall) {
   ASSERT_NE(body, nullptr);
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_GT(body->getStmts()->size(), 0u);
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(body->getStmts()->at(0));
-  ASSERT_NE(path, nullptr) << "'super.new(def + 3)' should be a bare RefObj statement";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(body->getStmts()->at(0));
+  ASSERT_NE(call, nullptr) << "'super.new(def + 3)' should be a MethodFuncCall statement, same as an ordinary "
+                              "object-construction 'new(...)' call";
+  EXPECT_EQ(call->getName(), std::string_view("new"));
 
-  const hldb::RefObj *const superRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(superRef, nullptr);
+  // 37.42 detail 2: 'super' is the call's vpiPrefix.
+  const hldb::RefObj *const superRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(superRef, nullptr) << "'super' should be the call's prefix";
   EXPECT_EQ(superRef->getActual<hldb::ClassDefn>(), getSuperClsDefn());
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'super.new(...)' should resolve to a MethodFuncCall, same as an ordinary "
-                              "object-construction 'new(...)' call";
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getSuperConstructor())
       << "matches the already-confirmed-working 'super.new' resolution in "
          "chapter-8/8.7--constructor_super/test_8.7--constructor_super.cpp";
@@ -476,9 +476,12 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsIsNewMethodFuncCall) {
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getPathElems(), nullptr);
   ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::MethodFuncCall *const newCall = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
-  ASSERT_NE(newCall, nullptr) << "'test_cls#(.t(23))::new(.def(41))' should resolve to a MethodFuncCall";
+  // A class scope is not a receiver object: the call stays in the path as a FuncCall.
+  const hldb::FuncCall *const newCall = any_cast<hldb::FuncCall>(rhs->getPathElems()->at(1));
+  ASSERT_NE(newCall, nullptr) << "'test_cls#(.t(23))::new(.def(41))' (class scope, no receiver object) should "
+                                 "resolve to a FuncCall";
   EXPECT_EQ(newCall->getName(), std::string_view("new"));
+  EXPECT_FALSE(newCall->getIsProperty()) << "'new(.def(41))' is written with parentheses";
 }
 
 TEST_F(ClassTypedConstructorParamTest, AssignmentRhsHierPathResolvesToClassParameter) {
@@ -488,7 +491,7 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsHierPathResolvesToClassParam
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getPathElems(), nullptr);
   ASSERT_EQ(rhs->getPathElems()->size(), 2u);  
-  const hldb::MethodFuncCall *const newCall = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->back());
+  const hldb::FuncCall *const newCall = any_cast<hldb::FuncCall>(rhs->getPathElems()->back());
   ASSERT_NE(newCall, nullptr);
   const hldb::RefObj *const ro = any_cast<hldb::RefObj>(rhs->getPathElems()->front());
   ASSERT_NE(ro, nullptr);
@@ -515,7 +518,7 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsNewCallResolvesToTestConstru
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getPathElems(), nullptr);
   ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::MethodFuncCall *const newCall = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  const hldb::FuncCall *const newCall = any_cast<hldb::FuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(newCall, nullptr);
   EXPECT_EQ(newCall->getTaskFunc<hldb::Function>(), getTestConstructor())
       << "8.8: 'test_cls::new(...)' must resolve back to test_cls's constructor";
@@ -528,7 +531,7 @@ TEST_F(ClassTypedConstructorParamTest, AssignmentRhsNamedArgumentDefIsFortyOne) 
   ASSERT_NE(rhs, nullptr);
   ASSERT_NE(rhs->getPathElems(), nullptr);
   ASSERT_EQ(rhs->getPathElems()->size(), 2u);
-  const hldb::MethodFuncCall *const newCall = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
+  const hldb::FuncCall *const newCall = any_cast<hldb::FuncCall>(rhs->getPathElems()->at(1));
   ASSERT_NE(newCall, nullptr);
   ASSERT_NE(newCall->getArguments(), nullptr);
   ASSERT_EQ(newCall->getArguments()->size(), 1u);

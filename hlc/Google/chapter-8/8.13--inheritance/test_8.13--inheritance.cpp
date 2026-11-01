@@ -65,10 +65,9 @@
 //   - "incs": a Function (not a constructor -- its return type resolves to
 //     a plain IntTypespec, contrast with "new" below), public visibility,
 //     2-statement body: "++s;" (Operation, vpiPreIncOp, operand "s" ->
-//     property Variable) and "incs = s;" (Assignment whose lhs resolves,
-//     via getActual<Function>(), to the "incs" Function itself -- the
-//     same "assign to own name" idiom already confirmed in
-//     chapter-8/8.10--static_methods/test_8.10--static_methods.cpp)
+//     property Variable) and "incs = s;" (Assignment whose lhs resolves
+//     to the implicit return-value Variable "incs" declared in the
+//     Function's own scope, typed int -- 13.4.1)
 //   - "new" (super_cls's own constructor): its return type resolves to a
 //     ClassTypespec matching super_cls itself (confirming it IS a
 //     constructor, unlike "incs"); has 1 IODecl ("def", direction input,
@@ -83,13 +82,12 @@
 //   - test_cls's "new": return type resolves to a ClassTypespec matching
 //     test_cls itself; 1 IODecl ("def", input, IntTypespec, default expr
 //     Constant "42"); 2-statement Begin body:
-//     "super.new(def + 3);" -- a bare RefObj statement (not wrapped in
-//     any Assignment/ExprStmt), first path elem a RefObj "super"
-//     resolving (via getActual<ClassDefn>()) to super_cls's ClassDefn --
-//     the same "resolves to the enclosing/referenced ClassDefn" shape
-//     already seen for "this" in
-//     chapter-8/8.11--this/test_8.11--this.cpp -- second path elem a
-//     MethodFuncCall "new" (the "super.new" production --
+//     "super.new(def + 3);" -- a MethodFuncCall "new" statement (not
+//     wrapped in any Assignment/ExprStmt) whose vpiPrefix (37.42 detail 2)
+//     is a RefObj "super" resolving (via getActual<ClassDefn>()) to
+//     super_cls's ClassDefn -- the same "resolves to the
+//     enclosing/referenced ClassDefn" shape already seen for "this" in
+//     chapter-8/8.11--this/test_8.11--this.cpp (the "super.new" production --
 //     Phase2ModelBuilder::leavePA_Super_dot_new -- lowers to the same node
 //     type as an ordinary object-construction "new" call) whose
 //     getTaskFunc() resolves to super_cls's OWN "new" Function, with 1
@@ -105,8 +103,8 @@
 //   - "test_obj = new(37)": a blocking Assignment, rhs MethodFuncCall
 //     "new" with 1 argument, Constant "37", resolving getTaskFunc() to the
 //     real constructor Function (see the FIXED COMPILER BUG #6 note below)
-//   - "$display(test_obj.incs())": a SysTaskCall whose RefObj's second
-//     path elem is a MethodFuncCall "incs" resolving getTaskFunc() to
+//   - "$display(test_obj.incs())": a SysTaskCall whose argument is a
+//     MethodFuncCall "incs" (prefix RefObj "test_obj") resolving getTaskFunc() to
 //     super_cls's "incs" Function -- CONFIRMING that an INHERITED method,
 //     called through a derived-class-typed handle, resolves correctly
 //   - "$display(test_obj.s)": a SysTaskCall whose RefObj's second path
@@ -373,9 +371,16 @@ TEST_F(ClassInheritanceTest, IncsSecondStmtAssignsSToIncsReturnValue) {
 
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr) << "'incs' (return-value write target) should be a RefObj";
-  EXPECT_EQ(lhs->getName(), "incs");
-  EXPECT_EQ(lhs->getActual<hldb::Function>(), incs)
-      << "assigning to a function's own name should resolve back to the enclosing Function itself";
+  EXPECT_EQ(lhs->getName(), std::string_view("incs"));
+  // 13.4.1: the function's name inside its own body is the implicit return-value variable.
+  const hldb::Variable *const retVar = hldb::findByName<hldb::Variable>("incs", incs->getVariables());
+  ASSERT_NE(retVar, nullptr) << "13.4.1: nonvoid 'incs' should declare an implicit return variable 'incs'";
+  EXPECT_EQ(retVar->getParent(), incs);
+  ASSERT_NE(retVar->getTypespec(), nullptr);
+  EXPECT_NE(retVar->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr)
+      << "the implicit return variable is typed by the function's return type (int)";
+  EXPECT_EQ(lhs->getActual(), retVar)
+      << "13.4.1: assigning to a function's own name resolves to its implicit return-value Variable";
 
   const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
@@ -542,19 +547,16 @@ TEST_F(ClassInheritanceTest, TestClsNewFirstStmtIsSuperNewCall) {
   const hldb::Begin *const body = ctor->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_GT(body->getStmts()->size(), 0u);
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(body->getStmts()->at(0));
-  ASSERT_NE(path, nullptr) << "stmt[0] should be a bare RefObj ('super.new(def + 3)')";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(body->getStmts()->at(0));
+  ASSERT_NE(call, nullptr) << "stmt[0] should be a MethodFuncCall ('super.new(def + 3)')";
+  EXPECT_EQ(call->getName(), std::string_view("new"));
 
-  const hldb::RefObj *const superRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(superRef, nullptr);
-  EXPECT_EQ(superRef->getName(), "super");
+  // 37.42 detail 2: 'super' is the call's vpiPrefix.
+  const hldb::RefObj *const superRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(superRef, nullptr) << "'super.new(...)' should have 'super' as its prefix";
+  EXPECT_EQ(superRef->getName(), std::string_view("super"));
   EXPECT_EQ(superRef->getActual<hldb::ClassDefn>(), getSuperClsDefn());
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'super.new(...)' second path elem should be a MethodFuncCall";
-  EXPECT_EQ(call->getName(), "new");
   EXPECT_EQ(call->getTaskFunc(), getSuperNewFunction())
       << "'super.new(...)' should resolve getTaskFunc() to super_cls's own constructor (see FIXED "
          "COMPILER BUG #6 above)";
@@ -684,18 +686,14 @@ TEST_F(ClassInheritanceTest, SecondStmtDisplaysTestObjIncs) {
 
   const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
-  const hldb::RefObj *const path = arg0->getHighConn<hldb::RefObj>();
-  ASSERT_NE(path, nullptr) << "'test_obj.incs()' should be a RefObj";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
-  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(varRef, nullptr);
-  EXPECT_EQ(varRef->getName(), "test_obj");
+  const hldb::MethodFuncCall *const call = arg0->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "'test_obj.incs()' should be a MethodFuncCall";
+  EXPECT_EQ(call->getName(), std::string_view("incs"));
+  const hldb::RefObj *const varRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(varRef, nullptr) << "37.42: the receiver 'test_obj' should be the call's prefix";
+  EXPECT_EQ(varRef->getName(), std::string_view("test_obj"));
   EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableTestObj());
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'test_obj.incs()' second path elem should be a MethodFuncCall";
-  EXPECT_EQ(call->getName(), "incs");
   EXPECT_EQ(call->getTaskFunc(), getIncsFunction())
       << "an INHERITED method called through a derived-class handle should resolve getTaskFunc() to the base "
          "class's Function";

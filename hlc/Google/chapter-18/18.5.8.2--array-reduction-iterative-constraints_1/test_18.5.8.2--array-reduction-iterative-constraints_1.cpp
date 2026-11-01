@@ -78,10 +78,9 @@
 //   - The body of run_phase (UVM reporting, not a constraint corner).
 //   - Exact vpiConstType of literals.
 //
-// Tool-representation note: HLDB's MethodFuncCall has no vpiPrefix
-// accessor, so 'B.sum()' may be a bare MethodFuncCall or a RefObj 'B' whose
-// path elements end in the call. Both are accepted for finding the call;
-// the receiver check needs the RefObj shape and fails otherwise (HLDB gap).
+// Model shape: 'B.sum()' is a MethodFuncCall named 'sum' whose vpiPrefix
+// is the RefObj 'B' (IEEE 1800-2023 37.42 detail 2: the prefix of a method
+// call is the object the method is applied to).
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -160,22 +159,17 @@ class ArrayReductionIterativeConstraints1Test : public Test {
     return op;
   }
 
-  // The 'sum' call inside 'expr' (bare call, or last path element of a
-  // RefObj), or nullptr.
+  // 'expr' itself when it is the method call 'B.sum()' (a call applied to an object is the operand
+  // directly, its receiver in vpiPrefix -- IEEE 1800-2023 37.42 detail 2), or nullptr.
   static const hldb::MethodFuncCall *findCall(const hldb::Any *expr) {
-    if (const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(expr)) return call;
-    const hldb::RefObj *const ref = any_cast<hldb::RefObj>(expr);
-    if (ref == nullptr || ref->getPathElems() == nullptr || ref->getPathElems()->empty()) return nullptr;
-    return any_cast<hldb::MethodFuncCall>(ref->getPathElems()->back());
+    return any_cast<hldb::MethodFuncCall>(expr);
   }
 
-  // The RefObj naming the receiver 'B' of the call inside 'expr', or nullptr.
+  // The RefObj naming the receiver of the method call 'expr' (its vpiPrefix), or nullptr.
   static const hldb::RefObj *findReceiver(const hldb::Any *expr) {
-    const hldb::RefObj *const ref = any_cast<hldb::RefObj>(expr);
-    if (ref == nullptr) return nullptr;
-    if (ref->getName() == "B") return ref;
-    if (ref->getPathElems() == nullptr || ref->getPathElems()->empty()) return nullptr;
-    return any_cast<hldb::RefObj>(ref->getPathElems()->front());
+    const hldb::MethodFuncCall *const call = findCall(expr);
+    if (call == nullptr || call->getPrefix() == nullptr) return nullptr;
+    return any_cast<hldb::RefObj>(call->getPrefix());
   }
 };
 

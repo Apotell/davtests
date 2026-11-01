@@ -53,7 +53,8 @@
 //   - add's lifetime is NOT automatic (getAutomatic() == false)
 //   - add's own scope has exactly 1 local Variable "a" (initial value
 //     Constant "0"), besides the Variable "val" holding the formal
-//     argument (IEEE 1800-2023 37.13) -- per IEEE 1800-2023 37.12 (Scope), Note 5 the
+//     argument (IEEE 1800-2023 37.13) and the implicit return Variable
+//     "add" (13.4.1: int, static like the function) -- per IEEE 1800-2023 37.12 (Scope), Note 5 the
 //     unnamed begin "contains the statements" of the function, and a
 //     declaration is not a statement; add's body is an unnamed Begin
 //     with no variables of its own, whose getStmts() has exactly 2
@@ -154,11 +155,24 @@ TEST_F(FunctionStaticTest, FunctionScopeHasVariableAInitializedToZero) {
     EXPECT_NE(hldb::findByName<hldb::Variable>(ioDecl->getName(), add->getVariables()), nullptr)
         << "37.13: the formal argument '" << ioDecl->getName() << "' should have a Variable in the function's scope";
   }
+  // 13.4.1: the nonvoid function implicitly declares a variable named after
+  // itself, of the return type, with the function's own (static) lifetime.
+  const hldb::Variable *const retVar = hldb::findByName<hldb::Variable>("add", add->getVariables());
+  ASSERT_NE(retVar, nullptr) << "13.4.1: 'add' implicitly declares its return variable 'add'";
+  EXPECT_EQ(retVar->getParent(), add);
+  ASSERT_NE(retVar->getTypespec<hldb::RefTypespec>(), nullptr);
+  EXPECT_NE(retVar->getTypespec<hldb::RefTypespec>()->getActual<hldb::IntTypespec>(), nullptr)
+      << "the implicit return variable has the function's return type (int)";
+  EXPECT_FALSE(retVar->getAutomatic()) << "the implicit return variable of a static function is static";
   uint32_t localCount = 0;
   for (const hldb::Variable *const var : *add->getVariables()) {
-    if (hldb::findByName<hldb::IODecl>(var->getName(), add->getIODecls()) == nullptr) ++localCount;
+    if ((var != retVar) && (hldb::findByName<hldb::IODecl>(var->getName(), add->getIODecls()) == nullptr)) {
+      ++localCount;
+    }
   }
-  ASSERT_EQ(localCount, 1u) << "the body declares exactly one local ('a'), excluding the formals' Variables";
+  ASSERT_EQ(localCount, 1u)
+      << "the body declares exactly one local ('a'), excluding the formals' Variables and the implicit return "
+         "variable";
   const hldb::Begin *const body = add->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr) << "function body should be a Begin";
   EXPECT_TRUE((body->getVariables() == nullptr) || body->getVariables()->empty())
@@ -228,9 +242,10 @@ TEST_F(FunctionStaticTest, InitialBodyCallsAddFourTimesWithAccumulatingExpectedM
 
     const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
     ASSERT_NE(arg1, nullptr);
-    const hldb::MethodFuncCall *const call = arg1->getHighConn<hldb::MethodFuncCall>();
+    // 'add' is a module-level function, not a method (8.2): a plain FuncCall.
+    const hldb::FuncCall *const call = arg1->getHighConn<hldb::FuncCall>();
     ASSERT_NE(call, nullptr);
-    EXPECT_EQ(call->getName(), "add");
+    EXPECT_EQ(call->getName(), std::string_view("add"));
     EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getAdd());
     ASSERT_NE(call->getArguments(), nullptr);
     ASSERT_EQ(call->getArguments()->size(), 1u);

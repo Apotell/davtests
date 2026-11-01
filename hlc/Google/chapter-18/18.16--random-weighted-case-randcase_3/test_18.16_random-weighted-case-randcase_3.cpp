@@ -76,7 +76,8 @@
 //   1. The file is legal -> no fatal/syntax/error.
 //   2. Function 'F' at compilation-unit scope: not a class method, returns
 //      int, one input int argument 'y', local 'int a'; F's only variables
-//      are a and the argument's variable y (37.13).
+//      are a, the argument's variable y (37.13) and the implicit return
+//      variable 'F' of type int (13.4.1).
 //   3. F's body: the randcase, then 'return a;' bound to a.
 //   4. The randcase: no case expression, two items in order, weights kept
 //      as expressions: "y - y" (vpiSubOp) : "a = 5;",
@@ -316,14 +317,19 @@ TEST_F(RandomWeightedCaseRandcase3Test, FunctionFSignatureAndLocalVariable) {
   EXPECT_EQ(typespecKind(f->getIODecls()->at(0)->getTypespec()), hldb::AnyType::IntTypespec) << "y is 'int'";
   ASSERT_NE(f->getVariables(), nullptr);
   // 37.13: an argument's io decl refers (vpiExpr) to a variable of the function, so the argument y may
-  // be listed next to the local a -- but nothing else may be.
+  // be listed next to the local a; 13.4.1: F also has its implicit return variable 'F' -- nothing else.
   for (const hldb::Variable *const var : *f->getVariables()) {
-    EXPECT_TRUE((var->getName() == "a") || (var->getName() == "y"))
+    EXPECT_TRUE((var->getName() == "a") || (var->getName() == "y") || (var->getName() == "F"))
         << "unexpected variable '" << var->getName() << "' in F";
   }
   const hldb::Variable *const local = hldb::findByName<hldb::Variable>("a", f->getVariables());
   ASSERT_NE(local, nullptr) << "local variable 'a' not found";
   EXPECT_EQ(typespecKind(local->getTypespec()), hldb::AnyType::IntTypespec) << "a is 'int'";
+  // Sec 13.4.1: a nonvoid function implicitly declares a variable named like the function, of its return type.
+  const hldb::Variable *const result = hldb::findByName<hldb::Variable>("F", f->getVariables());
+  ASSERT_NE(result, nullptr) << "implicit return variable 'F' not found";
+  EXPECT_EQ(typespecKind(result->getTypespec()), hldb::AnyType::IntTypespec) << "the return variable has F's type, int";
+  EXPECT_EQ(result->getAutomatic(), f->getAutomatic()) << "the return variable has F's lifetime";
 }
 
 // Check: the function-local variable is not rand (37.17 details 15/22).

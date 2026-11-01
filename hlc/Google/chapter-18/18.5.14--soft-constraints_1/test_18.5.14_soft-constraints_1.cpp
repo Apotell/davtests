@@ -127,35 +127,40 @@
 namespace {
 struct CallSite {
   const hldb::MethodFuncCall *m_call = nullptr;
-  // Hierarchical reference "x.method(...)" that holds the call, if any.
+  // Receiver of the call -- its vpiPrefix (IEEE 1800-2023 37.42 detail 2) -- when that is a RefObj
+  // ("x" in "x.method(...)"), else nullptr.
   const hldb::RefObj *m_owner = nullptr;
 };
 
-// Collects, in source order, every method call named 'name' reachable from a statement.
-void collectMethodCalls(const hldb::Any *node, const hldb::RefObj *owner, std::string_view name,
-                        std::vector<CallSite> *out) {
+// Collects, in source order, every method call named 'name' reachable from a statement. A call applied to
+// an object holds its receiver as vpiPrefix; calls inside that receiver ("a.f().g()") come first.
+void collectMethodCalls(const hldb::Any *node, std::string_view name, std::vector<CallSite> *out) {
   if (node == nullptr) return;
   if (const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(node)) {
-    if (call->getName() == name) out->emplace_back(CallSite{call, owner});
+    collectMethodCalls(call->getPrefix(), name, out);
+    if (call->getName() == name) out->emplace_back(CallSite{call, any_cast<hldb::RefObj>(call->getPrefix())});
   } else if (const hldb::RefObj *const ref = any_cast<hldb::RefObj>(node)) {
     if (const hldb::AnyCollection *const elems = ref->getPathElems()) {
-      for (const hldb::Any *const elem : *elems) collectMethodCalls(elem, ref, name, out);
+      for (const hldb::Any *const elem : *elems) collectMethodCalls(elem, name, out);
     }
   } else if (const hldb::Begin *const begin = any_cast<hldb::Begin>(node)) {
     if (const hldb::AnyCollection *const stmts = begin->getStmts()) {
-      for (const hldb::Any *const stmt : *stmts) collectMethodCalls(stmt, nullptr, name, out);
+      for (const hldb::Any *const stmt : *stmts) collectMethodCalls(stmt, name, out);
     }
   } else if (const hldb::IfElse *const ifElse = any_cast<hldb::IfElse>(node)) {
-    collectMethodCalls(ifElse->getStmt(), nullptr, name, out);
-    collectMethodCalls(ifElse->getElseStmt(), nullptr, name, out);
+    collectMethodCalls(ifElse->getStmt(), name, out);
+    collectMethodCalls(ifElse->getElseStmt(), name, out);
   } else if (const hldb::IfStmt *const ifStmt = any_cast<hldb::IfStmt>(node)) {
-    collectMethodCalls(ifStmt->getStmt(), nullptr, name, out);
+    collectMethodCalls(ifStmt->getStmt(), name, out);
   }
 }
 
-// Name of the i-th element of a hierarchical reference, or "" when absent.
+// Name of the i-th element of a call receiver, or "" when absent: a plain RefObj receiver ("obj") is its
+// own single element, a path receiver ("a.b") gives the name of each of its elements.
 std::string_view pathElemName(const hldb::RefObj *owner, size_t index) {
-  if ((owner == nullptr) || (owner->getPathElems() == nullptr) || (owner->getPathElems()->size() <= index)) return "";
+  if (owner == nullptr) return "";
+  if (owner->getPathElems() == nullptr) return (index == 0) ? owner->getName() : std::string_view();
+  if (owner->getPathElems()->size() <= index) return "";
   return owner->getPathElems()->at(index)->getName();
 }
 
@@ -292,7 +297,7 @@ TEST_F(SoftConstraints1Test, RunPhaseRandomizesObj) {
   const hldb::Task *const runPhase = hldb::findByName<hldb::Task>("run_phase", env->getMethods());
   ASSERT_NE(runPhase, nullptr) << "env::run_phase not found";
   std::vector<CallSite> calls;
-  collectMethodCalls(runPhase->getStmt(), nullptr, "randomize", &calls);
+  collectMethodCalls(runPhase->getStmt(), "randomize", &calls);
   ASSERT_EQ(calls.size(), 1u);
   EXPECT_EQ(pathElemName(calls[0].m_owner, 0), "obj");
   EXPECT_EQ(calls[0].m_call->getWith(), nullptr);

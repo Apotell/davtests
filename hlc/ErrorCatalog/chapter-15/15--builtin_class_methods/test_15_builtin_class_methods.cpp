@@ -42,11 +42,14 @@
 #include <hldb/Utils.h>
 #include <hldb/class_defn.h>
 #include <hldb/design.h>
+#include <hldb/expr.h>
 #include <hldb/method_func_call.h>
+#include <hldb/method_task_call.h>
 #include <hldb/module.h>
 #include <hldb/named_event.h>
 #include <hldb/tf_call.h>
 #include <hldb/ref_obj.h>
+#include <hldb/subroutine_call.h>
 #include <hldb/task_func.h>
 
 #include <string_view>
@@ -59,36 +62,40 @@ class BuiltinClassMethodsTest : public Test {
   static void TearDownTestSuite() { Shutdown(); }
 
  protected:
-  // Every call under test is the trailing element of a RefObj whose own name is the
-  // source text of the call, so looking the RefObj up by that name addresses them all
-  // uniformly regardless of which scope they sit in.
-  const hldb::RefObj *findPath(std::string_view name) const {
+  // The receiver of a method call (IEEE 1800-2023 37.42 detail 2: vpiPrefix), or nullptr.
+  static const hldb::Expr *callPrefix(const hldb::Any *any) {
+    if (const hldb::MethodFuncCall *const mfc = any_cast<hldb::MethodFuncCall>(any)) return mfc->getPrefix();
+    if (const hldb::MethodTaskCall *const mtc = any_cast<hldb::MethodTaskCall>(any)) return mtc->getPrefix();
+    if (const hldb::SubroutineCall *const sc = any_cast<hldb::SubroutineCall>(any)) return sc->getPrefix();
+    return nullptr;
+  }
+
+  // Every call under test is written "<receiver>.<method>[(...)]". A method call is its own
+  // TFCall named after the bare method, with the receiver as its vpiPrefix (IEEE 1800-2023
+  // 37.42 detail 2), so the call is found by method name plus receiver name. Sec 15.5.3's
+  // "e.triggered" (no parentheses) is a call too (13.5.5), with getIsProperty() set.
+  const hldb::TFCall *findCall(std::string_view text) const {
+    const size_t dot = text.find('.');
+    if (dot == std::string_view::npos) return nullptr;
+    const std::string_view receiver = text.substr(0, dot);
+    const std::string_view rest = text.substr(dot + 1);
+    const std::string_view method = rest.substr(0, rest.find('('));
     for (const hldb::Any *const any : m_session->getDatabase().getObjects()) {
-      const hldb::RefObj *const ro = any_cast<hldb::RefObj>(any);
-      if ((ro == nullptr) || (ro->getName() != name)) continue;
-      if ((ro->getPathElems() != nullptr) && !ro->getPathElems()->empty()) return ro;
+      const hldb::TFCall *const call = any_cast<hldb::TFCall>(any);
+      if ((call == nullptr) || (call->getName() != method)) continue;
+      const hldb::RefObj *const prefix = any_cast<hldb::RefObj>(callPrefix(call));
+      if ((prefix != nullptr) && (prefix->getName() == receiver)) return call;
     }
     return nullptr;
   }
 
-  // The class a resolved call's method is declared in. The trailing element is a TFCall
-  // for a call written with parentheses and a plain RefObj for one written without, which
-  // Sec 15.5.3 does for "wait (e.triggered)"; both are handled so the two spellings can be
-  // asserted the same way. The sentinels are returned rather than asserted so a failure
-  // reports which stage broke instead of just "not equal".
+  // The class a resolved call's method is declared in. The sentinels are returned rather
+  // than asserted so a failure reports which stage broke instead of just "not equal".
   std::string_view ownerOfCall(std::string_view name) const {
-    const hldb::RefObj *const ro = findPath(name);
-    if (ro == nullptr) return "<no path>";
+    const hldb::TFCall *const call = findCall(name);
+    if (call == nullptr) return "<no call>";
 
-    const hldb::Any *const trailing = ro->getPathElems()->back();
-    const hldb::TaskFunc *tf = nullptr;
-    if (const hldb::TFCall *const call = any_cast<hldb::TFCall>(trailing)) {
-      tf = call->getTaskFunc();
-    } else if (const hldb::RefObj *const leaf = any_cast<hldb::RefObj>(trailing)) {
-      tf = leaf->getActual<hldb::TaskFunc>();
-    } else {
-      return "<unexpected trailing element>";
-    }
+    const hldb::TaskFunc *const tf = call->getTaskFunc();
     if (tf == nullptr) return "<unresolved>";
 
     const hldb::ClassDefn *const owner = any_cast<hldb::ClassDefn>(tf->getParent());
@@ -138,7 +145,7 @@ TEST_F(BuiltinClassMethodsTest, SemaphorePutIsAFunctionAndGetIsATask) {
 // 15.4.7 Peek() -- Google's non-blocking test calls try_put/try_get but not try_peek
 // ---------------------------------------------------------------------------
 TEST_F(BuiltinClassMethodsTest, MailboxTryPeekBindsToMailbox) {
-  EXPECT_EQ(ownerOfCall("mbx.try_peek(msg)"), "mailbox")
+  EXPECT_EQ(ownerOfCall("mbx.try_peek(msg)"), std::string_view("mailbox"))
       << "mailbox.try_peek() must bind (IEEE 1800-2023 Sec 15.4.7)";
 }
 
@@ -154,11 +161,11 @@ TEST_F(BuiltinClassMethodsTest, TriggeredBindsToEventTypespec) {
 // The receiver is a NamedEvent rather than a variable with a typespec, so this is the
 // check that the binder recognizes that shape at all.
 TEST_F(BuiltinClassMethodsTest, TriggeredReceiverIsTheNamedEvent) {
-  const hldb::RefObj *const ro = findPath("e.triggered");
-  ASSERT_NE(ro, nullptr);
-  ASSERT_GE(ro->getPathElems()->size(), 2u);
+  const hldb::TFCall *const call = findCall("e.triggered");
+  ASSERT_NE(call, nullptr);
+  EXPECT_TRUE(call->getIsProperty()) << "'e.triggered' is written without parentheses (13.5.5)";
 
-  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(ro->getPathElems()->at(0));
+  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(callPrefix(call));
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), "e");
   EXPECT_NE(receiver->getActual<hldb::NamedEvent>(), nullptr)

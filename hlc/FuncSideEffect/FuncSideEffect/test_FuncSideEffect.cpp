@@ -231,7 +231,8 @@ TEST_F(FuncSideEffectTest, PowFlipBRecursesThroughFlipInsideAnIfWithNoElse) {
   ASSERT_NE(mul->getOperands(), nullptr);
   ASSERT_EQ(mul->getOperands()->size(), 2u);
 
-  const hldb::MethodFuncCall *const recCall = any_cast<hldb::MethodFuncCall>(mul->getOperands()->at(1));
+  // Module-level functions are not methods (IEEE 1800-2023 8.2): every call here is a FuncCall.
+  const hldb::FuncCall *const recCall = any_cast<hldb::FuncCall>(mul->getOperands()->at(1));
   ASSERT_NE(recCall, nullptr) << "'pow_flip_b(flip(base), exp - 1)' should be a recursive FuncCall";
   EXPECT_EQ(recCall->getName(), "pow_flip_b");
   EXPECT_EQ(recCall->getTaskFunc<hldb::Function>(), powFlipB) << "recursive call should resolve to itself";
@@ -239,7 +240,7 @@ TEST_F(FuncSideEffectTest, PowFlipBRecursesThroughFlipInsideAnIfWithNoElse) {
   ASSERT_EQ(recCall->getArguments()->size(), 2u);
   const hldb::NamedArgument *const arg0 = recCall->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
-  const hldb::MethodFuncCall *const flipCall = arg0->getHighConn<hldb::MethodFuncCall>();
+  const hldb::FuncCall *const flipCall = arg0->getHighConn<hldb::FuncCall>();
   ASSERT_NE(flipCall, nullptr) << "'flip(base)' first argument should be a nested FuncCall";
   EXPECT_EQ(flipCall->getName(), "flip");
   EXPECT_EQ(flipCall->getTaskFunc<hldb::Function>(), flip);
@@ -259,7 +260,7 @@ TEST_F(FuncSideEffectTest, Out1IsContinuouslyAssignedFromPowFlipBCallWithConstan
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "out1");
 
-  const hldb::MethodFuncCall *const call = ca->getRhs<hldb::MethodFuncCall>();
+  const hldb::FuncCall *const call = ca->getRhs<hldb::FuncCall>();
   ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), "pow_flip_b");
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), powFlipB);

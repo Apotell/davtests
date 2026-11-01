@@ -176,7 +176,8 @@ TEST_F(Func128BitsTest, MBaseAddrIntCallsCalcBaseAddrsOrHasBeenConstantFolded) {
     return;
   }
 
-  const hldb::MethodFuncCall *const call = pa->getRhs<hldb::MethodFuncCall>();
+  // A module-level function is not a method (IEEE 1800-2023 8.2), so the call is a FuncCall.
+  const hldb::FuncCall *const call = pa->getRhs<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "ParamAssign RHS for 'M_BASE_ADDR_INT' is neither a folded Constant nor an unfolded "
                                "FuncCall";
   EXPECT_EQ(call->getName(), std::string_view("calcBaseAddrs"));

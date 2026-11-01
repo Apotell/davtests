@@ -60,9 +60,9 @@
 //   F = obj.randomize() with (x) { x > 0; x < y; }; (13.4.1, 18.7)
 //     - the function's only statement, so not wrapped in a Begin: a blocking
 //       Assignment whose LHS is a RefObj named "F" (13.4.1)
-//     - its RHS is a hierarchical RefObj whose prefix 'obj' binds to the
-//       Variable holding F's formal 'obj' (37.15), then a MethodFuncCall
-//       "randomize" with no arguments -- '(x)' after 'with' is the
+//     - its RHS is a MethodFuncCall "randomize" whose prefix (37.42) 'obj'
+//       binds to the Variable holding F's formal 'obj' (37.15), with
+//       no arguments -- '(x)' after 'with' is the
 //       identifier list, not an argument of randomize() -- and a 'with'
 //       inline constraint (18.7)
 //     - the 'with' block holds exactly two constraint expressions, in source
@@ -214,17 +214,14 @@ class InLineConstraintsRandomize5Test : public Test {
     return fn->getStmt<hldb::Assignment>();
   }
 
-  // The MethodFuncCall 'randomize' at the end of 'obj.randomize() with ...'.
+  // The MethodFuncCall 'randomize' of 'obj.randomize() with ...' (its
+  // receiver 'obj' is the call's prefix, 37.42 detail 2).
   static const hldb::MethodFuncCall *getRandomizeCall() {
     const hldb::Assignment *const assign = getFBody();
     if (assign == nullptr) {
       return nullptr;
     }
-    const hldb::RefObj *const path = assign->getRhs<hldb::RefObj>();
-    if (path == nullptr || path->getPathElems() == nullptr || path->getPathElems()->size() != 2) {
-      return nullptr;
-    }
-    return any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
+    return assign->getRhs<hldb::MethodFuncCall>();
   }
 
   // The items of the 'with' block. getWith() is typed Any: HLC may store an
@@ -435,15 +432,11 @@ TEST_F(InLineConstraintsRandomize5Test, FBodyAssignsToFunctionName) {
 TEST_F(InLineConstraintsRandomize5Test, FRhsIsObjRandomizeWithRestrictedInlineConstraint) {
   const hldb::Assignment *const assign = getFBody();
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const path = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(path, nullptr) << "'obj.randomize() with (x) {...}' should be a hierarchical RefObj";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
-  ExpectBoundRef(path->getPathElems()->at(0), "obj", getFFormalVariable("obj"));
-
-  const hldb::MethodFuncCall *const call = getRandomizeCall();
+  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr) << "18.6.1: randomize() is a function called through a handle, so a MethodFuncCall";
   EXPECT_EQ(call->getName(), "randomize");
+  // 37.42 detail 2: the prefix is the object the method is applied to.
+  ExpectBoundRef(call->getPrefix(), "obj", getFFormalVariable("obj"));
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty())
       << "'randomize()' is written with no arguments; '(x)' after 'with' is the identifier list (18.7)";
   EXPECT_NE(call->getWith(), nullptr) << "18.7: the call carries a 'with' inline constraint";

@@ -102,11 +102,11 @@
 //     Operation, whose lhs and first rhs operand RefObj "s" resolve to
 //     super_cls's OWN property Variable "s" (test_cls declares no "s" of
 //     its own -- only the METHOD is overridden, not the property);
-//     "incs = s;" resolves its lhs, via getActual<Function>(), to
-//     test_cls's OWN "incs" Function (not super_cls's)
+//     "incs = s;" resolves its lhs to the implicit return-value Variable
+//     (13.4.1) of test_cls's OWN "incs" Function (not super_cls's)
 //   - test_cls's "new": same shape as chapter-8/8.13--inheritance's
-//     derived constructor -- "super.new(def + 3);" (a bare RefObj whose
-//     MethodFuncCall resolves getTaskFunc() to super_cls's own "new")
+//     derived constructor -- "super.new(def + 3);" (a MethodFuncCall with
+//     prefix "super", resolving getTaskFunc() to super_cls's own "new")
 //     followed by "a = def;"
 //   - the initial process' Begin block has exactly 6 statements:
 //     "test_obj = new(37)", "super_obj = test_obj", "$display(test_obj.s)",
@@ -559,9 +559,14 @@ TEST_F(ClassOverrideMemberTest, TestIncsSecondStmtAssignsSToIncsReturnValue) {
 
   const hldb::RefObj *const lhs = assign->getLhs<hldb::RefObj>();
   ASSERT_NE(lhs, nullptr);
-  EXPECT_EQ(lhs->getName(), "incs");
-  EXPECT_EQ(lhs->getActual<hldb::Function>(), incs)
-      << "assigning to 'incs' inside the OVERRIDE should resolve to test_cls's OWN incs Function, not super_cls's";
+  EXPECT_EQ(lhs->getName(), std::string_view("incs"));
+  // 13.4.1: 'incs' inside its own body is the implicit return variable of THIS (the override's) Function.
+  const hldb::Variable *const retVar = hldb::findByName<hldb::Variable>("incs", incs->getVariables());
+  ASSERT_NE(retVar, nullptr) << "13.4.1: nonvoid 'incs' should declare an implicit return variable 'incs'";
+  EXPECT_EQ(retVar->getParent(), incs);
+  EXPECT_EQ(lhs->getActual(), retVar)
+      << "assigning to 'incs' inside the OVERRIDE should resolve to test_cls's OWN incs return variable, not "
+         "super_cls's";
 
   const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
   ASSERT_NE(rhs, nullptr);
@@ -595,15 +600,13 @@ TEST_F(ClassOverrideMemberTest, TestNewFirstStmtIsSuperNewCall) {
   const hldb::Begin *const body = ctor->getStmt<hldb::Begin>();
   ASSERT_NE(body, nullptr);
   ASSERT_GT(body->getStmts()->size(), 0u);
-  const hldb::RefObj *const path = any_cast<hldb::RefObj>(body->getStmts()->at(0));
-  ASSERT_NE(path, nullptr) << "stmt[0] should be a bare RefObj ('super.new(def + 3)')";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
-  const hldb::RefObj *const superRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(superRef, nullptr);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(body->getStmts()->at(0));
+  ASSERT_NE(call, nullptr) << "stmt[0] should be a MethodFuncCall ('super.new(def + 3)')";
+  EXPECT_EQ(call->getName(), std::string_view("new"));
+  const hldb::RefObj *const superRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(superRef, nullptr) << "37.42: 'super' should be the call's prefix";
+  EXPECT_EQ(superRef->getName(), std::string_view("super"));
   EXPECT_EQ(superRef->getActual<hldb::ClassDefn>(), getSuperClsDefn());
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getTaskFunc(), getSuperNewFunction());
 }
 
@@ -718,17 +721,13 @@ TEST_F(ClassOverrideMemberTest, FourthStmtDisplaysTestObjIncs) {
 
   const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
-  const hldb::RefObj *const path = arg0->getHighConn<hldb::RefObj>();
-  ASSERT_NE(path, nullptr) << "'test_obj.incs()' should be a RefObj";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
-  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(varRef, nullptr);
+  const hldb::MethodFuncCall *const call = arg0->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "'test_obj.incs()' should be a MethodFuncCall";
+  EXPECT_EQ(call->getName(), std::string_view("incs"));
+  const hldb::RefObj *const varRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(varRef, nullptr) << "37.42: the receiver 'test_obj' should be the call's prefix";
   EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableTestObj());
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'test_obj.incs()' second path elem should be a MethodFuncCall";
-  EXPECT_EQ(call->getName(), "incs");
   EXPECT_EQ(call->getTaskFunc(), getTestIncsFunction())
       << "8.14: 'test_obj.incs()' (test_obj is statically typed test_cls) should resolve to test_cls's OWN "
          "override of 'incs', not super_cls's";
@@ -756,18 +755,14 @@ TEST_F(ClassOverrideMemberTest, SixthStmtDisplaysSuperObjIncs) {
 
   const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
   ASSERT_NE(arg0, nullptr);
-  const hldb::RefObj *const path = arg0->getHighConn<hldb::RefObj>();
-  ASSERT_NE(path, nullptr) << "'super_obj.incs()' should be a RefObj";
-  ASSERT_NE(path->getPathElems(), nullptr);
-  ASSERT_EQ(path->getPathElems()->size(), 2u);
-  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(path->getPathElems()->at(0));
-  ASSERT_NE(varRef, nullptr);
-  EXPECT_EQ(varRef->getName(), "super_obj");
+  const hldb::MethodFuncCall *const call = arg0->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "'super_obj.incs()' should be a MethodFuncCall";
+  EXPECT_EQ(call->getName(), std::string_view("incs"));
+  const hldb::RefObj *const varRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(varRef, nullptr) << "37.42: the receiver 'super_obj' should be the call's prefix";
+  EXPECT_EQ(varRef->getName(), std::string_view("super_obj"));
   EXPECT_EQ(varRef->getActual<hldb::Variable>(), getVariableSuperObj());
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(path->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr) << "'super_obj.incs()' second path elem should be a MethodFuncCall";
-  EXPECT_EQ(call->getName(), "incs");
   EXPECT_EQ(call->getTaskFunc(), getSuperIncsFunction())
       << "8.14: 'super_obj.incs()' (super_obj is statically typed super_cls, and neither 'incs' is virtual) "
          "should resolve to super_cls's OWN base 'incs', not test_cls's override -- static/compile-time dispatch";

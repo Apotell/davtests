@@ -33,9 +33,9 @@
 //   - module has TypedefTypespec "e" -> EnumTypespec with 4 consts (a, b, c, d)
 //   - Initial -> Begin has 1 Variable "val" (TypedefTypespec, inline init RefObj "a" -> EnumConst)
 //   - Begin has 1 blocking assignment: val = val.last()
-//   - assignment rhs is RefObj "val.last()"
-//   - RefObj pathElems[0] is RefObj "val", pathElems[1] is FuncCall "last" (no args)
-//   - RefObj receiver RefObj "val" resolves to the local Variable
+//   - assignment rhs is MethodFuncCall "last" (prefix "val", IEEE 1800-2023 37.42)
+//   - the call's vpiPrefix is RefObj "val"; the call "last" has no args
+//   - the call's receiver RefObj "val" resolves to the local Variable
 //   - last() FuncCall carries no static return typespec (enum type is only
 //     resolved at simulation runtime)
 
@@ -53,6 +53,7 @@
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/func_call.h>
+#include <hldb/method_func_call.h>
 #include <hldb/initial.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
@@ -129,9 +130,9 @@ TEST_F(EnumLastTest, ValVariableDeclaredWithInitA) {
 }
 
 // ---------------------------------------------------------------------------
-// Assignment: val = val.last() -- rhs is RefObj "val.last()"
+// Assignment: val = val.last() -- rhs is MethodFuncCall "last" (prefix "val", IEEE 1800-2023 37.42)
 // ---------------------------------------------------------------------------
-TEST_F(EnumLastTest, AssignmentRhsIsRefObj) {
+TEST_F(EnumLastTest, AssignmentRhsIsCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -144,12 +145,12 @@ TEST_F(EnumLastTest, AssignmentRhsIsRefObj) {
   ASSERT_NE(assign, nullptr);
   EXPECT_TRUE(assign->getBlocking());
   EXPECT_EQ(assign->getLhs<hldb::RefObj>()->getName(), std::string_view("val"));
-  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr) << "val.last() rhs should be a RefObj";
-  EXPECT_EQ(hp->getName(), std::string_view("val.last()"));
+  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "val.last() rhs should be a MethodFuncCall (IEEE 1800-2023 37.42)";
+  EXPECT_EQ(call->getName(), std::string_view("last"));
 }
 
-TEST_F(EnumLastTest, RefObjReceiverAndFuncCall) {
+TEST_F(EnumLastTest, CallReceiverAndMethod) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -158,20 +159,16 @@ TEST_F(EnumLastTest, RefObjReceiverAndFuncCall) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr);
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), std::string_view("val"));
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), std::string_view("last"));
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "last() takes no arguments";
 }
 
-TEST_F(EnumLastTest, RefObjReceiverResolvesToVariable) {
+TEST_F(EnumLastTest, CallReceiverResolvesToVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -180,9 +177,9 @@ TEST_F(EnumLastTest, RefObjReceiverResolvesToVariable) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr);
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
   ASSERT_NE(receiver, nullptr);
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr)
       << "receiver RefObj 'val' in val.last() should resolve to the local Variable";
@@ -197,9 +194,7 @@ TEST_F(EnumLastTest, LastCallBindsToBuiltinEnumTypespec) {
   ASSERT_NE(blk, nullptr);
   const hldb::Assignment *const assign = any_cast<hldb::Assignment>(blk->getStmts()->at(0));
   ASSERT_NE(assign, nullptr);
-  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   // IEEE 1800-2023 Sec 6.19.5.2: "last()" is an enumerated-type method. It is declared in
   // no user scope, so it can only resolve to the builtin "EnumTypespec" class.

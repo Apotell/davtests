@@ -261,9 +261,10 @@ TEST_F(ReturnTest, LoopBodyCallsFunWithIAndResolvesBackToFun) {
   ASSERT_NE(loopBody, nullptr) << "for-loop body should be a Begin (explicit begin-end in source)";
   ASSERT_NE(loopBody->getStmts(), nullptr);
   ASSERT_EQ(loopBody->getStmts()->size(), 1u);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(loopBody->getStmts()->at(0));
-  ASSERT_NE(call, nullptr) << "'fun(i);' should be a standalone MethodFuncCall statement";
-  EXPECT_EQ(call->getName(), "fun");
+  // 'fun' is a module-level function, not a method (8.2): a plain FuncCall.
+  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(loopBody->getStmts()->at(0));
+  ASSERT_NE(call, nullptr) << "'fun(i);' should be a standalone FuncCall statement";
+  EXPECT_EQ(call->getName(), std::string_view("fun"));
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getFun()) << "call should resolve back to the 'fun' declaration";
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);

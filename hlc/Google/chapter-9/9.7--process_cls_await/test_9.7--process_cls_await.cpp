@@ -116,8 +116,9 @@
 //     is BitSelect "job[k]" (prefix resolves to Variable "job", index
 //     resolves to Variable "k") and whose rhs is a RefObj named
 //     "process::self()" with exactly 2 path elements (getPathElems()) -- a
-//     RefTypespec resolving to a ClassTypespec for the "process" ClassDefn
-//     (the "process::" scope prefix), then a MethodFuncCall named "self"
+//     RefObj resolving to the "process" ClassDefn (the "process::" scope
+//     prefix), then a FuncCall (static method via a class scope, no
+//     receiver object) named "self"
 //     whose getTaskFunc<Function>() resolves to "process"'s own "self"
 //     method (a function, since "self()" returns the process handle) --
 //     then a SysTaskCall "$display" with 2 arguments: the string literal
@@ -129,14 +130,14 @@
 //     with getOpType() == vpiNeqOp and 2 operands: BitSelect "job[i]"
 //     (prefix/index resolving to Variable "job"/Variable "i") and a
 //     Constant with getConstType() == vpiNullConst
-//   - "job[1].await();" is a RefObj directly bound as the Begin's 4th
-//     statement, named "job[1].await()" with exactly 2 path elements -- a
+//   - "job[1].await();" is a MethodTaskCall named "await" directly bound
+//     as the Begin's 3rd statement, whose vpiPrefix (37.42) is the
 //     BitSelect "job[1]" (prefix resolves to Variable "job", index is
-//     Constant "1"), then a MethodTaskCall named "await" whose
-//     getTaskFunc<Task>() resolves to "process"'s own "await" method (a
-//     task, since "await()" returns nothing)
+//     Constant "1"), and whose getTaskFunc<Task>() resolves to "process"'s
+//     own "await" method (a task, since "await()" returns nothing)
 //   - module "process_tb" has exactly one process, an Initial, whose
-//     statement is a Begin wrapping exactly one TaskCall resolving to
+//     statement is a Begin wrapping exactly one TaskCall (a module task is
+//     not a method, 8.2) resolving to
 //     "test" with one Constant argument "8"
 //   - CompFailedToBind is never raised: both "self" and "await" bind
 //     cleanly to the built-in "process" class's own methods
@@ -169,6 +170,7 @@
 #include <hldb/design.h>
 #include <hldb/foreach_stmt.h>
 #include <hldb/fork_stmt.h>
+#include <hldb/func_call.h>
 #include <hldb/function.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
@@ -182,6 +184,7 @@
 #include <hldb/sv_vpi_user.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/task.h>
+#include <hldb/task_call.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 #include <hldb/wait_stmt.h>
@@ -234,11 +237,11 @@ class ProcessClsAwaitTest : public Test {
     return any_cast<hldb::ForeachStmt>(body->getStmts()->at(1));
   }
 
-  static const hldb::RefObj *getAwaitCall() {
+  static const hldb::MethodTaskCall *getAwaitCall() {
     const hldb::Begin *const body = getTaskBody();
     if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->size() < 3)
       return nullptr;
-    return any_cast<hldb::RefObj>(body->getStmts()->at(2));
+    return any_cast<hldb::MethodTaskCall>(body->getStmts()->at(2));
   }
 
   static const hldb::ForkStmt *getForkStmt() {
@@ -290,14 +293,14 @@ class ProcessClsAwaitTest : public Test {
     return any_cast<hldb::Initial>(mod->getProcesses()->at(0));
   }
 
-  static const hldb::MethodTaskCall *getTestCall() {
+  static const hldb::TaskCall *getTestCall() {
     const hldb::Initial *const init = getInitialProcess();
     if (init == nullptr)
       return nullptr;
     const hldb::Begin *const body = init->getStmt<hldb::Begin>();
     if (body == nullptr || body->getStmts() == nullptr || body->getStmts()->empty())
       return nullptr;
-    return any_cast<hldb::MethodTaskCall>(body->getStmts()->at(0));
+    return any_cast<hldb::TaskCall>(body->getStmts()->at(0));
   }
   // clang-format on
 };
@@ -504,8 +507,9 @@ TEST_F(ProcessClsAwaitTest, SelfAssignmentLhsIsJobOfK) {
 }
 
 // 'process::self()' resolves to a RefObj carrying a 2-element path (from the
-// 'process::' class-scope prefix): a RefTypespec (resolving to a
-// ClassTypespec for the built-in 'process' ClassDefn) and a MethodFuncCall
+// 'process::' class-scope prefix): a RefObj (resolving to the built-in
+// 'process' ClassDefn) and a FuncCall (a static method called through a
+// class scope has no receiver object, so it is not a MethodFuncCall)
 // named 'self' -- a function, not a task, since 'self()' returns the
 // process handle -- resolving via getTaskFunc<Function>() to 'process'
 // class's own 'self' method.
@@ -525,8 +529,10 @@ TEST_F(ProcessClsAwaitTest, SelfAssignmentRhsIsProcessSelfMethodCall) {
   ASSERT_NE(process, nullptr) << "'process' should resolve to ClassDefn";
   EXPECT_EQ(process->getName(), "process");
 
-  const hldb::MethodFuncCall *const self = any_cast<hldb::MethodFuncCall>(rhs->getPathElems()->at(1));
-  ASSERT_NE(self, nullptr) << "'self()' should be a MethodFuncCall";
+  // 9.7: 'self' is a static method of 'process', called through the class scope (no receiver object), so it is a
+  // FuncCall, not a MethodFuncCall.
+  const hldb::FuncCall *const self = any_cast<hldb::FuncCall>(rhs->getPathElems()->at(1));
+  ASSERT_NE(self, nullptr) << "'self()' should be a FuncCall";
   EXPECT_EQ(self->getName(), "self");
   const hldb::Function *const selfMethod = self->getTaskFunc<hldb::Function>();
   ASSERT_NE(selfMethod, nullptr) << "'process::self()' should resolve to a real Function (it returns a handle)";
@@ -608,30 +614,24 @@ TEST_F(ProcessClsAwaitTest, WaitConditionIsJobOfINotEqualNull) {
 
 // --- job[1].await(); ----------------------------------------------------------
 
-// 'job[1].await();' resolves the same way as 'process::self()' above: a
-// RefObj whose 2 path elements are a BitSelect 'job[1]' (the handle being
-// called on) and a MethodTaskCall named 'await' -- a task, not a function,
-// since 'await()' returns nothing -- resolving via getTaskFunc<Task>() to
-// 'process' class's own 'await' method.
+// 'job[1].await();' is a MethodTaskCall statement named 'await' -- a task,
+// not a function, since 'await()' returns nothing -- whose vpiPrefix
+// (37.42 detail 2) is the BitSelect 'job[1]' (the handle being called on),
+// resolving via getTaskFunc<Task>() to 'process' class's own 'await' method.
 TEST_F(ProcessClsAwaitTest, FourthStmtIsAwaitMethodCallOnJobOne) {
-  const hldb::RefObj *const call = getAwaitCall();
-  ASSERT_NE(call, nullptr) << "'job[1].await();' should bind directly as a bare RefObj statement";
-  EXPECT_EQ(call->getName(), "job[1].await()");
+  const hldb::MethodTaskCall *const await = getAwaitCall();
+  ASSERT_NE(await, nullptr) << "'job[1].await();' should bind directly as a MethodTaskCall statement";
+  EXPECT_EQ(await->getName(), std::string_view("await"));
 
-  ASSERT_NE(call->getPathElems(), nullptr);
-  ASSERT_EQ(call->getPathElems()->size(), 2u) << "'job[1]' handle, then the 'await' call";
-
-  const hldb::BitSelect *const jobOne = any_cast<hldb::BitSelect>(call->getPathElems()->at(0));
-  ASSERT_NE(jobOne, nullptr) << "'job[1]' should be a BitSelect";
-  EXPECT_EQ(jobOne->getName(), "job[1]");
+  const hldb::BitSelect *const jobOne = await->getPrefix<hldb::BitSelect>();
+  ASSERT_NE(jobOne, nullptr) << "the receiver 'job[1]' should be the call's prefix, a BitSelect";
+  EXPECT_EQ(jobOne->getName(), std::string_view("job[1]"));
+  ASSERT_NE(jobOne->getPrefix<hldb::RefObj>(), nullptr);
   EXPECT_EQ(jobOne->getPrefix<hldb::RefObj>()->getActual<hldb::Variable>(), getJobVariable());
   const hldb::Constant *const index = jobOne->getIndex<hldb::Constant>();
   ASSERT_NE(index, nullptr);
   EXPECT_EQ(index->getDecompile(), "1");
 
-  const hldb::MethodTaskCall *const await = any_cast<hldb::MethodTaskCall>(call->getPathElems()->at(1));
-  ASSERT_NE(await, nullptr) << "'await()' should be a MethodTaskCall";
-  EXPECT_EQ(await->getName(), "await");
   const hldb::Task *const awaitMethod = await->getTaskFunc<hldb::Task>();
   ASSERT_NE(awaitMethod, nullptr) << "'job[1].await()' should resolve to a real Task (it returns nothing)";
   EXPECT_EQ(awaitMethod->getName(), "await");
@@ -648,8 +648,8 @@ TEST_F(ProcessClsAwaitTest, ModuleHasOneInitialProcess) {
 }
 
 TEST_F(ProcessClsAwaitTest, InitialCallsTestWithConstantEight) {
-  const hldb::MethodTaskCall *const call = getTestCall();
-  ASSERT_NE(call, nullptr) << "'test(8);' should be a MethodTaskCall";
+  const hldb::TaskCall *const call = getTestCall();
+  ASSERT_NE(call, nullptr) << "'test(8);' calls a module task (not a class method, 8.2), so it is a TaskCall";
   EXPECT_EQ(call->getTaskFunc<hldb::Task>(), getTestTask()) << "'test(8)' should resolve to task 'test'";
 
   ASSERT_NE(call->getArguments(), nullptr);

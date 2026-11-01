@@ -59,9 +59,10 @@
 //     "$display" with 2 arguments (Constant "\":assert:(%d == 1)\"" and
 //     RefObj "a", both resolving to the Variable)
 //   - the initial process's body is a Begin with exactly 4 statements,
-//     each a plain RefObj "mytask" resolving (getActual<hldb::Task>())
-//     to the task -- matching the bare-task-enable shape confirmed in
-//     13.3--task.cpp
+//     each a TaskCall "mytask" (a task enable written without
+//     parentheses, 13.5: getIsProperty() true, no arguments) resolving
+//     (getTaskFunc<hldb::Task>()) to the task -- matching the
+//     bare-task-enable shape in 13.3--task.cpp
 //   - no continuous assignments exist in the module
 //
 // What is NOT checked and why:
@@ -84,6 +85,7 @@
 #include <hldb/ref_obj.h>
 #include <hldb/sys_task_call.h>
 #include <hldb/task.h>
+#include <hldb/task_call.h>
 #include <hldb/variable.h>
 #include <hldb/vpi_user.h>
 
@@ -190,10 +192,13 @@ TEST_F(TaskAutomaticTest, InitialBodyCallsMytaskFourTimes) {
   ASSERT_NE(body->getStmts(), nullptr);
   ASSERT_EQ(body->getStmts()->size(), 4u);
   for (uint32_t idx = 0; idx < 4u; ++idx) {
-    const hldb::RefObj *const ref = any_cast<hldb::RefObj>(body->getStmts()->at(idx));
-    ASSERT_NE(ref, nullptr) << "bare 'mytask;' should be a plain RefObj, not a TaskCall";
-    EXPECT_EQ(ref->getName(), "mytask");
-    EXPECT_NE(ref->getActual<hldb::Task>(), nullptr);
+    // A module-level task is not a method (8.2): a plain TaskCall.
+    const hldb::TaskCall *const call = any_cast<hldb::TaskCall>(body->getStmts()->at(idx));
+    ASSERT_NE(call, nullptr) << "bare 'mytask;' is a task enable (13.5): a TaskCall";
+    EXPECT_EQ(call->getName(), std::string_view("mytask"));
+    EXPECT_TRUE(call->getIsProperty()) << "'mytask;' is written without parentheses";
+    EXPECT_EQ(call->getTaskFunc<hldb::Task>(), getMytask());
+    EXPECT_TRUE((call->getArguments() == nullptr) || call->getArguments()->empty());
   }
 }
 

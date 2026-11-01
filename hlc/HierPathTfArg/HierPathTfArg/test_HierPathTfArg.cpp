@@ -43,7 +43,9 @@
 // This exercises hierarchical paths passed as task/function call arguments:
 // each $display() (a system task call) is given a single argument that is
 // itself a (possibly hierarchically-qualified) function call, per IEEE
-// 1800-2023 Sec 23.6 (hierarchical names) and Sec 13.4 (functions).
+// 1800-2023 Sec 23.6 (hierarchical names) and Sec 13.4 (functions). The
+// call is the argument itself; the hierarchical scope it is called through
+// ("blk", "i.blk", "top.i.blk") is the call's prefix.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventListener.h>
@@ -58,6 +60,8 @@
 #include <hldb/function.h>
 #include <hldb/gen_block.h>
 #include <hldb/initial.h>
+#include <hldb/method_func_call.h>
+#include <hldb/method_task_call.h>
 #include <hldb/module.h>
 #include <hldb/ref_obj.h>
 #include <hldb/subroutine_call.h>
@@ -65,6 +69,8 @@
 #include <hldb/tf_call.h>
 
 #include <string>
+#include <string_view>
+#include <vector>
 
 namespace hlc {
 
@@ -97,15 +103,35 @@ class HierPathTfArgTest : public Test {
     return nullptr;
   }
 
-  // The last path element of the Nth $display's hierarchical argument, once bound: a FuncCall.
-  // The bound call ending the path. Taken as the common TFCall base: what is checked here is which
-  // function the call binds to, not whether HLC models it as a FuncCall or a MethodFuncCall.
+  // The Nth $display's argument: the (hierarchically-qualified) call itself. The call is lifted out
+  // of the hierarchical name; the scope path it is called through is the call's prefix. Taken as the
+  // common TFCall base: what is checked here is which function the call binds to, not whether HLC
+  // models it as a FuncCall or a MethodFuncCall.
   static const hldb::TFCall *getNthPathCall(size_t n) {
     const hldb::SysTaskCall *const disp = getNthDisplay(n);
     if (disp == nullptr || disp->getArguments() == nullptr || disp->getArguments()->empty()) return nullptr;
-    const hldb::RefObj *const arg = disp->getArguments()->at(0)->getHighConn<hldb::RefObj>();
-    if (arg == nullptr || arg->getPathElems() == nullptr || arg->getPathElems()->empty()) return nullptr;
-    return any_cast<hldb::TFCall>(arg->getPathElems()->back());
+    return disp->getArguments()->at(0)->getHighConn<hldb::TFCall>();
+  }
+
+  // The hierarchical scope a call is made through (its vpiPrefix), or nullptr.
+  static const hldb::Expr *getCallPrefix(const hldb::TFCall *call) {
+    if (const hldb::MethodFuncCall *const mfc = any_cast<hldb::MethodFuncCall>(call)) return mfc->getPrefix();
+    if (const hldb::MethodTaskCall *const mtc = any_cast<hldb::MethodTaskCall>(call)) return mtc->getPrefix();
+    if (const hldb::SubroutineCall *const sc = any_cast<hldb::SubroutineCall>(call)) return sc->getPrefix();
+    return nullptr;
+  }
+
+  // The names of a prefix's elements: "blk" -> {blk}, "i.blk" -> {i, blk}.
+  static std::vector<std::string_view> getPrefixNames(const hldb::Expr *prefix) {
+    std::vector<std::string_view> names;
+    const hldb::RefObj *const ref = any_cast<hldb::RefObj>(prefix);
+    if (ref == nullptr) return names;
+    if ((ref->getPathElems() == nullptr) || ref->getPathElems()->empty()) {
+      names.emplace_back(ref->getName());
+      return names;
+    }
+    for (const hldb::Any *const elem : *ref->getPathElems()) names.emplace_back(elem->getName());
+    return names;
   }
 
   // The named scopes that declare 'any', outermost first: "top.i.blk". Unnamed generate regions
@@ -156,32 +182,25 @@ TEST_F(HierPathTfArgTest, FirstDisplayArgIsPlainSubroutineCallF) {
   EXPECT_EQ(argZero->getDecompile(), std::string_view("0"));
 }
 
-// $display(blk.f(0)) -- one-level hierarchical call: RefObj "blk" ->
-// SubroutineCall "f".
+// $display(blk.f(0)) -- one-level hierarchical call: call "f" made through
+// the scope "blk" (the call's prefix).
 TEST_F(HierPathTfArgTest, SecondDisplayArgIsHierPathBlkDotF) {
   const hldb::SysTaskCall *const disp = getNthDisplay(1);
   ASSERT_NE(disp, nullptr);
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
-  ASSERT_NE(arg0, nullptr);
-  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
-  ASSERT_NE(arg, nullptr) << "expected a RefObj hierarchical path for 'blk.f(0)'";
-  EXPECT_EQ(arg->getName(), std::string_view("blk.f(0)"));
-  ASSERT_NE(arg->getPathElems(), nullptr);
-  ASSERT_EQ(arg->getPathElems()->size(), 2u);
+  const hldb::TFCall *const call = getNthPathCall(1);
+  ASSERT_NE(call, nullptr) << "expected the call 'f(0)' as the argument of $display(blk.f(0))";
+  EXPECT_EQ(call->getName(), std::string_view("f"));
+  ASSERT_NE(call->getArguments(), nullptr);
+  ASSERT_EQ(call->getArguments()->size(), 1u);
 
-  const hldb::RefObj *const scopeElem = any_cast<hldb::RefObj>(arg->getPathElems()->at(0));
-  ASSERT_NE(scopeElem, nullptr);
-  EXPECT_EQ(scopeElem->getName(), std::string_view("blk"));
-
-  // Bound to the function it calls, so the call is a FuncCall (Sec 23.6).
-  const hldb::FuncCall *const callElem = any_cast<hldb::FuncCall>(arg->getPathElems()->at(1));
-  ASSERT_NE(callElem, nullptr) << "expected a FuncCall for the 'f(0)' path element";
-  EXPECT_EQ(callElem->getName(), std::string_view("f"));
-  ASSERT_NE(callElem->getArguments(), nullptr);
-  ASSERT_EQ(callElem->getArguments()->size(), 1u);
+  const hldb::Expr *const prefix = getCallPrefix(call);
+  ASSERT_NE(prefix, nullptr) << "the scope 'blk' the call is made through should be the call's prefix";
+  const std::vector<std::string_view> names = getPrefixNames(prefix);
+  ASSERT_EQ(names.size(), 1u);
+  EXPECT_EQ(names[0], std::string_view("blk"));
 }
 
 // $display(i.blk.f(0)) -- two-level hierarchical call.
@@ -191,19 +210,16 @@ TEST_F(HierPathTfArgTest, FourthDisplayArgIsHierPathIDotBlkDotF) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
-  ASSERT_NE(arg0, nullptr);
-  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
-  ASSERT_NE(arg, nullptr);
-  EXPECT_EQ(arg->getName(), std::string_view("i.blk.f(0)"));
-  ASSERT_NE(arg->getPathElems(), nullptr);
-  ASSERT_EQ(arg->getPathElems()->size(), 3u) << "expected i -> blk -> f(0)";
+  const hldb::TFCall *const call = getNthPathCall(3);
+  ASSERT_NE(call, nullptr) << "expected the call 'f(0)' as the argument of $display(i.blk.f(0))";
+  EXPECT_EQ(call->getName(), std::string_view("f"));
 
-  EXPECT_EQ(any_cast<hldb::RefObj>(arg->getPathElems()->at(0))->getName(), std::string_view("i"));
-  EXPECT_EQ(any_cast<hldb::RefObj>(arg->getPathElems()->at(1))->getName(), std::string_view("blk"));
-  const hldb::FuncCall *const callElem = any_cast<hldb::FuncCall>(arg->getPathElems()->at(2));
-  ASSERT_NE(callElem, nullptr) << "expected a FuncCall for the 'f(0)' path element";
-  EXPECT_EQ(callElem->getName(), std::string_view("f"));
+  const hldb::Expr *const prefix = getCallPrefix(call);
+  ASSERT_NE(prefix, nullptr) << "the scope 'i.blk' the call is made through should be the call's prefix";
+  const std::vector<std::string_view> names = getPrefixNames(prefix);
+  ASSERT_EQ(names.size(), 2u) << "expected i -> blk";
+  EXPECT_EQ(names[0], std::string_view("i"));
+  EXPECT_EQ(names[1], std::string_view("blk"));
 }
 
 // $display(top.i.blk.f(0)) -- three-level hierarchical call rooted at the
@@ -214,13 +230,17 @@ TEST_F(HierPathTfArgTest, EighthDisplayArgIsHierPathTopDotIDotBlkDotF) {
   ASSERT_NE(disp->getArguments(), nullptr);
   ASSERT_EQ(disp->getArguments()->size(), 1u);
 
-  const hldb::NamedArgument *const arg0 = disp->getArguments()->at(0);
-  ASSERT_NE(arg0, nullptr);
-  const hldb::RefObj *const arg = arg0->getHighConn<hldb::RefObj>();
-  ASSERT_NE(arg, nullptr);
-  EXPECT_EQ(arg->getName(), std::string_view("top.i.blk.f(0)"));
-  ASSERT_NE(arg->getPathElems(), nullptr);
-  ASSERT_EQ(arg->getPathElems()->size(), 4u) << "expected top -> i -> blk -> f(0)";
+  const hldb::TFCall *const call = getNthPathCall(7);
+  ASSERT_NE(call, nullptr) << "expected the call 'f(0)' as the argument of $display(top.i.blk.f(0))";
+  EXPECT_EQ(call->getName(), std::string_view("f"));
+
+  const hldb::Expr *const prefix = getCallPrefix(call);
+  ASSERT_NE(prefix, nullptr) << "the scope 'top.i.blk' the call is made through should be the call's prefix";
+  const std::vector<std::string_view> names = getPrefixNames(prefix);
+  ASSERT_EQ(names.size(), 3u) << "expected top -> i -> blk";
+  EXPECT_EQ(names[0], std::string_view("top"));
+  EXPECT_EQ(names[1], std::string_view("i"));
+  EXPECT_EQ(names[2], std::string_view("blk"));
 }
 
 TEST_F(HierPathTfArgTest, CompilerReportsZeroErrors) {

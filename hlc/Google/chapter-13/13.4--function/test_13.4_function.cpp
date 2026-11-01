@@ -179,9 +179,10 @@ TEST_F(FunctionTest, InitialBodyDisplaysTestCallResultAndResolvesBackToTest) {
 
   const hldb::NamedArgument *const arg1 = display->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::MethodFuncCall *const call = arg1->getHighConn<hldb::MethodFuncCall>();
-  ASSERT_NE(call, nullptr) << "$display's second argument should be a MethodFuncCall 'test(1)'";
-  EXPECT_EQ(call->getName(), "test");
+  // 'test' is a module-level function, not a method (8.2): a plain FuncCall.
+  const hldb::FuncCall *const call = arg1->getHighConn<hldb::FuncCall>();
+  ASSERT_NE(call, nullptr) << "$display's second argument should be a FuncCall 'test(1)'";
+  EXPECT_EQ(call->getName(), std::string_view("test"));
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getTestFun());
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);

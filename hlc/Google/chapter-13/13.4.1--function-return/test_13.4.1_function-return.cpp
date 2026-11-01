@@ -181,9 +181,10 @@ TEST_F(FunctionReturnTest, InitialBodyDisplaysAddCallResultAndResolvesBackToAdd)
 
   const hldb::NamedArgument *const callArg = display->getArguments()->at(1);
   ASSERT_NE(callArg, nullptr);
-  const hldb::MethodFuncCall *const call = callArg->getHighConn<hldb::MethodFuncCall>();
+  // 'add' is a module-level function, not a method (8.2): a plain FuncCall.
+  const hldb::FuncCall *const call = callArg->getHighConn<hldb::FuncCall>();
   ASSERT_NE(call, nullptr) << "$display's second argument should be a FuncCall 'add(30, 60)'";
-  EXPECT_EQ(call->getName(), "add");
+  EXPECT_EQ(call->getName(), std::string_view("add"));
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), getAdd()) << "call should resolve back to the 'add' declaration";
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);

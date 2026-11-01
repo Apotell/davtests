@@ -61,6 +61,10 @@
 // `mailbox` is a builtin SystemVerilog class per Sec 15.4: it is usable
 // directly, with no import or user declaration required.
 //
+// Each method call (`m.put(msg)` etc.) is a MethodTaskCall/MethodFuncCall
+// named after the bare method, whose vpiPrefix (getPrefix()) is the receiver
+// RefObj `m` bound to the Variable `m` (IEEE 1800-2023 Sec 37.42 detail 2).
+//
 // ----------------------------------------------------------------------------
 // Every assertion below states only what IEEE 1800-2023 Sec 15.4 requires --
 // none of it is based on reading a .log file or any other tool-output dump.
@@ -73,10 +77,6 @@
 //     header anywhere in build/include/hldb/ models a class-construction
 //     expression (no "new"/"class_new" class exists), so the assignment's
 //     right-hand side is only checked for presence, not for a specific type.
-//   - vpiPrefix (which handle a method call such as "m.put(...)" targets)
-//     has no accessor anywhere on TFCall/MethodTaskCall/MethodFuncCall in
-//     this object model, so which variable owns each method call cannot be
-//     checked beyond what is asserted here.
 //   - Runtime values: whether num() actually reports 1 after a put(), or
 //     whether get() actually returns the same message peek() saw, cannot be
 //     observed -- HLC is a compiler/elaborator with no simulation.
@@ -193,17 +193,15 @@ TEST_F(MailboxBlockingTest, PutShouldBeBlockingMethodTaskCallWithOneArgumentButD
 
   const hldb::Any *const secondStmt = body->getStmts()->at(1);
   ASSERT_NE(secondStmt, nullptr) << "'m.put(msg);' should produce some statement";
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(secondStmt);
-  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a RefObj";
-  ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
-  EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";
-  const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
-  ASSERT_NE(ro, nullptr) << "0th element in m.put(msg) should be a reference";
+  const hldb::MethodTaskCall *const put = any_cast<hldb::MethodTaskCall>(secondStmt);
+  ASSERT_NE(put, nullptr) << "put() is a task (Sec 15.4: it may block), so this should be a MethodTaskCall";
+  EXPECT_EQ(put->getName(), std::string_view("put"));
+  // 37.42 detail 2: vpiPrefix is the object the method is applied to, 'm'.
+  const hldb::RefObj *const ro = put->getPrefix<hldb::RefObj>();
+  ASSERT_NE(ro, nullptr) << "the receiver of m.put(msg) should be a RefObj 'm'";
+  EXPECT_EQ(ro->getName(), std::string_view("m"));
   EXPECT_NE(ro->getActual(), nullptr);
   EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::Variable>("m", top->getVariables()));
-  const hldb::MethodTaskCall *const put = any_cast<hldb::MethodTaskCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(put, nullptr) << "put() is a task (Sec 15.4: it may block), so this should be a MethodTaskCall";
-  EXPECT_EQ(put->getName(), "put");
   ASSERT_NE(put->getArguments(), nullptr);
   ASSERT_EQ(put->getArguments()->size(), 1u) << "put() takes exactly one argument, the message";
   const hldb::NamedArgument *const arg0 = put->getArguments()->at(0);
@@ -224,20 +222,18 @@ TEST_F(MailboxBlockingTest, PeekShouldBeBlockingMethodTaskCallWithOneArgumentBut
 
   const hldb::Any *const thirdStmt = body->getStmts()->at(2);
   ASSERT_NE(thirdStmt, nullptr) << "'m.peek(r_peek);' should produce some statement";
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(thirdStmt);
-  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a RefObj";
-  ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
-  EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";
-  const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
-  ASSERT_NE(ro, nullptr) << "0th element in m.put(msg) should be a reference";
-  EXPECT_NE(ro->getActual(), nullptr);
-  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::Variable>("m", top->getVariables()));
-  const hldb::MethodTaskCall *const peek = any_cast<hldb::MethodTaskCall>(hp->getPathElems()->at(1));
+  const hldb::MethodTaskCall *const peek = any_cast<hldb::MethodTaskCall>(thirdStmt);
   // Sec 15.4: peek() blocks like get(), but does not remove the message from
   // the mailbox -- that non-destructive behavior is a runtime effect and
   // cannot be checked here (see file header).
   ASSERT_NE(peek, nullptr) << "peek() is a task (Sec 15.4: it may block), so this should be a MethodTaskCall";
-  EXPECT_EQ(peek->getName(), "peek");
+  EXPECT_EQ(peek->getName(), std::string_view("peek"));
+  // 37.42 detail 2: vpiPrefix is the object the method is applied to, 'm'.
+  const hldb::RefObj *const ro = peek->getPrefix<hldb::RefObj>();
+  ASSERT_NE(ro, nullptr) << "the receiver of m.peek(r_peek) should be a RefObj 'm'";
+  EXPECT_EQ(ro->getName(), std::string_view("m"));
+  EXPECT_NE(ro->getActual(), nullptr);
+  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::Variable>("m", top->getVariables()));
   ASSERT_NE(peek->getArguments(), nullptr);
   ASSERT_EQ(peek->getArguments()->size(), 1u) << "peek() takes exactly one argument, the output variable";
   const hldb::NamedArgument *const arg0 = peek->getArguments()->at(0);
@@ -258,18 +254,16 @@ TEST_F(MailboxBlockingTest, GetShouldBeBlockingMethodTaskCallWithOneArgumentButD
 
   const hldb::Any *const fifthStmt = body->getStmts()->at(4);
   ASSERT_NE(fifthStmt, nullptr) << "'m.get(r);' should produce some statement";
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(fifthStmt);
-  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a RefObj";
-  ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
-  EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";
-  const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
-  ASSERT_NE(ro, nullptr) << "0th element in m.put(msg) should be a reference";
-  EXPECT_NE(ro->getActual(), nullptr);
-  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::Variable>("m", top->getVariables()));
-  const hldb::MethodTaskCall *const get = any_cast<hldb::MethodTaskCall>(hp->getPathElems()->at(1));
+  const hldb::MethodTaskCall *const get = any_cast<hldb::MethodTaskCall>(fifthStmt);
   ASSERT_NE(get, nullptr) << "get() is a task (Sec 15.4: it blocks until a message is available), so this "
                               "should be a MethodTaskCall";
-  EXPECT_EQ(get->getName(), "get");
+  EXPECT_EQ(get->getName(), std::string_view("get"));
+  // 37.42 detail 2: vpiPrefix is the object the method is applied to, 'm'.
+  const hldb::RefObj *const ro = get->getPrefix<hldb::RefObj>();
+  ASSERT_NE(ro, nullptr) << "the receiver of m.get(r) should be a RefObj 'm'";
+  EXPECT_EQ(ro->getName(), std::string_view("m"));
+  EXPECT_NE(ro->getActual(), nullptr);
+  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::Variable>("m", top->getVariables()));
   ASSERT_NE(get->getArguments(), nullptr);
   ASSERT_EQ(get->getArguments()->size(), 1u) << "get() takes exactly one argument, the output variable";
   const hldb::NamedArgument *const arg0 = get->getArguments()->at(0);
@@ -300,18 +294,16 @@ TEST_F(MailboxBlockingTest, NumShouldBeMethodFuncCallUsedAsDisplayArgumentButDoe
   ASSERT_NE(arg1, nullptr);
   const hldb::Any *const secondArg = arg1->getHighConn();
   ASSERT_NE(secondArg, nullptr) << "'m.num()' should produce some expression";
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(secondArg);
-  ASSERT_NE(hp, nullptr) << "m.put(msg) should be a RefObj";
-  ASSERT_NE(hp->getPathElems(), nullptr) << "m.put(msg) should be non-empty path";
-  EXPECT_EQ(hp->getPathElems()->size(), 2) << "m.put(msg) should have exactly 2 path elements";
-  const hldb::RefObj *const ro = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
-  ASSERT_NE(ro, nullptr) << "0th element in m.put(msg) should be a reference";
-  EXPECT_NE(ro->getActual(), nullptr);
-  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::Variable>("m", top->getVariables()));
-  const hldb::MethodFuncCall *const num = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const num = any_cast<hldb::MethodFuncCall>(secondArg);
   ASSERT_NE(num, nullptr) << "num() returns a value (Sec 15.4: the number of queued messages), so this "
                               "should be a MethodFuncCall, not a MethodTaskCall";
-  EXPECT_EQ(num->getName(), "num");
+  EXPECT_EQ(num->getName(), std::string_view("num"));
+  // 37.42 detail 2: vpiPrefix is the object the method is applied to, 'm'.
+  const hldb::RefObj *const ro = num->getPrefix<hldb::RefObj>();
+  ASSERT_NE(ro, nullptr) << "the receiver of m.num() should be a RefObj 'm'";
+  EXPECT_EQ(ro->getName(), std::string_view("m"));
+  EXPECT_NE(ro->getActual(), nullptr);
+  EXPECT_EQ(ro->getActual(), hldb::findByName<hldb::Variable>("m", top->getVariables()));
   EXPECT_TRUE(num->getArguments() == nullptr || num->getArguments()->empty()) << "num() takes no arguments";
 }
 

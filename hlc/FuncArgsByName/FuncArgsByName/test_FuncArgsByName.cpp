@@ -99,7 +99,7 @@ class FuncArgsByNameTest : public Test {
   // Finds, among a call's arguments, the actual Constant bound to the given
   // formal IODecl -- resolved by matching against the IODecl in the
   // callee's own formal list, since positional/order is not guaranteed.
-  static const hldb::Constant *findConstArgAt(const hldb::MethodFuncCall *call, size_t index) {
+  static const hldb::Constant *findConstArgAt(const hldb::FuncCall *call, size_t index) {
     if (call == nullptr || call->getArguments() == nullptr || call->getArguments()->size() <= index) return nullptr;
     hldb::NamedArgument *const arg = call->getArguments()->at(index);
     if (arg == nullptr) return nullptr;
@@ -149,7 +149,8 @@ TEST_F(FuncArgsByNameTest, FirstCallBindsArgumentsByNameInSourceOrder) {
   ASSERT_NE(body, nullptr);
   ASSERT_EQ(body->getStmts()->size(), 3u);
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(body->getStmts()->at(0));
+  // m_matches_type_pair is a module-level function, not a method (IEEE 1800-2023 8.2): FuncCall.
+  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(body->getStmts()->at(0));
   ASSERT_NE(call, nullptr) << "first statement should be a bare FuncCall statement (Sec 13.4.1: legal to call a "
                                "function as if it had no return value)";
   EXPECT_EQ(call->getName(), std::string_view("m_matches_type_pair"));
@@ -180,7 +181,7 @@ TEST_F(FuncArgsByNameTest, SecondCallIsPositional) {
   ASSERT_NE(body, nullptr);
   ASSERT_EQ(body->getStmts()->size(), 3u);
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(body->getStmts()->at(1));
+  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(body->getStmts()->at(1));
   ASSERT_NE(call, nullptr) << "second statement should be a bare FuncCall statement";
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
@@ -204,7 +205,7 @@ TEST_F(FuncArgsByNameTest, ThirdCallBindsArgumentsByNameEvenWhenReversed) {
   ASSERT_NE(body, nullptr);
   ASSERT_EQ(body->getStmts()->size(), 3u);
 
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(body->getStmts()->at(2));
+  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(body->getStmts()->at(2));
   ASSERT_NE(call, nullptr) << "third statement should be a bare FuncCall statement";
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);

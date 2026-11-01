@@ -41,9 +41,10 @@
 //     SysFuncCall)
 //   - Stmt[0]: $display with 5 args (format + BitSelect b[0..3])
 //   - Stmt[1]: y = b.sum (no parens) -- blocking Assignment, lhs RefObj
-//     "y" resolving Variable "y", rhs RefObj "b.sum()" with 2 path
-//     elems: RefObj "b" (resolving Variable "b") and MethodFuncCall "sum"
-//     with no arguments -- correctly resolves, zero errors
+//     "y" resolving Variable "y", rhs MethodFuncCall "sum"
+//     (vpiIsProperty, no arguments, vpiTaskFunc a Function) whose
+//     vpiPrefix is RefObj "b" resolving Variable "b" (37.42 detail 2,
+//     13.5.5) -- zero errors
 //   - Stmt[2]: $display with 2 args (format + RefObj "y")
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec (signed),
 //     StringTypespec
@@ -199,15 +200,18 @@ TEST_F(UnpackedSumTest, SecondStmtAssignsYFromBSumReduction) {
   ASSERT_NE(lhs, nullptr);
   EXPECT_EQ(lhs->getName(), "y");
   EXPECT_NE(lhs->getActual<hldb::Variable>(), nullptr);
-  const hldb::RefObj *const hp = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  EXPECT_NE(any_cast<hldb::RefObj>(hp->getPathElems()->at(0))->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "sum");
+  // 37.42 detail 2 / 13.5.5: 'b.sum' (no parens) is a method call whose receiver 'b' is vpiPrefix.
+  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "'b.sum' should be a MethodFuncCall";
+  EXPECT_EQ(call->getName(), std::string_view("sum"));
+  EXPECT_TRUE(call->getIsProperty()) << "'b.sum' is written without parentheses";
   EXPECT_EQ(call->getArguments(), nullptr);
+  ASSERT_NE(call->getTaskFunc(), nullptr);
+  EXPECT_EQ(call->getTaskFunc()->getAnyType(), hldb::AnyType::Function);
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(receiver, nullptr) << "the receiver 'b' should be the call's vpiPrefix";
+  EXPECT_EQ(receiver->getName(), std::string_view("b"));
+  EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr);
 }
 
 TEST_F(UnpackedSumTest, ThirdStmtDisplaysYEqualsTen) {

@@ -63,8 +63,10 @@
 #include <hldb/gen_region.h>
 #include <hldb/gen_scope.h>
 #include <hldb/io_decl.h>
+#include <hldb/method_func_call.h>
 #include <hldb/module.h>
 #include <hldb/module_typespec.h>
+#include <hldb/named_argument.h>
 #include <hldb/operation.h>
 #include <hldb/ref_instance.h>
 #include <hldb/ref_obj.h>
@@ -237,27 +239,28 @@ TEST_F(GenScopeFuncTest, ContAssignCallsLocalFunctionBoundToCscope) {
   // const hldb::GenScope *const scopeQualifier = any_cast<hldb::GenScope>(rhs->getPathElems()->front());
   // ASSERT_NE(scopeQualifier, nullptr) << "'cscope' qualifier should resolve to the GenScope itself";
   // EXPECT_EQ(scopeQualifier->getName(), std::string_view("cscope"));
-  // 'cscope.local_function(counter)' is a hierarchical reference (Sec 23.6):
-  // a RefObj whose path elements are the 'cscope' qualifier followed by the
-  // call itself.
-  const hldb::RefObj *const rhs = assign->getRhs<hldb::RefObj>();
-  ASSERT_NE(rhs, nullptr) << "'cscope.local_function(counter)' should be a hierarchical RefObj";
-  ASSERT_NE(rhs->getPathElems(), nullptr);
-  ASSERT_EQ(rhs->getPathElems()->size(), 2u) << "path should be 'cscope' -> 'local_function(counter)'";
-
-  // The 'cscope.' qualifier must resolve to the 'cscope' generate block.
-  const hldb::RefObj *const scopeQualifier = any_cast<hldb::RefObj>(rhs->getPathElems()->front());
-  ASSERT_NE(scopeQualifier, nullptr) << "'cscope' qualifier should be a RefObj";
-  EXPECT_EQ(scopeQualifier->getName(), std::string_view("cscope"));
-  EXPECT_EQ(scopeQualifier->getActual(), cscope) << "'cscope' qualifier should resolve to the 'cscope' generate block";
-
-  // The last element is the function call, bound to the function declared
-  // inside 'cscope'.
-  const hldb::FuncCall *const call = any_cast<hldb::FuncCall>(rhs->getPathElems()->back());
-  ASSERT_NE(call, nullptr) << "'local_function(counter)' should be a FuncCall bound to 'local_function'";
+  // 'cscope.local_function(counter)' is a hierarchical call (Sec 23.6): the call
+  // is lifted out of the hierarchical path and carries the 'cscope' qualifier
+  // as its vpiPrefix (Sec 37.42 detail 2), the same way a call through an
+  // instance ('u1.f()') does. The call itself is named after the bare function.
+  ASSERT_NE(assign->getRhs(), nullptr);
+  const hldb::MethodFuncCall *const call = assign->getRhs<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "'cscope.local_function(counter)' should be a call with a 'cscope' prefix";
   EXPECT_EQ(call->getName(), std::string_view("local_function"));
   EXPECT_EQ(call->getTaskFunc<hldb::Function>(), fn)
       << "the call must bind to the 'local_function' declared inside the 'cscope' generate block";
+  ASSERT_NE(call->getArguments(), nullptr);
+  ASSERT_EQ(call->getArguments()->size(), 1u);
+  ASSERT_NE(call->getArguments()->at(0), nullptr);
+  const hldb::RefObj *const arg0 = call->getArguments()->at(0)->getHighConn<hldb::RefObj>();
+  ASSERT_NE(arg0, nullptr);
+  EXPECT_EQ(arg0->getName(), std::string_view("counter"));
+
+  // The 'cscope.' qualifier must resolve to the 'cscope' generate block.
+  const hldb::RefObj *const scopeQualifier = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(scopeQualifier, nullptr) << "'cscope' qualifier should be the call's vpiPrefix RefObj";
+  EXPECT_EQ(scopeQualifier->getName(), std::string_view("cscope"));
+  EXPECT_EQ(scopeQualifier->getActual(), cscope) << "'cscope' qualifier should resolve to the 'cscope' generate block";
 }
 
 }  // namespace hlc

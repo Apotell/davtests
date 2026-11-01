@@ -96,6 +96,9 @@ TEST_F(FileResolutionFunctionTest, MyRealResolutionFuncIsMyFunction2) {
   ASSERT_NE(td, nullptr);
   ASSERT_NE(td->getResolutionFunc(), nullptr) << "6.6.9: 'with my_function2' must populate getResolutionFunc()";
   EXPECT_EQ(td->getResolutionFunc()->getName(), std::string_view{"my_function2"});
+  ASSERT_NE(td->getResolutionFunc()->getActual(), nullptr);
+  EXPECT_EQ(td->getResolutionFunc()->getActual(), getMyFunction2())
+      << "6.6.9: the resolution function reference must resolve to the Function itself";
 }
 
 TEST_F(FileResolutionFunctionTest, FunctionMyFunction2Exists) {

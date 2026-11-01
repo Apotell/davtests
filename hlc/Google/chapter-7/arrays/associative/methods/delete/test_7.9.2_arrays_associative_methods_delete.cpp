@@ -37,36 +37,19 @@
 //     2 bare method-call statements for map.delete("sad") and map.delete)
 //   - the 3 index assignments (map["hello"]=1, map["sad"]=2, map["world"]=3)
 //     as BitSelect lhs with string Constant index and unsigned int Constant rhs
-//   - map.delete("sad") is a bare RefObj statement whose 2nd path elem is a
-//     MethodFuncCall "delete" with 1 string Constant argument "sad"
-//   - map.delete (no parens) is a bare RefObj statement whose 2nd path elem
-//     is an unresolved RefObj "delete" (not a MethodFuncCall)
-//   - all 3 $display calls and their RefObj("map.size") arguments
+//   - map.delete("sad") is a MethodFuncCall statement "delete" (IEEE
+//     1800-2023 37.42 detail 2) with vpiPrefix RefObj "map" and 1 string
+//     Constant argument "sad"
+//   - map.delete (no parens) is a MethodFuncCall statement "delete" with
+//     vpiPrefix RefObj "map", vpiIsProperty set and no arguments (13.5.5)
+//   - all 3 $display calls and their MethodFuncCall "size" arguments
+//     (prefix RefObj "map", no parentheses)
 //   - design-level typespecs (3): ModuleTypespec, IntTypespec, StringTypespec
-//   - compiler emits exactly 4 errors (m_fatals=0, m_syntaxes=0, m_errors=4,
-//     m_warnings=0), all CompFailedToBind
 //
-// Not checked (see Skipped below for canary coverage):
-//   - RefObj "size"/"delete" getActual() -- always null, a compiler limitation
-//   - actual post-delete map.size() runtime result -- simulation-only
-//
-// Skipped (documents a fix, not a gap):
-//   - SizeAndDeleteRefObjsShouldResolveOnceImplicitVariableBugIsFixed: GTEST_SKIP
-//     canary asserting the "size"/"delete" RefObjs SHOULD resolve to a
-//     declared object once the compiler stops raising
-//     CompFailedToBind for the no-parens forms; re-enable when fixed
+// Skipped:
 //   - DeleteRuntimeEffectOnMapSizeRequiresSimulation: GTEST_SKIP canary
 //     documenting that verifying delete()'s actual effect on map.size()
 //     requires a simulator this harness does not run
-//
-// Compiler limitation (NOT a code error in delete.sv):
-//   IEEE 1800-2017 7.24.4 permits the built-in ".size" method to be called
-//   with or without parentheses, and 7.9.2 permits ".delete" (no arguments)
-//   with or without parentheses. This HLC build resolves neither construct
-//   and instead raises CompFailedToBind for "size" (3 occurrences) and
-//   the no-parens "delete" (1 occurrence).
-//   delete.sv is valid SystemVerilog; the 4 errors below are a known
-//   compiler/API limitation, not a defect in the test source.
 
 #include <hlc/Common/Session.h>
 #include <hlc/Events/EventDefinition.h>
@@ -242,40 +225,36 @@ TEST_F(AssociativeArrayDeleteTest, FirstDisplayAssertsSizeEqualsThree) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 3)");
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
+  const hldb::MethodFuncCall *const size = arg1->getHighConn<hldb::MethodFuncCall>();
   ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "map.size");
-  ASSERT_NE(size->getPathElems(), nullptr);
-  ASSERT_EQ(size->getPathElems()->size(), 2u);
-  const hldb::RefObj *const mapRef = any_cast<hldb::RefObj>(size->getPathElems()->at(0));
+  EXPECT_EQ(size->getName(), std::string_view("size"));
+  // Written without parentheses (13.5.5, 7.9.1).
+  EXPECT_TRUE(size->getIsProperty());
+  EXPECT_NE(size->getTaskFunc(), nullptr);
+  const hldb::RefObj *const mapRef = size->getPrefix<hldb::RefObj>();
   ASSERT_NE(mapRef, nullptr);
-  EXPECT_EQ(mapRef->getName(), "map");
+  EXPECT_EQ(mapRef->getName(), std::string_view("map"));
   EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const sizeRef = any_cast<hldb::MethodFuncCall>(size->getPathElems()->at(1));
-  ASSERT_NE(sizeRef, nullptr);
-  EXPECT_EQ(sizeRef->getName(), "size");
-  EXPECT_NE(sizeRef->getTaskFunc(), nullptr);
 }
 
 // --- map.delete("sad") ----
 
-TEST_F(AssociativeArrayDeleteTest, DeleteSadStatementIsRefObjWithMethodFuncCall) {
+TEST_F(AssociativeArrayDeleteTest, DeleteSadStatementIsMethodFuncCallOnMap) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(init->getStmt<hldb::Begin>()->getStmts()->at(4));
-  ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), std::string_view("map.delete(\"sad\")"));
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::RefObj *const mapRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
-  ASSERT_NE(mapRef, nullptr);
-  EXPECT_EQ(mapRef->getName(), "map");
-  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  // delete() is a void function method (7.9.2) called as a statement.
+  const hldb::MethodFuncCall *const call =
+      any_cast<hldb::MethodFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(4));
   ASSERT_NE(call, nullptr);
-  EXPECT_EQ(call->getName(), "delete");
+  EXPECT_EQ(call->getName(), std::string_view("delete"));
+  EXPECT_FALSE(call->getIsProperty());
+  EXPECT_NE(call->getTaskFunc(), nullptr);
+  const hldb::RefObj *const mapRef = call->getPrefix<hldb::RefObj>();
+  ASSERT_NE(mapRef, nullptr);
+  EXPECT_EQ(mapRef->getName(), std::string_view("map"));
+  EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 1u);
   const hldb::NamedArgument *const arg0 = call->getArguments()->at(0);
@@ -302,32 +281,32 @@ TEST_F(AssociativeArrayDeleteTest, SecondDisplayAssertsSizeEqualsTwo) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 2)");
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
+  const hldb::MethodFuncCall *const size = arg1->getHighConn<hldb::MethodFuncCall>();
   ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "map.size");
+  EXPECT_EQ(size->getName(), std::string_view("size"));
+  const hldb::RefObj *const mapRef = size->getPrefix<hldb::RefObj>();
+  ASSERT_NE(mapRef, nullptr);
+  EXPECT_EQ(mapRef->getName(), std::string_view("map"));
 }
 
 // --- map.delete (no parens) ----
 
-TEST_F(AssociativeArrayDeleteTest, BareDeleteStatementIsRefObjWithUnresolvedRefObj) {
+TEST_F(AssociativeArrayDeleteTest, BareDeleteStatementIsMethodFuncCallOnMap) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = any_cast<hldb::Initial>(top->getProcesses()->at(0));
   ASSERT_NE(init, nullptr);
-  const hldb::RefObj *const hp = any_cast<hldb::RefObj>(init->getStmt<hldb::Begin>()->getStmts()->at(6));
-  ASSERT_NE(hp, nullptr);
-  EXPECT_EQ(hp->getName(), "map.delete");
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::RefObj *const mapRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const deleteCall =
+      any_cast<hldb::MethodFuncCall>(init->getStmt<hldb::Begin>()->getStmts()->at(6));
+  ASSERT_NE(deleteCall, nullptr) << "map.delete without parens is a call to the delete() method (13.5.5, 7.9.2)";
+  EXPECT_EQ(deleteCall->getName(), std::string_view("delete"));
+  EXPECT_TRUE(deleteCall->getIsProperty());
+  EXPECT_NE(deleteCall->getTaskFunc(), nullptr);
+  EXPECT_EQ(deleteCall->getArguments(), nullptr);
+  const hldb::RefObj *const mapRef = deleteCall->getPrefix<hldb::RefObj>();
   ASSERT_NE(mapRef, nullptr);
-  EXPECT_EQ(mapRef->getName(), "map");
+  EXPECT_EQ(mapRef->getName(), std::string_view("map"));
   EXPECT_NE(mapRef->getActual<hldb::Variable>(), nullptr);
-  const hldb::MethodFuncCall *const deleteRef = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(deleteRef, nullptr)
-      << "map.delete without parens should still parse as RefObj pathElem RefObj, not MethodFuncCall";
-  EXPECT_EQ(deleteRef->getName(), "delete");
-  EXPECT_NE(deleteRef->getTaskFunc(), nullptr);
 }
 
 // --- $display(":assert: (%d == 0)", map.size) ----
@@ -346,9 +325,12 @@ TEST_F(AssociativeArrayDeleteTest, ThirdDisplayAssertsSizeEqualsZero) {
   EXPECT_EQ(fmt->getValue(), ":assert: (%d == 0)");
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const size = arg1->getHighConn<hldb::RefObj>();
+  const hldb::MethodFuncCall *const size = arg1->getHighConn<hldb::MethodFuncCall>();
   ASSERT_NE(size, nullptr);
-  EXPECT_EQ(size->getName(), "map.size");
+  EXPECT_EQ(size->getName(), std::string_view("size"));
+  const hldb::RefObj *const mapRef = size->getPrefix<hldb::RefObj>();
+  ASSERT_NE(mapRef, nullptr);
+  EXPECT_EQ(mapRef->getName(), std::string_view("map"));
 }
 
 // --- design-level typespecs ----
@@ -381,21 +363,17 @@ TEST_F(AssociativeArrayDeleteTest, ArrRefObjsShouldResolve) {
   ASSERT_NE(disp, nullptr);
   const hldb::NamedArgument *const arg1 = disp->getArguments()->at(1);
   ASSERT_NE(arg1, nullptr);
-  const hldb::RefObj *const hp = arg1->getHighConn<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::RefObj *const varRef = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const sizeMfc = arg1->getHighConn<hldb::MethodFuncCall>();
+  ASSERT_NE(sizeMfc, nullptr);
+  const hldb::RefObj *const varRef = sizeMfc->getPrefix<hldb::RefObj>();
   ASSERT_NE(varRef, nullptr);
-  EXPECT_EQ(varRef->getName(), "map");
+  EXPECT_EQ(varRef->getName(), std::string_view("map"));
   const hldb::Variable *const var = varRef->getActual<hldb::Variable>();
   ASSERT_NE(var, nullptr);
-  EXPECT_EQ(var->getName(), "map");
-  const hldb::MethodFuncCall *const sizeMfc = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(sizeMfc, nullptr);
+  EXPECT_EQ(var->getName(), std::string_view("map"));
   EXPECT_NE(sizeMfc->getTaskFunc(), nullptr) << "map.size should resolve";
 
-  const hldb::RefObj *const bareDelete = any_cast<hldb::RefObj>(begin->getStmts()->at(6));
-  ASSERT_NE(bareDelete, nullptr);
-  const hldb::MethodFuncCall *const deleteMfc = any_cast<hldb::MethodFuncCall>(bareDelete->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const deleteMfc = any_cast<hldb::MethodFuncCall>(begin->getStmts()->at(6));
   ASSERT_NE(deleteMfc, nullptr);
   EXPECT_NE(deleteMfc->getTaskFunc(), nullptr) << "map.delete should resolve";
 }

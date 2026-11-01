@@ -128,10 +128,6 @@
 //   - EnvExtendsUvmEnv, EnvNewHasNameAndParentInputs and
 //     EnvRunPhaseHasPhaseInput: the class types uvm_env, uvm_component and
 //     uvm_phase do not resolve to a ClassDefn.
-//   - EnvNewCallsSuperNew, RunPhaseRaisesObjection, RunPhaseDropsObjection
-//     and RunPhaseInnerBeginRandomizesBObj: "super.new(...)",
-//     "phase.raise_objection(this)", "phase.drop_objection(this)" and
-//     "bObj.randomize()" are not found as method calls.
 //   - TopCallsRunTest: "run_test()" is not a TaskCall (the .hlc does not
 //     compile 1800.2-2017-1.0/src/uvm_pkg.sv).
 //   - CompilerReportsZeroErrors: HLC reports 2 errors:
@@ -145,8 +141,9 @@
 // NOT CHECKED:
 //   - the contents of the `uvm_info / `uvm_error macro expansions -- they
 //     are defined by the UVM library, not by this source.
-//   - the prefixes of the method calls ("phase.", "bObj.", "super.") and
-//     the "this" arguments, whose VPI shape is a compiler choice.
+//   - the "this" arguments, whose VPI shape is a compiler choice. (The
+//     receivers "phase", "bObj" and "super" ARE checked, as the vpiPrefix of
+//     each method call -- 37.42 detail 2.)
 //   - whether run_phase is virtual (it overrides uvm_component::run_phase).
 //   - runtime effects (that randomize() makes bObj.aObj.v < bObj.v and
 //     run_test() reports SUCCESS) cannot be observed -- HLC is a
@@ -311,15 +308,24 @@ class GlobalConstraints1Test : public Test {
     ASSERT_NE(body->getStmts(), nullptr);
     ASSERT_GT(body->getStmts()->size(), stmtIndex);
 
-    const hldb::RefObj *const stmt = any_cast<hldb::RefObj>(body->getStmts()->at(stmtIndex));
+    const hldb::Any *const stmt = body->getStmts()->at(stmtIndex);
     ASSERT_NE(stmt, nullptr);
-    ASSERT_NE(stmt->getActual(), nullptr);
-
-    const hldb::MethodFuncCall *const call = stmt->getActual<hldb::MethodFuncCall>();
+    const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(stmt);
     ASSERT_NE(call, nullptr) << "'phase." << name << "(this)' should be a MethodFuncCall";
     EXPECT_EQ(call->getName(), name);
     ASSERT_NE(call->getArguments(), nullptr);
     EXPECT_EQ(call->getArguments()->size(), 1u) << "'" << name << "' is called with the single argument 'this'";
+
+    // 37.42 detail 2: the vpiPrefix of a method call is the object the method is applied to, 'phase'.
+    ASSERT_NE(call->getPrefix(), nullptr) << "'" << name << "' should be linked to its receiver 'phase'";
+    const hldb::RefObj *const prefix = any_cast<hldb::RefObj>(call->getPrefix());
+    ASSERT_NE(prefix, nullptr) << "the receiver 'phase' should be a RefObj";
+    EXPECT_EQ(prefix->getName(), std::string_view("phase"));
+    const hldb::Task *const task = getEnvMethod<hldb::Task>("run_phase");
+    ASSERT_NE(task, nullptr);
+    const hldb::Variable *const phase = hldb::findByName<hldb::Variable>("phase", task->getVariables());
+    ASSERT_NE(phase, nullptr) << "the argument 'phase' should be a variable of run_phase (37.13)";
+    EXPECT_EQ(prefix->getActual(), static_cast<const hldb::Any *>(phase)) << "'phase' binds to run_phase's argument";
   }
 };
 
@@ -477,13 +483,15 @@ TEST_F(GlobalConstraints1Test, EnvNewCallsSuperNew) {
   const hldb::Function *const func = getEnvMethod<hldb::Function>("new");
   ASSERT_NE(func, nullptr);
 
-  const hldb::RefObj *const stmt = func->getStmt<hldb::RefObj>();
-  ASSERT_NE(stmt, nullptr);
-  ASSERT_NE(stmt->getActual(), nullptr);
-
-  const hldb::TFCall *const call = stmt->getActual<hldb::TFCall>();
+  ASSERT_NE(func->getStmt(), nullptr);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(func->getStmt());
   ASSERT_NE(call, nullptr) << "'super.new(name, parent);' should be the body of 'new'";
   EXPECT_EQ(call->getName(), "new");
+  // 37.42 detail 2: the vpiPrefix of the call is the object it is applied to, 'super' (8.15).
+  ASSERT_NE(call->getPrefix(), nullptr) << "'new' should be linked to its receiver 'super'";
+  const hldb::RefObj *const prefix = any_cast<hldb::RefObj>(call->getPrefix());
+  ASSERT_NE(prefix, nullptr) << "the receiver 'super' should be a RefObj";
+  EXPECT_EQ(prefix->getName(), std::string_view("super"));
   ASSERT_NE(call->getArguments(), nullptr);
   ASSERT_EQ(call->getArguments()->size(), 2u);
 
@@ -531,14 +539,14 @@ TEST_F(GlobalConstraints1Test, RunPhaseInnerBeginRandomizesBObj) {
   ASSERT_NE(inner->getStmts(), nullptr);
   ASSERT_EQ(inner->getStmts()->size(), 2u) << "'bObj.randomize();' and the if-else";
 
-  const hldb::RefObj *const stmt = any_cast<hldb::RefObj>(inner->getStmts()->at(0));
-  ASSERT_NE(stmt, nullptr);
-  ASSERT_NE(stmt->getActual(), nullptr);
-
-  const hldb::MethodFuncCall *const call = stmt->getActual<hldb::MethodFuncCall>();
+  ASSERT_NE(inner->getStmts()->at(0), nullptr);
+  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(inner->getStmts()->at(0));
   ASSERT_NE(call, nullptr) << "18.6: 'bObj.randomize()' should be a MethodFuncCall";
   EXPECT_EQ(call->getName(), "randomize");
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "'randomize()' has no arguments";
+  // 37.42 detail 2: the vpiPrefix of the call is the object it is applied to, 'bObj'.
+  ASSERT_NE(call->getPrefix(), nullptr) << "'randomize' should be linked to its receiver 'bObj'";
+  expectRefTo(call->getPrefix(), "bObj", getVar("env", "bObj"));
 }
 
 TEST_F(GlobalConstraints1Test, RunPhaseIfAObjVLessThanV) {

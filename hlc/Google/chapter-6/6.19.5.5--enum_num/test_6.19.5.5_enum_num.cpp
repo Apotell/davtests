@@ -34,9 +34,9 @@
 //   - Initial -> Begin has 2 Variables (val, n) and NO assignment statements
 //     (inline initializers are stored as vpiValue, not as stmt assignments)
 //   - val: TypedefTypespec, inline init RefObj "a" -> EnumConst
-//   - n: IntTypespec ("int" keyword), inline init RefObj "val.num()"
-//   - RefObj pathElems[0] is RefObj "val", pathElems[1] is FuncCall "num" (no args)
-//   - RefObj receiver RefObj "val" resolves to the local Variable
+//   - n: IntTypespec ("int" keyword), inline init MethodFuncCall "num" (prefix "val", IEEE 1800-2023 37.42)
+//   - the call's vpiPrefix is RefObj "val"; the call "num" has no args
+//   - the call's receiver RefObj "val" resolves to the local Variable
 //   - num() FuncCall carries no static return typespec (the count is only
 //     computed at simulation runtime)
 
@@ -53,6 +53,7 @@
 #include <hldb/enum_const.h>
 #include <hldb/enum_typespec.h>
 #include <hldb/func_call.h>
+#include <hldb/method_func_call.h>
 #include <hldb/initial.h>
 #include <hldb/int_typespec.h>
 #include <hldb/module.h>
@@ -144,7 +145,7 @@ TEST_F(EnumNumTest, ValVariableDeclaredWithInitA) {
 }
 
 // ---------------------------------------------------------------------------
-// Variable "n" -- IntTypespec, inline init = RefObj "val.num()"
+// Variable "n" -- IntTypespec, inline init = MethodFuncCall "num" (prefix "val", IEEE 1800-2023 37.42)
 // ---------------------------------------------------------------------------
 TEST_F(EnumNumTest, NVariableIsIntType) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
@@ -160,7 +161,7 @@ TEST_F(EnumNumTest, NVariableIsIntType) {
       << "int keyword maps to IntTypespec (not IntegerTypespec)";
 }
 
-TEST_F(EnumNumTest, NInitializerIsRefObj) {
+TEST_F(EnumNumTest, NInitializerIsCall) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -169,12 +170,12 @@ TEST_F(EnumNumTest, NInitializerIsRefObj) {
   ASSERT_NE(blk, nullptr);
   const hldb::Variable *const n = blk->getVariables()->at(1);
   ASSERT_NE(n, nullptr);
-  const hldb::RefObj *const hp = n->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr) << "n's vpiValue should be RefObj (inline initializer int n = val.num())";
-  EXPECT_EQ(hp->getName(), std::string_view("val.num()"));
+  const hldb::MethodFuncCall *const call = n->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr) << "n's vpiValue should be a MethodFuncCall (IEEE 1800-2023 37.42) (inline initializer int n = val.num())";
+  EXPECT_EQ(call->getName(), std::string_view("num"));
 }
 
-TEST_F(EnumNumTest, RefObjReceiverAndFuncCall) {
+TEST_F(EnumNumTest, CallReceiverAndMethod) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -183,20 +184,16 @@ TEST_F(EnumNumTest, RefObjReceiverAndFuncCall) {
   ASSERT_NE(blk, nullptr);
   const hldb::Variable *const n = blk->getVariables()->at(1);
   ASSERT_NE(n, nullptr);
-  const hldb::RefObj *const hp = n->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  ASSERT_NE(hp->getPathElems(), nullptr);
-  ASSERT_EQ(hp->getPathElems()->size(), 2u);
-  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const call = n->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr);
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
   ASSERT_NE(receiver, nullptr);
   EXPECT_EQ(receiver->getName(), std::string_view("val"));
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
-  ASSERT_NE(call, nullptr);
   EXPECT_EQ(call->getName(), std::string_view("num"));
   EXPECT_TRUE(call->getArguments() == nullptr || call->getArguments()->empty()) << "num() takes no arguments";
 }
 
-TEST_F(EnumNumTest, RefObjReceiverResolvesToVariable) {
+TEST_F(EnumNumTest, CallReceiverResolvesToVariable) {
   const hldb::Module *const top = hldb::findByName<hldb::Module>("top", m_design->getAllModules());
   ASSERT_NE(top, nullptr);
   const hldb::Initial *const init = dynamic_cast<const hldb::Initial *>(top->getProcesses()->at(0));
@@ -205,9 +202,9 @@ TEST_F(EnumNumTest, RefObjReceiverResolvesToVariable) {
   ASSERT_NE(blk, nullptr);
   const hldb::Variable *const n = blk->getVariables()->at(1);
   ASSERT_NE(n, nullptr);
-  const hldb::RefObj *const hp = n->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::RefObj *const receiver = any_cast<hldb::RefObj>(hp->getPathElems()->at(0));
+  const hldb::MethodFuncCall *const call = n->getValue<hldb::MethodFuncCall>();
+  ASSERT_NE(call, nullptr);
+  const hldb::RefObj *const receiver = call->getPrefix<hldb::RefObj>();
   ASSERT_NE(receiver, nullptr);
   EXPECT_NE(receiver->getActual<hldb::Variable>(), nullptr)
       << "receiver RefObj 'val' in val.num() should resolve to the local Variable";
@@ -222,9 +219,7 @@ TEST_F(EnumNumTest, NumCallBindsToBuiltinEnumTypespec) {
   ASSERT_NE(blk, nullptr);
   const hldb::Variable *const n = blk->getVariables()->at(1);
   ASSERT_NE(n, nullptr);
-  const hldb::RefObj *const hp = n->getValue<hldb::RefObj>();
-  ASSERT_NE(hp, nullptr);
-  const hldb::MethodFuncCall *const call = any_cast<hldb::MethodFuncCall>(hp->getPathElems()->at(1));
+  const hldb::MethodFuncCall *const call = n->getValue<hldb::MethodFuncCall>();
   ASSERT_NE(call, nullptr);
   // IEEE 1800-2023 Sec 6.19.5.5: "num()" is an enumerated-type method. It is declared in
   // no user scope, so it can only resolve to the builtin "EnumTypespec" class.

@@ -45,7 +45,9 @@
 //     - return type 'integer' -> IntegerTypespec, signed (6.11, Table 6-8)
 //     - exactly 1 formal 'value': direction defaults to input (13.4), type
 //       integer
-//     - exactly 1 local variable 'result' of type integer, no initializer
+//     - exactly 1 local variable 'result' of type integer, no initializer,
+//       besides the implicit return variable '_clog2' of type integer
+//       (13.4.1)
 //     - the body's executable statements are, in order, a ForStmt and a
 //       ReturnStmt (the 'integer result;' declaration is not counted,
 //       because whether a bare declaration appears in the statement list
@@ -267,9 +269,19 @@ TEST_F(PackageBindTest, LocalResultIsTheOnlyLocalVariable) {
   ASSERT_NE(fn, nullptr);
   // The formal 'value' is also held by a Variable in the function's scope (37.13); it is not a local.
   EXPECT_NE(getValueDecl(), nullptr) << "37.13: the formal argument 'value' should have a Variable";
+  // 13.4.1: the implicit return-value variable '_clog2' is also in the function's scope; it is not a
+  // declared local either, but it must exist, typed by the return type 'integer'.
+  const hldb::Variable *const retVar = hldb::findByName<hldb::Variable>("_clog2", fn->getVariables());
+  ASSERT_NE(retVar, nullptr) << "13.4.1: nonvoid '_clog2' should declare an implicit return variable '_clog2'";
+  EXPECT_EQ(retVar->getParent(), fn);
+  EXPECT_TRUE(retVar->getAutomatic()) << "the return variable of an automatic function is automatic";
+  ASSERT_NE(retVar->getTypespec(), nullptr);
+  EXPECT_NE(retVar->getTypespec()->getActual<hldb::IntegerTypespec>(), nullptr)
+      << "the implicit return variable is typed by the return type 'integer'";
   size_t count = 0;
   if (fn->getVariables() != nullptr) {
     for (const hldb::Variable *const var : *fn->getVariables()) {
+      if (var == retVar) continue;
       if (hldb::findByName<hldb::IODecl>(var->getName(), fn->getIODecls()) == nullptr) ++count;
     }
   }
